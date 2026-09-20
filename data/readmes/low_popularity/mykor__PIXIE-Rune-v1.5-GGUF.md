@@ -1,0 +1,99 @@
+---
+tags:
+    - sentence-transformers
+    - sentence-similarity
+    - dense-encoder
+    - dense
+    - feature-extraction
+    - retrieval
+    - multimodal
+    - multi-modal
+    - crossmodal
+    - cross-modal
+    - aerospace
+    - telepix
+language:
+    - af
+    - ar
+    - az
+    - be
+    - bg
+    - bn
+    - ca
+    - ceb
+    - cs
+    - cy
+    - da
+    - de
+    - el
+    - en
+    - es
+    - et
+    - eu
+    - fa
+    - fi
+    - fr
+    - gl
+    - gu
+    - he
+    - hi
+    - hr
+    - ht
+    - hu
+    - hy
+    - id
+    - is
+    - it
+    - ja
+    - jv
+    - ka
+    - kk
+    - km
+    - kn
+    - ko
+    - ky
+    - lo
+    - lt
+    - lv
+    - mk
+    - ml
+    - mn
+    - mr
+    - ms
+    - my
+    - ne
+    - nl
+    - pa
+    - pl
+    - pt
+    - qu
+    - ro
+    - ru
+    - si
+    - sk
+    - sl
+    - so
+    - sq
+    - sr
+    - sv
+    - sw
+    - ta
+    - te
+    - th
+    - tl
+    - tr
+    - uk
+    - ur
+    - vi
+    - yo
+    - zh
+pipeline_tag: feature-extraction
+license: apache-2.0
+base_model: telepix/PIXIE-Rune-v1.5
+---
+
+# PIXIE-Rune-v1.5-GGUF
+
+`XLMRobertaModel` 모델을 GGUF로 변환하려면, [`sentencepiece.bpe.model`](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/resolve/main/sentencepiece.bpe.model) 파일을 함께 배포하면 됩니다.
+
+llama.cpp 저장소에 고정된 protobuf (>=4.21.0,<5.0.0) 버전에서는 [에러](https://github.com/protocolbuffers/protobuf/issues/12186)가 발생하므로, 파이썬 3.14이상에서는 변환이 실패합니다.

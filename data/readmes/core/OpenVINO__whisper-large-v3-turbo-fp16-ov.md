@@ -1,0 +1,263 @@
+---
+language: 
+- en
+- zh
+- de
+- es
+- ru
+- ko
+- fr
+- ja
+- pt
+- tr
+- pl
+- ca
+- nl
+- ar
+- sv
+- it
+- id
+- hi
+- fi
+- vi
+- he
+- uk
+- el
+- ms
+- cs
+- ro
+- da
+- hu
+- ta
+- no
+- th
+- ur
+- hr
+- bg
+- lt
+- la
+- mi
+- ml
+- cy
+- sk
+- te
+- fa
+- lv
+- bn
+- sr
+- az
+- sl
+- kn
+- et
+- mk
+- br
+- eu
+- is
+- hy
+- ne
+- mn
+- bs
+- kk
+- sq
+- sw
+- gl
+- mr
+- pa
+- si
+- km
+- sn
+- yo
+- so
+- af
+- oc
+- ka
+- be
+- tg
+- sd
+- gu
+- am
+- yi
+- lo
+- uz
+- fo
+- ht
+- ps
+- tk
+- nn
+- mt
+- sa
+- lb
+- my
+- bo
+- tl
+- mg
+- as
+- tt
+- haw
+- ln
+- ha
+- ba
+- jw
+- su
+tags:
+- audio
+- automatic-speech-recognition
+- hf-asr-leaderboard
+pipeline_tag: automatic-speech-recognition
+license: mit
+license_link: https://choosealicense.com/licenses/mit/
+base_model: openai/whisper-large-v3-turbo
+---
+
+# whisper-large-v3-turbo-fp16-ov
+* Model creator: [OpenAI](https://huggingface.co/openai)
+ * Original model: [whisper-large-v3-turbo](https://huggingface.co/openai/whisper-large-v3-turbo)
+
+## Description
+This is [whisper-large-v3-turbo](https://huggingface.co/openai/whisper-large-v3-turbo) model converted to the [OpenVINO™ IR](https://docs.openvino.ai/2025/documentation/openvino-ir-format.html) (Intermediate Representation) format with weights compressed to FP16.
+
+Whisper large-v3-turbo is a finetuned version of a pruned [Whisper large-v3](https://huggingface.co/openai/whisper-large-v3) with the number of decoder layers reduced from 32 to 4, which makes the model significantly faster at the expense of a minor quality degradation.
+
+## Compatibility
+
+The provided OpenVINO™ IR model is compatible with:
+
+* OpenVINO version 2026.1.0 and higher
+* Optimum Intel 1.27.0 and higher
+
+
+## Running Model Inference with [Optimum Intel](https://huggingface.co/docs/optimum/intel/index)
+
+1. Install packages required for using [Optimum Intel](https://huggingface.co/docs/optimum/intel/index) integration with the OpenVINO backend:
+
+```
+pip install optimum[openvino] "datasets<4" librosa soundfile --extra-index-url https://download.pytorch.org/whl/cpu
+```
+
+2. Run model inference:
+
+```
+from datasets import load_dataset
+from transformers import AutoProcessor
+from optimum.intel.openvino import OVModelForSpeechSeq2Seq
+
+model_id = "OpenVINO/whisper-large-v3-turbo-fp16-ov"
+tokenizer = AutoProcessor.from_pretrained(model_id)
+model = OVModelForSpeechSeq2Seq.from_pretrained(model_id)
+
+dataset = load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation", trust_remote_code=True)
+sample = dataset[0]
+
+input_features = tokenizer(
+    sample["audio"]["array"],
+    sampling_rate=sample["audio"]["sampling_rate"],
+    return_tensors="pt",
+).input_features
+
+outputs = model.generate(input_features)
+text = tokenizer.batch_decode(outputs)[0]
+print(text)
+```
+
+## Running Model Inference with [OpenVINO GenAI](https://github.com/openvinotoolkit/openvino.genai)
+
+1. Install packages required for using OpenVINO GenAI.
+```
+pip install huggingface_hub "datasets<4" librosa soundfile
+pip install -U --pre --extra-index-url https://storage.openvinotoolkit.org/simple/wheels/nightly openvino openvino-tokenizers openvino-genai
+```
+
+2. Download model from HuggingFace Hub
+   
+```
+import huggingface_hub as hf_hub
+
+model_id = "OpenVINO/whisper-large-v3-turbo-fp16-ov"
+model_path = "whisper-large-v3-turbo-fp16-ov"
+
+hf_hub.snapshot_download(model_id, local_dir=model_path)
+
+```
+
+3. Run model inference:
+
+```
+import openvino_genai as ov_genai
+import datasets
+
+device = "CPU"
+pipe = ov_genai.WhisperPipeline(model_path, device)
+
+dataset = datasets.load_dataset("hf-internal-testing/librispeech_asr_dummy", "clean", split="validation", trust_remote_code=True)
+sample = dataset[0]["audio"]["array"]
+print(pipe.generate(sample))
+```
+
+More GenAI usage examples can be found in OpenVINO GenAI library [docs](https://github.com/openvinotoolkit/openvino.genai/blob/master/src/README.md) and [samples](https://github.com/openvinotoolkit/openvino.genai?tab=readme-ov-file#openvino-genai-samples)
+
+## Running Model with OpenAI client and [OpenVINO Model Server](https://github.com/openvinotoolkit/model_server)
+
+1a. Deploy model on Windows using [binary package](https://docs.openvino.ai/ovms_baremetal):
+```bat
+mkdir C:\models
+ovms.exe --rest_port 8000 --source_model OpenVINO/whisper-large-v3-turbo-fp16-ov --model_repository_path C:\models
+```
+
+1b. Deploy model in a Docker container:
+```bash
+mkdir -p ${HOME}/models
+export GPU_ARGS=$(if ls /dev/dri/render* >/dev/null 2>&1; then echo "--device /dev/dri --group-add $(stat -c '%g' /dev/dri/render* | head -n1)"; fi)
+docker run ${GPU_ARGS} --rm --user $(id -u):$(id -g) -p 8000:8000 -v ${HOME}/models:/models openvino/model_server:latest-gpu --rest_port 8000 --model_repository_path /models --source_model OpenVINO/whisper-large-v3-turbo-fp16-ov
+```
+
+2. Install the client library:
+```bash
+pip install openai datasets soundfile
+```
+
+3. Run the client:
+```python
+import io
+
+import soundfile as sf
+from datasets import Audio, load_dataset
+from openai import OpenAI
+
+
+dataset = load_dataset(
+    "hf-internal-testing/librispeech_asr_dummy",
+    "clean",
+    split="validation",
+).cast_column("audio", Audio(decode=False))
+audio_bytes = dataset[0]["audio"]["bytes"]
+
+data, rate = sf.read(io.BytesIO(audio_bytes))
+buffer = io.BytesIO()
+sf.write(buffer, data, rate, format="WAV")
+
+client = OpenAI(base_url="http://localhost:8000/v1", api_key="not_used")
+for event in client.audio.transcriptions.create(
+    model="OpenVINO/whisper-large-v3-turbo-fp16-ov",
+    file=("sample.wav", buffer.getvalue()),
+    language="en",
+    stream=True,
+):
+    if getattr(event, "type", None) == "transcript.text.delta":
+        print(event.delta, end="", flush=True)
+    elif getattr(event, "type", None) == "transcript.text.done":
+        print()
+        break
+```
+
+## Limitations
+
+Check the original model card for [original model card](https://huggingface.co/openai/whisper-large-v3-turbo) for limitations.
+
+## Legal information
+
+The original model is distributed under [MIT](https://choosealicense.com/licenses/mit/) license. More details can be found in [original model card](https://huggingface.co/openai/whisper-large-v3-turbo).
+
+## Disclaimer
+
+Intel is committed to respecting human rights and avoiding causing or contributing to adverse impacts on human rights. See [Intel’s Global Human Rights Principles](https://www.intel.com/content/dam/www/central-libraries/us/en/documents/policy-human-rights.pdf). Intel’s products and software are intended only to be used in applications that do not cause or contribute to adverse impacts on human rights.
+

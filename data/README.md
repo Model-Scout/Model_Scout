@@ -71,152 +71,113 @@ Stage 4. Chunking / Embedding / Retrieval Index
 
 ---
 
-## 2. Stage 1 — Candidate Collection
+## 2. Stage 1 Candidate Collection — v7
 
-Stage 1은 Hugging Face 모델 공간을 그대로 저장하는 단계가 아니라,  
-**Model Scout가 검색 가능한 후보 corpus로 정규화하는 Pre-Retrieval Index Construction 단계**이다.
+Stage 1은 Hub metadata, model_id, structured Model Card language metadata와 deterministic rule만 사용한다.
+LLM, README fetch, 본문 semantic interpretation은 사용하지 않는다.
 
-핵심 흐름은 다음과 같다.
+### 최종 ontology와 우선순위
 
-```text
-HF Hub
-  ↓
-Task-based Discovery
-  ↓
-Adaptive Popularity Cutoff
-  ↓
-Noise Filtering
-  ↓
-Language Evidence Classification
-  ├─ A Verified
-  ├─ B Likely
-  └─ C Fallback
-  ↓
-Popularity Partition
-  ├─ Main: downloads >= 500
-  ├─ Low: 100 <= downloads < 500
-  └─ Excluded: downloads < 100
-  ↓
-Base-model / Variant Canonicalization
-  ↓
-Metadata Quality Features
-  ↓
-Stage 1 Corpus
+아래 순서에서 가장 강한 evidence를 candidate.type으로 선택한다.
+
+| Tier | Type | 근거 |
+|---|---|---|
+| A_verified | `korean_explicit` | structured language metadata에 normalized `ko` 존재 |
+| A_verified | `korean_translation_pair` | 모델 이름에 경계가 명확한 `ko-en`, `en-ko`, `ja-ko` 등 ISO 언어 pair |
+| A_verified | `korean_name_strong` | 보수적인 Korean-specific naming whitelist |
+| B_likely | `multilingual_explicit` | multilingual marker + concrete language 2개 이상 |
+| B_likely | `multilingual_tag_only` | multilingual marker + concrete language 0~1개 |
+| C_fallback | `family_heuristic` | Korean evidence·multilingual marker·concrete language 없이 허용 family만 일치 |
+
+그 외 type은 허용하지 않는다. Korean evidence가 항상 multilingual보다 우선한다.
+A는 high, B는 medium, C는 low confidence이다. 이는 deterministic evidence 수준이며 실제 한국어 성능 보증은 아니다.
+
+- `korean_explicit`: Hub tags, model.language/model.languages, Model Card structured language에서 `ko`, `kor`, `korean`, `ko-kr` 및 `language:` prefix를 정규화한다.
+- `korean_translation_pair`: repo 이름의 완전한 ISO-639-1 token pair를 검사한다. `-`, `_`, `.`, `/` 구분자를 지원하며 owner 이름과 repo 이름을 연결해 pair를 만들지 않는다.
+- `korean_name_strong`: kobert, koelectra, kogpt, kosimcse, ko-sbert, kosbert, korbert, klue, korquad, kullm, kollama, kogemma, koalpaca whitelist를 사용한다. Generic `ko`, `kor`만으로 A가 되지 않는다. Kokoro, koala, kosmos, token, unknown은 strong Korean name이 아니다.
+- Multilingual marker는 multilingual, multilinguality, multi-lingual, multi-language를 정규화한다. Marker는 concrete language count에서 제외한다. Marker 없는 다중 언어 목록만으로 B를 만들지 않는다.
+- Fallback family는 qwen, aya, gemma, llama, mistral, bloom, xlm, mt5, mbert, multilingual-e5, bge-m3이다. 명시적 non-Korean language 목록이 있으면 family fallback을 금지한다.
+
+Evidence에는 regex 대신 `explicit_language:korean`, `translation_pair:ko-en`,
+`strong_korean_name:koelectra`, `multilingual_tag`, `explicit_language_list:de,en,fr,ro`, `family:qwen`처럼 의미가 드러나는 label을 저장한다.
+
+`language.korean_explicit`은 **structured metadata에 ko가 존재하는지**만 나타낸다.
+Translation pair나 strong name으로 A가 되어도 false일 수 있다.
+`language.languages`, `multilingual_marker`, `language_count`, `concrete_language_count`는 candidate 검증과 구분한다.
+
+### Popularity / corpus partition
+
+**Core / Low에는 A_verified만 들어간다.**
+**Multilingual != Korean verified. Family heuristic != Korean verified.**
+Popularity는 offline retrieval priority이며 model quality가 아니다.
+
+| 파일 | 조건 / 역할 |
+|---|---|
+| `hf_models_stage1_core.jsonl` | A_verified + downloads >= 500 |
+| `hf_models_stage1_low_popularity.jsonl` | A_verified + 80 <= downloads < 500 |
+| `hf_models_stage1_likely.jsonl` | B_likely + downloads >= 80 |
+| `hf_models_stage1_fallback.jsonl` | C_fallback + downloads >= 80 |
+| `hf_models_stage1_groups.jsonl` | 네 corpus union의 canonical/base-model 및 variant lineage grouping |
+| `hf_models_stage1_state.json` | version 7, 실행 설정 및 task 통계 |
+
+**500 downloads는 Core**, 499는 Low이다. 다운로드가 커도 B/C를 Core로 올리지 않는다.
+Groups는 candidate confidence가 아니라 canonical/base-model 및 quantized/converted variant lineage grouping이다.
+기존 task 목록, `MIN_DOWNLOADS=80`, `CORE_DOWNLOADS=500`, `LIMIT_PER_TASK=None`,
+`CUTOFF_CONFIRMATION=10`, grouping 및 metadata completeness score 구조를 유지한다.
+
+State는 `core_downloads_inclusive=true`를 기록하고 checkpoint 경로는 `.stage1_v7_checkpoint/`처럼 version에서 생성한다.
+같은 tier에서도 `TYPE_RANK`로 더 강한 type을 선택하며 matched_tasks 및 기존 evidence를 병합·중복 제거한다.
+
+### 검증 및 실행 상태
+
+`validate_outputs()`는 각 corpus의 tier/type, 다운로드 경계, deterministic evidence, 중복 ID, version,
+metadata flag, groups와 corpus union의 일치를 검증한다.
+CORE AUDIT / LOW AUDIT에 total, korean_explicit, korean_translation_pair, korean_name_strong, invalid_type을 출력한다.
+`invalid_type=0`이어야 하며 B/C type은 Core/Low에 하나도 허용하지 않는다.
+
+```bash
+source ~/main/bin/activate
+python -m py_compile 01_collect_models.py
+python -m unittest -v test_stage1
 ```
 
-### Language Evidence 분류
+요청된 20개 fake-model regression과 추가 invariant 검증은 네트워크 없이 실행한다.
+오염 audit은 임시 synthetic corpus를 대상으로 하며 기존 실제 JSONL을 v7 결과라고 주장하지 않는다.
+**이번 작업에서는 전체 collection, 기존 JSONL 재생성, Stage 2 실행, Supabase 작업을 수행하지 않았다.**
+새 v7 결과는 다음 전체 Stage 1 실행이 완료·검증된 후 생성된다.
 
-- **A Verified**: 한국어 또는 multilingual 지원에 대한 명시적 metadata 근거가 있는 모델
-- **B Likely**: bilingual language list, Korean-specific name, multilingual tag 등 보조 근거가 있는 모델
-- **C Fallback**: Qwen, Gemma, Llama, Mistral 등 family heuristic으로만 잡힌 후보
-
-### Popularity 분기
-
-downloads는 모델 품질 자체를 의미하지 않고, offline corpus의 우선순위를 나누는 운영 기준으로 사용한다.
-
-- `downloads >= 500` → 기본 검색 대상
-- `100 <= downloads < 500` → 신규 / niche 모델을 위한 확장 후보
-- `downloads < 100` → offline corpus에서는 제외하고 추후 online fallback 대상으로 활용
-
-### Stage 1 결과 파일
-
-| 파일 | 개수 | 역할 |
-|---|---:|---|
-| `hf_models_stage1_core.jsonl` | 5,630 | 메인 추천 corpus |
-| `hf_models_stage1_low_popularity.jsonl` | 7,167 | 저인기지만 언어 근거가 있는 후보 |
-| `hf_models_stage1_fallback.jsonl` | 12,118 | family heuristic 기반 recall 보강 |
-| `hf_models_stage1_groups.jsonl` | 11,342 groups | base model / quantized variant 묶음 |
-| `hf_models_stage1_state.json` | 1 | 실행 정책 및 task별 수집 통계 |
+Stage 2는 v7 ontology에 맞춰 version 6으로 갱신되었다. 이번 호환성 수정에서는 enrichment를 실행하지 않았다.
 
 ---
 
-## 3. Stage 2 — Fact-based Technical Metadata Enrichment (v3)
+## 3. Stage 2 — Fact-based Technical Metadata Enrichment (v6)
 
-Stage 2는 Stage 1 v4 후보의 기술 정보를 보강한다. **LLM과 semantic interpretation은 사용하지 않는다.**
-
-### 대상 및 실행 순서
-
-| Stage 1 pool | Stage 2 대상 |
-|---|---|
-| Core | 전체 technical enrichment 기능 적용 |
-| Low Popularity | 전체 technical enrichment 기능 적용 |
-| Likely | 아직 미수집 |
-| Fallback | 아직 미수집 |
-
-`SOURCE_POOLS = ["core", "low_popularity"]` 순서로 공통 처리 함수를 실행한다.
-각 pool의 입력, output, error log, README 디렉터리와 resume은 독립적이다.
-기본 `TEST_LIMIT = 100`은 각 pool의 입력 앞 100개에 별도로 적용한다.
-향후 전체 수집 시 `TEST_LIMIT = None`으로 변경한다. **이번 수정에서는 실제 enrichment를 실행하지 않았다.**
-
-### 수집 및 보존 정보
-
-기존 Hugging Face current metadata, config.json, tokenizer_config.json, README.md,
-Model Card metadata, parameter count, architecture, context length, dtype, quantization,
-artifact format, license, base model, datasets, metrics, language evidence,
-weight-memory estimate 수집 기능을 유지한다.
-
-Stage 1 정보를 재분류하지 않고 다음 경로에 보존한다.
-
-| Stage 1 | Stage 2 |
-|---|---|
-| `primary_task`, `matched_tasks` | `task.primary`, `task.matched` |
-| `candidate` | `candidate` 전체, tier/type/confidence/evidence 포함 |
-| `language` | `language.stage1` 전체 snapshot |
-| `popularity` | `popularity.stage1` |
-| `family` | `family` |
-| `quality` | `stage1_quality` |
-| `stage.stage1_version` | `stage.source_stage1_version` |
-
-최신 다운로드와 좋아요는 `popularity.current`에 별도로 기록한다.
-Stage 2에서 현재 다운로드를 보고 source pool을 옮기지 않는다.
-Core와 Low Popularity는 동일한 output schema를 사용하며 `stage.source_pool`로 구분한다.
-`stage.stage2_version = 3`, `metadata_enriched = true`, `semantic_enriched = false`와
-`enriched_at`을 기록한다. Stage 1 v4 입력은 `source_stage1_version = 4`로 전달된다.
-
-### Language verification
-
-`language.declared_languages`, `korean`, `multilingual`, `bilingual` 검증 구조를 유지한다.
-`korean_name`은 `stage1:korean_name` evidence로 인정한다.
-`multilingual_tag_only` 또는 Model Card의 multilingual marker만으로 high-confidence verified로 승격하지 않는다.
-Model Card의 실제 언어 목록이 3개 이상이거나 marker와 실제 언어 2개 이상이 함께 있어야 strong evidence로 인정한다.
-Marker는 언어 개수에서 제외하고, 검증 근거가 없으면 `verified = null`로 유지한다.
-이 추가 검증은 보존된 `candidate`나 `language.stage1`을 변경하지 않는다.
-
-### Output 파일
+Stage 1 v7 Core와 Low Popularity를 순서대로 처리한다. `TEST_LIMIT=None`으로 전체가 대상이며 Likely/Fallback은 아직 enrichment하지 않는다.
+기존 technical metadata 수집 기능을 유지하고 LLM이나 semantic interpretation은 사용하지 않는다.
 
 | 파일 | 역할 |
 |---|---|
-| `hf_models_stage2_core.jsonl` | Stage 1 Core의 technical metadata enrichment |
-| `hf_models_stage2_low_popularity.jsonl` | Stage 1 Low Popularity의 technical metadata enrichment |
-| `hf_models_stage2_core_errors.jsonl` | Core enrichment error log |
-| `hf_models_stage2_low_popularity_errors.jsonl` | Low Popularity enrichment error log |
-| `readmes/core/` | Core model README |
-| `readmes/low_popularity/` | Low Popularity model README |
+| `hf_models_stage2_core.jsonl` | Core technical enrichment |
+| `hf_models_stage2_low_popularity.jsonl` | Low Popularity technical enrichment |
+| `hf_models_stage2_core_errors.jsonl` | Core error log |
+| `hf_models_stage2_low_popularity_errors.jsonl` | Low Popularity error log |
+| `readmes/core/` | Core README |
+| `readmes/low_popularity/` | Low Popularity README |
 
-`source.readme.path`에 실제 pool별 README 경로를 저장한다.
-기존 v2 결과나 공용 README cache는 이번 코드 수정으로 삭제·변경하지 않는다.
-향후 실행 시 v2 output row는 resume 대상으로 인정하지 않고 v3로 다시 생성한다.
+`stage.source_stage1_version=7`, `stage.stage2_version=6`로 기록한다.
+입력 및 output validation은 A의 `korean_explicit`, `korean_translation_pair`, `korean_name_strong`을 허용한다.
+Core는 Stage 1 downloads >= 500, Low는 80~499이어야 한다. 현재 다운로드로 pool을 재분류하지 않는다.
 
-### Resume, checkpoint, validation
+Stage 1 `candidate`, `family`는 그대로 유지하고 `language.stage1`, `popularity.stage1`, `stage1_quality`에 원본 snapshot을 보존한다.
+Task는 `task.primary`와 `task.matched`, 최신 인기도는 `popularity.current`에 저장한다.
+추가 language verification은 원본 candidate를 변경하지 않는다.
 
-동일한 Stage 2 version, source pool 및 Stage 1 snapshot을 가진 output row만 skip한다.
-입력에서 사라진 row와 이전 version row는 새 output에서 제외하며, `TEST_LIMIT` 밖의 유효한 기존 결과는 보존한다.
-Checkpoint는 각 pool에서 25개 처리마다 저장하고 로그에 pool 이름을 표시한다.
-중단 시 현재 pool을 저장하고 종료하므로 다음 pool을 시작하지 않는다.
+Pool별 output/error/README/resume/checkpoint를 분리한다. 같은 version·pool·Stage 1 snapshot일 때만 resume으로 skip한다.
+기존 output은 보존하며 같은 model_id가 성공적으로 갱신되면 새 row로 교체한다.
+Stage 1에 없는 항목과 갱신 실패한 이전 row는 추후 정리 전까지 남으므로 이전 version이 섞일 수 있다.
+현재 입력으로 처리한 row만 새 version validation 대상으로 삼는다.
 
-Error row에는 `model_id`, `source_pool`, `error_type`, `error`, `stage2_version`, `created_at`을 기록한다.
-오류로 output에 추가되지 않은 모델은 다음 실행에서 다시 시도한다.
-
-`validate_stage2_rows(rows, source_pool)`은 향후 실행의 개별 결과·checkpoint·최종 저장 전에 다음을 검증한다.
-
-- Core: A_verified, Stage 1 downloads >= 500, source_pool = core
-- Low Popularity: A_verified, Stage 1 downloads 100~499, source_pool = low_popularity
-- 공통: source_stage1_version = 4, stage2_version = 3, 공통 schema, pool별 README 경로
-
-오류 메시지에 문제가 있는 `model_id`와 위반 조건을 포함한다.
-이번 작업에서는 이 validation이나 enrichment를 실행하지 않고 문법·정적 검토만 수행한다.
-
-Stage 2는 fact extraction이고, README와 Model Card의 semantic interpretation은 이후 Stage 3의 역할이다.
+이번 코드 변경에서는 Stage 2 수집을 실행하지 않았다. 먼저 Stage 1 v7를 수집·검증한 뒤 Stage 2를 실행해야 한다.
 
 ---
 

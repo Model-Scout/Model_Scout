@@ -69,7 +69,9 @@ RETRY_BASE_SECONDS = 1.0
 MAX_README_CHARS = 300_000
 
 
-STAGE2_VERSION = 3
+STAGE2_VERSION = 6
+SOURCE_STAGE1_VERSION = 7
+A_VERIFIED_TYPES = {"korean_explicit", "korean_translation_pair", "korean_name_strong"}
 
 
 # =========================================================
@@ -1333,7 +1335,7 @@ def verify_languages(stage1_row, card_metadata, readme_text):
     if languages & KOREAN_CODES:
         korean, korean_confidence = True, "high"
         korean_evidence.append("metadata.language:korean")
-    if candidate_type in {"korean_explicit", "korean_name"}:
+    if candidate_type in A_VERIFIED_TYPES:
         korean, korean_confidence = True, "high"
         korean_evidence.append(f"stage1:{candidate_type}")
     if any(phrase in readme_lower for phrase in (
@@ -2117,15 +2119,17 @@ def validate_stage2_rows(rows, source_pool):
         seen.add(model_id)
         if row.get("candidate", {}).get("tier") != "A_verified":
             reasons.append("candidate.tier must be A_verified")
+        if row.get("candidate", {}).get("type") not in A_VERIFIED_TYPES:
+            reasons.append("candidate.type must be a Stage 1 v7 A_verified type")
         downloads = row.get("popularity", {}).get("stage1", {}).get("downloads")
         if not isinstance(downloads, (int, float)) or isinstance(downloads, bool):
             reasons.append("missing/invalid Stage 1 downloads")
         elif source_pool == "core" and not downloads >= 500:
             reasons.append("Stage 1 downloads must be >= 500")
-        elif source_pool == "low_popularity" and not 100 <= downloads < 500:
-            reasons.append("Stage 1 downloads must be 100..499")
+        elif source_pool == "low_popularity" and not 80 <= downloads < 500:
+            reasons.append("Stage 1 downloads must be 80..499")
         stage = row.get("stage", {})
-        for key, expected in (("source_pool", source_pool), ("source_stage1_version", 4),
+        for key, expected in (("source_pool", source_pool), ("source_stage1_version", SOURCE_STAGE1_VERSION),
                               ("stage2_version", STAGE2_VERSION), ("metadata_enriched", True),
                               ("semantic_enriched", False)):
             if stage.get(key) != expected:
@@ -2194,9 +2198,11 @@ def process_pool(source_pool):
     config["error"].touch(exist_ok=True)
 
     # Keep compatible prior results outside TEST_LIMIT, too: a small run must not
-    # truncate a previously enriched larger corpus. Old versions are regenerated.
+    # truncate a previously enriched larger corpus. Matching IDs are refreshed.
+    # Retain prior rows until the user requests removal of out-of-source models.
+    previous_by_id = {row["model_id"]: row for row in load_jsonl(config["output"])}
     results_by_id = {
-        row["model_id"]: row for row in load_jsonl(config["output"])
+        row["model_id"]: row for row in previous_by_id.values()
         if row.get("model_id") in source_by_id
         and resume_matches(row, source_by_id[row["model_id"]], source_pool)
     }
@@ -2206,7 +2212,9 @@ def process_pool(source_pool):
     def checkpoint():
         rows = list(results_by_id.values())
         validate_stage2_rows(rows, source_pool)
-        save_jsonl_atomic(rows, config["output"])
+        # Validate current v7-source results; older retained rows keep provenance.
+        merged = {**previous_by_id, **results_by_id}
+        save_jsonl_atomic(list(merged.values()), config["output"])
 
     try:
         for index, source_row in enumerate(source_rows, start=1):
@@ -2242,7 +2250,29 @@ def process_pool(source_pool):
     print_pool_stats(list(results_by_id.values()), source_pool, success, skipped, errors)
 
 
+def validate_source_pools():
+    """Reject stale sources before any API call or output modification."""
+    state = json.loads((DATA_DIR / "hf_models_stage1_state.json").read_text())
+    if state.get("stage1_version") != SOURCE_STAGE1_VERSION:
+        raise ValueError("Stage 1 v7 collection and validation must finish first")
+    if not state.get("completed_tasks") or any(
+        stats.get("error") for stats in state.get("task_stats", {}).values()
+    ):
+        raise ValueError("Stage 1 collection is incomplete")
+    for pool in SOURCE_POOLS:
+        for row in load_jsonl(POOL_CONFIGS[pool]["input"]):
+            candidate = row.get("candidate", {})
+            downloads = row.get("popularity", {}).get("downloads", -1)
+            valid_downloads = downloads >= 500 if pool == "core" else 80 <= downloads < 500
+            if (row.get("stage", {}).get("stage1_version") != SOURCE_STAGE1_VERSION
+                    or candidate.get("tier") != "A_verified"
+                    or candidate.get("type") not in A_VERIFIED_TYPES
+                    or not valid_downloads):
+                raise ValueError(f"[{pool}] Invalid Stage 1 v7 source: {row.get('model_id')}")
+
+
 def main():
+    validate_source_pools()
     for source_pool in SOURCE_POOLS:
         process_pool(source_pool)
 

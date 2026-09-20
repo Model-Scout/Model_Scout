@@ -6,13 +6,15 @@ import re
 import time
 
 from pathlib import Path
-from collections import defaultdict
+from collections import Counter, defaultdict
 from types import SimpleNamespace
 
 
 # =========================================================
 # CONFIG
 # =========================================================
+
+STAGE1_VERSION = 7
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 
@@ -43,12 +45,12 @@ TASKS = [
 LIMIT_PER_TASK = None
 
 # Offline 후보 최소선
-MIN_DOWNLOADS = 100
+MIN_DOWNLOADS = 80
 
 # Main corpus 기준
 CORE_DOWNLOADS = 500
 
-# downloads < 100이 연속 N개면 해당 task 종료
+# downloads < 80이 연속 N개면 해당 task 종료
 CUTOFF_CONFIRMATION = 10
 
 PROGRESS_EVERY = 500
@@ -104,32 +106,36 @@ EXCLUDE_PATTERNS = [
 ]
 
 
-KOREAN_EXPLICIT_TAGS = {
-    "ko",
-    "kor",
-    "korean",
-    "ko-kr",
-    "language:ko",
-    "language:kor",
-    "language:korean",
-    "language:ko-kr",
+MULTILINGUAL_MARKERS = {
+    "multilingual", "multilinguality", "multi-lingual", "multi-language",
 }
 
-
-MULTILINGUAL_TAGS = {
-    "multilingual",
-    "multilinguality",
-    "multi-lingual",
-    "multi-language",
-    "language:multilingual",
+# Match only known Korean-specific names, never generic ko/kor tokens.
+STRONG_KOREAN_NAMES = (
+    "kobert", "koelectra", "kogpt", "kosimcse", "ko-sbert", "kosbert",
+    "korbert", "klue", "korquad", "kullm", "kollama", "kogemma", "koalpaca",
+)
+STRONG_KOREAN_NAME_PATTERNS = {
+    name: re.compile(r"(?:^|[-_/ .])" + re.escape(name) + r"(?=$|[-_/ .0-9])")
+    for name in STRONG_KOREAN_NAMES
 }
 
-
-# Token boundaries prevent accidental matches in token, kokoro, unknown, etc.
-KOREAN_NAME_PATTERNS = [
-    r"(?:^|[-_/ .])(?:ko|kor|korean)(?=$|[-_/ .])",
-    r"(?:^|[-_/ .])(?:kobert|koelectra|kogpt|kosimcse|korbert|klue|korquad|kullm)(?=$|[-_/ .0-9])",
-]
+A_VERIFIED_TYPES = {"korean_explicit", "korean_translation_pair", "korean_name_strong"}
+B_LIKELY_TYPES = {"multilingual_explicit", "multilingual_tag_only"}
+C_FALLBACK_TYPES = {"family_heuristic"}
+CANDIDATE_TYPES = {
+    "A_verified": A_VERIFIED_TYPES,
+    "B_likely": B_LIKELY_TYPES,
+    "C_fallback": C_FALLBACK_TYPES,
+}
+TYPE_RANK = {
+    "korean_explicit": 50,
+    "korean_translation_pair": 40,
+    "korean_name_strong": 30,
+    "multilingual_explicit": 20,
+    "multilingual_tag_only": 10,
+    "family_heuristic": 0,
+}
 
 
 # =========================================================
@@ -149,6 +155,12 @@ MULTILINGUAL_FAMILIES = [
     "multilingual-e5",
     "bge-m3",
 ]
+
+# Korean recall candidates only; family membership is never verified support.
+KOREAN_FALLBACK_FAMILIES = frozenset({
+    "qwen", "gemma", "llama", "mistral", "aya", "bloom", "xlm",
+    "mt5", "mbert", "bge-m3", "multilingual-e5",
+})
 
 
 # =========================================================
@@ -258,11 +270,6 @@ def normalize_tag(value):
     )
 
 
-def normalize_tags(tags):
-    return {
-        normalize_tag(tag)
-        for tag in tags
-    }
 
 
 def is_noise_model(model_id):
@@ -282,11 +289,13 @@ def normalize_language(value):
     value = normalize_tag(value)
     if value.startswith("language:"):
         value = value.split(":", 1)[1].strip()
-    if value in {"multilingual", "multilinguality", "multi-lingual", "multi-language"}:
+    if value in MULTILINGUAL_MARKERS:
         return "multilingual"
     if value in {"kor", "korean"}:
         return "ko"
-    base = value.replace("_", "-").split("-")[0]
+    # Accept language codes and region variants, not arbitrary ko-* Hub tags.
+    match = re.fullmatch(r"([a-z]{2})(?:[-_](?:[a-z]{2}|[0-9]{3}))?", value)
+    base = match.group(1) if match else None
     return base if base in ISO_639_1 else None
 
 
@@ -297,37 +306,12 @@ def normalize_languages(values):
                    if (language := normalize_language(value)) is not None})
 
 
-def normalize_language_code(value):
-    language = normalize_language(value)
-    return language if language != "multilingual" else None
 
 
-def extract_language_codes(tags):
-    return [language for language in normalize_languages(tags)
-            if language != "multilingual"]
 
 
-def detect_multilingual_marker(tags):
-    return "multilingual" in normalize_languages(tags)
 
 
-def detect_explicit_korean(
-    tags,
-    languages,
-):
-
-    normalized = normalize_tags(
-        tags
-    )
-
-    if "ko" in languages:
-        return True
-
-    return bool(
-        normalized
-        &
-        KOREAN_EXPLICIT_TAGS
-    )
 
 
 # =========================================================
@@ -428,29 +412,35 @@ def detect_family_matches(
 # KOREAN NAME
 # =========================================================
 
-def detect_korean_name(
-    model_id,
-):
+def detect_korean_translation_pair(model_id):
+    """Return adjacent ISO-639-1 pairs containing ko, within the repo name.
 
-    value = model_id.lower()
+    Do not infer a translation pair from an owner's name or partial words.
+    Separators -, _, . and / are supported, with complete token boundaries.
+    """
+    repo_name = model_id.lower().split("/", 1)[-1]
+    tokens = re.split(r"[-_/ .]+", repo_name)
+    pairs = []
+    for left, right in zip(tokens, tokens[1:]):
+        if ((left == "ko" and right in ISO_639_1 and right != "ko")
+                or (right == "ko" and left in ISO_639_1 and left != "ko")):
+            pair = f"{left}-{right}"
+            if pair not in pairs:
+                pairs.append(pair)
+    return pairs
 
-    return [
-        pattern
-        for pattern
-        in KOREAN_NAME_PATTERNS
-        if re.search(
-            pattern,
-            value,
-        )
-    ]
+
+def detect_strong_korean_name(model_id):
+    """Return semantic whitelist labels, not regexes or generic ko tokens."""
+    repo_name = model_id.lower().split("/", 1)[-1]
+    return [name for name, pattern in STRONG_KOREAN_NAME_PATTERNS.items()
+            if pattern.search(repo_name)]
 
 
 # =========================================================
 # CANDIDATE CLASSIFICATION
 # =========================================================
 
-def is_korean_model_name(model_id):
-    return bool(detect_korean_name(model_id))
 
 
 def extract_language_evidence(model):
@@ -472,27 +462,31 @@ def extract_language_evidence(model):
 
 
 def classify_candidate(model):
+    """Cheap deterministic evidence, in the ontology's fixed priority order."""
     model_id = getattr(model, "id", "") or ""
     language = extract_language_evidence(model)
     languages = language["languages"]
-    marker = language["multilingual_marker"]
-    count = language["concrete_language_count"]
-    names = detect_korean_name(model_id)
-    families = detect_family_matches(model_id)
+    pairs = detect_korean_translation_pair(model_id)
+    names = detect_strong_korean_name(model_id)
+    families = [family for family in detect_family_matches(model_id)
+                if family in KOREAN_FALLBACK_FAMILIES]
     if "ko" in languages:
         tier, kind, evidence = "A_verified", "korean_explicit", ["explicit_language:korean"]
-    elif is_korean_model_name(model_id):
-        tier, kind, evidence = "A_verified", "korean_name", [f"name:{name}" for name in names]
-    elif marker and count >= 2:
-        tier, kind, evidence = "A_verified", "multilingual_explicit", ["multilingual_tag", "explicit_language_list:" + ",".join(languages)]
-    elif count >= 3:
-        tier, kind, evidence = "A_verified", "multilingual_language_list", ["explicit_language_list:" + ",".join(languages)]
-    elif count == 2:
-        tier, kind, evidence = "B_likely", "bilingual_language_list", ["bilingual_language_list:" + ",".join(languages)]
-    elif marker:
-        tier, kind, evidence = "B_likely", "multilingual_tag_only", ["multilingual_tag_only"]
-    elif families and count == 0:
-        tier, kind, evidence = "C_fallback", "family_heuristic", [f"family:{family}" for family in families]
+    elif pairs:
+        tier, kind = "A_verified", "korean_translation_pair"
+        evidence = [f"translation_pair:{pair}" for pair in pairs]
+    elif names:
+        tier, kind = "A_verified", "korean_name_strong"
+        evidence = [f"strong_korean_name:{name}" for name in names]
+    elif language["multilingual_marker"]:
+        tier = "B_likely"
+        kind = "multilingual_explicit" if len(languages) >= 2 else "multilingual_tag_only"
+        evidence = ["multilingual_tag"]
+        if languages:
+            evidence.append("explicit_language_list:" + ",".join(languages))
+    elif families and not languages:
+        tier, kind = "C_fallback", "family_heuristic"
+        evidence = [f"family:{family}" for family in families]
     else:
         return None
     return {"tier": tier, "type": kind,
@@ -965,6 +959,7 @@ def build_row(
 
 
         "language": {
+            "concrete_language_count": len(languages),
             "languages":
                 languages,
 
@@ -1067,7 +1062,7 @@ def build_row(
                 False,
 
             "stage1_version":
-                4,
+                STAGE1_VERSION,
         },
     }
 
@@ -1087,152 +1082,26 @@ CANDIDATE_RANK = {
 # MERGE
 # =========================================================
 
-def merge_candidate(
-    all_models,
-    model,
-    task,
-    classification,
-):
-
+def merge_candidate(all_models, model, task, classification):
     model_id = model.id
-
-
-    if model_id not in all_models:
-
-        all_models[
-            model_id
-        ] = build_row(
-            model,
-            classification,
-        )
-
-
+    current = all_models.get(model_id)
+    if current is None:
+        all_models[model_id] = build_row(model, classification)
     else:
-
-        current = (
-            all_models[
-                model_id
-            ]
-        )
-
-        current_rank = (
-            CANDIDATE_RANK.get(
-                current[
-                    "candidate"
-                ][
-                    "tier"
-                ],
-                0,
-            )
-        )
-
-        new_rank = (
-            CANDIDATE_RANK.get(
-                classification[
-                    "tier"
-                ],
-                0,
-            )
-        )
-
-
-        if new_rank > current_rank:
-
-            old_tasks = list(
-                current[
-                    "matched_tasks"
-                ]
-            )
-
-            old_evidence = list(
-                current[
-                    "candidate"
-                ][
-                    "evidence"
-                ]
-            )
-
-
-            all_models[
-                model_id
-            ] = build_row(
-                model,
-                classification,
-            )
-
-            current = (
-                all_models[
-                    model_id
-                ]
-            )
-
-            current[
-                "matched_tasks"
-            ] = old_tasks
-
-
-            for evidence in old_evidence:
-
-                if (
-                    evidence
-                    not in current[
-                        "candidate"
-                    ][
-                        "evidence"
-                    ]
-                ):
-                    current[
-                        "candidate"
-                    ][
-                        "evidence"
-                    ].append(
-                        evidence
-                    )
-
-
-    row = (
-        all_models[
-            model_id
-        ]
-    )
-
-
-    if (
-        task
-        not in row[
-            "matched_tasks"
-        ]
-    ):
-
-        row[
-            "matched_tasks"
-        ].append(
-            task
-        )
-
-
-    for evidence in (
-        classification[
-            "evidence"
-        ]
-    ):
-
-        if (
-            evidence
-            not in row[
-                "candidate"
-            ][
-                "evidence"
-            ]
-        ):
-
-            row[
-                "candidate"
-            ][
-                "evidence"
-            ].append(
-                evidence
-            )
+        old_candidate = current["candidate"]
+        old_rank = (CANDIDATE_RANK[old_candidate["tier"]], TYPE_RANK[old_candidate["type"]])
+        new_rank = (CANDIDATE_RANK[classification["tier"]], TYPE_RANK[classification["type"]])
+        if new_rank > old_rank:
+            replacement = build_row(model, classification)
+            replacement["matched_tasks"] = list(current["matched_tasks"])
+            replacement["candidate"]["evidence"] = list(dict.fromkeys(
+                replacement["candidate"]["evidence"] + old_candidate["evidence"]))
+            all_models[model_id] = replacement
+    row = all_models[model_id]
+    if task not in row["matched_tasks"]:
+        row["matched_tasks"].append(task)
+    row["candidate"]["evidence"] = list(dict.fromkeys(
+        row["candidate"]["evidence"] + classification["evidence"]))
 
 
 # =========================================================
@@ -1325,6 +1194,8 @@ def partition_rows(all_models):
         if downloads < MIN_DOWNLOADS:
             continue
         tier = row["candidate"]["tier"]
+        if row["candidate"]["type"] not in CANDIDATE_TYPES.get(tier, set()):
+            raise ValueError(f"{row['model_id']}: invalid tier/type {tier}/{row['candidate']['type']}")
         if tier == "A_verified":
             (core if downloads >= CORE_DOWNLOADS else low).append(row)
         elif tier == "B_likely":
@@ -1632,8 +1503,8 @@ def calculate_stats(
 # =========================================================
 
 def validate_outputs(require_complete=True):
-    """Audit persisted corpora, evidence, popularity, and group coverage."""
-    counts, retained = {}, {}
+    """Audit ontology, evidence, boundaries, duplicate IDs and group coverage."""
+    counts, retained, contamination = {}, {}, {}
     specifications = (
         (CORE_OUTPUT, "A_verified", CORE_DOWNLOADS, None),
         (LOW_POPULARITY_OUTPUT, "A_verified", MIN_DOWNLOADS, CORE_DOWNLOADS),
@@ -1641,22 +1512,44 @@ def validate_outputs(require_complete=True):
         (FALLBACK_OUTPUT, "C_fallback", MIN_DOWNLOADS, None),
     )
     for path, tier, minimum, maximum in specifications:
-        bad = 0
         rows = [json.loads(line) for line in path.read_text().splitlines() if line]
+        if tier == "A_verified":
+            label = "CORE" if path == CORE_OUTPUT else "LOW"
+            types = Counter(row["candidate"]["type"] for row in rows)
+            invalid = sum(count for kind, count in types.items() if kind not in A_VERIFIED_TYPES)
+            contamination[label] = invalid
+            print(f"{label} AUDIT\ntotal: {len(rows)}")
+            for kind in ("korean_explicit", "korean_translation_pair", "korean_name_strong"):
+                print(f"{kind}: {types[kind]}")
+            print(f"invalid_type: {invalid}")
+            assert invalid == 0, f"{label}: forbidden candidate type(s): {dict(types)}"
+            for forbidden in (*B_LIKELY_TYPES, *C_FALLBACK_TYPES):
+                assert types[forbidden] == 0, f"{label}: {forbidden} contamination"
+        bad = 0
         for row in rows:
+            model_id = row["model_id"]
             downloads = row["popularity"]["downloads"]
-            bad += int(row["candidate"]["tier"] != tier or downloads < minimum
-                       or (maximum is not None and downloads >= maximum))
-            assert row["model_id"] not in retained, "Duplicate corpus model"
+            candidate = row["candidate"]
+            bad += int(candidate["tier"] != tier or candidate["type"] not in CANDIDATE_TYPES[tier]
+                       or downloads < minimum or (maximum is not None and downloads >= maximum))
+            assert model_id not in retained, f"Duplicate corpus model: {model_id}"
+            language = row["language"]
+            # Card-only markers may not appear in Hub tags, but are persisted here.
+            values = list(language["languages"])
+            if language["multilingual_marker"]:
+                values.append("multilingual")
             expected = classify_candidate(SimpleNamespace(
-                id=row["model_id"], tags=row["hub"]["tags"],
-                languages=row["language"]["languages"]))
-            assert expected is not None, "Excluded model in corpus"
-            assert all(row["candidate"][key] == expected[key]
-                       for key in ("tier", "type", "confidence")), "Invalid language classification"
-            assert row["stage"]["stage1_version"] == 4
-            assert row["popularity"]["tier"] == popularity_tier(downloads)
-            retained[row["model_id"]] = row
+                id=model_id, tags=row["hub"]["tags"], languages=values))
+            assert expected is not None, f"{model_id}: excluded model in corpus"
+            assert all(candidate[key] == expected[key] for key in ("tier", "type", "confidence")), (
+                f"{model_id}: invalid language classification")
+            assert set(expected["evidence"]).issubset(candidate["evidence"]), f"{model_id}: missing evidence"
+            assert language["korean_explicit"] == ("ko" in language["languages"]), f"{model_id}: Korean metadata flag"
+            assert language["language_count"] == len(language["languages"]), f"{model_id}: language count"
+            assert language["concrete_language_count"] == len(language["languages"]), f"{model_id}: concrete count"
+            assert row["stage"]["stage1_version"] == STAGE1_VERSION, f"{model_id}: stage version"
+            assert row["popularity"]["tier"] == popularity_tier(downloads), f"{model_id}: popularity tier"
+            retained[model_id] = row
         counts[path.name] = len(rows)
         print(f"AUDIT {path.name}: rows={len(rows)} bad={bad}")
         assert bad == 0, f"Invalid partition: {path}"
@@ -1664,12 +1557,16 @@ def validate_outputs(require_complete=True):
     assert groups == build_groups(retained), "Groups differ from retained corpus union"
     counts[GROUP_OUTPUT.name] = len(groups)
     state = json.loads(STATE_OUTPUT.read_text())
-    assert state["stage1_version"] == 4
+    assert state["stage1_version"] == STAGE1_VERSION
     assert state["config"]["core_candidate_tier"] == "A_verified"
+    assert state["config"]["core_downloads_inclusive"] is True
+    assert state["config"]["core_downloads"] == CORE_DOWNLOADS
+    assert state["config"]["min_downloads"] == MIN_DOWNLOADS
     if require_complete:
         assert set(state["completed_tasks"]) == set(TASKS), "Incomplete task collection"
         assert all(not stats.get("error") for stats in state["task_stats"].values())
     print(f"AUDIT groups={len(groups)} retained={len(retained)}")
+    print(f"CORE/LOW contamination audit: invalid={sum(contamination.values())}")
     return counts
 
 
@@ -1686,7 +1583,7 @@ def main():
 
     state = {
         "stage1_version":
-            4,
+            STAGE1_VERSION,
 
         "config": {
             "min_downloads":
@@ -1701,9 +1598,9 @@ def main():
             "cutoff_confirmation":
                 CUTOFF_CONFIRMATION,
 
-            "multilingual_min_languages":
-                3,
+            "likely_requires_multilingual_marker": True,
             "core_candidate_tier": "A_verified",
+            "core_downloads_inclusive": True,
         },
 
         "completed_tasks":
@@ -2109,7 +2006,7 @@ def main():
 
 
     print()
-    print(f"Likely >=100        : {len(likely):,}")
+    print(f"Likely >=80        : {len(likely):,}")
     print("Candidate types:")
 
 
@@ -2139,7 +2036,7 @@ def main():
     )
 
     print(
-        f"Low 100~499         : "
+        f"Low 80~499         : "
         f"{len(low):,}"
     )
 
@@ -2206,7 +2103,7 @@ def run_collection():
     output_names = ("CORE_OUTPUT", "LOW_POPULARITY_OUTPUT", "LIKELY_OUTPUT",
                     "FALLBACK_OUTPUT", "GROUP_OUTPUT", "STATE_OUTPUT")
     published = {name: globals()[name] for name in output_names}
-    checkpoint_dir = DATA_DIR / ".stage1_v4_checkpoint"
+    checkpoint_dir = DATA_DIR / f".stage1_v{STAGE1_VERSION}_checkpoint"
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
     try:
         for name, path in published.items():

@@ -1,0 +1,29 @@
+---
+license: apache-2.0
+license_link: https://ai.google.dev/gemma/docs/gemma_4_license
+pipeline_tag: text-generation
+base_model: google/gemma-4-E2B-it
+tags:
+- gemma4
+- gemma
+- google
+- translation
+- japanese
+- korean
+- chinese
+library_name: transformers
+---
+
+# shamrock-0-e2b
+
+Gemma 4 E2B fine-tuned for the [Oxalis](https://oxalis.ink) desktop app's
+language-learning surfaces (camera translate, text translate, tutor, talk,
+dictionary) across Japanese, Korean, and Simplified Chinese.
+
+## Layout
+
+| Path | Contents |
+| --- | --- |
+| repo root | Merged fp16 checkpoint |
+| `gguf/` | `shamrock-0-e2b-q4_k_m.gguf` + `mmproj-shamrock-0-e2b-f16.gguf`, what the app's llama.cpp runtime loads |
+| `MTP/` | Multi-token-prediction drafter for speculative decoding: `mtp-shamrock-0-e2b-Q8_0.gguf` (llama.cpp, serve with `--spec-type draft-mtp`) and the same head in HF format under `MTP/assistant/` |

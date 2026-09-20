@@ -1,0 +1,129 @@
+---
+language:
+- ko
+license: apache-2.0
+tags:
+  - llama
+  - korean
+  - korean-only
+  - from-scratch
+  - base-model
+  - conversational
+  - character-chat
+  - causal-lm
+  - small-language-model
+  - edge-ai
+  - on-device
+pipeline_tag: text-generation
+---
+
+#### 최근 수정
+eos_token_id 가 잘못 설정되어있어서, 대화학습에 사용된 종료 토큰이 출력되도 자동으로 멈추지 않는 버그가 있었습니다. 해당 버그를 수정했습니다.
+
+#### ⚠️ Ollama로 이 모델을 실행하면 문제가 있는 것으로 확인되었습니다.
+Ollama가 내부에 포크해서 쓰는 자체 추론 엔진이 이 모델의 pre-tokenizer(gpt-2 폴백) 처리 과정에서 프롬프트를 잘못 인코딩해, 대부분의 경우 학습한 내용과 다른(때로는 깨진) 답이 나올 수 있습니다.
+(다만 llama.cpp로 직접 하시면 해당 버그가 일어나지 않습니다.)
+
+
+# 씨앗 (Ssiat) 1.0
+
+**소비자용GPU 환경에서도 캐릭터 챗봇을 직접 만들 수 있는 254.7M 크기의 한국어 전용 언어모델입니다.**
+
+캐릭터 챗봇을 만들려면 보통 유료 API를 써야 합니다. 대화 한 번마다 비용이 나가고, 캐릭터가 늘어나면 비용도 같이 늘어납니다. 모델을 직접 학습시키려 해도 큰 모델은 장비와 시간이 많이 듭니다.
+
+씨앗은 그 문턱을 낮추려고 만들었습니다. 크기를 줄이고 한국어에만 집중해서, 개인 장비로도 학습과 실행이 모두 가능하도록 했습니다.
+
+## 적은 자원으로 만들고, 구동시킬수 있습니다
+
+| | |
+|---|---|
+| 실행 | Pi Zero 2W에서도 동작 가능 (양자화 기준) |
+| 캐릭터 하나 학습 | 예시 50-80개, 5060ti 16G 기준 LoRA로 **1-2분** |
+| 라이센스 | Apache License 2.0 |
+
+이론상 256MB 램과 CPU 그리고 전기가 있다면 이 모델을 직접 작동시킬수 있습니다.
+
+파인튜닝 한 번이 몇 분 안에 끝나기 때문에, 데이터를 고치고 다시 학습해서 결과를 확인하는 과정을 하루에도 여러 번 반복할 수 있습니다. 큰 모델로는 한 번의 실험에 몇 시간이 걸리는 일이라, 처음 배우는 학생이 실습용으로 쓰기에 특히 알맞습니다.
+
+A100 가속기 기준 초당 약 470.25 토큰
+
+## 캐릭터 성능
+
+이 모델의 강점은 지식의 양이 아니라 **캐릭터를 끝까지 유지하는 능력**입니다.
+
+- **예시 30개** — 말투와 성격이 뚜렷하면 이 정도만으로도 캐릭터가 잡힙니다.
+- **예시 1000개 내외** — 사람과 대화하는 것처럼 느껴질 만큼 캐릭터를 지킵니다. 학습에 없던 질문에도 그 캐릭터가 할 법한 답을 합니다.
+- **긴 대화에서도 유지** — 10턴 이상 주고받아도 말투가 무너지지 않습니다. 같은 조건에서 2배 큰 모델들과 비교했을 때, 다른 모델들이 같은 문장을 반복하며 무너지는 동안에도 캐릭터를 유지했습니다.
+
+> ⚠️ **이 모델 자체(`ssiat-1.0`)는 아무 캐릭터성도 갖고 있지 않습니다.** 이름도, 성격도, 말투도 없는 백지 상태입니다. 캐릭터를 만들려면 직접 학습 데이터를 넣어서 파인튜닝해야 하며, **최소 50개 이상의 예시**를 넣는 걸 권장합니다. 30개 미만이면 캐릭터가 약하게만 잡히고, 50개를 넘기면서부터 확실히 안정됩니다.
+
+## 예시 캐릭터
+
+학습 데이터 양에 따라 캐릭터가 얼마나 뚜렷해지는지 보여주는 예시 두 가지입니다.
+
+### `examples/error/` — 801개
+
+- **캐릭터**: ERROR — 기억을 전부 잃은, 정체가 불분명한 존재. 일상적인 질문에도 회피하거나 철학적으로 답합니다.
+- **학습 데이터**: 801개 (LoRA r=64)
+- 데이터 양이 많고 컨셉이 뚜렷하면, 어떤 질문을 던져도 캐릭터를 깨지 않고 답하는 수준까지 도달합니다.
+
+예시 캐릭터 제공: wifi.error.153@gmail.com
+
+### `examples/ssiat-self/` — 60개
+
+- **캐릭터**: 씨앗 — 방금 태어난 호기심 많은 AI. 자신의 이름과 한계(수학/영어 못함)를 스스로 인정합니다.
+- **학습 데이터**: 60개 (LoRA r=64)
+- 적은 데이터로도 정체성과 성격이 뚜렷하게 잡힙니다.
+
+### 실행 (`llama-server`)
+
+```bash
+llama-server -m examples/error/error-example.gguf --port 8090
+```
+
+시스템 프롬프트는 각 폴더의 README를 참고하세요.
+
+## 한계
+
+- 세계 지식과 사실 정확도가 약합니다. 작은 크기로 얻은 속도의 대가입니다.
+- 영어를 하지 못하고, 수학과 계산도 다루지 않습니다.
+- 긴 대화에서 앞서 나온 사실을 정확히 기억하는 능력이 제한적입니다.
+
+## 모델 정보
+
+- 파라미터 수: 254.7M
+- 프리트레인 스텝: 781,000
+- 컨텍스트 길이: 1024
+- 언어: 한국어 전용
+
+## 사용법
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("MOGODIK/ssiat-1.0")
+model = AutoModelForCausalLM.from_pretrained("MOGODIK/ssiat-1.0")
+
+prompt = "<|im_start|>user\n오늘 하루 어땠어?<|im_end|>\n<|im_start|>assistant\n"
+inputs = tokenizer(prompt, return_tensors="pt")
+output = model.generate(**inputs, max_new_tokens=60, temperature=0.3, do_sample=True)
+print(tokenizer.decode(output[0], skip_special_tokens=True))
+```
+
+권장 설정: `temperature` 0.3~0.5, `repeat_penalty` 1.3
+
+## 대화 포맷
+
+```
+<|im_start|>system
+(선택) 시스템 프롬프트
+<|im_end|>
+<|im_start|>user
+사용자 발화
+<|im_end|>
+<|im_start|>assistant
+```
+
+## 라이선스
+
+Apache License 2.0

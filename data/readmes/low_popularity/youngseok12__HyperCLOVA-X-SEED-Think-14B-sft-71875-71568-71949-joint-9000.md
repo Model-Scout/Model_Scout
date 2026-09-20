@@ -1,0 +1,56 @@
+---
+license: other
+base_model: naver-hyperclovax/HyperCLOVAX-SEED-Think-14B
+library_name: transformers
+pipeline_tag: text-generation
+tags:
+- korean
+- sft
+- aihub
+- lora-merge
+---
+
+# HyperCLOVA X SEED Think-14B SFT AI Hub Joint 9K
+
+이 저장소는 `naver-hyperclovax/HyperCLOVAX-SEED-Think-14B`의 pristine Base
+(`9b74e35d4c7e4ffec489f4171273caca8948a2b9`)에 AI Hub source 세 종류를 한 번에
+학습한 독립 SFT 모델입니다. 세 개의 adapter를 사후에 섞은 모델이 아니라, 하나의
+LoRA adapter를 9,000개 결합 데이터에 대해 학습한 뒤 Base에 병합한 standalone BF16
+모델입니다. v0.21 mixture와 공개 benchmark test 데이터는 학습에 포함하지 않았습니다.
+
+## 학습 데이터
+
+- AI Hub 71875 필수의료 의학지식 QA: 3,000개
+  - <https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=71875>
+- AI Hub 71568 경제·스포츠 숫자 연산/수치 MRC: 3,000개
+  - <https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=71568>
+- AI Hub 71949 인과관계 추론: 3,000개
+  - <https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=71949>
+
+총 9,000개를 seed `42`로 섞었고, 각 source의 기존 answer-first target을 유지했습니다.
+의료·수치 MRC·인과관계 추론 데이터만 사용했으며, 별도 public benchmark 문제는 사용하지
+않았습니다.
+
+## 학습 설정
+
+- LoRA: `r=16`, `alpha=32`, `dropout=0.05`, bias=`none`
+- Target modules: `q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj`
+- Learning rate `5e-5`, cosine scheduler, warmup ratio `0.03`, weight decay `0`
+- 1 epoch, per-device batch size `4`, gradient accumulation `4` (effective batch `16`)
+- BF16, max sequence length `4096`, packing disabled, assistant-only loss
+- seed/data seed `42/42`
+
+학습 loss는 `0.0310544`이며, sequence truncation은 0건이었습니다. 병합 후 모든
+parameter/buffer의 NaN/Inf 검사와 로컬 synthetic generation smoke test를 통과했습니다.
+공식 benchmark 점수는 이 저장소에 포함하지 않으며, 별도 평가가 필요합니다.
+
+## 사용 예시
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model_id = "youngseok12/HyperCLOVA-X-SEED-Think-14B-sft-71875-71568-71949-joint-9000"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="bfloat16", device_map="auto")
+```
+

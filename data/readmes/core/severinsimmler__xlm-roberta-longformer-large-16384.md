@@ -1,0 +1,107 @@
+---
+model-index:
+- name: xlm-roberta-longformer-base-16384
+  results: []
+license: mit
+language: 
+- multilingual
+- af
+- am
+- ar
+- as
+- az
+- be
+- bg
+- bn
+- br
+- bs
+- ca
+- cs
+- cy
+- da
+- de
+- el
+- en
+- eo
+- es
+- et
+- eu
+- fa
+- fi
+- fr
+- fy
+- ga
+- gd
+- gl
+- gu
+- ha
+- he
+- hi
+- hr
+- hu
+- hy
+- id
+- is
+- it
+- ja
+- jv
+- ka
+- kk
+- km
+- kn
+- ko
+- ku
+- ky
+- la
+- lo
+- lt
+- lv
+- mg
+- mk
+- ml
+- mn
+- mr
+- ms
+- my
+- ne
+- nl
+- no
+- om
+- or
+- pa
+- pl
+- ps
+- pt
+- ro
+- ru
+- sa
+- sd
+- si
+- sk
+- sl
+- so
+- sq
+- sr
+- su
+- sv
+- sw
+- ta
+- te
+- th
+- tl
+- tr
+- ug
+- uk
+- ur
+- uz
+- vi
+- xh
+- yi
+- zh
+---
+
+# xlm-roberta-longformer-large-16384
+
+⚠️ This is just the PyTorch version of [`hyperonym/xlm-roberta-longformer-large-16384`](https://huggingface.co/hyperonym/xlm-roberta-longformer-large-16384) without any modifications.
+
+**xlm-roberta-longformer** is a multilingual [Longformer](https://arxiv.org/abs/2004.05150) initialized with [XLM-RoBERTa](https://huggingface.co/xlm-roberta-large)'s weights without further pretraining. It is intended to be fine-tuned on a downstream task.
