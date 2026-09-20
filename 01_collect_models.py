@@ -1,15 +1,24 @@
 from huggingface_hub import HfApi
+
 import json
-import time
-import re
 import os
+import re
+import time
+
+from pathlib import Path
+from collections import defaultdict
 
 
 # =========================================================
 # CONFIG
 # =========================================================
 
-api = HfApi()
+HF_TOKEN = os.getenv("HF_TOKEN")
+
+api = HfApi(
+    token=HF_TOKEN
+)
+
 
 TASKS = [
     "text-generation",
@@ -24,46 +33,62 @@ TASKS = [
 ]
 
 
-# ---------------------------------------------------------
-# 테스트:
-#     1000
-#
-# 중간 확인:
-#     5000
-#
-# 전체:
-#     None
-# ---------------------------------------------------------
+# =========================================================
+# COLLECTION POLICY
+# =========================================================
 
-LIMIT_PER_TASK = 1000
+# Hard cap 없음.
+# downloads 기준 adaptive stopping.
+LIMIT_PER_TASK = None
 
-
-# ---------------------------------------------------------
-# 다운로드 수가 너무 적은 모델 제거
-#
-# 0   = 사실상 전체
-# 100 = 지금 추천
-# ---------------------------------------------------------
-
+# Offline 후보 최소선
 MIN_DOWNLOADS = 100
 
+# Main corpus 기준
+CORE_DOWNLOADS = 500
 
-OUTPUT_PATH = "hf_models_korean_stage1.json"
+# downloads < 100이 연속 N개면 해당 task 종료
+CUTOFF_CONFIRMATION = 10
 
-
-# 터미널 진행률
 PROGRESS_EVERY = 500
-
-
-# 같은 task를 처리하는 중에도 저장
 CHECKPOINT_EVERY = 5000
-
-
 TASK_SLEEP_SECONDS = 0.5
 
 
 # =========================================================
-# FILTER CONFIG
+# OUTPUT
+# =========================================================
+
+DATA_DIR = Path("data")
+
+CORE_OUTPUT = (
+    DATA_DIR
+    / "hf_models_stage1_core.jsonl"
+)
+
+LOW_POPULARITY_OUTPUT = (
+    DATA_DIR
+    / "hf_models_stage1_low_popularity.jsonl"
+)
+
+FALLBACK_OUTPUT = (
+    DATA_DIR
+    / "hf_models_stage1_fallback.jsonl"
+)
+
+GROUP_OUTPUT = (
+    DATA_DIR
+    / "hf_models_stage1_groups.jsonl"
+)
+
+STATE_OUTPUT = (
+    DATA_DIR
+    / "hf_models_stage1_state.json"
+)
+
+
+# =========================================================
+# BASIC FILTER
 # =========================================================
 
 EXCLUDE_PATTERNS = [
@@ -76,36 +101,26 @@ EXCLUDE_PATTERNS = [
 ]
 
 
-# =========================================================
-# Korean Explicit
-# =========================================================
-
 KOREAN_EXPLICIT_TAGS = {
     "ko",
     "kor",
     "korean",
+    "ko-kr",
     "language:ko",
     "language:kor",
     "language:korean",
+    "language:ko-kr",
 }
 
-
-# =========================================================
-# Multilingual
-# =========================================================
 
 MULTILINGUAL_TAGS = {
     "multilingual",
     "multilinguality",
     "multi-lingual",
-    "multi_language",
     "multi-language",
+    "language:multilingual",
 }
 
-
-# =========================================================
-# Korean-specialized names
-# =========================================================
 
 KOREAN_NAME_PATTERNS = [
     r"(^|[/_.\-])ko([/_.\-]|$)",
@@ -122,13 +137,10 @@ KOREAN_NAME_PATTERNS = [
 
 
 # =========================================================
-# Known multilingual families
-#
-# Korean 확정은 아님.
-# Stage 2에서 검증하기 위한 recall-oriented candidate.
+# FAMILY HEURISTIC
 # =========================================================
 
-KNOWN_MULTILINGUAL_KOREAN_FAMILIES = [
+MULTILINGUAL_FAMILIES = [
     "qwen",
     "aya",
     "gemma",
@@ -144,376 +156,1038 @@ KNOWN_MULTILINGUAL_KOREAN_FAMILIES = [
 
 
 # =========================================================
-# UTILITIES
+# ISO 639-1
+# =========================================================
+
+ISO_639_1 = {
+    "aa", "ab", "ae", "af", "ak", "am", "an", "ar",
+    "as", "av", "ay", "az",
+    "ba", "be", "bg", "bh", "bi", "bm", "bn", "bo",
+    "br", "bs",
+    "ca", "ce", "ch", "co", "cr", "cs", "cu", "cv",
+    "cy",
+    "da", "de", "dv", "dz",
+    "ee", "el", "en", "eo", "es", "et", "eu",
+    "fa", "ff", "fi", "fj", "fo", "fr", "fy",
+    "ga", "gd", "gl", "gn", "gu", "gv",
+    "ha", "he", "hi", "ho", "hr", "ht", "hu", "hy",
+    "hz",
+    "ia", "id", "ie", "ig", "ii", "ik", "io", "is",
+    "it", "iu",
+    "ja", "jv",
+    "ka", "kg", "ki", "kj", "kk", "kl", "km", "kn",
+    "ko", "kr", "ks", "ku", "kv", "kw", "ky",
+    "la", "lb", "lg", "li", "ln", "lo", "lt", "lu",
+    "lv",
+    "mg", "mh", "mi", "mk", "ml", "mn", "mr", "ms",
+    "mt", "my",
+    "na", "nb", "nd", "ne", "ng", "nl", "nn", "no",
+    "nr", "nv", "ny",
+    "oc", "oj", "om", "or", "os",
+    "pa", "pi", "pl", "ps", "pt",
+    "qu",
+    "rm", "rn", "ro", "ru", "rw",
+    "sa", "sc", "sd", "se", "sg", "si", "sk", "sl",
+    "sm", "sn", "so", "sq", "sr", "ss", "st", "su",
+    "sv", "sw",
+    "ta", "te", "tg", "th", "ti", "tk", "tl", "tn",
+    "to", "tr", "ts", "tt", "tw", "ty",
+    "ug", "uk", "ur", "uz",
+    "ve", "vi", "vo",
+    "wa", "wo",
+    "xh",
+    "yi", "yo",
+    "za", "zh", "zu",
+}
+
+
+# =========================================================
+# VARIANT
+# =========================================================
+
+VARIANT_PATTERNS = [
+    ("awq", r"(^|[-_.])awq($|[-_.])"),
+    ("gptq", r"(^|[-_.])gptq($|[-_.])"),
+    ("gguf", r"(^|[-_.])gguf($|[-_.])"),
+    ("fp8", r"(^|[-_.])fp8($|[-_.])"),
+    ("nvfp4", r"(^|[-_.])nvfp4($|[-_.])"),
+    ("fp4", r"(^|[-_.])fp4($|[-_.])"),
+    ("int4", r"(^|[-_.])int4($|[-_.])"),
+    ("int8", r"(^|[-_.])int8($|[-_.])"),
+    ("bnb_4bit", r"bnb[-_.]?4bit"),
+    ("4bit", r"(^|[-_.])4[-_.]?bit($|[-_.])"),
+    ("8bit", r"(^|[-_.])8[-_.]?bit($|[-_.])"),
+    ("mlx", r"(^|[-_.])mlx($|[-_.])"),
+    ("mlx_quantized", r"mlx[-_.]?[4568][-_]?bit"),
+]
+
+
+BASE_MODEL_RELATION_PREFIXES = {
+    "finetune",
+    "adapter",
+    "merge",
+    "quantized",
+}
+
+
+# =========================================================
+# GENERAL UTILS
 # =========================================================
 
 def safe_iso(value):
-
     if value is None:
         return None
 
     try:
         return value.isoformat()
-
     except Exception:
         return str(value)
 
 
 def get_tags(model):
-
-    tags = getattr(
+    value = getattr(
         model,
         "tags",
-        None
+        None,
     )
 
-    if not tags:
-        return []
-
-    return list(tags)
+    return list(value) if value else []
 
 
-def extract_tag_value(
-    tags,
-    prefix
-):
+def normalize_tag(value):
+    return (
+        str(value)
+        .strip()
+        .lower()
+    )
 
-    for tag in tags:
 
-        if not isinstance(
-            tag,
-            str
-        ):
-            continue
+def normalize_tags(tags):
+    return {
+        normalize_tag(tag)
+        for tag in tags
+    }
 
-        if tag.startswith(
-            prefix
-        ):
-            return tag[
-                len(prefix):
-            ]
+
+def is_noise_model(model_id):
+    value = model_id.lower()
+
+    return any(
+        pattern in value
+        for pattern in EXCLUDE_PATTERNS
+    )
+
+
+# =========================================================
+# LANGUAGE EXTRACTION
+# =========================================================
+
+def normalize_language_code(value):
+
+    value = (
+        str(value)
+        .strip()
+        .lower()
+    )
+
+    if value.startswith("language:"):
+        value = value.split(":", 1)[1]
+
+    # ko-KR -> ko
+    # en_US -> en
+    base = (
+        value
+        .split("-")[0]
+        .split("_")[0]
+    )
+
+    if base in ISO_639_1:
+        return base
 
     return None
 
 
-def extract_tag_values(
+def extract_language_codes(tags):
+
+    languages = set()
+
+    for raw_tag in tags:
+
+        tag = normalize_tag(raw_tag)
+
+        if tag.startswith("language:"):
+
+            value = tag.split(
+                ":",
+                1,
+            )[1]
+
+            normalized = (
+                normalize_language_code(
+                    value
+                )
+            )
+
+            if normalized:
+                languages.add(
+                    normalized
+                )
+
+            continue
+
+        normalized = (
+            normalize_language_code(
+                tag
+            )
+        )
+
+        if normalized:
+            languages.add(
+                normalized
+            )
+
+    return sorted(
+        languages
+    )
+
+
+def detect_multilingual_marker(tags):
+
+    normalized = normalize_tags(
+        tags
+    )
+
+    return any(
+        tag in MULTILINGUAL_TAGS
+        for tag in normalized
+    )
+
+
+def detect_explicit_korean(
     tags,
-    prefix
+    languages,
 ):
+
+    normalized = normalize_tags(
+        tags
+    )
+
+    if "ko" in languages:
+        return True
+
+    return bool(
+        normalized
+        &
+        KOREAN_EXPLICIT_TAGS
+    )
+
+
+# =========================================================
+# BASE MODEL
+# =========================================================
+
+def extract_base_models(tags):
 
     values = []
 
-    for tag in tags:
+    for raw_tag in tags:
 
         if not isinstance(
-            tag,
-            str
+            raw_tag,
+            str,
         ):
             continue
 
-        if tag.startswith(
-            prefix
+        if not raw_tag.lower().startswith(
+            "base_model:"
         ):
+            continue
 
-            value = tag[
-                len(prefix):
+        value = (
+            raw_tag[
+                len("base_model:"):
             ]
+            .strip()
+        )
+
+        if not value:
+            continue
+
+        # ex:
+        # base_model:finetune:Qwen/Qwen3-8B
+        if ":" in value:
+
+            first, rest = value.split(
+                ":",
+                1,
+            )
 
             if (
-                value
-                and value not in values
+                first.lower()
+                in BASE_MODEL_RELATION_PREFIXES
             ):
-                values.append(
-                    value
-                )
+                value = rest.strip()
+
+        if (
+            value
+            and value not in values
+        ):
+            values.append(
+                value
+            )
 
     return values
 
 
 # =========================================================
-# TEST / NOISE FILTER
+# FAMILY HEURISTIC
 # =========================================================
 
-def is_test_model(
-    model_id
-):
-
-    model_id = (
-        model_id.lower()
-    )
-
-    return any(
-        pattern in model_id
-        for pattern
-        in EXCLUDE_PATTERNS
-    )
-
-
-# =========================================================
-# FAMILY MATCH
-# =========================================================
-
-def model_family_match(
+def family_match(
     model_id,
-    family
+    family,
 ):
-    """
-    단순 substring 대신 boundary를 사용한다.
-
-    Qwen/Qwen3-8B
-        -> qwen match
-
-    unrelated-somethingphi
-        -> phi 같은 잘못된 match 감소
-    """
-
-    model_id = (
-        model_id.lower()
-    )
-
-    family = (
-        family.lower()
-    )
 
     pattern = (
         rf"(^|[/_.\-])"
-        rf"{re.escape(family)}"
+        rf"{re.escape(family.lower())}"
         rf"([/_.\-0-9]|$)"
     )
 
     return bool(
         re.search(
             pattern,
-            model_id
+            model_id.lower(),
         )
     )
 
 
-# =========================================================
-# LANGUAGE CANDIDATE DETECTION
-# =========================================================
-
-def detect_language_candidate(
-    model
+def detect_family_matches(
+    model_id,
 ):
-    """
-    Stage 1에서는 '한국어 확정'이 아니라
-    '한국어 사용 가능성이 있는 후보'를 찾는다.
 
-    priority:
+    return [
+        family
+        for family in MULTILINGUAL_FAMILIES
+        if family_match(
+            model_id,
+            family,
+        )
+    ]
 
-    explicit
-        ko / korean 명시
 
-    name_heuristic
-        KoBERT, KLUE 등
+# =========================================================
+# KOREAN NAME
+# =========================================================
 
-    multilingual
-        multilingual 태그 명시
+def detect_korean_name(
+    model_id,
+):
 
-    family_heuristic
-        Qwen/Gemma/Llama 등
+    value = model_id.lower()
 
-    none
-        후보 제외
-    """
+    return [
+        pattern
+        for pattern
+        in KOREAN_NAME_PATTERNS
+        if re.search(
+            pattern,
+            value,
+        )
+    ]
+
+
+# =========================================================
+# CANDIDATE CLASSIFICATION
+# =========================================================
+
+def classify_candidate(model):
 
     model_id = (
         getattr(
             model,
             "id",
-            None
+            "",
         )
         or ""
-    ).lower()
-
-    tags_original = (
-        get_tags(model)
     )
 
-    tags = [
-        str(tag).lower()
-        for tag
-        in tags_original
-    ]
+    tags = get_tags(
+        model
+    )
 
-    evidence = []
-
-    # =====================================================
-    # 1. Explicit Korean
-    # =====================================================
-
-    for tag in tags:
-
-        if (
-            tag
-            in KOREAN_EXPLICIT_TAGS
-        ):
-
-            evidence.append(
-                f"explicit_korean:{tag}"
-            )
-
-    if evidence:
-
-        return (
-            True,
-            "explicit",
-            evidence
+    languages = (
+        extract_language_codes(
+            tags
         )
+    )
+
+    multilingual_marker = (
+        detect_multilingual_marker(
+            tags
+        )
+    )
+
+    korean_explicit = (
+        detect_explicit_korean(
+            tags,
+            languages,
+        )
+    )
+
+    korean_name = (
+        detect_korean_name(
+            model_id
+        )
+    )
+
+    family_matches = (
+        detect_family_matches(
+            model_id
+        )
+    )
 
 
     # =====================================================
-    # 2. Korean-specific model name
+    # A — VERIFIED
     # =====================================================
 
-    for pattern in (
-        KOREAN_NAME_PATTERNS
+    # 1. Korean 명시
+    if korean_explicit:
+
+        return {
+            "tier":
+                "A_verified",
+
+            "type":
+                "korean_explicit",
+
+            "confidence":
+                "high",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                multilingual_marker,
+
+            "evidence": [
+                "explicit_language:korean"
+            ],
+        }
+
+
+    # 2. multilingual marker + 실제 언어 metadata
+    if (
+        multilingual_marker
+        and len(languages) >= 1
     ):
+
+        return {
+            "tier":
+                "A_verified",
+
+            "type":
+                "multilingual_explicit",
+
+            "confidence":
+                "high",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                True,
+
+            "evidence": [
+                "multilingual_tag",
+                (
+                    "explicit_language_list:"
+                    + ",".join(
+                        languages
+                    )
+                ),
+            ],
+        }
+
+
+    # 3. 실제 명시 언어가 3개 이상
+    if len(languages) >= 3:
+
+        return {
+            "tier":
+                "A_verified",
+
+            "type":
+                "multilingual_language_list",
+
+            "confidence":
+                "high",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                multilingual_marker,
+
+            "evidence": [
+                (
+                    "explicit_language_list:"
+                    + ",".join(
+                        languages
+                    )
+                )
+            ],
+        }
+
+
+    # =====================================================
+    # B — LIKELY
+    # =====================================================
+
+    # 정확히 2개 언어:
+    # bilingual은 명시적 다언어지만
+    # 범용 multilingual과 동일하게 보지 않는다.
+    if len(languages) == 2:
+
+        return {
+            "tier":
+                "B_likely",
+
+            "type":
+                "bilingual_language_list",
+
+            "confidence":
+                "medium",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                multilingual_marker,
+
+            "evidence": [
+                (
+                    "bilingual_language_list:"
+                    + ",".join(
+                        languages
+                    )
+                )
+            ],
+        }
+
+
+    # Korean 이름 heuristic
+    if korean_name:
+
+        return {
+            "tier":
+                "B_likely",
+
+            "type":
+                "korean_name",
+
+            "confidence":
+                "medium",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                multilingual_marker,
+
+            "evidence": [
+                f"name:{x}"
+                for x in korean_name
+            ],
+        }
+
+
+    # multilingual tag만 있고
+    # language list가 없는 경우
+    if multilingual_marker:
+
+        return {
+            "tier":
+                "B_likely",
+
+            "type":
+                "multilingual_tag_only",
+
+            "confidence":
+                "medium",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                True,
+
+            "evidence": [
+                "multilingual_tag_only"
+            ],
+        }
+
+
+    # =====================================================
+    # C — FAMILY FALLBACK
+    # =====================================================
+
+    if family_matches:
+
+        # 명시적으로 단일 비한국어 언어가 있는 경우
+        # family 이름만 보고 multilingual 후보로 만들지 않는다.
+        if (
+            len(languages) == 1
+            and
+            "ko" not in languages
+        ):
+            return None
+
+        return {
+            "tier":
+                "C_fallback",
+
+            "type":
+                "family_heuristic",
+
+            "confidence":
+                "low",
+
+            "languages":
+                languages,
+
+            "multilingual_marker":
+                False,
+
+            "evidence": [
+                f"family:{family}"
+                for family
+                in family_matches
+            ],
+        }
+
+    return None
+
+
+# =========================================================
+# VARIANT DETECTION
+# =========================================================
+
+def detect_variant_types(
+    model_id,
+    tags,
+):
+
+    joined = " ".join(
+        [model_id.lower()]
+        +
+        [
+            normalize_tag(tag)
+            for tag in tags
+        ]
+    )
+
+    variants = []
+
+    for name, pattern in VARIANT_PATTERNS:
 
         if re.search(
             pattern,
-            model_id
+            joined,
         ):
 
-            evidence.append(
-                f"korean_name:{pattern}"
-            )
+            if name not in variants:
+                variants.append(
+                    name
+                )
 
-    if evidence:
-
-        return (
-            True,
-            "name_heuristic",
-            evidence
-        )
+    return variants
 
 
-    # =====================================================
-    # 3. Explicit Multilingual
-    # =====================================================
-
-    for tag in tags:
-
-        if (
-            tag
-            in MULTILINGUAL_TAGS
-        ):
-
-            evidence.append(
-                f"multilingual_tag:{tag}"
-            )
-
-    if evidence:
-
-        return (
-            True,
-            "multilingual",
-            evidence
-        )
-
-
-    # =====================================================
-    # 4. Known multilingual family
-    # =====================================================
-
-    for family in (
-        KNOWN_MULTILINGUAL_KOREAN_FAMILIES
-    ):
-
-        if model_family_match(
-            model_id,
-            family
-        ):
-
-            evidence.append(
-                f"multilingual_family:{family}"
-            )
-
-    if evidence:
-
-        return (
-            True,
-            "family_heuristic",
-            evidence
-        )
-
-
-    return (
-        False,
-        "none",
-        []
-    )
-
-
-# =========================================================
-# BUILD STAGE 1 ROW
-# =========================================================
-
-def build_stage1_row(
-    model,
-    support_level,
-    language_evidence
+def normalize_model_name(
+    model_id,
 ):
 
-    model_id = (
-        model.id
-    )
+    if "/" in model_id:
 
-    tags = (
-        get_tags(model)
-    )
-
-    # -----------------------------------------------------
-    # lightweight metadata only
-    # -----------------------------------------------------
-
-    license_value = (
-        extract_tag_value(
-            tags,
-            "license:"
+        owner, name = model_id.split(
+            "/",
+            1,
         )
-    )
 
-    base_model = (
-        extract_tag_value(
-            tags,
-            "base_model:"
-        )
-    )
+    else:
 
-    language_tags = (
-        extract_tag_values(
-            tags,
-            "language:"
-        )
-    )
+        owner = None
+        name = model_id
 
-    lower_tags = [
-        str(tag).lower()
-        for tag in tags
+
+    normalized = name
+
+
+    patterns = [
+        r"[-_.]awq\b",
+        r"[-_.]gptq\b",
+        r"[-_.]gguf\b",
+        r"[-_.]fp8\b",
+        r"[-_.]nvfp4\b",
+        r"[-_.]fp4\b",
+        r"[-_.]int4\b",
+        r"[-_.]int8\b",
+        r"[-_.]bnb[-_.]?4bit\b",
+        r"[-_.]mlx(?:[-_.]?[4568]bit)?\b",
+        r"[-_.][4568][-_.]?bit\b",
     ]
 
-    # HF에서는 언어가 그냥 "ko", "en"처럼
-    # tag로 들어가 있는 경우도 있다.
-    if (
-        "ko"
-        in lower_tags
-        and "ko"
-        not in language_tags
-    ):
 
-        language_tags.append(
-            "ko"
+    for pattern in patterns:
+
+        normalized = re.sub(
+            pattern,
+            "",
+            normalized,
+            flags=re.IGNORECASE,
         )
+
+
+    normalized = (
+        re.sub(
+            r"[-_.]{2,}",
+            "-",
+            normalized,
+        )
+        .strip("-_.")
+    )
+
+
+    if owner:
+        return f"{owner}/{normalized}"
+
+    return normalized
+
+
+def build_family_info(
+    model_id,
+    tags,
+):
+
+    base_models = (
+        extract_base_models(
+            tags
+        )
+    )
+
+    variant_types = (
+        detect_variant_types(
+            model_id,
+            tags,
+        )
+    )
+
+
+    if base_models:
+
+        canonical = base_models[0]
+
+        source = (
+            "base_model_tag"
+        )
+
+    elif variant_types:
+
+        canonical = (
+            normalize_model_name(
+                model_id
+            )
+        )
+
+        source = (
+            "name_heuristic"
+        )
+
+    else:
+
+        canonical = model_id
+        source = "self"
 
 
     return {
+        "canonical_model_id":
+            canonical,
 
-        # =================================================
-        # Identity
-        # =================================================
+        "canonical_source":
+            source,
 
+        "is_variant":
+            (
+                canonical != model_id
+                or bool(
+                    variant_types
+                )
+            ),
+
+        "variant_types":
+            variant_types,
+
+        "declared_base_models":
+            base_models,
+    }
+
+
+# =========================================================
+# LICENSE
+# =========================================================
+
+def first_license(tags):
+
+    for raw_tag in tags:
+
+        tag = str(raw_tag)
+
+        if tag.lower().startswith(
+            "license:"
+        ):
+
+            return tag.split(
+                ":",
+                1,
+            )[1]
+
+    return None
+
+
+# =========================================================
+# QUALITY
+# =========================================================
+
+def calculate_quality(
+    languages,
+    license_value,
+    pipeline_tag,
+    library_name,
+    base_models,
+    downloads,
+    likes,
+):
+
+    metadata_score = 0
+
+    signals = []
+
+
+    # language metadata는 중요도가 높아서 +2
+    if languages:
+
+        metadata_score += 2
+
+        signals.append(
+            "languages"
+        )
+
+
+    if license_value:
+
+        metadata_score += 1
+
+        signals.append(
+            "license"
+        )
+
+
+    if pipeline_tag:
+
+        metadata_score += 1
+
+        signals.append(
+            "pipeline_tag"
+        )
+
+
+    if library_name:
+
+        metadata_score += 1
+
+        signals.append(
+            "library_name"
+        )
+
+
+    if base_models:
+
+        metadata_score += 1
+
+        signals.append(
+            "base_model"
+        )
+
+
+    popularity_score = 0
+
+
+    if downloads >= CORE_DOWNLOADS:
+        popularity_score += 1
+
+
+    if likes > 0:
+        popularity_score += 1
+
+
+    total_score = (
+        metadata_score
+        +
+        popularity_score
+    )
+
+
+    if total_score >= 6:
+        label = "high"
+
+    elif total_score >= 3:
+        label = "medium"
+
+    else:
+        label = "low"
+
+
+    return {
+        "metadata_score":
+            metadata_score,
+
+        "popularity_score":
+            popularity_score,
+
+        "total_score":
+            total_score,
+
+        "max_score":
+            8,
+
+        "label":
+            label,
+
+        "metadata_signals":
+            signals,
+    }
+
+
+# =========================================================
+# POPULARITY
+# =========================================================
+
+def popularity_tier(
+    downloads,
+):
+
+    if downloads >= CORE_DOWNLOADS:
+        return "main"
+
+    if downloads >= MIN_DOWNLOADS:
+        return "low_popularity"
+
+    return "excluded"
+
+
+# =========================================================
+# ROW
+# =========================================================
+
+def build_row(
+    model,
+    classification,
+):
+
+    model_id = model.id
+
+    tags = get_tags(
+        model
+    )
+
+    languages = (
+        classification[
+            "languages"
+        ]
+    )
+
+    downloads = (
+        getattr(
+            model,
+            "downloads",
+            None,
+        )
+        or 0
+    )
+
+    likes = (
+        getattr(
+            model,
+            "likes",
+            None,
+        )
+        or 0
+    )
+
+    pipeline_tag = (
+        getattr(
+            model,
+            "pipeline_tag",
+            None,
+        )
+    )
+
+    library_name = (
+        getattr(
+            model,
+            "library_name",
+            None,
+        )
+    )
+
+    license_value = (
+        first_license(
+            tags
+        )
+    )
+
+    family_info = (
+        build_family_info(
+            model_id,
+            tags,
+        )
+    )
+
+    base_models = (
+        family_info[
+            "declared_base_models"
+        ]
+    )
+
+    quality = (
+        calculate_quality(
+            languages=
+                languages,
+
+            license_value=
+                license_value,
+
+            pipeline_tag=
+                pipeline_tag,
+
+            library_name=
+                library_name,
+
+            base_models=
+                base_models,
+
+            downloads=
+                downloads,
+
+            likes=
+                likes,
+        )
+    )
+
+
+    return {
         "model_id":
             model_id,
 
@@ -521,217 +1195,819 @@ def build_stage1_row(
             getattr(
                 model,
                 "author",
-                None
+                None,
             ),
 
         "library_name":
-            getattr(
-                model,
-                "library_name",
-                None
-            ),
+            library_name,
+
+        "primary_task":
+            pipeline_tag,
+
+        "matched_tasks":
+            [],
 
 
-        # =================================================
-        # Task
-        # =================================================
+        "candidate": {
+            "tier":
+                classification[
+                    "tier"
+                ],
 
-        "primary_pipeline_tag":
-            getattr(
-                model,
-                "pipeline_tag",
-                None
-            ),
+            "type":
+                classification[
+                    "type"
+                ],
 
-        "matched_tasks": [],
+            "confidence":
+                classification[
+                    "confidence"
+                ],
 
-
-        # =================================================
-        # Language candidate
-        # =================================================
-
-        "language_candidate":
-            True,
-
-        "korean_candidate":
-            True,
-
-        # Stage 2에서 판정
-        "korean_verified":
-            None,
-
-        "multilingual_verified":
-            None,
-
-        "language_support_level":
-            support_level,
-
-        # 이전 코드 호환
-        "korean_support_level":
-            support_level,
-
-        "language_evidence":
-            list(
-                language_evidence
-            ),
-
-        "korean_evidence":
-            list(
-                language_evidence
-            ),
+            "evidence":
+                list(
+                    classification[
+                        "evidence"
+                    ]
+                ),
+        },
 
 
-        # =================================================
-        # Popularity
-        # =================================================
+        "language": {
+            "languages":
+                languages,
 
-        "downloads":
-            getattr(
-                model,
-                "downloads",
-                None
-            ),
+            "korean_explicit":
+                (
+                    "ko"
+                    in languages
+                ),
 
-        "likes":
-            getattr(
-                model,
-                "likes",
-                None
-            ),
+            "multilingual_marker":
+                classification[
+                    "multilingual_marker"
+                ],
+
+            "language_count":
+                len(
+                    languages
+                ),
+        },
 
 
-        # =================================================
-        # Lightweight raw HF metadata
-        # =================================================
+        "popularity": {
+            "downloads":
+                downloads,
 
-        "tags":
-            tags,
+            "likes":
+                likes,
 
-        "languages":
-            language_tags,
+            "tier":
+                popularity_tier(
+                    downloads
+                ),
+        },
 
-        "license":
-            license_value,
 
-        "base_model":
-            base_model,
+        "family":
+            family_info,
 
-        "gated":
-            getattr(
-                model,
-                "gated",
-                None
-            ),
 
-        "private":
-            getattr(
-                model,
-                "private",
-                None
-            ),
+        "quality":
+            quality,
 
-        "disabled":
-            getattr(
-                model,
-                "disabled",
-                None
-            ),
 
-        "sha":
-            getattr(
-                model,
-                "sha",
-                None
-            ),
+        "hub": {
+            "tags":
+                tags,
 
-        "created_at":
-            safe_iso(
+            "license":
+                license_value,
+
+            "gated":
                 getattr(
                     model,
-                    "created_at",
-                    None
-                )
-            ),
+                    "gated",
+                    None,
+                ),
 
-        "last_modified":
-            safe_iso(
+            "private":
                 getattr(
                     model,
-                    "last_modified",
-                    None
-                )
-            ),
+                    "private",
+                    None,
+                ),
+
+            "sha":
+                getattr(
+                    model,
+                    "sha",
+                    None,
+                ),
+
+            "created_at":
+                safe_iso(
+                    getattr(
+                        model,
+                        "created_at",
+                        None,
+                    )
+                ),
+
+            "last_modified":
+                safe_iso(
+                    getattr(
+                        model,
+                        "last_modified",
+                        None,
+                    )
+                ),
+        },
 
 
-        # =================================================
-        # Pipeline state
-        # =================================================
+        "stage": {
+            "collected":
+                True,
 
-        "stage1_collected":
-            True,
+            "metadata_enriched":
+                False,
 
-        "metadata_enriched":
-            False,
+            "semantic_enriched":
+                False,
 
-        "semantic_enriched":
-            False,
+            "stage1_version":
+                3,
+        },
     }
 
 
 # =========================================================
-# SAVE
+# RANK
 # =========================================================
 
-def save_json_atomic(
-    data,
-    output_path
+CANDIDATE_RANK = {
+    "A_verified": 3,
+    "B_likely": 2,
+    "C_fallback": 1,
+}
+
+
+# =========================================================
+# MERGE
+# =========================================================
+
+def merge_candidate(
+    all_models,
+    model,
+    task,
+    classification,
 ):
 
-    temp_path = (
-        output_path
+    model_id = model.id
+
+
+    if model_id not in all_models:
+
+        all_models[
+            model_id
+        ] = build_row(
+            model,
+            classification,
+        )
+
+
+    else:
+
+        current = (
+            all_models[
+                model_id
+            ]
+        )
+
+        current_rank = (
+            CANDIDATE_RANK.get(
+                current[
+                    "candidate"
+                ][
+                    "tier"
+                ],
+                0,
+            )
+        )
+
+        new_rank = (
+            CANDIDATE_RANK.get(
+                classification[
+                    "tier"
+                ],
+                0,
+            )
+        )
+
+
+        if new_rank > current_rank:
+
+            old_tasks = list(
+                current[
+                    "matched_tasks"
+                ]
+            )
+
+            old_evidence = list(
+                current[
+                    "candidate"
+                ][
+                    "evidence"
+                ]
+            )
+
+
+            all_models[
+                model_id
+            ] = build_row(
+                model,
+                classification,
+            )
+
+            current = (
+                all_models[
+                    model_id
+                ]
+            )
+
+            current[
+                "matched_tasks"
+            ] = old_tasks
+
+
+            for evidence in old_evidence:
+
+                if (
+                    evidence
+                    not in current[
+                        "candidate"
+                    ][
+                        "evidence"
+                    ]
+                ):
+                    current[
+                        "candidate"
+                    ][
+                        "evidence"
+                    ].append(
+                        evidence
+                    )
+
+
+    row = (
+        all_models[
+            model_id
+        ]
+    )
+
+
+    if (
+        task
+        not in row[
+            "matched_tasks"
+        ]
+    ):
+
+        row[
+            "matched_tasks"
+        ].append(
+            task
+        )
+
+
+    for evidence in (
+        classification[
+            "evidence"
+        ]
+    ):
+
+        if (
+            evidence
+            not in row[
+                "candidate"
+            ][
+                "evidence"
+            ]
+        ):
+
+            row[
+                "candidate"
+            ][
+                "evidence"
+            ].append(
+                evidence
+            )
+
+
+# =========================================================
+# SAVE UTILS
+# =========================================================
+
+def save_jsonl_atomic(
+    rows,
+    path,
+):
+
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    temp_path = path.with_suffix(
+        path.suffix
         + ".tmp"
     )
+
 
     with open(
         temp_path,
         "w",
-        encoding="utf-8"
+        encoding="utf-8",
     ) as f:
 
-        json.dump(
-            data,
-            f,
-            ensure_ascii=False,
-            indent=2
-        )
+        for row in rows:
+
+            f.write(
+                json.dumps(
+                    row,
+                    ensure_ascii=False,
+                )
+            )
+
+            f.write("\n")
+
 
     os.replace(
         temp_path,
-        output_path
+        path,
     )
 
 
-def save_current_results(
-    unique_models
+def save_json_atomic(
+    obj,
+    path,
 ):
 
-    results = list(
-        unique_models.values()
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
     )
 
-    results.sort(
-        key=lambda x:
-            x.get(
-                "downloads"
+    temp_path = str(
+        path
+    ) + ".tmp"
+
+
+    with open(
+        temp_path,
+        "w",
+        encoding="utf-8",
+    ) as f:
+
+        json.dump(
+            obj,
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+
+    os.replace(
+        temp_path,
+        path,
+    )
+
+
+# =========================================================
+# PARTITION
+# =========================================================
+
+def partition_rows(
+    all_models,
+):
+
+    core = []
+    low = []
+    fallback = []
+
+
+    for row in (
+        all_models.values()
+    ):
+
+        candidate_tier = (
+            row[
+                "candidate"
+            ][
+                "tier"
+            ]
+        )
+
+        pop_tier = (
+            row[
+                "popularity"
+            ][
+                "tier"
+            ]
+        )
+
+
+        if candidate_tier in {
+            "A_verified",
+            "B_likely",
+        }:
+
+            if pop_tier == "main":
+
+                core.append(
+                    row
+                )
+
+            elif (
+                pop_tier
+                == "low_popularity"
+            ):
+
+                low.append(
+                    row
+                )
+
+
+        elif (
+            candidate_tier
+            == "C_fallback"
+        ):
+
+            fallback.append(
+                row
             )
-            or 0,
-        reverse=True
+
+
+    def sort_key(row):
+
+        return (
+            row[
+                "popularity"
+            ][
+                "downloads"
+            ]
+            or 0
+        )
+
+
+    core.sort(
+        key=sort_key,
+        reverse=True,
+    )
+
+    low.sort(
+        key=sort_key,
+        reverse=True,
+    )
+
+    fallback.sort(
+        key=sort_key,
+        reverse=True,
+    )
+
+
+    return (
+        core,
+        low,
+        fallback,
+    )
+
+
+# =========================================================
+# CANONICAL GROUPING
+# =========================================================
+
+def build_groups(
+    all_models,
+):
+
+    grouped = defaultdict(
+        list
+    )
+
+
+    for row in (
+        all_models.values()
+    ):
+
+        canonical = (
+            row[
+                "family"
+            ][
+                "canonical_model_id"
+            ]
+        )
+
+        grouped[
+            canonical
+        ].append(
+            row
+        )
+
+
+    output = []
+
+
+    for canonical, members in (
+        grouped.items()
+    ):
+
+        members.sort(
+            key=lambda x: (
+                x[
+                    "popularity"
+                ][
+                    "downloads"
+                ]
+                or 0
+            ),
+            reverse=True,
+        )
+
+
+        canonical_row = next(
+            (
+                row
+                for row in members
+                if (
+                    row[
+                        "model_id"
+                    ]
+                    == canonical
+                )
+            ),
+            None,
+        )
+
+
+        canonical_present = (
+            canonical_row
+            is not None
+        )
+
+
+        # 실제 canonical repo가 candidate pool 안에 있으면
+        # canonical 자체가 representative.
+        #
+        # 없다면 가장 다운로드가 높은 variant를
+        # representative로 사용한다.
+        if canonical_present:
+
+            representative_model_id = (
+                canonical_row[
+                    "model_id"
+                ]
+            )
+
+        else:
+
+            representative_model_id = (
+                members[0][
+                    "model_id"
+                ]
+            )
+
+
+        output.append({
+            "canonical_model_id":
+                canonical,
+
+            "canonical_present":
+                canonical_present,
+
+            "representative_model_id":
+                representative_model_id,
+
+            "member_count":
+                len(
+                    members
+                ),
+
+            "variants": [
+                {
+                    "model_id":
+                        row[
+                            "model_id"
+                        ],
+
+                    "is_variant":
+                        row[
+                            "family"
+                        ][
+                            "is_variant"
+                        ],
+
+                    "variant_types":
+                        row[
+                            "family"
+                        ][
+                            "variant_types"
+                        ],
+
+                    "candidate_tier":
+                        row[
+                            "candidate"
+                        ][
+                            "tier"
+                        ],
+
+                    "candidate_type":
+                        row[
+                            "candidate"
+                        ][
+                            "type"
+                        ],
+
+                    "popularity_tier":
+                        row[
+                            "popularity"
+                        ][
+                            "tier"
+                        ],
+
+                    "downloads":
+                        row[
+                            "popularity"
+                        ][
+                            "downloads"
+                        ],
+                }
+
+                for row in members
+            ],
+        })
+
+
+    output.sort(
+        key=lambda group: (
+            group[
+                "variants"
+            ][0][
+                "downloads"
+            ]
+            or 0
+        ),
+        reverse=True,
+    )
+
+
+    return output
+
+
+# =========================================================
+# SAVE ALL
+# =========================================================
+
+def save_all(
+    all_models,
+    state,
+):
+
+    (
+        core,
+        low,
+        fallback,
+    ) = partition_rows(
+        all_models
+    )
+
+
+    groups = (
+        build_groups(
+            all_models
+        )
+    )
+
+
+    save_jsonl_atomic(
+        core,
+        CORE_OUTPUT,
+    )
+
+    save_jsonl_atomic(
+        low,
+        LOW_POPULARITY_OUTPUT,
+    )
+
+    save_jsonl_atomic(
+        fallback,
+        FALLBACK_OUTPUT,
+    )
+
+    save_jsonl_atomic(
+        groups,
+        GROUP_OUTPUT,
     )
 
     save_json_atomic(
-        results,
-        OUTPUT_PATH
+        state,
+        STATE_OUTPUT,
     )
+
+
+# =========================================================
+# STATS
+# =========================================================
+
+def calculate_stats(
+    all_models,
+):
+
+    stats = {
+        "A_verified": 0,
+        "B_likely": 0,
+        "C_fallback": 0,
+
+        "main": 0,
+        "low_popularity": 0,
+
+        "variants": 0,
+    }
+
+
+    candidate_types = defaultdict(
+        int
+    )
+
+
+    for row in (
+        all_models.values()
+    ):
+
+        tier = (
+            row[
+                "candidate"
+            ][
+                "tier"
+            ]
+        )
+
+        candidate_type = (
+            row[
+                "candidate"
+            ][
+                "type"
+            ]
+        )
+
+        candidate_types[
+            candidate_type
+        ] += 1
+
+
+        if tier in stats:
+
+            stats[
+                tier
+            ] += 1
+
+
+        pop = (
+            row[
+                "popularity"
+            ][
+                "tier"
+            ]
+        )
+
+        if pop in stats:
+
+            stats[
+                pop
+            ] += 1
+
+
+        if (
+            row[
+                "family"
+            ][
+                "is_variant"
+            ]
+        ):
+
+            stats[
+                "variants"
+            ] += 1
+
+
+    stats[
+        "candidate_types"
+    ] = dict(
+        candidate_types
+    )
+
+
+    return stats
 
 
 # =========================================================
@@ -740,36 +2016,45 @@ def save_current_results(
 
 def main():
 
-    unique_models = {}
+    DATA_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
 
-    stats = {
+    all_models = {}
 
-        "total_seen": 0,
 
-        "excluded_test": 0,
+    state = {
+        "stage1_version":
+            3,
 
-        "excluded_downloads": 0,
+        "config": {
+            "min_downloads":
+                MIN_DOWNLOADS,
 
-        "non_language_candidate": 0,
+            "core_downloads":
+                CORE_DOWNLOADS,
 
-        "language_candidates": 0,
+            "limit_per_task":
+                LIMIT_PER_TASK,
+
+            "cutoff_confirmation":
+                CUTOFF_CONFIRMATION,
+
+            "multilingual_min_languages":
+                3,
+        },
+
+        "completed_tasks":
+            [],
+
+        "task_stats":
+            {},
     }
 
 
-    # support level priority
-    priority = {
-
-        "none": 0,
-
-        "family_heuristic": 1,
-
-        "multilingual": 2,
-
-        "name_heuristic": 3,
-
-        "explicit": 4,
-    }
+    total_scanned = 0
 
 
     for task in TASKS:
@@ -785,22 +2070,21 @@ def main():
         print("=" * 80)
 
 
-        task_seen = 0
+        scanned = 0
+        accepted = 0
 
-        task_candidates = 0
+        below_cutoff_streak = 0
+
+        cutoff_reached = False
 
 
         try:
 
             models = (
                 api.list_models(
-
                     pipeline_tag=task,
-
                     sort="downloads",
-
                     limit=LIMIT_PER_TASK,
-
                     full=True,
                 )
             )
@@ -808,324 +2092,268 @@ def main():
 
             for model in models:
 
-                stats[
-                    "total_seen"
-                ] += 1
+                scanned += 1
 
-                task_seen += 1
-
-
-                # =========================================
-                # Progress
-                # =========================================
-
-                if (
-                    task_seen
-                    % PROGRESS_EVERY
-                    == 0
-                ):
-
-                    print(
-
-                        f"  progress | "
-                        f"task={task} | "
-
-                        f"scanned="
-                        f"{task_seen:,} | "
-
-                        f"candidates="
-                        f"{task_candidates:,} | "
-
-                        f"unique="
-                        f"{len(unique_models):,}",
-
-                        flush=True,
-                    )
-
-
-                # =========================================
-                # Periodic checkpoint
-                # =========================================
-
-                if (
-                    task_seen
-                    % CHECKPOINT_EVERY
-                    == 0
-                ):
-
-                    save_current_results(
-                        unique_models
-                    )
-
-                    print(
-
-                        f"  checkpoint | "
-                        f"{task_seen:,} scanned | "
-
-                        f"{len(unique_models):,} "
-                        f"unique saved",
-
-                        flush=True,
-                    )
+                total_scanned += 1
 
 
                 model_id = (
                     getattr(
                         model,
                         "id",
-                        None
+                        None,
                     )
                 )
+
 
                 if not model_id:
                     continue
 
 
-                # =========================================
-                # Noise model
-                # =========================================
-
-                if is_test_model(
-                    model_id
-                ):
-
-                    stats[
-                        "excluded_test"
-                    ] += 1
-
-                    continue
-
-
-                # =========================================
-                # Downloads
-                # =========================================
-
-                downloads = (
+                downloads_raw = (
                     getattr(
                         model,
                         "downloads",
-                        None
+                        None,
                     )
-                    or 0
                 )
 
+
+                if downloads_raw is None:
+                    continue
+
+
+                downloads = int(
+                    downloads_raw
+                )
+
+
+                # =================================================
+                # ADAPTIVE DOWNLOAD CUTOFF
+                # =================================================
 
                 if (
                     downloads
                     < MIN_DOWNLOADS
                 ):
 
-                    stats[
-                        "excluded_downloads"
-                    ] += 1
+                    below_cutoff_streak += 1
+
+
+                    if (
+                        below_cutoff_streak
+                        >= CUTOFF_CONFIRMATION
+                    ):
+
+                        cutoff_reached = True
+
+
+                        print()
+
+                        print(
+                            f"Download cutoff confirmed | "
+                            f"task={task} | "
+                            f"scanned={scanned:,} | "
+                            f"downloads={downloads:,}"
+                        )
+
+
+                        break
+
 
                     continue
 
 
-                # =========================================
-                # Language candidate
-                # =========================================
+                below_cutoff_streak = 0
 
-                (
-                    is_candidate,
-                    support_level,
-                    language_evidence,
 
-                ) = (
-                    detect_language_candidate(
+                # =================================================
+                # NOISE
+                # =================================================
+
+                if is_noise_model(
+                    model_id
+                ):
+
+                    continue
+
+
+                # =================================================
+                # CLASSIFY
+                # =================================================
+
+                classification = (
+                    classify_candidate(
                         model
                     )
                 )
 
 
-                if not is_candidate:
+                if (
+                    classification
+                    is not None
+                ):
 
-                    stats[
-                        "non_language_candidate"
-                    ] += 1
-
-                    continue
-
-
-                task_candidates += 1
+                    accepted += 1
 
 
-                # =========================================
-                # Unique model
-                # =========================================
+                    merge_candidate(
+                        all_models=
+                            all_models,
+
+                        model=
+                            model,
+
+                        task=
+                            task,
+
+                        classification=
+                            classification,
+                    )
+
+
+                # =================================================
+                # PROGRESS
+                # =================================================
 
                 if (
-                    model_id
-                    not in unique_models
+                    scanned
+                    % PROGRESS_EVERY
+                    == 0
                 ):
 
-                    unique_models[
-                        model_id
-                    ] = (
-                        build_stage1_row(
-
-                            model=model,
-
-                            support_level=
-                                support_level,
-
-                            language_evidence=
-                                language_evidence,
-                        )
+                    (
+                        core,
+                        low,
+                        fallback,
+                    ) = partition_rows(
+                        all_models
                     )
 
-                    stats[
-                        "language_candidates"
-                    ] += 1
+
+                    print(
+                        f"  progress | "
+                        f"scanned={scanned:,} | "
+                        f"core={len(core):,} | "
+                        f"low={len(low):,} | "
+                        f"fallback={len(fallback):,}",
+                        flush=True,
+                    )
 
 
-                row = (
-                    unique_models[
-                        model_id
-                    ]
-                )
-
-
-                # =========================================
-                # Merge task
-                # =========================================
+                # =================================================
+                # CHECKPOINT
+                # =================================================
 
                 if (
-                    task
-                    not in row[
-                        "matched_tasks"
-                    ]
+                    scanned
+                    % CHECKPOINT_EVERY
+                    == 0
                 ):
 
-                    row[
-                        "matched_tasks"
-                    ].append(
-                        task
+                    save_all(
+                        all_models,
+                        state,
                     )
 
 
-                # =========================================
-                # Merge evidence
-                # =========================================
-
-                for evidence in (
-                    language_evidence
-                ):
-
-                    if (
-                        evidence
-                        not in row[
-                            "language_evidence"
-                        ]
-                    ):
-
-                        row[
-                            "language_evidence"
-                        ].append(
-                            evidence
-                        )
-
-                    if (
-                        evidence
-                        not in row[
-                            "korean_evidence"
-                        ]
-                    ):
-
-                        row[
-                            "korean_evidence"
-                        ].append(
-                            evidence
-                        )
-
-
-                # =========================================
-                # Keep strongest support level
-                # =========================================
-
-                old_level = (
-                    row[
-                        "language_support_level"
-                    ]
-                )
-
-
-                if (
-                    priority[
-                        support_level
-                    ]
-                    >
-                    priority[
-                        old_level
-                    ]
-                ):
-
-                    row[
-                        "language_support_level"
-                    ] = (
-                        support_level
-                    )
-
-                    # Stage 2 이전 코드와 호환
-                    row[
-                        "korean_support_level"
-                    ] = (
-                        support_level
+                    print(
+                        "  checkpoint saved",
+                        flush=True,
                     )
 
 
-            # =============================================
-            # Task finished
-            # =============================================
+        except KeyboardInterrupt:
 
             print()
 
             print(
-                f"Finished {task}"
+                "Interrupted. "
+                "Saving checkpoint..."
             )
 
-            print(
-                f"  scanned       : "
-                f"{task_seen:,}"
+
+            save_all(
+                all_models,
+                state,
             )
 
-            print(
-                f"  candidates    : "
-                f"{task_candidates:,}"
-            )
 
-            print(
-                f"  total unique  : "
-                f"{len(unique_models):,}"
-            )
+            raise
 
 
         except Exception as e:
 
             print(
-
                 f"[TASK ERROR] "
                 f"{task}: "
-
                 f"{type(e).__name__}: "
-                f"{e}",
-
-                flush=True,
+                f"{e}"
             )
 
 
-        # ================================================
-        # task checkpoint
-        # ================================================
+        state[
+            "task_stats"
+        ][task] = {
+            "scanned":
+                scanned,
 
-        save_current_results(
-            unique_models
+            "accepted":
+                accepted,
+
+            "cutoff_reached":
+                cutoff_reached,
+        }
+
+
+        state[
+            "completed_tasks"
+        ].append(
+            task
+        )
+
+
+        save_all(
+            all_models,
+            state,
+        )
+
+
+        (
+            core,
+            low,
+            fallback,
+        ) = partition_rows(
+            all_models
+        )
+
+
+        print()
+
+        print(
+            f"Finished {task}"
         )
 
         print(
-            f"Checkpoint saved -> "
-            f"{OUTPUT_PATH}"
+            f"  scanned      : "
+            f"{scanned:,}"
         )
+
+        print(
+            f"  core         : "
+            f"{len(core):,}"
+        )
+
+        print(
+            f"  low          : "
+            f"{len(low):,}"
+        )
+
+        print(
+            f"  fallback     : "
+            f"{len(fallback):,}"
+        )
+
 
         time.sleep(
             TASK_SLEEP_SECONDS
@@ -1133,68 +2361,43 @@ def main():
 
 
     # =====================================================
-    # FINAL SAVE
+    # FINAL
     # =====================================================
 
-    results = list(
-        unique_models.values()
-    )
-
-    results.sort(
-        key=lambda x:
-            x.get(
-                "downloads"
-            )
-            or 0,
-        reverse=True
-    )
-
-    save_json_atomic(
-        results,
-        OUTPUT_PATH
+    save_all(
+        all_models,
+        state,
     )
 
 
-    # =====================================================
-    # STATISTICS
-    # =====================================================
-
-    def count_level(level):
-
-        return sum(
-
-            model[
-                "language_support_level"
-            ]
-            == level
-
-            for model
-            in results
-        )
+    (
+        core,
+        low,
+        fallback,
+    ) = partition_rows(
+        all_models
+    )
 
 
-    explicit_count = (
-        count_level(
-            "explicit"
+    stats = (
+        calculate_stats(
+            all_models
         )
     )
 
-    name_count = (
-        count_level(
-            "name_heuristic"
+
+    groups = (
+        build_groups(
+            all_models
         )
     )
 
-    multilingual_count = (
-        count_level(
-            "multilingual"
-        )
-    )
 
-    family_count = (
-        count_level(
-            "family_heuristic"
-        )
+    canonical_present = sum(
+        group[
+            "canonical_present"
+        ]
+        for group in groups
     )
 
 
@@ -1202,69 +2405,131 @@ def main():
     print("=" * 80)
 
     print(
-        "STAGE 1 COLLECTION FINISHED"
+        "STAGE 1 FINISHED"
     )
 
     print("=" * 80)
 
 
     print(
-        f"Total scanned           : "
-        f"{stats['total_seen']:,}"
+        f"Total scanned       : "
+        f"{total_scanned:,}"
     )
 
     print(
-        f"Test models removed     : "
-        f"{stats['excluded_test']:,}"
-    )
-
-    print(
-        f"Low-download removed    : "
-        f"{stats['excluded_downloads']:,}"
-    )
-
-    print(
-        f"Non-language candidates : "
-        f"{stats['non_language_candidate']:,}"
-    )
-
-    print(
-        f"Unique candidates       : "
-        f"{len(results):,}"
+        f"Unique candidates   : "
+        f"{len(all_models):,}"
     )
 
 
     print()
-    print(
-        "Language candidate evidence"
-    )
 
 
     print(
-        f"  explicit Korean       : "
-        f"{explicit_count:,}"
+        f"A verified          : "
+        f"{stats['A_verified']:,}"
     )
 
     print(
-        f"  Korean name heuristic : "
-        f"{name_count:,}"
+        f"B likely            : "
+        f"{stats['B_likely']:,}"
     )
 
     print(
-        f"  multilingual tag      : "
-        f"{multilingual_count:,}"
-    )
-
-    print(
-        f"  family heuristic      : "
-        f"{family_count:,}"
+        f"C fallback          : "
+        f"{stats['C_fallback']:,}"
     )
 
 
     print()
+    print("Candidate types:")
+
+
+    for (
+        candidate_type,
+        count,
+    ) in sorted(
+        stats[
+            "candidate_types"
+        ].items(),
+        key=lambda x: x[1],
+        reverse=True,
+    ):
+
+        print(
+            f"  {candidate_type:32s}"
+            f"{count:,}"
+        )
+
+
+    print()
+
+
     print(
-        f"Saved -> "
-        f"{OUTPUT_PATH}"
+        f"Main/Core >=500     : "
+        f"{len(core):,}"
+    )
+
+    print(
+        f"Low 100~499         : "
+        f"{len(low):,}"
+    )
+
+    print(
+        f"Family fallback     : "
+        f"{len(fallback):,}"
+    )
+
+
+    print()
+
+
+    print(
+        f"Variant models      : "
+        f"{stats['variants']:,}"
+    )
+
+    print(
+        f"Canonical groups    : "
+        f"{len(groups):,}"
+    )
+
+    print(
+        f"Canonical present   : "
+        f"{canonical_present:,}"
+    )
+
+    print(
+        f"Canonical missing   : "
+        f"{len(groups) - canonical_present:,}"
+    )
+
+
+    print()
+
+    print(
+        f"Core     -> "
+        f"{CORE_OUTPUT}"
+    )
+
+    print(
+        f"Low      -> "
+        f"{LOW_POPULARITY_OUTPUT}"
+    )
+
+    print(
+        f"Fallback -> "
+        f"{FALLBACK_OUTPUT}"
+    )
+
+    print(
+        f"Groups   -> "
+        f"{GROUP_OUTPUT}"
+    )
+
+    print(
+        f"State    -> "
+        f"{STATE_OUTPUT}"
     )
 
 
