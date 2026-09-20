@@ -31,70 +31,17 @@ DATA_DIR = Path("data")
 # SOURCE POOL
 # =========================================================
 
-# 지금은 core만 처리.
-#
-# 나중에:
-# SOURCE_POOL = "low"
-#
-SOURCE_POOL = "core"
+SOURCE_POOLS = ["core", "low_popularity"]
 
-
-INPUT_PATHS = {
-    "core":
-        DATA_DIR
-        / "hf_models_stage1_core.jsonl",
-
-    "low":
-        DATA_DIR
-        / "hf_models_stage1_low_popularity.jsonl",
+POOL_CONFIGS = {
+    pool: {
+        "input": DATA_DIR / f"hf_models_stage1_{pool}.jsonl",
+        "output": DATA_DIR / f"hf_models_stage2_{pool}.jsonl",
+        "error": DATA_DIR / f"hf_models_stage2_{pool}_errors.jsonl",
+        "readme_dir": DATA_DIR / "readmes" / pool,
+    }
+    for pool in SOURCE_POOLS
 }
-
-
-OUTPUT_PATHS = {
-    "core":
-        DATA_DIR
-        / "hf_models_stage2_core.jsonl",
-
-    "low":
-        DATA_DIR
-        / "hf_models_stage2_low.jsonl",
-}
-
-
-ERROR_PATHS = {
-    "core":
-        DATA_DIR
-        / "hf_models_stage2_core_errors.jsonl",
-
-    "low":
-        DATA_DIR
-        / "hf_models_stage2_low_errors.jsonl",
-}
-
-
-INPUT_PATH = (
-    INPUT_PATHS[
-        SOURCE_POOL
-    ]
-)
-
-OUTPUT_PATH = (
-    OUTPUT_PATHS[
-        SOURCE_POOL
-    ]
-)
-
-ERROR_PATH = (
-    ERROR_PATHS[
-        SOURCE_POOL
-    ]
-)
-
-
-README_DIR = (
-    DATA_DIR
-    / "readmes"
-)
 
 
 # =========================================================
@@ -122,7 +69,7 @@ RETRY_BASE_SECONDS = 1.0
 MAX_README_CHARS = 300_000
 
 
-STAGE2_VERSION = 2
+STAGE2_VERSION = 3
 
 
 # =========================================================
@@ -203,15 +150,16 @@ def save_jsonl_atomic(
 
 def append_error(
     row,
+    error_path,
 ):
 
-    ERROR_PATH.parent.mkdir(
+    error_path.parent.mkdir(
         parents=True,
         exist_ok=True,
     )
 
     with open(
-        ERROR_PATH,
+        error_path,
         "a",
         encoding="utf-8",
     ) as f:
@@ -476,6 +424,7 @@ def load_json_file(
 
 def load_and_save_readme(
     model_id,
+    readme_dir,
 ):
 
     try:
@@ -524,14 +473,14 @@ def load_and_save_readme(
             )
 
 
-        README_DIR.mkdir(
+        readme_dir.mkdir(
             parents=True,
             exist_ok=True,
         )
 
 
         output_path = (
-            README_DIR
+            readme_dir
             / safe_filename(
                 model_id
             )
@@ -1346,293 +1295,91 @@ MULTILINGUAL_MARKERS = {
 }
 
 
-def normalize_language_values(
-    values,
-):
-
+def normalize_language_values(values):
     output = set()
-
-
-    for value in (
-        ensure_list(
-            values
-        )
-    ):
-
+    for value in ensure_list(values):
         if value is None:
             continue
-
-
-        value = (
-            str(value)
-            .strip()
-            .lower()
-        )
-
-
-        if value:
-            output.add(
-                value
-            )
-
-
+        value = str(value).strip().lower()
+        if value.startswith("language:"):
+            value = value.split(":", 1)[1].strip()
+        if value in MULTILINGUAL_MARKERS:
+            output.add("multilingual")
+        elif value:
+            value = value.replace("_", "-")
+            if value in KOREAN_CODES:
+                value = "ko"
+            # Regional spellings of the same language do not inflate counts.
+            if re.fullmatch(r"[a-z]{2,3}(?:-[a-z0-9]+)+", value):
+                value = value.split("-", 1)[0]
+            output.add(value)
     return output
 
 
-def verify_languages(
-    stage1_row,
-    card_metadata,
-    readme_text,
-):
-
-    stage1_candidate = (
-        stage1_row.get(
-            "candidate",
-            {},
-        )
-    )
-
-
-    stage1_language = (
-        stage1_row.get(
-            "language",
-            {},
-        )
-    )
-
-
-    stage1_languages = (
-        normalize_language_values(
-            stage1_language.get(
-                "languages",
-                [],
-            )
-        )
-    )
-
-
-    card_languages = (
-        normalize_language_values(
-            card_metadata.get(
-                "language",
-                [],
-            )
-        )
-    )
-
-
-    languages = (
-        stage1_languages
-        |
-        card_languages
-    )
-
-
-    candidate_type = (
-        stage1_candidate.get(
-            "type"
-        )
-    )
-
-
-    readme_lower = (
-        readme_text
-        or ""
-    ).lower()
-
-
-    # =====================================================
-    # Korean
-    # =====================================================
+def verify_languages(stage1_row, card_metadata, readme_text):
+    """Additional factual evidence; never rewrite the Stage 1 candidate."""
+    stage1_language = stage1_row.get("language", {})
+    candidate_type = stage1_row.get("candidate", {}).get("type")
+    stage1_values = normalize_language_values(stage1_language.get("languages", []))
+    card_values = normalize_language_values(card_metadata.get("language", []))
+    stage1_languages = stage1_values - MULTILINGUAL_MARKERS
+    card_languages = card_values - MULTILINGUAL_MARKERS
+    languages = stage1_languages | card_languages
+    readme_lower = (readme_text or "").lower()
 
     korean = None
-
-    korean_confidence = (
-        "unknown"
-    )
-
+    korean_confidence = "unknown"
     korean_evidence = []
-
-
-    if (
-        languages
-        &
-        KOREAN_CODES
-    ):
-
-        korean = True
-
-        korean_confidence = (
-            "high"
-        )
-
-        korean_evidence.append(
-            "metadata.language:korean"
-        )
-
-
-    elif (
-        candidate_type
-        ==
-        "korean_explicit"
-    ):
-
-        korean = True
-
-        korean_confidence = (
-            "high"
-        )
-
-        korean_evidence.append(
-            "stage1:korean_explicit"
-        )
-
-
-    elif any(
-        phrase
-        in readme_lower
-
-        for phrase
-        in [
-            "supports korean",
-            "korean language",
-            "korean support",
-            "한국어 지원",
-            "supports ko-kr",
-        ]
-    ):
-
-        korean = True
-
-        korean_confidence = (
-            "medium"
-        )
-
-        korean_evidence.append(
-            "readme:korean_explicit_phrase"
-        )
-
-
-    # =====================================================
-    # Multilingual
-    # =====================================================
+    if languages & KOREAN_CODES:
+        korean, korean_confidence = True, "high"
+        korean_evidence.append("metadata.language:korean")
+    if candidate_type in {"korean_explicit", "korean_name"}:
+        korean, korean_confidence = True, "high"
+        korean_evidence.append(f"stage1:{candidate_type}")
+    if any(phrase in readme_lower for phrase in (
+        "supports korean", "korean language", "korean support", "한국어 지원", "supports ko-kr"
+    )):
+        if korean is None:
+            korean, korean_confidence = True, "medium"
+        korean_evidence.append("readme:korean_explicit_phrase")
 
     multilingual = None
-
-    multilingual_confidence = (
-        "unknown"
-    )
-
+    multilingual_confidence = "unknown"
     multilingual_evidence = []
+    if candidate_type in {"multilingual_explicit", "multilingual_language_list"}:
+        multilingual, multilingual_confidence = True, "high"
+        multilingual_evidence.append(f"stage1:{candidate_type}")
+    if len(stage1_languages) >= 3:
+        multilingual, multilingual_confidence = True, "high"
+        multilingual_evidence.append("stage1:3plus_languages")
+    if len(card_languages) >= 3:
+        multilingual, multilingual_confidence = True, "high"
+        multilingual_evidence.append("model_card:3plus_languages")
+    if card_values & MULTILINGUAL_MARKERS:
+        if len(card_languages) >= 2:
+            multilingual, multilingual_confidence = True, "high"
+            multilingual_evidence.append("model_card:multilingual_with_language_list")
+        else:
+            multilingual_evidence.append("model_card:multilingual_marker_only")
+    if candidate_type == "multilingual_tag_only":
+        # A weak Stage 1 marker remains unverified without additional evidence.
+        multilingual_evidence.append("stage1:multilingual_tag_only")
 
-
-    # Stage 1 explicit multilingual
-    if candidate_type in {
-        "multilingual_explicit",
-        "multilingual_language_list",
-    }:
-
-        multilingual = True
-
-        multilingual_confidence = (
-            "high"
-        )
-
-        multilingual_evidence.append(
-            f"stage1:{candidate_type}"
-        )
-
-
-    # Model card language list에서 3개 이상
-    elif len(
-        card_languages
-    ) >= 3:
-
-        multilingual = True
-
-        multilingual_confidence = (
-            "high"
-        )
-
-        multilingual_evidence.append(
-            "model_card:3plus_languages"
-        )
-
-
-    elif (
-        card_languages
-        &
-        MULTILINGUAL_MARKERS
-    ):
-
-        multilingual = True
-
-        multilingual_confidence = (
-            "high"
-        )
-
-        multilingual_evidence.append(
-            "model_card:multilingual"
-        )
-
-
-    # =====================================================
-    # Bilingual
-    # =====================================================
-
-    bilingual = (
-        candidate_type
-        ==
-        "bilingual_language_list"
-    )
-
-
+    bilingual = None
+    bilingual_evidence = []
+    if candidate_type == "bilingual_language_list":
+        bilingual = True
+        bilingual_evidence.append("stage1:bilingual_language_list")
+    if len(card_languages) == 2:
+        bilingual = True
+        bilingual_evidence.append("model_card:2_languages")
     return {
-        "declared_languages":
-            sorted(
-                languages
-            ),
-
-        "language_count":
-            len(
-                languages
-            ),
-
-        "korean": {
-            "verified":
-                korean,
-
-            "confidence":
-                korean_confidence,
-
-            "evidence":
-                korean_evidence,
-        },
-
-        "multilingual": {
-            "verified":
-                multilingual,
-
-            "confidence":
-                multilingual_confidence,
-
-            "evidence":
-                multilingual_evidence,
-        },
-
-        "bilingual": {
-            "verified":
-                bilingual,
-
-            "evidence":
-                (
-                    [
-                        "stage1:bilingual_language_list"
-                    ]
-                    if bilingual
-                    else []
-                ),
-        },
+        "stage1": stage1_language,
+        "declared_languages": sorted(languages),
+        "language_count": len(languages),
+        "korean": {"verified": korean, "confidence": korean_confidence, "evidence": korean_evidence},
+        "multilingual": {"verified": multilingual, "confidence": multilingual_confidence, "evidence": multilingual_evidence},
+        "bilingual": {"verified": bilingual, "evidence": bilingual_evidence},
     }
 
 
@@ -1818,6 +1565,7 @@ def extract_base_models(
 
 def enrich(
     stage1_row,
+    source_pool,
 ):
 
     model_id = (
@@ -1886,7 +1634,8 @@ def enrich(
 
     readme_result = (
         load_and_save_readme(
-            model_id
+            model_id,
+            POOL_CONFIGS[source_pool]["readme_dir"],
         )
     )
 
@@ -2318,7 +2067,7 @@ def enrich(
 
         "stage": {
             "source_pool":
-                SOURCE_POOL,
+                source_pool,
 
             "source_stage1_version":
                 stage1_row.get(
@@ -2347,487 +2096,155 @@ def enrich(
 # MAIN
 # =========================================================
 
-def main():
-
-    README_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-
-    source_rows = (
-        load_jsonl(
-            INPUT_PATH
-        )
-    )
-
-
-    original_source_count = (
-        len(
-            source_rows
-        )
-    )
-
-
-    if TEST_LIMIT is not None:
-
-        source_rows = (
-            source_rows[
-                :TEST_LIMIT
-            ]
-        )
-
-
-    print(
-        f"Source pool          : "
-        f"{SOURCE_POOL}"
-    )
-
-    print(
-        f"Stage 1 total        : "
-        f"{original_source_count:,}"
-    )
-
-    print(
-        f"Processing this run  : "
-        f"{len(source_rows):,}"
-    )
-
-
-    # =====================================================
-    # RESUME
-    # =====================================================
-
-    existing_rows = (
-        load_jsonl(
-            OUTPUT_PATH
-        )
-    )
-
-
-    existing_by_id = {
-        row[
-            "model_id"
-        ]:
-            row
-
-        for row
-        in existing_rows
-
-        if (
-            row.get(
-                "stage",
-                {},
-            ).get(
-                "stage2_version"
-            )
-            ==
-            STAGE2_VERSION
-        )
+def validate_stage2_rows(rows, source_pool):
+    """Validate saved results using Stage 1 popularity, never current downloads."""
+    if source_pool not in POOL_CONFIGS:
+        raise ValueError(f"Unsupported source pool: {source_pool}")
+    problems = []
+    seen = set()
+    required = {
+        "model_id", "author", "task", "candidate", "popularity", "family", "stage1_quality",
+        "language", "model", "quantization", "artifacts", "hardware", "license", "base_models",
+        "datasets", "metrics", "source", "stage",
     }
+    for row in rows:
+        model_id = row.get("model_id", "<missing model_id>")
+        reasons = []
+        if required - row.keys():
+            reasons.append(f"missing fields: {sorted(required - row.keys())}")
+        if model_id in seen:
+            reasons.append("duplicate model_id")
+        seen.add(model_id)
+        if row.get("candidate", {}).get("tier") != "A_verified":
+            reasons.append("candidate.tier must be A_verified")
+        downloads = row.get("popularity", {}).get("stage1", {}).get("downloads")
+        if not isinstance(downloads, (int, float)) or isinstance(downloads, bool):
+            reasons.append("missing/invalid Stage 1 downloads")
+        elif source_pool == "core" and not downloads >= 500:
+            reasons.append("Stage 1 downloads must be >= 500")
+        elif source_pool == "low_popularity" and not 100 <= downloads < 500:
+            reasons.append("Stage 1 downloads must be 100..499")
+        stage = row.get("stage", {})
+        for key, expected in (("source_pool", source_pool), ("source_stage1_version", 4),
+                              ("stage2_version", STAGE2_VERSION), ("metadata_enriched", True),
+                              ("semantic_enriched", False)):
+            if stage.get(key) != expected:
+                reasons.append(f"stage.{key} must be {expected!r}")
+        if "stage1" not in row.get("language", {}):
+            reasons.append("missing language.stage1 snapshot")
+        readme = row.get("source", {}).get("readme", {})
+        if readme.get("available"):
+            path = readme.get("path")
+            if not path or Path(path).parent != POOL_CONFIGS[source_pool]["readme_dir"]:
+                reasons.append("README path is outside the source pool directory")
+        if reasons:
+            problems.append(f"{model_id}: {'; '.join(reasons)}")
+    if problems:
+        raise ValueError(f"[{source_pool}] Stage 2 validation failed:\n" + "\n".join(problems))
+    return {"source_pool": source_pool, "rows": len(rows), "bad_count": 0}
 
 
-    results = []
+def resume_matches(row, source_row, source_pool):
+    """Reuse only this pool/version and the unchanged Stage 1 snapshot."""
+    stage = row.get("stage", {})
+    return (
+        stage.get("stage2_version") == STAGE2_VERSION
+        and stage.get("source_pool") == source_pool
+        and stage.get("source_stage1_version") == source_row.get("stage", {}).get("stage1_version")
+        and stage.get("metadata_enriched") is True
+        and stage.get("semantic_enriched") is False
+        and row.get("candidate") == source_row.get("candidate", {})
+        and row.get("popularity", {}).get("stage1") == source_row.get("popularity", {})
+        and row.get("family") == source_row.get("family", {})
+        and row.get("stage1_quality") == source_row.get("quality", {})
+        and row.get("language", {}).get("stage1") == source_row.get("language", {})
+        and row.get("task") == {"primary": source_row.get("primary_task"),
+                                "matched": source_row.get("matched_tasks", [])}
+    )
 
-    success = 0
-    skipped = 0
-    errors = 0
 
+def print_pool_stats(rows, source_pool, success, skipped, errors):
+    config = POOL_CONFIGS[source_pool]
+    print(f"[{source_pool}] FINISHED: rows={len(rows):,} enriched={success:,} skipped={skipped:,} errors={errors:,}")
+    stats = {
+        "README available": sum(row["source"]["readme"]["available"] is True for row in rows),
+        "Config available": sum(row["source"]["config"]["available"] is True for row in rows),
+        "Tokenizer config": sum(row["source"]["tokenizer_config"]["available"] is True for row in rows),
+        "Parameter count": sum(row["model"]["parameter_count"] is not None for row in rows),
+        "Context length": sum(row["model"]["context_length"] is not None for row in rows),
+        "Quantized": sum(row["quantization"]["enabled"] is True for row in rows),
+        "Korean verified": sum(row["language"]["korean"]["verified"] is True for row in rows),
+        "Multilingual verified": sum(row["language"]["multilingual"]["verified"] is True for row in rows),
+    }
+    for label, count in stats.items():
+        print(f"[{source_pool}] {label}: {count:,}")
+    for key in ("output", "error", "readme_dir"):
+        print(f"[{source_pool}] {key}: {config[key]}")
+
+
+def process_pool(source_pool):
+    config = POOL_CONFIGS[source_pool]
+    if not config["input"].is_file():
+        raise FileNotFoundError(f"[{source_pool}] Missing input: {config['input']}")
+    all_source_rows = load_jsonl(config["input"])
+    source_by_id = {row["model_id"]: row for row in all_source_rows}
+    source_rows = all_source_rows if TEST_LIMIT is None else all_source_rows[:TEST_LIMIT]
+    config["readme_dir"].mkdir(parents=True, exist_ok=True)
+    config["error"].parent.mkdir(parents=True, exist_ok=True)
+    config["error"].touch(exist_ok=True)
+
+    # Keep compatible prior results outside TEST_LIMIT, too: a small run must not
+    # truncate a previously enriched larger corpus. Old versions are regenerated.
+    results_by_id = {
+        row["model_id"]: row for row in load_jsonl(config["output"])
+        if row.get("model_id") in source_by_id
+        and resume_matches(row, source_by_id[row["model_id"]], source_pool)
+    }
+    success = skipped = errors = 0
+    print(f"[{source_pool}] START: source={len(all_source_rows):,} selected={len(source_rows):,}", flush=True)
+
+    def checkpoint():
+        rows = list(results_by_id.values())
+        validate_stage2_rows(rows, source_pool)
+        save_jsonl_atomic(rows, config["output"])
 
     try:
-
-        for (
-            index,
-            source_row,
-        ) in enumerate(
-            source_rows,
-            start=1,
-        ):
-
-            model_id = (
-                source_row[
-                    "model_id"
-                ]
-            )
-
-
-            # =============================================
-            # RESUME
-            # =============================================
-
-            if (
-                model_id
-                in existing_by_id
-            ):
-
-                print(
-                    f"[{index}/{len(source_rows)}] "
-                    f"SKIP "
-                    f"{model_id}"
-                )
-
-
-                results.append(
-                    existing_by_id[
-                        model_id
-                    ]
-                )
-
-
+        for index, source_row in enumerate(source_rows, start=1):
+            model_id = source_row["model_id"]
+            prefix = f"[{source_pool}] {index}/{len(source_rows)}"
+            if model_id in results_by_id:
                 skipped += 1
-
-                continue
-
-
-            # =============================================
-            # ENRICH
-            # =============================================
-
-            print(
-                f"[{index}/{len(source_rows)}] "
-                f"ENRICH "
-                f"{model_id}",
-                flush=True,
-            )
-
-
-            try:
-
-                row = enrich(
-                    source_row
-                )
-
-
-                results.append(
-                    row
-                )
-
-
-                success += 1
-
-
-            except Exception as e:
-
-                errors += 1
-
-
-                error_row = {
-                    "model_id":
-                        model_id,
-
-                    "error_type":
-                        type(e).__name__,
-
-                    "error":
-                        str(e),
-
-                    "source_pool":
-                        SOURCE_POOL,
-
-                    "stage2_version":
-                        STAGE2_VERSION,
-
-                    "created_at":
-                        utc_now(),
-                }
-
-
-                append_error(
-                    error_row
-                )
-
-
-                print(
-                    f"  ERROR "
-                    f"{type(e).__name__}: "
-                    f"{e}"
-                )
-
-
-            # =============================================
-            # CHECKPOINT
-            # =============================================
-
-            if (
-                index
-                % CHECKPOINT_EVERY
-                == 0
-            ):
-
-                save_jsonl_atomic(
-                    results,
-                    OUTPUT_PATH,
-                )
-
-
-                print(
-                    f"  checkpoint "
-                    f"{index}/"
-                    f"{len(source_rows)}"
-                )
-
-
-            time.sleep(
-                REQUEST_SLEEP
-            )
-
-
+                print(f"{prefix} SKIP {model_id}")
+            else:
+                print(f"{prefix} ENRICH {model_id}", flush=True)
+                try:
+                    row = enrich(source_row, source_pool)
+                    validate_stage2_rows([row], source_pool)
+                    results_by_id[model_id] = row
+                    success += 1
+                except Exception as error:
+                    errors += 1
+                    append_error({
+                        "model_id": model_id, "source_pool": source_pool,
+                        "error_type": type(error).__name__, "error": str(error),
+                        "stage2_version": STAGE2_VERSION, "created_at": utc_now(),
+                    }, config["error"])
+                    print(f"{prefix} ERROR {model_id}: {type(error).__name__}: {error}")
+                time.sleep(REQUEST_SLEEP)
+            if index % CHECKPOINT_EVERY == 0:
+                checkpoint()
+                print(f"[{source_pool}] checkpoint {index}/{len(source_rows)}", flush=True)
     except KeyboardInterrupt:
-
-        print()
-
-        print(
-            "Interrupted. "
-            "Saving current results..."
-        )
-
-
-        save_jsonl_atomic(
-            results,
-            OUTPUT_PATH,
-        )
-
-
+        print(f"[{source_pool}] Interrupted. Saving checkpoint...", flush=True)
+        checkpoint()
         raise
+    checkpoint()
+    print_pool_stats(list(results_by_id.values()), source_pool, success, skipped, errors)
 
 
-    # =====================================================
-    # FINAL SAVE
-    # =====================================================
-
-    save_jsonl_atomic(
-        results,
-        OUTPUT_PATH,
-    )
-
-
-    # =====================================================
-    # STATS
-    # =====================================================
-
-    readmes = sum(
-        (
-            row.get(
-                "source",
-                {},
-            ).get(
-                "readme",
-                {},
-            ).get(
-                "available"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    parameters = sum(
-        (
-            row.get(
-                "model",
-                {},
-            ).get(
-                "parameter_count"
-            )
-            is not None
-        )
-        for row in results
-    )
-
-
-    context_lengths = sum(
-        (
-            row.get(
-                "model",
-                {},
-            ).get(
-                "context_length"
-            )
-            is not None
-        )
-        for row in results
-    )
-
-
-    configs = sum(
-        (
-            row.get(
-                "source",
-                {},
-            ).get(
-                "config",
-                {},
-            ).get(
-                "available"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    tokenizer_configs = sum(
-        (
-            row.get(
-                "source",
-                {},
-            ).get(
-                "tokenizer_config",
-                {},
-            ).get(
-                "available"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    korean = sum(
-        (
-            row.get(
-                "language",
-                {},
-            ).get(
-                "korean",
-                {},
-            ).get(
-                "verified"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    multilingual = sum(
-        (
-            row.get(
-                "language",
-                {},
-            ).get(
-                "multilingual",
-                {},
-            ).get(
-                "verified"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    quantized = sum(
-        (
-            row.get(
-                "quantization",
-                {},
-            ).get(
-                "enabled"
-            )
-            is True
-        )
-        for row in results
-    )
-
-
-    print()
-    print("=" * 80)
-
-    print(
-        "STAGE 2 FINISHED"
-    )
-
-    print("=" * 80)
-
-
-    print(
-        f"Source pool           : "
-        f"{SOURCE_POOL}"
-    )
-
-    print(
-        f"Models                : "
-        f"{len(results):,}"
-    )
-
-    print(
-        f"Enriched this run     : "
-        f"{success:,}"
-    )
-
-    print(
-        f"Skipped               : "
-        f"{skipped:,}"
-    )
-
-    print(
-        f"Errors                : "
-        f"{errors:,}"
-    )
-
-
-    print()
-
-
-    print(
-        f"README available      : "
-        f"{readmes:,}"
-    )
-
-    print(
-        f"Config available      : "
-        f"{configs:,}"
-    )
-
-    print(
-        f"Tokenizer config      : "
-        f"{tokenizer_configs:,}"
-    )
-
-    print(
-        f"Parameter count       : "
-        f"{parameters:,}"
-    )
-
-    print(
-        f"Context length        : "
-        f"{context_lengths:,}"
-    )
-
-    print(
-        f"Quantized             : "
-        f"{quantized:,}"
-    )
-
-    print(
-        f"Korean verified       : "
-        f"{korean:,}"
-    )
-
-    print(
-        f"Multilingual verified : "
-        f"{multilingual:,}"
-    )
-
-
-    print()
-
-    print(
-        f"Metadata -> "
-        f"{OUTPUT_PATH}"
-    )
-
-    print(
-        f"Errors   -> "
-        f"{ERROR_PATH}"
-    )
-
-    print(
-        f"README   -> "
-        f"{README_DIR}"
-    )
+def main():
+    for source_pool in SOURCE_POOLS:
+        process_pool(source_pool)
 
 
 if __name__ == "__main__":

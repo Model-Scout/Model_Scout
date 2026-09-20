@@ -1,68 +1,156 @@
 {
-  "stage1_version": 3,
+  "stage1_version": 4,
   "config": {
     "min_downloads": 100,
     "core_downloads": 500,
     "limit_per_task": null,
     "cutoff_confirmation": 10,
-    "multilingual_min_languages": 3
+    "multilingual_min_languages": 3,
+    "core_candidate_tier": "A_verified"
   },
-  "completed_tasks": [
-    "text-generation",
-    "feature-extraction",
-    "sentence-similarity",
-    "text-classification",
-    "question-answering",
-    "summarization",
-    "translation",
-    "image-text-to-text",
-    "automatic-speech-recognition"
-  ],
+  "completed_tasks": [],
   "task_stats": {
     "text-generation": {
       "scanned": 47165,
       "accepted": 16885,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 16883,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "feature-extraction": {
       "scanned": 2085,
       "accepted": 509,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 509,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "sentence-similarity": {
       "scanned": 1773,
       "accepted": 495,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 495,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "text-classification": {
       "scanned": 2370,
       "accepted": 369,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 369,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "question-answering": {
       "scanned": 391,
       "accepted": 82,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 82,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "summarization": {
       "scanned": 240,
       "accepted": 44,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 44,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "translation": {
       "scanned": 1251,
       "accepted": 983,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 983,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "image-text-to-text": {
       "scanned": 8470,
       "accepted": 4987,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 4987,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     },
     "automatic-speech-recognition": {
       "scanned": 2291,
       "accepted": 561,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "retained": 561,
+      "cutoff_downloads": null,
+      "statistics_source": "v3 scan; retained recomputed for v4 snapshot"
     }
-  }
+  },
+  "status": "offline_reclassified_live_scan_pending",
+  "source_collection": {
+    "stage1_version": 3,
+    "config": {
+      "min_downloads": 100,
+      "core_downloads": 500,
+      "limit_per_task": null,
+      "cutoff_confirmation": 10,
+      "multilingual_min_languages": 3
+    },
+    "completed_tasks": [
+      "text-generation",
+      "feature-extraction",
+      "sentence-similarity",
+      "text-classification",
+      "question-answering",
+      "summarization",
+      "translation",
+      "image-text-to-text",
+      "automatic-speech-recognition"
+    ],
+    "task_stats": {
+      "text-generation": {
+        "scanned": 47165,
+        "accepted": 16885,
+        "cutoff_reached": true
+      },
+      "feature-extraction": {
+        "scanned": 2085,
+        "accepted": 509,
+        "cutoff_reached": true
+      },
+      "sentence-similarity": {
+        "scanned": 1773,
+        "accepted": 495,
+        "cutoff_reached": true
+      },
+      "text-classification": {
+        "scanned": 2370,
+        "accepted": 369,
+        "cutoff_reached": true
+      },
+      "question-answering": {
+        "scanned": 391,
+        "accepted": 82,
+        "cutoff_reached": true
+      },
+      "summarization": {
+        "scanned": 240,
+        "accepted": 44,
+        "cutoff_reached": true
+      },
+      "translation": {
+        "scanned": 1251,
+        "accepted": 983,
+        "cutoff_reached": true
+      },
+      "image-text-to-text": {
+        "scanned": 8470,
+        "accepted": 4987,
+        "cutoff_reached": true
+      },
+      "automatic-speech-recognition": {
+        "scanned": 2291,
+        "accepted": 561,
+        "cutoff_reached": true
+      }
+    }
+  },
+  "limitation": "Live Hub scan failed: huggingface.co DNS resolution unavailable. Reclassified only retained v3 rows; previously excluded models cannot be recovered."
 }

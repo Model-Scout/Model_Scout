@@ -7,6 +7,7 @@ import time
 
 from pathlib import Path
 from collections import defaultdict
+from types import SimpleNamespace
 
 
 # =========================================================
@@ -71,6 +72,8 @@ LOW_POPULARITY_OUTPUT = (
     / "hf_models_stage1_low_popularity.jsonl"
 )
 
+LIKELY_OUTPUT = DATA_DIR / "hf_models_stage1_likely.jsonl"
+
 FALLBACK_OUTPUT = (
     DATA_DIR
     / "hf_models_stage1_fallback.jsonl"
@@ -122,17 +125,10 @@ MULTILINGUAL_TAGS = {
 }
 
 
+# Token boundaries prevent accidental matches in token, kokoro, unknown, etc.
 KOREAN_NAME_PATTERNS = [
-    r"(^|[/_.\-])ko([/_.\-]|$)",
-    r"korean",
-    r"kobert",
-    r"kogpt",
-    r"korbert",
-    r"koelectra",
-    r"klue",
-    r"korquad",
-    r"kullm",
-    r"polyglot[-_]?ko",
+    r"(?:^|[-_/ .])(?:ko|kor|korean)(?=$|[-_/ .])",
+    r"(?:^|[-_/ .])(?:kobert|koelectra|kogpt|kosimcse|korbert|klue|korquad|kullm)(?=$|[-_/ .0-9])",
 ]
 
 
@@ -282,85 +278,37 @@ def is_noise_model(model_id):
 # LANGUAGE EXTRACTION
 # =========================================================
 
-def normalize_language_code(value):
-
-    value = (
-        str(value)
-        .strip()
-        .lower()
-    )
-
+def normalize_language(value):
+    value = normalize_tag(value)
     if value.startswith("language:"):
-        value = value.split(":", 1)[1]
+        value = value.split(":", 1)[1].strip()
+    if value in {"multilingual", "multilinguality", "multi-lingual", "multi-language"}:
+        return "multilingual"
+    if value in {"kor", "korean"}:
+        return "ko"
+    base = value.replace("_", "-").split("-")[0]
+    return base if base in ISO_639_1 else None
 
-    # ko-KR -> ko
-    # en_US -> en
-    base = (
-        value
-        .split("-")[0]
-        .split("_")[0]
-    )
 
-    if base in ISO_639_1:
-        return base
+def normalize_languages(values):
+    if isinstance(values, str):
+        values = [values]
+    return sorted({language for value in (values or [])
+                   if (language := normalize_language(value)) is not None})
 
-    return None
+
+def normalize_language_code(value):
+    language = normalize_language(value)
+    return language if language != "multilingual" else None
 
 
 def extract_language_codes(tags):
-
-    languages = set()
-
-    for raw_tag in tags:
-
-        tag = normalize_tag(raw_tag)
-
-        if tag.startswith("language:"):
-
-            value = tag.split(
-                ":",
-                1,
-            )[1]
-
-            normalized = (
-                normalize_language_code(
-                    value
-                )
-            )
-
-            if normalized:
-                languages.add(
-                    normalized
-                )
-
-            continue
-
-        normalized = (
-            normalize_language_code(
-                tag
-            )
-        )
-
-        if normalized:
-            languages.add(
-                normalized
-            )
-
-    return sorted(
-        languages
-    )
+    return [language for language in normalize_languages(tags)
+            if language != "multilingual"]
 
 
 def detect_multilingual_marker(tags):
-
-    normalized = normalize_tags(
-        tags
-    )
-
-    return any(
-        tag in MULTILINGUAL_TAGS
-        for tag in normalized
-    )
+    return "multilingual" in normalize_languages(tags)
 
 
 def detect_explicit_korean(
@@ -501,273 +449,55 @@ def detect_korean_name(
 # CANDIDATE CLASSIFICATION
 # =========================================================
 
+def is_korean_model_name(model_id):
+    return bool(detect_korean_name(model_id))
+
+
+def extract_language_evidence(model):
+    # Hub full=True exposes language tags; also accept explicit/card metadata.
+    values = list(get_tags(model))
+    for field in ("language", "languages"):
+        value = getattr(model, field, None)
+        if value:
+            values.extend([value] if isinstance(value, str) else value)
+    card = getattr(model, "card_data", None) or getattr(model, "cardData", None)
+    if card is not None:
+        value = card.get("language") if hasattr(card, "get") else getattr(card, "language", None)
+        if value:
+            values.extend([value] if isinstance(value, str) else value)
+    normalized = normalize_languages(values)
+    languages = [value for value in normalized if value != "multilingual"]
+    return {"languages": languages, "concrete_language_count": len(languages),
+            "multilingual_marker": "multilingual" in normalized}
+
+
 def classify_candidate(model):
-
-    model_id = (
-        getattr(
-            model,
-            "id",
-            "",
-        )
-        or ""
-    )
-
-    tags = get_tags(
-        model
-    )
-
-    languages = (
-        extract_language_codes(
-            tags
-        )
-    )
-
-    multilingual_marker = (
-        detect_multilingual_marker(
-            tags
-        )
-    )
-
-    korean_explicit = (
-        detect_explicit_korean(
-            tags,
-            languages,
-        )
-    )
-
-    korean_name = (
-        detect_korean_name(
-            model_id
-        )
-    )
-
-    family_matches = (
-        detect_family_matches(
-            model_id
-        )
-    )
-
-
-    # =====================================================
-    # A — VERIFIED
-    # =====================================================
-
-    # 1. Korean 명시
-    if korean_explicit:
-
-        return {
-            "tier":
-                "A_verified",
-
-            "type":
-                "korean_explicit",
-
-            "confidence":
-                "high",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                multilingual_marker,
-
-            "evidence": [
-                "explicit_language:korean"
-            ],
-        }
-
-
-    # 2. multilingual marker + 실제 언어 metadata
-    if (
-        multilingual_marker
-        and len(languages) >= 1
-    ):
-
-        return {
-            "tier":
-                "A_verified",
-
-            "type":
-                "multilingual_explicit",
-
-            "confidence":
-                "high",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                True,
-
-            "evidence": [
-                "multilingual_tag",
-                (
-                    "explicit_language_list:"
-                    + ",".join(
-                        languages
-                    )
-                ),
-            ],
-        }
-
-
-    # 3. 실제 명시 언어가 3개 이상
-    if len(languages) >= 3:
-
-        return {
-            "tier":
-                "A_verified",
-
-            "type":
-                "multilingual_language_list",
-
-            "confidence":
-                "high",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                multilingual_marker,
-
-            "evidence": [
-                (
-                    "explicit_language_list:"
-                    + ",".join(
-                        languages
-                    )
-                )
-            ],
-        }
-
-
-    # =====================================================
-    # B — LIKELY
-    # =====================================================
-
-    # 정확히 2개 언어:
-    # bilingual은 명시적 다언어지만
-    # 범용 multilingual과 동일하게 보지 않는다.
-    if len(languages) == 2:
-
-        return {
-            "tier":
-                "B_likely",
-
-            "type":
-                "bilingual_language_list",
-
-            "confidence":
-                "medium",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                multilingual_marker,
-
-            "evidence": [
-                (
-                    "bilingual_language_list:"
-                    + ",".join(
-                        languages
-                    )
-                )
-            ],
-        }
-
-
-    # Korean 이름 heuristic
-    if korean_name:
-
-        return {
-            "tier":
-                "B_likely",
-
-            "type":
-                "korean_name",
-
-            "confidence":
-                "medium",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                multilingual_marker,
-
-            "evidence": [
-                f"name:{x}"
-                for x in korean_name
-            ],
-        }
-
-
-    # multilingual tag만 있고
-    # language list가 없는 경우
-    if multilingual_marker:
-
-        return {
-            "tier":
-                "B_likely",
-
-            "type":
-                "multilingual_tag_only",
-
-            "confidence":
-                "medium",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                True,
-
-            "evidence": [
-                "multilingual_tag_only"
-            ],
-        }
-
-
-    # =====================================================
-    # C — FAMILY FALLBACK
-    # =====================================================
-
-    if family_matches:
-
-        # 명시적으로 단일 비한국어 언어가 있는 경우
-        # family 이름만 보고 multilingual 후보로 만들지 않는다.
-        if (
-            len(languages) == 1
-            and
-            "ko" not in languages
-        ):
-            return None
-
-        return {
-            "tier":
-                "C_fallback",
-
-            "type":
-                "family_heuristic",
-
-            "confidence":
-                "low",
-
-            "languages":
-                languages,
-
-            "multilingual_marker":
-                False,
-
-            "evidence": [
-                f"family:{family}"
-                for family
-                in family_matches
-            ],
-        }
-
-    return None
+    model_id = getattr(model, "id", "") or ""
+    language = extract_language_evidence(model)
+    languages = language["languages"]
+    marker = language["multilingual_marker"]
+    count = language["concrete_language_count"]
+    names = detect_korean_name(model_id)
+    families = detect_family_matches(model_id)
+    if "ko" in languages:
+        tier, kind, evidence = "A_verified", "korean_explicit", ["explicit_language:korean"]
+    elif is_korean_model_name(model_id):
+        tier, kind, evidence = "A_verified", "korean_name", [f"name:{name}" for name in names]
+    elif marker and count >= 2:
+        tier, kind, evidence = "A_verified", "multilingual_explicit", ["multilingual_tag", "explicit_language_list:" + ",".join(languages)]
+    elif count >= 3:
+        tier, kind, evidence = "A_verified", "multilingual_language_list", ["explicit_language_list:" + ",".join(languages)]
+    elif count == 2:
+        tier, kind, evidence = "B_likely", "bilingual_language_list", ["bilingual_language_list:" + ",".join(languages)]
+    elif marker:
+        tier, kind, evidence = "B_likely", "multilingual_tag_only", ["multilingual_tag_only"]
+    elif families and count == 0:
+        tier, kind, evidence = "C_fallback", "family_heuristic", [f"family:{family}" for family in families]
+    else:
+        return None
+    return {"tier": tier, "type": kind,
+            "confidence": {"A_verified": "high", "B_likely": "medium", "C_fallback": "low"}[tier],
+            **language, "evidence": evidence}
 
 
 # =========================================================
@@ -960,6 +690,7 @@ def first_license(tags):
 # QUALITY
 # =========================================================
 
+# Metadata completeness / popularity signal, never model quality or a deletion filter.
 def calculate_quality(
     languages,
     license_value,
@@ -1336,7 +1067,7 @@ def build_row(
                 False,
 
             "stage1_version":
-                3,
+                4,
         },
     }
 
@@ -1587,100 +1318,22 @@ def save_json_atomic(
 # PARTITION
 # =========================================================
 
-def partition_rows(
-    all_models,
-):
-
-    core = []
-    low = []
-    fallback = []
-
-
-    for row in (
-        all_models.values()
-    ):
-
-        candidate_tier = (
-            row[
-                "candidate"
-            ][
-                "tier"
-            ]
-        )
-
-        pop_tier = (
-            row[
-                "popularity"
-            ][
-                "tier"
-            ]
-        )
-
-
-        if candidate_tier in {
-            "A_verified",
-            "B_likely",
-        }:
-
-            if pop_tier == "main":
-
-                core.append(
-                    row
-                )
-
-            elif (
-                pop_tier
-                == "low_popularity"
-            ):
-
-                low.append(
-                    row
-                )
-
-
-        elif (
-            candidate_tier
-            == "C_fallback"
-        ):
-
-            fallback.append(
-                row
-            )
-
-
-    def sort_key(row):
-
-        return (
-            row[
-                "popularity"
-            ][
-                "downloads"
-            ]
-            or 0
-        )
-
-
-    core.sort(
-        key=sort_key,
-        reverse=True,
-    )
-
-    low.sort(
-        key=sort_key,
-        reverse=True,
-    )
-
-    fallback.sort(
-        key=sort_key,
-        reverse=True,
-    )
-
-
-    return (
-        core,
-        low,
-        fallback,
-    )
+def partition_rows(all_models):
+    core, low, likely, fallback = [], [], [], []
+    for row in all_models.values():
+        downloads = row["popularity"]["downloads"]
+        if downloads < MIN_DOWNLOADS:
+            continue
+        tier = row["candidate"]["tier"]
+        if tier == "A_verified":
+            (core if downloads >= CORE_DOWNLOADS else low).append(row)
+        elif tier == "B_likely":
+            likely.append(row)
+        elif tier == "C_fallback":
+            fallback.append(row)
+    for rows in (core, low, likely, fallback):
+        rows.sort(key=lambda row: (row["popularity"]["downloads"], row["popularity"].get("likes", 0), row["model_id"]), reverse=True)
+    return core, low, likely, fallback
 
 
 # =========================================================
@@ -1868,51 +1521,15 @@ def build_groups(
 # SAVE ALL
 # =========================================================
 
-def save_all(
-    all_models,
-    state,
-):
-
-    (
-        core,
-        low,
-        fallback,
-    ) = partition_rows(
-        all_models
-    )
-
-
-    groups = (
-        build_groups(
-            all_models
-        )
-    )
-
-
-    save_jsonl_atomic(
-        core,
-        CORE_OUTPUT,
-    )
-
-    save_jsonl_atomic(
-        low,
-        LOW_POPULARITY_OUTPUT,
-    )
-
-    save_jsonl_atomic(
-        fallback,
-        FALLBACK_OUTPUT,
-    )
-
-    save_jsonl_atomic(
-        groups,
-        GROUP_OUTPUT,
-    )
-
-    save_json_atomic(
-        state,
-        STATE_OUTPUT,
-    )
+def save_all(all_models, state):
+    core, low, likely, fallback = partition_rows(all_models)
+    retained = {row["model_id"]: row for rows in (core, low, likely, fallback) for row in rows}
+    groups = build_groups(retained)
+    for rows, path in ((core, CORE_OUTPUT), (low, LOW_POPULARITY_OUTPUT),
+                       (likely, LIKELY_OUTPUT), (fallback, FALLBACK_OUTPUT),
+                       (groups, GROUP_OUTPUT)):
+        save_jsonl_atomic(rows, path)
+    save_json_atomic(state, STATE_OUTPUT)
 
 
 # =========================================================
@@ -2014,6 +1631,48 @@ def calculate_stats(
 # MAIN
 # =========================================================
 
+def validate_outputs(require_complete=True):
+    """Audit persisted corpora, evidence, popularity, and group coverage."""
+    counts, retained = {}, {}
+    specifications = (
+        (CORE_OUTPUT, "A_verified", CORE_DOWNLOADS, None),
+        (LOW_POPULARITY_OUTPUT, "A_verified", MIN_DOWNLOADS, CORE_DOWNLOADS),
+        (LIKELY_OUTPUT, "B_likely", MIN_DOWNLOADS, None),
+        (FALLBACK_OUTPUT, "C_fallback", MIN_DOWNLOADS, None),
+    )
+    for path, tier, minimum, maximum in specifications:
+        bad = 0
+        rows = [json.loads(line) for line in path.read_text().splitlines() if line]
+        for row in rows:
+            downloads = row["popularity"]["downloads"]
+            bad += int(row["candidate"]["tier"] != tier or downloads < minimum
+                       or (maximum is not None and downloads >= maximum))
+            assert row["model_id"] not in retained, "Duplicate corpus model"
+            expected = classify_candidate(SimpleNamespace(
+                id=row["model_id"], tags=row["hub"]["tags"],
+                languages=row["language"]["languages"]))
+            assert expected is not None, "Excluded model in corpus"
+            assert all(row["candidate"][key] == expected[key]
+                       for key in ("tier", "type", "confidence")), "Invalid language classification"
+            assert row["stage"]["stage1_version"] == 4
+            assert row["popularity"]["tier"] == popularity_tier(downloads)
+            retained[row["model_id"]] = row
+        counts[path.name] = len(rows)
+        print(f"AUDIT {path.name}: rows={len(rows)} bad={bad}")
+        assert bad == 0, f"Invalid partition: {path}"
+    groups = [json.loads(line) for line in GROUP_OUTPUT.read_text().splitlines() if line]
+    assert groups == build_groups(retained), "Groups differ from retained corpus union"
+    counts[GROUP_OUTPUT.name] = len(groups)
+    state = json.loads(STATE_OUTPUT.read_text())
+    assert state["stage1_version"] == 4
+    assert state["config"]["core_candidate_tier"] == "A_verified"
+    if require_complete:
+        assert set(state["completed_tasks"]) == set(TASKS), "Incomplete task collection"
+        assert all(not stats.get("error") for stats in state["task_stats"].values())
+    print(f"AUDIT groups={len(groups)} retained={len(retained)}")
+    return counts
+
+
 def main():
 
     DATA_DIR.mkdir(
@@ -2027,7 +1686,7 @@ def main():
 
     state = {
         "stage1_version":
-            3,
+            4,
 
         "config": {
             "min_downloads":
@@ -2044,6 +1703,7 @@ def main():
 
             "multilingual_min_languages":
                 3,
+            "core_candidate_tier": "A_verified",
         },
 
         "completed_tasks":
@@ -2076,6 +1736,8 @@ def main():
         below_cutoff_streak = 0
 
         cutoff_reached = False
+        cutoff_downloads = None
+        task_error = None
 
 
         try:
@@ -2146,6 +1808,7 @@ def main():
                     ):
 
                         cutoff_reached = True
+                        cutoff_downloads = downloads
 
 
                         print()
@@ -2225,7 +1888,8 @@ def main():
                     (
                         core,
                         low,
-                        fallback,
+                        likely,
+        fallback,
                     ) = partition_rows(
                         all_models
                     )
@@ -2283,6 +1947,7 @@ def main():
 
 
         except Exception as e:
+            task_error = f"{type(e).__name__}: {e}"
 
             print(
                 f"[TASK ERROR] "
@@ -2300,17 +1965,17 @@ def main():
 
             "accepted":
                 accepted,
+            "retained": accepted,
+            "cutoff_downloads": cutoff_downloads,
+            "error": task_error,
 
             "cutoff_reached":
                 cutoff_reached,
         }
 
 
-        state[
-            "completed_tasks"
-        ].append(
-            task
-        )
+        if task_error is None:
+            state["completed_tasks"].append(task)
 
 
         save_all(
@@ -2322,7 +1987,8 @@ def main():
         (
             core,
             low,
-            fallback,
+            likely,
+        fallback,
         ) = partition_rows(
             all_models
         )
@@ -2373,6 +2039,7 @@ def main():
     (
         core,
         low,
+        likely,
         fallback,
     ) = partition_rows(
         all_models
@@ -2405,7 +2072,7 @@ def main():
     print("=" * 80)
 
     print(
-        "STAGE 1 FINISHED"
+        "STAGE 1 SCAN ENDED (validation follows)"
     )
 
     print("=" * 80)
@@ -2442,6 +2109,7 @@ def main():
 
 
     print()
+    print(f"Likely >=100        : {len(likely):,}")
     print("Candidate types:")
 
 
@@ -2533,5 +2201,23 @@ def main():
     )
 
 
+def run_collection():
+    # Checkpoints remain reviewable without replacing the published corpus on failure.
+    output_names = ("CORE_OUTPUT", "LOW_POPULARITY_OUTPUT", "LIKELY_OUTPUT",
+                    "FALLBACK_OUTPUT", "GROUP_OUTPUT", "STATE_OUTPUT")
+    published = {name: globals()[name] for name in output_names}
+    checkpoint_dir = DATA_DIR / ".stage1_v4_checkpoint"
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        for name, path in published.items():
+            globals()[name] = checkpoint_dir / path.name
+        main()
+        validate_outputs()
+        for name, path in published.items():
+            globals()[name].replace(path)
+    finally:
+        globals().update(published)
+
+
 if __name__ == "__main__":
-    main()
+    run_collection()
