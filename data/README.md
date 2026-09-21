@@ -159,8 +159,6 @@ Stage 1 v7 Core와 Low Popularity를 순서대로 처리한다. `TEST_LIMIT=None
 |---|---|
 | `hf_models_stage2_core.jsonl` | Core technical enrichment |
 | `hf_models_stage2_low_popularity.jsonl` | Low Popularity technical enrichment |
-| `hf_models_stage2_core_errors.jsonl` | Core error log |
-| `hf_models_stage2_low_popularity_errors.jsonl` | Low Popularity error log |
 | `readmes/core/` | Core README |
 | `readmes/low_popularity/` | Low Popularity README |
 
@@ -172,12 +170,12 @@ Stage 1 `candidate`, `family`는 그대로 유지하고 `language.stage1`, `popu
 Task는 `task.primary`와 `task.matched`, 최신 인기도는 `popularity.current`에 저장한다.
 추가 language verification은 원본 candidate를 변경하지 않는다.
 
-Pool별 output/error/README/resume/checkpoint를 분리한다. 같은 version·pool·Stage 1 snapshot일 때만 resume으로 skip한다.
+Pool별 output/README/resume/checkpoint를 분리한다. 같은 version·pool·Stage 1 snapshot일 때만 resume으로 skip한다.
 기존 output은 보존하며 같은 model_id가 성공적으로 갱신되면 새 row로 교체한다.
 Stage 1에 없는 항목과 갱신 실패한 이전 row는 추후 정리 전까지 남으므로 이전 version이 섞일 수 있다.
 현재 입력으로 처리한 row만 새 version validation 대상으로 삼는다.
 
-이번 코드 변경에서는 Stage 2 수집을 실행하지 않았다. 먼저 Stage 1 v7를 수집·검증한 뒤 Stage 2를 실행해야 한다.
+Stage 1 v7 검증 후 Core와 Low Popularity 전체 enrichment를 완료했다. 이후 metadata repair도 별도 output 검증 후 반영했다.
 
 ---
 

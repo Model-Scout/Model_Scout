@@ -37,7 +37,7 @@ POOL_CONFIGS = {
     pool: {
         "input": DATA_DIR / f"hf_models_stage1_{pool}.jsonl",
         "output": DATA_DIR / f"hf_models_stage2_{pool}.jsonl",
-        "error": DATA_DIR / f"hf_models_stage2_{pool}_errors.jsonl",
+ # Error rows are reported on stdout; no error JSON artifact is generated.
         "readme_dir": DATA_DIR / "readmes" / pool,
     }
     for pool in SOURCE_POOLS
@@ -148,32 +148,6 @@ def save_jsonl_atomic(
         temp_path,
         path,
     )
-
-
-def append_error(
-    row,
-    error_path,
-):
-
-    error_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    with open(
-        error_path,
-        "a",
-        encoding="utf-8",
-    ) as f:
-
-        f.write(
-            json.dumps(
-                row,
-                ensure_ascii=False,
-            )
-        )
-
-        f.write("\n")
 
 
 # =========================================================
@@ -2182,7 +2156,7 @@ def print_pool_stats(rows, source_pool, success, skipped, errors):
     }
     for label, count in stats.items():
         print(f"[{source_pool}] {label}: {count:,}")
-    for key in ("output", "error", "readme_dir"):
+    for key in ("output", "readme_dir"):
         print(f"[{source_pool}] {key}: {config[key]}")
 
 
@@ -2194,8 +2168,6 @@ def process_pool(source_pool):
     source_by_id = {row["model_id"]: row for row in all_source_rows}
     source_rows = all_source_rows if TEST_LIMIT is None else all_source_rows[:TEST_LIMIT]
     config["readme_dir"].mkdir(parents=True, exist_ok=True)
-    config["error"].parent.mkdir(parents=True, exist_ok=True)
-    config["error"].touch(exist_ok=True)
 
     # Keep compatible prior results outside TEST_LIMIT, too: a small run must not
     # truncate a previously enriched larger corpus. Matching IDs are refreshed.
@@ -2232,11 +2204,6 @@ def process_pool(source_pool):
                     success += 1
                 except Exception as error:
                     errors += 1
-                    append_error({
-                        "model_id": model_id, "source_pool": source_pool,
-                        "error_type": type(error).__name__, "error": str(error),
-                        "stage2_version": STAGE2_VERSION, "created_at": utc_now(),
-                    }, config["error"])
                     print(f"{prefix} ERROR {model_id}: {type(error).__name__}: {error}")
                 time.sleep(REQUEST_SLEEP)
             if index % CHECKPOINT_EVERY == 0:
