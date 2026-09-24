@@ -213,3 +213,22 @@ Final Recommendation
 
 현재 목표는 Stage 1~2를 통해  
 **검색과 추천에 사용할 신뢰 가능한 모델 후보 데이터 기반을 구축하는 것**이다.
+
+## 추천 필터의 미확인 metadata 처리
+
+`model.parameter_count`와 `model.context_length`가 `null`이면 값이 없는 것이 아니라 **정보 미확인(`unknown`)**이다. 추천·하드웨어 필터는 이를 `0` 또는 최솟값으로 변환하면 안 된다.
+
+Stage 2 v6 이후 생성되는 row에는 다음 상태를 함께 기록한다.
+
+```json
+"model": {
+  "parameter_count": null,
+  "context_length": null,
+  "metadata_status": {
+    "parameter_count": "unknown",
+    "context_length": "unknown"
+  }
+}
+```
+
+양수인 신뢰 가능한 값만 `known`으로 표시한다. `unknown` 모델은 사용자가 파라미터 수나 context length를 명시적으로 요구할 때만 제외하고, 일반 후보 검색에서는 별도 표시한 채 유지한다. `hardware.weights_only` 추정치도 파라미터 수가 없으면 `null`로 남긴다.

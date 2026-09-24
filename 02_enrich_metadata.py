@@ -180,6 +180,21 @@ def ensure_list(value):
     return [value]
 
 
+def numeric_metadata_status(value):
+    """Return an explicit status for numeric metadata used by recommenders.
+
+    ``None`` means that the source did not provide a trustworthy value.  It
+    must remain an unknown value and must never be coerced to zero.  Zero and
+    negative values are also treated as unknown because they are not valid
+    parameter counts or context lengths.
+    """
+    if isinstance(value, bool):
+        return "unknown"
+    if isinstance(value, (int, float)) and value > 0:
+        return "known"
+    return "unknown"
+
+
 def safe_get(
     obj,
     key,
@@ -1879,6 +1894,13 @@ def enrich(
                     "evidence"
                 ],
 
+            # ``unknown`` is intentional. Recommendation and hardware
+            # filters must not interpret missing metadata as zero.
+            "metadata_status": {
+                "parameter_count": numeric_metadata_status(parameters),
+                "context_length": numeric_metadata_status(context["value"]),
+            },
+
             "dtype":
                 extract_dtype(
                     config
@@ -2110,6 +2132,15 @@ def validate_stage2_rows(rows, source_pool):
                 reasons.append(f"stage.{key} must be {expected!r}")
         if "stage1" not in row.get("language", {}):
             reasons.append("missing language.stage1 snapshot")
+
+        model = row.get("model", {})
+        metadata_status = model.get("metadata_status", {})
+        for field in ("parameter_count", "context_length"):
+            expected_status = numeric_metadata_status(model.get(field))
+            if metadata_status and metadata_status.get(field) != expected_status:
+                reasons.append(
+                    f"model.metadata_status.{field} must be {expected_status!r}"
+                )
         readme = row.get("source", {}).get("readme", {})
         if readme.get("available"):
             path = readme.get("path")
