@@ -1,234 +1,145 @@
-# Model Scout Data Pipeline
+# Model Scout 데이터 파이프라인
 
-Model Scout의 데이터 파이프라인은 Hugging Face Hub의 모델을 단순 수집하는 것이 아니라,
+이 디렉터리는 Hugging Face 모델을 수집하고, 한국어 근거를 분류하고, 기술 metadata와 근거 기반 semantic metadata를 결합해 추천 검색용 corpus로 만드는 결과를 보관한다.
 
-1. 검색 가능한 후보 모델을 넓게 수집하고
-2. 언어 지원 근거와 popularity를 기준으로 후보군을 분리하고
-3. base model과 quantized / converted variant 관계를 정규화하고
-4. 실제 모델의 기술 metadata와 README를 수집한 뒤
-5. 이후 semantic enrichment와 retrieval index로 확장
-
-하는 구조로 설계한다.
-
-현재 구현 범위는 **Stage 1 ~ Stage 2**이다.
-
-> Stage 3 ~ Stage 4는 아직 구현하지 않았다.
-
----
-
-## 1. 전체 데이터 파이프라인
+## 전체 흐름
 
 ```text
 Hugging Face Hub
-        │
-        ▼
-Stage 1. Candidate Collection
-        │
-        ├─ Task-based Discovery
-        ├─ Adaptive Popularity Cutoff
-        ├─ Noise Filtering
-        ├─ Language Evidence Classification
-        ├─ Popularity Partition
-        ├─ Base-model / Variant Canonicalization
-        └─ Metadata Quality Features
-        │
-        ▼
-Stage 1 Candidate Corpus
-        │
-        ▼
-Stage 2. Metadata Enrichment
-        │
-        ├─ Hugging Face current metadata
-        ├─ config.json
-        ├─ tokenizer_config.json
-        ├─ README.md
-        ├─ Model Card metadata
-        ├─ parameter count
-        ├─ architecture
-        ├─ context length
-        ├─ dtype
-        ├─ quantization
-        ├─ artifact format
-        ├─ license
-        ├─ base model
-        ├─ datasets / metrics
-        ├─ language evidence
-        └─ weight-memory estimate
-        │
-        ▼
-Stage 2 Metadata Corpus
-        │
-        ▼
-Stage 3. Semantic Enrichment
-        │
-        └─ TODO
-        │
-        ▼
-Stage 4. Chunking / Embedding / Retrieval Index
-        │
-        └─ TODO
+  ↓
+Stage 1. deterministic candidate collection
+  ↓
+Stage 2. fact-based technical metadata enrichment
+  ↓
+Stage 3. Atomic Evidence semantic enrichment
+  ↓
+Stage 4. embedding and retrieval index
 ```
 
----
+현재 Stage 1~4 결과와 검색 후 상세 metadata hydrate가 완료되어 있다.
 
-## 2. Stage 1 Candidate Collection — v7
+## Stage 1: Candidate Collection v7
 
-Stage 1은 Hub metadata, model_id, structured Model Card language metadata와 deterministic rule만 사용한다.
-LLM, README fetch, 본문 semantic interpretation은 사용하지 않는다.
+Stage 1은 Hub metadata, model ID, structured language metadata와 deterministic rule만 사용한다. LLM이나 README 본문 해석은 사용하지 않는다.
 
-### 최종 ontology와 우선순위
+### Candidate ontology
 
-아래 순서에서 가장 강한 evidence를 candidate.type으로 선택한다.
-
-| Tier | Type | 근거 |
+| Tier | Type | 의미 |
 |---|---|---|
-| A_verified | `korean_explicit` | structured language metadata에 normalized `ko` 존재 |
-| A_verified | `korean_translation_pair` | 모델 이름에 경계가 명확한 `ko-en`, `en-ko`, `ja-ko` 등 ISO 언어 pair |
-| A_verified | `korean_name_strong` | 보수적인 Korean-specific naming whitelist |
-| B_likely | `multilingual_explicit` | multilingual marker + concrete language 2개 이상 |
-| B_likely | `multilingual_tag_only` | multilingual marker + concrete language 0~1개 |
-| C_fallback | `family_heuristic` | Korean evidence·multilingual marker·concrete language 없이 허용 family만 일치 |
+| `A_verified` | `korean_explicit` | structured language metadata에 normalized `ko`가 존재 |
+| `A_verified` | `korean_translation_pair` | `ko-en`, `en-ko`, `ja-ko` 같은 명시적 번역 언어 pair |
+| `A_verified` | `korean_name_strong` | KoELECTRA, KoBERT, KLUE 등 보수적인 Korean-specific naming |
+| `B_likely` | `multilingual_explicit` | multilingual marker와 concrete language 2개 이상 |
+| `B_likely` | `multilingual_tag_only` | multilingual marker와 concrete language 0~1개 |
+| `C_fallback` | `family_heuristic` | 언어 metadata가 없고 known multilingual family만 일치 |
 
-그 외 type은 허용하지 않는다. Korean evidence가 항상 multilingual보다 우선한다.
-A는 high, B는 medium, C는 low confidence이다. 이는 deterministic evidence 수준이며 실제 한국어 성능 보증은 아니다.
+`Multilingual != Korean verified`이며, family heuristic도 한국어 지원을 보증하지 않는다. Core와 Low Popularity에는 `A_verified`만 들어간다.
 
-- `korean_explicit`: Hub tags, model.language/model.languages, Model Card structured language에서 `ko`, `kor`, `korean`, `ko-kr` 및 `language:` prefix를 정규화한다.
-- `korean_translation_pair`: repo 이름의 완전한 ISO-639-1 token pair를 검사한다. `-`, `_`, `.`, `/` 구분자를 지원하며 owner 이름과 repo 이름을 연결해 pair를 만들지 않는다.
-- `korean_name_strong`: kobert, koelectra, kogpt, kosimcse, ko-sbert, kosbert, korbert, klue, korquad, kullm, kollama, kogemma, koalpaca whitelist를 사용한다. Generic `ko`, `kor`만으로 A가 되지 않는다. Kokoro, koala, kosmos, token, unknown은 strong Korean name이 아니다.
-- Multilingual marker는 multilingual, multilinguality, multi-lingual, multi-language를 정규화한다. Marker는 concrete language count에서 제외한다. Marker 없는 다중 언어 목록만으로 B를 만들지 않는다.
-- Fallback family는 qwen, aya, gemma, llama, mistral, bloom, xlm, mt5, mbert, multilingual-e5, bge-m3이다. 명시적 non-Korean language 목록이 있으면 family fallback을 금지한다.
+### Stage 1 partition
 
-Evidence에는 regex 대신 `explicit_language:korean`, `translation_pair:ko-en`,
-`strong_korean_name:koelectra`, `multilingual_tag`, `explicit_language_list:de,en,fr,ro`, `family:qwen`처럼 의미가 드러나는 label을 저장한다.
+| 파일 | 조건 | 현재 행 수 |
+|---|---|---:|
+| `hf_models_stage1_core.jsonl` | `A_verified` + downloads >= 500 | 1,451 |
+| `hf_models_stage1_low_popularity.jsonl` | `A_verified` + downloads 80~499 | 2,116 |
+| `hf_models_stage1_likely.jsonl` | `B_likely` + downloads >= 80 | 2,070 |
+| `hf_models_stage1_fallback.jsonl` | `C_fallback` + downloads >= 80 | 14,013 |
+| `hf_models_stage1_groups.jsonl` | 네 corpus union의 canonical/variant grouping | 8,472 |
+| `hf_models_stage1_state.json` | version 7, config 및 task 통계 | 1 |
 
-`language.korean_explicit`은 **structured metadata에 ko가 존재하는지**만 나타낸다.
-Translation pair나 strong name으로 A가 되어도 false일 수 있다.
-`language.languages`, `multilingual_marker`, `language_count`, `concrete_language_count`는 candidate 검증과 구분한다.
+Popularity는 model quality가 아니라 offline retrieval priority다. Groups는 candidate confidence가 아니라 canonical/base-model과 quantized/converted variant lineage를 표현한다.
 
-### Popularity / corpus partition
+Stage 1 설정은 `MIN_DOWNLOADS=80`, `CORE_DOWNLOADS=500`, `LIMIT_PER_TASK=None`, `CUTOFF_CONFIRMATION=10`이며, 500 downloads는 Core에 포함된다.
 
-**Core / Low에는 A_verified만 들어간다.**
-**Multilingual != Korean verified. Family heuristic != Korean verified.**
-Popularity는 offline retrieval priority이며 model quality가 아니다.
+## Stage 2: Technical Metadata Enrichment v6
 
-| 파일 | 조건 / 역할 |
-|---|---|
-| `hf_models_stage1_core.jsonl` | A_verified + downloads >= 500 |
-| `hf_models_stage1_low_popularity.jsonl` | A_verified + 80 <= downloads < 500 |
-| `hf_models_stage1_likely.jsonl` | B_likely + downloads >= 80 |
-| `hf_models_stage1_fallback.jsonl` | C_fallback + downloads >= 80 |
-| `hf_models_stage1_groups.jsonl` | 네 corpus union의 canonical/base-model 및 variant lineage grouping |
-| `hf_models_stage1_state.json` | version 7, 실행 설정 및 task 통계 |
-
-**500 downloads는 Core**, 499는 Low이다. 다운로드가 커도 B/C를 Core로 올리지 않는다.
-Groups는 candidate confidence가 아니라 canonical/base-model 및 quantized/converted variant lineage grouping이다.
-기존 task 목록, `MIN_DOWNLOADS=80`, `CORE_DOWNLOADS=500`, `LIMIT_PER_TASK=None`,
-`CUTOFF_CONFIRMATION=10`, grouping 및 metadata completeness score 구조를 유지한다.
-
-State는 `core_downloads_inclusive=true`를 기록하고 checkpoint 경로는 `.stage1_v7_checkpoint/`처럼 version에서 생성한다.
-같은 tier에서도 `TYPE_RANK`로 더 강한 type을 선택하며 matched_tasks 및 기존 evidence를 병합·중복 제거한다.
-
-### 검증 및 실행 상태
-
-`validate_outputs()`는 각 corpus의 tier/type, 다운로드 경계, deterministic evidence, 중복 ID, version,
-metadata flag, groups와 corpus union의 일치를 검증한다.
-CORE AUDIT / LOW AUDIT에 total, korean_explicit, korean_translation_pair, korean_name_strong, invalid_type을 출력한다.
-`invalid_type=0`이어야 하며 B/C type은 Core/Low에 하나도 허용하지 않는다.
-
-```bash
-source ~/main/bin/activate
-python -m py_compile 01_collect_models.py
-python -m unittest -v test_stage1
-```
-
-요청된 20개 fake-model regression과 추가 invariant 검증은 네트워크 없이 실행한다.
-오염 audit은 임시 synthetic corpus를 대상으로 하며 기존 실제 JSONL을 v7 결과라고 주장하지 않는다.
-**이번 작업에서는 전체 collection, 기존 JSONL 재생성, Stage 2 실행, Supabase 작업을 수행하지 않았다.**
-새 v7 결과는 다음 전체 Stage 1 실행이 완료·검증된 후 생성된다.
-
-Stage 2는 v7 ontology에 맞춰 version 6으로 갱신되었다. 이번 호환성 수정에서는 enrichment를 실행하지 않았다.
-
----
-
-## 3. Stage 2 — Fact-based Technical Metadata Enrichment (v6)
-
-Stage 1 v7 Core와 Low Popularity를 순서대로 처리한다. `TEST_LIMIT=None`으로 전체가 대상이며 Likely/Fallback은 아직 enrichment하지 않는다.
-기존 technical metadata 수집 기능을 유지하고 LLM이나 semantic interpretation은 사용하지 않는다.
+Stage 2는 Core와 Low Popularity만 처리한다. Likely와 Fallback은 아직 enrichment하지 않는다. LLM을 사용하지 않고 Hugging Face current metadata, config, tokenizer config, README, model card metadata를 수집한다.
 
 | 파일 | 역할 |
 |---|---|
-| `hf_models_stage2_core.jsonl` | Core technical enrichment |
-| `hf_models_stage2_low_popularity.jsonl` | Low Popularity technical enrichment |
-| `readmes/core/` | Core README |
-| `readmes/low_popularity/` | Low Popularity README |
+| `hf_models_stage2_core.jsonl` | Core technical metadata, 1,451개 |
+| `hf_models_stage2_low_popularity.jsonl` | Low Popularity technical metadata, 2,116개 |
+| `readmes/core/` | Core README, 1,447개 |
+| `readmes/low_popularity/` | Low Popularity README, 2,110개 |
 
-`stage.source_stage1_version=7`, `stage.stage2_version=6`로 기록한다.
-입력 및 output validation은 A의 `korean_explicit`, `korean_translation_pair`, `korean_name_strong`을 허용한다.
-Core는 Stage 1 downloads >= 500, Low는 80~499이어야 한다. 현재 다운로드로 pool을 재분류하지 않는다.
+각 row는 Stage 1 snapshot을 `candidate`, `language.stage1`, `popularity.stage1`, `stage1_quality`에 보존한다. 현재 metadata는 `stage.source_stage1_version=7`, `stage.stage2_version=6`으로 기록된다.
 
-Stage 1 `candidate`, `family`는 그대로 유지하고 `language.stage1`, `popularity.stage1`, `stage1_quality`에 원본 snapshot을 보존한다.
-Task는 `task.primary`와 `task.matched`, 최신 인기도는 `popularity.current`에 저장한다.
-추가 language verification은 원본 candidate를 변경하지 않는다.
+`parameter_count`와 `context_length`가 `null`이면 0이 아니라 `unknown`이다. 각 row의 `model.metadata_status`에서 `known`과 `unknown`을 구분한다. 추천 필터가 해당 값을 요구할 때만 unknown을 제외하고, 일반 검색에서는 별도로 표시한다.
 
-Pool별 output/README/resume/checkpoint를 분리한다. 같은 version·pool·Stage 1 snapshot일 때만 resume으로 skip한다.
-기존 output은 보존하며 같은 model_id가 성공적으로 갱신되면 새 row로 교체한다.
-Stage 1에 없는 항목과 갱신 실패한 이전 row는 추후 정리 전까지 남으므로 이전 version이 섞일 수 있다.
-현재 입력으로 처리한 row만 새 version validation 대상으로 삼는다.
+## Stage 3: Atomic Evidence Semantic Enrichment v1
 
-Stage 1 v7 검증 후 Core와 Low Popularity 전체 enrichment를 완료했다. 이후 metadata repair도 별도 output 검증 후 반영했다.
+Stage 3는 Stage 2의 Core와 Low Popularity를 대상으로 저비용 LLM을 사용해 README에서 atomic evidence span을 만들고, 각 semantic claim에 `evidence_refs`와 정확한 `supporting_quote`를 붙인다. candidate tier와 popularity를 재분류하지 않는다.
 
----
+| 파일 | 역할 |
+|---|---|
+| `hf_models_stage3_core.jsonl` | Core semantic metadata, 1,451개 |
+| `hf_models_stage3_low_popularity.jsonl` | Low Popularity semantic metadata, 2,116개 |
 
-## Summary
+Core는 41개, Low는 84개의 긴 README를 full-readme repair로 보강했고, 현재 남은 잘림은 0개다. README 자체가 없는 모델은 Core 4개, Low 6개이며 `no_source`와 metadata-only 상태로 보존한다.
 
-현재 파이프라인은 다음 두 단계까지 구현되어 있다.
+Stage 3 검증 결과는 두 pool 모두 중복 0, invalid evidence reference 0, uncited claim 0, quote mismatch 0이다.
 
-```text
-Stage 1
-Hugging Face 모델 공간
-→ 검색 가능한 candidate corpus로 정규화
+## Stage 4: Embedding and Retrieval Index
 
-Stage 2
-Candidate corpus
-→ 실제 Hugging Face metadata 기반 technical enrichment
-```
+Stage 4 입력은 Stage 3 Core와 Low Popularity다. Likely와 Fallback은 이번 인덱스에서 제외한다.
 
-이후에는 다음 흐름으로 확장할 예정이다.
+`04_build_embeddings.py`는 다음 문서를 만든다.
 
 ```text
-사용자 요구사항
-        ↓
-Hard Constraint
-        ↓
-Candidate Retrieval
-        ↓
-Semantic / Metadata Matching
-        ↓
-Variant / Hardware Matching
-        ↓
-Ranking
-        ↓
-Final Recommendation
+identity, task, Korean evidence, languages,
+architecture, parameters, context length,
+quantization, artifacts, license, base model,
+hardware estimate, popularity,
+Stage 3 summary/strengths/limitations/use cases/benchmarks
 ```
 
-현재 목표는 Stage 1~2를 통해  
-**검색과 추천에 사용할 신뢰 가능한 모델 후보 데이터 기반을 구축하는 것**이다.
+검색은 다음 순서를 사용한다.
 
-## 추천 필터의 미확인 metadata 처리
+```text
+hard filter → vector retrieval → evidence-aware rerank → canonical deduplication
 
-`model.parameter_count`와 `model.context_length`가 `null`이면 값이 없는 것이 아니라 **정보 미확인(`unknown`)**이다. 추천·하드웨어 필터는 이를 `0` 또는 최솟값으로 변환하면 안 된다.
-
-Stage 2 v6 이후 생성되는 row에는 다음 상태를 함께 기록한다.
-
-```json
-"model": {
-  "parameter_count": null,
-  "context_length": null,
-  "metadata_status": {
-    "parameter_count": "unknown",
-    "context_length": "unknown"
-  }
-}
+Hugging Face task metadata와 모델 identity가 충돌하면 `task_conflict`를 기록한다. 해당 모델을 삭제하지 않고 ranking penalty만 적용해 recall을 유지한다. 현재 Core 4개, Low Popularity 7개가 conflict signal을 갖고 있으며, 기존 임베딩을 재생성하지 않고 오프라인으로 추가했다.
 ```
 
-양수인 신뢰 가능한 값만 `known`으로 표시한다. `unknown` 모델은 사용자가 파라미터 수나 context length를 명시적으로 요구할 때만 제외하고, 일반 후보 검색에서는 별도 표시한 채 유지한다. `hardware.weights_only` 추정치도 파라미터 수가 없으면 `null`로 남긴다.
+벡터 유사도만으로 언어·라이선스·하드웨어 조건을 판단하지 않는다. unknown parameter/context는 0으로 변환하지 않는다.
+
+Stage 4 설계는 이 문서의 Stage 4 설명과 실행 코드에 반영되어 있다. 실행기는 기본적으로 dry-run이며, `--execute`를 명시할 때만 `text-embedding-3-small` API를 호출한다.
+
+```bash
+source ~/main/bin/activate
+python 04_build_embeddings.py --pool all --limit 10
+python 04_build_embeddings.py --pool all --limit 10 --execute
+```
+
+10개 stratified pilot은 `test/stage4_core_pilot.jsonl`과 `test/stage4_low_popularity_pilot.jsonl`에 임시로 기록된다. 전체 Stage 4 검증이 끝난 뒤에는 삭제해도 되며, task, candidate type, variant, evidence completeness, no_source를 섞어 선택한다.
+
+## Benchmark 보조 신호
+
+Stage 2 README snapshot의 benchmark 표와 `model-index` 수치는 `06_extract_benchmark_metadata.py`로 별도 sidecar에 저장한다.
+
+| 파일 | 역할 |
+|---|---|
+| `hf_models_benchmark_core.jsonl` | Core의 benchmark 근거와 안전한 비교 가능 점수 |
+| `hf_models_benchmark_low_popularity.jsonl` | Low Popularity의 benchmark 근거와 안전한 비교 가능 점수 |
+
+숫자 없이 benchmark 이름만 있는 경우는 `mentions`로 보존한다. 표의 모델 열과 점수 열이 연결되지 않거나 현재 row의 모델명이 확인되지 않으면 순위에 사용하지 않는다. architecture, parameter, context, quantization, format, embedding dimension 같은 metadata 표도 benchmark 점수로 취급하지 않는다. 양자화 변형은 보고된 모델명에 GGUF/GPTQ/AWQ/MLX/ONNX/bit 등의 표기가 함께 있을 때만 현재 artifact의 점수로 인정한다.
+
+숫자 점수는 질의가 dataset과 metric을 명시한 경우에만 동일한 `benchmark + dataset + metric + split + config`끼리 비교한다. README의 self-reported 수치는 실험 조건과 최신성을 보장하지 않으므로 보조 순위 신호로만 사용하며, task·한국어 근거·popularity·canonical 중복 제거를 대체하지 않는다.
+
+### Benchmark metadata 통합
+
+Benchmark 보조 정보는 `07_integrate_benchmark_metadata.py`로 Stage 4 각 row 안의 compact `benchmark_metadata` 필드에 통합한다. 검색기는 이 내장 필드를 우선 사용하므로 별도 benchmark sidecar 파일은 런타임에 필요하지 않다. 점수 없는 benchmark 이름은 `mentions`로 보존하고 ranking boost에는 사용하지 않는다. 원문 quote가 필요하면 row의 README 경로와 Stage 3 evidence를 함께 조회한다.
+## 검색 결과 상세 정보 연결
+
+Stage 4 row는 임베딩 검색과 필터링에 필요한 compact metadata를 보관한다. 검색 후에는
+`05_validate_retrieval.py`의 hydrate 함수가 `(source_pool, model_id)`를 키로 Stage 2와 Stage 3 row를
+hydrate한다.
+
+Hydrate 결과에는 다음 정보가 추가된다.
+
+- Stage 2 technical metadata: architecture, parameter count, context length, quantization, artifacts, license, hardware
+- Stage 3 semantic metadata: summary, strengths, limitations, use cases, warnings
+- claim별 `evidence_refs`, `supporting_quote`, README 경로와 content hash
+- Stage 1~3 provenance와 semantic status
+
+전체 README를 임베딩 결과에 중복 저장하지 않는다. 검색 순위는 Stage 4가 담당하고,
+상위 결과의 상세 설명과 근거는 Stage 2·3에서 정확히 조회한다.
