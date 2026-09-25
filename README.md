@@ -146,7 +146,7 @@ Hugging Face에서 모델을 수집하고, 모델 카드와 메타데이터를 �
 | 모델 카드 구조화 | LLM 배치 처리 |
 | 모델 검색 | 메타데이터 필터 + 벡터 검색 |
 | 임베딩 모델 | BGE-M3 등 후보 비교 후 결정 |
-| 데이터 저장 | PostgreSQL + Qdrant / pgvector 후보 |
+| 데이터 저장 | Supabase PostgreSQL + pgvector (`model_scout_models`) |
 | 백엔드 | FastAPI |
 | UI | Streamlit |
 
@@ -246,4 +246,3 @@ Step 1에서 만든 요구사항들을 다시 시스템에 넣어본다.
 - 조건 위반 / 잘못된 라이선스 판정 같은 치명적 오류가 얼마나 발생하는가
 
 구체적인 목표 수치는 테스트 데이터를 만든 뒤 정한다.
-

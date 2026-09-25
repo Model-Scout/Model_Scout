@@ -112,6 +112,12 @@ def digest(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
+def source_stage2_hash(row: Dict[str, Any]) -> str:
+    """Return a stable fingerprint for TTL-safe Stage 3 resume decisions."""
+    payload = json.dumps(row, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return digest(payload)
+
+
 def normalize(value: str) -> str:
     return " ".join(value.casefold().replace("_", " ").replace("-", " ").split())
 
@@ -383,14 +389,19 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
         model_id = row["model_id"]
         old = existing.get(model_id)
         old_stage = old.get("stage3", {}) if old else {}
-        if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") == PROMPT_VERSION:
+        current_stage2_hash = source_stage2_hash(row)
+        previous_stage2_hash = old_stage.get("source_stage2_hash") if old else None
+        if previous_stage2_hash is None and old and old.get("source_stage2"):
+            previous_stage2_hash = source_stage2_hash(old["source_stage2"])
+        if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") == PROMPT_VERSION and previous_stage2_hash == current_stage2_hash:
             stats["skipped"] += 1; continue
-        if old: replace_row(output_path, model_id)
+        if old and not dry_run: replace_row(output_path, model_id)
         text, readme = load_source(row)
-        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
+        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
         if not text:
             result = {"model_id": model_id, "source_pool": pool, "status": "no_source", "source_stage2": row, "semantic": None, "evidence": {"readme": readme, "spans": []}, "stage3": stage}
-            append_jsonl(output_path, result); stats["completed"] += 1; stats["no_source"] += 1; continue
+            if not dry_run: append_jsonl(output_path, result)
+            stats["completed"] += 1; stats["no_source"] += 1; continue
         spans, field_ids = route_spans(atomic_spans(text))
         messages = build_prompt(row, spans, field_ids)
         try:
@@ -404,7 +415,8 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
             checks = validate(semantic, spans)
             stage["semantic_enriched"] = True; stage["enriched_at"] = utc_now()
             result = {"model_id": model_id, "source_pool": pool, "status": "completed", "source_stage2": row, "semantic": semantic, "evidence": {"readme": readme, "field_evidence_ids": field_ids, "spans": spans, "prompt_token_estimate": sum(len(message["content"].split()) for message in messages)}, "validation": checks, "stage3": stage}
-            append_jsonl(output_path, result); existing[model_id] = result; stats["completed"] += 1
+            if not dry_run: append_jsonl(output_path, result); existing[model_id] = result
+            stats["completed"] += 1
         except Exception as exc:
             error = {"model_id": model_id, "source_pool": pool, "status": "error", "error_type": type(exc).__name__, "error": str(exc), "stage3_version": STAGE3_VERSION, "created_at": utc_now()}
             append_jsonl(error_path, error); stats["errors"] += 1

@@ -114,12 +114,14 @@ python 04_build_embeddings.py --pool all --limit 10 --execute
 
 ## Benchmark 보조 신호
 
-Stage 2 README snapshot의 benchmark 표와 `model-index` 수치는 `06_extract_benchmark_metadata.py`로 별도 sidecar에 저장한다.
+Stage 2 README snapshot의 benchmark 표와 `model-index` 수치는 `06_extract_benchmark_metadata.py`로
+추출한 뒤 `07_integrate_benchmark_metadata.py`로 Stage 4 row에 통합한다. 별도 benchmark
+sidecar는 최종 검색 corpus에 필요하지 않다.
 
 | 파일 | 역할 |
 |---|---|
-| `hf_models_benchmark_core.jsonl` | Core의 benchmark 근거와 안전한 비교 가능 점수 |
-| `hf_models_benchmark_low_popularity.jsonl` | Low Popularity의 benchmark 근거와 안전한 비교 가능 점수 |
+| `hf_models_stage4_core.jsonl`의 `benchmark_metadata` | Core benchmark 근거와 안전한 비교 가능 점수 |
+| `hf_models_stage4_low_popularity.jsonl`의 `benchmark_metadata` | Low Popularity benchmark 근거와 안전한 비교 가능 점수 |
 
 숫자 없이 benchmark 이름만 있는 경우는 `mentions`로 보존한다. 표의 모델 열과 점수 열이 연결되지 않거나 현재 row의 모델명이 확인되지 않으면 순위에 사용하지 않는다. architecture, parameter, context, quantization, format, embedding dimension 같은 metadata 표도 benchmark 점수로 취급하지 않는다. 양자화 변형은 보고된 모델명에 GGUF/GPTQ/AWQ/MLX/ONNX/bit 등의 표기가 함께 있을 때만 현재 artifact의 점수로 인정한다.
 
@@ -143,3 +145,48 @@ Hydrate 결과에는 다음 정보가 추가된다.
 
 전체 README를 임베딩 결과에 중복 저장하지 않는다. 검색 순위는 Stage 4가 담당하고,
 상위 결과의 상세 설명과 근거는 Stage 2·3에서 정확히 조회한다.
+
+## Supabase 적재와 증분 TTL 갱신
+
+Supabase에는 추천 검색에 필요한 Core와 Low Popularity만 적재한다. Likely, Fallback, 원문
+README 파일, pilot 파일과 검증 리포트는 DB 적재 대상이 아니다. 적재 row에는 Stage 4
+1536차원 embedding, 검색용 compact metadata, Stage 2 technical metadata, Stage 3 semantic
+claims와 evidence span, benchmark metadata, 각 Stage version을 함께 보존한다.
+
+스키마와 적재기는 다음 파일에 있다.
+
+```text
+supabase_schema.sql
+08_sync_supabase.py
+```
+
+최초 1회만 현재 로컬 snapshot을 적재한다.
+
+```bash
+python 08_sync_supabase.py --initial --apply
+```
+
+최초 적재 이후 전체 Hugging Face scan이나 전체 corpus 재적재는 허용하지 않는다. TTL이
+만료되면 마지막 성공 sync의 `source_watermark` 이후 `last_modified`가 바뀐 모델만
+Hugging Face task별로 검색한다. 변경된 모델만 Stage 2·3·4 resume 파이프라인을 통과하고,
+변경된 row만 Supabase에 upsert한다. 후보에서 탈락한 기존 모델은 `active=false`로
+비활성화한다.
+
+```bash
+MODEL_SCOUT_TTL_HOURS=24 \
+python 08_sync_supabase.py --refresh --apply
+```
+
+`--force`를 붙여도 전체 갱신으로 바뀌지 않고, TTL만 무시한 증분 갱신을 수행한다.
+성공한 sync가 없으면 `--refresh`는 안전을 위해 중단되며 최초 적재를 자동으로 대신하지
+않는다.
+
+실제 자동 실행은 macOS launchd, cron, GitHub Actions 중 하나에서 증분 명령을 주기적으로
+호출하면 된다. 컴퓨터가 꺼져 있어도 실행해야 하면 저장소의
+`.github/workflows/model-scout-incremental.yml`을 사용한다. 이 workflow는 매시간 시작되지만
+worker의 24시간 TTL 때문에 실제 Hugging Face 탐색과 Stage 1~4 처리는 하루에 최대 한 번만
+수행한다. GitHub 저장소 Secrets에 `HF_TOKEN`, `OPENAI_API_KEY`,
+`SUPABASE_DB_HOST`, `SUPABASE_DB_PORT`, `SUPABASE_DB_NAME`, `SUPABASE_DB_USER`,
+`SUPABASE_PASSWORD`를 등록해야 한다. 실행 뒤 변경된 Stage 1~4 snapshot과 README 상태를
+commit해 다음 실행의 증분 기준으로 보존한다. 스크립트 자체는 TTL과 watermark를 Supabase에
+기록하므로 중복 실행 시 변경사항이 없으면 아무 row도 다시 처리하지 않는다.

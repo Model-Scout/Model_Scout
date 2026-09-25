@@ -1,0 +1,720 @@
+#!/usr/bin/env python3
+"""Load the final Core/Low recommendation corpus into Supabase.
+
+The default mode is offline validation. ``--initial --apply`` is a one-time
+snapshot load. After initialization, ``--refresh --apply`` uses the previous
+Supabase watermark to scan only Hugging Face models whose ``last_modified``
+changed, runs Stage 2-4 resume processing only for eligible changed models,
+and upserts only those rows. It never performs a full refresh.
+
+The script intentionally excludes Likely, Fallback, raw README files, pilot
+outputs, and validation reports. Full README text is not duplicated in the
+database; Stage 3 evidence spans and provenance are retained instead.
+"""
+
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import json
+import os
+import subprocess
+import sys
+import uuid
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parent
+DATA_DIR = ROOT / "data"
+SCHEMA_PATH = ROOT / "supabase_schema.sql"
+POOLS = ("core", "low_popularity")
+EXPECTED_VERSIONS = {"stage1": 7, "stage2": 6, "stage3": 1, "stage4": 1}
+DEFAULT_TTL_HOURS = 24
+DEFAULT_BATCH_SIZE = 100
+
+
+def read_jsonl(path: Path) -> List[Dict[str, Any]]:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    return [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+
+def json_text(value: Any) -> str:
+    return json.dumps(value if value is not None else {}, ensure_ascii=False, separators=(",", ":"))
+
+
+def vector_literal(values: Sequence[float]) -> str:
+    return "[" + ",".join(format(float(value), ".9g") for value in values) + "]"
+
+
+def load_corpora() -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+    stage4: List[Dict[str, Any]] = []
+    stage2: Dict[str, Dict[str, Any]] = {}
+    stage3: Dict[str, Dict[str, Any]] = {}
+    for pool in POOLS:
+        stage4.extend(read_jsonl(DATA_DIR / f"hf_models_stage4_{pool}.jsonl"))
+        for row in read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl"):
+            stage2[row["model_id"]] = row
+        for row in read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl"):
+            stage3[row["model_id"]] = row
+    return stage4, stage2, stage3
+
+
+def validate_corpus(
+    stage4: Sequence[Dict[str, Any]],
+    stage2: Dict[str, Dict[str, Any]],
+    stage3: Dict[str, Dict[str, Any]],
+) -> Dict[str, Any]:
+    problems: List[str] = []
+    ids = [row.get("model_id") for row in stage4]
+    if len(ids) != len(set(ids)):
+        problems.append("duplicate Stage 4 model_id")
+    pool_counts = {pool: 0 for pool in POOLS}
+    for row in stage4:
+        model_id = row.get("model_id")
+        pool = row.get("source_pool")
+        if pool not in POOLS:
+            problems.append(f"{model_id}: invalid source_pool={pool!r}")
+            continue
+        pool_counts[pool] += 1
+        if row.get("source_stage1_version") != EXPECTED_VERSIONS["stage1"]:
+            problems.append(f"{model_id}: Stage 1 version mismatch")
+        if row.get("source_stage2_version") != EXPECTED_VERSIONS["stage2"]:
+            problems.append(f"{model_id}: Stage 2 version mismatch")
+        if row.get("source_stage3_version") != EXPECTED_VERSIONS["stage3"]:
+            problems.append(f"{model_id}: Stage 3 version mismatch")
+        if row.get("embedding_dimensions") != 1536:
+            problems.append(f"{model_id}: embedding dimension is not 1536")
+        embedding = row.get("embedding")
+        if not isinstance(embedding, list) or len(embedding) != 1536:
+            problems.append(f"{model_id}: invalid embedding")
+        candidate = row.get("candidate") or {}
+        if candidate.get("tier") != "A_verified":
+            problems.append(f"{model_id}: non-A candidate in DB corpus")
+        if model_id not in stage2:
+            problems.append(f"{model_id}: missing Stage 2 detail")
+        if model_id not in stage3:
+            problems.append(f"{model_id}: missing Stage 3 detail")
+    if problems:
+        raise ValueError("Supabase corpus validation failed:\n" + "\n".join(problems[:30]))
+    return {"rows": len(stage4), "pool_counts": pool_counts, "stage2_rows": len(stage2), "stage3_rows": len(stage3)}
+
+
+def provenance(stage2: Dict[str, Any], stage3: Dict[str, Any]) -> Dict[str, Any]:
+    source = stage2.get("source") or {}
+    readme = source.get("readme") or {}
+    return {
+        "hub": source.get("hub") or {},
+        "config": source.get("config") or {},
+        "tokenizer_config": source.get("tokenizer_config") or {},
+        "model_card": source.get("model_card") or {},
+        "readme": {
+            key: readme.get(key)
+            for key in ("available", "path", "original_chars", "saved_chars", "truncated", "error")
+            if key in readme
+        },
+        "stage2": stage2.get("stage") or {},
+        "stage3": stage3.get("stage3") or {},
+        "validation": stage3.get("validation") or {},
+    }
+
+
+def payloads(
+    stage4: Sequence[Dict[str, Any]],
+    stage2: Dict[str, Dict[str, Any]],
+    stage3: Dict[str, Dict[str, Any]],
+    run_id: str,
+) -> List[Tuple[Any, ...]]:
+    rows: List[Tuple[Any, ...]] = []
+    now = datetime.now(timezone.utc)
+    for row in stage4:
+        model_id = row["model_id"]
+        source2 = stage2[model_id]
+        source3 = stage3[model_id]
+        technical = {
+            "model": source2.get("model") or {},
+            "quantization": source2.get("quantization") or {},
+            "artifacts": source2.get("artifacts") or {},
+            "hardware": source2.get("hardware") or {},
+            "license": source2.get("license"),
+            "base_models": source2.get("base_models") or [],
+            "datasets": source2.get("datasets") or [],
+            "metrics": source2.get("metrics") or [],
+        }
+        rows.append(
+            (
+                model_id,
+                row["source_pool"],
+                row["source_stage1_version"],
+                row["source_stage2_version"],
+                row["source_stage3_version"],
+                EXPECTED_VERSIONS["stage4"],
+                json_text(row.get("candidate")),
+                json_text(row.get("task")),
+                json_text(source2.get("language")),
+                json_text(source2.get("popularity")),
+                json_text(source2.get("family")),
+                json_text(row.get("filter_metadata")),
+                json_text(technical),
+                json_text(source3.get("semantic")),
+                json_text(source3.get("evidence")),
+                json_text(row.get("benchmark_metadata")),
+                json_text(provenance(source2, source3)),
+                json_text(row.get("task_consistency")),
+                row.get("document_hash"),
+                row.get("embedding_model") or "text-embedding-3-small",
+                row.get("embedding_dimensions") or 1536,
+                vector_literal(row["embedding"]),
+                run_id,
+                now,
+            )
+        )
+    return rows
+
+
+def db_connection():
+    import psycopg2
+
+    required = ("SUPABASE_DB_HOST", "SUPABASE_DB_PORT", "SUPABASE_DB_NAME", "SUPABASE_DB_USER", "SUPABASE_PASSWORD")
+    missing = [name for name in required if not os.getenv(name)]
+    if missing:
+        raise RuntimeError("Missing Supabase environment variables: " + ", ".join(missing))
+    return psycopg2.connect(
+        host=os.environ["SUPABASE_DB_HOST"],
+        port=int(os.environ["SUPABASE_DB_PORT"]),
+        dbname=os.environ["SUPABASE_DB_NAME"],
+        user=os.environ["SUPABASE_DB_USER"],
+        password=os.environ["SUPABASE_PASSWORD"],
+        sslmode="require",
+        connect_timeout=15,
+    )
+
+
+def apply_sync(
+    rows: Sequence[Tuple[Any, ...]],
+    run_id: str,
+    batch_size: int,
+    *,
+    incremental: bool = False,
+    removed_ids: Sequence[str] = (),
+    source_watermark: Optional[str] = None,
+    corpus_rows: Optional[int] = None,
+) -> Dict[str, Any]:
+    import psycopg2.extras
+
+    stage_versions = dict(EXPECTED_VERSIONS)
+    stage_versions["sync_mode"] = "incremental" if incremental else "initial"
+    if source_watermark:
+        stage_versions["source_watermark"] = source_watermark
+    if corpus_rows is not None:
+        stage_versions["corpus_rows"] = corpus_rows
+
+    statement = """
+        insert into public.model_scout_models (
+            model_id, source_pool, source_stage1_version, source_stage2_version,
+            source_stage3_version, source_stage4_version, candidate, task, language,
+            popularity, family, filter_metadata, technical_metadata, semantic_metadata,
+            evidence, benchmark_metadata, source_provenance, task_consistency,
+            document_hash, embedding_model, embedding_dimensions, embedding,
+            last_seen_run, refreshed_at
+        ) values %s
+        on conflict (model_id) do update set
+            source_pool = excluded.source_pool,
+            source_stage1_version = excluded.source_stage1_version,
+            source_stage2_version = excluded.source_stage2_version,
+            source_stage3_version = excluded.source_stage3_version,
+            source_stage4_version = excluded.source_stage4_version,
+            candidate = excluded.candidate,
+            task = excluded.task,
+            language = excluded.language,
+            popularity = excluded.popularity,
+            family = excluded.family,
+            filter_metadata = excluded.filter_metadata,
+            technical_metadata = excluded.technical_metadata,
+            semantic_metadata = excluded.semantic_metadata,
+            evidence = excluded.evidence,
+            benchmark_metadata = excluded.benchmark_metadata,
+            source_provenance = excluded.source_provenance,
+            task_consistency = excluded.task_consistency,
+            document_hash = excluded.document_hash,
+            embedding_model = excluded.embedding_model,
+            embedding_dimensions = excluded.embedding_dimensions,
+            embedding = excluded.embedding,
+            last_seen_run = excluded.last_seen_run,
+            active = true,
+            stale_at = null,
+            refreshed_at = excluded.refreshed_at,
+            updated_at = now()
+    """
+    template = "(" + ", ".join(
+        ["%s"] * 6
+        + ["%s::jsonb"] * 12
+        + ["%s"] * 3
+        + ["%s::vector", "%s", "%s"]
+    ) + ")"
+
+    conn = db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                verify_vector_extension(cur)
+                cur.execute(schema_sql_without_extension())
+                cur.execute(
+                    """
+                    insert into public.model_scout_sync_runs
+                        (run_id, status, stage_versions, row_count)
+                    values (%s, 'running', %s::jsonb, %s)
+                    """,
+                    (run_id, json_text(stage_versions), len(rows)),
+                )
+                if rows:
+                    psycopg2.extras.execute_values(
+                        cur,
+                        statement,
+                        rows,
+                        template=template,
+                        page_size=batch_size,
+                    )
+
+                if incremental:
+                    if removed_ids:
+                        cur.execute(
+                            """
+                            update public.model_scout_models
+                            set active = false, stale_at = now(), updated_at = now()
+                            where model_id = any(%s)
+                              and active = true
+                            """,
+                            (list(removed_ids),),
+                        )
+                        deactivated = cur.rowcount
+                    else:
+                        deactivated = 0
+                else:
+                    cur.execute(
+                        """
+                        update public.model_scout_models
+                        set active = false, stale_at = now(), updated_at = now()
+                        where source_pool in ('core', 'low_popularity')
+                          and active = true
+                          and last_seen_run is distinct from %s::uuid
+                        """,
+                        (run_id,),
+                    )
+                    deactivated = cur.rowcount
+
+                cur.execute(
+                    """
+                    update public.model_scout_sync_runs
+                    set status = 'completed', completed_at = now()
+                    where run_id = %s::uuid
+                    """,
+                    (run_id,),
+                )
+        return {
+            "run_id": run_id,
+            "sync_mode": stage_versions["sync_mode"],
+            "upserted": len(rows),
+            "deactivated": deactivated,
+            "corpus_rows": corpus_rows,
+        }
+    except Exception as exc:
+        try:
+            conn.rollback()
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    update public.model_scout_sync_runs
+                    set status = 'failed', completed_at = now(), error = %s
+                    where run_id = %s::uuid
+                    """,
+                    (str(exc)[:2000], run_id),
+                )
+            conn.commit()
+        except Exception:
+            pass
+        raise
+    finally:
+        conn.close()
+
+
+
+def ensure_schema() -> None:
+    conn = db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                verify_vector_extension(cur)
+                cur.execute(schema_sql_without_extension())
+    finally:
+        conn.close()
+
+
+
+def schema_sql_without_extension() -> str:
+    """Return schema DDL without re-creating an existing pgvector extension."""
+    lines = SCHEMA_PATH.read_text(encoding="utf-8").splitlines()
+    return "\n".join(
+        line for line in lines
+        if line.strip().lower() != "create extension if not exists vector;"
+    )
+
+
+def verify_vector_extension(cur: Any) -> None:
+    """Fail clearly when the Supabase project has not enabled pgvector."""
+    cur.execute("select 1 from pg_extension where extname = 'vector'")
+    if cur.fetchone() is None:
+        raise RuntimeError(
+            "Supabase pgvector extension is not enabled. Enable the vector extension "
+            "once in the Supabase dashboard, then rerun this command."
+        )
+
+def ttl_is_fresh(metadata: Optional[Dict[str, Any]], ttl_hours: float) -> bool:
+    if not metadata:
+        return False
+    completed = parse_utc(metadata.get("completed_at"))
+    if completed is None:
+        return False
+    return completed >= datetime.now(timezone.utc) - timedelta(hours=ttl_hours)
+
+
+
+def run_command(command: Sequence[str]) -> None:
+    print("RUN", " ".join(command), flush=True)
+    subprocess.run(command, cwd=ROOT, check=True)
+
+
+def parse_utc(value: Any) -> Optional[datetime]:
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+
+def latest_completed_sync() -> Optional[Dict[str, Any]]:
+    conn = db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                select run_id, completed_at, stage_versions, row_count
+                from public.model_scout_sync_runs
+                where status = 'completed'
+                  and stage_versions @> %s::jsonb
+                order by completed_at desc
+                limit 1
+                """,
+                (json_text(EXPECTED_VERSIONS),),
+            )
+            row = cur.fetchone()
+            if not row:
+                return None
+            versions = row[2] if isinstance(row[2], dict) else json.loads(row[2] or "{}")
+            completed = row[1].isoformat() if hasattr(row[1], "isoformat") else str(row[1])
+            return {
+                "run_id": str(row[0]),
+                "completed_at": completed,
+                "stage_versions": versions,
+                "row_count": row[3],
+            }
+    finally:
+        conn.close()
+
+
+
+
+def load_stage1_module() -> Any:
+    source = ROOT / "01_collect_models.py"
+    spec = importlib.util.spec_from_file_location("model_scout_stage1_incremental", source)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Could not load {source}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
+    """Scan only Hugging Face models modified after the previous sync watermark."""
+    from huggingface_hub import HfApi
+
+    stage1 = load_stage1_module()
+    source_paths = (
+        DATA_DIR / "hf_models_stage1_core.jsonl",
+        DATA_DIR / "hf_models_stage1_low_popularity.jsonl",
+        DATA_DIR / "hf_models_stage1_likely.jsonl",
+        DATA_DIR / "hf_models_stage1_fallback.jsonl",
+    )
+    all_models: Dict[str, Dict[str, Any]] = {}
+    for source_path in source_paths:
+        for row in read_jsonl(source_path):
+            model_id = row.get("model_id")
+            if model_id:
+                all_models[model_id] = row
+    existing_ids = set(all_models)
+    db_existing_ids = set()
+    for source_path in source_paths[:2]:
+        db_existing_ids.update(row.get("model_id") for row in read_jsonl(source_path))
+
+    changed_ids = set()
+    eligible_ids = set()
+    scanned = 0
+    task_scanned: Dict[str, int] = {}
+    watermark_dt = parse_utc(watermark)
+    scan_started = datetime.now(timezone.utc)
+    api = HfApi(token=os.getenv("HF_TOKEN"))
+
+    def models_for_task(task: str):
+        options = {
+            "pipeline_tag": task,
+            "sort": "last_modified",
+            "direction": -1,
+            "limit": None,
+            "full": True,
+            "cardData": True,
+        }
+        try:
+            return api.list_models(**options)
+        except TypeError:
+            options.pop("direction", None)
+            return api.list_models(**options)
+
+    for task in stage1.TASKS:
+        task_count = 0
+        for model in models_for_task(task):
+            modified = parse_utc(
+                getattr(model, "last_modified", None)
+                or getattr(model, "lastModified", None)
+            )
+            if watermark_dt and modified and modified < watermark_dt:
+                break
+            model_id = getattr(model, "id", None) or getattr(model, "modelId", None)
+            if not model_id:
+                continue
+            task_count += 1
+            scanned += 1
+            changed_ids.add(model_id)
+            if stage1.is_noise_model(model_id):
+                continue
+            downloads = int(getattr(model, "downloads", None) or 0)
+            classification = stage1.classify_candidate(model)
+            if (
+                classification.get("tier") not in stage1.CANDIDATE_TYPES
+                or downloads < stage1.MIN_DOWNLOADS
+            ):
+                continue
+            replacement = stage1.build_row(model, classification)
+            previous = all_models.get(model_id) or {}
+            replacement["matched_tasks"] = list(
+                dict.fromkeys((previous.get("matched_tasks") or []) + [task])
+            )
+            all_models[model_id] = replacement
+            eligible_ids.add(model_id)
+        task_scanned[task] = task_count
+
+    removed_ids = sorted((changed_ids & db_existing_ids) - eligible_ids)
+    for model_id in removed_ids:
+        all_models.pop(model_id, None)
+    processable_ids = sorted(
+        model_id
+        for model_id in changed_ids
+        if model_id in all_models
+        and (all_models[model_id].get("candidate") or {}).get("tier") == "A_verified"
+        and (all_models[model_id].get("popularity") or {}).get("downloads", 0) >= stage1.MIN_DOWNLOADS
+    )
+
+    state_path = DATA_DIR / "hf_models_stage1_state.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state["last_incremental_scan"] = {
+        "started_at": scan_started.isoformat(),
+        "watermark": watermark,
+        "scanned": scanned,
+        "changed": len(changed_ids),
+        "eligible": len(eligible_ids),
+        "processable": len(processable_ids),
+        "removed": len(removed_ids),
+        "task_scanned": task_scanned,
+    }
+    state["unique_candidates"] = len(all_models)
+    if changed_ids or removed_ids:
+        stage1.save_all(all_models, state)
+    stage1.validate_outputs(require_complete=False)
+    result = {
+        "watermark": watermark,
+        "scan_started_at": scan_started.isoformat(),
+        "scanned": scanned,
+        "changed_ids": sorted(changed_ids),
+        "processable_ids": processable_ids,
+        "removed_ids": removed_ids,
+        "task_scanned": task_scanned,
+    }
+    print(
+        json.dumps(
+            {
+                "incremental_stage1": {
+                    "scanned": scanned,
+                    "changed": len(changed_ids),
+                    "processable": len(processable_ids),
+                    "removed": len(removed_ids),
+                    "watermark": watermark,
+                }
+            },
+            ensure_ascii=False,
+        ),
+        flush=True,
+    )
+    return result
+
+
+
+def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
+    scan = incremental_stage1_update(watermark)
+    if not scan["processable_ids"] and not scan["removed_ids"]:
+     print(json.dumps({"incremental_pipeline": "no eligible changes"}, ensure_ascii=False), flush=True)
+     return scan
+    python = sys.executable
+    run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
+    run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
+    for pool in POOLS:
+        run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
+    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute"])
+    return scan
+
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--apply", action="store_true", help="write Supabase")
+    parser.add_argument(
+        "--initial",
+        action="store_true",
+        help="one-time full snapshot upload; rejected after a successful sync",
+    )
+    parser.add_argument(
+        "--refresh",
+        action="store_true",
+        help="incrementally scan only Hugging Face models modified since the last sync",
+    )
+    parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
+    parser.add_argument(
+        "--ttl-hours",
+        type=float,
+        default=None,
+    )
+    parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
+    args = parser.parse_args()
+    if args.batch_size < 1:
+        parser.error("--batch-size must be positive")
+    if args.refresh and args.initial:
+        parser.error("--refresh and --initial are mutually exclusive")
+    if (args.refresh or args.initial) and not args.apply:
+        parser.error("--refresh/--initial require --apply")
+    load_dotenv(ROOT / ".env")
+    ttl_hours = args.ttl_hours if args.ttl_hours is not None else float(
+        os.getenv("MODEL_SCOUT_TTL_HOURS", DEFAULT_TTL_HOURS)
+    )
+
+
+    refresh_info: Optional[Dict[str, Any]] = None
+    latest: Optional[Dict[str, Any]] = None
+    if args.apply:
+        ensure_schema()
+        latest = latest_completed_sync()
+
+    if args.refresh:
+        if latest is None:
+            raise RuntimeError(
+                "No completed Supabase sync watermark exists. Run the one-time "
+                "`python 08_sync_supabase.py --initial --apply` first."
+            )
+        if not args.force and ttl_is_fresh(latest, ttl_hours):
+            print(
+                json.dumps(
+                    {
+                        "skipped": True,
+                        "reason": "TTL not expired",
+                        "ttl_hours": ttl_hours,
+                        "last_completed_at": latest.get("completed_at"),
+                        "last_run_id": latest.get("run_id"),
+                    },
+                    ensure_ascii=False,
+                )
+            )
+            return 0
+        versions = latest.get("stage_versions") or {}
+        watermark = versions.get("source_watermark") or latest.get("completed_at")
+        if not watermark:
+            raise RuntimeError("Could not determine incremental source watermark")
+        refresh_info = incremental_refresh_pipeline(watermark)
+    elif args.initial:
+        if latest is not None:
+            raise RuntimeError(
+                "A successful Supabase sync already exists. Full snapshot uploads are "
+                "disabled after initialization; use --refresh --apply."
+            )
+    elif args.apply and latest is not None:
+        raise RuntimeError(
+            "A successful Supabase sync already exists. Refusing a full upload; use "
+            "--refresh --apply for incremental updates."
+        )
+    elif not args.apply:
+        # Offline validation remains available and never contacts Supabase.
+        pass
+
+    stage4, stage2, stage3 = load_corpora()
+    validation = validate_corpus(stage4, stage2, stage3)
+    changed_ids = set(refresh_info.get("processable_ids", [])) if refresh_info else None
+    removed_ids = refresh_info.get("removed_ids", []) if refresh_info else []
+    selected_stage4 = (
+        [row for row in stage4 if row.get("model_id") in changed_ids]
+        if changed_ids is not None
+        else stage4
+    )
+    run_id = str(uuid.uuid4())
+    rows = payloads(selected_stage4, stage2, stage3, run_id)
+    result: Dict[str, Any] = {
+        "validation": validation,
+        "run_id": run_id,
+        "apply": args.apply,
+        "selected_pools": list(POOLS),
+        "sync_mode": "incremental" if refresh_info else "initial",
+        "changed_rows": len(selected_stage4),
+        "removed_rows": len(removed_ids),
+    }
+    if args.apply:
+        result["sync"] = apply_sync(
+            rows,
+            run_id,
+            args.batch_size,
+            incremental=refresh_info is not None,
+            removed_ids=removed_ids,
+            source_watermark=(refresh_info or {}).get("scan_started_at"),
+            corpus_rows=len(stage4),
+        )
+    else:
+        result["dry_run"] = {
+            "rows": len(rows),
+            "estimated_json_bytes": sum(len(json.dumps(row, ensure_ascii=False, default=str)) for row in rows),
+        }
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
