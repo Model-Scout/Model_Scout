@@ -200,3 +200,12 @@ worker의 24시간 TTL 때문에 실제 Hugging Face 탐색과 Stage 1~4 처리�
 `SUPABASE_PASSWORD`를 등록해야 한다. 실행 뒤 변경된 Stage 1~4 snapshot과 README 상태를
 commit해 다음 실행의 증분 기준으로 보존한다. 스크립트 자체는 TTL과 watermark를 Supabase에
 기록하므로 중복 실행 시 변경사항이 없으면 아무 row도 다시 처리하지 않는다.
+
+### Stage 4 vector storage
+
+Stage 4 vectors are generated temporarily on the automation runner and stored in Supabase
+pgvector. With `--db-cache`, existing vectors are reused by `model_id` and `document_hash`;
+only new or changed documents call the embedding API. The tracked
+`hf_models_stage4_manifest.json` records counts and versions without storing vector arrays.
+The existing Stage 4 JSONL snapshots remain a one-time backup until the DB-canonical flow has
+been verified.

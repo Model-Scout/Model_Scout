@@ -1,0 +1,22 @@
+{
+  "stage4_version": 1,
+  "generated_at": "2026-09-25T04:00:54.677086+00:00",
+  "rows": 3567,
+  "pool_counts": {
+    "core": 1451,
+    "low_popularity": 2116
+  },
+  "embedding_dimensions": [
+    1536
+  ],
+  "embedding_models": [
+    "text-embedding-3-small"
+  ],
+  "source_stage_versions": {
+    "stage1": 7,
+    "stage2": 6,
+    "stage3": 1,
+    "stage4": 1
+  },
+  "vector_storage": "supabase_pgvector"
+}

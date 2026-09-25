@@ -107,6 +107,25 @@ def validate_corpus(
     return {"rows": len(stage4), "pool_counts": pool_counts, "stage2_rows": len(stage2), "stage3_rows": len(stage3)}
 
 
+
+def write_stage4_manifest(stage4: Sequence[Dict[str, Any]], validation: Dict[str, Any]) -> Path:
+    """Persist a small tracked snapshot description without embedding arrays."""
+    dimensions = sorted({int(row.get("embedding_dimensions") or 0) for row in stage4})
+    models = sorted({str(row.get("embedding_model") or "") for row in stage4 if row.get("embedding_model")})
+    manifest = {
+        "stage4_version": EXPECTED_VERSIONS["stage4"],
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "rows": len(stage4),
+        "pool_counts": validation.get("pool_counts", {}),
+        "embedding_dimensions": dimensions,
+        "embedding_models": models,
+        "source_stage_versions": EXPECTED_VERSIONS,
+        "vector_storage": "supabase_pgvector",
+    }
+    path = DATA_DIR / "hf_models_stage4_manifest.json"
+    path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return path
+
 def provenance(stage2: Dict[str, Any], stage3: Dict[str, Any]) -> Dict[str, Any]:
     source = stage2.get("source") or {}
     readme = source.get("readme") or {}
@@ -652,7 +671,7 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
     for pool in POOLS:
         run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
-    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute"])
+    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
     return scan
 
 
@@ -747,8 +766,13 @@ def main() -> int:
         # Offline validation remains available and never contacts Supabase.
         pass
 
+    if refresh_info is not None and not refresh_info.get("processable_ids") and not refresh_info.get("removed_ids"):
+        print(json.dumps({"sync": "no eligible changes", "db_write": False}, ensure_ascii=False))
+        return 0
+
     stage4, stage2, stage3 = load_corpora()
     validation = validate_corpus(stage4, stage2, stage3)
+    write_stage4_manifest(stage4, validation)
     changed_ids = set(refresh_info.get("processable_ids", [])) if refresh_info else None
     removed_ids = refresh_info.get("removed_ids", []) if refresh_info else []
     selected_stage4 = (

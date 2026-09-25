@@ -2,8 +2,7 @@ name: Model Scout incremental sync
 
 on:
   schedule:
-    # GitHub Actions uses UTC. The worker's 24-hour TTL limits the
-    # expensive pipeline to at most one run per day.
+    # GitHub Actions uses UTC. The worker's 24-hour TTL limits the expensive pipeline to once per day.
     - cron: "0 * * * *"
   workflow_dispatch:
 
@@ -23,7 +22,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          lfs: true
+          # Stage 4 vectors are restored from Supabase when a change exists.
+          lfs: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,6 +34,13 @@ jobs:
 
       - name: Install pipeline dependencies
         run: python -m pip install --upgrade -r requirements.txt
+
+      - name: Remove legacy Stage 4 vector snapshots
+        run: >-
+          rm -f data/hf_models_stage4_core.jsonl
+          data/hf_models_stage4_low_popularity.jsonl
+          data/hf_models_stage4_core_errors.jsonl
+          data/hf_models_stage4_low_popularity_errors.jsonl
 
       - name: Run TTL-gated incremental pipeline
         env:
@@ -50,7 +57,7 @@ jobs:
           MODEL_SCOUT_TTL_HOURS: "24"
         run: python 08_sync_supabase.py --refresh --apply
 
-      - name: Persist updated Stage 1-4 snapshots
+      - name: Persist Stage 1-3 snapshots and Stage 4 manifest
         run: |
           git config user.name "model-scout-sync[bot]"
           git config user.email "model-scout-sync[bot]@users.noreply.github.com"
@@ -61,8 +68,7 @@ jobs:
             data/hf_models_stage2_low_popularity.jsonl \
             data/hf_models_stage3_core.jsonl \
             data/hf_models_stage3_low_popularity.jsonl \
-            data/hf_models_stage4_core.jsonl \
-            data/hf_models_stage4_low_popularity.jsonl \
+            data/hf_models_stage4_manifest.json \
             data/readmes/core \
             data/readmes/low_popularity
           if git diff --cached --quiet; then

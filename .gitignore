@@ -16,3 +16,13 @@ env/
 Thumbs.db
 # Supabase sync runtime log
 data/supabase_sync.log
+# Stage 4 vectors are generated on the runner and persisted in Supabase pgvector.
+data/hf_models_stage4_core.jsonl
+data/hf_models_stage4_low_popularity.jsonl
+data/hf_models_stage4_*_errors.jsonl
+
+# Local graphify analysis output.
+graphify-out/
+
+# Local Serena project metadata.
+.serena/

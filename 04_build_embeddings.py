@@ -458,7 +458,89 @@ def reusable(existing: Dict[str, Any], document: Dict[str, Any], model: str) -> 
     )
 
 
-def run_pool(pool: str, model: str, limit: Optional[int], execute: bool, batch_size: int, sample_strategy: str) -> Dict[str, Any]:
+
+def _parse_db_vector(value: Any) -> List[float]:
+    """Parse PostgreSQL pgvector text without requiring the pgvector package."""
+    if isinstance(value, str):
+        value = value.strip()
+        if value.startswith("[") and value.endswith("]"):
+            value = value[1:-1]
+            return [float(item) for item in value.split(",") if item.strip()]
+    if isinstance(value, (list, tuple)):
+        return [float(item) for item in value]
+    return []
+
+
+def load_db_embedding_cache(model_ids: Sequence[str]) -> Dict[str, Dict[str, Any]]:
+    """Load reusable vectors from Supabase for a DB-canonical Stage 4 run.
+
+    This is opt-in so ordinary local Stage 4 runs remain network-free apart from
+    the embedding provider. The returned shape matches the local Stage 4 cache.
+    """
+    ids = sorted({str(model_id) for model_id in model_ids if model_id})
+    if not ids:
+        return {}
+    required = (
+        "SUPABASE_DB_HOST",
+        "SUPABASE_DB_PORT",
+        "SUPABASE_DB_NAME",
+        "SUPABASE_DB_USER",
+        "SUPABASE_PASSWORD",
+    )
+    missing = [name for name in required if not os.getenv(name)]
+    if missing:
+        raise RuntimeError(
+            "--db-cache requires Supabase database settings: " + ", ".join(missing)
+        )
+    try:
+        import psycopg2
+    except ImportError as exc:
+        raise RuntimeError("--db-cache requires psycopg2-binary") from exc
+
+    connection = psycopg2.connect(
+        host=os.environ["SUPABASE_DB_HOST"],
+        port=int(os.environ["SUPABASE_DB_PORT"]),
+        dbname=os.environ["SUPABASE_DB_NAME"],
+        user=os.environ["SUPABASE_DB_USER"],
+        password=os.environ["SUPABASE_PASSWORD"],
+        connect_timeout=15,
+    )
+    cache: Dict[str, Dict[str, Any]] = {}
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT model_id, document_hash, embedding_model,
+                       embedding_dimensions, embedding::text
+                FROM public.model_scout_models
+                WHERE active = true AND model_id = ANY(%s)
+                """,
+                (ids,),
+            )
+            for model_id, document_hash, embedding_model, dimensions, vector_text in cursor.fetchall():
+                vector = _parse_db_vector(vector_text)
+                if len(vector) != int(dimensions or 0):
+                    continue
+                cache[model_id] = {
+                    "model_id": model_id,
+                    "document_hash": document_hash,
+                    "embedding_model": embedding_model,
+                    "embedding_dimensions": int(dimensions),
+                    "embedding": vector,
+                }
+    finally:
+        connection.close()
+    return cache
+
+def run_pool(
+    pool: str,
+    model: str,
+    limit: Optional[int],
+    execute: bool,
+    batch_size: int,
+    sample_strategy: str,
+    db_cache: bool = False,
+) -> Dict[str, Any]:
     source_rows = read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
     validate_source(source_rows, pool)
     selected = select_rows(source_rows, limit, sample_strategy)
@@ -468,16 +550,49 @@ def run_pool(pool: str, model: str, limit: Optional[int], execute: bool, batch_s
         raise ValueError(f"{pool}: invalid Stage 4 documents: {report}")
 
     reused = 0
+    db_reused = 0
     output: Optional[Path] = None
     if execute:
         canonical_output = DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
-        checkpoint_path = (DATA_DIR if limit is None else ROOT / "test") / f".stage4_{pool}_checkpoint.jsonl"
-        existing = {}
+        checkpoint_path = (
+            DATA_DIR if limit is None else ROOT / "test"
+        ) / f".stage4_{pool}_checkpoint.jsonl"
+        existing: Dict[str, Dict[str, Any]] = {}
         if limit is None and canonical_output.exists():
-            existing = {item.get("model_id"): item for item in read_jsonl(canonical_output)}
+            existing = {
+                item.get("model_id"): item
+                for item in read_jsonl(canonical_output)
+                if item.get("model_id")
+            }
         elif checkpoint_path.exists():
-            existing = {item.get("model_id"): item for item in read_jsonl(checkpoint_path)}
-        pending = []
+            existing = {
+                item.get("model_id"): item
+                for item in read_jsonl(checkpoint_path)
+                if item.get("model_id")
+            }
+
+        if db_cache:
+            # Supabase is authoritative once this mode is enabled. This matters
+            # when the tracked baseline is intentionally no longer committed:
+            # a model changed after the baseline must reuse the vector already
+            # written to DB on the previous successful run.
+            db_existing = load_db_embedding_cache(
+                [document.get("model_id") for document in documents]
+            )
+            # If the local vector snapshot is absent, refuse to silently turn a
+            # partial DB migration into a full paid re-embedding run. A small
+            # number of missing IDs is expected for genuinely new models.
+            if not existing and documents:
+                coverage = len(db_existing) / len(documents)
+                if not db_existing or coverage < 0.90:
+                    raise RuntimeError(
+                        "Supabase embedding cache coverage is too low for DB-canonical "
+                        f"Stage 4 ({len(db_existing)}/{len(documents)}); refusing a full re-embedding run"
+                    )
+            existing.update(db_existing)
+            db_reused = len(db_existing)
+
+        pending: List[Dict[str, Any]] = []
         for document in documents:
             old = existing.get(document.get("model_id"))
             if old and reusable(old, document, model):
@@ -491,19 +606,19 @@ def run_pool(pool: str, model: str, limit: Optional[int], execute: bool, batch_s
                 embed_documents(pending, model, batch_size, checkpoint_path)
             except Exception as exc:
                 error_path = DATA_DIR / f"hf_models_stage4_{pool}_errors.jsonl"
-                errors = [{
-                    "model_id": item.get("model_id"),
-                    "source_pool": pool,
-                    "error_type": type(exc).__name__,
-                    "error": str(exc),
-                    "stage4_version": STAGE4_VERSION,
-                } for item in pending]
+                errors = [
+                    {
+                        "model_id": item.get("model_id"),
+                        "source_pool": pool,
+                        "error_type": type(exc).__name__,
+                        "error": str(exc),
+                        "stage4_version": STAGE4_VERSION,
+                    }
+                    for item in pending
+                ]
                 write_jsonl_atomic(errors, error_path)
                 raise
-        if limit is None:
-            output = canonical_output
-        else:
-            output = ROOT / "test" / f"stage4_{pool}_pilot.jsonl"
+        output = canonical_output if limit is None else ROOT / "test" / f"stage4_{pool}_pilot.jsonl"
         write_jsonl_atomic(documents, output)
         final_report = validate_embedded_output(documents, selected, pool)
         if final_report["bad_count"]:
@@ -512,7 +627,15 @@ def run_pool(pool: str, model: str, limit: Optional[int], execute: bool, batch_s
         if checkpoint_path.exists():
             checkpoint_path.unlink()
 
-    summary = {"pool": pool, "rows": len(documents), "execute": execute, "reused": reused, "output": str(output) if output else None}
+    summary = {
+        "pool": pool,
+        "rows": len(documents),
+        "execute": execute,
+        "reused": reused,
+        "db_reused": db_reused,
+        "embedded": len(documents) - reused,
+        "output": str(output) if output else None,
+    }
     print(json.dumps(summary, ensure_ascii=False), flush=True)
     return summary
 
@@ -523,18 +646,41 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
     parser.add_argument("--sample-strategy", choices=("stratified", "first"), default="stratified")
-    parser.add_argument("--execute", action="store_true", help="call the embedding API; otherwise dry-run")
+    parser.add_argument("--execute", action="store_true", help="call the embedding API; default is a network-free dry run")
+    parser.add_argument(
+        "--db-cache",
+        action="store_true",
+        help="reuse matching embeddings from Supabase before calling the embedding API",
+    )
     args = parser.parse_args()
     if args.limit is not None and args.limit <= 0:
         parser.error("--limit must be positive")
     if args.batch_size <= 0:
         parser.error("--batch-size must be positive")
+    if args.db_cache and not args.execute:
+        parser.error("--db-cache requires --execute")
+
     load_dotenv(ROOT / ".env")
     model = args.model or os.getenv("STAGE4_EMBEDDING_MODEL") or DEFAULT_MODEL
     pools = POOLS if args.pool == "all" else (args.pool,)
-    summaries = [run_pool(pool, model, args.limit, args.execute, args.batch_size, args.sample_strategy) for pool in pools]
+    summaries = [
+        run_pool(
+            pool,
+            model,
+            args.limit,
+            args.execute,
+            args.batch_size,
+            args.sample_strategy,
+            db_cache=args.db_cache,
+        )
+        for pool in pools
+    ]
     print(json.dumps({"stage4_version": STAGE4_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 
 
 if __name__ == "__main__":
