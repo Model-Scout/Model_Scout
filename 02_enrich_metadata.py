@@ -1466,6 +1466,113 @@ def build_hardware_estimate(
 
 
 # =========================================================
+# RUNTIME COMPATIBILITY
+# =========================================================
+
+RUNTIME_COMPATIBILITY_VERSION = 1
+
+
+def _runtime_marker_status(readme_text, patterns):
+    """Return documented support status for a runtime marker."""
+    text = str(readme_text or "")
+    lowered = text.casefold()
+    for pattern, label in patterns:
+        match = re.search(pattern, lowered, flags=re.IGNORECASE)
+        if not match:
+            continue
+        window = lowered[max(0, match.start() - 100): min(len(lowered), match.end() + 100)]
+        if re.search(r"(?:not|no|without|unsupported|does not)\s+(?:currently\s+)?support", window):
+            return {
+                "status": "documented_unsupported",
+                "confidence": "high",
+                "evidence": [f"readme_marker:{label}"],
+            }
+        if not re.search(
+            r"support|compatible|install|serve|run|use|backend|provider|export|inference",
+            window,
+        ):
+            return {
+                "status": "mentioned",
+                "confidence": "low",
+                "evidence": [f"readme_marker:{label}"],
+            }
+        return {
+            "status": "documented",
+            "confidence": "high",
+            "evidence": [f"readme_marker:{label}"],
+        }
+    return None
+
+
+def extract_runtime_compatibility(artifacts, readme_text):
+    """Build conservative, auditable runtime compatibility metadata.
+
+    ``documented`` means the model card mentions the runtime. ``artifact_present``
+    means only that a compatible-looking artifact exists. ``inferred`` is a
+    weak format-based hint; it is never treated as a successful execution test.
+    """
+    artifacts = artifacts if isinstance(artifacts, dict) else {}
+    runtime_patterns = {
+        "cpu": [(r"\bcpu(?:-only)?\b|\bavx(?:2|512)?\b", "cpu")],
+        "cuda": [(r"\bcuda\b|\bnvidia\s+cuda\b|\bcu\d{2,3}\b", "cuda")],
+        "mps": [(r"\bmps\b|metal performance shaders|\bapple silicon\b|\bmlx\b", "mps")],
+        "vllm": [(r"\bvllm\b|vllm\.entrypoints", "vllm")],
+        "onnx": [(r"\bonnxruntime\b|\bonnx\b", "onnx")],
+        "llama_cpp": [(r"llama[ ._-]*cpp|llama-server|llama-cli|llama_server", "llama_cpp")],
+    }
+    conditions = {
+        "cpu": "RAM, model size, and performance depend on the runtime and workload.",
+        "cuda": "GPU VRAM, driver, CUDA, architecture, and quantization must be compatible.",
+        "mps": "Apple Silicon and the selected framework must support the architecture.",
+        "vllm": "vLLM version, model architecture, GPU, and quantization support are required.",
+        "onnx": "The ONNX graph and selected execution provider must be supported.",
+        "llama_cpp": "GGUF architecture support and the llama.cpp build must be compatible.",
+    }
+    result = {"version": RUNTIME_COMPATIBILITY_VERSION}
+    for runtime, patterns in runtime_patterns.items():
+        documented = _runtime_marker_status(readme_text, patterns)
+        if documented:
+            result[runtime] = {**documented, "conditions": conditions[runtime]}
+            continue
+
+        artifact_key = {"onnx": "onnx", "llama_cpp": "gguf"}.get(runtime)
+        if artifact_key and artifacts.get(artifact_key) is True:
+            result[runtime] = {
+                "status": "artifact_present",
+                "confidence": "medium",
+                "evidence": [f"artifact:{artifact_key}"],
+                "conditions": conditions[runtime],
+            }
+            continue
+
+        if runtime == "cpu" and any(artifacts.get(key) is True for key in ("safetensors", "pytorch_bin", "onnx", "gguf")):
+            result[runtime] = {
+                "status": "inferred",
+                "confidence": "low",
+                "evidence": ["artifact:model_weights"],
+                "conditions": conditions[runtime],
+            }
+            continue
+
+        if runtime == "cuda" and any(artifacts.get(key) is True for key in ("safetensors", "pytorch_bin", "gguf")):
+            result[runtime] = {
+                "status": "inferred",
+                "confidence": "low",
+                "evidence": ["artifact:model_weights"],
+                "conditions": conditions[runtime],
+            }
+            continue
+
+        result[runtime] = {
+            "status": "unknown",
+            "confidence": "low",
+            "evidence": [],
+            "conditions": conditions[runtime],
+        }
+    return result
+
+
+# =========================================================
 # BASE MODEL / CARD FIELDS
 # =========================================================
 
@@ -1927,6 +2034,10 @@ def enrich(
                 parameters,
                 quantization,
             ),
+        "runtime_compatibility": extract_runtime_compatibility(
+            extract_artifacts(info),
+            readme_text,
+        ),
 
 
         # -------------------------------------------------
@@ -2102,7 +2213,7 @@ def validate_stage2_rows(rows, source_pool):
     seen = set()
     required = {
         "model_id", "author", "task", "candidate", "popularity", "family", "stage1_quality",
-        "language", "model", "quantization", "artifacts", "hardware", "license", "base_models",
+        "language", "model", "quantization", "artifacts", "hardware", "runtime_compatibility", "license", "base_models",
         "datasets", "metrics", "source", "stage",
     }
     for row in rows:

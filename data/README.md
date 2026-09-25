@@ -65,6 +65,16 @@ Stage 2는 Core와 Low Popularity만 처리한다. Likely와 Fallback은 아직 
 
 `parameter_count`와 `context_length`가 `null`이면 0이 아니라 `unknown`이다. 각 row의 `model.metadata_status`에서 `known`과 `unknown`을 구분한다. 추천 필터가 해당 값을 요구할 때만 unknown을 제외하고, 일반 검색에서는 별도로 표시한다.
 
+각 Stage 2 row에는 `runtime_compatibility`가 추가로 기록된다. 대상은 `cpu`, `cuda`, `mps`, `vllm`, `onnx`, `llama_cpp`이며 상태는 `documented`, `artifact_present`, `inferred`, `mentioned`, `documented_unsupported`, `unknown`으로 구분한다. 이는 README·artifact 기반의 보조 신호이며 실제 실행 성공을 의미하지 않는다. 실행 환경을 필수 조건으로 사용할 때는 `documented` 또는 `artifact_present`를 우선하고, `inferred`·`mentioned`는 참고용으로만 사용한다.
+
+기존 Supabase row에도 이 metadata만 반영해야 할 때는 전체 Stage 1~4를 다시 실행하지 않고 다음 metadata migration을 사용한다.
+
+```bash
+python 08_sync_supabase.py --backfill-runtime --apply
+```
+
+이 명령은 기존 embedding과 semantic metadata를 재생성하지 않고 `filter_metadata`와 `technical_metadata`의 runtime key만 보강한다.
+
 ## Stage 3: Atomic Evidence Semantic Enrichment v1
 
 Stage 3는 Stage 2의 Core와 Low Popularity를 대상으로 저비용 LLM을 사용해 README에서 atomic evidence span을 만들고, 각 semantic claim에 `evidence_refs`와 정확한 `supporting_quote`를 붙인다. candidate tier와 popularity를 재분류하지 않는다.

@@ -141,9 +141,10 @@ def payloads(
         technical = {
             "model": source2.get("model") or {},
             "quantization": source2.get("quantization") or {},
-            "artifacts": source2.get("artifacts") or {},
-            "hardware": source2.get("hardware") or {},
-            "license": source2.get("license"),
+        "artifacts": source2.get("artifacts") or {},
+        "hardware": source2.get("hardware") or {},
+        "runtime_compatibility": source2.get("runtime_compatibility") or {},
+        "license": source2.get("license"),
             "base_models": source2.get("base_models") or [],
             "datasets": source2.get("datasets") or [],
             "metrics": source2.get("metrics") or [],
@@ -195,6 +196,65 @@ def db_connection():
         sslmode="require",
         connect_timeout=15,
     )
+
+
+def backfill_runtime_metadata() -> Dict[str, int]:
+    """Patch only the runtime metadata keys in existing DB rows.
+
+    This is a metadata migration, not a Stage 1-4 refresh: embeddings,
+    semantic metadata, and model rows are otherwise left untouched.
+    """
+    stage2_rows: List[Dict[str, Any]] = []
+    for pool in POOLS:
+        stage2_rows.extend(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl"))
+
+    conn = db_connection()
+    updated = 0
+    missing = 0
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                for row in stage2_rows:
+                    model_id = row.get("model_id")
+                    runtime = row.get("runtime_compatibility") or {}
+                    cur.execute(
+                        """
+                        update public.model_scout_models
+                        set filter_metadata = coalesce(filter_metadata, '{}'::jsonb)
+                            || %s::jsonb,
+                            technical_metadata = coalesce(technical_metadata, '{}'::jsonb)
+                            || %s::jsonb,
+                            refreshed_at = now()
+                        where model_id = %s
+                          and (
+                              not (coalesce(filter_metadata, '{}'::jsonb)
+                                   ? 'runtime_compatibility')
+                              or not (coalesce(technical_metadata, '{}'::jsonb)
+                                      ? 'runtime_compatibility')
+                              or coalesce(
+                                  technical_metadata->'runtime_compatibility'->>'version',
+                                  ''
+                              ) <> %s
+                          )
+                        """,
+                        (
+                            json_text({"runtime_compatibility": runtime}),
+                            json_text({"runtime_compatibility": runtime}),
+                            model_id,
+                            str(runtime.get("version", "1")),
+                        ),
+                    )
+                    updated += cur.rowcount
+                    if cur.rowcount == 0:
+                        cur.execute(
+                            "select 1 from public.model_scout_models where model_id = %s",
+                            (model_id,),
+                        )
+                        if cur.fetchone() is None:
+                            missing += 1
+    finally:
+        conn.close()
+    return {"source_rows": len(stage2_rows), "updated": updated, "missing_db_rows": missing}
 
 
 def apply_sync(
@@ -612,6 +672,11 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
+        "--backfill-runtime",
+        action="store_true",
+        help="patch runtime_compatibility JSON keys without rerunning Stage 1-4",
+    )
+    parser.add_argument(
         "--ttl-hours",
         type=float,
         default=None,
@@ -620,11 +685,17 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if args.refresh and args.initial:
-        parser.error("--refresh and --initial are mutually exclusive")
+    if sum(bool(value) for value in (args.refresh, args.initial, args.backfill_runtime)) > 1:
+        parser.error("--refresh, --initial, and --backfill-runtime are mutually exclusive")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
+    if args.backfill_runtime and not args.apply:
+        parser.error("--backfill-runtime requires --apply")
     load_dotenv(ROOT / ".env")
+    if args.backfill_runtime:
+        ensure_schema()
+        print(json.dumps({"runtime_backfill": backfill_runtime_metadata()}, indent=2))
+        return 0
     ttl_hours = args.ttl_hours if args.ttl_hours is not None else float(
         os.getenv("MODEL_SCOUT_TTL_HOURS", DEFAULT_TTL_HOURS)
     )

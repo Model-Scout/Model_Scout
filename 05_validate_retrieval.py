@@ -376,7 +376,10 @@ def hard_filter(row: Dict[str, Any], query: Dict[str, Any]) -> Tuple[bool, List[
 
 
 def lexical_score(row: Dict[str, Any], query: Dict[str, Any]) -> float:
-    haystack = (row.get("embedding_text") or "").casefold()
+    haystack = (
+        f"{row.get('embedding_text') or ''} "
+        f"{json.dumps(filter_metadata(row), ensure_ascii=False, sort_keys=True)}"
+    ).casefold()
     tokens = [
         token
         for token in re.findall(r"[\w가-힣]+", query.get("text", "").casefold())
