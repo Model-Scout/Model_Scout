@@ -20,6 +20,8 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
+import time
 import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -34,6 +36,8 @@ POOLS = ("core", "low_popularity")
 EXPECTED_VERSIONS = {"stage1": 7, "stage2": 6, "stage3": 1, "stage4": 1}
 DEFAULT_TTL_HOURS = 24
 DEFAULT_BATCH_SIZE = 100
+API_MAX_RETRIES = 3
+API_RETRY_BASE_SECONDS = 2
 
 
 def read_jsonl(path: Path) -> List[Dict[str, Any]]:
@@ -528,6 +532,87 @@ def load_stage1_module() -> Any:
     return module
 
 
+def validate_incremental_scan(
+    task_observed: Dict[str, bool],
+    existing_count: int,
+) -> None:
+    """Reject an incremental run where a task was not successfully observed.
+
+    ``task_observed`` records successful API iteration, while ``task_seen``
+    records models returned after the watermark.  A task can be observed
+    successfully and still have zero changed models, which is the normal
+    no-change case and must not block the refresh.
+    """
+    if not existing_count:
+        return
+
+    missing = sorted(task for task, observed in task_observed.items() if not observed)
+    if missing:
+        raise RuntimeError(
+            "Incremental Hugging Face scan did not successfully observe task(s): "
+            + ", ".join(missing)
+            + "; refusing to update the snapshot"
+        )
+
+
+def publish_stage1_snapshot(stage1: Any, all_models: Dict[str, Dict[str, Any]], state: Dict[str, Any]) -> None:
+    """Validate a complete Stage 1 snapshot before replacing published files."""
+    output_names = (
+        "CORE_OUTPUT",
+        "LOW_POPULARITY_OUTPUT",
+        "LIKELY_OUTPUT",
+        "FALLBACK_OUTPUT",
+        "GROUP_OUTPUT",
+        "STATE_OUTPUT",
+    )
+    final_paths = {
+        name: DATA_DIR / Path(getattr(stage1, name)).name for name in output_names
+    }
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    previous_counts = stage1.snapshot_counts(final_paths)
+
+    with tempfile.TemporaryDirectory(prefix=".stage1_publish_", dir=str(DATA_DIR)) as temp_name:
+        temp_dir = Path(temp_name)
+        original_data_dir = stage1.DATA_DIR
+        original_paths = {name: getattr(stage1, name) for name in output_names}
+        staged_paths = {name: temp_dir / path.name for name, path in final_paths.items()}
+
+        try:
+            stage1.DATA_DIR = temp_dir
+            for name, path in staged_paths.items():
+                setattr(stage1, name, path)
+
+            stage1.save_all(all_models, state)
+            stage1.validate_outputs(require_complete=False)
+            current_counts = stage1.snapshot_counts(staged_paths)
+            stage1.validate_snapshot_drop(previous_counts, current_counts)
+
+            backups = []
+            published = []
+            try:
+                for final_path in final_paths.values():
+                    if final_path.exists():
+                        backup_path = temp_dir / f"{final_path.name}.previous"
+                        final_path.replace(backup_path)
+                        backups.append((final_path, backup_path))
+
+                for name, final_path in final_paths.items():
+                    staged_paths[name].replace(final_path)
+                    published.append(final_path)
+            except Exception:
+                for final_path in published:
+                    if final_path.exists():
+                        final_path.unlink()
+                for final_path, backup_path in reversed(backups):
+                    if backup_path.exists():
+                        backup_path.replace(final_path)
+                raise
+        finally:
+            stage1.DATA_DIR = original_data_dir
+            for name, path in original_paths.items():
+                setattr(stage1, name, path)
+
+
 def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
     """Scan only Hugging Face models modified after the previous sync watermark."""
     from huggingface_hub import HfApi
@@ -546,14 +631,13 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
             if model_id:
                 all_models[model_id] = row
     existing_ids = set(all_models)
-    db_existing_ids = set()
-    for source_path in source_paths[:2]:
-        db_existing_ids.update(row.get("model_id") for row in read_jsonl(source_path))
 
     changed_ids = set()
     eligible_ids = set()
     scanned = 0
     task_scanned: Dict[str, int] = {}
+    task_seen: Dict[str, int] = {task: 0 for task in stage1.TASKS}
+    task_observed: Dict[str, bool] = {task: False for task in stage1.TASKS}
     watermark_dt = parse_utc(watermark)
     scan_started = datetime.now(timezone.utc)
     api = HfApi(token=os.getenv("HF_TOKEN"))
@@ -567,15 +651,42 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
             "full": True,
             "cardData": True,
         }
-        try:
-            return api.list_models(**options)
-        except TypeError:
-            options.pop("direction", None)
-            return api.list_models(**options)
+        for attempt in range(API_MAX_RETRIES + 1):
+            try:
+                try:
+                    models = api.list_models(**options)
+                except TypeError:
+                    options.pop("direction", None)
+                    models = api.list_models(**options)
+                iterator = iter(models)
+                try:
+                    first = next(iterator)
+                except StopIteration:
+                    # A successful empty response means no changed models,
+                    # not an API failure.
+                    task_observed[task] = True
+                    return
+                task_observed[task] = True
+                yield first
+                yield from iterator
+                return
+            except KeyboardInterrupt:
+                raise
+            except Exception as exc:
+                if attempt >= API_MAX_RETRIES:
+                    raise
+                delay = API_RETRY_BASE_SECONDS * (2**attempt)
+                print(
+                    f"[API RETRY] task={task} attempt={attempt + 1}/{API_MAX_RETRIES} "
+                    f"after {type(exc).__name__}: sleeping {delay}s",
+                    flush=True,
+                )
+                time.sleep(delay)
 
     for task in stage1.TASKS:
         task_count = 0
         for model in models_for_task(task):
+            task_seen[task] = task_seen.get(task, 0) + 1
             modified = parse_utc(
                 getattr(model, "last_modified", None)
                 or getattr(model, "lastModified", None)
@@ -593,7 +704,8 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
             downloads = int(getattr(model, "downloads", None) or 0)
             classification = stage1.classify_candidate(model)
             if (
-                classification.get("tier") not in stage1.CANDIDATE_TYPES
+                classification is None
+                or classification.get("tier") not in stage1.CANDIDATE_TYPES
                 or downloads < stage1.MIN_DOWNLOADS
             ):
                 continue
@@ -606,7 +718,8 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
             eligible_ids.add(model_id)
         task_scanned[task] = task_count
 
-    removed_ids = sorted((changed_ids & db_existing_ids) - eligible_ids)
+    validate_incremental_scan(task_observed, len(existing_ids))
+    removed_ids = sorted((changed_ids & existing_ids) - eligible_ids)
     for model_id in removed_ids:
         all_models.pop(model_id, None)
     processable_ids = sorted(
@@ -628,11 +741,12 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
         "processable": len(processable_ids),
         "removed": len(removed_ids),
         "task_scanned": task_scanned,
+        "task_seen": task_seen,
+        "task_observed": task_observed,
     }
     state["unique_candidates"] = len(all_models)
     if changed_ids or removed_ids:
-        stage1.save_all(all_models, state)
-    stage1.validate_outputs(require_complete=False)
+        publish_stage1_snapshot(stage1, all_models, state)
     result = {
         "watermark": watermark,
         "scan_started_at": scan_started.isoformat(),
@@ -641,6 +755,8 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
         "processable_ids": processable_ids,
         "removed_ids": removed_ids,
         "task_scanned": task_scanned,
+        "task_seen": task_seen,
+        "task_observed": task_observed,
     }
     print(
         json.dumps(

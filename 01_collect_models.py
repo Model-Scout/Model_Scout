@@ -56,6 +56,13 @@ CUTOFF_CONFIRMATION = 10
 PROGRESS_EVERY = 500
 CHECKPOINT_EVERY = 5000
 TASK_SLEEP_SECONDS = 0.5
+API_MAX_RETRIES = 3
+API_RETRY_BASE_SECONDS = 2
+# Fail closed when a full scan unexpectedly removes most of a published
+# partition.  The thresholds are intentionally conservative and only apply
+# when the previous partition had enough rows to be a meaningful baseline.
+SNAPSHOT_DROP_MIN_ROWS = 100
+SNAPSHOT_DROP_MIN_FRACTION = 0.5
 
 
 # =========================================================
@@ -284,6 +291,31 @@ def is_noise_model(model_id):
 # =========================================================
 # LANGUAGE EXTRACTION
 # =========================================================
+
+def iter_models_for_task(task):
+    """Retry transient list-model failures without publishing partial results."""
+    for attempt in range(API_MAX_RETRIES + 1):
+        try:
+            yield from api.list_models(
+                pipeline_tag=task,
+                sort="downloads",
+                limit=LIMIT_PER_TASK,
+                full=True,
+            )
+            return
+        except KeyboardInterrupt:
+            raise
+        except Exception as exc:
+            if attempt >= API_MAX_RETRIES:
+                raise
+            delay = API_RETRY_BASE_SECONDS * (2**attempt)
+            print(
+                f"[API RETRY] task={task} attempt={attempt + 1}/{API_MAX_RETRIES} "
+                f"after {type(exc).__name__}: sleeping {delay}s",
+                flush=True,
+            )
+            time.sleep(delay)
+
 
 def normalize_language(value):
     value = normalize_tag(value)
@@ -1564,13 +1596,88 @@ def validate_outputs(require_complete=True):
     assert state["config"]["min_downloads"] == MIN_DOWNLOADS
     if require_complete:
         assert set(state["completed_tasks"]) == set(TASKS), "Incomplete task collection"
-        assert all(not stats.get("error") for stats in state["task_stats"].values())
+        for task in TASKS:
+            stats = state["task_stats"].get(task)
+            assert stats is not None, f"Missing task stats: {task}"
+            assert not stats.get("error"), f"Task failed: {task}: {stats['error']}"
+            assert stats.get("scanned", 0) > 0, f"Task returned no models: {task}"
+            assert stats.get("cutoff_reached") or stats.get("stream_exhausted"), (
+                f"Task did not reach a safe end: {task}"
+            )
     print(f"AUDIT groups={len(groups)} retained={len(retained)}")
     print(f"CORE/LOW contamination audit: invalid={sum(contamination.values())}")
     return counts
 
 
-def main():
+def snapshot_counts(paths):
+    """Return row counts for the published partition files."""
+    counts = {}
+    for path in paths.values() if isinstance(paths, dict) else paths:
+        if not path.exists():
+            counts[path.name] = 0
+            continue
+        with path.open(encoding="utf-8") as handle:
+            counts[path.name] = sum(1 for line in handle if line.strip())
+    return counts
+
+
+def validate_snapshot_drop(previous_counts, current_counts):
+    """Reject a suspicious full-scan decrease before publishing it."""
+    partition_names = (
+        CORE_OUTPUT.name,
+        LOW_POPULARITY_OUTPUT.name,
+        LIKELY_OUTPUT.name,
+        FALLBACK_OUTPUT.name,
+    )
+    violations = []
+    for name in partition_names:
+        previous = int(previous_counts.get(name, 0) or 0)
+        current = int(current_counts.get(name, 0) or 0)
+        if previous < SNAPSHOT_DROP_MIN_ROWS:
+            continue
+        minimum_allowed = max(
+            1,
+            int(previous * SNAPSHOT_DROP_MIN_FRACTION),
+        )
+        if current < minimum_allowed:
+            violations.append(
+                f"{name}: previous={previous}, current={current}, "
+                f"minimum={minimum_allowed}"
+            )
+    if violations:
+        raise RuntimeError(
+            "Stage 1 snapshot dropped too sharply; refusing to publish: "
+            + "; ".join(violations)
+        )
+
+
+def load_checkpoint_models():
+    models = {}
+    for path in (CORE_OUTPUT, LOW_POPULARITY_OUTPUT, LIKELY_OUTPUT, FALLBACK_OUTPUT):
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                models[row["model_id"]] = row
+    return models
+
+
+def checkpoint_can_resume(path):
+    """Return true only for a matching, incomplete checkpoint."""
+    if not path.exists():
+        return False
+    try:
+        checkpoint_state = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    return (
+        checkpoint_state.get("stage1_version") == STAGE1_VERSION
+        and set(checkpoint_state.get("completed_tasks", [])) != set(TASKS)
+    )
+
+
+def main(resume=False):
 
     DATA_DIR.mkdir(
         parents=True,
@@ -1601,6 +1708,8 @@ def main():
             "likely_requires_multilingual_marker": True,
             "core_candidate_tier": "A_verified",
             "core_downloads_inclusive": True,
+            "snapshot_drop_min_rows": SNAPSHOT_DROP_MIN_ROWS,
+            "snapshot_drop_min_fraction": SNAPSHOT_DROP_MIN_FRACTION,
         },
 
         "completed_tasks":
@@ -1611,10 +1720,19 @@ def main():
     }
 
 
+    if resume and STATE_OUTPUT.exists():
+        checkpoint_state = json.loads(STATE_OUTPUT.read_text(encoding="utf-8"))
+        if checkpoint_state.get("stage1_version") == STAGE1_VERSION:
+            all_models = load_checkpoint_models()
+            state = checkpoint_state
+
     total_scanned = 0
 
 
     for task in TASKS:
+        if task in state.get("completed_tasks", []):
+            print(f"Skipping completed task from checkpoint: {task}", flush=True)
+            continue
 
         print()
         print("=" * 80)
@@ -1633,20 +1751,14 @@ def main():
         below_cutoff_streak = 0
 
         cutoff_reached = False
+        stream_exhausted = False
         cutoff_downloads = None
         task_error = None
 
 
         try:
 
-            models = (
-                api.list_models(
-                    pipeline_tag=task,
-                    sort="downloads",
-                    limit=LIMIT_PER_TASK,
-                    full=True,
-                )
-            )
+            models = iter_models_for_task(task)
 
 
             for model in models:
@@ -1824,6 +1936,14 @@ def main():
                     )
 
 
+            else:
+                stream_exhausted = True
+
+            if scanned == 0:
+                raise RuntimeError(
+                    f"Hugging Face returned no models for task {task}; refusing to publish"
+                )
+
         except KeyboardInterrupt:
 
             print()
@@ -1868,6 +1988,8 @@ def main():
 
             "cutoff_reached":
                 cutoff_reached,
+            "stream_exhausted":
+                stream_exhausted,
         }
 
 
@@ -2103,13 +2225,16 @@ def run_collection():
     output_names = ("CORE_OUTPUT", "LOW_POPULARITY_OUTPUT", "LIKELY_OUTPUT",
                     "FALLBACK_OUTPUT", "GROUP_OUTPUT", "STATE_OUTPUT")
     published = {name: globals()[name] for name in output_names}
+    previous_counts = snapshot_counts(published)
     checkpoint_dir = DATA_DIR / f".stage1_v{STAGE1_VERSION}_checkpoint"
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    checkpoint_state_path = checkpoint_dir / STATE_OUTPUT.name
     try:
         for name, path in published.items():
             globals()[name] = checkpoint_dir / path.name
-        main()
-        validate_outputs()
+        main(resume=checkpoint_can_resume(checkpoint_state_path))
+        current_counts = validate_outputs()
+        validate_snapshot_drop(previous_counts, current_counts)
         for name, path in published.items():
             globals()[name].replace(path)
     finally:
