@@ -1,0 +1,2174 @@
+{
+  "golden_query_file": "/Users/baiohelseu/Desktop/Project/Model_Scout/test/retrieval_queries.jsonl",
+  "dense_report": "/Users/baiohelseu/Desktop/Project/Model_Scout/test/stage4_retrieval_validation.json",
+  "query_selection": {
+    "total_golden_queries": 48,
+    "selected": 48,
+    "selected_ids": [
+      "q01_ko_classification_cpu",
+      "q02_ko_sentence_embedding",
+      "q03_ko_document_embedding",
+      "q04_ko_asr",
+      "q05_ko_translation",
+      "q06_ko_summarization",
+      "q07_ko_qa",
+      "q08_ko_generation_long_context",
+      "q09_ko_multimodal",
+      "q10_ko_small_low_popularity",
+      "q11_ko_known_hardware",
+      "q12_ko_generation_unknown_safe",
+      "q13_small_cpu_classifier",
+      "q14_semantic_search_embedding",
+      "q15_long_context_embedding",
+      "q16_realtime_asr_small",
+      "q17_english_german_translation",
+      "q18_long_document_summarization",
+      "q19_small_question_answering",
+      "q20_long_context_generation",
+      "q21_vision_language_ocr",
+      "q22_low_popularity_generation",
+      "q23_known_embedding_metadata",
+      "q24_small_sentence_similarity",
+      "q25_compact_translation",
+      "q26_on_device_asr",
+      "q27_very_long_context_generation",
+      "q28_medium_text_classifier",
+      "q29_very_long_embedding",
+      "q30_general_question_answering",
+      "q31_mteb_arguana_ndcg",
+      "q32_mteb_embedding_evidence",
+      "q33_asr_wer_evidence",
+      "q34_ko_summarization_small_long",
+      "q35_ko_asr_edge_low",
+      "q36_en_to_ko_translation_small",
+      "q37_ko_embedding_long_small",
+      "q38_ko_vision_ocr_small",
+      "q39_ko_qa_context",
+      "q40_low_long_generation",
+      "q41_low_small_similarity",
+      "q42_low_asr_wer",
+      "q43_ko_mteb_long",
+      "q44_cpu_tiny_classifier",
+      "q45_ko_multitask_retrieval_qa",
+      "q46_ko_generation_known_all",
+      "q47_low_compact_translation",
+      "q48_intentionally_empty"
+    ],
+    "selection_rule": "all golden queries"
+  },
+  "rows": 3567,
+  "dense_source": "previous stage4_retrieval_validation.json vector run; no new embedding API calls",
+  "sparse_source": "local fielded BM25 shadow equivalent; OpenSearch localhost:9200 was unavailable",
+  "recall_at_5_note": "No human relevance labels are present. dense_agreement_at_5 is a proxy, not semantic Recall@5.",
+  "metrics": {
+    "dense_agreement_proxy_at_5_mean": 0.208,
+    "dense_agreement_proxy_at_5_median": 0.0,
+    "dense_exact_keyword_hit_rate_at_5": 0.287,
+    "sparse_exact_keyword_hit_rate_at_5": 0.412,
+    "dense_rank_latency_ms_mean": 0.02,
+    "dense_rank_latency_ms_p95": 0.07,
+    "sparse_bm25_latency_ms_mean": 13.007,
+    "sparse_bm25_latency_ms_p95": 72.477,
+    "dense_query_embedding_latency": "not measured; OpenAI API unavailable in this environment",
+    "nonempty_queries": 46,
+    "empty_queries": 2,
+    "queries_sparse_keyword_better": 11,
+    "queries_dense_keyword_better": 0
+  },
+  "by_query_type": {
+    "abstention": {
+      "queries": 1,
+      "nonempty_queries": 0,
+      "agreement_at_5_mean": 0.0,
+      "dense_keyword_hit_rate_at_5": 0.0,
+      "sparse_keyword_hit_rate_at_5": 0.0
+    },
+    "benchmark_lookup": {
+      "queries": 5,
+      "nonempty_queries": 5,
+      "agreement_at_5_mean": 0.08,
+      "dense_keyword_hit_rate_at_5": 0.8,
+      "sparse_keyword_hit_rate_at_5": 1.0
+    },
+    "lexical_exact": {
+      "queries": 5,
+      "nonempty_queries": 5,
+      "agreement_at_5_mean": 0.16,
+      "dense_keyword_hit_rate_at_5": 0.2,
+      "sparse_keyword_hit_rate_at_5": 0.2
+    },
+    "semantic_capability": {
+      "queries": 7,
+      "nonempty_queries": 7,
+      "agreement_at_5_mean": 0.229,
+      "dense_keyword_hit_rate_at_5": 0.143,
+      "sparse_keyword_hit_rate_at_5": 0.143
+    },
+    "semantic_constraint": {
+      "queries": 11,
+      "nonempty_queries": 10,
+      "agreement_at_5_mean": 0.345,
+      "dense_keyword_hit_rate_at_5": 0.436,
+      "sparse_keyword_hit_rate_at_5": 0.636
+    },
+    "structured_constraint": {
+      "queries": 19,
+      "nonempty_queries": 19,
+      "agreement_at_5_mean": 0.179,
+      "dense_keyword_hit_rate_at_5": 0.158,
+      "sparse_keyword_hit_rate_at_5": 0.305
+    }
+  },
+  "per_query": [
+    {
+      "query_id": "q01_ko_classification_cpu",
+      "text": "한국어 텍스트 분류를 위한 가벼운 CPU 모델",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-classification"
+      ],
+      "candidate_count": 68,
+      "keywords": [
+        "cpu",
+        "가벼운",
+        "분류를",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "solbi12/ecommers_fasion_fine_tuned_3class_model",
+        "circulus/koelectra-polite-v1",
+        "monologg/koelectra-base-finetuned-nsmc",
+        "monologg/koelectra-small-finetuned-nsmc",
+        "Jinuuuu/KoELECTRA_fine_tunning_emotion"
+      ],
+      "sparse_top5": [
+        "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+        "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf",
+        "Zeolit/lettuce-thymos-26m-v1",
+        "guardion/ModernGuard-1",
+        "maidalun1020/bce-reranker-base_v1"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 2.8299590000000485,
+      "dense_rank_latency_ms": 0.010542000000057783
+    },
+    {
+      "query_id": "q02_ko_sentence_embedding",
+      "text": "한국어 문장 임베딩과 문장 유사도 검색 모델",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 380,
+      "keywords": [
+        "검색",
+        "문장",
+        "유사도",
+        "임베딩과"
+      ],
+      "dense_top5": [
+        "ysmeta/EVE-Embed-1.1-Legal",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "mykor/paraphrase-multilingual-MiniLM-L12-v2",
+        "Moriec/Vinogradov_semantic_search",
+        "ddobokki/klue-roberta-base-nli-sts-ko-en"
+      ],
+      "sparse_top5": [
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa",
+        "0xnu/pmmlv2-fine-tuned-igbo",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "78ResearchLab/PurpleHound-Embed-v1"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 15.042957999999995,
+      "dense_rank_latency_ms": 0.019249999999360057
+    },
+    {
+      "query_id": "q03_ko_document_embedding",
+      "text": "한국어 긴 문서 임베딩용 모델, context 2048 이상",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "feature-extraction",
+        "sentence-similarity"
+      ],
+      "candidate_count": 135,
+      "keywords": [
+        "2048",
+        "context",
+        "문서",
+        "임베딩용"
+      ],
+      "dense_top5": [
+        "nmixx-fin/nmixx-bge-m3",
+        "ysmeta/EVE-Embed-1.1-Legal",
+        "mp-juuuns/qwen3.5-4l-vocab40k-en-ko-headless",
+        "LiquidAI/LFM2.5-Embedding-350M",
+        "BCCard/MoAI-Embedding-4B"
+      ],
+      "sparse_top5": [
+        "nomic-ai/nomic-embed-text-v2-moe",
+        "nmixx-fin/nmixx-bge-m3",
+        "facebook/drama-1b",
+        "78ResearchLab/PurpleHound-Embed-v1",
+        "KGESH/nsfw-bge-m3-v5"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 5.420624999999735,
+      "dense_rank_latency_ms": 0.014417000000044311
+    },
+    {
+      "query_id": "q04_ko_asr",
+      "text": "한국어 음성 인식 ASR 모델",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 234,
+      "keywords": [
+        "asr",
+        "음성",
+        "인식"
+      ],
+      "dense_top5": [
+        "Edge0/ARK-ASR-3B",
+        "audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF",
+        "Edge0/Audio8-ASR-0.1B",
+        "Edge0/ARK-ASR-0.6B",
+        "harshav/ARK-ASR-3B-GGUF"
+      ],
+      "sparse_top5": [
+        "aufklarer/Qwen3-ASR-CoreML",
+        "microsoft/VibeVoice-ASR",
+        "Edge0/ARK-ASR-3B",
+        "cswk/sayit-asr-gguf",
+        "suryatmodulus/VibeVoice-ASR-BitNet"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 9.442667000000071,
+      "dense_rank_latency_ms": 0.01254099999936642
+    },
+    {
+      "query_id": "q05_ko_translation",
+      "text": "영어에서 한국어로 번역하는 모델",
+      "suite": "standard",
+      "query_type": "lexical_exact",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "low",
+        "sparse_bias": "high",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "translation"
+      ],
+      "candidate_count": 239,
+      "keywords": [
+        "번역하는",
+        "영어에서",
+        "한국어로"
+      ],
+      "dense_top5": [
+        "Helsinki-NLP/opus-mt-tc-big-ko-en",
+        "Helsinki-NLP/opus-mt-tc-big-en-ko",
+        "sappho192/aihub-ja-ko-translator",
+        "hell0ks/ja-ko-vn-12b-v2-gguf",
+        "mradermacher/EraX-Translator-V1.0-GGUF"
+      ],
+      "sparse_top5": [
+        "0xSojalSec/Tencent-Hy-30B-A3B-uncensored-heretic",
+        "42ailab/TranslateGemma-12B-GGUF",
+        "42ailab/TranslateGemma-27B-GGUF",
+        "42ailab/TranslateGemma-4B-GGUF",
+        "BSC-LT/salamandraTA-7B-instruct-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 10.149042000000108,
+      "dense_rank_latency_ms": 0.013250000000297746
+    },
+    {
+      "query_id": "q06_ko_summarization",
+      "text": "한국어 문서 요약 모델, 8B 이하",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "summarization"
+      ],
+      "candidate_count": 6,
+      "keywords": [
+        "8b",
+        "문서",
+        "요약"
+      ],
+      "dense_top5": [
+        "eenzeenee/t5-small-korean-summarization",
+        "psyche/KoT5-summarization",
+        "EbanLee/kobart-summary-v3",
+        "eenzeenee/t5-base-korean-summarization",
+        "mskayacioglu/mbart50-xlsum"
+      ],
+      "sparse_top5": [
+        "EbanLee/kobart-summary-v3",
+        "data-silence/any-news-sum",
+        "eenzeenee/t5-base-korean-summarization",
+        "eenzeenee/t5-small-korean-summarization",
+        "mskayacioglu/mbart50-xlsum"
+      ],
+      "dense_agreement_at_5": 0.8,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.24558399999996539,
+      "dense_rank_latency_ms": 0.004749999999553722
+    },
+    {
+      "query_id": "q07_ko_qa",
+      "text": "한국어 질문 답변 모델, 3B 이하",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "question-answering"
+      ],
+      "candidate_count": 6,
+      "keywords": [
+        "3b",
+        "답변",
+        "질문"
+      ],
+      "dense_top5": [
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "bespin-global/klue-bert-base-aihub-mrc",
+        "timpal0l/mdeberta-v3-base-squad2",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "FreedomIntelligence/Apollo-MoE-0.5B"
+      ],
+      "sparse_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "bespin-global/klue-bert-base-aihub-mrc",
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "timpal0l/mdeberta-v3-base-squad2"
+      ],
+      "dense_agreement_at_5": 1.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.5417500000000075,
+      "dense_rank_latency_ms": 0.004500000000184912
+    },
+    {
+      "query_id": "q08_ko_generation_long_context",
+      "text": "한국어 텍스트 생성 모델, context 8192 이상",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 1172,
+      "keywords": [
+        "8192",
+        "context",
+        "생성",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "blueapple8259/TinyKo",
+        "mkd-hossain/Keural-Cortex-8B-64K",
+        "MyeongHo0621/Qwen2.5-3B-Korean",
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+        "blueapple8259/test_model1"
+      ],
+      "sparse_top5": [
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+        "freewheelin/free-llama3-dpo-v0.2",
+        "teddylee777/llama-3-8b-it-ko-chang-gguf",
+        "lcw99/llama-3-10b-it-kor-extented-chang-pro8",
+        "NCSOFT/Llama-VARCO-8B-Instruct"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 74.38583300000002,
+      "dense_rank_latency_ms": 0.0748750000001408
+    },
+    {
+      "query_id": "q09_ko_multimodal",
+      "text": "한국어 이미지와 텍스트를 함께 처리하는 멀티모달 모델",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "image-text-to-text"
+      ],
+      "candidate_count": 385,
+      "keywords": [
+        "멀티모달",
+        "이미지와",
+        "처리하는",
+        "텍스트를",
+        "함께"
+      ],
+      "dense_top5": [
+        "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+        "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+        "nopesadly/GLM-OCR-Q4_K_M.gguf",
+        "mncai/Hunmin-397B-A17B-CUA-FP8",
+        "mobilint/aya-vision-8b"
+      ],
+      "sparse_top5": [
+        "0ppxnhximxr/gemma-4-31B-it-heretic-FP8-Dynamic",
+        "17slever17/translate-gemma-4-sub-e2b-GGUF",
+        "17slever17/translate-gemma-4-sub-e4b-GGUF",
+        "AMAImedia/DeepSeek-V4-Flash-0731",
+        "AMAImedia/Kimi-K3-MXFP-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 14.224500000000084,
+      "dense_rank_latency_ms": 0.02329099999975881
+    },
+    {
+      "query_id": "q10_ko_small_low_popularity",
+      "text": "다운로드 80~499의 한국어 텍스트 생성 모델",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 1313,
+      "keywords": [
+        "499의",
+        "80",
+        "다운로드",
+        "생성",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "north-wind/TinyStories-Korean-800K",
+        "MyeongHo0621/Qwen2.5-3B-Korean",
+        "blueapple8259/TinyKo",
+        "lcw99/ko-dialoGPT-korean-chit-chat",
+        "zhiyuan8/RWKV-v7-0.4B-G1-GGUF"
+      ],
+      "sparse_top5": [
+        "Mozilla/Qwen2.5-0.5B-Instruct",
+        "playdev7/theseed",
+        "tensorblock/ghost-8b-beta-GGUF",
+        "tensorblock/llamav2-LoRaco-7b-merged-GGUF",
+        "maywell/kiqu-70b"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 83.0179580000001,
+      "dense_rank_latency_ms": 0.12158399999950831
+    },
+    {
+      "query_id": "q11_ko_known_hardware",
+      "text": "파라미터와 context 정보가 확인된 한국어 임베딩 모델",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "feature-extraction",
+        "sentence-similarity"
+      ],
+      "candidate_count": 374,
+      "keywords": [
+        "context",
+        "임베딩",
+        "정보가",
+        "파라미터와"
+      ],
+      "dense_top5": [
+        "madatnlp/km-bert",
+        "mp-juuuns/qwen3.5-4l-vocab40k-en-ko-headless",
+        "artificial-nerds/pmnet",
+        "nounagnonsavoedo/multilingual-e5-base",
+        "nvidia/Nemotron-3-Embed-1B-NVFP4"
+      ],
+      "sparse_top5": [
+        "Xenova/kobert",
+        "snumin44/simcse-ko-roberta-supervised",
+        "fish9903/Emotion_KoBERT1",
+        "snumin44/simcse-ko-bert-supervised",
+        "eric0009/klue-robera-base-klue-sts-mrc"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 14.031708000000087,
+      "dense_rank_latency_ms": 0.018665999999889493
+    },
+    {
+      "query_id": "q12_ko_generation_unknown_safe",
+      "text": "한국어 생성 모델, 3B 이하이며 수치가 확인된 후보만",
+      "suite": "standard",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 374,
+      "keywords": [
+        "3b",
+        "생성",
+        "수치가",
+        "이하이며",
+        "후보만"
+      ],
+      "dense_top5": [
+        "quantumaikr/KoreanLM-3B",
+        "Bingsu/kanana-2-1.3b-instruct",
+        "young-kim123/qwen3-1.7b-mymodel",
+        "postcn/Jeju-Standard_Korean_Translator",
+        "Infinity08/KAWK-500M-Korean-Instruct-v1"
+      ],
+      "sparse_top5": [
+        "quantumaikr/KoreanLM-3B",
+        "42dot/42dot_LLM-PLM-1.3B",
+        "EleutherAI/polyglot-ko-1.3b",
+        "42dot/42dot_LLM-SFT-1.3B",
+        "Bingsu/kanana-2-1.3b-instruct"
+      ],
+      "dense_agreement_at_5": 0.4,
+      "dense_exact_keyword_hits_at_5": 2,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 21.88808299999989,
+      "dense_rank_latency_ms": 0.02066700000025179
+    },
+    {
+      "query_id": "q13_small_cpu_classifier",
+      "text": "CPU에서 빠르게 돌릴 수 있는 5억 파라미터 이하 텍스트 분류 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-classification"
+      ],
+      "candidate_count": 60,
+      "keywords": [
+        "5억",
+        "cpu에서",
+        "돌릴",
+        "분류",
+        "빠르게",
+        "텍스트",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "solbi12/ecommers_fasion_fine_tuned_3class_model",
+        "monologg/koelectra-base-finetuned-nsmc",
+        "monologg/koelectra-small-finetuned-nsmc",
+        "Huffon/klue-roberta-base-nli",
+        "tartuNLP/mmBERT-small-m-edu-classifier"
+      ],
+      "sparse_top5": [
+        "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+        "BalaRajesh1/mmbert-small-nli",
+        "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+        "DataWizardd/finbert-sentiment-ko",
+        "FISA-conclave/klue-roberta-news-sentiment"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 1,
+      "sparse_latency_ms": 2.361458000000205,
+      "dense_rank_latency_ms": 0.005625000000009095
+    },
+    {
+      "query_id": "q14_semantic_search_embedding",
+      "text": "의미 검색과 문장 검색에 적합한 문장 임베딩 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 435,
+      "keywords": [
+        "검색과",
+        "검색에",
+        "문장",
+        "의미",
+        "임베딩",
+        "적합한"
+      ],
+      "dense_top5": [
+        "Moriec/Vinogradov_semantic_search",
+        "opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1",
+        "artificial-nerds/pmnet",
+        "ysmeta/EVE-Embed-1.1-Legal",
+        "nlpai-lab/KURE-v2"
+      ],
+      "sparse_top5": [
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa",
+        "0xnu/pmmlv2-fine-tuned-igbo",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "78ResearchLab/PurpleHound-Embed-v1"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 15.923124999999594,
+      "dense_rank_latency_ms": 0.029458000000204265
+    },
+    {
+      "query_id": "q15_long_context_embedding",
+      "text": "8192토큰 이상 긴 문서를 처리할 수 있는 임베딩 모델이 필요해",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 132,
+      "keywords": [
+        "8192토큰",
+        "문서를",
+        "임베딩",
+        "필요해"
+      ],
+      "dense_top5": [
+        "nvidia/Nemotron-3-Embed-1B-NVFP4",
+        "codefuse-ai/F2LLM-v2-80M",
+        "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+        "mlx-community/LFM2.5-Embedding-350M-4bit",
+        "codefuse-ai/F2LLM-v2-8B"
+      ],
+      "sparse_top5": [
+        "78ResearchLab/PurpleHound-Embed-v1",
+        "Aksml123/snowflake-arctic-embed-l-v2.0",
+        "Aliados/harrier-oss-v1-270m",
+        "Alibaba-NLP/gte-multilingual-base",
+        "BCCard/MoAI-Embedding-4B"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 5.330166999999886,
+      "dense_rank_latency_ms": 0.008707999999302274
+    },
+    {
+      "query_id": "q16_realtime_asr_small",
+      "text": "실시간 음성 인식에 쓸 수 있고 10억 파라미터 이하인 작은 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 60,
+      "keywords": [
+        "10억",
+        "실시간",
+        "음성",
+        "이하인",
+        "인식에",
+        "작은",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "Edge0/Audio8-ASR-0.1B",
+        "appautomaton/nemotron-3.5-asr-streaming-0.6b-int8-mlx",
+        "aufklarer/Qwen3-ASR-1.7B-MLX-4bit",
+        "mobilint/whisper-small",
+        "mobilint/whisper-large-v3-turbo"
+      ],
+      "sparse_top5": [
+        "17slever17/Qwen3-ForcedAligner-Ultra",
+        "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+        "Aliados/nemotron-3.5-asr-streaming-0.6b",
+        "Bingsu/distilhubert-ko-zeroth",
+        "Edge0/Audio8-ASR-0.1B"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 2.4597910000001555,
+      "dense_rank_latency_ms": 0.005790999999533142
+    },
+    {
+      "query_id": "q17_english_german_translation",
+      "text": "영어와 독일어 사이를 번역하는 기계 번역 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "lexical_exact",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "low",
+        "sparse_bias": "high",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "translation"
+      ],
+      "candidate_count": 239,
+      "keywords": [
+        "기계",
+        "독일어",
+        "번역",
+        "번역하는",
+        "사이를",
+        "영어와"
+      ],
+      "dense_top5": [
+        "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+        "sappho192/aihub-ja-ko-translator",
+        "facebook/mbart-large-cc25",
+        "sappho192/ffxiv-ja-ko-translator",
+        "jhk/opus-mt-tc-big-wiki-en-ko"
+      ],
+      "sparse_top5": [
+        "0xSojalSec/Tencent-Hy-30B-A3B-uncensored-heretic",
+        "42ailab/TranslateGemma-12B-GGUF",
+        "42ailab/TranslateGemma-27B-GGUF",
+        "42ailab/TranslateGemma-4B-GGUF",
+        "BSC-LT/salamandraTA-7B-instruct-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 9.637000000000118,
+      "dense_rank_latency_ms": 0.013958000000258153
+    },
+    {
+      "query_id": "q18_long_document_summarization",
+      "text": "긴 문서를 요약할 수 있고 30억 파라미터 이하인 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "summarization"
+      ],
+      "candidate_count": 2,
+      "keywords": [
+        "30억",
+        "문서를",
+        "요약할",
+        "이하인",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "EbanLee/kobart-summary-v3",
+        "mskayacioglu/mbart50-xlsum"
+      ],
+      "sparse_top5": [
+        "EbanLee/kobart-summary-v3",
+        "mskayacioglu/mbart50-xlsum"
+      ],
+      "dense_agreement_at_5": 1.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.10170899999994987,
+      "dense_rank_latency_ms": 0.0049579999998883295
+    },
+    {
+      "query_id": "q19_small_question_answering",
+      "text": "질문에 답하는 용도의 10억 파라미터 이하 소형 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "question-answering"
+      ],
+      "candidate_count": 5,
+      "keywords": [
+        "10억",
+        "답하는",
+        "소형",
+        "용도의",
+        "질문에",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "bespin-global/klue-bert-base-aihub-mrc",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "timpal0l/mdeberta-v3-base-squad2"
+      ],
+      "sparse_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "bespin-global/klue-bert-base-aihub-mrc",
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "timpal0l/mdeberta-v3-base-squad2"
+      ],
+      "dense_agreement_at_5": 1.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.33720799999992224,
+      "dense_rank_latency_ms": 0.004833000000203924
+    },
+    {
+      "query_id": "q20_long_context_generation",
+      "text": "16K 이상 긴 컨텍스트를 지원하는 80억 파라미터 이하 지시문 생성 모델이 필요해",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 522,
+      "keywords": [
+        "16k",
+        "80억",
+        "생성",
+        "지시문",
+        "컨텍스트를",
+        "파라미터",
+        "필요해"
+      ],
+      "dense_top5": [
+        "qingy2024/Qwark-4B",
+        "CMSManhattan/JiRackUltra_1b",
+        "jwg0830/AX-3.1-Light-sft_v0_1",
+        "Calandracas/minnow-pico-50M-base",
+        "lcw99/zephykor-ko-beta-7b-chang"
+      ],
+      "sparse_top5": [
+        "soka0000/vclm-korean-7b",
+        "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy",
+        "LiquidAI/LFM2.5-1.2B-Thinking",
+        "0xzknw/LFM2.5-2.6B-Heretic-NX-PRIME",
+        "AMAImedia/Tiny-Aya-3.3B-L2-Thinker-BF16-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 3,
+      "sparse_latency_ms": 32.25724999999979,
+      "dense_rank_latency_ms": 0.030959000000052583
+    },
+    {
+      "query_id": "q21_vision_language_ocr",
+      "text": "이미지를 이해하고 OCR도 수행할 수 있는 비전 언어 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "image-text-to-text"
+      ],
+      "candidate_count": 385,
+      "keywords": [
+        "ocr도",
+        "비전",
+        "수행할",
+        "언어",
+        "이미지를",
+        "이해하고"
+      ],
+      "dense_top5": [
+        "EZCon/GLM-OCR-4bit-mlx",
+        "ONTHEIT/BizOnAI-OCR",
+        "Lamapi/next-ocr-Q4_K_M-GGUF",
+        "batiai/batisee",
+        "NCSOFT/VARCO-VISION-2.0-1.7B-OCR"
+      ],
+      "sparse_top5": [
+        "0ppxnhximxr/gemma-4-31B-it-heretic-FP8-Dynamic",
+        "17slever17/translate-gemma-4-sub-e2b-GGUF",
+        "17slever17/translate-gemma-4-sub-e4b-GGUF",
+        "AMAImedia/DeepSeek-V4-Flash-0731",
+        "AMAImedia/Kimi-K3-MXFP-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 14.264459000000063,
+      "dense_rank_latency_ms": 0.022666000000448605
+    },
+    {
+      "query_id": "q22_low_popularity_generation",
+      "text": "실험용으로 사용할 다운로드 수가 낮은 텍스트 생성 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 1313,
+      "keywords": [
+        "낮은",
+        "다운로드",
+        "생성",
+        "수가",
+        "실험용으로",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "north-wind/TinyStories-Korean-800K",
+        "Yaongi/HybriKo-117M-ToolLLaMA-SFT",
+        "zhiyuan8/RWKV-v7-0.4B-G1-GGUF",
+        "blueapple8259/TinyKo",
+        "Sangto/T3Q-qwen2.5-14b-v1.0-e3-Q4_K_M-GGUF"
+      ],
+      "sparse_top5": [
+        "0ppxnhximxr/Motif-3-GGUF",
+        "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+        "0xzknw/Granite-4.2-3B-Heretic-NX-PRIME-GGUF",
+        "0xzknw/LFM2.5-1.2B-Thinking-Heretic-NX-Residual-Stream",
+        "0xzknw/LFM2.5-8B-A1B-Heretic-NX-PRIME-GGUF"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 77.99037499999972,
+      "dense_rank_latency_ms": 0.1882499999998899
+    },
+    {
+      "query_id": "q23_known_embedding_metadata",
+      "text": "파라미터 수와 컨텍스트 길이가 모두 확인된 임베딩 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 374,
+      "keywords": [
+        "길이가",
+        "수와",
+        "임베딩",
+        "컨텍스트",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "artificial-nerds/pmnet",
+        "severinsimmler/xlm-roberta-longformer-base-16384",
+        "severinsimmler/xlm-roberta-longformer-large-16384",
+        "sangmini/msmarco-cotmae-MiniLM-L12_en-ko-ja",
+        "hasankursun/matryoshka-embedding-v1"
+      ],
+      "sparse_top5": [
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa",
+        "0xnu/pmmlv2-fine-tuned-igbo",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "78ResearchLab/PurpleHound-Embed-v1"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 14.20579100000019,
+      "dense_rank_latency_ms": 0.021084000000115566
+    },
+    {
+      "query_id": "q24_small_sentence_similarity",
+      "text": "10억 파라미터 이하로 문장 유사도를 계산하는 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity"
+      ],
+      "candidate_count": 248,
+      "keywords": [
+        "10억",
+        "계산하는",
+        "문장",
+        "유사도를",
+        "이하로",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "hasankursun/matryoshka-embedding-v1",
+        "ysmeta/EVE-Embed-1.0-Legal",
+        "gomyk/me5s-me5s_compressed_v3_distilled",
+        "dragonkue/colbert-ko-0.1b",
+        "BCCard/MoAI-Embedding-0.6B"
+      ],
+      "sparse_top5": [
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa",
+        "0xnu/pmmlv2-fine-tuned-igbo",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "AbdullahMoQH/multilingual-e5-base"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 8.735374999999657,
+      "dense_rank_latency_ms": 0.01333300000005977
+    },
+    {
+      "query_id": "q25_compact_translation",
+      "text": "10억 파라미터 이하의 가벼운 기계 번역 모델이 필요해",
+      "suite": "standard",
+      "query_type": "lexical_exact",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "low",
+        "sparse_bias": "high",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "translation"
+      ],
+      "candidate_count": 20,
+      "keywords": [
+        "10억",
+        "가벼운",
+        "기계",
+        "번역",
+        "이하의",
+        "파라미터",
+        "필요해"
+      ],
+      "dense_top5": [
+        "alirezamsh/small100",
+        "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+        "Neurora/opus-hplt-en-ko-v2.0",
+        "dhtocks/nllb-200-distilled-350M_en-ko",
+        "Helsinki-NLP/opus-mt_tiny_kor-eng"
+      ],
+      "sparse_top5": [
+        "Babelscape/mrebel-base",
+        "Babelscape/mrebel-large",
+        "Babelscape/mrebel-large-32",
+        "Darong/BlueT",
+        "Helsinki-NLP/opus-mt-tc-big-en-ko"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.8407500000000567,
+      "dense_rank_latency_ms": 0.003666999999651921
+    },
+    {
+      "query_id": "q26_on_device_asr",
+      "text": "엣지 디바이스에서 사용할 5억 파라미터 이하 음성 인식 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 32,
+      "keywords": [
+        "5억",
+        "디바이스에서",
+        "엣지",
+        "음성",
+        "인식",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "seastar105/whisper-small-komixv2",
+        "Edge0/Audio8-ASR-0.1B",
+        "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+        "moonshine-ai/moonshine-base-ko",
+        "mobilint/whisper-large-v3-turbo"
+      ],
+      "sparse_top5": [
+        "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+        "Bingsu/distilhubert-ko-zeroth",
+        "Edge0/Audio8-ASR-0.1B",
+        "Kkonjeong/wav2vec2-base-korean",
+        "MahmoudAshraf/mms-300m-1130-forced-aligner"
+      ],
+      "dense_agreement_at_5": 0.4,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 1.3476249999997414,
+      "dense_rank_latency_ms": 0.00866600000026807
+    },
+    {
+      "query_id": "q27_very_long_context_generation",
+      "text": "32K 이상의 컨텍스트 길이를 지원하는 텍스트 생성 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 1092,
+      "keywords": [
+        "32k",
+        "길이를",
+        "생성",
+        "이상의",
+        "컨텍스트",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-gguf",
+        "qingy2024/Qwark-4B",
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+        "kimjg/recallResolver-1B",
+        "SamsungSAILMontreal/ByteCraft"
+      ],
+      "sparse_top5": [
+        "OpenBuddy/openbuddy-zero-56b-v21.2-32k",
+        "OpenBuddy/openbuddy-mixtral-7bx8-v16.3-32k",
+        "OpenBuddy/openbuddy-mistral-7b-v17.1-32k",
+        "OpenBuddy/openbuddy-mistral2-7b-v20.2-32k",
+        "OpenBuddy/openbuddy-mistral2-7b-v20.3-32k"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 68.93237500000015,
+      "dense_rank_latency_ms": 0.059749999999247905
+    },
+    {
+      "query_id": "q28_medium_text_classifier",
+      "text": "성능과 크기의 균형이 좋은 30억 파라미터 이하 텍스트 분류 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-classification"
+      ],
+      "candidate_count": 69,
+      "keywords": [
+        "30억",
+        "균형이",
+        "분류",
+        "성능과",
+        "좋은",
+        "크기의",
+        "텍스트",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "solbi12/ecommers_fasion_fine_tuned_3class_model",
+        "llm-semantic-router/mmbert-rerank-32k-2d-matryoshka",
+        "circulus/koelectra-polite-v1",
+        "amphora/KorFinASC-XLM-RoBERTa",
+        "circulus/koelectra-wellness-v1"
+      ],
+      "sparse_top5": [
+        "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+        "BalaRajesh1/mmbert-small-nli",
+        "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+        "DataWizardd/finbert-sentiment-ko",
+        "Dongjin-kr/ko-reranker"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 1,
+      "sparse_latency_ms": 2.699583000000061,
+      "dense_rank_latency_ms": 0.005790999999533142
+    },
+    {
+      "query_id": "q29_very_long_embedding",
+      "text": "16K 이상 긴 문서를 임베딩할 수 있는 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 84,
+      "keywords": [
+        "16k",
+        "문서를",
+        "임베딩할"
+      ],
+      "dense_top5": [
+        "mlx-community/LFM2.5-Embedding-350M-4bit",
+        "shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4",
+        "codefuse-ai/F2LLM-v2-160M",
+        "codefuse-ai/F2LLM-v2-14B",
+        "codefuse-ai/F2LLM-v2-80M"
+      ],
+      "sparse_top5": [
+        "78ResearchLab/PurpleHound-Embed-v1",
+        "Aliados/harrier-oss-v1-270m",
+        "Alibaba-NLP/gte-multilingual-base",
+        "BCCard/MoAI-Embedding-4B",
+        "BidirLM/BidirLM-0.6B-Embedding"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 3.468209000000222,
+      "dense_rank_latency_ms": 0.00629200000012986
+    },
+    {
+      "query_id": "q30_general_question_answering",
+      "text": "범용 질문 답변에 사용할 30억 파라미터 이하 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "semantic_capability",
+      "routing_hint": {
+        "primary": "dense",
+        "dense_bias": "high",
+        "sparse_bias": "low",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "question-answering"
+      ],
+      "candidate_count": 6,
+      "keywords": [
+        "30억",
+        "답변에",
+        "범용",
+        "질문",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "timpal0l/mdeberta-v3-base-squad2",
+        "bespin-global/klue-bert-base-aihub-mrc"
+      ],
+      "sparse_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "bespin-global/klue-bert-base-aihub-mrc",
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "monologg/koelectra-small-v2-distilled-korquad-384",
+        "timpal0l/mdeberta-v3-base-squad2"
+      ],
+      "dense_agreement_at_5": 1.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.3332500000001737,
+      "dense_rank_latency_ms": 0.004791999999476104
+    },
+    {
+      "query_id": "q31_mteb_arguana_ndcg",
+      "text": "MTEB ArguAna에서 nDCG@10 성능이 보고된 문장 검색 임베딩 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "benchmark_lookup",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "medium",
+        "sparse_bias": "high",
+        "metadata_filter": "hard",
+        "benchmark_boost": "required"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 435,
+      "keywords": [
+        "10",
+        "arguana에서",
+        "mteb",
+        "ndcg",
+        "검색",
+        "문장",
+        "보고된",
+        "성능이",
+        "임베딩"
+      ],
+      "dense_top5": [
+        "Teradata/multilingual-e5-base",
+        "NaganoJRC/multilingual-e5-base",
+        "Alibaba-NLP/gte-multilingual-base",
+        "AbdullahMoQH/multilingual-e5-base",
+        "nmixx-fin/nmixx-bge-m3"
+      ],
+      "sparse_top5": [
+        "78ResearchLab/PurpleHound-Embed-v1",
+        "sionic-ai/comsat-embed-ko-8b-preview",
+        "ysmeta/EVE-Embed-1.1-Legal",
+        "mlx-community/snowflake-arctic-embed-l-v2.0-4bit",
+        "mlx-community/snowflake-arctic-embed-l-v2.0-bf16"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 4,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 16.7578749999997,
+      "dense_rank_latency_ms": 0.024959000000102094
+    },
+    {
+      "query_id": "q32_mteb_embedding_evidence",
+      "text": "MTEB 평가 결과가 README에 근거와 함께 기록된 임베딩 모델을 찾아줘",
+      "suite": "standard",
+      "query_type": "benchmark_lookup",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "medium",
+        "sparse_bias": "high",
+        "metadata_filter": "hard",
+        "benchmark_boost": "required"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 435,
+      "keywords": [
+        "mteb",
+        "readme에",
+        "결과가",
+        "근거와",
+        "기록된",
+        "임베딩",
+        "평가",
+        "함께"
+      ],
+      "dense_top5": [
+        "Teradata/multilingual-e5-base",
+        "amazon/Titan-text-embeddings-v2",
+        "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+        "shadowrock-io/Nemotron-3-Embed-8B-Community-MLX-4bit",
+        "gimhae-geunamja/bge-m3-ko-public-admin"
+      ],
+      "sparse_top5": [
+        "ibm-granite/granite-embedding-107m-multilingual",
+        "ibm-granite/granite-embedding-278m-multilingual",
+        "amazon/Titan-text-embeddings-v2",
+        "MagicalAlchemist/granite-embedding-107m-id-en-v6.2",
+        "cnmoro/snowflake-arctic-embed-m-v2.0-cpu"
+      ],
+      "dense_agreement_at_5": 0.4,
+      "dense_exact_keyword_hits_at_5": 4,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 16.697416999999604,
+      "dense_rank_latency_ms": 0.022083000000172603
+    },
+    {
+      "query_id": "q33_asr_wer_evidence",
+      "text": "WER 평가 수치가 확인되는 음성 인식 모델을 추천해줘",
+      "suite": "standard",
+      "query_type": "benchmark_lookup",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "medium",
+        "sparse_bias": "high",
+        "metadata_filter": "hard",
+        "benchmark_boost": "required"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 234,
+      "keywords": [
+        "wer",
+        "수치가",
+        "음성",
+        "인식",
+        "평가",
+        "확인되는"
+      ],
+      "dense_top5": [
+        "junnei/Phi-4-multimodal-instruct-ko-asr",
+        "handy-computer/SenseVoiceSmall-gguf",
+        "seastar105/whisper-medium-komixv2",
+        "EvoAwaken-Workshop/VibeVoice-ASR-Streaming-7B-GGUF",
+        "Lexius/Phi-4-multimodal-instruct"
+      ],
+      "sparse_top5": [
+        "cswk/sayit-asr-gguf",
+        "ghost613/whisper-large-v3-turbo-korean",
+        "SungBeom/stt_kr_conformer_ctc_medium",
+        "w11wo/wav2vec2-xls-r-300m-korean",
+        "FluidInference/qwen3-asr-0.6b-coreml"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 2,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 9.54008400000017,
+      "dense_rank_latency_ms": 0.015250000000577302
+    },
+    {
+      "query_id": "q34_ko_summarization_small_long",
+      "text": "한국어 긴 문서를 요약하는 3B 이하 모델 중 context 4096 이상이고 파라미터와 context가 모두 확인된 후보",
+      "suite": "adversarial",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "summarization"
+      ],
+      "candidate_count": 0,
+      "keywords": [
+        "3b",
+        "4096",
+        "context",
+        "context가",
+        "문서를",
+        "요약하는",
+        "이상이고",
+        "파라미터와",
+        "후보"
+      ],
+      "dense_top5": [],
+      "sparse_top5": [],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.016167000000066878,
+      "dense_rank_latency_ms": 0.002166999999886343
+    },
+    {
+      "query_id": "q35_ko_asr_edge_low",
+      "text": "다운로드가 낮고 5억 파라미터 이하인 한국어 실시간 음성 인식 모델",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 15,
+      "keywords": [
+        "5억",
+        "낮고",
+        "다운로드가",
+        "실시간",
+        "음성",
+        "이하인",
+        "인식",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "seastar105/whisper-small-komixv2",
+        "kimthegarden/whisper-small-ko-new",
+        "Bingsu/distilhubert-ko-zeroth",
+        "mobilint/whisper-large-v3-turbo",
+        "team-lucid/hubert-large-korean"
+      ],
+      "sparse_top5": [
+        "Bingsu/distilhubert-ko-zeroth",
+        "RedHatAI/whisper-tiny",
+        "binant/whisper-small",
+        "kimthegarden/whisper-small-ko-new",
+        "mlx-community/whisper-base-asr-fp16"
+      ],
+      "dense_agreement_at_5": 0.4,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.678541000000088,
+      "dense_rank_latency_ms": 0.0030839999993759193
+    },
+    {
+      "query_id": "q36_en_to_ko_translation_small",
+      "text": "영어에서 한국어로 번역하는 10억 파라미터 이하의 가벼운 모델",
+      "suite": "adversarial",
+      "query_type": "lexical_exact",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "low",
+        "sparse_bias": "high",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "translation"
+      ],
+      "candidate_count": 20,
+      "keywords": [
+        "10억",
+        "가벼운",
+        "번역하는",
+        "영어에서",
+        "이하의",
+        "파라미터",
+        "한국어로"
+      ],
+      "dense_top5": [
+        "Helsinki-NLP/opus-mt_tiny_kor-eng",
+        "sappho192/aihub-ja-ko-translator",
+        "Neurora/opus-hplt-en-ko-v2.0",
+        "Helsinki-NLP/opus-mt-tc-big-ko-en",
+        "sappho192/ffxiv-ja-ko-translator"
+      ],
+      "sparse_top5": [
+        "Babelscape/mrebel-base",
+        "Babelscape/mrebel-large",
+        "Babelscape/mrebel-large-32",
+        "Darong/BlueT",
+        "Helsinki-NLP/opus-mt-tc-big-en-ko"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.7940419999998838,
+      "dense_rank_latency_ms": 0.003167000000026121
+    },
+    {
+      "query_id": "q37_ko_embedding_long_small",
+      "text": "한국어 긴 문서 검색용 임베딩 모델 중 1.5B 이하이고 context 16384 이상인 후보",
+      "suite": "adversarial",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 62,
+      "keywords": [
+        "16384",
+        "5b",
+        "context",
+        "검색용",
+        "문서",
+        "이상인",
+        "이하이고",
+        "임베딩",
+        "후보"
+      ],
+      "dense_top5": [
+        "mp-juuuns/qwen3.5-4l-vocab40k-en-ko-headless",
+        "LiquidAI/LFM2-ColBERT-350M",
+        "LiquidAI/LFM2.5-Embedding-350M",
+        "BCCard/MoAI-Embedding-0.6B",
+        "nvidia/Nemotron-3-Embed-1B-BF16"
+      ],
+      "sparse_top5": [
+        "severinsimmler/xlm-roberta-longformer-base-16384",
+        "severinsimmler/xlm-roberta-longformer-large-16384",
+        "yjoonjang/colbert-ko-v1",
+        "telepix/PIXIE-Splade-v1.0",
+        "telepix/PIXIE-Splade-v1.5"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 2.6312920000002293,
+      "dense_rank_latency_ms": 0.005208000000145319
+    },
+    {
+      "query_id": "q38_ko_vision_ocr_small",
+      "text": "한국어 문서 이미지와 OCR을 처리할 수 있는 5B 이하 비전 언어 모델",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "image-text-to-text"
+      ],
+      "candidate_count": 63,
+      "keywords": [
+        "5b",
+        "ocr을",
+        "문서",
+        "비전",
+        "언어",
+        "이미지와"
+      ],
+      "dense_top5": [
+        "EZCon/GLM-OCR-4bit-mlx",
+        "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+        "mobilint/aya-vision-8b",
+        "mlx-community/LFM2.5-VL-450M-6bit",
+        "CohereLabs/North-Micro-Vision-Instruct"
+      ],
+      "sparse_top5": [
+        "AMAImedia/Kimi-K3-0.40B-Kazakh-CPT-step200",
+        "AXONVERTEX-AI-RESEARCH/Shieldstral-1.0-3B-MLX-4bit",
+        "CohereLabs/North-Micro-Vision-Instruct",
+        "EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx",
+        "Jackrong/Negentropy-claude-opus-4.7-4B"
+      ],
+      "dense_agreement_at_5": 0.2,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 2.5535000000003194,
+      "dense_rank_latency_ms": 0.005125000000383295
+    },
+    {
+      "query_id": "q39_ko_qa_context",
+      "text": "한국어 질문 답변에 사용할 3B 이하 모델 중 context 2048 이상이고 파라미터가 확인된 후보",
+      "suite": "adversarial",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "question-answering"
+      ],
+      "candidate_count": 2,
+      "keywords": [
+        "2048",
+        "3b",
+        "context",
+        "답변에",
+        "이상이고",
+        "질문",
+        "파라미터가",
+        "후보"
+      ],
+      "dense_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "haiFrHust/VNJPTranslate_base"
+      ],
+      "sparse_top5": [
+        "FreedomIntelligence/Apollo-MoE-0.5B",
+        "haiFrHust/VNJPTranslate_base"
+      ],
+      "dense_agreement_at_5": 1.0,
+      "dense_exact_keyword_hits_at_5": 2,
+      "sparse_exact_keyword_hits_at_5": 2,
+      "sparse_latency_ms": 0.15170800000063878,
+      "dense_rank_latency_ms": 0.01258400000025972
+    },
+    {
+      "query_id": "q40_low_long_generation",
+      "text": "실험용 Low Popularity 중 context 32768 이상인 8B 이하 텍스트 생성 모델",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 338,
+      "keywords": [
+        "32768",
+        "8b",
+        "context",
+        "low",
+        "popularity",
+        "생성",
+        "실험용",
+        "이상인",
+        "텍스트"
+      ],
+      "dense_top5": [
+        "lcw99/zephykor-ko-beta-7b-chang",
+        "jwg0830/AX-3.1-Light-sft_v0_1",
+        "hoySky92/HyperCLOVA-X-U-CURATE-v2.0",
+        "trillionlabs/Tri-7B-Search-preview",
+        "ChanLumerico/EXAONE-3.5-7.8B-Instruct-Yaho"
+      ],
+      "sparse_top5": [
+        "gaianet/EXAONE-Deep-7.8B-GGUF",
+        "ceyda/Qwen3-1.7B-Base-trim-koen-32768",
+        "hymmmm/exaone-3.5-7.8b-awq",
+        "OpenLLM-Korea/EXAONE-Deep-7.8B",
+        "beomi/EXAONE-3.5-7.8B-Instruct-Llamafied"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 21.514583000000087,
+      "dense_rank_latency_ms": 0.018124999999535873
+    },
+    {
+      "query_id": "q41_low_small_similarity",
+      "text": "다운로드 80~499이고 5억 파라미터 이하인 소형 문장 유사도 모델",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity"
+      ],
+      "candidate_count": 172,
+      "keywords": [
+        "499이고",
+        "5억",
+        "80",
+        "다운로드",
+        "문장",
+        "소형",
+        "유사도",
+        "이하인",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "soulfree89/e5-small-ko-v2-fix",
+        "gomyk/me5s-me5s_compressed_v3_distilled",
+        "gomyk/me5s-student-me5s_compressed_v4_distilled",
+        "gomyk/me5s-student-me5s_compressed_v3_distilled",
+        "DLCorso/multilingual-e5-small"
+      ],
+      "sparse_top5": [
+        "bongsoo/moco-sentencebertV2.0",
+        "caasman/klue-roberta-base-klue-sts",
+        "alphaedge-ai/bge-m3-kor-32768",
+        "gomyk/minilm-student-L4_uniform_distilled",
+        "0xnu/pmmlv2-fine-tuned-flemish"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 4,
+      "sparse_latency_ms": 5.912749999999356,
+      "dense_rank_latency_ms": 0.011165999999285248
+    },
+    {
+      "query_id": "q42_low_asr_wer",
+      "text": "Low Popularity 한국어 음성 인식 모델 중 README에 WER 수치가 기록된 후보",
+      "suite": "adversarial",
+      "query_type": "benchmark_lookup",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "medium",
+        "sparse_bias": "high",
+        "metadata_filter": "hard",
+        "benchmark_boost": "required"
+      },
+      "tasks": [
+        "automatic-speech-recognition"
+      ],
+      "candidate_count": 103,
+      "keywords": [
+        "low",
+        "popularity",
+        "readme에",
+        "wer",
+        "기록된",
+        "수치가",
+        "음성",
+        "인식",
+        "후보"
+      ],
+      "dense_top5": [
+        "TeamUNIVA/qwen3_asr_1.7b_ko_beta",
+        "rearleg/SeloWhisper-ko-disfluency",
+        "BuzzASR/korean",
+        "mlx-community/VibeVoice-ASR-Streaming-7B-4bit",
+        "OpenVoiceOS/qwen3-asr-0.6b-q5-k-m"
+      ],
+      "sparse_top5": [
+        "RedHatAI/whisper-tiny",
+        "unsloth/whisper-base",
+        "memoravox/whisper-small-gguf",
+        "vrfai/Qwen3-ASR-0.6B-int8-QAD",
+        "neurlang/ipa-whisper-medium"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 4.275958000000024,
+      "dense_rank_latency_ms": 0.007083999999935031
+    },
+    {
+      "query_id": "q43_ko_mteb_long",
+      "text": "한국어 긴 문서 임베딩에서 MTEB 평가 근거가 있고 context 8192 이상인 모델",
+      "suite": "adversarial",
+      "query_type": "benchmark_lookup",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "medium",
+        "sparse_bias": "high",
+        "metadata_filter": "hard",
+        "benchmark_boost": "required"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "feature-extraction"
+      ],
+      "candidate_count": 132,
+      "keywords": [
+        "8192",
+        "context",
+        "mteb",
+        "근거가",
+        "문서",
+        "이상인",
+        "임베딩에서",
+        "평가"
+      ],
+      "dense_top5": [
+        "nmixx-fin/nmixx-bge-m3",
+        "hyunseop/bge-m3-ko",
+        "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+        "leeloolee/intention",
+        "shadowrock-io/Nemotron-3-Embed-8B-Community-MLX-4bit"
+      ],
+      "sparse_top5": [
+        "amazon/Titan-text-embeddings-v2",
+        "gomyk/modernbert-student-modernbert_L4_uniform_distilled",
+        "sigridjineth/ModernBERT-korean-large-preview",
+        "upskyy/gte-base-korean",
+        "omai-research/milco-650m"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 5.962582999999633,
+      "dense_rank_latency_ms": 0.0075000000006042455
+    },
+    {
+      "query_id": "q44_cpu_tiny_classifier",
+      "text": "CPU에서 사용할 1억 파라미터 이하 초소형 텍스트 분류 모델이며 파라미터 수가 확인된 후보",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-classification"
+      ],
+      "candidate_count": 9,
+      "keywords": [
+        "1억",
+        "cpu에서",
+        "모델이며",
+        "분류",
+        "수가",
+        "초소형",
+        "텍스트",
+        "파라미터",
+        "후보"
+      ],
+      "dense_top5": [
+        "monologg/koelectra-small-finetuned-nsmc",
+        "snunlp/KR-FinBert-SC",
+        "kfkas/legal-question-filter-koelectra",
+        "bongsoo/albert-small-kor-cross-encoder-v1",
+        "ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF"
+      ],
+      "sparse_top5": [
+        "Zeolit/lettuce-thymos-26m-v1",
+        "bespin-global/klue-roberta-small-3i4k-intent-classification",
+        "bongsoo/albert-small-kor-cross-encoder-v1",
+        "daekeun-ml/koelectra-small-v3-nsmc",
+        "ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF"
+      ],
+      "dense_agreement_at_5": 0.4,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.42937499999951,
+      "dense_rank_latency_ms": 0.002958000000496952
+    },
+    {
+      "query_id": "q45_ko_multitask_retrieval_qa",
+      "text": "한국어 검색과 질문 답변을 모두 고려할 수 있는 1B 이하 모델",
+      "suite": "adversarial",
+      "query_type": "semantic_constraint",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "sentence-similarity",
+        "question-answering"
+      ],
+      "candidate_count": 253,
+      "keywords": [
+        "1b",
+        "검색과",
+        "고려할",
+        "답변을",
+        "질문"
+      ],
+      "dense_top5": [
+        "monologg/koelectra-base-v3-finetuned-korquad",
+        "soulfree89/e5-small-ko-v2-fix",
+        "nmixx-fin/nmixx-bge-m3",
+        "exp-models/dragonkue-KoEn-E5-Tiny",
+        "FreedomIntelligence/Apollo-MoE-0.5B"
+      ],
+      "sparse_top5": [
+        "BidirLM/BidirLM-1B-Embedding",
+        "nvidia/Nemotron-3-Embed-1B-NVFP4",
+        "dragonkue/colbert-ko-0.1b",
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 3,
+      "sparse_latency_ms": 9.403292000000008,
+      "dense_rank_latency_ms": 0.011458000000352797
+    },
+    {
+      "query_id": "q46_ko_generation_known_all",
+      "text": "파라미터와 context가 모두 확인된 2B 이하 한국어 텍스트 생성 모델, context 4096 이상",
+      "suite": "adversarial",
+      "query_type": "structured_constraint",
+      "routing_hint": {
+        "primary": "metadata",
+        "dense_bias": "low",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 228,
+      "keywords": [
+        "2b",
+        "4096",
+        "context",
+        "context가",
+        "생성",
+        "텍스트",
+        "파라미터와"
+      ],
+      "dense_top5": [
+        "blueapple8259/TinyKo",
+        "Mozilla/Qwen2.5-0.5B-Instruct",
+        "ceyda/Qwen3-1.7B-Base-trim-koen-32768",
+        "Bingsu/kanana-2-1.3b-instruct",
+        "blueapple8259/test_model1"
+      ],
+      "sparse_top5": [
+        "LiquidAI/LFM2-1.2B",
+        "FINAL-Bench/Darwin-2B-Opus",
+        "CarrotAI/Carrot-Ko-2B-Instruct",
+        "unsloth/LFM2.5-1.2B-Instruct",
+        "LiquidAI/LFM2.5-1.2B-Thinking"
+      ],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 14.147916000000649,
+      "dense_rank_latency_ms": 0.013041999999963139
+    },
+    {
+      "query_id": "q47_low_compact_translation",
+      "text": "Low Popularity에서 5억 파라미터 이하인 한국어 번역 모델",
+      "suite": "adversarial",
+      "query_type": "lexical_exact",
+      "routing_hint": {
+        "primary": "bm25",
+        "dense_bias": "low",
+        "sparse_bias": "high",
+        "metadata_filter": "hard"
+      },
+      "tasks": [
+        "translation"
+      ],
+      "candidate_count": 9,
+      "keywords": [
+        "5억",
+        "low",
+        "popularity에서",
+        "번역",
+        "이하인",
+        "파라미터"
+      ],
+      "dense_top5": [
+        "Helsinki-NLP/opus-mt_tiny_kor-eng",
+        "Neurora/opus-hplt-en-ko-v2.0",
+        "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+        "Darong/BlueT",
+        "sappho192/gemma3-multilingual-translator-270m"
+      ],
+      "sparse_top5": [
+        "dhtocks/nllb-200-distilled-350M_en-ko",
+        "Darong/BlueT",
+        "Helsinki-NLP/opus-mt_tiny_kor-eng",
+        "Neurora/opus-hplt-en-ko-v2.0",
+        "sappho192/gemma3-multilingual-translator-270m"
+      ],
+      "dense_agreement_at_5": 0.8,
+      "dense_exact_keyword_hits_at_5": 5,
+      "sparse_exact_keyword_hits_at_5": 5,
+      "sparse_latency_ms": 0.4021669999998423,
+      "dense_rank_latency_ms": 0.0027090000003227033
+    },
+    {
+      "query_id": "q48_intentionally_empty",
+      "text": "한국어 text-generation 중 10M 이하이고 context 131072 이상인 모델",
+      "suite": "adversarial",
+      "query_type": "abstention",
+      "routing_hint": {
+        "primary": "hybrid",
+        "dense_bias": "medium",
+        "sparse_bias": "medium",
+        "metadata_filter": "hard",
+        "abstain_if_empty": true
+      },
+      "tasks": [
+        "text-generation"
+      ],
+      "candidate_count": 0,
+      "keywords": [
+        "10m",
+        "131072",
+        "context",
+        "generation",
+        "text",
+        "이상인",
+        "이하이고"
+      ],
+      "dense_top5": [],
+      "sparse_top5": [],
+      "dense_agreement_at_5": 0.0,
+      "dense_exact_keyword_hits_at_5": 0,
+      "sparse_exact_keyword_hits_at_5": 0,
+      "sparse_latency_ms": 0.02408399999964672,
+      "dense_rank_latency_ms": 0.002166999999886343
+    }
+  ]
+}

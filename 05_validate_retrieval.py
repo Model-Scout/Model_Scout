@@ -19,6 +19,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 from dotenv import load_dotenv
 
 from benchmark_metadata import benchmark_key, match_benchmark_records
+from evidence_index import attach_evidence_hits, load_index
 
 
 ROOT = Path(__file__).resolve().parent
@@ -532,6 +533,14 @@ def check_results(rows: Sequence[Dict[str, Any]], query: Dict[str, Any]) -> Dict
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execute", action="store_true", help="embed query text with OpenAI before ranking")
+    parser.add_argument(
+        "--evidence-rerank",
+        action="store_true",
+        help="rerank base model candidates with Stage 3 child evidence (no API call)",
+    )
+    parser.add_argument("--evidence-top-k", type=int, default=3)
+    parser.add_argument("--evidence-candidate-limit", type=int, default=50)
+    parser.add_argument("--evidence-weight", type=float, default=0.08)
     parser.add_argument("--top-k", type=int, default=None)
     parser.add_argument("--query-file", type=Path, default=QUERY_PATH)
     parser.add_argument("--report-json", type=Path, default=REPORT_JSON)
@@ -558,6 +567,19 @@ def main() -> int:
         for item in response.data:
             query_vectors[item.index] = item.embedding
     catalog = load_catalog(DATA_DIR, POOLS)
+    evidence_catalog = {}
+    if args.evidence_rerank:
+        evidence_catalog = load_index(
+            [
+                DATA_DIR / f"hf_models_stage3_parent_child_{pool}.jsonl"
+                for pool in POOLS
+            ]
+        )
+        if not evidence_catalog:
+            raise RuntimeError(
+                "--evidence-rerank requires Stage 3 parent-child sidecars; "
+                "run evidence_index.py --pool all first"
+            )
 
     reports: List[Dict[str, Any]] = []
     for query_index, query in enumerate(queries):
@@ -589,6 +611,15 @@ def main() -> int:
             candidates.append(enriched)
 
         candidates.sort(key=lambda row: (row["_adjusted_score"], row.get("model_id", "")), reverse=True)
+        if args.evidence_rerank:
+            candidates = attach_evidence_hits(
+                candidates,
+                str(query.get("text") or ""),
+                evidence_catalog,
+                top_k=args.evidence_top_k,
+                candidate_limit=args.evidence_candidate_limit,
+                weight=args.evidence_weight,
+            )
         top = dedupe_canonical(candidates)[: args.top_k or query.get("top_k", 5)]
         checks = check_results(top, query)
         result_rows = []
@@ -611,7 +642,10 @@ def main() -> int:
                     "context_length": metadata.get("context_length"),
                     "evidence_completeness": row.get("evidence_completeness"),
                     "raw_score": round(row["_raw_score"], 6),
-                    "score": round(row["_adjusted_score"], 6),
+                    "base_score": round(row["_adjusted_score"], 6),
+                    "score": round(float(row.get("_evidence_adjusted_score", row["_adjusted_score"])), 6),
+                    "evidence_score": round(float(row.get("_evidence_score") or 0.0), 6),
+                    "evidence_hits": row.get("_evidence_hits") or [],
                     "task_conflict": signal["conflict"],
                     "task_conflict_severity": signal["severity"],
                     "task_conflict_evidence": signal["evidence"],
@@ -649,6 +683,9 @@ def main() -> int:
         "empty_queries": sum(1 for report in reports if report["candidate_count"] == 0),
         "task_conflict_penalty_enabled": True,
         "benchmark_queries": sum(1 for query in queries if query.get("benchmark")),
+        "evidence_rerank_enabled": bool(args.evidence_rerank),
+        "evidence_index_version": 1 if args.evidence_rerank else None,
+        "evidence_rerank_weight": args.evidence_weight if args.evidence_rerank else 0.0,
         "benchmark_boost_enabled": any(
             bool((row.get("benchmark_metadata") or {}).get("results")) for row in rows
         ),

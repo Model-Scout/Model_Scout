@@ -787,6 +787,8 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
     for pool in POOLS:
         run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
+    # Relationship-only parent/child index; no LLM or embedding API call.
+    run_command([python, str(ROOT / "evidence_index.py"), "--pool", "all"])
     run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
     return scan
 

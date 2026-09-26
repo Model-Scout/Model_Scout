@@ -25,12 +25,15 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from dotenv import load_dotenv
 
+from evidence_index import INDEX_SCHEMA_VERSION, materialize_parent_child_evidence
+
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 SOURCE_POOLS = ("core", "low_popularity")
 STAGE3_VERSION = 1
 PROMPT_VERSION = "stage3-atomic-evidence-v1"
+COMPATIBLE_PROMPT_VERSIONS = {PROMPT_VERSION, "stage3-atomic-evidence-full-readme-v1"}
 CHUNKER_VERSION = "atomic-evidence-v1"
 DEFAULT_MODEL = "gpt-4o-mini"
 MAX_SOURCE_CHARS = 60_000
@@ -393,13 +396,13 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
         previous_stage2_hash = old_stage.get("source_stage2_hash") if old else None
         if previous_stage2_hash is None and old and old.get("source_stage2"):
             previous_stage2_hash = source_stage2_hash(old["source_stage2"])
-        if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") == PROMPT_VERSION and previous_stage2_hash == current_stage2_hash:
+        if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") in COMPATIBLE_PROMPT_VERSIONS and previous_stage2_hash == current_stage2_hash and (old.get("evidence") or {}).get("parent_child_schema_version") == INDEX_SCHEMA_VERSION:
             stats["skipped"] += 1; continue
         if old and not dry_run: replace_row(output_path, model_id)
         text, readme = load_source(row)
-        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
+        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "parent_child_schema_version": INDEX_SCHEMA_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
         if not text:
-            result = {"model_id": model_id, "source_pool": pool, "status": "no_source", "source_stage2": row, "semantic": None, "evidence": {"readme": readme, "spans": []}, "stage3": stage}
+            result = {"model_id": model_id, "source_pool": pool, "status": "no_source", "source_stage2": row, "semantic": None, "evidence": materialize_parent_child_evidence(model_id, {"readme": readme, "spans": []}), "stage3": stage}
             if not dry_run: append_jsonl(output_path, result)
             stats["completed"] += 1; stats["no_source"] += 1; continue
         spans, field_ids = route_spans(atomic_spans(text))
@@ -414,7 +417,8 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
             semantic = materialize(semantic, spans)
             checks = validate(semantic, spans)
             stage["semantic_enriched"] = True; stage["enriched_at"] = utc_now()
-            result = {"model_id": model_id, "source_pool": pool, "status": "completed", "source_stage2": row, "semantic": semantic, "evidence": {"readme": readme, "field_evidence_ids": field_ids, "spans": spans, "prompt_token_estimate": sum(len(message["content"].split()) for message in messages)}, "validation": checks, "stage3": stage}
+            evidence = materialize_parent_child_evidence(model_id, {"readme": readme, "field_evidence_ids": field_ids, "spans": spans, "prompt_token_estimate": sum(len(message["content"].split()) for message in messages)})
+            result = {"model_id": model_id, "source_pool": pool, "status": "completed", "source_stage2": row, "semantic": semantic, "evidence": evidence, "validation": checks, "stage3": stage}
             if not dry_run: append_jsonl(output_path, result); existing[model_id] = result
             stats["completed"] += 1
         except Exception as exc:

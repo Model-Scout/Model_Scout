@@ -158,9 +158,11 @@ def make_repaired_row(
     stage = {
         "source_pool": old_row.get("source_pool", ""),
         "source_stage2_version": (stage2_row.get("stage") or {}).get("stage2_version"),
+        "source_stage2_hash": stage3.source_stage2_hash(stage2_row),
         "stage3_version": stage3.STAGE3_VERSION,
         "prompt_version": REPAIR_PROMPT_VERSION,
         "chunker_version": REPAIR_CHUNKER_VERSION,
+        "parent_child_schema_version": stage3.INDEX_SCHEMA_VERSION,
         "semantic_enriched": True,
         "enriched_at": stage3.utc_now(),
     }
@@ -171,14 +173,17 @@ def make_repaired_row(
         "status": "completed",
         "source_stage2": stage2_row,
         "semantic": semantic,
-        "evidence": {
-            "readme": readme,
-            "field_evidence_ids": field_ids,
-            "spans": spans,
-            "prompt_token_estimate": sum(
-                len(message["content"].split()) for message in messages
-            ),
-        },
+        "evidence": stage3.materialize_parent_child_evidence(
+            old_row["model_id"],
+            {
+                "readme": readme,
+                "field_evidence_ids": field_ids,
+                "spans": spans,
+                "prompt_token_estimate": sum(
+                    len(message["content"].split()) for message in messages
+                ),
+            },
+        ),
         "validation": validation,
         "stage3": stage,
     }

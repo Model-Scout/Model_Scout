@@ -213,3 +213,44 @@ been verified.
 ### Stage 1 수집 안전장치
 
 전체 재수집은 각 task의 정상 종료와 최소 관측량을 확인한 뒤 publish한다. 기존 partition이 100개 이상인 경우 새 결과가 기존의 50% 미만으로 줄면 API 장애나 필터 변경으로 간주해 publish를 중단하고 기존 snapshot을 유지한다. 증분 실행은 task별로 `API가 정상 관측되었는지`와 `watermark 이후 변경 모델이 있었는지`를 분리한다. 변경 모델이 0개인 정상적인 no-op 실행은 통과하며, API 관측 자체가 실패한 task가 있으면 snapshot을 갱신하지 않는다.
+## Stage 3 Parent-Child Evidence Index v1
+
+Stage 3 semantic 결과와 child 원문은 그대로 유지하고, relationship-only parent/child ID를 deterministic migration으로 추가한다. 검색과 생성에 사용할 parent section 원문은 별도 sidecar로 관리한다.
+
+```text
+Stage 4 model vector retrieval
+        ↓
+candidate model 내부 child evidence 검색
+        ↓
+parent section 문맥 + child 원문 인용 반환
+```
+
+| 파일 | 역할 |
+|---|---|
+| `hf_models_stage3_parent_child_core.jsonl` | Core 모델의 section parent와 atomic child evidence |
+| `hf_models_stage3_parent_child_low_popularity.jsonl` | Low Popularity 모델의 section parent와 atomic child evidence |
+| `hf_models_stage3_parent_child_manifest.json` | sidecar schema, source version, row·parent·child 통계 |
+
+Parent는 `heading_path` 단위의 section 원문이고, child는 Stage 3의 원자 evidence span이다. 각 child에는 `parent_id`, `child_id`, `content_type`, `routed_fields`, 원문 `text`가 저장된다. LLM claim이나 Stage 4 embedding을 복제하지 않으므로 Stage 1~4 원본 데이터와 독립적으로 재생성할 수 있다.
+
+`evidence_index.py`는 네트워크나 LLM을 사용하지 않는다. 기존 Stage 3 row에 관계 ID를 추가할 때는 다음 migration을 한 번 실행한다.
+
+```bash
+python evidence_index.py --migrate-stage3 --pool all --apply
+```
+
+이 migration은 child 원문이나 semantic claim을 다시 생성하지 않는다. 이후 sidecar는 다음 명령으로 원자적으로 재생성한다.
+
+```bash
+python evidence_index.py --pool all
+```
+
+검색 검증에서 선택적으로 evidence reranking을 켤 수 있다.
+
+```bash
+python 05_validate_retrieval.py --execute --evidence-rerank
+```
+
+기본 검색 동작은 변경되지 않는다. `--evidence-rerank`를 사용할 때만 기존 모델-level 점수에 child evidence lexical score를 작은 가중치로 더하고, 결과에 `evidence_hits`를 포함한다. 각 hit에는 parent section과 child 원문 quote가 함께 제공된다. 원문 quote는 LLM이 재생성하지 않고 저장된 child text를 그대로 사용한다.
+
+현재 sidecar는 별도 child embedding을 만들지 않는다. 따라서 추가 Stage 4 API 호출이 없으며, 필요하면 이후에 child-level dense index를 별도 A/B 테스트로 추가할 수 있다.
