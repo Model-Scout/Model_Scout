@@ -35,13 +35,6 @@ jobs:
       - name: Install pipeline dependencies
         run: python -m pip install --upgrade -r requirements.txt
 
-      - name: Remove legacy Stage 4 vector snapshots
-        run: >-
-          rm -f data/hf_models_stage4_core.jsonl
-          data/hf_models_stage4_low_popularity.jsonl
-          data/hf_models_stage4_core_errors.jsonl
-          data/hf_models_stage4_low_popularity_errors.jsonl
-
       - name: Run TTL-gated incremental pipeline
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}

@@ -53,6 +53,41 @@ def test_stage3_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeyp
     assert [row["model_id"] for row in rows] == ["org/current"]
 
 
+def test_stage2_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeypatch):
+    stage2 = load_module("02_enrich_metadata.py", "stage2_pool_rewrite_test")
+    input_path = tmp_path / "hf_models_stage1_core.jsonl"
+    output_path = tmp_path / "hf_models_stage2_core.jsonl"
+    input_path.write_text(
+        json.dumps({"model_id": "org/current"}) + "\n", encoding="utf-8"
+    )
+    output_path.write_text(
+        json.dumps({"model_id": "org/stale"}) + "\n", encoding="utf-8"
+    )
+    stage2.POOL_CONFIGS["core"] = {
+        "input": input_path,
+        "output": output_path,
+        "readme_dir": tmp_path / "readmes",
+    }
+    stage2.TEST_LIMIT = None
+    stage2.CHECKPOINT_EVERY = 25
+    monkeypatch.setattr(
+        stage2,
+        "enrich",
+        lambda source_row, source_pool: {"model_id": source_row["model_id"]},
+    )
+    monkeypatch.setattr(stage2, "validate_stage2_rows", lambda rows, pool: None)
+    monkeypatch.setattr(stage2, "print_pool_stats", lambda *args: None)
+
+    stage2.process_pool("core")
+
+    rows = [
+        json.loads(line)
+        for line in output_path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    assert [row["model_id"] for row in rows] == ["org/current"]
+
+
 def test_stage4_rejects_duplicate_ids_across_pools(tmp_path):
     stage4 = load_module("04_build_embeddings.py", "stage4_pool_disjointness_test")
     stage4.DATA_DIR = tmp_path
@@ -66,6 +101,45 @@ def test_stage4_rejects_duplicate_ids_across_pools(tmp_path):
 
     with pytest.raises(ValueError, match="duplicate model_id"):
         stage4.validate_stage3_pool_disjointness(("core", "low_popularity"))
+
+
+def test_stage4_db_cache_only_requests_non_reusable_documents():
+    stage4 = load_module("04_build_embeddings.py", "stage4_db_cache_candidates_test")
+    documents = [
+        {"model_id": "org/reuse", "document_hash": "hash-1"},
+        {"model_id": "org/changed", "document_hash": "hash-2"},
+        {"model_id": "org/missing", "document_hash": "hash-3"},
+    ]
+    existing = {
+        "org/reuse": {
+            "model_id": "org/reuse",
+            "document_hash": "hash-1",
+            "embedding_model": "test-model",
+            "embedding": [0.1],
+        },
+        "org/changed": {
+            "model_id": "org/changed",
+            "document_hash": "old-hash",
+            "embedding_model": "test-model",
+            "embedding": [0.1],
+        },
+    }
+
+    assert stage4.db_cache_candidate_ids(documents, existing, "test-model") == [
+        "org/changed",
+        "org/missing",
+    ]
+
+
+def test_sync_rejects_missing_stage3_or_stage4_rows():
+    sync = load_module("08_sync_supabase.py", "sync_corpus_coverage_test")
+
+    with pytest.raises(ValueError, match="missing Stage 3 rows"):
+        sync.validate_corpus(
+            stage4=[],
+            stage2={"org/current": {}},
+            stage3={},
+        )
 
 
 def test_sync_detects_persisted_cross_pool_stage3_overlap(tmp_path):

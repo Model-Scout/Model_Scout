@@ -478,6 +478,12 @@ def main() -> int:
         raise SystemExit("OPENAI_API_KEY is required unless --dry-run is used")
     pools = SOURCE_POOLS if args.pool == "all" else (args.pool,)
     summaries = [enrich_pool(pool, model, args.limit, args.dry_run) for pool in pools]
+    errors = sum(summary.get("errors", 0) for summary in summaries)
+    if errors:
+        raise RuntimeError(
+            f"Stage 3 failed for {errors} model(s); refusing to continue "
+            "with an incomplete semantic snapshot"
+        )
     print(json.dumps({"stage3_version": STAGE3_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))
     return 0
 

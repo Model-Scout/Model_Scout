@@ -472,6 +472,8 @@ def embed_documents(documents: List[Dict[str, Any]], model: str, batch_size: int
 
 
 def reusable(existing: Dict[str, Any], document: Dict[str, Any], model: str) -> bool:
+    if not existing:
+        return False
     vector = existing.get("embedding")
     return bool(
         existing.get("document_hash") == document.get("document_hash")
@@ -555,6 +557,20 @@ def load_db_embedding_cache(model_ids: Sequence[str]) -> Dict[str, Dict[str, Any
         connection.close()
     return cache
 
+
+def db_cache_candidate_ids(
+    documents: Sequence[Dict[str, Any]],
+    existing: Dict[str, Dict[str, Any]],
+    model: str,
+) -> List[str]:
+    """Return only documents that cannot be reused from the local snapshot."""
+    return [
+        document["model_id"]
+        for document in documents
+        if not reusable(existing.get(document.get("model_id")), document, model)
+    ]
+
+
 def run_pool(
     pool: str,
     model: str,
@@ -599,18 +615,17 @@ def run_pool(
             # when the tracked baseline is intentionally no longer committed:
             # a model changed after the baseline must reuse the vector already
             # written to DB on the previous successful run.
-            db_existing = load_db_embedding_cache(
-                [document.get("model_id") for document in documents]
-            )
+            db_candidate_ids = db_cache_candidate_ids(documents, existing, model)
+            db_existing = load_db_embedding_cache(db_candidate_ids)
             # If the local vector snapshot is absent, refuse to silently turn a
             # partial DB migration into a full paid re-embedding run. A small
             # number of missing IDs is expected for genuinely new models.
-            if not existing and documents:
-                coverage = len(db_existing) / len(documents)
+            if db_candidate_ids:
+                coverage = len(db_existing) / len(db_candidate_ids)
                 if not db_existing or coverage < 0.90:
                     raise RuntimeError(
                         "Supabase embedding cache coverage is too low for DB-canonical "
-                        f"Stage 4 ({len(db_existing)}/{len(documents)}); refusing a full re-embedding run"
+                        f"Stage 4 ({len(db_existing)}/{len(db_candidate_ids)}); refusing a full re-embedding run"
                     )
             existing.update(db_existing)
             db_reused = len(db_existing)

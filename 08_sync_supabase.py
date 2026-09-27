@@ -83,7 +83,7 @@ def stage3_pools_need_reconciliation() -> bool:
             if not model_id:
                 continue
             previous_pool = owners.get(model_id)
-            if previous_pool is not None and previous_pool != pool:
+            if previous_pool is not None:
                 return True
             owners[model_id] = pool
     return False
@@ -170,6 +170,21 @@ def validate_corpus(
     ids = [row.get("model_id") for row in stage4]
     if len(ids) != len(set(ids)):
         problems.append("duplicate Stage 4 model_id")
+    stage2_ids = set(stage2)
+    stage3_ids = set(stage3)
+    stage4_ids = set(ids)
+    missing_stage3 = sorted(stage2_ids - stage3_ids)
+    missing_stage4 = sorted(stage2_ids - stage4_ids)
+    extra_stage3 = sorted(stage3_ids - stage2_ids)
+    extra_stage4 = sorted(stage4_ids - stage2_ids)
+    if missing_stage3:
+        problems.append("missing Stage 3 rows: " + ", ".join(missing_stage3[:30]))
+    if missing_stage4:
+        problems.append("missing Stage 4 rows: " + ", ".join(missing_stage4[:30]))
+    if extra_stage3:
+        problems.append("stale Stage 3 rows: " + ", ".join(extra_stage3[:30]))
+    if extra_stage4:
+        problems.append("stale Stage 4 rows: " + ", ".join(extra_stage4[:30]))
     pool_counts = {pool: 0 for pool in POOLS}
     for row in stage4:
         model_id = row.get("model_id")

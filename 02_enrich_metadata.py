@@ -2327,8 +2327,9 @@ def process_pool(source_pool):
         rows = list(results_by_id.values())
         validate_stage2_rows(rows, source_pool)
         # Validate current v7-source results; older retained rows keep provenance.
-        merged = {**previous_by_id, **results_by_id}
-        save_jsonl_atomic(list(merged.values()), config["output"])
+        # Stage 2 is authoritative for the current Stage 1 pool. Do not
+        # carry rows that disappeared from the source pool into output.
+        save_jsonl_atomic(list(results_by_id.values()), config["output"])
 
     try:
         for index, source_row in enumerate(source_rows, start=1):
@@ -2357,6 +2358,11 @@ def process_pool(source_pool):
         raise
     checkpoint()
     print_pool_stats(list(results_by_id.values()), source_pool, success, skipped, errors)
+    if errors:
+        raise RuntimeError(
+            f"[{source_pool}] Stage 2 failed for {errors} model(s); "
+            "refusing to continue with an incomplete pool"
+        )
 
 
 def validate_source_pools():
