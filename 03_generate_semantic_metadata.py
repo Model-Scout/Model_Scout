@@ -137,6 +137,15 @@ def append_jsonl(path: Path, row: Dict[str, Any]) -> None:
         handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
+def save_jsonl_atomic(rows: Sequence[Dict[str, Any]], path: Path) -> None:
+    """Replace a Stage 3 pool with the current Stage 2-derived snapshot."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = path.with_suffix(path.suffix + ".tmp")
+    payload = "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
+    temp_path.write_text(payload, encoding="utf-8")
+    os.replace(temp_path, path)
+
+
 def replace_row(path: Path, model_id: str) -> None:
     rows = [row for row in read_jsonl(path) if row.get("model_id") != model_id]
     if rows:
@@ -381,12 +390,26 @@ def paths(pool: str) -> Tuple[Path, Path, Path]:
 def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> Dict[str, Any]:
     input_path, output_path, error_path = paths(pool)
     source_rows = read_jsonl(input_path)
+    source_ids = [row.get("model_id") for row in source_rows]
+    if len(source_ids) != len(set(source_ids)):
+        raise ValueError(f"[{pool}] Stage 2 contains duplicate model_id values")
+
     existing = {row.get("model_id"): row for row in read_jsonl(output_path)}
+    rows = source_rows[:limit] if limit is not None else source_rows
+    selected_ids = {row["model_id"] for row in rows}
+    # Keep unselected rows for bounded test runs, but never carry a selected
+    # row forward until it is confirmed reusable or regenerated successfully.
+    # This prunes models that moved between Core and Low and avoids publishing
+    # stale semantic metadata after a failed re-enrichment.
+    results_by_id = {
+        model_id: existing[model_id]
+        for model_id in source_ids
+        if model_id in existing and model_id not in selected_ids
+    }
     client = None
     if not dry_run:
         from openai import OpenAI
         client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-    rows = source_rows[:limit] if limit is not None else source_rows
     stats = {"pool": pool, "total": len(rows), "completed": 0, "skipped": 0, "no_source": 0, "errors": 0, "api_calls": 0}
     for index, row in enumerate(rows, start=1):
         model_id = row["model_id"]
@@ -397,13 +420,15 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
         if previous_stage2_hash is None and old and old.get("source_stage2"):
             previous_stage2_hash = source_stage2_hash(old["source_stage2"])
         if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") in COMPATIBLE_PROMPT_VERSIONS and previous_stage2_hash == current_stage2_hash and (old.get("evidence") or {}).get("parent_child_schema_version") == INDEX_SCHEMA_VERSION:
-            stats["skipped"] += 1; continue
-        if old and not dry_run: replace_row(output_path, model_id)
+            results_by_id[model_id] = old
+            stats["skipped"] += 1
+            continue
         text, readme = load_source(row)
         stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "parent_child_schema_version": INDEX_SCHEMA_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
         if not text:
             result = {"model_id": model_id, "source_pool": pool, "status": "no_source", "source_stage2": row, "semantic": None, "evidence": materialize_parent_child_evidence(model_id, {"readme": readme, "spans": []}), "stage3": stage}
-            if not dry_run: append_jsonl(output_path, result)
+            if not dry_run:
+                results_by_id[model_id] = result
             stats["completed"] += 1; stats["no_source"] += 1; continue
         spans, field_ids = route_spans(atomic_spans(text))
         messages = build_prompt(row, spans, field_ids)
@@ -419,13 +444,23 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
             stage["semantic_enriched"] = True; stage["enriched_at"] = utc_now()
             evidence = materialize_parent_child_evidence(model_id, {"readme": readme, "field_evidence_ids": field_ids, "spans": spans, "prompt_token_estimate": sum(len(message["content"].split()) for message in messages)})
             result = {"model_id": model_id, "source_pool": pool, "status": "completed", "source_stage2": row, "semantic": semantic, "evidence": evidence, "validation": checks, "stage3": stage}
-            if not dry_run: append_jsonl(output_path, result); existing[model_id] = result
+            if not dry_run:
+                results_by_id[model_id] = result
             stats["completed"] += 1
         except Exception as exc:
             error = {"model_id": model_id, "source_pool": pool, "status": "error", "error_type": type(exc).__name__, "error": str(exc), "stage3_version": STAGE3_VERSION, "created_at": utc_now()}
             append_jsonl(error_path, error); stats["errors"] += 1
             print(f"[{pool}] ERROR {model_id}: {type(exc).__name__}: {exc}", file=sys.stderr, flush=True)
-        time.sleep(0.1)
+            time.sleep(0.1)
+
+    if not dry_run:
+        ordered_results = [
+            results_by_id[model_id]
+            for model_id in source_ids
+            if model_id in results_by_id
+        ]
+        save_jsonl_atomic(ordered_results, output_path)
+
     print(f"[{pool}] FINISHED {json.dumps(stats, ensure_ascii=False)}")
     return stats
 

@@ -71,6 +71,96 @@ def load_corpora() -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]], Dic
     return stage4, stage2, stage3
 
 
+def stage3_pools_need_reconciliation() -> bool:
+    """Return whether persisted Stage 3 pools overlap by model ID."""
+    owners: Dict[str, str] = {}
+    for pool in POOLS:
+        path = DATA_DIR / f"hf_models_stage3_{pool}.jsonl"
+        if not path.exists():
+            continue
+        for row in read_jsonl(path):
+            model_id = row.get("model_id")
+            if not model_id:
+                continue
+            previous_pool = owners.get(model_id)
+            if previous_pool is not None and previous_pool != pool:
+                return True
+            owners[model_id] = pool
+    return False
+
+
+def load_evidence_indices() -> Dict[str, Dict[str, Any]]:
+    """Load the deterministic Stage 3 Parent-Child sidecars by model ID."""
+    indices: Dict[str, Dict[str, Any]] = {}
+    for pool in POOLS:
+        path = DATA_DIR / f"hf_models_stage3_parent_child_{pool}.jsonl"
+        for row in read_jsonl(path):
+            model_id = row.get("model_id")
+            if not model_id:
+                raise ValueError(f"Parent-Child sidecar row has no model_id: {path}")
+            if model_id in indices:
+                raise ValueError(f"Duplicate Parent-Child sidecar model_id: {model_id}")
+            indices[model_id] = row
+    return indices
+
+
+def validate_evidence_indices(
+    stage4: Sequence[Dict[str, Any]],
+    evidence: Dict[str, Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Validate sidecar referential integrity before a DB write."""
+    expected = {row["model_id"] for row in stage4}
+    actual = set(evidence)
+    missing = sorted(expected - actual)
+    extra = sorted(actual - expected)
+    problems: List[str] = [f"missing sidecar: {mid}" for mid in missing[:10]]
+    problems.extend(f"extra sidecar: {mid}" for mid in extra[:10])
+    parent_count = 0
+    child_count = 0
+    for model_id, row in evidence.items():
+        if row.get("source_pool") not in POOLS:
+            problems.append(f"{model_id}: invalid sidecar source_pool")
+        if row.get("source_stage3_version") != EXPECTED_VERSIONS["stage3"]:
+            problems.append(f"{model_id}: sidecar Stage 3 version mismatch")
+        parents = row.get("parents") or []
+        if not isinstance(parents, list):
+            problems.append(f"{model_id}: parents is not a list")
+            continue
+        seen_parents = set()
+        seen_children = set()
+        for parent in parents:
+            parent_id = parent.get("parent_id") if isinstance(parent, dict) else None
+            if not parent_id or parent_id in seen_parents:
+                problems.append(f"{model_id}: invalid or duplicate parent_id")
+                continue
+            seen_parents.add(parent_id)
+            children = parent.get("children") or []
+            child_ids = parent.get("child_ids") or []
+            actual_child_ids = [
+                child.get("child_id") for child in children
+                if isinstance(child, dict) and child.get("child_id")
+            ]
+            if sorted(child_ids) != sorted(actual_child_ids):
+                problems.append(f"{model_id}: parent child_ids mismatch")
+            for child in children:
+                child_id = child.get("child_id") if isinstance(child, dict) else None
+                if not child_id or child_id in seen_children:
+                    problems.append(f"{model_id}: invalid or duplicate child_id")
+                    continue
+                if child.get("parent_id") != parent_id:
+                    problems.append(f"{model_id}: child parent_id mismatch")
+                seen_children.add(child_id)
+        if row.get("parent_count") != len(seen_parents):
+            problems.append(f"{model_id}: parent_count mismatch")
+        if row.get("child_count") != len(seen_children):
+            problems.append(f"{model_id}: child_count mismatch")
+        parent_count += len(seen_parents)
+        child_count += len(seen_children)
+    if problems:
+        raise ValueError("Parent-Child sidecar validation failed: " + "; ".join(problems[:30]))
+    return {"rows": len(evidence), "parent_count": parent_count, "child_count": child_count}
+
+
 def validate_corpus(
     stage4: Sequence[Dict[str, Any]],
     stage2: Dict[str, Dict[str, Any]],
@@ -203,6 +293,33 @@ def payloads(
     return rows
 
 
+def evidence_payloads(
+    stage4: Sequence[Dict[str, Any]],
+    evidence: Dict[str, Dict[str, Any]],
+    run_id: str,
+) -> List[Tuple[Any, ...]]:
+    """Build one JSONB Parent-Child sidecar payload per selected model."""
+    now = datetime.now(timezone.utc)
+    rows: List[Tuple[Any, ...]] = []
+    for model in stage4:
+        model_id = model["model_id"]
+        sidecar = evidence[model_id]
+        rows.append((
+            model_id,
+            model["source_pool"],
+            sidecar.get("source_stage3_version") or EXPECTED_VERSIONS["stage3"],
+            sidecar.get("schema_version") or 1,
+            sidecar.get("evidence_index_version") or 1,
+            sidecar.get("source_stage3_hash") or "",
+            int(sidecar.get("parent_count") or 0),
+            int(sidecar.get("child_count") or 0),
+            json_text(sidecar.get("parents") or []),
+            run_id,
+            now,
+        ))
+    return rows
+
+
 def db_connection():
     import psycopg2
 
@@ -282,6 +399,7 @@ def backfill_runtime_metadata() -> Dict[str, int]:
 
 def apply_sync(
     rows: Sequence[Tuple[Any, ...]],
+    evidence_rows: Sequence[Tuple[Any, ...]],
     run_id: str,
     batch_size: int,
     *,
@@ -366,6 +484,33 @@ def apply_sync(
                         page_size=batch_size,
                     )
 
+                evidence_statement = """
+                    insert into public.model_scout_evidence (
+                        model_id, source_pool, source_stage3_version, schema_version,
+                        evidence_index_version, source_stage3_hash, parent_count, child_count,
+                        parents, last_seen_run, refreshed_at
+                    ) values %s
+                    on conflict (model_id) do update set
+                        source_pool = excluded.source_pool,
+                        source_stage3_version = excluded.source_stage3_version,
+                        schema_version = excluded.schema_version,
+                        evidence_index_version = excluded.evidence_index_version,
+                        source_stage3_hash = excluded.source_stage3_hash,
+                        parent_count = excluded.parent_count,
+                        child_count = excluded.child_count,
+                        parents = excluded.parents,
+                        last_seen_run = excluded.last_seen_run,
+                        active = true,
+                        refreshed_at = excluded.refreshed_at,
+                        updated_at = now()
+                """
+                evidence_template = "(" + ", ".join(
+                    ["%s"] * 8 + ["%s::jsonb", "%s", "%s"]
+                ) + ")"
+                psycopg2.extras.execute_values(
+                    cur, evidence_statement, evidence_rows,
+                    template=evidence_template, page_size=batch_size,
+                )
                 if incremental:
                     if removed_ids:
                         cur.execute(
@@ -378,6 +523,14 @@ def apply_sync(
                             (list(removed_ids),),
                         )
                         deactivated = cur.rowcount
+                        cur.execute(
+                            """
+                            update public.model_scout_evidence
+                               set active = false, updated_at = now()
+                             where model_id = any(%s) and active = true
+                            """,
+                            (list(removed_ids),),
+                        )
                     else:
                         deactivated = 0
                 else:
@@ -392,6 +545,14 @@ def apply_sync(
                         (run_id,),
                     )
                     deactivated = cur.rowcount
+                    cur.execute(
+                        """
+                        update public.model_scout_evidence
+                           set active = false, updated_at = now()
+                         where active = true and last_seen_run is distinct from %s::uuid
+                        """,
+                        (run_id,),
+                    )
 
                 cur.execute(
                     """
@@ -405,6 +566,7 @@ def apply_sync(
             "run_id": run_id,
             "sync_mode": stage_versions["sync_mode"],
             "upserted": len(rows),
+            "evidence_upserted": len(evidence_rows),
             "deactivated": deactivated,
             "corpus_rows": corpus_rows,
         }
@@ -500,6 +662,7 @@ def latest_completed_sync() -> Optional[Dict[str, Any]]:
                 from public.model_scout_sync_runs
                 where status = 'completed'
                   and stage_versions @> %s::jsonb
+                  and coalesce(stage_versions->>'sync_mode', 'initial') in ('initial', 'incremental')
                 order by completed_at desc
                 limit 1
                 """,
@@ -779,9 +942,18 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
 
 def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     scan = incremental_stage1_update(watermark)
-    if not scan["processable_ids"] and not scan["removed_ids"]:
-     print(json.dumps({"incremental_pipeline": "no eligible changes"}, ensure_ascii=False), flush=True)
-     return scan
+    needs_reconciliation = stage3_pools_need_reconciliation()
+    if not scan["processable_ids"] and not scan["removed_ids"] and not needs_reconciliation:
+        print(json.dumps({"incremental_pipeline": "no eligible changes"}, ensure_ascii=False), flush=True)
+        return scan
+    if needs_reconciliation and not scan["processable_ids"] and not scan["removed_ids"]:
+        print(
+            json.dumps(
+                {"incremental_pipeline": "reconcile stale Stage 3 pools"},
+                ensure_ascii=False,
+            ),
+            flush=True,
+        )
     python = sys.executable
     run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
     run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
@@ -792,6 +964,103 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
     return scan
 
+
+
+def apply_evidence_backfill(
+    evidence_rows: Sequence[Tuple[Any, ...]],
+    run_id: str,
+    batch_size: int,
+) -> Dict[str, Any]:
+    """Insert all Parent-Child sidecars without rerunning Stages 1-4."""
+    import psycopg2.extras
+
+    stage_versions = dict(EXPECTED_VERSIONS)
+    stage_versions.update({
+        "sync_mode": "evidence_backfill",
+        "evidence_index_version": 1,
+    })
+    statement = """
+        insert into public.model_scout_evidence (
+            model_id, source_pool, source_stage3_version, schema_version,
+            evidence_index_version, source_stage3_hash, parent_count, child_count,
+            parents, last_seen_run, refreshed_at
+        ) values %s
+        on conflict (model_id) do update set
+            source_pool = excluded.source_pool,
+            source_stage3_version = excluded.source_stage3_version,
+            schema_version = excluded.schema_version,
+            evidence_index_version = excluded.evidence_index_version,
+            source_stage3_hash = excluded.source_stage3_hash,
+            parent_count = excluded.parent_count,
+            child_count = excluded.child_count,
+            parents = excluded.parents,
+            last_seen_run = excluded.last_seen_run,
+            active = true,
+            refreshed_at = excluded.refreshed_at,
+            updated_at = now()
+    """
+    template = "(" + ", ".join(
+        ["%s"] * 8 + ["%s::jsonb", "%s", "%s"]
+    ) + ")"
+    conn = db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    insert into public.model_scout_sync_runs
+                        (run_id, status, stage_versions, row_count)
+                    values (%s, 'running', %s::jsonb, %s)
+                    """,
+                    (run_id, json_text(stage_versions), len(evidence_rows)),
+                )
+                model_ids = [row[0] for row in evidence_rows]
+                cur.execute(
+                    "select model_id from public.model_scout_models "
+                    "where model_id = any(%s) and active = true",
+                    (model_ids,),
+                )
+                existing = {row[0] for row in cur.fetchall()}
+                missing = sorted(set(model_ids) - existing)
+                if missing:
+                    raise RuntimeError(
+                        "Cannot backfill evidence for missing active model rows: "
+                        + ", ".join(missing[:20])
+                    )
+                psycopg2.extras.execute_values(
+                    cur, statement, evidence_rows,
+                    template=template, page_size=batch_size,
+                )
+                cur.execute(
+                    """
+                    update public.model_scout_sync_runs
+                       set status = 'completed', completed_at = now()
+                     where run_id = %s::uuid
+                    """,
+                    (run_id,),
+                )
+                return {
+                    "run_id": run_id,
+                    "sync_mode": "evidence_backfill",
+            "evidence_upserted": len(evidence_rows),
+                }
+    except Exception as exc:
+        try:
+            with conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        update public.model_scout_sync_runs
+                           set status = 'failed', completed_at = now(), error = %s
+                         where run_id = %s::uuid
+                        """,
+                        (str(exc)[:2000], run_id),
+                    )
+        except Exception:
+            pass
+        raise
+    finally:
+        conn.close()
 
 
 def main() -> int:
@@ -809,6 +1078,11 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
+        "--backfill-evidence",
+        action="store_true",
+        help="load Parent-Child sidecars into Supabase without rerunning Stages 1-4",
+    )
+    parser.add_argument(
         "--backfill-runtime",
         action="store_true",
         help="patch runtime_compatibility JSON keys without rerunning Stage 1-4",
@@ -822,13 +1096,28 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if sum(bool(value) for value in (args.refresh, args.initial, args.backfill_runtime)) > 1:
-        parser.error("--refresh, --initial, and --backfill-runtime are mutually exclusive")
+    if sum(bool(value) for value in (args.refresh, args.initial, args.backfill_runtime, args.backfill_evidence)) > 1:
+        parser.error("--refresh, --initial, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
         parser.error("--backfill-runtime requires --apply")
     load_dotenv(ROOT / ".env")
+    if args.backfill_evidence and not args.apply:
+        parser.error("--backfill-evidence requires --apply")
+    if args.backfill_evidence:
+        ensure_schema()
+        stage4, stage2, stage3 = load_corpora()
+        validation = validate_corpus(stage4, stage2, stage3)
+        evidence = load_evidence_indices()
+        evidence_validation = validate_evidence_indices(stage4, evidence)
+        run_id = str(uuid.uuid4())
+        evidence_rows = evidence_payloads(stage4, evidence, run_id)
+        result = apply_evidence_backfill(evidence_rows, run_id, args.batch_size)
+        result["validation"] = validation
+        result["evidence_validation"] = evidence_validation
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
     if args.backfill_runtime:
         ensure_schema()
         print(json.dumps({"runtime_backfill": backfill_runtime_metadata()}, indent=2))
@@ -890,6 +1179,8 @@ def main() -> int:
 
     stage4, stage2, stage3 = load_corpora()
     validation = validate_corpus(stage4, stage2, stage3)
+    evidence = load_evidence_indices()
+    evidence_validation = validate_evidence_indices(stage4, evidence)
     write_stage4_manifest(stage4, validation)
     changed_ids = set(refresh_info.get("processable_ids", [])) if refresh_info else None
     removed_ids = refresh_info.get("removed_ids", []) if refresh_info else []
@@ -900,8 +1191,10 @@ def main() -> int:
     )
     run_id = str(uuid.uuid4())
     rows = payloads(selected_stage4, stage2, stage3, run_id)
+    evidence_rows = evidence_payloads(selected_stage4, evidence, run_id)
     result: Dict[str, Any] = {
         "validation": validation,
+        "evidence_validation": evidence_validation,
         "run_id": run_id,
         "apply": args.apply,
         "selected_pools": list(POOLS),
@@ -912,6 +1205,7 @@ def main() -> int:
     if args.apply:
         result["sync"] = apply_sync(
             rows,
+            evidence_rows,
             run_id,
             args.batch_size,
             incremental=refresh_info is not None,

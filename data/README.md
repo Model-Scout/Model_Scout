@@ -254,3 +254,32 @@ python 05_validate_retrieval.py --execute --evidence-rerank
 기본 검색 동작은 변경되지 않는다. `--evidence-rerank`를 사용할 때만 기존 모델-level 점수에 child evidence lexical score를 작은 가중치로 더하고, 결과에 `evidence_hits`를 포함한다. 각 hit에는 parent section과 child 원문 quote가 함께 제공된다. 원문 quote는 LLM이 재생성하지 않고 저장된 child text를 그대로 사용한다.
 
 현재 sidecar는 별도 child embedding을 만들지 않는다. 따라서 추가 Stage 4 API 호출이 없으며, 필요하면 이후에 child-level dense index를 별도 A/B 테스트로 추가할 수 있다.
+
+
+### Supabase Parent–Child 저장
+
+Parent–Child sidecar는 `public.model_scout_evidence`에 모델당 한 행의 JSONB로 저장한다.
+모델 검색용 임베딩은 기존 `public.model_scout_models`에 계속 유지하고, evidence 테이블에는
+부모 section 원문과 child evidence, `source_stage3_hash`, 부모·자식 개수를 저장한다.
+모델 행과 evidence 행은 `model_id`로 연결되며, 재실행해도 upsert된다.
+
+기존 Stage 1~4를 다시 실행하지 않고 최초 적재하려면 다음 명령을 사용한다.
+
+```bash
+python 08_sync_supabase.py --backfill-evidence --apply
+```
+
+이 명령은 Core·Low의 sidecar만 적재하고 모델·임베딩 행은 수정하지 않는다. 이후 증분 동기화에서는
+변경된 모델의 sidecar도 함께 upsert된다. Supabase SQL Editor에서 적재 결과는 다음처럼 확인한다.
+
+```sql
+select source_pool,
+       count(*) as rows,
+       count(distinct model_id) as distinct_ids,
+       sum(parent_count) as parents,
+       sum(child_count) as children,
+       count(*) filter (where active = true) as active_rows
+from public.model_scout_evidence
+group by source_pool
+order by source_pool;
+```

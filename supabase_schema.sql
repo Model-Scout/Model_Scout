@@ -45,6 +45,47 @@ create table if not exists public.model_scout_models (
     updated_at timestamptz not null default now()
 );
 
+-- One row per model containing the Stage 3 Parent–Child evidence sidecar.
+-- The model table remains the retrieval index; this table stores the full
+-- parent text and child evidence used when building grounded responses.
+create table if not exists public.model_scout_evidence (
+    model_id text primary key references public.model_scout_models(model_id) on delete cascade,
+    source_pool text not null check (source_pool in ('core', 'low_popularity')),
+    source_stage3_version integer not null,
+    schema_version integer not null,
+    evidence_index_version integer not null,
+    source_stage3_hash text not null,
+    parent_count integer not null default 0,
+    child_count integer not null default 0,
+    parents jsonb not null default '[]'::jsonb,
+    last_seen_run uuid references public.model_scout_sync_runs(run_id),
+    active boolean not null default true,
+    refreshed_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
+);
+
+create index if not exists model_scout_evidence_pool_active_idx
+    on public.model_scout_evidence (source_pool, active);
+
+alter table public.model_scout_evidence enable row level security;
+
+do $$
+begin
+    if not exists (
+        select 1 from pg_policies
+        where schemaname = 'public'
+          and tablename = 'model_scout_evidence'
+          and policyname = 'model_scout_evidence_public_read'
+    ) then
+        create policy model_scout_evidence_public_read
+            on public.model_scout_evidence
+            for select
+            to anon, authenticated
+            using (active = true);
+    end if;
+end
+$$;
+
 create index if not exists model_scout_models_pool_active_idx
     on public.model_scout_models (source_pool, active);
 create index if not exists model_scout_models_candidate_type_idx

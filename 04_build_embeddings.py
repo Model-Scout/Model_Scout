@@ -403,6 +403,29 @@ def validate_documents(rows: Sequence[Dict[str, Any]], pool: str) -> Dict[str, A
     return {"pool": pool, "rows": len(rows), "duplicates": len(ids) - len(set(ids)), "bad_count": len(bad), "bad_examples": bad[:20]}
 
 
+def validate_stage3_pool_disjointness(pools: Sequence[str]) -> None:
+    """Reject stale Stage 3 rows shared by multiple source pools."""
+    owners: Dict[str, str] = {}
+    duplicates: List[str] = []
+    for pool in pools:
+        path = DATA_DIR / f"hf_models_stage3_{pool}.jsonl"
+        for row in read_jsonl(path):
+            model_id = row.get("model_id")
+            if not model_id:
+                continue
+            previous_pool = owners.get(model_id)
+            if previous_pool is not None:
+                duplicates.append(f"{model_id} ({previous_pool}, {pool})")
+            else:
+                owners[model_id] = pool
+    if duplicates:
+        examples = ", ".join(duplicates[:20])
+        raise ValueError(
+            "Stage 3 pools contain duplicate model_id values; "
+            f"reconcile Stage 3 snapshots before embedding: {examples}"
+        )
+
+
 def validate_embedded_output(documents: Sequence[Dict[str, Any]], source_rows: Sequence[Dict[str, Any]], pool: str) -> Dict[str, Any]:
     source_ids = [row.get("model_id") for row in source_rows]
     output_ids = [row.get("model_id") for row in documents]
@@ -663,6 +686,8 @@ def main() -> int:
     load_dotenv(ROOT / ".env")
     model = args.model or os.getenv("STAGE4_EMBEDDING_MODEL") or DEFAULT_MODEL
     pools = POOLS if args.pool == "all" else (args.pool,)
+    if args.pool == "all":
+        validate_stage3_pool_disjointness(pools)
     summaries = [
         run_pool(
             pool,
