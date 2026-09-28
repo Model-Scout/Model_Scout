@@ -20,6 +20,17 @@ data/supabase_sync.log
 data/hf_models_stage4_core.jsonl
 data/hf_models_stage4_low_popularity.jsonl
 data/hf_models_stage4_*_errors.jsonl
+# Benchmark sidecars are reproducible intermediate files; Stage 4 keeps only
+# the compact projection needed for search and ranking.
+data/hf_models_benchmark_*.jsonl
+data/.stage4_delta_*.jsonl
+data/.stage4_*_delta_checkpoint.jsonl
+data/.hf_models_benchmark_delta_*.jsonl
+data/.incremental_model_ids.json
+data/.benchmark_changed_model_ids.json
+data/.hf_models_benchmark_state_*.json
+data/.hf_models_benchmark_state_candidate.json
+data/.hf_models_benchmark_changed_ids_*.json
 
 # Local graphify analysis output.
 graphify-out/

@@ -283,3 +283,21 @@ from public.model_scout_evidence
 group by source_pool
 order by source_pool;
 ```
+
+## 검색용 언어·번역 metadata
+
+Stage 4의 `filter_metadata`에는 `language_codes`, `translation_pairs`, `search_aliases`가 결정적으로 저장된다. 이는 Stage 1 candidate 분류를 바꾸지 않고 질의의 언어명과 모델 ID의 명시적 번역 방향을 Sparse 검색에서 매칭하기 위한 필드다. `translation_pairs`는 번역 계열 표지가 있는 모델 ID에서만 추출하며, 단순 `it-ko`처럼 모델명 약어와 충돌할 수 있는 패턴은 보수적으로 제외한다.
+
+검색 검증기는 `model_id`, 번역 방향, 언어·task, benchmark, 구조화 metadata, Stage 3 원문을 분리한 Fielded BM25를 사용한다. 기존 임베딩과 Stage 1~3 원본은 재생성하지 않아도 되며, 이미 생성된 Stage 4 JSONL은 다음 명령으로 검색 metadata만 보강할 수 있다.
+
+```bash
+python 04_build_embeddings.py --pool all --backfill-search-metadata
+```
+
+Supabase의 기존 모델 행은 다음 명령으로 JSONB 검색 metadata를 patch한다.
+
+```bash
+python 08_sync_supabase.py --backfill-search-metadata --apply
+```
+
+Supabase RPC에서는 PostgreSQL의 field-weighted `ts_rank_cd`를 사용한다. PostgreSQL 기본 기능만으로는 BM25가 제공되지 않으므로 로컬 검증기의 Fielded BM25와 동일한 필드 우선순위를 유지하는 호환 sparse 경로다. 정확한 BM25가 필요한 별도 검색엔진(OpenSearch 등)은 같은 `search_aliases`와 field boost 정책을 사용한다.

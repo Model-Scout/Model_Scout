@@ -39,8 +39,12 @@ A fast and efficient ~1.5B model optimized for CPU inference. The model was refa
 # JiRack Ternary Architedure & JiRack Tokenizer
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via CMSManhattan/JiRackPrecisionTokenizer
-  
 
+## PARTNERSHIP
+
+- NVIDIA
+- FISERV
+  
 # Ollama production support 
 - We are working to support JiRack on Ollama for production systems also 
 - added Jirack chat without reasoning feature  https://ollama.com/cmsmanhattan 
@@ -61,6 +65,7 @@ A fast and efficient ~1.5B model optimized for CPU inference. The model was refa
 # JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
+- Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Web site https://www.jirack.com
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
   
@@ -224,6 +229,11 @@ I added the default model in full precision. This serves as the base for quantiz
 - Base: Redesigned Llama-3.2-1B style (Hidden 2048, Intermediate 8192, 16 layers, GQA 32/8, vocab 128256)
 - RoPE θ = 10000, RMSNorm ε = 1e-6
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
+
+## ROBOS HUMANOID Project
+
+- https://github.com/cmsmanhattan/ROBOS
+
 ## 📧 Contact & Licensing
 For joint venture opportunities, hardware integration, or licensing inquiries:
 - **Email:** grabko@cmsmanhattan.com

@@ -40,6 +40,11 @@ license: mit
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via JiRackDeltaNetTokenizer
 - JiRack DeltaNet understand video and images that best for Robotics also
 
+## PARTNERSHIP
+
+- NVIDIA
+- FISERV
+
 # JiRack DeltaNet 27B (CPU)
 A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-style DeltaNet architecture (hybrid attention + SSM), with an updated tokenizer that includes **Routing**, **Media**, **Vision**, **Sound**, **Tool call**, and **Robotics** tags. Ready-to-run GGUF quantizations, and native Ollama support with reasoning disabled by default for fast, direct responses.
 - JiRack is a cloud-ready model that helps save money on cloud infrastructure. It can be used as an expert model in RAG deployments, with the ONNX JiRack Java server as an alternative.
@@ -57,6 +62,7 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
 - Web site https://www.jirack.com
+- Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
 
 

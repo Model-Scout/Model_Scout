@@ -43,6 +43,10 @@ A fast and efficient 32B model optimized for CPU inference. The model was refact
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via CMSManhattan/JiRackPrecisionTokenizer
 
+## PARTNERSHIP
+- NVIDIA
+- FISERV
+
 
 # JiRack sevice options
 - Current quantizations were done from the FP16 model, but the model allows for more compression thanks to its ternary architecture. 
@@ -224,6 +228,12 @@ I added the default model in full precision. This serves as the base for quantiz
   (Hidden 5120, 64 layers, GQA 40/8, intermediate 27648, vocab 152064)
 - RoPE θ = 1 000 000, RMSNorm ε = 1e-5
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
+
+## ROBOS HUMANOID Project
+
+- https://github.com/cmsmanhattan/ROBOS
+
+
 ## 📧 Contact & Licensing
 For joint venture opportunities, hardware integration, or licensing inquiries:
 - **Email:** grabko@cmsmanhattan.com

@@ -61,6 +61,8 @@ Sending the clip **without** the duration sentence works (the bundle's template 
 
 The audio goes in as an audio content item; any container/sample rate the runtime's decoder reads (wav, mp3, flac — it resamples to 24 kHz). The **audio encoder must run on the CPU** (`audio_backend`), the LM may run on CPU or GPU.
 
+Python (`pip install litert-lm-api`; this block was run as written on 0.16.1 and 0.17.1):
+
 ```python
 import litert_lm
 from litert_lm import Message, Contents, Content
@@ -70,11 +72,18 @@ engine = litert_lm.Engine("VibeVoice-ASR-BitNet.litertlm", backend=CPU(), audio_
 dur = 5.86  # clip length in seconds
 conv = engine.create_conversation(sampler_config=litert_lm.SamplerConfig(top_k=1, top_p=1.0, temperature=0.0),
                                   max_output_tokens=256)
+
+def response_text(resp):
+    # litert-lm-api 0.15-0.17.1 return a dict of content parts; later builds return a Message whose str() is its text
+    if type(resp) is dict:
+        return "".join(p.get("text", "") for p in resp.get("content", []) if isinstance(p, dict))
+    return str(resp)
+
 resp = conv.send_message(Message.user(Contents.of([
     Content.AudioFile("/abs/path/clip.wav"),
     Content.Text(f"This is a {dur:.2f} seconds audio, please transcribe it."),
 ])))
-print("".join(c.text for c in resp.contents.contents))
+print(response_text(resp))
 conv.close()
 ```
 

@@ -114,10 +114,35 @@ begin
 end
 $$;
 
+create index if not exists model_scout_models_korean_verified_idx
+    on public.model_scout_models ((filter_metadata->>'korean_verified'));
+create index if not exists model_scout_models_parameter_count_idx
+    on public.model_scout_models ((filter_metadata->>'parameter_count_billion'));
+create index if not exists model_scout_models_context_length_idx
+    on public.model_scout_models ((filter_metadata->>'context_length'));
+create index if not exists model_scout_models_popularity_tier_idx
+    on public.model_scout_models ((filter_metadata->>'popularity_tier'));
+
+-- Remove the legacy signature so an unfiltered call cannot be selected
+-- accidentally by PostgreSQL overload resolution.
+drop function if exists public.match_model_scout_models(vector, integer, text);
+
 create or replace function public.match_model_scout_models(
     query_embedding vector(1536),
     match_count integer default 20,
-    pool_filter text default null
+    pool_filter text default null,
+    task_filters text[] default null,
+    korean_required boolean default false,
+    min_parameter_count_billion numeric default null,
+    max_parameter_count_billion numeric default null,
+    min_context_length integer default null,
+    max_context_length integer default null,
+    require_known_parameters boolean default false,
+    require_known_context boolean default false,
+    popularity_tier_filter text default null,
+    query_text text default null,
+    dense_weight real default 0.65,
+    sparse_weight real default 0.35
 )
 returns table (
     model_id text,
@@ -126,16 +151,23 @@ returns table (
     task jsonb,
     language jsonb,
     popularity jsonb,
+    family jsonb,
     filter_metadata jsonb,
     technical_metadata jsonb,
     semantic_metadata jsonb,
     evidence jsonb,
     benchmark_metadata jsonb,
+    source_provenance jsonb,
+    task_consistency jsonb,
+    evidence_index jsonb,
+    dense_similarity real,
+    sparse_score real,
     similarity real
 )
 language sql
 stable
 as $$
+with scored as (
     select
         m.model_id,
         m.source_pool,
@@ -143,15 +175,100 @@ as $$
         m.task,
         m.language,
         m.popularity,
+        m.family,
         m.filter_metadata,
         m.technical_metadata,
         m.semantic_metadata,
         m.evidence,
         m.benchmark_metadata,
-        (1 - (m.embedding <=> query_embedding))::real as similarity
+        m.source_provenance,
+        m.task_consistency,
+        coalesce(e.parents, '[]'::jsonb) as evidence_index,
+        (1 - (m.embedding <=> query_embedding))::real as dense_similarity,
+        least(
+            1.0,
+            ts_rank_cd(
+                (
+                    setweight(to_tsvector('simple', coalesce(m.model_id, '')), 'A') ||
+                    setweight(to_tsvector('simple', coalesce(m.filter_metadata->>'translation_pairs', '')), 'A') ||
+                    setweight(to_tsvector('simple', coalesce(m.filter_metadata->>'search_aliases', '')), 'A') ||
+                    setweight(to_tsvector('simple', coalesce(m.task::text, '')), 'B') ||
+                    setweight(to_tsvector('simple', coalesce(m.language::text, '')), 'B') ||
+                    setweight(to_tsvector('simple', coalesce(m.filter_metadata::text, '')), 'C') ||
+                    setweight(to_tsvector('simple', coalesce(m.benchmark_metadata::text, '')), 'C') ||
+                    setweight(to_tsvector('simple', coalesce(m.technical_metadata::text, '') || coalesce(m.semantic_metadata::text, '')), 'D')
+                ),
+                plainto_tsquery('simple', coalesce(query_text, ''))
+            )::real
+        )::real as sparse_score
     from public.model_scout_models as m
+    left join public.model_scout_evidence as e
+      on e.model_id = m.model_id and e.active = true
     where m.active = true
       and (pool_filter is null or m.source_pool = pool_filter)
-    order by m.embedding <=> query_embedding
-    limit least(greatest(match_count, 1), 100);
+      and (
+          task_filters is null
+          or cardinality(task_filters) = 0
+          or m.task->>'primary' = any(task_filters)
+          or exists (
+              select 1
+              from jsonb_array_elements_text(coalesce(m.task->'matched', '[]'::jsonb)) as matched(value)
+              where matched.value = any(task_filters)
+          )
+      )
+      and (not korean_required or m.filter_metadata->>'korean_verified' = 'true')
+      and (
+          not require_known_parameters
+          or jsonb_typeof(m.filter_metadata->'parameter_count_billion') = 'number'
+      )
+      and (
+          not require_known_context
+          or jsonb_typeof(m.filter_metadata->'context_length') = 'number'
+      )
+      and (
+          min_parameter_count_billion is null
+          or (m.filter_metadata->>'parameter_count_billion')::numeric >= min_parameter_count_billion
+      )
+      and (
+          max_parameter_count_billion is null
+          or (m.filter_metadata->>'parameter_count_billion')::numeric <= max_parameter_count_billion
+      )
+      and (
+          min_context_length is null
+          or (m.filter_metadata->>'context_length')::integer >= min_context_length
+      )
+      and (
+          max_context_length is null
+          or (m.filter_metadata->>'context_length')::integer <= max_context_length
+      )
+      and (
+          popularity_tier_filter is null
+          or m.filter_metadata->>'popularity_tier' = popularity_tier_filter
+      )
+)
+select
+    scored.model_id,
+    scored.source_pool,
+    scored.candidate,
+    scored.task,
+    scored.language,
+    scored.popularity,
+    scored.family,
+    scored.filter_metadata,
+    scored.technical_metadata,
+    scored.semantic_metadata,
+    scored.evidence,
+    scored.benchmark_metadata,
+    scored.source_provenance,
+    scored.task_consistency,
+    scored.evidence_index,
+    scored.dense_similarity,
+    scored.sparse_score,
+    (
+        greatest(dense_weight, 0.0) * scored.dense_similarity +
+        greatest(sparse_weight, 0.0) * scored.sparse_score
+    )::real as similarity
+from scored
+order by similarity desc, scored.model_id
+limit least(greatest(match_count, 1), 100);
 $$;

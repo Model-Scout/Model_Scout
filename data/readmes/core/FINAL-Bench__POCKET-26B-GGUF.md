@@ -22,6 +22,12 @@ tags:
 - pocket
 - vidraft
 ---
+> ### 🆕 **[POCKET-Qwen3.8-Flash-Next](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF)** — a **180B** model running on a **laptop with 8 GB VRAM + 32 GB RAM** · **4.17 tok/s measured**.
+> [![New](https://img.shields.io/badge/🆕_NEW-POCKET--180B_on_a_laptop-6c3fd1)](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) [![VRAM](https://img.shields.io/badge/VRAM-8_GB-1baf7a)]() [![RAM](https://img.shields.io/badge/RAM-32_GB-1baf7a)]() [![Speed](https://img.shields.io/badge/measured-4.17_tok%2Fs-243456)]() <!-- POCKET-FLASHNEXT-BADGE -->
+
+> ### 🆕 **[POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU)** — photoreal **images** in **46 s** on a **CPU only**. No GPU, no CUDA, no Python.
+> [![New](https://img.shields.io/badge/🆕_NEW-POCKET--Zimage--CPU-ff6b35)](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) [![Space](https://img.shields.io/badge/🤗_Space-try_on_CPU-ffce3a)](https://huggingface.co/spaces/FINAL-Bench/POCKET-Zimage-CPU) [![RAM](https://img.shields.io/badge/RAM-6.4_GB-1baf7a)]() <!-- POCKET-Zimage-CPU-BADGE -->
+
 
 > ### 📚 Collections
 > **▶ [POCKET Models](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6)** — this family (on-device, no GPU)
@@ -37,7 +43,7 @@ tags:
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-0f6e56)](https://www.apache.org/licenses/LICENSE-2.0) [![Runtime](https://img.shields.io/badge/runtime-any_llama.cpp-1baf7a)](https://github.com/ggml-org/llama.cpp) [![Compat](https://img.shields.io/badge/loads_in-Ollama_·_LM_Studio_·_PocketPal-2a9d8f)]() [![Base](https://img.shields.io/badge/base-Gemma--4--26B--A4B-185fa5)](https://huggingface.co/google/gemma-4-26B-A4B-it)
 
-**Pick your build →** [![35B](https://img.shields.io/badge/POCKET--35B-GGUF-243456)](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) [![KR GGUF](https://img.shields.io/badge/POCKET--KR-GGUF-7A1F3D)](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) [![KR MLX](https://img.shields.io/badge/POCKET--KR-MLX-0f6e56)](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) [![EN GGUF](https://img.shields.io/badge/POCKET--EN-GGUF-185fa5)](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF)
+**Pick your build →** [![35B](https://img.shields.io/badge/POCKET--35B-GGUF-243456)](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) [![26B](https://img.shields.io/badge/POCKET--26B-GGUF-2a9d8f)](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) [![KR GGUF](https://img.shields.io/badge/POCKET--KR-GGUF-7A1F3D)](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) [![KR MLX](https://img.shields.io/badge/POCKET--KR-MLX_(iPhone)-0f6e56)](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) [![EN GGUF](https://img.shields.io/badge/POCKET--EN-GGUF-185fa5)](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF) [![180B laptop](https://img.shields.io/badge/POCKET--180B-Qwen3.8_Flash--Next_·_laptop-6c3fd1)](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) [![Image NF4](https://img.shields.io/badge/POCKET--Image-Z--Image_NF4-d35400)](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage) [![Image CPU](https://img.shields.io/badge/POCKET--Zimage-CPU-ff6b35)](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU)
 
 ## Why this one?
 
@@ -104,12 +110,15 @@ Apache-2.0 — use, modify, redistribute freely.
 - 🇰🇷 [POCKET-KR-GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) — Korean, Android
 - 🍎 [POCKET-KR-MLX](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) — Korean, iPhone / Mac
 - 🌍 [POCKET-EN-GGUF](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF) — English, phone / PC
+- 💻 [POCKET-Qwen3.8-Flash-Next-GGUF](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) — **180B on a laptop** (8 GB VRAM + 32 GB RAM)
 - 🖼️ [POCKET-Image-Zimage](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage) — character-perfect text in any image
+- 🖥️ [POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) — photoreal images on a CPU only
 
 **Demos & tools (Spaces)**
 - 🎨 [POCKET-Image Studio](https://huggingface.co/spaces/FINAL-Bench/POCKET-Image-Studio) — text-in-image, generate in-page
 - 🖥️ [POCKET-35B-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-35B-CPU) — 35B answering on a CPU
 - 🖥️ [POCKET-26B-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-26B-CPU) — 26B on a CPU
+- 🖼️ [POCKET-Zimage-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-Zimage-CPU) — image generation on a CPU
 
 📚 [Full POCKET collection](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6)
 

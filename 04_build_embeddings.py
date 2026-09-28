@@ -16,7 +16,7 @@ import os
 import re
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Set
 
 from dotenv import load_dotenv
 
@@ -624,6 +624,18 @@ def db_cache_candidate_ids(
     ]
 
 
+def load_model_ids(path: Optional[Path]) -> Optional[Set[str]]:
+    """Load an optional model-id allowlist used by incremental Stage 4 runs."""
+    if path is None:
+        return None
+    if not path.exists():
+        raise FileNotFoundError(path)
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
+        raise ValueError(f"{path}: expected a JSON list of model IDs")
+    return {item for item in value if item}
+
+
 def should_refuse_db_reembedding(
     document_count: int,
     candidate_count: int,
@@ -650,10 +662,13 @@ def run_pool(
     batch_size: int,
     sample_strategy: str,
     db_cache: bool = False,
+    model_ids: Optional[Set[str]] = None,
 ) -> Dict[str, Any]:
     source_rows = read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
     validate_source(source_rows, pool)
     selected = select_rows(source_rows, limit, sample_strategy)
+    if model_ids is not None:
+        selected = [row for row in selected if row.get("model_id") in model_ids]
     documents = [build_document(row, model) for row in selected]
     report = validate_documents(documents, pool)
     if report["duplicates"] or report["bad_count"]:
@@ -663,12 +678,20 @@ def run_pool(
     db_reused = 0
     output: Optional[Path] = None
     if execute:
-        canonical_output = DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
-        checkpoint_path = (
+        incremental = model_ids is not None
+        canonical_output = (
+            DATA_DIR / f".stage4_delta_{pool}.jsonl"
+            if incremental
+            else DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
+        )
+        if incremental:
+            checkpoint_path = DATA_DIR / f".stage4_{pool}_delta_checkpoint.jsonl"
+        else:
+            checkpoint_path = (
             DATA_DIR if limit is None else ROOT / "test"
         ) / f".stage4_{pool}_checkpoint.jsonl"
         existing: Dict[str, Dict[str, Any]] = {}
-        if limit is None:
+        if limit is None and not incremental:
             existing = load_snapshot_by_id(canonical_output)
         if checkpoint_path.exists():
             existing = load_snapshot_by_id(checkpoint_path)
@@ -775,6 +798,12 @@ def main() -> int:
         help="reuse matching embeddings from Supabase before calling the embedding API",
     )
     parser.add_argument(
+        "--model-ids-file",
+        type=Path,
+        default=None,
+        help="write only the model IDs in a JSON list to an incremental Stage 4 delta",
+    )
+    parser.add_argument(
         "--backfill-search-metadata",
         action="store_true",
         help="add deterministic lexical metadata without rebuilding embeddings",
@@ -792,6 +821,7 @@ def main() -> int:
         parser.error("--db-cache requires --execute")
 
     load_dotenv(ROOT / ".env")
+    model_ids = load_model_ids(args.model_ids_file)
     model = args.model or os.getenv("STAGE4_EMBEDDING_MODEL") or DEFAULT_MODEL
     pools = POOLS if args.pool == "all" else (args.pool,)
     if args.pool == "all":
@@ -803,9 +833,10 @@ def main() -> int:
             args.limit,
             args.execute,
             args.batch_size,
-            args.sample_strategy,
-            db_cache=args.db_cache,
-        )
+                args.sample_strategy,
+                db_cache=args.db_cache,
+                model_ids=model_ids,
+            )
         for pool in pools
     ]
     print(json.dumps({"stage4_version": STAGE4_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))

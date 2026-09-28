@@ -116,13 +116,20 @@ def test_retrieval_hydration_covers_stage4_rows():
     root = Path(__file__).resolve().parents[1]
     catalog = _VALIDATOR.load_catalog(root / "data")
     data_dir = root / "data"
-    for pool, expected in (("core", 1451), ("low_popularity", 2116)):
+    for pool in ("core", "low_popularity"):
+        stage2_ids = {
+            json.loads(line)["model_id"]
+            for line in (data_dir / f"hf_models_stage2_{pool}.jsonl")
+            .read_text(encoding="utf-8")
+            .splitlines()
+            if line.strip()
+        }
         rows = [
             json.loads(line)
             for line in (data_dir / f"hf_models_stage4_{pool}.jsonl").read_text(encoding="utf-8").splitlines()
             if line.strip()
         ]
-        assert len(rows) == expected
+        assert {row["model_id"] for row in rows} == stage2_ids
         assert all((pool, row["model_id"]) in catalog for row in rows)
 
 

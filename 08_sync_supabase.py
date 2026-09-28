@@ -18,6 +18,7 @@ import argparse
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -25,19 +26,33 @@ import time
 import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
+from urllib.parse import quote
 
 from dotenv import load_dotenv
+from retrieval_metadata import augment_filter_metadata
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 SCHEMA_PATH = ROOT / "supabase_schema.sql"
 POOLS = ("core", "low_popularity")
+MODEL_IDS_PATH = DATA_DIR / ".incremental_model_ids.json"
+BENCHMARK_CHANGED_IDS_PATH = DATA_DIR / ".benchmark_changed_model_ids.json"
+BENCHMARK_STATE_PATH = DATA_DIR / "hf_models_benchmark_state.json"
+BENCHMARK_STATE_CANDIDATE_PATH = DATA_DIR / ".hf_models_benchmark_state_candidate.json"
 EXPECTED_VERSIONS = {"stage1": 7, "stage2": 6, "stage3": 1, "stage4": 1}
 DEFAULT_TTL_HOURS = 24
 DEFAULT_BATCH_SIZE = 100
 API_MAX_RETRIES = 3
 API_RETRY_BASE_SECONDS = 2
+
+
+def model_page_url(model_id: str) -> str:
+    return f"https://huggingface.co/{quote(str(model_id), safe='/')}"
+
+
+def model_readme_url(model_id: str) -> str:
+    return f"{model_page_url(model_id)}/blob/main/README.md"
 
 
 def read_jsonl(path: Path) -> List[Dict[str, Any]]:
@@ -50,6 +65,54 @@ def read_jsonl(path: Path) -> List[Dict[str, Any]]:
     ]
 
 
+def stage4_delta_path(pool: str) -> Path:
+    return DATA_DIR / f".stage4_delta_{pool}.jsonl"
+
+
+def benchmark_delta_path(pool: str) -> Path:
+    return DATA_DIR / f".hf_models_benchmark_delta_{pool}.jsonl"
+
+
+def write_model_ids(model_ids: Sequence[str]) -> None:
+    MODEL_IDS_PATH.write_text(
+        json.dumps(sorted(set(model_ids)), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def read_model_ids(path: Path) -> Set[str]:
+    if not path.exists():
+        return set()
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, list):
+        raise ValueError(f"{path}: expected a JSON list of model IDs")
+    return {item for item in value if isinstance(item, str) and item}
+
+
+def clear_incremental_artifacts() -> None:
+    for pool in POOLS:
+        for path in (
+            stage4_delta_path(pool),
+            benchmark_delta_path(pool),
+            DATA_DIR / f".hf_models_benchmark_changed_ids_{pool}.json",
+            DATA_DIR / f".hf_models_benchmark_state_{pool}.json",
+        ):
+            if path.exists():
+                path.unlink()
+    for path in (
+        MODEL_IDS_PATH,
+        BENCHMARK_CHANGED_IDS_PATH,
+        BENCHMARK_STATE_CANDIDATE_PATH,
+    ):
+        if path.exists():
+            path.unlink()
+
+
+def promote_benchmark_state() -> None:
+    if BENCHMARK_STATE_CANDIDATE_PATH.exists():
+        BENCHMARK_STATE_CANDIDATE_PATH.replace(BENCHMARK_STATE_PATH)
+
+
 def json_text(value: Any) -> str:
     return json.dumps(value if value is not None else {}, ensure_ascii=False, separators=(",", ":"))
 
@@ -58,17 +121,40 @@ def vector_literal(values: Sequence[float]) -> str:
     return "[" + ",".join(format(float(value), ".9g") for value in values) + "]"
 
 
-def load_corpora() -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
+def load_corpora(
+    stage4_delta: bool = False,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]]]:
     stage4: List[Dict[str, Any]] = []
     stage2: Dict[str, Dict[str, Any]] = {}
     stage3: Dict[str, Dict[str, Any]] = {}
     for pool in POOLS:
-        stage4.extend(read_jsonl(DATA_DIR / f"hf_models_stage4_{pool}.jsonl"))
+        stage4_path = stage4_delta_path(pool) if stage4_delta else DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
+        if stage4_path.exists():
+            stage4.extend(read_jsonl(stage4_path))
         for row in read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl"):
             stage2[row["model_id"]] = row
         for row in read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl"):
             stage3[row["model_id"]] = row
     return stage4, stage2, stage3
+
+
+def apply_benchmark_deltas(stage4: Sequence[Dict[str, Any]]) -> None:
+    """Attach only changed benchmark projections to the Stage 4 delta rows."""
+    sidecars: Dict[str, Dict[str, Any]] = {}
+    for pool in POOLS:
+        path = benchmark_delta_path(pool)
+        if path.exists():
+            for row in read_jsonl(path):
+                model_id = row.get("model_id")
+                if model_id:
+                    sidecars[model_id] = row
+    for row in stage4:
+        model_id = row.get("model_id")
+        if model_id in sidecars:
+            metadata = dict(sidecars[model_id])
+            metadata.pop("model_id", None)
+            metadata.pop("source_pool", None)
+            row["benchmark_metadata"] = metadata
 
 
 def stage3_pools_need_reconciliation() -> bool:
@@ -107,12 +193,15 @@ def load_evidence_indices() -> Dict[str, Dict[str, Any]]:
 def validate_evidence_indices(
     stage4: Sequence[Dict[str, Any]],
     evidence: Dict[str, Dict[str, Any]],
+    expected_model_ids: Optional[Sequence[str]] = None,
 ) -> Dict[str, Any]:
     """Validate sidecar referential integrity before a DB write."""
-    expected = {row["model_id"] for row in stage4}
+    expected = set(expected_model_ids) if expected_model_ids is not None else {
+        row["model_id"] for row in stage4
+    }
     actual = set(evidence)
     missing = sorted(expected - actual)
-    extra = sorted(actual - expected)
+    extra = [] if expected_model_ids is not None else sorted(actual - expected)
     problems: List[str] = [f"missing sidecar: {mid}" for mid in missing[:10]]
     problems.extend(f"extra sidecar: {mid}" for mid in extra[:10])
     parent_count = 0
@@ -165,6 +254,7 @@ def validate_corpus(
     stage4: Sequence[Dict[str, Any]],
     stage2: Dict[str, Dict[str, Any]],
     stage3: Dict[str, Dict[str, Any]],
+    incremental_ids: Optional[Sequence[str]] = None,
 ) -> Dict[str, Any]:
     problems: List[str] = []
     ids = [row.get("model_id") for row in stage4]
@@ -174,13 +264,24 @@ def validate_corpus(
     stage3_ids = set(stage3)
     stage4_ids = set(ids)
     missing_stage3 = sorted(stage2_ids - stage3_ids)
-    missing_stage4 = sorted(stage2_ids - stage4_ids)
+    missing_stage4 = (
+        sorted(set(incremental_ids or ()) - stage4_ids)
+        if incremental_ids is not None
+        else sorted(stage2_ids - stage4_ids)
+    )
+    extra_incremental = (
+        sorted(stage4_ids - set(incremental_ids or ()))
+        if incremental_ids is not None
+        else []
+    )
     extra_stage3 = sorted(stage3_ids - stage2_ids)
     extra_stage4 = sorted(stage4_ids - stage2_ids)
     if missing_stage3:
         problems.append("missing Stage 3 rows: " + ", ".join(missing_stage3[:30]))
     if missing_stage4:
         problems.append("missing Stage 4 rows: " + ", ".join(missing_stage4[:30]))
+    if extra_incremental:
+        problems.append("unexpected incremental Stage 4 rows: " + ", ".join(extra_incremental[:30]))
     if extra_stage3:
         problems.append("stale Stage 3 rows: " + ", ".join(extra_stage3[:30]))
     if extra_stage4:
@@ -211,20 +312,35 @@ def validate_corpus(
             problems.append(f"{model_id}: missing Stage 2 detail")
         if model_id not in stage3:
             problems.append(f"{model_id}: missing Stage 3 detail")
+    if incremental_ids is not None:
+        pool_counts = {pool: 0 for pool in POOLS}
+        for row in stage3.values():
+            pool = row.get("source_pool")
+            if pool in pool_counts:
+                pool_counts[pool] += 1
     if problems:
         raise ValueError("Supabase corpus validation failed:\n" + "\n".join(problems[:30]))
     return {"rows": len(stage4), "pool_counts": pool_counts, "stage2_rows": len(stage2), "stage3_rows": len(stage3)}
 
 
 
-def write_stage4_manifest(stage4: Sequence[Dict[str, Any]], validation: Dict[str, Any]) -> Path:
+def write_stage4_manifest(
+    stage4: Sequence[Dict[str, Any]],
+    validation: Dict[str, Any],
+    corpus_rows: Optional[int] = None,
+) -> Path:
     """Persist a small tracked snapshot description without embedding arrays."""
     dimensions = sorted({int(row.get("embedding_dimensions") or 0) for row in stage4})
     models = sorted({str(row.get("embedding_model") or "") for row in stage4 if row.get("embedding_model")})
+    previous_manifest_path = DATA_DIR / "hf_models_stage4_manifest.json"
+    if (not dimensions or not models) and previous_manifest_path.exists():
+        previous = json.loads(previous_manifest_path.read_text(encoding="utf-8"))
+        dimensions = dimensions or previous.get("embedding_dimensions", [])
+        models = models or previous.get("embedding_models", [])
     manifest = {
         "stage4_version": EXPECTED_VERSIONS["stage4"],
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "rows": len(stage4),
+        "rows": len(stage4) if corpus_rows is None else corpus_rows,
         "pool_counts": validation.get("pool_counts", {}),
         "embedding_dimensions": dimensions,
         "embedding_models": models,
@@ -235,7 +351,11 @@ def write_stage4_manifest(stage4: Sequence[Dict[str, Any]], validation: Dict[str
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return path
 
-def provenance(stage2: Dict[str, Any], stage3: Dict[str, Any]) -> Dict[str, Any]:
+def provenance(
+    model_id: str,
+    stage2: Dict[str, Any],
+    stage3: Dict[str, Any],
+) -> Dict[str, Any]:
     source = stage2.get("source") or {}
     readme = source.get("readme") or {}
     return {
@@ -243,10 +363,22 @@ def provenance(stage2: Dict[str, Any], stage3: Dict[str, Any]) -> Dict[str, Any]
         "config": source.get("config") or {},
         "tokenizer_config": source.get("tokenizer_config") or {},
         "model_card": source.get("model_card") or {},
+        "model_url": model_page_url(model_id),
+        "readme_url": model_readme_url(model_id),
         "readme": {
             key: readme.get(key)
-            for key in ("available", "path", "original_chars", "saved_chars", "truncated", "error")
-            if key in readme
+            for key in (
+                "available",
+                "path",
+                "original_chars",
+                "saved_chars",
+                "truncated",
+                "error",
+            )
+        }
+        | {
+            "source_url": readme.get("source_url") or model_page_url(model_id),
+            "readme_url": readme.get("readme_url") or model_readme_url(model_id),
         },
         "stage2": stage2.get("stage") or {},
         "stage3": stage3.get("stage3") or {},
@@ -295,7 +427,7 @@ def payloads(
                 json_text(source3.get("semantic")),
                 json_text(source3.get("evidence")),
                 json_text(row.get("benchmark_metadata")),
-                json_text(provenance(source2, source3)),
+                json_text(provenance(model_id, source2, source3)),
                 json_text(row.get("task_consistency")),
                 row.get("document_hash"),
                 row.get("embedding_model") or "text-embedding-3-small",
@@ -412,6 +544,48 @@ def backfill_runtime_metadata() -> Dict[str, int]:
     return {"source_rows": len(stage2_rows), "updated": updated, "missing_db_rows": missing}
 
 
+def backfill_search_metadata_db() -> Dict[str, int]:
+    """Patch deterministic language-pair/search aliases in existing DB rows."""
+    stage4_rows: List[Dict[str, Any]] = []
+    for pool in POOLS:
+        stage4_rows.extend(read_jsonl(DATA_DIR / f"hf_models_stage4_{pool}.jsonl"))
+    conn = db_connection()
+    updated = 0
+    missing = 0
+    try:
+        with conn.cursor() as cur:
+            for row in stage4_rows:
+                model_id = row.get("model_id")
+                if not model_id:
+                    continue
+                metadata = augment_filter_metadata(
+                    str(model_id),
+                    row.get("filter_metadata") or {},
+                    row.get("task") or {},
+                )
+                patch = {
+                    key: metadata.get(key)
+                    for key in ("search_metadata_version", "language_codes", "translation_pairs", "search_aliases")
+                }
+                cur.execute(
+                    """
+                    update public.model_scout_models
+                    set filter_metadata = coalesce(filter_metadata, '{}'::jsonb) || %s::jsonb,
+                        updated_at = now()
+                    where model_id = %s
+                    """,
+                    (json_text(patch), model_id),
+                )
+                if cur.rowcount:
+                    updated += cur.rowcount
+                else:
+                    missing += 1
+        conn.commit()
+    finally:
+        conn.close()
+    return {"source_rows": len(stage4_rows), "updated": updated, "missing_db_rows": missing}
+
+
 def apply_sync(
     rows: Sequence[Tuple[Any, ...]],
     evidence_rows: Sequence[Tuple[Any, ...]],
@@ -481,7 +655,6 @@ def apply_sync(
         with conn:
             with conn.cursor() as cur:
                 verify_vector_extension(cur)
-                cur.execute(schema_sql_without_extension())
                 cur.execute(
                     """
                     insert into public.model_scout_sync_runs
@@ -623,7 +796,11 @@ def schema_sql_without_extension() -> str:
     lines = SCHEMA_PATH.read_text(encoding="utf-8").splitlines()
     return "\n".join(
         line for line in lines
-        if line.strip().lower() != "create extension if not exists vector;"
+        if not re.match(
+            r"^\s*create\s+extension\s+if\s+not\s+exists\s+vector\s*;",
+            line,
+            flags=re.IGNORECASE,
+        )
     )
 
 
@@ -957,9 +1134,14 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
 
 def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     scan = incremental_stage1_update(watermark)
+    clear_incremental_artifacts()
     needs_reconciliation = stage3_pools_need_reconciliation()
-    if not scan["processable_ids"] and not scan["removed_ids"] and not needs_reconciliation:
+    processable_ids = set(scan["processable_ids"])
+    python = sys.executable
+    if not processable_ids and not scan["removed_ids"] and not needs_reconciliation:
         print(json.dumps({"incremental_pipeline": "no eligible changes"}, ensure_ascii=False), flush=True)
+        scan["requires_sync"] = False
+        scan["stage4_mode"] = "delta"
         return scan
     if needs_reconciliation and not scan["processable_ids"] and not scan["removed_ids"]:
         print(
@@ -969,14 +1151,42 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
             ),
             flush=True,
         )
-    python = sys.executable
+    write_model_ids(processable_ids)
     run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
     run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
     for pool in POOLS:
         run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
     # Relationship-only parent/child index; no LLM or embedding API call.
     run_command([python, str(ROOT / "evidence_index.py"), "--pool", "all"])
-    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
+    run_command([
+        python,
+        str(ROOT / "06_extract_benchmark_metadata.py"),
+        "--pool", "all",
+    ])
+    processable_ids.update(read_model_ids(BENCHMARK_CHANGED_IDS_PATH))
+    write_model_ids(processable_ids)
+    scan["sync_ids"] = sorted(processable_ids)
+    if needs_reconciliation:
+        run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
+        run_command([python, str(ROOT / "06_extract_benchmark_metadata.py"), "--pool", "all", "--apply"])
+        scan["stage4_mode"] = "full"
+    elif processable_ids:
+        run_command([
+            python,
+            str(ROOT / "04_build_embeddings.py"),
+            "--pool", "all", "--execute", "--db-cache",
+            "--model-ids-file", str(MODEL_IDS_PATH),
+        ])
+        run_command([
+            python,
+            str(ROOT / "06_extract_benchmark_metadata.py"),
+            "--pool", "all",
+            "--model-ids-file", str(MODEL_IDS_PATH),
+        ])
+        scan["stage4_mode"] = "delta"
+    else:
+        scan["stage4_mode"] = "delta"
+    scan["requires_sync"] = True
     return scan
 
 
@@ -1093,9 +1303,19 @@ def main() -> int:
     )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
+        "--ensure-schema",
+        action="store_true",
+        help="apply supabase_schema.sql explicitly, separate from data sync",
+    )
+    parser.add_argument(
         "--backfill-evidence",
         action="store_true",
         help="load Parent-Child sidecars into Supabase without rerunning Stages 1-4",
+    )
+    parser.add_argument(
+        "--backfill-search-metadata",
+        action="store_true",
+        help="patch deterministic translation-pair/search aliases in existing DB rows",
     )
     parser.add_argument(
         "--backfill-runtime",
@@ -1111,17 +1331,25 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if sum(bool(value) for value in (args.refresh, args.initial, args.backfill_runtime, args.backfill_evidence)) > 1:
+    if sum(bool(value) for value in (args.refresh, args.initial, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
         parser.error("--refresh, --initial, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
         parser.error("--backfill-runtime requires --apply")
+    if args.backfill_search_metadata and not args.apply:
+        parser.error("--backfill-search-metadata requires --apply")
     load_dotenv(ROOT / ".env")
+    if args.ensure_schema:
+        ensure_schema()
+        print(json.dumps({"schema": "ensured"}, ensure_ascii=False))
+        return 0
     if args.backfill_evidence and not args.apply:
         parser.error("--backfill-evidence requires --apply")
+    if args.backfill_search_metadata:
+        print(json.dumps({"search_metadata_backfill": backfill_search_metadata_db()}, ensure_ascii=False, indent=2))
+        return 0
     if args.backfill_evidence:
-        ensure_schema()
         stage4, stage2, stage3 = load_corpora()
         validation = validate_corpus(stage4, stage2, stage3)
         evidence = load_evidence_indices()
@@ -1134,7 +1362,6 @@ def main() -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
     if args.backfill_runtime:
-        ensure_schema()
         print(json.dumps({"runtime_backfill": backfill_runtime_metadata()}, indent=2))
         return 0
     ttl_hours = args.ttl_hours if args.ttl_hours is not None else float(
@@ -1145,7 +1372,6 @@ def main() -> int:
     refresh_info: Optional[Dict[str, Any]] = None
     latest: Optional[Dict[str, Any]] = None
     if args.apply:
-        ensure_schema()
         latest = latest_completed_sync()
 
     if args.refresh:
@@ -1188,16 +1414,37 @@ def main() -> int:
         # Offline validation remains available and never contacts Supabase.
         pass
 
-    if refresh_info is not None and not refresh_info.get("processable_ids") and not refresh_info.get("removed_ids"):
+    if (
+        refresh_info is not None
+        and not refresh_info.get("requires_sync", True)
+        and not refresh_info.get("removed_ids")
+    ):
         print(json.dumps({"sync": "no eligible changes", "db_write": False}, ensure_ascii=False))
         return 0
 
-    stage4, stage2, stage3 = load_corpora()
-    validation = validate_corpus(stage4, stage2, stage3)
+    delta_mode = refresh_info is not None and refresh_info.get("stage4_mode") == "delta"
+    stage4, stage2, stage3 = load_corpora(stage4_delta=delta_mode)
+    if delta_mode:
+        apply_benchmark_deltas(stage4)
+    incremental_ids = (
+        set(refresh_info.get("sync_ids", refresh_info.get("processable_ids", [])))
+        if delta_mode and refresh_info is not None
+        else None
+    )
+    validation = validate_corpus(
+        stage4,
+        stage2,
+        stage3,
+        incremental_ids=incremental_ids,
+    )
     evidence = load_evidence_indices()
-    evidence_validation = validate_evidence_indices(stage4, evidence)
-    write_stage4_manifest(stage4, validation)
-    changed_ids = set(refresh_info.get("processable_ids", [])) if refresh_info else None
+    evidence_validation = validate_evidence_indices(
+        stage4,
+        evidence,
+        expected_model_ids=incremental_ids,
+    )
+    write_stage4_manifest(stage4, validation, corpus_rows=len(stage2))
+    changed_ids = incremental_ids
     removed_ids = refresh_info.get("removed_ids", []) if refresh_info else []
     selected_stage4 = (
         [row for row in stage4 if row.get("model_id") in changed_ids]
@@ -1226,8 +1473,9 @@ def main() -> int:
             incremental=refresh_info is not None,
             removed_ids=removed_ids,
             source_watermark=(refresh_info or {}).get("scan_started_at"),
-            corpus_rows=len(stage4),
+            corpus_rows=len(stage2),
         )
+        promote_benchmark_state()
     else:
         result["dry_run"] = {
             "rows": len(rows),

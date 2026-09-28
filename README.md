@@ -152,6 +152,23 @@ Hugging Face에서 모델을 수집하고, 모델 카드와 메타데이터를 �
 
 ## 7. 진행 순서
 
+### 파이프라인 스크립트 구성
+
+실행 순서는 `08_sync_supabase.py`가 관리한다. 각 단계는 비용과 재시작 경계가 달라 독립 실행 파일로 유지하고, 중복 구현만 합친다.
+
+| 단계 | 정식 담당 | 역할 |
+| --- | --- | --- |
+| 1 | `01_collect_models.py` | Hugging Face 모델 수집 및 9개 pipeline tag 후보화 |
+| 2 | `02_enrich_metadata.py` | 메타데이터·README 출처 정규화 |
+| 3 | `03_generate_semantic_metadata.py` | README 근거 기반 의미 메타데이터 생성 |
+| 보조 | `03_repair_truncated_semantic.py`, `evidence_index.py` | Stage 3 복구 및 근거 parent/child 인덱스 |
+| 4 | `04_build_embeddings.py` | 임베딩 생성·로컬/Supabase 캐시 재사용 |
+| 보조 | `06_extract_benchmark_metadata.py` | 벤치마크 추출과 Stage 4 compact 통합을 한 번에 수행 |
+| 동기화 | `08_sync_supabase.py` | 검증·스키마·증분/초기 Supabase 적재 |
+| 검증 | `05_validate_retrieval.py` | 검색·근거·필터 회귀 검증 |
+
+`07_integrate_benchmark_metadata.py`는 기존 수동 호출 호환용 래퍼이며 새 파이프라인에서는 직접 호출하지 않는다. 벤치마크 원본 sidecar는 재생성 가능한 중간 산출물로 보관하지 않고, Stage 4에는 검색·랭킹에 필요한 compact projection만 남긴다.
+
 전체 기능을 한 번에 만들지 않고, **작게 확인 → 한 번 연결 → 확장** 순서로 진행한다.
 
 ### Step 1. 직접 모델을 찾아본다
@@ -229,6 +246,25 @@ Step 1에서 만든 요구사항들을 다시 시스템에 넣어본다.
 실패 사례를 확인한 뒤 Task와 데이터 규모를 확장한다.
 
 > 사람이 직접 해보기 → 1차 모델 조사 → 필터 기준 정의 → 한 케이스 End-to-End → 테스트 케이스 확대
+
+## Supabase 운영 명령
+
+스키마 DDL은 데이터 동기화와 분리되어 있다. 최초 설치 또는 스키마 변경 때만 실행한다.
+
+```bash
+python 08_sync_supabase.py --ensure-schema
+python 08_sync_supabase.py --initial --apply
+```
+
+이후에는 TTL이 적용된 증분 동기화를 실행한다.
+
+```bash
+python 08_sync_supabase.py --refresh --apply
+```
+
+증분 갱신은 변경된 모델과 변경된 벤치마크 메타데이터만 Stage 4와 Supabase에 반영한다. 전체 재조정이 필요한 경우에만 전체 임베딩 경로를 사용한다. 현재 운영 수집 범위는 9개 pipeline tag 기준이다.
+
+벤치마크 원본 sidecar는 커밋하지 않고, 변경 감지용 소형 fingerprint 상태만 성공한 sync 뒤에 저장한다.
 
 ## 8. 성공 기준
 

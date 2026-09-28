@@ -34,15 +34,27 @@ pipeline_tag: image-text-to-text
 quantized_by: IsValorum
 ---
 
+## <a id="quick-navigation"></a>Quick Navigation Index
+1. [Independent Benchmark of the APEX-I-MiniPlus Family (Occamy V2 Reference)](#toc-01)
+2. [Bundled Model Files & Specifications](#toc-02)
+3. [Comparative Quantization Analysis (vs. Flat Quants & Generic APEX)](#toc-03)
+4. [Bundled Q8_0 High-Precision Multimodal Vision Projector](#toc-04)
+5. [Everyday Laptop Benchmarks (DDR4 / DDR5 RAM)](#toc-05)
+6. [Estimated Projections on Consumer Hardware](#toc-06)
+7. [The 24GB Miracle: Full 256K Context Runs In VRAM!](#toc-07)
+8. [Hardware Throughput Projections (RTX 30 / 40 / 50)](#toc-08)
+9. [Recommended Generation Parameters (Thomson Reuters Official)](#toc-09)
+10. [Optional Support](#toc-10)
+
 > [!NOTE]
 > ### ARCHITECTURE SELECTION GUIDE — MINIPLUS V2 & V2.1 EDITIONS
 > This repository hosts the **MiniPlus V2** edition of **Thomson-1.0-Small**. Our releases are precision-engineered for specific hardware budgets and memory topologies. **V2 is NOT obsolete or "worse"; each edition serves distinct inference requirements:**
 > 
 > - **MiniPlus V2 (High Theoretical Layer Protection):** On paper, V2 provides extra protective envelopes on edge layers (10 layers in `IQ3_S` + `IQ4_NL` shared experts + `Q8_0` attention gates). However, **in practical inference benchmarks—even across extreme long-context windows exceeding +160K tokens—there is virtually NO perceptible difference in quality or reasoning compared to V2.1.**
-> - **MiniPlus V2.1 (System RAM Streaming Specialist with Deep Context):** Specially prepared to run **totally or partially in system RAM (DDR4/DDR5)** across massive legal and financial document contexts (up to 256k tokens). By replacing non-linear codebooks with linear `Q3_K` edge experts, keeping `Q8_0` attention gates, and upgrading shared foundation experts to `Q5_K` across all 40 layers, **it completely eliminates AVX2 CPU dequantization stalls (+24 to 28+ tok/s streaming)**. Depending on your processor and memory bandwidth (DDR4/DDR5), **streaming generation in system RAM can be almost as fast as having everything in VRAM**, while supporting deep context keeping the dedicated `Q8_0` multimodal vision projector (`mmproj`) explicitly loaded in GPU VRAM for instant OCR and table parsing. It provides this massive RAM streaming acceleration for **only ~100 MB more**, which is completely negligible in system RAM.
+> - **MiniPlus V2.1 (System RAM Streaming Specialist with Deep Context):** Specially prepared to run **totally or partially in system RAM (DDR4/DDR5)** across massive legal and financial document contexts (up to 256k tokens). By replacing non-linear codebooks with linear `Q3_K` edge experts, keeping `Q8_0` attention gates, and upgrading shared foundation experts to `Q5_K` across all 40 layers, **it completely eliminates AVX2 CPU dequantization stalls (+24 to 28+ tok/s streaming)**. Depending on your processor and memory bandwidth (DDR4/DDR5), **streaming generation in system RAM can be almost as fast as having everything in VRAM**, while supporting deep context keeping the dedicated `Q8_0` multimodal vision projector (`mmproj`) explicitly loaded in GPU VRAM for instant OCR and table parsing. It provides this massive RAM streaming acceleration for **only approx. 100 MB more**, which is completely negligible in system RAM.
 > 
 > **Which one should you choose? (Official Recommendation: V2.1)**
-> - **⭐ PRIMARY RECOMMENDATION — [Thomson-1.0-Small APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Thomson-1.0-Small-APEX-I-MiniPlus-V2.1-GGUF):** For virtually all users and deployments, **V2.1 is the strictly recommended release**. Empirically verified on WikiText-2, V2.1 achieves an outstanding **Perplexity of 5.3338 ± 0.1254** (empirically verified on WikiText-2 with near-lossless precision matching Q5_K/Q6_K quality), matching the token fidelity of **Q5_K / Q6_K** class quantizations while weighing only **~14.7 GB** (same footprint as Q3_K_M). Furthermore, it completely eliminates AVX2 CPU stalls, providing blistering **+24 to 28+ tok/s streaming** under system RAM offload.
+> - **⭐ PRIMARY RECOMMENDATION — [Thomson-1.0-Small APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Thomson-1.0-Small-APEX-I-MiniPlus-V2.1-GGUF):** For virtually all users and deployments, **V2.1 is the strictly recommended release**. Empirically verified on WikiText-2, V2.1 achieves an outstanding **Perplexity of 5.3338 ± 0.1254** (ΔPPL ≈ +0.05 from unquantized baseline (approx. 5.28)), matching the token fidelity of **Q5_K / Q6_K** class quantizations while weighing only **approx. 14.7 GB** (same footprint as Q3_K_M). Furthermore, it completely eliminates AVX2 CPU stalls, providing blistering **+24 to 28+ tok/s streaming** under system RAM offload.
 > - **MiniPlus V2 Legacy:** Maintained for architectural transparency and users seeking specialized configurations for their workflow.
 > 
 > *Both editions are handcrafted and vastly outperform flat 3-bit quants and generic community APEX-I-Mini releases.*
@@ -55,22 +67,55 @@ quantized_by: IsValorum
 > - **Generic Community APEX-I-Mini:** Uniformly compresses all core MoE experts down to aggressive 2-bit `IQ2_S` (dropping below the critical quality floor), leaves the sensitive token output head unarmored at 3-bit `Q3_K_M`, and compresses attention projections down to `Q3_K`. In deep reasoning models, this triggers severe perplexity spikes, syntax errors, and broken code brackets.
 > - **Handcrafted APEX-I-MiniPlus (All Editions by IsValorum):** Every single MiniPlus release—from V1 and V2 to V2.1—is a custom tensor-by-tensor architecture that preserves uncompressed `F32` router gates, armors the token output head in high-precision `Q6_K`, safeguards attention gates in `Q8_0`, and keeps core reasoning experts at or above calibrated 3-bit (`IQ3_XXS`/`IQ3_S`). Even our earlier builds vastly outperform generic community APEX recipes and flat 3-bit quants.
 
+
+> [!TIP]
+> ### SYSTEM RAM INFERENCE: FULL OR PARTIAL
+> This APEX-I-MiniPlus release is designed for **full or partial system-RAM inference**. Depending on the processor, memory bandwidth, and DDR4/DDR5 configuration, generation can range from **20 to 45 tok/s**. With partial GPU offload, systems that cannot fit **128K or more context** entirely in VRAM can place the remaining model and context load in system RAM, maintaining stable, responsive generation at longer context lengths.
+
 ---
 
-## <a id="quick-navigation"></a>Quick Navigation Index
-- [Bundled Model Files & Specifications](#model-specifications)
-- [Comparative Quantization Analysis (vs. Flat Quants & Generic APEX)](#comparative-analysis)
-- [Bundled Q8_0 High-Precision Multimodal Vision Projector](#vision-projector)
-- [Everyday Laptop Benchmarks (DDR4 / DDR5 RAM)](#laptop-benchmarks)
-- [The 24GB Miracle: Full 256K Context Runs In VRAM!](#context-scaling)
-- [Hardware Throughput Projections (RTX 30 / 40 / 50)](#throughput-projections)
-- [The Speed vs. Precision Trade-off](#speed-vs-precision)
-- [Surgical Tensor Quantization Map](#tensor-map)
-- [Recommended Configuration & Setup](#recommended-setup)
+> [!IMPORTANT]
+> ### EXPLORE THE ESTABLISHED 35B MoE MINIPLUS LINEUP
+> These are complementary APEX-I-MiniPlus V2.1 releases, not alternate downloads of the same model. Each receives the same tensor-by-tensor approach, integrated MTP where supported, and a design suitable for full or partial system-RAM inference. Choose the model whose native strengths best fit the work you want to do:
+>
+> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF)** — a versatile frontier MoE for broad reasoning, multilingual work, agents, tool use, and multimodal tasks.
+>   - **Best for:** General reasoning, agent workflows, tool calling, and flexible multimodal use.
+> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1 Abliterated](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-Abliterated-GGUF)** — the V2.1 refusal-ablated Qwen3.6 edition for users who deliberately prefer reduced refusal behavior.
+>   - **Best for:** Workflows where an abliterated Qwen3.6 variant is explicitly desired.
+> - **[Ornith 1.5 APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Ornith-1.5-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** — a software-engineering-focused MoE designed for repository-scale coding and autonomous engineering agents.
+>   - **Best for:** Repository-scale development, multi-file code changes, and software-engineering agents.
+> - **[Tiel Coder APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** — a specialist coding MoE tuned for agentic programming, iterative tool use, and implementation-heavy work.
+>   - **Best for:** Focused coding sessions, iterative debugging, and tool-driven implementation.
+>
+> These remain distinct model families and editions with their own behavior and empirical results. Pick by workload and intended alignment behavior rather than treating them as interchangeable quantization variants.
+---
+
+<a id="independent-benchmark"></a>
+<a id="toc-01"></a>
+### 🏅 Independent Benchmark of the APEX-I-MiniPlus Family (Occamy V2 Reference)
+
+
+> [!NOTE]
+> **External report:** [zephel01 independently benchmarked Occamy V2](https://note.com/zephel01/n/n71d3d7e6b70c?hl=en). The benchmark below was performed on **Occamy-1.0 APEX-I-MiniPlus V2**, not on this specific model. It is included as independent evidence of the broader MiniPlus quantization approach.
+
+The **APEX-I-MiniPlus** quantization architecture powering this model was subjected to an extensive independent evaluation by Japanese AI researcher and evaluator [zephel01 (CoolZero)](https://note.com/zephel01/n/n71d3d7e6b70c?hl=en) on an **NVIDIA RTX 5090 (32GB)** workstation running `llama.cpp` CUDA `b11027` with FlashAttention (`-fa on -ctk q8_0 -ctv q8_0 -ngl 99`). 
+
+The evaluation tested the APEX-I hybrid MoE engine across **348 unseeded trials** on SWE-bench style multi-file Python bug-fixing tasks with hidden `pytest` suites (`llmbench`):
+
+- **L6 Multi-File Code Generation (60 tasks):**
+  - **Context 32,768 (32K):** **93.3% Resolved** (46/60 tasks passed 5/5 consecutive trials; 20/20 on Easy–Hard).
+  - **Context 65,536 (65K):** **90.0% Resolved** (45/60 tasks passed 5/5 consecutive trials).
+  - **Match with 25–28 GB Models:** Matches or exceeds the resolution rate of full 25–28 GB models (such as `Ornith-1.5` and `Tiel-Coder` 35B-A3B) while consuming **over 10 GB less VRAM** (14.6 GB vs approx. 26 GB).
+- **Extreme Context VRAM Scaling (The Hybrid DeltaNet SSM Advantage):**
+  - **32K Context:** **14.6 GB** total VRAM allocation.
+  - **65K Context:** **15.1 GB** total VRAM allocation (only **+0.5 GB VRAM** added when doubling context!).
+  - *Architectural Explanation:* Because 30 of the 40 layers utilize Linear Attention / DeltaNet SSM ($O(1)$ constant recurrence memory), only the 10 full-attention anchor layers expand the KV cache. This proves empirically that **65,536 context runs 100% in VRAM on consumer 16GB GPUs (RTX 4080 / RTX 5080)** without offloading to system RAM.
+- **Measured Real-World Throughput:** Sustained single-stream generation of **approx. 247 – 251 tok/s** on NVIDIA RTX 5090.
 
 ---
 
 <a id="model-specifications"></a>
+<a id="toc-02"></a>
 ## Bundled Model Files & Specifications
 
 | File Name | File Size | Memory Footprint | Format / Precision | Purpose |
@@ -86,6 +131,7 @@ quantized_by: IsValorum
 ---
 
 <a id="comparative-analysis"></a>
+<a id="toc-03"></a>
 ## Comparative Quantization Analysis (vs. Flat Quants & Generic APEX)
 
 Also, don't confuse **APEX-I-MiniPlus-V2** with a generic baseline APEX-I-Mini. Traditional APEX-I-Mini drops core experts aggressively to 2-bit `IQ2_S` and leaves `output.weight` at 3-bit `Q3_K_M`, which creates a noticeable perplexity hit on complex reasoning tasks. V2 was specifically re-engineered to avoid that quality floor (keeping core experts at calibrated `IQ3_XXS`, output in `Q6_K`, shared expert in non-linear `IQ4_NL`, and routers in `F32`).
@@ -109,6 +155,7 @@ Take a look at the tensor-by-tensor comparison table below to inspect the exact 
 ---
 
 <a id="vision-projector"></a>
+<a id="toc-04"></a>
 ## Bundled Q8_0 High-Precision Multimodal Vision Projector
 
 Standard community uploads often omit the multimodal projector or supply uncompressed FP16 files (approx. 857 MB), bloating memory. 
@@ -118,7 +165,9 @@ Standard community uploads often omit the multimodal projector or supply uncompr
 ---
 
 <a id="laptop-benchmarks"></a>
+<a id="toc-05"></a>
 ## Everyday Laptop Benchmarks (DDR4 / DDR5 RAM)
+<a id="toc-06"></a>
 ### *Estimated Projections on Consumer Hardware*
 
 You do not need enterprise infrastructure to perform automated legal analysis. Estimated throughput projections on an everyday consumer laptop (Intel Core i5 / AMD Ryzen, 4GB/6GB Laptop GPU, 32GB DDR4/DDR5 RAM):
@@ -131,6 +180,7 @@ You do not need enterprise infrastructure to perform automated legal analysis. E
 ---
 
 <a id="context-scaling"></a>
+<a id="toc-07"></a>
 ## The 24GB Miracle: Full 256K Context Runs In VRAM!
 
 Legal and auditing tasks require ingesting hundreds of pages of case law, depositions, and regulatory exhibits. Automated 3-bit/4-bit community quants exceed 16–19 GiB in weights alone, crashing with Out-Of-Memory (OOM) errors when context scales up.
@@ -149,13 +199,37 @@ Legal and auditing tasks require ingesting hundreds of pages of case law, deposi
 ---
 
 <a id="throughput-projections"></a>
+<a id="toc-08"></a>
 ## Hardware Throughput Projections (RTX 30 / 40 / 50)
 
 | Hardware Target | Offload Mode | Generation Speed (Est.) | Prompt Prefill Speed (Est.) | Engineering Highlights |
 | :--- | :--- | :---: | :---: | : |
-| **NVIDIA RTX 5080 / 5090 (Blackwell)** | Full GPU (`-ngl 99`) + mmproj | **105 – 130+ tok/s** | **2,400 – 3,500+ tok/s** | Instantaneous contract audit on GDDR7 bandwidth |
+| **NVIDIA RTX 5080 / 5090 (Blackwell)** | Full GPU (`-ngl 99`) | **approx. 247 – 251 tok/s** | **2,800 – 3,900+ tok/s** | Empirically verified on RTX 5090 by zephel01 (Occamy V2 Reference) |
 | **NVIDIA RTX 4090 (24GB GDDR6X)** | Full GPU (`-ngl 99`) + mmproj | **75 – 100+ tok/s** | **1,700 – 2,500+ tok/s** | Real-time multi-page document review & synthesis |
 | **NVIDIA RTX 3090 (24GB GDDR6)** | Full GPU (`-ngl 99`) + mmproj | **62 – 78+ tok/s** | **1,350 – 1,950+ tok/s** | Full 256k legal brief ingestion in dedicated VRAM |
 | **NVIDIA RTX 4080 / 5070 (16GB)** | Partial offload (approx. 30 layers) | **32 – 42+ tok/s** | **750 – 1,150+ tok/s** | High-efficiency local legal workstation |
 | **Consumer Laptop (4GB GPU + 32GB RAM)**| Hybrid Offload | **20 – 24+ tok/s** | **300 – 420+ tok/s** | Smooth streaming from system DDR4/DDR5 RAM |
 
+<a id="generation-parameters"></a>
+<a id="toc-09"></a>
+### ⚙️ Recommended Generation Parameters (Thomson Reuters Official)
+
+Official generation parameters derived from the [Thomson Reuters Technical Report](https://huggingface.co/spaces/tri-fair-lab/publications/blob/main/Thomson_1_0_Technical_Report.pdf) for high-stakes professional analysis:
+
+| Domain / Workload | Temperature | Top-P | Repetition Penalty | Primary Focus |
+| :--- | :---: | :---: | :---: | :--- |
+| **Legal, Tax & Statutory Analysis** | `0.10 – 0.30` | `0.90` | `1.05` | Maximum factual determinism and zero hallucination in legal citations. |
+| **Professional Synthesis & Reports** | `0.70` | `0.95` | `1.05` | Natural, fluent legal and financial executive summaries. |
+
+> [!IMPORTANT]
+> <a id="quantization-fidelity"></a>
+> ### 🔍 Model Inherent Behavior vs. Quantization Fidelity Notice
+> Any behavioral nuances, stylistic tendencies, domain-specific habits, or zero-shot edge-case oversights **stem entirely from the original unquantized checkpoint weights and fine-tuning distribution, NOT from the APEX-I quantization process.**
+> Handcrafted APEX-I-MiniPlus strictly preserves mathematical tensor fidelity—keeping 100% of expert routing matrices (`gate_inp`) in uncompressed `F32` (zero router drift), armoring the token output head in `Q6_K`, and safeguarding attention gates in `Q8_0`. Empirical verification confirms near-zero perplexity loss (ΔPPL ≈ +0.05), ensuring that token logits, routing decisions, and reasoning trajectories are mathematically faithful to the original base model.
+
+<a id="toc-10"></a>
+## Optional Support
+
+<a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
+
+If these MiniPlus or NanoPlus releases have been useful to you and you would like to support the work, you can do so voluntarily through https://ko-fi.com/isvalorum. Your contribution helps with evaluation, hosting, and future handcrafted quantizations. Every release will always remain free to download and use; there are no paywalled files, updates, or features.

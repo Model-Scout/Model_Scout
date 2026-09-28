@@ -42,7 +42,11 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 # JiRack Ternary Architedure & JiRack Tokenizer
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via CMSManhattan/JiRackPrecisionTokenizer
-- 
+
+
+## PARTNERSHIP
+- NVIDIA
+- FISERV  
 
 
 # JiRack sevice options
@@ -248,6 +252,12 @@ I added the default model in full precision. This serves as the base for quantiz
 - Base: Qwen2.5-7B style (Hidden 3584, 28 layers, GQA 28/4, vocab 152064)
 - RoPE θ = 10000, RMSNorm ε = 1e-6
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
+
+
+## ROBOS HUMANOID Project
+
+- https://github.com/cmsmanhattan/ROBOS
+
 
 ## 📧 Contact & Licensing
 

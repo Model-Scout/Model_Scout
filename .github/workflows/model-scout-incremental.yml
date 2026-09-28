@@ -67,9 +67,10 @@ jobs:
             data/hf_models_stage2_low_popularity.jsonl \
             data/hf_models_stage3_core.jsonl \
             data/hf_models_stage3_low_popularity.jsonl \
-            data/hf_models_stage4_manifest.json \
-            data/readmes/core \
-            data/readmes/low_popularity
+          data/hf_models_stage4_manifest.json \
+          data/readmes/core \
+          data/readmes/low_popularity
+          if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
           if git diff --cached --quiet; then
             echo "No snapshot changes to commit"
             exit 0

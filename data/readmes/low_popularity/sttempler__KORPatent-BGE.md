@@ -124,9 +124,11 @@ If you use this model in your research, please cite the following doctoral disse
   title        = {A Study on Domain-Specific Long-Context Embedding Models for Advancing Korean Patent Retrieval},
   author       = {Kim, Yongwoo},
   school       = {Hanyang University},
-  department   = {Graduate School of Technology & Innovation Management},
+  department   = {Department of Technology Management},
+  address      = {Seoul, Korea},
   year         = {2026},
   type         = {Doctoral dissertation},
-  note         = {Korean title: 한국어 특허 검색을 위한 장문 임베딩 모델}
+  note         = {Korean title: 한국어 특허 검색을 위한 장문 임베딩 모델},
+  annote       = {https://huggingface.co/sttempler/KORPatent-BGE}
 }
 ```

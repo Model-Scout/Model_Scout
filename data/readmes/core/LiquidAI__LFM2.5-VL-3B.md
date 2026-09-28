@@ -109,6 +109,9 @@ LFM2.5-VL is supported by many inference frameworks. See the [Inference document
 | [SGLang](https://github.com/sgl-project/sglang) | High-throughput production deployments with GPU. | <a href="https://docs.liquid.ai/deployment/gpu-inference/sglang#vision-models">Link</a> | <a href="https://colab.research.google.com/drive/1qJlAFag223yFOZGzuMIkYUFhybM9ao5g?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
 | [llama.cpp](https://github.com/ggml-org/llama.cpp) | Cross-platform inference with CPU offloading. | <a href="https://docs.liquid.ai/lfm/inference/llama-cpp#vision-models">Link</a> | <a href="https://colab.research.google.com/drive/1q2PjE6O_AahakRlkTNJGYL32MsdUcj7b?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
 
+> [!TIP]
+> ⚡ **Faster decoding**: attach [LFM2.5-VL-3B-DSpark](https://huggingface.co/LiquidAI/LFM2.5-VL-3B-DSpark), a speculative-decoding drafter, for faster decoding in SGLang, llama.cpp, and MLX-VLM with exactly the same outputs.
+
 ### Quick start
 Quick start with Transformers (compatible with `transformers>=5.0.0`):
 

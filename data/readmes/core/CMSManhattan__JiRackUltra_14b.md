@@ -31,16 +31,20 @@ tags:
 - robotics
 license: mit
 ---
+
+
+
 # JiRack Ultra 14B (CPU)
 A fast and efficient 14B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Media**, **Vision**, **Sound**, **Tool call**, and **Robotics** tags. Built on a DeepSeek R1-14B architecture with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
 - JiRack is a cloud-ready model that helps save money on cloud infrastructure. It can be used as an expert model in RAG deployments, with the ONNX JiRack Java server as an alternative.
 
-
-
 # JiRack Ternary Architedure & JiRack Tokenizer
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via CMSManhattan/JiRackPrecisionTokenizer
-- 
+
+## PARTNERSHIP
+- NVIDIA
+- FISERV
 
 # JiRack sevice options
 - Current quantizations were done from the FP16 model, but the model allows for more compression thanks to its ternary architecture. 
@@ -53,9 +57,15 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 - Adapts to agentic or instruct models for tool calling, using the JiRak tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
 
+## QAT 
+- QAT approach 1 script train_qat_ultra_14b_bf16_fulltext_ada_warmup.py
+- QAT approach 2 script train_qat_ultra_14b_bf16_with_mask_ada_warmup.py
+- The folder for QAT datasets from NVIDIA Nemotron with Open Assistant tokenizer, CMSManhattan/JiRackUltra_14b/prepared_sft_data_ultra14b/   
+
 # JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
+- Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Web site https://www.jirack.com
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
 
@@ -218,6 +228,11 @@ I added the default model in full precision. This serves as the base for quantiz
 - RoPE θ = 1 000 000, RMSNorm ε = 1e-6
 - Intermediate size: 13824
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
+
+## ROBOS HUMANOID Project
+
+- https://github.com/cmsmanhattan/ROBOS
+
 ## 📧 Contact & Licensing
 For joint venture opportunities, hardware integration, or licensing inquiries:
 - **Email:** grabko@cmsmanhattan.com

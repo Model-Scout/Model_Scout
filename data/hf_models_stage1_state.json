@@ -93,5 +93,48 @@
       "error": null,
       "cutoff_reached": true
     }
-  }
+  },
+  "last_incremental_scan": {
+    "started_at": "2026-09-28T07:02:31.732433+00:00",
+    "watermark": "2026-09-28T05:05:44.676968+00:00",
+    "scanned": 139,
+    "changed": 139,
+    "eligible": 8,
+    "processable": 3,
+    "removed": 0,
+    "task_scanned": {
+      "text-generation": 77,
+      "feature-extraction": 17,
+      "sentence-similarity": 1,
+      "text-classification": 17,
+      "question-answering": 0,
+      "summarization": 0,
+      "translation": 0,
+      "image-text-to-text": 25,
+      "automatic-speech-recognition": 2
+    },
+    "task_seen": {
+      "text-generation": 78,
+      "feature-extraction": 18,
+      "sentence-similarity": 2,
+      "text-classification": 18,
+      "question-answering": 1,
+      "summarization": 1,
+      "translation": 1,
+      "image-text-to-text": 26,
+      "automatic-speech-recognition": 3
+    },
+    "task_observed": {
+      "text-generation": true,
+      "feature-extraction": true,
+      "sentence-similarity": true,
+      "text-classification": true,
+      "question-answering": true,
+      "summarization": true,
+      "translation": true,
+      "image-text-to-text": true,
+      "automatic-speech-recognition": true
+    }
+  },
+  "unique_candidates": 19945
 }

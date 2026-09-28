@@ -1,0 +1,4872 @@
+{
+  "query_file": "/Users/baiohelseu/Desktop/Project/Model_Scout/test/retrieval_queries.jsonl",
+  "queries": 48,
+  "rows": 3604,
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "query_schema_version": 3,
+  "query_type_version": 1,
+  "relevance_label_version": 3,
+  "labeled_query_count": 46,
+  "metric_note": "Recall@5, MRR, nDCG@5, and Hit@5 computed with provisional assistant-curated metadata qrels. q34 has no eligible candidate and q48 is intentional abstention; both are excluded from ranking averages. Labels were expanded after an independent Stage 1-3 metadata audit; current rankings were not used to choose labels.",
+  "fair_mode_comparison": true,
+  "query_type_definitions": {
+    "semantic_capability": "자연어로 모델의 능력·사용 목적을 설명하며 표현 변형을 이해해야 하는 질의",
+    "lexical_exact": "모델명·번역 방향·형식명처럼 정확한 문자열 매칭이 중요한 질의",
+    "structured_constraint": "task·파라미터·컨텍스트·인기도·확인된 메타데이터 조건이 중심인 질의",
+    "benchmark_lookup": "benchmark·dataset·metric·README 근거를 찾는 질의",
+    "semantic_constraint": "한국어·task 같은 의미 조건과 수치·메타데이터 조건을 함께 포함한 질의",
+    "abstention": "조건을 만족하는 후보가 없을 때 빈 결과를 유지해야 하는 질의"
+  },
+  "provenance": {
+    "dense": {
+      "source": "fresh query embeddings",
+      "recomputed": true
+    },
+    "sparse": {
+      "source": "fresh query embeddings",
+      "recomputed": true
+    },
+    "hybrid": {
+      "source": "fresh query embeddings",
+      "recomputed": true
+    }
+  },
+  "modes": {
+    "dense": {
+      "overall": {
+        "queries": 48,
+        "nonempty_queries": 46,
+        "empty_queries": 2,
+        "labeled_queries": 46,
+        "hard_constraint_precision_at_5": 1.0,
+        "keyword_hit_rate_at_5": 0.6562,
+        "task_conflict_rate_at_5": 0.0045,
+        "canonical_duplicate_rows_at_5": 0,
+        "recall_at_5": 0.3291,
+        "mrr": 0.4924,
+        "ndcg_at_5": 0.3552,
+        "hit_rate_at_5": 0.7826,
+        "latency_ms_mean": 113.008
+      },
+      "by_query_type": {
+        "abstention": {
+          "queries": 1,
+          "nonempty_queries": 0,
+          "empty_queries": 1,
+          "labeled_queries": 0,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.0,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": null,
+          "mrr": null,
+          "ndcg_at_5": null,
+          "hit_rate_at_5": null,
+          "latency_ms_mean": 0.004
+        },
+        "benchmark_lookup": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.8,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.19,
+          "mrr": 0.4333,
+          "ndcg_at_5": 0.1952,
+          "hit_rate_at_5": 0.8,
+          "latency_ms_mean": 145.859
+        },
+        "lexical_exact": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.76,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.35,
+          "mrr": 0.4333,
+          "ndcg_at_5": 0.3253,
+          "hit_rate_at_5": 0.8,
+          "latency_ms_mean": 44.266
+        },
+        "semantic_capability": {
+          "queries": 7,
+          "nonempty_queries": 7,
+          "empty_queries": 0,
+          "labeled_queries": 7,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.6,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.2801,
+          "mrr": 0.5095,
+          "ndcg_at_5": 0.3717,
+          "hit_rate_at_5": 1.0,
+          "latency_ms_mean": 115.419
+        },
+        "semantic_constraint": {
+          "queries": 11,
+          "nonempty_queries": 10,
+          "empty_queries": 1,
+          "labeled_queries": 10,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 1.0,
+          "task_conflict_rate_at_5": 0.0213,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.4966,
+          "mrr": 0.5417,
+          "ndcg_at_5": 0.5014,
+          "hit_rate_at_5": 0.8,
+          "latency_ms_mean": 129.448
+        },
+        "structured_constraint": {
+          "queries": 19,
+          "nonempty_queries": 19,
+          "empty_queries": 0,
+          "labeled_queries": 19,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.4348,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.2902,
+          "mrr": 0.4912,
+          "ndcg_at_5": 0.3223,
+          "hit_rate_at_5": 0.6842,
+          "latency_ms_mean": 117.995
+        }
+      },
+      "per_query": [
+        {
+          "query_id": "q01_ko_classification_cpu",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 71,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "unknown": 3,
+            "high": 1
+          },
+          "latency_ms": 32.393,
+          "top_model_ids": [
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "circulus/koelectra-polite-v1",
+            "monologg/koelectra-base-finetuned-nsmc",
+            "monologg/koelectra-small-finetuned-nsmc",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2222,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.2773,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q02_ko_sentence_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 380,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 172.082,
+          "top_model_ids": [
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "0xnu/pmmlv2-fine-tuned-yoruba",
+            "mykor/paraphrase-multilingual-MiniLM-L12-v2",
+            "Moriec/Vinogradov_semantic_search",
+            "ddobokki/klue-roberta-base-nli-sts-ko-en"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0769,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q03_ko_document_embedding",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 135,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 59.973,
+          "top_model_ids": [
+            "nmixx-fin/nmixx-bge-m3",
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "LiquidAI/LFM2.5-Embedding-350M",
+            "BCCard/MoAI-Embedding-4B",
+            "BCCard/MoAI-Embedding-0.6B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0769,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q04_ko_asr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 94.373,
+          "top_model_ids": [
+            "Edge0/ARK-ASR-3B",
+            "audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF",
+            "Edge0/Audio8-ASR-0.1B",
+            "harshav/ARK-ASR-3B-GGUF",
+            "cstr/ark-asr-3b-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1111,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q05_ko_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 99.521,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt-tc-big-ko-en",
+            "Helsinki-NLP/opus-mt-tc-big-en-ko",
+            "sappho192/aihub-ja-ko-translator",
+            "hell0ks/ja-ko-vn-12b-v2-gguf",
+            "mradermacher/EraX-Translator-V1.0-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q06_ko_summarization",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 3,
+            "high": 2
+          },
+          "latency_ms": 2.443,
+          "top_model_ids": [
+            "eenzeenee/t5-small-korean-summarization",
+            "psyche/KoT5-summarization",
+            "EbanLee/kobart-summary-v3",
+            "eenzeenee/t5-base-korean-summarization",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q07_ko_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 2,
+            "high": 3
+          },
+          "latency_ms": 2.765,
+          "top_model_ids": [
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "timpal0l/mdeberta-v3-base-squad2",
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "FreedomIntelligence/Apollo-MoE-0.5B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q08_ko_generation_long_context",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1184,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 490.923,
+          "top_model_ids": [
+            "blueapple8259/TinyKo",
+            "mkd-hossain/Keural-Cortex-8B-64K",
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1",
+            "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1667,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q09_ko_multimodal",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 5
+          },
+          "latency_ms": 156.508,
+          "top_model_ids": [
+            "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+            "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+            "nopesadly/GLM-OCR-Q4_K_M.gguf",
+            "mncai/Hunmin-397B-A17B-CUA-FP8",
+            "mobilint/aya-vision-8b"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.125,
+            "mrr": 0.2,
+            "ndcg_at_5": 0.1312,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q10_ko_small_low_popularity",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 2,
+            "high": 3
+          },
+          "latency_ms": 532.053,
+          "top_model_ids": [
+            "north-wind/TinyStories-Korean-800K",
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "blueapple8259/TinyKo",
+            "lcw99/ko-dialoGPT-korean-chit-chat",
+            "zhiyuan8/RWKV-v7-0.4B-G1-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q11_ko_known_hardware",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 1,
+            "high": 4
+          },
+          "latency_ms": 168.217,
+          "top_model_ids": [
+            "madatnlp/km-bert",
+            "artificial-nerds/pmnet",
+            "mp-juuuns/qwen3.5-4l-vocab40k-en-ko-headless",
+            "nounagnonsavoedo/multilingual-e5-base",
+            "nvidia/Nemotron-3-Embed-1B-NVFP4"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q12_ko_generation_unknown_safe",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 376,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "unknown": 1
+          },
+          "latency_ms": 153.592,
+          "top_model_ids": [
+            "quantumaikr/KoreanLM-3B",
+            "Bingsu/kanana-2-1.3b-instruct",
+            "young-kim123/qwen3-1.7b-mymodel",
+            "postcn/Jeju-Standard_Korean_Translator",
+            "aixk/BAAR2-9M"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q13_small_cpu_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "unknown": 3,
+            "high": 1
+          },
+          "latency_ms": 25.982,
+          "top_model_ids": [
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "monologg/koelectra-base-finetuned-nsmc",
+            "monologg/koelectra-small-finetuned-nsmc",
+            "Huffon/klue-roberta-base-nli",
+            "tartuNLP/mmBERT-small-m-edu-classifier"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.3392,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q14_semantic_search_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 194.425,
+          "top_model_ids": [
+            "Moriec/Vinogradov_semantic_search",
+            "opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1",
+            "artificial-nerds/pmnet",
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "nlpai-lab/KURE-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0909,
+            "mrr": 0.2,
+            "ndcg_at_5": 0.1312,
+            "hit_at_5": 1.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q15_long_context_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 59.121,
+          "top_model_ids": [
+            "nvidia/Nemotron-3-Embed-1B-NVFP4",
+            "codefuse-ai/F2LLM-v2-80M",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+            "mlx-community/LFM2.5-Embedding-350M-4bit",
+            "codefuse-ai/F2LLM-v2-8B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 10
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q16_realtime_asr_small",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 60,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 25.715,
+          "top_model_ids": [
+            "Edge0/Audio8-ASR-0.1B",
+            "appautomaton/nemotron-3.5-asr-streaming-0.6b-int8-mlx",
+            "aufklarer/Qwen3-ASR-1.7B-MLX-4bit",
+            "mobilint/whisper-small",
+            "mobilint/whisper-large-v3-turbo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1818,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.4852,
+            "hit_at_5": 1.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q17_english_german_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 101.34,
+          "top_model_ids": [
+            "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+            "sappho192/aihub-ja-ko-translator",
+            "facebook/mbart-large-cc25",
+            "sappho192/ffxiv-ja-ko-translator",
+            "jhk/opus-mt-tc-big-wiki-en-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q18_long_document_summarization",
+          "query_type": "structured_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 1,
+            "high": 1
+          },
+          "latency_ms": 0.783,
+          "top_model_ids": [
+            "EbanLee/kobart-summary-v3",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 2
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q19_small_question_answering",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 5,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "unknown": 2
+          },
+          "latency_ms": 2.132,
+          "top_model_ids": [
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "timpal0l/mdeberta-v3-base-squad2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q20_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 526,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 1,
+            "unknown": 2,
+            "low": 2
+          },
+          "latency_ms": 225.66,
+          "top_model_ids": [
+            "CMSManhattan/JiRackUltra_1b",
+            "qingy2024/Qwark-4B",
+            "jwg0830/AX-3.1-Light-sft_v0_1",
+            "Calandracas/minnow-pico-50M-base",
+            "lcw99/zephykor-ko-beta-7b-chang"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q21_vision_language_ocr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 2,
+            "high": 3
+          },
+          "latency_ms": 161.811,
+          "top_model_ids": [
+            "EZCon/GLM-OCR-4bit-mlx",
+            "ONTHEIT/BizOnAI-OCR",
+            "Lamapi/next-ocr-Q4_K_M-GGUF",
+            "batiai/batisee",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.375,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.5148,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q22_low_popularity_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 1,
+            "high": 4
+          },
+          "latency_ms": 554.599,
+          "top_model_ids": [
+            "north-wind/TinyStories-Korean-800K",
+            "Yaongi/HybriKo-117M-ToolLLaMA-SFT",
+            "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1",
+            "zhiyuan8/RWKV-v7-0.4B-G1-GGUF",
+            "blueapple8259/TinyKo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.75,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8048,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q23_known_embedding_metadata",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "low": 2
+          },
+          "latency_ms": 170.312,
+          "top_model_ids": [
+            "artificial-nerds/pmnet",
+            "severinsimmler/xlm-roberta-longformer-base-16384",
+            "severinsimmler/xlm-roberta-longformer-large-16384",
+            "sangmini/msmarco-cotmae-MiniLM-L12_en-ko-ja",
+            "hasankursun/matryoshka-embedding-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.125,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q24_small_sentence_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 248,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 109.428,
+          "top_model_ids": [
+            "hasankursun/matryoshka-embedding-v1",
+            "ysmeta/EVE-Embed-1.0-Legal",
+            "gomyk/me5s-me5s_compressed_v3_distilled",
+            "dragonkue/colbert-ko-0.1b",
+            "BCCard/MoAI-Embedding-0.6B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1667,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q25_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 7.986,
+          "top_model_ids": [
+            "alirezamsh/small100",
+            "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "dhtocks/nllb-200-distilled-350M_en-ko",
+            "Helsinki-NLP/opus-mt_tiny_kor-eng"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3633,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q26_on_device_asr",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 32,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 13.729,
+          "top_model_ids": [
+            "seastar105/whisper-small-komixv2",
+            "Edge0/Audio8-ASR-0.1B",
+            "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+            "moonshine-ai/moonshine-base-ko",
+            "mobilint/whisper-large-v3-turbo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q27_very_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1104,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "unknown": 1
+          },
+          "latency_ms": 467.264,
+          "top_model_ids": [
+            "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1",
+            "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-gguf",
+            "qingy2024/Qwark-4B",
+            "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+            "kimjg/recallResolver-1B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q28_medium_text_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 72,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "high": 1,
+            "unknown": 3
+          },
+          "latency_ms": 31.355,
+          "top_model_ids": [
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "llm-semantic-router/mmbert-rerank-32k-2d-matryoshka",
+            "circulus/koelectra-polite-v1",
+            "amphora/KorFinASC-XLM-RoBERTa",
+            "circulus/koelectra-wellness-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.3904,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q29_very_long_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 84,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 37.393,
+          "top_model_ids": [
+            "mlx-community/LFM2.5-Embedding-350M-4bit",
+            "shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4",
+            "codefuse-ai/F2LLM-v2-160M",
+            "codefuse-ai/F2LLM-v2-14B",
+            "nvidia/Nemotron-3-Embed-1B-NVFP4"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2222,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3008,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q30_general_question_answering",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 2,
+            "high": 3
+          },
+          "latency_ms": 3.02,
+          "top_model_ids": [
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "timpal0l/mdeberta-v3-base-squad2",
+            "bespin-global/klue-bert-base-aihub-mrc"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q31_mteb_arguana_ndcg",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 242.185,
+          "top_model_ids": [
+            "Teradata/multilingual-e5-base",
+            "NaganoJRC/multilingual-e5-base",
+            "Alibaba-NLP/gte-multilingual-base",
+            "AbdullahMoQH/multilingual-e5-base",
+            "nmixx-fin/nmixx-bge-m3"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1952,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q32_mteb_embedding_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 221.142,
+          "top_model_ids": [
+            "Teradata/multilingual-e5-base",
+            "amazon/Titan-text-embeddings-v2",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+            "shadowrock-io/Nemotron-3-Embed-8B-Community-MLX-4bit",
+            "gimhae-geunamja/bge-m3-ko-public-admin"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q33_asr_wer_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 118.312,
+          "top_model_ids": [
+            "junnei/Phi-4-multimodal-instruct-ko-asr",
+            "handy-computer/SenseVoiceSmall-gguf",
+            "seastar105/whisper-medium-komixv2",
+            "EvoAwaken-Workshop/VibeVoice-ASR-Streaming-7B-GGUF",
+            "Lexius/Phi-4-multimodal-instruct"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.3392,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q34_ko_summarization_small_long",
+          "query_type": "semantic_constraint",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.009,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "no_eligible_candidate"
+        },
+        {
+          "query_id": "q35_ko_asr_edge_low",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 15,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 6.539,
+          "top_model_ids": [
+            "seastar105/whisper-small-komixv2",
+            "kimthegarden/whisper-small-ko-new",
+            "Bingsu/distilhubert-ko-zeroth",
+            "mobilint/whisper-large-v3-turbo",
+            "team-lucid/hubert-large-korean"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q36_en_to_ko_translation_small",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 8.755,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "sappho192/aihub-ja-ko-translator",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Helsinki-NLP/opus-mt-tc-big-ko-en",
+            "sappho192/ffxiv-ja-ko-translator"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1952,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q37_ko_embedding_long_small",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 30.87,
+          "top_model_ids": [
+            "LiquidAI/LFM2-ColBERT-350M",
+            "LiquidAI/LFM2.5-Embedding-350M",
+            "BCCard/MoAI-Embedding-0.6B",
+            "nvidia/Nemotron-3-Embed-1B-BF16",
+            "mp-juuuns/qwen3.5-4l-vocab40k-en-ko-headless"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q38_ko_vision_ocr_small",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 64,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 3,
+            "high": 2
+          },
+          "latency_ms": 27.47,
+          "top_model_ids": [
+            "EZCon/GLM-OCR-4bit-mlx",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+            "mobilint/aya-vision-8b",
+            "mlx-community/LFM2.5-VL-450M-6bit",
+            "CohereLabs/North-Micro-Vision-Instruct"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q39_ko_qa_context",
+          "query_type": "semantic_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 1,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 2
+          },
+          "latency_ms": 0.942,
+          "top_model_ids": [
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "haiFrHust/VNJPTranslate_base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 1
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q40_low_long_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 339,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 1,
+            "low": 2,
+            "high": 2
+          },
+          "latency_ms": 154.448,
+          "top_model_ids": [
+            "lcw99/zephykor-ko-beta-7b-chang",
+            "jwg0830/AX-3.1-Light-sft_v0_1",
+            "hoySky92/HyperCLOVA-X-U-CURATE-v2.0",
+            "trillionlabs/Tri-7B-Search-preview",
+            "ChanLumerico/EXAONE-3.5-7.8B-Instruct-Yaho"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q41_low_small_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 172,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "unknown": 1
+          },
+          "latency_ms": 79.89,
+          "top_model_ids": [
+            "soulfree89/e5-small-ko-v2-fix",
+            "gomyk/me5s-me5s_compressed_v3_distilled",
+            "gomyk/me5s-student-me5s_compressed_v4_distilled",
+            "DLCorso/multilingual-e5-small",
+            "sieu-n/msmarco-distilbert-cos-v5_en-ko-ja_v1.3"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q42_low_asr_wer",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 106,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 66.805,
+          "top_model_ids": [
+            "TeamUNIVA/qwen3_asr_1.7b_ko_beta",
+            "rearleg/SeloWhisper-ko-disfluency",
+            "BuzzASR/korean",
+            "mlx-community/VibeVoice-ASR-Streaming-7B-4bit",
+            "Nairod785/Confucius4-R2T2-Q4_K_M-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.2463,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q43_ko_mteb_long",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 80.85,
+          "top_model_ids": [
+            "nmixx-fin/nmixx-bge-m3",
+            "hyunseop/bge-m3-ko",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+            "leeloolee/intention",
+            "shadowrock-io/Nemotron-3-Embed-8B-Community-MLX-4bit"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1952,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q44_cpu_tiny_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 3,
+            "low": 1,
+            "high": 1
+          },
+          "latency_ms": 3.91,
+          "top_model_ids": [
+            "monologg/koelectra-small-finetuned-nsmc",
+            "snunlp/KR-FinBert-SC",
+            "kfkas/legal-question-filter-koelectra",
+            "bongsoo/albert-small-kor-cross-encoder-v1",
+            "ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.4852,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q45_ko_multitask_retrieval_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 253,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 1,
+            "high": 4
+          },
+          "latency_ms": 117.968,
+          "top_model_ids": [
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "soulfree89/e5-small-ko-v2-fix",
+            "nmixx-fin/nmixx-bge-m3",
+            "exp-models/dragonkue-KoEn-E5-Tiny",
+            "FreedomIntelligence/Apollo-MoE-0.5B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.3973,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q46_ko_generation_known_all",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 229,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 2,
+            "unknown": 3
+          },
+          "latency_ms": 103.67,
+          "top_model_ids": [
+            "blueapple8259/TinyKo",
+            "Mozilla/Qwen2.5-0.5B-Instruct",
+            "ceyda/Qwen3-1.7B-Base-trim-koen-32768",
+            "Bingsu/kanana-2-1.3b-instruct",
+            "blueapple8259/test_model1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q47_low_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 3.73,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+            "Darong/BlueT",
+            "sappho192/gemma3-multilingual-translator-270m"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8539,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q48_intentionally_empty",
+          "query_type": "abstention",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.004,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "intentional_abstention"
+        }
+      ]
+    },
+    "sparse": {
+      "overall": {
+        "queries": 48,
+        "nonempty_queries": 46,
+        "empty_queries": 2,
+        "labeled_queries": 46,
+        "hard_constraint_precision_at_5": 1.0,
+        "keyword_hit_rate_at_5": 0.7902,
+        "task_conflict_rate_at_5": 0.0045,
+        "canonical_duplicate_rows_at_5": 0,
+        "recall_at_5": 0.4954,
+        "mrr": 0.7337,
+        "ndcg_at_5": 0.5736,
+        "hit_rate_at_5": 0.8696,
+        "latency_ms_mean": 74.561
+      },
+      "by_query_type": {
+        "abstention": {
+          "queries": 1,
+          "nonempty_queries": 0,
+          "empty_queries": 1,
+          "labeled_queries": 0,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.0,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": null,
+          "mrr": null,
+          "ndcg_at_5": null,
+          "hit_rate_at_5": null,
+          "latency_ms_mean": 0.003
+        },
+        "benchmark_lookup": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 1.0,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.23,
+          "mrr": 0.3167,
+          "ndcg_at_5": 0.2033,
+          "hit_rate_at_5": 0.6,
+          "latency_ms_mean": 94.497
+        },
+        "lexical_exact": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.92,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.66,
+          "mrr": 0.8,
+          "ndcg_at_5": 0.6709,
+          "hit_rate_at_5": 0.8,
+          "latency_ms_mean": 28.411
+        },
+        "semantic_capability": {
+          "queries": 7,
+          "nonempty_queries": 7,
+          "empty_queries": 0,
+          "labeled_queries": 7,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.6,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.3407,
+          "mrr": 0.7857,
+          "ndcg_at_5": 0.5679,
+          "hit_rate_at_5": 0.8571,
+          "latency_ms_mean": 74.046
+        },
+        "semantic_constraint": {
+          "queries": 11,
+          "nonempty_queries": 10,
+          "empty_queries": 1,
+          "labeled_queries": 10,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 1.0,
+          "task_conflict_rate_at_5": 0.0213,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.5981,
+          "mrr": 0.9,
+          "ndcg_at_5": 0.7335,
+          "hit_rate_at_5": 1.0,
+          "latency_ms_mean": 89.259
+        },
+        "structured_constraint": {
+          "queries": 19,
+          "nonempty_queries": 19,
+          "empty_queries": 0,
+          "labeled_queries": 19,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.663,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.5249,
+          "mrr": 0.7193,
+          "ndcg_at_5": 0.5633,
+          "hit_rate_at_5": 0.8947,
+          "latency_ms_mean": 77.065
+        }
+      },
+      "per_query": [
+        {
+          "query_id": "q01_ko_classification_cpu",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 71,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 20.118,
+          "top_model_ids": [
+            "DataWizardd/finbert-sentiment-ko",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf",
+            "Zeolit/lettuce-thymos-26m-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.3333,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6844,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q02_ko_sentence_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 380,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 105.374,
+          "top_model_ids": [
+            "upskyy/bge-m3-korean",
+            "upskyy/e5-small-korean",
+            "hyunseop/bge-m3-ko",
+            "Alibaba-NLP/gte-multilingual-base",
+            "gogamza/kobart-base-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1538,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.5087,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q03_ko_document_embedding",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 135,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 35.716,
+          "top_model_ids": [
+            "upskyy/bge-m3-korean",
+            "hyunseop/bge-m3-ko",
+            "upskyy/gte-base-korean",
+            "BidirLM/BidirLM-0.6B-Embedding",
+            "BidirLM/BidirLM-270M-Embedding"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2308,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6164,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q04_ko_asr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 63.511,
+          "top_model_ids": [
+            "w11wo/wav2vec2-xls-r-300m-korean",
+            "Kkonjeong/wav2vec2-base-korean",
+            "SungBeom/whisper-small-ko",
+            "ghost613/whisper-large-v3-turbo-korean",
+            "leuconoe/whisper-acft-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.3333,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.7227,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q05_ko_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 64.192,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt-tc-big-en-ko",
+            "R4kSo1997/opus-mt-en-ko-onnx-int8",
+            "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+            "jhk/opus-mt-tc-big-wiki-en-ko",
+            "dhtocks/nllb-200-distilled-350M_en-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q06_ko_summarization",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 3,
+            "high": 2
+          },
+          "latency_ms": 1.605,
+          "top_model_ids": [
+            "psyche/KoT5-summarization",
+            "EbanLee/kobart-summary-v3",
+            "eenzeenee/t5-small-korean-summarization",
+            "eenzeenee/t5-base-korean-summarization",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q07_ko_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "unknown": 2
+          },
+          "latency_ms": 1.74,
+          "top_model_ids": [
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "timpal0l/mdeberta-v3-base-squad2",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "monologg/koelectra-small-v2-distilled-korquad-384"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q08_ko_generation_long_context",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1184,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 343.107,
+          "top_model_ids": [
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "kez-lab/gemma-2-2b-quiz-korean",
+            "jwg0830/AX-3.1-Light-sft_v0_21",
+            "intrect/VELA",
+            "soka0000/vclm-korean-7b"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.6667,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8539,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q09_ko_multimodal",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 107.831,
+          "top_model_ids": [
+            "kakaocorp/kanana-1.5-v-3b-instruct",
+            "NCSOFT/VARCO-VISION-2.0-14B",
+            "NCSOFT/VARCO-VISION-2.0-1.7B",
+            "trillionlabs/gWorld-8B",
+            "neureps/warmly-qwen35-2b-enko-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.5531,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q10_ko_small_low_popularity",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 385.239,
+          "top_model_ids": [
+            "tensorblock/llama2-13b.kor.v1-GGUF",
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "jwg0830/AX-3.1-Light-sft_v0_21",
+            "intrect/VELA",
+            "kez-lab/gemma-2-2b-quiz-korean"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.2463,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q11_ko_known_hardware",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 104.001,
+          "top_model_ids": [
+            "upskyy/bge-m3-korean",
+            "upskyy/e5-small-korean",
+            "hyunseop/bge-m3-ko",
+            "BidirLM/BidirLM-0.6B-Embedding",
+            "BidirLM/BidirLM-270M-Embedding"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.3333,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6548,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q12_ko_generation_unknown_safe",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 376,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "high": 4
+          },
+          "latency_ms": 109.378,
+          "top_model_ids": [
+            "EleutherAI/polyglot-ko-1.3b",
+            "42dot/42dot_LLM-PLM-1.3B",
+            "42dot/42dot_LLM-SFT-1.3B",
+            "kez-lab/gemma-2-2b-quiz-korean",
+            "Motif-Technologies/Motif-2.6B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6367,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q13_small_cpu_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "high": 4
+          },
+          "latency_ms": 16.861,
+          "top_model_ids": [
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf",
+            "Zeolit/lettuce-thymos-26m-v1",
+            "guardion/ModernGuard-1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.6,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6992,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q14_semantic_search_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 117.957,
+          "top_model_ids": [
+            "0xnu/pmmlv2-fine-tuned-flemish",
+            "0xnu/pmmlv2-fine-tuned-hausa",
+            "78ResearchLab/PurpleHound-Embed-v1",
+            "AbdullahMoQH/multilingual-e5-base",
+            "Aksml123/snowflake-arctic-embed-l-v2.0"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q15_long_context_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 35.888,
+          "top_model_ids": [
+            "sigridjineth/ModernBERT-korean-large-preview",
+            "gomyk/modernbert-student-modernbert_L4_uniform_distilled",
+            "upskyy/gte-base-korean",
+            "omai-research/milco-650m",
+            "amazon/Titan-text-embeddings-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 10
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q16_realtime_asr_small",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 60,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 16.019,
+          "top_model_ids": [
+            "seastar105/whisper-medium-komixv2",
+            "seastar105/whisper-small-komixv2",
+            "AMAImedia/NOESIS-Qwen3-Forced-Aligner-0.6B-112LANG-BF16",
+            "aufklarer/Nemotron-3.5-ASR-Streaming-0.6B-MLX-8bit",
+            "Edge0/Audio8-ASR-0.1B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2727,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.4913,
+            "hit_at_5": 1.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q17_english_german_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 64.867,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "BSC-LT/salamandraTA-7b-instruct",
+            "Helsinki-NLP/opus-mt-ko-de",
+            "mradermacher/OmniTranslate-1.0-GGUF",
+            "mradermacher/OmniTranslate-1.1-i1-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q18_long_document_summarization",
+          "query_type": "structured_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 1,
+            "high": 1
+          },
+          "latency_ms": 0.589,
+          "top_model_ids": [
+            "EbanLee/kobart-summary-v3",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 2
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q19_small_question_answering",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 5,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 2,
+            "high": 3
+          },
+          "latency_ms": 1.404,
+          "top_model_ids": [
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "timpal0l/mdeberta-v3-base-squad2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q20_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 526,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 1,
+            "high": 4
+          },
+          "latency_ms": 152.258,
+          "top_model_ids": [
+            "Mozilla/Qwen2.5-0.5B-Instruct",
+            "mlx-community/kanana-2-3b-instruct-mixed_4_6",
+            "soka0000/vclm-korean-7b",
+            "LiquidAI/LFM2.5-1.2B-Thinking",
+            "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q21_vision_language_ocr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 105.823,
+          "top_model_ids": [
+            "thelamapi/next-ocr",
+            "useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed",
+            "jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+            "thelamapi/next2-air-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.375,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6992,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q22_low_popularity_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 381.414,
+          "top_model_ids": [
+            "aixk/BAAR2-9M",
+            "0ppxnhximxr/Motif-3-GGUF",
+            "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+            "0xzknw/Granite-4.2-3B-Heretic-NX-PRIME-GGUF",
+            "0xzknw/LFM2.5-1.2B-Thinking-Heretic-NX-Residual-Stream"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.3904,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q23_known_embedding_metadata",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 100.694,
+          "top_model_ids": [
+            "0xnu/pmmlv2-fine-tuned-flemish",
+            "0xnu/pmmlv2-fine-tuned-hausa",
+            "78ResearchLab/PurpleHound-Embed-v1",
+            "AbdullahMoQH/multilingual-e5-base",
+            "Aksml123/snowflake-arctic-embed-l-v2.0"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q24_small_sentence_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 248,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 67.496,
+          "top_model_ids": [
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "FronyAI/frony-embed-arctic-ko-0.6B-v2.5",
+            "dragonkue/multilingual-e5-small-ko",
+            "exp-models/dragonkue-KoEn-E5-Tiny",
+            "AbdullahMoQH/multilingual-e5-base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1667,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q25_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 5.26,
+          "top_model_ids": [
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Babelscape/mrebel-base",
+            "Babelscape/mrebel-large-32",
+            "Darong/BlueT",
+            "Helsinki-NLP/opus-mt-tc-big-en-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.5414,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q26_on_device_asr",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 32,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 8.603,
+          "top_model_ids": [
+            "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+            "Bingsu/distilhubert-ko-zeroth",
+            "Edge0/Audio8-ASR-0.1B",
+            "Kkonjeong/wav2vec2-base-korean",
+            "MahmoudAshraf/mms-300m-1130-forced-aligner"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.5087,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q27_very_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1104,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 315.284,
+          "top_model_ids": [
+            "OpenBuddy/openbuddy-yi1.5-34b-v21.3-32k",
+            "soka0000/vclm-korean-7b",
+            "LiquidAI/LFM2.5-1.2B-Thinking",
+            "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy",
+            "OpenBuddy/openbuddy-zero-56b-v21.2-32k"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q28_medium_text_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 72,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 19.173,
+          "top_model_ids": [
+            "Horizon-Labs/prompt-injection-guard-base",
+            "Horizon-Labs/prompt-injection-guard-small",
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q29_very_long_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 84,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 22.794,
+          "top_model_ids": [
+            "78ResearchLab/PurpleHound-Embed-v1",
+            "Aliados/harrier-oss-v1-270m",
+            "Alibaba-NLP/gte-multilingual-base",
+            "BCCard/MoAI-Embedding-4B",
+            "BidirLM/BidirLM-0.6B-Embedding"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2222,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3008,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q30_general_question_answering",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "unknown": 2
+          },
+          "latency_ms": 1.808,
+          "top_model_ids": [
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "timpal0l/mdeberta-v3-base-squad2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q31_mteb_arguana_ndcg",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 151.646,
+          "top_model_ids": [
+            "AbdullahMoQH/multilingual-e5-base",
+            "amazon/Titan-text-embeddings-v2",
+            "qxx1/multilingual-e5-large-instruct",
+            "Nextcloud-AI/multilingual-e5-large-instruct",
+            "aiacademyvn/multilingual-e5-large-instruct"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q32_mteb_embedding_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 134.907,
+          "top_model_ids": [
+            "amazon/Titan-text-embeddings-v2",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+            "woody72/multilingual-e5-base",
+            "AbdullahMoQH/multilingual-e5-base",
+            "manuelmoreno149/multilingual-e5-base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q33_asr_wer_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 85.212,
+          "top_model_ids": [
+            "litert-community/VibeVoice-ASR-BitNet",
+            "RedHatAI/whisper-tiny",
+            "unsloth/whisper-base",
+            "openai/whisper-small",
+            "voconly-org/whisper-large-v3-turbo-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.4852,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q34_ko_summarization_small_long",
+          "query_type": "semantic_constraint",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.006,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "no_eligible_candidate"
+        },
+        {
+          "query_id": "q35_ko_asr_edge_low",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 15,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 3.937,
+          "top_model_ids": [
+            "team-lucid/hubert-large-korean",
+            "kimthegarden/whisper-small-ko-new",
+            "seastar105/whisper-small-komixv2",
+            "Bingsu/distilhubert-ko-zeroth",
+            "mobilint/whisper-large-v3-turbo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q36_en_to_ko_translation_small",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 5.363,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt-tc-big-en-ko",
+            "dhtocks/nllb-200-distilled-350M_en-ko",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.9829,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q37_ko_embedding_long_small",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 2,
+            "high": 3
+          },
+          "latency_ms": 16.647,
+          "top_model_ids": [
+            "severinsimmler/xlm-roberta-longformer-large-16384",
+            "severinsimmler/xlm-roberta-longformer-base-16384",
+            "BidirLM/BidirLM-0.6B-Embedding",
+            "BidirLM/BidirLM-270M-Embedding",
+            "yjoonjang/colbert-ko-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.6608,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q38_ko_vision_ocr_small",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 64,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 17.399,
+          "top_model_ids": [
+            "useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed",
+            "kakaocorp/kanana-1.5-v-3b-instruct",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+            "LiquidAI/LFM2.5-VL-3B",
+            "OpenMed/North-Micro-Vision-Instruct-bf16-mlx"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q39_ko_qa_context",
+          "query_type": "semantic_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 1,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 2
+          },
+          "latency_ms": 0.561,
+          "top_model_ids": [
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "haiFrHust/VNJPTranslate_base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 1
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q40_low_long_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 339,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 100.026,
+          "top_model_ids": [
+            "ceyda/Qwen3-1.7B-Base-trim-koen-32768",
+            "OpenLLM-Korea/EXAONE-Deep-7.8B",
+            "jwg0830/AX-3.1-Light-sft_v0_21",
+            "gaianet/EXAONE-Deep-7.8B-GGUF",
+            "hymmmm/exaone-3.5-7.8b-awq"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q41_low_small_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 172,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 49.225,
+          "top_model_ids": [
+            "bongsoo/moco-sentencebertV2.0",
+            "alphaedge-ai/bge-m3-kor-32768",
+            "caasman/klue-roberta-base-klue-sts",
+            "gomyk/minilm-student-L4_uniform_distilled",
+            "NetherQuartz/LaBSE-tokipona"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.9047,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q42_low_asr_wer",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 106,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 46.93,
+          "top_model_ids": [
+            "leuconoe/whisper-acft-ko",
+            "BuzzASR/korean",
+            "litert-community/VibeVoice-ASR-BitNet",
+            "RedHatAI/whisper-tiny",
+            "voconly-org/whisper-large-v3-turbo-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3633,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q43_ko_mteb_long",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 53.788,
+          "top_model_ids": [
+            "upskyy/gte-base-korean",
+            "upskyy/bge-m3-korean",
+            "hyunseop/bge-m3-ko",
+            "amazon/Titan-text-embeddings-v2",
+            "gomyk/modernbert-student-modernbert_L4_uniform_distilled"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1681,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q44_cpu_tiny_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "unknown": 2
+          },
+          "latency_ms": 2.402,
+          "top_model_ids": [
+            "Zeolit/lettuce-thymos-26m-v1",
+            "daekeun-ml/koelectra-small-v3-nsmc",
+            "kfkas/legal-question-filter-koelectra",
+            "monologg/koelectra-small-finetuned-nsmc",
+            "prismdata/guardrail-ko-11class"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8304,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q45_ko_multitask_retrieval_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 253,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 67.736,
+          "top_model_ids": [
+            "dragonkue/colbert-ko-0.1b",
+            "upskyy/bge-m3-korean",
+            "upskyy/e5-small-korean",
+            "hyunseop/bge-m3-ko",
+            "Alibaba-NLP/gte-multilingual-base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6367,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q46_ko_generation_known_all",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 229,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 64.782,
+          "top_model_ids": [
+            "LiquidAI/LFM2-1.2B",
+            "mobilint/EXAONE-4.0-1.2B",
+            "GMODEOS/EXAONE-4.0-1.2B",
+            "cooler8/yejin-korean-1b-v8",
+            "cooler8/yejin-korean-1b-v8-sft"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q47_low_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 2.375,
+          "top_model_ids": [
+            "dhtocks/nllb-200-distilled-350M_en-ko",
+            "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+            "Darong/BlueT",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "sappho192/gemma3-multilingual-translator-270m"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8304,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q48_intentionally_empty",
+          "query_type": "abstention",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.003,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "intentional_abstention"
+        }
+      ]
+    },
+    "hybrid": {
+      "overall": {
+        "queries": 48,
+        "nonempty_queries": 46,
+        "empty_queries": 2,
+        "labeled_queries": 46,
+        "hard_constraint_precision_at_5": 1.0,
+        "keyword_hit_rate_at_5": 0.7902,
+        "task_conflict_rate_at_5": 0.0045,
+        "canonical_duplicate_rows_at_5": 0,
+        "recall_at_5": 0.5326,
+        "mrr": 0.7091,
+        "ndcg_at_5": 0.5995,
+        "hit_rate_at_5": 0.913,
+        "latency_ms_mean": 73.887
+      },
+      "by_query_type": {
+        "abstention": {
+          "queries": 1,
+          "nonempty_queries": 0,
+          "empty_queries": 1,
+          "labeled_queries": 0,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.0,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": null,
+          "mrr": null,
+          "ndcg_at_5": null,
+          "hit_rate_at_5": null,
+          "latency_ms_mean": 0.003
+        },
+        "benchmark_lookup": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 1.0,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.28,
+          "mrr": 0.3167,
+          "ndcg_at_5": 0.2271,
+          "hit_rate_at_5": 0.6,
+          "latency_ms_mean": 94.154
+        },
+        "lexical_exact": {
+          "queries": 5,
+          "nonempty_queries": 5,
+          "empty_queries": 0,
+          "labeled_queries": 5,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.92,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.61,
+          "mrr": 0.8,
+          "ndcg_at_5": 0.6484,
+          "hit_rate_at_5": 0.8,
+          "latency_ms_mean": 28.265
+        },
+        "semantic_capability": {
+          "queries": 7,
+          "nonempty_queries": 7,
+          "empty_queries": 0,
+          "labeled_queries": 7,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.6,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.3915,
+          "mrr": 0.8143,
+          "ndcg_at_5": 0.6623,
+          "hit_rate_at_5": 1.0,
+          "latency_ms_mean": 73.181
+        },
+        "semantic_constraint": {
+          "queries": 11,
+          "nonempty_queries": 10,
+          "empty_queries": 1,
+          "labeled_queries": 10,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 1.0,
+          "task_conflict_rate_at_5": 0.0213,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.5952,
+          "mrr": 0.775,
+          "ndcg_at_5": 0.6675,
+          "hit_rate_at_5": 1.0,
+          "latency_ms_mean": 87.326
+        },
+        "structured_constraint": {
+          "queries": 19,
+          "nonempty_queries": 19,
+          "empty_queries": 0,
+          "labeled_queries": 19,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hit_rate_at_5": 0.663,
+          "task_conflict_rate_at_5": 0.0,
+          "canonical_duplicate_rows_at_5": 0,
+          "recall_at_5": 0.5978,
+          "mrr": 0.7149,
+          "ndcg_at_5": 0.6257,
+          "hit_rate_at_5": 0.9474,
+          "latency_ms_mean": 76.928
+        }
+      },
+      "per_query": [
+        {
+          "query_id": "q01_ko_classification_cpu",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 71,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 19.159,
+          "top_model_ids": [
+            "DataWizardd/finbert-sentiment-ko",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf",
+            "Zeolit/lettuce-thymos-26m-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.3333,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6844,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q02_ko_sentence_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 380,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 102.465,
+          "top_model_ids": [
+            "dragonkue/BGE-m3-ko",
+            "hyunseop/bge-m3-ko",
+            "upskyy/gte-base-korean",
+            "upskyy/e5-base-korean",
+            "0xnu/pmmlv2-fine-tuned-yoruba"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.3077,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q03_ko_document_embedding",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 135,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 35.855,
+          "top_model_ids": [
+            "hyunseop/bge-m3-ko",
+            "dragonkue/BGE-m3-ko",
+            "upskyy/gte-base-korean",
+            "BidirLM/BidirLM-0.6B-Embedding",
+            "BidirLM/BidirLM-1.7B-Embedding"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0769,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 13
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q04_ko_asr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 63.685,
+          "top_model_ids": [
+            "Edge0/Audio8-ASR-0.1B",
+            "BuzzASR/korean",
+            "Kkonjeong/wav2vec2-base-korean",
+            "w11wo/wav2vec2-xls-r-300m-korean",
+            "ghost613/whisper-large-v3-turbo-korean"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4444,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q05_ko_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 63.86,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt-tc-big-en-ko",
+            "R4kSo1997/opus-mt-en-ko-onnx-int8",
+            "jhk/opus-mt-tc-big-wiki-en-ko",
+            "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+            "dhtocks/nllb-200-distilled-350M_en-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q06_ko_summarization",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 3,
+            "high": 2
+          },
+          "latency_ms": 1.604,
+          "top_model_ids": [
+            "eenzeenee/t5-small-korean-summarization",
+            "psyche/KoT5-summarization",
+            "EbanLee/kobart-summary-v3",
+            "eenzeenee/t5-base-korean-summarization",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q07_ko_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "unknown": 2
+          },
+          "latency_ms": 1.651,
+          "top_model_ids": [
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "timpal0l/mdeberta-v3-base-squad2",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "monologg/koelectra-small-v2-distilled-korquad-384"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q08_ko_generation_long_context",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1184,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 337.429,
+          "top_model_ids": [
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "kez-lab/gemma-2-2b-quiz-korean",
+            "jwg0830/AX-3.1-Light-sft_v0_21",
+            "intrect/VELA",
+            "soka0000/vclm-korean-7b"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.6667,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8539,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q09_ko_multimodal",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "low": 2
+          },
+          "latency_ms": 105.978,
+          "top_model_ids": [
+            "kakaocorp/kanana-1.5-v-3b-instruct",
+            "NCSOFT/VARCO-VISION-2.0-14B",
+            "NCSOFT/VARCO-VISION-2.0-1.7B",
+            "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+            "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.5531,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q10_ko_small_low_popularity",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 374.544,
+          "top_model_ids": [
+            "tensorblock/llama2-13b.kor.v1-GGUF",
+            "MyeongHo0621/Qwen2.5-3B-Korean",
+            "kez-lab/gemma-2-2b-quiz-korean",
+            "intrect/VELA",
+            "jwg0830/AX-3.1-Light-sft_v0_21"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.2463,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q11_ko_known_hardware",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 100.396,
+          "top_model_ids": [
+            "upskyy/bge-m3-korean",
+            "hyunseop/bge-m3-ko",
+            "upskyy/e5-base-korean",
+            "BidirLM/BidirLM-1.7B-Embedding",
+            "BidirLM/BidirLM-0.6B-Embedding"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4444,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8539,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q12_ko_generation_unknown_safe",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 376,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "high": 4
+          },
+          "latency_ms": 105.84,
+          "top_model_ids": [
+            "EleutherAI/polyglot-ko-1.3b",
+            "42dot/42dot_LLM-PLM-1.3B",
+            "42dot/42dot_LLM-SFT-1.3B",
+            "kez-lab/gemma-2-2b-quiz-korean",
+            "Motif-Technologies/Motif-2.6B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6367,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q13_small_cpu_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "medium": 1,
+            "high": 4
+          },
+          "latency_ms": 16.576,
+          "top_model_ids": [
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf",
+            "Zeolit/lettuce-thymos-26m-v1",
+            "guardion/ModernGuard-1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.6,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6992,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q14_semantic_search_embedding",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 116.55,
+          "top_model_ids": [
+            "Moriec/Vinogradov_semantic_search",
+            "opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1",
+            "artificial-nerds/pmnet",
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "nlpai-lab/KURE-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0909,
+            "mrr": 0.2,
+            "ndcg_at_5": 0.1312,
+            "hit_at_5": 1.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q15_long_context_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 34.825,
+          "top_model_ids": [
+            "sigridjineth/ModernBERT-korean-large-preview",
+            "upskyy/gte-base-korean",
+            "gomyk/modernbert-student-modernbert_L4_uniform_distilled",
+            "omai-research/milco-650m",
+            "amazon/Titan-text-embeddings-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 10
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q16_realtime_asr_small",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 60,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 16.062,
+          "top_model_ids": [
+            "seastar105/whisper-medium-komixv2",
+            "seastar105/whisper-small-komixv2",
+            "AMAImedia/NOESIS-Qwen3-Forced-Aligner-0.6B-112LANG-BF16",
+            "aufklarer/Nemotron-3.5-ASR-Streaming-0.6B-MLX-8bit",
+            "Edge0/Audio8-ASR-0.1B"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2727,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.4913,
+            "hit_at_5": 1.0,
+            "relevant_count": 11
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q17_english_german_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 239,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 64.067,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "Helsinki-NLP/opus-mt-ko-de",
+            "BSC-LT/salamandraTA-7b-instruct",
+            "mradermacher/OmniTranslate-1.0-GGUF",
+            "mradermacher/OmniTranslate-1.1-i1-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q18_long_document_summarization",
+          "query_type": "structured_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 1,
+            "high": 1
+          },
+          "latency_ms": 0.535,
+          "top_model_ids": [
+            "EbanLee/kobart-summary-v3",
+            "mskayacioglu/mbart50-xlsum"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 2
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q19_small_question_answering",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 5,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 2,
+            "high": 3
+          },
+          "latency_ms": 1.394,
+          "top_model_ids": [
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "bespin-global/klue-bert-base-aihub-mrc",
+            "timpal0l/mdeberta-v3-base-squad2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q20_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 526,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 1,
+            "high": 4
+          },
+          "latency_ms": 150.518,
+          "top_model_ids": [
+            "Mozilla/Qwen2.5-0.5B-Instruct",
+            "mlx-community/kanana-2-3b-instruct-mixed_4_6",
+            "soka0000/vclm-korean-7b",
+            "LiquidAI/LFM2.5-1.2B-Thinking",
+            "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q21_vision_language_ocr",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 395,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "low": 1,
+            "medium": 1
+          },
+          "latency_ms": 105.777,
+          "top_model_ids": [
+            "thelamapi/next-ocr",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+            "ONTHEIT/BizOnAI-OCR",
+            "jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF",
+            "cstr/internvl2.5-2b-crispembed-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.375,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.7227,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q22_low_popularity_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1317,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 1,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "low": 1
+          },
+          "latency_ms": 379.436,
+          "top_model_ids": [
+            "aixk/BAAR2-9M",
+            "north-wind/TinyStories-Korean-800K",
+            "Yaongi/HybriKo-117M-ToolLLaMA-SFT",
+            "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1",
+            "zhiyuan8/RWKV-v7-0.4B-G1-GGUF"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.9829,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q23_known_embedding_metadata",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 374,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "low": 2
+          },
+          "latency_ms": 101.467,
+          "top_model_ids": [
+            "artificial-nerds/pmnet",
+            "severinsimmler/xlm-roberta-longformer-base-16384",
+            "severinsimmler/xlm-roberta-longformer-large-16384",
+            "sangmini/msmarco-cotmae-MiniLM-L12_en-ko-ja",
+            "hasankursun/matryoshka-embedding-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.125,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.214,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q24_small_sentence_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 248,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 69.203,
+          "top_model_ids": [
+            "ysmeta/EVE-Embed-1.1-Legal",
+            "FronyAI/frony-embed-arctic-ko-0.6B-v2.5",
+            "exp-models/dragonkue-KoEn-E5-Tiny",
+            "dragonkue/multilingual-e5-small-ko",
+            "AbdullahMoQH/multilingual-e5-base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.1667,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 6
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q25_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 5.638,
+          "top_model_ids": [
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Babelscape/mrebel-large-32",
+            "Babelscape/mrebel-large",
+            "alirezamsh/small100",
+            "Sube126/Hy-MT2-1.8B-1.25Bit-MLX"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.25,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.3904,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q26_on_device_asr",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 32,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 9.011,
+          "top_model_ids": [
+            "seastar105/whisper-small-komixv2",
+            "Edge0/Audio8-ASR-0.1B",
+            "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+            "moonshine-ai/moonshine-base-ko",
+            "mobilint/whisper-large-v3-turbo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q27_very_long_context_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 1104,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 321.368,
+          "top_model_ids": [
+            "OpenBuddy/openbuddy-yi1.5-34b-v21.3-32k",
+            "soka0000/vclm-korean-7b",
+            "LiquidAI/LFM2.5-1.2B-Thinking",
+            "OpenBuddy/openbuddy-zero-56b-v21.2-32k",
+            "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q28_medium_text_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 72,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 3,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 20.802,
+          "top_model_ids": [
+            "Horizon-Labs/prompt-injection-guard-small",
+            "Horizon-Labs/prompt-injection-guard-base",
+            "solbi12/ecommers_fasion_fine_tuned_3class_model",
+            "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+            "mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q29_very_long_embedding",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 84,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 23.861,
+          "top_model_ids": [
+            "mlx-community/LFM2.5-Embedding-350M-4bit",
+            "shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4",
+            "codefuse-ai/F2LLM-v2-160M",
+            "codefuse-ai/F2LLM-v2-14B",
+            "nvidia/Nemotron-3-Embed-1B-NVFP4"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2222,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3008,
+            "hit_at_5": 1.0,
+            "relevant_count": 9
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q30_general_question_answering",
+          "query_type": "semantic_capability",
+          "top_k": 5,
+          "candidate_count": 6,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "unknown": 2,
+            "high": 3
+          },
+          "latency_ms": 1.752,
+          "top_model_ids": [
+            "monologg/koelectra-base-v3-finetuned-korquad",
+            "monologg/koelectra-small-v2-distilled-korquad-384",
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "timpal0l/mdeberta-v3-base-squad2",
+            "bespin-global/klue-bert-base-aihub-mrc"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q31_mteb_arguana_ndcg",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 152.443,
+          "top_model_ids": [
+            "AbdullahMoQH/multilingual-e5-base",
+            "Teradata/multilingual-e5-base",
+            "amazon/Titan-text-embeddings-v2",
+            "NaganoJRC/multilingual-e5-base",
+            "Nextcloud-AI/multilingual-e5-large-instruct"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q32_mteb_embedding_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 435,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 135.907,
+          "top_model_ids": [
+            "Teradata/multilingual-e5-base",
+            "amazon/Titan-text-embeddings-v2",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu",
+            "shadowrock-io/Nemotron-3-Embed-8B-Community-MLX-4bit",
+            "AbdullahMoQH/multilingual-e5-base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_5": 0.0,
+            "hit_at_5": 0.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q33_asr_wer_evidence",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 237,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 82.119,
+          "top_model_ids": [
+            "litert-community/VibeVoice-ASR-BitNet",
+            "voconly-org/whisper-large-v3-turbo-gguf",
+            "RedHatAI/whisper-tiny",
+            "unsloth/whisper-base",
+            "unsloth/whisper-small"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.4,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.4704,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q34_ko_summarization_small_long",
+          "query_type": "semantic_constraint",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.005,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "no_eligible_candidate"
+        },
+        {
+          "query_id": "q35_ko_asr_edge_low",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 15,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 4,
+            "medium": 1
+          },
+          "latency_ms": 3.995,
+          "top_model_ids": [
+            "team-lucid/hubert-large-korean",
+            "seastar105/whisper-small-komixv2",
+            "kimthegarden/whisper-small-ko-new",
+            "Bingsu/distilhubert-ko-zeroth",
+            "mobilint/whisper-large-v3-turbo"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.1696,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q36_en_to_ko_translation_small",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 20,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 5.349,
+          "top_model_ids": [
+            "Helsinki-NLP/opus-mt-tc-big-en-ko",
+            "dhtocks/nllb-200-distilled-350M_en-ko",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.9829,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q37_ko_embedding_long_small",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 62,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "low": 2,
+            "high": 3
+          },
+          "latency_ms": 16.748,
+          "top_model_ids": [
+            "severinsimmler/xlm-roberta-longformer-large-16384",
+            "severinsimmler/xlm-roberta-longformer-base-16384",
+            "BidirLM/BidirLM-0.6B-Embedding",
+            "BidirLM/BidirLM-1B-Embedding",
+            "nlpai-lab/KURE-v2"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.375,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.5148,
+            "hit_at_5": 1.0,
+            "relevant_count": 8
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q38_ko_vision_ocr_small",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 64,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 17.275,
+          "top_model_ids": [
+            "useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed",
+            "kakaocorp/kanana-1.5-v-3b-instruct",
+            "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+            "LiquidAI/LFM2.5-VL-3B",
+            "OpenMed/North-Micro-Vision-Instruct-bf16-mlx"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q39_ko_qa_context",
+          "query_type": "semantic_constraint",
+          "top_k": 2,
+          "candidate_count": 2,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 2,
+          "task_conflicts_at_5": 1,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 2
+          },
+          "latency_ms": 0.599,
+          "top_model_ids": [
+            "FreedomIntelligence/Apollo-MoE-0.5B",
+            "haiFrHust/VNJPTranslate_base"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 1
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q40_low_long_generation",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 339,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 3,
+            "low": 2
+          },
+          "latency_ms": 96.902,
+          "top_model_ids": [
+            "ceyda/Qwen3-1.7B-Base-trim-koen-32768",
+            "OpenLLM-Korea/EXAONE-Deep-7.8B",
+            "jwg0830/AX-3.1-Light-sft_v0_21",
+            "gaianet/EXAONE-Deep-7.8B-GGUF",
+            "trillionlabs/Tri-7B-Search-preview"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 1.0,
+            "ndcg_at_5": 1.0,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q41_low_small_similarity",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 172,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 4,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 46.811,
+          "top_model_ids": [
+            "alphaedge-ai/bge-m3-kor-32768",
+            "bongsoo/moco-sentencebertV2.0",
+            "caasman/klue-roberta-base-klue-sts",
+            "gomyk/minilm-student-L4_uniform_distilled",
+            "NetherQuartz/LaBSE-tokipona"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 1.0,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.7606,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q42_low_asr_wer",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 106,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 46.547,
+          "top_model_ids": [
+            "leuconoe/whisper-acft-ko",
+            "BuzzASR/korean",
+            "litert-community/VibeVoice-ASR-BitNet",
+            "voconly-org/whisper-large-v3-turbo-gguf",
+            "RedHatAI/whisper-tiny"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.3333,
+            "ndcg_at_5": 0.3462,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q43_ko_mteb_long",
+          "query_type": "benchmark_lookup",
+          "top_k": 5,
+          "candidate_count": 132,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 53.752,
+          "top_model_ids": [
+            "upskyy/gte-base-korean",
+            "dragonkue/BGE-m3-ko",
+            "hyunseop/bge-m3-ko",
+            "amazon/Titan-text-embeddings-v2",
+            "cnmoro/snowflake-arctic-embed-m-v2.0-cpu"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.5,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.3191,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q44_cpu_tiny_classifier",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 1,
+            "unknown": 3,
+            "low": 1
+          },
+          "latency_ms": 2.378,
+          "top_model_ids": [
+            "Zeolit/lettuce-thymos-26m-v1",
+            "monologg/koelectra-small-finetuned-nsmc",
+            "snunlp/KR-FinBert-SC",
+            "kfkas/legal-question-filter-koelectra",
+            "bongsoo/albert-small-kor-cross-encoder-v1"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.6,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.6844,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q45_ko_multitask_retrieval_qa",
+          "query_type": "semantic_constraint",
+          "top_k": 5,
+          "candidate_count": 253,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 67.148,
+          "top_model_ids": [
+            "hyunseop/bge-m3-ko",
+            "dragonkue/colbert-ko-0.1b",
+            "upskyy/bge-m3-korean",
+            "upskyy/gte-base-korean",
+            "soulfree89/e5-small-ko-v2-fix"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.75,
+            "mrr": 0.5,
+            "ndcg_at_5": 0.5925,
+            "hit_at_5": 1.0,
+            "relevant_count": 4
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q46_ko_generation_known_all",
+          "query_type": "structured_constraint",
+          "top_k": 5,
+          "candidate_count": 229,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 64.885,
+          "top_model_ids": [
+            "mobilint/EXAONE-4.0-1.2B",
+            "LiquidAI/LFM2-1.2B",
+            "GMODEOS/EXAONE-4.0-1.2B",
+            "cooler8/yejin-korean-1b-v8",
+            "cooler8/yejin-korean-1b-v8-sft"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.2,
+            "mrr": 0.25,
+            "ndcg_at_5": 0.1461,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q47_low_compact_translation",
+          "query_type": "lexical_exact",
+          "top_k": 5,
+          "candidate_count": 9,
+          "empty": false,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 5,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {
+            "high": 5
+          },
+          "latency_ms": 2.412,
+          "top_model_ids": [
+            "dhtocks/nllb-200-distilled-350M_en-ko",
+            "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+            "Helsinki-NLP/opus-mt_tiny_kor-eng",
+            "Neurora/opus-hplt-en-ko-v2.0",
+            "Darong/BlueT"
+          ],
+          "relevance": {
+            "labeled": true,
+            "recall_at_5": 0.8,
+            "mrr": 1.0,
+            "ndcg_at_5": 0.8688,
+            "hit_at_5": 1.0,
+            "relevant_count": 5
+          },
+          "relevance_status": "labeled"
+        },
+        {
+          "query_id": "q48_intentionally_empty",
+          "query_type": "abstention",
+          "top_k": 0,
+          "candidate_count": 0,
+          "empty": true,
+          "hard_constraint_precision_at_5": 1.0,
+          "keyword_hits_at_5": 0,
+          "task_conflicts_at_5": 0,
+          "canonical_duplicates_at_5": 0,
+          "evidence_completeness": {},
+          "latency_ms": 0.003,
+          "top_model_ids": [],
+          "relevance": {
+            "labeled": false,
+            "recall_at_5": null,
+            "mrr": null,
+            "ndcg_at_5": null,
+            "hit_at_5": null,
+            "relevant_count": 0
+          },
+          "relevance_status": "intentional_abstention"
+        }
+      ]
+    }
+  },
+  "relevance_label_source": "assistant_curated_metadata_v2",
+  "official_metrics_ready": true,
+  "ranking_source_note": "Fresh Dense·Sparse·Hybrid rankings already present in this report; only qrels were added after ranking generation.",
+  "qrels_count": 274,
+  "gold_label_audit": {
+    "method": "Stage 1-3 metadata audit independent of retrieval rankings",
+    "qrels_before": 201,
+    "qrels_after": 274,
+    "added_qrels": 73,
+    "expanded_queries": 17,
+    "validated_hard_filter_invalid": 0,
+    "validated_missing_ids": 0,
+    "query_additions": {
+      "q01_ko_classification_cpu": 5,
+      "q02_ko_sentence_embedding": 9,
+      "q03_ko_document_embedding": 8,
+      "q04_ko_asr": 5,
+      "q06_ko_summarization": 1,
+      "q07_ko_qa": 1,
+      "q08_ko_generation_long_context": 2,
+      "q09_ko_multimodal": 4,
+      "q11_ko_known_hardware": 5,
+      "q14_semantic_search_embedding": 6,
+      "q15_long_context_embedding": 5,
+      "q16_realtime_asr_small": 6,
+      "q21_vision_language_ocr": 3,
+      "q23_known_embedding_metadata": 4,
+      "q24_small_sentence_similarity": 2,
+      "q29_very_long_embedding": 4,
+      "q37_ko_embedding_long_small": 3
+    }
+  }
+}

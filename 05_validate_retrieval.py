@@ -15,11 +15,13 @@ import os
 import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
+from urllib.parse import quote
 
 from dotenv import load_dotenv
 
 from benchmark_metadata import benchmark_key, match_benchmark_records
 from evidence_index import attach_evidence_hits, load_index
+from retrieval_metadata import normalize_query_terms
 
 
 ROOT = Path(__file__).resolve().parent
@@ -245,6 +247,10 @@ def hydrate_result(
     detail = catalog.get((pool, model_id), {})
     stage2 = detail.get("stage2") or {}
     stage3 = detail.get("stage3") or {}
+    source = stage2.get("source") or {}
+    readme = source.get("readme") or {}
+    source_url = readme.get("source_url") or f"https://huggingface.co/{quote(model_id, safe='/')}"
+    readme_url = readme.get("readme_url") or f"{source_url}/blob/main/README.md"
     result["technical"] = {
         "model": stage2.get("model"),
         "quantization": stage2.get("quantization"),
@@ -275,11 +281,21 @@ def hydrate_result(
     }
     result["evidence"] = _claim_evidence(semantic, evidence)
     result["provenance"] = {
+        "model_url": source_url,
+        "readme_url": readme_url,
         "source_pool": pool,
         "stage1_version": compact_row.get("source_stage1_version"),
         "stage2_version": compact_row.get("source_stage2_version"),
         "stage3_version": compact_row.get("source_stage3_version"),
         "stage3_status": stage3.get("status"),
+    }
+    result["llm_context"] = {
+        "model_id": model_id,
+        "technical": result["technical"],
+        "recommendation": result["recommendation"],
+        "evidence": result["evidence"],
+        "provenance": result["provenance"],
+        "benchmark_metadata": result.get("benchmark_metadata") or {},
     }
     result["detail_joined"] = bool(stage2 or stage3)
     return result
@@ -295,6 +311,104 @@ def load_benchmark_sidecars() -> Dict[str, Dict[str, Any]]:
             if row.get("model_id"):
                 sidecars[row["model_id"]] = row
     return sidecars
+
+
+class FieldedBM25:
+    """Small in-process fielded BM25 index for the current Stage 4 corpus.
+
+    The index is rebuilt once per validation run. It is intentionally deterministic,
+    uses the same eligible rows as dense ranking, and gives exact model/task/language
+    fields more weight than free-form semantic claims.
+    """
+
+    FIELD_WEIGHTS = {
+        "model_id": 5.0,
+        "translation_pairs": 6.0,
+        "languages": 3.0,
+        "task": 3.0,
+        "benchmark": 2.5,
+        "metadata": 1.5,
+        "content": 1.0,
+    }
+
+    def __init__(self, rows: Sequence[Dict[str, Any]], k1: float = 1.2, b: float = 0.75) -> None:
+        self.k1 = k1
+        self.b = b
+        self.rows = list(rows)
+        self.row_index = {str(row.get("model_id")): index for index, row in enumerate(self.rows)}
+        self._score_cache: Dict[str, Dict[str, float]] = {}
+        self.documents: List[Dict[str, List[str]]] = []
+        self.avg_len: Dict[str, float] = {}
+        self.doc_freq: Dict[str, Dict[str, int]] = {}
+        for row in self.rows:
+            fields = self._fields(row)
+            self.documents.append(fields)
+        for field in self.FIELD_WEIGHTS:
+            lengths = [len(doc[field]) for doc in self.documents]
+            self.avg_len[field] = (sum(lengths) / len(lengths)) if lengths else 1.0
+            freq: Dict[str, int] = {}
+            for doc in self.documents:
+                for token in set(doc[field]):
+                    freq[token] = freq.get(token, 0) + 1
+            self.doc_freq[field] = freq
+
+    @staticmethod
+    def _tokens(value: Any) -> List[str]:
+        text = str(value or "").casefold()
+        return [token for token in re.findall(r"[\w가-힣]+(?:[-_][\w가-힣]+)?", text) if len(token) > 1]
+
+    def _fields(self, row: Dict[str, Any]) -> Dict[str, List[str]]:
+        metadata = filter_metadata(row)
+        task = row.get("task") or {}
+        benchmark = row.get("benchmark_metadata") or {}
+        aliases = metadata.get("search_aliases") or []
+        pairs = metadata.get("translation_pairs") or []
+        languages = metadata.get("language_codes") or metadata.get("declared_languages") or metadata.get("languages") or []
+        return {
+            "model_id": self._tokens(row.get("model_id")),
+            "translation_pairs": self._tokens(pairs + [str(pair).replace("-", "_") for pair in pairs]),
+            "languages": self._tokens(languages + aliases),
+            "task": self._tokens([task.get("primary"), task.get("matched")]),
+            "benchmark": self._tokens(benchmark),
+            "metadata": self._tokens(metadata),
+            "content": self._tokens(row.get("embedding_text")),
+        }
+
+    def score(self, row: Dict[str, Any], query: Dict[str, Any]) -> float:
+        query_key = str(query.get("text") or "").casefold()
+        row_key = str(row.get("model_id") or "")
+        cached = self._score_cache.setdefault(query_key, {})
+        if row_key in cached:
+            return cached[row_key]
+        terms = normalize_query_terms(query_key)
+        if not terms:
+            return 0.0
+        index = self.row_index.get(str(row.get("model_id")), -1)
+        fields = self.documents[index] if index >= 0 else self._fields(row)
+        n_docs = max(1, len(self.rows))
+        score = 0.0
+        for field, weight in self.FIELD_WEIGHTS.items():
+            tokens = fields[field]
+            if not tokens:
+                continue
+            length = len(tokens)
+            avg_len = self.avg_len.get(field) or 1.0
+            term_freq: Dict[str, int] = {}
+            for token in tokens:
+                term_freq[token] = term_freq.get(token, 0) + 1
+            for term in terms:
+                tf = term_freq.get(term)
+                if not tf:
+                    continue
+                df = self.doc_freq.get(field, {}).get(term, 0)
+                idf = math.log(1.0 + (n_docs - df + 0.5) / (df + 0.5))
+                denom = tf + self.k1 * (1.0 - self.b + self.b * length / avg_len)
+                score += weight * idf * (tf * (self.k1 + 1.0) / denom)
+        # Smoothly normalize BM25 so strong exact-field matches remain separated
+        # instead of clipping a large portion of the corpus to 1.0.
+        normalized = max(0.0, min(1.0, score / (score + 10.0)))
+        cached[row_key] = normalized
+        return normalized
 
 
 def load_rows() -> List[Dict[str, Any]]:
@@ -395,6 +509,77 @@ def lexical_score(row: Dict[str, Any], query: Dict[str, Any]) -> float:
     return score
 
 
+def lexical_relevance(
+    row: Dict[str, Any],
+    query: Dict[str, Any],
+    sparse_index: FieldedBM25 | None = None,
+) -> float:
+    """Return a bounded fielded-BM25 score for sparse retrieval.
+
+    ``sparse_index`` is optional for callers that use this helper directly; the
+    fallback still uses normalized query terms and the full searchable document.
+    """
+    if sparse_index is not None:
+        return sparse_index.score(row, query)
+    terms = normalize_query_terms(query.get("text") or "")
+    haystack = (
+        f"{row.get('embedding_text') or ''} "
+        f"{json.dumps(filter_metadata(row), ensure_ascii=False, sort_keys=True)}"
+    ).casefold()
+    if not terms:
+        return 0.0
+    return min(1.0, sum(1 for term in terms if term in haystack) / max(1.0, len(terms)))
+
+
+
+def retrieval_weights(query: Dict[str, Any], has_dense_vector: bool) -> Tuple[float, float]:
+    """Translate the query planner hint into dense/sparse weights."""
+    if not has_dense_vector:
+        return 0.0, 1.0
+    hint = query.get("routing_hint") or {}
+    bias_value = {"low": 1.0, "medium": 2.0, "high": 3.0}
+    dense = bias_value.get(str(hint.get("dense_bias") or "medium"), 2.0)
+    sparse = bias_value.get(str(hint.get("sparse_bias") or "medium"), 2.0)
+    primary = str(hint.get("primary") or "hybrid")
+    if primary == "dense":
+        dense, sparse = max(dense, 3.0), min(sparse, 1.0)
+    elif primary in {"bm25", "metadata"}:
+        dense, sparse = min(dense, 1.0), max(sparse, 3.0)
+    elif primary == "benchmark_lookup":
+        dense, sparse = min(dense, 2.0), max(sparse, 3.0)
+    total = dense + sparse
+    return dense / total, sparse / total
+
+
+def supabase_rpc_params(
+    query: Dict[str, Any],
+    query_embedding: Sequence[float],
+    match_count: int = 20,
+) -> Dict[str, Any]:
+    """Map the query schema to the filtered Supabase RPC contract."""
+    pools = list(query.get("pools") or [])
+    dense_weight, sparse_weight = retrieval_weights(query, has_dense_vector=True)
+    return {
+        "query_embedding": list(query_embedding),
+        "match_count": max(1, min(int(match_count), 100)),
+        "pool_filter": pools[0] if len(pools) == 1 else None,
+        "task_filters": list(query.get("tasks") or []),
+        "korean_required": bool(query.get("korean_required")),
+        "min_parameter_count_billion": query.get("min_parameters_billion"),
+        "max_parameter_count_billion": query.get("max_parameters_billion"),
+        "min_context_length": query.get("min_context_length"),
+        "max_context_length": query.get("max_context_length"),
+        "require_known_parameters": bool(query.get("require_known_parameters")),
+        "require_known_context": bool(query.get("require_known_context")),
+        "popularity_tier_filter": query.get("popularity_tier"),
+        # Expand language names and ordered translation pairs before the DB FTS
+        # function receives the query; the original text remains in the report.
+        "query_text": " ".join(sorted(normalize_query_terms(query.get("text") or ""))) or query.get("text") or "",
+        "dense_weight": dense_weight,
+        "sparse_weight": sparse_weight,
+    }
+
+
 def cosine(left: Sequence[float], right: Sequence[float]) -> float:
     if not left or not right or len(left) != len(right):
         return -1.0
@@ -411,9 +596,28 @@ def ranking_score(
     query: Dict[str, Any],
     query_vector: Sequence[float] | None,
     benchmark_boost: float = 0.0,
+    sparse_index: FieldedBM25 | None = None,
 ) -> Tuple[float, float, Dict[str, Any]]:
     signal = detect_task_conflict(row)
-    raw = lexical_score(row, query) if query_vector is None else cosine(query_vector, row.get("embedding") or [])
+    has_dense_vector = query_vector is not None
+    dense_score = (
+        max(0.0, cosine(query_vector, row.get("embedding") or []))
+        if has_dense_vector
+        else 0.0
+    )
+    sparse_score = lexical_relevance(row, query, sparse_index=sparse_index)
+    dense_weight, sparse_weight = retrieval_weights(query, has_dense_vector)
+    raw = (dense_weight * dense_score) + (sparse_weight * sparse_score)
+    signal = dict(signal)
+    signal.update(
+        {
+            "dense_score": dense_score,
+            "sparse_score": sparse_score,
+            "dense_weight": dense_weight,
+            "sparse_weight": sparse_weight,
+            "retrieval_route": "hybrid" if has_dense_vector else "sparse",
+        }
+    )
     return raw, raw - float(signal["ranking_penalty"]) + benchmark_boost, signal
 
 
@@ -487,6 +691,151 @@ def dedupe_canonical(rows: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return selected
 
 
+def diversify_results(
+    rows: Sequence[Dict[str, Any]],
+    limit: int,
+    max_per_author: int = 2,
+) -> List[Dict[str, Any]]:
+    """Prefer distinct model families and authors while preserving score order."""
+    selected: List[Dict[str, Any]] = []
+    seen_canonical: set[str] = set()
+    author_counts: Dict[str, int] = {}
+    deferred: List[Dict[str, Any]] = []
+
+    for row in rows:
+        metadata = filter_metadata(row)
+        canonical = str(
+            metadata.get("canonical_model_id")
+            or row.get("canonical_model_id")
+            or row.get("model_id")
+        )
+        if canonical in seen_canonical:
+            continue
+        model_id = str(row.get("model_id") or "")
+        author = model_id.split("/", 1)[0] if "/" in model_id else model_id
+        if author_counts.get(author, 0) >= max_per_author:
+            deferred.append(row)
+            continue
+        selected.append(row)
+        seen_canonical.add(canonical)
+        author_counts[author] = author_counts.get(author, 0) + 1
+        if len(selected) >= limit:
+            return selected
+
+    for row in deferred:
+        metadata = filter_metadata(row)
+        canonical = str(
+            metadata.get("canonical_model_id")
+            or row.get("canonical_model_id")
+            or row.get("model_id")
+        )
+        if canonical in seen_canonical:
+            continue
+        selected.append(row)
+        seen_canonical.add(canonical)
+        if len(selected) >= limit:
+            break
+    return selected
+
+
+def relaxation_suggestions(
+    rows: Sequence[Dict[str, Any]],
+    query: Dict[str, Any],
+    limit: int = 3,
+) -> List[Dict[str, Any]]:
+    """Explain safe, single-condition relaxations when hard filtering is empty."""
+    plans: List[Tuple[str, str, Dict[str, Any], int]] = []
+
+    def add_plan(code: str, label: str, changes: Dict[str, Any], relaxed: Dict[str, Any]) -> None:
+        count = sum(1 for row in rows if hard_filter(row, relaxed)[0])
+        if count:
+            plans.append((code, label, changes, count))
+
+    if query.get("require_known_parameters"):
+        relaxed = dict(query)
+        relaxed["require_known_parameters"] = False
+        add_plan(
+            "allow_unknown_parameters",
+            "파라미터가 확인되지 않은 후보도 포함",
+            {"require_known_parameters": False},
+            relaxed,
+        )
+    if query.get("require_known_context"):
+        relaxed = dict(query)
+        relaxed["require_known_context"] = False
+        add_plan(
+            "allow_unknown_context",
+            "context 길이가 확인되지 않은 후보도 포함",
+            {"require_known_context": False},
+            relaxed,
+        )
+    if query.get("min_context_length") is not None:
+        relaxed = dict(query)
+        relaxed.pop("min_context_length", None)
+        add_plan(
+            "remove_min_context",
+            "최소 context 조건을 해제",
+            {"min_context_length": None},
+            relaxed,
+        )
+    if query.get("max_context_length") is not None:
+        relaxed = dict(query)
+        relaxed.pop("max_context_length", None)
+        add_plan(
+            "remove_max_context",
+            "최대 context 조건을 해제",
+            {"max_context_length": None},
+            relaxed,
+        )
+    if query.get("max_parameters_billion") is not None:
+        relaxed = dict(query)
+        relaxed.pop("max_parameters_billion", None)
+        add_plan(
+            "remove_parameter_ceiling",
+            "파라미터 상한을 해제",
+            {"max_parameters_billion": None},
+            relaxed,
+        )
+    if query.get("pools") and set(query["pools"]) != set(POOLS):
+        relaxed = dict(query)
+        relaxed["pools"] = list(POOLS)
+        add_plan(
+            "include_all_pools",
+            "Core와 Low Popularity를 모두 검색",
+            {"pools": list(POOLS)},
+            relaxed,
+        )
+    if query.get("korean_required"):
+        relaxed = dict(query)
+        relaxed["korean_required"] = False
+        add_plan(
+            "remove_korean_constraint",
+            "한국어 조건을 해제",
+            {"korean_required": False},
+            relaxed,
+        )
+
+    priority = {
+        "allow_unknown_parameters": 0,
+        "allow_unknown_context": 1,
+        "include_all_pools": 2,
+        "remove_min_context": 3,
+        "remove_max_context": 3,
+        "remove_parameter_ceiling": 4,
+        "remove_korean_constraint": 5,
+    }
+    plans.sort(key=lambda item: (priority.get(item[0], 99), -item[3], item[0]))
+    return [
+        {
+            "code": code,
+            "label": label,
+            "changes": changes,
+            "candidate_count": count,
+        }
+        for code, label, changes, count in plans[:limit]
+    ]
+
+
 def check_results(rows: Sequence[Dict[str, Any]], query: Dict[str, Any]) -> Dict[str, Any]:
     task_violations = sum(1 for row in rows if not task_match(row, query))
     korean_violations = sum(
@@ -549,6 +898,7 @@ def main() -> int:
 
     load_dotenv(ROOT / ".env")
     rows = load_rows()
+    sparse_index = FieldedBM25(rows)
     queries = load_queries(args.query_file)
     mode = "vector" if args.execute else "lexical_offline"
 
@@ -602,12 +952,16 @@ def main() -> int:
                 query,
                 query_vectors.get(query_index),
                 benchmark_boost=benchmark_boost,
+                sparse_index=sparse_index,
             )
             enriched = dict(row)
             enriched["_raw_score"] = raw
             enriched["_adjusted_score"] = adjusted
             enriched["_task_conflict"] = signal
             enriched["_benchmark_signal"] = benchmark_signal
+            enriched["_dense_score"] = signal["dense_score"]
+            enriched["_sparse_score"] = signal["sparse_score"]
+            enriched["_retrieval_route"] = signal["retrieval_route"]
             candidates.append(enriched)
 
         candidates.sort(key=lambda row: (row["_adjusted_score"], row.get("model_id", "")), reverse=True)
@@ -620,8 +974,19 @@ def main() -> int:
                 candidate_limit=args.evidence_candidate_limit,
                 weight=args.evidence_weight,
             )
-        top = dedupe_canonical(candidates)[: args.top_k or query.get("top_k", 5)]
+        top_limit = args.top_k or query.get("top_k", 5)
+        top = diversify_results(candidates, top_limit)
         checks = check_results(top, query)
+        empty_reason = (
+            "현재 조건을 모두 만족하는 후보가 없습니다."
+            if not candidates
+            else None
+        )
+        suggestions = (
+            relaxation_suggestions(rows, query)
+            if not candidates
+            else []
+        )
         result_rows = []
         for row in top:
             metadata = filter_metadata(row)
@@ -644,6 +1009,9 @@ def main() -> int:
                     "raw_score": round(row["_raw_score"], 6),
                     "base_score": round(row["_adjusted_score"], 6),
                     "score": round(float(row.get("_evidence_adjusted_score", row["_adjusted_score"])), 6),
+                    "dense_score": round(float(row.get("_dense_score", 0.0)), 6),
+                    "sparse_score": round(float(row.get("_sparse_score", 0.0)), 6),
+                    "retrieval_route": row.get("_retrieval_route", "sparse"),
                     "evidence_score": round(float(row.get("_evidence_score") or 0.0), 6),
                     "evidence_hits": row.get("_evidence_hits") or [],
                     "task_conflict": signal["conflict"],
@@ -657,6 +1025,7 @@ def main() -> int:
                     "benchmark_metric": benchmark_record.get("metric"),
                     "benchmark_score": benchmark_record.get("score"),
                     "benchmark_evidence_ref": benchmark_record.get("evidence_ref"),
+                    "benchmark_metadata": row.get("benchmark_metadata") or {},
                     },
                     catalog,
                 )
@@ -669,6 +1038,8 @@ def main() -> int:
                 "candidate_count": len(candidates),
                 "excluded_count": excluded,
                 "top_k": len(top),
+                "empty_reason": empty_reason,
+                "relaxation_suggestions": suggestions,
                 "checks": checks,
                 "results": result_rows,
             }
@@ -683,6 +1054,14 @@ def main() -> int:
         "empty_queries": sum(1 for report in reports if report["candidate_count"] == 0),
         "task_conflict_penalty_enabled": True,
         "benchmark_queries": sum(1 for query in queries if query.get("benchmark")),
+        "retrieval_routes": sorted(
+            {
+                result.get("retrieval_route", "sparse")
+                for report in reports
+                for result in report.get("results", [])
+            }
+        ),
+        "hybrid_fusion_enabled": bool(args.execute),
         "evidence_rerank_enabled": bool(args.evidence_rerank),
         "evidence_index_version": 1 if args.evidence_rerank else None,
         "evidence_rerank_weight": args.evidence_weight if args.evidence_rerank else 0.0,
@@ -713,6 +1092,13 @@ def main() -> int:
                 f"canonical 중복={checks['canonical_duplicates']}, task conflict={checks['task_conflicts']}",
             ]
         )
+        if report.get("empty_reason"):
+            lines.append(f"- {report['empty_reason']}")
+            for suggestion in report.get("relaxation_suggestions", []):
+                lines.append(
+                    f"- 조건 완화 제안: {suggestion['label']} "
+                    f"(후보 {suggestion['candidate_count']}개)"
+                )
         for result in report["results"]:
             conflict = f" [task_conflict penalty={result['task_conflict_penalty']}]" if result["task_conflict"] else ""
             benchmark = (
@@ -722,7 +1108,9 @@ def main() -> int:
             )
             lines.append(
                 f"- `{result['model_id']}` · {result['task']} · score={result['score']:.4f} "
-                f"(raw={result['raw_score']:.4f}){conflict}{benchmark}"
+                f"(raw={result['raw_score']:.4f}, route={result.get('retrieval_route', 'sparse')}, "
+                f"dense={result.get('dense_score', 0.0):.4f}, "
+                f"sparse={result.get('sparse_score', 0.0):.4f}){conflict}{benchmark}"
             )
             if result["task_conflict"]:
                 lines.append(f"  - conflict evidence: {', '.join(result['task_conflict_evidence'])}")

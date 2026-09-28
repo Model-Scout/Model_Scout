@@ -11,6 +11,7 @@ import time
 
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 
 # =========================================================
@@ -72,6 +73,16 @@ MAX_README_CHARS = 300_000
 STAGE2_VERSION = 6
 SOURCE_STAGE1_VERSION = 7
 A_VERIFIED_TYPES = {"korean_explicit", "korean_translation_pair", "korean_name_strong"}
+
+
+def model_page_url(model_id):
+    """Return the canonical Hugging Face model page for provenance output."""
+    return f"https://huggingface.co/{quote(str(model_id), safe='/')}"
+
+
+def model_readme_url(model_id):
+    """Return the clickable README source URL for a model card."""
+    return f"{model_page_url(model_id)}/blob/main/README.md"
 
 
 # =========================================================
@@ -500,6 +511,10 @@ def load_and_save_readme(
                 str(
                     output_path
                 ),
+            "source_url":
+                model_page_url(model_id),
+            "readme_url":
+                model_readme_url(model_id),
 
             "original_chars":
                 original_chars,
@@ -528,6 +543,10 @@ def load_and_save_readme(
 
             "path":
                 None,
+            "source_url":
+                model_page_url(model_id),
+            "readme_url":
+                model_readme_url(model_id),
 
             "original_chars":
                 None,
