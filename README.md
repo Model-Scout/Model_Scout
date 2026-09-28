@@ -266,6 +266,26 @@ python 08_sync_supabase.py --refresh --apply
 
 벤치마크 원본 sidecar는 커밋하지 않고, 변경 감지용 소형 fingerprint 상태만 성공한 sync 뒤에 저장한다.
 
+### 읽기 전용 MCP + LangChain 검색 에이전트
+
+Supabase 검색 RPC를 LangChain 에이전트가 호출할 때는 파이프라인 환경과 분리된
+MCP 의존성을 설치한다. MCP 서버는 `search_models`, `get_model`,
+`get_model_evidence`, `compare_models`만 제공하며 임의 SQL과 쓰기 작업은 제공하지 않는다.
+문서 임베딩·벡터 검색 질의는 데이터의 `feature-extraction`과
+`sentence-similarity` task로 자동 라우팅한다.
+
+```bash
+uv pip install --python ~/claude/bin/python -r requirements_mcp.txt
+
+~/claude/bin/python 10_model_scout_langchain_agent.py \
+  "한국어 문서 임베딩에 적합하고 1B 이하인 모델을 추천해줘"
+```
+
+`09_model_scout_mcp_readonly.py`는 기존 `.env`의
+`SUPABASE_DB_HOST`, `SUPABASE_DB_PORT`, `SUPABASE_DB_NAME`,
+`SUPABASE_DB_USER`, `SUPABASE_PASSWORD`, `OPENAI_API_KEY`를 사용한다.
+DB 계정은 read-only 권한으로 운영하고 비밀번호를 스크립트나 Git에 직접 적지 않는다.
+
 ## 8. 성공 기준
 
 **반드시 지켜야 하는 것**

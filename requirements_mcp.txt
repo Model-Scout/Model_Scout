@@ -1,0 +1,10 @@
+# Optional Model Scout read-only MCP + LangChain agent environment.
+# Keep this separate from requirements.txt so the 01-08 data pipeline does not
+# inherit agent-only dependencies or version constraints.
+langchain>=1.0,<2
+langchain-openai>=1.0,<2
+langchain-mcp-adapters>=0.1,<1
+mcp>=1.0,<2
+openai>=1.0
+psycopg2-binary>=2.9
+python-dotenv>=1.0

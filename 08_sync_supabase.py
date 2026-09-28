@@ -95,7 +95,6 @@ def clear_incremental_artifacts() -> None:
             stage4_delta_path(pool),
             benchmark_delta_path(pool),
             DATA_DIR / f".hf_models_benchmark_changed_ids_{pool}.json",
-            DATA_DIR / f".hf_models_benchmark_state_{pool}.json",
         ):
             if path.exists():
                 path.unlink()
@@ -1134,6 +1133,13 @@ def incremental_stage1_update(watermark: str) -> Dict[str, Any]:
 
 def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     scan = incremental_stage1_update(watermark)
+    # Preserve benchmark changes left by a previous failed run. Cleanup must
+    # never discard the retry queue before it is merged into this scan.
+    pending_benchmark_ids = read_model_ids(BENCHMARK_CHANGED_IDS_PATH)
+    for pool in POOLS:
+        pending_benchmark_ids.update(
+            read_model_ids(DATA_DIR / f".hf_models_benchmark_changed_ids_{pool}.json")
+        )
     clear_incremental_artifacts()
     needs_reconciliation = stage3_pools_need_reconciliation()
     processable_ids = set(scan["processable_ids"])
@@ -1163,7 +1169,7 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
         str(ROOT / "06_extract_benchmark_metadata.py"),
         "--pool", "all",
     ])
-    processable_ids.update(read_model_ids(BENCHMARK_CHANGED_IDS_PATH))
+    processable_ids.update(pending_benchmark_ids)
     write_model_ids(processable_ids)
     scan["sync_ids"] = sorted(processable_ids)
     if needs_reconciliation:
@@ -1474,8 +1480,11 @@ def main() -> int:
             removed_ids=removed_ids,
             source_watermark=(refresh_info or {}).get("scan_started_at"),
             corpus_rows=len(stage2),
-        )
+            )
         promote_benchmark_state()
+        # Only remove one-run queues after the database transaction has
+        # succeeded. Persistent per-pool benchmark state remains intact.
+        clear_incremental_artifacts()
     else:
         result["dry_run"] = {
             "rows": len(rows),
