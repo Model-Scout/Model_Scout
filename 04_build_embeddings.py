@@ -20,12 +20,16 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 from dotenv import load_dotenv
 
+from retrieval_metadata import augment_filter_metadata
+
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 DEFAULT_MODEL = "text-embedding-3-small"
 DEFAULT_BATCH_SIZE = 32
+DB_CACHE_MIN_COVERAGE = 0.90
+DB_CACHE_MIN_CANDIDATES = 100
 STAGE4_VERSION = 1
 EXPECTED_STAGE1_VERSION = 7
 EXPECTED_STAGE2_VERSION = 6
@@ -174,6 +178,46 @@ def read_jsonl(path: Path) -> List[Dict[str, Any]]:
     return rows
 
 
+def is_git_lfs_pointer(path: Path) -> bool:
+    """Return whether *path* contains a Git LFS pointer, not the payload."""
+    if not path.exists() or not path.is_file():
+        return False
+    try:
+        with path.open("r", encoding="utf-8", errors="replace") as handle:
+            first_line = handle.readline().strip()
+            following_lines = [handle.readline().strip() for _ in range(2)]
+    except OSError:
+        return False
+    return (
+        first_line == "version https://git-lfs.github.com/spec/v1"
+        and any(line.startswith("oid sha256:") for line in following_lines)
+    )
+
+
+def load_snapshot_by_id(path: Path) -> Dict[str, Dict[str, Any]]:
+    """Load a Stage 4 snapshot, tolerating an intentional LFS pointer.
+
+    A malformed non-LFS file remains fatal so corruption cannot silently turn
+    into an expensive full re-embedding run.
+    """
+    if not path.exists():
+        return {}
+    if is_git_lfs_pointer(path):
+        print(f"[stage4] ignoring Git LFS pointer snapshot: {path}", flush=True)
+        return {}
+    try:
+        rows = read_jsonl(path)
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise RuntimeError(
+            f"Invalid Stage 4 snapshot {path}; refusing to ignore non-LFS corruption"
+        ) from exc
+    return {
+        item.get("model_id"): item
+        for item in rows
+        if item.get("model_id")
+    }
+
+
 def write_jsonl_atomic(rows: Sequence[Dict[str, Any]], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))
@@ -312,16 +356,18 @@ def build_filter_metadata(row: Dict[str, Any], document_hash: str) -> Dict[str, 
         "evidence_completeness": semantic.get("evidence_completeness", "unknown") if semantic else "unknown",
         "document_hash": document_hash,
     }
+    return document
 
 
 def build_document(row: Dict[str, Any], model: str) -> Dict[str, Any]:
     embedding_text = build_embedding_text(row)
     document_hash = digest(embedding_text)
     source = row.get("source_stage2") or {}
+    task = source.get("task") or {}
     source_stage = source.get("stage") or {}
     stage3 = row.get("stage3") or {}
     filters = build_filter_metadata(row, document_hash)
-    return {
+    metadata = {
         "model_id": row.get("model_id"),
         "source_pool": row.get("source_pool"),
         "embedding_text": embedding_text,
@@ -341,7 +387,14 @@ def build_document(row: Dict[str, Any], model: str) -> Dict[str, Any]:
         "evidence_completeness": ((row.get("semantic") or {}).get("evidence_completeness") or "unknown"),
         "filter_metadata": filters,
     }
-    return annotate_task_conflict(document)
+    # Search aliases are deterministic metadata. They do not change the embedding
+    # document/hash and let lexical retrieval understand language-pair queries.
+    metadata = augment_filter_metadata(
+        str(row.get("model_id") or ""),
+        metadata,
+        task.get("matched") or task.get("primary"),
+    )
+    return annotate_task_conflict(metadata)
 
 
 def select_rows(rows: Sequence[Dict[str, Any]], limit: Optional[int], strategy: str) -> List[Dict[str, Any]]:
@@ -571,6 +624,24 @@ def db_cache_candidate_ids(
     ]
 
 
+def should_refuse_db_reembedding(
+    document_count: int,
+    candidate_count: int,
+    cache_count: int,
+) -> bool:
+    """Protect against broad paid re-embedding, not small incremental changes."""
+    if candidate_count == 0:
+        return False
+    broad_rebuild_threshold = max(
+        DB_CACHE_MIN_CANDIDATES,
+        (document_count + 9) // 10,
+    )
+    if candidate_count < broad_rebuild_threshold:
+        return False
+    coverage = cache_count / candidate_count
+    return cache_count == 0 or coverage < DB_CACHE_MIN_COVERAGE
+
+
 def run_pool(
     pool: str,
     model: str,
@@ -597,18 +668,10 @@ def run_pool(
             DATA_DIR if limit is None else ROOT / "test"
         ) / f".stage4_{pool}_checkpoint.jsonl"
         existing: Dict[str, Dict[str, Any]] = {}
-        if limit is None and canonical_output.exists():
-            existing = {
-                item.get("model_id"): item
-                for item in read_jsonl(canonical_output)
-                if item.get("model_id")
-            }
-        elif checkpoint_path.exists():
-            existing = {
-                item.get("model_id"): item
-                for item in read_jsonl(checkpoint_path)
-                if item.get("model_id")
-            }
+        if limit is None:
+            existing = load_snapshot_by_id(canonical_output)
+        if checkpoint_path.exists():
+            existing = load_snapshot_by_id(checkpoint_path)
 
         if db_cache:
             # Supabase is authoritative once this mode is enabled. This matters
@@ -621,8 +684,9 @@ def run_pool(
             # partial DB migration into a full paid re-embedding run. A small
             # number of missing IDs is expected for genuinely new models.
             if db_candidate_ids:
-                coverage = len(db_existing) / len(db_candidate_ids)
-                if not db_existing or coverage < 0.90:
+                if should_refuse_db_reembedding(
+                    len(documents), len(db_candidate_ids), len(db_existing)
+                ):
                     raise RuntimeError(
                         "Supabase embedding cache coverage is too low for DB-canonical "
                         f"Stage 4 ({len(db_existing)}/{len(db_candidate_ids)}); refusing a full re-embedding run"
@@ -677,6 +741,26 @@ def run_pool(
     print(json.dumps(summary, ensure_ascii=False), flush=True)
     return summary
 
+def backfill_search_metadata(pool: str) -> Dict[str, Any]:
+    """Add deterministic search metadata without changing vectors or hashes."""
+    path = DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
+    if not path.exists():
+        raise FileNotFoundError(path)
+    rows = read_jsonl(path)
+    changed = 0
+    for row in rows:
+        old = dict(row.get("filter_metadata") or {})
+        task = row.get("task") or old.get("primary_task")
+        new = augment_filter_metadata(str(row.get("model_id") or ""), old, task)
+        if new != old:
+            row["filter_metadata"] = new
+            changed += 1
+    tmp = path.with_suffix(path.suffix + ".search-metadata.tmp")
+    write_jsonl_atomic(rows, tmp)
+    tmp.replace(path)
+    return {"pool": pool, "rows": len(rows), "changed": changed, "output": str(path)}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pool", choices=("core", "low_popularity", "all"), default="all")
@@ -690,7 +774,16 @@ def main() -> int:
         action="store_true",
         help="reuse matching embeddings from Supabase before calling the embedding API",
     )
+    parser.add_argument(
+        "--backfill-search-metadata",
+        action="store_true",
+        help="add deterministic lexical metadata without rebuilding embeddings",
+    )
     args = parser.parse_args()
+    if args.backfill_search_metadata:
+        pools = POOLS if args.pool == "all" else (args.pool,)
+        print(json.dumps({"search_metadata_backfill": [backfill_search_metadata(pool) for pool in pools]}, ensure_ascii=False, indent=2))
+        return 0
     if args.limit is not None and args.limit <= 0:
         parser.error("--limit must be positive")
     if args.batch_size <= 0:

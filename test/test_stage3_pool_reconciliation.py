@@ -131,6 +131,37 @@ def test_stage4_db_cache_only_requests_non_reusable_documents():
     ]
 
 
+def test_stage4_allows_small_incremental_db_cache_gaps():
+    stage4 = load_module("04_build_embeddings.py", "stage4_db_cache_guard_test")
+
+    assert stage4.should_refuse_db_reembedding(1477, 50, 30) is False
+    assert stage4.should_refuse_db_reembedding(3567, 3567, 30) is True
+    assert stage4.should_refuse_db_reembedding(1477, 200, 150) is True
+
+
+def test_stage4_ignores_git_lfs_pointer_snapshot(tmp_path):
+    stage4 = load_module("04_build_embeddings.py", "stage4_lfs_pointer_test")
+    snapshot = tmp_path / "hf_models_stage4_core.jsonl"
+    snapshot.write_text(
+        "version https://git-lfs.github.com/spec/v1\n"
+        "oid sha256:" + "a" * 64 + "\n"
+        "size 123\n",
+        encoding="utf-8",
+    )
+
+    assert stage4.is_git_lfs_pointer(snapshot) is True
+    assert stage4.load_snapshot_by_id(snapshot) == {}
+
+
+def test_stage4_does_not_hide_non_lfs_snapshot_corruption(tmp_path):
+    stage4 = load_module("04_build_embeddings.py", "stage4_bad_snapshot_test")
+    snapshot = tmp_path / "hf_models_stage4_core.jsonl"
+    snapshot.write_text("not json\n", encoding="utf-8")
+
+    with pytest.raises(RuntimeError, match="Invalid Stage 4 snapshot"):
+        stage4.load_snapshot_by_id(snapshot)
+
+
 def test_sync_rejects_missing_stage3_or_stage4_rows():
     sync = load_module("08_sync_supabase.py", "sync_corpus_coverage_test")
 
