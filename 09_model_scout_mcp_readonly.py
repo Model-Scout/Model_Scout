@@ -19,6 +19,7 @@ Run directly through stdio (normally launched by 10_model_scout_langchain_agent.
 
 from __future__ import annotations
 
+import json
 import math
 import os
 from contextlib import contextmanager
@@ -43,14 +44,35 @@ ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
 
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
-MAX_SEARCH_RESULTS = 20
+MAX_SEARCH_RESULTS = 5
 MAX_COMPARE_MODELS = 10
 MAX_EVIDENCE_PARENTS = 8
 MAX_EVIDENCE_CHILDREN = 5
 MAX_TEXT_CHARS = 900
+MAX_QUOTE_CHARS = 600
 SEARCH_EVIDENCE_PARENTS = 1
 SEARCH_EVIDENCE_CHILDREN = 2
 SEARCH_TEXT_CHARS = 350
+
+DOMAIN_MARKERS = {
+    "금융": ("금융", "financial", "finance", "banking", "stock", "투자", "nmixx-fin"),
+    "법률": ("법률", "legal", "law", "법학"),
+    "의료": ("의료", "medical", "clinical", "healthcare", "biomedical"),
+    "교육": ("교육", "education", "student", "academic"),
+    "코드": ("코드 생성", "code generation", "coding", "programming", "소프트웨어 개발"),
+    "음성": ("음성", "speech recognition", "automatic speech recognition", "asr", "transcription"),
+}
+GENERAL_MARKERS = (
+    "general-purpose",
+    "general purpose",
+    "multilingual",
+    "paraphrase",
+    "sentence embedding",
+    "sentence similarity",
+    "다국어",
+    "문장 임베딩",
+    "문장 유사",
+)
 
 # Hugging Face uses both tags for embedding-oriented models in this corpus.
 # The agent may naturally say "embedding" or "document-embedding", so expand
@@ -182,6 +204,151 @@ def _truncate(value: Any, limit: int = MAX_TEXT_CHARS) -> Any:
     if len(value) <= limit:
         return value
     return value[: limit - 1].rstrip() + "…"
+
+
+def _exact_quote(value: Any, limit: int = MAX_QUOTE_CHARS) -> Optional[str]:
+    """Return a contiguous README excerpt without adding generated wording."""
+    if not isinstance(value, str):
+        return None
+    quote = value.strip()
+    if not quote:
+        return None
+    # A truncated quote is still an exact contiguous excerpt.  The flag in
+    # the citation tells the caller that the complete evidence block is longer.
+    return quote[:limit]
+
+
+def _readme_section(parent: Mapping[str, Any], child: Optional[Mapping[str, Any]] = None) -> str:
+    """Normalize the evidence location to a human-readable README section."""
+    child = child or {}
+    heading_path = child.get("heading_path") or parent.get("heading_path")
+    if isinstance(heading_path, list) and heading_path:
+        return " > ".join(str(part) for part in heading_path)
+    section = child.get("section") or parent.get("section")
+    return str(section).strip() if section else "README root"
+
+
+def _evidence_level(parent: Mapping[str, Any], child: Optional[Mapping[str, Any]] = None) -> str:
+    child = child or {}
+    value = child.get("evidence_level") or parent.get("evidence_level")
+    if value:
+        return str(value).strip()
+    # The quote itself is an exact excerpt from the persisted README.  When
+    # the older evidence index has no explicit level field, expose that fact
+    # as explicit source evidence rather than losing the distinction.
+    source = child if child else parent
+    return "explicit" if isinstance(source.get("text"), str) and source.get("text").strip() else "unknown"
+
+
+def _compact_citations(
+    parents: Any,
+    *,
+    limit: int = 3,
+    quote_limit: int = MAX_QUOTE_CHARS,
+) -> List[Dict[str, Any]]:
+    """Expose exact README excerpts in a small, audit-friendly shape."""
+    if not isinstance(parents, list):
+        return []
+
+    candidates_with_score = []
+    seen_quotes = set()
+    order = 0
+    for parent in parents:
+        if not isinstance(parent, Mapping):
+            continue
+        raw_children = parent.get("children") or []
+        children = raw_children if isinstance(raw_children, list) else []
+        candidates: List[Optional[Mapping[str, Any]]] = [
+            child for child in children if isinstance(child, Mapping)
+        ]
+        # Keep a parent fallback for README sections that have no atomic child.
+        candidates.append(None)
+        for child in candidates:
+            source = child if child is not None else parent
+            raw_text = source.get("text")
+            quote = _exact_quote(raw_text, quote_limit)
+            if not quote or quote in seen_quotes:
+                continue
+            seen_quotes.add(quote)
+            normalized = quote.casefold()
+            section = _readme_section(parent, child)
+            score = min(len(quote), 300) / 100
+            score += sum(
+                1
+                for marker in (
+                    "embedding",
+                    "sentence",
+                    "semantic",
+                    "korean",
+                    "usage",
+                    "retrieval",
+                    "query",
+                )
+                if marker in normalized or marker in section.casefold()
+            )
+            if section.casefold() == "document":
+                score -= 1
+            if normalized.startswith(("---", "license:", "- feature-extraction", "pipeline_tag:")):
+                score -= 2
+            candidates_with_score.append(
+                (
+                    -score,
+                    order,
+                    {
+                        "supporting_quote": quote,
+                        "readme_section": section,
+                        "evidence_level": _evidence_level(parent, child),
+                        "evidence_refs": source.get("evidence_refs") or [],
+                        "quote_truncated": isinstance(raw_text, str) and len(raw_text.strip()) > quote_limit,
+                    },
+                )
+            )
+            order += 1
+
+    candidates_with_score.sort(key=lambda item: (item[0], item[1]))
+    return [item[2] for item in candidates_with_score[:limit]]
+
+
+def _domain_scope(row: Mapping[str, Any]) -> Dict[str, Any]:
+    """Classify scope conservatively from stored metadata and model ID."""
+    searchable = {
+        "model_id": row.get("model_id"),
+        "filter_metadata": row.get("filter_metadata"),
+        "technical_metadata": row.get("technical_metadata"),
+        "semantic_metadata": row.get("semantic_metadata"),
+    }
+    haystack = json.dumps(searchable, ensure_ascii=False, default=str).casefold()
+
+    matched_domains = [
+        domain
+        for domain, markers in DOMAIN_MARKERS.items()
+        if any(marker.casefold() in haystack for marker in markers)
+    ]
+    if matched_domains:
+        return {
+            "label": "domain_specific",
+            "domains": matched_domains,
+            "basis": "stored metadata/model ID keyword evidence",
+        }
+
+    matched_general = [
+        marker
+        for marker in GENERAL_MARKERS
+        if marker.casefold() in haystack
+    ]
+    if matched_general:
+        return {
+            "label": "general_purpose",
+            "domains": [],
+            "basis": "stored metadata/model ID keyword evidence",
+            "matched_terms": matched_general[:3],
+        }
+
+    return {
+        "label": "unknown",
+        "domains": [],
+        "basis": "no explicit domain scope found in stored metadata/model ID",
+    }
 
 
 def _compact_evidence(
@@ -390,6 +557,21 @@ def _compact_search_row(row: Mapping[str, Any]) -> Dict[str, Any]:
     """Return agent-facing fields; never return the raw 1536-dimension vector."""
 
     model_id = row.get("model_id")
+    evidence_index = row.get("evidence_index")
+    evidence_preview = _compact_evidence(
+        evidence_index,
+        parent_limit=SEARCH_EVIDENCE_PARENTS,
+        child_limit=SEARCH_EVIDENCE_CHILDREN,
+        text_limit=SEARCH_TEXT_CHARS,
+    )
+    citations = _compact_citations(evidence_index, limit=1)
+    primary_citation = citations[0] if citations else {
+        "supporting_quote": None,
+        "readme_section": None,
+        "evidence_level": "unknown",
+        "evidence_refs": [],
+        "quote_truncated": False,
+    }
     return {
         "model_id": model_id,
         "model_url": f"https://huggingface.co/{model_id}" if model_id else None,
@@ -411,12 +593,9 @@ def _compact_search_row(row: Mapping[str, Any]) -> Dict[str, Any]:
         "benchmark_metadata": _compact_benchmark_metadata(row.get("benchmark_metadata")),
         "source_provenance": _compact_provenance(row.get("source_provenance")),
         "task_consistency": row.get("task_consistency") or {},
-        "evidence_preview": _compact_evidence(
-            row.get("evidence_index"),
-            parent_limit=SEARCH_EVIDENCE_PARENTS,
-            child_limit=SEARCH_EVIDENCE_CHILDREN,
-            text_limit=SEARCH_TEXT_CHARS,
-        ),
+        "domain_scope": _domain_scope(row),
+        "audit_evidence": primary_citation,
+        "evidence_preview": evidence_preview,
     }
 
 
@@ -464,7 +643,7 @@ def _model_select_sql() -> str:
 )
 def search_models(
     query: str,
-    match_count: int = 8,
+    match_count: int = 5,
     pool_filter: Optional[str] = None,
     task_filters: Optional[List[str]] = None,
     korean_required: bool = False,
@@ -652,6 +831,15 @@ def get_model_evidence(
         return {"found": False, "model_id": normalized_id, "parents": []}
 
     filter_metadata = row.get("filter_metadata") or {}
+    evidence_index = row.get("evidence_index")
+    citations = _compact_citations(evidence_index, limit=3)
+    primary_citation = citations[0] if citations else {
+        "supporting_quote": None,
+        "readme_section": None,
+        "evidence_level": "unknown",
+        "evidence_refs": [],
+        "quote_truncated": False,
+    }
     return {
         "found": True,
         "model_id": normalized_id,
@@ -659,10 +847,15 @@ def get_model_evidence(
         "source_pool": row.get("source_pool"),
         "source_provenance": row.get("source_provenance") or {},
         "evidence_completeness": filter_metadata.get("evidence_completeness"),
+        "domain_scope": _domain_scope(row),
+        "audit_evidence": {
+            **primary_citation,
+            "additional_citations": citations[1:],
+        },
         "parent_count": row.get("parent_count") or 0,
         "child_count": row.get("child_count") or 0,
         "parents": _compact_evidence(
-            row.get("evidence_index"),
+            evidence_index,
             parent_limit=parent_limit,
             child_limit=child_limit,
         ),

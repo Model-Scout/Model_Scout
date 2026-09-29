@@ -1143,6 +1143,7 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     clear_incremental_artifacts()
     needs_reconciliation = stage3_pools_need_reconciliation()
     processable_ids = set(scan["processable_ids"])
+    processable_ids.update(pending_benchmark_ids)
     python = sys.executable
     if not processable_ids and not scan["removed_ids"] and not needs_reconciliation:
         print(json.dumps({"incremental_pipeline": "no eligible changes"}, ensure_ascii=False), flush=True)
@@ -1158,8 +1159,26 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
             flush=True,
         )
     write_model_ids(processable_ids)
-    run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
-    run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
+    run_command(
+        [
+            python,
+            str(ROOT / "02_enrich_metadata.py"),
+            "--pool",
+            "all",
+            "--model-ids-file",
+            str(MODEL_IDS_PATH),
+        ]
+    )
+    run_command(
+        [
+            python,
+            str(ROOT / "03_generate_semantic_metadata.py"),
+            "--pool",
+            "all",
+            "--model-ids-file",
+            str(MODEL_IDS_PATH),
+        ]
+    )
     for pool in POOLS:
         run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
     # Relationship-only parent/child index; no LLM or embedding API call.
@@ -1169,7 +1188,10 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
         str(ROOT / "06_extract_benchmark_metadata.py"),
         "--pool", "all",
     ])
-    processable_ids.update(pending_benchmark_ids)
+    # The full benchmark pass writes the current changed-ID queue. Include it
+    # in the targeted Stage 4 update; otherwise a newly changed README would
+    # be detected but never reach the embedding delta.
+    processable_ids.update(read_model_ids(BENCHMARK_CHANGED_IDS_PATH))
     write_model_ids(processable_ids)
     scan["sync_ids"] = sorted(processable_ids)
     if needs_reconciliation:
@@ -1181,12 +1203,6 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
             python,
             str(ROOT / "04_build_embeddings.py"),
             "--pool", "all", "--execute", "--db-cache",
-            "--model-ids-file", str(MODEL_IDS_PATH),
-        ])
-        run_command([
-            python,
-            str(ROOT / "06_extract_benchmark_metadata.py"),
-            "--pool", "all",
             "--model-ids-file", str(MODEL_IDS_PATH),
         ])
         scan["stage4_mode"] = "delta"

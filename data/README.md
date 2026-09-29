@@ -1,303 +1,89 @@
-# Model Scout 데이터 파이프라인
+# 데이터 산출물
 
-이 디렉터리는 Hugging Face 모델을 수집하고, 한국어 근거를 분류하고, 기술 metadata와 근거 기반 semantic metadata를 결합해 추천 검색용 corpus로 만드는 결과를 보관한다.
+`data/`는 Hugging Face 후보를 Stage 1~4 검색 corpus로 변환한 snapshot을 보관합니다. 추천 검색에 사용하는 pool은 `core`와 `low_popularity`이며, `likely`와 `fallback`은 Stage 1 참고 후보입니다.
 
-## 전체 흐름
+## 현재 snapshot
 
-```text
-Hugging Face Hub
-  ↓
-Stage 1. deterministic candidate collection
-  ↓
-Stage 2. fact-based technical metadata enrichment
-  ↓
-Stage 3. Atomic Evidence semantic enrichment
-  ↓
-Stage 4. embedding and retrieval index
-```
+아래 수량은 2026-09-28 현재 snapshot 기준입니다.
 
-현재 Stage 1~4 결과와 검색 후 상세 metadata hydrate가 완료되어 있다.
+| 단계 | 파일 또는 디렉터리 | 행 수 / 수량 | 설명 |
+|---|---|---:|---|
+| Stage 1 | `hf_models_stage1_core.jsonl` | 1,478 | `A_verified`, downloads ≥ 500 |
+| Stage 1 | `hf_models_stage1_low_popularity.jsonl` | 2,128 | `A_verified`, downloads 80~499 |
+| Stage 1 | `hf_models_stage1_likely.jsonl` | 2,100 | `B_likely`, downloads ≥ 80 |
+| Stage 1 | `hf_models_stage1_fallback.jsonl` | 14,244 | `C_fallback`, downloads ≥ 80 |
+| Stage 1 | `hf_models_stage1_groups.jsonl` | 8,552 | canonical/base-model과 variant grouping |
+| Stage 1 | `hf_models_stage1_state.json` | 1 | config, task 통계, watermark |
+| Stage 2 | `hf_models_stage2_core.jsonl` | 1,478 | 기술 metadata |
+| Stage 2 | `hf_models_stage2_low_popularity.jsonl` | 2,128 | 기술 metadata |
+| Stage 2 | `readmes/core/` | 1,474 | Core README snapshot |
+| Stage 2 | `readmes/low_popularity/` | 2,122 | Low Popularity README snapshot |
+| Stage 3 | `hf_models_stage3_core.jsonl` | 1,478 | semantic summary와 claim 근거 |
+| Stage 3 | `hf_models_stage3_low_popularity.jsonl` | 2,128 | semantic summary와 claim 근거 |
+| Stage 3 | `hf_models_stage3_parent_child_core.jsonl` | 1,478 | Core evidence index |
+| Stage 3 | `hf_models_stage3_parent_child_low_popularity.jsonl` | 2,128 | Low Popularity evidence index |
+| Stage 4 | `hf_models_stage4_core.jsonl` | 1,478 | 1,536차원 임베딩 문서 |
+| Stage 4 | `hf_models_stage4_low_popularity.jsonl` | 2,128 | 1,536차원 임베딩 문서 |
+| Stage 4 | `hf_models_stage4_manifest.json` | 1 | 버전, pool, embedding model/dimension |
 
-## Stage 1: Candidate Collection v7
+현재 추천 corpus는 총 3,606개입니다. 각 pool은 model ID 중복이 없고 Core와 Low Popularity 사이에도 중복을 허용하지 않습니다.
 
-Stage 1은 Hub metadata, model ID, structured language metadata와 deterministic rule만 사용한다. LLM이나 README 본문 해석은 사용하지 않는다.
+## Stage 1
 
-### Candidate ontology
+수집 대상은 다음 9개 pipeline tag입니다.
 
-| Tier | Type | 의미 |
-|---|---|---|
-| `A_verified` | `korean_explicit` | structured language metadata에 normalized `ko`가 존재 |
-| `A_verified` | `korean_translation_pair` | `ko-en`, `en-ko`, `ja-ko` 같은 명시적 번역 언어 pair |
-| `A_verified` | `korean_name_strong` | KoELECTRA, KoBERT, KLUE 등 보수적인 Korean-specific naming |
-| `B_likely` | `multilingual_explicit` | multilingual marker와 concrete language 2개 이상 |
-| `B_likely` | `multilingual_tag_only` | multilingual marker와 concrete language 0~1개 |
-| `C_fallback` | `family_heuristic` | 언어 metadata가 없고 known multilingual family만 일치 |
+`text-generation`, `feature-extraction`, `sentence-similarity`, `text-classification`, `question-answering`, `summarization`, `translation`, `image-text-to-text`, `automatic-speech-recognition`
 
-`Multilingual != Korean verified`이며, family heuristic도 한국어 지원을 보증하지 않는다. Core와 Low Popularity에는 `A_verified`만 들어간다.
+설정은 `MIN_DOWNLOADS=80`, `CORE_DOWNLOADS=500`, `LIMIT_PER_TASK=None`, `CUTOFF_CONFIRMATION=10`입니다. `A_verified`는 구조화된 한국어 metadata, 명시적 번역 pair, 보수적인 한국어 모델명 규칙으로 구성됩니다. 다국어 표기와 family heuristic은 한국어 지원을 확정하지 않으므로 Core/Low에 넣지 않습니다.
 
-### Stage 1 partition
+Stage 1은 API 빈 응답, cutoff 미확인, 급격한 snapshot 감소를 정상 완료로 처리하지 않습니다. 실패하면 이전 snapshot을 유지합니다. 체크포인트와 watermark는 다음 증분 수집의 기준입니다.
 
-| 파일 | 조건 | 현재 행 수 |
-|---|---|---:|
-| `hf_models_stage1_core.jsonl` | `A_verified` + downloads >= 500 | 1,451 |
-| `hf_models_stage1_low_popularity.jsonl` | `A_verified` + downloads 80~499 | 2,116 |
-| `hf_models_stage1_likely.jsonl` | `B_likely` + downloads >= 80 | 2,070 |
-| `hf_models_stage1_fallback.jsonl` | `C_fallback` + downloads >= 80 | 14,013 |
-| `hf_models_stage1_groups.jsonl` | 네 corpus union의 canonical/variant grouping | 8,472 |
-| `hf_models_stage1_state.json` | version 7, config 및 task 통계 | 1 |
+## Stage 2
 
-Popularity는 model quality가 아니라 offline retrieval priority다. Groups는 candidate confidence가 아니라 canonical/base-model과 quantized/converted variant lineage를 표현한다.
+Hub metadata, config, tokenizer config, artifact index, README를 사용해 다음 정보를 채웁니다.
 
-Stage 1 설정은 `MIN_DOWNLOADS=80`, `CORE_DOWNLOADS=500`, `LIMIT_PER_TASK=None`, `CUTOFF_CONFIRMATION=10`이며, 500 downloads는 Core에 포함된다.
+- task, language, architecture, artifact, license, base model
+- parameter count와 context length 및 각각의 source/confidence
+- quantization, model format, runtime compatibility
+- popularity와 Stage 1 candidate lineage
 
-## Stage 2: Technical Metadata Enrichment v6
+확인할 수 없는 값은 `null` 또는 `unknown`으로 남깁니다. `runtime_compatibility`는 CPU, CUDA, MPS, vLLM, ONNX, llama.cpp에 대해 문서·artifact에서 확인한 보조 신호이고, 실제 실행 성공을 의미하지 않습니다.
 
-Stage 2는 Core와 Low Popularity만 처리한다. Likely와 Fallback은 아직 enrichment하지 않는다. LLM을 사용하지 않고 Hugging Face current metadata, config, tokenizer config, README, model card metadata를 수집한다.
+## Stage 3
 
-| 파일 | 역할 |
-|---|---|
-| `hf_models_stage2_core.jsonl` | Core technical metadata, 1,451개 |
-| `hf_models_stage2_low_popularity.jsonl` | Low Popularity technical metadata, 2,116개 |
-| `readmes/core/` | Core README, 1,447개 |
-| `readmes/low_popularity/` | Low Popularity README, 2,110개 |
+`03_generate_semantic_metadata.py`가 README에서 atomic evidence를 만들고 semantic claim에 `evidence_refs`와 `supporting_quote`를 연결합니다. 긴 README는 별도 repair로 보강합니다.
 
-각 row는 Stage 1 snapshot을 `candidate`, `language.stage1`, `popularity.stage1`, `stage1_quality`에 보존한다. 현재 metadata는 `stage.source_stage1_version=7`, `stage.stage2_version=6`으로 기록된다.
+현재 원본 README snapshot의 잘림은 Core 7개, Low Popularity 12개입니다. 긴 README 보강은 Core 41개와 Low 84개에 수행했고, Stage 3 semantic repair 대상은 현재 0개입니다. README가 없는 모델은 Core 4개와 Low 6개이며 `no_source` metadata-only 상태로 유지합니다.
 
-`parameter_count`와 `context_length`가 `null`이면 0이 아니라 `unknown`이다. 각 row의 `model.metadata_status`에서 `known`과 `unknown`을 구분한다. 추천 필터가 해당 값을 요구할 때만 unknown을 제외하고, 일반 검색에서는 별도로 표시한다.
+`evidence_index.py`는 LLM을 다시 호출하지 않고 Parent section과 Child claim의 ID 관계를 생성합니다. 이 sidecar는 Supabase `model_scout_evidence`에도 적재할 수 있습니다.
 
-각 Stage 2 row에는 `runtime_compatibility`가 추가로 기록된다. 대상은 `cpu`, `cuda`, `mps`, `vllm`, `onnx`, `llama_cpp`이며 상태는 `documented`, `artifact_present`, `inferred`, `mentioned`, `documented_unsupported`, `unknown`으로 구분한다. 이는 README·artifact 기반의 보조 신호이며 실제 실행 성공을 의미하지 않는다. 실행 환경을 필수 조건으로 사용할 때는 `documented` 또는 `artifact_present`를 우선하고, `inferred`·`mentioned`는 참고용으로만 사용한다.
+## Stage 4
 
-기존 Supabase row에도 이 metadata만 반영해야 할 때는 전체 Stage 1~4를 다시 실행하지 않고 다음 metadata migration을 사용한다.
+`04_build_embeddings.py`는 Stage 3의 identity, task, language, technical metadata, runtime, popularity, semantic claims, benchmark projection을 하나의 `embedding_text`로 구성합니다. 기본 embedding model은 `text-embedding-3-small`이고 dimension은 1,536입니다.
 
-```bash
-python 08_sync_supabase.py --backfill-runtime --apply
-```
+기본 실행은 dry-run이며 API 호출은 `--execute`에서만 발생합니다. 증분 sync에서는 변경된 model ID만 처리하고, DB에 같은 `document_hash`와 embedding이 있으면 재사용합니다. Stage 4 vector는 Supabase pgvector가 운영 검색 저장소이고, 로컬 JSONL은 snapshot/재현 용도로 보관합니다.
 
-이 명령은 기존 embedding과 semantic metadata를 재생성하지 않고 `filter_metadata`와 `technical_metadata`의 runtime key만 보강한다.
+## Benchmark projection
 
-## Stage 3: Atomic Evidence Semantic Enrichment v1
+`06_extract_benchmark_metadata.py`는 README와 `model-index`에서 benchmark 이름, dataset, metric, split, 점수, quote를 보수적으로 추출합니다. 모델명과 점수의 연결이 불명확한 variant는 ranking에서 제외하고 `mentions` 또는 ambiguity 정보로 보존합니다. architecture, parameter, context, quantization 표는 benchmark 점수로 분류하지 않습니다.
 
-Stage 3는 Stage 2의 Core와 Low Popularity를 대상으로 저비용 LLM을 사용해 README에서 atomic evidence span을 만들고, 각 semantic claim에 `evidence_refs`와 정확한 `supporting_quote`를 붙인다. candidate tier와 popularity를 재분류하지 않는다.
+benchmark 상태와 변경 fingerprint는 증분 처리에 사용됩니다. 성공한 sync가 끝나면 일회성 delta 파일은 정리되며, 다음 변경 감지를 위해 작은 상태 파일만 남습니다.
 
-| 파일 | 역할 |
-|---|---|
-| `hf_models_stage3_core.jsonl` | Core semantic metadata, 1,451개 |
-| `hf_models_stage3_low_popularity.jsonl` | Low Popularity semantic metadata, 2,116개 |
+## Supabase 적재
 
-Core는 41개, Low는 84개의 긴 README를 full-readme repair로 보강했고, 현재 남은 잘림은 0개다. README 자체가 없는 모델은 Core 4개, Low 6개이며 `no_source`와 metadata-only 상태로 보존한다.
-
-Stage 3 검증 결과는 두 pool 모두 중복 0, invalid evidence reference 0, uncited claim 0, quote mismatch 0이다.
-
-## Stage 4: Embedding and Retrieval Index
-
-Stage 4 입력은 Stage 3 Core와 Low Popularity다. Likely와 Fallback은 이번 인덱스에서 제외한다.
-
-`04_build_embeddings.py`는 다음 문서를 만든다.
-
-```text
-identity, task, Korean evidence, languages,
-architecture, parameters, context length,
-quantization, artifacts, license, base model,
-hardware estimate, popularity,
-Stage 3 summary/strengths/limitations/use cases/benchmarks
-```
-
-검색은 다음 순서를 사용한다.
-
-```text
-hard filter → vector retrieval → evidence-aware rerank → canonical deduplication
-
-Hugging Face task metadata와 모델 identity가 충돌하면 `task_conflict`를 기록한다. 해당 모델을 삭제하지 않고 ranking penalty만 적용해 recall을 유지한다. 현재 Core 4개, Low Popularity 7개가 conflict signal을 갖고 있으며, 기존 임베딩을 재생성하지 않고 오프라인으로 추가했다.
-```
-
-벡터 유사도만으로 언어·라이선스·하드웨어 조건을 판단하지 않는다. unknown parameter/context는 0으로 변환하지 않는다.
-
-Stage 4 설계는 이 문서의 Stage 4 설명과 실행 코드에 반영되어 있다. 실행기는 기본적으로 dry-run이며, `--execute`를 명시할 때만 `text-embedding-3-small` API를 호출한다.
+운영 적재 대상은 Core와 Low Popularity의 모델 row 및 Parent–Child evidence입니다. Likely, Fallback, 원본 README 파일, pilot과 평가 report는 DB 적재 대상이 아닙니다.
 
 ```bash
-source ~/main/bin/activate
-python 04_build_embeddings.py --pool all --limit 10
-python 04_build_embeddings.py --pool all --limit 10 --execute
-```
-
-10개 stratified pilot은 `test/stage4_core_pilot.jsonl`과 `test/stage4_low_popularity_pilot.jsonl`에 임시로 기록된다. 전체 Stage 4 검증이 끝난 뒤에는 삭제해도 되며, task, candidate type, variant, evidence completeness, no_source를 섞어 선택한다.
-
-## Benchmark 보조 신호
-
-Stage 2 README snapshot의 benchmark 표와 `model-index` 수치는 `06_extract_benchmark_metadata.py`로
-추출한 뒤 `07_integrate_benchmark_metadata.py`로 Stage 4 row에 통합한다. 별도 benchmark
-sidecar는 최종 검색 corpus에 필요하지 않다.
-
-| 파일 | 역할 |
-|---|---|
-| `hf_models_stage4_core.jsonl`의 `benchmark_metadata` | Core benchmark 근거와 안전한 비교 가능 점수 |
-| `hf_models_stage4_low_popularity.jsonl`의 `benchmark_metadata` | Low Popularity benchmark 근거와 안전한 비교 가능 점수 |
-
-숫자 없이 benchmark 이름만 있는 경우는 `mentions`로 보존한다. 표의 모델 열과 점수 열이 연결되지 않거나 현재 row의 모델명이 확인되지 않으면 순위에 사용하지 않는다. architecture, parameter, context, quantization, format, embedding dimension 같은 metadata 표도 benchmark 점수로 취급하지 않는다. 양자화 변형은 보고된 모델명에 GGUF/GPTQ/AWQ/MLX/ONNX/bit 등의 표기가 함께 있을 때만 현재 artifact의 점수로 인정한다.
-
-숫자 점수는 질의가 dataset과 metric을 명시한 경우에만 동일한 `benchmark + dataset + metric + split + config`끼리 비교한다. README의 self-reported 수치는 실험 조건과 최신성을 보장하지 않으므로 보조 순위 신호로만 사용하며, task·한국어 근거·popularity·canonical 중복 제거를 대체하지 않는다.
-
-### Benchmark metadata 통합
-
-Benchmark 보조 정보는 `07_integrate_benchmark_metadata.py`로 Stage 4 각 row 안의 compact `benchmark_metadata` 필드에 통합한다. 검색기는 이 내장 필드를 우선 사용하므로 별도 benchmark sidecar 파일은 런타임에 필요하지 않다. 점수 없는 benchmark 이름은 `mentions`로 보존하고 ranking boost에는 사용하지 않는다. 원문 quote가 필요하면 row의 README 경로와 Stage 3 evidence를 함께 조회한다.
-## 검색 결과 상세 정보 연결
-
-Stage 4 row는 임베딩 검색과 필터링에 필요한 compact metadata를 보관한다. 검색 후에는
-`05_validate_retrieval.py`의 hydrate 함수가 `(source_pool, model_id)`를 키로 Stage 2와 Stage 3 row를
-hydrate한다.
-
-Hydrate 결과에는 다음 정보가 추가된다.
-
-- Stage 2 technical metadata: architecture, parameter count, context length, quantization, artifacts, license, hardware
-- Stage 3 semantic metadata: summary, strengths, limitations, use cases, warnings
-- claim별 `evidence_refs`, `supporting_quote`, README 경로와 content hash
-- Stage 1~3 provenance와 semantic status
-
-전체 README를 임베딩 결과에 중복 저장하지 않는다. 검색 순위는 Stage 4가 담당하고,
-상위 결과의 상세 설명과 근거는 Stage 2·3에서 정확히 조회한다.
-
-## Supabase 적재와 증분 TTL 갱신
-
-Supabase에는 추천 검색에 필요한 Core와 Low Popularity만 적재한다. Likely, Fallback, 원문
-README 파일, pilot 파일과 검증 리포트는 DB 적재 대상이 아니다. 적재 row에는 Stage 4
-1536차원 embedding, 검색용 compact metadata, Stage 2 technical metadata, Stage 3 semantic
-claims와 evidence span, benchmark metadata, 각 Stage version을 함께 보존한다.
-
-스키마와 적재기는 다음 파일에 있다.
-
-```text
-supabase_schema.sql
-08_sync_supabase.py
-```
-
-최초 1회만 현재 로컬 snapshot을 적재한다.
-
-```bash
+python 08_sync_supabase.py --ensure-schema
 python 08_sync_supabase.py --initial --apply
+MODEL_SCOUT_TTL_HOURS=24 python 08_sync_supabase.py --refresh --apply
 ```
 
-최초 적재 이후 전체 Hugging Face scan이나 전체 corpus 재적재는 허용하지 않는다. TTL이
-만료되면 마지막 성공 sync의 `source_watermark` 이후 `last_modified`가 바뀐 모델만
-Hugging Face task별로 검색한다. 변경된 모델만 Stage 2·3·4 resume 파이프라인을 통과하고,
-변경된 row만 Supabase에 upsert한다. 후보에서 탈락한 기존 모델은 `active=false`로
-비활성화한다.
+최초 적재 뒤에는 전체 snapshot을 다시 올리지 않습니다. 변경 모델만 Stage 2~4를 통과해 upsert하고, 후보에서 탈락한 row는 `active=false`로 비활성화합니다.
 
-```bash
-MODEL_SCOUT_TTL_HOURS=24 \
-python 08_sync_supabase.py --refresh --apply
-```
+## 보존 원칙
 
-`--force`를 붙여도 전체 갱신으로 바뀌지 않고, TTL만 무시한 증분 갱신을 수행한다.
-성공한 sync가 없으면 `--refresh`는 안전을 위해 중단되며 최초 적재를 자동으로 대신하지
-않는다.
-
-실제 자동 실행은 macOS launchd, cron, GitHub Actions 중 하나에서 증분 명령을 주기적으로
-호출하면 된다. 컴퓨터가 꺼져 있어도 실행해야 하면 저장소의
-`.github/workflows/model-scout-incremental.yml`을 사용한다. 이 workflow는 매시간 시작되지만
-worker의 24시간 TTL 때문에 실제 Hugging Face 탐색과 Stage 1~4 처리는 하루에 최대 한 번만
-수행한다. GitHub 저장소 Secrets에 `HF_TOKEN`, `OPENAI_API_KEY`,
-`SUPABASE_DB_HOST`, `SUPABASE_DB_PORT`, `SUPABASE_DB_NAME`, `SUPABASE_DB_USER`,
-`SUPABASE_PASSWORD`를 등록해야 한다. 실행 뒤 변경된 Stage 1~4 snapshot과 README 상태를
-commit해 다음 실행의 증분 기준으로 보존한다. 스크립트 자체는 TTL과 watermark를 Supabase에
-기록하므로 중복 실행 시 변경사항이 없으면 아무 row도 다시 처리하지 않는다.
-
-### Stage 4 vector storage
-
-Stage 4 vectors are generated temporarily on the automation runner and stored in Supabase
-pgvector. With `--db-cache`, existing vectors are reused by `model_id` and `document_hash`;
-only new or changed documents call the embedding API. The tracked
-`hf_models_stage4_manifest.json` records counts and versions without storing vector arrays.
-The existing Stage 4 JSONL snapshots remain a one-time backup until the DB-canonical flow has
-been verified.
-
-### Stage 1 수집 안전장치
-
-전체 재수집은 각 task의 정상 종료와 최소 관측량을 확인한 뒤 publish한다. 기존 partition이 100개 이상인 경우 새 결과가 기존의 50% 미만으로 줄면 API 장애나 필터 변경으로 간주해 publish를 중단하고 기존 snapshot을 유지한다. 증분 실행은 task별로 `API가 정상 관측되었는지`와 `watermark 이후 변경 모델이 있었는지`를 분리한다. 변경 모델이 0개인 정상적인 no-op 실행은 통과하며, API 관측 자체가 실패한 task가 있으면 snapshot을 갱신하지 않는다.
-## Stage 3 Parent-Child Evidence Index v1
-
-Stage 3 semantic 결과와 child 원문은 그대로 유지하고, relationship-only parent/child ID를 deterministic migration으로 추가한다. 검색과 생성에 사용할 parent section 원문은 별도 sidecar로 관리한다.
-
-```text
-Stage 4 model vector retrieval
-        ↓
-candidate model 내부 child evidence 검색
-        ↓
-parent section 문맥 + child 원문 인용 반환
-```
-
-| 파일 | 역할 |
-|---|---|
-| `hf_models_stage3_parent_child_core.jsonl` | Core 모델의 section parent와 atomic child evidence |
-| `hf_models_stage3_parent_child_low_popularity.jsonl` | Low Popularity 모델의 section parent와 atomic child evidence |
-| `hf_models_stage3_parent_child_manifest.json` | sidecar schema, source version, row·parent·child 통계 |
-
-Parent는 `heading_path` 단위의 section 원문이고, child는 Stage 3의 원자 evidence span이다. 각 child에는 `parent_id`, `child_id`, `content_type`, `routed_fields`, 원문 `text`가 저장된다. LLM claim이나 Stage 4 embedding을 복제하지 않으므로 Stage 1~4 원본 데이터와 독립적으로 재생성할 수 있다.
-
-`evidence_index.py`는 네트워크나 LLM을 사용하지 않는다. 기존 Stage 3 row에 관계 ID를 추가할 때는 다음 migration을 한 번 실행한다.
-
-```bash
-python evidence_index.py --migrate-stage3 --pool all --apply
-```
-
-이 migration은 child 원문이나 semantic claim을 다시 생성하지 않는다. 이후 sidecar는 다음 명령으로 원자적으로 재생성한다.
-
-```bash
-python evidence_index.py --pool all
-```
-
-검색 검증에서 선택적으로 evidence reranking을 켤 수 있다.
-
-```bash
-python 05_validate_retrieval.py --execute --evidence-rerank
-```
-
-기본 검색 동작은 변경되지 않는다. `--evidence-rerank`를 사용할 때만 기존 모델-level 점수에 child evidence lexical score를 작은 가중치로 더하고, 결과에 `evidence_hits`를 포함한다. 각 hit에는 parent section과 child 원문 quote가 함께 제공된다. 원문 quote는 LLM이 재생성하지 않고 저장된 child text를 그대로 사용한다.
-
-현재 sidecar는 별도 child embedding을 만들지 않는다. 따라서 추가 Stage 4 API 호출이 없으며, 필요하면 이후에 child-level dense index를 별도 A/B 테스트로 추가할 수 있다.
-
-
-### Supabase Parent–Child 저장
-
-Parent–Child sidecar는 `public.model_scout_evidence`에 모델당 한 행의 JSONB로 저장한다.
-모델 검색용 임베딩은 기존 `public.model_scout_models`에 계속 유지하고, evidence 테이블에는
-부모 section 원문과 child evidence, `source_stage3_hash`, 부모·자식 개수를 저장한다.
-모델 행과 evidence 행은 `model_id`로 연결되며, 재실행해도 upsert된다.
-
-기존 Stage 1~4를 다시 실행하지 않고 최초 적재하려면 다음 명령을 사용한다.
-
-```bash
-python 08_sync_supabase.py --backfill-evidence --apply
-```
-
-이 명령은 Core·Low의 sidecar만 적재하고 모델·임베딩 행은 수정하지 않는다. 이후 증분 동기화에서는
-변경된 모델의 sidecar도 함께 upsert된다. Supabase SQL Editor에서 적재 결과는 다음처럼 확인한다.
-
-```sql
-select source_pool,
-       count(*) as rows,
-       count(distinct model_id) as distinct_ids,
-       sum(parent_count) as parents,
-       sum(child_count) as children,
-       count(*) filter (where active = true) as active_rows
-from public.model_scout_evidence
-group by source_pool
-order by source_pool;
-```
-
-## 검색용 언어·번역 metadata
-
-Stage 4의 `filter_metadata`에는 `language_codes`, `translation_pairs`, `search_aliases`가 결정적으로 저장된다. 이는 Stage 1 candidate 분류를 바꾸지 않고 질의의 언어명과 모델 ID의 명시적 번역 방향을 Sparse 검색에서 매칭하기 위한 필드다. `translation_pairs`는 번역 계열 표지가 있는 모델 ID에서만 추출하며, 단순 `it-ko`처럼 모델명 약어와 충돌할 수 있는 패턴은 보수적으로 제외한다.
-
-검색 검증기는 `model_id`, 번역 방향, 언어·task, benchmark, 구조화 metadata, Stage 3 원문을 분리한 Fielded BM25를 사용한다. 기존 임베딩과 Stage 1~3 원본은 재생성하지 않아도 되며, 이미 생성된 Stage 4 JSONL은 다음 명령으로 검색 metadata만 보강할 수 있다.
-
-```bash
-python 04_build_embeddings.py --pool all --backfill-search-metadata
-```
-
-Supabase의 기존 모델 행은 다음 명령으로 JSONB 검색 metadata를 patch한다.
-
-```bash
-python 08_sync_supabase.py --backfill-search-metadata --apply
-```
-
-Supabase RPC에서는 PostgreSQL의 field-weighted `ts_rank_cd`를 사용한다. PostgreSQL 기본 기능만으로는 BM25가 제공되지 않으므로 로컬 검증기의 Fielded BM25와 동일한 필드 우선순위를 유지하는 호환 sparse 경로다. 정확한 BM25가 필요한 별도 검색엔진(OpenSearch 등)은 같은 `search_aliases`와 field boost 정책을 사용한다.
+- Stage 1~4 JSONL은 버전과 lineage 확인을 위해 보관합니다.
+- Stage 4 vector의 운영 검색은 Supabase를 사용합니다.
+- `hf_models_stage3_parent_child_manifest.json`은 evidence sidecar의 개수와 검증 결과를 설명합니다.
+- `.stage*`, benchmark delta, incremental ID queue와 같은 임시 파일은 성공한 sync 뒤 자동 정리 대상입니다.

@@ -1,4 +1,4 @@
-# 환경 변수 (토큰 등)
+# Environment secrets
 .env
 .env.local
 
@@ -9,19 +9,21 @@ __pycache__/
 venv/
 env/
 
-# 에디터 / OS
+# Editor and OS
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+
 # Supabase sync runtime log
 data/supabase_sync.log
-# Stage 4 vectors are generated on the runner and persisted in Supabase pgvector.
+
+# Stage 4 vectors are canonical in Supabase pgvector.
 data/hf_models_stage4_core.jsonl
 data/hf_models_stage4_low_popularity.jsonl
 data/hf_models_stage4_*_errors.jsonl
-# Benchmark sidecars are reproducible intermediate files; Stage 4 keeps only
-# the compact projection needed for search and ranking.
+
+# Reproducible benchmark intermediates and incremental queues.
 data/hf_models_benchmark_*.jsonl
 data/.stage4_delta_*.jsonl
 data/.stage4_*_delta_checkpoint.jsonl
@@ -32,8 +34,9 @@ data/.hf_models_benchmark_state_*.json
 data/.hf_models_benchmark_state_candidate.json
 data/.hf_models_benchmark_changed_ids_*.json
 
-# Local graphify analysis output.
-graphify-out/
+# Stage 1 resume checkpoints are transient and are not corpus snapshots.
+data/.stage1_v*_checkpoint/
 
-# Local Serena project metadata.
+# Local analysis and editor metadata.
+graphify-out/
 .serena/

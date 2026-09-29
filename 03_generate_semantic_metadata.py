@@ -387,7 +387,7 @@ def paths(pool: str) -> Tuple[Path, Path, Path]:
     return (DATA_DIR / f"hf_models_stage2_{pool}.jsonl", DATA_DIR / f"hf_models_stage3_{pool}.jsonl", DATA_DIR / f"hf_models_stage3_{pool}_errors.jsonl")
 
 
-def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> Dict[str, Any]:
+def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool, model_ids=None) -> Dict[str, Any]:
     input_path, output_path, error_path = paths(pool)
     source_rows = read_jsonl(input_path)
     source_ids = [row.get("model_id") for row in source_rows]
@@ -396,6 +396,8 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
 
     existing = {row.get("model_id"): row for row in read_jsonl(output_path)}
     rows = source_rows[:limit] if limit is not None else source_rows
+    if model_ids is not None:
+        rows = [row for row in rows if row.get("model_id") in model_ids]
     selected_ids = {row["model_id"] for row in rows}
     # Keep unselected rows for bounded test runs, but never carry a selected
     # row forward until it is confirmed reusable or regenerated successfully.
@@ -468,21 +470,32 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool) -> D
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pool", choices=(*SOURCE_POOLS, "all"), default="all")
-    parser.add_argument("--limit", type=int, default=None, help="Optional per-pool limit for a smoke test")
+    parser.add_argument("--limit", type=int, default=None, help="Optional per-pool limit smoke test")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--model", default=None)
+    parser.add_argument(
+        "--model-ids-file",
+        type=Path,
+        default=None,
+        help="Optional JSON list of model IDs to enrich; other rows are retained.",
+    )
     args = parser.parse_args()
     load_dotenv(ROOT / ".env")
     model = args.model or os.getenv("STAGE3_LLM_MODEL") or os.getenv("OPENAI_MODEL") or DEFAULT_MODEL
     if not args.dry_run and not os.getenv("OPENAI_API_KEY"):
-        raise SystemExit("OPENAI_API_KEY is required unless --dry-run is used")
+        raise SystemExit("OPENAI_API_KEY required; use --dry-run for a local test")
+    model_ids = None
+    if args.model_ids_file is not None:
+        value = json.loads(args.model_ids_file.read_text(encoding="utf-8"))
+        if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+            parser.error("--model-ids-file must contain a JSON list of model IDs")
+        model_ids = set(value)
     pools = SOURCE_POOLS if args.pool == "all" else (args.pool,)
-    summaries = [enrich_pool(pool, model, args.limit, args.dry_run) for pool in pools]
+    summaries = [enrich_pool(pool, model, args.limit, args.dry_run, model_ids=model_ids) for pool in pools]
     errors = sum(summary.get("errors", 0) for summary in summaries)
     if errors:
         raise RuntimeError(
-            f"Stage 3 failed for {errors} model(s); refusing to continue "
-            "with an incomplete semantic snapshot"
+            f"Stage 3 failed {errors} model(s); refusing to continue with an incomplete semantic snapshot"
         )
     print(json.dumps({"stage3_version": STAGE3_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))
     return 0

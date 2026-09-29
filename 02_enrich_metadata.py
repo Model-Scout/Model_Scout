@@ -2321,13 +2321,15 @@ def print_pool_stats(rows, source_pool, success, skipped, errors):
         print(f"[{source_pool}] {key}: {config[key]}")
 
 
-def process_pool(source_pool):
+def process_pool(source_pool, model_ids=None):
     config = POOL_CONFIGS[source_pool]
     if not config["input"].is_file():
         raise FileNotFoundError(f"[{source_pool}] Missing input: {config['input']}")
     all_source_rows = load_jsonl(config["input"])
     source_by_id = {row["model_id"]: row for row in all_source_rows}
     source_rows = all_source_rows if TEST_LIMIT is None else all_source_rows[:TEST_LIMIT]
+    if model_ids is not None:
+        source_rows = [row for row in source_rows if row.get("model_id") in model_ids]
     config["readme_dir"].mkdir(parents=True, exist_ok=True)
 
     # Keep compatible prior results outside TEST_LIMIT, too: a small run must not
@@ -2406,9 +2408,26 @@ def validate_source_pools():
 
 
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--model-ids-file",
+        type=Path,
+        default=None,
+        help="Optional JSON list of model IDs to enrich; other rows are retained.",
+    )
+    args = parser.parse_args()
+    model_ids = None
+    if args.model_ids_file is not None:
+        value = json.loads(args.model_ids_file.read_text(encoding="utf-8"))
+        if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+            parser.error("--model-ids-file must contain a JSON list of model IDs")
+        model_ids = set(value)
+
     validate_source_pools()
     for source_pool in SOURCE_POOLS:
-        process_pool(source_pool)
+        process_pool(source_pool, model_ids=model_ids)
 
 
 if __name__ == "__main__":

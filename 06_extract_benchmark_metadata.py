@@ -203,6 +203,16 @@ def process_pool(
         )
         stats["changed_count"] = len(changed_model_ids)
         stats["changed_ids_path"] = str(changed_ids_path)
+        # Keep the changed benchmark rows beside the canonical sidecar. The
+        # incremental sync can reuse this delta instead of parsing the same
+        # README files a second time with --model-ids-file.
+        delta_path = DATA_DIR / f".hf_models_benchmark_delta_{pool}.jsonl"
+        changed_set = set(changed_model_ids)
+        write_jsonl_atomic(
+            [row for row in output if row.get("model_id") in changed_set],
+            delta_path,
+        )
+        stats["delta_output"] = str(delta_path)
         state_path = DATA_DIR / f".hf_models_benchmark_state_{pool}.json"
         state_path.write_text(
             json.dumps(
