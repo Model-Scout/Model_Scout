@@ -5,14 +5,14 @@ Unlike evaluate_retrieval_golden.py (constraint gold set), this uses labeled
 model IDs from real model-selection cases, so it reports hit@k and MRR.
 
 Run the retrieval first:
-    python 05_validate_retrieval.py --execute --query-file test/golden/semantic_golden_queries.jsonl \
-        --report-json test/golden/semantic_golden_retrieval.json \
-        --report-md test/golden/semantic_golden_retrieval.md
+    python 05_validate_retrieval.py --execute --query-file test/golden/labels/semantic_golden_queries.jsonl \
+        --report-json test/golden/reports/semantic_golden_retrieval.json \
+        --report-md test/golden/reports/semantic_golden_retrieval.md
 then:
     python test/evaluate_semantic_golden.py
 Without an API key, run the BM25 baseline instead:
     python test/golden/run_bm25_golden.py
-    python test/evaluate_semantic_golden.py --report test/golden/semantic_golden_retrieval_bm25.json
+    python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_golden_retrieval_bm25.json
 
 Only `evaluable_now` queries are scored. `recall_check` and `blocked` queries
 are listed with whether their expected models are in the DB yet, so Stage 1
@@ -31,10 +31,10 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 GOLDEN_DIR = ROOT / "test" / "golden"
-QUERY_PATH = GOLDEN_DIR / "semantic_golden_queries.jsonl"
-REPORT_PATH = GOLDEN_DIR / "semantic_golden_retrieval.json"
-AUDIT_PATH = GOLDEN_DIR / "golden_audit.json"
-OUTPUT_STEM = GOLDEN_DIR / "semantic_golden_evaluation"
+QUERY_PATH = GOLDEN_DIR / "labels" / "semantic_golden_queries.jsonl"
+REPORT_PATH = GOLDEN_DIR / "reports" / "semantic_golden_retrieval.json"
+AUDIT_PATH = GOLDEN_DIR / "reports" / "golden_audit.json"
+OUTPUT_STEM = GOLDEN_DIR / "reports" / "semantic_golden_evaluation"
 STAGE2_PATHS = (
     ROOT / "data" / "hf_models_stage2_core.jsonl",
     ROOT / "data" / "hf_models_stage2_low_popularity.jsonl",
@@ -223,7 +223,7 @@ def render_markdown(summary: Dict[str, Any], scored: List[Dict[str, Any]], pendi
     lines = [
         "# Semantic 골든셋 평가",
         "",
-        "실제 모델 선정 사례(`test/golden/korean_model_selection_cases_*.jsonl`)에서 만든 정답 라벨로 검색 결과를 채점한다.",
+        "실제 모델 선정 사례(`test/golden/sources/`)에서 만든 정답 라벨로 검색 결과를 채점한다.",
         "`evaluable_now=true`인 질의만 점수에 포함하고, recall_check·blocked 질의는 정답 모델의 DB 포함 여부만 추적한다.",
         "",
         "## 요약",

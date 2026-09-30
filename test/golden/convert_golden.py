@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Convert case-based semantic golden labels into the retrieval query schema.
 
-Input is `golden_retrieval_queries_v2.jsonl` (neutral schema written from real
-model-selection cases). Output is `semantic_golden_queries.jsonl`, which
+Input is `labels/golden_queries.jsonl` (neutral schema written from real
+model-selection cases). Output is `labels/semantic_golden_queries.jsonl`, which
 `05_validate_retrieval.py --query-file` can run directly. Label fields are kept
 under `labels` so `test/evaluate_semantic_golden.py` can score the report.
 """
@@ -16,8 +16,8 @@ from typing import Any, Dict, List
 
 
 HERE = Path(__file__).resolve().parent
-SOURCE_PATH = HERE / "golden_retrieval_queries_v2.jsonl"
-OUTPUT_PATH = HERE / "semantic_golden_queries.jsonl"
+SOURCE_PATH = HERE / "labels" / "golden_queries.jsonl"
+OUTPUT_PATH = HERE / "labels" / "semantic_golden_queries.jsonl"
 
 ROUTING = {
     "semantic_capability": {"primary": "dense", "dense_bias": "high", "sparse_bias": "low", "metadata_filter": "hard"},

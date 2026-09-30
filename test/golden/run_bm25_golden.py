@@ -24,8 +24,8 @@ from typing import Any, Dict, List, Optional
 
 ROOT = Path(__file__).resolve().parents[2]
 GOLDEN_DIR = ROOT / "test" / "golden"
-QUERY_PATH = GOLDEN_DIR / "semantic_golden_queries.jsonl"
-REPORT_PATH = GOLDEN_DIR / "semantic_golden_retrieval_bm25.json"
+QUERY_PATH = GOLDEN_DIR / "labels" / "semantic_golden_queries.jsonl"
+REPORT_PATH = GOLDEN_DIR / "reports" / "semantic_golden_retrieval_bm25.json"
 
 
 def load_module(name: str, path: Path):

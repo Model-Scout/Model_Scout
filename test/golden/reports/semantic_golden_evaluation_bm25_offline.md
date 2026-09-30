@@ -1,6 +1,6 @@
 # Semantic 골든셋 평가
 
-실제 모델 선정 사례(`test/golden/korean_model_selection_cases_*.jsonl`)에서 만든 정답 라벨로 검색 결과를 채점한다.
+실제 모델 선정 사례(`test/golden/sources/`)에서 만든 정답 라벨로 검색 결과를 채점한다.
 `evaluable_now=true`인 질의만 점수에 포함하고, recall_check·blocked 질의는 정답 모델의 DB 포함 여부만 추적한다.
 
 ## 요약
@@ -39,7 +39,6 @@
 | 질의 | task | 등급 | 동작 | 통과 | 정답 순위 | 허용 순위 | 계열 순위 | 실패 원인 |
 |---|---|---|---|---|---:|---:|---:|---|
 | `sg_g002` | translation | B | recommend | ❌ | - | - | - | 정답 없음 |
-| `sg_g003` | translation | B | must_exclude_only | ✅ | - | - | - | - |
 | `sg_g004` | feature-extraction | B | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g005` | translation | A | recommend | ❌ | - | - | - | 정답 없음; 알려진 원인: nllb 3종 모두 DB parameter_count=unknown이라 '3GB VRAM 초과'로 3.3B를 걸러낼 수 없음. 이 질의가 must_exclude에서 실패하면 검색이 아니라 메타데이터 공백으로 기록. |
 | `sg_g006` | automatic-speech-recognition | B | recommend | ❌ | - | - | - | 정답 없음 |
@@ -47,11 +46,9 @@
 | `sg_g008` | automatic-speech-recognition | C | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g009` | summarization | B | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g010` | image-text-to-text | B | recommend | ✅ | 1 | 1 | 1 | - |
-| `sg_a001` | image-text-to-text | B | warn_on_oversize | ❌ | - | - | - | 크기 경고 누락 2개 |
 | `sg_g013` | feature-extraction | C | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g014` | text-classification | C | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g015` | text-generation | A | recommend | ❌ | - | - | - | 정답 없음 |
-| `sg_g016` | text-generation | A | must_exclude_only | ✅ | - | - | - | - |
 | `sg_g017` | text-generation | C | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g018` | automatic-speech-recognition | C | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g019` | automatic-speech-recognition | C | recommend | ❌ | - | - | - | 정답 없음 |
@@ -66,6 +63,9 @@
 | `sg_g028` | automatic-speech-recognition | B | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g029` | summarization | B | recommend | ❌ | - | - | - | 정답 없음 |
 | `sg_g030` | text-generation | B | must_exclude_only | ❌ | - | - | - | 비상업 라이선스: mradermacher/DataVortexS-10.7B-dpo-v1.10-GGUF, LDCC/LDCC-SOLAR-10.7B, TheBloke/SOLARC-MOE-10.7Bx4-GGUF |
+| `sg_g003` | translation | B | must_exclude_only | ✅ | - | - | - | - |
+| `sg_g016` | text-generation | A | must_exclude_only | ✅ | - | - | - | - |
+| `sg_a001` | image-text-to-text | B | warn_on_oversize | ❌ | - | - | - | 크기 경고 누락 2개 |
 
 ## 아직 채점하지 않는 질의
 

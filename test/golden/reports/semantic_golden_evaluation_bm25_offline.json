@@ -108,32 +108,6 @@
       "tier": "B"
     },
     {
-      "query_id": "sg_g003",
-      "label_type": "derived_counterfactual",
-      "task": "translation",
-      "expected_behavior": "must_exclude_only",
-      "passed": true,
-      "result_count": 5,
-      "expected_rank": null,
-      "acceptable_rank": null,
-      "family_rank": null,
-      "reciprocal_rank": 0.0,
-      "must_exclude_hits": [],
-      "license_violations": [],
-      "license_review_unflagged": [],
-      "needs_review_unflagged": [],
-      "oversize_unflagged": [],
-      "known_failure_cause": null,
-      "top_models": [
-        "geoffmunn/Qwen3-14B-f16",
-        "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
-        "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF",
-        "MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF",
-        "MaziyarPanahi/openbuddy-mistral-7b-v13-base-Mistral-7B-Instruct-v0.1-GGUF"
-      ],
-      "tier": "B"
-    },
-    {
       "query_id": "sg_g004",
       "label_type": "golden",
       "task": "feature-extraction",
@@ -321,41 +295,6 @@
       "tier": "B"
     },
     {
-      "query_id": "sg_a001",
-      "label_type": "abstention",
-      "task": "image-text-to-text",
-      "expected_behavior": "warn_on_oversize",
-      "passed": false,
-      "result_count": 5,
-      "expected_rank": null,
-      "acceptable_rank": null,
-      "family_rank": null,
-      "reciprocal_rank": 0.0,
-      "must_exclude_hits": [],
-      "license_violations": [],
-      "license_review_unflagged": [],
-      "needs_review_unflagged": [],
-      "oversize_unflagged": [
-        {
-          "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
-          "reason": "parameter_count_unknown"
-        },
-        {
-          "model_id": "MuXodious/LFM2-VL-3B-heretic-GGUF",
-          "reason": "parameter_count_unknown"
-        }
-      ],
-      "known_failure_cause": null,
-      "top_models": [
-        "LiquidAI/LFM2-VL-3B",
-        "skt/A.X-4.0-VL-Light",
-        "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
-        "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
-        "MuXodious/LFM2-VL-3B-heretic-GGUF"
-      ],
-      "tier": "B"
-    },
-    {
       "query_id": "sg_g013",
       "label_type": "golden",
       "task": "feature-extraction",
@@ -413,32 +352,6 @@
       "task": "text-generation",
       "expected_behavior": "recommend",
       "passed": false,
-      "result_count": 5,
-      "expected_rank": null,
-      "acceptable_rank": null,
-      "family_rank": null,
-      "reciprocal_rank": 0.0,
-      "must_exclude_hits": [],
-      "license_violations": [],
-      "license_review_unflagged": [],
-      "needs_review_unflagged": [],
-      "oversize_unflagged": [],
-      "known_failure_cause": null,
-      "top_models": [
-        "mradermacher/Archon-8B-GGUF",
-        "mradermacher/next-8b-GGUF",
-        "geoffmunn/Qwen3-8B-f16",
-        "kakaocorp/kanana-safeguard-8b",
-        "mradermacher/next2-0.8b-GGUF"
-      ],
-      "tier": "A"
-    },
-    {
-      "query_id": "sg_g016",
-      "label_type": "derived_counterfactual",
-      "task": "text-generation",
-      "expected_behavior": "must_exclude_only",
-      "passed": true,
       "result_count": 5,
       "expected_rank": null,
       "acceptable_rank": null,
@@ -830,6 +743,93 @@
         "LDCC/LDCC-SOLAR-10.7B",
         "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF",
         "TheBloke/SOLARC-MOE-10.7Bx4-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g003",
+      "label_type": "derived_counterfactual",
+      "task": "translation",
+      "expected_behavior": "must_exclude_only",
+      "passed": true,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "geoffmunn/Qwen3-14B-f16",
+        "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+        "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF",
+        "MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF",
+        "MaziyarPanahi/openbuddy-mistral-7b-v13-base-Mistral-7B-Instruct-v0.1-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g016",
+      "label_type": "derived_counterfactual",
+      "task": "text-generation",
+      "expected_behavior": "must_exclude_only",
+      "passed": true,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "mradermacher/Archon-8B-GGUF",
+        "mradermacher/next-8b-GGUF",
+        "geoffmunn/Qwen3-8B-f16",
+        "kakaocorp/kanana-safeguard-8b",
+        "mradermacher/next2-0.8b-GGUF"
+      ],
+      "tier": "A"
+    },
+    {
+      "query_id": "sg_a001",
+      "label_type": "abstention",
+      "task": "image-text-to-text",
+      "expected_behavior": "warn_on_oversize",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [
+        {
+          "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
+          "reason": "parameter_count_unknown"
+        },
+        {
+          "model_id": "MuXodious/LFM2-VL-3B-heretic-GGUF",
+          "reason": "parameter_count_unknown"
+        }
+      ],
+      "known_failure_cause": null,
+      "top_models": [
+        "LiquidAI/LFM2-VL-3B",
+        "skt/A.X-4.0-VL-Light",
+        "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
+        "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
+        "MuXodious/LFM2-VL-3B-heretic-GGUF"
       ],
       "tier": "B"
     }

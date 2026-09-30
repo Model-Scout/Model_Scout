@@ -27,13 +27,13 @@ from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[2]
 GOLDEN_DIR = ROOT / "test" / "golden"
-QUERY_PATH = GOLDEN_DIR / "semantic_golden_queries.jsonl"
+QUERY_PATH = GOLDEN_DIR / "labels" / "semantic_golden_queries.jsonl"
 CASE_PATHS = (
-    GOLDEN_DIR / "korean_model_selection_cases_v2.jsonl",
-    GOLDEN_DIR / "korean_model_selection_cases_round2.jsonl",
+    GOLDEN_DIR / "sources" / "korean_model_selection_cases_round1.jsonl",
+    GOLDEN_DIR / "sources" / "korean_model_selection_cases_round2.jsonl",
 )
-OUTPUT_JSON = GOLDEN_DIR / "golden_audit.json"
-OUTPUT_MD = GOLDEN_DIR / "golden_audit.md"
+OUTPUT_JSON = GOLDEN_DIR / "reports" / "golden_audit.json"
+OUTPUT_MD = GOLDEN_DIR / "reports" / "golden_audit.md"
 
 
 def load_module(name: str, path: Path):

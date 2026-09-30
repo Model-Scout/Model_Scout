@@ -1,22 +1,44 @@
 # Semantic 골든셋 (실제 모델 선정 사례 기반)
 
+> 데이터가 어디서 왔고 각 필드가 무엇인지는 [GOLDEN_SET.md](GOLDEN_SET.md)에 정리돼 있다.
+
 기존 [`retrieval_queries.jsonl`](../retrieval_queries.jsonl)은 조건(task·한국어·크기)만 검사하는 constraint 골든셋이다. 이 디렉터리는 **질의별 정답 모델 ID**를 붙인 semantic 골든셋이다. 정답은 실제 프로젝트·블로그·대회에서 한국어 모델을 고른 사례에서 가져왔다.
 
-## 파일
+## 폴더 구성
 
-| 파일 | 역할 |
-|---|---|
-| `korean_model_selection_cases_v2.jsonl` | 1차 원자료. 한국어 모델 선정 사례 32건 (`c001`~`c032`) |
-| `korean_model_selection_cases_round2.jsonl` | 2차 원자료. 추가 학습 없이 쓴 사례만 모은 25건 (`r2-a001` 등) |
-| `golden_retrieval_queries_v2.jsonl` | 사례에서 만든 질의 40개와 정답 라벨 (중립 스키마, 사람이 편집하는 원본) |
-| `convert_golden.py` | 원본을 `05_validate_retrieval.py`가 읽는 스키마로 변환 |
-| `semantic_golden_queries.jsonl` | 변환 결과. `--query-file`로 바로 실행 가능 |
-| `audit_golden.py` → `golden_audit.md` | 라벨 신뢰도 등급(A/B/C)과 DB 정합성 점검 |
-| `run_bm25_golden.py` → `semantic_golden_retrieval_bm25.json` | API 키 없이 로컬 BM25로 검색 |
-| `semantic_golden_evaluation_bm25_offline.md` | BM25 기준선 채점 결과 |
-| `stage1_recall_gaps.md` | 사례에서 뽑혔지만 DB에 없는 모델과 Stage 1 규칙 변경 제안 |
+```text
+test/golden/
+├── README.md                  이 문서
+├── GOLDEN_SET.md              골든셋 데이터 설명 (출처, 필드, 구성 통계, 한계)
+├── stage1_recall_gaps.md      DB에 없는 정답 모델과 Stage 1 규칙 변경 제안
+├── convert_golden.py          labels/golden_queries.jsonl → labels/semantic_golden_queries.jsonl
+├── audit_golden.py            라벨 점검 → reports/golden_audit.*
+├── run_bm25_golden.py         API 키 없이 BM25 검색 → reports/semantic_golden_retrieval_bm25.json
+├── sources/                   원자료 (웹 리서치 결과, 수정하지 않음)
+│   ├── korean_model_selection_cases_round1.jsonl   1차 사례 32건 (c001~c032)
+│   └── korean_model_selection_cases_round2.jsonl   2차 사례 25건 (r2-a001 등, 추가 학습 없이 쓴 사례)
+├── labels/                    골든셋
+│   ├── golden_queries.jsonl           질의 40개와 정답 라벨. 사람이 편집하는 유일한 원본
+│   └── semantic_golden_queries.jsonl  자동 생성. 05_validate_retrieval.py 실행 형식 (직접 수정 금지)
+└── reports/                   자동 생성 결과 (스크립트로 재생성)
+    ├── golden_audit.md / .json                        라벨 신뢰도 등급과 정합성 점검
+    ├── semantic_golden_retrieval_bm25.json            BM25 검색 결과
+    └── semantic_golden_evaluation_bm25_offline.md / .json   BM25 기준선 채점
+```
 
-라벨을 고칠 때는 `golden_retrieval_queries_v2.jsonl`을 수정하고 `convert_golden.py`를 다시 실행한다.
+라벨을 고칠 때는 `labels/golden_queries.jsonl`만 수정하고 `convert_golden.py` → `audit_golden.py` 순서로 다시 실행한다. vector 검색 결과(`semantic_golden_retrieval.json`)와 그 채점 결과도 `reports/`에 생긴다.
+
+### 질의 ID
+
+`golden_queries.jsonl`은 label_type 순서(golden → derived_counterfactual → abstention → blocked → recall_check)로, 같은 유형 안에서는 ID 순으로 정렬돼 있다. ID는 리포트·커밋과 연결돼 있어 바꾸지 않는다. 그래서 접두어가 현재 유형과 다를 수 있다. **유형은 항상 `label_type` 필드가 기준이다.**
+
+| 접두어 | 처음 만든 용도 | 현재 유형과 다른 것 |
+|---|---|---|
+| `g` | 사례 기반 질의 | g001은 blocked, g011·g012는 recall_check, g003·g016은 derived_counterfactual |
+| `r` | recall_check | - |
+| `a` | abstention (크기 경고) | - |
+
+사례 ID는 1차가 `c001`~`c032`, 2차가 `r2-` 접두어(`r2-a001`, `r2-b001`, `r2-c101` 등)다. 각 질의의 `source_case_id`로 원 사례를 찾는다.
 
 ## 실행
 
@@ -26,17 +48,17 @@ python test/golden/audit_golden.py            # 라벨 점검 (API 불필요)
 
 # 실제 서비스 검색(dense). OPENAI_API_KEY 필요, 질의 40개 임베딩
 python 05_validate_retrieval.py --execute \
-    --query-file test/golden/semantic_golden_queries.jsonl \
-    --report-json test/golden/semantic_golden_retrieval.json \
-    --report-md test/golden/semantic_golden_retrieval.md
+    --query-file test/golden/labels/semantic_golden_queries.jsonl \
+    --report-json test/golden/reports/semantic_golden_retrieval.json \
+    --report-md test/golden/reports/semantic_golden_retrieval.md
 python test/evaluate_semantic_golden.py
 
 # 키 없이 BM25 기준선 (수 분 소요)
 python test/golden/run_bm25_golden.py
-python test/evaluate_semantic_golden.py --report test/golden/semantic_golden_retrieval_bm25.json
+python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_golden_retrieval_bm25.json
 ```
 
-채점 결과는 검색 모드별로 `semantic_golden_evaluation*.md`와 `.json`에 기록된다. `--execute` 없이 `05_validate_retrieval.py`를 돌리는 `lexical_offline` 모드는 정수 점수 동점이 많아(동점이면 model_id 역순) 쓰지 않는다.
+채점 결과는 검색 모드별로 `reports/semantic_golden_evaluation*.md`와 `.json`에 기록된다. `--execute` 없이 `05_validate_retrieval.py`를 돌리는 `lexical_offline` 모드는 정수 점수 동점이 많아(동점이면 model_id 역순) 쓰지 않는다.
 
 ### BM25 기준선 결과 (2026-09-30)
 
@@ -80,7 +102,7 @@ python test/evaluate_semantic_golden.py --report test/golden/semantic_golden_ret
 
 전체 40개 중 지금 채점되는 질의는 28개(`evaluable_now=true`)다. 그중 recommend 24개, must_exclude_only 3개(g003, g016, g030), warn_on_oversize 1개(a001)다.
 
-채점 가능한 질의의 task 분포는 ASR 9 · text-generation 7 · 임베딩 4 · summarization 3 · translation 3 · image-text-to-text 2 · text-classification 1 · question-answering 0이다. 전체 점수보다 task별 표를 함께 본다.
+채점 가능한 질의의 task 분포는 ASR 9 · text-generation 6 · 임베딩 4 · summarization 3 · translation 3 · image-text-to-text 2 · text-classification 1 · question-answering 0이다. 전체 점수보다 task별 표를 함께 본다.
 
 ## 라벨 신뢰도
 

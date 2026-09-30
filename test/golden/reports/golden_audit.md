@@ -24,9 +24,7 @@ API 호출 없이 라벨의 출처 신뢰도와 DB 정합성을 점검한 결과
 
 | 질의 | 사례 | task | 채점 | 등급 | 도달 가능한 정답 | 주의 |
 |---|---|---|---|---|---:|---|
-| `sg_g001` | c001 | text-generation | - | B | 1 | - |
 | `sg_g002` | c022 | translation | ✅ | B | 2 | - |
-| `sg_g003` | c022 | translation | ✅ | B | 0 | 원 사례에 조건을 추가한 파생 질의 |
 | `sg_g004` | c005 | feature-extraction | ✅ | B | 1 | - |
 | `sg_g005` | c021 | translation | ✅ | A | 1 | - |
 | `sg_g006` | c024 | automatic-speech-recognition | ✅ | B | 1 | - |
@@ -34,18 +32,9 @@ API 호출 없이 라벨의 출처 신뢰도와 DB 정합성을 점검한 결과
 | `sg_g008` | c026 | automatic-speech-recognition | ✅ | C | 1 | 사례 원본이 아닌 변환본으로만 정답 도달; 정답 근거 원문 인용 없음 |
 | `sg_g009` | c018 | summarization | ✅ | B | 1 | 사례 원본이 아닌 변환본으로만 정답 도달 |
 | `sg_g010` | c032 | image-text-to-text | ✅ | B | 1 | - |
-| `sg_g011` | c002 | text-generation | - | B | 0 | - |
-| `sg_g012` | c027 | automatic-speech-recognition | - | B | 0 | - |
-| `sg_r001` | c004 | feature-extraction | - | B | 0 | must_exclude가 DB에 없어 검증이 공허함: sentence-transformers/all-MiniLM-L6-v2 |
-| `sg_r002` | c006 | feature-extraction | - | B | 0 | - |
-| `sg_r003` | c023 | translation | - | B | 0 | - |
-| `sg_r004` | c029 | image-text-to-text | - | A | 0 | - |
-| `sg_r005` | c031 | image-text-to-text | - | C | 0 | 정답 근거 원문 인용 없음 |
-| `sg_a001` | c030 | image-text-to-text | ✅ | B | 0 | - |
 | `sg_g013` | r2-a005 | feature-extraction | ✅ | C | 1 | 정답 근거 원문 인용 없음 |
 | `sg_g014` | r2-a006 | text-classification | ✅ | C | 1 | - |
 | `sg_g015` | r2-b004 | text-generation | ✅ | A | 4 | - |
-| `sg_g016` | r2-b004 | text-generation | ✅ | A | 0 | 원 사례에 조건을 추가한 파생 질의 |
 | `sg_g017` | r2-b005 | text-generation | ✅ | C | 1 | - |
 | `sg_g018` | r2-c105 | automatic-speech-recognition | ✅ | C | 1 | 정답 근거 원문 인용 없음 |
 | `sg_g019` | r2-c106 | automatic-speech-recognition | ✅ | C | 1 | - |
@@ -60,6 +49,17 @@ API 호출 없이 라벨의 출처 신뢰도와 DB 정합성을 점검한 결과
 | `sg_g028` | r2-c103 | automatic-speech-recognition | ✅ | B | 2 | 사례 원본이 아닌 변환본으로만 정답 도달 |
 | `sg_g029` | r2-b006 | summarization | ✅ | B | 1 | 사례 원본이 아닌 변환본으로만 정답 도달 |
 | `sg_g030` | r2-b002 | text-generation | ✅ | B | 0 | - |
+| `sg_g003` | c022 | translation | ✅ | B | 0 | 원 사례에 조건을 추가한 파생 질의 |
+| `sg_g016` | r2-b004 | text-generation | ✅ | A | 0 | 원 사례에 조건을 추가한 파생 질의 |
+| `sg_a001` | c030 | image-text-to-text | ✅ | B | 0 | - |
+| `sg_g001` | c001 | text-generation | - | B | 1 | - |
+| `sg_g011` | c002 | text-generation | - | B | 0 | - |
+| `sg_g012` | c027 | automatic-speech-recognition | - | B | 0 | - |
+| `sg_r001` | c004 | feature-extraction | - | B | 0 | must_exclude가 DB에 없어 검증이 공허함: sentence-transformers/all-MiniLM-L6-v2 |
+| `sg_r002` | c006 | feature-extraction | - | B | 0 | - |
+| `sg_r003` | c023 | translation | - | B | 0 | - |
+| `sg_r004` | c029 | image-text-to-text | - | A | 0 | - |
+| `sg_r005` | c031 | image-text-to-text | - | C | 0 | 정답 근거 원문 인용 없음 |
 | `sg_r006` | r2-a003 | text-classification | - | B | 0 | - |
 | `sg_r007` | r2-a004 | text-classification | - | C | 0 | - |
 | `sg_r008` | r2-b008 | summarization | - | C | 0 | - |

@@ -1,6 +1,6 @@
 # Stage 1 수집 누락 점검 목록
 
-작성 2026-09-26 · 근거: 한국어 모델 선정 사례 57건(`korean_model_selection_cases_v2.jsonl` 32건, `korean_model_selection_cases_round2.jsonl` 25건)과 Stage 1~2 데이터 대조 결과
+작성 2026-09-26 · 근거: 한국어 모델 선정 사례 57건(`sources/korean_model_selection_cases_round1.jsonl` 32건, `sources/korean_model_selection_cases_round2.jsonl` 25건)과 Stage 1~2 데이터 대조 결과
 
 ## 요약
 
@@ -69,4 +69,4 @@ GGUF만 있고 원본이 없으면 원본 카드의 라이선스·성능 근거�
 
 ## Recall 점검으로 쓰는 법
 
-`golden_retrieval_queries_v2.jsonl`에서 `label_type = "recall_check"`인 11개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base, bge-reranker-v2-m3-ko, Qwen3.6-35B-A3B)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `test/evaluate_semantic_golden.py` 리포트의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 채점에 포함한다.
+`labels/golden_queries.jsonl`에서 `label_type = "recall_check"`인 11개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base, bge-reranker-v2-m3-ko, Qwen3.6-35B-A3B)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `test/evaluate_semantic_golden.py` 리포트의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 채점에 포함한다.
