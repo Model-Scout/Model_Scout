@@ -2412,6 +2412,12 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--pool",
+        choices=(*SOURCE_POOLS, "all"),
+        default="all",
+        help="Source pool to enrich; all keeps both Core and Low Popularity.",
+    )
+    parser.add_argument(
         "--model-ids-file",
         type=Path,
         default=None,
@@ -2426,7 +2432,8 @@ def main():
         model_ids = set(value)
 
     validate_source_pools()
-    for source_pool in SOURCE_POOLS:
+    selected_pools = SOURCE_POOLS if args.pool == "all" else (args.pool,)
+    for source_pool in selected_pools:
         process_pool(source_pool, model_ids=model_ids)
 
 
