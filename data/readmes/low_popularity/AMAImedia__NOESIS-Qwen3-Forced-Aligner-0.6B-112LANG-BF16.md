@@ -165,7 +165,7 @@ Released as part of the **NOESIS Professional Multilingual Dubbing Automation Pl
 - **X (Twitter):** [@AMAImediacom](https://x.com/AMAImediacom)
 - **LinkedIn:** [Ilia Bolotnikov](https://www.linkedin.com/in/ilia-bolotnikov)
 - **Telegram:** [@AMAImediacom](https://t.me/AMAImediacom)
-- **NOESIS version:** v14.8 (Unified 112LANG)
+- **NOESIS version:** v14.8
 - **Release date:** 2026-05-20
 
 # Qwen3-ForcedAligner-0.6B (NOESIS bundle, 112LANG, Unified)

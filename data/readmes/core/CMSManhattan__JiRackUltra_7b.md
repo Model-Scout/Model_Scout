@@ -92,6 +92,10 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 - [CMSManhattan/JiRackPrecisionTokenizer](https://huggingface.co/CMSManhattan/JiRackPrecisionTokenizer)
     
 
+## Export to ONNX
+
+- ONNX guide https://huggingface.co/CMSManhattan/JiRackUltra_7b/blob/main/jirackultra_7b_onnx_export_guide.md
+
 ## Available Variants
 
 | Tag | Quant | Size | Approx. RAM | Description |

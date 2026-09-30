@@ -64,7 +64,9 @@ tags:
 8. [The 24GB Miracle: Full 256K Context Runs In VRAM!](#toc-08)
 9. [Recommended Configuration & Setup](#toc-09)
 10. [Recommended Generation Parameters (Tiel Coder Official)](#toc-10)
-11. [Optional Support](#toc-11)
+11. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
+12. [Hardened Agentic Chat Template & Reasoning Effort](#toc-chat-template)
+13. [Optional Support](#toc-11)
 
 # Tiel-Coder-35B-A3B APEX-I-MiniPlus-V2.1 GGUF
 ### *The Definitive Frontier MoE · Efficient System RAM Offload · Full 256K Context on 24GB Workstations*
@@ -78,15 +80,15 @@ tags:
 >
 > | Quantization Specification | File Size (Disk) | Memory Footprint (RAM/VRAM) | Average BPW | WikiText-2 Perplexity | Quality Tier Equivalent |
 > | :--- | :---: | :---: | :---: | :---: | :---: |
-> | **Unquantized BF16 Base** | 71.05 GB | 66.18 GiB | 16.00 BPW | ~7.46 (Reference) | Full precision baseline |
+> | **Unquantized BF16 Base** | 71.05 GB | 66.18 GiB | 16.00 BPW | approx. 7.46 (Reference) | Full precision baseline |
 > | **APEX-I-MiniPlus V2.1 (CURRENT)** | 15.23 GB | 14.18 GiB | 3.43 BPW | 7.5117 ± 0.20722 (ΔPPL +0.0517 / +0.69%) | Q5_K_L tier (bordering Q6_K) |
-> | **[APEX-I-NanoPlus](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-NanoPlus-GGUF)** | 12.55 GB | 11.69 GiB | ~2.93 BPW | 8.2842 ± 0.23432 (ΔPPL +0.8242 / +11.05%) | Solid Q4_K_M / Q4_K_L tier |
+> | **[APEX-I-NanoPlus](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-NanoPlus-GGUF)** | 12.55 GB | 11.69 GiB | approx. 2.93 BPW | 8.2842 ± 0.23432 (ΔPPL +0.8242 / +11.05%) | Solid Q4_K_M / Q4_K_L tier |
 >
-> **Prefer the ultra-compact Tiel-Coder edition?** [APEX-I-NanoPlus](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-NanoPlus-GGUF) compresses the same Tiel-Coder family down to **12.55 GB (~2.93 BPW)** for agile 16GB VRAM & RAM streaming at Solid Q4_K_M / Q4_K_L tier quality, while MiniPlus V2.1 retains the higher **15.23 GB (3.43 BPW)** Q5_K_L tier fidelity.
+> **Prefer the ultra-compact Tiel-Coder edition?** [APEX-I-NanoPlus](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-NanoPlus-GGUF) compresses the same Tiel-Coder family down to **12.55 GB (approx. 2.93 BPW)** for agile 16GB VRAM & RAM streaming at Solid Q4_K_M / Q4_K_L tier quality, while MiniPlus V2.1 retains the higher **15.23 GB (3.43 BPW)** Q5_K_L tier fidelity.
 >
 > **Routing:** all recipe-designated `gate_inp` and `gate_shexp` tensors remain in uncompressed `F32`, preserving zero routing drift.
 >
-> - **Q6_K-Bordering Tier in Language Fidelity:** WikiText-2 perplexity delta is exceptionally low (under +0.052 / < 0.7% vs. BF16), placing overall language representation at the boundary of a 28 GB `Q6_K` build within an agile ~15.23 GB footprint.
+> - **Q6_K-Bordering Tier in Language Fidelity:** WikiText-2 perplexity delta is exceptionally low (under +0.052 / < 0.7% vs. BF16), placing overall language representation at the boundary of a 28 GB `Q6_K` build within an agile approx. 15.23 GB footprint.
 > - **Q5_K_L Tier in MoE Foundation Knowledge:** All 120 shared expert tensors (`shexp`) across all 40 layers run in uncompressed `Q5_K`, keeping coding and reasoning domain knowledge intact across 100% of tokens.
 > - **Solid 4-to-5-bit Routing & Attention Armor:** Full quadratic attention in `Q4_K` and output head in `Q6_K` prevent token drift and formatting collapse.
 
@@ -301,6 +303,46 @@ Sampling metadata recorded from [Tiel-Coder-35B-A3B-GGUF-MTP](https://huggingfac
 > ### 🔍 Model Inherent Behavior vs. Quantization Fidelity Notice
 > Any behavioral nuances, stylistic tendencies, domain-specific habits, or zero-shot edge-case oversights **stem entirely from the original unquantized checkpoint weights and fine-tuning distribution, NOT from the APEX-I quantization process.**
 > Handcrafted APEX-I-MiniPlus strictly preserves mathematical tensor fidelity—keeping 100% of expert routing matrices (`gate_inp`) in uncompressed `F32` (zero router drift), armoring the token output head in `Q6_K`, and safeguarding attention gates in `Q8_0`. Empirical verification records the final GGUF perplexity at **7.5117 ± 0.20722**, a **ΔPPL +0.0517 (+0.69%)** versus the approx. **7.46** BF16 baseline.
+
+<a id="toc-coding-advisory"></a>
+<a id="coding-advisory"></a>
+> [!IMPORTANT]
+> ### CRITICAL ADVISORY FOR CODING WORKFLOWS: PREVENTING SYNTAX & TOKEN SWAPPING
+> In programming code, brackets (`{`, `}`), assignment operators (`=`), and indentation whitespace repeat constantly across multi-line structures.
+> 
+> **Common Issue:** Many local frontends (such as LM Studio defaults, Ollama, or web interfaces) ship with `repeat_penalty` set to `1.1` or `1.15`. While this prevents loops in creative prose, applying repeat penalties to code artificially penalizes necessary syntax tokens. When the logit of `{` drops, the model is forced to emit the next closest mathematical token (`=` or `[`), resulting in character swapping or dropped/doubled whitespace.
+> 
+> **Verified Upstream Behavior:** This self-correcting behavior (where the model notices the mistake in its thinking loop but repeats the substitution) is documented on official upstream base checkpoints and Q8 builds ([Ornith Discussion #34](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B/discussions/34) and [Discussion #22](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B-GGUF/discussions/22)). It is completely eliminated by proper sampling configuration:
+> 
+> 1. **Disable Repeat Penalties (Required for Code):**
+>    - `repeat_penalty: 1.0` (strictly disabled)
+>    - `presence_penalty: 0.0`
+>    - `frequency_penalty: 0.0`
+> 2. **Calibrate Samplers:**
+>    - `temperature: 0.60` (or `0.20` - `0.30` for strict, deterministic code syntax)
+>    - `min_p: 0.05` (prunes low-probability noise tokens effectively)
+>    - `top_p: 0.95`
+>    - `top_k: 20`
+> 3. **Native Jinja Formatting:** Always pass the `--jinja` flag so the tokenizer handles leading-space BPE tokens (` {` vs `{`, ` =` vs `=`) cleanly.
+
+<a id="toc-chat-template"></a>
+<a id="chat-template"></a>
+> [!TIP]
+> ### HARDENED AGENTIC CHAT TEMPLATE (JINJA)
+> An optimized `chat_template.jinja` is included at the root of this repository. It hardens agent workflows and multi-turn stability:
+> 
+> 1. **Native `reasoning_effort` Multi-Level Control:**
+>    - `low` / `minimal`: Keeps internal thinking concise and focused strictly on immediate execution steps to minimize latency in automated loops.
+>    - `medium` (default): Balanced, structured reasoning process with standard analytical depth.
+>    - `high` / `xhigh`: Guides the model to formulate a clear implementation plan upfront before generating code, avoiding circular self-doubt loops.
+>    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>`) when reasoning is disabled.
+> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
+> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+> 
+> **Usage with llama-server:**
+> ```bash
+> llama-server -m Model.gguf --chat-template-file chat_template.jinja --reasoning-effort medium
+> ```
 
 <a id="toc-11"></a>
 ## Optional Support

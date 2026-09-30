@@ -1823,19 +1823,24 @@ tags:
   - agent-security
   - ai-agent-security
   - llm-security
+  - ai-security
   - prompt-injection
+  - prompt-injection-detection
+  - indirect-prompt-injection
+  - indirect-prompt-injection-detection
   - guardrail
+  - prompt-attack
+  - prompt-classifier
   - security-detection
   - jailbreak-detection
   - injection-detection
-  - prompt-injection-detection
   - security
 
 ---
 
 # ModernGuard-1
 
-> TL;DR: A state-of-the-art multilingual prompt injection classifier achieving 96.3% F1 score with industry-leading 30ms latency, 20x faster than cloud alternatives, trained on a large corpus of attacks, capable of detecting both explicitly malicious prompts as well as data that contains injected inputs.
+> TL;DR: A state-of-the-art multilingual prompt injection classifier achieving 94.3% F1 score with industry-leading 30ms latency, 20x faster than cloud alternatives, trained on a large corpus of attacks, capable of detecting both explicitly malicious prompts as well as data that contains injected inputs.
 
 ModernGuard-1 is a state-of-the-art, cheaper and faster multilingual classifier designed by GuardionAI for real-time detection of prompt injections and jailbreak attempts. Built on the ModernBERT architecture, the model provides industry-leading latency for securing LLM-based applications across over 1,080 languages, making it one of the fastest and most linguistically diverse safety classifiers available.
 
@@ -1913,11 +1918,10 @@ ModernGuard-1 is optimized for production environments requiring sub-30ms overhe
 
 Comprehensive benchmark for prompt injection detection across languages (Jan 10, 2026)
 
-
-| Rank | Guardrail | Org | Overall F1 | English | Multilingual | FPR | FNR | Latency (ms) |
+| Rank | Guardrail | Org | Overall F1 | English | Multilingual | FPR | FNR | Avg Latency (ms) |
 |------|-----------|-----|------------|---------|--------------|-----|-----|--------------|
-| 1 | ModernGuard-1 | GuardionAI | 96.3% | 98.7% | 94.6% | 1.8% | 2.5% | 30ms (Quantized) |
-| 2 | ModernGuard-0 | GuardionAI | 86.3% | 88.1% | 84.6% | 11.2% | 15.8% | 128ms |
+| 1 | ModernGuard-1 (this model) | GuardionAI | 94.3% | 96.0% | 93.4% | 0.4% | 8.1% | 34ms |
+| 2 | ModernGuard-0 | GuardionAI | 86.3% | 88.1% | 84.6% | 11.2% | 15.8% | 36ms |
 | 3 | Prompt Shield | Azure | 43.0% | 93.5% | 27.9% | 3.2% | 8.9% | 169ms |
 | 4 | Model Armor | Google Cloud | 18.7% | 76.4% | 10.7% | 18.5% | 28.7% | 381ms |
 | 5 | Bedrock | AWS | 10.8% | 96.3% | 5.7% | 1.9% | 5.1% | 445ms |
@@ -2007,7 +2011,7 @@ Move beyond basic classification and secure the full context of your AI agents.
   title={ModernGuard: High-Throughput Multilingual Guardrails for Real-Time Detection of Prompt Injections and Jailbreaks},
   author={Sandroni, Rafael and others},
   journal={arXiv preprint},
-  year={2025},
+  year={2026},
   note={Model: guardion/ModernGuard-1}
 }
 ```

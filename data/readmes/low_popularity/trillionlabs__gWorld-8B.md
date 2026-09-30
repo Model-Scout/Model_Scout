@@ -5,9 +5,28 @@ language:
 license: apache-2.0
 pipeline_tag: image-text-to-text
 library_name: transformers
+base_model: Qwen/Qwen3-VL-8B-Instruct
+datasets:
+- trillionlabs/MWMBench
+tags:
+- gui-world-model
+- world-model
+- gui-agent
+- mobile-agent
+- android
+- html
+- code-generation
+- next-ui-prediction
+- arxiv:2602.01576
 ---
 
 # gWorld-8B 🌍📱 
+
+**gWorld** (GuiWorld) is an open-weight **GUI world model** for **mobile GUI agents**: a single vision-language model (8B / 32B) that predicts the **next screen** after a user action by generating **renderable HTML/web code** instead of pixels. First released February 2, 2026 by Trillion Labs; accepted to ICML 2026.
+
+[![ICML 2026](https://img.shields.io/badge/ICML-2026-2563eb)](https://trillionlabs-gworld.github.io/) [![arXiv](https://img.shields.io/badge/arXiv-2602.01576-b31b1b)](https://arxiv.org/abs/2602.01576)
+
+This is **gWorld-8B**. Paper: [Generative Visual Code Mobile World Models](https://huggingface.co/papers/2602.01576) (arxiv:2602.01576, ICML 2026). Benchmark: [MWMBench](https://huggingface.co/datasets/trillionlabs/MWMBench). Collection: [GuiWorld](https://huggingface.co/collections/trillionlabs/guiworld-697c3bf43a0df8172bbcd56d).
 
 
 <p align="center">
@@ -24,9 +43,8 @@ library_name: transformers
 
 </div>
 
-**gWorld-8B (GuiWorld) 🌍📱** is the first open-weight, single self-contained Vision-Language Model (VLM) specialized for visual mobile GUI world modeling. Unlike traditional visual world models that predict pixels directly, **gWorld-8B** predicts the **next GUI state as executable web code**. This approach ensures pixel-perfect text rendering and structurally accurate layouts, overcoming the hallucination and legibility issues common in pixel-generation models.
+gWorld-8B predicts the **next GUI state as executable web code** rather than pixels, which keeps text legible and layouts structurally accurate and avoids the hallucination and legibility issues common in pixel-generation models.
 
-This model was presented in the paper [Generative Visual Code Mobile World Models](https://huggingface.co/papers/2602.01576).
 
 <p align="center">
 <picture>
@@ -181,14 +199,12 @@ This model is licensed under the Apache License 2.0. For inquiries, please conta
 
 
 ## Citation
-```
-@misc{koh2026generativevisualcodemobile,
-      title={Generative Visual Code Mobile World Models},
-      author={Woosung Koh and Sungjun Han and Segyu Lee and Se-Young Yun and Jamin Shin},
-      year={2026},
-      eprint={2602.01576},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2602.01576},
+```bibtex
+@inproceedings{koh2026gworld,
+  title     = {Generative Visual Code Mobile World Models},
+  author    = {Koh, Woosung and Han, Sungjun and Lee, Segyu and Yun, Se-Young and Shin, Jamin},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2026},
+  note      = {arXiv:2602.01576}
 }
 ```

@@ -43,7 +43,9 @@ pipeline_tag: text-generation
 8. [The 24GB Miracle: Full 256K Context Runs In VRAM!](#toc-08)
 9. [Recommended Configuration & Setup](#toc-09)
 10. [Recommended Generation Parameters (Accio-Lab Official & Empirical)](#toc-10)
-11. [Optional Support](#toc-11)
+11. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
+12. [Hardened Agentic Chat Template & Reasoning Effort](#toc-chat-template)
+13. [Optional Support](#toc-11)
 
 # Occamy-1.0 APEX-I-MiniPlus-V2.1 GGUF
 ### *The Definitive Frontier MoE · Efficient System RAM Offload · Full 256K Context on 24GB Workstations*
@@ -63,16 +65,16 @@ pipeline_tag: text-generation
 >
 > | Quantization Specification | File Size (Disk) | Memory Footprint (RAM/VRAM) | Average BPW | WikiText-2 Perplexity | Quality Tier Equivalent |
 > | :--- | :---: | :---: | :---: | :---: | :---: |
-> | **Unquantized BF16 Base** | ~70.0 GB | ~65.2 GiB | 16.00 BPW | ~6.18 (Reference) | Full precision baseline |
+> | **Unquantized BF16 Base** | approx. 70.0 GB | approx. 65.2 GiB | 16.00 BPW | approx. 6.18 (Reference) | Full precision baseline |
 > | **APEX-I-MiniPlus V2.1 (CURRENT)** | 14.75 GB | 13.74 GiB | 3.40 BPW | 6.2432 ± 0.1622 (approx. ΔPPL +0.0632 / +1.02%) | Q5_K_M tier |
-> | **[APEX-I-NanoPlus](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF)** | 12.55 GB | 11.69 GiB | ~2.93 BPW | 6.1695 ± 0.15632 (within error bounds) | Solid Q4_K_M / Q4_K_L tier |
+> | **[APEX-I-NanoPlus](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF)** | 12.55 GB | 11.69 GiB | approx. 2.93 BPW | 6.1695 ± 0.15632 (within error bounds) | Solid Q4_K_M / Q4_K_L tier |
 >
-> **Prefer the ultra-compact Occamy edition?** [APEX-I-NanoPlus](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF) compresses the same Occamy family down to **12.55 GB (~2.93 BPW)** for extreme 16GB VRAM & RAM streaming at Solid Q4_K_M / Q4_K_L tier quality, while MiniPlus V2.1 retains the higher **14.75 GB (3.40 BPW)** Q5_K_M foundation precision.
+> **Prefer the ultra-compact Occamy edition?** [APEX-I-NanoPlus](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF) compresses the same Occamy family down to **12.55 GB (approx. 2.93 BPW)** for extreme 16GB VRAM & RAM streaming at Solid Q4_K_M / Q4_K_L tier quality, while MiniPlus V2.1 retains the higher **14.75 GB (3.40 BPW)** Q5_K_M foundation precision.
 >
 > **Routing:** all recipe-designated `gate_inp` and `gate_shexp` tensors remain in uncompressed `F32`, preserving zero routing drift.
 >
 > - **Q5_K_L / Bordering Q6_K in Output & Core Attention:** The token output head (`output.weight`) and full periodic attention projections are anchored in `Q6_K` and `Q4_K`, eliminating syntax breakdown.
-> - **Solid Q5_K_M Tier in Language Fidelity:** WikiText-2 perplexity preserves 5-bit precision (ΔPPL +0.0632 / +1.02% vs. BF16), matching the empirical fidelity of standard ~25 GB Q5_K_M builds within a ~14.75 GB footprint.
+> - **Solid Q5_K_M Tier in Language Fidelity:** WikiText-2 perplexity preserves 5-bit precision (ΔPPL +0.0632 / +1.02% vs. BF16), matching the empirical fidelity of standard approx. 25 GB Q5_K_M builds within a approx. 14.75 GB footprint.
 > - **Physical Q5_K Foundation Knowledge:** All 120 shared expert tensors (`shexp`) across all 40 layers remain in physical `Q5_K`, grounding common-sense reasoning across 100% of tokens.
 
 > [!WARNING]
@@ -298,6 +300,46 @@ Recommended sampling configuration tailored from [Accio-Lab](https://huggingface
 > [!TIP]
 > ### 💡 Developer Tip for Autonomous Coding & CI Agents (Import Discipline)
 > In third-party evaluations, reasoning and architectural code generation scored a remarkable 90%–93.3% resolution rate on multi-file SWE benchmarks. Any rare failures observed were not reasoning flaws, but occasional omitted standard library imports in zero-shot scripts (e.g. `from decimal import ROUND_HALF_UP` or `@dataclass`). When deploying in autonomous coding agents, include in your system prompt: *"Always declare complete, explicit import statements at the beginning of the file"* or pair with an automated linter (`ruff`).
+
+<a id="toc-coding-advisory"></a>
+<a id="coding-advisory"></a>
+> [!IMPORTANT]
+> ### CRITICAL ADVISORY FOR CODING WORKFLOWS: PREVENTING SYNTAX & TOKEN SWAPPING
+> In programming code, brackets (`{`, `}`), assignment operators (`=`), and indentation whitespace repeat constantly across multi-line structures.
+> 
+> **Common Issue:** Many local frontends (such as LM Studio defaults, Ollama, or web interfaces) ship with `repeat_penalty` set to `1.1` or `1.15`. While this prevents loops in creative prose, applying repeat penalties to code artificially penalizes necessary syntax tokens. When the logit of `{` drops, the model is forced to emit the next closest mathematical token (`=` or `[`), resulting in character swapping or dropped/doubled whitespace.
+> 
+> **Verified Upstream Behavior:** This self-correcting behavior (where the model notices the mistake in its thinking loop but repeats the substitution) is documented on official upstream base checkpoints and Q8 builds ([Ornith Discussion #34](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B/discussions/34) and [Discussion #22](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B-GGUF/discussions/22)). It is completely eliminated by proper sampling configuration:
+> 
+> 1. **Disable Repeat Penalties (Required for Code):**
+>    - `repeat_penalty: 1.0` (strictly disabled)
+>    - `presence_penalty: 0.0`
+>    - `frequency_penalty: 0.0`
+> 2. **Calibrate Samplers:**
+>    - `temperature: 0.60` (or `0.20` - `0.30` for strict, deterministic code syntax)
+>    - `min_p: 0.05` (prunes low-probability noise tokens effectively)
+>    - `top_p: 0.95`
+>    - `top_k: 20`
+> 3. **Native Jinja Formatting:** Always pass the `--jinja` flag so the tokenizer handles leading-space BPE tokens (` {` vs `{`, ` =` vs `=`) cleanly.
+
+<a id="toc-chat-template"></a>
+<a id="chat-template"></a>
+> [!TIP]
+> ### HARDENED AGENTIC CHAT TEMPLATE (JINJA)
+> An optimized `chat_template.jinja` is included at the root of this repository. It hardens agent workflows and multi-turn stability:
+> 
+> 1. **Native `reasoning_effort` Multi-Level Control:**
+>    - `low` / `minimal`: Keeps internal thinking concise and focused strictly on immediate execution steps to minimize latency in automated loops.
+>    - `medium` (default): Balanced, structured reasoning process with standard analytical depth.
+>    - `high` / `xhigh`: Guides the model to formulate a clear implementation plan upfront before generating code, avoiding circular self-doubt loops.
+>    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>`) when reasoning is disabled.
+> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
+> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+> 
+> **Usage with llama-server:**
+> ```bash
+> llama-server -m Model.gguf --chat-template-file chat_template.jinja --reasoning-effort medium
+> ```
 
 <a id="toc-11"></a>
 ## Optional Support

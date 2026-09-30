@@ -91,6 +91,10 @@ A fast and efficient ~1.5B model optimized for CPU inference. The model was refa
 - Advanced Tokenizer with  Robotics & Routing & Tool calls Tokenizer and other
 - [CMSManhattan/JiRackPrecisionTokenizer](https://huggingface.co/CMSManhattan/JiRackPrecisionTokenizer)
 
+## Export to ONNX
+
+- ONNX guide https://huggingface.co/CMSManhattan/JiRackUltra_1b/blob/main/jirackultra_1b_onnx_export_guide.md
+
 
 
 ## Available Variants

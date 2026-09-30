@@ -76,12 +76,12 @@ language:
 - my
 - ne
 - nl
-- "no"
+- 'no'
 - nso
 - ny
 - oc
 - om
-- "or"
+- or
 - pa
 - pl
 - ps
@@ -116,12 +116,11 @@ language:
 - yue
 - zu
 base_model:
-- tencent/Hy4-preview
-- AngelSlim/Hy4-preview-GGUF
+- deepseek-ai/DeepSeek-V4.1-Flash
 tags:
-- tencent
-- Hy4-preview
-- Hy4
+- DeepSeek-V4.1
+- DeepSeekV4.1
+- DeepSeek-V4.1-Flash
 ---
 
 <!-- apex-banner -->
@@ -150,7 +149,7 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 - **X (Twitter):** [@AMAImediacom](https://x.com/AMAImediacom)
 - **LinkedIn:** [Ilia Bolotnikov](https://www.linkedin.com/in/ilia-bolotnikov)
 - **Telegram:** [@djbionicl](https://t.me/djbionicl)
-- **Release date:** 2026-09-20
+- **Release date:** 2026-09-29
 
 ## AMAImedia
 

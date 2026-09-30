@@ -43,7 +43,9 @@ pipeline_tag: text-generation
 8. [The 24GB Miracle: Full 256K Context Runs In VRAM!](#toc-08)
 9. [Recommended Configuration & Setup](#toc-09)
 10. [Recommended Generation Parameters (Kwaipilot Official)](#toc-10)
-11. [Optional Support](#toc-11)
+11. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
+12. [Hardened Agentic Chat Template](#toc-chat-template)
+13. [Optional Support](#toc-11)
 
 # KAT-Coder-V2.5-Dev APEX-I-MiniPlus-V2.1 GGUF
 ### *The Definitive Frontier MoE · Efficient System RAM Offload · Full 256K Context on 24GB Workstations*
@@ -58,7 +60,7 @@ pipeline_tag: text-generation
 >
 > | Quantization Specification | File Size (Disk) | Memory Footprint (RAM/VRAM) | Average BPW | WikiText-2 Perplexity | Quality Tier Equivalent |
 > | :--- | :---: | :---: | :---: | :---: | :---: |
-> | **Unquantized BF16 Base** | ~70.0 GB | ~65.2 GiB | 16.00 BPW | ~5.44 (Reference) | Full precision baseline |
+> | **Unquantized BF16 Base** | approx. 70.0 GB | approx. 65.2 GiB | 16.00 BPW | approx. 5.44 (Reference) | Full precision baseline |
 > | **APEX-I-MiniPlus V2.1 (CURRENT)** | 14.75 GB | 13.74 GiB | 3.40 BPW | 5.5045 ± 0.1330 (approx. ΔPPL +0.0645 / +1.19%) | Q5_K_M tier |
 >
 > **Routing:** all recipe-designated `gate_inp` and `gate_shexp` tensors remain in uncompressed `F32`, preserving zero routing drift.
@@ -283,6 +285,42 @@ Official sampling hyperparameters specified by [Kwaipilot](https://huggingface.c
 > [!TIP]
 > ### 💡 Developer Tip for Autonomous Coding & CI Agents (Import Discipline)
 > In independent evaluations of the APEX-I-MiniPlus architecture (Occamy V2 reference), reasoning and code generation scored a remarkable 90%–93.3% resolution rate on multi-file SWE benchmarks. When deploying autonomous coding agents in production, best practices include specifying in your system prompt: *"Always declare complete, explicit import statements at the beginning of the file"* or pairing with an automated linter (`ruff`) to guarantee clean, zero-shot execution.
+
+<a id="toc-coding-advisory"></a>
+<a id="coding-advisory"></a>
+> [!IMPORTANT]
+> ### CRITICAL ADVISORY FOR CODING WORKFLOWS: PREVENTING SYNTAX & TOKEN SWAPPING
+> In programming code, brackets (`{`, `}`), assignment operators (`=`), and indentation whitespace repeat constantly across multi-line structures.
+> 
+> **Common Issue:** Many local frontends (such as LM Studio defaults, Ollama, or web interfaces) ship with `repeat_penalty` set to `1.1` or `1.15`. While this prevents loops in creative prose, applying repeat penalties to code artificially penalizes necessary syntax tokens. When the logit of `{` drops, the model is forced to emit the next closest mathematical token (`=` or `[`), resulting in character swapping or dropped/doubled whitespace.
+> 
+> **Verified Upstream Behavior:** This self-correcting behavior (where the model notices the mistake in its thinking loop but repeats the substitution) is documented on official upstream base checkpoints and Q8 builds ([Ornith Discussion #34](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B/discussions/34) and [Discussion #22](https://huggingface.co/ornith-ai/Ornith-1.5-35B-A3B-GGUF/discussions/22)). It is completely eliminated by proper sampling configuration:
+> 
+> 1. **Disable Repeat Penalties (Required for Code):**
+>    - `repeat_penalty: 1.0` (strictly disabled)
+>    - `presence_penalty: 0.0`
+>    - `frequency_penalty: 0.0`
+> 2. **Calibrate Samplers:**
+>    - `temperature: 0.60` (or `0.20` - `0.30` for strict, deterministic code syntax)
+>    - `min_p: 0.05` (prunes low-probability noise tokens effectively)
+>    - `top_p: 0.95`
+>    - `top_k: 20`
+> 3. **Native Jinja Formatting:** Always pass the `--jinja` flag so the tokenizer handles leading-space BPE tokens (` {` vs `{`, ` =` vs `=`) cleanly.
+
+<a id="toc-chat-template"></a>
+<a id="chat-template"></a>
+> [!TIP]
+> ### HARDENED AGENTIC CHAT TEMPLATE (JINJA)
+> An optimized `chat_template.jinja` is included at the root of this repository. It hardens agent workflows and multi-turn stability:
+> 
+> 1. **Binary Thinking Control:** Clean native toggle via `enable_thinking: true/false` preserving native model behavior.
+> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
+> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+> 
+> **Usage with llama-server:**
+> ```bash
+> llama-server -m Model.gguf --chat-template-file chat_template.jinja
+> ```
 
 <a id="toc-11"></a>
 ## Optional Support

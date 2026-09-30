@@ -13,6 +13,7 @@ tags:
 - typesafe
 - jevbench
 pipeline_tag: text-classification
+base_model_relation: finetune
 ---
 
 # Mica v0.1 4B

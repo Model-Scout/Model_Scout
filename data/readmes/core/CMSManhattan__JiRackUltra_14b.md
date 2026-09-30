@@ -92,6 +92,10 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 # JiRack RoboTech
 - Advanced Tokenizer with  Robotics & Routing & Tool calls Tokenizer and other
 - [CMSManhattan/JiRackPrecisionTokenizer](https://huggingface.co/CMSManhattan/JiRackPrecisionTokenizer)
+
+## Export to ONNX
+
+- ONNX guide https://huggingface.co/CMSManhattan/JiRackUltra_14b/blob/main/jirackultra_14b_onnx_export_guide.md
   
 ## Available Variants
 | Tag | Quant | Size | Approx. RAM | Description |
