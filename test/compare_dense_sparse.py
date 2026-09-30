@@ -26,7 +26,6 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 
-import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -214,6 +213,8 @@ def exact_keyword_hit(row: Mapping[str, Any], keywords: Sequence[str]) -> bool:
 
 
 def cosine_matrix_latency(rows: Sequence[Mapping[str, Any]], candidate_sets: Sequence[Sequence[int]]) -> List[float]:
+    import numpy as np  # only needed for the dense latency probe
+
     # float64 avoids an Accelerate/OpenBLAS float32 overflow warning on some
     # macOS Python builds even though the stored values are finite and small.
     vectors = np.asarray([row.get("embedding") or [] for row in rows], dtype=np.float64)
@@ -236,6 +237,8 @@ def cosine_matrix_latency(rows: Sequence[Mapping[str, Any]], candidate_sets: Seq
 
 
 def main() -> int:
+    import numpy as np  # FieldedBM25 is importable without numpy
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--query-file", type=Path, default=GOLDEN_QUERY_PATH)
     parser.add_argument("--dense-report", type=Path, default=DENSE_REPORT_PATH)

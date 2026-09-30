@@ -6,10 +6,14 @@
 
 | 파일 | 역할 |
 |---|---|
-| `korean_model_selection_cases_v2.jsonl` | 원자료. 한국어 모델 선정 사례 32건 (URL 확인 결과 `url_check`, 용도 `usage_label` 포함) |
-| `golden_retrieval_queries_v2.jsonl` | 사례에서 만든 질의 18개와 정답 라벨 (중립 스키마, 사람이 편집하는 원본) |
+| `korean_model_selection_cases_v2.jsonl` | 1차 원자료. 한국어 모델 선정 사례 32건 (`c001`~`c032`) |
+| `korean_model_selection_cases_round2.jsonl` | 2차 원자료. 추가 학습 없이 쓴 사례만 모은 25건 (`r2-a001` 등) |
+| `golden_retrieval_queries_v2.jsonl` | 사례에서 만든 질의 40개와 정답 라벨 (중립 스키마, 사람이 편집하는 원본) |
 | `convert_golden.py` | 원본을 `05_validate_retrieval.py`가 읽는 스키마로 변환 |
 | `semantic_golden_queries.jsonl` | 변환 결과. `--query-file`로 바로 실행 가능 |
+| `audit_golden.py` → `golden_audit.md` | 라벨 신뢰도 등급(A/B/C)과 DB 정합성 점검 |
+| `run_bm25_golden.py` → `semantic_golden_retrieval_bm25.json` | API 키 없이 로컬 BM25로 검색 |
+| `semantic_golden_evaluation_bm25_offline.md` | BM25 기준선 채점 결과 |
 | `stage1_recall_gaps.md` | 사례에서 뽑혔지만 DB에 없는 모델과 Stage 1 규칙 변경 제안 |
 
 라벨을 고칠 때는 `golden_retrieval_queries_v2.jsonl`을 수정하고 `convert_golden.py`를 다시 실행한다.
@@ -17,17 +21,31 @@
 ## 실행
 
 ```bash
-python test/golden/convert_golden.py
+python test/golden/convert_golden.py          # 라벨 원본 → 실행 스키마
+python test/golden/audit_golden.py            # 라벨 점검 (API 불필요)
+
+# 실제 서비스 검색(dense). OPENAI_API_KEY 필요, 질의 40개 임베딩
 python 05_validate_retrieval.py --execute \
     --query-file test/golden/semantic_golden_queries.jsonl \
     --report-json test/golden/semantic_golden_retrieval.json \
     --report-md test/golden/semantic_golden_retrieval.md
 python test/evaluate_semantic_golden.py
+
+# 키 없이 BM25 기준선 (수 분 소요)
+python test/golden/run_bm25_golden.py
+python test/evaluate_semantic_golden.py --report test/golden/semantic_golden_retrieval_bm25.json
 ```
 
-`--execute`는 질의 18개를 `text-embedding-3-small`로 임베딩하므로 `OPENAI_API_KEY`가 필요하다. `--execute` 없이 돌리는 `lexical_offline` 모드는 정수 점수 동점이 많아 순위를 믿을 수 없다(동점이면 model_id 역순). 파이프라인이 돌아가는지만 확인하는 용도로 쓴다.
+채점 결과는 검색 모드별로 `semantic_golden_evaluation*.md`와 `.json`에 기록된다. `--execute` 없이 `05_validate_retrieval.py`를 돌리는 `lexical_offline` 모드는 정수 점수 동점이 많아(동점이면 model_id 역순) 쓰지 않는다.
 
-결과는 `semantic_golden_evaluation.md`와 `.json`에 기록된다.
+### BM25 기준선 결과 (2026-09-30)
+
+채점 가능 28개 중 recommend 24개에서 hit@5는 1/24다. 이 수치는 dense 검색 성능을 뜻하지 않는다.
+
+- 질의는 한국어인데 Stage 4 문서는 대부분 영어 README라 BM25 토큰이 거의 겹치지 않는다. 형태소 분석도 없다.
+- 24개 모두 정답이 hard filter를 통과했다. 라벨과 필터는 맞물린다.
+- **11/24는 정답이 후보에 있었지만 canonical 중복 제거에서 사라졌다.** 같은 canonical을 가진 변환본·파인튜닝 모델이 먼저 오면 정답 행이 제거된다. 검색기 쪽 문제로 `stage1_recall_gaps.md`에 기록했다.
+- must_exclude 위반은 0/28이고, 상업 조건 질의 6개 중 1개(g030)에서 비상업 라이선스 모델이 top-5에 나왔다. 검색기에 라이선스 필터가 없기 때문이다.
 
 ## 라벨 필드
 
@@ -54,13 +72,29 @@ python test/evaluate_semantic_golden.py
 
 | label_type | 개수 | 질의 | 의미 |
 |---|---:|---|---|
-| `golden` | 8 | g002, g004~g010 | 지금 DB로 채점 가능 |
-| `derived_counterfactual` | 1 | g003 | g002 사례에 상업 조건만 추가한 파생 케이스. 실제 사례와 분리해서 보고 |
+| `golden` | 25 | g002, g004~g010, g013~g015, g017~g030 | 지금 DB로 채점 가능 |
+| `derived_counterfactual` | 2 | g003, g016 | 원 사례에 상업 조건만 추가한 파생 케이스. 실제 사례와 분리해서 보고 |
 | `abstention` | 1 | a001 | 정답 모델 없음, 크기 경고 여부만 채점 |
 | `blocked` | 1 | g001 | 정답 GGUF의 DB 라이선스가 `other`라 상업 조건에서 탈락. 원본 라이선스 역추적 전엔 통과 불가 |
-| `recall_check` | 7 | g011, g012, r001~r005 | 정답 모델이 DB에 없음. Stage 1 규칙 변경 후 통과 여부로 recall 개선 확인 |
+| `recall_check` | 11 | g011, g012, r001~r009 | 정답 모델이 DB에 없음. Stage 1 규칙 변경 후 통과 여부로 recall 개선 확인 |
 
-지금 채점되는 질의는 10개(`evaluable_now=true`)다.
+전체 40개 중 지금 채점되는 질의는 28개(`evaluable_now=true`)다. 그중 recommend 24개, must_exclude_only 3개(g003, g016, g030), warn_on_oversize 1개(a001)다.
+
+채점 가능한 질의의 task 분포는 ASR 9 · text-generation 7 · 임베딩 4 · summarization 3 · translation 3 · image-text-to-text 2 · text-classification 1 · question-answering 0이다. 전체 점수보다 task별 표를 함께 본다.
+
+## 라벨 신뢰도
+
+`audit_golden.py`가 질의마다 두 가지를 점검한다.
+
+1. **DB 정합성**: 정답이 검색기와 같은 hard filter를 통과하는지, must_exclude가 실제로 규칙을 위반하는지, 상업 조건 질의의 정답이 비상업 라이선스가 아닌지 본다. 하나라도 어긋나면 라벨 오류로 보고, 오류가 0이어야 점수를 믿는다. 현재 오류 0건.
+2. **근거 강도(등급)**: A는 사례 confidence high·원문 인용 있음·원본 모델이 그대로 정답. B는 medium이거나 변환본 매핑이 필요한 경우. C는 low(비교 없이 사용만 기록). 현재 채점 가능 28개가 A 3 · B 17 · C 8이다.
+
+채점 리포트는 등급별 표와 hit@k의 95% 부트스트랩 구간을 함께 보여 준다. 질의 수가 적어 구간이 넓으므로, 두 검색 방식의 차이가 구간 안이면 우열을 주장하지 않는다.
+
+점검이 보장하지 않는 것과 보완 방법:
+
+- **정답 누락(false negative)**: 사례에 없던 더 좋은 모델이 DB에 있으면 검색이 맞아도 오답이 된다. dense 결과가 나오면 틀린 질의의 top-5를 사람이 보고, 조건에 맞는 모델은 `acceptable`에 추가한다.
+- **라벨러 판단**: 사례를 질의로 옮긴 판단(조건 해석, 매핑)은 한 사람이 했다. 팀원 한 명이 질의 10개 정도를 원문과 대조해 조건·정답에 동의하는지 표시하고, 불일치 비율을 이 문서에 기록하면 라벨 일치도를 보고할 수 있다.
 
 ## 사례를 라벨로 옮길 때 내린 판단
 
@@ -70,10 +104,17 @@ python test/evaluate_semantic_golden.py
 - **c021**: 탈락 이유가 주로 번역 품질이고 선택 모델 NHNDQ의 라이선스(CC-BY-4.0 표기, 베이스는 CC-BY-NC)가 불확실해 라이선스 검증에는 쓰지 않았다.
 - **c002 (EEVE)**: 파인튜닝 없이 GGUF를 골라 쓴 사례라 포함했지만 정답이 DB에 없어 recall_check(g011)다.
 - GGUF만 DB에 있는 경우(g001, g009) 원본과 GGUF 변환본을 모두 `expected_any`에 넣었다.
+- **2차 사례**: 원본이 DB에 없으면 DB의 공식·주요 변환본(unsloth, bartowski, ThomasBaruzier, -hf 등)을 정답에 넣었다(g021~g029). abliterated·uncensored 파생 모델은 넣지 않았다.
+- **r2-b001**: Llama 3.1은 MAU 7억 초과 시에만 별도 계약이 필요한 라이선스라 must_exclude가 아니라 needs_review로 넣었다.
+- **r2-b004**: 작성자가 "상업적으로 쓰려면 답변 모델을 바꿔야 합니다"라고 적어 상업 조건 파생 질의(g016)를 만들었다.
+- **r2-b002**: 선택 모델 Qwen3의 크기가 미정이라 정답 없이 EXAONE 4.0 제외 여부만 채점한다(g030).
+- AUTUNE 이슈(NLI 모델 라이선스 탈락)는 최종안이 파인튜닝이라 넣지 않았다.
 
 ## 알려진 한계
 
 - 라이선스 판정은 채점용 임시 정책이다. apache-2.0·mit 등은 상업 허용, 이름에 `nc`가 들어가면 위반, `other`·gemma·llama·미기재는 `확인 필요`로 본다. `05_validate_retrieval.py`는 아직 라이선스와 VRAM으로 필터하지 않는다.
 - 검색 결과에 `확인 필요` 경고 필드가 아직 없어서, 경고가 필요한 모델이 top-k에 나오면 모두 경고 누락으로 집계된다.
 - 정답·허용 순위는 model_id 완전 일치만 센다. canonical_model_id는 선언된 base model을 따르기 때문에(예: `NCSOFT/VARCO-VISION-14B` → `Qwen/Qwen2.5-14B-Instruct`) 다른 파인튜닝 모델도 같은 계열로 묶인다. 계열 일치는 별도 열로만 보고한다.
-- 채점 가능한 질의가 10개라 통계적으로 작다. 상업 라이선스 조건이 있는 실제 사례도 2건뿐이다.
+- 채점 가능한 질의가 28개라 여전히 작고 task가 치우쳐 있다. question-answering은 0개다.
+- 상업 라이선스 조건이 있는 질의는 채점 가능 28개 중 6개다.
+- 변환본으로 매핑한 정답이 많다(B등급 대부분). 원본 역추적을 구현하면 정답을 원본 기준으로 다시 정리해야 한다.

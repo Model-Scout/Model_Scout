@@ -1,6 +1,6 @@
 # Stage 1 수집 누락 점검 목록
 
-작성 2026-09-26 · 근거: 한국어 모델 선정 사례 32건(`korean_model_selection_cases_v2.jsonl`)과 Stage 1~2 데이터 대조 결과
+작성 2026-09-26 · 근거: 한국어 모델 선정 사례 57건(`korean_model_selection_cases_v2.jsonl` 32건, `korean_model_selection_cases_round2.jsonl` 25건)과 Stage 1~2 데이터 대조 결과
 
 ## 요약
 
@@ -26,6 +26,11 @@
 | `batiai/batisay-ko-base` | c027 선택 | 수집 안 됨. 같은 회사 모델은 turbo만 Low Popularity에 있음 | 미확인. 가설: 다운로드 수 기준 미달 | 한국어 전용·Apache 2.0 모델은 인기 기준 완화 검토 |
 | `Systran/faster-whisper-small` | c026 선택(기본값) | Core ✅ | — | — |
 | `CohereLabs/aya-expanse-8b` | c022 선택 | Core ✅ (cc-by-nc-4.0) | — | — |
+| `Qwen/Qwen2.5-7B-Instruct`, `Qwen/Qwen2.5-1.5B-Instruct-GGUF` (원본·공식 GGUF) | r2-b001, r2-b003, r2-b007 | 수집 안 됨. unsloth·ThomasBaruzier 등 변환본만 Core | 미확인. 가장 널리 쓰이는 모델 중 하나라 우선 점검 | 원본 역추적 (B) |
+| `dragonkue/bge-reranker-v2-m3-ko` | r2-a003, r2-a004 | 수집 안 됨 | 미확인. 리랭커는 HF task가 text-ranking일 수 있어 수집 task 밖일 가능성 | text-ranking task 수집 여부 결정 |
+| `Qwen/Qwen3-ASR-1.7B` | r2-c101, r2-c107 | Fallback. 공식 `-hf` 버전은 Core | 원본 카드에 `ko` 태그 없음 | 다국어 승격 규칙 (A) |
+| `Qwen/Qwen3.6-35B-A3B` | r2-b008 | Fallback | 다국어, `ko` 태그 없음 | 다국어 승격 규칙 |
+| `mlx-community/*` 변환본 (whisper-large-v3-turbo, gemma-4-e4b-it-4bit) | r2-c102, r2-b006 | 수집 안 됨 | 미확인 | 원본이 있으면 변환본은 원본 추천의 실행 옵션으로 충분 |
 | klue/roberta-*, `beomi/KcELECTRA-base`, `monologg/koelectra-base-v3-discriminator` | c008~c014 등 | 수집 안 됨 | HF task가 fill-mask → 수집 대상 밖 | **수정 불필요**. 모두 파인튜닝 베이스 사례 |
 
 ## 규칙 변경 제안
@@ -60,8 +65,8 @@ GGUF만 있고 원본이 없으면 원본 카드의 라이선스·성능 근거�
 | GGUF 라이선스 `other` | `batiai/gemma-4-E4B-it-GGUF`, `batiai/gemma-4-E2B-it-GGUF` | 원본이 상업 허용이어도 변환본이 상업 조건 필터에서 탈락 (g001) | B안의 원본 역추적 시 라이선스도 원본에서 상속하고 `license_source = "base_model"`로 표시 |
 | parameter_count unknown | nllb-200 계열 3종 | VRAM·크기 조건으로 거를 수 없음 (g005) | safetensors 메타데이터나 파일 크기로 추정값 보강, `param_count_estimated = true` 표시 |
 | 파라미터 수와 모델명 불일치 | VARCO-VISION-14B의 실제 파라미터 15.2B | 모델명 기준으로 조건을 잡으면 탈락 | 크기 필터에 약 10% 허용 범위를 두거나, 사용자에게 실제 값 명시 |
-| canonical이 base model로 묶임 | `NCSOFT/VARCO-VISION-14B`의 canonical이 `Qwen/Qwen2.5-14B-Instruct` | `dedupe_canonical`이 서로 다른 파인튜닝 모델을 하나로 합쳐 후보가 사라질 수 있음 | 양자화·형식 변환(GGUF/AWQ/FP8 등)만 canonical로 묶고, 파인튜닝은 별도 모델로 유지 |
+| canonical이 base model로 묶임 | `NCSOFT/VARCO-VISION-14B`의 canonical이 `Qwen/Qwen2.5-14B-Instruct` | `dedupe_canonical`이 서로 다른 모델을 하나로 합쳐 후보가 사라짐. BM25 기준선에서 recommend 24개 중 **11개는 정답이 후보에 있었는데 같은 canonical의 다른 행이 먼저 와서 제거됨** (예: `openai/whisper-large-v3` 자리를 turbo 변환본이 차지) | 양자화·형식 변환(GGUF/AWQ/FP8 등)만 canonical로 묶고 파인튜닝은 별도 모델로 유지. 같은 canonical 안에서는 원본을 대표 행으로 우선 |
 
 ## Recall 점검으로 쓰는 법
 
-`golden_retrieval_queries_v2.jsonl`에서 `label_type = "recall_check"`인 7개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `test/evaluate_semantic_golden.py` 리포트의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 채점에 포함한다.
+`golden_retrieval_queries_v2.jsonl`에서 `label_type = "recall_check"`인 11개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base, bge-reranker-v2-m3-ko, Qwen3.6-35B-A3B)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `test/evaluate_semantic_golden.py` 리포트의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 채점에 포함한다.

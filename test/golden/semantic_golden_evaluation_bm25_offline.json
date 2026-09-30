@@ -1,0 +1,964 @@
+{
+  "summary": {
+    "mode": "bm25_offline",
+    "top_k": 5,
+    "scored_queries": 28,
+    "passed": 3,
+    "hit_at_k": "1/24",
+    "acceptable_hit_at_k": "1/24",
+    "hit_at_k_ci95": [
+      0.0,
+      0.125
+    ],
+    "family_hit_at_k": "1/24",
+    "mrr": 0.0417,
+    "must_exclude_violation_queries": "0/28",
+    "license_violation_queries": "1/6",
+    "pending_queries": 12,
+    "by_tier": [
+      {
+        "tier": "A",
+        "queries": 2,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "tier": "B",
+        "queries": 14,
+        "hit": 1,
+        "acceptable_hit": 1
+      },
+      {
+        "tier": "C",
+        "queries": 8,
+        "hit": 0,
+        "acceptable_hit": 0
+      }
+    ],
+    "by_task": [
+      {
+        "task": "automatic-speech-recognition",
+        "queries": 9,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "task": "feature-extraction",
+        "queries": 4,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "task": "image-text-to-text",
+        "queries": 1,
+        "hit": 1,
+        "acceptable_hit": 1
+      },
+      {
+        "task": "summarization",
+        "queries": 3,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "task": "text-classification",
+        "queries": 1,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "task": "text-generation",
+        "queries": 4,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "task": "translation",
+        "queries": 2,
+        "hit": 0,
+        "acceptable_hit": 0
+      }
+    ]
+  },
+  "scored": [
+    {
+      "query_id": "sg_g002",
+      "label_type": "golden",
+      "task": "translation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "geoffmunn/Qwen3-14B-f16",
+        "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+        "lunar1020/EXAONE-ExaDialogue-2.4B",
+        "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+        "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g003",
+      "label_type": "derived_counterfactual",
+      "task": "translation",
+      "expected_behavior": "must_exclude_only",
+      "passed": true,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "geoffmunn/Qwen3-14B-f16",
+        "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+        "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF",
+        "MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF",
+        "MaziyarPanahi/openbuddy-mistral-7b-v13-base-Mistral-7B-Instruct-v0.1-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g004",
+      "label_type": "golden",
+      "task": "feature-extraction",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "ysmeta/EVE-Embed-1.1-Legal",
+        "litert-community/LFM2.5-ColBERT-350M",
+        "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+        "BM-K/KoSimCSE-Unsup-BERT",
+        "BM-K/KoSimCSE-Unsup-RoBERTa"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g005",
+      "label_type": "golden",
+      "task": "translation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": "nllb 3종 모두 DB parameter_count=unknown이라 '3GB VRAM 초과'로 3.3B를 걸러낼 수 없음. 이 질의가 must_exclude에서 실패하면 검색이 아니라 메타데이터 공백으로 기록.",
+      "top_models": [
+        "TheBloke/TowerInstruct-7B-v0.1-GGUF",
+        "quickmt/quickmt-en-ko",
+        "litert-community/Hy-MT2-1.8B",
+        "Xenova/opus-mt-ko-en",
+        "jhk/opus-mt-tc-big-wiki-en-ko"
+      ],
+      "tier": "A"
+    },
+    {
+      "query_id": "sg_g006",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [
+        "cstr/sensevoice-small-GGUF",
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2",
+        "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit"
+      ],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "cstr/sensevoice-small-GGUF",
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2",
+        "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+        "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g007",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+        "suryatmodulus/VibeVoice-ASR-BitNet",
+        "microsoft/VibeVoice-ASR-BitNet",
+        "aufklarer/Qwen3-ASR-CoreML",
+        "ngoctham/VibeVoice-ASR-BitNet"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g008",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2",
+        "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+        "suryatmodulus/VibeVoice-ASR-BitNet",
+        "microsoft/VibeVoice-ASR-BitNet"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g009",
+      "label_type": "golden",
+      "task": "summarization",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "0ppxnhximxr/Motif-3-FP8",
+        "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+        "0xWhiteMage/Qwen3.8-27B-Kearuga",
+        "0xzknw/Granite-4.2-3B-Heretic-NX-PRIME-GGUF",
+        "0xzknw/LFM2.5-1.2B-Thinking-Heretic"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g010",
+      "label_type": "golden",
+      "task": "image-text-to-text",
+      "expected_behavior": "recommend",
+      "passed": true,
+      "result_count": 5,
+      "expected_rank": 1,
+      "acceptable_rank": 1,
+      "family_rank": 1,
+      "reciprocal_rank": 1.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "NCSOFT/VARCO-VISION-14B",
+        "EnlistedGhost/Ministral-3-14B-Instruct-2512-GGUF",
+        "EnlistedGhost/Ministral-3-14B-Reasoning-2512-GGUF",
+        "NCSOFT/VARCO-VISION-2.0-14B",
+        "MuXodious/Ministral-3-14B-Instruct-2512-absolute-heresy"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_a001",
+      "label_type": "abstention",
+      "task": "image-text-to-text",
+      "expected_behavior": "warn_on_oversize",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [
+        {
+          "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
+          "reason": "parameter_count_unknown"
+        },
+        {
+          "model_id": "MuXodious/LFM2-VL-3B-heretic-GGUF",
+          "reason": "parameter_count_unknown"
+        }
+      ],
+      "known_failure_cause": null,
+      "top_models": [
+        "LiquidAI/LFM2-VL-3B",
+        "skt/A.X-4.0-VL-Light",
+        "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
+        "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
+        "MuXodious/LFM2-VL-3B-heretic-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g013",
+      "label_type": "golden",
+      "task": "feature-extraction",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "litert-community/LFM2.5-ColBERT-350M",
+        "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+        "BM-K/KoSimCSE-Unsup-BERT",
+        "BM-K/KoSimCSE-Unsup-RoBERTa",
+        "Baragi-AI/Munche-768"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g014",
+      "label_type": "golden",
+      "task": "text-classification",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "solbi12/ecommers_fasion_fine_tuned_3class_model",
+        "BalaRajesh1/mmbert-small-nli",
+        "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+        "DataWizardd/finbert-sentiment-ko",
+        "Dongjin-kr/ko-reranker"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g015",
+      "label_type": "golden",
+      "task": "text-generation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "mradermacher/Archon-8B-GGUF",
+        "mradermacher/next-8b-GGUF",
+        "geoffmunn/Qwen3-8B-f16",
+        "kakaocorp/kanana-safeguard-8b",
+        "mradermacher/next2-0.8b-GGUF"
+      ],
+      "tier": "A"
+    },
+    {
+      "query_id": "sg_g016",
+      "label_type": "derived_counterfactual",
+      "task": "text-generation",
+      "expected_behavior": "must_exclude_only",
+      "passed": true,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "mradermacher/Archon-8B-GGUF",
+        "mradermacher/next-8b-GGUF",
+        "geoffmunn/Qwen3-8B-f16",
+        "kakaocorp/kanana-safeguard-8b",
+        "mradermacher/next2-0.8b-GGUF"
+      ],
+      "tier": "A"
+    },
+    {
+      "query_id": "sg_g017",
+      "label_type": "golden",
+      "task": "text-generation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "geoffmunn/Qwen3-14B-f16",
+        "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+        "gabriellarson/Devstral-Small-2507-GGUF",
+        "compute1/Agents-A1-GPTQ-INT4-Sym",
+        "unsloth/Devstral-Small-2507"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g018",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+        "suryatmodulus/VibeVoice-ASR-BitNet",
+        "microsoft/VibeVoice-ASR-BitNet",
+        "aufklarer/Qwen3-ASR-CoreML",
+        "ngoctham/VibeVoice-ASR-BitNet"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g019",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+        "suryatmodulus/VibeVoice-ASR-BitNet",
+        "microsoft/VibeVoice-ASR-BitNet",
+        "aufklarer/Qwen3-ASR-CoreML",
+        "ngoctham/VibeVoice-ASR-BitNet"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g020",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2",
+        "17slever17/Qwen3-ForcedAligner-Ultra",
+        "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+        "AMAImedia/NOESIS-Whisper3-1.6B-Large-Turbo-Darwin-99LANG-BF16"
+      ],
+      "tier": "C"
+    },
+    {
+      "query_id": "sg_g021",
+      "label_type": "golden",
+      "task": "text-generation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [
+        "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2",
+        "LiquidAI/LFM2.5-2.6B-ONNX"
+      ],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-gguf",
+        "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+        "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2",
+        "LiquidAI/LFM2.5-2.6B-ONNX"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g022",
+      "label_type": "golden",
+      "task": "text-generation",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "OrionStarAI/Orion-14B-Chat-RAG",
+        "LiquidAI/LFM2-1.2B-RAG-GGUF",
+        "LiquidAI/LFM2-1.2B-RAG",
+        "CohereLabs/c4ai-command-r7b-arabic-02-2025",
+        "OpenVINO/Phi-4-mini-instruct-int8-ov"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g023",
+      "label_type": "golden",
+      "task": "summarization",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "intrect/VELA",
+        "maywell/Jolteon-Instruct-13B-alpha",
+        "0ppxnhximxr/Motif-3-FP8",
+        "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+        "0xWhiteMage/Qwen3.8-27B-Kearuga"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g024",
+      "label_type": "golden",
+      "task": "feature-extraction",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "0xnu/pmmlv2-fine-tuned-flemish",
+        "0xnu/pmmlv2-fine-tuned-hausa",
+        "0xnu/pmmlv2-fine-tuned-igbo",
+        "0xnu/pmmlv2-fine-tuned-yoruba",
+        "78ResearchLab/PurpleHound-Embed-v1"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g025",
+      "label_type": "golden",
+      "task": "feature-extraction",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "sorryhyun/sentence-embedding-klue-large",
+        "hunkim/sentence-transformers-klue-bert-base",
+        "sentence-transformers/LaBSE",
+        "hunkim/sentence-transformer-klue",
+        "keithtwesigye/lunyoro-sentence-embeddings"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g026",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [
+        "moonshine-ai/moonshine-base-ko",
+        "moonshine-ai/moonshine-tiny-ko"
+      ],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "moonshine-ai/moonshine-base-ko",
+        "moonshine-ai/moonshine-tiny-ko",
+        "Infomaniak-AI/faster-whisper-large-v3-turbo",
+        "loom-ai-org/whisper-small-loom",
+        "huihui-ai/Phi-4-multimodal-instruct-abliterated"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g027",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "cstr/sensevoice-small-GGUF",
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2",
+        "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+        "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g028",
+      "label_type": "golden",
+      "task": "automatic-speech-recognition",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "17slever17/Qwen3-ForcedAligner-Ultra",
+        "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+        "AMAImedia/NOESIS-Whisper3-1.6B-Large-Turbo-Darwin-99LANG-BF16",
+        "Aliados/nemotron-3.5-asr-streaming-0.6b",
+        "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g029",
+      "label_type": "golden",
+      "task": "summarization",
+      "expected_behavior": "recommend",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "hymmmm/exaone-3.5-7.8b-emt-awq",
+        "choonok/VetJarvis-1.1-4B-Instruct-GGUF",
+        "geoffmunn/Qwen3-Coder-30B-A3B-Instruct-f16",
+        "sjmoon21/SJ-ko",
+        "FreedomAISVR/Qwen3.6-35B-A3B-MXFP4-MOE-NoMTP-GGUF"
+      ],
+      "tier": "B"
+    },
+    {
+      "query_id": "sg_g030",
+      "label_type": "golden",
+      "task": "text-generation",
+      "expected_behavior": "must_exclude_only",
+      "passed": false,
+      "result_count": 5,
+      "expected_rank": null,
+      "acceptable_rank": null,
+      "family_rank": null,
+      "reciprocal_rank": 0.0,
+      "must_exclude_hits": [],
+      "license_violations": [
+        "mradermacher/DataVortexS-10.7B-dpo-v1.10-GGUF",
+        "LDCC/LDCC-SOLAR-10.7B",
+        "TheBloke/SOLARC-MOE-10.7Bx4-GGUF"
+      ],
+      "license_review_unflagged": [],
+      "needs_review_unflagged": [],
+      "oversize_unflagged": [],
+      "known_failure_cause": null,
+      "top_models": [
+        "mradermacher/DataVortexS-10.7B-dpo-v1.10-GGUF",
+        "Alphacode-AI/Alphacode-MALI-11B_slowtest",
+        "LDCC/LDCC-SOLAR-10.7B",
+        "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF",
+        "TheBloke/SOLARC-MOE-10.7Bx4-GGUF"
+      ],
+      "tier": "B"
+    }
+  ],
+  "pending": [
+    {
+      "query_id": "sg_g001",
+      "label_type": "blocked",
+      "blocked_by": [
+        "gguf_license_other"
+      ],
+      "expected_any": [
+        "google/gemma-4-E4B-it",
+        "batiai/gemma-4-E4B-it-GGUF"
+      ],
+      "expected_in_db": [
+        "batiai/gemma-4-E4B-it-GGUF"
+      ]
+    },
+    {
+      "query_id": "sg_g011",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_g012",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "batiai/batisay-ko-base"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r001",
+      "label_type": "recall_check",
+      "blocked_by": [],
+      "expected_any": [
+        "BAAI/bge-m3"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r002",
+      "label_type": "recall_check",
+      "blocked_by": [],
+      "expected_any": [
+        "BAAI/bge-m3"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r003",
+      "label_type": "recall_check",
+      "blocked_by": [],
+      "expected_any": [
+        "Qwen/Qwen3.5-4B"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r004",
+      "label_type": "recall_check",
+      "blocked_by": [],
+      "expected_any": [
+        "PaddlePaddle/PaddleOCR-VL-1.5"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r005",
+      "label_type": "recall_check",
+      "blocked_by": [],
+      "expected_any": [
+        "Qwen/Qwen2.5-VL-7B-Instruct"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r006",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "dragonkue/bge-reranker-v2-m3-ko"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r007",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "dragonkue/bge-reranker-v2-m3-ko"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r008",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "Qwen/Qwen3.6-35B-A3B"
+      ],
+      "expected_in_db": []
+    },
+    {
+      "query_id": "sg_r009",
+      "label_type": "recall_check",
+      "blocked_by": [
+        "answer_not_in_db"
+      ],
+      "expected_any": [
+        "Qwen/Qwen3.5-4B"
+      ],
+      "expected_in_db": []
+    }
+  ]
+}
