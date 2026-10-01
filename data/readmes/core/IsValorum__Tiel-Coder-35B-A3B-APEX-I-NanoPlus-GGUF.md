@@ -53,14 +53,15 @@ tags:
 
 ## <a id="quick-navigation"></a>Quick Navigation Index
 1. [Optimization History & Transparency Notice](#toc-01)
-2. [Model Specifications](#toc-02)
-3. [Inference Quickstart](#toc-03)
-4. [1. llama-cli (Console Generation)](#toc-04)
-5. [2. llama-server (OpenAI-Compatible API)](#toc-05)
-6. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
-7. [Hardened Agentic Chat Template & Reasoning Effort](#toc-chat-template)
-8. [Optional Support](#toc-06)
-
+2. [Quality Spectrum: APEX-I-NanoPlus vs. Standard Flat Quantizations](#toc-02)
+3. [Model Files & Technical Specifications](#toc-03)
+4. [Surgical Tensor Quantization Map (Audited from GGUF)](#toc-04)
+5. [Inference Quickstart](#toc-05)
+6. [1. llama-cli (Console Generation)](#toc-06)
+7. [2. llama-server (OpenAI-Compatible API)](#toc-07)
+8. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
+9. [Hardened Agentic Chat Template & Reasoning Effort](#toc-chat-template)
+10. [Optional Support](#toc-08)
 # Tiel-Coder-35B-A3B APEX-I-NanoPlus GGUF
 ### *The Next-Generation Frontier MoE · Extreme 12GB Footprint · Fast System RAM Streaming & Massive Context on 16GB VRAM*
 
@@ -126,25 +127,73 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 ---
 
+<a id="quality-spectrum"></a>
 <a id="toc-02"></a>
-## Model Specifications
+### Quality Spectrum: APEX-I-NanoPlus vs. Standard Flat Quantizations
 
-| Attribute | Specification |
-| :--- | :--- |
-| **Architecture** | Hybrid MoE + Linear Attention / DeltaNet SSM |
-| **Base Model** | [peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF](https://huggingface.co/peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF) |
-| **Total Parameters** | approx. 35 Billion |
-| **Active Parameters** | approx. 3.0 Billion per token |
-| **Context Window** | Up to 256,000 tokens |
-| **Primary File** | `Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf` (12.55 GB) |
-| **Vision Projector** | `mmproj-Q8_0.gguf` (Quantized to uncompressed 8-bit precision) |
+How the handcrafted **APEX-I-NanoPlus** architecture compares against standard flat quantizations in `llama.cpp` on 35B Mixture-of-Experts architectures:
+
+| Quantization Format | Bits Per Weight (BPW) | Model Footprint (Disk / VRAM) | Perplexity Delta (vs. FP16 Baseline) | Token Fidelity & Syntactic Stability Tier |
+| :--- | :---: | :---: | :---: | :--- |
+| **FP16 / BF16 (Uncompressed)** | 16.0 bpw | 70.0 GB | **0.00** (Reference) | 100% full uncompressed reference fidelity. |
+| **Standard Q8_0** | 8.50 bpw | approx. 38 GB | approx. +0.01 | Virtually lossless; excessive memory overhead for consumer hardware. |
+| **Standard Q6_K** | 6.56 bpw | approx. 30 GB | approx. +0.02 to +0.05 | Near-lossless FP16 fidelity; requires multi-GPU or 32GB+ VRAM setups. |
+| **APEX-I-MiniPlus V2.1** | 3.40 bpw | 14.75 GB (13.74 GiB) | **+0.0632 (PPL: 6.2432)** | Maximum fidelity near-lossless Q5_K / Q6_K tier. Full native 256K context on 24GB workstations. |
+| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.82 bpw** | **12.55 GB (11.69 GiB)** | **+0.2215 (PPL: 6.4015 ± 0.1412)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
+| **Standard Q4_K_M** | 4.50 bpw | approx. 20.0 GB | approx. +0.18 to +0.28 | Standard industry trade-off; cannot fit in 16GB VRAM. |
+| **Standard Q3_K_M** | 3.44 bpw | 16.5 GB | approx. +0.38 to +0.48 | Noticeable syntax drop, bracket corruption, and tokenizer classification noise. |
+| **Standard IQ2_S / Generic APEX Mini** | 2.50 bpw | approx. 12.2 GB | approx. +0.60 to +1.50+ | Severe reasoning breakdown, high perplexity spikes in `<think>` chains. |
 
 ---
 
 <a id="toc-03"></a>
+## Model Files & Technical Specifications
+
+| File Name | File Size | Memory Footprint | BPW | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **`Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.82 BPW** | Core agentic coding & hybrid linear attention MoE in APEX-I-NanoPlus |
+| **`mmproj-Q8_0.gguf`** | **`614.19 MB (585.74 MiB)`** | `585.74 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for code screenshots & diagrams |
+| **Complete download** | **`13.17 GB (12.26 GiB)`** | `12.26 GiB` | — | Main GGUF plus the bundled vision projector |
+
+- **Base Model:** [peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF](https://huggingface.co/peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF)
+- **Parameters:** 35.2B total (approx. 2.6B to 3.0B active per token)
+- **Architecture:** 40 layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers + periodic full attention (layers 3, 7, 11, 15, 19, 23, 27, 31, 35, 39)
+- **Context Length:** 262,144 tokens (native 256K)
+
+---
+
+<a id="tensor-map"></a>
+<a id="toc-04"></a>
+## Surgical Tensor Quantization Map (Audited from GGUF)
+
+*The exact tensor breakdown below has been verified directly from the compiled binary weights:*
+
+| Layer Group | Sub-Component / Tensor | Qty | Precision | Engineering Rationale |
+| :--- | :--- | :---: | :---: | :--- |
+| **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
+| **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
+| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 82 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
+| **Attention Gates** | `blk.*.attn_gate.weight` (Hybrid Layers) | 31 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All Layers) | 123 | **`Q4_K`** | Foundation knowledge backbone active on 100% of tokens; protected in linear Q4_K for fast streaming. |
+| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
+| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q4_K`** | High-precision attention output projection over deep context. |
+| **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 123 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
+| **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 92 | **`Q4_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
+| **Border MoE Down-Proj** | Layers 0–1 & 38–39 (`ffn_down_exps`) | 4 | **`Q3_K`** | Linear SIMD execution optimized for token entry and exit stability. |
+| **Border MoE Gate/Up** | Layers 0–1 & 38–39 (`ffn_gate/up_exps`) | 8 | **`IQ3_XXS`** | High-density boundary protection guided by imatrix. |
+| **Core MoE Down-Proj** | Layers 2–37 (`ffn_down_exps`) | 36 | **`IQ3_XXS`** | Fortified 3.06 bpw residual stream; preserves core mathematical, coding, and reasoning capacity. |
+| **Core MoE Gating** | Layers 2–37 (`ffn_gate_exps`) | 36 | **`IQ2_S`** | High-precision 2.50 bpw SwiGLU gating; eliminates activation noise. |
+| **Core MoE Up-Proj** | Layers 2–15 (`ffn_up_exps`) | 14 | **`IQ2_S`** | Enhanced 2.50 bpw precision for sensitive early-intermediate feature extraction. |
+| **Core MoE Up-Proj** | Layers 16–37 (`ffn_up_exps`) | 22 | **`IQ2_XXS`** | Extreme 2.06 bpw compression in deep MoE layers to reach exact 12.55 GB envelope. |
+
+
+---
+
+<a id="toc-05"></a>
 ## Inference Quickstart
 
-<a id="toc-04"></a>
+<a id="toc-06"></a>
 ### 1. `llama-cli` (Console Generation)
 ```bash
 llama-cli \
@@ -154,7 +203,7 @@ llama-cli \
   -ngl 99 -c 8192 --temp 0.6 --top-p 0.95
 ```
 
-<a id="toc-05"></a>
+<a id="toc-07"></a>
 ### 2. `llama-server` (OpenAI-Compatible API)
 ```bash
 llama-server \
@@ -204,7 +253,7 @@ llama-server \
 > llama-server -m Model.gguf --chat-template-file chat_template.jinja --reasoning-effort medium
 > ```
 
-<a id="toc-06"></a>
+<a id="toc-08"></a>
 ## Optional Support
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>

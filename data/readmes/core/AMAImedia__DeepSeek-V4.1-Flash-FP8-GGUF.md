@@ -156,6 +156,7 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 - Released **GGUF repository:** [vcruz305/DeepSeek-V4.1-Flash-GGUF](https://huggingface.co/vcruz305/DeepSeek-V4.1-Flash-GGUF)
 
 - **Original repository:** [deepseek-ai/DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash)
+
 ---
 
 # DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression
@@ -348,4 +349,5 @@ This repository and the model weights are licensed under the [MIT License](LICEN
 
 ## Contact
 
-If you have any questions, please raise an issue or contact us at [service@deepseek.com](mailto:service@deepseek.com).
+If you have any questions, please raise an issue or contact us at 
+[service@deepseek.com](mailto:service@deepseek.com).

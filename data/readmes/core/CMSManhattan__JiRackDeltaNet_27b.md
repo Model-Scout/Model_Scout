@@ -41,7 +41,6 @@ license: mit
 - JiRack DeltaNet understand video and images that best for Robotics also
 
 ## PARTNERSHIP
-
 - NVIDIA
 - FISERV
 
@@ -61,7 +60,7 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 # JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
-- Web site https://www.jirack.com
+- Web site with fresh Web Dev UI https://www.jirack.com
 - Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
 
@@ -98,13 +97,16 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 | `cmsmanhattan/jirack_deltanet_27b-cpu-q4:latest` | Q4_K_M | ~16.8 GB | ~18–24 GB | Recommended balance |
 | `cmsmanhattan/jirack-deltanet-27b-cpu-q3:latest` | Q3_K_M | ~13.9 GB | ~15–20 GB | Good quality / size trade-off |
 | `cmsmanhattan/jirack-deltanet-27b-cpu-q2:latest` | Q2_K | ~11.2 GB | ~12–17 GB | Maximum compression |
+| `cmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest`| TQ_2 | ~7.2 GB | ~8–13 GB |  Ultra compression |
+| `cmsmanhattan/jirack-deltanet-27b-rocm-tq2`| TQ_2 | ~7.2 GB | ~8–13 GB |  Ultra compression |
+
 
 ## Quick Start
 
 ### Run with Ollama (recommended — reasoning off by default)
 - https://ollama.com/cmsmanhattan
 ```bash
-ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning
+ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoningcmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest
 ollama run cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning "What is the capital of France?"
 ```
 
@@ -168,6 +170,21 @@ docker run -d \
   --restart unless-stopped \
   cmsmanhattan/jirack_deltanet_27b-cpu-q2:latest
 ```
+
+**TQ_2 (Ultra lowe memory)**
+```bash
+docker run -d \
+  --name jirack_deltanet_27b \
+  -p 7869:7869 \
+  --cpus=16 \
+  -e THREADS=16 \
+  -e THREADS_BATCH=16 \
+  --restart unless-stopped \
+  cmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest
+```
+
+
+
 **Full precision**
 ```bash
 docker run -d \
@@ -197,7 +214,7 @@ docker run -d \
 ```yaml
 services:
   jirack:
-    image: cmsmanhattan/jirack_deltanet_27b-cpu-q4:latest
+    image: cmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest
     container_name: jirack_deltanet_27b
     ports:
       - "7869:7869"

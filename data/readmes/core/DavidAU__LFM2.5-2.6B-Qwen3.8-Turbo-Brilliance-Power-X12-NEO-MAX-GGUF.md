@@ -33,7 +33,7 @@ base_model:
 
 <SMALL><B><font color="red">IMPORTANT:</font></b> This model has significant internal upgrades under user control that are "on the fly" (you set in your prompt(s)). 
 Please read this model card carefully to get the most from it - including all the reasoning and instruct modes (12+12) that feature model suggestions ("context help") for all use cases. 
-The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc).</small>
+The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc). NOTE: BF16 gguf now avail.</small>
 
 <h2>LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF</h2>
 

@@ -207,7 +207,7 @@ This card is the JiRack ternary port, not a Google release. Do not treat upstrea
 # JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
-- Web site https://www.jirack.com
+- Web site with fresh Web Dev UI https://www.jirack.com
 - Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
 
