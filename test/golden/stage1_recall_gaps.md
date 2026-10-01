@@ -69,4 +69,4 @@ GGUF만 있고 원본이 없으면 원본 카드의 라이선스·성능 근거�
 
 ## Recall 점검으로 쓰는 법
 
-`labels/golden_queries.jsonl`에서 `label_type = "recall_check"`인 11개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base, bge-reranker-v2-m3-ko, Qwen3.6-35B-A3B)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `test/evaluate_semantic_golden.py` 리포트의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 채점에 포함한다.
+`labels/recall_check_queries.jsonl`의 `label_type = "recall_check"`인 11개(bge-m3, Qwen3.5-4B, PaddleOCR-VL-1.5, Qwen2.5-VL, EEVE, batisay-ko-base, bge-reranker-v2-m3-ko, Qwen3.6-35B-A3B)는 현재 DB에선 정답이 나올 수 없다. 규칙을 바꾼 뒤 `python test/evaluate_semantic_golden.py --queries <recall_check 변환본>`의 "아직 채점하지 않는 질의" 표에서 정답이 DB에 들어왔는지 확인하고, 들어왔으면 `evaluable_now`를 true로 바꿔 `golden_queries.jsonl`로 옮긴다.

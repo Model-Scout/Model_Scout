@@ -7,8 +7,8 @@
 | 항목 | 값 |
 |---|---|
 | 원자료 | 한국어 프로젝트의 오픈 모델 선정 사례 57건 (1차 32 + 2차 25) |
-| 질의 | 40개 |
-| 지금 채점 가능한 질의 | 28개 (나머지 12개는 정답 모델이 아직 DB에 없거나 막혀 있음) |
+| 골든셋 질의 | **28개** (`labels/golden_queries.jsonl`), 모두 현재 DB로 채점 가능 |
+| 골든셋에서 뺀 질의 | 12개 (`labels/recall_check_queries.jsonl`). 정답 모델이 DB에 없어 Stage 1 수집 점검용으로만 사용 |
 | 정답 형태 | 질의별 Hugging Face 모델 ID 목록 (정답 · 허용 · 제외 · 경고 필요) |
 | 작성일 | 2026-09-26 ~ 2026-09-30 |
 
@@ -41,7 +41,7 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 | 사례 분류 (`usage_label`) | 1차 | 2차 | 처리 |
 |---|---:|---:|---|
 | `golden` | 10 | 17 | 질의로 만들고 정답 부여 |
-| `recall_check` | 6 | 4 | 질의로 만들었지만 정답 모델이 DB에 없어 채점 보류 |
+| `recall_check` | 6 | 4 | 질의로 만들었지만 정답 모델이 DB에 없어 골든셋에서 제외 (`recall_check_queries.jsonl`) |
 | `abstention` | 1 | 0 | 정답 없이 경고 동작만 채점 |
 | `out_of_scope_finetune` | 14 | 0 | 제외. 파인튜닝할 베이스 모델을 고른 사례라 서비스 범위("추가 학습 없이 사용") 밖 |
 | `no_label` | 1 | 4 | 제외. 모델 ID를 특정할 수 없거나 HF 모델이 아님 |
@@ -69,7 +69,7 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 
 ## 3. 골든셋 질의의 정보 (`labels/golden_queries.jsonl`)
 
-사례 하나를 **사용자가 서비스에 입력할 법한 요구사항 문장**으로 바꾸고, 정답을 붙인 것이다. 사람이 편집하는 유일한 원본이다.
+사례 하나를 **사용자가 서비스에 입력할 법한 요구사항 문장**으로 바꾸고, 정답을 붙인 것이다. 사람이 편집하는 원본이다. 골든셋에서 뺀 `recall_check_queries.jsonl`도 같은 형식이다.
 
 ### 예시 (g021)
 
@@ -105,7 +105,7 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 | 채점 방식 | `expected_behavior` | `recommend`(정답을 찾아야 함) · `must_exclude_only`(제외 모델만 안 나오면 됨) · `warn_on_oversize`(크기 초과 모델에 경고) |
 | | `label_type` | `golden` · `derived_counterfactual` · `abstention` · `blocked` · `recall_check` |
 | | `evaluable_now`, `blocked_by` | 지금 채점 가능한지, 막힌 이유 |
-| 근거 | `evidence_quote` | 정답이나 조건을 뒷받침하는 원문 인용 (40개 중 34개) |
+| 근거 | `evidence_quote` | 정답이나 조건을 뒷받침하는 원문 인용 (골든셋 28개 중 23개) |
 | | `notes`, `known_failure_cause` | 라벨링 판단 메모, 실패해도 검색 문제가 아닌 알려진 원인 |
 
 `labels/semantic_golden_queries.jsonl`은 위 파일을 `convert_golden.py`가 검색 스크립트(`05_validate_retrieval.py`) 형식으로 바꾼 것이다. 조건 필드 이름이 `max_parameters_billion`, `korean_required` 등으로 바뀌고 라벨은 `labels` 안에 들어간다. 직접 수정하지 않는다.
@@ -119,10 +119,10 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 | `golden` | 25 | ✅ | 실제 사례 기반, 정답이 DB에 있음 |
 | `derived_counterfactual` | 2 | ✅ | 실제 사례에 상업 조건만 추가한 파생 질의 (g003, g016) |
 | `abstention` | 1 | ✅ | 정답 없이 크기 경고만 채점 (a001) |
-| `blocked` | 1 | - | 정답 변환본의 DB 라이선스가 `other`라 상업 조건에서 탈락 (g001) |
-| `recall_check` | 11 | - | 정답 모델이 DB에 없음. Stage 1 수집 개선을 확인하는 용도 |
 
-### 채점 가능한 28개의 특징
+골든셋에서 뺀 12개는 `recall_check` 11개(정답 모델이 DB에 없음)와 `blocked` 1개(g001, 정답 변환본의 DB 라이선스가 `other`)다.
+
+### 골든셋 28개의 특징
 
 | 특징 | 분포 |
 |---|---|

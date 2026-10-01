@@ -266,13 +266,14 @@ def render_markdown(summary: Dict[str, Any], scored: List[Dict[str, Any]], pendi
             f"| {item['expected_rank'] or '-'} | {item['acceptable_rank'] or '-'} | {item['family_rank'] or '-'} "
             f"| {'; '.join(causes) or '-'} |"
         )
-    lines += [
-        "",
-        "## 아직 채점하지 않는 질의",
-        "",
-        "| 질의 | 유형 | 막힌 이유 | 정답 중 DB에 있는 모델 |",
-        "|---|---|---|---|",
-    ]
+    if pending:
+        lines += [
+            "",
+            "## 아직 채점하지 않는 질의",
+            "",
+            "| 질의 | 유형 | 막힌 이유 | 정답 중 DB에 있는 모델 |",
+            "|---|---|---|---|",
+        ]
     for item in pending:
         lines.append(
             f"| `{item['query_id']}` | {item['label_type']} | {', '.join(item['blocked_by']) or 'answer_not_in_db'} "

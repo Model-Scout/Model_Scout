@@ -18,7 +18,8 @@ test/golden/
 │   ├── korean_model_selection_cases_round1.jsonl   1차 사례 32건 (c001~c032)
 │   └── korean_model_selection_cases_round2.jsonl   2차 사례 25건 (r2-a001 등, 추가 학습 없이 쓴 사례)
 ├── labels/                    골든셋
-│   ├── golden_queries.jsonl           질의 40개와 정답 라벨. 사람이 편집하는 유일한 원본
+│   ├── golden_queries.jsonl           골든셋 28개 질의와 정답 라벨. 사람이 편집하는 원본
+│   ├── recall_check_queries.jsonl     골든셋에서 뺀 12개. 정답이 DB에 없어 Stage 1 수집 점검용으로만 사용
 │   └── semantic_golden_queries.jsonl  자동 생성. 05_validate_retrieval.py 실행 형식 (직접 수정 금지)
 └── reports/                   자동 생성 결과 (스크립트로 재생성)
     ├── golden_audit.md / .json                        라벨 신뢰도 등급과 정합성 점검
@@ -26,11 +27,11 @@ test/golden/
     └── semantic_golden_evaluation_bm25_offline.md / .json   BM25 기준선 채점
 ```
 
-라벨을 고칠 때는 `labels/golden_queries.jsonl`만 수정하고 `convert_golden.py` → `audit_golden.py` 순서로 다시 실행한다. vector 검색 결과(`semantic_golden_retrieval.json`)와 그 채점 결과도 `reports/`에 생긴다.
+라벨을 고칠 때는 `labels/golden_queries.jsonl`(또는 `recall_check_queries.jsonl`)만 수정하고 `convert_golden.py` → `audit_golden.py` 순서로 다시 실행한다. vector 검색 결과(`semantic_golden_retrieval.json`)와 그 채점 결과도 `reports/`에 생긴다.
 
 ### 질의 ID
 
-`golden_queries.jsonl`은 label_type 순서(golden → derived_counterfactual → abstention → blocked → recall_check)로, 같은 유형 안에서는 ID 순으로 정렬돼 있다. ID는 리포트·커밋과 연결돼 있어 바꾸지 않는다. 그래서 접두어가 현재 유형과 다를 수 있다. **유형은 항상 `label_type` 필드가 기준이다.**
+두 라벨 파일은 label_type 순서(golden → derived_counterfactual → abstention / blocked → recall_check)로, 같은 유형 안에서는 ID 순으로 정렬돼 있다. ID는 리포트·커밋과 연결돼 있어 바꾸지 않는다. 그래서 접두어가 현재 유형과 다를 수 있다. **유형은 항상 `label_type` 필드가 기준이다.**
 
 | 접두어 | 처음 만든 용도 | 현재 유형과 다른 것 |
 |---|---|---|
@@ -46,7 +47,7 @@ test/golden/
 python test/golden/convert_golden.py          # 라벨 원본 → 실행 스키마
 python test/golden/audit_golden.py            # 라벨 점검 (API 불필요)
 
-# 실제 서비스 검색(dense). OPENAI_API_KEY 필요, 질의 40개 임베딩
+# 실제 서비스 검색(dense). OPENAI_API_KEY 필요, 질의 28개 임베딩
 python 05_validate_retrieval.py --execute \
     --query-file test/golden/labels/semantic_golden_queries.jsonl \
     --report-json test/golden/reports/semantic_golden_retrieval.json \
@@ -62,7 +63,7 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 
 ### BM25 기준선 결과 (2026-09-30)
 
-채점 가능 28개 중 recommend 24개에서 hit@5는 1/24다. 이 수치는 dense 검색 성능을 뜻하지 않는다.
+골든셋 28개 중 recommend 24개에서 hit@5는 1/24다. 이 수치는 dense 검색 성능을 뜻하지 않는다.
 
 - 질의는 한국어인데 Stage 4 문서는 대부분 영어 README라 BM25 토큰이 거의 겹치지 않는다. 형태소 분석도 없다.
 - 24개 모두 정답이 hard filter를 통과했다. 라벨과 필터는 맞물린다.
@@ -94,22 +95,31 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 
 | label_type | 개수 | 질의 | 의미 |
 |---|---:|---|---|
-| `golden` | 25 | g002, g004~g010, g013~g015, g017~g030 | 지금 DB로 채점 가능 |
+| `golden` | 25 | g002, g004~g010, g013~g015, g017~g030 | 실제 사례 기반, 정답이 DB에 있음 |
 | `derived_counterfactual` | 2 | g003, g016 | 원 사례에 상업 조건만 추가한 파생 케이스. 실제 사례와 분리해서 보고 |
 | `abstention` | 1 | a001 | 정답 모델 없음, 크기 경고 여부만 채점 |
-| `blocked` | 1 | g001 | 정답 GGUF의 DB 라이선스가 `other`라 상업 조건에서 탈락. 원본 라이선스 역추적 전엔 통과 불가 |
-| `recall_check` | 11 | g011, g012, r001~r009 | 정답 모델이 DB에 없음. Stage 1 규칙 변경 후 통과 여부로 recall 개선 확인 |
 
-전체 40개 중 지금 채점되는 질의는 28개(`evaluable_now=true`)다. 그중 recommend 24개, must_exclude_only 3개(g003, g016, g030), warn_on_oversize 1개(a001)다.
+골든셋은 **28개**이고 모두 현재 DB로 채점된다. 그중 recommend 24개, must_exclude_only 3개(g003, g016, g030), warn_on_oversize 1개(a001)다.
 
 채점 가능한 질의의 task 분포는 ASR 9 · text-generation 6 · 임베딩 4 · summarization 3 · translation 3 · image-text-to-text 2 · text-classification 1 · question-answering 0이다. 전체 점수보다 task별 표를 함께 본다.
+
+## Stage 1 수집 점검용 질의 (골든셋 아님)
+
+`labels/recall_check_queries.jsonl`의 12개는 **골든셋에 포함하지 않는다.** 정답 모델이 현재 DB(데이터 README의 Core·Low Popularity 범위)에 없어 어떤 검색기도 맞힐 수 없기 때문이다.
+
+| label_type | 개수 | 질의 | 이유 |
+|---|---:|---|---|
+| `recall_check` | 11 | g011, g012, r001~r009 | 정답 모델이 DB에 없음 (bge-m3, Qwen3.5, EEVE, KURE-v1 등) |
+| `blocked` | 1 | g001 | 정답 변환본의 DB 라이선스가 `other`라 상업 조건에서 탈락 |
+
+용도는 Stage 1 수집 규칙을 바꿀 때 그 규칙이 이 정답들을 잡아내는지 확인하는 것이다. 원인과 규칙 변경안은 [stage1_recall_gaps.md](stage1_recall_gaps.md)에 있다. 정답 모델이 DB에 들어오면 해당 질의의 `evaluable_now`를 true로 바꿔 `golden_queries.jsonl`로 옮긴다. 정답 모델만 골라 DB에 넣으면 평가가 오염되므로, 반드시 일반 규칙으로 수집한다.
 
 ## 라벨 신뢰도
 
 `audit_golden.py`가 질의마다 두 가지를 점검한다.
 
 1. **DB 정합성**: 정답이 검색기와 같은 hard filter를 통과하는지, must_exclude가 실제로 규칙을 위반하는지, 상업 조건 질의의 정답이 비상업 라이선스가 아닌지 본다. 하나라도 어긋나면 라벨 오류로 보고, 오류가 0이어야 점수를 믿는다. 현재 오류 0건.
-2. **근거 강도(등급)**: A는 사례 confidence high·원문 인용 있음·원본 모델이 그대로 정답. B는 medium이거나 변환본 매핑이 필요한 경우. C는 low(비교 없이 사용만 기록). 현재 채점 가능 28개가 A 3 · B 17 · C 8이다.
+2. **근거 강도(등급)**: A는 사례 confidence high·원문 인용 있음·원본 모델이 그대로 정답. B는 medium이거나 변환본 매핑이 필요한 경우. C는 low(비교 없이 사용만 기록). 현재 골든셋 28개가 A 3 · B 17 · C 8이다.
 
 채점 리포트는 등급별 표와 hit@k의 95% 부트스트랩 구간을 함께 보여 준다. 질의 수가 적어 구간이 넓으므로, 두 검색 방식의 차이가 구간 안이면 우열을 주장하지 않는다.
 
@@ -137,6 +147,6 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 - 라이선스 판정은 채점용 임시 정책이다. apache-2.0·mit 등은 상업 허용, 이름에 `nc`가 들어가면 위반, `other`·gemma·llama·미기재는 `확인 필요`로 본다. `05_validate_retrieval.py`는 아직 라이선스와 VRAM으로 필터하지 않는다.
 - 검색 결과에 `확인 필요` 경고 필드가 아직 없어서, 경고가 필요한 모델이 top-k에 나오면 모두 경고 누락으로 집계된다.
 - 정답·허용 순위는 model_id 완전 일치만 센다. canonical_model_id는 선언된 base model을 따르기 때문에(예: `NCSOFT/VARCO-VISION-14B` → `Qwen/Qwen2.5-14B-Instruct`) 다른 파인튜닝 모델도 같은 계열로 묶인다. 계열 일치는 별도 열로만 보고한다.
-- 채점 가능한 질의가 28개라 여전히 작고 task가 치우쳐 있다. question-answering은 0개다.
-- 상업 라이선스 조건이 있는 질의는 채점 가능 28개 중 6개다.
+- 골든셋이 28개라 여전히 작고 task가 치우쳐 있다. question-answering은 0개다.
+- 상업 라이선스 조건이 있는 질의는 28개 중 6개다.
 - 변환본으로 매핑한 정답이 많다(B등급 대부분). 원본 역추적을 구현하면 정답을 원본 기준으로 다시 정리해야 한다.

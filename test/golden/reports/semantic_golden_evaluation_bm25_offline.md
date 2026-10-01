@@ -67,23 +67,6 @@
 | `sg_g016` | text-generation | A | must_exclude_only | ✅ | - | - | - | - |
 | `sg_a001` | image-text-to-text | B | warn_on_oversize | ❌ | - | - | - | 크기 경고 누락 2개 |
 
-## 아직 채점하지 않는 질의
-
-| 질의 | 유형 | 막힌 이유 | 정답 중 DB에 있는 모델 |
-|---|---|---|---|
-| `sg_g001` | blocked | gguf_license_other | batiai/gemma-4-E4B-it-GGUF |
-| `sg_g011` | recall_check | answer_not_in_db | 없음 |
-| `sg_g012` | recall_check | answer_not_in_db | 없음 |
-| `sg_r001` | recall_check | answer_not_in_db | 없음 |
-| `sg_r002` | recall_check | answer_not_in_db | 없음 |
-| `sg_r003` | recall_check | answer_not_in_db | 없음 |
-| `sg_r004` | recall_check | answer_not_in_db | 없음 |
-| `sg_r005` | recall_check | answer_not_in_db | 없음 |
-| `sg_r006` | recall_check | answer_not_in_db | 없음 |
-| `sg_r007` | recall_check | answer_not_in_db | 없음 |
-| `sg_r008` | recall_check | answer_not_in_db | 없음 |
-| `sg_r009` | recall_check | answer_not_in_db | 없음 |
-
 ## 해석 시 주의
 
 - 라이선스 판정은 채점용 임시 정책이다. apache-2.0·mit 등은 상업 허용, 이름에 `nc`가 들어가면 위반, `other`·gemma·llama·미기재는 `확인 필요`로 본다.

@@ -12,7 +12,7 @@ API 호출 없이 라벨의 출처 신뢰도와 DB 정합성을 점검한 결과
 
 ## 요약
 
-- 전체 질의 40개, 채점 가능 28개
+- 전체 질의 28개, 채점 가능 28개
 - 채점 가능 질의 등급: A 3 · B 17 · C 8
 - 라벨 오류: 0개 질의
 
@@ -52,18 +52,6 @@ API 호출 없이 라벨의 출처 신뢰도와 DB 정합성을 점검한 결과
 | `sg_g003` | c022 | translation | ✅ | B | 0 | 원 사례에 조건을 추가한 파생 질의 |
 | `sg_g016` | r2-b004 | text-generation | ✅ | A | 0 | 원 사례에 조건을 추가한 파생 질의 |
 | `sg_a001` | c030 | image-text-to-text | ✅ | B | 0 | - |
-| `sg_g001` | c001 | text-generation | - | B | 1 | - |
-| `sg_g011` | c002 | text-generation | - | B | 0 | - |
-| `sg_g012` | c027 | automatic-speech-recognition | - | B | 0 | - |
-| `sg_r001` | c004 | feature-extraction | - | B | 0 | must_exclude가 DB에 없어 검증이 공허함: sentence-transformers/all-MiniLM-L6-v2 |
-| `sg_r002` | c006 | feature-extraction | - | B | 0 | - |
-| `sg_r003` | c023 | translation | - | B | 0 | - |
-| `sg_r004` | c029 | image-text-to-text | - | A | 0 | - |
-| `sg_r005` | c031 | image-text-to-text | - | C | 0 | 정답 근거 원문 인용 없음 |
-| `sg_r006` | r2-a003 | text-classification | - | B | 0 | - |
-| `sg_r007` | r2-a004 | text-classification | - | C | 0 | - |
-| `sg_r008` | r2-b008 | summarization | - | C | 0 | - |
-| `sg_r009` | r2-c104 | image-text-to-text | - | A | 0 | - |
 
 ## 이 점검이 보장하지 않는 것
 
