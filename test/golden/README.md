@@ -72,15 +72,18 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 
 ## 사람 판정 배치 (진행 중)
 
-사례 없이 질의를 직접 쓰고, DB 후보를 사람이 0/1/2점으로 판정해 정답을 만드는 방식이다. 1차 배치는 부족한 task(QA, 분류, 비전 언어, 번역, 요약 등) 위주의 질의 20개다.
+사례 없이 질의를 직접 쓰고, DB 후보를 사람이 0/1/2점으로 판정해 정답을 만드는 방식이다. 1차 배치는 부족한 task(QA, 분류, 비전 언어, 번역, 요약 등) 위주의 질의 20개(후보 12개씩), 2차 배치는 task 균형을 맞춘 질의 52개(후보 8개씩)다. 기존 골든셋 28개와 합쳐 100개를 목표로 한다.
 
 | 파일 | 역할 |
 |---|---|
 | `labels/judging_queries_batch1.jsonl` | 질의 20개(`h001`~`h020`)와 조건. `pool_terms`는 후보 수집에만 쓰는 영어 검색어이며 채점에는 쓰지 않는다 |
 | `build_judging_pool.py` | 조건 필터를 통과한 모델 계열 중 BM25 상위와 다운로드 상위를 번갈아 골라 질의당 최대 12개 후보를 만든다 |
 | `reports/judging_pool_batch1.json` | 후보 239개와 판정용 정보. 후보가 뽑힌 경로(`pool_sources`)는 판정 화면에 보이지 않는다 |
+| `labels/judging_queries_batch2.jsonl` | 2차 질의 52개(`h021`~`h072`) |
+| `reports/judging_pool_batch2.json` | 2차 후보 416개 (`build_judging_pool.py --pool-size 8`) |
+| `build_review_data.py` → `reports/review_page_data.json` | 판정 페이지 데이터. 골든셋 28개(현재 라벨이 붙은 모델 114개)와 1·2차 후보를 세 구역으로 합친다 |
 
-판정은 Claude 아티팩트 페이지(모델 스카우트 판정실)에서 한다. 판정자마다 점수가 따로 저장되고 서로의 점수는 보이지 않는다. 두 사람의 판정이 끝나면 일치도를 계산하고, 의견이 갈린 후보를 정리한 뒤 2점은 `expected_any`, 1점은 `acceptable`, 조건 위반으로 0점인 모델은 `must_exclude`로 옮겨 골든셋에 추가한다.
+판정은 Claude 아티팩트 페이지(모델 스카우트 판정실)에서 한다. 골든셋 검토 탭에서는 지금 라벨이 붙은 모델을 같은 기준으로 다시 매겨, 라벨과 점수가 다르면 이의로 본다. 판정자마다 점수가 따로 저장되고 서로의 점수는 보이지 않는다. 두 사람의 판정이 끝나면 일치도를 계산하고, 의견이 갈린 후보를 정리한 뒤 2점은 `expected_any`, 1점은 `acceptable`, 조건 위반으로 0점인 모델은 `must_exclude`로 옮겨 골든셋에 추가한다.
 
 ## 라벨 필드
 
