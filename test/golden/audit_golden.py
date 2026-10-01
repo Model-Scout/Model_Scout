@@ -8,7 +8,11 @@ Two kinds of checks per query:
    hard filters the retriever uses, must_exclude models must actually violate
    the stated rule, and expected models must not violate the query's license.
 
-Each query gets a reliability tier (A/B/C) and a list of issues. Label errors
+The manual source check recorded in each label (`source_verification`) is
+part of the tier: a query whose source was not checked by hand cannot be A.
+
+Each query gets a reliability tier (A/B/C) and a list of issues, which are also
+written back into labels/golden_queries.jsonl as `reliability`. Label errors
 (an evaluable query whose answer can never be retrieved, a must_exclude that
 does not violate its rule) are reported separately so they get fixed before
 metrics are trusted.
@@ -28,6 +32,7 @@ from typing import Any, Dict, List
 ROOT = Path(__file__).resolve().parents[2]
 GOLDEN_DIR = ROOT / "test" / "golden"
 QUERY_PATH = GOLDEN_DIR / "labels" / "semantic_golden_queries.jsonl"
+LABEL_PATH = GOLDEN_DIR / "labels" / "golden_queries.jsonl"
 CASE_PATHS = (
     GOLDEN_DIR / "sources" / "korean_model_selection_cases_round1.jsonl",
     GOLDEN_DIR / "sources" / "korean_model_selection_cases_round2.jsonl",
@@ -93,6 +98,14 @@ def audit_query(query: Dict[str, Any], case: Dict[str, Any], rows: Dict[str, Dic
     confidence = case.get("confidence") or "unknown"
     has_quote = bool(query.get("evidence_quote"))
     url_status = (case.get("url_check") or {}).get("status")
+    verification = query.get("source_verification") or {}
+    verified = verification.get("status") in ("confirmed", "confirmed_with_correction")
+    if not verified:
+        issues.append("원문 직접 확인 안 됨")
+    elif not verification.get("model_used_confirmed"):
+        errors.append("원문에서 사례 모델 사용이 확인되지 않음")
+    if verification.get("status") == "confirmed_with_correction":
+        issues.append(f"원문 대조 후 질의 수정({verification.get('checked_on')})")
     if not has_quote:
         issues.append("정답 근거 원문 인용 없음")
     if url_status not in ("exists_fetched", "exists_search_confirmed"):
@@ -103,7 +116,7 @@ def audit_query(query: Dict[str, Any], case: Dict[str, Any], rows: Dict[str, Dic
     mapped = behavior == "recommend" and expected_reachable and not original_reachable
     if confidence == "low":
         tier = "C"
-    elif confidence == "high" and has_quote and not mapped:
+    elif confidence == "high" and has_quote and not mapped and verified:
         tier = "A"
     else:
         tier = "B"
@@ -118,6 +131,8 @@ def audit_query(query: Dict[str, Any], case: Dict[str, Any], rows: Dict[str, Dic
         "case_confidence": confidence,
         "has_quote": has_quote,
         "url_status": url_status,
+        "source_verified": verified,
+        "answer_mapped_to_variant": bool(mapped),
         "expected_reachable": expected_reachable,
         "acceptable_reachable": acceptable_reachable,
         "issues": issues,
@@ -138,7 +153,7 @@ def render_markdown(audits: List[Dict[str, Any]]) -> str:
         "",
         "| 등급 | 기준 |",
         "|---|---|",
-        "| A | 사례 confidence=high, 원문 인용 있음, 사례가 고른 원본 모델이 그대로 정답으로 도달 |",
+        "| A | 사례 confidence=high, 원문 인용 있음, 원문을 직접 확인함, 사례가 고른 원본 모델이 그대로 정답으로 도달 |",
         "| B | confidence=medium, 또는 인용 없음, 또는 변환본(GGUF 등)으로 매핑해야 정답 도달 |",
         "| C | confidence=low (모델 비교 없이 사용만 기록한 사례 등) |",
         "",
@@ -160,13 +175,13 @@ def render_markdown(audits: List[Dict[str, Any]]) -> str:
         "",
         "## 질의별 점검",
         "",
-        "| 질의 | 사례 | task | 채점 | 등급 | 도달 가능한 정답 | 주의 |",
+        "| 질의 | 사례 | task | 등급 | 원문 확인 | 도달 가능한 정답 | 주의 |",
         "|---|---|---|---|---|---:|---|",
     ]
     for item in audits:
         lines.append(
-            f"| `{item['query_id']}` | {item['source_case_id']} | {item['task']} | {'✅' if item['evaluable_now'] else '-'} "
-            f"| {item['tier']} | {len(item['expected_reachable'])} | {'; '.join(item['issues']) or '-'} |"
+            f"| `{item['query_id']}` | {item['source_case_id']} | {item['task']} | {item['tier']} "
+            f"| {'✅' if item['source_verified'] else '-'} | {len(item['expected_reachable'])} | {'; '.join(item['issues']) or '-'} |"
         )
     lines += [
         "",
@@ -178,6 +193,25 @@ def render_markdown(audits: List[Dict[str, Any]]) -> str:
         "",
     ]
     return "\n".join(lines)
+
+
+def write_reliability(audits: List[Dict[str, Any]]) -> None:
+    """Copy the computed tier into the editable label file so it is visible there."""
+    by_id = {item["query_id"].removeprefix("sg_"): item for item in audits}
+    rows = read_jsonl(LABEL_PATH)
+    for row in rows:
+        item = by_id.get(row["query_id"])
+        if not item:
+            continue
+        row["reliability"] = {
+            "tier": item["tier"],
+            "case_confidence": item["case_confidence"],
+            "source_verified": item["source_verified"],
+            "answer_mapped_to_variant": item["answer_mapped_to_variant"],
+            "issues": item["issues"],
+            "note": "audit_golden.py가 계산해 채우는 값. 직접 수정하지 않는다.",
+        }
+    LABEL_PATH.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
 
 
 def main() -> None:
@@ -199,6 +233,7 @@ def main() -> None:
     audits = [audit_query(query, cases.get(query["source_case_id"], {}), rows, validator, scorer)
               for query in read_jsonl(args.queries)]
     args.output_json.write_text(json.dumps(audits, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_reliability(audits)
     args.output_md.write_text(render_markdown(audits), encoding="utf-8")
     evaluable = [item for item in audits if item["evaluable_now"]]
     print(json.dumps({

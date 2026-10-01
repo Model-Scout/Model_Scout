@@ -119,7 +119,9 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 `audit_golden.py`가 질의마다 두 가지를 점검한다.
 
 1. **DB 정합성**: 정답이 검색기와 같은 hard filter를 통과하는지, must_exclude가 실제로 규칙을 위반하는지, 상업 조건 질의의 정답이 비상업 라이선스가 아닌지 본다. 하나라도 어긋나면 라벨 오류로 보고, 오류가 0이어야 점수를 믿는다. 현재 오류 0건.
-2. **근거 강도(등급)**: A는 사례 confidence high·원문 인용 있음·원본 모델이 그대로 정답. B는 medium이거나 변환본 매핑이 필요한 경우. C는 low(비교 없이 사용만 기록). 현재 골든셋 28개가 A 3 · B 17 · C 8이다.
+2. **근거 강도(등급)**: A는 사례 confidence high·원문 인용 있음·원문 직접 확인·원본 모델이 그대로 정답. B는 medium이거나 변환본 매핑이 필요한 경우. C는 low(비교 없이 사용만 기록). 현재 골든셋 28개가 A 3 · B 17 · C 8이다.
+
+등급은 `labels/golden_queries.jsonl`의 각 질의에 `reliability` 필드로 기록된다(`audit_golden.py`가 채움). 원문을 직접 열어 대조한 결과는 `source_verification` 필드에 있다. 2026-10-01에 28개 모두 확인했고 질의 2개(g008, g019)를 원문에 맞게 고쳤다. 자세한 내용은 [GOLDEN_SET.md](GOLDEN_SET.md)의 원문 확인 결과를 본다.
 
 채점 리포트는 등급별 표와 hit@k의 95% 부트스트랩 구간을 함께 보여 준다. 질의 수가 적어 구간이 넓으므로, 두 검색 방식의 차이가 구간 안이면 우열을 주장하지 않는다.
 

@@ -442,11 +442,11 @@
       "oversize_unflagged": [],
       "known_failure_cause": null,
       "top_models": [
-        "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
-        "suryatmodulus/VibeVoice-ASR-BitNet",
-        "microsoft/VibeVoice-ASR-BitNet",
-        "aufklarer/Qwen3-ASR-CoreML",
-        "ngoctham/VibeVoice-ASR-BitNet"
+        "cstr/VibeVoice-7B-GGUF",
+        "ghost613/faster-whisper-large-v3-turbo-korean",
+        "seastar105/whisper-medium-ko-zeroth",
+        "seastar105/whisper-medium-komixv2",
+        "seastar105/whisper-small-komixv2"
       ],
       "tier": "C"
     },

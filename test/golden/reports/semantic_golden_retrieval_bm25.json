@@ -315,7 +315,7 @@
     },
     {
       "query_id": "sg_g008",
-      "text": "한국어 회의 녹음 전사를 로컬 GPU(8GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+      "text": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
       "mode": "bm25_offline",
       "candidate_count": 234,
       "top_k": 5,
@@ -834,7 +834,7 @@
     },
     {
       "query_id": "sg_g019",
-      "text": "GPU 없는 PC(RAM 4GB 이상)에서 오프라인으로 도는 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
+      "text": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
       "mode": "bm25_offline",
       "candidate_count": 234,
       "top_k": 5,
@@ -843,44 +843,44 @@
           "openai/whisper-base"
         ],
         "expected_rank_all_candidates": null,
-        "expected_family_rank_all_candidates": 16,
+        "expected_family_rank_all_candidates": 15,
         "dedup_removed_expected": true
       },
       "results": [
         {
-          "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
-          "canonical_model_id": "nvidia/nemotron-3.5-asr-streaming-0.6b",
+          "model_id": "cstr/VibeVoice-7B-GGUF",
+          "canonical_model_id": "microsoft/VibeVoice-Large",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "ghost613/faster-whisper-large-v3-turbo-korean",
+          "canonical_model_id": "openai/whisper-large-v3-turbo",
           "source_pool": "low_popularity",
           "task": "automatic-speech-recognition",
           "parameter_count": null
         },
         {
-          "model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
-          "canonical_model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "model_id": "seastar105/whisper-medium-ko-zeroth",
+          "canonical_model_id": "seastar105/whisper-medium-ko-zeroth",
           "source_pool": "low_popularity",
           "task": "automatic-speech-recognition",
-          "parameter_count": 2814116321
+          "parameter_count": null
         },
         {
-          "model_id": "microsoft/VibeVoice-ASR-BitNet",
-          "canonical_model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
           "source_pool": "core",
           "task": "automatic-speech-recognition",
-          "parameter_count": 2814116321
+          "parameter_count": 763857920
         },
         {
-          "model_id": "aufklarer/Qwen3-ASR-CoreML",
-          "canonical_model_id": "Qwen/Qwen3-ASR-0.6B",
-          "source_pool": "core",
-          "task": "automatic-speech-recognition",
-          "parameter_count": 507904000
-        },
-        {
-          "model_id": "ngoctham/VibeVoice-ASR-BitNet",
-          "canonical_model_id": "ngoctham/VibeVoice-ASR-BitNet",
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
           "source_pool": "low_popularity",
           "task": "automatic-speech-recognition",
-          "parameter_count": 2814116321
+          "parameter_count": 241734912
         }
       ]
     },

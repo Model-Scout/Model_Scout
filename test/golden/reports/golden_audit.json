@@ -9,6 +9,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
       "CohereLabs/aya-expanse-8b"
@@ -27,6 +29,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "jhgan/ko-sroberta-multitask"
     ],
@@ -44,6 +48,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "NHNDQ/nllb-finetuned-en2ko"
     ],
@@ -63,6 +69,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "openai/whisper-large-v3"
     ],
@@ -83,6 +91,8 @@
     "case_confidence": "low",
     "has_quote": false,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "Systran/faster-whisper-small"
     ],
@@ -105,6 +115,8 @@
     "case_confidence": "low",
     "has_quote": false,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "Systran/faster-whisper-large-v3"
     ],
@@ -114,6 +126,7 @@
     ],
     "issues": [
       "사례 원본이 아닌 변환본으로만 정답 도달",
+      "원문 대조 후 질의 수정(2026-10-01)",
       "정답 근거 원문 인용 없음"
     ],
     "errors": []
@@ -128,6 +141,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "batiai/gemma-4-E2B-it-GGUF"
     ],
@@ -149,6 +164,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "NCSOFT/VARCO-VISION-14B"
     ],
@@ -168,6 +185,8 @@
     "case_confidence": "low",
     "has_quote": false,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "intfloat/multilingual-e5-small"
     ],
@@ -191,6 +210,8 @@
     "case_confidence": "low",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "snunlp/KR-FinBert-SC"
     ],
@@ -208,6 +229,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
       "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF",
@@ -228,6 +251,8 @@
     "case_confidence": "low",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "MLP-KTLim/llama-3-Korean-Bllossom-8B"
     ],
@@ -247,6 +272,8 @@
     "case_confidence": "low",
     "has_quote": false,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "openai/whisper-large-v3-turbo"
     ],
@@ -271,6 +298,8 @@
     "case_confidence": "low",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "openai/whisper-base"
     ],
@@ -280,7 +309,9 @@
       "handy-computer/whisper-base-gguf",
       "openai/whisper-small"
     ],
-    "issues": [],
+    "issues": [
+      "원문 대조 후 질의 수정(2026-10-01)"
+    ],
     "errors": []
   },
   {
@@ -293,6 +324,8 @@
     "case_confidence": "low",
     "has_quote": false,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [
       "FunAudioLLM/SenseVoiceSmall"
     ],
@@ -316,6 +349,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "unsloth/Qwen2.5-7B-Instruct",
       "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
@@ -338,6 +373,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "unsloth/Qwen2.5-7B-Instruct",
       "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
@@ -360,6 +397,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "ThomasBaruzier/Qwen2.5-1.5B-Instruct-GGUF",
       "Mungert/Qwen2.5-1.5B-Instruct-GGUF",
@@ -382,6 +421,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "mykor/KURE-v1-gguf",
       "Bingsu/KURE-v1-Q8_0-GGUF"
@@ -404,6 +445,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "mykor/KURE-v1-gguf",
       "Bingsu/KURE-v1-Q8_0-GGUF"
@@ -426,6 +469,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "Qwen/Qwen3-ASR-1.7B-hf",
       "handy-computer/Qwen3-ASR-1.7B-gguf",
@@ -449,6 +494,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "openai/whisper-large-v3-turbo"
     ],
@@ -472,6 +519,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "openai/whisper-base",
       "handy-computer/whisper-base-gguf"
@@ -496,6 +545,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
     "expected_reachable": [
       "batiai/gemma-4-E4B-it-GGUF"
     ],
@@ -518,6 +569,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [],
     "acceptable_reachable": [],
     "issues": [],
@@ -533,6 +586,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [],
     "acceptable_reachable": [],
     "issues": [
@@ -550,6 +605,8 @@
     "case_confidence": "high",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [],
     "acceptable_reachable": [],
     "issues": [
@@ -567,6 +624,8 @@
     "case_confidence": "medium",
     "has_quote": true,
     "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
     "expected_reachable": [],
     "acceptable_reachable": [],
     "issues": [],

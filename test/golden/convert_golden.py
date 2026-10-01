@@ -83,6 +83,7 @@ def convert(item: Dict[str, Any]) -> Dict[str, Any]:
         "source_case_id": item["source_case_id"],
         "source_url": item["source_url"],
         "evidence_quote": item.get("evidence_quote"),
+        "source_verification": item.get("source_verification"),
     }
 
 
