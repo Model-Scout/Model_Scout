@@ -1,0 +1,1472 @@
+{
+  "mode": "bm25_offline",
+  "query_count": 28,
+  "reports": [
+    {
+      "query_id": "sg_g002",
+      "text": "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어.",
+      "mode": "bm25_offline",
+      "candidate_count": 2395,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "CohereLabs/aya-expanse-8b",
+          "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 302,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "geoffmunn/Qwen3-14B-f16",
+          "canonical_model_id": "Qwen/Qwen3-14B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+          "canonical_model_id": "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "lunar1020/EXAONE-ExaDialogue-2.4B",
+          "canonical_model_id": "lunar1020/EXAONE-ExaDialogue-2.4B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 2405327360
+        },
+        {
+          "model_id": "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+          "canonical_model_id": "Qwen/Qwen3.8-27B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF",
+          "canonical_model_id": "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g003",
+      "text": "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 2395,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "geoffmunn/Qwen3-14B-f16",
+          "canonical_model_id": "Qwen/Qwen3-14B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+          "canonical_model_id": "Qwen/Qwen3.8-27B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1-GGUF",
+          "canonical_model_id": "MaziyarPanahi/zephykor-ko-beta-7b-chang-Mistral-7B-Instruct-v0.1",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF",
+          "canonical_model_id": "MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "MaziyarPanahi/openbuddy-mistral-7b-v13-base-Mistral-7B-Instruct-v0.1-GGUF",
+          "canonical_model_id": "MaziyarPanahi/openbuddy-mistral-7b-v13-base-Mistral-7B-Instruct-v0.1",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g004",
+      "text": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 435,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "jhgan/ko-sroberta-multitask"
+        ],
+        "expected_rank_all_candidates": 105,
+        "expected_family_rank_all_candidates": 105,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "ysmeta/EVE-Embed-1.1-Legal",
+          "canonical_model_id": "dragonkue/BGE-m3-ko",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 567754752
+        },
+        {
+          "model_id": "litert-community/LFM2.5-ColBERT-350M",
+          "canonical_model_id": "LiquidAI/LFM2.5-ColBERT-350M",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": null
+        },
+        {
+          "model_id": "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+          "canonical_model_id": "Snowflake/snowflake-arctic-embed-l-v2.0",
+          "source_pool": "core",
+          "task": "sentence-similarity",
+          "parameter_count": 567754752
+        },
+        {
+          "model_id": "BM-K/KoSimCSE-Unsup-BERT",
+          "canonical_model_id": "BM-K/KoSimCSE-Unsup-BERT",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": 110617856
+        },
+        {
+          "model_id": "BM-K/KoSimCSE-Unsup-RoBERTa",
+          "canonical_model_id": "BM-K/KoSimCSE-Unsup-RoBERTa",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": 110618626
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g005",
+      "text": "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하).",
+      "mode": "bm25_offline",
+      "candidate_count": 239,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "NHNDQ/nllb-finetuned-en2ko"
+        ],
+        "expected_rank_all_candidates": 8,
+        "expected_family_rank_all_candidates": 8,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "TheBloke/TowerInstruct-7B-v0.1-GGUF",
+          "canonical_model_id": "Unbabel/TowerInstruct-7B-v0.1",
+          "source_pool": "core",
+          "task": "translation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "quickmt/quickmt-en-ko",
+          "canonical_model_id": "quickmt/quickmt-en-ko",
+          "source_pool": "low_popularity",
+          "task": "translation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "litert-community/Hy-MT2-1.8B",
+          "canonical_model_id": "tencent/Hy-MT2-1.8B",
+          "source_pool": "low_popularity",
+          "task": "translation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "Xenova/opus-mt-ko-en",
+          "canonical_model_id": "Helsinki-NLP/opus-mt-ko-en",
+          "source_pool": "core",
+          "task": "translation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "jhk/opus-mt-tc-big-wiki-en-ko",
+          "canonical_model_id": "jhk/opus-mt-tc-big-wiki-en-ko",
+          "source_pool": "low_popularity",
+          "task": "translation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g006",
+      "text": "맥북(M1 Pro 이상)에서 한국어 회의 녹음을 로컬로 전사해 회의록을 만들려고 해. 음성이 외부로 나가면 안 되고 상업적으로 써야 해. 전문 용어·고유명사 인식이 중요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "openai/whisper-large-v3"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 8,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "cstr/sensevoice-small-GGUF",
+          "canonical_model_id": "FunAudioLLM/SenseVoiceSmall",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 763857920
+        },
+        {
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 241734912
+        },
+        {
+          "model_id": "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+          "canonical_model_id": "mistralai/Voxtral-Mini-4B-Realtime-2602",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 4429679360
+        },
+        {
+          "model_id": "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit",
+          "canonical_model_id": "CohereLabs/cohere-transcribe-03-2026",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g007",
+      "text": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Systran/faster-whisper-small"
+        ],
+        "expected_rank_all_candidates": 65,
+        "expected_family_rank_all_candidates": 65,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+          "canonical_model_id": "nvidia/nemotron-3.5-asr-streaming-0.6b",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        },
+        {
+          "model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        },
+        {
+          "model_id": "aufklarer/Qwen3-ASR-CoreML",
+          "canonical_model_id": "Qwen/Qwen3-ASR-0.6B",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 507904000
+        },
+        {
+          "model_id": "ngoctham/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "ngoctham/VibeVoice-ASR-BitNet",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g008",
+      "text": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Systran/faster-whisper-large-v3"
+        ],
+        "expected_rank_all_candidates": 76,
+        "expected_family_rank_all_candidates": 76,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 763857920
+        },
+        {
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 241734912
+        },
+        {
+          "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+          "canonical_model_id": "nvidia/nemotron-3.5-asr-streaming-0.6b",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        },
+        {
+          "model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g009",
+      "text": "회의 전사록을 요약해 회의록 초안을 만드는 기능을 로컬에서 돌리려고 해. GPU는 8GB야.",
+      "mode": "bm25_offline",
+      "candidate_count": 2171,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "batiai/gemma-4-E2B-it-GGUF"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 76,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "0ppxnhximxr/Motif-3-FP8",
+          "canonical_model_id": "Motif-Technologies/Motif-3",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 314860576390
+        },
+        {
+          "model_id": "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+          "canonical_model_id": "google/gemma-4-26B-A4B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "0xWhiteMage/Qwen3.8-27B-Kearuga",
+          "canonical_model_id": "Qwen/Qwen3.8-27B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 19759821552
+        },
+        {
+          "model_id": "0xzknw/Granite-4.2-3B-Heretic-NX-PRIME-GGUF",
+          "canonical_model_id": "ibm-granite/granite-4.2-3b",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "0xzknw/LFM2.5-1.2B-Thinking-Heretic",
+          "canonical_model_id": "LiquidAI/LFM2.5-1.2B-Thinking",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 1170340608
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g010",
+      "text": "한국어로 된 문서 사진, 표, 차트를 이해하고 질문에 답하는 비전-언어 모델이 필요해. 14B 이하로 로컬 서버에서 돌릴 거야.",
+      "mode": "bm25_offline",
+      "candidate_count": 290,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "NCSOFT/VARCO-VISION-14B"
+        ],
+        "expected_rank_all_candidates": 1,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "NCSOFT/VARCO-VISION-14B",
+          "canonical_model_id": "Qwen/Qwen2.5-14B-Instruct",
+          "source_pool": "low_popularity",
+          "task": "image-text-to-text",
+          "parameter_count": 15195926048
+        },
+        {
+          "model_id": "EnlistedGhost/Ministral-3-14B-Instruct-2512-GGUF",
+          "canonical_model_id": "mistralai/Ministral-3-14B-Instruct-2512-BF16",
+          "source_pool": "core",
+          "task": "image-text-to-text",
+          "parameter_count": null
+        },
+        {
+          "model_id": "EnlistedGhost/Ministral-3-14B-Reasoning-2512-GGUF",
+          "canonical_model_id": "mistralai/Ministral-3-14B-Reasoning-2512",
+          "source_pool": "core",
+          "task": "image-text-to-text",
+          "parameter_count": null
+        },
+        {
+          "model_id": "NCSOFT/VARCO-VISION-2.0-14B",
+          "canonical_model_id": "Qwen/Qwen3-14B",
+          "source_pool": "core",
+          "task": "image-text-to-text",
+          "parameter_count": 15195602848
+        },
+        {
+          "model_id": "MuXodious/Ministral-3-14B-Instruct-2512-absolute-heresy",
+          "canonical_model_id": "mistralai/Ministral-3-14B-Instruct-2512",
+          "source_pool": "low_popularity",
+          "task": "image-text-to-text",
+          "parameter_count": 13945031680
+        }
+      ]
+    },
+    {
+      "query_id": "sg_a001",
+      "text": "한국어 문서 OCR을 24GB GPU 한 장에서 로컬로 돌리려고 해. Qwen2.5-VL 32B가 좋다던데 이걸로 가능할까?",
+      "mode": "bm25_offline",
+      "candidate_count": 385,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "LiquidAI/LFM2-VL-3B",
+          "canonical_model_id": "LiquidAI/LFM2-VL-3B",
+          "source_pool": "core",
+          "task": "image-text-to-text",
+          "parameter_count": 2998975216
+        },
+        {
+          "model_id": "skt/A.X-4.0-VL-Light",
+          "canonical_model_id": "skt/A.X-4.0-Light",
+          "source_pool": "core",
+          "task": "image-text-to-text",
+          "parameter_count": 7689660144
+        },
+        {
+          "model_id": "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
+          "canonical_model_id": "LiquidAI/LFM2.5-VL-450M",
+          "source_pool": "low_popularity",
+          "task": "image-text-to-text",
+          "parameter_count": 448724992
+        },
+        {
+          "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF",
+          "canonical_model_id": "coder3101/LFM2.5-VL-450M-heretic",
+          "source_pool": "low_popularity",
+          "task": "image-text-to-text",
+          "parameter_count": null
+        },
+        {
+          "model_id": "MuXodious/LFM2-VL-3B-heretic-GGUF",
+          "canonical_model_id": "pszemraj/LFM2-VL-3B-heretic",
+          "source_pool": "low_popularity",
+          "task": "image-text-to-text",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g013",
+      "text": "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 435,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "intfloat/multilingual-e5-small"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 87,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "litert-community/LFM2.5-ColBERT-350M",
+          "canonical_model_id": "LiquidAI/LFM2.5-ColBERT-350M",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": null
+        },
+        {
+          "model_id": "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+          "canonical_model_id": "Snowflake/snowflake-arctic-embed-l-v2.0",
+          "source_pool": "core",
+          "task": "sentence-similarity",
+          "parameter_count": 567754752
+        },
+        {
+          "model_id": "BM-K/KoSimCSE-Unsup-BERT",
+          "canonical_model_id": "BM-K/KoSimCSE-Unsup-BERT",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": 110617856
+        },
+        {
+          "model_id": "BM-K/KoSimCSE-Unsup-RoBERTa",
+          "canonical_model_id": "BM-K/KoSimCSE-Unsup-RoBERTa",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": 110618626
+        },
+        {
+          "model_id": "Baragi-AI/Munche-768",
+          "canonical_model_id": "google/embeddinggemma-300m",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g014",
+      "text": "한국어 경제 뉴스 기사 수백 건에 긍정·부정·중립 감성 점수를 매기려고 해. 추가 학습 없이 바로 쓸 수 있는 분류 모델이 필요하고 CPU에서 돌릴 거야.",
+      "mode": "bm25_offline",
+      "candidate_count": 79,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "snunlp/KR-FinBert-SC"
+        ],
+        "expected_rank_all_candidates": 64,
+        "expected_family_rank_all_candidates": 64,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model",
+          "canonical_model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model",
+          "source_pool": "low_popularity",
+          "task": "text-classification",
+          "parameter_count": 112923651
+        },
+        {
+          "model_id": "BalaRajesh1/mmbert-small-nli",
+          "canonical_model_id": "BalaRajesh1/mmbert-small-nli",
+          "source_pool": "low_popularity",
+          "task": "text-classification",
+          "parameter_count": 140642691
+        },
+        {
+          "model_id": "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+          "canonical_model_id": "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+          "source_pool": "core",
+          "task": "text-classification",
+          "parameter_count": 112923394
+        },
+        {
+          "model_id": "DataWizardd/finbert-sentiment-ko",
+          "canonical_model_id": "DataWizardd/finbert-sentiment-ko",
+          "source_pool": "core",
+          "task": "text-classification",
+          "parameter_count": 101403651
+        },
+        {
+          "model_id": "Dongjin-kr/ko-reranker",
+          "canonical_model_id": "Dongjin-kr/ko-reranker",
+          "source_pool": "core",
+          "task": "text-classification",
+          "parameter_count": 559891457
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g015",
+      "text": "한국어 문서를 근거로 답하는 RAG를 개인 PC의 Docker에서만 돌리려고 해. 7.8B 모델은 답변에 2분 넘게 걸려서 더 작고 빠른 한국어 모델이 필요해. 학습용 프로젝트라 라이선스는 상관없어.",
+      "mode": "bm25_offline",
+      "candidate_count": 2156,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+          "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF",
+          "bartowski/EXAONE-3.5-2.4B-Instruct-GGUF",
+          "lmstudio-community/EXAONE-3.5-2.4B-Instruct-GGUF"
+        ],
+        "expected_rank_all_candidates": 124,
+        "expected_family_rank_all_candidates": 124,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "mradermacher/Archon-8B-GGUF",
+          "canonical_model_id": "DuoNeural/Archon-8B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "mradermacher/next-8b-GGUF",
+          "canonical_model_id": "thelamapi/next-8b",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "geoffmunn/Qwen3-8B-f16",
+          "canonical_model_id": "Qwen/Qwen3-8B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "kakaocorp/kanana-safeguard-8b",
+          "canonical_model_id": "kakaocorp/kanana-safeguard-8b",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 8030326784
+        },
+        {
+          "model_id": "mradermacher/next2-0.8b-GGUF",
+          "canonical_model_id": "thelamapi/next2-0.8b",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g016",
+      "text": "한국어 문서를 근거로 답하는 RAG를 사내 서버에서만 돌리려고 해. 7.8B 모델은 너무 느려서 더 작고 빠른 한국어 모델이 필요하고, 유료 서비스에 넣을 거라 상업적으로 쓸 수 있어야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 2156,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "mradermacher/Archon-8B-GGUF",
+          "canonical_model_id": "DuoNeural/Archon-8B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "mradermacher/next-8b-GGUF",
+          "canonical_model_id": "thelamapi/next-8b",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "geoffmunn/Qwen3-8B-f16",
+          "canonical_model_id": "Qwen/Qwen3-8B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "kakaocorp/kanana-safeguard-8b",
+          "canonical_model_id": "kakaocorp/kanana-safeguard-8b",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 8030326784
+        },
+        {
+          "model_id": "mradermacher/next2-0.8b-GGUF",
+          "canonical_model_id": "thelamapi/next2-0.8b",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g017",
+      "text": "RTX 3060(12GB) 한 장에서 Ollama로 돌릴 한국어 멀티턴 대화용 LLM이 필요해. FP16은 너무 느려서 int4로 양자화해 빠르게 돌리고 싶어.",
+      "mode": "bm25_offline",
+      "candidate_count": 2156,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "MLP-KTLim/llama-3-Korean-Bllossom-8B"
+        ],
+        "expected_rank_all_candidates": 280,
+        "expected_family_rank_all_candidates": 663,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "geoffmunn/Qwen3-14B-f16",
+          "canonical_model_id": "Qwen/Qwen3-14B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "hp0303/Qwen3.8-27B-Texelator-AWBC4-BF16Cal",
+          "canonical_model_id": "Qwen/Qwen3.8-27B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "gabriellarson/Devstral-Small-2507-GGUF",
+          "canonical_model_id": "mistralai/Devstral-Small-2507",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "compute1/Agents-A1-GPTQ-INT4-Sym",
+          "canonical_model_id": "InternScience/Agents-A1",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 35107181936
+        },
+        {
+          "model_id": "unsloth/Devstral-Small-2507",
+          "canonical_model_id": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 23572403200
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g018",
+      "text": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "openai/whisper-large-v3-turbo"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 11,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+          "canonical_model_id": "nvidia/nemotron-3.5-asr-streaming-0.6b",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "suryatmodulus/VibeVoice-ASR-BitNet",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        },
+        {
+          "model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "microsoft/VibeVoice-ASR-BitNet",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        },
+        {
+          "model_id": "aufklarer/Qwen3-ASR-CoreML",
+          "canonical_model_id": "Qwen/Qwen3-ASR-0.6B",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 507904000
+        },
+        {
+          "model_id": "ngoctham/VibeVoice-ASR-BitNet",
+          "canonical_model_id": "ngoctham/VibeVoice-ASR-BitNet",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 2814116321
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g019",
+      "text": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "openai/whisper-base"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 15,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "cstr/VibeVoice-7B-GGUF",
+          "canonical_model_id": "microsoft/VibeVoice-Large",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "ghost613/faster-whisper-large-v3-turbo-korean",
+          "canonical_model_id": "openai/whisper-large-v3-turbo",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "seastar105/whisper-medium-ko-zeroth",
+          "canonical_model_id": "seastar105/whisper-medium-ko-zeroth",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 763857920
+        },
+        {
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 241734912
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g020",
+      "text": "맥용 전사 앱에 중국어·일본어·한국어 음성을 빠르게 받아적는 엔진을 넣으려고 해. 정확도보다 속도가 우선이야.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "FunAudioLLM/SenseVoiceSmall"
+        ],
+        "expected_rank_all_candidates": 20,
+        "expected_family_rank_all_candidates": 20,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 763857920
+        },
+        {
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 241734912
+        },
+        {
+          "model_id": "17slever17/Qwen3-ForcedAligner-Ultra",
+          "canonical_model_id": "Qwen/Qwen3-ForcedAligner-0.6B",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 917728896
+        },
+        {
+          "model_id": "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+          "canonical_model_id": "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 179840239
+        },
+        {
+          "model_id": "AMAImedia/NOESIS-Whisper3-1.6B-Large-Turbo-Darwin-99LANG-BF16",
+          "canonical_model_id": "openai/whisper-large-v3",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 1543490560
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g021",
+      "text": "유저 계정과 미출시 콘텐츠가 담긴 한국어 게임 버그 리포트를 QA 담당자 노트북에서 분류·정리할 로컬 LLM이 필요해. 외부 API로 보낼 수 없고, Q4 양자화 기준 7~8B급이 상한이야. 회사 업무라 상업적으로 쓸 수 있어야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 1488,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic",
+          "RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8",
+          "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
+          "unsloth/Qwen2.5-7B-Instruct"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 6,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+          "canonical_model_id": "bluejude10/kanana-1.5-2.1b-DTRO-3LINE-POWER-q4-k-m",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-gguf",
+          "canonical_model_id": "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-gguf",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 4860936192
+        },
+        {
+          "model_id": "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+          "canonical_model_id": "teddylee777/Qwen2.5-7B-Instruct-kowiki-qa-context-gguf",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 4860936192
+        },
+        {
+          "model_id": "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2",
+          "canonical_model_id": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 7818448896
+        },
+        {
+          "model_id": "LiquidAI/LFM2.5-2.6B-ONNX",
+          "canonical_model_id": "LiquidAI/LFM2.5-2.6B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 1772093440
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g022",
+      "text": "사내 취업규칙 문서를 근거 조항으로만 답하는 한국어 RAG 챗봇을 만들 거야. 사내 규정을 외부로 보낼 수 없어서 완전히 로컬에서 돌아가야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 2156,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic",
+          "RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8",
+          "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
+          "unsloth/Qwen2.5-7B-Instruct"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 57,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "OrionStarAI/Orion-14B-Chat-RAG",
+          "canonical_model_id": "OrionStarAI/Orion-14B-Chat-RAG",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 13016104960
+        },
+        {
+          "model_id": "LiquidAI/LFM2-1.2B-RAG-GGUF",
+          "canonical_model_id": "LiquidAI/LFM2-1.2B-RAG",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "LiquidAI/LFM2-1.2B-RAG",
+          "canonical_model_id": "LiquidAI/LFM2-1.2B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 1170340608
+        },
+        {
+          "model_id": "CohereLabs/c4ai-command-r7b-arabic-02-2025",
+          "canonical_model_id": "CohereLabs/c4ai-command-r7b-arabic-02-2025",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 8028033024
+        },
+        {
+          "model_id": "OpenVINO/Phi-4-mini-instruct-int8-ov",
+          "canonical_model_id": "microsoft/Phi-4-mini-instruct",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 4238475264
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g023",
+      "text": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+      "mode": "bm25_offline",
+      "candidate_count": 2171,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Alcoft/Qwen2.5-1.5B-Instruct-GGUF",
+          "Mungert/Qwen2.5-1.5B-Instruct-GGUF",
+          "ThomasBaruzier/Qwen2.5-1.5B-Instruct-GGUF",
+          "gaianet/Qwen2.5-1.5B-Instruct-GGUF"
+        ],
+        "expected_rank_all_candidates": 30,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "intrect/VELA",
+          "canonical_model_id": "Qwen/Qwen2.5-7B-Instruct",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 7615616512
+        },
+        {
+          "model_id": "maywell/Jolteon-Instruct-13B-alpha",
+          "canonical_model_id": "yanolja/YanoljaNEXT-EEVE-Instruct-10.8B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 13422268416
+        },
+        {
+          "model_id": "0ppxnhximxr/Motif-3-FP8",
+          "canonical_model_id": "Motif-Technologies/Motif-3",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 314860576390
+        },
+        {
+          "model_id": "0x795E2795/Obsidian-Alpha-26B-A4B-it-qat-q4_0",
+          "canonical_model_id": "google/gemma-4-26B-A4B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "0xWhiteMage/Qwen3.8-27B-Kearuga",
+          "canonical_model_id": "Qwen/Qwen3.8-27B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 19759821552
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g024",
+      "text": "Jetson 보드에서 3B급 소형 LLM과 함께 올릴 한국어 임베딩 모델이 필요해. 메모리가 빠듯해서 작게 양자화된 버전이면 좋겠어.",
+      "mode": "bm25_offline",
+      "candidate_count": 435,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Bingsu/KURE-v1-Q8_0-GGUF",
+          "mykor/KURE-v1-gguf"
+        ],
+        "expected_rank_all_candidates": 26,
+        "expected_family_rank_all_candidates": 26,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "0xnu/pmmlv2-fine-tuned-flemish",
+          "canonical_model_id": "0xnu/pmmlv2-fine-tuned-flemish",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 117653760
+        },
+        {
+          "model_id": "0xnu/pmmlv2-fine-tuned-hausa",
+          "canonical_model_id": "0xnu/pmmlv2-fine-tuned-hausa",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 117653760
+        },
+        {
+          "model_id": "0xnu/pmmlv2-fine-tuned-igbo",
+          "canonical_model_id": "0xnu/pmmlv2-fine-tuned-igbo",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 117653760
+        },
+        {
+          "model_id": "0xnu/pmmlv2-fine-tuned-yoruba",
+          "canonical_model_id": "0xnu/pmmlv2-fine-tuned-yoruba",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 117653760
+        },
+        {
+          "model_id": "78ResearchLab/PurpleHound-Embed-v1",
+          "canonical_model_id": "Qwen/Qwen3-Embedding-0.6B",
+          "source_pool": "low_popularity",
+          "task": "feature-extraction",
+          "parameter_count": 595776512
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g025",
+      "text": "API 키 없이 로컬 GPU에서 sentence-transformers로 돌릴 한국어 서비스용 임베딩 모델을 고르려고 해. 한국어 검색 정확도가 가장 중요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 435,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Bingsu/KURE-v1-Q8_0-GGUF",
+          "mykor/KURE-v1-gguf"
+        ],
+        "expected_rank_all_candidates": 251,
+        "expected_family_rank_all_candidates": 251,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "sorryhyun/sentence-embedding-klue-large",
+          "canonical_model_id": "sorryhyun/sentence-embedding-klue-large",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 336656384
+        },
+        {
+          "model_id": "hunkim/sentence-transformers-klue-bert-base",
+          "canonical_model_id": "hunkim/sentence-transformers-klue-bert-base",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 109510656
+        },
+        {
+          "model_id": "sentence-transformers/LaBSE",
+          "canonical_model_id": "sentence-transformers/LaBSE",
+          "source_pool": "core",
+          "task": "sentence-similarity",
+          "parameter_count": 470927360
+        },
+        {
+          "model_id": "hunkim/sentence-transformer-klue",
+          "canonical_model_id": "hunkim/sentence-transformer-klue",
+          "source_pool": "core",
+          "task": "sentence-similarity",
+          "parameter_count": 109510656
+        },
+        {
+          "model_id": "keithtwesigye/lunyoro-sentence-embeddings",
+          "canonical_model_id": "keithtwesigye/lunyoro-sentence-embeddings",
+          "source_pool": "low_popularity",
+          "task": "sentence-similarity",
+          "parameter_count": 117653760
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g026",
+      "text": "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "Qwen/Qwen3-ASR-1.7B-hf",
+          "cstr/qwen3-asr-1.7b-GGUF",
+          "handy-computer/Qwen3-ASR-1.7B-gguf"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 15,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "moonshine-ai/moonshine-base-ko",
+          "canonical_model_id": "moonshine-ai/moonshine-base-ko",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 61513920
+        },
+        {
+          "model_id": "moonshine-ai/moonshine-tiny-ko",
+          "canonical_model_id": "moonshine-ai/moonshine-tiny-ko",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 27092736
+        },
+        {
+          "model_id": "Infomaniak-AI/faster-whisper-large-v3-turbo",
+          "canonical_model_id": "Infomaniak-AI/faster-whisper-large-v3-turbo",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "loom-ai-org/whisper-small-loom",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "huihui-ai/Phi-4-multimodal-instruct-abliterated",
+          "canonical_model_id": "microsoft/Phi-4-multimodal-instruct",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 5574460384
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g027",
+      "text": "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "openai/whisper-large-v3-turbo"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 14,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "cstr/sensevoice-small-GGUF",
+          "canonical_model_id": "FunAudioLLM/SenseVoiceSmall",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        },
+        {
+          "model_id": "seastar105/whisper-medium-komixv2",
+          "canonical_model_id": "openai/whisper-medium",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 763857920
+        },
+        {
+          "model_id": "seastar105/whisper-small-komixv2",
+          "canonical_model_id": "openai/whisper-small",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 241734912
+        },
+        {
+          "model_id": "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+          "canonical_model_id": "mistralai/Voxtral-Mini-4B-Realtime-2602",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 4429679360
+        },
+        {
+          "model_id": "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+          "canonical_model_id": "mistralai/Ministral-3-3B-Base-2512",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g028",
+      "text": "휴대폰·태블릿에서 온디바이스로 한국어 녹취를 받아적어야 해. 저장공간과 메모리 부담이 적어야 해서 medium보다 작은 모델을 쓰려고 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 234,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "handy-computer/whisper-base-gguf",
+          "openai/whisper-base"
+        ],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": 22,
+        "dedup_removed_expected": true
+      },
+      "results": [
+        {
+          "model_id": "17slever17/Qwen3-ForcedAligner-Ultra",
+          "canonical_model_id": "Qwen/Qwen3-ForcedAligner-0.6B",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 917728896
+        },
+        {
+          "model_id": "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+          "canonical_model_id": "42MARU/ko-spelling-wav2vec2-conformer-del-1s",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 179840239
+        },
+        {
+          "model_id": "AMAImedia/NOESIS-Whisper3-1.6B-Large-Turbo-Darwin-99LANG-BF16",
+          "canonical_model_id": "openai/whisper-large-v3",
+          "source_pool": "low_popularity",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 1543490560
+        },
+        {
+          "model_id": "Aliados/nemotron-3.5-asr-streaming-0.6b",
+          "canonical_model_id": "Aliados/nemotron-3.5-asr-streaming-0.6b",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": 637997088
+        },
+        {
+          "model_id": "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit",
+          "canonical_model_id": "CohereLabs/cohere-transcribe-03-2026",
+          "source_pool": "core",
+          "task": "automatic-speech-recognition",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g029",
+      "text": "M1 이상 맥(RAM 16GB)에서 오프라인으로 한국어 회의록을 요약하고 교정할 LLM이 필요해. Ollama 없이 통합 메모리에서 바로 돌아가면 좋겠어.",
+      "mode": "bm25_offline",
+      "candidate_count": 2171,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [
+          "batiai/gemma-4-E4B-it-GGUF"
+        ],
+        "expected_rank_all_candidates": 9,
+        "expected_family_rank_all_candidates": 9,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "hymmmm/exaone-3.5-7.8b-emt-awq",
+          "canonical_model_id": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": 7818448896
+        },
+        {
+          "model_id": "choonok/VetJarvis-1.1-4B-Instruct-GGUF",
+          "canonical_model_id": "choonok/VetJarvis-1.1-4B-Instruct",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "geoffmunn/Qwen3-Coder-30B-A3B-Instruct-f16",
+          "canonical_model_id": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "sjmoon21/SJ-ko",
+          "canonical_model_id": "sjmoon21/SJ-ko",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "FreedomAISVR/Qwen3.6-35B-A3B-MXFP4-MOE-NoMTP-GGUF",
+          "canonical_model_id": "Qwen/Qwen3.6-35B-A3B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    },
+    {
+      "query_id": "sg_g030",
+      "text": "회의 녹음에서 할 일과 기여도를 뽑아내는 웹 플랫폼에 쓸 한국어 LLM을 자체 GPU 서버(10~16GB)에서 서빙하려고 해. 외부 AI API는 안 쓰고, 나중에 유료화할 수 있게 상업 라이선스여야 해.",
+      "mode": "bm25_offline",
+      "candidate_count": 2156,
+      "top_k": 5,
+      "diagnostics": {
+        "expected_eligible": [],
+        "expected_rank_all_candidates": null,
+        "expected_family_rank_all_candidates": null,
+        "dedup_removed_expected": false
+      },
+      "results": [
+        {
+          "model_id": "mradermacher/DataVortexS-10.7B-dpo-v1.10-GGUF",
+          "canonical_model_id": "Edentns/DataVortexS-10.7B-dpo-v1.10",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "Alphacode-AI/Alphacode-MALI-11B_slowtest",
+          "canonical_model_id": "Alphacode-AI/Alphacode-MALI-11B_slowtest",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 10949636096
+        },
+        {
+          "model_id": "LDCC/LDCC-SOLAR-10.7B",
+          "canonical_model_id": "LDCC/LDCC-SOLAR-10.7B",
+          "source_pool": "low_popularity",
+          "task": "text-generation",
+          "parameter_count": 10862596096
+        },
+        {
+          "model_id": "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF",
+          "canonical_model_id": "beomi/OPEN-SOLAR-KO-10.7B",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        },
+        {
+          "model_id": "TheBloke/SOLARC-MOE-10.7Bx4-GGUF",
+          "canonical_model_id": "DopeorNope/SOLARC-MOE-10.7Bx4",
+          "source_pool": "core",
+          "task": "text-generation",
+          "parameter_count": null
+        }
+      ]
+    }
+  ]
+}

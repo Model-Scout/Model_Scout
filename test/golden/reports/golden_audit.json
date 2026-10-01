@@ -1,0 +1,634 @@
+[
+  {
+    "query_id": "sg_g002",
+    "source_case_id": "c022",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "translation",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+      "CohereLabs/aya-expanse-8b"
+    ],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g004",
+    "source_case_id": "c005",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "feature-extraction",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "jhgan/ko-sroberta-multitask"
+    ],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g005",
+    "source_case_id": "c021",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "translation",
+    "tier": "A",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "NHNDQ/nllb-finetuned-en2ko"
+    ],
+    "acceptable_reachable": [
+      "facebook/nllb-200-distilled-600M"
+    ],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g006",
+    "source_case_id": "c024",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "openai/whisper-large-v3"
+    ],
+    "acceptable_reachable": [
+      "Systran/faster-whisper-large-v3",
+      "openai/whisper-large-v3-turbo"
+    ],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g007",
+    "source_case_id": "c026",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": false,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "Systran/faster-whisper-small"
+    ],
+    "acceptable_reachable": [
+      "Systran/faster-whisper-medium",
+      "openai/whisper-small"
+    ],
+    "issues": [
+      "정답 근거 원문 인용 없음"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g008",
+    "source_case_id": "c026",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": false,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "Systran/faster-whisper-large-v3"
+    ],
+    "acceptable_reachable": [
+      "openai/whisper-large-v3",
+      "openai/whisper-large-v3-turbo"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달",
+      "원문 대조 후 질의 수정(2026-10-01)",
+      "정답 근거 원문 인용 없음"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g009",
+    "source_case_id": "c018",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "summarization",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "batiai/gemma-4-E2B-it-GGUF"
+    ],
+    "acceptable_reachable": [
+      "batiai/gemma-4-E4B-it-GGUF"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g010",
+    "source_case_id": "c032",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "image-text-to-text",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "NCSOFT/VARCO-VISION-14B"
+    ],
+    "acceptable_reachable": [
+      "NCSOFT/VARCO-VISION-2.0-14B"
+    ],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g013",
+    "source_case_id": "r2-a005",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "feature-extraction",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": false,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "intfloat/multilingual-e5-small"
+    ],
+    "acceptable_reachable": [
+      "dragonkue/multilingual-e5-small-ko",
+      "dragonkue/multilingual-e5-small-ko-v2",
+      "cstr/multilingual-e5-small-GGUF"
+    ],
+    "issues": [
+      "정답 근거 원문 인용 없음"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g014",
+    "source_case_id": "r2-a006",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-classification",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "snunlp/KR-FinBert-SC"
+    ],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g015",
+    "source_case_id": "r2-b004",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "A",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+      "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF",
+      "lmstudio-community/EXAONE-3.5-2.4B-Instruct-GGUF",
+      "bartowski/EXAONE-3.5-2.4B-Instruct-GGUF"
+    ],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g017",
+    "source_case_id": "r2-b005",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "MLP-KTLim/llama-3-Korean-Bllossom-8B"
+    ],
+    "acceptable_reachable": [
+      "joongi007/llama-3-Korean-Bllossom-8B-20240809-GGUF"
+    ],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g018",
+    "source_case_id": "r2-c105",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": false,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "openai/whisper-large-v3-turbo"
+    ],
+    "acceptable_reachable": [
+      "deepdml/faster-whisper-large-v3-turbo-ct2",
+      "Zoont/faster-whisper-large-v3-turbo-int8-ct2",
+      "OpenVINO/whisper-large-v3-turbo-int8-ov",
+      "jfmdai/faster-whisper-large-v3-turbo-ct2"
+    ],
+    "issues": [
+      "정답 근거 원문 인용 없음"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g019",
+    "source_case_id": "r2-c106",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "openai/whisper-base"
+    ],
+    "acceptable_reachable": [
+      "Systran/faster-whisper-base",
+      "OpenVINO/whisper-base-int8-ov",
+      "handy-computer/whisper-base-gguf",
+      "openai/whisper-small"
+    ],
+    "issues": [
+      "원문 대조 후 질의 수정(2026-10-01)"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g020",
+    "source_case_id": "r2-c107",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "C",
+    "case_confidence": "low",
+    "has_quote": false,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [
+      "FunAudioLLM/SenseVoiceSmall"
+    ],
+    "acceptable_reachable": [
+      "FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp",
+      "handy-computer/SenseVoiceSmall-gguf",
+      "cstr/sensevoice-small-GGUF"
+    ],
+    "issues": [
+      "정답 근거 원문 인용 없음"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g021",
+    "source_case_id": "r2-b001",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "B",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "unsloth/Qwen2.5-7B-Instruct",
+      "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
+      "RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8",
+      "RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic"
+    ],
+    "acceptable_reachable": [],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g022",
+    "source_case_id": "r2-b003",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "unsloth/Qwen2.5-7B-Instruct",
+      "ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF",
+      "RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8",
+      "RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic"
+    ],
+    "acceptable_reachable": [],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g023",
+    "source_case_id": "r2-b007",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "summarization",
+    "tier": "B",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "ThomasBaruzier/Qwen2.5-1.5B-Instruct-GGUF",
+      "Mungert/Qwen2.5-1.5B-Instruct-GGUF",
+      "gaianet/Qwen2.5-1.5B-Instruct-GGUF",
+      "Alcoft/Qwen2.5-1.5B-Instruct-GGUF"
+    ],
+    "acceptable_reachable": [],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g024",
+    "source_case_id": "r2-a001",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "feature-extraction",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "mykor/KURE-v1-gguf",
+      "Bingsu/KURE-v1-Q8_0-GGUF"
+    ],
+    "acceptable_reachable": [
+      "nlpai-lab/KURE-v2"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g025",
+    "source_case_id": "r2-a002",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "feature-extraction",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "mykor/KURE-v1-gguf",
+      "Bingsu/KURE-v1-Q8_0-GGUF"
+    ],
+    "acceptable_reachable": [
+      "nlpai-lab/KURE-v2"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g026",
+    "source_case_id": "r2-c101",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "B",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "Qwen/Qwen3-ASR-1.7B-hf",
+      "handy-computer/Qwen3-ASR-1.7B-gguf",
+      "cstr/qwen3-asr-1.7b-GGUF"
+    ],
+    "acceptable_reachable": [
+      "openai/whisper-large-v3"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g027",
+    "source_case_id": "r2-c102",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "openai/whisper-large-v3-turbo"
+    ],
+    "acceptable_reachable": [
+      "openai/whisper-large-v3",
+      "handy-computer/whisper-large-v3-turbo-gguf",
+      "xkeyC/whisper-large-v3-turbo-gguf"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g028",
+    "source_case_id": "r2-c103",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "automatic-speech-recognition",
+    "tier": "B",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "openai/whisper-base",
+      "handy-computer/whisper-base-gguf"
+    ],
+    "acceptable_reachable": [
+      "Systran/faster-whisper-base",
+      "OpenVINO/whisper-base-int8-ov",
+      "openai/whisper-small"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g029",
+    "source_case_id": "r2-b006",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "summarization",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": true,
+    "expected_reachable": [
+      "batiai/gemma-4-E4B-it-GGUF"
+    ],
+    "acceptable_reachable": [
+      "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct",
+      "batiai/gemma-4-E2B-it-GGUF"
+    ],
+    "issues": [
+      "사례 원본이 아닌 변환본으로만 정답 도달"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g030",
+    "source_case_id": "r2-b002",
+    "label_type": "golden",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g003",
+    "source_case_id": "c022",
+    "label_type": "derived_counterfactual",
+    "evaluable_now": true,
+    "task": "translation",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [],
+    "acceptable_reachable": [],
+    "issues": [
+      "원 사례에 조건을 추가한 파생 질의"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_g016",
+    "source_case_id": "r2-b004",
+    "label_type": "derived_counterfactual",
+    "evaluable_now": true,
+    "task": "text-generation",
+    "tier": "A",
+    "case_confidence": "high",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [],
+    "acceptable_reachable": [],
+    "issues": [
+      "원 사례에 조건을 추가한 파생 질의"
+    ],
+    "errors": []
+  },
+  {
+    "query_id": "sg_a001",
+    "source_case_id": "c030",
+    "label_type": "abstention",
+    "evaluable_now": true,
+    "task": "image-text-to-text",
+    "tier": "B",
+    "case_confidence": "medium",
+    "has_quote": true,
+    "url_status": "exists_fetched",
+    "source_verified": true,
+    "answer_mapped_to_variant": false,
+    "expected_reachable": [],
+    "acceptable_reachable": [],
+    "issues": [],
+    "errors": []
+  }
+]

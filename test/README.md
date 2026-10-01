@@ -82,3 +82,13 @@ python test/evaluate_retrieval_golden.py \
 - 질의 유형별 표본 수가 작으면 Recall·MRR·nDCG의 분산이 큽니다.
 - benchmark self-reported 수치와 `keyword_hit`는 근거의 존재를 보조할 뿐 모델 품질을 보증하지 않습니다.
 - 임베딩 API를 새로 호출하는 평가는 `--execute`일 때 비용이 발생할 수 있습니다.
+
+## 실제 사례 기반 semantic 골든셋
+
+[`golden/`](golden/README.md)은 실제 한국어 프로젝트의 모델 선정 사례 57건에서 만든 별도 골든셋입니다. 위 48개 질의와 달리 정답을 사례 원문에서 가져왔고, 원문 URL·인용·신뢰도 등급(A/B/C)을 함께 기록합니다.
+
+- 골든셋 28개: 현재 DB(Core·Low Popularity)에 정답 모델이 있는 질의입니다. 근거 사례의 원문을 직접 열어 확인했습니다.
+- 사람 판정 배치 72개: 질의를 직접 쓰고 DB 후보를 0/1/2점으로 판정해 정답을 만드는 중입니다.
+- Stage 1 수집 점검용 12개: 정답 모델이 DB에 없어 골든셋에서 빼고, 수집 규칙을 바꿀 때 recall 확인에만 씁니다.
+
+채점은 [`evaluate_semantic_golden.py`](evaluate_semantic_golden.py)로 합니다. API 키 없이 돌리는 BM25 기준선(`golden/run_bm25_golden.py`)과 라벨 점검(`golden/audit_golden.py`)도 함께 있습니다.
