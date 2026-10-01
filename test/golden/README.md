@@ -70,6 +70,18 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 - **11/24는 정답이 후보에 있었지만 canonical 중복 제거에서 사라졌다.** 같은 canonical을 가진 변환본·파인튜닝 모델이 먼저 오면 정답 행이 제거된다. 검색기 쪽 문제로 `stage1_recall_gaps.md`에 기록했다.
 - must_exclude 위반은 0/28이고, 상업 조건 질의 6개 중 1개(g030)에서 비상업 라이선스 모델이 top-5에 나왔다. 검색기에 라이선스 필터가 없기 때문이다.
 
+## 사람 판정 배치 (진행 중)
+
+사례 없이 질의를 직접 쓰고, DB 후보를 사람이 0/1/2점으로 판정해 정답을 만드는 방식이다. 1차 배치는 부족한 task(QA, 분류, 비전 언어, 번역, 요약 등) 위주의 질의 20개다.
+
+| 파일 | 역할 |
+|---|---|
+| `labels/judging_queries_batch1.jsonl` | 질의 20개(`h001`~`h020`)와 조건. `pool_terms`는 후보 수집에만 쓰는 영어 검색어이며 채점에는 쓰지 않는다 |
+| `build_judging_pool.py` | 조건 필터를 통과한 모델 계열 중 BM25 상위와 다운로드 상위를 번갈아 골라 질의당 최대 12개 후보를 만든다 |
+| `reports/judging_pool_batch1.json` | 후보 239개와 판정용 정보. 후보가 뽑힌 경로(`pool_sources`)는 판정 화면에 보이지 않는다 |
+
+판정은 Claude 아티팩트 페이지(모델 스카우트 판정실)에서 한다. 판정자마다 점수가 따로 저장되고 서로의 점수는 보이지 않는다. 두 사람의 판정이 끝나면 일치도를 계산하고, 의견이 갈린 후보를 정리한 뒤 2점은 `expected_any`, 1점은 `acceptable`, 조건 위반으로 0점인 모델은 `must_exclude`로 옮겨 골든셋에 추가한다.
+
 ## 라벨 필드
 
 | 필드 | 뜻 | 채점 |
