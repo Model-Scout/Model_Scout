@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Scout 기획서</title>
+<meta name="description" content="프로젝트 아이디어를 적으면 필요한 데이터와 AI 모델을 근거와 함께 찾아주는 Model Scout 확장 기획서">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ===== 디자인 토큰: 색은 여기서만 바꾼다 ===== */
+:root {
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --surface-2: #f2f1ec;
+  --text: #1d1d1b;
+  --muted: #64625b;
+  --border: #e3e1d8;
+  --accent: #2f5bd3;
+  --accent-soft: #e8eefc;
+  --ok: #1f7a4d;     --ok-soft: #e3f3ea;
+  --warn: #9a5b00;   --warn-soft: #fbf0dc;
+  --risk: #b3261e;   --risk-soft: #fbe6e4;
+  --code-bg: #f2f1ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151514; --surface: #1d1d1b; --surface-2: #262623;
+    --text: #ecebe6; --muted: #a3a197; --border: #34332f;
+    --accent: #8aa8ff; --accent-soft: #232c45;
+    --ok: #6fcf9a; --ok-soft: #1c2f25;
+    --warn: #e6b45c; --warn-soft: #33291a;
+    --risk: #f08a80; --risk-soft: #3a201e;
+    --code-bg: #262623;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151514; --surface: #1d1d1b; --surface-2: #262623;
+  --text: #ecebe6; --muted: #a3a197; --border: #34332f;
+  --accent: #8aa8ff; --accent-soft: #232c45;
+  --ok: #6fcf9a; --ok-soft: #1c2f25;
+  --warn: #e6b45c; --warn-soft: #33291a;
+  --risk: #f08a80; --risk-soft: #3a201e;
+  --code-bg: #262623;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Pretendard", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 16px; line-height: 1.75; word-break: keep-all; overflow-wrap: anywhere;
+}
+a { color: var(--accent); }
+.layout { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: 56px; max-width: 1080px; margin: 0 auto; padding: 48px 24px 96px; }
+nav.toc { position: sticky; top: 32px; align-self: start; font-size: 14px; }
+nav.toc .label { color: var(--muted); font-size: 12px; letter-spacing: .04em; margin-bottom: 8px; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+nav.toc li { counter-increment: toc; }
+nav.toc a { display: block; padding: 4px 0 4px 12px; color: var(--muted); text-decoration: none; border-left: 2px solid var(--border); }
+nav.toc a::before { content: counter(toc) ". "; }
+nav.toc a:hover { color: var(--text); border-left-color: var(--accent); }
+
+header.doc { margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.eyebrow { color: var(--accent); font-weight: 600; font-size: 14px; }
+h1 { font-size: 36px; line-height: 1.3; margin: 8px 0 12px; letter-spacing: -.02em; }
+.lede { font-size: 19px; color: var(--muted); margin: 0 0 20px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+
+section { margin-top: 56px; }
+h2 { font-size: 24px; letter-spacing: -.01em; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+h3 { font-size: 18px; margin: 28px 0 8px; }
+p { margin: 0 0 14px; }
+ul, ol { padding-left: 22px; margin: 0 0 14px; }
+li { margin: 4px 0; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: .9em; }
+
+/* 상태 칩: 확정 / 제안 / 논의 필요 */
+.chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 999px; line-height: 1.7; }
+.chip.done { background: var(--ok-soft); color: var(--ok); }
+.chip.prop { background: var(--accent-soft); color: var(--accent); }
+.chip.open { background: var(--warn-soft); color: var(--warn); }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; margin: 16px 0; }
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+.callout.warn { border-color: var(--warn); background: var(--warn-soft); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.stat b { display: block; font-size: 24px; letter-spacing: -.02em; }
+.stat span { font-size: 13px; color: var(--muted); }
+
+.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--surface); }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+
+/* 흐름도 */
+.flow { display: grid; gap: 10px; margin: 20px 0; }
+.flow .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.node { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-size: 14.5px; }
+.node b { display: block; margin-bottom: 2px; }
+.node span { color: var(--muted); font-size: 13.5px; }
+.node.new { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.arrow { text-align: center; color: var(--muted); font-size: 18px; line-height: 1; }
+
+/* 예시 대화 */
+.demo .q { background: var(--surface-2); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; font-weight: 500; }
+.demo h4 { font-size: 14px; color: var(--muted); margin: 18px 0 6px; font-weight: 600; }
+.demo ul { margin-bottom: 0; }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.two .card { margin: 0; }
+.two h3 { margin-top: 0; }
+
+footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 0; padding: 28px 16px 64px; }
+  nav.toc { display: none; }
+  h1 { font-size: 28px; }
+  .lede { font-size: 17px; }
+  .two, .flow .row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc" aria-label="목차">
+  <div class="label">목차</div>
+  <ol>
+    <li><a href="#summary">한눈에 보기</a></li>
+    <li><a href="#problem">문제 정의</a></li>
+    <li><a href="#current">현재 Model Scout</a></li>
+    <li><a href="#proposal">확장 제안</a></li>
+    <li><a href="#scenario">사용 시나리오</a></li>
+    <li><a href="#architecture">시스템 구조</a></li>
+    <li><a href="#sources">데이터 소스</a></li>
+    <li><a href="#scope">MVP 범위</a></li>
+    <li><a href="#evaluation">평가 계획</a></li>
+    <li><a href="#risks">리스크</a></li>
+    <li><a href="#roadmap">진행 순서</a></li>
+    <li><a href="#decisions">결정할 것</a></li>
+    <li><a href="#changelog">변경 이력</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ============ 머리말 ============ -->
+<header class="doc">
+  <div class="eyebrow">Model Scout · 확장 기획서</div>
+  <h1>아이디어를 적으면, 필요한 데이터와 모델을 함께 찾아준다</h1>
+  <p class="lede">지금의 Model Scout는 요구사항에 맞는 Hugging Face 모델을 근거와 함께 추천합니다. 이번 확장에서는 같은 방식으로 필요한 공공데이터·학습 데이터까지 찾아, 기획 단계에서 바로 착수할 수 있게 만듭니다.</p>
+  <div class="meta">
+    <span>상태: <span class="chip open">초안 · 논의 중</span></span>
+    <span>최종 수정: 2026-10-02</span>
+    <span>작성: Model Scout 팀</span>
+  </div>
+</header>
+
+<!-- ============ 1. 한눈에 보기 ============ -->
+<section id="summary">
+  <h2>한눈에 보기</h2>
+  <div class="card">
+    <ul>
+      <li><b>무엇을</b>: 사용자가 만들고 싶은 AI 서비스를 자연어로 적으면, 필요한 <b>데이터셋</b>과 <b>모델</b>을 각각의 출처·라이선스·근거와 함께 추천합니다.</li>
+      <li><b>왜</b>: 아이디어 단계에서 가장 먼저 막히는 곳은 "어떤 모델을 쓸까"보다 "데이터를 어디서 구할까"인 경우가 많습니다.</li>
+      <li><b>어떻게</b>: 기존 모델 추천 파이프라인(수집 → metadata → semantic evidence → 임베딩 → hybrid 검색)을 데이터셋 카탈로그에도 적용하고, 앞단에 <b>아이디어 분해</b> 단계를 추가합니다.</li>
+      <li><b>원칙</b>: 근거 없는 추천은 하지 않습니다. AI 모델이 필요 없는 아이디어라면 그렇다고 답합니다.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 2. 문제 정의 ============ -->
+<section id="problem">
+  <h2>문제 정의</h2>
+  <p>AI 서비스를 기획하는 사람(부트캠프 수강생, 사이드 프로젝트 개발자, 초기 스타트업)은 아이디어를 실제 작업으로 옮길 때 다음 질문에 막힙니다.</p>
+  <ol>
+    <li><b>데이터</b>: 이 서비스에 필요한 데이터가 공개돼 있나? 어디서, 어떤 조건으로 받을 수 있나?</li>
+    <li><b>모델</b>: 한국어를 지원하고, 우리 환경(GPU, 라이선스)에서 쓸 수 있는 모델은 무엇인가?</li>
+    <li><b>필요성</b>: 애초에 이 문제에 AI 모델이 필요한가, 아니면 데이터와 일반 API로 충분한가?</li>
+  </ol>
+  <p>지금은 공공데이터포털, AI Hub, Hugging Face를 따로 검색하고 결과를 직접 맞춰봐야 합니다. 각 사이트의 검색은 키워드 위주라서 "주차 공간을 찾는 앱" 같은 목적 중심 질의에 약합니다.</p>
+</section>
+
+<!-- ============ 3. 현재 Model Scout ============ -->
+<section id="current">
+  <h2>현재 Model Scout <span class="chip done">구현됨</span></h2>
+  <p>자연어 요구사항을 받아 Hugging Face 모델을 찾고, 조건을 통과한 후보와 모델 카드 근거를 함께 제공합니다. (수치는 2026-09-28 snapshot 기준)</p>
+  <div class="stats">
+    <div class="stat"><b>3,606</b><span>추천 corpus 모델 수<br>(Core 1,478 · Low Popularity 2,128)</span></div>
+    <div class="stat"><b>9</b><span>대상 task<br>(텍스트 생성, 임베딩, 분류, 요약, 번역, ASR 등)</span></div>
+    <div class="stat"><b>1,536</b><span>임베딩 차원<br>(text-embedding-3-small)</span></div>
+    <div class="stat"><b>48 + 28</b><span>constraint 골든셋 질의 +<br>사례 기반 semantic 골든셋 질의</span></div>
+  </div>
+  <ul>
+    <li>한국어 지원 근거, 라이선스, 파라미터 수, context length, 양자화, 실행 환경을 metadata로 정리합니다.</li>
+    <li>README를 claim 단위로 나누고, 각 claim에 원문 인용(<code>supporting_quote</code>)을 연결합니다.</li>
+    <li>Supabase pgvector에 저장하고, dense·sparse·hybrid 검색에 hard filter를 적용합니다.</li>
+    <li>TTL 기반 증분 동기화로 변경된 모델만 다시 처리합니다.</li>
+  </ul>
+  <p>이번 확장의 기반이 되는 것은 <b>"근거와 함께 추천한다"는 원칙</b>과 <b>재사용 가능한 수집·검색 파이프라인</b>입니다.</p>
+</section>
+
+<!-- ============ 4. 확장 제안 ============ -->
+<section id="proposal">
+  <h2>확장 제안 <span class="chip prop">제안</span></h2>
+  <p>입력을 "모델 요구사항"에서 "서비스 아이디어"로 넓히고, 출력에 데이터셋 추천과 AI 필요도 판단을 더합니다.</p>
+  <div class="two">
+    <div class="card">
+      <h3>지금</h3>
+      <p><b>입력</b>: "한국어 요약 모델, 8B 이하, 상업 이용 가능"</p>
+      <p style="margin:0"><b>출력</b>: 조건을 만족하는 모델 + 모델 카드 근거</p>
+    </div>
+    <div class="card">
+      <h3>확장 후</h3>
+      <p><b>입력</b>: "주차장 위치를 찾아주는 AI 앱을 만들고 싶다"</p>
+      <p style="margin:0"><b>출력</b>: 필요한 데이터셋 + 필요한 경우 모델 + 각각의 근거·이용 조건 + AI 필요도 판단</p>
+    </div>
+  </div>
+  <h3>핵심 신규 기능</h3>
+  <ol>
+    <li><b>아이디어 분해</b>: LLM이 아이디어를 "필요한 데이터"와 "AI가 맡을 기능"으로 나누고, 각각을 검색 질의로 바꿉니다.</li>
+    <li><b>데이터셋 카탈로그 검색</b>: 공개 데이터셋의 메타데이터를 수집·임베딩해서 목적 중심으로 검색합니다.</li>
+    <li><b>통합 답변</b>: 데이터와 모델 추천을 하나의 착수 가이드로 묶습니다. AI가 필요 없는 부분은 명시합니다.</li>
+  </ol>
+</section>
+
+<!-- ============ 5. 사용 시나리오 ============ -->
+<section id="scenario">
+  <h2>사용 시나리오</h2>
+  <p>아래는 기대하는 응답의 형태입니다. 실제 데이터셋 이름과 내용은 구현할 때 카탈로그에서 확인해야 합니다.</p>
+  <div class="card demo">
+    <div class="q">💬 "주차장 위치를 찾아주는 AI 앱을 개발하고 싶어"</div>
+
+    <h4>① 아이디어 분해</h4>
+    <ul>
+      <li>필요한 데이터: 주차장 위치(좌표), 요금, 운영 시간, 주차면 수, (가능하면) 실시간 잔여 면수</li>
+      <li>AI가 맡을 기능: "강남역 근처 저렴한 주차장" 같은 자연어 질의를 검색 조건으로 바꾸기</li>
+      <li>AI 없이 되는 기능: 위치 기반 검색, 지도 표시, 거리순 정렬</li>
+    </ul>
+
+    <h4>② 추천 데이터</h4>
+    <ul>
+      <li>공공데이터포털의 전국 주차장 정보 표준데이터 (위치·요금·운영 시간) — 이용 조건 표시</li>
+      <li>지자체별 실시간 주차 정보 오픈API (제공 지역 한정) — 제공 범위 표시</li>
+    </ul>
+
+    <h4>③ 추천 모델</h4>
+    <ul>
+      <li>질의 해석용 한국어 소형 LLM 후보 (Model Scout 기존 검색 결과 + 근거)</li>
+    </ul>
+
+    <h4>④ 판단</h4>
+    <ul>
+      <li>이 서비스의 핵심은 <b>데이터와 지도 API</b>이고, AI 모델은 검색 편의 기능입니다. 모델 없이도 MVP를 만들 수 있습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 6. 시스템 구조 ============ -->
+<section id="architecture">
+  <h2>시스템 구조 <span class="chip prop">제안</span></h2>
+  <p>파란 선이 있는 단계가 새로 만드는 부분입니다. 모델 검색은 지금 것을 그대로 씁니다.</p>
+  <div class="flow">
+    <div class="node"><b>사용자 아이디어</b><span>자연어 한 문장 ~ 한 문단</span></div>
+    <div class="arrow">↓</div>
+    <div class="node new"><b>아이디어 분해 (LLM)</b><span>필요 데이터 목록 · AI 기능 목록 · AI 필요도 → 각각 검색 질의로 변환</span></div>
+    <div class="arrow">↓</div>
+    <div class="row">
+      <div class="node new"><b>데이터셋 카탈로그 검색</b><span>공공데이터포털 등 메타데이터 · hybrid 검색 · 이용 조건 필터</span></div>
+      <div class="node"><b>모델 검색 (기존)</b><span>3,606개 HF 모델 · hard filter · evidence</span></div>
+    </div>
+    <div class="arrow">↓</div>
+    <div class="node new"><b>통합 답변</b><span>데이터 + 모델 + 근거·출처·이용 조건 + "AI가 필요 없는 부분" 명시</span></div>
+  </div>
+  <h3>데이터셋 파이프라인 (기존 구조 재사용)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>단계</th><th>모델 (기존)</th><th>데이터셋 (신규)</th></tr></thead>
+      <tbody>
+        <tr><td>1. 수집</td><td>HF Hub API, 9개 task</td><td>카탈로그 목록 API / 메타데이터 일괄 다운로드</td></tr>
+        <tr><td>2. metadata</td><td>license, 파라미터, context, runtime</td><td>제공 기관, 형식(파일/API), 갱신 주기, 지역 범위, 이용 조건</td></tr>
+        <tr><td>3. semantic</td><td>README claim + 인용</td><td>데이터 설명·컬럼 정보를 요약, 용도 claim + 원문 인용</td></tr>
+        <tr><td>4. 임베딩</td><td>embedding_text → pgvector</td><td>같은 방식, 별도 테이블</td></tr>
+        <tr><td>동기화</td><td>TTL 증분 sync</td><td>같은 방식 (갱신 주기 반영)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 7. 데이터 소스 ============ -->
+<section id="sources">
+  <h2>데이터 소스 후보 <span class="chip open">조사 필요</span></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>소스</th><th>내용</th><th>장점</th><th>주의할 점</th><th>우선순위</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>공공데이터포털</b><br>data.go.kr</td>
+          <td>정부·지자체의 파일 데이터와 오픈API</td>
+          <td>서비스 아이디어와 가장 잘 맞음. 표준데이터는 형식이 정리돼 있음</td>
+          <td>데이터마다 갱신 주기·품질이 다름. 카탈로그 수집 방식 확인 필요</td>
+          <td><span class="chip prop">1순위 (MVP)</span></td>
+        </tr>
+        <tr>
+          <td><b>AI Hub</b><br>aihub.or.kr</td>
+          <td>AI 학습용 데이터셋 (음성, 이미지, 텍스트 등)</td>
+          <td>모델 학습·파인튜닝용 한국어 데이터가 많음</td>
+          <td>다운로드에 신청·승인 필요, 이용 제한 조건 있음. 반드시 조건 표시</td>
+          <td><span class="chip open">2순위</span></td>
+        </tr>
+        <tr>
+          <td><b>Hugging Face Datasets</b></td>
+          <td>공개 ML 데이터셋</td>
+          <td>기존 HF 수집 코드와 인프라 재사용이 쉬움</td>
+          <td>한국어 데이터 비중이 작음. 라이선스 표기가 제각각</td>
+          <td><span class="chip open">2순위</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">각 소스의 수집 방식(목록 API 유무, 메타데이터 필드, 호출 제한)과 이용 약관을 구현 전에 확인합니다. 확인되지 않은 항목은 이 표에 "조사 필요"로 남겨둡니다.</div>
+</section>
+
+<!-- ============ 8. MVP 범위 ============ -->
+<section id="scope">
+  <h2>MVP 범위 <span class="chip prop">제안</span></h2>
+  <div class="two">
+    <div class="card">
+      <h3>포함</h3>
+      <ul>
+        <li>아이디어 분해 단계</li>
+        <li>공공데이터포털 카탈로그 수집·검색</li>
+        <li>데이터셋별 출처 링크, 제공 기관, 형식, 이용 조건 표시</li>
+        <li>기존 모델 검색과 결과 통합</li>
+        <li>AI 필요도 판단 문구</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>제외 (이후 검토)</h3>
+      <ul>
+        <li>실제 데이터 다운로드·가공</li>
+        <li>오픈API 실시간 호출</li>
+        <li>AI Hub, HF Datasets 연동</li>
+        <li>코드 생성, 아키텍처 자동 설계</li>
+        <li>라이선스의 법적 판단 (정보 제공만)</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:16px">MVP는 <b>"어떤 데이터가, 어디에, 어떤 조건으로 있는지"를 추천하는 데서 멈춥니다.</b> 데이터를 직접 가져오는 기능은 범위가 크게 늘어나므로 별도 단계로 다룹니다.</p>
+</section>
+
+<!-- ============ 9. 평가 계획 ============ -->
+<section id="evaluation">
+  <h2>평가 계획 <span class="chip prop">제안</span></h2>
+  <p>모델 검색에 쓰는 골든셋 방식을 데이터셋 검색에도 똑같이 적용합니다.</p>
+  <ul>
+    <li><b>아이디어 골든셋</b>: 서비스 아이디어 30개 내외. 각 아이디어에 정답 데이터셋 ID, 정답 모델 ID, AI 필요도 라벨을 붙입니다.</li>
+    <li><b>검색 지표</b>: Recall@5, MRR, nDCG@5, Hit@5 (기존 지표와 동일)</li>
+    <li><b>분해 품질</b>: 필요한 데이터 항목을 빠뜨리지 않았는지 사람이 판정합니다.</li>
+    <li><b>근거 품질</b>: 추천 데이터마다 출처 링크와 이용 조건이 있는지, 인용이 원문과 일치하는지 확인합니다.</li>
+    <li><b>판정 방식</b>: 지금 하고 있는 human judging batch 방식(후보 pool → 팀원 판정)을 재사용합니다.</li>
+  </ul>
+</section>
+
+<!-- ============ 10. 리스크 ============ -->
+<section id="risks">
+  <h2>리스크와 대응</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>리스크</th><th>영향</th><th>대응</th></tr></thead>
+      <tbody>
+        <tr><td>AI가 필요 없는 아이디어에 모델을 억지로 추천</td><td>신뢰도 하락</td><td>AI 필요도 판단을 출력에 넣고, 골든셋에 "모델 불필요" 사례를 포함</td></tr>
+        <tr><td>평가 작업이 두 배로 늘어남</td><td>일정 지연</td><td>모델 골든셋 평가를 먼저 끝내고 확장 착수. 데이터 골든셋은 작게 시작</td></tr>
+        <tr><td>데이터 이용 조건 누락·오표기</td><td>사용자 피해</td><td>이용 조건 필드가 없으면 "확인 필요"로 표시. 추측해서 채우지 않음</td></tr>
+        <tr><td>카탈로그 수집 실패·포맷 변경</td><td>검색 불가</td><td>기존과 같은 fail-closed 정책: 실패하면 이전 snapshot 유지</td></tr>
+        <tr><td>범위가 데이터 가공·API 호출로 커짐</td><td>제품 정체성 흐려짐</td><td>MVP 제외 목록을 명시하고 변경은 이 문서에서 합의</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 11. 진행 순서 ============ -->
+<section id="roadmap">
+  <h2>진행 순서 <span class="chip prop">제안</span></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>단계</th><th>내용</th><th>완료 기준</th><th>담당</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>모델 검색 골든셋 평가 마무리</td><td>judging batch 판정 완료, 지표 리포트</td><td>TBD</td></tr>
+        <tr><td>1</td><td>공공데이터포털 카탈로그 조사</td><td>수집 방식·필드·약관 정리 문서</td><td>TBD</td></tr>
+        <tr><td>2</td><td>아이디어 골든셋 초안</td><td>아이디어 30개 + 정답 라벨</td><td>TBD</td></tr>
+        <tr><td>3</td><td>데이터셋 수집·임베딩 파이프라인</td><td>Supabase 테이블 적재, 기본 검색 동작</td><td>TBD</td></tr>
+        <tr><td>4</td><td>아이디어 분해 + 통합 답변</td><td>시나리오 예시가 끝까지 동작</td><td>TBD</td></tr>
+        <tr><td>5</td><td>평가와 개선</td><td>골든셋 지표 리포트</td><td>TBD</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 12. 결정할 것 ============ -->
+<section id="decisions">
+  <h2>결정할 것 <span class="chip open">논의 필요</span></h2>
+  <ol>
+    <li>확장을 할지, 한다면 모델 평가를 끝낸 뒤에 시작할지</li>
+    <li>MVP 데이터 소스를 공공데이터포털 하나로 시작할지</li>
+    <li>사용자에게 보여주는 형태: 웹 UI / MCP 도구 / LangChain 에이전트 중 무엇을 우선할지</li>
+    <li>상업 라이선스를 hard 조건으로 둘지 (모델 검색에서도 아직 미정)</li>
+    <li>단계별 담당자</li>
+  </ol>
+</section>
+
+<!-- ============ 13. 변경 이력 ============ -->
+<section id="changelog">
+  <h2>변경 이력</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>날짜</th><th>작성</th><th>내용</th></tr></thead>
+      <tbody>
+        <!-- 새 항목은 이 줄 바로 아래, 맨 위에 추가 -->
+        <tr><td>2026-10-02</td><td>yeju321qaz</td><td>초안 작성</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  이 문서는 <code>docs/index.html</code> 한 파일입니다. 수정 방법은 <code>docs/AGENTS.md</code>를 참고하세요.
+</footer>
+
+</main>
+</div>
+</body>
+</html>
