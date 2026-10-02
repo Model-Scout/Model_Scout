@@ -60,7 +60,7 @@ def query_type(item: Dict[str, Any]) -> str:
 def convert(item: Dict[str, Any]) -> Dict[str, Any]:
     conditions = item["conditions"]
     kind = query_type(item)
-    return {
+    row = {
         "id": f"sg_{item['query_id']}",
         "text": item["query"],
         "tasks": conditions["tasks"],
@@ -92,11 +92,18 @@ def convert(item: Dict[str, Any]) -> Dict[str, Any]:
             "needs_review": item["needs_review"],
             "warn_rule": item.get("warn_rule"),
         },
-        "source_case_id": item["source_case_id"],
-        "source_url": item["source_url"],
+        "source_case_id": item.get("source_case_id"),
+        "source_url": item.get("source_url"),
         "evidence_quote": item.get("evidence_quote"),
         "source_verification": item.get("source_verification"),
     }
+    # Judged labels (import_judgments.py) carry extra fields; case-based labels do not.
+    if item["label_type"] == "judged":
+        row["suite"] = "judged_golden"
+        row["labels"]["expected_all"] = item.get("expected_all") or []
+        row["reference_models"] = item.get("reference_models") or []
+        row["answer_grade"] = item.get("answer_grade")
+    return row
 
 
 def main() -> None:

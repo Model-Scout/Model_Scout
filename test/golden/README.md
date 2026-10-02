@@ -107,6 +107,31 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 
 판정은 Claude 아티팩트 페이지(모델 스카우트 판정실)에서 한다. 골든셋 검토 탭에서는 지금 라벨이 붙은 모델을 같은 기준으로 다시 매겨, 라벨과 점수가 다르면 이의로 본다. 점수는 공용 점수판에 저장되어 모든 판정자에게 바로 보이고, 카드마다 마지막으로 고친 사람이 남는다. 두 사람의 판정이 끝나면 일치도를 계산하고, 의견이 갈린 후보를 정리한 뒤 2점은 `expected_any`, 1점은 `acceptable`, 조건 위반으로 0점인 모델은 `must_exclude`로 옮겨 골든셋에 추가한다.
 
+### 판정 결과를 정답 라벨로 옮기기
+
+판정실 점수판(아티팩트 DB의 `marks` 컬렉션)을 `reports/judging_marks.json`으로 내보낸 뒤 `import_judgments.py`로 라벨을 만든다. 내보내기는 Claude가 아티팩트 DB를 읽어 저장한다(2026-10-02 기준 1,327건). 판정을 고치면 다시 내보내고 아래를 다시 실행한다.
+
+```bash
+python test/golden/import_judgments.py      # judging_marks.json → labels/judged_queries.jsonl
+python test/golden/convert_golden.py --source test/golden/labels/judged_queries.jsonl \
+    --output test/golden/labels/semantic_judged_queries.jsonl
+python test/evaluate_semantic_golden.py --queries test/golden/labels/semantic_judged_queries.jsonl --report <검색 결과>
+```
+
+| 점수 | 라벨 |
+|---|---|
+| 2 | `expected_any` |
+| 1 | `acceptable` |
+| 0, 이유가 라이선스·크기/하드웨어·언어/번역 방향 위반 | `must_exclude` (`violated_rule`에 종류) |
+| 0, 그 밖의 이유(용도·식별자 불일치, 벤치마크 수치 없음) | `judged_irrelevant` (채점에 쓰지 않는 참고 정보) |
+| ?, 조건부 라이선스 | `needs_review` |
+| ?, 정보 부족 | `unjudged` |
+
+- 2점 모델이 없는 질의는 1점 모델을 `expected_any`로 올리고 `answer_grade: "acceptable_only"`로 표시한다(32개). 1·2점이 모두 없는 6개(h006, h093, h097, h100, h148, h164)는 후보 풀에 정답이 없어 `evaluable_now: false`다.
+- `model_comparison` 21개는 `expected_behavior: "compare"`이고, 비교 대상(`expected_all`)이 모두 top-k에 있어야 통과한다. 비교 대상이 0점이어도 `must_exclude`에 넣지 않는다(답에서 왜 안 맞는지 설명해야 하므로).
+- 결과: 판정 질의 150개 중 144개 채점 가능(recommend 123 · compare 21). 골든셋 28개와 합쳐 172개를 채점한다.
+- 골든셋 탭 점수가 기존 라벨과 다른 30건은 `reports/golden_label_review.md`에 모았다. 골든셋은 원문 확인을 거친 사례라 자동으로 바꾸지 않는다.
+
 ## 라벨 필드
 
 | 필드 | 뜻 | 채점 |

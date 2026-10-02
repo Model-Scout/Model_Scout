@@ -148,12 +148,18 @@ def score_query(query: Dict[str, Any], results: List[Dict[str, Any]], stage2: Di
         passed = not must_exclude_hits and not license_violations
     elif behavior == "warn_on_oversize":
         passed = not oversize_unflagged
+    elif behavior == "compare":
+        # Comparison queries name the models; all of them must be retrieved.
+        ranks = [first_rank(results, [model_id]) for model_id in labels.get("expected_all") or []]
+        passed = bool(ranks) and all(ranks) and not must_exclude_hits
+        expected_rank = max(ranks) if passed else None
     else:
         passed = False
 
     return {
         "query_id": query["id"],
         "label_type": query["label_type"],
+        "query_type": query.get("query_type"),
         "task": query["tasks"][0],
         "expected_behavior": behavior,
         "passed": passed,
@@ -239,6 +245,8 @@ def render_markdown(summary: Dict[str, Any], scored: List[Dict[str, Any]], pendi
     ]
     lines += render_breakdown("신뢰도 등급별 (recommend 질의)", "tier", summary["by_tier"], summary["top_k"])
     lines += render_breakdown("task별 (recommend 질의)", "task", summary["by_task"], summary["top_k"])
+    lines += render_breakdown("질의 유형별 (recommend 질의)", "query_type", summary["by_query_type"], summary["top_k"])
+    lines += ["", f"모델 비교(compare) 질의 통과: {summary['compare_passed']} — 비교 대상 모델이 모두 top-k에 있어야 통과"]
     lines += [
         "",
         "## 질의별 결과",
@@ -341,6 +349,11 @@ def main() -> None:
         "pending_queries": len(pending),
         "by_tier": breakdown(recommend, "tier"),
         "by_task": breakdown(recommend, "task"),
+        "by_query_type": breakdown(recommend, "query_type"),
+        "compare_passed": ratio(
+            sum(item["passed"] for item in scored if item["expected_behavior"] == "compare"),
+            sum(1 for item in scored if item["expected_behavior"] == "compare"),
+        ),
     }
     suffix = "" if mode == "vector" else f"_{mode}"
     args.output_json = args.output_json or OUTPUT_STEM.with_name(OUTPUT_STEM.name + suffix + ".json")
