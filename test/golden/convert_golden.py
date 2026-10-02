@@ -20,15 +20,21 @@ SOURCE_PATH = HERE / "labels" / "golden_queries.jsonl"
 OUTPUT_PATH = HERE / "labels" / "semantic_golden_queries.jsonl"
 
 ROUTING = {
+    "model_comparison": {"primary": "lookup", "dense_bias": "low", "sparse_bias": "high", "metadata_filter": "none", "resolve_reference": True},
+    "reference_anchored": {"primary": "hybrid", "dense_bias": "medium", "sparse_bias": "high", "metadata_filter": "hard", "resolve_reference": True},
+    "identifier_match": {"primary": "bm25", "dense_bias": "low", "sparse_bias": "high", "metadata_filter": "hard"},
+    "benchmark_lookup": {"primary": "bm25", "dense_bias": "medium", "sparse_bias": "high", "metadata_filter": "hard", "benchmark_boost": "required"},
+    "constrained_search": {"primary": "hybrid", "dense_bias": "medium", "sparse_bias": "medium", "metadata_filter": "hard"},
     "semantic_capability": {"primary": "dense", "dense_bias": "high", "sparse_bias": "low", "metadata_filter": "hard"},
-    "semantic_constraint": {"primary": "hybrid", "dense_bias": "medium", "sparse_bias": "medium", "metadata_filter": "hard"},
-    "structured_constraint": {"primary": "metadata", "dense_bias": "low", "sparse_bias": "medium", "metadata_filter": "hard"},
 }
+
+
+NUMERIC_CONDITIONS = ("max_params_b", "gpu_vram_gb", "ram_gb", "min_context")
 
 
 def query_signals(conditions: Dict[str, Any]) -> List[str]:
     signals = ["language", "task"]
-    if conditions.get("max_params_b") is not None or conditions.get("gpu_vram_gb") is not None:
+    if any(conditions.get(key) is not None for key in NUMERIC_CONDITIONS):
         signals.append("numeric_constraint")
     if conditions.get("license_requirement") == "commercial":
         signals.append("license_constraint")
@@ -38,11 +44,16 @@ def query_signals(conditions: Dict[str, Any]) -> List[str]:
 
 
 def query_type(item: Dict[str, Any]) -> str:
+    # Hand-assigned type in the label file wins; the rules below are the fallback.
+    if item.get("query_type"):
+        return item["query_type"]
     conditions = item["conditions"]
-    if item["expected_behavior"] in ("must_exclude_only", "warn_on_oversize"):
-        return "structured_constraint"
-    if conditions.get("max_params_b") is not None or conditions.get("gpu_vram_gb") is not None:
-        return "semantic_constraint"
+    if item["expected_behavior"] == "warn_on_oversize":
+        return "reference_anchored"
+    if any(conditions.get(key) is not None for key in NUMERIC_CONDITIONS):
+        return "constrained_search"
+    if conditions.get("license_requirement") == "commercial":
+        return "constrained_search"
     return "semantic_capability"
 
 
@@ -67,6 +78,7 @@ def convert(item: Dict[str, Any]) -> Dict[str, Any]:
         "license_requirement": conditions.get("license_requirement"),
         "runtime": conditions.get("runtime"),
         "gpu_vram_gb": conditions.get("gpu_vram_gb"),
+        "ram_gb": conditions.get("ram_gb"),
         "finetune_planned": conditions.get("finetune_planned"),
         "label_type": item["label_type"],
         "evaluable_now": item["evaluable_now"],

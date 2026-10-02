@@ -32,12 +32,12 @@ POOLS = ("core", "low_popularity")
 TOP_K = 5
 
 QUERY_TYPE_DESCRIPTIONS = {
-    "semantic_capability": "자연어로 모델의 능력·사용 목적을 설명하며 표현 변형을 이해해야 하는 질의",
-    "lexical_exact": "모델명·번역 방향·형식명처럼 정확한 문자열 매칭이 중요한 질의",
-    "structured_constraint": "task·파라미터·컨텍스트·인기도·확인된 메타데이터 조건이 중심인 질의",
-    "benchmark_lookup": "benchmark·dataset·metric·README 근거를 찾는 질의",
-    "semantic_constraint": "한국어·task 같은 의미 조건과 수치·메타데이터 조건을 함께 포함한 질의",
-    "abstention": "조건을 만족하는 후보가 없을 때 빈 결과를 유지해야 하는 질의",
+    "model_comparison": "이름이 주어진 둘 이상의 모델을 같은 기준으로 비교해 달라는 질의",
+    "reference_anchored": "특정 모델을 기준점으로 대안·상대 조건·실행 가능 여부를 묻는 질의",
+    "identifier_match": "모델 계열·베이스 모델·포맷·양자화·번역 방향처럼 식별자가 일치해야 정답인 질의",
+    "benchmark_lookup": "benchmark·dataset·metric·README 평가 근거가 있어야 정답인 질의",
+    "constrained_search": "파라미터·컨텍스트·VRAM·상업 라이선스·인기도·메타데이터 확인 같은 hard 조건이 하나 이상 있는 질의",
+    "semantic_capability": "용도·능력을 자연어로 설명하고 metadata hard 조건(수치·상업 라이선스)이 없는 질의",
 }
 
 TOKEN_RE = re.compile(r"[\w가-힣]+", re.UNICODE)
@@ -405,7 +405,7 @@ def main() -> int:
         "embedding_model": os.getenv("STAGE4_EMBEDDING_MODEL", "text-embedding-3-small"),
         "top_k": TOP_K,
         "query_schema_version": 3,
-        "query_type_version": 1,
+        "query_type_version": 2,
         "relevance_label_version": max((int(query.get("relevance_label_version") or 0) for query in queries), default=0),
         "labeled_query_count": sum(bool(query.get("relevant_model_ids")) for query in queries),
         "metric_note": "사람이 라벨링한 relevant_model_ids가 없어 Recall@5가 아니다. hard constraint precision과 exact keyword hit은 proxy다.",

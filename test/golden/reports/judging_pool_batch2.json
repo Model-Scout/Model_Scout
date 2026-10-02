@@ -5828,7 +5828,7 @@
     },
     {
       "query_id": "h036",
-      "query": "한국어 LLM을 GPU 서버 여러 대에서 vLLM으로 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+      "query": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
       "conditions": {
         "language": "ko",
         "tasks": [
@@ -11285,13 +11285,13 @@
     },
     {
       "query_id": "h051",
-      "query": "일본어 문서를 한국어로 번역하는 모델이 필요해. 상업 서비스에 쓸 거야.",
+      "query": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야.",
       "conditions": {
         "language": "ko",
         "tasks": [
           "translation"
         ],
-        "license_requirement": "commercial",
+        "license_requirement": "any",
         "runtime": "unknown",
         "gpu_vram_gb": null,
         "max_params_b": null,
@@ -12844,7 +12844,7 @@
     },
     {
       "query_id": "h055",
-      "query": "게임 대사를 영어에서 한국어로 번역하려고 해. LLM 기반 번역 모델이면 좋겠고 GPU 16GB야.",
+      "query": "게임 대사를 영어에서 한국어로 번역하려고 해.",
       "conditions": {
         "language": "ko",
         "tasks": [
@@ -12852,8 +12852,8 @@
           "text-generation"
         ],
         "license_requirement": "any",
-        "runtime": "gpu",
-        "gpu_vram_gb": 16.0,
+        "runtime": "unknown",
+        "gpu_vram_gb": null,
         "max_params_b": null,
         "min_context": null,
         "finetune_planned": false
@@ -14318,7 +14318,7 @@
     },
     {
       "query_id": "h059",
-      "query": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 seq2seq 모델이면 좋겠어.",
+      "query": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
       "conditions": {
         "language": "ko",
         "tasks": [

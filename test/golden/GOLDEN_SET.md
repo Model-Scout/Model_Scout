@@ -97,7 +97,7 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 | 입력 | `query` | 사례를 바탕으로 쓴 자연어 요구사항. 사례의 제약(보안, 하드웨어, 라이선스)을 문장에 담았다 |
 | 조건 정답 | `conditions.tasks` | DB의 task 분류에 맞춘 목록. 예: 번역을 LLM으로 한 사례는 `translation` + `text-generation` |
 | | `conditions.license_requirement` | `commercial`(상업 이용 필수) · `any`(상관없음) · `unknown`(글에 없음) |
-| | `conditions.runtime`, `gpu_vram_gb`, `max_params_b`, `min_context` | 실행 환경과 크기 제약 |
+| | `conditions.runtime`, `gpu_vram_gb`, `ram_gb`, `max_params_b`, `min_context` | 실행 환경과 크기 제약 (`ram_gb`는 GPU 없이 쓰는 RAM 예산) |
 | 정답 | `expected_any` | 이 중 하나가 top-5에 있으면 정답. 사례가 고른 모델과, 원본이 DB에 없을 때는 DB의 변환본(GGUF 등) |
 | | `acceptable` | 추천돼도 틀리지 않은 모델. 사례에서 비교 후 근소하게 밀린 모델, 같은 모델의 다른 형식 |
 | | `must_exclude` | 추천되면 치명적 오류인 모델과 위반 규칙. 예: 상업 조건인데 비상업(NC) 라이선스 |
@@ -129,10 +129,11 @@ Claude·GPT 웹 검색으로 "한국어 프로젝트에서 어떤 오픈 모델�
 | 특징 | 분포 |
 |---|---|
 | task | ASR 9 · text-generation 6 · 임베딩 4 · summarization 3 · translation 3 · image-text-to-text 2 · text-classification 1 · question-answering 0 |
+| 질의 유형 (`query_type`) | constrained_search 14 · semantic_capability 8 · identifier_match 3 (g002, g003, g005) · reference_anchored 2 (g028, a001) · benchmark_lookup 1 (g018) · model_comparison 0. 유형 정의는 [test/README.md](../README.md), 판정 배치까지 합친 분포는 [README.md](README.md#질의-유형-분포) |
 | 채점 방식 | recommend 24 · must_exclude_only 3 · warn_on_oversize 1 |
 | 라이선스 조건 | commercial 6 · any 9 · unknown 13 |
 | 실행 환경 | gpu 11 · on_prem 11 · cpu 6 |
-| 크기 제약 | VRAM 명시 12 · 최대 파라미터 명시 2 |
+| 크기 제약 | VRAM 명시 12 · 최대 파라미터 명시 5 (g010, g015, g016, g021, g028) · RAM 명시 2 (g013, g019) |
 | 여러 task로 확장한 질의 | 9 |
 | 정답 모델 수 (recommend 평균) | expected_any 2.2개 · acceptable 1.8개 |
 | 수집 차수 | 1차 10 · 2차 18 |

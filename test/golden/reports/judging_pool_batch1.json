@@ -4,7 +4,7 @@
   "queries": [
     {
       "query_id": "h001",
-      "query": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 가벼워야 해.",
+      "query": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해.",
       "conditions": {
         "language": "ko",
         "tasks": [
@@ -5638,14 +5638,14 @@
     },
     {
       "query_id": "h012",
-      "query": "한국어 문서를 영어로 번역하는 기능을 사내 서비스에 넣으려고 해. 상업 이용이 가능하고 GPU 없이 CPU에서도 돌아가야 해.",
+      "query": "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야.",
       "conditions": {
         "language": "ko",
         "tasks": [
           "translation"
         ],
-        "license_requirement": "commercial",
-        "runtime": "cpu",
+        "license_requirement": "any",
+        "runtime": "unknown",
         "gpu_vram_gb": null,
         "max_params_b": null,
         "min_context": null,

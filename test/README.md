@@ -11,16 +11,29 @@
 - 9개 수집 task, Core/Low Popularity, parameter/context, runtime, benchmark, 빈 결과 조건을 포함
 - 각 질의에는 `query_type`, `query_signals`, `routing_hint`, `relevant_model_ids`가 기록됩니다.
 
-질의 유형은 planner의 초기 라우팅 가설을 표현합니다.
+질의 유형은 planner의 초기 라우팅 가설을 표현합니다. 유형은 6개이고 질의 내용으로 판정합니다. 한 질의에 여러 유형이 해당하면 **번호가 작은 유형**을 붙입니다.
 
-| 유형 | 의미 | 초기 라우팅 방향 |
-|---|---|---|
-| `semantic_capability` | 자연어로 능력과 용도를 설명 | Dense 우선 |
-| `lexical_exact` | 모델명, 번역 방향, 형식명처럼 정확한 문자열이 중요 | Sparse 우선 |
-| `structured_constraint` | task, parameter, context, popularity 등 구조화 조건 중심 | metadata filter + Sparse |
-| `benchmark_lookup` | benchmark, dataset, metric, README 근거를 찾음 | Sparse + benchmark boost |
-| `semantic_constraint` | 능력·task와 수치 조건이 함께 있음 | Dense/Sparse hybrid |
-| `abstention` | 조건상 적합 후보가 없어야 함 | 빈 결과 검증 |
+| 번호 | 유형 | 의미 | 초기 라우팅 방향 |
+|---:|---|---|---|
+| 1 | `model_comparison` | 이름이 주어진 둘 이상의 모델을 같은 기준으로 비교 ("A랑 B 비교해줘") | 각 모델 직접 조회 → 메타데이터·근거 비교 |
+| 2 | `reference_anchored` | 특정 모델을 기준점으로 대안·상대 조건·실행 가능 여부를 물음 ("X보다 작은", "X를 24GB에서 돌릴 수 있어?") | 기준 모델 조회 → 상대 조건을 수치로 변환 → hybrid |
+| 3 | `identifier_match` | 모델 계열·베이스 모델·포맷·양자화·번역 방향 같은 식별자가 일치해야 정답 (KoBART, GGUF, AWQ, ko→zh) | Sparse 우선 |
+| 4 | `benchmark_lookup` | benchmark·dataset·metric·README 평가 근거가 있어야 정답 | Sparse + benchmark boost |
+| 5 | `constrained_search` | 파라미터·컨텍스트·VRAM·상업 라이선스·인기도·메타데이터 확인 같은 hard 조건이 하나 이상 있음 | metadata hard filter + hybrid |
+| 6 | `semantic_capability` | 용도·능력을 자연어로 설명하고 위 hard 조건이 없음 | Dense 우선 |
+
+판정 기준:
+
+- `constrained_search`와 `semantic_capability`는 문장 표현이 아니라 **파싱된 조건**으로 나눕니다. 수치 조건(파라미터·컨텍스트·VRAM), 상업 라이선스, 인기도, 메타데이터 확인 조건이 있으면 `constrained_search`입니다. CPU·로컬 같은 runtime 조건만 있으면 `runtime_constraint` 신호로만 기록합니다.
+- 상업 라이선스를 hard 조건으로 둘지는 아직 정하지 않았습니다. 현재 검색은 라이선스로 거르지 않으며, 정책이 정해지면 이 기준도 함께 바꿉니다.
+- `constrained_search` 안에서 용도 설명이 거의 없는 조건 나열형 질의는 `routing_hint`의 dense 비중을 낮춥니다. 이전의 `structured_constraint`와 `semantic_constraint` 구분을 유형이 아니라 가중치로 옮긴 것입니다.
+- `identifier_match`는 이전 `lexical_exact`를 대체합니다. 식별자 없이 크기 조건만 있는 번역 질의는 `constrained_search`입니다.
+- `reference_anchored`와 `model_comparison`은 질의에 나온 모델명을 DB의 모델로 연결하는 단계가 필요합니다. "7.8B보다 작은"처럼 숫자만 있으면 기준 모델 조회가 필요 없으므로 `constrained_search`입니다.
+- **한 질의에는 한 유형의 신호만 넣습니다.** 예를 들어 식별자 질의에 VRAM·라이선스 조건을 붙이거나, 벤치마크 질의에 크기 조건을 붙이지 않습니다. 언어(한국어), task, 실행 환경(CPU·로컬)은 어느 유형에나 들어갈 수 있는 공통 신호라서 섞여도 됩니다.
+- Ollama·vLLM·llama.cpp·sentence-transformers 같은 실행 라이브러리 언급은 실행 환경 신호입니다. 정답이 그 포맷과 일치해야 할 때(GGUF, AWQ, ONNX 등)만 `identifier_match`입니다.
+- 예외: 골든셋의 실제 사례 질의 g002·g003·g005는 번역 방향과 VRAM·라이선스 조건이 함께 있습니다. 원문 조건을 지키려고 그대로 두고, 번호 규칙에 따라 `identifier_match`로 둡니다.
+- 빈 결과(abstention)는 질의 유형이 아닙니다. 미지원 task이거나 hard 조건을 만족하는 후보가 없을 때 검색을 멈추는 **종료 조건**으로 따로 다룹니다. 빈 결과가 기대되는 질의도 내용에 따라 1~6번 유형을 붙이고(예: q34·q48은 `constrained_search`), 기대 결과는 `relevance_status`에 남깁니다.
+- 실행 가능 여부를 묻고 경고를 기대하는 질의(`warn_on_oversize`)는 `reference_anchored`로 분류하고, 기대 동작은 `labels.expected_behavior`에 남깁니다.
 
 `routing_hint`는 정답 가중치가 아닙니다. 실제 운영 planner는 질의 분류, hard filter, 결과 품질과 사용자 feedback을 함께 사용해 가중치를 조정해야 합니다.
 
