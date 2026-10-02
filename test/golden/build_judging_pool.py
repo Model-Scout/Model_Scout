@@ -13,6 +13,11 @@ For each query in labels/judging_queries_batch1.jsonl:
 
 pool_terms only steer which candidates are judged; they are never scored.
 The pool source of each candidate is kept in the JSON but not shown to judges.
+
+Queries that name models (`reference_models`) are handled by query_type:
+- model_comparison: the named models are the whole pool.
+- reference_anchored: the named model is shown first as the anchor (even if it
+  fails the hard filter), and its family is left out of the regular pool.
 """
 
 from __future__ import annotations
@@ -154,15 +159,41 @@ def main() -> None:
     bm25 = CachedBM25(rows, sparse)
     rng = random.Random(SEED)
 
+    by_id = {row["model_id"].casefold(): index for index, row in enumerate(rows)}
+
+    def facts_at(index: int) -> Dict[str, Any]:
+        return candidate_facts(rows[index], stage2.get(rows[index]["model_id"], {}), stage3.get(rows[index]["model_id"], {}))
+
+    def family(index: int) -> str:
+        return (rows[index].get("filter_metadata") or {}).get("canonical_model_id") or rows[index]["model_id"]
+
     output = []
     for query in read_jsonl(args.queries):
         spec = run_query(query)
-        eligible = [index for index, row in enumerate(rows) if validator.hard_filter(row, spec)[0]]
+        named = []
+        for model_id in query.get("reference_models") or []:
+            if model_id.casefold() not in by_id:
+                raise SystemExit(f"{query['query_id']}: reference model not in DB: {model_id}")
+            named.append(by_id[model_id.casefold()])
+        role = "비교 대상" if query.get("query_type") == "model_comparison" else "기준 모델"
+        anchors = []
+        for index in named:
+            card = facts_at(index)
+            card["label_role"] = role
+            card["pool_sources"] = ["reference"]
+            anchors.append(card)
+        meta = {"query_type": query.get("query_type")} if query.get("query_type") else {}
+        if query.get("query_type") == "model_comparison":
+            output.append({"query_id": query["query_id"], **meta, "query": query["query"], "conditions": query["conditions"],
+                           "eligible_rows": len(named), "eligible_families": len(named), "candidates": anchors})
+            continue
+        anchor_families = {family(index) for index in named}
+        eligible = [index for index, row in enumerate(rows) if validator.hard_filter(row, spec)[0] and family(index) not in anchor_families]
 
         families: Dict[str, int] = {}
         for index in eligible:
             row = rows[index]
-            key = (row.get("filter_metadata") or {}).get("canonical_model_id") or row["model_id"]
+            key = family(index)
             current = families.get(key)
             if current is None:
                 families[key] = index
@@ -190,18 +221,19 @@ def main() -> None:
 
         candidates = []
         for index, sources in chosen.items():
-            facts = candidate_facts(rows[index], stage2.get(rows[index]["model_id"], {}), stage3.get(rows[index]["model_id"], {}))
+            facts = facts_at(index)
             facts["pool_sources"] = sources
             candidates.append(facts)
         rng.shuffle(candidates)
         output.append(
             {
                 "query_id": query["query_id"],
+                **meta,
                 "query": query["query"],
                 "conditions": query["conditions"],
                 "eligible_rows": len(eligible),
                 "eligible_families": len(reps),
-                "candidates": candidates,
+                "candidates": anchors + candidates,
             }
         )
 
