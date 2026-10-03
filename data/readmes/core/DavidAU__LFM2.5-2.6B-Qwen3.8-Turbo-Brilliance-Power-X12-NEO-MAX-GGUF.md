@@ -33,7 +33,10 @@ base_model:
 
 <SMALL><B><font color="red">IMPORTANT:</font></b> This model has significant internal upgrades under user control that are "on the fly" (you set in your prompt(s)). 
 Please read this model card carefully to get the most from it - including all the reasoning and instruct modes (12+12) that feature model suggestions ("context help") for all use cases. 
-The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc). NOTE: BF16 gguf now avail.</small>
+The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc). NOTE: BF16 gguf now avail.
+
+MOE Version (32 experts, 4 active): https://huggingface.co/DavidAU/LFM2.5-8B-A1B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF
+</small>
 
 <h2>LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF</h2>
 
@@ -52,51 +55,52 @@ And it is fast:
 100s to 1000s of tokens are sent directly INJECTED into to the model at the pre-thinking/reasoning/instruct stage in milliseconds, these instructions are ingested
 and the model is primed for action.
 
-RESULTS:
+<B>RESULTS:</B>
 - The model spends little to no time getting underway (focused on the task(s) VS figuring out the task(s) and best way to approach it) by the time it produces the first token.
 - The model is focused ("on the same page"), and spends less time "guessing" and more time "doing". IE: working on the task(s) at hand.
 - The output quality jumps, and one shot/two shot "Brilliance" is the standard, vs 5-10 regens to get a good to great output.
 
 EXAMPLE: This model is smart at a level (2.6B parameters!) that should be illegal (see example below at bottom of the page, using advanced "spoon" reasoning mode).
 
-ABOUT THIS SPECIFIC MODEL - LFM2.5-2.6B - :
+<B>ABOUT THIS SPECIFIC MODEL - LFM2.5-2.6B - :</b>
 - It has 2.69B parameters and it is a general use case model with tool calling plus agentic training.
 - Turbo Brilliance ADDED: 12 reasoning modes and 12 instruct modes (this model DID NOT have a native instruct mode, now it has 12), switchable on the fly via in chat tags, API and direct.
 - Turbo Brilliance ADDED: Interactive reasoning help system for all modes built into the model for precision use case(s) reasoning/instruct mode alignments.
 - Model output (average) will vary between 2k to 12k+ (highest reasoning modes/detail work); stating output length (if required) will be obeyed by the model.
 - The org model card from LiquidAI is below with benchmarks, model details, and so on.
 
-Project Settings [from testing]:
-- Temp 1 
+<b>Project Settings [from testing]:</b>
+- Temp .5 to 1 
 - Rep pen 1 [off]
 - TopK 64, min p: 0.05, topp: 0.95 (tester settings)
 - Min context window of 24,000 tokens [24k] is strongly suggested or higher (model max is 128k/131,000 tokens)
 - NO caching (suggested)
 
-LFM suggested settings:
+<B>LFM suggested settings:</b>
 - temperature: 0.1
 - top_k: 50
 - repetition_penalty: 1.1
 
-Critical - Quants / Convo:
+<B>Critical - Quants / Convo:</B>
 - The quant you use will directly impact the new reasoning modes -> Higher quant -> Better performance.
+- "MAX" quants and BF16 [16 bit, full precision] will give the best performance.
 - If you want to have multiple turn convos -> set the context at maximum 128k.
 - Reasoning modes and how to access / use are listed below.
 
-This is a BETA test ; please report any issues (it worked great // it crashed and burned) under the community tab with the following info:
+<B>This is a BETA test ; please report any issues (it worked great // it crashed and burned) under the community tab with the following info:</b>
 - Quant, parameters, AI app / harness etc etc you are using.
 - Use case[s] AND reasoning mode[s] used.
 - Summary of the issue -> positive or negative.
 - Thank you in advance -> this feedback will help refine these systems for this model, other Turbo Brilliance versions, and other models.
 
-Limitations - GENERAL, BETA V1.0:
+<B>Limitations - GENERAL, BETA V1.0:</B>
 - The Turbo Brilliance system directly responds to core tuning and fine tuning in the model.
 - The parameters of the model directly impact its power levels (IE: 9B, 27B => will be a LOT stronger), as does the quant used (Q6 will be a lot stronger (2x+) than Q4/IQ4, Q8 will be 1.5 to 2x stronger than Q6). Quant size matters even more when using more complex reasoning modes.
 - "MAX" quants have the output tensor (10-20% of model output) at BF16 (full precision). These quants will be even stronger than "standard".
 - The larger, more powerful reasoning modes will have the greatest impact on specific use cases.
 - This BETA V1.0 is to show general features under direct manual user/api/vllm control etc etc. More advanced (larger (more reasoning modes), complex, automated and intelligent) versions exist and are in the testing/refinement stage.
 
-Limitations - THIS MODEL:
+<B>Limitations - THIS MODEL:</b>
 - The current reasoning modes (especially) generalists are for all use cases; additional tuning is underway.
 - The current instruct modes (for this specific model) are a wee bit more "verbal" than models with dedicated instruct mode(s).
 - For this specific model: 2.6B (even at SOTA) is still 2.6B parameters ; strongly suggest Q6 or Q8 for best performance.

@@ -86,7 +86,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
 | **MiniPlus V1** | `IQ3_XXS` (3.06 bpw) | `Q3_K` (5 layers) | `Q4_K` / `IQ4_NL` | `Q3_K` | `Q8_0` | `Q6_K` | `F32` (uncompressed) | Baseline MiniPlus (approx. 13.56 GiB) | Lean & agile profile; runs flawlessly in system RAM; zero router drift; protects core logic. |
-| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (10 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **< 180 MB extra over V1** (approx. 13.74 GiB total) | **Enhanced long-context stability and refined throughput under RAM offload; shared foundation experts armored across all 40 layers.** |
+| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (20 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **< 180 MB extra over V1** (approx. 13.74 GiB total) | **Enhanced long-context stability and refined throughput under RAM offload; shared foundation experts armored across all 40 layers.** |
 
 > [!TIP]
 > ### Architecture & Edition Guide — Choosing Between Editions
@@ -175,7 +175,7 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 
 - **Base Model:** [AllSpark-Research/Iris-mini](https://huggingface.co/AllSpark-Research/Iris-mini)
 - **Parameters:** 35.2B total (approx. 2.6B to 3.2B active per token)
-- **Architecture:** 40 layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers
+- **Architecture:** 40 main layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers + integrated `blk.40` MTP block
 - **Context Length:** 262,144 tokens (native 256K)
 
 ---
@@ -190,16 +190,19 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
 | **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
-| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm`, MTP `nextn` norms | 138 | **`F32`** | Uncompressed numerical stability across the 40 main layers and integrated MTP block. |
+| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 82 | **`F32`** | Uncompressed routing matrices across the 40 main layers and integrated MTP block. |
 | **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
-| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All 40 Layers) | 120 | **`Q5_K`** | Foundation knowledge backbone active on 100% of tokens; protected in high-precision linear Q5_K. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | Armored attention output projection over deep context. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (40 Main Layers + MTP) | 123 | **`Q5_K`** | Foundation knowledge backbone plus the integrated MTP shared-expert path. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_q/k/v` + MTP `blk.40.attn_q/k/v` | 33 | **`Q4_K`** | Full quadratic attention anchors plus integrated MTP attention projections. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_output` + `blk.40.attn_output` | 11 | **`Q6_K`** | Armored attention output projection over deep context, including MTP. |
 | **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
 | **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q3_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
 | **Edge MoE Experts** | Layers 0–9 & 30–39 (`ffn_*_exps`) | 60 | **`Q3_K`** | Linear SIMD execution optimized for system RAM offload. |
 | **Core MoE Experts** | Layers 10–29 (`ffn_*_exps`) | 60 | **`IQ3_XXS`** | Calibrated with importance matrix (`imatrix`) for maximum compactness in deep layers. |
+| **MTP Expert Down-Proj** | `blk.40.ffn_down_exps.weight` | 1 | **`Q6_K`** | High-precision down projection in the integrated Multi-Token Prediction block. |
+| **MTP Expert Gate/Up** | `blk.40.ffn_{gate,up}_exps.weight` | 2 | **`Q4_K`** | Gate and up expert tensors in the integrated Multi-Token Prediction block. |
+| **MTP Projection** | `blk.40.nextn.eh_proj.weight` | 1 | **`Q4_K`** | Dedicated hidden-state projection for the integrated Multi-Token Prediction block. |
 
 ---
 

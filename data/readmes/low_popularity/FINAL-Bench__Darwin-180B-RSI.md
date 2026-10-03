@@ -87,6 +87,8 @@ model-index:
 
 ### 180B Mixture-of-Experts · vision-language · **#1 on seven Hugging Face official leaderboards** — AIME 2026 100 · HMMT Feb 2026 100 · GPQA Diamond 94.44 · MMLU-Pro 88.12 · MMMU-Pro 79.48 · LEXam 68.94 · LEXam-hard 45.72 · **self-improving**
 
+> 💻 **Run it on your own machine — [POCKET-Darwin-180B-GGUF](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF)**: the 4-bit GGUF of R3 (111 GB) runs on a **laptop with an 8 GB GPU and 32 GB RAM**, **CPU only at 18–21 tok/s**, a 128 GB mini PC or one DGX Spark — MMLU-Pro **identical to BF16 (87.65%)**.
+
 `reasoning` · `MoE 512 experts` · `262K long context` · `image + text` · `Korean + English` · `self-improvement` · `ZTC`
 
 <p align="center">
@@ -106,6 +108,7 @@ model-index:
 <a href="https://huggingface.co/papers/2609.20269"><img src="https://img.shields.io/badge/Paper-2609.20269_Latin_Square-b31b1b?style=for-the-badge"></a>
 <a href="https://huggingface.co/collections/FINAL-Bench/darwin-family"><img src="https://img.shields.io/badge/🧬_Collection-Darwin_Family-16a34a?style=for-the-badge"></a>
 <a href="https://huggingface.co/collections/FINAL-Bench/ztc-models-jev-ecosystems"><img src="https://img.shields.io/badge/🏛️_Collection-ZTC_Models-7c3aed?style=for-the-badge"></a>
+<a href="https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF"><img src="https://img.shields.io/badge/💻_POCKET_4--bit-Laptop_·_CPU_only_·_DGX_Spark-0f766e?style=for-the-badge"></a>
 </p>
 
 **The newest flagship of the Darwin family — #1 on AIME 2026, HMMT Feb 2026, GPQA Diamond, MMLU-Pro, MMMU-Pro, LEXam and LEXam-hard,
@@ -156,6 +159,7 @@ Scores as listed on the Hugging Face **official** benchmark leaderboards (self-r
 <a href="https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF"><img src="https://img.shields.io/badge/POCKET--26B-365K_↓-1f6feb"></a>
 <a href="https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF"><img src="https://img.shields.io/badge/POCKET--EN-♥43-1f6feb"></a>
 <a href="https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF"><img src="https://img.shields.io/badge/POCKET--KR-♥36-1f6feb"></a>
+<a href="https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF"><img src="https://img.shields.io/badge/POCKET--Darwin--180B-NEW_·_4--bit_·_laptop-1f6feb"></a>
 </p>
 
 **Darwin** is [VIDRAFT](https://vidraft.net)'s measurement-driven reasoning model family —

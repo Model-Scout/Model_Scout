@@ -85,7 +85,7 @@ tags:
 >
 > **Prefer the smallest Qwen3.6 edition?** [APEX-I-NanoPlus](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-NanoPlus-GGUF) uses the same Qwen3.6 family at **13.03 GB (2.93 BPW)** for agile 16GB VRAM & RAM streaming at Solid Q4_K_M / Q4_K_L tier quality, while MiniPlus V2.1 retains the higher **15.23 GB (3.43 BPW)** Q5_K_L tier (bordering Q6_K) fidelity.
 >
-> **Routing:** all recipe-designated `gate_inp` and `gate_shexp` tensors remain in uncompressed `F32`, preserving zero routing drift.
+> **Routing:** all 80 main-model `gate_inp` / `gate_inp_shexp` tensors remain in uncompressed `F32`; the two integrated MTP routers in `blk.40` are retained in `BF16`.
 >
 > - **Q6_K-Bordering Tier in Language Fidelity:** WikiText-2 perplexity delta is exceptionally low (under +0.05 / < 0.9% vs. BF16), placing overall language representation at the boundary of a 28 GB `Q6_K` build within an agile approx. 15.23 GB footprint.
 > - **Q5_K_L Tier in MoE Foundation Knowledge:** All 120 shared expert tensors (`shexp`) across all 40 layers run in uncompressed `Q5_K`, keeping core domain knowledge intact across 100% of tokens.
@@ -112,7 +112,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 | Specification | Core Experts (10–29) | Edge Experts (0–9, 30–39) | Shared Expert (`shexp`) | Full Attention (L3, 7, 11, ...) | Attention Gates (30 Layers) | Output Head (`output.weight`) | Routers (`gate_inp`) | Size / Overhead | Real-World Impact |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
-| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (10 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **Definitive Build** (approx. 14.18 GiB) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Integrated MTP tensors are retained in the main GGUF.** |
+| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (20 layers)** | **`Q5_K` (All 40 layers + MTP)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32` (main) / `BF16` (MTP)** | **Definitive Build** (approx. 14.18 GiB) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Integrated MTP tensors are retained in the main GGUF.** |
 
 > [!TIP]
 > ### Deployment & System Architecture Guide
@@ -198,7 +198,7 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 
 - **Base Model:** [Qwen/Qwen3.6-35B-A3B](https://huggingface.co/Qwen/Qwen3.6-35B-A3B)
 - **Parameters:** 35.2B total (approx. 2.6B to 3.2B active per token)
-- **Architecture:** 40 layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers
+- **Architecture:** 40 main layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers + integrated `blk.40` MTP block
 - **Context Length:** 262,144 tokens (native 256K)
 
 ---
@@ -213,16 +213,19 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
 | **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
-| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm`, MTP `nextn` norms | 138 | **`F32`** | Uncompressed numerical stability across the 40 main layers and integrated MTP block. |
+| **Main Expert Routers** | `blk.0–39.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | Main-model routing matrices remain uncompressed. |
+| **MTP Routers** | `blk.40.ffn_gate_inp`, `ffn_gate_inp_shexp` | 2 | **`BF16`** | Integrated MTP routing matrices are stored in native BF16. |
 | **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
-| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All 40 Layers) | 120 | **`Q5_K`** | Foundation knowledge backbone active on 100% of tokens; protected in high-precision linear Q5_K. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | Armored attention output projection over deep context. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (40 Main Layers + MTP) | 123 | **`Q5_K`** | Foundation knowledge backbone plus the integrated MTP shared-expert path. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_q/k/v` + MTP `blk.40.attn_q/k/v` | 33 | **`Q4_K`** | Full quadratic attention anchors plus integrated MTP attention projections. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_output` + `blk.40.attn_output` | 11 | **`Q6_K`** | Armored attention output projection over deep context, including MTP. |
 | **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
 | **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q3_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
 | **Edge MoE Experts** | Layers 0–9 & 30–39 (`ffn_*_exps`) | 60 | **`Q3_K`** | Linear SIMD execution optimized for system RAM offload. |
 | **Core MoE Experts** | Layers 10–29 (`ffn_*_exps`) | 60 | **`IQ3_XXS`** | Calibrated with importance matrix (`imatrix`) for maximum compactness in deep layers. |
+| **MTP Experts** | `blk.40.ffn_{gate,down,up}_exps` | 3 | **`Q4_0`** | Dedicated expert tensors in the integrated Multi-Token Prediction block. |
+| **MTP Projection** | `blk.40.nextn.eh_proj.weight` | 1 | **`Q4_K`** | Dedicated hidden-state projection for the integrated Multi-Token Prediction block. |
 
 ---
 
@@ -302,7 +305,7 @@ Sampling metadata recorded from [Qwen/Qwen3.6-35B-A3B](https://huggingface.co/Qw
 > <a id="quantization-fidelity"></a>
 > ### 🔍 Model Inherent Behavior vs. Quantization Fidelity Notice
 > Any behavioral nuances, stylistic tendencies, domain-specific habits, or zero-shot edge-case oversights **stem entirely from the original unquantized checkpoint weights and fine-tuning distribution, NOT from the APEX-I quantization process.**
-> Handcrafted APEX-I-MiniPlus strictly preserves mathematical tensor fidelity—keeping 100% of expert routing matrices (`gate_inp`) in uncompressed `F32` (zero router drift), armoring the token output head in `Q6_K`, and safeguarding attention gates in `Q8_0`. Empirical verification records the final GGUF perplexity at **5.3693 ± 0.12528**, a **ΔPPL +0.0493 (+0.93%)** versus the approx. **5.32** BF16 baseline.
+> Handcrafted APEX-I-MiniPlus preserves the 80 main-model routing matrices in uncompressed `F32`, retains the two integrated MTP routers in `BF16`, armors the token output head in `Q6_K`, and safeguards attention gates in `Q8_0`. Empirical verification records the final GGUF perplexity at **5.3693 ± 0.12528**, a **ΔPPL +0.0493 (+0.93%)** versus the approx. **5.32** BF16 baseline.
 
 <a id="toc-coding-advisory"></a>
 <a id="coding-advisory"></a>

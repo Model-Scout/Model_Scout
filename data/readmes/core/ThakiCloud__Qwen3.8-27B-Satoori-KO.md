@@ -182,3 +182,9 @@ https://huggingface.co/datasets/ThakiCloud/kodialectbench
 정보가 없습니다. 팔당 학습 1회라 작은 차이는 아직 학습 잡음과 구분되지 않습니다.
 
 </details>
+
+## Paper
+
+Metric-Construction Coupling Inflates Measured Synthetic Dialect Recovery — [arXiv:2610.00164](https://arxiv.org/abs/2610.00164)
+
+This checkpoint is the real-data arm that every recovery ratio in the paper is measured against — the synthetic arm's gain is reported as a fraction of this arm's gain over the base model. The paper also introduces the benchmark these cards score on, [KoDialectBench](https://huggingface.co/datasets/ThakiCloud/kodialectbench) (1,000 items · 5 regions · 3 axes). Read the numbers here as one arm of a two-arm comparison rather than as a standalone result. Synthetic arm: [Qwen3.8-27B-Satoori-KO-Synth](https://huggingface.co/ThakiCloud/Qwen3.8-27B-Satoori-KO-Synth).
