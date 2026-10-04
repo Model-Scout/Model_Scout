@@ -142,6 +142,20 @@ After QAT, add `--bake_ternary` to the export to write the ternary weights.
 ### Docker
 - 180B Docker images with the JiRack UI will be provided after QAT, or by request.
 
+### Ollama 
+- ollama run cmsmanhattan/JiRackDeltaNet_180b-q4
+- ollama run cmsmanhattan/JiRackDeltaNet_180b-q3
+
+## Ollama quick Start
+
+### Run with Ollama (recommended — reasoning off by default)
+- https://ollama.com/cmsmanhattan
+```bash
+ollama pull JiRackDeltaNet_180b-q4
+ollama run JiRackDeltaNet_180b-q4 "What is the capital of France?"
+```
+
+
 ## Recommended sampling parameters
 From the base model card:
 - **Thinking mode:** `temperature=1.0, top_p=0.95, top_k=20, min_p=0.0, presence_penalty=0.0, repetition_penalty=1.0`

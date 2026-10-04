@@ -83,3 +83,15 @@ tags:
 </div>
 
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align: center; margin-bottom: 30px;"><a href="https://github.com/Scorp1o117/FIT-GGUF" style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: white; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 24px; text-decoration: none;">⭐ FIT-GGUF on GitHub — the tool, the method, the full research record</a><p style="margin: 14px 0 0 0; font-size: 13px;"><span style="color: #86868b;">English</span><span style="color: #cbd5e1;"> · </span><a href="https://huggingface.co/SC117/occamy-1.0-abliterated-FIT-GGUF/blob/main/README.zh-CN.md" style="color: #1d4ed8; text-decoration: none; font-weight: 600;">简体中文</a></p></div>
+
+<!-- SC117_SUPPORT_START -->
+<div align="center">
+  <a href="https://ko-fi.com/sc117">
+    <img
+      src="https://huggingface.co/SC117/Qwen3.8-Flash-Next-GSQ-RCO-abliterated-GGUF/resolve/main/assets/support-sc117.png"
+      alt="Support SC117 on Ko-fi — support is optional and all releases remain freely available."
+      width="100%"
+    />
+  </a>
+</div>
+<!-- SC117_SUPPORT_END -->

@@ -308,6 +308,11 @@ Official generation guidelines specified by [empero-ai](https://huggingface.co/e
 >    - `top_p: 0.95`
 >    - `top_k: 20`
 > 3. **Native Jinja Formatting:** Always pass the `--jinja` flag so the tokenizer handles leading-space BPE tokens (` {` vs `{`, ` =` vs `=`) cleanly.
+4. **DRY Sampler for Repetition Suppression (Recommended over Repeat Penalty):**
+   - `--dry-multiplier 0.8` (or `1.0` in deep agent loops)
+   - `--dry-base 1.75`
+   - `--dry-allowed-length 2`
+   - `--dry-penalty-last-n 0` or equal to `--ctx-size` (e.g. `163840`). Note for llama.cpp users: builds such as Vulkan b10855 reject negative values like `-1`; specify `0` or your active context window length.
 
 <a id="toc-chat-template"></a>
 <a id="chat-template"></a>
@@ -319,9 +324,13 @@ Official generation guidelines specified by [empero-ai](https://huggingface.co/e
 >    - `low` / `minimal`: Keeps internal thinking concise and focused strictly on immediate execution steps to minimize latency in automated loops.
 >    - `medium` (default): Balanced, structured reasoning process with standard analytical depth.
 >    - `high` / `xhigh`: Guides the model to formulate a clear implementation plan upfront before generating code, avoiding circular self-doubt loops.
->    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>`) when reasoning is disabled.
-> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
-> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+>    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>\n\n`) when reasoning is disabled.
+> 2. **Tool-Calling Safeguards & Direct Execution:**
+>    - Enforces direct tool execution without conversational preambles that could trigger self-priming announcement loops in agent history.
+>    - Explicit negative constraints preventing tool-name hallucinations and repetitive retry loops on failed tool calls.
+> 3. **Multi-Turn Thinking Memory & Selective Pruning:**
+>    - Automatically prunes historical `<think>` blocks from preceding queries by default to prevent context bloat and circular reflection buildup across deep 75K+ token sessions.
+>    - Fully configurable via `chat_template_kwargs`: pass `{"preserve_thinking": true}` to retain all historical reasoning, or `{"preserve_thinking": false}` to strip intermediate tool reasoning for an ultra-lean context.
 > 
 > **Usage with llama-server:**
 > ```bash

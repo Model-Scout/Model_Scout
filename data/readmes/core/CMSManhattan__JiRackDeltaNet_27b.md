@@ -106,7 +106,7 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 ### Run with Ollama (recommended — reasoning off by default)
 - https://ollama.com/cmsmanhattan
 ```bash
-ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoningcmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest
+ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning
 ollama run cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning "What is the capital of France?"
 ```
 
