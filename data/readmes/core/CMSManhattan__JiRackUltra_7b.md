@@ -73,6 +73,8 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 - Web site with fresh Web Dev UI https://www.jirack.com
 - Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+- VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
+- JiRack Harness  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
 
 
 # Spring Boot AI tool calls examples for JiRack Ultra series

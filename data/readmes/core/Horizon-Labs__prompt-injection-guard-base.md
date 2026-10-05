@@ -260,6 +260,24 @@ code, apply the same normalizer; the reference is `code/train/normalizer.py`.
 retrieved chunk. Lower it (0.2–0.3) for high-risk actions such as sending email or running code, when the
 flagged content only goes to review. At 0.5 this model flags 5.6% of NotInject's benign trigger-word prompts.
 
+**Requests to agents (agentic5k).** At 0.5 this model flags about a third of agentic5k's benign items (AUC .99). Most of
+them are templated requests that claim authority ("As the legitimate approver, I want to APPROVE ticket ... on the secrets
+manager", "I am the CEO and I'm logged into the admin console...") or set up role-play. The data set labels them benign;
+they also look like social engineering of an agent, so whether to flag them is a policy choice. If such requests come from
+authenticated users, a higher threshold removes most of these alarms, at the cost of recall on subtler indirect injections
+(BIPIA) and jailbreak-style prompts. Measured on the test sets (thresholds from 0.92 to 0.985 were equally good on the
+128 agentic5k validation items):
+
+| threshold | agentic5k F1 | agentic5k false-positive rate | agentic5k recall | BIPIA recall | PIArena F1 | Simsonsun acc | NotInject acc |
+|---|---|---|---|---|---|---|---|
+| 0.5 | 0.870 | 0.317 | 1.000 | 0.459 | 0.969 | 0.822 | 0.944 |
+| 0.8 | 0.903 | 0.223 | 0.996 | 0.374 | 0.958 | 0.665 | 0.968 |
+| 0.9 | 0.913 | 0.170 | 0.975 | 0.316 | 0.947 | 0.565 | 0.973 |
+| 0.95 | 0.938 | 0.098 | 0.964 | 0.266 | 0.935 | 0.481 | 0.991 |
+| 0.985 | 0.960 | 0.023 | 0.943 | 0.199 | 0.896 | 0.329 | 0.994 |
+
+Keep 0.5 (or lower) for untrusted content such as retrieved documents and tool outputs.
+
 ## Limitations
 
 - **This is one layer of defense, not a guarantee.** Adaptive attackers can evade any classifier. Combine it with

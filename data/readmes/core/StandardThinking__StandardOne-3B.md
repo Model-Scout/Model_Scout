@@ -27,10 +27,10 @@ tags:
 
 # Standard One 3B
 
-> **Updated weights (v2.1, 2026-09-27).** If you downloaded this model before, download it again.
-> Earlier releases remain available under the `v1`, `v1.1` and `v2` tags.
+> **Updated weights (v2.2, 2026-10-04).** If you downloaded this model before, download it again.
+> Earlier releases remain available under the `v1`, `v1.1`, `v2` and `v2.1` tags.
 
-**Version:** v2.1
+**Version:** v2.2
 
 Standard One scores a bounded set of answers for a supplied scenario and returns probabilities through `POST /v1/systemone`. It does not generate free-form response text. This repository contains the merged BF16 3B checkpoint. The server code is in [StandardOne-8B](https://huggingface.co/StandardThinking/StandardOne-8B).
 
@@ -47,7 +47,7 @@ Image input is supported; the results below measure text decisions.
 
 - [Merged BF16 checkpoint](https://huggingface.co/StandardThinking/StandardOne-3B)
 - [LoRA adapter and merge recipe](https://huggingface.co/StandardThinking/StandardOne-3B-LoRA)
-- [GGUF quantizations](https://huggingface.co/StandardThinking/StandardOne-3B-GGUF) (v2.1 when published)
+- [GGUF quantizations](https://huggingface.co/StandardThinking/StandardOne-3B-GGUF)
 - [Shared server code](https://huggingface.co/StandardThinking/StandardOne-8B/tree/main/server)
 
 ## Quick start
@@ -60,7 +60,7 @@ Engine:
 CUDA_VISIBLE_DEVICES=0 SGLANG_VLM_CACHE_SIZE_MB=0 .venv-sglang/bin/python -m sglang.launch_server \
   --model-path ./StandardOne-3B --served-model-name standard-one-3b \
   --host 127.0.0.1 --port 30000 --tp-size 1 --model-impl sglang --dtype bfloat16 \
-  --context-length 8192 --max-running-requests 32 --mem-fraction-static 0.8 \
+  --context-length 32768 --max-running-requests 32 --mem-fraction-static 0.8 \
   --chunked-prefill-size -1 --disable-radix-cache --mm-preprocess-cache-size-mb 0 \
   --model-config-parser hf --load-format safetensors
 ```
@@ -72,7 +72,7 @@ Adapter:
   --host 0.0.0.0 --port 30120 --max-concurrency 1 \
   --tokenizer-model mistralai/Ministral-3-3B-Instruct-2512-BF16 \
   --tokenizer-revision b6d637bef2393152b3da2b2fde72eecdee30557e \
-  --prompt-wording native --native-system-prompt none --default-temperature 0.90 --temperature-by-type choice=0.90,noul=1.15,score=1.20
+  --prompt-wording served --label-scheme upper --default-temperature 1.65
 ```
 
 The endpoint accepts `choice` (labeled options), `noul` (yes/no) and `score` (ordinal) questions. It returns probabilities for the caller's labels in one forward pass without decoding answer text. For example:
@@ -88,18 +88,36 @@ curl -s http://127.0.0.1:30120/v1/systemone -X POST -H 'content-type: applicatio
 }'
 ```
 
-`usage.output_tokens` is 0. The server applies the temperatures shown above unless a request supplies `options.temperature`. Each probability vector is normalized over exactly the caller's labels.
+`usage.output_tokens` is 0. The server applies the default temperature shown above unless a request supplies `options.temperature`. Each probability vector is normalized over exactly the caller's labels.
 
 ## Prompt wording and temperatures
 
-Both wordings were evaluated through the same served endpoint. The recommended wording follows the preset rule: use `native` unless `served` leads by at least 1.0 percentage point across the 10 suites and an offline check agrees. Temperatures were fitted separately for each wording and answer type on three calibration suites only. No JevBench item was used for these decisions.
+`served` is the adapter's default wording and the one used for the v2.2 measurements (`--label-scheme upper`, `--default-temperature 1.65`); `native` accepts at most 26 options per question. The table below is a v2.1 measurement of both wordings through the same served endpoint. Temperatures were fitted separately for each wording and answer type on three calibration suites only and have not been refit for v2.2. No JevBench item was used for these decisions.
 
 | Wording | Default temperature | Choice | Yes/no | Ordinal | Mean accuracy, 10 suites |
 |---|---:|---:|---:|---:|---:|
-| `native` (recommended) | 0.90 | 0.90 | 1.15 | 1.20 | 69.91 % |
-| `served` | 1.00 | 1.00 | 0.90 | 0.80 | 70.21 % |
+| `native` | 0.90 | 0.90 | 1.15 | 1.20 | 69.91 % |
+| `served` (adapter default) | 1.00 | 1.00 | 0.90 | 0.80 | 70.21 % |
 
-For the alternate wording, use `--prompt-wording served --default-temperature 1.00 --temperature-by-type choice=1.00,noul=0.90,score=0.80`.
+To use `native` with its v2.1-fitted temperatures, pass `--prompt-wording native --native-system-prompt none --default-temperature 0.90 --temperature-by-type choice=0.90,noul=1.15,score=1.20`.
+
+## Changes in v2.2
+
+v2.2 continues training from v2.1 with additional decision data. Questions with more than 26 options now use the labels `A`–`Z`, then `AA`, `AB`, …; the adapter in `server/` uses this order by default (`--label-scheme upper`). Both versions were measured the same way: merged BF16 weights through SGLang 0.5.20 and `jev-adapter`, `served` wording, one option order, accuracy of the most probable answer; measured 3 October 2026.
+
+| Suite | v2.1 | **v2.2** | Change (points) |
+|---|---:|---:|---:|
+| many-option questions, 53–151 options (18,000) | 48.00 % | **79.97 %** | +31.97 |
+| the same question set, at most 26 options (750) | 79.07 % | **85.47 %** | +6.40 |
+| long-document questions (150) | 32.67 % | **38.00 %** | +5.33 |
+| held-out decision set (600) | 73.50 % | **82.00 %** | +8.50 |
+| hard proxy (600) | 44.83 % | **44.67 %** | −0.16 |
+| realistic transfer set (600) | 89.50 % | **88.17 %** | −1.33 |
+| JevBench public easy (48) | 97.92 % | **100.00 %** | +2.08 |
+| JevBench public standard (72) | 93.06 % | **93.06 %** | 0.00 |
+| JevBench public hard (111) | 46.85 % | **45.95 %** | −0.90 |
+
+Decision Index 0.2.1 (balanced skill): **34.85**, measured through the adapter in `server/` (`served` wording, default temperature 1.65). The tables below are the v2.1 measurements with `native` wording and are not directly comparable with the table above.
 
 ## Benchmarks
 
@@ -147,20 +165,20 @@ This separate `transformers` run used native wording, no system prompt and T=1. 
 
 Served endpoint, 400 cases per suite, seed 13: AG News 84.5 %, typed decisions 67.3 %, nine-language MASSIVE intent mean 83.4 %, email spam 92.0 %, phishing 88.8 %. Results vary by language and task.
 
-The full report in [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md) and the classification tables in [`docs/public-classification-suites.md`](docs/public-classification-suites.md) are historical; use the v2.1 results above for this checkpoint. The [historical v2 benchmark chart](docs/assets/00-benchmark-card.png) shows earlier-version measurements.
+The full report in [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md) and the classification tables in [`docs/public-classification-suites.md`](docs/public-classification-suites.md) are historical; for this checkpoint, see [Changes in v2.2](#changes-in-v22). The [historical v2 benchmark chart](docs/assets/00-benchmark-card.png) shows earlier-version measurements.
 
 ## Model details
 
 - **Base model:** `mistralai/Ministral-3-3B-Instruct-2512-BF16`, revision `b6d637bef2393152b3da2b2fde72eecdee30557e` (Apache-2.0).
 - **Adapter architecture:** LoRA r=16, α=32, dropout 0 on `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj` and `down_proj` of the language model.
-- **Adapter file:** `adapter_model.safetensors`, `135,113,048` bytes, SHA-256 `e903d55404c9a2311b7188ca2f71e7dc6333247c20662606168dc4b61075d93b`.
-- **Merge:** 182 language-model tensors changed, none outside the language-model projections; maximum absolute weight change 0.0023.
-- **Serving:** `native` wording, no system prompt, temperatures (choice 0.90, yes/no 1.15, ordinal 1.20), SGLang 0.5.20 and `jev-adapter`; 8,192-token context, one caller-supplied option order and no rotation ensemble.
+- **Adapter file:** `adapter_model.safetensors`, `135,113,048` bytes, SHA-256 `cfe06432d85efbe99df53dbfd3fa3881e5d6ef177c6e26d5800d8bf83afe79e4`.
+- **Merge:** 182 language-model tensors changed, none outside the language-model projections; maximum absolute weight change 0.0022.
+- **Serving:** `served` wording (the adapter default), no system prompt, labels `A`–`Z`, then `AA`, `AB`, … (`--label-scheme upper`), `--default-temperature 1.65` for every answer type (the setting of the v2.2 measurements; no temperature was refit for v2.2), SGLang 0.5.20 and `jev-adapter`; 32,768-token context, one caller-supplied option order and no rotation ensemble.
 
 ## Training data
 
 The public source inventory shared with Standard One 8B is listed below. Training data is synthetic and format-augmented decision data plus decision items converted from public
-datasets (listed below); the JevBench public tiers used only for evaluation carry MIT. The source inventory below is retained from the previous card; the linked full report is historical.
+datasets (listed below); the JevBench public tiers used only for evaluation carry MIT. The linked full report is historical.
 
 Public datasets used (train splits where the dataset has one; licence as stated by each dataset; labels come from the
 datasets, distractor options are generated by code):
@@ -205,13 +223,16 @@ datasets, distractor options are generated by code):
 | Jigsaw Toxic Comment Classification (mirror of the Kaggle data) | CC0 (data); comment text CC BY-SA 3.0 (Wikipedia) |
 | Measuring Hate Speech | CC BY 4.0 |
 | Image safety classes | MIT |
+| WinoGrande | CC BY |
+| Lichess puzzles and games | CC0 |
+| ClinicalTrials.gov records | Public domain (U.S. Government work) |
 
 Historical upstream-id mapping: [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md#training-data-provenance).
 
 ## Limitations
 
 - Results depend on the task distribution and the serving path. Refit temperatures when using a materially different distribution.
-- At most 26 options per question (one uppercase letter per option, `A`–`Z`).
+- With `native` wording, at most 26 options per question (one uppercase letter per option, `A`–`Z`). With `served` wording the adapter continues with `AA`, `AB`, … up to 255 single-token labels (`--label-scheme upper`); v2.2 was evaluated with up to 151 options.
 - Served and offline probabilities can differ on identical prompts. Use the served results to estimate endpoint behavior.
 - Korean is a small share of the multilingual training mixture.
 - The card reports text benchmarks; it does not establish accuracy on image inputs.
