@@ -13,13 +13,14 @@ language:
 - vi
 - th
 tags:
-- baar4
+- baar5
 - 9m
 - multilingual
 - text-generation
 - ultra-lightweight
 - edge-ai
 - rag
+- gau
 license: other
 license_name: non-commercial-only
 license_link: LICENSE
@@ -34,13 +35,13 @@ license_link: LICENSE
 <h1 align="center">BAAR5-9M</h1>
 
 <p align="center">
-  🌐 <b>Official Website:</b> <a href="https://baar.uk/model/">https://baar.uk/model/</a></br>
+  🌐 <b>Official Website:</b> <a href="https://baar.uk/model/">https://baar.uk/model/</a><br>
   📄 <b>License:</b> Non-Commercial Only (Contact for Commercial Pricing)
 </p>
 
 ---
 
-## 📌 Model Overview
+## 📌 Model Overview (모델 개요)
 
 **BAAR5-9M** is an ultra-compact multilingual conversational model designed to enable real-time chat under minimal hardware conditions. With just **9 million (9M) parameters**, it brings lightweight, interactive dialogue capabilities across **11 languages** to extreme resource-constrained environments, embedded devices, and on-device platforms where standard LLMs cannot operate.
 
@@ -48,7 +49,7 @@ license_link: LICENSE
 
 ---
 
-## 📊 Live Sample Inference
+## 📊 Live Sample Inference (실시간 추론 벤치마크)
 
 *Hardware: Single NVIDIA Tesla T4 | FP16 Inference*
 

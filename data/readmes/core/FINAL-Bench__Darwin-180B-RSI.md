@@ -43,6 +43,9 @@ tags:
   - lexam
   - lexam-hard
   - ifstruct
+  - mdpbench
+  - document-parsing
+  - ocr
   - structured-output
   - eval-results
   - korean
@@ -73,6 +76,10 @@ model-index:
         dataset: {type: joelniklaus/LEXam-hard, name: LEXam-hard, split: test}
         metrics:
           - {type: score, value: 45.72, name: "Judge score (DeepSeek-R1-0528, single sample)", verified: false}
+      - task: {type: image-text-to-text, name: Multilingual Document Parsing}
+        dataset: {type: Delores-Lin/MDPBench, name: MDPBench (public), split: overall}
+        metrics:
+          - {type: score, value: 83.65, name: "Overall (official scoring, thinking on)", verified: false}
       - task: {type: text-generation, name: Structured Output Compliance}
         dataset: {type: LiquidAI/ifstruct-v1.0, name: IFStruct v1.0, split: test}
         metrics:
@@ -91,9 +98,11 @@ model-index:
 
 # Darwin-180B-RSI
 
-### 180B Mixture-of-Experts · vision-language · **#1 on nine Hugging Face official leaderboards**: eight by this model (IFStruct 98.95 · AIME 2026 100 · HMMT Feb 2026 100 · GPQA Diamond 94.44 · MMLU-Pro 88.12 · MMMU-Pro 79.48 · LEXam 68.94 · LEXam-hard 45.72) and ExtractBench 90.29 by its next round R3 · **self-improving**
+### 180B Mixture-of-Experts · vision-language · **#1 on ten Hugging Face official leaderboards**: nine by this model (MDPBench 83.65 · IFStruct 98.95 · AIME 2026 100 · HMMT Feb 2026 100 · GPQA Diamond 94.44 · MMLU-Pro 88.12 · MMMU-Pro 79.48 · LEXam 68.94 · LEXam-hard 45.72) and ExtractBench 90.29 by its next round R3 · **self-improving**
 
 > 💻 **Run it on your own machine — [POCKET-Darwin-180B-GGUF](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF)**: the 4-bit GGUF of R3 (111 GB) runs on a **laptop with an 8 GB GPU and 32 GB RAM**, **CPU only at 18–21 tok/s**, a 128 GB mini PC or one DGX Spark — MMLU-Pro **identical to BF16 (87.65%)**.
+
+> 🥇 **NEW: #1 on [MDPBench](https://huggingface.co/datasets/Delores-Lin/MDPBench) (83.65)**, multilingual document parsing across 17 languages, digital and photographed pages, ahead of Kimi-K3 (83.6) and the dedicated OCR models.
 
 > 🥇 **NEW: #1 on [IFStruct](https://huggingface.co/datasets/LiquidAI/ifstruct-v1.0) (98.95)**, the structured-output compliance benchmark (valid JSON/YAML that follows a requested schema), ahead of Agents-A1 (93.25) and gpt-oss-20b (91.95).
 
@@ -111,6 +120,7 @@ model-index:
 <a href="https://huggingface.co/datasets/LEXam-Benchmark/LEXam"><img src="https://img.shields.io/badge/LEXam_(Law)-68.94%25_%231-4f46e5?style=for-the-badge"></a>
 <a href="https://huggingface.co/datasets/joelniklaus/LEXam-hard"><img src="https://img.shields.io/badge/LEXam--hard_(Law)-45.72_%231-6d28d9?style=for-the-badge"></a>
 <a href="https://huggingface.co/datasets/LiquidAI/ifstruct-v1.0"><img src="https://img.shields.io/badge/IFStruct-98.95%25_%231-b45309?style=for-the-badge"></a>
+<a href="https://huggingface.co/datasets/Delores-Lin/MDPBench"><img src="https://img.shields.io/badge/MDPBench-83.65_%231-0f766e?style=for-the-badge"></a>
 <a href="https://huggingface.co/datasets/llamaindex/ExtractBench"><img src="https://img.shields.io/badge/ExtractBench_(R3)-90.29_%231-059669?style=for-the-badge"></a>
 <a href="https://huggingface.co/FINAL-Bench/Darwin-27B-RSI"><img src="https://img.shields.io/badge/Self--Improving-RSI-e11d48?style=for-the-badge"></a>
 <a href="https://huggingface.co/collections/FINAL-Bench/ztc-models-jev-ecosystems"><img src="https://img.shields.io/badge/ZTC-Zero--Token_Confidence-7c3aed?style=for-the-badge"></a>
@@ -123,7 +133,7 @@ model-index:
 <a href="https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF"><img src="https://img.shields.io/badge/💻_POCKET_4--bit-Laptop_·_CPU_only_·_DGX_Spark-0f766e?style=for-the-badge"></a>
 </p>
 
-**The newest flagship of the Darwin family: #1 on IFStruct, AIME 2026, HMMT Feb 2026, GPQA Diamond, MMLU-Pro, MMMU-Pro, LEXam and LEXam-hard,
+**The newest flagship of the Darwin family: #1 on MDPBench, IFStruct, AIME 2026, HMMT Feb 2026, GPQA Diamond, MMLU-Pro, MMMU-Pro, LEXam and LEXam-hard,
 and a model that gets better by learning from its own verified work.**
 
 ---
@@ -299,6 +309,7 @@ Same format as [Darwin-397B-ZTC](https://huggingface.co/FINAL-Bench/Darwin-397B-
 | **LEXam** (law, MCQ 4-choice, 1,655) | **68.94** | majority vote over 4 samples (single sample 60.54 · mean 61.42) · 32,768-token thinking budget | [**#1**](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) |
 | **LEXam-hard** (law, open-ended, 518) | **45.72** | single sample · 32,768-token thinking budget (60 truncated answers regenerated at 120K) · judged by DeepSeek-R1-0528 per the official eval.yaml | [**#1**](https://huggingface.co/datasets/joelniklaus/LEXam-hard) |
 | **IFStruct** (structured output, 2,000 prompts) | **98.95** | single run · official harness defaults (temperature 0, 16,000 max tokens) · thinking on | [**#1**](https://huggingface.co/datasets/LiquidAI/ifstruct-v1.0) |
+| **MDPBench** (multilingual document parsing, 2,720 pages) | **83.65** | single run · official prompt and scoring (text, formula CDM, table TEDS) · temperature 0 · thinking on | [**#1**](https://huggingface.co/datasets/Delores-Lin/MDPBench) |
 
 ### Evaluation protocol
 
@@ -321,6 +332,7 @@ Same format as [Darwin-397B-ZTC](https://huggingface.co/FINAL-Bench/Darwin-397B-
 | MMLU-Pro | 1 | single sample (no voting) |
 | MMMU-Pro (vision) | 3 | majority vote (maj@3) |
 | IFStruct | 1 | single run, temperature 0, 16,000 max tokens (official harness defaults) |
+| MDPBench | 1 | single run, temperature 0, 32,768 max tokens, thinking on (pages with no transcription re-read with thinking off) |
 
 All numbers are self-measured and reproducible with the settings above. Majority-vote scores are system scores (several samples per question) and are labeled as such.
 

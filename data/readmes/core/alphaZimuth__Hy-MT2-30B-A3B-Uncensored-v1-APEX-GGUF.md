@@ -47,6 +47,24 @@ language:
 - ug
 ---
 
+# ⚠️ Legacy / Experimental Release
+
+> **This repository is now considered a legacy experimental release and is no longer recommended for new downloads.**
+>
+> User feedback has identified several issues with this version, including:
+>
+> - degraded output quality and increased translation errors in some quantization variants
+> - weaker instruction following in some cases
+> - occasional unintended `think` output during translation
+>
+> This version was produced using an experimental custom Directional / Orthogonal Ablation process and did not use Imatrix calibration. Because of the reported issues, it is being retained primarily for historical reference, testing, and comparison.
+>
+> A new version has been released using the already prepared **OS-Software/Hy-MT2-30B-A3B-uncensored-heretic** weights directly, together with **Imatrix-calibrated APEX quantization**.
+>
+> **For new downloads, please use the latest release:**
+>
+> **[alphaZimuth/Hy-MT2-30B-A3B-Uncensored-Heretic-APEX-GGUF](https://huggingface.co/alphaZimuth/Hy-MT2-30B-A3B-Uncensored-Heretic-APEX-GGUF)**
+
 # Hy-MT2-30B-A3B-Uncensored-v1-APEX
 
 An experimental **Uncensored / Abliteration** version of Tencent [Hy-MT2-30B-A3B](https://huggingface.co/tencent/Hy-MT2-30B-A3B) .

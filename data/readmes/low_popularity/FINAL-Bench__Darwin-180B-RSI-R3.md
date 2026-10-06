@@ -43,7 +43,7 @@ tags:
 
 # Darwin-180B-RSI-R3
 
-### 180B Mixture-of-Experts · vision-language · **#1 on ExtractBench (90.29)** · the Darwin-180B-RSI line now holds **nine Hugging Face official #1s**: eight by [Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI) (R1) and ExtractBench by R3 · **self-improving**
+### 180B Mixture-of-Experts · vision-language · **#1 on ExtractBench (90.29)** · the Darwin-180B-RSI line now holds **ten Hugging Face official #1s**: nine by [Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI) (R1) and ExtractBench by R3 · **self-improving**
 
 > 🥇 **R3 is #1 on the [ExtractBench](https://huggingface.co/datasets/llamaindex/ExtractBench) leaderboard (90.29)**, ahead of its own parent Qwen3.8-Flash-Next (89.88), and #3 on [EvasionBench](https://huggingface.co/datasets/FutureMa/EvasionBench) (77.83).
 
@@ -65,6 +65,7 @@ tags:
 <a href="https://huggingface.co/datasets/LEXam-Benchmark/LEXam"><img src="https://img.shields.io/badge/LEXam_(R1)-68.94%25_%231-4f46e5?style=for-the-badge"></a>
 <a href="https://huggingface.co/datasets/joelniklaus/LEXam-hard"><img src="https://img.shields.io/badge/LEXam--hard_(R1)-45.72_%231-6d28d9?style=for-the-badge"></a>
 <a href="https://huggingface.co/datasets/LiquidAI/ifstruct-v1.0"><img src="https://img.shields.io/badge/IFStruct_(R1)-98.95%25_%231-b45309?style=for-the-badge"></a>
+<a href="https://huggingface.co/datasets/Delores-Lin/MDPBench"><img src="https://img.shields.io/badge/MDPBench_(R1)-83.65_%231-0f766e?style=for-the-badge"></a>
 </p>
 <p align="center">
 <a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI"><img src="https://img.shields.io/badge/Round_1-Darwin--180B--RSI-e11d48?style=for-the-badge"></a>
@@ -80,7 +81,7 @@ R3 is released so anyone can download it, run it, and check the numbers below.
 
 ---
 
-## 🏆 Nine #1s in the Darwin-180B-RSI line
+## 🏆 Ten #1s in the Darwin-180B-RSI line
 
 Hugging Face **official** benchmark leaderboards. Each score is listed under the model that produced it.
 
@@ -95,6 +96,7 @@ Hugging Face **official** benchmark leaderboards. Each score is listed under the
 | **LEXam** (law, MCQ 4-choice, 1,655) | **68.94** | R1 | [**#1**](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) |
 | **LEXam-hard** (law, open-ended, 518) | **45.72** | R1 | [**#1**](https://huggingface.co/datasets/joelniklaus/LEXam-hard) |
 | **IFStruct** (structured output, 2,000 prompts) | **98.95** | R1 | [**#1**](https://huggingface.co/datasets/LiquidAI/ifstruct-v1.0) |
+| **MDPBench** (multilingual document parsing, 2,720 pages) | **83.65** | R1 | [**#1**](https://huggingface.co/datasets/Delores-Lin/MDPBench) |
 
 R3's own leaderboard entries:
 
@@ -160,7 +162,7 @@ Paired per-question difference, R1 → R3 (mean of 4): **+1.03 points, 95% CI [+
 ## 🧬 The Darwin Family
 
 <p align="center">
-<a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI"><img src="https://img.shields.io/badge/Darwin--180B--RSI-8×_%231-e11d48"></a>
+<a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI"><img src="https://img.shields.io/badge/Darwin--180B--RSI-9×_%231-e11d48"></a>
 <a href="https://huggingface.co/FINAL-Bench/Darwin-397B-ZTC"><img src="https://img.shields.io/badge/Darwin--397B--ZTC-GPQA_93.43-16a34a"></a>
 <a href="https://huggingface.co/FINAL-Bench/Darwin-28B-REASON"><img src="https://img.shields.io/badge/Darwin--28B--REASON-GPQA_89.39-16a34a"></a>
 <a href="https://huggingface.co/FINAL-Bench/Darwin-35B-A3B-Opus"><img src="https://img.shields.io/badge/Darwin--35B--A3B--Opus-♥98-e11d48"></a>
@@ -190,7 +192,7 @@ Darwin treats a strong open model as a **parent**. It measures where the parent 
 | Role | | |
 |:---|:---|:---|
 | **R0, parent** | `Qwen/Qwen3.8-Flash-Next` | 180B MoE vision-language backbone · Qwen Community License 1.0 |
-| **R1** | [Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI) | first RSI round: the parent's own verified solutions fed back as training signal · eight #1s |
+| **R1** | [Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI) | first RSI round: the parent's own verified solutions fed back as training signal · nine #1s |
 | **R3 (this model)** | Darwin-180B-RSI-R3 | second RSI round, trained from R1 on R1's own verified solutions · ExtractBench #1 |
 | **Preserved** | 512 routed experts · router · vision encoder | untouched in every round |
 
@@ -248,6 +250,7 @@ The ZTC probe published with [Darwin-180B-RSI](https://huggingface.co/FINAL-Benc
 | LEXam | 4 | majority vote (single sample 60.54 · mean 61.42) |
 | LEXam-hard | 1 | single sample, judged by DeepSeek-R1-0528 per the official eval.yaml |
 | IFStruct | 1 | single run, temperature 0, 16,000 max tokens (official harness defaults) |
+| MDPBench | 1 | single run, temperature 0, 32,768 max tokens, thinking on (pages with no transcription re-read with thinking off) |
 
 All numbers are self-measured and reproducible with the settings above. Majority-vote scores are system scores (several samples per question) and are labeled as such.
 
@@ -319,7 +322,7 @@ model = AutoModelForImageTextToText.from_pretrained(model_id, torch_dtype="auto"
 
 ## 🔗 Related Darwin Models
 
-- **[Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI)**: R1, the model R3 was trained from, #1 on eight Hugging Face official leaderboards
+- **[Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI)**: R1, the model R3 was trained from, #1 on nine Hugging Face official leaderboards
 - **[POCKET-Darwin-180B-GGUF](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF)**: 4-bit GGUF of R3 for laptops, CPU-only machines and DGX Spark
 - **[Darwin-397B-ZTC](https://huggingface.co/FINAL-Bench/Darwin-397B-ZTC)**: 397B MoE (FP8), GPQA Diamond 93.43 %, ZTC on board
 - **[Darwin-28B-REASON](https://huggingface.co/FINAL-Bench/Darwin-28B-REASON)**: 28B, GPQA Diamond 89.39 %
