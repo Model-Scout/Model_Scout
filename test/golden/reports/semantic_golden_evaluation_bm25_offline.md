@@ -34,6 +34,18 @@
 | text-generation | 4 | 0 | 0 |
 | translation | 2 | 0 | 0 |
 
+## 질의 유형별 (recommend 질의)
+
+| query_type | 질의 | hit@5 | acceptable hit@5 |
+|---|---:|---:|---:|
+| benchmark_lookup | 1 | 0 | 0 |
+| constrained_search | 12 | 1 | 1 |
+| identifier_match | 2 | 0 | 0 |
+| reference_anchored | 1 | 0 | 0 |
+| semantic_capability | 8 | 0 | 0 |
+
+모델 비교(compare) 질의 통과: 0/0 — 비교 대상 모델이 모두 top-k에 있어야 통과
+
 ## 질의별 결과
 
 | 질의 | task | 등급 | 동작 | 통과 | 정답 순위 | 허용 순위 | 계열 순위 | 실패 원인 |

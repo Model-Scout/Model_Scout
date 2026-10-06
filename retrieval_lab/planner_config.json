@@ -1,0 +1,4 @@
+{
+  "description": "유형별 Retrieval Plan. 비어 있는 유형은 Baseline(dense 0.5 / sparse 0.5, 사전 검색 OFF, top_k 30)을 쓴다. `python -m retrieval_lab.experiment --types <유형> --write-planner`가 실험 최적값으로 채운다.",
+  "types": {}
+}

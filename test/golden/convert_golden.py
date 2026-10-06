@@ -18,6 +18,7 @@ from typing import Any, Dict, List
 HERE = Path(__file__).resolve().parent
 SOURCE_PATH = HERE / "labels" / "golden_queries.jsonl"
 OUTPUT_PATH = HERE / "labels" / "semantic_golden_queries.jsonl"
+PLAN_TYPES_PATH = HERE / "labels" / "plan_query_types.json"
 
 ROUTING = {
     "model_comparison": {"primary": "lookup", "dense_bias": "low", "sparse_bias": "high", "metadata_filter": "none", "resolve_reference": True},
@@ -57,7 +58,27 @@ def query_type(item: Dict[str, Any]) -> str:
     return "semantic_capability"
 
 
-def convert(item: Dict[str, Any]) -> Dict[str, Any]:
+def load_plan_types() -> Dict[str, Any]:
+    return json.loads(PLAN_TYPES_PATH.read_text(encoding="utf-8"))
+
+
+def plan_query_type(item: Dict[str, Any], kind: str, plan_types: Dict[str, Any]) -> str:
+    """Map the 6 label types to the 7 types of the retrieval experiment plan."""
+    if item.get("plan_query_type"):
+        return item["plan_query_type"]
+    if item["expected_behavior"] == "abstain":
+        return "abstention"
+    query_id = item["query_id"]
+    mapped = plan_types["by_query_type"].get(kind)
+    if mapped:
+        return mapped
+    for plan_kind, query_ids in plan_types.get(kind, {}).items():
+        if query_id in query_ids:
+            return plan_kind
+    raise ValueError(f"{query_id}: {kind} has no plan_query_type in {PLAN_TYPES_PATH.name}")
+
+
+def convert(item: Dict[str, Any], plan_types: Dict[str, Any]) -> Dict[str, Any]:
     conditions = item["conditions"]
     kind = query_type(item)
     row = {
@@ -72,6 +93,7 @@ def convert(item: Dict[str, Any]) -> Dict[str, Any]:
         "suite": "semantic_golden",
         "query_schema_version": 2,
         "query_type": kind,
+        "plan_query_type": plan_query_type(item, kind, plan_types),
         "query_signals": query_signals(conditions),
         "routing_hint": ROUTING[kind],
         # Conditions 05_validate_retrieval.py does not filter on yet; kept for scoring.
@@ -101,6 +123,9 @@ def convert(item: Dict[str, Any]) -> Dict[str, Any]:
     if item["label_type"] == "judged":
         row["suite"] = "judged_golden"
         row["labels"]["expected_all"] = item.get("expected_all") or []
+        # Scored 0 for a non-fatal reason; kept so evaluations can tell judged
+        # misses from candidates nobody has looked at.
+        row["labels"]["judged_irrelevant"] = [entry["model_id"] for entry in item.get("judged_irrelevant") or []]
         row["reference_models"] = item.get("reference_models") or []
         row["answer_grade"] = item.get("answer_grade")
     return row
@@ -113,7 +138,8 @@ def main() -> None:
     args = parser.parse_args()
 
     items = [json.loads(line) for line in args.source.read_text(encoding="utf-8").splitlines() if line.strip()]
-    rows = [convert(item) for item in items]
+    plan_types = load_plan_types()
+    rows = [convert(item, plan_types) for item in items]
     args.output.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
     print(json.dumps({"queries": len(rows), "evaluable_now": sum(row["evaluable_now"] for row in rows), "output": str(args.output)}, ensure_ascii=False))
 

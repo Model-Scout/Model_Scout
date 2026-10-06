@@ -153,6 +153,9 @@ def score_query(query: Dict[str, Any], results: List[Dict[str, Any]], stage2: Di
         ranks = [first_rank(results, [model_id]) for model_id in labels.get("expected_all") or []]
         passed = bool(ranks) and all(ranks) and not must_exclude_hits
         expected_rank = max(ranks) if passed else None
+    elif behavior == "abstain":
+        # No model satisfies the hard conditions; the retriever must return nothing.
+        passed = not results
     else:
         passed = False
 

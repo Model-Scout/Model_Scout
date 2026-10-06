@@ -78,12 +78,46 @@
         "hit": 0,
         "acceptable_hit": 0
       }
-    ]
+    ],
+    "by_query_type": [
+      {
+        "query_type": "benchmark_lookup",
+        "queries": 1,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "query_type": "constrained_search",
+        "queries": 12,
+        "hit": 1,
+        "acceptable_hit": 1
+      },
+      {
+        "query_type": "identifier_match",
+        "queries": 2,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "query_type": "reference_anchored",
+        "queries": 1,
+        "hit": 0,
+        "acceptable_hit": 0
+      },
+      {
+        "query_type": "semantic_capability",
+        "queries": 8,
+        "hit": 0,
+        "acceptable_hit": 0
+      }
+    ],
+    "compare_passed": "0/0"
   },
   "scored": [
     {
       "query_id": "sg_g002",
       "label_type": "golden",
+      "query_type": "identifier_match",
       "task": "translation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -110,6 +144,7 @@
     {
       "query_id": "sg_g004",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "feature-extraction",
       "expected_behavior": "recommend",
       "passed": false,
@@ -136,6 +171,7 @@
     {
       "query_id": "sg_g005",
       "label_type": "golden",
+      "query_type": "identifier_match",
       "task": "translation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -162,6 +198,7 @@
     {
       "query_id": "sg_g006",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -193,6 +230,7 @@
     {
       "query_id": "sg_g007",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -219,6 +257,7 @@
     {
       "query_id": "sg_g008",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -245,6 +284,7 @@
     {
       "query_id": "sg_g009",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "summarization",
       "expected_behavior": "recommend",
       "passed": false,
@@ -271,6 +311,7 @@
     {
       "query_id": "sg_g010",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "image-text-to-text",
       "expected_behavior": "recommend",
       "passed": true,
@@ -297,6 +338,7 @@
     {
       "query_id": "sg_g013",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "feature-extraction",
       "expected_behavior": "recommend",
       "passed": false,
@@ -323,6 +365,7 @@
     {
       "query_id": "sg_g014",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "text-classification",
       "expected_behavior": "recommend",
       "passed": false,
@@ -349,6 +392,7 @@
     {
       "query_id": "sg_g015",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "text-generation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -375,6 +419,7 @@
     {
       "query_id": "sg_g017",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "text-generation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -401,6 +446,7 @@
     {
       "query_id": "sg_g018",
       "label_type": "golden",
+      "query_type": "benchmark_lookup",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -427,6 +473,7 @@
     {
       "query_id": "sg_g019",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -453,6 +500,7 @@
     {
       "query_id": "sg_g020",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -479,6 +527,7 @@
     {
       "query_id": "sg_g021",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "text-generation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -508,6 +557,7 @@
     {
       "query_id": "sg_g022",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "text-generation",
       "expected_behavior": "recommend",
       "passed": false,
@@ -534,6 +584,7 @@
     {
       "query_id": "sg_g023",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "summarization",
       "expected_behavior": "recommend",
       "passed": false,
@@ -560,6 +611,7 @@
     {
       "query_id": "sg_g024",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "feature-extraction",
       "expected_behavior": "recommend",
       "passed": false,
@@ -586,6 +638,7 @@
     {
       "query_id": "sg_g025",
       "label_type": "golden",
+      "query_type": "semantic_capability",
       "task": "feature-extraction",
       "expected_behavior": "recommend",
       "passed": false,
@@ -612,6 +665,7 @@
     {
       "query_id": "sg_g026",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -641,6 +695,7 @@
     {
       "query_id": "sg_g027",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -667,6 +722,7 @@
     {
       "query_id": "sg_g028",
       "label_type": "golden",
+      "query_type": "reference_anchored",
       "task": "automatic-speech-recognition",
       "expected_behavior": "recommend",
       "passed": false,
@@ -693,6 +749,7 @@
     {
       "query_id": "sg_g029",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "summarization",
       "expected_behavior": "recommend",
       "passed": false,
@@ -719,6 +776,7 @@
     {
       "query_id": "sg_g030",
       "label_type": "golden",
+      "query_type": "constrained_search",
       "task": "text-generation",
       "expected_behavior": "must_exclude_only",
       "passed": false,
@@ -749,6 +807,7 @@
     {
       "query_id": "sg_g003",
       "label_type": "derived_counterfactual",
+      "query_type": "identifier_match",
       "task": "translation",
       "expected_behavior": "must_exclude_only",
       "passed": true,
@@ -775,6 +834,7 @@
     {
       "query_id": "sg_g016",
       "label_type": "derived_counterfactual",
+      "query_type": "constrained_search",
       "task": "text-generation",
       "expected_behavior": "must_exclude_only",
       "passed": true,
@@ -801,6 +861,7 @@
     {
       "query_id": "sg_a001",
       "label_type": "abstention",
+      "query_type": "reference_anchored",
       "task": "image-text-to-text",
       "expected_behavior": "warn_on_oversize",
       "passed": false,
