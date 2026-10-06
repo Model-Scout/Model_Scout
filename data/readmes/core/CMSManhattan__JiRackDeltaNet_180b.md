@@ -84,6 +84,8 @@ A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet li
 - Web site with fresh Web Dev UI https://www.jirack.com
 - Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+- VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
+- JiRack Harness  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
 
 # Ollama support
 - 180B Ollama builds are planned after QAT. Ollama needs a llama.cpp version that supports the `qwen4exp` architecture.
@@ -141,6 +143,20 @@ After QAT, add `--bake_ternary` to the export to write the ternary weights.
 
 ### Docker
 - 180B Docker images with the JiRack UI will be provided after QAT, or by request.
+
+### Ollama 
+- ollama run cmsmanhattan/JiRackDeltaNet_180b-q4
+- ollama run cmsmanhattan/JiRackDeltaNet_180b-q3
+
+## Ollama quick Start
+
+### Run with Ollama (recommended — reasoning off by default)
+- https://ollama.com/cmsmanhattan
+```bash
+ollama pull JiRackDeltaNet_180b-q4
+ollama run JiRackDeltaNet_180b-q4 "What is the capital of France?"
+```
+
 
 ## Recommended sampling parameters
 From the base model card:

@@ -44,7 +44,6 @@ tags:
 - agentic
 - swe-bench
 - mtp
-- speculative-decoding
 ---
 
 ## <a id="quick-navigation"></a>Quick Navigation Index
@@ -57,7 +56,7 @@ tags:
 7. [Hardware Throughput & Offload Benchmarks (RTX 30 / 40 / 50 & RAM Streaming)](#toc-07)
 8. [The 16GB & 24GB Advantage: Massive Context in VRAM!](#toc-08)
 9. [Recommended Configuration & Setup](#toc-09)
-10. [1. llama-cli with MTP Speculative Decoding & Vision Projector](#toc-10)
+10. [1. llama-cli with Vision Projector](#toc-10)
 11. [2. High-Performance OpenAI-Compatible Server](#toc-11)
 12. [Recommended Generation Parameters (Qwen Official)](#toc-12)
 13. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
@@ -69,7 +68,7 @@ tags:
 
 > [!IMPORTANT]
 > ### THE DEFINITIVE SPECIFICATION IN THE approx. 13 GB CEILING
-> This **APEX-I-NanoPlus** release marks the official debut of our specialized tensor-by-tensor architectural configuration for sparse Mixture-of-Experts quantization within an extreme **approx. 13 GB envelope**. Its 40 layers and 256 micro-experts are allocated tensor by tensor to maximize reasoning precision, preserve routing behavior, and prevent avoidable CPU dequantization stalls during hybrid and system-RAM inference; optional MTP companion files remain available for speculative decoding.
+> This **APEX-I-NanoPlus** release marks the official debut of our specialized tensor-by-tensor architectural configuration for sparse Mixture-of-Experts quantization within an extreme **approx. 13 GB envelope**. Its 40 main layers, 256 micro-experts, and integrated `blk.40` MTP block are allocated tensor by tensor to maximize reasoning precision, preserve routing behavior, and prevent avoidable CPU dequantization stalls during hybrid and system-RAM inference.
 
 > [!TIP]
 > ### 🏆 EMPIRICAL BENCHMARK & QUALITY COMPARISON
@@ -84,16 +83,16 @@ tags:
 > **Looking for higher precision?** [APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF) offers the full **15.23 GB (3.43 BPW)** release of this Qwen3.6 family, delivering Q5_K_L tier (bordering Q6_K) fidelity with integrated MTP support.
 >
 > **ARC-Challenge (0-shot, 1,172 questions): approx. 95.75%.**
-> - **Q4_K_L Tier in Reasoning & Routing:** 100% uncompressed `F32` routers (`gate_inp`) and a `Q6_K` output head eliminate router drift, matching or exceeding standard `Q4_K_L` baselines on logic benchmarks.
+> - **Q4_K_L Tier in Reasoning & Routing:** all 80 main-model routers remain uncompressed `F32`, the two integrated MTP routers remain `BF16`, and the output head is protected in `Q6_K`.
 > - **Solid Q4_K_M Tier in Language Modeling:** WikiText-2 perplexity preserves 4-bit distributional fidelity across standard generation in an agile approx. 13.03 GB footprint.
 >
-> **Routing:** all recipe-designated `gate_inp` and `gate_shexp` tensors remain in uncompressed `F32`, preserving zero routing drift.
+> **Routing:** all 80 main-model `gate_inp` / `gate_inp_shexp` tensors remain in uncompressed `F32`; the two integrated MTP routers in `blk.40` are stored in `BF16`.
 
 > [!WARNING]
 > ### DO NOT CONFUSE APEX-I-NANOPLUS WITH GENERIC COMMUNITY SUB-3-BIT QUANTS!
 > **Regardless of release version, NEVER confuse handcrafted APEX-I-NanoPlus builds with generic community sub-3-bit releases:**
 > - **Generic Community IQ2_S / IQ2_XXS:** Uniformly crushes all core MoE experts down to aggressive 2-bit codebooks without importance calibration, leaves the sensitive token output head unarmored at 3-bit, and compresses attention projections. In deep reasoning models, this triggers severe perplexity spikes, syntax errors, and broken code brackets.
-> - **Handcrafted APEX-I-NanoPlus:** Applies a surgical tensor-by-tensor architecture that preserves 100% of expert routing matrices in uncompressed `F32` (zero router drift), armors the token output head in high-precision `Q6_K`, safeguards attention gates in `Q8_0`, fortifies the critical MoE down-projection residual stream (`ffn_down_exps`) in `IQ3_XXS` (3.06 bpw), and restricts 2-bit compression strictly to redundant gating/up projections guided by the official `imatrix`.
+> - **Handcrafted APEX-I-NanoPlus:** Applies a surgical tensor-by-tensor architecture that keeps the 80 main-model routing matrices in uncompressed `F32`, retains the two integrated MTP routers in `BF16`, armors the token output head in high-precision `Q6_K`, safeguards attention gates in `Q8_0`, fortifies the critical MoE down-projection residual stream (`ffn_down_exps`) in `IQ3_XXS` (3.06 bpw), and restricts 2-bit compression strictly to redundant gating/up projections guided by the official `imatrix`.
 
 > [!TIP]
 > ### SYSTEM RAM INFERENCE: FULL OR PARTIAL
@@ -109,8 +108,8 @@ We maintain our previous releases publicly as a transparent engineering record o
 | Specification | Core Experts (2–37) | Edge Experts (0–1, 38–39) | Shared Expert (`shexp`) | Full Attention (L3, 7, 11, ...) | Attention Gates (30 Layers) | Output Head (`output.weight`) | Routers (`gate_inp`) | Size / Overhead | Real-World Impact |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
-| **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (10 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` | 15.23 GB (14.18 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
-| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **13.03 GB (12.14 GiB)** | **Calibrated approx. 13.0 GB tier. Leaves >3 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
+| **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (20 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` (main) / `BF16` (MTP) | 15.23 GB (14.18 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
+| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K` (40 main layers + MTP)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32` (main) / `BF16` (MTP)** | **13.03 GB (12.14 GiB)** | **Calibrated approx. 13.0 GB tier. Leaves >3 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
 
 > [!TIP]
 > ### Deployment & System Architecture Guide
@@ -192,13 +191,11 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | :--- | :--- | :--- | :--- | :--- |
 | **`Qwen3.6-35B-A3B.APEX-I-NanoPlus.gguf`** | **`13.03 GB (12.14 GiB)`** | `12.14 GiB` | **2.93 BPW** | Core agentic reasoning & multimodal MoE in APEX-I-NanoPlus |
 | **`mmproj-Q8_0.gguf`** | **`610.66 MB (582.37 MiB)`** | `582.37 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for document & image reasoning |
-| **`mtp-Qwen3.6-35B-A3B-Q8_0.gguf`** | **`1.99 GB (1.85 GiB)`** | `1.85 GiB` | **8.50 BPW** | Dedicated Q8_0 Multi-Token Prediction (MTP) draft head for speculative decoding |
-| **`mtp-Qwen3.6-35B-A3B-Q4_0.gguf`** | **`1.19 GB (1.11 GiB)`** | `1.11 GiB` | **4.50 BPW** | Dedicated Q4_0 Multi-Token Prediction (MTP) draft head for low-VRAM speculative decoding |
-| **Complete download** | **`14.83 GB (13.81 GiB)`** | `13.81 GiB` | — | Main GGUF plus the Q4_0 MTP companion and bundled vision projector |
+| **Complete download** | **`13.64 GB (12.71 GiB)`** | `12.71 GiB` | — | Main GGUF with integrated MTP plus the bundled vision projector |
 
 - **Base Model:** [Qwen/Qwen3.6-35B-A3B](https://huggingface.co/Qwen/Qwen3.6-35B-A3B)
 - **Parameters:** 35.2B total (approx. 2.6B to 3.2B active per token)
-- **Architecture:** 40 layers, 256 micro-experts (8 active per token)  + hybrid linear attention / DeltaNet recurrent layers; separate MTP companion heads are available for speculative decoding
+- **Architecture:** 40 main layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers + integrated `blk.40` MTP block
 - **Context Length:** 262,144 tokens (native 256K)
 
 ---
@@ -213,21 +210,23 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
 | **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
-| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 82 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
-| **Attention Gates** | `blk.*.attn_gate.weight` (Hybrid Layers) | 31 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
-| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All Layers) | 123 | **`Q4_K`** | Foundation knowledge backbone active on 100% of tokens; protected in linear Q4_K for fast streaming. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | Armored attention output projection over deep context. |
-| **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 123 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
-| **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 92 | **`Q4_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm`, MTP `nextn` norms | 138 | **`F32`** | Uncompressed numerical stability across the 40 main layers and integrated MTP block. |
+| **Main Expert Routers** | `blk.0–39.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | Main-model routing matrices remain uncompressed. |
+| **MTP Routers** | `blk.40.ffn_gate_inp`, `ffn_gate_inp_shexp` | 2 | **`BF16`** | Integrated MTP routing matrices are stored in native BF16. |
+| **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (40 Main Layers + MTP) | 123 | **`Q4_K`** | Foundation knowledge backbone plus the integrated MTP shared-expert path. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_q/k/v` + MTP `blk.40.attn_q/k/v` | 33 | **`Q4_K`** | Full quadratic attention anchors plus integrated MTP attention projections. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_output` + `blk.40.attn_output` | 11 | **`Q6_K`** | Armored attention output projection over deep context, including MTP. |
+| **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
+| **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q4_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
 | **Border MoE Down-Proj** | Layers 0–1 & 38–39 (`ffn_down_exps`) | 4 | **`Q3_K`** | Linear SIMD execution optimized for token entry and exit stability. |
 | **Border MoE Gate/Up** | Layers 0–1 & 38–39 (`ffn_gate/up_exps`) | 8 | **`IQ3_XXS`** | High-density boundary protection guided by imatrix. |
 | **Core MoE Down-Proj** | Layers 2–37 (`ffn_down_exps`) | 36 | **`IQ3_XXS`** | Fortified 3.06 bpw residual stream; preserves core mathematical and reasoning capacity. |
 | **Core MoE Gating** | Layers 2–37 (`ffn_gate_exps`) | 36 | **`IQ2_S`** | High-precision 2.50 bpw SwiGLU gating; eliminates activation noise. |
 | **Core MoE Up-Proj** | Layers 2–15 (`ffn_up_exps`) | 14 | **`IQ2_S`** | Enhanced 2.50 bpw precision for sensitive early-intermediate feature extraction. |
 | **Core MoE Up-Proj** | Layers 16–37 (`ffn_up_exps`) | 22 | **`IQ2_XXS`** | Extreme 2.06 bpw compression in deep MoE layers to reach exact 13.0 GB envelope. |
-| **MTP Companion Head** | `mtp-Qwen3.6-35B-A3B-Q4_0.gguf` | 1 | **`Q4_0`** | Separate low-VRAM speculative draft companion; use with `-md`. |
+| **MTP Experts** | `blk.40.ffn_{gate,down,up}_exps` | 3 | **`Q4_0`** | Expert tensors in the integrated Multi-Token Prediction block. |
+| **MTP Projection** | `blk.40.nextn.eh_proj.weight` | 1 | **`Q4_K`** | Dedicated hidden-state projection for the integrated Multi-Token Prediction block. |
 
 ---
 
@@ -281,11 +280,10 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 ## Recommended Configuration & Setup
 
 <a id="toc-10"></a>
-### 1. `llama-cli` with MTP Speculative Decoding & Vision Projector
+### 1. `llama-cli` with Vision Projector
 ```bash
 llama-cli \
   -m Qwen3.6-35B-A3B.APEX-I-NanoPlus.gguf \
-  -md mtp-Qwen3.6-35B-A3B-Q4_0.gguf \
   --mmproj mmproj-Q8_0.gguf \
   -ngl 99 \
   -c 32768 \
@@ -298,7 +296,6 @@ llama-cli \
 ```bash
 llama-server.exe \
   -m Qwen3.6-35B-A3B.APEX-I-NanoPlus.gguf \
-  -md mtp-Qwen3.6-35B-A3B-Q4_0.gguf \
   --mmproj mmproj-Q8_0.gguf \
   -ngl 99 \
   --port 8080 \
@@ -331,7 +328,7 @@ Sampling metadata recorded from [Qwen/Qwen3.6-35B-A3B](https://huggingface.co/Qw
 > <a id="quantization-fidelity"></a>
 > ### 🔍 Model Inherent Behavior vs. Quantization Fidelity Notice
 > Any behavioral nuances, stylistic tendencies, domain-specific habits, or zero-shot edge-case oversights **stem entirely from the original unquantized checkpoint weights and fine-tuning distribution, NOT from the APEX-I quantization process.**
-> Handcrafted APEX-I-NanoPlus strictly preserves mathematical tensor fidelity—keeping 100% of expert routing matrices (`gate_inp`) in uncompressed `F32` (zero router drift), armoring the token output head in `Q6_K`, safeguarding attention gates in `Q8_0`, and protecting the down-projection residual stream in `IQ3_XXS`. Empirical verification records the final GGUF perplexity at **5.5244 ± 0.12916**.
+> Handcrafted APEX-I-NanoPlus preserves the 80 main-model routing matrices in uncompressed `F32`, retains the two integrated MTP routers in `BF16`, armors the token output head in `Q6_K`, safeguards attention gates in `Q8_0`, and protects the down-projection residual stream in `IQ3_XXS`. Empirical verification records the final GGUF perplexity at **5.5244 ± 0.12916**.
 
 <a id="toc-coding-advisory"></a>
 <a id="coding-advisory"></a>

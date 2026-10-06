@@ -113,7 +113,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 | Specification | Core Experts (10–29) | Edge Experts (0–9, 30–39) | Shared Expert (`shexp`) | Full Attention (L3, 7, 11, ...) | Attention Gates (30 Layers) | Output Head (`output.weight`) | Routers (`gate_inp`) | Size / Overhead | Real-World Impact |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
-| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (10 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **Definitive Build** (approx. 13.74 GiB) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Dedicated Q8_0 MTP draft head enables ultra-fast speculative execution.** |
+| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (20 layers)** | **`Q5_K` (All 40 layers)** | **`Q3_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **Definitive Build** (approx. 13.74 GiB) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Dedicated Q8_0 MTP draft head enables ultra-fast speculative execution.** |
 
 > [!TIP]
 > ### Deployment & System Architecture Guide
@@ -215,12 +215,12 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 | Layer Group | Sub-Component / Tensor | Qty | Precision | Engineering Rationale |
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
-| **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
+| **Global Embeddings** | `token_embd.weight` | 1 | **`Q3_K`** | Vocabulary embedding representation as stored in the compiled GGUF. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm` | 131 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
 | **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
 | **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
 | **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All 40 Layers) | 120 | **`Q5_K`** | Foundation knowledge backbone active on 100% of tokens; protected in high-precision linear Q5_K. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
+| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q3_K`** | Full quadratic attention anchor checkpoints as stored in the compiled GGUF. |
 | **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | Armored attention output projection over deep context. |
 | **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
 | **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q3_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
@@ -327,6 +327,11 @@ Official generation guidelines specified by [empero-ai](https://huggingface.co/e
 >    - `top_p: 0.95`
 >    - `top_k: 20`
 > 3. **Native Jinja Formatting:** Always pass the `--jinja` flag so the tokenizer handles leading-space BPE tokens (` {` vs `{`, ` =` vs `=`) cleanly.
+4. **DRY Sampler for Repetition Suppression (Recommended over Repeat Penalty):**
+   - `--dry-multiplier 0.8` (or `1.0` in deep agent loops)
+   - `--dry-base 1.75`
+   - `--dry-allowed-length 2`
+   - `--dry-penalty-last-n 0` or equal to `--ctx-size` (e.g. `163840`). Note for llama.cpp users: builds such as Vulkan b10855 reject negative values like `-1`; specify `0` or your active context window length.
 
 <a id="toc-chat-template"></a>
 <a id="chat-template"></a>
@@ -338,9 +343,13 @@ Official generation guidelines specified by [empero-ai](https://huggingface.co/e
 >    - `low` / `minimal`: Keeps internal thinking concise and focused strictly on immediate execution steps to minimize latency in automated loops.
 >    - `medium` (default): Balanced, structured reasoning process with standard analytical depth.
 >    - `high` / `xhigh`: Guides the model to formulate a clear implementation plan upfront before generating code, avoiding circular self-doubt loops.
->    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>`) when reasoning is disabled.
-> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
-> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+>    - `none` / `off`: Closes the thinking block immediately (`<think>\n\n</think>\n\n`) when reasoning is disabled.
+> 2. **Tool-Calling Safeguards & Direct Execution:**
+>    - Enforces direct tool execution without conversational preambles that could trigger self-priming announcement loops in agent history.
+>    - Explicit negative constraints preventing tool-name hallucinations and repetitive retry loops on failed tool calls.
+> 3. **Multi-Turn Thinking Memory & Selective Pruning:**
+>    - Automatically prunes historical `<think>` blocks from preceding queries by default to prevent context bloat and circular reflection buildup across deep 75K+ token sessions.
+>    - Fully configurable via `chat_template_kwargs`: pass `{"preserve_thinking": true}` to retain all historical reasoning, or `{"preserve_thinking": false}` to strip intermediate tool reasoning for an ultra-lean context.
 > 
 > **Usage with llama-server:**
 > ```bash

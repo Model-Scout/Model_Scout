@@ -11,6 +11,7 @@ tags:
 - tool-use
 - structured-output
 - qwen
+library_name: transformers
 ---
 
 # Qwen3.8-27B-Human-KO-MerchantDesk-v0.1

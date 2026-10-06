@@ -82,11 +82,11 @@ tags:
 > ### 🏆 EMPIRICAL BENCHMARK & QUALITY COMPARISON
 > 
 > | Quantization Specification | File Size (Disk) | Memory Footprint (RAM/VRAM) | Average BPW | WikiText-2 Perplexity | ΔPPL vs. approx. BF16 | Quality Tier Equivalent |
-> | :--- | :---: | :---: | :---: | :---: | :---: |
+> | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 > | **Unquantized BF16 Base** | approx. 71.0 GB | approx. 66.2 GiB | 16.00 BPW | approx. 7.46 | 0.000 | Full Precision Baseline |
 > | **[APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** | 15.23 GB | 14.18 GiB | 3.43 BPW | 7.5117 ± 0.20722 | +0.0517 (+0.69%) | Q5_K_L tier, bordering Q6_K |
 > | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **approx. 2.93 BPW** | **8.2842 ± 0.23432** | **+0.8242 (+11.05%)** | **Solid Q4_K_M / Q4_K_L Tier** |
-> | *Generic Community IQ2_S* | approx. 12.2 GB | approx. 11.4 GiB | 2.56 BPW | > 8.10 (Degraded) | Unstable / Syntax Spikes |
+> | *Generic Community IQ2_S* | approx. 12.2 GB | approx. 11.4 GiB | 2.56 BPW | > 8.10 (Degraded) | +0.64+ (Syntax Noise) | Unstable / Syntax Spikes |
 >
 > **Looking for higher precision?** [Tiel-Coder-35B-A3B APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF) offers the full **15.23 GB (3.43 BPW)** release of this Tiel-Coder family, delivering Q5_K_L tier (bordering Q6_K) fidelity for agentic coding and local development.
 >
@@ -114,8 +114,8 @@ We maintain our previous releases publicly as a transparent engineering record o
 | Specification | Core Experts (2–37) | Edge Experts (0–1, 38–39) | Shared Expert (`shexp`) | Full Attention (L3, 7, 11, ...) | Attention Gates (30 Layers) | Output Head (`output.weight`) | Routers (`gate_inp`) | Size / Overhead | Real-World Impact |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
-| **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (10 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` | 15.23 GB (14.18 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
-| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q4_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined approx. 11.8–12.0 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
+| **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (20 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` | 15.23 GB (14.18 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
+| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined approx. 11.8–12.0 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
 
 > [!TIP]
 > ### Deployment & System Architecture Guide
@@ -172,14 +172,14 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors, bracket drops, and hallucinations. |
 | **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
-| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 82 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
-| **Attention Gates** | `blk.*.attn_gate.weight` (Hybrid Layers) | 31 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
-| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All Layers) | 123 | **`Q4_K`** | Foundation knowledge backbone active on 100% of tokens; protected in linear Q4_K for fast streaming. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm` | 131 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
+| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
+| **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers; eliminates crosstalk. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All 40 Layers) | 120 | **`Q4_K`** | Foundation knowledge backbone active on 100% of tokens; protected in linear Q4_K for fast streaming. |
 | **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q/k/v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q4_K`** | High-precision attention output projection over deep context. |
-| **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 123 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
-| **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 92 | **`Q4_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
+| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | High-precision attention output projection over deep context. |
+| **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
+| **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q4_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
 | **Border MoE Down-Proj** | Layers 0–1 & 38–39 (`ffn_down_exps`) | 4 | **`Q3_K`** | Linear SIMD execution optimized for token entry and exit stability. |
 | **Border MoE Gate/Up** | Layers 0–1 & 38–39 (`ffn_gate/up_exps`) | 8 | **`IQ3_XXS`** | High-density boundary protection guided by imatrix. |
 | **Core MoE Down-Proj** | Layers 2–37 (`ffn_down_exps`) | 36 | **`IQ3_XXS`** | Fortified 3.06 bpw residual stream; preserves core mathematical, coding, and reasoning capacity. |

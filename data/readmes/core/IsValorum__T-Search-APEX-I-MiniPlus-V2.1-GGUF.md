@@ -99,7 +99,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 | Specification | Core Experts (10–29) | Edge Experts (0–9, 30–39) | Shared Expert (`shexp`) | Full Attention (L3, 7, 11, ...) | Attention Gates (30 Layers) | Output Head (`output.weight`) | Routers (`gate_inp`) | Size / Overhead | Real-World Impact |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
-| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (10 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **Definitive Build** (14.18 GiB main GGUF) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Bundled Q8_0 mmproj enables zero-latency multimodal visual retrieval.** |
+| **MiniPlus V2.1 (CURRENT)** | **`IQ3_XXS`** | **`Q3_K` (20 layers)** | **`Q5_K` (All 40 layers)** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **Definitive Build** (14.18 GiB main GGUF) | **Zero AVX2 CPU stalls and efficient streaming when offloading bulk of the model to system RAM (DDR4/DDR5). Bundled Q8_0 mmproj enables zero-latency multimodal visual retrieval.** |
 
 ---
 
@@ -177,16 +177,18 @@ Standard community uploads often omit the multimodal projector or supply uncompr
 | :--- | :--- | :---: | :---: | :--- |
 | **Global Output Head** | `output.weight` | 1 | **`Q6_K`** | Preserves near-FP16 token classification; eliminates syntax errors and hallucinations. |
 | **Global Embeddings** | `token_embd.weight` | 1 | **`Q4_K`** | High-fidelity vocabulary embedding representation. |
-| **All Normalizations** | `output_norm`, `attn_*_norm`, `ssm_norm` | 171 | **`F32`** | 100% uncompressed numerical stability across all 40 layers. |
-| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 80 | **`F32`** | 100% uncompressed routing fidelity across 256 micro-experts; zero router drift. |
+| **All Normalizations** | `output_norm`, `attn_*_norm`, `post_attention_norm`, `ssm_norm`, MTP `nextn` norms | 138 | **`F32`** | Uncompressed numerical stability across the 40 main layers and integrated MTP block. |
+| **Expert Routers** | `blk.*.ffn_gate_inp`, `ffn_gate_inp_shexp` | 82 | **`F32`** | Uncompressed routing matrices across the 40 main layers and integrated MTP block. |
 | **Attention Gates** | `blk.*.attn_gate.weight` (30 Hybrid Layers) | 30 | **`Q8_0`** | High-precision attention gating across hybrid DeltaNet recurrence layers. |
-| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (All 40 Layers) | 120 | **`Q5_K`** | Foundation knowledge backbone active on 100% of tokens; protected in high-precision linear Q5_K. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_q\k\v` (10 Anchor Layers) | 30 | **`Q4_K`** | Full quadratic attention anchor checkpoints for deep needle-in-a-haystack retrieval. |
-| **Periodic Full Attention** | `blk.{3,7,11,...}.attn_output` (10 Anchor Layers) | 10 | **`Q6_K`** | Armored attention output projection over deep context. |
+| **Shared Foundation Experts** | `blk.*.ffn_{gate,down,up}_shexp` (40 Main Layers + MTP) | 123 | **`Q5_K`** | Foundation knowledge backbone plus the integrated MTP shared-expert path. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_q/k/v` + MTP `blk.40.attn_q/k/v` | 33 | **`Q4_K`** | Full quadratic attention anchors plus integrated MTP attention projections. |
+| **Periodic Full Attention** | `blk.{3,7,11,...,39}.attn_output` + `blk.40.attn_output` | 11 | **`Q6_K`** | Armored attention output projection over deep context, including MTP. |
 | **Recurrent SSM Scales** | `blk.*.ssm_alpha`, `ssm_a`, `ssm_conv1d`, `ssm_dt` | 120 | **`F32`** | Guarded in uncompressed FP32 to prevent DeltaNet recurrent state drift. |
 | **Linear Attention & SSM** | `blk.*.attn_qkv`, `ssm_beta`, `ssm_out` | 90 | **`Q3_K`** | Linear AVX2 execution; zero SIMD CPU stalls during system RAM streaming. |
 | **Edge MoE Experts** | Layers 0–9 & 30–39 (`ffn_*_exps`) | 60 | **`Q3_K`** | Linear SIMD execution optimized for system RAM offload. |
 | **Core MoE Experts** | Layers 10–29 (`ffn_*_exps`) | 60 | **`IQ3_XXS`** | Calibrated with importance matrix (`imatrix`) for maximum compactness in deep layers. |
+| **MTP Experts** | `blk.40.ffn_{gate,down,up}_exps` | 3 | **`Q4_0`** | Dedicated expert tensors in the integrated Multi-Token Prediction block. |
+| **MTP Projection** | `blk.40.nextn.eh_proj.weight` | 1 | **`Q4_K`** | Dedicated hidden-state projection for the integrated Multi-Token Prediction block. |
 
 ---
 

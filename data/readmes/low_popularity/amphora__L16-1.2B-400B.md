@@ -9,11 +9,13 @@ tags: [pretraining, multilingual, qwen3, muon, intermediate-checkpoint]
 
 A 1.16B-parameter base language model, pretrained from scratch on 16 languages with **no English**. The run targets 400B tokens. Checkpoints are published as training goes on.
 
-> **This is an intermediate checkpoint.** `main` currently holds **step 48,440 = 100.0B tokens**, taken while the learning rate is still at its peak, before the final cooldown. Expect it to improve a lot, especially after the cooldown that starts at 360B tokens.
+> **This is an intermediate checkpoint.** `main` currently holds **step 96,880 = 200.0B tokens**, taken while the learning rate is still at its peak, before the final cooldown. Expect it to improve a lot, especially after the cooldown that starts at 360B tokens.
 
 | revision | step | tokens | held-out val loss* |
 |---|---|---|---|
-| `step048440-100B` (= `main`) | 48,440 | 100.0B | 2.264 (eval at step 48,500) |
+| `step096880-200B` (= `main`) | 96,880 | 200.0B | 2.232 (eval at step 96,500) |
+| `step072660-150B` | 72,660 | 150.0B | 2.245 (eval at step 72,500) |
+| `step048440-100B` | 48,440 | 100.0B | 2.264 (eval at step 48,500) |
 | `step024220-50B` | 24,220 | 50.0B | 2.318 (eval at step 24,000) |
 
 \*The val loss is per token of this model's own tokenizer, measured on a held-out 10M-token validation set (625k tokens per language) with document masking. It is not comparable with other tokenizers.
@@ -40,7 +42,7 @@ Russian, Spanish, Chinese (Simplified), Indonesian, Korean, Japanese, Turkish, P
 | Batch | 504 × 4096 = 2.06M tokens per step, 193,752 steps (399.98B tokens) |
 | Precision | bf16 autocast, FP8 (tensorwise) for MLP and attention projections, fp32 master weights |
 | Data handling | document-boundary attention masking; a single shuffled pass, so no token is repeated |
-| Hardware | 6 × H200 |
+| Hardware | 6 × H200; 8 × H200 from step 92,000 (same global batch) |
 
 The peak LR comes from a sweep on the same 400B schedule, early-stopped at 9B tokens with a 1-sqrt decay to 10B. The sweep's best, 1e-2, was then lowered for the 400B horizon, following LR ∝ tokens^-0.3.
 
@@ -52,7 +54,7 @@ Training code: [github.com/guijinSON/delphi-pretrain](https://github.com/guijinS
 from transformers import AutoModelForCausalLM, AutoTokenizer
 repo = "amphora/L16-1.2B-400B"
 tok = AutoTokenizer.from_pretrained(repo)
-model = AutoModelForCausalLM.from_pretrained(repo, revision="step048440-100B", dtype="bfloat16")
+model = AutoModelForCausalLM.from_pretrained(repo, revision="step096880-200B", dtype="bfloat16")
 ids = tok("대한민국의 수도는", return_tensors="pt")
 print(tok.decode(model.generate(**ids, max_new_tokens=20)[0]))
 ```

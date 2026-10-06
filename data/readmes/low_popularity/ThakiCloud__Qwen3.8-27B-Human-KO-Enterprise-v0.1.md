@@ -12,6 +12,7 @@ tags:
 - qwen
 datasets:
 - ThakiCloud/EnterpriseOps-KO-Policy
+library_name: transformers
 ---
 
 # Qwen3.8-27B-Human-KO-Enterprise-v0.1

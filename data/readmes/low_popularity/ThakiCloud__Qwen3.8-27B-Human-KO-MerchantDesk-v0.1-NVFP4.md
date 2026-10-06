@@ -12,6 +12,7 @@ tags:
 - compressed-tensors
 - blackwell
 - qwen
+library_name: transformers
 ---
 
 # Qwen3.8-27B-Human-KO-MerchantDesk-v0.1-NVFP4

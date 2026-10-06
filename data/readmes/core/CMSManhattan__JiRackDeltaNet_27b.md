@@ -63,6 +63,8 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 - Web site with fresh Web Dev UI https://www.jirack.com
 - Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
 - Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+- VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
+- JiRack Harness  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
 
 
 # Ollama production support
@@ -98,7 +100,7 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 | `cmsmanhattan/jirack-deltanet-27b-cpu-q3:latest` | Q3_K_M | ~13.9 GB | ~15–20 GB | Good quality / size trade-off |
 | `cmsmanhattan/jirack-deltanet-27b-cpu-q2:latest` | Q2_K | ~11.2 GB | ~12–17 GB | Maximum compression |
 | `cmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest`| TQ_2 | ~7.2 GB | ~8–13 GB |  Ultra compression |
-| `cmsmanhattan/jirack-deltanet-27b-rocm-tq2`| TQ_2 | ~7.2 GB | ~8–13 GB |  Ultra compression |
+
 
 
 ## Quick Start
@@ -106,7 +108,7 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 ### Run with Ollama (recommended — reasoning off by default)
 - https://ollama.com/cmsmanhattan
 ```bash
-ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoningcmsmanhattan/jirack-deltanet-27b-cpu-tq2:latest
+ollama pull cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning
 ollama run cmsmanhattan/JiRackDeltaNet_27b-q4-reasoning "What is the capital of France?"
 ```
 

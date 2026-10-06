@@ -35,6 +35,49 @@ An **NVFP4-quantized, text-only** build of [`Qwen/Qwen3.8-27B`](https://huggingf
 tower removed, **MTP head grafted back in bf16** so vLLM speculative decoding works, exported in **`modelopt`**
 format for the native NVFP4 path on NVIDIA Blackwell / SM120.
 
+## Update, 2026-10-02 — successors, and the same question on 96 GB
+
+This build was an experiment on a **32 GB** RTX 5090, and its conclusions still apply
+there. Two things have changed since.
+
+**There are now vision-kept successors**, quantized from the bf16 base with the vision
+tower *and* the MTP head intact:
+
+- [`dbrasdasilva/Qwen3.8-27B-NVFP4-MTP`](https://huggingface.co/dbrasdasilva/Qwen3.8-27B-NVFP4-MTP) — mixed FP8/NVFP4, 24 GB
+- [`dbrasdasilva/Qwen3.8-27B-FP8-MTP`](https://huggingface.co/dbrasdasilva/Qwen3.8-27B-FP8-MTP) — FP8 throughout, 30 GB
+
+Both also carry **calibrated FP8 KV-cache scales** (`k_scale`/`v_scale`), which this
+build does not. Without them `--kv-cache-dtype fp8` runs at scale 1.0 and loses
+accuracy silently — vLLM says so in the log, and it is easy to miss.
+
+**On 96 GB the central trade-off disappears.** The "pick two" conclusion below is a
+property of a 32 GB KV budget, not of the model. Measured on an RTX PRO 6000 Blackwell
+96 GB with vLLM 0.30.0, vision on, MTP on, `--max-model-len 262144`,
+`--kv-cache-dtype fp8`, `--gpu-memory-utilization 0.95`:
+
+| Checkpoint | Weights | KV cache | Concurrency at 262 k |
+|---|---|---|---|
+| `Qwen3.8-27B-NVFP4-MTP` (mixed FP8/NVFP4) | 24 GB | 1,796,931 tokens | 6.85× |
+| `Qwen3.8-27B-FP8-MTP` | 30 GB | 1,622,656 tokens | 6.19× |
+| `unsloth/Qwen3.8-27B-NVFP4` | 22 GB | 1,820,363 tokens | 6.94× |
+| `nvidia/Qwen3.8-27B-NVFP4` | 20 GB | 2,118,244 tokens | 8.08× |
+
+Vision, MTP and the model's native 262 k context coexist with room to spare, so the
+32 GB question — *does stripping vision buy context or speed?* — stops being
+interesting rather than getting a different answer. (Decode throughput was not
+re-measured here; those are KV-cache ceilings, not tok/s.)
+
+**One hard-won detail if you quantize this architecture yourself.** A build that
+quantized `lm_head` while still listing it in `quantization_config.ignore` would not
+load at all:
+
+    ValueError: There is no module or parameter named 'lm_head.input_scale' in
+    Qwen3_5ForCausalLM ... are: {'lm_head.weight'}
+
+It is not that a quantized `lm_head` is unsupported — `nvidia/Qwen3.8-27B-NVFP4` ships
+an NVFP4 one and loads fine. The config simply has to tell the truth about the weights.
+This build keeps `lm_head` in bf16 and says so, which is why it was never affected.
+
 ## TL;DR
 This repo exists to answer one question: *on a 32 GB Blackwell card (RTX 5090), does physically stripping the
 vision tower give you more context or more speed?* **It doesn't** — it only removes the **921 MB** vision tower

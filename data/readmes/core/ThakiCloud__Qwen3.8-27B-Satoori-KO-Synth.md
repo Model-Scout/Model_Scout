@@ -207,7 +207,7 @@ AI 허브 파생 규칙을 경유**합니다(공개 자원만으로 설명되는
 ## Paper adapters (`adapters/`)
 
 The two LoRA adapters behind the primary comparison of
-*Metric--Construction Coupling Inflates Measured Synthetic Dialect Recovery* are in
+[*Metric-Construction Coupling Inflates Measured Synthetic Dialect Recovery*](https://arxiv.org/abs/2610.00164) are in
 [`adapters/`](./tree/main/adapters), 234 MB each:
 
 | folder | arm | rules used |
@@ -230,3 +230,9 @@ python adapters/merge_lora.py --base Qwen/Qwen3.8-27B \
 
 ⛔ The adapters are trained weights. No source data, dialect-to-standard correspondence
 list, or marker lexicon is included — those may not be redistributed.
+
+## Paper
+
+Metric-Construction Coupling Inflates Measured Synthetic Dialect Recovery — [arXiv:2610.00164](https://arxiv.org/abs/2610.00164)
+
+⛔ Read this card's recovery numbers next to that paper's main finding. When the scorer and the sentence builder draw on the same inventory of dialect markers, measured recovery is inflated: withholding marker types from the builder dropped dialectness recovery from 91.8% to 8.1% and region match from 101.9% to 25.6%, while axes outside the shared inventory barely moved. The per-axis spread reported here (generation 105.6% · identification 91.2% · comprehension 63.7%) is the same effect seen from the other side — comprehension, the axis least served by surface markers, recovers least. Real-data arm: [Qwen3.8-27B-Satoori-KO](https://huggingface.co/ThakiCloud/Qwen3.8-27B-Satoori-KO) · benchmark: [KoDialectBench](https://huggingface.co/datasets/ThakiCloud/kodialectbench).
