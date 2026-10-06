@@ -1,0 +1,35 @@
+{
+  "description": "query_type(6개, 라벨 원본) → plan_query_type(고도화 계획서 7개 유형) 매핑. convert_golden.py가 읽어 실행 스키마에 plan_query_type을 붙인다.",
+  "decided_on": "2026-10-04",
+  "by_query_type": {
+    "model_comparison": "model_comparison",
+    "semantic_capability": "semantic_capability",
+    "identifier_match": "lexical_exact",
+    "benchmark_lookup": "benchmark_lookup",
+    "reference_anchored": "semantic_constraint",
+    "constrained_search": null
+  },
+  "constrained_search_rule": "문장이 task 이름 외의 용도·도메인·능력(회의록, RAG, 리랭커, OCR, 감성분석, 코딩, 잡음 음성 등)을 설명하면 semantic_constraint, task와 수치·라이선스·실행 환경 조건만 나열하면 structured_constraint.",
+  "constrained_search": {
+    "structured_constraint": [
+      "g013", "g019", "g026", "g027",
+      "h001", "h002", "h004", "h010", "h018", "h019", "h027", "h033", "h036",
+      "h045", "h046", "h059", "h064", "h069", "h070", "h072",
+      "h103", "h104", "h105", "h106"
+    ],
+    "semantic_constraint": [
+      "g006", "g008", "g009", "g010", "g015", "g016", "g017", "g021", "g029", "g030",
+      "h005", "h008", "h009", "h011", "h015", "h016", "h017", "h020", "h021", "h022",
+      "h024", "h029", "h030", "h038", "h043", "h052", "h066", "h067", "h071"
+    ]
+  },
+  "owners": {
+    "model_comparison": "예주",
+    "semantic_capability": "예주",
+    "lexical_exact": "희원",
+    "structured_constraint": "희원",
+    "benchmark_lookup": "정훈",
+    "semantic_constraint": "정훈",
+    "abstention": "공통"
+  }
+}

@@ -94,6 +94,25 @@ python test/evaluate_semantic_golden.py --report test/golden/reports/semantic_go
 - 질의는 한 유형의 신호만 담는다([test/README.md](../README.md) 판정 기준). 2026-10-02에 경계에 걸친 생성 질의 9개를 고쳤다. 판정 전인 h090·h096·h099·h141은 문장·조건을 고치고 후보를 다시 뽑았다. 판정이 끝난 h012·h036·h051·h055·h059는 후보는 그대로 두고 문장·조건만 고쳤으며, 빠진 조건 때문에 근거가 사라진 점수 10개(h012·h051의 비상업 0점, h055의 "LLM 아님" 1점 등)는 같은 날 다른 번역 질의(h013·h052·h073·h074)와 같은 기준으로 다시 판정했다. 메모 끝에 "재판정"이 붙어 있다.
 - 문장에 있는 수치 조건은 반드시 `conditions`에도 넣고, 반대로 `conditions`에 있는 수치는 문장에도 쓴다. 유형은 파싱된 조건으로 정하므로 둘이 어긋나면 유형도 틀어진다. 예외는 `reference_anchored`로, "X보다 작은"처럼 기준 모델에서 환산한 수치는 문장에 없어도 된다. RAM 예산은 `gpu_vram_gb`와 구분해 `ram_gb`에 적는다(g013, g019). 최소 크기 조건("0.6B급은 부족", g023)은 담을 필드가 없어 아직 문장에만 있다.
 
+### 고도화 계획서의 7개 유형 (`plan_query_type`)
+
+Retrieval 고도화 실험([`retrieval_lab/`](../../retrieval_lab/README.md))은 위 6개 유형 대신 계획서의 7개 유형으로 나눈다. `convert_golden.py`가 [`labels/plan_query_types.json`](labels/plan_query_types.json)을 읽어 실행 스키마에 `plan_query_type`을 붙인다. 라벨 원본의 `query_type`은 그대로 둔다.
+
+| plan_query_type | 가져온 유형 | 질의 | 채점 가능 | 담당 |
+|---|---|---:|---:|---|
+| `model_comparison` | model_comparison | 21 | 21 | 예주 |
+| `semantic_capability` | semantic_capability | 38 | 37 | 예주 |
+| `lexical_exact` | identifier_match | 23 | 21 | 희원 |
+| `structured_constraint` | constrained_search 중 조건 나열형 24개 | 24 | 24 | 희원 |
+| `benchmark_lookup` | benchmark_lookup | 21 | 18 | 정훈 |
+| `semantic_constraint` | constrained_search 중 용도 설명형 29개 + reference_anchored 22개 | 51 | 47 | 정훈 |
+| `abstention` | `expected_behavior: "abstain"`인 질의 | 0 | 0 | 공통 |
+
+- `constrained_search`는 2026-10-04에 문장을 읽고 나눴다. task 이름 외의 용도·도메인·능력(회의록, RAG, 리랭커, OCR, 감성분석, 코딩, 잡음 음성 등)을 설명하면 `semantic_constraint`, task와 수치·라이선스·실행 환경 조건만 나열하면 `structured_constraint`다. 질의 ID 목록은 매핑 파일에 있다.
+- `reference_anchored`는 기준 모델을 수치 조건으로 바꾼 뒤 의미+수치로 찾는 질의라 `semantic_constraint`로 보냈다.
+- 채점 가능은 `evaluable_now`이고 정답 라벨(recommend의 `expected_any`/`acceptable`, compare의 `expected_all`)이 있는 질의 수다. `must_exclude_only`(g003·g016·g030)와 `warn_on_oversize`(a001)는 Recall 대상이 아니다.
+- 빈 결과 질의(h107~h122)는 커밋되지 않아 `abstention` 질의가 없다. 추가 방법은 `retrieval_lab/README.md`에 있다.
+
 | 파일 | 역할 |
 |---|---|
 | `labels/judging_queries_batch1.jsonl` | 질의 20개(`h001`~`h020`)와 조건. `pool_terms`는 후보 수집에만 쓰는 영어 검색어이며 채점에는 쓰지 않는다 |
@@ -130,6 +149,7 @@ python test/evaluate_semantic_golden.py --queries test/golden/labels/semantic_ju
 - 2점 모델이 없는 질의는 1점 모델을 `expected_any`로 올리고 `answer_grade: "acceptable_only"`로 표시한다(32개). 1·2점이 모두 없는 6개(h006, h093, h097, h100, h148, h164)는 후보 풀에 정답이 없어 `evaluable_now: false`다.
 - `model_comparison` 21개는 `expected_behavior: "compare"`이고, 비교 대상(`expected_all`)이 모두 top-k에 있어야 통과한다. 비교 대상이 0점이어도 `must_exclude`에 넣지 않는다(답에서 왜 안 맞는지 설명해야 하므로).
 - 결과: 판정 질의 150개 중 144개 채점 가능(recommend 123 · compare 21). 골든셋 28개와 합쳐 172개를 채점한다.
+- 판정실 점수판은 카드마다 마지막 점수 하나만 저장하고 판정자를 기록하지 않는다. 그래서 두 판정자의 일치도(Cohen's kappa 등)는 지금 데이터로 계산할 수 없다. 일치도를 보고하려면 판정자별 점수를 따로 저장해야 한다.
 - 골든셋 탭 점수가 기존 라벨과 다른 30건은 `reports/golden_label_review.md`에 모았다. 골든셋은 원문 확인을 거친 사례라 자동으로 바꾸지 않는다.
 
 ## 라벨 필드

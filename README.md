@@ -246,5 +246,7 @@ TTL 실행 때도 다음 deterministic 비용은 남아 있습니다.
 - `docs/index.html`: 데이터 추천 확장 기획서 (수정 규칙은 `docs/AGENTS.md`)
 - `data/README.md`: snapshot 파일과 수량
 - `test/README.md`: 골든셋과 검색 평가 방법
+- `retrieval_lab/README.md`: 쿼리 유형별 Pre-Retrieval·Retrieval 실험과 Retrieval Planner
+- `requirements_retrieval.txt`: 실험용 의존성 (BGE-M3, Optuna)
 - `requirements.txt`: 수집·Stage 1~4 의존성
 - `requirements_mcp.txt`: MCP/LangChain 선택 의존성
