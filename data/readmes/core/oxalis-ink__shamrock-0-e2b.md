@@ -1,6 +1,5 @@
 ---
-license: apache-2.0
-license_link: https://ai.google.dev/gemma/docs/gemma_4_license
+license: cc-by-nc-4.0
 pipeline_tag: text-generation
 base_model: google/gemma-4-E2B-it
 tags:
@@ -30,8 +29,24 @@ dictionary) across Japanese, Korean, and Simplified Chinese.
 
 ## License
 
-Released under the [Apache License 2.0](LICENSE), the same license as the base
-model. shamrock-0-e2b is a modified version of
+shamrock-0-e2b is licensed under
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) (see [LICENSE](LICENSE)).
+You can use, share and adapt it for non-commercial purposes, including
+personal projects and research, as long as you give credit. Commercial use,
+such as selling the weights, serving them in a paid product or API, or
+bundling them into a commercial app, is not permitted. For commercial
+licensing, reach out via [oxalis.ink](https://oxalis.ink).
+
+When you share this model or anything built from it, credit it as:
+
+> shamrock-0-e2b by Oxalis (https://oxalis.ink), licensed under CC BY-NC 4.0
+
+and say whether you changed it.
+
+shamrock-0-e2b is a modified version of
 [Gemma 4 E2B](https://huggingface.co/google/gemma-4-E2B-it) by Google DeepMind:
 its weights were fine-tuned and merged, then converted to GGUF with an added
-MTP drafter. See the [Gemma 4 license](https://ai.google.dev/gemma/docs/gemma_4_license).
+MTP drafter. Gemma 4 itself is licensed under the Apache License 2.0
+(see [LICENSE-GEMMA](LICENSE-GEMMA) and the
+[Gemma 4 license](https://ai.google.dev/gemma/docs/gemma_4_license)); the CC
+BY-NC 4.0 terms cover Oxalis's modifications. See [NOTICE](NOTICE).

@@ -179,7 +179,7 @@ Interactive, sortable version: [Prompt Injection Detector Leaderboard](https://h
 
 | Eval set | **this model** | small (141M) | ProtectAI v2 | deepset | PIGuard | Prompt Guard 2 86M | Prompt Guard 2 22M | Wolf Defender | NeuralTrust small |
 |---|---|---|---|---|---|---|---|---|---|
-| NotInject (benign prompts with trigger words), accuracy | 0.944 | 0.897 | 0.563 | 0.286 | 0.885 | 0.953 | **0.994** | 0.920 | 0.944 |
+| NotInject (benign prompts with trigger words), accuracy | 0.944 | 0.962 | 0.563 | 0.286 | 0.885 | 0.953 | **0.994** | 0.920 | 0.944 |
 | XSTest (safe + unsafe-but-not-injection prompts), accuracy | 0.998 | **1.000** | **1.000** | **1.000** | **1.000** | **1.000** | **1.000** | 0.964 | 0.720 |
 | OR-Bench-hard-1k (seemingly toxic benign prompts), accuracy | 0.994 | **0.995** | 0.935 | 0.803 | 0.786 | 0.751 | 0.980 | 0.854 | 0.453 |
 
@@ -187,41 +187,41 @@ Interactive, sortable version: [Prompt Injection Detector Leaderboard](https://h
 
 | Eval set | **this model** | small (141M) | ProtectAI v2 | deepset | PIGuard | Prompt Guard 2 86M | Prompt Guard 2 22M | Wolf Defender | NeuralTrust small |
 |---|---|---|---|---|---|---|---|---|---|
-| Qualifire benchmark (jailbreak vs benign), F1 | 0.742 (0.21) | 0.730 (0.22) | 0.657 (0.23) | 0.659 (0.69) | 0.670 (0.23) | 0.661 (0.11) | 0.186 (0.00) | **0.950 (0.02)** | 0.717 (0.14) |
-| jackhhao/jailbreak-classification test, F1 | 0.928 (0.02) | 0.883 (0.03) | 0.911 (0.02) | 0.706 (0.94) | 0.957 (0.05) | **0.967 (0.01)** | 0.786 (0.00) | 0.945 (0.05) | 0.843 (0.04) |
-| deepset/prompt-injections test, F1 | 0.763 (0.00) | 0.788 (0.00) | 0.537 (0.00) | **0.992 (0.00)** | 0.800 (0.00) | 0.235 (0.00) | 0.065 (0.00) | 0.750 (0.00) | 0.333 (0.00) |
-| Simsonsun contamination-free jailbreaks, recall | 0.822 | 0.779 | 0.540 | **0.996** | 0.766 | 0.556 | 0.072 | 0.838 | 0.746 |
-| Agentic boundary pairs (minimal pairs), F1 | 0.971 (0.05) | **0.988 (0.03)** | 0.697 (0.57) | 0.667 (1.00) | 0.650 (0.54) | 0.438 (0.10) | 0.080 (0.00) | 0.791 (0.28) | 0.835 (0.12) |
-| Held-out synthetic direct set, 30 languages, F1 * | **0.993 (0.01)** | 0.990 (0.01) | 0.783 (0.44) | 0.719 (0.78) | 0.718 (0.17) | 0.577 (0.05) | 0.238 (0.02) | 0.926 (0.10) | 0.887 (0.12) |
+| Qualifire benchmark (jailbreak vs benign), F1 | 0.742 (0.21) | 0.735 (0.18) | 0.657 (0.23) | 0.659 (0.69) | 0.670 (0.23) | 0.661 (0.11) | 0.186 (0.00) | **0.950 (0.02)** | 0.717 (0.14) |
+| jackhhao/jailbreak-classification test, F1 | 0.928 (0.02) | 0.909 (0.04) | 0.911 (0.02) | 0.706 (0.94) | 0.957 (0.05) | **0.967 (0.01)** | 0.786 (0.00) | 0.945 (0.05) | 0.843 (0.04) |
+| deepset/prompt-injections test, F1 | 0.763 (0.00) | 0.812 (0.00) | 0.537 (0.00) | **0.992 (0.00)** | 0.800 (0.00) | 0.235 (0.00) | 0.065 (0.00) | 0.750 (0.00) | 0.333 (0.00) |
+| Simsonsun contamination-free jailbreaks, recall | 0.822 | 0.763 | 0.540 | **0.996** | 0.766 | 0.556 | 0.072 | 0.838 | 0.746 |
+| Agentic boundary pairs (minimal pairs), F1 | 0.971 (0.05) | **0.976 (0.05)** | 0.697 (0.57) | 0.667 (1.00) | 0.650 (0.54) | 0.438 (0.10) | 0.080 (0.00) | 0.791 (0.28) | 0.835 (0.12) |
+| Held-out synthetic direct set, 30 languages, F1 * | **0.993 (0.01)** | 0.991 (0.01) | 0.783 (0.44) | 0.719 (0.78) | 0.718 (0.17) | 0.577 (0.05) | 0.238 (0.02) | 0.926 (0.10) | 0.887 (0.12) |
 
 **Indirect injection (documents, tools, web, email)**
 
 | Eval set | **this model** | small (141M) | ProtectAI v2 | deepset | PIGuard | Prompt Guard 2 86M | Prompt Guard 2 22M | Wolf Defender | NeuralTrust small |
 |---|---|---|---|---|---|---|---|---|---|
-| BIPIA (email/table/code/QA contexts), F1 | 0.628 (0.02) | 0.537 (0.04) | 0.312 (0.20) | **0.971 (1.00)** | 0.963 (0.00) | 0.020 (0.00) | 0.007 (0.00) | 0.271 (0.07) | 0.069 (0.00) |
-| PIArena (RAG / QA contexts with injected tasks), F1 | **0.969 (0.00)** | 0.948 (0.00) | 0.366 (0.01) | 0.672 (0.98) | 0.713 (0.00) | 0.150 (0.00) | 0.003 (0.00) | 0.338 (0.00) | 0.125 (0.00) |
-| LLMail-Inject phase 2 (real adaptive email attacks), recall | 0.998 | 0.989 | 0.485 | **1.000** | 0.528 | 0.210 | 0.011 | 0.912 | 0.182 |
+| BIPIA (email/table/code/QA contexts), F1 | 0.628 (0.02) | 0.528 (0.04) | 0.312 (0.20) | **0.971 (1.00)** | 0.963 (0.00) | 0.020 (0.00) | 0.007 (0.00) | 0.271 (0.07) | 0.069 (0.00) |
+| PIArena (RAG / QA contexts with injected tasks), F1 | **0.969 (0.00)** | 0.937 (0.00) | 0.366 (0.01) | 0.672 (0.98) | 0.713 (0.00) | 0.150 (0.00) | 0.003 (0.00) | 0.338 (0.00) | 0.125 (0.00) |
+| LLMail-Inject phase 2 (real adaptive email attacks), recall | 0.998 | 0.991 | 0.485 | **1.000** | 0.528 | 0.210 | 0.011 | 0.912 | 0.182 |
 | Held-out synthetic documents, 45 types, 30 languages, F1 * | **0.996 (0.00)** | 0.994 (0.00) | 0.465 (0.25) | 0.498 (1.00) | 0.591 (0.20) | 0.577 (0.05) | 0.233 (0.02) | 0.780 (0.09) | 0.715 (0.03) |
 
 **Robustness to character / word-level evasion**
 
 | Eval set | **this model** | small (141M) | ProtectAI v2 | deepset | PIGuard | Prompt Guard 2 86M | Prompt Guard 2 22M | Wolf Defender | NeuralTrust small |
 |---|---|---|---|---|---|---|---|---|---|
-| Mindgard originals, recall | 0.867 | 0.801 | 0.848 | **0.992** | 0.615 | 0.535 | 0.335 | 0.990 | 0.605 |
-| Mindgard evaded samples (20 perturbation attacks), recall | 0.799 | 0.755 | 0.701 | 0.921 | 0.462 | 0.249 | 0.072 | **0.981** | 0.763 |
+| Mindgard originals, recall | 0.867 | 0.830 | 0.848 | **0.992** | 0.615 | 0.535 | 0.335 | 0.990 | 0.605 |
+| Mindgard evaded samples (20 perturbation attacks), recall | 0.799 | 0.768 | 0.701 | 0.921 | 0.462 | 0.249 | 0.072 | **0.981** | 0.763 |
 
-Macro average over the external (non-synthetic) sets above: **this model**: 0.887 · small (141M): 0.867 · deepset: 0.796 · PIGuard: 0.793 · Wolf Defender: 0.776 · ProtectAI v2: 0.637 · NeuralTrust small: 0.542 · Prompt Guard 2 86M: 0.540 · Prompt Guard 2 22M: 0.380.
+Macro average over the external (non-synthetic) sets above: **this model**: 0.887 · small (141M): 0.873 · deepset: 0.796 · PIGuard: 0.793 · Wolf Defender: 0.776 · ProtectAI v2: 0.637 · NeuralTrust small: 0.542 · Prompt Guard 2 86M: 0.540 · Prompt Guard 2 22M: 0.380.
 
 Threshold-free comparison (ROC AUC; this is fairer to models calibrated for a different threshold, such as Prompt Guard 2):
 
 | ROC AUC | **this model** | small (141M) | ProtectAI v2 | deepset | PIGuard | Prompt Guard 2 86M | Prompt Guard 2 22M | Wolf Defender | NeuralTrust small |
 |---|---|---|---|---|---|---|---|---|---|
-| Qualifire | 0.872 | 0.853 | 0.830 | 0.793 | 0.839 | 0.881 | 0.820 | **0.990** | 0.871 |
-| jackhhao | 0.980 | 0.960 | 0.980 | 0.842 | **0.995** | 0.995 | 0.968 | 0.977 | 0.961 |
-| deepset | 0.954 | 0.950 | 0.901 | **0.997** | 0.960 | 0.906 | 0.752 | 0.965 | 0.843 |
-| Boundary pairs | 0.992 | **0.999** | 0.720 | 0.497 | 0.654 | 0.646 | 0.671 | 0.879 | 0.887 |
-| BIPIA | 0.836 | 0.764 | 0.439 | 0.573 | **0.992** | 0.667 | 0.538 | 0.625 | 0.524 |
-| PIArena | **0.997** | 0.985 | 0.732 | 0.820 | 0.898 | 0.742 | 0.559 | 0.909 | 0.629 |
+| Qualifire | 0.872 | 0.870 | 0.830 | 0.793 | 0.839 | 0.881 | 0.820 | **0.990** | 0.871 |
+| jackhhao | 0.980 | 0.969 | 0.980 | 0.842 | **0.995** | 0.995 | 0.968 | 0.977 | 0.961 |
+| deepset | 0.954 | 0.976 | 0.901 | **0.997** | 0.960 | 0.906 | 0.752 | 0.965 | 0.843 |
+| Boundary pairs | 0.992 | **0.993** | 0.720 | 0.497 | 0.654 | 0.646 | 0.671 | 0.879 | 0.887 |
+| BIPIA | 0.836 | 0.802 | 0.439 | 0.573 | **0.992** | 0.667 | 0.538 | 0.625 | 0.524 |
+| PIArena | **0.997** | 0.993 | 0.732 | 0.820 | 0.898 | 0.742 | 0.559 | 0.909 | 0.629 |
 
 How to read this:
 - F1 cells show the false-positive rate on that set's benign examples in parentheses. BIPIA is 94% positive,
@@ -331,8 +331,8 @@ Keep 0.5 (or lower) for untrusted content such as retrieved documents and tool o
   scores, our large v2.1 model and a Qwen3.8-27B judge prompted with our definition of injection (soft labels, weight 0.5).
   Macro average over the external sets .877 -> .887 (both of two training seeds). Jailbreak recall on Simsonsun +.03,
   jackhhao F1 +.07, Mindgard evasion +.01 and fewer NotInject false alarms; boundary pairs F1 -.02 and deepset F1 -.02.
-  Small and large stay at v2.1: the recipe did not pass our gate for small, and for large it raised the macro average
-  but also false alarms on agent-style inputs (agentic5k false-positive rate .24 -> .33).
+  Large stays at v2.1: the recipe raised its macro average but also false alarms on agent-style inputs (agentic5k
+  false-positive rate .24 -> .33). Small moved to v2.3 on 2026-10-07 with a different recipe.
 - **v2.1** (2026-09-23): labels renamed to `SAFE` / `INJECTION` (ProtectAI / LLM Guard convention). Weights unchanged.
 - **v2** (2026-09-23): targeted synthetic data (framing pairs, planted-task documents), evasion augmentation, and the
   built-in obfuscation normalizer. Macro average over the external sets improved (small .849 → .867, base .863 → .876).

@@ -313,7 +313,7 @@ register = 'formal'
 source_sentence = "When you finish the report, contact me."
 
 text = f"Translate the text below from {source} to {target}. Use {register} language throughout.\n\n{source_sentence}"
-# Cuando termine el informe, pongase en contacto conmigo.
+# Cuando termine el informe, póngase en contacto conmigo.
 ```
 
 </details>
@@ -414,7 +414,7 @@ text = (
 In our experience, `vllm` works well for deploying the full unquantized version of the model, whereas `llama.cpp` is appropriate for the quantized (GGUF) version.
 **We strongly discourage using ollama as we have encountered compatibility issues that may seriously degrade the model's performance.**
 
-The easiest and most reliable way to have a working deployment of ALIA-40b-instruct is through the "Deploy / HF Inference Endpoints" option directly on the Hugging Face model page.
+The easiest and most reliable way to have a working deployment of SalamandraTA-7b-instruct is through the "Deploy / HF Inference Endpoints" option directly on the Hugging Face model page.
 This automatically creates a functioning endpoint, using vllm or llama.cpp according to the model variant, with an appropriately dimensioned GPU.
 While there are additional settings available for the endpoint we found the standard configuration proposed by Hugging Face to be a reasonable starting point.
 
@@ -538,7 +538,6 @@ EUpress is an internally created, unpublished dataset.
 ### References
 
 - Agerri, R., Gómez Guinovart, X., Rigau, G., & Solla Portela, M. A. (2018). Developing new linguistic resources and tools for the Galician language. In *Proceedings of the Eleventh Language Resources and Evaluation Conference (LREC 2018)* (pp. 2322–2325). European Language Resources Association. https://aclanthology.org/L18-1369/
-- Agrawal, P., Hackenbuchner, J., Attanasio, G., Lardelli, M., & Lauscher, A. (2025). Glitter: A multi-sentence, multi-reference benchmark for gender-fair German machine translation. In *Findings of the Association for Computational Linguistics: EMNLP 2025* (pp. 18450–18477). Association for Computational Linguistics. https://aclanthology.org/2025.findings-emnlp.1002/
 - Armengol-Estapé, J., Carrino, C. P., Rodriguez-Penagos, C., de Gibert Bonet, O., Armentano-Oller, C., Gonzalez-Agirre, A., Melero, M., & Villegas, M. (2021). Are multilingual models the best choice for moderately under-resourced languages? A comprehensive assessment for Catalan. In *Findings of the Association for Computational Linguistics: ACL-IJCNLP 2021* (pp. 4933–4946). Association for Computational Linguistics. https://aclanthology.org/2021.findings-acl.437
 - Bié, L., Cerdà-i-Cucó, A., Degroote, H., Estela, A., García-Martínez, M., Herranz, M., Kohan, A., Melero, M., O'Dowd, T., O'Gorman, S., Pinnis, M., Rozis, R., Superbo, R., & Vasiļevskis, A. (2020). Neural Translation for the European Union (NTEU) Project. In *Proceedings of the 22nd Annual Conference of the European Association for Machine Translation* (pp. 477–478). European Association for Machine Translation. https://aclanthology.org/2020.eamt-1.60/
 - Caswell, I., Nielsen, E., Luo, J., Cherry, C., Kovacs, G., Shemtov, H., Talukdar, P., Tewari, D., Diane, B. M., Doumbouya, K. M., Diane, D., & Cissé, S. F. (2025). *SMOL: Professionally translated parallel data for 115 under-represented languages* (No. arXiv:2502.12301). arXiv. https://arxiv.org/abs/2502.12301
@@ -611,7 +610,7 @@ This section presents the evaluation metrics for English translation tasks.
 | MADLAD400-7B | 42.71 | 43.96 | 67.60 | 0.89 | **0.85** | **0.79** | **1.15** | **1.17** |
 
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_en_flores+_devtest.png" alt="English FLORES" width="100%"/>
+<img src="./images/bleu_en_flores+_devtest.png" alt="English FLORES" width="100%"/>
 
 #### BOUQuET test subset (sentence-level)
 
@@ -628,7 +627,7 @@ This section presents the evaluation metrics for English translation tasks.
 
 
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_en_bouquet.png" alt="English BOUQuET" width="100%"/>
+<img src="./images/bleu_en_bouquet.png" alt="English BOUQuET" width="100%"/>
 
 </details>
 
@@ -654,7 +653,7 @@ This section presents the evaluation metrics for Spanish translation tasks.
 | MADLAD400-7B | 24.45 | 62.40 | 52.61 | **0.85** | **0.84** | **0.74** | **1.07** | 1.54 |
 
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_es_flores+_devtest.png" alt="Spanish FLORES" width="100%"/>
+<img src="./images/bleu_es_flores+_devtest.png" alt="Spanish FLORES" width="100%"/>
 
 
 #### BOUQuET test subset (sentence-level)
@@ -671,7 +670,7 @@ This section presents the evaluation metrics for Spanish translation tasks.
 | MADLAD400-7B | **37.30** | 53.61 | **60.19** | 0.88 | **0.83** | **0.79** | **0.67** | **0.80** |
 
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_es_bouquet.png" alt="Spanish BOUQuET" width="100%"/>
+<img src="./images/bleu_es_bouquet.png" alt="Spanish BOUQuET" width="100%"/>
 
 
 </details>
@@ -697,10 +696,10 @@ This section presents the evaluation metrics for Catalan translation tasks.
 | SalamandraTA-7b-instruct v3 | **34.69** | **53.53** | **60.28** | **0.86** | 0.81 | **0.75** | **1.09** | **1.61** |
 | MADLAD400-7B | 32.50 | 55.67 | 58.94 | 0.86 | **0.81** | 0.75 | 1.23 | 1.79 |
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_ca_flores+_devtest.png" alt="Catalan FLORES" width="100%"/>
+<img src="./images/bleu_ca_flores+_devtest.png" alt="Catalan FLORES" width="100%"/>
 
 
-#### BOUQuET test subset (sentence-levl, updated)
+#### BOUQuET test subset (sentence-level, updated)
 
 |  | Bleu↑ | Ter↓ | ChrF↑ | Comet↑ | Comet-kiwi↑ | Bleurt↑ | MetricX↓ | MetricX-QE↓ |
 |:---|-------:|-------:|-------:|-------:|-------:|-------:|-------:|-------:|
@@ -715,7 +714,7 @@ This section presents the evaluation metrics for Catalan translation tasks.
 
 
 
-<img src="https://huggingface.co/BSC-LT/salamandraTA-7b-instruct/resolve/v3.0-dev/images/bleu_ca_bouquet.png" alt="Catalan BOUQuET" width="100%"/>
+<img src="./images/bleu_ca_bouquet.png" alt="Catalan BOUQuET" width="100%"/>
 
 </details>
 
@@ -986,7 +985,6 @@ they bear the responsibility for mitigating any associated risks and ensuring co
 The Barcelona Supercomputing Center, as the owner and creator of the model, shall not be held liable for any outcomes resulting from third-party use.
 
 ### License
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
+[GNU General Public License, Version 3.0](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ### Citation

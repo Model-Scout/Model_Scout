@@ -534,6 +534,10 @@ Cohere Transcribe is supported on the following libraries/platforms:
 * [Whisper Memos](https://whispermemos.com/kb/features/ai-models#cohere-transcribe) (iOS App).
 * [Whisperian](https://play.google.com/store/apps/details?id=app.whisperian.client) (Android App).
 * [hyprwhspr](https://github.com/goodroot/hyprwhspr) (Linux app).
+* Handy's [`transcribe.cpp`](https://github.com/handy-computer/transcribe.cpp) - C/C++ GGUF inference on the ggml runtime with Metal, Vulkan and CUDA backends.
+* [VoiceInk](https://tryvoiceink.com/docs/local-models#cohere-transcribe-and-sensevoice) (macOS app).
+* [Superwhisper](https://superwhisper.com/docs/models/voice#cohere-transcribe-local) (macOS, Windows and iOS app).
+* [Spokenly](https://spokenly.app/blog/cohere-transcribe) (macOS and iOS app).
 
 
 If you have added support for the model somewhere not included above please raise an issue/PR!

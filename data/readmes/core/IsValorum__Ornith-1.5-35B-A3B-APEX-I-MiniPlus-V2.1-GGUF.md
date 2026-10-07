@@ -47,6 +47,29 @@ tags:
 - swe-bench
 ---
 
+> [!NOTE]
+> ### NEW: QWEN3.8 27B DENSE — VAL-APEX-I
+> Explore the Huihui Abliterated and EfficientThink Uncensored editions. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
+>
+> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.33 GB.
+> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-NanoPlus-GGUF)** — 11.90 GB.
+> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.08 GB.
+> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-NanoPlus-GGUF)** — 11.65 GB.
+>
+> **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
+>
+> ### EXPLORE THE ESTABLISHED 35B MoE MINIPLUS LINEUP
+> These are complementary APEX-I-MiniPlus V2.1 releases, not alternate downloads of the same model. Each receives the same tensor-by-tensor approach, integrated MTP where supported, and a design suitable for full or partial system-RAM inference. Choose the model whose native strengths best fit the work you want to do:
+>
+> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF)** — a versatile frontier MoE for broad reasoning, multilingual work, agents, tool use, and multimodal tasks.
+>   - **Best for:** General reasoning, agent workflows, tool calling, and flexible multimodal use.
+> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1 Abliterated](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-Abliterated-GGUF)** — the V2.1 refusal-ablated Qwen3.6 edition for users who deliberately prefer reduced refusal behavior.
+>   - **Best for:** Workflows where an abliterated Qwen3.6 variant is explicitly desired.
+> - **[Tiel Coder APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** — a specialist coding MoE tuned for agentic programming, iterative tool use, and implementation-heavy work.
+>   - **Best for:** Focused coding sessions, iterative debugging, and tool-driven implementation.
+>
+> These remain distinct model families and editions with their own behavior and empirical results. Pick by workload and intended alignment behavior rather than treating them as interchangeable quantization variants.
+
 ## <a id="quick-navigation"></a>Quick Navigation Index
 1. [Optimization History & Transparency Notice](#toc-01)
 2. [Independent Benchmark of the APEX-I-MiniPlus Family (Occamy V2 Reference)](#toc-02)
@@ -119,18 +142,6 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 ---
 
-> [!IMPORTANT]
-> ### EXPLORE THE ESTABLISHED 35B MoE MINIPLUS LINEUP
-> These are complementary APEX-I-MiniPlus V2.1 releases, not alternate downloads of the same model. Each receives the same tensor-by-tensor approach, integrated MTP where supported, and a design suitable for full or partial system-RAM inference. Choose the model whose native strengths best fit the work you want to do:
->
-> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF)** — a versatile frontier MoE for broad reasoning, multilingual work, agents, tool use, and multimodal tasks.
->   - **Best for:** General reasoning, agent workflows, tool calling, and flexible multimodal use.
-> - **[Qwen3.6-35B-A3B MTP APEX-I-MiniPlus-V2.1 Abliterated](https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-Abliterated-GGUF)** — the V2.1 refusal-ablated Qwen3.6 edition for users who deliberately prefer reduced refusal behavior.
->   - **Best for:** Workflows where an abliterated Qwen3.6 variant is explicitly desired.
-> - **[Tiel Coder APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** — a specialist coding MoE tuned for agentic programming, iterative tool use, and implementation-heavy work.
->   - **Best for:** Focused coding sessions, iterative debugging, and tool-driven implementation.
->
-> These remain distinct model families and editions with their own behavior and empirical results. Pick by workload and intended alignment behavior rather than treating them as interchangeable quantization variants.
 ---
 
 <a id="independent-benchmark"></a>
