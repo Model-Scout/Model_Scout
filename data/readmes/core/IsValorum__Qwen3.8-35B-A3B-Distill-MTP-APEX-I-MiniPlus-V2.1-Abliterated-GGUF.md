@@ -38,12 +38,16 @@ pipeline_tag: text-generation
 
 > [!NOTE]
 > ### NEW: QWEN3.8 27B DENSE — VAL-APEX-I
-> Explore the Huihui Abliterated and EfficientThink Uncensored editions. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
+> Explore the new V3 releases alongside the Huihui Abliterated and EfficientThink Uncensored editions. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
 >
-> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.33 GB.
-> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-NanoPlus-GGUF)** — 11.90 GB.
-> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.08 GB.
-> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-NanoPlus-GGUF)** — 11.65 GB.
+> - **[Qwen3.8 27B — VAL-APEX-I MiniPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.16 GB **(+13.21% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B — VAL-APEX-I NanoPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-NanoPlus-V3-GGUF)** — 11.35 GB **(+11.49% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.33 GB **(+13.06% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-NanoPlus-GGUF)** — 11.90 GB **(+9.14% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.08 GB **(+15.01% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-NanoPlus-GGUF)** — 11.65 GB **(+10.87% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+>
+> Percentages compare the reported WikiText-2 PPL with GSQ-RCO IQ3_S (7.07). The linked 27B cards document the evaluation protocol and model variants.
 >
 > **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
 >

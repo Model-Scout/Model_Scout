@@ -161,7 +161,7 @@ pipeline_tag: image-text-to-text
 A **general-purpose 397B-parameter vision-language model (17B active)** based on **Qwen3.5-397B-A17B**, developed through **low-rank capability transfer followed by SFT and Agent RL (GRPO)** for GUI grounding and multi-step desktop/browser tasks — **substantially improving computer-use and fine-grained GUI-grounding performance while keeping Korean benchmark results close to the base model**.
 
 
-> **[Technical Blog: Hunmin-CUA — Post-Training a 397B MoE for Computer Use](https://huggingface.co/blog/comoZ/hunmin-cua-post-training-a-397b-moe-for-computer-u)**
+> **[Technical Blog: Hunmin-CUA — Post-Training a 397B MoE for Computer Use](https://huggingface.co/blog/mncai/hunmin-cua-post-training-a-397b-moe-for-computer-u)**
 
 ## Overview
 
