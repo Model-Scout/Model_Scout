@@ -157,7 +157,7 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 - **Release date:** 2026-09-27
 
 ## AMAImedia
-
+ 
 - **Original repository:** [NaiveAI/Naive-N0.5-Flash](https://huggingface.co/NaiveAI/Naive-N0.5-Flash)
 
 - **GGUF:** [Mixed-Quant-GGUF](https://huggingface.co/Baekpica/Naive-N0.5-Flash-Mixed-Quant-GGUF/tree/main)

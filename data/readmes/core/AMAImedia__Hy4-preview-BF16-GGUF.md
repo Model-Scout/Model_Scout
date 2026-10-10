@@ -137,7 +137,7 @@ Good for imatrix and 0.6–35B-class work in RAM. <b>9B+ and searches need rente
 </p>
 <p style="font-size: 14px; margin: 10px 0 0 0; opacity: 0.9;">💚 Thanks to Hugging Face for extra storage.🦄</p>
 </div>
-
+ 
 ---
 
 ## NOESIS / AMAImedia

@@ -17,6 +17,7 @@ language:
 - th
 - ar
 tags:
+- qwen3.8
 - abliterated
 - uncensored
 - alignment
@@ -38,14 +39,17 @@ pipeline_tag: text-generation
 
 > [!NOTE]
 > ### NEW: QWEN3.8 27B DENSE — VAL-APEX-I
-> Explore the new V3 releases alongside the Huihui Abliterated and EfficientThink Uncensored editions. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
 >
-> - **[Qwen3.8 27B — VAL-APEX-I MiniPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.16 GB **(+13.21% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
-> - **[Qwen3.8 27B — VAL-APEX-I NanoPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-NanoPlus-V3-GGUF)** — 11.35 GB **(+11.49% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
-> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.33 GB **(+13.06% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
-> - **[Qwen3.8 27B Huihui Abliterated — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-NanoPlus-GGUF)** — 11.90 GB **(+9.14% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
-> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I MiniPlus V2.1](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-MiniPlus-V2.1-GGUF)** — 15.08 GB **(+15.01% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
-> - **[Qwen3.8 27B EfficientThink Uncensored — VAL-APEX-I NanoPlus](https://huggingface.co/IsValorum/Qwen3.8-27B-EfficientThink-Uncensored-VAL-APEX-I-NanoPlus-GGUF)** — 11.65 GB **(+10.87% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> [![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+>
+> *Independently computed on private cloud clusters. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+>
+> Explore the new canonical V3 releases. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
+>
+> - **[Qwen3.8 27B — MiniPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.16 GB **(+13.21% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Qwen3.8 27B — NanoPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-NanoPlus-V3-GGUF)** — 11.35 GB **(+11.49% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Swift-1.5 Qwen3.8 27B Uncensored MTP — MiniPlus V3](https://huggingface.co/IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.28 GB **(+5.70% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
+> - **[Swift-1.5 Qwen3.8 27B Uncensored MTP — NanoPlus V3](https://huggingface.co/IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF)** — 11.08 GB **(+2.26% improvement in WikiText-2 PPL vs GSQ-RCO IQ3_S)**.
 >
 > Percentages compare the reported WikiText-2 PPL with GSQ-RCO IQ3_S (7.07). The linked 27B cards document the evaluation protocol and model variants.
 >
@@ -372,8 +376,18 @@ Official generation guidelines specified by [empero-ai](https://huggingface.co/e
 > ```
 
 <a id="toc-11"></a>
-## Optional Support
+## 7. Community Compute Fund & Priority Model Requests
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
 
-If these MiniPlus or NanoPlus releases have been useful to you and you would like to support the work, you can do so voluntarily through https://ko-fi.com/isvalorum. Your contribution helps with evaluation, hosting, and future handcrafted quantizations. Every release will always remain free to download and use; there are no paywalled files, updates, or features.
+All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
+
+However, cloud GPU compute is expensive. If you find these builds valuable and would like to support the project or **request a specific model architecture to be prioritized for the next MiniPlus/NanoPlus release**, you can sponsor GPU compute time through Ko-fi:
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+
+*(When supporting on Ko-fi, feel free to leave a note with your Hugging Face handle and the specific model you would like prioritized).*
+
+<div style="clear: both;"></div>
+
+

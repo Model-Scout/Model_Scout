@@ -38,6 +38,11 @@ license: apache-2.0
 ---
 
 ## <a id="quick-navigation"></a>Quick Navigation Index
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+
+*Independently computed on private cloud clusters. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+
 1. [Optimization History & Transparency Notice](#toc-01)
 2. [Quality Spectrum: APEX-I-NanoPlus vs. Standard Flat Quantizations](#toc-02)
 3. [Model Files & Technical Specifications](#toc-03)
@@ -142,6 +147,8 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | :--- | :--- | :--- | :--- | :--- |
 | **`Occamy-1.0.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.82 BPW** | Core frontier linear attention & multimodal reasoning MoE in APEX-I-NanoPlus |
 | **`mmproj-Q8_0.gguf`** | **`610.66 MB (582.37 MiB)`** | `582.37 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for document & image reasoning |
+| **occamy-1.0-mtp-Q8_0.gguf** | **1.99 GB (1.85 GiB)** | 1.85 GiB | **8.50 BPW** | Official Accio MTP speculative draft head (high fidelity) |
+| **occamy-1.0-mtp-Q4_K_M.gguf** | **1.26 GB (1.17 GiB)** | 1.17 GiB | **4.50 BPW** | Official Accio MTP speculative draft head (low VRAM) |
 | **Complete download** | **`13.16 GB (12.26 GiB)`** | `12.26 GiB` | — | Main GGUF plus the bundled vision projector |
 
 - **Base Model:** [Accio-Lab/occamy-1.0](https://huggingface.co/Accio-Lab/occamy-1.0)
@@ -200,6 +207,18 @@ llama-server \
   --mmproj mmproj-Q8_0.gguf \
   --port 8080 \
   -ngl 99 -c 16384
+`
+
+### 3. Speculative Decoding with MTP Draft Head (1.8x to 2.3x Speedup)
+`ash
+llama-server \
+  -m Occamy-1.0.APEX-I-NanoPlus.gguf \
+  --draft-model occamy-1.0-mtp-Q4_K_M.gguf \
+  --spec-type draft-mtp \
+  --spec-draft-n-max 2 \
+  --mmproj mmproj-Q8_0.gguf \
+  --port 8080 \
+  -ngl 99 -c 16384
 ```
 
 <a id="toc-coding-advisory"></a>
@@ -243,8 +262,18 @@ llama-server \
 > ```
 
 <a id="toc-08"></a>
-## Optional Support
+## 7. Community Compute Fund & Priority Model Requests
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
 
-If these MiniPlus or NanoPlus releases have been useful to you and you would like to support the work, you can do so voluntarily through https://ko-fi.com/isvalorum. Your contribution helps with evaluation, hosting, and future handcrafted quantizations. Every release will always remain free to download and use; there are no paywalled files, updates, or features.
+All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
+
+However, cloud GPU compute is expensive. If you find these builds valuable and would like to support the project or **request a specific model architecture to be prioritized for the next MiniPlus/NanoPlus release**, you can sponsor GPU compute time through Ko-fi:
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+
+*(When supporting on Ko-fi, feel free to leave a note with your Hugging Face handle and the specific model you would like prioritized).*
+
+<div style="clear: both;"></div>
+
+

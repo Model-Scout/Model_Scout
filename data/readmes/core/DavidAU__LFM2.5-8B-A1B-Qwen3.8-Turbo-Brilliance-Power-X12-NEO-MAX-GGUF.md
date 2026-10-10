@@ -39,7 +39,11 @@ base_model:
 Please read this model card carefully to get the most from it - including all 12 reasoning modes that feature model suggestions ("context help") for all use cases. 
 The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc). 
 
-LFM 2.5-2.6B (dense): https://huggingface.co/DavidAU/LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF</small>
+LFM 2.5-2.6B (dense): https://huggingface.co/DavidAU/LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF
+
+The NEXT STEP, (and evolution of Turbo Brilliance) is almost here:
+https://huggingface.co/DavidAU/Qwen3.8-27B-Turbo-Brilliance-Power-35X-Reasoning-Instruct-modes-GGUF
+</small>
 
 <h2>LFM2.5-8B-A1B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF</h2>
 

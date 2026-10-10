@@ -48,6 +48,11 @@ tags:
 ---
 
 ## <a id="quick-navigation"></a>Quick Navigation Index
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+
+*Independently computed on private cloud clusters. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+
 1. [Optimization History & Transparency Notice](#toc-01)
 2. [Quality Spectrum: APEX-I-NanoPlus vs. Standard Flat Quantizations](#toc-02)
 3. [Model Files & Technical Specifications](#toc-03)
@@ -248,8 +253,18 @@ llama-server \
 > ```
 
 <a id="toc-08"></a>
-## Optional Support
+## 7. Community Compute Fund & Priority Model Requests
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
 
-If these MiniPlus or NanoPlus releases have been useful to you and you would like to support the work, you can do so voluntarily through https://ko-fi.com/isvalorum. Your contribution helps with evaluation, hosting, and future handcrafted quantizations. Every release will always remain free to download and use; there are no paywalled files, updates, or features.
+All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
+
+However, cloud GPU compute is expensive. If you find these builds valuable and would like to support the project or **request a specific model architecture to be prioritized for the next MiniPlus/NanoPlus release**, you can sponsor GPU compute time through Ko-fi:
+
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+
+*(When supporting on Ko-fi, feel free to leave a note with your Hugging Face handle and the specific model you would like prioritized).*
+
+<div style="clear: both;"></div>
+
+
