@@ -159,8 +159,6 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 - **NOESIS version:** v15.1
 - **Release date:** 2026-07-26
 
-<!-- AMAIMEDIA_QWEN_LANGUAGE_SUPPORT_START -->
-
 ## Language support
 
 This Qwen3.5-derived model follows the official Qwen3 language list below (**119 languages and dialects**) and the official Qwen3.5 coverage statement of **201 languages and dialects**. Qwen3.5 publishes the expanded coverage count but does not provide an exhaustive 201-name enumeration in its model card. The list below is the complete language list published by Qwen for Qwen3 and is included as the transparent, documented baseline for this derivative.

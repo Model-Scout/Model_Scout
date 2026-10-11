@@ -25,17 +25,20 @@ Instead of collecting dense, per-pair similarity scores for massive patent pairs
 Training progresses from easy discrimination to hard discrimination via 5-stage Curriculum Learning, encouraging the model to learn both coarse technical boundaries and fine-grained technical distinctions.
 - Base model: [BGE-M3](https://huggingface.co/BAAI/bge-m3)
 - Post-hoc weight interpolation: initial fine-tuned model + [KURE-v1](https://huggingface.co/nlpai-lab/KURE-v1)
+- Please refer to the [document](https://www.riss.kr/link?id=T17556256) for the details
 
 ## Model Summary[KO]
 이 모델은 [BGE-M3](https://huggingface.co/BAAI/bge-m3)를 기반으로, 다른 모델이 생성한 의사 유사도 점수(의사 레이블, pseudo label)에 의존하지 않고 커리큘럼 트리플렛 학습(curriculum triplet learning)으로 미세조정한 한국어 특허 도메인 임베딩 모델입니다.
- 
+
 방대한 특허 쌍에 대해 쌍마다 조밀한 유사도 점수를 수집하는 방식은 비용이 크고 종종 실현이 불가능합니다. 이런 방식 대신, 다음의 객관적 규칙에 기반해 앵커(Anchor) / 포지티브(Positive) / 네거티브(Negative) 트리플렛을 정의했습니다.
 - 주(Main) IPC 계층
 - 하위(Sub) IPC 계층
 - 키워드 중복 제약
+
 학습은 5단계 커리큘럼 학습(Curriculum Learning)을 통해 쉬운 구분에서 어려운 구분으로 진행되며, 모델이 거친 수준의 기술적 경계와 미세한 기술적 차이를 모두 학습하도록 유도합니다.
 - 기반 모델: [BGE-M3](https://huggingface.co/BAAI/bge-m3)
 - 사후 가중치 보간(Post-hoc weight interpolation): 초기 미세조정 모델 + [KURE-v1](https://huggingface.co/nlpai-lab/KURE-v1)
+- 자세한 내용은 [문서](https://www.riss.kr/link?id=T17556256)를 참조하여 주십시요 
 
 ---
 
@@ -129,6 +132,6 @@ If you use this model in your research, please cite the following doctoral disse
   year         = {2026},
   type         = {Doctoral dissertation},
   note         = {Korean title: 한국어 특허 검색을 위한 장문 임베딩 모델},
-  annote       = {https://huggingface.co/sttempler/KORPatent-BGE}
+  annote       = {https://huggingface.co/sttempler/KORPatent-BGE, https://www.riss.kr/link?id=T17556256}
 }
 ```

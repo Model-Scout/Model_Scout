@@ -4,6 +4,26 @@ license_link: LICENSE
 base_model:
   - Qwen/Qwen3-ForcedAligner-0.6B
 pipeline_tag: automatic-speech-recognition
+library_name: qwen-asr
+tags:
+  - forced-alignment
+  - timestamp-prediction
+  - speech-text-alignment
+  - aligner
+  - qwen3
+  - qwen3-asr
+  - qwen3-omni
+  - alibaba
+  - nar
+  - non-autoregressive
+  - 112-languages
+  - multilingual
+  - dubbing
+  - subtitles
+  - noesis
+  - dhcf-fno
+  - unified-training
+  - lora-merged
 language:
 - af
 - am
@@ -117,26 +137,7 @@ language:
 - yue
 - zh
 - zu
-library_name: qwen-asr
-tags:
-  - forced-alignment
-  - timestamp-prediction
-  - speech-text-alignment
-  - aligner
-  - qwen3
-  - qwen3-asr
-  - qwen3-omni
-  - alibaba
-  - nar
-  - non-autoregressive
-  - 112-languages
-  - multilingual
-  - dubbing
-  - subtitles
-  - noesis
-  - dhcf-fno
-  - unified-training
-  - lora-merged
+
 ---
 
 <!-- apex-banner -->
@@ -165,7 +166,6 @@ Released as part of the **NOESIS Professional Multilingual Dubbing Automation Pl
 - **X (Twitter):** [@AMAImediacom](https://x.com/AMAImediacom)
 - **LinkedIn:** [Ilia Bolotnikov](https://www.linkedin.com/in/ilia-bolotnikov)
 - **Telegram:** [@AMAImediacom](https://t.me/AMAImediacom)
-- **NOESIS version:** v14.8
 - **Release date:** 2026-05-20
 
 # Qwen3-ForcedAligner-0.6B (NOESIS bundle, 112LANG, Unified)
