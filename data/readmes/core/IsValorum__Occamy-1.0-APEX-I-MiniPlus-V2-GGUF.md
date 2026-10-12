@@ -38,9 +38,11 @@ quantized_by: IsValorum
 > [!NOTE]
 > ### NEW: QWEN3.8 27B DENSE — VAL-APEX-I
 
-[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+<a href="https://ko-fi.com/isvalorum"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" height="38"></a>
 
-*Independently computed on private cloud clusters. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+**Independently computed using dedicated cloud compute clusters, funded 100% out-of-pocket.**
+
+If you consider these releases to be of high quality and they help you in your day-to-day workflow, consider [supporting on Ko-fi](https://ko-fi.com/isvalorum). Every contribution directly sustains future cloud compute hours and helps support my university studies.
 
 > Explore the new V3 releases alongside the Huihui Abliterated and EfficientThink Uncensored editions. MiniPlus prioritizes Q5-class to near-Q6 fidelity without a fixed file-size ceiling; NanoPlus targets Q4-class quality at a practical footprint.
 >
@@ -297,18 +299,16 @@ Recommended sampling configuration tailored from [Accio-Lab](https://huggingface
 > In third-party evaluations, reasoning and architectural code generation scored a remarkable 90%–93.3% resolution rate on multi-file SWE benchmarks. Any rare failures observed were not reasoning flaws, but occasional omitted standard library imports in zero-shot scripts (e.g. `from decimal import ROUND_HALF_UP` or `@dataclass`). When deploying in autonomous coding agents, include in your system prompt: *"Always declare complete, explicit import statements at the beginning of the file"* or pair with an automated linter (`ruff`).
 
 <a id="toc-13"></a>
-## 7. Community Compute Fund & Priority Model Requests
+## 7. Community Compute Fund & Student Support
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
 
 All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
 
-However, cloud GPU compute is expensive. If you find these builds valuable and would like to support the project or **request a specific model architecture to be prioritized for the next MiniPlus/NanoPlus release**, you can sponsor GPU compute time through Ko-fi:
+However, cloud GPU compute is expensive and funded entirely out-of-pocket. If you find these handcrafted builds to be of high quality and they benefit your day-to-day workflow, you can support future Day-0 releases on Ko-fi. Every contribution directly funds the cloud compute hours required for new model runs and helps support my university education:
 
-[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+<a href="https://ko-fi.com/isvalorum"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" height="38"></a>
 
 *(When supporting on Ko-fi, feel free to leave a note with your Hugging Face handle and the specific model you would like prioritized).*
 
 <div style="clear: both;"></div>
-
-

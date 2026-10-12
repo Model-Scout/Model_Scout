@@ -37,9 +37,11 @@ pipeline_tag: text-generation
 
 # Swift-1.5-Qwen3.8-27B-Uncensored-MTP VAL-APEX-I MiniPlus V3 GGUF
 
-[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+<a href="https://ko-fi.com/isvalorum"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" height="38"></a>
 
-*Independently computed on an NVIDIA RTX PRO 6000 Blackwell Server Edition GPU. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+**Independently computed using dedicated cloud compute clusters, funded 100% out-of-pocket.**
+
+If you consider these releases to be of high quality and they help you in your day-to-day workflow, consider [supporting on Ko-fi](https://ko-fi.com/isvalorum). Every contribution directly sustains future cloud compute hours and helps support my university studies.
 
 ### *Uncensored Frontier 27B Dense Hybrid Reasoning Model with Intact Vision, Multilingual Syntax Preservation, and Native MTP Self-Speculation*
 

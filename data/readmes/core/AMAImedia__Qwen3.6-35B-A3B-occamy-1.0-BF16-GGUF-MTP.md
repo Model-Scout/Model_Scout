@@ -158,7 +158,7 @@ Released as part of the **NOESIS Professional Multilingual Dubbing Automation Pl
 - **X (Twitter):** [@AMAImediacom](https://x.com/AMAImediacom)
 - **LinkedIn:** [Ilia Bolotnikov](https://www.linkedin.com/in/ilia-bolotnikov)
 - **Telegram:** [@AMAImediacom](https://t.me/AMAImediacom)
-- **Release date:** 2026-09-18
+- **Release date:** 2026-09-04
 
 ## AMAImedia
 

@@ -1,6 +1,7 @@
 ---
 license: gemma
 base_model: google/gemma-3-270m-it
+new_version: inboxpraveen/Kavach-PII-270M
 library_name: transformers
 pipeline_tag: text-generation
 tags:
@@ -44,116 +45,47 @@ language:
   - pl
 ---
 
-# Kavach PII 270M
+# Kavach PII 270M (v2)
 
-A 270M parameter model that finds personal data in 29 languages. This is version 3. On a held-out test set of 4,577 documents it scores 92.0 value-F1, where GLiNER-PII scores 59.3 and Microsoft Presidio scores 29.5, measured with the same script against the same gold annotations. On 480 documents built entirely by code in eight real-world formats, which share nothing with the training data generator, it scores 90.4.
+> **This is version 2 (released 2026-09-23), kept so results and pipelines built on it stay reproducible.** The current version is v3 at [inboxpraveen/Kavach-PII-270M](https://huggingface.co/inboxpraveen/Kavach-PII-270M). Re-scored on v3's repaired test set (4,577 documents, same scorer), v3 reaches 92.0 value-F1 against 79.0 for v2; the 88.4 below was measured against the original v2 gold, which missed roughly one value in ten. On that same set v2 still flags fewer PII-free documents (2.0% against 12.5%). v3 uses a shorter 43-label list, so the prompts are not interchangeable.
+>
+> Weights, charts and figures on this page are unchanged from the original v2 upload. Two notes: `generation_config.json` sets `do_sample: true` as originally shipped, so always decode greedily (`do_sample=False` or `temperature=0`, as every example below does); and [`kavach_extract.py`](kavach_extract.py), missing from the original upload, is now included in its v2 form.
 
-*Kavach* (कवच) is Sanskrit for "armour". The model reads a document and returns the personal data it contains as a JSON list. It runs on a laptop GPU or on CPU, and it was built for the inputs real pipelines actually receive: call-centre ASR transcripts, scanned OCR output, bank statements and CSV exports, forms, chat, code, logs, and deliberately obfuscated text.
+A 270M parameter model that finds personal data in 29 languages. It scores 88.4 value-F1 on a held-out test set where GLiNER-PII scores 56.4 and Microsoft Presidio scores 22.2, measured with the same script on the same gold annotations.
 
-![Comparison against v2, GLiNER, Presidio and regex baselines](assets/01-headline-comparison.png)
+*Kavach* (कवच) is Sanskrit for "armour". The model reads a document and returns the personal data it contains as a JSON list. It runs on a laptop GPU or on CPU, and it was built for the inputs real pipelines actually receive: call-centre ASR transcripts, scanned OCR output, structured forms, chat, code, logs, and deliberately obfuscated text.
 
-| | Kavach v3 | Kavach v2 | GLiNER-PII multi-v1 | Presidio | Regex + checksum |
-|---|---|---|---|---|---|
-| **Value F1** | **92.0** | 79.0 | 59.3 | 29.5 | 30.3 |
-| Precision | **92.0** | 86.8 | 67.1 | 30.3 | 66.0 |
-| Recall | **92.1** | 72.5 | 53.1 | 28.7 | 19.6 |
-| Exact span F1 | **92.5** | 80.1 | 57.8 | 29.5 | 29.1 |
-| Redaction recall | **96.0** | 82.2 | 61.1 | 48.9 | 23.9 |
-| **False positives on PII-free documents** | 12.5% | **2.0%** | 77.7% | 83.4% | 23.9% |
+![Comparison against GLiNER, Presidio and regex baselines](assets/01-headline-comparison.png)
 
-Test set: 4,577 held-out documents with 28,672 labelled values, 440 of them free of personal data. It is 3,347 documents from the v2 test set with repaired labels, plus 1,230 new held-out documents. The v2 column is v2's own predictions, re-scored on this gold, not a number copied from the old card. Label sets of the other systems were mapped to ours on a best-effort basis; see [Fair comparison notes](#fair-comparison-notes).
-
-The last row is the one place where v3 is worse than v2, and it matters for redaction pipelines. Presidio flags something in 83% of documents that contain no personal data and GLiNER in 78%. v2 did so in 2.0%, and v3 does so in 12.5%. Most of v3's cases (35 of the 55 documents) are nothing but a date or a reference number in a document about nobody: an expiry date on a product notice, an order reference in a shipping log. A date or a case number is personal data only when it belongs to someone's record, and v3 learnt to tag them eagerly from dense bank statements and forms. If over-masking such documents is a problem for you, drop the result when the only labels found are dates and case numbers:
-
-```python
-if {s["label"] for s in result["spans"]} <= {"DATE_TIME", "CASE_ID"}:
-    result["spans"] = []
-```
-
-On the test set that brings the rate from 12.5% to 4.5%, at a cost of 0.5 F1, because some real records contain nothing else (an appointment reminder with a booking reference, for example).
-
-## What's new in v3
-
-v3 is the same model size, the same base model and the same training recipe as v2; only the augmentation rate changed. What changed is the data: every label in the old corpus was re-checked, 23,434 new training documents were added, and the label set was simplified from 52 labels to 43. The table below scores both models on the same documents against the same gold at every step, so each step isolates one change.
-
-![v3 against v2 on every evaluation set](assets/02-v2-vs-v3.png)
-
-| Evaluation set | Documents | Kavach v2 | Kavach v3 | Change |
+| | Kavach PII 270M | GLiNER-PII multi-v1 | Presidio | Regex + checksum |
 |---|---|---|---|---|
-| v2 test documents, original v2 gold | 3,347 | **89.1** | 84.7 | -4.4 |
-| same documents, repaired gold, only values the old gold also had | 3,347 | 90.6 | **92.2** | +1.6 |
-| same documents, repaired v3 gold | 3,347 | 84.3 | **91.4** | +7.1 |
-| new v3 test documents only | 1,230 | 72.7 | **92.8** | +20.1 |
-| full v3 test | 4,577 | 79.1 | **92.1** | +13.0 |
-| hard cases, second-reader checked gold | 435 | 50.4 | **83.7** | +33.3 |
-| production probe, built by code | 480 | 72.3 | **90.4** | +18.1 |
-| simulated ASR rewrites | 289 | 87.0 | **89.5** | +2.5 |
-| real render-to-Tesseract OCR | 250 | 80.4 | **84.5** | +4.1 |
-| PII embedded in real Wikipedia text | 300 | 79.4 | **83.9** | +4.5 |
+| **Value F1** | **88.4** | 56.4 | 22.2 | 20.5 |
+| Precision | 88.9 | 56.9 | 21.0 | 51.1 |
+| Recall | 87.9 | 55.9 | 23.4 | 12.8 |
+| Exact span F1 | 89.1 | 55.4 | 22.3 | 20.0 |
+| Redaction recall | 93.0 | 66.2 | 43.2 | 15.6 |
+| **False positives on PII-free documents** | **0.4%** | 80.2% | 85.3% | 28.8% |
 
-Reading it from the top:
+The last row decides whether a redaction pipeline is usable in practice. Presidio flags something in 85% of documents that contain no personal data at all. Kavach does so in 0.4%.
 
-* **v2's card reported 88.4 on its own test set, and that gold was missing roughly one value in ten.** Re-annotating the 65,000 v2 documents found the gaps, mostly names in form fields and signature lines, repeated and partial mentions, and organisation names. Against the repaired gold, v2 scores 84.3 on its own test documents and v3 scores 91.4.
-* **The first row is the one to read carefully.** On the original v2 gold, v3 scores lower than v2. Its recall there is higher than v2's (90.8 against 88.7), but its precision is 79.4, because it finds 3,181 values the old gold does not contain. 1,982 of them (62%) are in the repaired gold with the same label, and most of the rest are values whose rules changed in v3 (see [Migrating from v2](#migrating-from-v2)).
-* **The second row is the like-for-like number.** It keeps only the values the old gold also had, so neither model is rewarded or penalised for the new rules. v3 is 1.6 points ahead there.
-* **The new test documents** come from the same generator as 17,942 of v3's training documents, a style v2 never saw, so part of the 20-point gap there is familiarity. The production probe is the check against that: it was built by code, not by a language model, and v3 leads by 18 points on it.
-* **The hard cases** are the error types v2 was worst at, written deliberately (see [Hard cases](#hard-cases)).
-
-What went into the new training data:
-
-| | Documents |
-|---|---|
-| Dense records with 15 to 40 values: bank statements, CSV exports, logs, KYC forms, claims | 5,795 |
-| Long documents of 200 to 500 words: email threads, transcripts, reports | 3,104 |
-| Rare labels in natural context | 2,223 |
-| Weak languages: Indic scripts, romanised and code-mixed text | 3,028 |
-| Hard negatives: few or no values among non-personal look-alikes | 2,354 |
-| Noisy values: typos, OCR confusions, look-alike letters, zero-width characters | 1,438 |
-| Hard cases, one per error type v2 made most often (see below) | 5,492 |
-
-See [Dataset](#dataset) for how the labels were checked.
-
-## Migrating from v2
-
-v3 is a drop-in replacement with one breaking change: **the label list is shorter**. v3 was trained with 43 labels, and the label list is part of the prompt, so code that still sends the v2 list of 52 is sending a prompt the model never saw. Replace `LABELS` with the list in the Quick start below. Nothing else in the prompt changed.
-
-Eleven v2 labels were folded into broader ones, and two new ones (`BANK_CODE`, `PAYMENT_ID`) take their place. Most of the folded labels were identifier types that cannot be told apart without a cue word: a bare 12-digit number can be an Aadhaar, a tax ID or an account number, v2 lost points guessing between them, and a redaction pipeline treats them all the same way. `SIGNATURE` was usually the same string as the person's name, which value-only output cannot separate, and `POSTAL_CODE` was v2's weakest label at 33.8 F1.
-
-| v2 label | v3 label |
-|---|---|
-| `SSN_US`, `AADHAAR_IN`, `PAN_IN`, `TAX_ID` | `NATIONAL_ID` |
-| `IBAN` | `BANK_ACCOUNT` |
-| `SWIFT_BIC`, `ROUTING_CODE` | `BANK_CODE` |
-| `UPI_VPA`, `WALLET_ID` | `PAYMENT_ID` |
-| `POSTAL_CODE` | `ADDRESS` (a standalone postcode is still tagged) |
-| `SIGNATURE` | `PERSON` |
-
-What gets tagged also changed in a few places, so a v3 output is not always a relabelled v2 output:
-
-* **Specific dates only.** `DATE_TIME` needs a day of the month, a year or a clock time. "Yesterday", "last Tuesday" and "March" on their own are no longer tagged, and neither are log timestamps, build dates, public-event dates or business hours.
-* **Places are not addresses.** A city, state or country on its own is not an `ADDRESS`, and neither is an organisation's public address in a letterhead or footer.
-* **Public contacts are not personal data.** Toll-free helplines and generic mailboxes (`support@`, `info@`, `noreply@`) are not tagged. A named person's direct line and email still are.
-* **Realistic values inside code, logs and JSON are tagged**, because customer data pasted into a stack trace is still customer data. Obvious placeholders (`test@example.com`, `555-0100`, `John Doe`, `123-45-6789`) are not.
-* **Honorifics and cue words stay outside the value**, in every script: `Mr Rao`, `Rao sir`, `Yamada-san` and `गवळी सर` all tag the name alone, and `MRN 77123` tags `77123`.
-
-If you ran v2 with `max_new_tokens=768`, raise it to 1024. v3 was trained on dense records (bank statements, CSV exports, KYC forms) whose answer can run past 768 tokens.
+Test set: 3,372 held-out documents, 13,646 gold values. Presidio and GLiNER label sets were mapped to ours on a best-effort basis. See [Fair comparison notes](#fair-comparison-notes).
 
 ## Quick start
 
 ```python
-import json
+import json, re
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-MODEL = "inboxpraveen/Kavach-PII-270M"
+MODEL = "inboxpraveen/Kavach-PII-270M-v2"
 tok = AutoTokenizer.from_pretrained(MODEL)
 model = AutoModelForCausalLM.from_pretrained(MODEL, dtype="bfloat16").to("cuda").eval()
 
-LABELS = ["ADDRESS","AGE","API_KEY_TOKEN","BANK_ACCOUNT","BANK_CODE","BIOMETRIC_DESCRIPTOR","CARD_CVV","CARD_EXPIRY",
-"CASE_ID","CREDIT_DEBIT_CARD","DATE_TIME","DEVICE_ID","DISABILITY","DOB","DRIVING_LICENSE","EMAIL","EMPLOYEE_ID",
-"ETHNICITY","GENDER_SEX","GEO_LOCATION","HEALTH_ID","INSURANCE_ID","IP_ADDRESS","LAB_ORDER_ID","LICENSE_PLATE",
-"MAC_ADDRESS","MEDICAL_RECORD_ID","NATIONAL_ID","ORGANIZATION","PASSPORT","PASSWORD_SECRET","PAYMENT_ID","PERSON",
-"PHONE","POLITICAL_BELIEF","PRESCRIPTION_ID","RELIGION","STUDENT_ID","TRANSACTION_ID","URL_PERSONAL","USERNAME","VIN",
-"VOTER_ID"]
+LABELS = ["AADHAAR_IN","ADDRESS","AGE","API_KEY_TOKEN","BANK_ACCOUNT","BIOMETRIC_DESCRIPTOR","CARD_CVV",
+"CARD_EXPIRY","CASE_ID","CREDIT_DEBIT_CARD","DATE_TIME","DEVICE_ID","DISABILITY","DOB","DRIVING_LICENSE","EMAIL",
+"EMPLOYEE_ID","ETHNICITY","GENDER_SEX","GEO_LOCATION","HEALTH_ID","IBAN","INSURANCE_ID","IP_ADDRESS","LAB_ORDER_ID",
+"LICENSE_PLATE","MAC_ADDRESS","MEDICAL_RECORD_ID","NATIONAL_ID","ORGANIZATION","PAN_IN","PASSPORT","PASSWORD_SECRET",
+"PERSON","PHONE","POLITICAL_BELIEF","POSTAL_CODE","PRESCRIPTION_ID","RELIGION","ROUTING_CODE","SIGNATURE","SSN_US",
+"STUDENT_ID","SWIFT_BIC","TAX_ID","TRANSACTION_ID","UPI_VPA","URL_PERSONAL","USERNAME","VIN","VOTER_ID","WALLET_ID"]
 
 INSTRUCTION = (
     "Extract all personal data (PII/PHI/PCI) from the text.\n"
@@ -168,21 +100,15 @@ def extract(text):
     msgs = [{"role": "user", "content": f"{INSTRUCTION}\n\nText:\n<<<\n{text}\n>>>"}]
     prompt = tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
     ids = tok(prompt, return_tensors="pt", add_special_tokens=False).to(model.device)
-    out = model.generate(**ids, max_new_tokens=1024, do_sample=False)
+    out = model.generate(**ids, max_new_tokens=768, do_sample=False)
     raw = tok.decode(out[0][ids["input_ids"].shape[1]:], skip_special_tokens=True)
     return json.loads(raw[raw.find("["): raw.rfind("]") + 1])
 
-print(extract("Hi, this is Derek Okafor from Meridian Bank, my number is +1-617-555-0142."))
+text = "Hi, this is Derek Okafor from Meridian Bank, my number is +1-617-555-0142."
+print(extract(text))
 # [{"label": "PERSON", "text": "Derek Okafor"},
 #  {"label": "ORGANIZATION", "text": "Meridian Bank"},
 #  {"label": "PHONE", "text": "+1-617-555-0142"}]
-
-print(extract("Please call our helpline 1800-266-1234 or write to support@meridianbank.com. "
-              "Your case CK-80691 is with Priya Nair, priya.nair@gmail.com."))
-# [{"label": "CASE_ID", "text": "CK-80691"},
-#  {"label": "PERSON", "text": "Priya Nair"},
-#  {"label": "EMAIL", "text": "priya.nair@gmail.com"}]
-# The helpline and the support mailbox are public contacts, not personal data.
 ```
 
 ## Serving
@@ -194,7 +120,7 @@ All three servers below expose an OpenAI-compatible `/v1/chat/completions` endpo
 ```bash
 pip install vllm
 
-vllm serve inboxpraveen/Kavach-PII-270M \
+vllm serve inboxpraveen/Kavach-PII-270M-v2 \
     --dtype bfloat16 \
     --max-model-len 4096 \
     --port 8000
@@ -205,7 +131,7 @@ To serve the LoRA adapter on top of the stock base model instead of the merged w
 ```bash
 vllm serve google/gemma-3-270m-it \
     --enable-lora \
-    --lora-modules kavach=inboxpraveen/Kavach-PII-270M/adapter \
+    --lora-modules kavach=inboxpraveen/Kavach-PII-270M-v2/adapter \
     --dtype bfloat16 --max-model-len 4096 --port 8000
 ```
 
@@ -215,7 +141,7 @@ vllm serve google/gemma-3-270m-it \
 pip install "sglang[all]"
 
 python -m sglang.launch_server \
-    --model-path inboxpraveen/Kavach-PII-270M \
+    --model-path inboxpraveen/Kavach-PII-270M-v2 \
     --dtype bfloat16 \
     --context-length 4096 \
     --port 30000
@@ -231,19 +157,19 @@ client = OpenAI(base_url="http://127.0.0.1:8000/v1", api_key="EMPTY")   # 30000 
 
 def extract(text):
     r = client.chat.completions.create(
-        model="inboxpraveen/Kavach-PII-270M",
+        model="inboxpraveen/Kavach-PII-270M-v2",
         messages=[{"role": "user", "content": f"{INSTRUCTION}\n\nText:\n<<<\n{text}\n>>>"}],
-        temperature=0, max_tokens=1024,
+        temperature=0, max_tokens=768,
     )
     raw = r.choices[0].message.content
     return json.loads(raw[raw.find("["): raw.rfind("]") + 1])
 ```
 
-Batching is worth setting up. Documents are independent, most answers are short (the median test answer is 88 tokens), and both servers handle concurrent requests well. The accuracy figures in this card were produced with the `transformers` path and with llama.cpp; vLLM and SGLang use the same weights and the same greedy decoding, so results should match, but they were not separately benchmarked.
+Batching is worth setting up. Documents are independent, output is short (roughly 100 tokens), and both servers handle concurrent requests well. The accuracy figures in this card were produced with the `transformers` path and with llama.cpp; vLLM and SGLang use the same weights and the same greedy decoding, so results should match, but they were not separately benchmarked.
 
 ### llama.cpp, Ollama, LM Studio
 
-See [Kavach-PII-270M-GGUF](https://huggingface.co/inboxpraveen/Kavach-PII-270M-GGUF) for quantised builds down to 169 MB.
+See [Kavach-PII-270M-v2-GGUF](https://huggingface.co/inboxpraveen/Kavach-PII-270M-v2-GGUF) for quantised builds down to 169 MB.
 
 ## Long inputs, transcripts and character offsets
 
@@ -265,45 +191,47 @@ print(result["unlocatable"])                     # values the model invented; sh
 print(result["warnings"])                        # empty list means a clean run
 ```
 
-It is written to survive real input: `None`, bytes, a number, an empty string, a model call that raises, and output that is not valid JSON are all handled and reported in `result["warnings"]` rather than raised. Running the file directly (`python kavach_extract.py`) runs its self-test, which needs no GPU and no model. Both back-ends are tested end to end on v3: `transformers` locally and `openai_generate` against a live `llama-server`.
+It is written to survive real input: `None`, bytes, a number, an empty string, a model call that raises, and output that is not valid JSON are all handled and reported in `result["warnings"]` rather than raised. Running the file directly (`python kavach_extract.py`) runs its self-test, which needs no GPU and no model. Both back-ends are tested end to end: `transformers` locally and `openai_generate` against a live `llama-server`.
 
-### Window size
+### Window size matters more than you would expect
 
-The defaults below are measured, not reasoned about. v3 saw longer documents in training than v2 did (a median of 49 words against 39, and 3,265 training documents over 200 words), and it shows: window size matters less than it did for v2, but past a certain length it still matters.
+The defaults below are measured, not reasoned about, because the obvious reasoning points the wrong way in both directions.
 
-**On a coherent document, window size barely matters.** These are 92 real test documents of 180 to 385 words, scored against their own gold:
+The model was trained on short documents: the median training document is 39 words. That does not mean you should feed it 39 words at a time. Two things are going on at once, and they pull opposite ways.
+
+**On a coherent document, window size barely matters, but going small hurts.** These are 92 real test documents of 180 to 385 words, scored against their own gold:
 
 | | Precision | Recall | Value F1 |
 | --- | --- | --- | --- |
-| Whole document, one call | 0.893 | 0.895 | 0.894 |
-| Windowed 250 / 40 | 0.875 | 0.911 | 0.893 |
-| Windowed 180 / 35 | 0.873 | 0.923 | **0.897** |
-| Windowed 150 / 30 | 0.874 | 0.920 | 0.896 |
-| Windowed 120 / 25 | 0.869 | 0.926 | 0.896 |
-| Windowed 100 / 20 | 0.866 | 0.920 | 0.892 |
-| Windowed 50 / 12 | 0.858 | 0.926 | 0.891 |
+| Whole document, one call | 0.861 | 0.829 | 0.845 |
+| Windowed 250 / 40 | 0.885 | 0.823 | 0.853 |
+| Windowed 180 / 35 | 0.855 | 0.840 | 0.847 |
+| Windowed 150 / 30 | 0.854 | 0.859 | **0.857** |
+| Windowed 120 / 25 | 0.824 | 0.872 | 0.847 |
+| Windowed 100 / 20 | 0.817 | 0.850 | 0.833 |
+| Windowed 50 / 12 | 0.727 | 0.836 | 0.778 |
 
-Every setting lands between 0.891 and 0.897. Smaller windows trade a little precision for recall, because the model needs the surrounding sentence to tell a date of birth from an appointment date, or a patient from a clinician, and a small window takes some of that away. At 50 words v2 lost 13 points of precision; v3 loses 3.5.
+Everything from 120 words upward, including sending the document whole, lands between 0.845 and 0.857. Below that it falls away fast: cutting a coherent document into 50-word pieces costs 13 points of precision, because the model needs the surrounding sentence to tell a date of birth from an appointment date, or a patient from a clinician, and a small window takes that away.
 
-**On text that runs past a few hundred words, recall falls away.** These are eight documents of 670 to 760 words, each built by stitching unrelated test documents together, which is the harder case:
+**On text that runs past a few hundred words, recall falls away.** These are eight documents of about 660 words each, built by stitching unrelated documents together, which is the harder case because the model was never trained on concatenated documents:
 
 | Window / overlap | Precision | Recall | Value F1 | Model calls |
 | --- | --- | --- | --- | --- |
-| 30 / 8 | 0.866 | 0.886 | 0.876 | 261 |
-| 50 / 12 | 0.893 | 0.896 | 0.894 | 150 |
-| 100 / 20 | 0.906 | 0.915 | **0.911** | 73 |
-| 120 / 25 | 0.902 | 0.906 | 0.904 | 61 |
-| 150 / 30 | 0.895 | 0.904 | 0.899 | 49 |
-| 180 / 35 | 0.897 | 0.869 | 0.883 | 42 |
-| 200 / 40 | 0.883 | 0.842 | 0.862 | 38 |
-| 250 / 40 | 0.877 | 0.773 | 0.822 | 32 |
-| 400 / 80 | 0.879 | 0.642 | 0.742 | 19 |
+| 30 / 8 | 0.737 | 0.851 | 0.789 | 245 |
+| 50 / 12 | 0.833 | 0.863 | 0.848 | 141 |
+| 100 / 20 | 0.862 | 0.856 | 0.859 | 68 |
+| 120 / 25 | 0.861 | 0.848 | **0.855** | 57 |
+| 150 / 30 | 0.850 | 0.732 | 0.787 | 47 |
+| 180 / 35 | 0.851 | 0.822 | 0.836 | 39 |
+| 200 / 40 | 0.851 | 0.781 | 0.815 | 36 |
+| 250 / 40 | 0.863 | 0.716 | 0.783 | 31 |
+| 400 / 80 | 0.849 | 0.508 | 0.635 | 17 |
 
-Precision holds up to 400 words; recall does not. A single answer stops short of listing everything in a long, dense input, so one 400-word window finds only 64% of the values. Sending each source document on its own scores 0.901, which is the ceiling any windowing scheme is working towards; the rows from 100 to 150 words reach it or come within 0.002 (the small excess above it is noise on eight documents). v3 degrades more gently than v2 (0.742 against 0.635 at 400 words), but the shape is the same.
+Precision holds up to 400 words; recall halves. The model emits about as many entities as a short document contains and then stops, so a single call carrying 400 words of dense personal data simply does not list it all. Sending each source document on its own scores 0.876, which is the ceiling any windowing scheme is working towards.
 
-**The default is 120 words with 25 of overlap**, near the top of both tables; 100 to 150 behaves about the same. Do not go past about 180 words, where recall starts to fall. Keep the overlap at 20 or more, or a long address can straddle an edge and be seen whole by neither window. If your input is always coherent prose rather than concatenated records, the choice barely matters.
+**The default is 120 words with 25 of overlap**, because it is the only setting that is near the top of both tables at once. On coherent documents everything from 120 to 250 sits in a one-point band, 0.847 to 0.857, so the choice barely matters there; 150 is nominally the best of them. On concatenated text the spread is much wider and 120 is clearly better than 150. The second table is eight documents and its middle rows are noisy, which is why the default sits at the low end of the plateau rather than on the single best cell.
 
-These runs used the F16 GGUF build through `llama-server`. On the coherent set, the `transformers` path gave the same scores to within 0.002.
+Two things not to do: do not drop below about 80 words, where precision goes, and do not go past 250, where recall goes. Keep the overlap at 20 or more, or a long address can straddle an edge and be seen whole by neither window. If your input is always coherent prose rather than concatenated records, 150 or 180 is a reasonable change.
 
 A document shorter than the window is sent in one call untouched, so ordinary short inputs never pay the windowing cost at all.
 
@@ -311,7 +239,7 @@ One note on throughput: `extract_pii` batches the windows of a single document t
 
 ### Speech-to-text input
 
-Transcripts work as they come out of the recogniser. Bracketed timestamps (`[00:01:02]`), SRT ranges (`00:00:03,500 --> 00:00:07,120`), WebVTT cues and plain `Speaker 1:` turns pass through untouched, and the timestamps survive redaction. This is not special-case code: 1,068 training documents contain bracketed timestamps and only one of them tags any, so the model learned to ignore them. Measured on v3 with the 30 longest timestamped test documents: none of their 419 timestamps was tagged as personal data, all 419 survived redaction intact, and every returned offset indexed the original string exactly. Where the transcript has line breaks, window edges prefer to land on one, so a speaker turn stays whole; a transcript that arrives as one unbroken line is cut on word boundaries instead.
+Transcripts work as they come out of the recogniser. Bracketed timestamps (`[00:01:02]`), SRT ranges (`00:00:03,500 --> 00:00:07,120`), WebVTT cues and plain `Speaker 1:` turns pass through untouched, and the timestamps survive redaction. This is not special-case code: 630 training documents contain bracketed timestamps and not one of them is tagged, so the model learned to ignore them. Measured on the 30 longest timestamped test documents, zero timestamps were tagged as personal data and all 243 of them survived redaction intact. Where the transcript has line breaks, window edges prefer to land on one, so a speaker turn stays whole; a transcript that arrives as one unbroken line is cut on word boundaries instead.
 
 ```
 [00:00:03] Speaker 1: Hello, this is [PERSON] from [ORGANIZATION].
@@ -320,19 +248,17 @@ Transcripts work as they come out of the recogniser. Bracketed timestamps (`[00:
 
 ### Locating values correctly
 
-Matching is stricter than a plain substring search, which matters more than it sounds. A naive `re.escape` locator places values inside longer words: `Raj` lands in the middle of `Rajesh`, `2024` inside `20245`, and redaction then emits `[PERSON]esh`. `extract_pii` requires a whole-word match, with the boundary rule switched off for Chinese, Japanese, Thai, Khmer, Burmese and Korean, where words are not space-separated or particles attach directly to the noun. Indic and Arabic combining marks count as part of the word, which is the bug that a plain `\b` has against Devanagari.
+Matching is stricter than a plain substring search, which matters more than it sounds. On the test set, a naive `re.escape` locator places 127 spans (0.94%) inside longer words: `Raj` lands in the middle of `Rajesh`, `2024` inside `20245`, and redaction then emits `[PERSON]esh`. `extract_pii` requires a whole-word match, with the boundary rule switched off for Chinese, Japanese, Thai, Khmer, Burmese and Korean, where words are not space-separated or particles attach directly to the noun. Indic and Arabic combining marks count as part of the word, which is the bug that a plain `\b` has against Devanagari.
 
 Where a value occurs nowhere as a whole word, usually because the recogniser ran two words together, the span is still produced and flagged `"partial": True`, on the grounds that a mask starting mid-word beats leaving a real address in the clear. Drop those spans if you would rather under-mask.
 
-On the 4,577-document test set:
+On the 3,372-document test set:
 
-| Outcome | Share of 28,712 predicted values |
+| Outcome | Share of 13,488 predicted values |
 | --- | --- |
-| Located as a whole word | 98.79% |
-| Located only inside a longer run, flagged `partial` | 0.41% |
-| Not present in the text at all (hallucination) | 0.79% |
-
-On the same test set, 1.8% of v2's predicted values could not be found in the text.
+| Located as a whole word | 98.07% |
+| Located only inside a longer run, flagged `partial` | 0.57% |
+| Not present in the text at all (hallucination) | 1.36% |
 
 <details>
 <summary>Full source of <code>kavach_extract.py</code></summary>
@@ -357,22 +283,22 @@ What it handles
       WebVTT cues and plain 'Speaker 1:' turns. Where the transcript has line breaks, windows prefer to cut on
       one, so a speaker turn or a subtitle cue stays whole; a transcript that arrives as a single unbroken line
       is simply cut on word boundaries. Timestamps are never treated as personal data, because the model was
-      trained that way: 1,068 training documents contain bracketed timestamps and only one tags them.
+      trained that way: 630 training documents contain bracketed timestamps and not one is tagged.
     * Values repeated across the document. A name found once is masked at every occurrence.
     * Bad input: None, bytes, numbers, empty or whitespace-only strings, and model calls that fail or return
       something that is not JSON. Nothing raises; problems are reported in result["warnings"].
 
 Window defaults are measured, not guessed, and they are a compromise between two opposite failures.
 
-Too small and precision goes: on 92 real test documents of 180-385 words, a 50-word window scores 0.858
-precision against 0.893 for the same documents sent whole, because the model needs the surrounding sentence to
+Too small and precision goes: on 92 real test documents of 180-385 words, a 50-word window scores 0.727
+precision against 0.861 for the same documents sent whole, because the model needs the surrounding sentence to
 tell a date of birth from an appointment date. Too large and recall goes: on 660-word inputs, recall falls from
-0.92 at a 100-word window to 0.64 at 400, because a single answer stops short of listing everything in a long,
-dense input.
+0.86 at a 100-word window to 0.51 at 400, because the model emits about as many entities as the short documents
+it was trained on and then stops.
 
 120 words with 25 of overlap is near the top of both curves; 100 to 150 behaves about the same. Do not drop
-below about 60, and do not go past about 180. Keep the overlap at 20 or more, or a long address can straddle an
-edge and be seen whole by neither window. A document shorter than the window is sent in one call untouched.
+below about 80, and do not go past 250. Keep the overlap at 20 or more, or a long address can straddle an edge
+and be seen whole by neither window. A document shorter than the window is sent in one call untouched.
 """
 
 from __future__ import annotations
@@ -384,12 +310,14 @@ import unicodedata
 __all__ = ["extract_pii", "redact", "LABELS", "INSTRUCTION", "build_prompt"]
 
 LABELS = [
-    "ADDRESS", "AGE", "API_KEY_TOKEN", "BANK_ACCOUNT", "BANK_CODE", "BIOMETRIC_DESCRIPTOR", "CARD_CVV",
-    "CARD_EXPIRY", "CASE_ID", "CREDIT_DEBIT_CARD", "DATE_TIME", "DEVICE_ID", "DISABILITY", "DOB", "DRIVING_LICENSE",
-    "EMAIL", "EMPLOYEE_ID", "ETHNICITY", "GENDER_SEX", "GEO_LOCATION", "HEALTH_ID", "INSURANCE_ID", "IP_ADDRESS",
-    "LAB_ORDER_ID", "LICENSE_PLATE", "MAC_ADDRESS", "MEDICAL_RECORD_ID", "NATIONAL_ID", "ORGANIZATION", "PASSPORT",
-    "PASSWORD_SECRET", "PAYMENT_ID", "PERSON", "PHONE", "POLITICAL_BELIEF", "PRESCRIPTION_ID", "RELIGION",
-    "STUDENT_ID", "TRANSACTION_ID", "URL_PERSONAL", "USERNAME", "VIN", "VOTER_ID",
+    "AADHAAR_IN", "ADDRESS", "AGE", "API_KEY_TOKEN", "BANK_ACCOUNT", "BIOMETRIC_DESCRIPTOR", "CARD_CVV",
+    "CARD_EXPIRY", "CASE_ID", "CREDIT_DEBIT_CARD", "DATE_TIME", "DEVICE_ID", "DISABILITY", "DOB",
+    "DRIVING_LICENSE", "EMAIL", "EMPLOYEE_ID", "ETHNICITY", "GENDER_SEX", "GEO_LOCATION", "HEALTH_ID", "IBAN",
+    "INSURANCE_ID", "IP_ADDRESS", "LAB_ORDER_ID", "LICENSE_PLATE", "MAC_ADDRESS", "MEDICAL_RECORD_ID",
+    "NATIONAL_ID", "ORGANIZATION", "PAN_IN", "PASSPORT", "PASSWORD_SECRET", "PERSON", "PHONE",
+    "POLITICAL_BELIEF", "POSTAL_CODE", "PRESCRIPTION_ID", "RELIGION", "ROUTING_CODE", "SIGNATURE", "SSN_US",
+    "STUDENT_ID", "SWIFT_BIC", "TAX_ID", "TRANSACTION_ID", "UPI_VPA", "URL_PERSONAL", "USERNAME", "VIN",
+    "VOTER_ID", "WALLET_ID",
 ]
 
 INSTRUCTION = (
@@ -638,7 +566,7 @@ def extract_pii(
         with 20-30 of overlap all behave about the same, and both smaller and larger settings are worse, for
         different reasons. Text shorter than one window is sent in a single call.
     labels
-        Restrict to a subset of the 43 labels, for example {"PERSON", "PHONE"}. Default: all.
+        Restrict to a subset of the 52 labels, for example {"PERSON", "PHONE"}. Default: all.
     lenient
         Also match values case-insensitively when locating them. Slightly higher recall, slightly higher risk
         of matching the wrong occurrence.
@@ -654,7 +582,7 @@ def extract_pii(
     dict with keys
         spans        list of {"start", "end", "label", "text"}, sorted, non-overlapping, offsets into the
                      original string you passed in. A span also carries "partial": True when the value only
-                     occurred inside a longer run of text, which is rare (0.4% of predictions on the test set)
+                     occurred inside a longer run of text, which is rare (0.6% of predictions on the test set)
                      and usually means speech-to-text ran two words together. Drop those if you would rather
                      under-mask than mask across a word edge.
         entities     list of unique {"label", "text"} in order of first appearance
@@ -770,7 +698,7 @@ def redact(text, spans, mask="[{label}]") -> str:
 # --------------------------------------------------------------------------------------------------
 # generate() adapters. Pick one.
 
-def transformers_generate(model, tokenizer, max_new_tokens=1024, batch_size=8):
+def transformers_generate(model, tokenizer, max_new_tokens=768, batch_size=8):
     """generate() backed by a local transformers model."""
     import torch
 
@@ -794,8 +722,8 @@ def transformers_generate(model, tokenizer, max_new_tokens=1024, batch_size=8):
     return run
 
 
-def openai_generate(base_url="http://127.0.0.1:8000/v1", model="inboxpraveen/Kavach-PII-270M",
-                    api_key="EMPTY", max_tokens=1024, workers=4):
+def openai_generate(base_url="http://127.0.0.1:8000/v1", model="inboxpraveen/Kavach-PII-270M-v2",
+                    api_key="EMPTY", max_tokens=768, workers=4):
     """generate() backed by any OpenAI-compatible server: vLLM, SGLang or llama-server."""
     from concurrent.futures import ThreadPoolExecutor
     from openai import OpenAI
@@ -938,196 +866,110 @@ if __name__ == "__main__":
 
 ## Prompt guidance
 
-* Use the instruction above verbatim, with the 43-label list. The model was trained on exactly this text, and paraphrasing it costs accuracy.
+* Use the instruction above verbatim. The model was trained on exactly this text, and paraphrasing it costs accuracy.
 * Use greedy decoding (`do_sample=False`, or `temperature: 0`). Sampling adds nothing on an extraction task and breaks JSON validity.
-* Allow 1024 new tokens, or `48 + 1.6 * input_tokens` capped at 1024. Most answers are short (the median test answer is 88 tokens), but a dense bank statement or CSV export can need more than 800: 19 of the 480 production-probe answers are longer than 768 tokens.
-* Retry unparseable outputs once with `repetition_penalty=1.1`. Small models occasionally fall into a repetition loop. On v3's evaluation sets, re-decoding only the failures recovered 102 of 108. Do not apply the penalty to every request: on v2 that lowered F1 by 1.4 points.
-* Normalise case first if your input may contain random mixed capitalisation (`jOhN sMiTh`). It still costs 8.5 F1 and makes the model flag far more documents that contain no personal data. See [Limitations](#limitations).
-* Send one document per call, and window anything long. `kavach_extract.py` above does the windowing for you.
+* `max_new_tokens` of roughly `48 + 1.6 * input_tokens` is enough. Output is short.
+* Retry unparseable outputs once with `repetition_penalty=1.1`. Small models occasionally fall into a repetition loop on rare scripts. Re-decoding only the failures recovered 45 out of 45 in testing and raised F1 by 1.0 point. Applying a repetition penalty to every request lowered F1 by 1.4 points, so apply it only on retry.
+* Normalise case first if your input may contain mixed random capitalisation. See [Limitations](#limitations).
+* Send one document per call, and window anything long. The model was not trained on concatenated documents, and a single call carrying far more text than it saw in training loses recall badly. `kavach_extract.py` above does the windowing for you.
 
 ## Results
 
-### Hard cases
-
-v2's errors fell into nine recurring types. For each, v3's training set has hundreds of documents built around it, and a separate gold set of 435 documents (15 per language, about 16 values each) measures it. The gold documents were written by different writers from the training documents, drew their values from separate pools, and were each re-read by a second LLM reader, grouped differently from the writers, who confirmed 99.8% of the 6,837 labels. Each document also carries planted non-personal look-alikes: helplines, head-office addresses, SKUs, version strings and public dates.
-
-![Hard cases by failure type](assets/06-hard-cases.png)
-
-| Failure type | Docs | Gold values | Kavach v3 | Kavach v2 | GLiNER | Presidio |
-|---|---|---|---|---|---|---|
-| Which identifier is which (several IDs, told apart by cue words) | 45 | 771 | **90.0** | 48.7 | 43.0 | 15.8 |
-| Partial and masked values (`card ending 4532`, `XXXX-XX-1234`) | 46 | 591 | **89.0** | 59.4 | 40.9 | 13.8 |
-| Organisations and public contacts (tag the firm, not its helpline) | 43 | 565 | **87.2** | 54.5 | 44.2 | 25.3 |
-| Technical text (logs, stack traces, JSON, SQL, configs) | 44 | 600 | **86.9** | 65.2 | 48.4 | 27.4 |
-| Dense structured records (6 to 12 transaction lines) | 43 | 1,533 | **85.9** | 34.1 | 36.6 | 30.4 |
-| Sensitive attributes and dates | 45 | 716 | **82.7** | 51.5 | 50.5 | 14.2 |
-| Words glued to values (case endings, particles, postpositions) | 46 | 631 | **78.5** | 51.6 | 34.9 | 16.4 |
-| Spoken values in transcripts (numbers read aloud, with corrections) | 47 | 704 | **75.9** | 49.3 | 38.1 | 10.9 |
-| Name variants (a full name, then a nickname or surname alone) | 47 | 737 | **75.3** | 58.5 | 45.3 | 21.3 |
-
-| | Kavach v3 | Kavach v2 | GLiNER | Presidio | Regex + checksum |
-|---|---|---|---|---|---|
-| **Value F1, all 435 documents** | **83.5** | 50.2 | 41.5 | 20.0 | 18.6 |
-| Redaction recall | **91.0** | 59.8 | 42.1 | 36.8 | 21.0 |
-| **Planted look-alikes tagged (of 2,213)** | **164** | 290 | 477 | 681 | 344 |
-| Predicted values not in the text | **2.7%** | 7.1% | n/a | n/a | n/a |
-
-Dense records went from v2's worst case (34.1) to 85.9. Name variants and spoken values are now the weakest, both in the mid-70s. One caveat belongs next to these numbers: the gold was written by the same kind of process that wrote the hard-case training documents, with different writers and value pools. The production probe below is the independent check.
-
-### Production probe
-
-480 documents in eight real-world formats, 60 per format, in English, Hindi, Tamil, Arabic, Spanish and German. No language model wrote any of it. A script builds each document and records every personal value it inserts, so the gold is complete by construction, and each document also carries planted look-alikes that must not be tagged: helplines, head-office addresses, app versions, opening hours.
-
-| Format | Gold values | Kavach v3 | Kavach v2 | GLiNER | Presidio |
-|---|---|---|---|---|---|
-| Insurance claim form | 797 | **99.1** | 84.6 | 74.5 | 42.1 |
-| KYC form | 660 | **98.6** | 84.2 | 94.4 | 27.6 |
-| Email thread | 660 | **97.6** | 92.4 | 71.5 | 42.1 |
-| Discharge summary | 660 | **95.8** | 69.0 | 58.2 | 42.5 |
-| Call transcript | 420 | 93.1 | **98.1** | 61.0 | 38.3 |
-| Access log | 1,248 | **88.0** | 66.4 | 79.3 | 27.3 |
-| CSV export | 2,465 | **86.7** | 63.2 | 57.2 | 39.3 |
-| Bank statement | 1,014 | **82.6** | 58.2 | 15.5 | 29.7 |
-| **All formats** | 7,924 | **90.4** | 72.2 | 62.7 | 35.6 |
-
-v3 tagged none of the 180 planted look-alikes; v2 tagged 48, GLiNER 178 and Presidio all 180. Redaction recall is 96.3.
-
-Two things in this table need explaining. The bank statement and CSV scores are held down by the probe's own gold: the script that built it predates v3's labelling rules and does not record transaction dates on a statement or customer IDs in a CSV export, both of which v3 tags as personal (a transaction date on someone's statement is part of their record). Those two account for 912 of v3's 1,081 unmatched predictions. The gold was fixed before v3 was trained and has not been changed. The call transcript row is a real regression: when a customer reads out an 8-digit account number straight after their phone number, v3 labels it `PHONE` in 13 of the 60 transcripts. The value is still found and masked; only its type is wrong.
-
 ### By input condition
 
-![Value-F1 by input condition: v3 against v2, GLiNER and Presidio](assets/03-conditions-radar.png)
+![Value-F1 by input condition](assets/02-conditions-radar.png)
 
-| Condition | Test docs | Kavach v3 | Kavach v2 | GLiNER | Presidio |
-|---|---|---|---|---|---|
-| Masked or partial values | 161 | **95.6** | 86.9 | 55.7 | 16.3 |
-| Structured forms | 238 | **94.0** | 85.0 | 70.4 | 30.2 |
-| Dialogue transcripts | 265 | **93.8** | 90.1 | 60.1 | 22.2 |
-| Clean text | 1,374 | **93.2** | 85.8 | 61.9 | 26.6 |
-| OCR output | 74 | **93.0** | 83.5 | 71.9 | 31.9 |
-| Code and logs | 115 | **91.5** | 81.1 | 51.4 | 24.7 |
-| ASR transcripts | 688 | **86.9** | 79.8 | 49.6 | 17.3 |
-| Adversarial formatting | 245 | **85.4** | 79.5 | 55.6 | 16.7 |
+| Condition | Test docs | Kavach | GLiNER | Presidio |
+|---|---|---|---|---|
+| Dialogue transcripts | 266 | **93.1** | 57.8 | 20.9 |
+| Masked or partial values | 162 | **90.6** | 54.3 | 16.4 |
+| Structured forms | 239 | **90.4** | 66.9 | 28.3 |
+| OCR output | 74 | **90.4** | 70.1 | 30.9 |
+| Clean text | 1,382 | **90.3** | 59.2 | 25.7 |
+| Code and logs | 118 | **87.5** | 50.7 | 24.0 |
+| ASR transcripts | 695 | **83.3** | 49.0 | 17.0 |
+| Adversarial formatting | 247 | **82.5** | 52.8 | 16.1 |
 
-These are the 3,347 test documents that carry a condition tag (the documents inherited from v2's test set); the 1,230 new test documents are not tagged by condition. v3 is ahead of v2 in all eight conditions. The largest gains are on code and logs (+10.4), OCR output (+9.5), structured forms (+9.0) and masked values (+8.7); the smallest is on dialogue transcripts (+3.7), where v2 was already strong. The weakest condition for v3 (adversarial formatting, 85.4) is above the strongest condition for GLiNER (OCR, 71.9).
+The weakest condition for Kavach (adversarial formatting, 82.5) is above the strongest condition for GLiNER (OCR, 70.1).
+
+Additional held-out slices: simulated ASR rewrites 88.9, real render-to-Tesseract OCR 81.4, and PII embedded in long real Wikipedia passages 82.4 with 0.0% false positives on the PII-free portions.
 
 ### By language
 
-Every language group has at least 85 held-out test documents, so each figure carries a 95% confidence interval between 2 and 8 points wide. v3 is ahead of v2 in all 29, and ahead of GLiNER in all 29.
+Each of the 29 language groups has at least 80 held-out test documents, so each figure carries a confidence interval of roughly 5 points rather than the 20 to 45 points you get from a 15-document sample. Kavach leads in all 29.
 
-![Per-language comparison](assets/04-languages.png)
+![Per-language comparison](assets/03-languages.png)
 
-| Language | Test docs | Kavach v3 F1 | 95% CI | Kavach v2 | GLiNER |
+| Language | Test docs | Kavach F1 | 95% CI | GLiNER | Gain |
 |---|---|---|---|---|---|
-| Dutch | 90 | **96.4** | 94.3 to 98.3 | 84.7 | 76.6 |
-| Multilingual mix (3 or more) | 120 | **96.0** | 94.8 to 97.1 | 86.3 | 72.9 |
-| Romanized Indian language | 118 | **94.9** | 93.1 to 96.6 | 87.3 | 72.3 |
-| Simplified Chinese | 100 | **94.6** | 92.7 to 96.2 | 84.0 | 57.3 |
-| Indonesian | 96 | **93.8** | 91.7 to 95.7 | 82.2 | 73.8 |
-| Japanese | 91 | **93.6** | 91.4 to 95.7 | 86.5 | 47.2 |
-| Turkish | 96 | **93.1** | 91.2 to 94.9 | 83.4 | 66.3 |
-| Hindi | 141 | **92.9** | 90.8 to 94.8 | 81.0 | 38.1 |
-| English | 1,238 | **92.8** | 91.9 to 93.6 | 81.4 | 64.9 |
-| Russian | 96 | **92.3** | 89.9 to 94.8 | 80.8 | 63.8 |
-| Telugu | 174 | **92.3** | 90.7 to 93.8 | 70.9 | 38.1 |
-| Korean | 106 | **92.2** | 90.1 to 94.3 | 81.1 | 57.7 |
-| Arabic | 173 | **91.7** | 89.7 to 93.6 | 75.5 | 71.4 |
-| Vietnamese | 97 | **91.7** | 89.1 to 93.9 | 80.1 | 68.0 |
-| Punjabi | 118 | **91.6** | 89.4 to 93.7 | 78.5 | 42.5 |
-| Portuguese | 95 | **91.5** | 88.8 to 93.6 | 80.7 | 67.8 |
-| Spanish | 125 | **91.4** | 89.3 to 93.3 | 81.6 | 71.8 |
-| Polish | 98 | **91.3** | 88.8 to 93.8 | 82.1 | 73.3 |
-| Kannada | 156 | **91.2** | 89.1 to 93.1 | 72.7 | 43.8 |
-| German | 107 | **91.1** | 88.5 to 93.4 | 82.8 | 67.6 |
-| Urdu | 107 | **90.7** | 88.3 to 93.1 | 77.2 | 70.4 |
-| Marathi | 118 | **90.6** | 88.2 to 92.9 | 77.9 | 38.8 |
-| Malayalam | 156 | **90.6** | 88.5 to 92.4 | 70.3 | 41.1 |
-| French | 98 | **90.5** | 87.6 to 93.1 | 77.9 | 61.1 |
-| Chinese | 85 | **90.2** | 85.5 to 93.8 | 81.8 | 37.6 |
-| Bengali | 169 | **90.1** | 88.0 to 92.1 | 72.3 | 42.9 |
-| Tamil | 194 | **89.9** | 87.6 to 91.7 | 71.7 | 35.8 |
-| Gujarati | 112 | **89.9** | 87.3 to 92.5 | 76.8 | 42.3 |
-| Italian | 103 | **87.4** | 84.1 to 90.6 | 77.5 | 67.9 |
+| Dutch | 81 | **94.3** | 91.6 to 97.0 | 74.7 | +19.6 |
+| Russian | 81 | **93.9** | 91.2 to 96.1 | 59.2 | +34.7 |
+| Simplified Chinese | 81 | **93.6** | 90.8 to 95.9 | 52.7 | +40.9 |
+| German | 82 | **92.9** | 90.1 to 95.1 | 66.0 | +26.9 |
+| Turkish | 83 | **92.6** | 89.7 to 95.2 | 68.2 | +24.4 |
+| Romanized Indian language | 85 | **92.2** | 89.3 to 95.3 | 72.2 | +20.0 |
+| Multilingual mix (3 or more) | 80 | **92.0** | 88.6 to 95.0 | 71.5 | +20.5 |
+| Japanese | 85 | **91.8** | 88.5 to 94.7 | 37.3 | +54.5 |
+| Korean | 80 | **91.4** | 87.8 to 94.5 | 47.0 | +44.4 |
+| Vietnamese | 84 | **90.7** | 87.8 to 93.5 | 64.8 | +26.0 |
+| Spanish | 116 | **90.4** | 87.1 to 92.8 | 68.4 | +22.0 |
+| Polish | 82 | **90.0** | 86.0 to 93.1 | 69.2 | +20.8 |
+| English | 994 | **89.3** | 88.2 to 90.4 | 58.8 | +30.5 |
+| Indonesian | 83 | **89.2** | 85.4 to 92.6 | 69.0 | +20.2 |
+| Punjabi | 83 | **88.4** | 84.9 to 91.6 | 32.9 | +55.5 |
+| Urdu | 80 | **87.6** | 83.4 to 91.2 | 69.2 | +18.4 |
+| French | 83 | **87.1** | 83.2 to 90.9 | 58.3 | +28.8 |
+| Portuguese | 83 | **86.3** | 81.3 to 91.8 | 64.5 | +21.8 |
+| Chinese | 84 | **85.9** | 79.5 to 91.0 | 29.6 | +56.3 |
+| Marathi | 81 | **85.6** | 81.8 to 89.3 | 35.0 | +50.6 |
+| Italian | 83 | **85.1** | 79.6 to 90.8 | 67.8 | +17.3 |
+| Gujarati | 82 | **85.0** | 81.6 to 89.0 | 40.6 | +44.4 |
+| Hindi | 105 | **84.8** | 80.8 to 88.5 | 39.0 | +45.8 |
+| Malayalam | 83 | **83.5** | 77.8 to 88.6 | 31.3 | +52.2 |
+| Tamil | 97 | **83.1** | 78.6 to 87.2 | 32.5 | +50.6 |
+| Bengali | 87 | **82.2** | 77.5 to 87.1 | 39.6 | +42.6 |
+| Arabic | 82 | **81.3** | 74.9 to 87.5 | 55.2 | +26.1 |
+| Telugu | 82 | **80.6** | 73.6 to 86.8 | 25.4 | +55.2 |
+| Kannada | 80 | **74.6** | 69.7 to 79.0 | 35.2 | +39.4 |
 
-Languages are covered in native script, romanised form, and code-switched with English. The largest gains are in the Dravidian and Indo-Aryan languages that were v2's weakest: Kannada went from 72.7 to 91.2, Malayalam from 70.3 to 90.6, Telugu from 70.9 to 92.3. The spread across all 29 languages is now under 10 points, against 17 for v2.
+Languages are covered in native script, romanised form, and code-switched with English.
 
 ### By label
 
-43 labels are supported. The table lists those with at least 50 test instances.
+52 labels are supported. The table lists those with at least 50 test instances.
 
-![Per-label comparison](assets/05-labels.png)
+![Per-label comparison](assets/04-labels.png)
 
-| Label | Test instances | Kavach v3 F1 | Kavach v2 F1 | GLiNER F1 |
-|---|---|---|---|---|
-| `PERSON` | 5,371 | **94.3** | 88.1 | 40.4 |
-| `PHONE` | 3,678 | **95.4** | 91.7 | 75.3 |
-| `ORGANIZATION` | 2,732 | **87.5** | 78.6 | 66.0 |
-| `EMAIL` | 2,652 | **96.6** | 92.2 | 87.0 |
-| `DOB` | 2,616 | **97.2** | 92.0 | 87.6 |
-| `CASE_ID` | 2,031 | **88.3** | 52.4 | 23.9 |
-| `DATE_TIME` | 2,014 | **84.6** | 15.6 | 54.7 |
-| `ADDRESS` | 1,587 | **87.2** | 76.7 | 44.4 |
-| `NATIONAL_ID` | 995 | **93.0** | 77.0 | 50.8 |
-| `CREDIT_DEBIT_CARD` | 494 | **93.7** | 76.1 | 57.7 |
-| `BANK_ACCOUNT` | 406 | **94.1** | 77.8 | 59.6 |
-| `EMPLOYEE_ID` | 374 | **89.0** | 72.5 | 33.0 |
-| `INSURANCE_ID` | 329 | **91.4** | 75.4 | 56.1 |
-| `BANK_CODE` | 317 | **94.5** | 58.4 | 29.2 |
-| `TRANSACTION_ID` | 310 | **86.0** | 47.3 | 42.8 |
-| `CARD_EXPIRY` | 245 | **99.6** | 77.9 | 63.1 |
-| `CARD_CVV` | 232 | **96.1** | 79.5 | 62.6 |
-| `MEDICAL_RECORD_ID` | 204 | **85.9** | 71.3 | 45.0 |
-| `AGE` | 200 | **95.2** | 44.0 | 71.2 |
-| `USERNAME` | 179 | **88.0** | 75.2 | 53.1 |
-| `LAB_ORDER_ID` | 173 | **92.1** | 71.7 | 65.8 |
-| `PRESCRIPTION_ID` | 166 | **92.6** | 79.0 | 55.5 |
-| `LICENSE_PLATE` | 158 | **89.4** | 63.0 | 40.3 |
-| `PASSPORT` | 147 | **92.6** | 86.6 | 60.4 |
-| `STUDENT_ID` | 132 | **89.8** | 79.1 | 62.5 |
-| `DRIVING_LICENSE` | 116 | **83.6** | 71.9 | 34.9 |
-| `GENDER_SEX` | 99 | **92.2** | 7.5 | 47.6 |
-| `DEVICE_ID` | 80 | **84.8** | 69.0 | 37.6 |
-| `HEALTH_ID` | 75 | **87.8** | 61.7 | 27.7 |
-| `PASSWORD_SECRET` | 63 | **69.4** | 40.0 | 25.3 |
-| `API_KEY_TOKEN` | 54 | **76.6** | 43.0 | 29.5 |
-| `PAYMENT_ID` | 54 | **75.8** | 67.4 | 31.8 |
+| Label | Test instances | Kavach F1 | GLiNER F1 |
+|---|---|---|---|
+| `PERSON` | 2853 | **93.8** | 43.1 |
+| `ORGANIZATION` | 1972 | **87.1** | 69.5 |
+| `PHONE` | 1899 | **93.2** | 76.2 |
+| `DOB` | 1106 | **92.2** | 83.8 |
+| `EMAIL` | 1092 | **94.4** | 81.9 |
+| `ADDRESS` | 1067 | **81.4** | 54.6 |
+| `CASE_ID` | 669 | **82.5** | 37.3 |
+| `EMPLOYEE_ID` | 212 | **86.5** | 28.6 |
+| `INSURANCE_ID` | 208 | **84.7** | 58.8 |
+| `BANK_ACCOUNT` | 183 | **86.9** | 54.8 |
+| `NATIONAL_ID` | 183 | **75.2** | 32.4 |
+| `CREDIT_DEBIT_CARD` | 174 | **90.6** | 62.1 |
+| `TAX_ID` | 151 | **70.8** | 47.6 |
+| `MEDICAL_RECORD_ID` | 135 | **86.3** | 45.3 |
+| `DATE_TIME` | 134 | **58.9** | not modelled |
+| `TRANSACTION_ID` | 122 | **78.1** | not modelled |
 
-Every label improved. The very low v2 figures for `DATE_TIME` and `GENDER_SEX` are mostly rule changes rather than v2 getting worse: v2 tagged vague dates such as "yesterday" and "Friday", which v3's gold does not count, and v2's training data rarely tagged gender at all.
+Full label set, 52 in total:
 
-Labels with fewer than 50 test instances, whose figures are indicative only: `IP_ADDRESS` 92.2 (47), `VIN` 89.4 (47), `URL_PERSONAL` 86.0 (46), `RELIGION` 87.1 (42), `VOTER_ID` 88.2 (37), `DISABILITY` 62.2 (36), `BIOMETRIC_DESCRIPTOR` 79.3 (32), `ETHNICITY` 74.1 (29), `POLITICAL_BELIEF` 81.4 (29), `MAC_ADDRESS` 89.4 (23), `GEO_LOCATION` 92.3 (19).
-
-Full label set, 43 in total:
-
-`ADDRESS` `AGE` `API_KEY_TOKEN` `BANK_ACCOUNT` `BANK_CODE` `BIOMETRIC_DESCRIPTOR` `CARD_CVV` `CARD_EXPIRY` `CASE_ID` `CREDIT_DEBIT_CARD` `DATE_TIME` `DEVICE_ID` `DISABILITY` `DOB` `DRIVING_LICENSE` `EMAIL` `EMPLOYEE_ID` `ETHNICITY` `GENDER_SEX` `GEO_LOCATION` `HEALTH_ID` `INSURANCE_ID` `IP_ADDRESS` `LAB_ORDER_ID` `LICENSE_PLATE` `MAC_ADDRESS` `MEDICAL_RECORD_ID` `NATIONAL_ID` `ORGANIZATION` `PASSPORT` `PASSWORD_SECRET` `PAYMENT_ID` `PERSON` `PHONE` `POLITICAL_BELIEF` `PRESCRIPTION_ID` `RELIGION` `STUDENT_ID` `TRANSACTION_ID` `URL_PERSONAL` `USERNAME` `VIN` `VOTER_ID`
+`AADHAAR_IN` `ADDRESS` `AGE` `API_KEY_TOKEN` `BANK_ACCOUNT` `BIOMETRIC_DESCRIPTOR` `CARD_CVV` `CARD_EXPIRY` `CASE_ID` `CREDIT_DEBIT_CARD` `DATE_TIME` `DEVICE_ID` `DISABILITY` `DOB` `DRIVING_LICENSE` `EMAIL` `EMPLOYEE_ID` `ETHNICITY` `GENDER_SEX` `GEO_LOCATION` `HEALTH_ID` `IBAN` `INSURANCE_ID` `IP_ADDRESS` `LAB_ORDER_ID` `LICENSE_PLATE` `MAC_ADDRESS` `MEDICAL_RECORD_ID` `NATIONAL_ID` `ORGANIZATION` `PAN_IN` `PASSPORT` `PASSWORD_SECRET` `PERSON` `PHONE` `POLITICAL_BELIEF` `POSTAL_CODE` `PRESCRIPTION_ID` `RELIGION` `ROUTING_CODE` `SIGNATURE` `SSN_US` `STUDENT_ID` `SWIFT_BIC` `TAX_ID` `TRANSACTION_ID` `UPI_VPA` `URL_PERSONAL` `USERNAME` `VIN` `VOTER_ID` `WALLET_ID`
 
 ### Robustness
 
-Eighteen offset-safe corruptions applied to 300 held-out dev documents, each measured against the model's own clean baseline of 92.8.
+Eighteen offset-safe corruptions applied to held-out documents, measured against the model's own clean baseline.
 
-![Robustness under corruption](assets/07-robustness.png)
+![Robustness under corruption](assets/05-robustness.png)
 
-| Corruption | v3 change | v2 change |
-|---|---|---|
-| Random mixed capitalisation | -8.5 | -15.6 |
-| All uppercase | -3.8 | -4.7 |
-| Keyboard typos | -3.1 | -8.5 |
-| Punctuation stripped | -1.8 | -3.2 |
-| All lowercase | -1.4 | -3.3 |
-| Whitespace noise | -1.3 | -0.6 |
-| Zero-width characters injected | -1.0 | -1.0 |
-| Homoglyph substitution | -0.9 | -1.1 |
-| Words dropped | -0.8 | -1.2 |
-| Values spaced out (`9 8 7 6`) | -0.6 | -1.3 |
-| Full-width characters | -0.6 | -1.9 |
-| JSON escaping | -0.5 | -0.4 |
-| Prefix and suffix noise | -0.5 | -0.5 |
-| Digits written as words | -0.4 | -1.1 |
-| Mojibake | 0.0 | 0.0 |
-| Separator changes | 0.0 | -0.3 |
-| Markdown wrapping | +0.6 | -2.3 |
-| HTML wrapping | +0.9 | +1.3 |
-
-Fourteen of the eighteen cost under 1.5 F1. Random capitalisation is still the worst case, but v3 loses about half what v2 did, and keyboard typos went from -8.5 to -3.1. The v2 column is from the v2 card, measured the same way on 300 of v2's own dev documents, so compare the size of each drop rather than the absolute scores.
+Twelve of the eighteen cost under 1.5 F1, including zero-width character injection, homoglyph substitution, full-width characters, HTML and markdown wrapping, JSON escaping, whitespace noise, and separator changes. The exceptions are covered under [Limitations](#limitations).
 
 ## Compliance coverage
 
@@ -1136,91 +978,77 @@ Mapped against the 18 HIPAA Safe Harbor identifiers, 16 of 18 have trained suppo
 | HIPAA identifier | Label |
 |---|---|
 | Names | `PERSON` |
-| Geography smaller than a state | `ADDRESS` (including standalone postcodes) |
+| Geography smaller than a state | `ADDRESS`, `POSTAL_CODE` |
 | Dates, ages over 89 | `DOB`, `DATE_TIME`, `AGE` |
 | Telephone and fax | `PHONE` |
 | Email | `EMAIL` |
-| Social Security numbers | `NATIONAL_ID` |
+| Social Security numbers | `SSN_US` |
 | Medical record numbers | `MEDICAL_RECORD_ID` |
 | Health plan beneficiary numbers | `INSURANCE_ID`, `HEALTH_ID` |
-| Account numbers | `BANK_ACCOUNT`, `CREDIT_DEBIT_CARD`, `PAYMENT_ID` |
-| Certificate and licence numbers | `DRIVING_LICENSE`, `EMPLOYEE_ID` (NPI, DEA, professional registrations) |
+| Account numbers | `BANK_ACCOUNT` |
+| Certificate and licence numbers | `DRIVING_LICENSE`, `EMPLOYEE_ID` (NPI, DEA, professional licences) |
 | Vehicle identifiers | `VIN`, `LICENSE_PLATE` |
-| Device identifiers | `DEVICE_ID`, `MAC_ADDRESS` |
+| Device identifiers | `DEVICE_ID` |
 | Web URLs | `URL_PERSONAL` |
 | IP addresses | `IP_ADDRESS` |
 | Biometric identifiers | `BIOMETRIC_DESCRIPTOR` |
-| Any other unique identifying number | `CASE_ID`, `STUDENT_ID`, `TRANSACTION_ID`, and the rest of the ID family |
+| Any other unique identifying number | `CASE_ID`, `STUDENT_ID`, and the rest of the ID family |
 
-Also covered: PCI (`CREDIT_DEBIT_CARD`, `CARD_EXPIRY`, `CARD_CVV`, `BANK_ACCOUNT` including IBAN, `BANK_CODE` for SWIFT/BIC, IFSC, ABA routing and sort codes), national identifiers of any country under `NATIONAL_ID` (SSN, Aadhaar, PAN, NIN, NRIC, CPF, DNI, Emirates ID, codice fiscale, Steuer-ID and others), UPI IDs and wallets under `PAYMENT_ID`, and US healthcare administration (NPI and DEA under `EMPLOYEE_ID`, Medicare MBI and Medicaid IDs under `HEALTH_ID`). GDPR special categories are covered by `RELIGION`, `ETHNICITY`, `POLITICAL_BELIEF`, `DISABILITY`, `GENDER_SEX` and `BIOMETRIC_DESCRIPTOR`, though test support for them is thin (see [Limitations](#limitations)).
+Also covered: PCI (`CREDIT_DEBIT_CARD`, `CARD_EXPIRY`, `CARD_CVV`, `IBAN`, `SWIFT_BIC`, `ROUTING_CODE`), India (`AADHAAR_IN`, `PAN_IN`, `UPI_VPA`, `VOTER_ID`), and US healthcare administration (NPI, DEA, Medicare MBI, and state professional licences, trained under `EMPLOYEE_ID` and `HEALTH_ID`).
 
 ## Training
 
 | | |
 |---|---|
 | Base model | `google/gemma-3-270m-it`, 268M parameters |
-| Method | LoRA, r=64, alpha=128, dropout 0.05, on all attention and MLP projections (15.2M trainable, 5.4%), unchanged from v2 |
+| Method | LoRA, r=64, alpha=128, dropout 0.05, on all attention and MLP projections (15.2M trainable, 5.4%) |
 | Precision | base weights bf16 throughout, only the adapter was trained |
-| Data | 81,337 training documents, 46.4M tokens (6 documents longer than 3,072 tokens left out) |
-| Schedule | 3 epochs, 15,819 steps, lr 2e-4 with linear decay and 3% warmup, effective batch 16 |
-| Augmentation | 18 offset-safe corruption operations applied on the fly at p=0.5 (v2: 0.35) |
-| Hardware | one NVIDIA RTX 5060 Laptop GPU (8 GB), 6.2 hours, 2.61 GB peak |
+| Data | 58,596 training documents, 29.9M tokens |
+| Schedule | 3 epochs, 11,202 steps, lr 2e-4 with linear decay and 3% warmup, effective batch 16 |
+| Augmentation | 18 offset-safe corruption operations applied on the fly at p=0.35 |
+| Hardware | one NVIDIA RTX 5060 Laptop GPU (8 GB), 4 hours, 5.75 GB peak |
 | Loss | cross-entropy on the assistant JSON only, prompt tokens masked out |
 
-Best dev loss 0.0281, measured on 1,000 documents of the v3 dev set. It is not comparable with v2's 0.0397, which was measured on a different dev set with a different label list.
+Best dev loss 0.0397, against 0.0478 for the previous version.
 
 ### Dataset
 
-About 91,700 documents and 593,000 labelled values across all splits, entirely synthetic. No real personal data was used.
+65,307 documents and 238,254 labelled values, entirely synthetic. No real personal data was used.
 
 | Split | Documents | Values | PII-free |
 |---|---|---|---|
-| train | 81,343 | 523,028 | 7,506 |
-| dev | 3,964 | 21,520 | 393 |
-| test | 4,577 | 28,672 | 440 |
-| hard cases (gold) | 435 | 6,862 | 29 |
-| production probe (built by code) | 480 | 7,924 | 0 |
-| simulated ASR / real OCR / real-text injection | 289 / 250 / 300 | 1,409 / 1,349 / 2,030 | 0 / 0 / 68 |
+| train | 58,596 | 211,589 | 11,164 |
+| dev | 3,339 | 13,019 | 743 |
+| test | 3,372 | 13,646 | 736 |
 
-The training set is the 57,909 v2 training documents, relabelled, plus 23,434 new ones. It spans 29 languages, 23 domains (contact centre, healthcare, pharmacy and labs, insurance, banking, government, telecom, e-commerce, education and HR, legal, IT helpdesk, logistics, real estate, automotive, travel and others), hard negatives and prompt-injection wrappers, and 12 input conditions. It keeps v2's real noise round trips (browser render into Tesseract OCR, an ASR simulator few-shot prompted on real Whisper output), PII embedded in real Wikipedia passages, and 600 hand-built negatives covering already-redacted text, blank forms, placeholder rows and medical billing code lists.
+The corpus spans 29 languages, 23 domains (contact centre, healthcare, pharmacy and labs, insurance, banking, government, telecom, e-commerce, education and HR, legal, IT helpdesk, logistics, real estate, automotive, and others) and 12 input conditions. It includes real noise round trips (browser render into Tesseract OCR, and an ASR simulator few-shot prompted on real Whisper output), PII embedded in real Wikipedia passages, and 600 hand-built negatives covering already-redacted text, blank forms, placeholder rows, and medical billing code lists.
 
-**How the labels were checked.** The weakness v3 set out to fix was label quality as much as coverage, so most of the work went here:
-
-* **Re-annotation.** Every existing document, 65,000 of them, went back through LLM annotators that proposed additions, removals, relabels and boundary fixes against the existing gold. A stronger model, reasoning before it answered, verified every removal and relabel, and every boundary change that lengthened a value. Evaluation sets were audited twice more by independent models. A document-by-document review of a 500-document sample found the old gold had been missing roughly one value in ten.
-* **Written rules, applied by code.** Honorifics and cue words outside the value in every script, sentence punctuation, time particles in Korean, Kannada and Tamil, place names that are not addresses, vague dates, fully masked values and placeholder values. Each rule logs every change it makes, and each was checked on a sample before it was applied to every split.
-* **Measured per language.** 4,400 training documents (150 per language, 200 for English) were audited by a model that had not audited the training set before, with every correction verified: precision 98.9, recall 98.4, and no language below 97.9 precision or 97.1 recall. 870 training documents (30 per language, 7,665 labels) were then read one at a time by LLM reviewers working from the written annotation rules (not by people): precision 97.8, recall 97.1. The error types found there (missed name variants, boundaries, values that are not personal) were then fixed across the whole corpus by rule.
-* **Hard-case documents were filtered, not trusted.** The 4,022 hard-case documents from a local generator passed a gate that removes placeholders, sequential and repeated-digit identifiers, copied example values, near duplicates and anything sharing an identifier with an evaluation split. Documents an automated auditor flagged as possibly missing values were set aside rather than trained on, because no automated judge could tell a real omission from a false alarm reliably. The same kind of document-by-document review, 20 documents per language, then excluded 10 languages that fell below 97 precision or 95 recall from that batch.
-* **No leakage.** Splits are grouped by synthetic identity, so no generated person appears on both sides of a split. 564 test and 288 dev documents that shared an identifier with a training document were moved into training, exact duplicates were removed, and no training text appears in any evaluation split. Documents derived from a training document move with their source, so a rewrite of a training document can never appear in test.
+Splits are grouped by synthetic identity, so no generated person appears on both sides of a split, and they are verified free of exact-text overlap. Documents derived from a training document move with their source, so a rewrite of a training document can never appear in test.
 
 ## Fair comparison notes
 
-* The cross-system tables were scored by the same script (`pii_eval.py`), on the same documents, against the same gold. Values are compared after whitespace normalisation; case matters.
-* The v2-versus-v3 table was scored with `eval_v3.py`, the script that produced the v2 baselines before v3 was trained. It also normalises case. On the same data the two scripts agree to within 0.2 points.
-* v2, GLiNER, Presidio and the regex baseline emit v2 label names. Their predictions were mapped to the v3 labels with the table in [Migrating from v2](#migrating-from-v2), so none of them is penalised for naming.
-* GLiNER-PII (`urchade/gliner_multi_pii-v1`) was queried with natural-language label names mapped to our labels, threshold 0.4, 1,500-character chunks.
+* All systems were scored by the same script, on the same 3,372 documents, against the same gold annotations.
+* GLiNER-PII (`urchade/gliner_multi_pii-v1`) was queried with natural-language label names mapped to the 52 labels, threshold 0.4, 1,500-character chunks.
 * Presidio used the default `AnalyzerEngine` with spaCy `en_core_web_lg`, threshold 0.35. Its recognisers are English-first, which is part of why it scores poorly on the multilingual portion. It is included because it is the most widely deployed open-source baseline, not because the comparison is favourable.
-* GLiNER and Presidio can only lose recall on label types they do not model. Unmappable types were dropped from their predictions rather than counted as errors.
-* The test gold came from the same pipeline that produced the training data. That is the honest caveat on every number here: it is our own test set. The hard-case gold shares its generation process with the hard-case training documents, although the writers and value pools differ. The production probe is the one set that shares nothing with the training pipeline: code built it, no language model touched it, and its gold is complete by construction. The real-text injection slice reuses passages whose base text also appears in training, so treat it as a robustness check rather than an independent test.
-* Independent evaluation on third-party corpora remains the obvious next step.
+* Both systems can only lose recall on label types they do not model. Their label sets were mapped on a best-effort basis, and unmappable types were dropped from their predictions rather than counted as errors.
+* The gold annotations came from the same pipeline that produced the training data. That is the honest caveat on every number here: it is our own test set. Independent evaluation on third-party corpora is the obvious next step.
 
 ## Limitations
 
-* **False positives on documents with no personal data** rose from 2.0% in v2 to 12.5%, mostly dates and reference numbers in documents about nobody. The two-line filter under the headline table brings it to 4.5% for 0.5 F1.
-* **Name variants and spoken values are the weakest cases.** A person named in full and later by nickname or surname alone scores 75.3 on the hard-case gold, and numbers read aloud with corrections score 75.9. Words glued to values (case endings, particles) are next at 78.5.
-* **Indic scripts trail on the hard cases.** On the hard-case gold, Urdu (74.6), Kannada (75.1), Punjabi (76.1) and Marathi (76.2) are the lowest languages, against 90 and above for English, Dutch and Chinese. Each language has only 15 hard-case documents, so treat these as directional.
-* **Identifier typing still has a ceiling.** A bare number without a cue word cannot always be typed. In call transcripts, an 8-digit account number read out right after a phone number is labelled `PHONE` in 13 of the 60 production-probe transcripts. For redaction what matters is that the value is found, and redaction recall is 96.0 on the test set.
-* **Random capitalisation is still the worst corruption.** Mixed random caps cost 8.5 F1 (v2: 15.6), and among the 23 PII-free documents in the robustness sample, the number flagged rose from 2 to 10. All-uppercase text costs 3.8 and keyboard typos 3.1. Normalise case before calling the model if your inputs may contain it.
-* **Weak labels.** `DISABILITY` (62.2), `PASSWORD_SECRET` (69.4), `ETHNICITY` (74.1), `PAYMENT_ID` (75.8) and `API_KEY_TOKEN` (76.6) are the soft spots, and most special-category labels have fewer than 50 test instances each.
-* **`SIGNATURE` no longer exists.** A signature line is tagged `PERSON`, like any other name.
-* **Do not add a regex union.** Tested on v2: combining the model with checksum and regex recognisers lowered F1 from 88.4 to 86.6 and raised the false-positive rate from 0.4% to 9.0%.
-* **Synthetic training data.** Style is bounded by the generators that produced it. Real noise round trips, augmentation, real-text injection and the code-built probe reduce that fingerprint but do not remove it.
+* **Identifier typing has a ceiling.** A bare alphanumeric string with no nearby cue word cannot be classified as `TAX_ID` rather than `NATIONAL_ID` by any model. Only 15% of such confusions had a disambiguating cue within 40 characters. For redaction, what matters is that the value is found, and redaction recall stays at 93.0 even where type accuracy drops. Consider reporting family-level accuracy alongside exact accuracy.
+* **Random capitalisation is the worst failure mode.** Mixed random caps cost 15.6 F1 and raise the false-positive rate on clean documents to 20%. The cause was found (the uppercase augmentation was missing from the training mix entirely, and case-chaos was weighted at 4%), the mix was rebalanced, and the model retrained. Uppercase robustness improved by 3.5 points but case-chaos improved by only 1.2. Normalise case before calling the model if your inputs may contain it.
+* **Keyboard typos** cost 8.5 F1.
+* **`SIGNATURE` against `PERSON`.** When a signature is the same string as a person's name in the same document, value-only output cannot separate them. This affects roughly 15% of `SIGNATURE` instances.
+* **Weak labels.** `POSTAL_CODE` (33.8), `PAN_IN` (41.3), `AADHAAR_IN` (45.1) and `DATE_TIME` (58.9) are the soft spots. `DATE_TIME` is inherently contextual, since a date is only personal data when tied to a person.
+* **Thin labels.** `ETHNICITY`, `AGE`, `GENDER_SEX`, `DISABILITY`, `POLITICAL_BELIEF` and `BIOMETRIC_DESCRIPTOR` have fewer than 10 test instances each. Treat their per-label numbers as indicative only.
+* **Do not add a regex union.** This was tested. Combining the model with checksum and regex recognisers lowered F1 from 88.4 to 86.6 and raised the false-positive rate from 0.4% to 9.0%.
+* **Synthetic training data.** Style is bounded by the generator that produced it. Real noise round trips, augmentation and real-text injection reduce that fingerprint but do not remove it.
 * **Not a compliance guarantee.** This is a detection aid. Regulated workflows still need human review.
 
 ## Other formats
 
-* Quantised GGUF builds for llama.cpp, Ollama and LM Studio: [Kavach-PII-270M-GGUF](https://huggingface.co/inboxpraveen/Kavach-PII-270M-GGUF)
-* LoRA adapter only, 61 MB, applies to `google/gemma-3-270m-it`: the `adapter/` folder in this repository.
-* v2 (52 labels) remains available in this repository's commit history.
+* Quantised GGUF builds for llama.cpp, Ollama and LM Studio: [Kavach-PII-270M-v2-GGUF](https://huggingface.co/inboxpraveen/Kavach-PII-270M-v2-GGUF)
+* LoRA adapter only, 90 MB, applies to `google/gemma-3-270m-it`: the `adapter/` folder in this repository.
 
 ## Licence
 
@@ -1230,11 +1058,11 @@ Built with Gemma. This model is a fine-tune of `google/gemma-3-270m-it` and is g
 
 ```bibtex
 @software{kavach_pii_270m,
-  title   = {Kavach PII 270M: multilingual personal data extraction with post-hoc span recovery},
-  author  = {Praveen Kumar},
-  year    = {2026},
-  version = {3},
-  url     = {https://huggingface.co/inboxpraveen/Kavach-PII-270M},
-  note    = {Fine-tune of google/gemma-3-270m-it}
+  title  = {Kavach PII 270M: multilingual personal data extraction with post-hoc span recovery},
+  author = {Praveen Kumar},
+  year   = {2026},
+  version = {2},
+  url    = {https://huggingface.co/inboxpraveen/Kavach-PII-270M-v2},
+  note   = {Fine-tune of google/gemma-3-270m-it}
 }
 ```

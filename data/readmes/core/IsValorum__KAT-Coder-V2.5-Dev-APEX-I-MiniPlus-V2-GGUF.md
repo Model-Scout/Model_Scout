@@ -35,9 +35,11 @@ quantized_by: IsValorum
 
 ## <a id="quick-navigation"></a>Quick Navigation Index
 
-[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+<a href="https://ko-fi.com/isvalorum"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" height="38"></a>
 
-*Independently computed on private cloud clusters. If this handcrafted release saves you VRAM and runs faster on your GPU, consider [fueling the community compute fund on Ko-fi](https://ko-fi.com/isvalorum).*
+**Independently computed using dedicated cloud compute clusters, funded 100% out-of-pocket.**
+
+If you consider these releases to be of high quality and they help you in your day-to-day workflow, consider [supporting on Ko-fi](https://ko-fi.com/isvalorum). Every contribution directly sustains future cloud compute hours and helps support my university studies.
 
 1. [Independent Benchmark of the APEX-I-MiniPlus Family (Occamy V2 Reference)](#toc-01)
 2. [Model Files & Technical Specifications](#toc-02)
@@ -47,7 +49,7 @@ quantized_by: IsValorum
 6. [The 24GB Miracle: Full 256K Context Runs In VRAM!](#toc-06)
 7. [Hardware Throughput Projections (RTX 30 / 40 / 50)](#toc-07)
 8. [Recommended Generation Parameters (Kwaipilot Official)](#toc-08)
-9. [7. Community Compute Fund & Priority Model Requests](#toc-09)
+9. [7. Community Compute Fund & Student Support](#toc-09)
 
 > [!NOTE]
 > ### ARCHITECTURE SELECTION GUIDE — MINIPLUS V2 & V2.1 EDITIONS
@@ -230,18 +232,16 @@ Official sampling hyperparameters specified by [Kwaipilot](https://huggingface.c
 > In independent evaluations of the APEX-I-MiniPlus architecture (Occamy V2 reference), reasoning and code generation scored a remarkable 90%–93.3% resolution rate on multi-file SWE benchmarks. When deploying autonomous coding agents in production, best practices include specifying in your system prompt: *"Always declare complete, explicit import statements at the beginning of the file"* or pairing with an automated linter (`ruff`) to guarantee clean, zero-shot execution.
 
 <a id="toc-09"></a>
-## 7. Community Compute Fund & Priority Model Requests
+## 7. Community Compute Fund & Student Support
 
 <a href="https://ko-fi.com/isvalorum"><img src="https://huggingface.co/spaces/IsValorum/MiniPlus-NanoPlus-Requests/resolve/main/assets/dance-gold-ship.gif" alt="Gold Ship dancing" width="128" align="right"></a>
 
 All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
 
-However, cloud GPU compute is expensive. If you find these builds valuable and would like to support the project or **request a specific model architecture to be prioritized for the next MiniPlus/NanoPlus release**, you can sponsor GPU compute time through Ko-fi:
+However, cloud GPU compute is expensive and funded entirely out-of-pocket. If you find these handcrafted builds to be of high quality and they benefit your day-to-day workflow, you can support future Day-0 releases on Ko-fi. Every contribution directly funds the cloud compute hours required for new model runs and helps support my university education:
 
-[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/isvalorum)
+<a href="https://ko-fi.com/isvalorum"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" height="38"></a>
 
 *(When supporting on Ko-fi, feel free to leave a note with your Hugging Face handle and the specific model you would like prioritized).*
 
 <div style="clear: both;"></div>
-
-
