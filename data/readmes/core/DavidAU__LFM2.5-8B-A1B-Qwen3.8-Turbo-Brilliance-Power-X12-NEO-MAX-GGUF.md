@@ -41,8 +41,8 @@ The Turbo Brilliance system will begin appearing in other model sizes/types shor
 
 LFM 2.5-2.6B (dense): https://huggingface.co/DavidAU/LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF
 
-The NEXT STEP, (and evolution of Turbo Brilliance) is almost here:
-https://huggingface.co/DavidAU/Qwen3.8-27B-Turbo-Brilliance-Power-35X-Reasoning-Instruct-modes-GGUF
+The NEXT STEP, (and evolution of Turbo Brilliance) is here (including 15 AI CONSTRUCTS):
+https://huggingface.co/DavidAU/Qwen3.8-27B-Turbo-Brilliance-50X-Reasoning-Instruct-NEO-MAX-MTP-GGUF
 </small>
 
 <h2>LFM2.5-8B-A1B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF</h2>

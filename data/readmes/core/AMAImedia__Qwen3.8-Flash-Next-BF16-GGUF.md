@@ -139,7 +139,7 @@ Good for imatrix and 0.6–35B-class work in RAM. <b>9B+ and searches need rente
 </div>
 
 ---
-
+ 
 ## NOESIS / AMAImedia
 
 Released as part of the NOESIS Professional Multilingual Dubbing Automation Platform 
@@ -150,7 +150,7 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 - **X (Twitter):** [@AMAImediacom](https://x.com/AMAImediacom)
 - **LinkedIn:** [Ilia Bolotnikov](https://www.linkedin.com/in/ilia-bolotnikov)
 - **Telegram:** [@djbionicl](https://t.me/djbionicl)
-- **Release date:** 2026-09-18
+- **Release date:** 2026-09-21
 
 ## AMAImedia
 

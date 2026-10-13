@@ -24,11 +24,20 @@ tags:
 
 | 파일 | 크기 | 쓰임 |
 |---|---:|---|
-| `ko-hand-ocr-vl-Q4_K_M.gguf` | 505MB | 가장 작음 |
-| `ko-hand-ocr-vl-Q8_0.gguf` | 774MB | **권장** — 원본과 거의 같음 |
+| `ko-hand-ocr-vl-Q4_K_M.gguf` | 345MB | 가장 작음 |
+| `ko-hand-ocr-vl-Q8_0.gguf` | 570MB | **권장** — 원본과 거의 같음 |
 | `mmproj-ko-hand-ocr-vl-F16.gguf` | 195MB | 그림 읽는 몫 — 반드시 같이 |
 
-같은 저장소 계열의 [ko-hand-ocr](https://huggingface.co/localdeel/ko-hand-ocr)(41M)는 **잘라 둔 한 줄**만 읽는 작고 빠른 모델이고, 이것은 **사진 통째**를 읽습니다. 잘라 둔 줄 하나만 읽을 때는 둘이 비슷합니다 — 시험 글씨체는 이것이, 사진 줄 칸은 41M 이 조금 높습니다. 41M 은 열 배 작고 서너 배 빠릅니다.
+같은 저장소 계열의 [ko-hand-ocr](https://huggingface.co/localdeel/ko-hand-ocr)(41M)는 **잘라 둔 한 줄**만 읽는 작고 빠른 모델이고, 이것은 **사진 통째**를 읽습니다. 잘라 둔 줄 하나만 읽을 때는 둘이 비슷합니다 — 시험 글씨체는 이것이, 사진 줄 칸은 41M 이 조금 높습니다. 41M 은 받는 크기가 17분의 1이고 GPU 에서 줄을 3.9배 빨리 읽습니다(아래 표, 같은 판에서 잰 값).
+
+> **2026-10-12 — 어휘를 잘라 가벼워졌습니다.** 원본 Qwen3.5 의 어휘 248,077개 가운데 한글·자모·숫자·기호·짧은
+> 영문 조각과 학습·시험에 쓰인 토큰만 남겨 59,453개로 줄였습니다(파라미터 853M -> 660M). 다시 학습하지 않은 같은 판이고,
+> 시험 글씨체·처음 보는 글씨체·사진 줄 칸·사진 통째에서 **답이 글자 하나까지 같았습니다** — transformers 로도, llama-server
+> (Q8_0, 한 줄씩) 로도. 받는 크기는 safetensors 1.63GB -> 1.27GB, Q8_0 774MB -> 570MB, Q4_K_M 505MB -> 345MB 이고, llama.cpp
+> 에서 글자를 내는 빠르기가 26~36% 올랐습니다(이 PC, llama-bench). 어휘에서 뺀 긴 영어 낱말로만 지은 줄 200개에서는 173개가
+> 같았고 자모 닮음이 98.34 -> 98.01 로 조금 내려갔습니다. **줄 견줌표와 빠르기는 자른 판으로 다시 잰 값이고, 사진 통째와
+> 「어디서 돌려도 같은가」 표는 자르기 전에 잰 값입니다**(답이 같아 그대로 둡니다). 자르기 전 판은 이 저장소의 태그
+> [`full-vocab`](https://huggingface.co/localdeel/ko-hand-ocr-vl-GGUF/tree/full-vocab) 에 있습니다.
 
 ## 얼마나 읽나
 
@@ -40,19 +49,19 @@ tags:
 
 | 모델 | 크기 | 시험 글씨체 6벌 (자모 닮음 / CER) | 처음 보는 글씨체 24벌 | 사진 11장 줄 칸 (자모 닮음 / CER) | GPU 줄/초 |
 |---|---:|---:|---:|---:|---:|
-| **ko-hand-ocr-vl (이것, 0.8B)** | 1.63GB | 97.0 / 5.8 | 97.4 | 93.4 / 15.8 | 12.4 |
+| **ko-hand-ocr-vl (이것, 660M)** | 1.27GB | 97.0 / 5.8 | 97.4 | 93.4 / 15.8 | 10.8 |
 | Qwen3.5-0.8B (미세조정 전 원본) | 1.63GB | 53.0 / 161.8 | 51.4 | 54.2 / 115.3 | 9.6 |
-| ko-hand-ocr 단일 모델 (41M, 줄 전용) | 156MB | 96.8 / 7.2 | 97.3 | 94.2 / 13.4 | 42.0 |
-| ko-hand-ocr 앙상블 (모델 3개) | 450MB | 97.1 / 6.7 | 97.7 | 96.5 / 8.6 | 8.2 |
-| Qwen/Qwen3-VL-2B-Instruct | 3.96GB | 66.6 / 79.1 | 68.0 | 69.9 / 38.3 | 10.5 |
-| PaddlePaddle/PaddleOCR-VL-1.6 | 1.79GB | 63.7 / 61.1 | 66.5 | 61.7 / 44.0 | 1.4 |
-| ddobokki/ko-trocr | 408MB | 78.2 / 42.3 | 80.4 | 78.5 / 39.2 | 6.2 |
-| PaddleOCR PP-OCRv5 (korean) | 13MB | 72.7 / 40.5 | 75.3 | 71.8 / 39.7 | 522.3 |
-| EasyOCR (korean) | 15MB | 56.6 / 64.3 | 64.6 | 66.9 / 55.0 | 66.5 |
+| ko-hand-ocr 단일 모델 (41M, 줄 전용) | 78MB | 96.8 / 7.2 | 97.3 | 94.2 / 13.4 | 42.0 |
+| ko-hand-ocr 앙상블 (모델 3개) | 225MB | 97.1 / 6.7 | 97.7 | 96.5 / 8.6 | 8.3 |
+| Qwen/Qwen3-VL-2B-Instruct | 3.96GB | 66.6 / 79.1 | 68.0 | 69.9 / 38.3 | 7.3 |
+| PaddlePaddle/PaddleOCR-VL-1.6 | 1.79GB | 63.6 / 62.9 | 66.5 | 61.7 / 44.0 | 1.2 |
+| ddobokki/ko-trocr | 408MB | 78.2 / 42.3 | 80.4 | 78.5 / 39.2 | 6.1 |
+| PaddleOCR PP-OCRv5 (korean) | 13MB | 72.7 / 40.5 | 75.3 | 71.8 / 39.7 | 397.4 |
+| EasyOCR (korean) | 15MB | 56.6 / 64.3 | 64.6 | 66.9 / 55.0 | 81.3 |
 | Tesseract 5 (kor+eng) | 6MB | 17.7 / 97.3 | 19.7 | 13.2 / 98.6 | — |
 
 
-2026-10-09 에 열 모델을 같은 PC 에서 한 번에 쟀습니다. 시험 글씨체는 6벌 합쳐 640줄, 줄 칸은 [ko-hand-ocr](https://github.com/jysvai/ko-hand-ocr) 의 줄 자르기로 잘라 모두에게 같은 칸을 줍니다. 상대에게는 모델 카드의 사용법 그대로, 욕심 뽑기(greedy)로 묻습니다. 물음은 Qwen 계열이 「이 이미지에 쓰인 글자를 그대로 읽어 적으세요. 글자만 출력하세요.」, PaddleOCR-VL 이 「OCR:」 입니다.
+2026-10-13 에 열 모델을 같은 PC 에서 한 번에 쟀습니다. 시험 글씨체는 6벌 합쳐 640줄, 줄 칸은 [ko-hand-ocr](https://github.com/jysvai/ko-hand-ocr) 의 줄 자르기로 잘라 모두에게 같은 칸을 줍니다. 상대에게는 모델 카드의 사용법 그대로, 욕심 뽑기(greedy)로 묻습니다. 물음은 Qwen 계열이 「이 이미지에 쓰인 글자를 그대로 읽어 적으세요. 글자만 출력하세요.」, PaddleOCR-VL 이 「OCR:」 입니다.
 
 ### 사진 통째
 
@@ -94,7 +103,7 @@ tags:
 
 ## 벤치마크는 이렇게 쟀습니다
 
-위 숫자가 어디서 나왔는지 다 적습니다. **같은 시험지를 같은 PC 에서, 열 모델을 한 번에** 돌렸고(2026-10-09 07:25) 사진은 학습에 한 장도 쓰지 않았습니다.
+위 숫자가 어디서 나왔는지 다 적습니다. **같은 시험지를 같은 PC 에서, 열 모델을 한 번에** 돌렸고(2026-10-13 14:59) 사진은 학습에 한 장도 쓰지 않았습니다.
 
 ### 시험지
 
@@ -167,7 +176,7 @@ tags:
 | 나눔펜스크립트 (NanumPenScript) | 112 | **95.4** | 95.4 | 96.2 | 69.1 |
 | 감자꽃 (GamjaFlower) | 112 | **97.2** | 97.9 | 97.9 | 82.1 |
 | 하이멜로디 (HiMelody) | 112 | **97.3** | 97.2 | 97.3 | 75.3 |
-| 싱글데이 (SingleDay) | 112 | **98.2** | 99.0 | 99.0 | 88.9 |
+| 싱글데이 (SingleDay) | 112 | **98.2** | 99.0 | 98.9 | 88.9 |
 | 동해독도 (EastSeaDokdo) | 97 | **95.0** | 93.1 | 94.1 | 65.9 |
 | 기랑해랑 (KirangHaerang) | 95 | **99.0** | 97.9 | 97.8 | 87.9 |
 
@@ -184,7 +193,7 @@ tags:
 ### 빠르기는 이렇게 쟀습니다
 
 - 서른 줄짜리 서류 한 쪽을 기준으로 잽니다. 줄 자르기(CPU, 모두 같은 0.40초) + 읽기입니다.
-- GPU 는 묶음을 1·4·8·16·32줄로 바꿔 가며 세 번씩 재고, 카드(8GB) 밖으로 넘치지 않은 것 가운데 줄당 가장 싼 묶음을 씁니다. 이 모델은 16줄 묶음이 가장 싸고, 그때 VRAM 꼭대기는 2.5GB 입니다.
+- GPU 는 묶음을 1·4·8·16·32줄로 바꿔 가며 세 번씩 재고, 카드(8GB) 밖으로 넘치지 않은 것 가운데 줄당 가장 싼 묶음을 씁니다. 이 모델은 16줄 묶음이 가장 싸고, 그때 VRAM 꼭대기는 2.2GB 입니다.
 - CPU 는 1·8줄 묶음, 큰 VL 모델은 줄당 1초 안팎이라 1줄만 잽니다.
 - **CPU 값은 이 노트북의 그때 상태를 크게 탑니다.** 줄/초 자체보다 같은 판 안의 순서를 봐 주세요.
 
@@ -234,7 +243,7 @@ curl http://localhost:11434/api/chat -d '{"model": "hf.co/localdeel/ko-hand-ocr-
 lms get https://huggingface.co/localdeel/ko-hand-ocr-vl-GGUF@q8_0
 ```
 
-그림 읽는 몫(`mmproj`)이 같이 받아지고(합쳐 1.02GB), **설정을 하나도 안 바꿔도** 맞게 돕니다 —
+그림 읽는 몫(`mmproj`)이 같이 받아지고(합쳐 765MB), **설정을 하나도 안 바꿔도** 맞게 돕니다 —
 생각 칸은 대화 틀에서 닫혀 있고, 가장 그럴듯한 글자 하나만 고르는 설정(`top_k 1`)이 파일에 들어
 있습니다. 위 표의 LM Studio 줄이 그렇게 받은 그대로 잰 값입니다. 대화창에 사진을 끌어 놓거나,
 서버를 켜고 OpenAI 꼴로 부릅니다.
@@ -301,6 +310,7 @@ print(got.choices[0].message.content)
 - 시험 사진이 11장뿐이라 사진 점수의 폭이 큽니다(한 장이 9%p).
 - 표·도장·서명 같은 서식 구조는 읽지 않습니다. 글자만 줄마다 냅니다.
 - safetensors 의 `mtp.*`(여러 토큰 미리 짐작) 머리는 원본 그대로라 미세조정되지 않았습니다. 답은 안 바뀌지만 짐작이 덜 맞을 수 있습니다. GGUF 에는 없습니다.
+- safetensors 를 손수 GGUF 로 바꿀 때 llama.cpp `convert_hf_to_gguf.py` 가 토크나이저를 못 알아봅니다 — 어휘를 잘라 지문이 달라졌기 때문입니다. 원본과 같은 `qwen35` 로 정해 주고 바꾸거나 [GGUF 판](https://huggingface.co/localdeel/ko-hand-ocr-vl-GGUF)을 받습니다.
 
 ## 라이선스
 
@@ -310,21 +320,31 @@ Apache-2.0. 원본 Qwen3.5-0.8B 도 Apache-2.0 입니다. 자세한 것은 `NOTI
 
 An **open-weight** Korean handwriting OCR model: give it a photo, get the text back. It is [Qwen3.5-0.8B](https://huggingface.co/Qwen/Qwen3.5-0.8B) fine-tuned on Korean handwriting with **the architecture unchanged**, so anything that runs Qwen3.5 — Ollama, LM Studio, llama.cpp, vLLM, transformers — runs it with no new code.
 
+> **2026-10-12 — vocabulary cut, same answers.** Of the base Qwen3.5 vocabulary (248,077 tokens) we kept Hangul, jamo,
+> digits, symbols, short Latin pieces and every token our training and test text uses: 59,453 tokens (853M -> 660M
+> parameters). The weights were not retrained, and on the test fonts, the held-out fonts, the photo line crops and the whole
+> photos **every answer came out identical, character for character** — through transformers and through llama-server
+> (Q8_0, one request at a time). Downloads shrink: safetensors 1.63GB -> 1.27GB, Q8_0 774MB -> 570MB, Q4_K_M 505MB -> 345MB, and llama.cpp
+> generates 26–36% faster (this PC, llama-bench). On 200 lines built only from long English words that left the vocabulary,
+> 173 came out the same and jamo similarity went 98.34 -> 98.01. **The line table and the speeds were re-measured on the cut
+> model; the whole-photo and runtime tables were measured before the cut** (the answers are the same, so they stand). The
+> uncut model is at this repo's tag [`full-vocab`](https://huggingface.co/localdeel/ko-hand-ocr-vl-GGUF/tree/full-vocab).
+
 All numbers below are measured on the same test sheets on the same PC. Test fonts were held out of training; the 11 photos are real handwriting, **never used for training**, and not published.
 
 ![Character similarity, ten models on the same test sheets](charts/bench-vs-accuracy.svg)
 
 | Model | Size | Test fonts 6 (char. sim. / CER) | Unseen fonts 24 | Photos 11, line crops (sim. / CER) | GPU lines/s |
 |---|---:|---:|---:|---:|---:|
-| **ko-hand-ocr-vl (this, 0.8B)** | 1.63GB | 97.0 / 5.8 | 97.4 | 93.4 / 15.8 | 12.4 |
+| **ko-hand-ocr-vl (this, 660M)** | 1.27GB | 97.0 / 5.8 | 97.4 | 93.4 / 15.8 | 10.8 |
 | Qwen3.5-0.8B (base, before fine-tuning) | 1.63GB | 53.0 / 161.8 | 51.4 | 54.2 / 115.3 | 9.6 |
-| ko-hand-ocr single model (41M, lines only) | 156MB | 96.8 / 7.2 | 97.3 | 94.2 / 13.4 | 42.0 |
-| ko-hand-ocr ensemble (3 models) | 450MB | 97.1 / 6.7 | 97.7 | 96.5 / 8.6 | 8.2 |
-| Qwen/Qwen3-VL-2B-Instruct | 3.96GB | 66.6 / 79.1 | 68.0 | 69.9 / 38.3 | 10.5 |
-| PaddlePaddle/PaddleOCR-VL-1.6 | 1.79GB | 63.7 / 61.1 | 66.5 | 61.7 / 44.0 | 1.4 |
-| ddobokki/ko-trocr | 408MB | 78.2 / 42.3 | 80.4 | 78.5 / 39.2 | 6.2 |
-| PaddleOCR PP-OCRv5 (korean) | 13MB | 72.7 / 40.5 | 75.3 | 71.8 / 39.7 | 522.3 |
-| EasyOCR (korean) | 15MB | 56.6 / 64.3 | 64.6 | 66.9 / 55.0 | 66.5 |
+| ko-hand-ocr single model (41M, lines only) | 78MB | 96.8 / 7.2 | 97.3 | 94.2 / 13.4 | 42.0 |
+| ko-hand-ocr ensemble (3 models) | 225MB | 97.1 / 6.7 | 97.7 | 96.5 / 8.6 | 8.3 |
+| Qwen/Qwen3-VL-2B-Instruct | 3.96GB | 66.6 / 79.1 | 68.0 | 69.9 / 38.3 | 7.3 |
+| PaddlePaddle/PaddleOCR-VL-1.6 | 1.79GB | 63.6 / 62.9 | 66.5 | 61.7 / 44.0 | 1.2 |
+| ddobokki/ko-trocr | 408MB | 78.2 / 42.3 | 80.4 | 78.5 / 39.2 | 6.1 |
+| PaddleOCR PP-OCRv5 (korean) | 13MB | 72.7 / 40.5 | 75.3 | 71.8 / 39.7 | 397.4 |
+| EasyOCR (korean) | 15MB | 56.6 / 64.3 | 64.6 | 66.9 / 55.0 | 81.3 |
 | Tesseract 5 (kor+eng) | 6MB | 17.7 / 97.3 | 19.7 | 13.2 / 98.6 | — |
 
 
@@ -354,7 +374,7 @@ Same model, different runtimes (100 lines per font). The llama.cpp family is low
 
 ### How the benchmark was run
 
-- **Same test sheets, same PC, all ten models in one run** (2026-10-09 07:25). GPU: NVIDIA GeForce RTX 5060 Laptop GPU (8GB); CPU: AMD Ryzen 7 260 (laptop, 8 cores); Windows 11; PyTorch 2.14.0+cu130.
+- **Same test sheets, same PC, all ten models in one run** (2026-10-13 14:59). GPU: NVIDIA GeForce RTX 5060 Laptop GPU (8GB); CPU: AMD Ryzen 7 260 (laptop, 8 cores); Windows 11; PyTorch 2.14.0+cu130.
 - **Test fonts (6):** 640 lines / 4,448 characters drawn with six free handwriting fonts (OFL) held out of training, with paper texture, tilt and strike-through marks; fixed seed never used in training. About a third of the lines are meaningless syllable strings (no language prior to lean on), a third are form fields, the rest titles and sentences, with digits, dates, Latin abbreviations and symbols mixed in. Lines a font cannot draw are dropped.
 - **Unseen fonts (24):** 634 lines, never used for training **or for picking models**.
 - **Photos (11):** real handwriting on real forms, 34 lines / 209 characters, never used for training and not published. Line crops come from the ko-hand-ocr line cutter, so every model gets the same crops. A 12th photo (low-res printed form + signatures) is measured but not scored.
@@ -380,4 +400,4 @@ thinking. Use temperature 0 (sampling makes OCR worse).
   vLLM's Qwen3.5 support loads it. Not run by us (the build machine is Windows).
 - **transformers**: `AutoModelForImageTextToText` + `AutoProcessor`, as in the Korean section.
 
-**Limits.** Trained on synthetic handwriting only (450 fonts), no real handwriting samples. Only 11 test photos, so the photo scores are noisy. Reads text line by line; does not parse tables or forms. License: Apache-2.0 (same as the base model).
+**Limits.** Trained on synthetic handwriting only (450 fonts), no real handwriting samples. Only 11 test photos, so the photo scores are noisy. Reads text line by line; does not parse tables or forms. To convert the safetensors to GGUF yourself, set the pre-tokenizer to `qwen35` (the cut vocabulary changes the fingerprint `convert_hf_to_gguf.py` checks); the GGUF repo already has it. License: Apache-2.0 (same as the base model).
