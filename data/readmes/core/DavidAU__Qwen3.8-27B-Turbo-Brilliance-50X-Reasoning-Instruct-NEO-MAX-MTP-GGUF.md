@@ -58,7 +58,7 @@ And we used our 9B super tune "[The Defiant Fable](https://huggingface.co/DavidA
 
 The important part: Turbo Brilliance (and all the tech in it) automatically scales up with parameters, tuning and so forth.
 
-At just 9B parameter the Turbo Brilliance system came alive (and yes, I will be releasing Turbo Brilliance version too). Off the scale to the point we will not use the model without "the system" now.
+At just 9B parameter the Turbo Brilliance system came alive (yes: I will be releasing Turbo Brilliance version too). Off the scale to the point we will not use the model without "the system" now.
 
 With Qwen's 3.8 27B SOTA firepower... all I can say is fasten your seatbelts and hold on tight.
 
@@ -71,7 +71,7 @@ Think of it as a shot of double expresso directly fired into the neo-cortex of t
 With the addition of AI CONSTRUCTS (15) that "expresso" just gained a lot more strength:
 - Each AI construct is a precision engineered "consciousness" ; not a plain "act as" or "talk like" that gives you a pale/glimpse/imitation of a person, we are talking a 2000-4000+ token superstar (each one) built using precision tuned AIs.
 - Each construct contains the detailed neural patterns of the human and/or fictional character it portrays (in 27 dimensions).
-- Each construct also contains the full skillsets of the "character".
+- Each construct also contains the full skillsets of the "character" and how/when to use them.
 - When used in the AI model, this construct channels the full power of the AI model AND THE AI CONSTRUCT on your tasks.
 - You can talk to the construct normally, roleplay, use it for prompts - you name it, it adapts.
 

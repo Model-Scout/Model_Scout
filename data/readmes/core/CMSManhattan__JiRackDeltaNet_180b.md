@@ -78,14 +78,23 @@ A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet li
 - Adapts to agentic or instruct models for tool calling, using the JiRack tokenizer to enable high-quality tool calling — built as a domain-specific tool expert.
 - Deployment and scale
 
-# JiRack Codding Agent IDE
+---
+
+## JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
-- Web site with fresh Web Dev UI https://www.jirack.com
-- Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
-- Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
-- VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
-- JiRack Harness  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
+- Web site https://www.jirack.com
+- Eclise Plugin site https://marketplace.eclipse.org/content/jirack-coding-agent
+- Jetbrain Plugin site https://plugins.jetbrains.com/plugin/35073-jirack-agent
+- VS Code Plugin site https://marketplace.visualstudio.com/items?itemName=JiRackautomationCodingAgentIDE.jirack-agent
+  
+## JiRack Codding Agent IDE files
+- Eclise Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+- Microsoft VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
+- Jetbrain plugin  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/jirack-jetbrains-0.11.0.zip  
+- JiRack DeskTop UI  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
+  
+---
 
 # Ollama support
 - 180B Ollama builds are planned after QAT. Ollama needs a llama.cpp version that supports the `qwen4exp` architecture.

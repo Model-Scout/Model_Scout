@@ -62,14 +62,23 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 - QAT approach 2 script train_qat_ultra_14b_bf16_with_mask_ada_warmup.py
 - The folder for QAT datasets from NVIDIA Nemotron with Open Assistant tokenizer, CMSManhattan/JiRackUltra_14b/prepared_sft_data_ultra14b/   
 
-# JiRack Codding Agent IDE
+---
+
+## JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
 - It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
-- Web site with fresh Web Dev UI https://www.jirack.com
-- Plugin https://marketplace.eclipse.org/content/jirack-coding-agent
-- Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
-- VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
-- JiRack Harness  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
+- Web site https://www.jirack.com
+- Eclise Plugin site https://marketplace.eclipse.org/content/jirack-coding-agent
+- Jetbrain Plugin site https://plugins.jetbrains.com/plugin/35073-jirack-agent
+- VS Code Plugin site https://marketplace.visualstudio.com/items?itemName=JiRackautomationCodingAgentIDE.jirack-agent
+  
+## JiRack Codding Agent IDE files
+- Eclise Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+- Microsoft VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
+- Jetbrain plugin  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/jirack-jetbrains-0.11.0.zip  
+- JiRack DeskTop UI  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
+  
+---
 
 # Ollama production support 
 - We are working to support JiRack on Ollama for production systems also 

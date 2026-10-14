@@ -127,6 +127,8 @@ PS:
 
 ---
 
+<a href="https://www.buymeacoffee.com/davidbelton" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 <h2>Reasoning Modes / Usage (this was written by the internal help system in the model)</h2>
 
 To access this, prompt the model as follows:
