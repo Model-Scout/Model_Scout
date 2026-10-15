@@ -67,6 +67,11 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 - Follow fresh Ollama platform updates
 
 
+## Live chat 
+
+https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+
+
 ---
 
 ## JiRack Codding Agent IDE

@@ -60,7 +60,12 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 ## QAT 
 - QAT approach 1 script train_qat_ultra_14b_bf16_fulltext_ada_warmup.py
 - QAT approach 2 script train_qat_ultra_14b_bf16_with_mask_ada_warmup.py
-- The folder for QAT datasets from NVIDIA Nemotron with Open Assistant tokenizer, CMSManhattan/JiRackUltra_14b/prepared_sft_data_ultra14b/   
+- The folder for QAT datasets from NVIDIA Nemotron with Open Assistant tokenizer, CMSManhattan/JiRackUltra_14b/prepared_sft_data_ultra14b/
+
+## Live Chat 
+
+https://huggingface.co/spaces/CMSManhattan/JiRackUltra_14b
+
 
 ---
 

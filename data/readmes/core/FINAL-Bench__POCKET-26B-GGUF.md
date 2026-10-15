@@ -22,6 +22,11 @@ tags:
 - pocket
 - vidraft
 ---
+
+> ### ⭐ Latest and flagship models
+> [![VKORE-46M-NPU](https://img.shields.io/badge/%F0%9F%86%95_VKORE--46M--NPU-pretraining_on_NPU-6c3fd1?style=for-the-badge)](https://huggingface.co/FINAL-Bench/VKORE-46M-NPU) [![Darwin-27B-ZTC-v5](https://img.shields.io/badge/Darwin--27B--ZTC--v5-S1MB_%231_EN+JP-ff6b8b?style=for-the-badge)](https://huggingface.co/FINAL-Bench/Darwin-27B-ZTC-v5)
+> [![POCKET family](https://img.shields.io/badge/%F0%9F%A4%97-POCKET_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6) [![Darwin family](https://img.shields.io/badge/%F0%9F%A4%97-Darwin_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193) [![All models](https://img.shields.io/badge/%F0%9F%A4%97-FINAL--Bench-ffb020)](https://huggingface.co/FINAL-Bench) [![Website](https://img.shields.io/badge/%F0%9F%8C%90-vidraft.net-4ea8ff)](https://vidraft.net) [![THE VC](https://img.shields.io/badge/%F0%9F%93%8A-THE_VC-0a66c2)](https://thevc.kr/vidraft)
+
 > ### 🆕 **[POCKET-Qwen3.8-Flash-Next](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF)** — a **180B** model running on a **laptop with 8 GB VRAM + 32 GB RAM** · **4.17 tok/s measured**.
 > [![New](https://img.shields.io/badge/🆕_NEW-POCKET--180B_on_a_laptop-6c3fd1)](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) [![VRAM](https://img.shields.io/badge/VRAM-8_GB-1baf7a)]() [![RAM](https://img.shields.io/badge/RAM-32_GB-1baf7a)]() [![Speed](https://img.shields.io/badge/measured-4.17_tok%2Fs-243456)]() <!-- POCKET-FLASHNEXT-BADGE -->
 

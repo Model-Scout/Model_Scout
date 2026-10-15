@@ -57,10 +57,10 @@ Six-metric mean, the standard OptiQ eval. Run with reasoning enabled.
 | MMLU (5-shot, 969 samples) | 64.7% |
 | GSM8K (1000 samples) | 82.8% |
 | IFEval (full set, strict) | 84.3% |
-| BFCL-V3 simple (200 calls) | 45.5% |
+| BFCL-V3 simple (200 calls) | 83.5% |
 | HumanEval (164 problems, pass@1) | 47.6% |
 | HashHop (long-context retrieval) | 0.0% |
-| **Capability Score** (mean of 6) | **54.14** |
+| **Capability Score** (mean of 6) | **60.47** |
 
 Knowledge and instruction-following are the strengths, and 83% on GSM8K is unusual for a model under a gigabyte. Long-context multi-hop retrieval is the weak spot: at this size the model cannot produce the hash format the task requires, so it scores zero rather than partially.
 

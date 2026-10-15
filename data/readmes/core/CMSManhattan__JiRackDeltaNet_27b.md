@@ -57,6 +57,9 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 - Adapts to agentic or instruct models for tool calling, using the JiRack tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
 
+# Live chat on HF Space
+https://huggingface.co/spaces/CMSManhattan/JiRackDeltaNet_27b
+
 ---
 
 ## JiRack Codding Agent IDE
