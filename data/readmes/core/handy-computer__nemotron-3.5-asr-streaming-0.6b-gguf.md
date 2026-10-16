@@ -173,7 +173,7 @@ Validated against the NeMo reference at transcribe.cpp commit
 [909e94e](https://github.com/handy-computer/transcribe.cpp/tree/909e94e)
 on 2026-06-08.
 
-Multilingual speech-to-text across 32 supported language-locales (the model's tokenizer recognizes 40, but 8 are adaptation-ready and need fine-tuning) with punctuation and capitalization. A 0.6B-parameter cache-aware streaming FastConformer encoder with a prompt-conditioned RNN-T transducer decoder; the target language is selected per call (--language en-US, fr-FR, de-DE, ...) and an auto mode emits a <lang-XX> tag. Ships both the offline path (att_context_size=[56, 13], 1.12s, headline accuracy) and runtime-selectable chunked streaming (--stream-chunk-ms 1120 --stream-att-right {0,3,6,13}).
+Multilingual speech-to-text across 32 supported language-locales (the model's tokenizer recognizes 40, but 8 are adaptation-ready and need fine-tuning) with punctuation and capitalization. A cache-aware streaming FastConformer encoder with a prompt-conditioned RNN-T transducer decoder; the target language is selected per call (--language en-US, fr-FR, de-DE, ...) and an auto mode emits a <lang-XX> tag. Ships both the offline path (att_context_size=[56, 13], 1.12s, headline accuracy) and runtime-selectable chunked streaming (--stream-chunk-ms 1120 --stream-att-right {0,3,6,13}).
 
 
 ## Downloads
@@ -182,12 +182,12 @@ Multilingual speech-to-text across 32 supported language-locales (the model's to
 | --- | --- | ---: | ---: |
 | F32 | [nemotron-3.5-asr-streaming-0.6b-F32.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-F32.gguf) | 2.55 GB | 7.97% |
 | F16 | [nemotron-3.5-asr-streaming-0.6b-F16.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-F16.gguf) | 1.28 GB | 7.97% |
-| Q8_0 | [nemotron-3.5-asr-streaming-0.6b-Q8_0.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-Q8_0.gguf) | 751 MB | 7.88% |
+| Q8_0 | [nemotron-3.5-asr-streaming-0.6b-Q8_0.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-Q8_0.gguf) | 751 MB | 7.90% |
 | Q6_K | [nemotron-3.5-asr-streaming-0.6b-Q6_K.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-Q6_K.gguf) | 621 MB | 8.02% |
 | Q5_K_M | [nemotron-3.5-asr-streaming-0.6b-Q5_K_M.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-Q5_K_M.gguf) | 560 MB | 8.15% |
 | Q4_K_M | [nemotron-3.5-asr-streaming-0.6b-Q4_K_M.gguf](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/resolve/main/nemotron-3.5-asr-streaming-0.6b-Q4_K_M.gguf) | 496 MB | 8.49% |
 
-WER on the full FLEURS en split (647 utterances), batch size 1, timestamps none. Figures without a commit were published before provenance was recorded.
+WER on the full FLEURS en split (647 utterances), batch sizes 1 and 8, timestamps none. Figures without a commit were published before provenance was recorded.
 
 Greedy RNN-T decoding with whisper-normalizer scoring; the per-quant column is
 FLEURS en. NeMo reference baseline on the same manifest: 7.99% (NVIDIA self-reports
@@ -227,6 +227,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **OpenMDW-1.1**. See the
 [upstream model card](https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

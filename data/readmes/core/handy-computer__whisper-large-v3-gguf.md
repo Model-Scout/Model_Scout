@@ -284,6 +284,8 @@ transcribe_cpp:
     q8_0: 100.28
   cer_fleurs_my:
     q8_0: 143.39
+  wer_fleurs_jv:
+    q8_0: 64.72
   rtf_m4_max:
     cpu: 3.67
     metal: 17.25
@@ -305,8 +307,8 @@ Ported from upstream commit
 [06f233f](https://huggingface.co/openai/whisper-large-v3/commit/06f233f),
 pinned 2026-04-25.
 Validated against the transformers reference at transcribe.cpp commit
-[5.6.1](https://github.com/handy-computer/transcribe.cpp/tree/5.6.1)
-on 2026-04-26.
+[0a26478](https://github.com/handy-computer/transcribe.cpp/tree/0a26478)
+on 2026-09-13.
 
 OpenAI Whisper large-v3 — converted to GGUF for transcribe.cpp. Multilingual transcription, language detection, and speech translation (audio in any supported language → English text). v3 family adds Cantonese (yue) and uses a 128-bin mel input. Encoder-decoder transformer; 30-second windows with chunked long-form decoding.
 
@@ -361,6 +363,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/openai/whisper-large-v3) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/whisper-large-v3-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/whisper-large-v3-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

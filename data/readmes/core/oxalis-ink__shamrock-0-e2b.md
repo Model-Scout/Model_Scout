@@ -19,6 +19,10 @@ Gemma 4 E2B fine-tuned for the [Oxalis](https://oxalis.ink) desktop app's
 language-learning surfaces (camera translate, text translate, tutor, talk,
 dictionary) across Japanese, Korean, and Simplified Chinese.
 
+## Human Note
+
+As a fair warning... this fine-tune will perform poorly outside of the Oxalis app. Feel free to run it for funzies though :)
+
 ## Layout
 
 | Path | Contents |

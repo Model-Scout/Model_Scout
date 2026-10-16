@@ -1,5 +1,5 @@
 ---
-license: apache-2.0
+license: mit
 base_model: openai/whisper-large-v3-turbo
 base_model_relation: quantized
 library_name: transcribe.cpp
@@ -307,8 +307,8 @@ Ported from upstream commit
 [41f01f3](https://huggingface.co/openai/whisper-large-v3-turbo/commit/41f01f3),
 pinned 2026-04-25.
 Validated against the transformers reference at transcribe.cpp commit
-[5.6.1](https://github.com/handy-computer/transcribe.cpp/tree/5.6.1)
-on 2026-04-26.
+[0a26478](https://github.com/handy-computer/transcribe.cpp/tree/0a26478)
+on 2026-09-13.
 
 OpenAI Whisper large-v3-turbo — converted to GGUF for transcribe.cpp. Multilingual transcription and language detection; unlike the full large-v3 model, this turbo variant does not support speech translation. The v3 family adds Cantonese (yue) and uses a 128-bin mel input. Encoder-decoder transformer; 30-second windows with chunked long-form decoding.
 
@@ -361,8 +361,12 @@ numbers, numerical validation, and reproduction steps.
 
 ## License
 
-Inherited from the base model: **Apache-2.0**. See the
+Inherited from the base model: **MIT**. See the
 [upstream model card](https://huggingface.co/openai/whisper-large-v3-turbo) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

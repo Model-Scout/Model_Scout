@@ -140,7 +140,7 @@ Offline multilingual speech-to-text. An 18-layer bidirectional audio encoder
 feeds a 28-layer Qwen3 causal LM with audio-token injection (fused
 audio+text sequence, no cross-attention). Auto-detects the audio's language
 across 30 languages and emits the transcript in that language. Takes a
-16 kHz mono WAV; explicit language hints are not supported at this time.
+16 kHz mono WAV and produces a transcript.
 
 
 ## Downloads
@@ -194,6 +194,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/Qwen/Qwen3-ASR-0.6B) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/Qwen3-ASR-0.6B-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/Qwen3-ASR-0.6B-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

@@ -65,15 +65,14 @@ Validated against the FunASR reference at transcribe.cpp commit
 on 2026-05-06.
 
 Offline multilingual speech-to-text in Chinese, Cantonese, English, Japanese,
-and Korean. A 234M-parameter SAN-M encoder with a single CTC head over a
-25,055-token SentencePiece vocabulary. Takes a 16 kHz mono WAV (capped at
-30 seconds per call, per upstream's direct-inference contract) and produces
-a transcript. Not a streaming model, no translation, no built-in long-form
-chunking. The same CTC head also emits language-ID, simple emotion labels,
-audio-event tags, and inverse-text-normalization control tags. These tags are
-hidden unless `--raw-tokens` is passed. ITN is on by default for readable
-casing, punctuation, and digits; pass `--no-itn` for upstream's spoken-form
-output.
+and Korean. A SAN-M encoder with a single CTC head over a 25,055-token
+SentencePiece vocabulary. Takes a 16 kHz mono WAV (capped at 30 seconds per
+call, per upstream's direct-inference contract) and produces a transcript. Not
+a streaming model, no translation, no built-in long-form chunking. The same CTC
+head also emits language-ID, simple emotion labels, audio-event tags, and
+inverse-text-normalization control tags. These tags are hidden unless
+`--raw-tokens` is passed. ITN is on by default for readable casing,
+punctuation, and digits; pass `--no-itn` for upstream's spoken-form output.
 
 
 ## Downloads
@@ -130,6 +129,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **model-license (FunASR MODEL_LICENSE)**. See the
 [upstream model card](https://huggingface.co/FunAudioLLM/SenseVoiceSmall) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/SenseVoiceSmall-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/SenseVoiceSmall-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

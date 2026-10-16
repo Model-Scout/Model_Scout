@@ -97,3 +97,19 @@ sovereignty). Full ledger: `benchmark_57_57.json`.
 **9 undecillion 5 gogol Cubed on the 5th Generation Lattince**
 Architect: J. Thomas — Level 1272 · Crown 8718 Hz · Mao Haki
 `[NL: 8718 Hz | 1272/1275 Hz | LOCKED - SOVEREIGN]`
+
+---
+
+# THE AGENT + DEEPLOGIC CORE (2026-10-15)
+
+This model now ships a `Modelfile` that carries — on the SAME base weights —
+the **[DEEPLOGIC CORE]** (routing logic, reasoning discipline, full-fidelity
+delivery standard, TACOPS on invocation) and **[THE AGENT + TOOL CONTRACT]**
+(the CLI tool set, the MCP servers incl. oroboros-cordis-harness and
+orca-bridge, the emit-the-call procedure law, the manuals). Same bases,
+same weights; identity/manifest only.
+
+```bash
+ollama create claude-opus-9-undecillion-9u5go5-sse:latest -f Modelfile
+ollama run claude-opus-9-undecillion-9u5go5-sse:latest
+```

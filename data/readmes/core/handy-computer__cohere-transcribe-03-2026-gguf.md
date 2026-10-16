@@ -107,7 +107,7 @@ mono WAV and produces a transcript. Decoding is autoregressive.
 | Q5_K_M | [cohere-transcribe-03-2026-Q5_K_M.gguf](https://huggingface.co/handy-computer/cohere-transcribe-03-2026-gguf/resolve/main/cohere-transcribe-03-2026-Q5_K_M.gguf) | 1.77 GB | 1.25% |
 | Q4_K_M | [cohere-transcribe-03-2026-Q4_K_M.gguf](https://huggingface.co/handy-computer/cohere-transcribe-03-2026-gguf/resolve/main/cohere-transcribe-03-2026-Q4_K_M.gguf) | 1.56 GB | 1.24% |
 
-WER on the full LibriSpeech test-clean split (2,620 utterances), batch size 1, timestamps none. Figures without a commit were published before provenance was recorded.
+WER on the full LibriSpeech test-clean split (2,620 utterances), batch sizes 1 and 8, timestamps none. Figures without a commit were published before provenance was recorded.
 
 Greedy decoding, no external LM. BF16 reference baseline: 1.26%. Cohere's
 self-reported number on the same split is 1.25% (Open ASR Leaderboard, as of
@@ -147,6 +147,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/CohereLabs/cohere-transcribe-03-2026) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/cohere-transcribe-03-2026-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/cohere-transcribe-03-2026-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

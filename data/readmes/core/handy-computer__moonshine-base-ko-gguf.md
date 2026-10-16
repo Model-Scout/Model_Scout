@@ -1,5 +1,7 @@
 ---
-license: mit
+license: other
+license_name: moonshine-community-license
+license_link: https://github.com/moonshine-ai/moonshine/blob/main/LICENSE
 base_model: UsefulSensors/moonshine-base-ko
 base_model_relation: quantized
 library_name: transcribe.cpp
@@ -53,13 +55,13 @@ STFT, no mel filterbank) and emits transcript-only output. Single-language
 
 ## Downloads
 
-| Quantization | Download | Size | CER (FLEURS ko test) |
+| Quantization | Download | Size | CER (FLEURS ko) |
 | --- | --- | ---: | ---: |
 | F32 | [moonshine-base-ko-F32.gguf](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/resolve/main/moonshine-base-ko-F32.gguf) | 248 MB | 8.00% |
 | F16 | [moonshine-base-ko-F16.gguf](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/resolve/main/moonshine-base-ko-F16.gguf) | 132 MB | 8.00% |
-| Q8_0 | [moonshine-base-ko-Q8_0.gguf](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/resolve/main/moonshine-base-ko-Q8_0.gguf) | 77 MB | 8.13% |
+| Q8_0 | [moonshine-base-ko-Q8_0.gguf](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/resolve/main/moonshine-base-ko-Q8_0.gguf) | 77 MB | 8.12% |
 
-CER on the full FLEURS ko split (382 utterances), batch size 1, timestamps none. Figures without a commit were published before provenance was recorded.
+CER on the full FLEURS ko split (382 utterances), batch sizes 1 and 8, timestamps none. Figures without a commit were published before provenance was recorded.
 
 Decoded with the transcribe.cpp defaults (greedy, num_beams=1, max_length=192,
 matching the upstream generation_config).
@@ -101,8 +103,21 @@ numbers, numerical validation, and reproduction steps.
 
 ## License
 
-Inherited from the base model: **MIT**. See the
+Inherited from the base model: **Moonshine AI Community License**. See the
 [upstream model card](https://huggingface.co/UsefulSensors/moonshine-base-ko) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/moonshine-base-ko-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
+
+Free for research and non-commercial use. Commercial use requires
+registering with Moonshine AI and is limited to organizations under
+US$1M annual revenue; read the
+[license](https://github.com/moonshine-ai/moonshine/blob/main/LICENSE)
+before using it. Moonshine AI releases its English and streaming models
+under MIT; only these legacy language fine-tunes carry this license.
+
+Powered by Moonshine AI.
 
 ---
 

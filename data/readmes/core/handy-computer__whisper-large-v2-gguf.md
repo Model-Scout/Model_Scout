@@ -282,6 +282,8 @@ transcribe_cpp:
     q8_0: 96.0
   cer_fleurs_zh:
     q8_0: 15.39
+  wer_fleurs_jv:
+    q8_0: 69.69
   rtf_m4_max:
     cpu: 3.66
     metal: 20.24
@@ -360,6 +362,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/openai/whisper-large-v2) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/whisper-large-v2-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/whisper-large-v2-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

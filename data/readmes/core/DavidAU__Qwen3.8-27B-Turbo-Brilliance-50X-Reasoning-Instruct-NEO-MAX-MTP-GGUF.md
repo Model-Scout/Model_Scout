@@ -42,7 +42,7 @@ base_model:
 generating better answers. This model has significant internal upgrades under user control that are "on the fly" (you set in your prompt(s) and/or API). 
 Please read this model card carefully to get the most from it - including all the reasoning and instruct modes (27+27+9 xhigh) that feature model suggestions ("context help") for all use cases. 
 The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, ... 
-including our strongest fine tunes too). The "rollout" is now in progress... [model card updates (a lot!!) in progress...] </small>
+including our strongest fine tunes too). The "rollout" is now in progress... </small>
 
 <h2>Qwen3.8-27B-Turbo-Brilliance-50X-Reasoning-Instruct-NEO-MAX-MTP-GGUF</h2>
 
@@ -145,7 +145,7 @@ and the model is primed for action.
 - The core design and premise: Use specific reasoning method[s] to both get better, stronger and more consistent outputs (bypass the temp para issue) and reduce net token usage.
 - BASE OPERATION: option to switch instantly between reasoning / instruct modes AND/OR try your prompt in multiple modes quickly.
 - USE Case[s] help is always available to suggest best method[s], and in what order to get optimal results.
-- BETA version is fully hardened, fully operational and works with tools/agents.
+- THis version is fully hardened, fully operational and works with tools/agents.
 - Qwen 3.8 27B: This model will actively assess reasoning/instruct mode in use, use the "mode" in full, in part or dismiss it and change to "standard" reasoning. This is part of the built in fail safes.
 - TURBO Brilliance system has been tested on multiple Qwen (sizes, and versions including sparse) models, Gemma, and a few others as of this writing.
 
@@ -153,8 +153,8 @@ NOTES:
 - See reasoning/instruct modes and TWO sample generations BELOW specific to Qwen 3.8 27B.
 - See Reasoning / instruct modes and examples below too ; which may answer a number of questions.
 
-LIMITS / "BETA":
-- This model is in BETA in part to assess the next step(s) possible as there are some questions related to "AI apps", and how much they can handle.
+LIMITS:
+- This model is limited in part to assess the next step(s) possible as there are some questions related to "AI apps", and how much they can handle.
 - I have limited the systems in some respects (IE "xmode"(s) are limited to certain modes).
 - The "core" model is very lightly tuned - it is not a heretic, nor is extensively tuned. (both are coming)
 - Certain "AI Constructs" are also limited in size/construction/intelligence specifically as to not overwhelm the model / "AI apps".
@@ -162,7 +162,6 @@ LIMITS / "BETA":
 - Feedback will be used to refine all parts and systems as well as "AI constructs".
 - Although 15 "AI Constructs" are part of this release, there are a lot more "in the lab".
 - Generally speaking there is a lot more "gas in the tank" at every level here at the "lab level", "model level" and "Turbo Brilliance" level.
-- Our in house lab testing has revealed no issues as of this writing, however a wider, careful BETA is required because of the scale of what we are going to do.
 
 <B>Additional Models, using limited tech / versions of Turbo Brilliance (as of this writing)</B>
 
@@ -229,7 +228,9 @@ ACCESSING THE HELP SYSTEM in the model:
 
 You can change "Show me the detailed help menu." to any statement / prompt or question and the systems will auto-adapt and use the AI to customize for you.
 
-NOTE: "xhigh" mode is avail in a limited number of modes in BETA.
+NOTE: "xhigh" mode is avail in a limited number of modes in this version.
+
+Help support continued development:
 
 <a href="https://www.buymeacoffee.com/davidbelton" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 

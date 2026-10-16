@@ -141,8 +141,7 @@ Offline multilingual speech-to-text. Same audio-LLM architecture as the
 audio-token injection), wider: encoder `d_model=1024` (16 heads), LM
 `hidden_size=2048`, `intermediate_size=6144`. Auto-detects the audio's
 language across 30 languages and emits the transcript in that language.
-Takes a 16 kHz mono WAV; explicit language hints are not supported at
-this time.
+Takes a 16 kHz mono WAV and produces a transcript.
 
 
 ## Downloads
@@ -196,6 +195,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/Qwen/Qwen3-ASR-1.7B) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/Qwen3-ASR-1.7B-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/Qwen3-ASR-1.7B-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 
