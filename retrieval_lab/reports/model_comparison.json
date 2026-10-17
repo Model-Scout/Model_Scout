@@ -6,7 +6,7 @@
  "min_grade": 1,
  "dense_model": "BAAI/bge-m3",
  "llm": "gpt-4o-mini",
- "ran_at": "2026-10-17 20:16",
+ "ran_at": "2026-10-17 20:47",
  "single": [
   {
    "label": "Rewrite",
@@ -35,9 +35,9 @@
     "mrr@5": 0.8174603174603176,
     "ndcg@5": 0.5992409856531627,
     "map@5": 0.5119047619047619,
-    "p50_ms": 1557.47,
-    "p95_ms": 2330.79,
-    "p99_ms": 5869.6,
+    "p50_ms": 1270.56,
+    "p95_ms": 2023.32,
+    "p99_ms": 5435.57,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -70,9 +70,9 @@
     "mrr@5": 0.5746031746031746,
     "ndcg@5": 0.4807050488455376,
     "map@5": 0.3936507936507937,
-    "p50_ms": 2759.27,
-    "p95_ms": 3945.37,
-    "p99_ms": 5733.96,
+    "p50_ms": 1828.61,
+    "p95_ms": 2555.27,
+    "p99_ms": 4700.93,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -105,9 +105,9 @@
     "mrr@5": 0.7301587301587302,
     "ndcg@5": 0.5782083454710935,
     "map@5": 0.4936507936507937,
-    "p50_ms": 3602.08,
-    "p95_ms": 4048.99,
-    "p99_ms": 5147.94,
+    "p50_ms": 2395.27,
+    "p95_ms": 2773.7,
+    "p99_ms": 3459.76,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -140,9 +140,9 @@
     "mrr@5": 0.834920634920635,
     "ndcg@5": 0.6546262281478008,
     "map@5": 0.5619047619047619,
-    "p50_ms": 3922.6,
-    "p95_ms": 4744.87,
-    "p99_ms": 5082.19,
+    "p50_ms": 2829.83,
+    "p95_ms": 3403.61,
+    "p99_ms": 3826.03,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -177,9 +177,9 @@
     "mrr@5": 0.6166666666666666,
     "ndcg@5": 0.4960641287954254,
     "map@5": 0.40515873015873016,
-    "p50_ms": 5195.38,
-    "p95_ms": 6123.44,
-    "p99_ms": 7095.67,
+    "p50_ms": 3345.54,
+    "p95_ms": 4261.79,
+    "p99_ms": 5337.11,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -217,9 +217,9 @@
    "mrr@5": 0.7039682539682539,
    "ndcg@5": 0.5972696695261742,
    "map@5": 0.5035714285714286,
-   "p50_ms": 573.96,
-   "p95_ms": 726.98,
-   "p99_ms": 910.1,
+   "p50_ms": 250.54,
+   "p95_ms": 337.09,
+   "p99_ms": 421.75,
    "must_exclude_violation_rate@10": null,
    "judged@10": null,
    "abstention_accuracy": null
@@ -270,10 +270,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 760.59,
-     "sparse": 149.39,
-     "fusion": 0.12,
-     "total": 910.1
+     "dense": 354.14,
+     "sparse": 67.56,
+     "fusion": 0.05,
+     "total": 421.75
     },
     "dense_queries": [
      "KoBART(EbanLee/kobart-summary-v3)랑 mT5(csebuetnlp/mT5_multilingual_XLSum) 중 한국어 뉴스 요약에는 뭐가 나아?"
@@ -345,10 +345,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 585.45,
-     "sparse": 2.47,
-     "fusion": 0.45,
-     "total": 588.37
+     "dense": 249.29,
+     "sparse": 1.09,
+     "fusion": 0.16,
+     "total": 250.54
     },
     "dense_queries": [
      "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘."
@@ -417,10 +417,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 554.78,
-     "sparse": 54.27,
-     "fusion": 0.3,
-     "total": 609.35
+     "dense": 260.63,
+     "sparse": 26.11,
+     "fusion": 0.14,
+     "total": 286.88
     },
     "dense_queries": [
      "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘."
@@ -489,10 +489,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 515.56,
-     "sparse": 11.77,
-     "fusion": 0.34,
-     "total": 527.67
+     "dense": 226.47,
+     "sparse": 6.05,
+     "fusion": 0.2,
+     "total": 232.72
     },
     "dense_queries": [
      "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?"
@@ -563,10 +563,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 517.49,
-     "sparse": 27.82,
-     "fusion": 0.34,
-     "total": 545.65
+     "dense": 212.48,
+     "sparse": 13.78,
+     "fusion": 0.16,
+     "total": 226.42
     },
     "dense_queries": [
      "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성인식 성능을 비교해 줘."
@@ -637,10 +637,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 552.05,
-     "sparse": 2.43,
-     "fusion": 0.33,
-     "total": 554.81
+     "dense": 234.35,
+     "sparse": 0.95,
+     "fusion": 0.14,
+     "total": 235.44
     },
     "dense_queries": [
      "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?"
@@ -711,10 +711,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 570.56,
-     "sparse": 74.56,
-     "fusion": 0.4,
-     "total": 645.52
+     "dense": 231.72,
+     "sparse": 34.33,
+     "fusion": 0.16,
+     "total": 266.21
     },
     "dense_queries": [
      "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?"
@@ -783,10 +783,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 576.59,
-     "sparse": 64.2,
-     "fusion": 0.33,
-     "total": 641.12
+     "dense": 245.08,
+     "sparse": 27.87,
+     "fusion": 0.14,
+     "total": 273.09
     },
     "dense_queries": [
      "EXAONE-3.5-7.8B-Instruct와 A.X-4.0-Light를 라이선스와 한국어 성능 기준으로 비교해 줘."
@@ -857,10 +857,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 544.93,
-     "sparse": 66.52,
-     "fusion": 0.37,
-     "total": 611.82
+     "dense": 225.94,
+     "sparse": 27.59,
+     "fusion": 0.16,
+     "total": 253.69
     },
     "dense_queries": [
      "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?"
@@ -929,10 +929,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 561.14,
-     "sparse": 8.22,
-     "fusion": 0.48,
-     "total": 569.84
+     "dense": 240.44,
+     "sparse": 3.44,
+     "fusion": 0.17,
+     "total": 244.05
     },
     "dense_queries": [
      "kanana-1.5-8b-instruct랑 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 줘."
@@ -1003,10 +1003,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 541.73,
-     "sparse": 7.74,
-     "fusion": 0.39,
-     "total": 549.86
+     "dense": 231.21,
+     "sparse": 3.53,
+     "fusion": 0.23,
+     "total": 234.97
     },
     "dense_queries": [
      "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중 한국어를 더 잘하는 건 뭐야?"
@@ -1078,10 +1078,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 546.17,
-     "sparse": 7.94,
-     "fusion": 0.51,
-     "total": 554.62
+     "dense": 237.51,
+     "sparse": 3.85,
+     "fusion": 0.16,
+     "total": 241.52
     },
     "dense_queries": [
      "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?"
@@ -1150,10 +1150,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 581.67,
-     "sparse": 28.08,
-     "fusion": 0.33,
-     "total": 610.08
+     "dense": 268.82,
+     "sparse": 15.54,
+     "fusion": 0.15,
+     "total": 284.51
     },
     "dense_queries": [
      "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?"
@@ -1224,10 +1224,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 495.53,
-     "sparse": 11.38,
-     "fusion": 0.37,
-     "total": 507.28
+     "dense": 218.49,
+     "sparse": 6.31,
+     "fusion": 0.14,
+     "total": 224.94
     },
     "dense_queries": [
      "KURE-v2와 multilingual-e5-large의 한국어 검색 성능을 비교해 줘."
@@ -1296,10 +1296,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 570.64,
-     "sparse": 2.98,
-     "fusion": 0.34,
-     "total": 573.96
+     "dense": 247.36,
+     "sparse": 1.02,
+     "fusion": 0.11,
+     "total": 248.49
     },
     "dense_queries": [
      "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?"
@@ -1370,10 +1370,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 641.77,
-     "sparse": 84.81,
-     "fusion": 0.4,
-     "total": 726.98
+     "dense": 295.78,
+     "sparse": 41.16,
+     "fusion": 0.15,
+     "total": 337.09
     },
     "dense_queries": [
      "번역 모델로 opus-mt-tc-big-en-ko와 nllb-200-distilled-600M 중 뭐가 나아? 라이선스도 비교해 줘."
@@ -1444,10 +1444,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 488.74,
-     "sparse": 20.73,
-     "fusion": 0.34,
-     "total": 509.81
+     "dense": 217.01,
+     "sparse": 9.42,
+     "fusion": 0.23,
+     "total": 226.66
     },
     "dense_queries": [
      "madlad400-3b-mt와 Hy-MT2-1.8B 중 한국어 번역 품질이 더 좋은 건?"
@@ -1516,10 +1516,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 499.53,
-     "sparse": 2.92,
-     "fusion": 0.34,
-     "total": 502.79
+     "dense": 244.42,
+     "sparse": 1.29,
+     "fusion": 0.19,
+     "total": 245.9
     },
     "dense_queries": [
      "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?"
@@ -1588,10 +1588,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 539.04,
-     "sparse": 27.13,
-     "fusion": 0.24,
-     "total": 566.41
+     "dense": 251.29,
+     "sparse": 14.91,
+     "fusion": 0.11,
+     "total": 266.31
     },
     "dense_queries": [
      "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?"
@@ -1654,10 +1654,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 603.43,
-     "sparse": 1.74,
-     "fusion": 0.11,
-     "total": 605.28
+     "dense": 295.28,
+     "sparse": 0.8,
+     "fusion": 0.05,
+     "total": 296.13
     },
     "dense_queries": [
      "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘."
@@ -1726,10 +1726,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 583.36,
-     "sparse": 2.1,
-     "fusion": 0.23,
-     "total": 585.69
+     "dense": 261.96,
+     "sparse": 0.93,
+     "fusion": 0.1,
+     "total": 262.99
     },
     "dense_queries": [
      "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?"
@@ -1768,9 +1768,9 @@
     "mrr@5": 0.5277777777777778,
     "ndcg@5": 0.4845436788174369,
     "map@5": 0.4242063492063492,
-    "p50_ms": 573.77,
-    "p95_ms": 726.74,
-    "p99_ms": 910.04,
+    "p50_ms": 250.48,
+    "p95_ms": 337.02,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -1803,9 +1803,9 @@
     "mrr@5": 0.5873015873015873,
     "ndcg@5": 0.415424776242222,
     "map@5": 0.3246031746031746,
-    "p50_ms": 573.76,
-    "p95_ms": 726.74,
-    "p99_ms": 910.03,
+    "p50_ms": 250.45,
+    "p95_ms": 337.01,
+    "p99_ms": 421.72,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -1839,9 +1839,9 @@
    "mrr@5": 0.6738095238095239,
    "ndcg@5": 0.6100696628281292,
    "map@5": 0.5305555555555556,
-   "p50_ms": 573.76,
-   "p95_ms": 726.72,
-   "p99_ms": 910.04,
+   "p50_ms": 250.59,
+   "p95_ms": 337.06,
+   "p99_ms": 421.74,
    "must_exclude_violation_rate@10": null,
    "judged@10": null,
    "abstention_accuracy": null
@@ -1892,10 +1892,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 760.59,
-     "sparse": 149.39,
-     "fusion": 0.06,
-     "total": 910.04
+     "dense": 354.14,
+     "sparse": 67.56,
+     "fusion": 0.04,
+     "total": 421.74
     },
     "dense_queries": [
      "KoBART(EbanLee/kobart-summary-v3)랑 mT5(csebuetnlp/mT5_multilingual_XLSum) 중 한국어 뉴스 요약에는 뭐가 나아?"
@@ -1966,10 +1966,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 585.45,
-     "sparse": 2.47,
-     "fusion": 0.22,
-     "total": 588.14
+     "dense": 249.29,
+     "sparse": 1.09,
+     "fusion": 0.21,
+     "total": 250.59
     },
     "dense_queries": [
      "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘."
@@ -2038,10 +2038,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 554.78,
-     "sparse": 54.27,
-     "fusion": 0.13,
-     "total": 609.18
+     "dense": 260.63,
+     "sparse": 26.11,
+     "fusion": 0.11,
+     "total": 286.85
     },
     "dense_queries": [
      "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘."
@@ -2110,10 +2110,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 515.56,
-     "sparse": 11.77,
-     "fusion": 0.14,
-     "total": 527.47
+     "dense": 226.47,
+     "sparse": 6.05,
+     "fusion": 0.12,
+     "total": 232.64
     },
     "dense_queries": [
      "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?"
@@ -2182,10 +2182,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 517.49,
-     "sparse": 27.82,
-     "fusion": 0.15,
-     "total": 545.46
+     "dense": 212.48,
+     "sparse": 13.78,
+     "fusion": 0.14,
+     "total": 226.4
     },
     "dense_queries": [
      "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성인식 성능을 비교해 줘."
@@ -2256,10 +2256,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 552.05,
-     "sparse": 2.43,
-     "fusion": 0.14,
-     "total": 554.62
+     "dense": 234.35,
+     "sparse": 0.95,
+     "fusion": 0.12,
+     "total": 235.42
     },
     "dense_queries": [
      "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?"
@@ -2330,10 +2330,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 570.56,
-     "sparse": 74.56,
+     "dense": 231.72,
+     "sparse": 34.33,
      "fusion": 0.15,
-     "total": 645.27
+     "total": 266.2
     },
     "dense_queries": [
      "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?"
@@ -2404,10 +2404,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 576.59,
-     "sparse": 64.2,
-     "fusion": 0.13,
-     "total": 640.92
+     "dense": 245.08,
+     "sparse": 27.87,
+     "fusion": 0.11,
+     "total": 273.06
     },
     "dense_queries": [
      "EXAONE-3.5-7.8B-Instruct와 A.X-4.0-Light를 라이선스와 한국어 성능 기준으로 비교해 줘."
@@ -2478,10 +2478,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 544.93,
-     "sparse": 66.52,
-     "fusion": 0.18,
-     "total": 611.63
+     "dense": 225.94,
+     "sparse": 27.59,
+     "fusion": 0.13,
+     "total": 253.66
     },
     "dense_queries": [
      "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?"
@@ -2550,10 +2550,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 561.14,
-     "sparse": 8.22,
-     "fusion": 0.15,
-     "total": 569.51
+     "dense": 240.44,
+     "sparse": 3.44,
+     "fusion": 0.13,
+     "total": 244.01
     },
     "dense_queries": [
      "kanana-1.5-8b-instruct랑 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 줘."
@@ -2624,10 +2624,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 541.73,
-     "sparse": 7.74,
-     "fusion": 0.14,
-     "total": 549.61
+     "dense": 231.21,
+     "sparse": 3.53,
+     "fusion": 0.12,
+     "total": 234.86
     },
     "dense_queries": [
      "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중 한국어를 더 잘하는 건 뭐야?"
@@ -2698,10 +2698,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 546.17,
-     "sparse": 7.94,
-     "fusion": 0.16,
-     "total": 554.27
+     "dense": 237.51,
+     "sparse": 3.85,
+     "fusion": 0.14,
+     "total": 241.5
     },
     "dense_queries": [
      "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?"
@@ -2770,10 +2770,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 581.67,
-     "sparse": 28.08,
-     "fusion": 0.13,
-     "total": 609.88
+     "dense": 268.82,
+     "sparse": 15.54,
+     "fusion": 0.12,
+     "total": 284.48
     },
     "dense_queries": [
      "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?"
@@ -2844,10 +2844,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 495.53,
-     "sparse": 11.38,
-     "fusion": 0.14,
-     "total": 507.05
+     "dense": 218.49,
+     "sparse": 6.31,
+     "fusion": 0.13,
+     "total": 224.93
     },
     "dense_queries": [
      "KURE-v2와 multilingual-e5-large의 한국어 검색 성능을 비교해 줘."
@@ -2916,10 +2916,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 570.64,
-     "sparse": 2.98,
-     "fusion": 0.14,
-     "total": 573.76
+     "dense": 247.36,
+     "sparse": 1.02,
+     "fusion": 0.12,
+     "total": 248.5
     },
     "dense_queries": [
      "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?"
@@ -2988,10 +2988,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 641.77,
-     "sparse": 84.81,
-     "fusion": 0.14,
-     "total": 726.72
+     "dense": 295.78,
+     "sparse": 41.16,
+     "fusion": 0.12,
+     "total": 337.06
     },
     "dense_queries": [
      "번역 모델로 opus-mt-tc-big-en-ko와 nllb-200-distilled-600M 중 뭐가 나아? 라이선스도 비교해 줘."
@@ -3062,10 +3062,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 488.74,
-     "sparse": 20.73,
-     "fusion": 0.13,
-     "total": 509.6
+     "dense": 217.01,
+     "sparse": 9.42,
+     "fusion": 0.12,
+     "total": 226.55
     },
     "dense_queries": [
      "madlad400-3b-mt와 Hy-MT2-1.8B 중 한국어 번역 품질이 더 좋은 건?"
@@ -3134,10 +3134,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 499.53,
-     "sparse": 2.92,
-     "fusion": 0.15,
-     "total": 502.6
+     "dense": 244.42,
+     "sparse": 1.29,
+     "fusion": 0.13,
+     "total": 245.84
     },
     "dense_queries": [
      "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?"
@@ -3206,10 +3206,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 539.04,
-     "sparse": 27.13,
-     "fusion": 0.1,
-     "total": 566.27
+     "dense": 251.29,
+     "sparse": 14.91,
+     "fusion": 0.11,
+     "total": 266.31
     },
     "dense_queries": [
      "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?"
@@ -3272,10 +3272,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 603.43,
-     "sparse": 1.74,
-     "fusion": 0.03,
-     "total": 605.2
+     "dense": 295.28,
+     "sparse": 0.8,
+     "fusion": 0.02,
+     "total": 296.1
     },
     "dense_queries": [
      "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘."
@@ -3344,10 +3344,10 @@
     "judged@10": null,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 583.36,
-     "sparse": 2.1,
-     "fusion": 0.09,
-     "total": 585.55
+     "dense": 261.96,
+     "sparse": 0.93,
+     "fusion": 0.08,
+     "total": 262.97
     },
     "dense_queries": [
      "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?"
@@ -3388,9 +3388,9 @@
     "mrr@5": 0.3666666666666667,
     "ndcg@5": 0.3232649737110301,
     "map@5": 0.2507936507936508,
-    "p50_ms": 2759.18,
-    "p95_ms": 3945.15,
-    "p99_ms": 5733.64,
+    "p50_ms": 1828.63,
+    "p95_ms": 2555.25,
+    "p99_ms": 4701.04,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3423,9 +3423,9 @@
     "mrr@5": 0.4126984126984127,
     "ndcg@5": 0.3630130614028354,
     "map@5": 0.2833333333333333,
-    "p50_ms": 2759.38,
-    "p95_ms": 3945.43,
-    "p99_ms": 5734.0,
+    "p50_ms": 1828.63,
+    "p95_ms": 2555.25,
+    "p99_ms": 4701.03,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3458,9 +3458,9 @@
     "mrr@5": 0.4658730158730159,
     "ndcg@5": 0.4006007127588319,
     "map@5": 0.3059523809523809,
-    "p50_ms": 2759.1,
-    "p95_ms": 3945.29,
-    "p99_ms": 5734.08,
+    "p50_ms": 1828.61,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.0,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3493,9 +3493,9 @@
     "mrr@5": 0.4936507936507937,
     "ndcg@5": 0.42447051444177886,
     "map@5": 0.32936507936507936,
-    "p50_ms": 2759.21,
-    "p95_ms": 3945.4,
-    "p99_ms": 5734.1,
+    "p50_ms": 1828.6,
+    "p95_ms": 2555.24,
+    "p99_ms": 4700.99,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3528,9 +3528,9 @@
     "mrr@5": 0.5253968253968254,
     "ndcg@5": 0.4503643863061611,
     "map@5": 0.3547619047619048,
-    "p50_ms": 2759.17,
-    "p95_ms": 3945.45,
-    "p99_ms": 5734.01,
+    "p50_ms": 1828.61,
+    "p95_ms": 2555.25,
+    "p99_ms": 4701.02,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3563,9 +3563,9 @@
     "mrr@5": 0.5317460317460317,
     "ndcg@5": 0.4464210109949426,
     "map@5": 0.35634920634920636,
-    "p50_ms": 2759.23,
-    "p95_ms": 3945.39,
-    "p99_ms": 5734.0,
+    "p50_ms": 1828.6,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.0,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3598,9 +3598,9 @@
     "mrr@5": 0.5746031746031746,
     "ndcg@5": 0.4807050488455376,
     "map@5": 0.3936507936507937,
-    "p50_ms": 2759.24,
-    "p95_ms": 3945.35,
-    "p99_ms": 5734.03,
+    "p50_ms": 1828.63,
+    "p95_ms": 2555.23,
+    "p99_ms": 4701.01,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3633,9 +3633,9 @@
     "mrr@5": 0.6365079365079366,
     "ndcg@5": 0.5017376890276068,
     "map@5": 0.4246031746031746,
-    "p50_ms": 2758.78,
-    "p95_ms": 3945.16,
-    "p99_ms": 5733.74,
+    "p50_ms": 1828.62,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.0,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3668,9 +3668,9 @@
     "mrr@5": 0.6111111111111112,
     "ndcg@5": 0.4917221031720829,
     "map@5": 0.41428571428571426,
-    "p50_ms": 2759.18,
-    "p95_ms": 3945.47,
-    "p99_ms": 5733.95,
+    "p50_ms": 1828.64,
+    "p95_ms": 2555.23,
+    "p99_ms": 4701.01,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3703,9 +3703,9 @@
     "mrr@5": 0.6142857142857143,
     "ndcg@5": 0.5122882913496284,
     "map@5": 0.42777777777777776,
-    "p50_ms": 2758.83,
-    "p95_ms": 3945.37,
-    "p99_ms": 5733.71,
+    "p50_ms": 1828.6,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.0,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3738,9 +3738,9 @@
     "mrr@5": 0.6047619047619047,
     "ndcg@5": 0.5022727054941045,
     "map@5": 0.4253968253968254,
-    "p50_ms": 2759.21,
-    "p95_ms": 3945.16,
-    "p99_ms": 5734.25,
+    "p50_ms": 1828.62,
+    "p95_ms": 2555.23,
+    "p99_ms": 4701.03,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3773,9 +3773,9 @@
     "mrr@5": 0.5428571428571429,
     "ndcg@5": 0.481984592169504,
     "map@5": 0.396031746031746,
-    "p50_ms": 2758.9,
-    "p95_ms": 3945.17,
-    "p99_ms": 5733.91,
+    "p50_ms": 1828.61,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.05,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3808,9 +3808,9 @@
     "mrr@5": 0.5095238095238095,
     "ndcg@5": 0.475393175566228,
     "map@5": 0.3833333333333333,
-    "p50_ms": 2758.88,
-    "p95_ms": 3945.15,
-    "p99_ms": 5733.85,
+    "p50_ms": 1828.58,
+    "p95_ms": 2555.24,
+    "p99_ms": 4701.0,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3845,9 +3845,9 @@
     "mrr@5": 0.6698412698412698,
     "ndcg@5": 0.49717034260576604,
     "map@5": 0.39841269841269844,
-    "p50_ms": 573.77,
-    "p95_ms": 726.76,
-    "p99_ms": 910.04,
+    "p50_ms": 250.62,
+    "p95_ms": 337.08,
+    "p99_ms": 421.75,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3880,9 +3880,9 @@
     "mrr@5": 0.7182539682539683,
     "ndcg@5": 0.5460689335487802,
     "map@5": 0.44801587301587303,
-    "p50_ms": 573.76,
-    "p95_ms": 726.73,
-    "p99_ms": 910.01,
+    "p50_ms": 250.57,
+    "p95_ms": 337.09,
+    "p99_ms": 421.74,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3915,9 +3915,9 @@
     "mrr@5": 0.6865079365079365,
     "ndcg@5": 0.5334942610453234,
     "map@5": 0.4361111111111111,
-    "p50_ms": 573.71,
-    "p95_ms": 726.75,
-    "p99_ms": 910.01,
+    "p50_ms": 250.56,
+    "p95_ms": 337.08,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3950,9 +3950,9 @@
     "mrr@5": 0.696031746031746,
     "ndcg@5": 0.5858012108330581,
     "map@5": 0.48373015873015873,
-    "p50_ms": 573.76,
-    "p95_ms": 726.73,
-    "p99_ms": 910.01,
+    "p50_ms": 250.56,
+    "p95_ms": 337.09,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -3985,9 +3985,9 @@
     "mrr@5": 0.7039682539682539,
     "ndcg@5": 0.5972696695261742,
     "map@5": 0.5035714285714286,
-    "p50_ms": 573.76,
-    "p95_ms": 726.73,
-    "p99_ms": 910.01,
+    "p50_ms": 250.57,
+    "p95_ms": 337.07,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4020,9 +4020,9 @@
     "mrr@5": 0.7,
     "ndcg@5": 0.5874794044691486,
     "map@5": 0.4984126984126984,
-    "p50_ms": 573.88,
-    "p95_ms": 726.75,
-    "p99_ms": 910.03,
+    "p50_ms": 250.56,
+    "p95_ms": 337.09,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4055,9 +4055,9 @@
     "mrr@5": 0.6904761904761905,
     "ndcg@5": 0.6000540769726053,
     "map@5": 0.515079365079365,
-    "p50_ms": 573.76,
-    "p95_ms": 726.73,
-    "p99_ms": 910.01,
+    "p50_ms": 250.52,
+    "p95_ms": 337.06,
+    "p99_ms": 421.72,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4090,9 +4090,9 @@
     "mrr@5": 0.7142857142857143,
     "ndcg@5": 0.6141336135985268,
     "map@5": 0.5333333333333333,
-    "p50_ms": 573.79,
-    "p95_ms": 726.73,
-    "p99_ms": 910.03,
+    "p50_ms": 250.54,
+    "p95_ms": 337.07,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4125,9 +4125,9 @@
     "mrr@5": 0.6666666666666666,
     "ndcg@5": 0.6002274064862311,
     "map@5": 0.5253968253968254,
-    "p50_ms": 573.76,
-    "p95_ms": 726.72,
-    "p99_ms": 910.01,
+    "p50_ms": 250.51,
+    "p95_ms": 337.06,
+    "p99_ms": 421.72,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4160,9 +4160,9 @@
     "mrr@5": 0.6587301587301587,
     "ndcg@5": 0.596404586921859,
     "map@5": 0.5214285714285714,
-    "p50_ms": 573.76,
-    "p95_ms": 726.72,
-    "p99_ms": 910.02,
+    "p50_ms": 250.57,
+    "p95_ms": 337.07,
+    "p99_ms": 421.74,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4195,9 +4195,9 @@
     "mrr@5": 0.6801587301587302,
     "ndcg@5": 0.6184756392218692,
     "map@5": 0.5440476190476191,
-    "p50_ms": 573.75,
-    "p95_ms": 726.72,
-    "p99_ms": 910.01,
+    "p50_ms": 250.53,
+    "p95_ms": 337.07,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4230,9 +4230,9 @@
     "mrr@5": 0.6738095238095239,
     "ndcg@5": 0.6100696628281292,
     "map@5": 0.5305555555555556,
-    "p50_ms": 573.76,
-    "p95_ms": 726.72,
-    "p99_ms": 910.04,
+    "p50_ms": 250.59,
+    "p95_ms": 337.06,
+    "p99_ms": 421.74,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
@@ -4265,14 +4265,15 @@
     "mrr@5": 0.6547619047619048,
     "ndcg@5": 0.575560304179036,
     "map@5": 0.49722222222222223,
-    "p50_ms": 573.76,
-    "p95_ms": 726.72,
-    "p99_ms": 910.01,
+    "p50_ms": 250.53,
+    "p95_ms": 337.05,
+    "p99_ms": 421.73,
     "must_exclude_violation_rate@10": null,
     "judged@10": null,
     "abstention_accuracy": null
    }
   }
  ],
+ "labels": "기존 라벨 + 추가 판정(supplemental_judgments.jsonl)",
  "unjudged_pool": {}
 }

@@ -2,66 +2,66 @@
 
 - 질의 37개 (채점 37개), 기준 지표 `recall@10`, 관련 등급 ≥ 1
 - Dense `BAAI/bge-m3` · Sparse fielded BM25 · Weighted RRF (k=60) · Pre-Retrieval LLM `gpt-4o-mini`
-- 실행 2026-10-17 20:18
+- 라벨: 기존 라벨 + 추가 판정(supplemental_judgments.jsonl)
+- 실행 2026-10-17 20:48
 
 ## 실험표
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Baseline | 0.139 | 0.243 | 0.116 | 0.261 | 0.164 | 0.123 | 671ms |
-| Rewrite | 0.183 | 0.286 | 0.132 | 0.283 | 0.186 | 0.146 | 1658ms |
-| Decomposition | 0.126 | 0.217 | 0.111 | 0.214 | 0.138 | 0.101 | 3799ms |
-| Multi-Query | 0.140 | 0.227 | 0.115 | 0.256 | 0.156 | 0.112 | 3867ms |
-| HyDE | 0.187 | 0.255 | 0.123 | 0.312 | 0.184 | 0.143 | 3610ms |
-| Best Combination (Rewrite, dense 0.4) | 0.170 | 0.308 | 0.139 | 0.306 | 0.183 | 0.147 | 1658ms |
+| Baseline | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
+| Rewrite | 0.176 | 0.315 | 0.337 | 0.748 | 0.430 | 0.512 | 1313ms |
+| Decomposition | 0.186 | 0.327 | 0.354 | 0.833 | 0.477 | 0.582 | 2349ms |
+| Multi-Query | 0.173 | 0.325 | 0.361 | 0.735 | 0.481 | 0.562 | 2566ms |
+| HyDE | 0.188 | 0.314 | 0.362 | 0.818 | 0.511 | 0.640 | 2742ms |
+| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 3088ms |
 
 ### 보조 지표
 
 | 실험 | P@5 | P@10 | F1@5 | Hit@10 | p99 | 제외 위반@10 | Judged@10 |
 |---|---|---|---|---|---|---|---|
-| Baseline | 0.114 | 0.089 | 0.111 | 0.459 | 773ms | 0.400 | 0.143 |
-| Rewrite | 0.135 | 0.100 | 0.135 | 0.514 | 1756ms | 0.600 | 0.173 |
-| Decomposition | 0.097 | 0.086 | 0.097 | 0.432 | 3869ms | 0.400 | 0.127 |
-| Multi-Query | 0.114 | 0.089 | 0.112 | 0.486 | 5521ms | 0.400 | 0.143 |
-| HyDE | 0.135 | 0.095 | 0.138 | 0.486 | 3613ms | 0.400 | 0.146 |
-| Best Combination (Rewrite, dense 0.4) | 0.130 | 0.105 | 0.127 | 0.541 | 1756ms | 0.600 | 0.181 |
+| Baseline | 0.632 | 0.589 | 0.237 | 0.946 | 343ms | 0.400 | 1.000 |
+| Rewrite | 0.589 | 0.565 | 0.232 | 0.946 | 1357ms | 0.600 | 1.000 |
+| Decomposition | 0.622 | 0.595 | 0.245 | 0.973 | 2403ms | 0.400 | 1.000 |
+| Multi-Query | 0.627 | 0.616 | 0.237 | 0.919 | 3881ms | 0.400 | 1.000 |
+| HyDE | 0.686 | 0.632 | 0.255 | 0.892 | 2747ms | 0.400 | 1.000 |
+| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.643 | 0.624 | 0.253 | 0.973 | 4636ms | 0.600 | 1.000 |
 
 ## Dense / Sparse / Hybrid 비교 (Pre-Retrieval 없음)
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Dense only (BGE-M3) | 0.167 | 0.219 | 0.099 | 0.200 | 0.145 | 0.111 | 670ms |
-| Sparse only (BM25) | 0.106 | 0.181 | 0.093 | 0.151 | 0.118 | 0.097 | 670ms |
-| Hybrid (Weighted RRF 0.5/0.5) | 0.139 | 0.243 | 0.116 | 0.261 | 0.164 | 0.123 | 671ms |
+| Dense only (BGE-M3) | 0.211 | 0.325 | 0.342 | 0.762 | 0.468 | 0.550 | 315ms |
+| Sparse only (BM25) | 0.137 | 0.280 | 0.316 | 0.713 | 0.392 | 0.458 | 315ms |
+| Hybrid (Weighted RRF 0.5/0.5) | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
 
 ## 조합 실험
 
-개선된 단일 요소: rewrite, hyde
+개선된 단일 요소: decomposition, multi_query
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Rewrite + HyDE | 0.157 | 0.269 | 0.125 | 0.302 | 0.160 | 0.132 | 3606ms |
+| Decomposition + Multi-Query | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 3088ms |
 
 ## Dense/Sparse 가중치 탐색
 
-대상: Rewrite · 방법: optuna
+대상: Decomposition + Multi-Query · 방법: optuna
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| dense 0.1 / sparse 0.9 | 0.150 | 0.250 | 0.119 | 0.261 | 0.154 | 0.129 | 1658ms |
-| dense 0.15 / sparse 0.85 | 0.157 | 0.232 | 0.121 | 0.310 | 0.187 | 0.157 | 1658ms |
-| dense 0.2 / sparse 0.8 | 0.193 | 0.232 | 0.121 | 0.332 | 0.205 | 0.166 | 1658ms |
-| dense 0.25 / sparse 0.75 | 0.199 | 0.245 | 0.125 | 0.330 | 0.206 | 0.168 | 1658ms |
-| dense 0.3 / sparse 0.7 | 0.191 | 0.268 | 0.130 | 0.327 | 0.197 | 0.157 | 1658ms |
-| dense 0.35 / sparse 0.65 | 0.166 | 0.281 | 0.134 | 0.311 | 0.182 | 0.147 | 1658ms |
-| dense 0.4 / sparse 0.6 | 0.170 | 0.308 | 0.139 | 0.306 | 0.183 | 0.147 | 1658ms |
-| dense 0.45 / sparse 0.55 | 0.170 | 0.304 | 0.136 | 0.309 | 0.184 | 0.147 | 1658ms |
-| dense 0.5 / sparse 0.5 | 0.183 | 0.286 | 0.132 | 0.283 | 0.186 | 0.146 | 1658ms |
-| dense 0.55 / sparse 0.45 | 0.162 | 0.242 | 0.122 | 0.262 | 0.171 | 0.135 | 1658ms |
-| dense 0.6 / sparse 0.4 | 0.167 | 0.242 | 0.122 | 0.274 | 0.179 | 0.150 | 1658ms |
-| dense 0.7 / sparse 0.3 | 0.170 | 0.261 | 0.120 | 0.265 | 0.178 | 0.148 | 1658ms |
-| dense 0.8 / sparse 0.2 | 0.187 | 0.260 | 0.120 | 0.264 | 0.180 | 0.149 | 1658ms |
-| dense 0.9 / sparse 0.1 | 0.198 | 0.293 | 0.129 | 0.252 | 0.178 | 0.144 | 1658ms |
+| dense 0.1 / sparse 0.9 | 0.162 | 0.280 | 0.316 | 0.724 | 0.430 | 0.488 | 3088ms |
+| dense 0.2 / sparse 0.8 | 0.174 | 0.294 | 0.331 | 0.727 | 0.451 | 0.519 | 3087ms |
+| dense 0.3 / sparse 0.7 | 0.176 | 0.316 | 0.348 | 0.768 | 0.499 | 0.560 | 3088ms |
+| dense 0.4 / sparse 0.6 | 0.186 | 0.323 | 0.357 | 0.816 | 0.513 | 0.576 | 3087ms |
+| dense 0.5 / sparse 0.5 | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 3087ms |
+| dense 0.55 / sparse 0.45 | 0.189 | 0.339 | 0.369 | 0.809 | 0.505 | 0.626 | 3088ms |
+| dense 0.6 / sparse 0.4 | 0.193 | 0.331 | 0.364 | 0.800 | 0.499 | 0.619 | 3087ms |
+| dense 0.65 / sparse 0.35 | 0.195 | 0.336 | 0.367 | 0.807 | 0.488 | 0.605 | 3087ms |
+| dense 0.7 / sparse 0.3 | 0.195 | 0.359 | 0.373 | 0.809 | 0.484 | 0.597 | 3087ms |
+| dense 0.75 / sparse 0.25 | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 3088ms |
+| dense 0.8 / sparse 0.2 | 0.225 | 0.370 | 0.374 | 0.825 | 0.491 | 0.594 | 3087ms |
+| dense 0.85 / sparse 0.15 | 0.241 | 0.365 | 0.370 | 0.842 | 0.505 | 0.607 | 3087ms |
+| dense 0.9 / sparse 0.1 | 0.240 | 0.367 | 0.371 | 0.842 | 0.510 | 0.614 | 3087ms |
 
 ## Dense/Sparse 가중치 탐색 (Pre-Retrieval 없음)
 
@@ -69,60 +69,59 @@
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| dense 0.1 / sparse 0.9 | 0.138 | 0.208 | 0.098 | 0.173 | 0.139 | 0.115 | 671ms |
-| dense 0.2 / sparse 0.8 | 0.152 | 0.221 | 0.103 | 0.188 | 0.155 | 0.132 | 671ms |
-| dense 0.3 / sparse 0.7 | 0.186 | 0.237 | 0.116 | 0.200 | 0.169 | 0.137 | 671ms |
-| dense 0.4 / sparse 0.6 | 0.173 | 0.240 | 0.119 | 0.255 | 0.181 | 0.140 | 671ms |
-| dense 0.5 / sparse 0.5 | 0.139 | 0.243 | 0.116 | 0.261 | 0.164 | 0.123 | 671ms |
-| dense 0.55 / sparse 0.45 | 0.131 | 0.260 | 0.124 | 0.253 | 0.152 | 0.113 | 671ms |
-| dense 0.6 / sparse 0.4 | 0.131 | 0.257 | 0.121 | 0.253 | 0.150 | 0.112 | 671ms |
-| dense 0.65 / sparse 0.35 | 0.127 | 0.252 | 0.117 | 0.258 | 0.148 | 0.108 | 671ms |
-| dense 0.7 / sparse 0.3 | 0.117 | 0.221 | 0.109 | 0.227 | 0.136 | 0.098 | 671ms |
-| dense 0.75 / sparse 0.25 | 0.111 | 0.248 | 0.114 | 0.207 | 0.126 | 0.091 | 671ms |
-| dense 0.8 / sparse 0.2 | 0.114 | 0.251 | 0.117 | 0.223 | 0.133 | 0.097 | 671ms |
-| dense 0.85 / sparse 0.15 | 0.114 | 0.278 | 0.121 | 0.222 | 0.132 | 0.099 | 671ms |
-| dense 0.9 / sparse 0.1 | 0.149 | 0.261 | 0.114 | 0.200 | 0.130 | 0.092 | 671ms |
+| dense 0.1 / sparse 0.9 | 0.139 | 0.282 | 0.317 | 0.745 | 0.413 | 0.466 | 315ms |
+| dense 0.2 / sparse 0.8 | 0.155 | 0.291 | 0.322 | 0.743 | 0.425 | 0.469 | 315ms |
+| dense 0.3 / sparse 0.7 | 0.160 | 0.289 | 0.322 | 0.698 | 0.448 | 0.499 | 315ms |
+| dense 0.4 / sparse 0.6 | 0.169 | 0.293 | 0.329 | 0.689 | 0.470 | 0.534 | 315ms |
+| dense 0.5 / sparse 0.5 | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
+| dense 0.55 / sparse 0.45 | 0.170 | 0.324 | 0.357 | 0.721 | 0.474 | 0.550 | 315ms |
+| dense 0.6 / sparse 0.4 | 0.172 | 0.322 | 0.354 | 0.752 | 0.481 | 0.565 | 315ms |
+| dense 0.65 / sparse 0.35 | 0.183 | 0.323 | 0.356 | 0.759 | 0.485 | 0.574 | 315ms |
+| dense 0.7 / sparse 0.3 | 0.184 | 0.316 | 0.349 | 0.748 | 0.477 | 0.585 | 315ms |
+| dense 0.75 / sparse 0.25 | 0.188 | 0.325 | 0.353 | 0.752 | 0.481 | 0.586 | 315ms |
+| dense 0.8 / sparse 0.2 | 0.189 | 0.324 | 0.352 | 0.766 | 0.478 | 0.588 | 315ms |
+| dense 0.85 / sparse 0.15 | 0.185 | 0.338 | 0.356 | 0.766 | 0.475 | 0.575 | 315ms |
+| dense 0.9 / sparse 0.1 | 0.198 | 0.332 | 0.349 | 0.735 | 0.456 | 0.549 | 315ms |
 
-## top-10에서 놓친 관련 모델 (Rewrite)
+## top-10에서 놓친 관련 모델 (Decomposition + Multi-Query)
 
 | 질의 | Recall@10 | 놓친 모델 |
 |---|---:|---|
-| sg_g004 | 0.00 | jhgan/ko-sroberta-multitask |
-| sg_g007 | 0.00 | Systran/faster-whisper-medium, Systran/faster-whisper-small, openai/whisper-small |
-| sg_g020 | 0.00 | FunAudioLLM/SenseVoiceSmall, FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp, cstr/sensevoice-small-GGUF, handy-computer/SenseVoiceSmall-gguf |
-| sg_g022 | 0.00 | RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic, RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8, ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF, unsloth/Qwen2.5-7B-Instruct |
-| sg_g023 | 0.00 | Alcoft/Qwen2.5-1.5B-Instruct-GGUF, Mungert/Qwen2.5-1.5B-Instruct-GGUF, ThomasBaruzier/Qwen2.5-1.5B-Instruct-GGUF, gaianet/Qwen2.5-1.5B-Instruct-GGUF |
-| sg_g024 | 0.00 | Bingsu/KURE-v1-Q8_0-GGUF, mykor/KURE-v1-gguf, nlpai-lab/KURE-v2 |
-| sg_g025 | 0.00 | Bingsu/KURE-v1-Q8_0-GGUF, mykor/KURE-v1-gguf, nlpai-lab/KURE-v2 |
-| sg_h003 | 0.20 | QuantFactory/Apollo2-2B-GGUF, bespin-global/klue-bert-base-aihub-mrc, monologg/koelectra-base-v3-finetuned-korquad, monologg/koelectra-small-v2-distilled-korquad-384, mradermacher/Prototype-Virus-1B-i1-GGUF, mradermacher/next-12b-i1-GGUF, mradermacher/next-1b-GGUF, timpal0l/mdeberta-v3-base-squad2 |
+| sg_g004 | 0.27 | BidirLM/BidirLM-1B-Embedding, BidirLM/BidirLM-270M-Embedding, HyperBlaze/BGE-m3-ko, LinerAI/Qwen3-Embedding-0.6B-academic, LiquidAI/LFM2.5-ColBERT-350M, LiquidAI/LFM2.5-Embedding-350M, alphaedge-ai/multilingual-e5-small-kor-32768, bespin-global/klue-sroberta-base-continue-learning-by-mnr, codefuse-ai/ML-Embed-0.6B, dragonkue/BGE-m3-ko, fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF, hyunseop/bge-m3-ko, jhgan/ko-sroberta-multitask, kwkwkwkwpark/klue-roberta-base-klue-sts-mrc, mykor/granite-embedding-97m-multilingual-r2-GGUF, ukung/semantic-lite, ukung/semantic-lite-gguf, upskyy/bge-m3-korean, upskyy/e5-base-korean, upskyy/e5-large-korean, upskyy/e5-small-korean, upskyy/gte-base-korean, woong0322/ko-legal-sbert-finetuned, xnohat/granite-embedding-97m-multilingual-r2-GGUF |
+| sg_g007 | 0.24 | BuzzASR/korean, CohereLabs/cohere-transcribe-03-2026, Kkonjeong/wav2vec2-base-korean, SungBeom/whisper-small-ko, Systran/faster-whisper-medium, Systran/faster-whisper-small, cstr/qwen3-asr-0.6b-GGUF, cstr/voxtral-mini-4b-realtime-GGUF, epapanita/cohere-transcribe-03-2026-gguf, evewashere/cohere-transcribe-03-2026-ungated, ghost613/whisper-large-v3-turbo-korean, handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf, handy-computer/whisper-large-v3-gguf, kimthegarden/whisper-small-ko-new, leuconoe/whisper-acft-ko, litert-community/VibeVoice-ASR-BitNet, mistralai/Voxtral-Mini-4B-Realtime-2602, moonshine-ai/moonshine-base-ko, moonshine-ai/moonshine-tiny-ko, ngoctham/VibeVoice-ASR-BitNet, onnx-community/cohere-transcribe-03-2026-ONNX, openai/whisper-small, praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF, voconly-org/nemotron-3.5-asr-streaming-0.6b-gguf, w11wo/wav2vec2-xls-r-300m-korean |
+| sg_g014 | 0.50 | WhitePeak/bert-base-cased-Korean-sentiment, agentlans/multilingual-e5-small-aligned-sentiment, clapAI/modernBERT-base-multilingual-sentiment, clapAI/modernBERT-large-multilingual-sentiment, cringepnh/koelectra-korean-sentiment, sangrimlee/bert-base-multilingual-cased-nsmc, snunlp/KR-FinBert-SC, tabularisai/multilingual-sentiment-analysis |
+| sg_g020 | 0.24 | BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit, Edge0/Audio8-ASR-0.1B, Edge0/Audio8-ASR-0.1B-onnx-runtime, FunAudioLLM/Fun-ASR-MLT-Nano-2512, FunAudioLLM/Fun-ASR-Nano-2512, FunAudioLLM/SenseVoiceSmall, FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp, OpenVoiceOS/sensevoice-small-onnx, cstr/funasr-nano-GGUF, cstr/qwen3-asr-1.7b-GGUF, cstr/sensevoice-small-GGUF, deepdml/whisper-large-v3-turbo, epapanita/whisper-small-gguf, handy-computer/Fun-ASR-MLT-Nano-2512-gguf, handy-computer/Qwen3-ASR-1.7B-gguf, handy-computer/SenseVoiceSmall-gguf, handy-computer/cohere-transcribe-03-2026-gguf, handy-computer/whisper-base-gguf, handy-computer/whisper-large-v2-gguf, handy-computer/whisper-large-v3-gguf, handy-computer/whisper-tiny-gguf, memoravox/whisper-small-gguf, mlx-community/Voxtral-Mini-4B-Realtime-2602-fp16, onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX, onnx-community/cohere-transcribe-03-2026-ONNX, openai/whisper-base, openai/whisper-large-v3, openai/whisper-large-v3-turbo, openai/whisper-medium, praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF, rtlingo/mobiuslabsgmbh-faster-whisper-large-v3-turbo |
+| sg_g022 | 0.22 | AMAImedia/Qwen3.5-9B-NeoHorse1-Heretic-NOESIS-BF16-GGUF, CarrotAI/Rabbit3-Ko-4B, Jiunsong/SuperGemma4-31b-abliterated-GGUF, LGAI-EXAONE/EXAONE-3.0-7.8B-Instruct, LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF, LiquidAI/LFM2-1.2B-RAG-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, OpenVINO/Phi-4-mini-instruct-int4-ov, OpenVINO/Phi-4-mini-instruct-int8-ov, QuantFactory/EXAONE-Deep-7.8B-GGUF, RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic, RedHatAI/Qwen2.5-7B-Instruct-quantized.w8a8, RedHatAI/granite-3.1-8b-instruct, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, StandardThinking/StandardOne-3B, ThomasBaruzier/Qwen2.5-7B-Instruct-GGUF, gabriellarson/SimpleChat-30BA3B-V2-GGUF, hymmmm/exaone-3.5-7.8b-awq, hymmmm/exaone-3.5-7.8b-emt-chatbot, joongi007/Linkbricks-Horizon-AI-Korean-llama-3.1-sft-dpo-8B-GGUF, kakaocorp/kanana-nano-2.1b-instruct, nc-ai-consortium/VAETKI-7B-A1B, nexus-cross/nexus-talk-27b-ko-v0.1, oki608900/EXAONE-4.0-1.2B-GGUF, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, trillionlabs/Tri-21B-Think-Preview, unsloth/Qwen2.5-7B-Instruct |
+| sg_g023 | 0.25 | Alcoft/Qwen2.5-1.5B-Instruct-GGUF, EbanLee/kobart-summary-v3, Justbackup/LFM2.5-2.6B, Justbackup/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS, LiquidAI/LFM2-1.2B-Tool, LiquidAI/LFM2-2.6B, Motif-Technologies/Motif-2.6B, Motif-Technologies/Motif-2.6b-v1.1-LC, MuXodious/LFM2.5-2.6B-absolute-heresy, Mungert/Qwen2.5-1.5B-Instruct-GGUF, QyrouNnet-AI/QNS-2-ReLearn-Preview, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, ThomasBaruzier/Qwen2.5-1.5B-Instruct-GGUF, ainize/kobart-news, bartowski/Ministral-8B-Instruct-2410-GGUF, csebuetnlp/mT5_m2m_crossSum, csebuetnlp/mT5_m2m_crossSum_enhanced, data-silence/any-news-sum, eenzeenee/t5-base-korean-summarization, gaianet/Qwen2.5-1.5B-Instruct-GGUF, glxiexie/LFM2.5-2.6B, gradients-io-tournaments/tournament-tourn_5c64e784a087074a_20260914-90d361cb-0b97-464a-9fda-36eb34c99261-5HBgDWKx, insraq/LFM2.5-2.6B-heretic-GGUF, jncraton/Qwen2.5-3B-Instruct-ct2-int8, kyujinpy/Ko-PlatYi-6B, mlx-community/Phi-4-mini-instruct-mlx-6Bit, soka0000/vclm-korean-7b |
+| sg_g024 | 0.19 | Alibaba-NLP/gte-multilingual-base, BM-K/KoSimCSE-bert-multitask, BidirLM/BidirLM-1B-Embedding, BidirLM/BidirLM-270M-Embedding, Bingsu/KURE-v1-Q8_0-GGUF, HyperBlaze/BGE-m3-ko, KDHyun08/TAACO_STS, LiquidAI/LFM2.5-Embedding-350M-GGUF, MintplexLabs/multilingual-e5-small, Yoonyoul/fine-tuned-e5-small-drugproduct, alphaedge-ai/Qwen3-Embedding-kor-32768, alphaedge-ai/bge-m3-kor-32768, alphaedge-ai/multilingual-e5-small-kor-32768, batiai/Qwen3-Embedding-0.6B-GGUF, beademiguelperez/sentence-transformers-multilingual-e5-small, ddobokki/unsup-simcse-klue-roberta-small, dragonkue/BGE-m3-ko, dragonkue/multilingual-e5-small-ko-v2, hyunseop/bge-m3-ko, intfloat/multilingual-e5-small, jhgan/ko-sroberta-nli-mrl, juyoungml/bge-m3-ko-v1.1, maiyad/multilingual-e5-small, microsoft/harrier-oss-v1-270m, mykor/KURE-v1-gguf, nleeson/multilingual-e5-small, nlpai-lab/KURE-v2, onelevelstudio/ML-E5-0.3B, onelevelstudio/MPNET-0.3B, sangmini/msmarco-cotmae-MiniLM-L12_en-ko-ja, sepiafhbfhn/harrier-oss-v1-270m, setu4993/smaller-LaBSE, upskyy/bge-m3-korean, upskyy/e5-base-korean, upskyy/e5-large-korean, upskyy/e5-small-korean, upskyy/gte-base-korean, zenmagnets/Nemotron-3-Embed-1B-Q4_K_M-GGUF |
+| sg_g025 | 0.18 | BidirLM/BidirLM-0.6B-Embedding, BidirLM/BidirLM-1.7B-Embedding, BidirLM/BidirLM-1B-Embedding, BidirLM/BidirLM-270M-Embedding, Bingsu/KURE-v1-Q8_0-GGUF, HyperBlaze/BGE-m3-ko, LiquidAI/LFM2.5-Embedding-350M, LiquidAI/LFM2.5-Embedding-350M-GGUF, alphaedge-ai/Qwen3-Embedding-kor-32768, cstr/multilingual-e5-small-GGUF, dragonkue/BGE-m3-ko, fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF, hunkim/sentence-transformers-klue-bert-base, hyunseop/bge-m3-ko, mykor/KURE-v1-gguf, nlpai-lab/KURE-v2, nvidia/Nemotron-3-Embed-8B-BF16, sentence-transformers/distiluse-base-multilingual-cased-v1, sentence-transformers/distiluse-base-multilingual-cased-v2, sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2, sentence-transformers/paraphrase-multilingual-mpnet-base-v2, sentence-transformers/xlm-r-base-en-ko-nli-ststb, sentence-transformers/xlm-r-large-en-ko-nli-ststb, upskyy/bge-m3-korean, upskyy/e5-base-korean, upskyy/e5-large-korean, upskyy/e5-small-korean, upskyy/gte-base-korean |
+| sg_h003 | 0.44 | FreedomIntelligence/Apollo-MoE-0.5B, FreedomIntelligence/Apollo2-7B, FreedomIntelligence/Apollo2-9B, bespin-global/klue-bert-base-aihub-mrc, monologg/koelectra-base-v3-finetuned-korquad, monologg/koelectra-small-v2-distilled-korquad-384, mradermacher/Prototype-Virus-1B-i1-GGUF, mradermacher/next-12b-i1-GGUF, mradermacher/next-1b-GGUF, timpal0l/mdeberta-v3-base-squad2 |
 | sg_h007 | 0.50 | circulus/koelectra-polite-v1 |
-| sg_h014 | 0.78 | csebuetnlp/mT5_m2m_crossSum_enhanced, csebuetnlp/mT5_multilingual_XLSum |
-| sg_h023 | 0.00 | CohereLabs/North-Micro-Vision-Instruct, EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, ONTHEIT/BizOnAI-OCR, batiai/batisee, thelamapi/next-ocr |
-| sg_h025 | 0.43 | CohereLabs/North-Micro-Vision-Instruct, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF |
-| sg_h026 | 0.12 | CohereLabs/aya-vision-32b, CohereLabs/aya-vision-8b, FadedRedStar/Ministral-3-8B-Reasoning-2512-heretic-imatrix-GGUF, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, NCSOFT/VARCO-VISION-14B-HF |
-| sg_h028 | 0.12 | CohereLabs/North-Micro-Vision-Instruct, CohereLabs/aya-vision-32b, CohereLabs/aya-vision-8b, EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF |
-| sg_h031 | 0.00 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, OrionStarAI/Orion-14B-Chat, OrionStarAI/Orion-14B-Chat-RAG, kfkas/Legal-Llama-2-ko-7b-Chat, lcw99/ko-dialoGPT-korean-chit-chat |
-| sg_h032 | 0.00 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LLM-OS-Models/KoHRM-Text-1.4B-GGUF, LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, konantech/Konan-LLM-OND, squarelike/llama2-ko-medical-7b |
-| sg_h034 | 0.00 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LLM-OS-Models/KoHRM-Text-1.4B-GGUF, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, coderavi/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit, genai-archive/DavidAU__Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-mlx-mxfp4, soka0000/vclm-korean-7b |
-| sg_h035 | 0.00 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, OrionStarAI/Orion-14B-Chat, OrionStarAI/Orion-14B-Chat-Int4, OrionStarAI/Orion-14B-Chat-RAG, lcw99/ko-dialoGPT-korean-chit-chat |
-| sg_h039 | 0.33 | Huffon/klue-roberta-base-nli, serize/klue-roberta-base-nli-stage2 |
-| sg_h040 | 0.50 | ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF |
-| sg_h042 | 0.50 | Verm1ion/injection-sentry-xlmr |
-| sg_h044 | 0.00 | intfloat/multilingual-e5-base, intfloat/multilingual-e5-small, sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2, sentence-transformers/paraphrase-multilingual-mpnet-base-v2, ys7yoo/sentence-bert-klue-sts, ys7yoo/sentence-bert-klue-sts-all, ys7yoo/sentence-roberta-klue-sts, ys7yoo/sentence-roberta-large-klue-sts |
-| sg_h048 | 0.50 | jinaai/jina-clip-v2 |
-| sg_h050 | 0.33 | intfloat/multilingual-e5-base, intfloat/multilingual-e5-small, sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2, sentence-transformers/paraphrase-multilingual-mpnet-base-v2 |
-| sg_h053 | 0.00 | Unbabel/wmt22-comet-da |
-| sg_h056 | 0.00 | Serkan007/CTranslate2-nllb-200-int8, facebook/nllb-200-1.3B, facebook/nllb-200-3.3B, facebook/nllb-200-distilled-1.3B, facebook/nllb-200-distilled-600M |
-| sg_h057 | 0.50 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF |
-| sg_h060 | 0.83 | csebuetnlp/mT5_multilingual_XLSum |
-| sg_h061 | 0.50 | csebuetnlp/mT5_multilingual_XLSum |
-| sg_h063 | 0.00 | CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, mradermacher/Korean-Gemma-2B-Instruct-GGUF |
-| sg_h065 | 0.25 | monologg/koelectra-base-v3-finetuned-korquad, monologg/koelectra-small-v2-distilled-korquad-384, timpal0l/mdeberta-v3-base-squad2 |
-| sg_h068 | 0.00 | Systran/faster-whisper-small, openai/whisper-large-v3, openai/whisper-small |
-
-## 추가 판정이 필요한 후보
-
-이번 실험의 설정 중 하나 이상에서 top-10에 나왔지만 아무도 판정하지 않은 모델이 질의 37개에 걸쳐 1294개다. 목록은 JSON의 `unjudged_pool`에 있다.
+| sg_h014 | 0.73 | csebuetnlp/mT5_multilingual_XLSum, eenzeenee/t5-base-korean-summarization, psyche/KoT5-summarization |
+| sg_h023 | 0.15 | AX1Y2JP/LFM2.5-VL-3B-heretic-GGUF, Archsloth/Qwen3.5-9B-GGUF, Archsloth/Qwen3.8-27B-GGUF, CohereLabs/North-Micro-Vision-Instruct, EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwen3.6-27B-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, Jiunsong/SuperQwen3.8-27b-abliterated-GGUF, McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF, MuXodious/LFM2-VL-3B-heretic-GGUF, MuXodious/LFM2-VL-3B-heretic-imatrix-GGUF, NCSOFT/VARCO-VISION-2.0-1.7B, NCSOFT/VARCO-VISION-2.0-14B, ONTHEIT/BizOnAI-OCR, OpenMed/North-Micro-Vision-Instruct-bf16-mlx, ThakiCloud/Qwen3.8-27B-NVFP4-GPTQ-mm, TheCluster/Darwin-35B-A3B-Opus-MLX-bf16, TheCluster/Qwen3.5-9B-Ultra-Heretic-MLX-mxfp8, YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S, ZuzeTt/LFM2-VL-3B-heretic-Imatrix-GGUF, bartowski/mistralai_Ministral-3-14B-Reasoning-2512-GGUF, bartowski/mistralai_Ministral-3-3B-Reasoning-2512-GGUF, batiai/batisee, darkc0de/gemma-4-31B-it-heretic-FP8-Dynamic-Q4_K_M-GGUF, davidkim205/exchange-12b, kakaocorp/kanana-1.5-v-3b-instruct, kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit, mncai/Hunmin-397B-A17B-CUA-FP8, mradermacher/Qwen3.5-KETI-HAECHI-27B-GGUF, mradermacher/Qwopus3.6-27B-v1-preview-GGUF, mradermacher/Qwopus3.6-27B-v1-preview-i1-GGUF, mradermacher/SuperQwen3.8-27b-abliterated-GGUF, mradermacher/SuperQwen3.8-27b-abliterated-i1-GGUF, mradermacher/SuperQwen3.8-abliterated-Venice-GGUF, mradermacher/SuperQwen3.8-abliterated-Venice-i1-GGUF, prithivMLmods/Ministral-3-Instruct-2512-AIO-GGUF, prithivMLmods/Ministral-3-Reasoning-2512-AIO-GGUF, skt/A.X-4.0-VL-Light, thelamapi/next-ocr |
+| sg_h025 | 0.08 | AMAImedia/DeepSeek-V4-Flash-Vision-Exp-FP8-GGUF, Archsloth/Qwen3.5-9B-GGUF, Archsloth/Qwen3.8-27B-GGUF, CohereLabs/North-Micro-Vision-Instruct, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, NCSOFT/VARCO-VISION-2.0-1.7B, NCSOFT/VARCO-VISION-2.0-14B, TheCluster/Qwen3.6-35B-A3B-MLX-mixed-9bit, VitalyProtasov/Nemotron-3.5-Content-Safety-FP8-LLM-Compressor, dlindsey/Qwopus3.5-27B-v3.5-GGUF, inclusionAI/SingGuard-NSFA-4B, inclusionAI/SingGuard-NSFA-9B, kakaocorp/kanana-1.5-v-3b-instruct, luckiness/Qwopus3.6-27B-v1-preview-GGUF, mncai/Hunmin-397B-A17B-CUA-FP8, mradermacher/Qwen3.5-KETI-HAECHI-27B-GGUF, nabi-chan/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MLX-4bit, nc-ai-consortium/VAETKI-VL-7B-A1B, nvidia/Nemotron-3-Content-Safety, openfree/Mistral-Small-3.1-24B-Instruct-2503-Q8_0-GGUF, useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed |
+| sg_h026 | 0.18 | AMAImedia/GLM-5.3-Flash-FP8-GGUF, CohereLabs/North-Micro-Vision-Instruct, CohereLabs/aya-vision-32b, CohereLabs/aya-vision-8b, DedeProGames/GRaPE-2.5-Quasar-Q3_K_M-GGUF, Ex0bit/Qwen3.5-122B-A10B-PRISM-PRO-GGUF, FadedRedStar/LFM2.5-VL-1.6B-heretic-GGUF, FadedRedStar/LFM2.5-VL-1.6B-heretic-imatrix-GGUF, FadedRedStar/Ministral-3-8B-Reasoning-2512-heretic-imatrix-GGUF, Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled, Jackrong/Qwen3.5-9B-Claude-4.6-Opus-Reasoning-Distilled, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v1-preview-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, Lamapi/next-12b-Q4_K_M-GGUF, Mungert/Mistral-Small-3.1-24B-Instruct-2503-GGUF, NCSOFT/VARCO-VISION-14B-HF, NCSOFT/VARCO-VISION-2.0-1.7B, NCSOFT/VARCO-VISION-2.0-14B, RedHatAI/Mistral-Small-3.1-24B-Instruct-2503, RedHatAI/Mistral-Small-3.1-24B-Instruct-2503-quantized.w4a16, RedHatAI/Mistral-Small-3.1-24B-Instruct-2503-quantized.w8a8, YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S, coder543/command-a-plus-05-2026-gguf, heretic-org/LFM2.5-VL-3B-heretic, jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF, kakaocorp/kanana-1.5-v-3b-instruct, mncai/Hunmin-397B-A17B-CUA, mncai/Hunmin-397B-A17B-CUA-FP8, mradermacher/SuperQwen3.8-abliterated-Venice-i1-GGUF, thelamapi/next-12b, thelamapi/next-4b, thelamapi/next-ocr, thelamapi/next-ocr-GGUF, thelamapi/next-ocr-i1-GGUF, thelamapi/next2.5-GGUF, thelamapi/next2.5-i1-GGUF, unsloth/LFM2.5-VL-3B, useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed |
+| sg_h028 | 0.18 | AMAImedia/DeepSeek-V4-Flash-Vision-Exp-FP8-GGUF, Archsloth/Qwen3.5-9B-GGUF, CohereLabs/North-Micro-Vision-Instruct, CohereLabs/aya-vision-32b, CohereLabs/aya-vision-8b, CohereLabs/command-a-plus-05-2026-bf16, EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx, Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled-v2, Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled, Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, Jiunsong/supergemma4-26b-abliterated-multimodal-mlx-8bit, KDLAI/KDL-Frontier-Parser-nano, LiquidAI/LFM2.5-VL-3B-MLX-bf16, McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF, MuXodious/LFM2-VL-3B-heretic-GGUF, MuXodious/LFM2-VL-3B-heretic-imatrix-GGUF, NCSOFT/VARCO-VISION-14B, NCSOFT/VARCO-VISION-2.0-1.7B, NCSOFT/VARCO-VISION-2.0-1.7B-OCR, NCSOFT/VARCO-VISION-2.0-14B, RedHatAI/Mistral-Small-3.1-24B-Instruct-2503, TheCluster/Gemma-4-26B-A4B-Heretic-MLX-9bit, TheCluster/Gemma-4-26B-A4B-Heretic-MLX-bf16, TheCluster/Gemma-4-26B-A4B-Heretic-MLX-mxfp4, TheCluster/Gemma-4-31B-Heretic-MLX-8bit, TheCluster/Gemma-4-31B-Heretic-MLX-bf16, TheCluster/Huihui-Qwen3.6-27B-Abliterated-MLX-mixed-9.4bit, TheCluster/Qwen3.5-9B-Ultra-Heretic-MLX-mxfp8, YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S, avlp12/Qwen3.5-35B-A3B-Alis-MLX-Dynamic-2.6bpw-VLM, batiai/batisee, davidkim205/exchange-12b, dealignai/Qwen3.5-VL-397B-A17B-UNCENSORED-JANG_1L, dealignai/Qwen3.5-VL-9B-JANG_4S-CRACK, heretic-org/LFM2.5-VL-3B-heretic, kakaocorp/kanana-1.5-v-3b-instruct, kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit, mncai/Hunmin-397B-A17B-CUA, mncai/Hunmin-397B-A17B-CUA-FP8, nabi-chan/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MLX-4bit, openfree/Mistral-Small-3.1-24B-Instruct-2503-Q4_K_M-GGUF, thelamapi/next-4b, thelamapi/next-ocr, useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed |
+| sg_h031 | 0.22 | CMSManhattan/JiRackUltra_14b, CarrotAI/Carrot-Ko-2B-Instruct, Edentns/DataVortexTL-1.1B-v0.1, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, OpenBuddy/openbuddy-deepseek-10b-v17.1-4k, OpenBuddy/openbuddy-deepseek-67b-v15.2, OpenBuddy/openbuddy-llama3.3-70b-v24.1-131k, OrionStarAI/Orion-14B-Chat, OrionStarAI/Orion-14B-Chat-RAG, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, Saxo/Linkbricks-Horizon-AI-Korean-Gemma-2-sft-dpo-27B, hymmmm/exaone-3.5-7.8b-emt-awq, hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2, joongi007/Linkbricks-Horizon-AI-Korean-llama-3.1-sft-dpo-8B-GGUF, kfkas/Legal-Llama-2-ko-7b-Chat, kfkas/Llama-2-ko-7b-Chat, maddes8cht/OpenBuddy-openbuddy-stablelm-3b-v13-gguf, nc-ai-consortium/VAETKI-7B-A1B, nvidia/NVIDIA-Nemotron-Labs-Teacher-Chat, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, trillionlabs/Tri-21B-Think, trillionlabs/Tri-21B-Think-Preview, unsloth/NVIDIA-Nemotron-3-Ultra-550B-A55B-GGUF, young-kim123/qwen3-1.7b-mymodel |
+| sg_h032 | 0.19 | Bingsu/exaone-3.0-7.8b-it, CMSManhattan/JiRackUltra_14b, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LLM-OS-Models/KoHRM-Text-1.4B-GGUF, LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF, LiquidAI/LFM2-1.2B-RAG, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, MediKo/MediKo-4B-A1B-base, MediKo/MediKo-9B-A4B-base, MediKo/MediKo-9B-A4B-inst, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, konantech/Konan-LLM-OND, learning-unit/L1-30B-A5B, lmstudio-community/Mistral-Large-Instruct-2411-GGUF, lmstudio-community/aya-expanse-8b-GGUF, nc-ai-consortium/VAETKI-7B-A1B, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, trillionlabs/Tri-21B-Think-Preview, young-kim123/qwen3-1.7b-mymodel, youngseok12/AX-3.1-Light-minimal-sft-71875, youngseok12/AX-3.1-Light-sft_A1_paperguided4k, youngseok12/AX-3.1-Light-sft_v0_21_medical_numerical_600, youngseok12/AX-3.1-Light-sft_v3_0, youngseok12/AX-3.1-Light-sft_v3_1_A_control, youngseok12/AX-3.1-Light-sft_v3_1_C_recommended, youngseok12/HyperCLOVA-X-SEED-Think-14B-sft-71875-3000 |
+| sg_h034 | 0.20 | CMSManhattan/JiRackUltra_14b, CollectionStudio/Trinity-Large-Thinking, FINAL-Bench/Darwin-Mistral-G1, Farfuad77/Qwen3.5-397B-A17B-Opus-4.6-Reasoning-Uncensored-GGUF, Jackrong/Qwen3.5-0.8B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, Jackrong/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, Jackrong/Qwen3.5-9B-Gemini-3.1-Pro-Reasoning-Distill-GGUF, KCh3dRi4n/Qwen3-coder-16B-A3B-KREAP-MLX, Kamets/Qwen3.5-0.8B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, Karmation/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LGAI-EXAONE/EXAONE-4.0-1.2B-GGUF, LGAI-EXAONE/EXAONE-Deep-32B, LLM-OS-Models/KoHRM-Text-1.4B-GGUF, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, Mungert/EXAONE-Deep-32B-GGUF, Mungert/Phi-4-mini-instruct-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, Openintelligent123/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4, Openintelligent123/Phi-4-mini-instruct, RazielGuinhos/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, SilverMan99/Qwen3.5-397B-A17B-Opus-4.6-Reasoning-Uncensored-GGUF, coderavi/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit, fa123zil/Qwen3.5-9B-Gemini-3.1-Pro-Reasoning-Distill-GGUF, furiosa-ai/K-EXAONE-236B-A23B-NVFP4A16, genai-archive/DavidAU__Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-mlx-mxfp4, microsoft/Phi-4-mini-instruct, mikehenken/Qwen3.5-27B-Gemini-3.1-Pro-Reasoning-Distill-GGUF, mradermacher/Qwen-2.5-7B-Reasoning-GGUF, nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4, professorf/Phi-4-mini-instruct-gguf, rohitsingh158/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4, second-state/Phi-4-mini-instruct-GGUF, skt/A.X-K1, soka0000/vclm-korean-7b, sujinwo/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, sukai-123/Qwen3.5-4B-Claude-4.6-Opus-Reasoning-Distilled-GGUF, tensorblock/llama2-13b.kor.v1-GGUF, trillionlabs/Tri-21B-Think-Preview, youngseok12/HyperCLOVA-X-SEED-Think-14B-minimal-sft-71875-reasoning |
+| sg_h035 | 0.19 | CMSManhattan/JiRackUltra_14b, DavidAU/Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning, DavidAU/Mistral-Small-3.2-46B-The-Brilliant-Raconteur-Instruct-2506, Edentns/DataVortexTL-1.1B-v0.1, LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF, LGAI-EXAONE/EXAONE-3.5-32B-Instruct-GGUF, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-GGUF, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, LiteLLMs/Ko-Llama3-Luxia-8B-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, OpenBuddy/openbuddy-mixtral-8x7b-v16.2-32k, OpenBuddy/openbuddy-yi1.5-34b-v21.3-32k, OpenBuddy/openbuddy-yi1.5-34b-v21.6-32k-fp16, OpenBuddy/openbuddy-yi1.5-9b-v21.1-32k, OrionStarAI/Orion-14B-Chat, OrionStarAI/Orion-14B-Chat-Int4, OrionStarAI/Orion-14B-Chat-RAG, PocketDoc/Dans-PersonalityEngine-V1.3.0-12b, PocketDoc/Dans-PersonalityEngine-V1.3.0-24b, QuantFactory/ghost-8b-beta-GGUF, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, batiai/Qwen3.8-27B-GGUF, davidkim205/komt-llama2-13b-v1-ggml, evolveon/Qwen2.5-7B-Instruct-abliterated, ghost-x/ghost-8b-beta-1608-gguf, nc-ai-consortium/VAETKI-7B-A1B, plavno/LFM2.5-2.6B-AutoRound-W8A16, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, tiiuae/Falcon-H1-1.5B-Instruct-GGUF, trillionlabs/Tri-21B-Think-Preview, youngseok12/AX-3.1-Light-sft_B12K_qcdd_1e |
+| sg_h037 | 0.71 | Zeolit/lettuce-thymos-26m-v1, tobykim/koelectra-44emotions |
+| sg_h039 | 0.67 | serize/klue-roberta-base-nli-stage2 |
+| sg_h040 | 0.33 | ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF, knowledgator/opir-edge-multilang-v1.0 |
+| sg_h041 | 0.67 | HPLT/OpenLID-v3 |
+| sg_h042 | 0.67 | astroware/HaloGuard1-Gen-0.8B, astroware/HaloGuard1-Gen-4B, autopilot-ai/EthicalEye, guardion/ModernGuard-1 |
+| sg_h044 | 0.15 | Alibaba-NLP/gte-multilingual-base, BM-K/KoSimCSE-bert-multitask, BidirLM/BidirLM-1B-Embedding, BidirLM/BidirLM-270M-Embedding, CHKH01/BGE-m3-ko-GGUF, Cutting3dg3/LaBSE-TID, HyperBlaze/BGE-m3-ko, KDHyun08/TAACO_STS, alphaedge-ai/Qwen3-Embedding-kor-32768, alphaedge-ai/bge-m3-kor-32768, alphaedge-ai/multilingual-e5-small-kor-32768, antoinelouis/colbert-xm, batiai/Qwen3-Embedding-0.6B-GGUF, bespin-global/klue-sroberta-base-continue-learning-by-mnr, dragonkue/BGE-m3-ko, dragonkue/multilingual-e5-small-ko, hyunseop/bge-m3-ko, intfloat/multilingual-e5-small, mlx-community/snowflake-arctic-embed-l-v2.0-6bit, mlx-community/snowflake-arctic-embed-l-v2.0-bf16, mykor/comsat-embed-ko-8b-preview-GGUF, onelevelstudio/ML-E5-0.3B, sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2, sentence-transformers/paraphrase-multilingual-mpnet-base-v2, setu4993/smaller-LaBSE, smartmind/roberta-ko-small-tsdae, snunlp/KR-SBERT-Medium-extended-klueNLItriplet_PARpair_QApair-klueSTS, ukung/semantic-lite-gguf, upskyy/bge-m3-korean, upskyy/e5-large-korean, upskyy/e5-small-korean, upskyy/gte-base-korean, woong0322/ko-legal-sbert-finetuned, ys7yoo/sentence-bert-klue-sts, ys7yoo/sentence-bert-klue-sts-all, ys7yoo/sentence-roberta-klue-sts, ys7yoo/sentence-roberta-large-klue-sts, ysmeta/EVE-Embed-1.0-Legal, ysmeta/EVE-Embed-1.1-Legal, zhiqian99/Qwen3-Embedding-0.6B-GGUF |
+| sg_h047 | 0.22 | HyperBlaze/BGE-m3-ko, dragonkue/BGE-m3-ko, hyunseop/bge-m3-ko, omai-research/milco-300m, sttempler/KORPatent-BGE, upskyy/bge-m3-korean, ysmeta/EVE-Embed-1.0-Legal |
+| sg_h048 | 0.50 | Bingsu/vitB32_bert_ko_small_clip, unum-cloud/uform3-image-text-multilingual-base |
+| sg_h050 | 0.21 | 78ResearchLab/PurpleHound-Embed-v1, BidirLM/BidirLM-1B-Embedding, BidirLM/BidirLM-270M-Embedding, HyperBlaze/BGE-m3-ko, PeterAM4/Qwen3-Embedding-0.6B-GGUF, Snowflake/snowflake-arctic-embed-l-v2.0, Snowflake/snowflake-arctic-embed-m-v2.0, aiacademyvn/multilingual-e5-large-instruct, batiai/Qwen3-Embedding-0.6B-GGUF, cnmoro/snowflake-arctic-embed-m-v2.0-cpu, ddobokki/klue-roberta-base-nli-sts-ko-en, dragonkue/BGE-m3-ko, dragonkue/snowflake-arctic-embed-l-v2.0-ko, hajkis-glami/multilingual-e5-base-embeddings, hyunseop/bge-m3-ko, ibm-granite/granite-embedding-107m-multilingual, intfloat/multilingual-e5-base, intfloat/multilingual-e5-large-instruct, intfloat/multilingual-e5-small, nvidia/Nemotron-3-Embed-1B-BF16, onelevelstudio/ML-E5-0.6B-Instruct, onnx-community/granite-embedding-97m-multilingual-r2-ONNX, sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2, sionic-ai/comsat-embed-ko-8b-preview, telepix/PIXIE-Rune-v1.0, telepix/PIXIE-Rune-v1.5, telepix/PIXIE-Spell-v1.5-0.6B, telepix/PIXIE-Splade-v1.5, upskyy/bge-m3-korean, upskyy/e5-base-korean, upskyy/e5-large-korean, upskyy/e5-small-korean, upskyy/gte-base-korean, zhiqian99/Qwen3-Embedding-0.6B-GGUF |
+| sg_h056 | 0.17 | LifeAi-dev/nllb-200-3.3B-ct2-int8, OpenNMT/nllb-200-distilled-1.3B-ct2-int8, entai2965/nllb-200-distilled-1.3B-ctranslate2, entai2965/nllb-200-distilled-600M-ctranslate2, facebook/nllb-200-1.3B, facebook/nllb-200-3.3B, facebook/nllb-200-distilled-1.3B, mijuanlo/nllb-200-distilled-1.3B-int8-ct2, mijuanlo/nllb-200-distilled-600M-ct2-int8, raxtemur/SONAR_200_text_decoder |
+| sg_h057 | 0.27 | CMSManhattan/JiRackUltra_14b, CohereLabs/tiny-aya-water, EbanLee/kobart-summary-v3, FINAL-Bench/Darwin-Mistral-G1, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LiquidAI/LFM2.5-2.6B-GGUF, LiquidAI/LFM2.5-230M-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, QyrouNnet-AI/QNS-2-ReLearn-Preview, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, ainize/kobart-news, csebuetnlp/mT5_multilingual_XLSum, eenzeenee/t5-base-korean-summarization, ellamind/sui-1-24b, nc-ai-consortium/VAETKI-7B-A1B, skt/A.X-K1, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, trillionlabs/Tri-21B-Think, trillionlabs/Tri-21B-Think-Preview, young-kim123/qwen3-1.7b-mymodel |
+| sg_h058 | 0.67 | QyrouNnet-AI/QNS-2-ReLearn-Preview, csebuetnlp/mT5_multilingual_XLSum |
+| sg_h060 | 0.67 | EbanLee/kobart-summary-v3, QyrouNnet-AI/QNS-2-ReLearn-Preview, ainize/kobart-news, eenzeenee/t5-base-korean-summarization |
+| sg_h063 | 0.27 | Aikyam-Lab/CURE-MED-7B, CMSManhattan/JiRackUltra_14b, KRAFTON/KORani-v3-13B, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LLaMAX/LLaMAX3-8B-Alpaca, LiquidAI/LFM2.5-2.6B-GGUF, MediKo/MediKo-4B-A1B-base, MediKo/MediKo-9B-A4B-inst, Mungert/LFM2-1.2B-RAG-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, QuantFactory/LFM2-1.2B-RAG-GGUF, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, iqbalamo93/Phi-4-mini-instruct-GPTQ-4bit, jwg0830/AX-3.1-Light-sft_v0_21, mradermacher/CURE-MED-3B-i1-GGUF, mradermacher/Korean-Gemma-2B-Instruct-GGUF, nc-ai-consortium/VAETKI-7B-A1B, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, unsloth/NVIDIA-Nemotron-3-Ultra-550B-A55B-GGUF, young-kim123/qwen3-1.7b-mymodel |
+| sg_h065 | 0.00 | bespin-global/klue-bert-base-aihub-mrc, monologg/koelectra-base-v3-finetuned-korquad, monologg/koelectra-small-v2-distilled-korquad-384, timpal0l/mdeberta-v3-base-squad2 |
+| sg_h068 | 0.50 | Systran/faster-whisper-small, cstr/cohere-transcribe-03-2026-GGUF, epapanita/whisper-large-gguf, handy-computer/whisper-large-gguf, handy-computer/whisper-small-gguf, handy-computer/whisper-tiny-gguf, mlx-community/whisper-large-v3-asr-fp16, openai/whisper-large-v3, openai/whisper-small |
 
 ## 해석 주의
 
