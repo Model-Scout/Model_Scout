@@ -64,6 +64,7 @@ python -m retrieval_lab.experiment --types semantic_capability,model_comparison
 # 단계별로 끊어서
 python -m retrieval_lab.experiment --types lexical_exact --stage baseline   # LLM 불필요
 python -m retrieval_lab.experiment --types lexical_exact --stage single
+python -m retrieval_lab.experiment --types lexical_exact --stage weight     # Pre-Retrieval 없이 가중치만, LLM 불필요
 
 # 결과를 planner에 반영
 python -m retrieval_lab.experiment --types benchmark_lookup --write-planner
@@ -75,18 +76,19 @@ python -m retrieval_lab.experiment --types benchmark_lookup --write-planner
 | `--min-grade` | 1 | 1이면 정답(2점)+허용(1점)을 관련으로 본다. 2면 정답만 |
 | `--min-delta` | 0 | 단일 요소가 Baseline보다 이만큼 넘게 좋아야 "개선" |
 | `--weight-search` | `optuna` | `optuna` · `grid`(0.1~0.9, 0.1 간격) · `none` |
-| `--trials` | 20 | Optuna 시행 수. dense weight는 0.1~0.9를 0.05 간격으로 탐색 |
+| `--trials` | 20 | Optuna 시행 수. 앞의 9회는 0.1~0.9 grid(0.1 간격), 나머지는 TPE가 0.05 간격으로 탐색 |
 
 결과는 `retrieval_lab/reports/<유형>.md`(계획서 형식의 실험표, 조합표, 가중치표, top-10에서 놓친 모델)와 `.json`(질의별 순위·지표·지연)에 저장된다.
 
 ### 실험 규칙
 
 1. **Baseline**: BGE-M3 + BM25, Weighted RRF, dense 0.5 / sparse 0.5, Pre-Retrieval 모두 OFF.
-2. **단일 A/B**: Rewrite, Decomposition, Multi-Query, HyDE를 하나씩 켠다.
-3. **조합**: 단일 실험에서 `--metric`이 Baseline보다 오른 요소만 2개 이상씩 모든 조합을 돌린다.
-4. **가중치 탐색**: 가장 좋은 설정에서 dense weight를 0.1~0.9로 바꾸고 sparse = 1 − dense로 둔다.
-5. 최적 설정은 `--metric` → Recall@5 → nDCG@5 → 사전 검색 호출 수가 적은 것 → p95가 낮은 것 순으로 고른다.
-6. **추가 판정**: 리포트의 "추가 판정이 필요한 후보"(JSON `unjudged_pool`)를 판정실에서 판정하고 라벨을 다시 만든 뒤(`import_judgments.py` → `convert_golden.py`) 실험을 다시 돌린다. BM25 단독으로 재 보면 top-10 중 판정된 모델이 유형별 10~20%뿐이라(2026-10-04), 이 단계 없이 고른 최적값은 믿기 어렵다.
+2. **채널 비교**: Pre-Retrieval 없이 Dense only(weight 1.0), Sparse only(0.0), Hybrid(0.5)를 비교한다.
+3. **단일 A/B**: Rewrite, Decomposition, Multi-Query, HyDE를 하나씩 켠다.
+4. **조합**: 단일 실험에서 `--metric`이 Baseline보다 오른 요소만 2개 이상씩 모든 조합을 돌린다.
+5. **가중치 탐색**: 가장 좋은 설정에서 dense weight를 0.1~0.9로 바꾸고 sparse = 1 − dense로 둔다. 가장 좋은 설정이 Pre-Retrieval을 쓰면 Baseline에서도 탐색해, LLM 없이 가중치만으로 같은 성능이 나오는지 확인한다.
+6. 최적 설정은 `--metric` → Recall@5 → nDCG@5 → 사전 검색 호출 수가 적은 것 → p95가 낮은 것 순으로 고른다.
+7. **추가 판정**: 리포트의 "추가 판정이 필요한 후보"(JSON `unjudged_pool`)를 판정실에서 판정하고 라벨을 다시 만든 뒤(`import_judgments.py` → `convert_golden.py`) 실험을 다시 돌린다. BM25 단독으로 재 보면 top-10 중 판정된 모델이 유형별 10~20%뿐이라(2026-10-04), 이 단계 없이 고른 최적값은 믿기 어렵다.
 
 ### 각 Pre-Retrieval이 하는 일
 
