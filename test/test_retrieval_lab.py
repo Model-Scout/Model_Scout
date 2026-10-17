@@ -96,6 +96,24 @@ def test_golden_grades_and_unreachable():
     assert compare.judged is None
 
 
+def test_supplement_fills_only_unjudged_models():
+    item = {"id": "q1", "text": "x", "labels": {"expected_behavior": "recommend", "expected_any": ["a"],
+            "judged_irrelevant": ["b"]}}
+    marks = [
+        {"model_id": "a", "score": 0},  # existing label wins
+        {"model_id": "b", "score": 2},  # already judged irrelevant: unchanged
+        {"model_id": "c", "score": 2},
+        {"model_id": "d", "score": 1},
+        {"model_id": "e", "score": 0},
+        {"model_id": "gone", "score": 2},  # not in corpus
+    ]
+    query = golden.supplement(golden.to_golden(item, {"a", "b", "c", "d", "e"}), marks, {"a", "b", "c", "d", "e"})
+    assert query.grades == {"a": 2, "c": 2, "d": 1}
+    assert query.judged == {"a", "b", "c", "d", "e"}
+    compare = golden.to_golden({**item, "labels": {"expected_behavior": "compare", "expected_all": ["a"]}}, {"a"})
+    assert golden.supplement(compare, marks).grades == {"a": 2}
+
+
 def test_golden_files_have_plan_types():
     queries = golden.load()
     types = {query.plan_query_type for query in queries}

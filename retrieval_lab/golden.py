@@ -13,6 +13,9 @@ DEFAULT_QUERY_FILES = (
     LABEL_DIR / "semantic_golden_queries.jsonl",
     LABEL_DIR / "semantic_judged_queries.jsonl",
 )
+# Extra judgments for models that retrieval surfaced but nobody had scored.
+# Existing labels always win; these only fill gaps (see supplement()).
+SUPPLEMENT_PATH = LABEL_DIR / "supplemental_judgments.jsonl"
 
 
 @dataclass
@@ -76,17 +79,42 @@ def to_golden(item: Dict[str, Any], corpus_ids: Optional[set] = None) -> GoldenQ
     )
 
 
+def supplement(query: GoldenQuery, marks: Sequence[Dict[str, Any]], corpus_ids: Optional[set] = None) -> GoldenQuery:
+    """Add scores for models the labels never judged. 2/1 become grades, 0 marks them judged."""
+    if query.judged is None:
+        return query
+    for mark in marks:
+        model_id = mark["model_id"]
+        if model_id in query.judged or (corpus_ids is not None and model_id not in corpus_ids):
+            continue
+        query.judged.add(model_id)
+        if mark["score"] in (1, 2):
+            query.grades[model_id] = mark["score"]
+    return query
+
+
+def load_supplement(path: Optional[Path] = SUPPLEMENT_PATH) -> Dict[str, List[Dict[str, Any]]]:
+    marks: Dict[str, List[Dict[str, Any]]] = {}
+    if path is None or not path.exists():
+        return marks
+    for mark in read_jsonl(path):
+        marks.setdefault(mark["query_id"], []).append(mark)
+    return marks
+
+
 def load(
     paths: Sequence[Path] = DEFAULT_QUERY_FILES,
     corpus_ids: Optional[set] = None,
     types: Optional[Sequence[str]] = None,
+    supplement_path: Optional[Path] = SUPPLEMENT_PATH,
 ) -> List[GoldenQuery]:
+    extra = load_supplement(supplement_path)
     queries: List[GoldenQuery] = []
     for path in paths:
         for item in read_jsonl(path):
             if not item.get("evaluable_now", True):
                 continue
-            query = to_golden(item, corpus_ids)
+            query = supplement(to_golden(item, corpus_ids), extra.get(item["id"], []), corpus_ids)
             if types and query.plan_query_type not in types:
                 continue
             queries.append(query)

@@ -89,6 +89,8 @@ python -m retrieval_lab.experiment --types benchmark_lookup --write-planner
 5. **가중치 탐색**: 가장 좋은 설정에서 dense weight를 0.1~0.9로 바꾸고 sparse = 1 − dense로 둔다. 가장 좋은 설정이 Pre-Retrieval을 쓰면 Baseline에서도 탐색해, LLM 없이 가중치만으로 같은 성능이 나오는지 확인한다.
 6. 최적 설정은 `--metric` → Recall@5 → nDCG@5 → 사전 검색 호출 수가 적은 것 → p95가 낮은 것 순으로 고른다.
 7. **추가 판정**: 리포트의 "추가 판정이 필요한 후보"(JSON `unjudged_pool`)를 판정실에서 판정하고 라벨을 다시 만든 뒤(`import_judgments.py` → `convert_golden.py`) 실험을 다시 돌린다. BM25 단독으로 재 보면 top-10 중 판정된 모델이 유형별 10~20%뿐이라(2026-10-04), 이 단계 없이 고른 최적값은 믿기 어렵다.
+   - 판정실 밖에서 한 추가 판정은 [`test/golden/labels/supplemental_judgments.jsonl`](../test/golden/labels/supplemental_judgments.jsonl)에 둔다(질의 ID·모델·점수 2/1/0·이유·판정자). 실험은 기존 라벨에 없는 모델에만 이 점수를 더한다. 기존 라벨이 항상 우선이다. `--no-supplement`를 주면 기존 라벨만으로 채점한다.
+   - 2026-10-17 semantic_capability 후보 1,358쌍은 Claude가 1차 판정했다(`judge: "claude"`). 사람 검수 전이므로 회의 자료에는 "LLM 1차 판정"으로 밝힌다.
 
 ### 각 Pre-Retrieval이 하는 일
 

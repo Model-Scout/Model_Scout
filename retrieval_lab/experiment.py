@@ -155,6 +155,7 @@ def render(query_type: str, result: Dict[str, Any]) -> str:
         "",
         f"- 질의 {result['queries']}개 (채점 {result['scored_queries']}개), 기준 지표 `{result['metric']}`, 관련 등급 ≥ {result['min_grade']}",
         f"- Dense `{result['dense_model']}` · Sparse fielded BM25 · Weighted RRF (k={BASELINE.rrf_k}) · Pre-Retrieval LLM `{result['llm']}`",
+        f"- 라벨: {result.get('labels', '기존 라벨')}",
         f"- 실행 {result['ran_at']}",
         "",
         "## 실험표",
@@ -304,6 +305,8 @@ def main() -> None:
     parser.add_argument("--min-delta", type=float, default=0.0, help="단일 요소가 '개선'으로 인정되는 최소 차이")
     parser.add_argument("--weight-search", choices=("optuna", "grid", "none"), default="optuna")
     parser.add_argument("--trials", type=int, default=20, help="Optuna 시행 수 (앞의 9회는 0.1~0.9 grid)")
+    parser.add_argument("--no-supplement", action="store_true",
+                        help="supplemental_judgments.jsonl(추가 판정)을 빼고 기존 라벨만으로 채점")
     parser.add_argument("--write-planner", action="store_true", help="유형별 최적 설정을 planner_config.json에 저장")
     args = parser.parse_args()
 
@@ -317,7 +320,8 @@ def main() -> None:
     unknown = sorted(set(wanted) - set(PLAN_QUERY_TYPES))
     if unknown:
         parser.error(f"알 수 없는 유형: {unknown}")
-    all_queries = golden.load(args.query_files, corpus_ids, wanted)
+    supplement_path = None if args.no_supplement else golden.SUPPLEMENT_PATH
+    all_queries = golden.load(args.query_files, corpus_ids, wanted, supplement_path)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     summary_rows = []
     for query_type in wanted:
@@ -326,6 +330,7 @@ def main() -> None:
             print(f"\n[{query_type}] 라벨된 질의 없음, 건너뜀")
             continue
         result = run_type(retriever, queries, query_type, args, print)
+        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({golden.SUPPLEMENT_PATH.name})"
         result["unjudged_pool"] = unjudged_pool(result)
         (REPORT_DIR / f"{query_type}.json").write_text(json.dumps(compact(result), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         (REPORT_DIR / f"{query_type}.md").write_text(render(query_type, result), encoding="utf-8")
