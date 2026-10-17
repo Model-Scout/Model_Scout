@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘.",
+ "outputs": [
+  "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도와 크기 차이를 알고 싶어요.",
+  "Please compare the accuracy and size differences between koelectra-base-v3-finetuned-korquad and koelectra-small-v2-distilled-korquad-384.",
+  "koelectra-base-v3-finetuned-korquad accuracy size koelectra-small-v2-distilled-korquad-384"
+ ],
+ "response": {
+  "queries": [
+   "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도와 크기 차이를 알고 싶어요.",
+   "Please compare the accuracy and size differences between koelectra-base-v3-finetuned-korquad and koelectra-small-v2-distilled-korquad-384.",
+   "koelectra-base-v3-finetuned-korquad accuracy size koelectra-small-v2-distilled-korquad-384"
+  ]
+ },
+ "latency_ms": 1315.2
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘.",
+ "outputs": [
+  "whisper-large-v3와 whisper-large-v3-turbo의 한국어 성능과 속도 차이를 알고 싶어요.",
+  "Please compare the Korean accuracy and speed differences between whisper-large-v3 and whisper-large-v3-turbo.",
+  "whisper-large-v3 한국어 정확도, whisper-large-v3-turbo 속도, 비교"
+ ],
+ "response": {
+  "queries": [
+   "whisper-large-v3와 whisper-large-v3-turbo의 한국어 성능과 속도 차이를 알고 싶어요.",
+   "Please compare the Korean accuracy and speed differences between whisper-large-v3 and whisper-large-v3-turbo.",
+   "whisper-large-v3 한국어 정확도, whisper-large-v3-turbo 속도, 비교"
+  ]
+ },
+ "latency_ms": 1321.2
+}

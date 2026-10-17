@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+ "outputs": [
+  "Korean transcription models suitable for processing over 1 hour of audio.",
+  "Models that balance speed and quality for transcription tasks."
+ ],
+ "response": {
+  "sub_queries": [
+   "Korean transcription models suitable for processing over 1 hour of audio.",
+   "Models that balance speed and quality for transcription tasks."
+  ]
+ },
+ "latency_ms": 871.8
+}

@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?",
+ "outputs": [
+  "RAG 리랭커 모델 Dongjin-kr/ko-reranker의 성능과 특징은 무엇인가?",
+  "RAG 리랭커 모델 bce-reranker-base_v1의 성능과 특징은 무엇인가?",
+  "Dongjin-kr/ko-reranker와 bce-reranker-base_v1의 파라미터 수와 크기는 어떻게 되는가?",
+  "Dongjin-kr/ko-reranker와 bce-reranker-base_v1의 지원 언어는 무엇인가?"
+ ],
+ "response": {
+  "sub_queries": [
+   "RAG 리랭커 모델 Dongjin-kr/ko-reranker의 성능과 특징은 무엇인가?",
+   "RAG 리랭커 모델 bce-reranker-base_v1의 성능과 특징은 무엇인가?",
+   "Dongjin-kr/ko-reranker와 bce-reranker-base_v1의 파라미터 수와 크기는 어떻게 되는가?",
+   "Dongjin-kr/ko-reranker와 bce-reranker-base_v1의 지원 언어는 무엇인가?"
+  ]
+ },
+ "latency_ms": 1391.3
+}

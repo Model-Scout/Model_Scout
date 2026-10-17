@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?",
+ "outputs": [
+  "문장 유사도에 대한 성능 비교를 위해 KoSimCSE-roberta-multitask의 벤치마크와 메트릭을 확인해 주세요.",
+  "문장 유사도 작업에 적합한 ko-sroberta-multitask의 사용 사례를 알아보세요."
+ ],
+ "response": {
+  "sub_queries": [
+   "문장 유사도에 대한 성능 비교를 위해 KoSimCSE-roberta-multitask의 벤치마크와 메트릭을 확인해 주세요.",
+   "문장 유사도 작업에 적합한 ko-sroberta-multitask의 사용 사례를 알아보세요."
+  ]
+ },
+ "latency_ms": 1098.9
+}

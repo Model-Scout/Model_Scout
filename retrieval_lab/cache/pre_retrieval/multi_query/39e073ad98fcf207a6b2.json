@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "200개 이상의 언어를 지원하는 번역 모델을 찾고 있습니다. 연구 목적으로 사용하며 라이선스는 중요하지 않습니다.",
+  "I need a translation model that supports over 200 languages. The license is not a concern as it is for research purposes.",
+  "translation model, 200+ languages, research use, license not important"
+ ],
+ "response": {
+  "queries": [
+   "200개 이상의 언어를 지원하는 번역 모델을 찾고 있습니다. 연구 목적으로 사용하며 라이선스는 중요하지 않습니다.",
+   "I need a translation model that supports over 200 languages. The license is not a concern as it is for research purposes.",
+   "translation model, 200+ languages, research use, license not important"
+  ]
+ },
+ "latency_ms": 1235.8
+}

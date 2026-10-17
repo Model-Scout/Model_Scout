@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 의료 상담 질문에 답하는 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "Korean medical consultation model for research purposes, any license"
+ ],
+ "response": {
+  "query": "Korean medical consultation model for research purposes, any license"
+ },
+ "latency_ms": 732.6
+}

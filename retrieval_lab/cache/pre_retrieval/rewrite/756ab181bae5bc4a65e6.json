@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장에서 기쁨·슬픔·분노 같은 감정을 분류하는 모델이 필요해.",
+ "outputs": [
+  "Emotion classification model for Korean sentences, capable of classifying emotions such as joy, sadness, anger."
+ ],
+ "response": {
+  "query": "Emotion classification model for Korean sentences, capable of classifying emotions such as joy, sadness, anger."
+ },
+ "latency_ms": 836.6
+}

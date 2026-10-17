@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?",
+ "outputs": [
+  "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 적합한 모델은 무엇인가요?",
+  "Which model is better for Korean conversation, EXAONE-3.5-2.4B-Instruct or kanana-1.5-2.1b-instruct?",
+  "모델 비교, EXAONE-3.5-2.4B-Instruct, kanana-1.5-2.1b-instruct, 한국어 대화, 성능"
+ ],
+ "response": {
+  "queries": [
+   "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 적합한 모델은 무엇인가요?",
+   "Which model is better for Korean conversation, EXAONE-3.5-2.4B-Instruct or kanana-1.5-2.1b-instruct?",
+   "모델 비교, EXAONE-3.5-2.4B-Instruct, kanana-1.5-2.1b-instruct, 한국어 대화, 성능"
+  ]
+ },
+ "latency_ms": 1733.1
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?",
+ "outputs": [
+  "Compare transcription speed and accuracy of SenseVoiceSmall and whisper-small for Korean language."
+ ],
+ "response": {
+  "query": "Compare transcription speed and accuracy of SenseVoiceSmall and whisper-small for Korean language."
+ },
+ "latency_ms": 1787.2
+}

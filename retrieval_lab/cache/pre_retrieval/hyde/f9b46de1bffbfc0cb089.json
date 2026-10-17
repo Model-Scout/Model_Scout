@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KURE-v2와 multilingual-e5-large의 한국어 검색 성능을 비교해 줘.",
+ "outputs": [
+  "KURE-v2 is a state-of-the-art model designed for Korean text understanding and generation tasks. It supports multiple languages, with a strong focus on Korean, making it ideal for applications in natural language processing, such as chatbots, sentiment analysis, and information retrieval. With 1.5 billion parameters, KURE-v2 excels in contextual understanding and can handle long text inputs effectively. On the other hand, multilingual-e5-large is a versatile model that supports over 20 languages, including Korean, and is optimized for cross-lingual tasks. It has 1 billion parameters and is particularly strong in translation and multilingual search applications. While KURE-v2 offers superior performance in Korean-specific tasks, multilingual-e5-large provides broader language support, making it suitable for diverse multilingual applications."
+ ],
+ "response": {
+  "document": "KURE-v2 is a state-of-the-art model designed for Korean text understanding and generation tasks. It supports multiple languages, with a strong focus on Korean, making it ideal for applications in natural language processing, such as chatbots, sentiment analysis, and information retrieval. With 1.5 billion parameters, KURE-v2 excels in contextual understanding and can handle long text inputs effectively. On the other hand, multilingual-e5-large is a versatile model that supports over 20 languages, including Korean, and is optimized for cross-lingual tasks. It has 1 billion parameters and is particularly strong in translation and multilingual search applications. While KURE-v2 offers superior performance in Korean-specific tasks, multilingual-e5-large provides broader language support, making it suitable for diverse multilingual applications."
+ },
+ "latency_ms": 1953.0
+}

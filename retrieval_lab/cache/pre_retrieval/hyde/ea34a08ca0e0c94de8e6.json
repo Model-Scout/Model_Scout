@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘.",
+ "outputs": [
+  "The openai/whisper-small model is designed for automatic speech recognition (ASR) and supports multiple languages, including Korean. With 60 million parameters, it excels in transcribing audio to text with high accuracy, making it suitable for applications in transcription services and voice command systems. Its strengths lie in its ability to handle diverse accents and noisy environments. On the other hand, the Systran/faster-whisper-small model is optimized for speed and efficiency, also targeting ASR tasks. It has a similar parameter count but is specifically fine-tuned for faster processing on CPU, making it ideal for real-time applications where latency is critical. Both models are effective for Korean language tasks, but the choice depends on whether speed or accuracy is prioritized."
+ ],
+ "response": {
+  "document": "The openai/whisper-small model is designed for automatic speech recognition (ASR) and supports multiple languages, including Korean. With 60 million parameters, it excels in transcribing audio to text with high accuracy, making it suitable for applications in transcription services and voice command systems. Its strengths lie in its ability to handle diverse accents and noisy environments. On the other hand, the Systran/faster-whisper-small model is optimized for speed and efficiency, also targeting ASR tasks. It has a similar parameter count but is specifically fine-tuned for faster processing on CPU, making it ideal for real-time applications where latency is critical. Both models are effective for Korean language tasks, but the choice depends on whether speed or accuracy is prioritized."
+ },
+ "latency_ms": 2046.3
+}

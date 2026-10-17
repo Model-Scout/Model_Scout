@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해.",
+ "outputs": [
+  "The model is a lightweight embedding model designed for legal document and case law search in Korean. It supports the Korean language and is optimized for CPU usage, making it suitable for environments without GPU resources. With a parameter count of 50 million, it offers efficient performance while maintaining high accuracy in retrieving relevant legal texts. The model is particularly useful for legal professionals and researchers who need to quickly access and analyze legal documents. Its strengths include fast inference times and the ability to handle a variety of legal queries, making it an ideal choice for building a Retrieval-Augmented Generation (RAG) system."
+ ],
+ "response": {
+  "document": "The model is a lightweight embedding model designed for legal document and case law search in Korean. It supports the Korean language and is optimized for CPU usage, making it suitable for environments without GPU resources. With a parameter count of 50 million, it offers efficient performance while maintaining high accuracy in retrieving relevant legal texts. The model is particularly useful for legal professionals and researchers who need to quickly access and analyze legal documents. Its strengths include fast inference times and the ability to handle a variety of legal queries, making it an ideal choice for building a Retrieval-Augmented Generation (RAG) system."
+ },
+ "latency_ms": 1769.8
+}

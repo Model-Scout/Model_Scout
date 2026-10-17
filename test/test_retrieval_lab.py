@@ -96,6 +96,24 @@ def test_golden_grades_and_unreachable():
     assert compare.judged is None
 
 
+def test_supplement_fills_only_unjudged_models():
+    item = {"id": "q1", "text": "x", "labels": {"expected_behavior": "recommend", "expected_any": ["a"],
+            "judged_irrelevant": ["b"]}}
+    marks = [
+        {"model_id": "a", "score": 0},  # existing label wins
+        {"model_id": "b", "score": 2},  # already judged irrelevant: unchanged
+        {"model_id": "c", "score": 2},
+        {"model_id": "d", "score": 1},
+        {"model_id": "e", "score": 0},
+        {"model_id": "gone", "score": 2},  # not in corpus
+    ]
+    query = golden.supplement(golden.to_golden(item, {"a", "b", "c", "d", "e"}), marks, {"a", "b", "c", "d", "e"})
+    assert query.grades == {"a": 2, "c": 2, "d": 1}
+    assert query.judged == {"a", "b", "c", "d", "e"}
+    compare = golden.to_golden({**item, "labels": {"expected_behavior": "compare", "expected_all": ["a"]}}, {"a"})
+    assert golden.supplement(compare, marks).grades == {"a": 2}
+
+
 def test_golden_files_have_plan_types():
     queries = golden.load()
     types = {query.plan_query_type for query in queries}
@@ -145,6 +163,25 @@ def test_pipeline_hyde_replaces_dense_query_only(monkeypatch):
     assert result.dense_queries == ["hypothetical card"]
     assert result.sparse_queries == ["alpha translation"]
     assert result.latency_ms["pre_retrieval"] == 1500.0
+
+
+def test_name_lookup_pins_named_models(monkeypatch):
+    retriever = make_retriever(monkeypatch)
+    rows = retriever.rows + [
+        {"model_id": "mirror/beta", "source_pool": "core", "task": {"primary": "translation"},
+         "filter_metadata": {"korean_verified": True}, "embedding_text": "beta copy", "popularity": {"current": {"downloads": 5}}},
+        {"model_id": "org/delta-2505", "source_pool": "core", "task": {"primary": "translation"},
+         "filter_metadata": {"korean_verified": True}, "embedding_text": "delta"},
+    ]
+    rows[1] = {**rows[1], "popularity": {"current": {"downloads": 100}}}
+    matrix = np.array([[1.0, 0.0], [0.0, 1.0], [0.7, 0.7], [0.0, 1.0], [0.5, 0.5]], dtype=np.float32)
+    retriever = pipeline.Retriever(rows=rows, dense_index=FakeDense(matrix))
+    plan = planner.RetrievalPlan(query_type="model_comparison", hard_filters={"tasks": ["translation"]}, use_name_lookup=True)
+    result = retriever.run("delta랑 beta 중 뭐가 나아? gamma도", plan)
+    # Prefix match for delta, most downloaded copy for beta; gamma fails the hard filter.
+    assert result.ranked[:2] == ["org/delta-2505", "org/beta"]
+    assert "org/gamma" not in result.ranked
+    assert plan.label() == "Name Lookup"
 
 
 def test_empty_eligible_returns_no_candidates(monkeypatch):

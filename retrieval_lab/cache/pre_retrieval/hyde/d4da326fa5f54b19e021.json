@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "번역 결과의 품질을 자동으로 점수 매기는 평가 모델이 필요해. 한국어 번역도 평가해야 해.",
+ "outputs": [
+  "The Translation Quality Assessment Model is designed to automatically score the quality of translation outputs, specifically focusing on Korean translations. This model supports multiple languages, including Korean, English, and Chinese, making it versatile for various translation tasks. With a parameter count of 150 million, it balances performance and efficiency, allowing for quick assessments. The model is particularly useful for translators, localization teams, and researchers who need to evaluate translation quality systematically. Its strengths lie in its ability to provide nuanced scores based on fluency, adequacy, and overall coherence of the translated text, making it an essential tool for ensuring high-quality translations."
+ ],
+ "response": {
+  "document": "The Translation Quality Assessment Model is designed to automatically score the quality of translation outputs, specifically focusing on Korean translations. This model supports multiple languages, including Korean, English, and Chinese, making it versatile for various translation tasks. With a parameter count of 150 million, it balances performance and efficiency, allowing for quick assessments. The model is particularly useful for translators, localization teams, and researchers who need to evaluate translation quality systematically. Its strengths lie in its ability to provide nuanced scores based on fluency, adequacy, and overall coherence of the translated text, making it an essential tool for ensuring high-quality translations."
+ },
+ "latency_ms": 1608.3
+}

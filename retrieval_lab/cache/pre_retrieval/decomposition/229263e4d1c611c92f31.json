@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+ "outputs": [
+  "한국어 전사에 적합한 모델은 무엇인가요?",
+  "wav2vec2-large-xlsr-korean의 특징은 무엇인가요?",
+  "whisper-small의 특징은 무엇인가요?"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 전사에 적합한 모델은 무엇인가요?",
+   "wav2vec2-large-xlsr-korean의 특징은 무엇인가요?",
+   "whisper-small의 특징은 무엇인가요?"
+  ]
+ },
+ "latency_ms": 3965.2
+}

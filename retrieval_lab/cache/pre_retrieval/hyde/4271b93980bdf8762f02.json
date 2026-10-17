@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 뉴스 기사를 3줄 정도로 요약하는 모델이 필요해. 추가 학습 없이 바로 쓰고 싶어.",
+ "outputs": [
+  "The Korean News Summarizer is a state-of-the-art model designed for the task of summarizing news articles in Korean. It supports the Korean language and is optimized for concise, three-sentence summaries. With 110 million parameters and a context length of 512 tokens, this model is lightweight yet powerful, making it suitable for real-time applications. It is particularly effective in extracting key information while maintaining the original article's intent. The model is available in GGUF format and is licensed for commercial use, making it ideal for news agencies and content creators looking to streamline their workflow."
+ ],
+ "response": {
+  "document": "The Korean News Summarizer is a state-of-the-art model designed for the task of summarizing news articles in Korean. It supports the Korean language and is optimized for concise, three-sentence summaries. With 110 million parameters and a context length of 512 tokens, this model is lightweight yet powerful, making it suitable for real-time applications. It is particularly effective in extracting key information while maintaining the original article's intent. The model is available in GGUF format and is licensed for commercial use, making it ideal for news agencies and content creators looking to streamline their workflow."
+ },
+ "latency_ms": 1509.1
+}

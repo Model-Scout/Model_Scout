@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어로 생각하고 답하는 추론(reasoning) 모델이 필요해. 수학·논리 문제를 풀 거야.",
+ "outputs": [
+  "The model is designed for reasoning tasks, specifically focusing on solving mathematical and logical problems. It supports Korean as its primary language, making it ideal for users who require assistance in this language. With a parameter count of 1.5 billion, the model strikes a balance between performance and efficiency, allowing for quick inference times. Its intended use cases include educational applications, tutoring systems, and automated reasoning tools. The model excels in understanding complex problem statements and providing step-by-step solutions, making it a valuable resource for students and professionals alike. It is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The model is designed for reasoning tasks, specifically focusing on solving mathematical and logical problems. It supports Korean as its primary language, making it ideal for users who require assistance in this language. With a parameter count of 1.5 billion, the model strikes a balance between performance and efficiency, allowing for quick inference times. Its intended use cases include educational applications, tutoring systems, and automated reasoning tools. The model excels in understanding complex problem statements and providing step-by-step solutions, making it a valuable resource for students and professionals alike. It is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1476.3
+}

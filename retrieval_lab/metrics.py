@@ -34,6 +34,8 @@ def ranking_metrics(ranked: Sequence[str], grades: Mapping[str, int], min_grade:
         out[f"precision@{k}"] = precision
         out[f"f1@{k}"] = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
         out[f"hit@{k}"] = 1.0 if hits else 0.0
+        # Recall capped by k: a query with more relevant models than k can still reach 1.0.
+        out[f"nrecall@{k}"] = hits / min(len(relevant), k) if relevant else 0.0
 
     top5 = list(ranked[:5])
     first = next((rank for rank, model_id in enumerate(top5, start=1) if model_id in relevant), None)
@@ -56,7 +58,7 @@ def ranking_metrics(ranked: Sequence[str], grades: Mapping[str, int], min_grade:
 
 METRIC_KEYS = (
     "recall@5", "recall@10", "precision@5", "precision@10", "f1@5", "f1@10",
-    "hit@10", "mrr@5", "ndcg@5", "map@5",
+    "hit@10", "mrr@5", "ndcg@5", "map@5", "nrecall@5", "nrecall@10",
 )
 
 

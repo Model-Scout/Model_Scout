@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "의학 질문에 답하는 다국어 의료 QA 모델이 필요해. 한국어 질문도 처리해야 해.",
+ "outputs": [
+  "의학 관련 질문에 답변할 수 있는 다국어 의료 QA 모델을 찾고 있습니다. 한국어 질문도 지원해야 합니다.",
+  "I need a multilingual medical QA model that can answer medical questions, including those in Korean.",
+  "의료 QA 모델, 다국어 지원, 한국어 처리, 의학 질문, 모델 카드"
+ ],
+ "response": {
+  "queries": [
+   "의학 관련 질문에 답변할 수 있는 다국어 의료 QA 모델을 찾고 있습니다. 한국어 질문도 지원해야 합니다.",
+   "I need a multilingual medical QA model that can answer medical questions, including those in Korean.",
+   "의료 QA 모델, 다국어 지원, 한국어 처리, 의학 질문, 모델 카드"
+  ]
+ },
+ "latency_ms": 1450.8
+}

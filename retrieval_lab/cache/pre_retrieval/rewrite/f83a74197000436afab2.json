@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?",
+ "outputs": [
+  "Compare Midm-2.0-Mini-Instruct and EXAONE-4.0-1.2B for small Korean LLM performance."
+ ],
+ "response": {
+  "query": "Compare Midm-2.0-Mini-Instruct and EXAONE-4.0-1.2B for small Korean LLM performance."
+ },
+ "latency_ms": 947.5
+}

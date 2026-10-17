@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?",
+ "outputs": [
+  "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩에 더 적합한 모델은 무엇인가요?",
+  "Which model is better for Korean search embeddings, ko-sroberta-multitask or multilingual-e5-small?",
+  "ko-sroberta-multitask, multilingual-e5-small, 한국어 검색 임베딩, 모델 비교"
+ ],
+ "response": {
+  "queries": [
+   "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩에 더 적합한 모델은 무엇인가요?",
+   "Which model is better for Korean search embeddings, ko-sroberta-multitask or multilingual-e5-small?",
+   "ko-sroberta-multitask, multilingual-e5-small, 한국어 검색 임베딩, 모델 비교"
+  ]
+ },
+ "latency_ms": 1339.6
+}

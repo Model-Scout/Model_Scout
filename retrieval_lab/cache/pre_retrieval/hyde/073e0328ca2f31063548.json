@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?",
+ "outputs": [
+  "The dragonkue/BGE-m3-ko model is designed specifically for Korean language tasks, featuring a parameter count of 1.5 billion and optimized for conversational AI applications. It excels in understanding and generating natural language, making it suitable for chatbots and virtual assistants. On the other hand, the upskyy/bge-m3-korean model, with a slightly larger parameter count of 2 billion, focuses on text summarization and translation tasks. It is particularly strong in producing coherent summaries and translating between Korean and English. For Korean search queries, the dragonkue/BGE-m3-ko may provide more contextually relevant responses due to its specialization in conversational understanding, while upskyy/bge-m3-korean could be better for tasks requiring summarization or translation."
+ ],
+ "response": {
+  "document": "The dragonkue/BGE-m3-ko model is designed specifically for Korean language tasks, featuring a parameter count of 1.5 billion and optimized for conversational AI applications. It excels in understanding and generating natural language, making it suitable for chatbots and virtual assistants. On the other hand, the upskyy/bge-m3-korean model, with a slightly larger parameter count of 2 billion, focuses on text summarization and translation tasks. It is particularly strong in producing coherent summaries and translating between Korean and English. For Korean search queries, the dragonkue/BGE-m3-ko may provide more contextually relevant responses due to its specialization in conversational understanding, while upskyy/bge-m3-korean could be better for tasks requiring summarization or translation."
+ },
+ "latency_ms": 2038.7
+}

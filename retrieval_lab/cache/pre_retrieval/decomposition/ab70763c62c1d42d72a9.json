@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?",
+ "outputs": [
+  "EXAONE-3.5-2.4B-Instruct 한국어 대화 성능",
+  "kanana-1.5-2.1b-instruct 한국어 대화 성능"
+ ],
+ "response": {
+  "sub_queries": [
+   "EXAONE-3.5-2.4B-Instruct 한국어 대화 성능",
+   "kanana-1.5-2.1b-instruct 한국어 대화 성능"
+  ]
+ },
+ "latency_ms": 972.2
+}

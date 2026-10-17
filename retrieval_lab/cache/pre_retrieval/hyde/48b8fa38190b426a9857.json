@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기사를 읽고 한국어로 요약해 주는 교차 언어 요약 모델이 필요해.",
+ "outputs": [
+  "The CrossLinguaSummarizer is a state-of-the-art model designed for cross-lingual summarization tasks. It supports multiple languages, including English and Korean, making it ideal for users looking to summarize English articles into Korean. With 1.2 billion parameters and a context length of 512 tokens, this model excels in understanding and condensing complex information. Its intended use cases include academic research, news summarization, and content creation, where quick and accurate translations are essential. The model's strengths lie in its ability to maintain the original meaning while producing fluent and coherent summaries in the target language. It is available in GGUF format and is licensed under the MIT License."
+ ],
+ "response": {
+  "document": "The CrossLinguaSummarizer is a state-of-the-art model designed for cross-lingual summarization tasks. It supports multiple languages, including English and Korean, making it ideal for users looking to summarize English articles into Korean. With 1.2 billion parameters and a context length of 512 tokens, this model excels in understanding and condensing complex information. Its intended use cases include academic research, news summarization, and content creation, where quick and accurate translations are essential. The model's strengths lie in its ability to maintain the original meaning while producing fluent and coherent summaries in the target language. It is available in GGUF format and is licensed under the MIT License."
+ },
+ "latency_ms": 1742.9
+}

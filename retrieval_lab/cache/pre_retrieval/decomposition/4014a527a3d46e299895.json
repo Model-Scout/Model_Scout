@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘.",
+ "outputs": [
+  "whisper-large-v3 한국어 정확도",
+  "whisper-large-v3-turbo 한국어 정확도",
+  "whisper-large-v3 속도",
+  "whisper-large-v3-turbo 속도"
+ ],
+ "response": {
+  "sub_queries": [
+   "whisper-large-v3 한국어 정확도",
+   "whisper-large-v3-turbo 한국어 정확도",
+   "whisper-large-v3 속도",
+   "whisper-large-v3-turbo 속도"
+  ]
+ },
+ "latency_ms": 1083.2
+}

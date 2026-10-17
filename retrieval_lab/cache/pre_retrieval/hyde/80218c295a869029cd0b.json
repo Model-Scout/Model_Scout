@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 롤플레이·캐릭터 대화용 모델이 필요해. 개인 프로젝트야.",
+ "outputs": [
+  "The Character Dialogue Model is designed specifically for role-playing and character interaction tasks. It supports multiple languages, including Korean, making it ideal for projects that require nuanced and context-aware conversations. With 1.5 billion parameters, this model excels in generating engaging and realistic dialogues, suitable for gaming, storytelling, and interactive applications. Its strengths lie in understanding character traits and maintaining consistent dialogue styles, which enhances user immersion. The model is available in GGUF format and is licensed under the MIT License, allowing for flexible use in personal projects."
+ ],
+ "response": {
+  "document": "The Character Dialogue Model is designed specifically for role-playing and character interaction tasks. It supports multiple languages, including Korean, making it ideal for projects that require nuanced and context-aware conversations. With 1.5 billion parameters, this model excels in generating engaging and realistic dialogues, suitable for gaming, storytelling, and interactive applications. Its strengths lie in understanding character traits and maintaining consistent dialogue styles, which enhances user immersion. The model is available in GGUF format and is licensed under the MIT License, allowing for flexible use in personal projects."
+ },
+ "latency_ms": 1523.1
+}

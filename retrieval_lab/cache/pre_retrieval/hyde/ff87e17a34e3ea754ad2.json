@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "의학 질문에 답하는 다국어 의료 QA 모델이 필요해. 한국어 질문도 처리해야 해.",
+ "outputs": [
+  "The MedQA-Multi model is designed for multilingual medical question answering, capable of understanding and responding to queries in various languages, including Korean. With 1.2 billion parameters, it excels in providing accurate and contextually relevant answers to medical inquiries. The model is particularly useful for healthcare professionals, medical students, and patients seeking reliable information on medical topics. Its strengths lie in its extensive training on diverse medical datasets, ensuring high accuracy and relevance in responses. MedQA-Multi supports a context length of 512 tokens and is available in GGUF format, making it easy to integrate into various applications. The model is licensed under the MIT License, promoting open access for research and development."
+ ],
+ "response": {
+  "document": "The MedQA-Multi model is designed for multilingual medical question answering, capable of understanding and responding to queries in various languages, including Korean. With 1.2 billion parameters, it excels in providing accurate and contextually relevant answers to medical inquiries. The model is particularly useful for healthcare professionals, medical students, and patients seeking reliable information on medical topics. Its strengths lie in its extensive training on diverse medical datasets, ensuring high accuracy and relevance in responses. MedQA-Multi supports a context length of 512 tokens and is available in GGUF format, making it easy to integrate into various applications. The model is licensed under the MIT License, promoting open access for research and development."
+ },
+ "latency_ms": 1707.8
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해.",
+ "outputs": [
+  "법령과 판례 검색을 위한 CPU에서 실행 가능한 가벼운 한국어 임베딩 모델을 찾고 있습니다.",
+  "I'm looking for a lightweight embedding model that runs on CPU for searching Korean laws and precedents.",
+  "Korean embedding model, lightweight, CPU, legal documents, case law, RAG"
+ ],
+ "response": {
+  "queries": [
+   "법령과 판례 검색을 위한 CPU에서 실행 가능한 가벼운 한국어 임베딩 모델을 찾고 있습니다.",
+   "I'm looking for a lightweight embedding model that runs on CPU for searching Korean laws and precedents.",
+   "Korean embedding model, lightweight, CPU, legal documents, case law, RAG"
+  ]
+ },
+ "latency_ms": 1256.7
+}

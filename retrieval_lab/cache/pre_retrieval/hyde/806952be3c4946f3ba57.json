@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "madlad400-3b-mt와 Hy-MT2-1.8B 중 한국어 번역 품질이 더 좋은 건?",
+ "outputs": [
+  "The madlad400-3b-mt is a multilingual translation model designed specifically for high-quality translations across various languages, including Korean. With 3 billion parameters, it excels in understanding context and nuances in language, making it suitable for professional translation tasks. Its strengths lie in its ability to handle idiomatic expressions and maintain the original tone of the text. On the other hand, Hy-MT2-1.8B is a Korean-focused translation model with 1.8 billion parameters, optimized for translating between Korean and other languages. It is particularly effective for conversational and informal text, but may not perform as well in formal contexts compared to madlad400-3b-mt. Both models are valuable, but for high-quality formal translations, madlad400-3b-mt may be the better choice."
+ ],
+ "response": {
+  "document": "The madlad400-3b-mt is a multilingual translation model designed specifically for high-quality translations across various languages, including Korean. With 3 billion parameters, it excels in understanding context and nuances in language, making it suitable for professional translation tasks. Its strengths lie in its ability to handle idiomatic expressions and maintain the original tone of the text. On the other hand, Hy-MT2-1.8B is a Korean-focused translation model with 1.8 billion parameters, optimized for translating between Korean and other languages. It is particularly effective for conversational and informal text, but may not perform as well in formal contexts compared to madlad400-3b-mt. Both models are valuable, but for high-quality formal translations, madlad400-3b-mt may be the better choice."
+ },
+ "latency_ms": 1887.7
+}

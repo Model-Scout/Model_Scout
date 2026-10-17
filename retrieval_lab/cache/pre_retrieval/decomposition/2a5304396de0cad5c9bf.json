@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장에서 기쁨·슬픔·분노 같은 감정을 분류하는 모델이 필요해.",
+ "outputs": [
+  "감정 분류 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "감정 분류 모델"
+  ]
+ },
+ "latency_ms": 815.0
+}

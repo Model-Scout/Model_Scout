@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-7.8B-Instruct와 A.X-4.0-Light를 라이선스와 한국어 성능 기준으로 비교해 줘.",
+ "outputs": [
+  "Compare the licenses of EXAONE-3.5-7.8B-Instruct and A.X-4.0-Light.",
+  "Evaluate the Korean performance benchmarks of EXAONE-3.5-7.8B-Instruct and A.X-4.0-Light."
+ ],
+ "response": {
+  "sub_queries": [
+   "Compare the licenses of EXAONE-3.5-7.8B-Instruct and A.X-4.0-Light.",
+   "Evaluate the Korean performance benchmarks of EXAONE-3.5-7.8B-Instruct and A.X-4.0-Light."
+  ]
+ },
+ "latency_ms": 1002.4
+}

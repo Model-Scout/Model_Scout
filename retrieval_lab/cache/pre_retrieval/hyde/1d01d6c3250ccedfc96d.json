@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 PDF 문서 페이지 이미지를 마크다운으로 바꿔 주는 문서 파싱 모델이 필요해.",
+ "outputs": [
+  "The model is designed for document parsing, specifically converting Korean PDF document page images into Markdown format. It supports the Korean language and is optimized for handling various document layouts and structures. With a parameter count of 1.2 billion, it offers a robust understanding of text extraction and formatting. The model is particularly useful for developers and researchers looking to digitize and repurpose Korean documents for web publishing or data analysis. Its strengths include high accuracy in text recognition, efficient layout analysis, and the ability to maintain the original formatting in Markdown. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The model is designed for document parsing, specifically converting Korean PDF document page images into Markdown format. It supports the Korean language and is optimized for handling various document layouts and structures. With a parameter count of 1.2 billion, it offers a robust understanding of text extraction and formatting. The model is particularly useful for developers and researchers looking to digitize and repurpose Korean documents for web publishing or data analysis. Its strengths include high accuracy in text recognition, efficient layout analysis, and the ability to maintain the original formatting in Markdown. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1869.3
+}

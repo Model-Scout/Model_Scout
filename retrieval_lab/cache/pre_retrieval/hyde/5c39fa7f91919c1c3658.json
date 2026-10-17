@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 경제 뉴스 기사 수백 건에 긍정·부정·중립 감성 점수를 매기려고 해. 추가 학습 없이 바로 쓸 수 있는 분류 모델이 필요하고 CPU에서 돌릴 거야.",
+ "outputs": [
+  "The model is a sentiment classification model specifically designed for analyzing Korean economic news articles. It supports Korean as its primary language and is optimized for quick deployment without the need for additional training. With a parameter count of 50 million, it strikes a balance between performance and efficiency, making it suitable for running on CPU environments. The model excels in providing accurate sentiment scores categorized as positive, negative, or neutral, making it ideal for financial analysts and news aggregators. Its strengths lie in its ability to handle nuanced language and context, ensuring reliable sentiment analysis for economic content."
+ ],
+ "response": {
+  "document": "The model is a sentiment classification model specifically designed for analyzing Korean economic news articles. It supports Korean as its primary language and is optimized for quick deployment without the need for additional training. With a parameter count of 50 million, it strikes a balance between performance and efficiency, making it suitable for running on CPU environments. The model excels in providing accurate sentiment scores categorized as positive, negative, or neutral, making it ideal for financial analysts and news aggregators. Its strengths lie in its ability to handle nuanced language and context, ensuring reliable sentiment analysis for economic content."
+ },
+ "latency_ms": 1407.6
+}

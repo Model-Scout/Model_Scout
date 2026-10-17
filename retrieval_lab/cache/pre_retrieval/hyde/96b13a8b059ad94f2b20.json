@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?",
+ "outputs": [
+  "kanana-1.5-v-3b-instruct is a state-of-the-art model designed for instruction-based tasks, particularly excelling in Korean language understanding and generation. With 3 billion parameters, it is optimized for various applications, including conversational agents and content generation. Its strengths lie in its ability to comprehend nuanced queries and provide contextually relevant responses in Korean. On the other hand, LFM2-VL-3B is a vision-language model that integrates visual and textual information, making it suitable for image-based question answering. It also has 3 billion parameters and is specifically tailored for tasks that require understanding both images and Korean text. While both models are capable, LFM2-VL-3B may have an edge in Korean image question answering due to its dual modality capabilities."
+ ],
+ "response": {
+  "document": "kanana-1.5-v-3b-instruct is a state-of-the-art model designed for instruction-based tasks, particularly excelling in Korean language understanding and generation. With 3 billion parameters, it is optimized for various applications, including conversational agents and content generation. Its strengths lie in its ability to comprehend nuanced queries and provide contextually relevant responses in Korean. On the other hand, LFM2-VL-3B is a vision-language model that integrates visual and textual information, making it suitable for image-based question answering. It also has 3 billion parameters and is specifically tailored for tasks that require understanding both images and Korean text. While both models are capable, LFM2-VL-3B may have an edge in Korean image question answering due to its dual modality capabilities."
+ },
+ "latency_ms": 1852.0
+}

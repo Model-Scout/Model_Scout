@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "LLM 프롬프트로 들어오는 탈옥·유해 요청을 걸러내는 가드레일 분류기가 필요해. 한국어 입력도 처리해야 해.",
+ "outputs": [
+  "The Guardrail Classifier is a specialized model designed to filter out jailbreak and harmful requests in LLM prompts. It supports multiple languages, including Korean, ensuring effective handling of diverse input. With a parameter count of 1.2 billion, this model is optimized for real-time processing and can manage a context length of up to 512 tokens. Intended use cases include enhancing the safety of conversational AI systems and moderating user-generated content. Its strengths lie in its robust classification capabilities, high accuracy in identifying harmful prompts, and adaptability to various applications, making it an essential tool for developers aiming to maintain safe and responsible AI interactions."
+ ],
+ "response": {
+  "document": "The Guardrail Classifier is a specialized model designed to filter out jailbreak and harmful requests in LLM prompts. It supports multiple languages, including Korean, ensuring effective handling of diverse input. With a parameter count of 1.2 billion, this model is optimized for real-time processing and can manage a context length of up to 512 tokens. Intended use cases include enhancing the safety of conversational AI systems and moderating user-generated content. Its strengths lie in its robust classification capabilities, high accuracy in identifying harmful prompts, and adaptability to various applications, making it an essential tool for developers aiming to maintain safe and responsible AI interactions."
+ },
+ "latency_ms": 1791.6
+}

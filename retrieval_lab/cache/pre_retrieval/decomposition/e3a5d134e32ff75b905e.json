@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+ "outputs": [
+  "Find models suitable for on-device summarization of transcripts in Korean.",
+  "Search for models with a parameter count around 0.6B that perform well in Korean summarization.",
+  "Look for models that can classify transcripts in Korean.",
+  "Identify models that can be deployed on mobile devices or tablets."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models suitable for on-device summarization of transcripts in Korean.",
+   "Search for models with a parameter count around 0.6B that perform well in Korean summarization.",
+   "Look for models that can classify transcripts in Korean.",
+   "Identify models that can be deployed on mobile devices or tablets."
+  ]
+ },
+ "latency_ms": 1251.1
+}

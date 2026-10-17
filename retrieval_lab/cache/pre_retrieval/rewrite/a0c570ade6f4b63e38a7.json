@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "Korean chat dialogue summarization model for CPU server"
+ ],
+ "response": {
+  "query": "Korean chat dialogue summarization model for CPU server"
+ },
+ "latency_ms": 832.9
+}

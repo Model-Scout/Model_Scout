@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 PDF 문서 페이지 이미지를 마크다운으로 바꿔 주는 문서 파싱 모델이 필요해.",
+ "outputs": [
+  "Document parsing model for converting Korean PDF document page images to Markdown."
+ ],
+ "response": {
+  "query": "Document parsing model for converting Korean PDF document page images to Markdown."
+ },
+ "latency_ms": 727.2
+}

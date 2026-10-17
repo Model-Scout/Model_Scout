@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥용 전사 앱에 중국어·일본어·한국어 음성을 빠르게 받아적는 엔진을 넣으려고 해. 정확도보다 속도가 우선이야.",
+ "outputs": [
+  "The FastTranscribe model is designed for rapid transcription of audio in Chinese, Japanese, and Korean. With a parameter count of 50 million, it offers a context length of 512 tokens, making it lightweight and efficient for real-time applications. This model is particularly suited for transcription apps on macOS, where speed is prioritized over accuracy. It supports GGUF and ONNX file formats, allowing for easy integration into various software environments. Use cases include live transcription for meetings, lectures, and media content. FastTranscribe excels in scenarios requiring quick turnaround times, making it an ideal choice for developers looking to enhance their transcription applications."
+ ],
+ "response": {
+  "document": "The FastTranscribe model is designed for rapid transcription of audio in Chinese, Japanese, and Korean. With a parameter count of 50 million, it offers a context length of 512 tokens, making it lightweight and efficient for real-time applications. This model is particularly suited for transcription apps on macOS, where speed is prioritized over accuracy. It supports GGUF and ONNX file formats, allowing for easy integration into various software environments. Use cases include live transcription for meetings, lectures, and media content. FastTranscribe excels in scenarios requiring quick turnaround times, making it an ideal choice for developers looking to enhance their transcription applications."
+ },
+ "latency_ms": 1615.6
+}

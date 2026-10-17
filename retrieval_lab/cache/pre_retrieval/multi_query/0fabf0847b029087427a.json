@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트에 유해 콘텐츠가 있는지 판별하는 안전성 모델이 필요해.",
+ "outputs": [
+  "유해 콘텐츠를 판별하는 한국어 텍스트와 이미지 안전성 모델을 찾고 있어요.",
+  "I need a safety model that can detect harmful content in images and Korean text.",
+  "안전성 모델, 유해 콘텐츠, 이미지, 한국어 텍스트"
+ ],
+ "response": {
+  "queries": [
+   "유해 콘텐츠를 판별하는 한국어 텍스트와 이미지 안전성 모델을 찾고 있어요.",
+   "I need a safety model that can detect harmful content in images and Korean text.",
+   "안전성 모델, 유해 콘텐츠, 이미지, 한국어 텍스트"
+  ]
+ },
+ "latency_ms": 1213.4
+}

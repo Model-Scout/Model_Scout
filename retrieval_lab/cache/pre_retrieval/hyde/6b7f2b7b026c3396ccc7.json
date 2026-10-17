@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없이 돌아가는 다국어 추출형 QA 모델이 필요해. 한국어 지원은 필수야.",
+ "outputs": [
+  "The Multilingual Extractive QA Model is designed for efficient question-answering tasks across multiple languages, including Korean. With a compact size of 50 million parameters, this model is optimized for performance on CPU, making it ideal for environments without GPU support. It excels in extracting precise answers from given contexts, making it suitable for applications in customer support, educational tools, and information retrieval systems. The model's strengths lie in its ability to understand and process diverse linguistic structures, ensuring high accuracy in responses. It is licensed under the MIT License, promoting open use and collaboration."
+ ],
+ "response": {
+  "document": "The Multilingual Extractive QA Model is designed for efficient question-answering tasks across multiple languages, including Korean. With a compact size of 50 million parameters, this model is optimized for performance on CPU, making it ideal for environments without GPU support. It excels in extracting precise answers from given contexts, making it suitable for applications in customer support, educational tools, and information retrieval systems. The model's strengths lie in its ability to understand and process diverse linguistic structures, ensuring high accuracy in responses. It is licensed under the MIT License, promoting open use and collaboration."
+ },
+ "latency_ms": 1642.9
+}

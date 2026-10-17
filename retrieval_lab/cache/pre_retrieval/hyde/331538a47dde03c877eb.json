@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-8b-instruct랑 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 줘.",
+ "outputs": [
+  "kanana-1.5-8b-instruct is a Korean-capable instruction-tuned model designed for various natural language processing tasks, including text generation, summarization, and question answering. With 8 billion parameters, it offers a robust performance in understanding and generating Korean text, making it suitable for applications in chatbots and content creation. Its strengths lie in its ability to follow instructions accurately and generate coherent responses in Korean.\n\nOn the other hand, Midm-2.0-Base-Instruct is a smaller model with 3 billion parameters, also optimized for instruction-following tasks. While it performs well in Korean, its smaller size may limit its contextual understanding compared to kanana-1.5-8b-instruct. Midm-2.0-Base-Instruct is ideal for lightweight applications where speed and efficiency are prioritized, but it may not match the depth of understanding found in kanana-1.5-8b-instruct."
+ ],
+ "response": {
+  "document": "kanana-1.5-8b-instruct is a Korean-capable instruction-tuned model designed for various natural language processing tasks, including text generation, summarization, and question answering. With 8 billion parameters, it offers a robust performance in understanding and generating Korean text, making it suitable for applications in chatbots and content creation. Its strengths lie in its ability to follow instructions accurately and generate coherent responses in Korean.\n\nOn the other hand, Midm-2.0-Base-Instruct is a smaller model with 3 billion parameters, also optimized for instruction-following tasks. While it performs well in Korean, its smaller size may limit its contextual understanding compared to kanana-1.5-8b-instruct. Midm-2.0-Base-Instruct is ideal for lightweight applications where speed and efficiency are prioritized, but it may not match the depth of understanding found in kanana-1.5-8b-instruct."
+ },
+ "latency_ms": 2471.0
+}

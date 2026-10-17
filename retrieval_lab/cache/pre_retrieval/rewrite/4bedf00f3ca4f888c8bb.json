@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 취업규칙 문서를 근거 조항으로만 답하는 한국어 RAG 챗봇을 만들 거야. 사내 규정을 외부로 보낼 수 없어서 완전히 로컬에서 돌아가야 해.",
+ "outputs": [
+  "Create local Korean RAG chatbot using internal employment regulations as reference clauses."
+ ],
+ "response": {
+  "query": "Create local Korean RAG chatbot using internal employment regulations as reference clauses."
+ },
+ "latency_ms": 858.1
+}

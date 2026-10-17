@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델이 필요해.",
+ "outputs": [
+  "Korean speech recognition and English translation model"
+ ],
+ "response": {
+  "query": "Korean speech recognition and English translation model"
+ },
+ "latency_ms": 765.0
+}

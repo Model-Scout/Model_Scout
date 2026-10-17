@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어와 영어가 섞인 기술 문서에서 질문에 대한 답을 찾는 QA 모델이 필요해. 여러 언어를 같이 처리할 수 있어야 해.",
+ "outputs": [
+  "QA 모델",
+  "여러 언어 처리",
+  "기술 문서"
+ ],
+ "response": {
+  "sub_queries": [
+   "QA 모델",
+   "여러 언어 처리",
+   "기술 문서"
+  ]
+ },
+ "latency_ms": 820.8
+}

@@ -2,9 +2,10 @@
 
 For each query type:
   1. Baseline (BGE-M3 + BM25, weighted RRF 0.5/0.5, no pre-retrieval)
-  2. Single A/B: Rewrite, Decomposition, Multi-Query, HyDE (one at a time)
+  2. Single A/B: Rewrite, Decomposition, Multi-Query, HyDE, Name Lookup (one at a time)
   3. Combinations of the strategies that beat the baseline on --metric
-  4. Dense-weight search (Optuna or grid, 0.1-0.9, sparse = 1 - dense) on the best combination
+  4. Dense-weight search (Optuna or grid, 0.1-0.9, sparse = 1 - dense) on the best combination,
+     and on the baseline too when a pre-retrieval setting won (weight alone may tie it for free)
 Reports go to retrieval_lab/reports/<type>.md|json; --write-planner stores the
 winner in planner_config.json.
 
@@ -12,6 +13,7 @@ Examples:
     python -m retrieval_lab.experiment --types semantic_capability,model_comparison
     python -m retrieval_lab.experiment --types lexical_exact --stage single
     python -m retrieval_lab.experiment --stage baseline            # no LLM needed
+    python -m retrieval_lab.experiment --stage weight              # baseline + dense-weight search, no LLM
 """
 
 from __future__ import annotations
@@ -28,6 +30,7 @@ from retrieval_lab import golden, metrics
 from retrieval_lab.pipeline import Retriever
 from retrieval_lab.planner import (
     BASELINE,
+    ELEMENTS,
     PLAN_QUERY_TYPES,
     RetrievalPlan,
     hard_filters,
@@ -44,7 +47,7 @@ TABLE_COLUMNS = (
 )
 DETAIL_COLUMNS = (
     ("P@5", "precision@5"), ("P@10", "precision@10"), ("F1@5", "f1@5"), ("Hit@10", "hit@10"),
-    ("p99", "p99_ms"), ("제외 위반@10", "must_exclude_violation_rate@10"), ("Judged@10", "judged@10"),
+    ("nRecall@10", "nrecall@10"), ("p99", "p99_ms"), ("제외 위반@10", "must_exclude_violation_rate@10"), ("Judged@10", "judged@10"),
 )
 
 
@@ -80,12 +83,22 @@ def score_of(run: Dict[str, Any], metric: str) -> Tuple[float, ...]:
         summary.get(metric) or 0.0,
         summary.get("recall@5") or 0.0,
         summary.get("ndcg@5") or 0.0,
-        -len([key for key, on in run["plan"].items() if key.startswith("use_") and on]),
+        -sum(1 for strategy in STRATEGIES if run["plan"].get(f"use_{strategy}")),
         -(summary.get("p95_ms") or 0.0),
     )
 
 
-def try_evaluate(retriever, queries, plan, min_grade, log) -> Optional[Dict[str, Any]]:
+def quality_of(run: Dict[str, Any], metric: str) -> Tuple[float, ...]:
+    """score_of without latency: weight choices must not hinge on timing noise."""
+    return score_of(run, metric)[:4]
+
+
+def weight_choice(runs: Sequence[Dict[str, Any]], metric: str) -> Dict[str, Any]:
+    # On equal quality, keep the weight closest to the 0.5 baseline.
+    return max(runs, key=lambda run: (quality_of(run, metric), -abs(run["plan"]["dense_weight"] - BASELINE.dense_weight)))
+
+
+def try_evaluate(retriever, queries, plan, min_grade, log, name: str = "") -> Optional[Dict[str, Any]]:
     started = time.perf_counter()
     try:
         run = evaluate(retriever, queries, plan, min_grade)
@@ -93,7 +106,7 @@ def try_evaluate(retriever, queries, plan, min_grade, log) -> Optional[Dict[str,
         log(f"  {plan.label()}: 건너뜀 ({error})")
         return None
     summary = run["summary"]
-    log(f"  {plan.label():<40} Recall@10={fmt(summary['recall@10'])} nDCG@5={fmt(summary['ndcg@5'])} "
+    log(f"  {name or plan.label():<40} Recall@10={fmt(summary['recall@10'])} nDCG@5={fmt(summary['ndcg@5'])} "
         f"p95={fmt(summary['p95_ms'], 'ms')} ({time.perf_counter() - started:.0f}s)")
     return run
 
@@ -115,13 +128,15 @@ def weight_search(retriever, queries, plan, min_grade, metric, method, trials, l
 
         optuna.logging.set_verbosity(optuna.logging.WARNING)
         study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=42))
-        study.enqueue_trial({"dense_weight": plan.dense_weight})
+        # The plan's grid (0.1-0.9, step 0.1) first, then TPE refines at 0.05 steps.
+        for step in range(1, 10):
+            study.enqueue_trial({"dense_weight": step / 10})
         study.optimize(
             lambda trial: run_at(trial.suggest_float("dense_weight", 0.1, 0.9, step=0.05))["summary"].get(metric) or 0.0,
             n_trials=trials,
         )
     ordered = [runs[key] for key in sorted(runs)]
-    best = max(ordered, key=lambda run: score_of(run, metric))
+    best = weight_choice(ordered, metric)
     log(f"  가중치 탐색({method}, {len(ordered)}점): dense={best['plan']['dense_weight']} "
         f"{metric}={fmt(best['summary'].get(metric))}")
     return ordered
@@ -151,6 +166,7 @@ def render(query_type: str, result: Dict[str, Any]) -> str:
         "",
         f"- 질의 {result['queries']}개 (채점 {result['scored_queries']}개), 기준 지표 `{result['metric']}`, 관련 등급 ≥ {result['min_grade']}",
         f"- Dense `{result['dense_model']}` · Sparse fielded BM25 · Weighted RRF (k={BASELINE.rrf_k}) · Pre-Retrieval LLM `{result['llm']}`",
+        f"- 라벨: {result.get('labels', '기존 라벨')}",
         f"- 실행 {result['ran_at']}",
         "",
         "## 실험표",
@@ -160,12 +176,19 @@ def render(query_type: str, result: Dict[str, Any]) -> str:
         rows.append((f"Best Combination ({best['label']}, dense {best['plan']['dense_weight']})", best))
     lines += table(rows)
     lines += ["", "### 보조 지표", ""] + table(rows, DETAIL_COLUMNS)
+    if result.get("channels"):
+        channel_rows = [("Dense only (BGE-M3)", result["channels"][0]), ("Sparse only (BM25)", result["channels"][1]),
+                        ("Hybrid (Weighted RRF 0.5/0.5)", result["baseline"])]
+        lines += ["", "## Dense / Sparse / Hybrid 비교 (Pre-Retrieval 없음)", ""] + table(channel_rows)
     if result.get("combos"):
         lines += ["", "## 조합 실험", "", f"개선된 단일 요소: {', '.join(result['improved']) or '없음'}", ""]
         lines += table([(run["label"], run) for run in result["combos"]])
     if result.get("weights"):
         lines += ["", "## Dense/Sparse 가중치 탐색", "", f"대상: {result['weight_base']} · 방법: {result['weight_method']}", ""]
         lines += table([(f"dense {run['plan']['dense_weight']} / sparse {run['plan']['sparse_weight']}", run) for run in result["weights"]])
+    if result.get("baseline_weights"):
+        lines += ["", "## Dense/Sparse 가중치 탐색 (Pre-Retrieval 없음)", "", f"대상: Baseline · 방법: {result['weight_method']}", ""]
+        lines += table([(f"dense {run['plan']['dense_weight']} / sparse {run['plan']['sparse_weight']}", run) for run in result["baseline_weights"]])
     reference = best or result["baseline"]
     misses = [item for item in reference["per_query"] if item["metrics"] and item["missed@10"]]
     if misses:
@@ -214,9 +237,20 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
     result["baseline"] = try_evaluate(retriever, queries, baseline, args.min_grade, log)
     if args.stage == "baseline":
         return result
+    result["channels"] = [
+        try_evaluate(retriever, queries, with_dense_weight(baseline, weight), args.min_grade, log, name)
+        for weight, name in ((1.0, "Dense only"), (0.0, "Sparse only"))
+    ]
+    if args.stage == "weight":
+        # Dense-weight search without pre-retrieval: no LLM calls.
+        result["weight_base"] = result["baseline"]["label"]
+        result["weight_method"] = args.weight_search
+        result["weights"] = weight_search(retriever, queries, baseline, args.min_grade, args.metric, args.weight_search, args.trials, log)
+        result["best"] = weight_choice([result["baseline"]] + result["weights"], args.metric)
+        return result
 
     base_score = result["baseline"]["summary"].get(args.metric) or 0.0
-    for strategy in STRATEGIES:
+    for strategy in ELEMENTS:
         run = try_evaluate(retriever, queries, with_strategies(baseline, (strategy,)), args.min_grade, log)
         if run:
             result["single"].append(run)
@@ -237,19 +271,25 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
     result["best"] = best
 
     if args.weight_search != "none":
-        base_plan = with_strategies(baseline, tuple(s for s in STRATEGIES if best["plan"][f"use_{s}"]))
+        base_plan = with_strategies(baseline, tuple(s for s in ELEMENTS if best["plan"].get(f"use_{s}")))
         result["weight_base"] = best["label"]
         result["weight_method"] = args.weight_search
         result["weights"] = weight_search(retriever, queries, base_plan, args.min_grade, args.metric, args.weight_search, args.trials, log)
-        tuned = max(result["weights"], key=lambda run: score_of(run, args.metric))
-        if score_of(tuned, args.metric) > score_of(best, args.metric):
+        tuned = weight_choice(result["weights"], args.metric)
+        if quality_of(tuned, args.metric) > quality_of(best, args.metric):
             result["best"] = tuned
+        if best is not result["baseline"]:
+            # Re-tuning the weight alone may match the pre-retrieval winner without any LLM call.
+            result["baseline_weights"] = weight_search(retriever, queries, baseline, args.min_grade, args.metric, args.weight_search, args.trials, log)
+            tuned = weight_choice(result["baseline_weights"], args.metric)
+            if quality_of(tuned, args.metric) > quality_of(result["best"], args.metric):
+                result["best"] = tuned
     return result
 
 
 def unjudged_pool(result: Dict[str, Any]) -> Dict[str, List[str]]:
     """Union of unjudged top-10 models over every run, per query (for the 판정실)."""
-    runs = [result.get("baseline")] + [run for key in ("single", "combos", "weights") for run in result.get(key) or []]
+    runs = [result.get("baseline")] + [run for key in ("channels", "single", "combos", "weights", "baseline_weights") for run in result.get(key) or []]
     pool: Dict[str, set] = {}
     for run in runs:
         for item in (run or {}).get("per_query", []):
@@ -260,7 +300,7 @@ def unjudged_pool(result: Dict[str, Any]) -> Dict[str, List[str]]:
 def compact(result: Dict[str, Any]) -> Dict[str, Any]:
     """Keep per-query detail only for baseline and best; summaries for the rest."""
     out = dict(result)
-    for key in ("single", "combos", "weights"):
+    for key in ("channels", "single", "combos", "weights", "baseline_weights"):
         out[key] = [{"label": run["label"], "plan": run["plan"], "summary": run["summary"]} for run in result.get(key) or []]
     return out
 
@@ -269,22 +309,30 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--types", default="", help="쉼표로 구분한 plan_query_type (기본: 라벨이 있는 모든 유형)")
     parser.add_argument("--query-files", nargs="*", type=Path, default=list(golden.DEFAULT_QUERY_FILES))
-    parser.add_argument("--stage", choices=("baseline", "single", "all"), default="all")
+    parser.add_argument("--stage", choices=("baseline", "single", "weight", "all"), default="all",
+                        help="weight: Pre-Retrieval 없이 Baseline에서 dense weight만 탐색 (LLM 불필요)")
     parser.add_argument("--metric", default="recall@10", choices=metrics.METRIC_KEYS)
     parser.add_argument("--min-grade", type=int, default=1, choices=(1, 2), help="1: 정답+허용을 관련으로, 2: 정답만")
     parser.add_argument("--min-delta", type=float, default=0.0, help="단일 요소가 '개선'으로 인정되는 최소 차이")
     parser.add_argument("--weight-search", choices=("optuna", "grid", "none"), default="optuna")
-    parser.add_argument("--trials", type=int, default=20)
+    parser.add_argument("--trials", type=int, default=20, help="Optuna 시행 수 (앞의 9회는 0.1~0.9 grid)")
+    parser.add_argument("--no-supplement", action="store_true",
+                        help="supplemental_judgments.jsonl(추가 판정)을 빼고 기존 라벨만으로 채점")
     parser.add_argument("--write-planner", action="store_true", help="유형별 최적 설정을 planner_config.json에 저장")
     args = parser.parse_args()
 
     retriever = Retriever()
+    # Load BGE-M3 before timing so the first query's latency excludes model loading.
+    from retrieval_lab.dense import encode
+
+    encode(["warm-up"])
     corpus_ids = set(retriever.ids)
     wanted = [t for t in args.types.split(",") if t] or list(PLAN_QUERY_TYPES)
     unknown = sorted(set(wanted) - set(PLAN_QUERY_TYPES))
     if unknown:
         parser.error(f"알 수 없는 유형: {unknown}")
-    all_queries = golden.load(args.query_files, corpus_ids, wanted)
+    supplement_path = None if args.no_supplement else golden.SUPPLEMENT_PATH
+    all_queries = golden.load(args.query_files, corpus_ids, wanted, supplement_path)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     summary_rows = []
     for query_type in wanted:
@@ -293,6 +341,7 @@ def main() -> None:
             print(f"\n[{query_type}] 라벨된 질의 없음, 건너뜀")
             continue
         result = run_type(retriever, queries, query_type, args, print)
+        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({golden.SUPPLEMENT_PATH.name})"
         result["unjudged_pool"] = unjudged_pool(result)
         (REPORT_DIR / f"{query_type}.json").write_text(json.dumps(compact(result), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         (REPORT_DIR / f"{query_type}.md").write_text(render(query_type, result), encoding="utf-8")

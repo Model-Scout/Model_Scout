@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?",
+ "outputs": [
+  "Midm-2.0-Mini-Instruct is a compact Korean language model designed for instruction-following tasks. With 1.2 billion parameters, it excels in generating coherent and contextually relevant responses in Korean. Its strengths lie in its ability to understand nuanced instructions and provide informative answers, making it suitable for applications in chatbots, educational tools, and content generation. On the other hand, EXAONE-4.0-1.2B is a larger model with enhanced capabilities in understanding complex queries and generating detailed responses. While both models are effective, Midm-2.0-Mini-Instruct is particularly advantageous for lightweight applications requiring quick and efficient responses in Korean."
+ ],
+ "response": {
+  "document": "Midm-2.0-Mini-Instruct is a compact Korean language model designed for instruction-following tasks. With 1.2 billion parameters, it excels in generating coherent and contextually relevant responses in Korean. Its strengths lie in its ability to understand nuanced instructions and provide informative answers, making it suitable for applications in chatbots, educational tools, and content generation. On the other hand, EXAONE-4.0-1.2B is a larger model with enhanced capabilities in understanding complex queries and generating detailed responses. While both models are effective, Midm-2.0-Mini-Instruct is particularly advantageous for lightweight applications requiring quick and efficient responses in Korean."
+ },
+ "latency_ms": 1673.1
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "translation model supporting over 200 languages for research purposes"
+ ],
+ "response": {
+  "query": "translation model supporting over 200 languages for research purposes"
+ },
+ "latency_ms": 796.9
+}

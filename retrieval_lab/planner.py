@@ -48,6 +48,8 @@ class RetrievalPlan:
     use_decomposition: bool = False
     use_multi_query: bool = False
     use_hyde: bool = False
+    # Pin models named in the query (exact model-name match, no LLM) before fused results.
+    use_name_lookup: bool = False
     top_k: int = 30
     rrf_k: int = 60
 
@@ -63,6 +65,8 @@ class RetrievalPlan:
     def label(self) -> str:
         names = {"rewrite": "Rewrite", "decomposition": "Decomposition", "multi_query": "Multi-Query", "hyde": "HyDE"}
         used = [names[name] for name in self.strategies()]
+        if self.use_name_lookup:
+            used.append("Name Lookup")
         return " + ".join(used) if used else "Baseline"
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,11 +74,13 @@ class RetrievalPlan:
 
 
 BASELINE = RetrievalPlan(query_type="baseline")
-_TUNABLE = ("dense_weight", "use_rewrite", "use_decomposition", "use_multi_query", "use_hyde", "top_k", "rrf_k")
+_TUNABLE = ("dense_weight", "use_rewrite", "use_decomposition", "use_multi_query", "use_hyde", "use_name_lookup", "top_k", "rrf_k")
+# Elements the A/B experiments switch on and off: the LLM transforms plus name lookup.
+ELEMENTS = ("rewrite", "decomposition", "multi_query", "hyde", "name_lookup")
 
 
 def with_strategies(plan: RetrievalPlan, strategies: tuple[str, ...]) -> RetrievalPlan:
-    return replace(plan, **{f"use_{name}": name in strategies for name in ("rewrite", "decomposition", "multi_query", "hyde")})
+    return replace(plan, **{f"use_{name}": name in strategies for name in ELEMENTS})
 
 
 def with_dense_weight(plan: RetrievalPlan, dense_weight: float) -> RetrievalPlan:

@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 희소(sparse) 벡터로 바꿔 키워드 검색과 섞어 쓰려고 해.",
+ "outputs": [
+  "한국어 문서를 희소(sparse) 벡터로 변환하는 모델",
+  "키워드 검색에 적합한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 문서를 희소(sparse) 벡터로 변환하는 모델",
+   "키워드 검색에 적합한 모델"
+  ]
+ },
+ "latency_ms": 929.6
+}

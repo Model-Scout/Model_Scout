@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?",
+ "outputs": [
+  "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean의 차이점은 무엇인가요? 한국어 검색에 더 적합한 모델은 어떤 것인가요?",
+  "What are the differences between dragonkue/BGE-m3-ko and upskyy/bge-m3-korean? Which one is better for Korean search?",
+  "dragonkue/BGE-m3-ko, upskyy/bge-m3-korean, 한국어 검색, 모델 차이, 성능 비교"
+ ],
+ "response": {
+  "queries": [
+   "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean의 차이점은 무엇인가요? 한국어 검색에 더 적합한 모델은 어떤 것인가요?",
+   "What are the differences between dragonkue/BGE-m3-ko and upskyy/bge-m3-korean? Which one is better for Korean search?",
+   "dragonkue/BGE-m3-ko, upskyy/bge-m3-korean, 한국어 검색, 모델 차이, 성능 비교"
+  ]
+ },
+ "latency_ms": 1640.9
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성인식 성능을 비교해 줘.",
+ "outputs": [
+  "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성 인식 성능 비교",
+  "Compare the Korean speech recognition performance of Qwen3-ASR-0.6B and whisper-medium",
+  "Qwen3-ASR-0.6B, whisper-medium, 한국어, 음성 인식, 성능, 비교"
+ ],
+ "response": {
+  "queries": [
+   "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성 인식 성능 비교",
+   "Compare the Korean speech recognition performance of Qwen3-ASR-0.6B and whisper-medium",
+   "Qwen3-ASR-0.6B, whisper-medium, 한국어, 음성 인식, 성능, 비교"
+  ]
+ },
+ "latency_ms": 1113.9
+}

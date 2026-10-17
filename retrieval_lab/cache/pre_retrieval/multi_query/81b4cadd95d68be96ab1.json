@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중 한국어를 더 잘하는 건 뭐야?",
+ "outputs": [
+  "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중에서 한국어 성능 비교",
+  "Which model performs better in Korean, Phi-4-mini-instruct or EXAONE-3.5-2.4B-Instruct?",
+  "Korean performance comparison, Phi-4-mini-instruct, EXAONE-3.5-2.4B-Instruct"
+ ],
+ "response": {
+  "queries": [
+   "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중에서 한국어 성능 비교",
+   "Which model performs better in Korean, Phi-4-mini-instruct or EXAONE-3.5-2.4B-Instruct?",
+   "Korean performance comparison, Phi-4-mini-instruct, EXAONE-3.5-2.4B-Instruct"
+  ]
+ },
+ "latency_ms": 1558.9
+}

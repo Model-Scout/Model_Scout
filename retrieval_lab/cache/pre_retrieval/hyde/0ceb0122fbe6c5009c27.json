@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘.",
+ "outputs": [
+  "The KOElectra-Base-V3-Finetuned-KorQuAD is a powerful model designed for question answering tasks in Korean. With 110 million parameters, it excels in understanding context and providing accurate answers, making it suitable for applications in educational tools and customer support systems. Its strengths lie in its ability to handle complex queries and provide detailed responses. In contrast, the KOElectra-Small-V2-Distilled-KorQuAD-384 is a smaller model with 30 million parameters, optimized for efficiency and speed. While it may not achieve the same level of accuracy as the base model, it is ideal for real-time applications where quick responses are essential. Both models are fine-tuned on the KorQuAD dataset, ensuring they are well-suited for Korean language tasks."
+ ],
+ "response": {
+  "document": "The KOElectra-Base-V3-Finetuned-KorQuAD is a powerful model designed for question answering tasks in Korean. With 110 million parameters, it excels in understanding context and providing accurate answers, making it suitable for applications in educational tools and customer support systems. Its strengths lie in its ability to handle complex queries and provide detailed responses. In contrast, the KOElectra-Small-V2-Distilled-KorQuAD-384 is a smaller model with 30 million parameters, optimized for efficiency and speed. While it may not achieve the same level of accuracy as the base model, it is ideal for real-time applications where quick responses are essential. Both models are fine-tuned on the KorQuAD dataset, ensuring they are well-suited for Korean language tasks."
+ },
+ "latency_ms": 2211.0
+}

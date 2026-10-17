@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+ "outputs": [
+  "On-device app for summarizing and classifying transcripts on mobile and tablet, requires Korean summarization capability, model size above 0.6B, no external server usage."
+ ],
+ "response": {
+  "query": "On-device app for summarizing and classifying transcripts on mobile and tablet, requires Korean summarization capability, model size above 0.6B, no external server usage."
+ },
+ "latency_ms": 1034.8
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 의료 상담 질문에 답하는 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "의료 상담을 위한 한국어 모델을 찾고 있습니다. 라이선스는 연구용이므로 상관없습니다.",
+  "I need a model that answers medical consultation questions in Korean. The license does not matter as it is for research purposes.",
+  "의료 상담, 한국어, 연구용, 라이선스 무관"
+ ],
+ "response": {
+  "queries": [
+   "의료 상담을 위한 한국어 모델을 찾고 있습니다. 라이선스는 연구용이므로 상관없습니다.",
+   "I need a model that answers medical consultation questions in Korean. The license does not matter as it is for research purposes.",
+   "의료 상담, 한국어, 연구용, 라이선스 무관"
+  ]
+ },
+ "latency_ms": 1306.5
+}

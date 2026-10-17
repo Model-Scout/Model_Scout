@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "API 키 없이 로컬 GPU에서 sentence-transformers로 돌릴 한국어 서비스용 임베딩 모델을 고르려고 해. 한국어 검색 정확도가 가장 중요해.",
+ "outputs": [
+  "API 키 없이 로컬 GPU에서 사용할 수 있는 한국어 임베딩 모델을 찾고 있습니다. 검색 정확도가 중요합니다.",
+  "I'm looking for an embedding model for Korean services that can run on a local GPU without an API key. Search accuracy is the most important.",
+  "sentence-transformers, Korean, local GPU, embedding model, search accuracy, no API key"
+ ],
+ "response": {
+  "queries": [
+   "API 키 없이 로컬 GPU에서 사용할 수 있는 한국어 임베딩 모델을 찾고 있습니다. 검색 정확도가 중요합니다.",
+   "I'm looking for an embedding model for Korean services that can run on a local GPU without an API key. Search accuracy is the most important.",
+   "sentence-transformers, Korean, local GPU, embedding model, search accuracy, no API key"
+  ]
+ },
+ "latency_ms": 1277.6
+}

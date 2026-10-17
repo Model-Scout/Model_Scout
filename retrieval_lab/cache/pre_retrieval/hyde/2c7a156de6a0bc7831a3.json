@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 한국어 모델이 필요해.",
+ "outputs": [
+  "The model is designed for the task of distinguishing between honorific and informal speech in Korean. It supports the Korean language and is optimized for processing customer service inquiries. With a parameter count of 110 million, it offers a context length of 512 tokens, making it suitable for analyzing short to medium-length sentences. The model is particularly useful for businesses aiming to improve customer interactions by ensuring appropriate language use. Its strengths lie in its high accuracy and ability to adapt to various customer service scenarios, making it an essential tool for enhancing communication in Korean-speaking environments."
+ ],
+ "response": {
+  "document": "The model is designed for the task of distinguishing between honorific and informal speech in Korean. It supports the Korean language and is optimized for processing customer service inquiries. With a parameter count of 110 million, it offers a context length of 512 tokens, making it suitable for analyzing short to medium-length sentences. The model is particularly useful for businesses aiming to improve customer interactions by ensuring appropriate language use. Its strengths lie in its high accuracy and ability to adapt to various customer service scenarios, making it an essential tool for enhancing communication in Korean-speaking environments."
+ },
+ "latency_ms": 1860.9
+}

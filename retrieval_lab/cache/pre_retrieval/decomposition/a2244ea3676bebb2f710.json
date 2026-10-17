@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없이 돌아가는 다국어 추출형 QA 모델이 필요해. 한국어 지원은 필수야.",
+ "outputs": [
+  "다국어 추출형 QA 모델",
+  "GPU 없이 실행 가능한 모델",
+  "한국어 지원 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "다국어 추출형 QA 모델",
+   "GPU 없이 실행 가능한 모델",
+   "한국어 지원 모델"
+  ]
+ },
+ "latency_ms": 794.2
+}

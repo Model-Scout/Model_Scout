@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+ "outputs": [
+  "블로그 글 요약을 위한 한국어 모델",
+  "I need a model that summarizes key points from Korean blog posts.",
+  "모델, 한국어, 블로그, 요약, 핵심 포인트"
+ ],
+ "response": {
+  "queries": [
+   "블로그 글 요약을 위한 한국어 모델",
+   "I need a model that summarizes key points from Korean blog posts.",
+   "모델, 한국어, 블로그, 요약, 핵심 포인트"
+  ]
+ },
+ "latency_ms": 947.7
+}
