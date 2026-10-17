@@ -11,11 +11,14 @@ Order of operations for a plan:
 3. Each query variant gives a dense list and a sparse list (top CHANNEL_DEPTH).
 4. Weighted RRF fuses all lists; each channel's weight is split evenly over its
    lists. The fused top_k is returned.
+5. With use_name_lookup, models named in the query text (exact model-name
+   match, see name_lookup) are pinned in front of the fused list.
 """
 
 from __future__ import annotations
 
 import json
+import re
 import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Optional, Tuple
@@ -26,6 +29,9 @@ from retrieval_lab import corpus, dense, fusion, pre_retrieval
 from retrieval_lab.planner import RetrievalPlan
 
 CHANNEL_DEPTH = 100
+# Model-name-like tokens: start with a letter, may contain digits . _ -
+NAME_TOKEN = re.compile(r"[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]")
+MIN_NAME_LENGTH = 4
 
 
 @dataclass
@@ -44,6 +50,12 @@ class Retriever:
         self.ids = [row["model_id"] for row in self.rows]
         self.dense = dense_index if dense_index is not None else dense.DenseIndex(self.rows)
         self.bm25 = corpus.bm25_index(self.rows)
+        # Repo name (part after "/") -> row indices, most downloaded first.
+        self._by_name: Dict[str, List[int]] = {}
+        for index, row in enumerate(self.rows):
+            self._by_name.setdefault(row["model_id"].split("/")[-1].casefold(), []).append(index)
+        for indices in self._by_name.values():
+            indices.sort(key=lambda i: -int((self.rows[i].get("popularity") or {}).get("current", {}).get("downloads") or 0))
         # Memoized per run so weight sweeps only redo fusion. Each entry keeps the
         # latency measured the first time, so p95/p99 stay realistic.
         self._eligible: Dict[str, np.ndarray] = {}
@@ -89,6 +101,32 @@ class Retriever:
             self._sparse_lists[cache_key] = (ranked, (time.perf_counter() - started) * 1000.0)
         return self._sparse_lists[cache_key]
 
+    def name_lookup(self, text: str, eligible: np.ndarray) -> List[str]:
+        """Models whose repo name the query spells out, in order of mention.
+
+        A token matches a repo name exactly, or as a prefix followed by "-"
+        (e.g. "kanana-1.5-2.1b-instruct" -> "kanana-1.5-2.1b-instruct-2505").
+        Among same-named copies (GGUF, mirrors) the most downloaded eligible
+        one wins, which is normally the original.
+        """
+        allowed = set(eligible.tolist())
+        pinned: List[str] = []
+        for token in NAME_TOKEN.findall(text):
+            name = token.casefold()
+            if len(name) < MIN_NAME_LENGTH:
+                continue
+            indices = self._by_name.get(name)
+            if not indices:
+                prefix = name + "-"
+                indices = sorted(
+                    (i for repo, group in self._by_name.items() if repo.startswith(prefix) for i in group),
+                    key=lambda i: -int((self.rows[i].get("popularity") or {}).get("current", {}).get("downloads") or 0),
+                )
+            match = next((self.ids[i] for i in indices if i in allowed), None)
+            if match and match not in pinned:
+                pinned.append(match)
+        return pinned
+
     def run(self, text: str, plan: RetrievalPlan) -> RunResult:
         transforms: Dict[str, List[str]] = {}
         pre_ms = 0.0
@@ -123,6 +161,10 @@ class Retriever:
             fusion.channel_lists(dense_lists, sparse_lists, plan.dense_weight, plan.sparse_weight),
             k=plan.rrf_k,
         )
+        ranked = [model_id for model_id, _ in fused]
+        if plan.use_name_lookup and len(eligible):
+            pinned = self.name_lookup(text, eligible)
+            ranked = pinned + [model_id for model_id in ranked if model_id not in pinned]
         fusion_ms = (time.perf_counter() - started) * 1000.0
         latency = {
             "pre_retrieval": round(pre_ms, 2),
@@ -132,7 +174,7 @@ class Retriever:
         }
         latency["total"] = round(sum(latency.values()), 2)
         return RunResult(
-            ranked=[model_id for model_id, _ in fused[: plan.top_k]],
+            ranked=ranked[: plan.top_k],
             latency_ms=latency,
             dense_queries=dense_queries,
             sparse_queries=sparse_queries,

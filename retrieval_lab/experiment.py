@@ -2,7 +2,7 @@
 
 For each query type:
   1. Baseline (BGE-M3 + BM25, weighted RRF 0.5/0.5, no pre-retrieval)
-  2. Single A/B: Rewrite, Decomposition, Multi-Query, HyDE (one at a time)
+  2. Single A/B: Rewrite, Decomposition, Multi-Query, HyDE, Name Lookup (one at a time)
   3. Combinations of the strategies that beat the baseline on --metric
   4. Dense-weight search (Optuna or grid, 0.1-0.9, sparse = 1 - dense) on the best combination,
      and on the baseline too when a pre-retrieval setting won (weight alone may tie it for free)
@@ -30,6 +30,7 @@ from retrieval_lab import golden, metrics
 from retrieval_lab.pipeline import Retriever
 from retrieval_lab.planner import (
     BASELINE,
+    ELEMENTS,
     PLAN_QUERY_TYPES,
     RetrievalPlan,
     hard_filters,
@@ -46,7 +47,7 @@ TABLE_COLUMNS = (
 )
 DETAIL_COLUMNS = (
     ("P@5", "precision@5"), ("P@10", "precision@10"), ("F1@5", "f1@5"), ("Hit@10", "hit@10"),
-    ("p99", "p99_ms"), ("제외 위반@10", "must_exclude_violation_rate@10"), ("Judged@10", "judged@10"),
+    ("nRecall@10", "nrecall@10"), ("p99", "p99_ms"), ("제외 위반@10", "must_exclude_violation_rate@10"), ("Judged@10", "judged@10"),
 )
 
 
@@ -82,9 +83,19 @@ def score_of(run: Dict[str, Any], metric: str) -> Tuple[float, ...]:
         summary.get(metric) or 0.0,
         summary.get("recall@5") or 0.0,
         summary.get("ndcg@5") or 0.0,
-        -len([key for key, on in run["plan"].items() if key.startswith("use_") and on]),
+        -sum(1 for strategy in STRATEGIES if run["plan"].get(f"use_{strategy}")),
         -(summary.get("p95_ms") or 0.0),
     )
+
+
+def quality_of(run: Dict[str, Any], metric: str) -> Tuple[float, ...]:
+    """score_of without latency: weight choices must not hinge on timing noise."""
+    return score_of(run, metric)[:4]
+
+
+def weight_choice(runs: Sequence[Dict[str, Any]], metric: str) -> Dict[str, Any]:
+    # On equal quality, keep the weight closest to the 0.5 baseline.
+    return max(runs, key=lambda run: (quality_of(run, metric), -abs(run["plan"]["dense_weight"] - BASELINE.dense_weight)))
 
 
 def try_evaluate(retriever, queries, plan, min_grade, log, name: str = "") -> Optional[Dict[str, Any]]:
@@ -125,7 +136,7 @@ def weight_search(retriever, queries, plan, min_grade, metric, method, trials, l
             n_trials=trials,
         )
     ordered = [runs[key] for key in sorted(runs)]
-    best = max(ordered, key=lambda run: score_of(run, metric))
+    best = weight_choice(ordered, metric)
     log(f"  가중치 탐색({method}, {len(ordered)}점): dense={best['plan']['dense_weight']} "
         f"{metric}={fmt(best['summary'].get(metric))}")
     return ordered
@@ -235,11 +246,11 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
         result["weight_base"] = result["baseline"]["label"]
         result["weight_method"] = args.weight_search
         result["weights"] = weight_search(retriever, queries, baseline, args.min_grade, args.metric, args.weight_search, args.trials, log)
-        result["best"] = max([result["baseline"]] + result["weights"], key=lambda run: score_of(run, args.metric))
+        result["best"] = weight_choice([result["baseline"]] + result["weights"], args.metric)
         return result
 
     base_score = result["baseline"]["summary"].get(args.metric) or 0.0
-    for strategy in STRATEGIES:
+    for strategy in ELEMENTS:
         run = try_evaluate(retriever, queries, with_strategies(baseline, (strategy,)), args.min_grade, log)
         if run:
             result["single"].append(run)
@@ -260,18 +271,18 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
     result["best"] = best
 
     if args.weight_search != "none":
-        base_plan = with_strategies(baseline, tuple(s for s in STRATEGIES if best["plan"][f"use_{s}"]))
+        base_plan = with_strategies(baseline, tuple(s for s in ELEMENTS if best["plan"].get(f"use_{s}")))
         result["weight_base"] = best["label"]
         result["weight_method"] = args.weight_search
         result["weights"] = weight_search(retriever, queries, base_plan, args.min_grade, args.metric, args.weight_search, args.trials, log)
-        tuned = max(result["weights"], key=lambda run: score_of(run, args.metric))
-        if score_of(tuned, args.metric) > score_of(best, args.metric):
+        tuned = weight_choice(result["weights"], args.metric)
+        if quality_of(tuned, args.metric) > quality_of(best, args.metric):
             result["best"] = tuned
         if best is not result["baseline"]:
             # Re-tuning the weight alone may match the pre-retrieval winner without any LLM call.
             result["baseline_weights"] = weight_search(retriever, queries, baseline, args.min_grade, args.metric, args.weight_search, args.trials, log)
-            tuned = max(result["baseline_weights"], key=lambda run: score_of(run, args.metric))
-            if score_of(tuned, args.metric) > score_of(result["best"], args.metric):
+            tuned = weight_choice(result["baseline_weights"], args.metric)
+            if quality_of(tuned, args.metric) > quality_of(result["best"], args.metric):
                 result["best"] = tuned
     return result
 

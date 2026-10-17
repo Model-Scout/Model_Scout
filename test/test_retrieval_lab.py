@@ -165,6 +165,25 @@ def test_pipeline_hyde_replaces_dense_query_only(monkeypatch):
     assert result.latency_ms["pre_retrieval"] == 1500.0
 
 
+def test_name_lookup_pins_named_models(monkeypatch):
+    retriever = make_retriever(monkeypatch)
+    rows = retriever.rows + [
+        {"model_id": "mirror/beta", "source_pool": "core", "task": {"primary": "translation"},
+         "filter_metadata": {"korean_verified": True}, "embedding_text": "beta copy", "popularity": {"current": {"downloads": 5}}},
+        {"model_id": "org/delta-2505", "source_pool": "core", "task": {"primary": "translation"},
+         "filter_metadata": {"korean_verified": True}, "embedding_text": "delta"},
+    ]
+    rows[1] = {**rows[1], "popularity": {"current": {"downloads": 100}}}
+    matrix = np.array([[1.0, 0.0], [0.0, 1.0], [0.7, 0.7], [0.0, 1.0], [0.5, 0.5]], dtype=np.float32)
+    retriever = pipeline.Retriever(rows=rows, dense_index=FakeDense(matrix))
+    plan = planner.RetrievalPlan(query_type="model_comparison", hard_filters={"tasks": ["translation"]}, use_name_lookup=True)
+    result = retriever.run("delta랑 beta 중 뭐가 나아? gamma도", plan)
+    # Prefix match for delta, most downloaded copy for beta; gamma fails the hard filter.
+    assert result.ranked[:2] == ["org/delta-2505", "org/beta"]
+    assert "org/gamma" not in result.ranked
+    assert plan.label() == "Name Lookup"
+
+
 def test_empty_eligible_returns_no_candidates(monkeypatch):
     retriever = make_retriever(monkeypatch)
     result = retriever.run("anything", planner.RetrievalPlan(query_type="abstention", hard_filters={"tasks": ["question-answering"]}))

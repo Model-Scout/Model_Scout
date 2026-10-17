@@ -100,6 +100,7 @@ python -m retrieval_lab.experiment --types benchmark_lookup --write-planner
 | Decomposition | 요구 측면별 하위 질의 2~4개 | 두 채널에 질의로 추가 |
 | Multi-Query | 한국어·영어·키워드형 질의 3개 | 두 채널에 질의로 추가 |
 | HyDE | 가상의 영어 모델 카드 요약 | dense 채널의 기본 질의를 대체 (sparse는 텍스트 질의 유지) |
+| Name Lookup | 없음 (LLM 미사용) | 질의에 적힌 모델명과 이름이 일치하는 모델을 fused 결과 맨 앞에 고정. 같은 이름이 여럿이면 hard filter를 통과한 것 중 다운로드 최다 |
 
 - 모든 변환은 **원래 질의**를 입력으로 받아 병렬 실행을 가정한다. 지연은 가장 느린 변환 하나만 더한다.
 - 질의가 여러 개면 채널마다 질의별 순위 리스트를 만들고, 채널 가중치를 리스트 수로 나눠 RRF에 넣는다. 그래서 dense/sparse weight의 뜻이 실험마다 같다.
