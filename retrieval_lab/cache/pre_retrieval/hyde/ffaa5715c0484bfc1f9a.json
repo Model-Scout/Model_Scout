@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법률 상담 챗봇을 만들려고 해. 법률 도메인 지식이 있는 모델이면 좋겠어.",
+ "outputs": [
+  "The LegalKoreanBot is a specialized model designed for legal consultation in the Korean language. It excels in understanding and generating legal terminology, making it ideal for applications in legal advice chatbots. With 1.2 billion parameters, this model is capable of processing complex legal queries and providing accurate responses. It supports a context length of 512 tokens, ensuring comprehensive understanding of user inputs. The model is trained on a diverse dataset of legal documents, case studies, and statutes, enhancing its ability to handle various legal topics. Its strengths lie in its high accuracy and contextual awareness, making it a valuable tool for law firms, legal tech startups, and educational platforms focused on legal studies."
+ ],
+ "response": {
+  "document": "The LegalKoreanBot is a specialized model designed for legal consultation in the Korean language. It excels in understanding and generating legal terminology, making it ideal for applications in legal advice chatbots. With 1.2 billion parameters, this model is capable of processing complex legal queries and providing accurate responses. It supports a context length of 512 tokens, ensuring comprehensive understanding of user inputs. The model is trained on a diverse dataset of legal documents, case studies, and statutes, enhancing its ability to handle various legal topics. Its strengths lie in its high accuracy and contextual awareness, making it a valuable tool for law firms, legal tech startups, and educational platforms focused on legal studies."
+ },
+ "latency_ms": 1571.7
+}

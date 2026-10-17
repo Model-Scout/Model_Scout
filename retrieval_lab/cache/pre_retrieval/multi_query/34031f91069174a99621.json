@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "번역 결과의 품질을 자동으로 점수 매기는 평가 모델이 필요해. 한국어 번역도 평가해야 해.",
+ "outputs": [
+  "자동으로 번역 품질을 평가하는 모델이 필요해. 한국어 번역도 포함해야 해.",
+  "I need an evaluation model that automatically scores the quality of translation, including Korean translations.",
+  "evaluation model, automatic scoring, translation quality, Korean translation"
+ ],
+ "response": {
+  "queries": [
+   "자동으로 번역 품질을 평가하는 모델이 필요해. 한국어 번역도 포함해야 해.",
+   "I need an evaluation model that automatically scores the quality of translation, including Korean translations.",
+   "evaluation model, automatic scoring, translation quality, Korean translation"
+  ]
+ },
+ "latency_ms": 1034.6
+}

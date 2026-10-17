@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-7.8B-Instruct와 A.X-4.0-Light를 라이선스와 한국어 성능 기준으로 비교해 줘.",
+ "outputs": [
+  "EXAONE-3.5-7.8B-Instruct is a large language model designed for instruction-following tasks, with a parameter count of 7.8 billion. It supports multiple languages, including Korean, and is optimized for conversational AI applications, making it suitable for chatbots and virtual assistants. The model is licensed under a permissive license, allowing for commercial use. Its strengths lie in its ability to understand and generate contextually relevant responses in Korean, achieving high benchmarks in language understanding tasks.\n\nOn the other hand, A.X-4.0-Light is a lightweight model with a focus on efficiency and speed, making it ideal for deployment in resource-constrained environments. It also supports Korean and is licensed under a more restrictive license, which may limit commercial applications. While it may not match the performance of EXAONE-3.5-7.8B-Instruct in complex tasks, it excels in quick response generation and basic conversational capabilities."
+ ],
+ "response": {
+  "document": "EXAONE-3.5-7.8B-Instruct is a large language model designed for instruction-following tasks, with a parameter count of 7.8 billion. It supports multiple languages, including Korean, and is optimized for conversational AI applications, making it suitable for chatbots and virtual assistants. The model is licensed under a permissive license, allowing for commercial use. Its strengths lie in its ability to understand and generate contextually relevant responses in Korean, achieving high benchmarks in language understanding tasks.\n\nOn the other hand, A.X-4.0-Light is a lightweight model with a focus on efficiency and speed, making it ideal for deployment in resource-constrained environments. It also supports Korean and is licensed under a more restrictive license, which may limit commercial applications. While it may not match the performance of EXAONE-3.5-7.8B-Instruct in complex tasks, it excels in quick response generation and basic conversational capabilities."
+ },
+ "latency_ms": 2838.6
+}

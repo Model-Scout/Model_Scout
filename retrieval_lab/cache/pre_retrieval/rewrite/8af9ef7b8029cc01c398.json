@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "번역 결과의 품질을 자동으로 점수 매기는 평가 모델이 필요해. 한국어 번역도 평가해야 해.",
+ "outputs": [
+  "evaluation model for automatic scoring of translation quality, including Korean translation"
+ ],
+ "response": {
+  "query": "evaluation model for automatic scoring of translation quality, including Korean translation"
+ },
+ "latency_ms": 845.6
+}

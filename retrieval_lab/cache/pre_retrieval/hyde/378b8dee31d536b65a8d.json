@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중 한국어를 더 잘하는 건 뭐야?",
+ "outputs": [
+  "Phi-4-mini-instruct is a compact model designed for instruction-based tasks, particularly excelling in multilingual contexts, including Korean. With 2.4 billion parameters, it offers a balance between performance and efficiency, making it suitable for applications such as chatbots, educational tools, and content generation. Its strengths lie in its ability to understand and generate coherent responses in Korean, leveraging advanced natural language processing techniques. On the other hand, EXAONE-3.5-2.4B-Instruct is also a robust model with a focus on instruction-following tasks, but it may not perform as well in Korean compared to Phi-4-mini-instruct. Users seeking high-quality Korean language support may find Phi-4-mini-instruct to be the better choice."
+ ],
+ "response": {
+  "document": "Phi-4-mini-instruct is a compact model designed for instruction-based tasks, particularly excelling in multilingual contexts, including Korean. With 2.4 billion parameters, it offers a balance between performance and efficiency, making it suitable for applications such as chatbots, educational tools, and content generation. Its strengths lie in its ability to understand and generate coherent responses in Korean, leveraging advanced natural language processing techniques. On the other hand, EXAONE-3.5-2.4B-Instruct is also a robust model with a focus on instruction-following tasks, but it may not perform as well in Korean compared to Phi-4-mini-instruct. Users seeking high-quality Korean language support may find Phi-4-mini-instruct to be the better choice."
+ },
+ "latency_ms": 1925.1
+}

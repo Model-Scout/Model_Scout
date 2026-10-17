@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-8b-instruct랑 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 줘.",
+ "outputs": [
+  "kanana-1.5-8b-instruct와 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 주세요.",
+  "Please compare the Korean performance and size of kanana-1.5-8b-instruct and Midm-2.0-Base-Instruct.",
+  "kanana-1.5-8b-instruct, Midm-2.0-Base-Instruct, 한국어 성능, 크기"
+ ],
+ "response": {
+  "queries": [
+   "kanana-1.5-8b-instruct와 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 주세요.",
+   "Please compare the Korean performance and size of kanana-1.5-8b-instruct and Midm-2.0-Base-Instruct.",
+   "kanana-1.5-8b-instruct, Midm-2.0-Base-Instruct, 한국어 성능, 크기"
+  ]
+ },
+ "latency_ms": 1438.0
+}

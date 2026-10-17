@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 경제 뉴스 기사 수백 건에 긍정·부정·중립 감성 점수를 매기려고 해. 추가 학습 없이 바로 쓸 수 있는 분류 모델이 필요하고 CPU에서 돌릴 거야.",
+ "outputs": [
+  "경제 뉴스 기사의 감성 분석을 위한 분류 모델을 찾고 있습니다. 추가 학습 없이 사용할 수 있고 CPU에서 실행 가능한 모델이 필요합니다.",
+  "I am looking for a classification model for sentiment analysis of hundreds of Korean economic news articles. It should be usable without additional training and runnable on CPU.",
+  "분류 모델, 감성 분석, 한국어, 경제 뉴스, 추가 학습 필요 없음, CPU 실행 가능"
+ ],
+ "response": {
+  "queries": [
+   "경제 뉴스 기사의 감성 분석을 위한 분류 모델을 찾고 있습니다. 추가 학습 없이 사용할 수 있고 CPU에서 실행 가능한 모델이 필요합니다.",
+   "I am looking for a classification model for sentiment analysis of hundreds of Korean economic news articles. It should be usable without additional training and runnable on CPU.",
+   "분류 모델, 감성 분석, 한국어, 경제 뉴스, 추가 학습 필요 없음, CPU 실행 가능"
+  ]
+ },
+ "latency_ms": 1203.3
+}

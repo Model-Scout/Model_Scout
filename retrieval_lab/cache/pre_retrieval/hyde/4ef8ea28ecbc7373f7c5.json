@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 희소(sparse) 벡터로 바꿔 키워드 검색과 섞어 쓰려고 해.",
+ "outputs": [
+  "The SparseVectorKorean model is designed for efficient keyword search and document retrieval in Korean text. It excels in transforming Korean documents into sparse vector representations, allowing for quick and effective keyword matching. With a parameter count of 50 million, this model supports Korean as its primary language and is optimized for tasks involving information retrieval and semantic search. Its strengths lie in its ability to handle large datasets while maintaining high accuracy in keyword relevance. The model is particularly useful for applications in search engines, content recommendation systems, and document classification. It is available in GGUF format and is licensed under the MIT License."
+ ],
+ "response": {
+  "document": "The SparseVectorKorean model is designed for efficient keyword search and document retrieval in Korean text. It excels in transforming Korean documents into sparse vector representations, allowing for quick and effective keyword matching. With a parameter count of 50 million, this model supports Korean as its primary language and is optimized for tasks involving information retrieval and semantic search. Its strengths lie in its ability to handle large datasets while maintaining high accuracy in keyword relevance. The model is particularly useful for applications in search engines, content recommendation systems, and document classification. It is available in GGUF format and is licensed under the MIT License."
+ },
+ "latency_ms": 1611.4
+}

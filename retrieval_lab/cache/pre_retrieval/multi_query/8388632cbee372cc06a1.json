@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없이 돌아가는 다국어 추출형 QA 모델이 필요해. 한국어 지원은 필수야.",
+ "outputs": [
+  "GPU 없이 사용할 수 있는 다국어 QA 모델을 찾고 있습니다. 한국어 지원이 필수입니다.",
+  "I need a multilingual extractive QA model that works without a GPU. Korean support is essential.",
+  "multilingual extractive QA model, no GPU, Korean support, model card"
+ ],
+ "response": {
+  "queries": [
+   "GPU 없이 사용할 수 있는 다국어 QA 모델을 찾고 있습니다. 한국어 지원이 필수입니다.",
+   "I need a multilingual extractive QA model that works without a GPU. Korean support is essential.",
+   "multilingual extractive QA model, no GPU, Korean support, model card"
+  ]
+ },
+ "latency_ms": 1288.2
+}

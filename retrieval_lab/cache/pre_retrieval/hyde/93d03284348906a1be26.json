@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "The Multilingual Transformer is a state-of-the-art translation model designed to support over 200 languages, including Korean. With 1.5 billion parameters and a context length of 512 tokens, it excels in providing high-quality translations across diverse language pairs. This model is particularly suited for research purposes, offering flexibility in various linguistic tasks such as document translation, real-time communication, and cross-lingual information retrieval. Its strengths lie in its ability to handle low-resource languages effectively and maintain contextual integrity in translations. The model is available in GGUF format and is licensed under a permissive research license, making it an ideal choice for academic and experimental applications."
+ ],
+ "response": {
+  "document": "The Multilingual Transformer is a state-of-the-art translation model designed to support over 200 languages, including Korean. With 1.5 billion parameters and a context length of 512 tokens, it excels in providing high-quality translations across diverse language pairs. This model is particularly suited for research purposes, offering flexibility in various linguistic tasks such as document translation, real-time communication, and cross-lingual information retrieval. Its strengths lie in its ability to handle low-resource languages effectively and maintain contextual integrity in translations. The model is available in GGUF format and is licensed under a permissive research license, making it an ideal choice for academic and experimental applications."
+ },
+ "latency_ms": 1890.6
+}

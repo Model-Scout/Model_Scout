@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+ "outputs": [
+  "wav2vec2-large-xlsr-korean과 whisper-small 중에서 한국어 전사에 어떤 모델이 더 좋은가요?",
+  "Which model is better for Korean transcription, wav2vec2-large-xlsr-korean or whisper-small?",
+  "Korean transcription, wav2vec2-large-xlsr-korean, whisper-small, comparison"
+ ],
+ "response": {
+  "queries": [
+   "wav2vec2-large-xlsr-korean과 whisper-small 중에서 한국어 전사에 어떤 모델이 더 좋은가요?",
+   "Which model is better for Korean transcription, wav2vec2-large-xlsr-korean or whisper-small?",
+   "Korean transcription, wav2vec2-large-xlsr-korean, whisper-small, comparison"
+  ]
+ },
+ "latency_ms": 1236.5
+}

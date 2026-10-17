@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 취업규칙 문서를 근거 조항으로만 답하는 한국어 RAG 챗봇을 만들 거야. 사내 규정을 외부로 보낼 수 없어서 완전히 로컬에서 돌아가야 해.",
+ "outputs": [
+  "사내 취업규칙을 기반으로 하는 한국어 RAG 챗봇 개발",
+  "I want to create a Korean RAG chatbot that answers based only on internal employment regulations. It needs to run completely locally since I can't send company policies outside.",
+  "Korean RAG chatbot, internal employment regulations, local deployment, no external sharing"
+ ],
+ "response": {
+  "queries": [
+   "사내 취업규칙을 기반으로 하는 한국어 RAG 챗봇 개발",
+   "I want to create a Korean RAG chatbot that answers based only on internal employment regulations. It needs to run completely locally since I can't send company policies outside.",
+   "Korean RAG chatbot, internal employment regulations, local deployment, no external sharing"
+  ]
+ },
+ "latency_ms": 1203.3
+}

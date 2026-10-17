@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBART(EbanLee/kobart-summary-v3)랑 mT5(csebuetnlp/mT5_multilingual_XLSum) 중 한국어 뉴스 요약에는 뭐가 나아?",
+ "outputs": [
+  "KoBART (EbanLee/kobart-summary-v3) is a model specifically designed for text summarization tasks in Korean. It excels in generating coherent and contextually relevant summaries of Korean text, making it particularly suitable for news articles. With a parameter count of 140 million and a context length of 512 tokens, it is optimized for handling the nuances of the Korean language. Its strengths lie in its ability to produce high-quality summaries that maintain the original meaning and tone of the source material. On the other hand, mT5 (csebuetnlp/mT5_multilingual_XLSum) is a multilingual model that supports various languages, including Korean, but may not perform as well as KoBART in Korean-specific tasks due to its broader focus. For Korean news summarization, KoBART is likely the better choice."
+ ],
+ "response": {
+  "document": "KoBART (EbanLee/kobart-summary-v3) is a model specifically designed for text summarization tasks in Korean. It excels in generating coherent and contextually relevant summaries of Korean text, making it particularly suitable for news articles. With a parameter count of 140 million and a context length of 512 tokens, it is optimized for handling the nuances of the Korean language. Its strengths lie in its ability to produce high-quality summaries that maintain the original meaning and tone of the source material. On the other hand, mT5 (csebuetnlp/mT5_multilingual_XLSum) is a multilingual model that supports various languages, including Korean, but may not perform as well as KoBART in Korean-specific tasks due to its broader focus. For Korean news summarization, KoBART is likely the better choice."
+ },
+ "latency_ms": 1989.4
+}

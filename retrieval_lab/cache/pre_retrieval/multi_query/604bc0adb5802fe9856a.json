@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+ "outputs": [
+  "GPU 없는 PC에서 1시간 이상의 한국어 회의를 전사할 수 있는 모델을 찾고 싶어요. 속도와 품질이 중요해요.",
+  "I'm looking for a model that can transcribe over an hour of Korean meetings recorded on a mobile phone on a PC without a GPU, balancing speed and quality.",
+  "Korean transcription model, no GPU, over 1 hour audio, speed and quality balance"
+ ],
+ "response": {
+  "queries": [
+   "GPU 없는 PC에서 1시간 이상의 한국어 회의를 전사할 수 있는 모델을 찾고 싶어요. 속도와 품질이 중요해요.",
+   "I'm looking for a model that can transcribe over an hour of Korean meetings recorded on a mobile phone on a PC without a GPU, balancing speed and quality.",
+   "Korean transcription model, no GPU, over 1 hour audio, speed and quality balance"
+  ]
+ },
+ "latency_ms": 1364.7
+}

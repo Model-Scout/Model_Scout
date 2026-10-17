@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+ "outputs": [
+  "The model is designed for transcribing Korean audio recordings, particularly effective for long meetings exceeding one hour. It supports Korean as the primary language and is optimized for use on devices without GPU capabilities, making it accessible for users with standard PCs. With a parameter count of 100 million, it strikes a balance between transcription speed and audio quality, ensuring accurate and efficient processing. The model is particularly suited for business meetings, lectures, and interviews, where clarity and detail are crucial. Its strengths lie in its ability to handle various accents and background noise, providing reliable transcriptions in real-time."
+ ],
+ "response": {
+  "document": "The model is designed for transcribing Korean audio recordings, particularly effective for long meetings exceeding one hour. It supports Korean as the primary language and is optimized for use on devices without GPU capabilities, making it accessible for users with standard PCs. With a parameter count of 100 million, it strikes a balance between transcription speed and audio quality, ensuring accurate and efficient processing. The model is particularly suited for business meetings, lectures, and interviews, where clarity and detail are crucial. Its strengths lie in its ability to handle various accents and background noise, providing reliable transcriptions in real-time."
+ },
+ "latency_ms": 1494.1
+}

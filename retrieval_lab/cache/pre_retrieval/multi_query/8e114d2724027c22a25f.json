@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델이 필요해.",
+ "outputs": [
+  "한국어 음성을 텍스트로 변환하고 영어로 번역하는 모델을 찾고 있어요.",
+  "I need a model that transcribes Korean audio and translates it into English.",
+  "모델, 한국어, 음성 인식, 영어, 번역, 사용 사례"
+ ],
+ "response": {
+  "queries": [
+   "한국어 음성을 텍스트로 변환하고 영어로 번역하는 모델을 찾고 있어요.",
+   "I need a model that transcribes Korean audio and translates it into English.",
+   "모델, 한국어, 음성 인식, 영어, 번역, 사용 사례"
+  ]
+ },
+ "latency_ms": 1225.7
+}

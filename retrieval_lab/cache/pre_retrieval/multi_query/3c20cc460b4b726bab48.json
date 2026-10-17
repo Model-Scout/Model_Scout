@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메신저 대화 캡처 화면을 읽고 내용을 한국어로 정리하는 모델이 필요해. 로컬에서만 돌려야 해.",
+ "outputs": [
+  "메신저 대화 캡처 화면을 분석하여 한국어로 요약하는 모델을 찾고 있습니다. 로컬에서 실행 가능해야 합니다.",
+  "I need a model that can read and summarize the content of messenger conversation screenshots in Korean. It should run locally.",
+  "모델, 메신저 대화, 캡처 화면, 한국어 요약, 로컬 실행 가능"
+ ],
+ "response": {
+  "queries": [
+   "메신저 대화 캡처 화면을 분석하여 한국어로 요약하는 모델을 찾고 있습니다. 로컬에서 실행 가능해야 합니다.",
+   "I need a model that can read and summarize the content of messenger conversation screenshots in Korean. It should run locally.",
+   "모델, 메신저 대화, 캡처 화면, 한국어 요약, 로컬 실행 가능"
+  ]
+ },
+ "latency_ms": 1191.4
+}

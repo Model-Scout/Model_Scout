@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?",
+ "outputs": [
+  "SenseVoiceSmall의 한국어 받아쓰기 속도와 정확도",
+  "whisper-small의 한국어 받아쓰기 속도와 정확도"
+ ],
+ "response": {
+  "sub_queries": [
+   "SenseVoiceSmall의 한국어 받아쓰기 속도와 정확도",
+   "whisper-small의 한국어 받아쓰기 속도와 정확도"
+  ]
+ },
+ "latency_ms": 931.4
+}

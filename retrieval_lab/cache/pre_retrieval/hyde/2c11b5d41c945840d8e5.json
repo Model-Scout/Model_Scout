@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?",
+ "outputs": [
+  "The ko-sroberta-multitask model is designed for various NLP tasks, including text classification, sentiment analysis, and named entity recognition, specifically optimized for the Korean language. With 110 million parameters, it excels in understanding context and nuances in Korean text, making it suitable for applications requiring high accuracy in Korean language processing. On the other hand, multilingual-e5-small is a smaller model with 60 million parameters, supporting multiple languages, including Korean, and is primarily focused on generating embeddings for cross-lingual tasks. While it is efficient for multilingual applications, ko-sroberta-multitask offers superior performance for Korean-specific tasks due to its dedicated training. Therefore, for Korean search embeddings, ko-sroberta-multitask is the better choice."
+ ],
+ "response": {
+  "document": "The ko-sroberta-multitask model is designed for various NLP tasks, including text classification, sentiment analysis, and named entity recognition, specifically optimized for the Korean language. With 110 million parameters, it excels in understanding context and nuances in Korean text, making it suitable for applications requiring high accuracy in Korean language processing. On the other hand, multilingual-e5-small is a smaller model with 60 million parameters, supporting multiple languages, including Korean, and is primarily focused on generating embeddings for cross-lingual tasks. While it is efficient for multilingual applications, ko-sroberta-multitask offers superior performance for Korean-specific tasks due to its dedicated training. Therefore, for Korean search embeddings, ko-sroberta-multitask is the better choice."
+ },
+ "latency_ms": 1764.3
+}

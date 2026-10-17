@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 롤플레이·캐릭터 대화용 모델이 필요해. 개인 프로젝트야.",
+ "outputs": [
+  "한국어 롤플레이 모델",
+  "캐릭터 대화용 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 롤플레이 모델",
+   "캐릭터 대화용 모델"
+  ]
+ },
+ "latency_ms": 734.9
+}

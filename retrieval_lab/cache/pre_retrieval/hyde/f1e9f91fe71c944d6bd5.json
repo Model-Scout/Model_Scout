@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "The model is designed for the task of summarizing Korean chat transcripts, making it ideal for applications in customer support, social media analysis, and conversational AI. It supports the Korean language and is optimized for performance on CPU servers, ensuring efficient processing without the need for high-end GPU resources. With a parameter count of 110 million, it strikes a balance between size and capability, allowing for quick inference times. The model is particularly strong in capturing the essence of conversations while maintaining context, making it suitable for generating concise summaries that retain key information. It is available in the GGUF file format and is licensed for commercial use."
+ ],
+ "response": {
+  "document": "The model is designed for the task of summarizing Korean chat transcripts, making it ideal for applications in customer support, social media analysis, and conversational AI. It supports the Korean language and is optimized for performance on CPU servers, ensuring efficient processing without the need for high-end GPU resources. With a parameter count of 110 million, it strikes a balance between size and capability, allowing for quick inference times. The model is particularly strong in capturing the essence of conversations while maintaining context, making it suitable for generating concise summaries that retain key information. It is available in the GGUF file format and is licensed for commercial use."
+ },
+ "latency_ms": 1544.7
+}

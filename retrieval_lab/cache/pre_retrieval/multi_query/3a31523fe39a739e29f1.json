@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "한국어 대화록 요약 모델을 찾고 있어요. CPU 서버에서 사용할 수 있는 모델이 필요해요.",
+  "I need a model that summarizes Korean chat transcripts. It should run on a CPU server.",
+  "Korean chat transcript summary model, CPU server, model card terms"
+ ],
+ "response": {
+  "queries": [
+   "한국어 대화록 요약 모델을 찾고 있어요. CPU 서버에서 사용할 수 있는 모델이 필요해요.",
+   "I need a model that summarizes Korean chat transcripts. It should run on a CPU server.",
+   "Korean chat transcript summary model, CPU server, model card terms"
+  ]
+ },
+ "latency_ms": 1167.2
+}

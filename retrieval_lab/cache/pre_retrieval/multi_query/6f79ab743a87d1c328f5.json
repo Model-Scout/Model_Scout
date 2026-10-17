@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "두 한국어 문장이 함의·모순·중립 관계인지 판별하는 NLI 모델이 필요해.",
+ "outputs": [
+  "NLI 모델로 두 한국어 문장의 함의, 모순, 중립 관계를 판별할 수 있는 모델을 찾고 있어요.",
+  "I need an NLI model to determine the entailment, contradiction, and neutral relationships between two Korean sentences.",
+  "NLI, 한국어, 함의, 모순, 중립, 모델"
+ ],
+ "response": {
+  "queries": [
+   "NLI 모델로 두 한국어 문장의 함의, 모순, 중립 관계를 판별할 수 있는 모델을 찾고 있어요.",
+   "I need an NLI model to determine the entailment, contradiction, and neutral relationships between two Korean sentences.",
+   "NLI, 한국어, 함의, 모순, 중립, 모델"
+  ]
+ },
+ "latency_ms": 1327.6
+}

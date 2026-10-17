@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Jetson 보드에서 3B급 소형 LLM과 함께 올릴 한국어 임베딩 모델이 필요해. 메모리가 빠듯해서 작게 양자화된 버전이면 좋겠어.",
+ "outputs": [
+  "The model is a compact Korean embedding model designed for deployment on Jetson boards, optimized for low memory usage. It features a size of approximately 3 billion parameters, making it suitable for edge devices. The model supports Korean as its primary language and is quantized to reduce memory footprint while maintaining performance. Intended use cases include natural language processing tasks such as text classification, sentiment analysis, and semantic search. Its strengths lie in its efficiency and ability to generate high-quality embeddings for Korean text, making it ideal for applications where resource constraints are a concern."
+ ],
+ "response": {
+  "document": "The model is a compact Korean embedding model designed for deployment on Jetson boards, optimized for low memory usage. It features a size of approximately 3 billion parameters, making it suitable for edge devices. The model supports Korean as its primary language and is quantized to reduce memory footprint while maintaining performance. Intended use cases include natural language processing tasks such as text classification, sentiment analysis, and semantic search. Its strengths lie in its efficiency and ability to generate high-quality embeddings for Korean text, making it ideal for applications where resource constraints are a concern."
+ },
+ "latency_ms": 1766.9
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 한국어 모델이 필요해.",
+ "outputs": [
+  "Korean model for distinguishing 존댓말 and 반말 in customer service inquiries"
+ ],
+ "response": {
+  "query": "Korean model for distinguishing 존댓말 and 반말 in customer service inquiries"
+ },
+ "latency_ms": 892.8
+}

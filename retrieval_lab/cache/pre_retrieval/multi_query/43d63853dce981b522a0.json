@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장에서 기쁨·슬픔·분노 같은 감정을 분류하는 모델이 필요해.",
+ "outputs": [
+  "기쁨, 슬픔, 분노와 같은 감정을 분류하는 한국어 모델을 찾고 있어요.",
+  "I need a model that classifies emotions like joy, sadness, and anger in Korean sentences.",
+  "감정 분류 모델, 한국어, 기쁨, 슬픔, 분노"
+ ],
+ "response": {
+  "queries": [
+   "기쁨, 슬픔, 분노와 같은 감정을 분류하는 한국어 모델을 찾고 있어요.",
+   "I need a model that classifies emotions like joy, sadness, and anger in Korean sentences.",
+   "감정 분류 모델, 한국어, 기쁨, 슬픔, 분노"
+  ]
+ },
+ "latency_ms": 1230.2
+}

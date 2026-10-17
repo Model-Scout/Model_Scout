@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Jetson 보드에서 3B급 소형 LLM과 함께 올릴 한국어 임베딩 모델이 필요해. 메모리가 빠듯해서 작게 양자화된 버전이면 좋겠어.",
+ "outputs": [
+  "Jetson 보드에서 사용할 수 있는 3B급 소형 LLM과 한국어 임베딩 모델을 찾고 있습니다. 양자화된 버전이 필요합니다.",
+  "I need a small LLM around 3B for Jetson board along with a Korean embedding model. A quantized version would be preferable due to limited memory.",
+  "3B급 소형 LLM, 한국어 임베딩 모델, 양자화, Jetson 보드"
+ ],
+ "response": {
+  "queries": [
+   "Jetson 보드에서 사용할 수 있는 3B급 소형 LLM과 한국어 임베딩 모델을 찾고 있습니다. 양자화된 버전이 필요합니다.",
+   "I need a small LLM around 3B for Jetson board along with a Korean embedding model. A quantized version would be preferable due to limited memory.",
+   "3B급 소형 LLM, 한국어 임베딩 모델, 양자화, Jetson 보드"
+  ]
+ },
+ "latency_ms": 1541.4
+}

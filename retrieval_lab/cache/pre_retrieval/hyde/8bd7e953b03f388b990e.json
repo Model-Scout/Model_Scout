@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "두 한국어 문장이 함의·모순·중립 관계인지 판별하는 NLI 모델이 필요해.",
+ "outputs": [
+  "This model is designed for Natural Language Inference (NLI) tasks, specifically to determine the relationship between two Korean sentences, identifying whether they are entailed, contradictory, or neutral. It supports the Korean language and is built on a transformer architecture with 110 million parameters, allowing for efficient processing of context. The model is optimized for high accuracy in NLI benchmarks, making it suitable for applications in sentiment analysis, dialogue systems, and content moderation. Its strengths lie in its ability to understand nuanced language and context, providing reliable predictions for various use cases in natural language understanding."
+ ],
+ "response": {
+  "document": "This model is designed for Natural Language Inference (NLI) tasks, specifically to determine the relationship between two Korean sentences, identifying whether they are entailed, contradictory, or neutral. It supports the Korean language and is built on a transformer architecture with 110 million parameters, allowing for efficient processing of context. The model is optimized for high accuracy in NLI benchmarks, making it suitable for applications in sentiment analysis, dialogue systems, and content moderation. Its strengths lie in its ability to understand nuanced language and context, providing reliable predictions for various use cases in natural language understanding."
+ },
+ "latency_ms": 1413.1
+}

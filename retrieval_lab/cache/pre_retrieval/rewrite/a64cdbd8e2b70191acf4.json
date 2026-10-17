@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KURE-v2와 multilingual-e5-large의 한국어 검색 성능을 비교해 줘.",
+ "outputs": [
+  "Compare Korean search performance of KURE-v2 and multilingual-e5-large."
+ ],
+ "response": {
+  "query": "Compare Korean search performance of KURE-v2 and multilingual-e5-large."
+ },
+ "latency_ms": 792.8
+}

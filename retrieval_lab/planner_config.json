@@ -1,4 +1,39 @@
 {
   "description": "유형별 Retrieval Plan. 비어 있는 유형은 Baseline(dense 0.5 / sparse 0.5, 사전 검색 OFF, top_k 30)을 쓴다. `python -m retrieval_lab.experiment --types <유형> --write-planner`가 실험 최적값으로 채운다.",
-  "types": {}
+  "types": {
+    "model_comparison": {
+      "dense_weight": 0.85,
+      "use_rewrite": false,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.15,
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.7857142857142857,
+        "baseline": 0.7142857142857143,
+        "queries": 21,
+        "ran_at": "2026-10-17 20:16"
+      }
+    },
+    "semantic_capability": {
+      "dense_weight": 0.4,
+      "use_rewrite": true,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.6,
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.3082797082797083,
+        "baseline": 0.24331831831831832,
+        "queries": 37,
+        "ran_at": "2026-10-17 20:18"
+      }
+    }
+  }
 }

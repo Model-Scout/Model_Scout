@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+ "outputs": [
+  "The model is designed for on-device applications, specifically for summarizing and classifying transcripts from mobile phones and tablets. It supports Korean as its primary language and has a parameter count of 1.2 billion, ensuring a balance between performance and resource efficiency. This model excels in providing high-quality summaries, making it ideal for users who require reliable and accurate text processing without relying on external servers. Its strengths lie in its ability to handle complex sentence structures in Korean, making it suitable for various use cases, including note-taking, meeting summaries, and personal organization."
+ ],
+ "response": {
+  "document": "The model is designed for on-device applications, specifically for summarizing and classifying transcripts from mobile phones and tablets. It supports Korean as its primary language and has a parameter count of 1.2 billion, ensuring a balance between performance and resource efficiency. This model excels in providing high-quality summaries, making it ideal for users who require reliable and accurate text processing without relying on external servers. Its strengths lie in its ability to handle complex sentence structures in Korean, making it suitable for various use cases, including note-taking, meeting summaries, and personal organization."
+ },
+ "latency_ms": 1756.4
+}

@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?",
+ "outputs": [
+  "What are the differences between dragonkue/BGE-m3-ko and upskyy/bge-m3-korean?",
+  "Which model is better for Korean search, dragonkue/BGE-m3-ko or upskyy/bge-m3-korean?"
+ ],
+ "response": {
+  "sub_queries": [
+   "What are the differences between dragonkue/BGE-m3-ko and upskyy/bge-m3-korean?",
+   "Which model is better for Korean search, dragonkue/BGE-m3-ko or upskyy/bge-m3-korean?"
+  ]
+ },
+ "latency_ms": 1097.3
+}

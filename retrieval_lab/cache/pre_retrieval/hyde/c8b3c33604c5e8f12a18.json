@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장에서 기쁨·슬픔·분노 같은 감정을 분류하는 모델이 필요해.",
+ "outputs": [
+  "The EmotionClassifier model is designed for the task of emotion classification in text, specifically targeting emotions such as joy, sadness, and anger. It supports multiple languages, including Korean, making it suitable for diverse applications in sentiment analysis. With 110 million parameters, this model strikes a balance between performance and efficiency, allowing for quick inference times. The intended use cases include social media monitoring, customer feedback analysis, and mental health applications. Its strengths lie in its high accuracy and ability to understand nuanced emotional expressions in Korean text, making it a valuable tool for developers and researchers in the field of natural language processing."
+ ],
+ "response": {
+  "document": "The EmotionClassifier model is designed for the task of emotion classification in text, specifically targeting emotions such as joy, sadness, and anger. It supports multiple languages, including Korean, making it suitable for diverse applications in sentiment analysis. With 110 million parameters, this model strikes a balance between performance and efficiency, allowing for quick inference times. The intended use cases include social media monitoring, customer feedback analysis, and mental health applications. Its strengths lie in its high accuracy and ability to understand nuanced emotional expressions in Korean text, making it a valuable tool for developers and researchers in the field of natural language processing."
+ },
+ "latency_ms": 1710.5
+}

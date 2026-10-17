@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 한국어 모델이 필요해.",
+ "outputs": [
+  "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 모델"
+  ]
+ },
+ "latency_ms": 835.5
+}

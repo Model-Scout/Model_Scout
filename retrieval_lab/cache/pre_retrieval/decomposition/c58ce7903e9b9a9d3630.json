@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "두 한국어 문장이 함의·모순·중립 관계인지 판별하는 NLI 모델이 필요해.",
+ "outputs": [
+  "NLI 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "NLI 모델"
+  ]
+ },
+ "latency_ms": 770.5
+}

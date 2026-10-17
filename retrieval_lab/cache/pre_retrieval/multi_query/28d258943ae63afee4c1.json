@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 롤플레이·캐릭터 대화용 모델이 필요해. 개인 프로젝트야.",
+ "outputs": [
+  "한국어 롤플레잉 및 캐릭터 대화 모델을 찾고 있어요. 개인 프로젝트에 사용할 예정입니다.",
+  "I need a Korean role-playing and character dialogue model for a personal project.",
+  "Korean role-playing model, character dialogue, personal project"
+ ],
+ "response": {
+  "queries": [
+   "한국어 롤플레잉 및 캐릭터 대화 모델을 찾고 있어요. 개인 프로젝트에 사용할 예정입니다.",
+   "I need a Korean role-playing and character dialogue model for a personal project.",
+   "Korean role-playing model, character dialogue, personal project"
+  ]
+ },
+ "latency_ms": 1245.4
+}

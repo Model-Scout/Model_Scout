@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+ "outputs": [
+  "Compare wav2vec2-large-xlsr-korean and whisper-small for Korean transcription task."
+ ],
+ "response": {
+  "query": "Compare wav2vec2-large-xlsr-korean and whisper-small for Korean transcription task."
+ },
+ "latency_ms": 922.2
+}

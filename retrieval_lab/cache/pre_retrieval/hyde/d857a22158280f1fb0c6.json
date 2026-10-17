@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "여러 언어 뉴스를 요약하는 다국어 요약 모델이 필요해. 한국어도 포함돼.",
+ "outputs": [
+  "The Multilingual News Summarizer is designed for the task of summarizing news articles across various languages, including Korean. With a parameter count of 1.2 billion, this model excels in generating concise and coherent summaries while maintaining the original context. It supports multiple languages, making it ideal for global news platforms and media organizations looking to provide summaries in different languages. The model is particularly strong in handling complex sentence structures and idiomatic expressions, ensuring high-quality outputs. It is available in GGUF format and is licensed under the MIT License, making it accessible for both commercial and non-commercial use cases."
+ ],
+ "response": {
+  "document": "The Multilingual News Summarizer is designed for the task of summarizing news articles across various languages, including Korean. With a parameter count of 1.2 billion, this model excels in generating concise and coherent summaries while maintaining the original context. It supports multiple languages, making it ideal for global news platforms and media organizations looking to provide summaries in different languages. The model is particularly strong in handling complex sentence structures and idiomatic expressions, ensuring high-quality outputs. It is available in GGUF format and is licensed under the MIT License, making it accessible for both commercial and non-commercial use cases."
+ },
+ "latency_ms": 1821.7
+}

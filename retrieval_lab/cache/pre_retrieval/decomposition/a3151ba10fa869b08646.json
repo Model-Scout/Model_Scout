@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "번역 모델로 opus-mt-tc-big-en-ko와 nllb-200-distilled-600M 중 뭐가 나아? 라이선스도 비교해 줘.",
+ "outputs": [
+  "Compare the translation capabilities of opus-mt-tc-big-en-ko and nllb-200-distilled-600M.",
+  "Compare the licenses of opus-mt-tc-big-en-ko and nllb-200-distilled-600M."
+ ],
+ "response": {
+  "sub_queries": [
+   "Compare the translation capabilities of opus-mt-tc-big-en-ko and nllb-200-distilled-600M.",
+   "Compare the licenses of opus-mt-tc-big-en-ko and nllb-200-distilled-600M."
+  ]
+ },
+ "latency_ms": 1007.9
+}

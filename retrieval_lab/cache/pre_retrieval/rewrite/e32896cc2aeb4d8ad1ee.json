@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 롤플레이·캐릭터 대화용 모델이 필요해. 개인 프로젝트야.",
+ "outputs": [
+  "Korean roleplay character dialogue model for personal project"
+ ],
+ "response": {
+  "query": "Korean roleplay character dialogue model for personal project"
+ },
+ "latency_ms": 942.9
+}

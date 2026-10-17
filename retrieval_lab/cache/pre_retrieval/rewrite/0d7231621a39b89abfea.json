@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 경제 뉴스 기사 수백 건에 긍정·부정·중립 감성 점수를 매기려고 해. 추가 학습 없이 바로 쓸 수 있는 분류 모델이 필요하고 CPU에서 돌릴 거야.",
+ "outputs": [
+  "classification model for sentiment analysis on Korean economic news articles, pre-trained, CPU compatible"
+ ],
+ "response": {
+  "query": "classification model for sentiment analysis on Korean economic news articles, pre-trained, CPU compatible"
+ },
+ "latency_ms": 889.3
+}

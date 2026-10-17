@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기사를 읽고 한국어로 요약해 주는 교차 언어 요약 모델이 필요해.",
+ "outputs": [
+  "영어 기사를 읽고 한국어로 요약할 수 있는 교차 언어 요약 모델을 찾고 있어요.",
+  "I need a cross-lingual summarization model that can read English articles and summarize them in Korean.",
+  "교차 언어 요약 모델, 영어 -> 한국어, 모델 카드, 요약, 언어"
+ ],
+ "response": {
+  "queries": [
+   "영어 기사를 읽고 한국어로 요약할 수 있는 교차 언어 요약 모델을 찾고 있어요.",
+   "I need a cross-lingual summarization model that can read English articles and summarize them in Korean.",
+   "교차 언어 요약 모델, 영어 -> 한국어, 모델 카드, 요약, 언어"
+  ]
+ },
+ "latency_ms": 1413.1
+}

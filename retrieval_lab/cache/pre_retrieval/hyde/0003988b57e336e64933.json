@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?",
+ "outputs": [
+  "SenseVoiceSmall is a compact speech recognition model designed specifically for Korean language transcription. With a parameter count of 50 million, it offers a context length of 512 tokens, making it efficient for real-time applications. The model excels in accuracy and speed, particularly in noisy environments, making it ideal for use cases such as voice assistants and transcription services. On the other hand, whisper-small is a versatile model that supports multiple languages, including Korean, but may not be as optimized for Korean-specific tasks. While whisper-small has a larger parameter count of 100 million, its performance in Korean transcription may not match the specialized capabilities of SenseVoiceSmall. Overall, for Korean transcription tasks, SenseVoiceSmall is likely to provide better speed and accuracy."
+ ],
+ "response": {
+  "document": "SenseVoiceSmall is a compact speech recognition model designed specifically for Korean language transcription. With a parameter count of 50 million, it offers a context length of 512 tokens, making it efficient for real-time applications. The model excels in accuracy and speed, particularly in noisy environments, making it ideal for use cases such as voice assistants and transcription services. On the other hand, whisper-small is a versatile model that supports multiple languages, including Korean, but may not be as optimized for Korean-specific tasks. While whisper-small has a larger parameter count of 100 million, its performance in Korean transcription may not match the specialized capabilities of SenseVoiceSmall. Overall, for Korean transcription tasks, SenseVoiceSmall is likely to provide better speed and accuracy."
+ },
+ "latency_ms": 1917.2
+}

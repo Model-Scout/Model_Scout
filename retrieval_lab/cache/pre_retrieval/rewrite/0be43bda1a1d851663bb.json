@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "여러 언어 뉴스를 요약하는 다국어 요약 모델이 필요해. 한국어도 포함돼.",
+ "outputs": [
+  "multilingual summarization model for news including Korean"
+ ],
+ "response": {
+  "query": "multilingual summarization model for news including Korean"
+ },
+ "latency_ms": 801.7
+}

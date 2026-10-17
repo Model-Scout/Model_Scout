@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Jetson 보드에서 3B급 소형 LLM과 함께 올릴 한국어 임베딩 모델이 필요해. 메모리가 빠듯해서 작게 양자화된 버전이면 좋겠어.",
+ "outputs": [
+  "Korean embedding model for Jetson board with 3B parameter small LLM, quantized version"
+ ],
+ "response": {
+  "query": "Korean embedding model for Jetson board with 3B parameter small LLM, quantized version"
+ },
+ "latency_ms": 993.5
+}

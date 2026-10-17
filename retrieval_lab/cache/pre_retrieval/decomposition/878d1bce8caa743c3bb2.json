@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객 문의 문장의 의도(질문·명령·진술 등)를 분류하는 한국어 모델이 필요해.",
+ "outputs": [
+  "Find models for intent classification tasks in Korean.",
+  "Search for models that can classify customer inquiry sentences into categories like question, command, and statement."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models for intent classification tasks in Korean.",
+   "Search for models that can classify customer inquiry sentences into categories like question, command, and statement."
+  ]
+ },
+ "latency_ms": 999.7
+}

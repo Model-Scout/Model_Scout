@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "madlad400-3b-mt와 Hy-MT2-1.8B 중 한국어 번역 품질이 더 좋은 건?",
+ "outputs": [
+  "madlad400-3b-mt와 Hy-MT2-1.8B 중에서 한국어 번역 품질이 어떤 것이 더 우수한가요?",
+  "Which model has better Korean translation quality, madlad400-3b-mt or Hy-MT2-1.8B?",
+  "Korean translation quality, madlad400-3b-mt, Hy-MT2-1.8B, benchmark, metric"
+ ],
+ "response": {
+  "queries": [
+   "madlad400-3b-mt와 Hy-MT2-1.8B 중에서 한국어 번역 품질이 어떤 것이 더 우수한가요?",
+   "Which model has better Korean translation quality, madlad400-3b-mt or Hy-MT2-1.8B?",
+   "Korean translation quality, madlad400-3b-mt, Hy-MT2-1.8B, benchmark, metric"
+  ]
+ },
+ "latency_ms": 1177.4
+}

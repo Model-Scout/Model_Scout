@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트를 같은 공간에 임베딩해서 이미지 검색을 하려고 해.",
+ "outputs": [
+  "The model is designed for image-text embedding, specifically targeting Korean language text. It excels in tasks such as image retrieval and cross-modal search, allowing users to find images based on Korean textual descriptions. With a parameter count of 1.2 billion, it offers a robust performance while maintaining a context length of 512 tokens. The model supports quantization for efficient deployment and is available in GGUF format. Its intended use cases include e-commerce, content creation, and educational applications, where users can search for images using Korean queries. The model's strengths lie in its ability to understand and process Korean language nuances, making it ideal for applications requiring high accuracy in image-text matching."
+ ],
+ "response": {
+  "document": "The model is designed for image-text embedding, specifically targeting Korean language text. It excels in tasks such as image retrieval and cross-modal search, allowing users to find images based on Korean textual descriptions. With a parameter count of 1.2 billion, it offers a robust performance while maintaining a context length of 512 tokens. The model supports quantization for efficient deployment and is available in GGUF format. Its intended use cases include e-commerce, content creation, and educational applications, where users can search for images using Korean queries. The model's strengths lie in its ability to understand and process Korean language nuances, making it ideal for applications requiring high accuracy in image-text matching."
+ },
+ "latency_ms": 1755.9
+}

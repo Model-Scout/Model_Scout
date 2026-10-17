@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 PDF 문서 페이지 이미지를 마크다운으로 바꿔 주는 문서 파싱 모델이 필요해.",
+ "outputs": [
+  "PDF 문서의 한국어 페이지 이미지를 마크다운 형식으로 변환하는 모델을 찾고 있어요.",
+  "I need a document parsing model that converts Korean PDF document page images to Markdown.",
+  "document parsing model, Korean, PDF, page images, Markdown"
+ ],
+ "response": {
+  "queries": [
+   "PDF 문서의 한국어 페이지 이미지를 마크다운 형식으로 변환하는 모델을 찾고 있어요.",
+   "I need a document parsing model that converts Korean PDF document page images to Markdown.",
+   "document parsing model, Korean, PDF, page images, Markdown"
+  ]
+ },
+ "latency_ms": 1033.4
+}

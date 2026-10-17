@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어와 영어가 섞인 기술 문서에서 질문에 대한 답을 찾는 QA 모델이 필요해. 여러 언어를 같이 처리할 수 있어야 해.",
+ "outputs": [
+  "QA model for mixed Korean and English technical documents, multilingual capability"
+ ],
+ "response": {
+  "query": "QA model for mixed Korean and English technical documents, multilingual capability"
+ },
+ "latency_ms": 933.8
+}

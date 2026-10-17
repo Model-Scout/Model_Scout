@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "한국어 채팅 대화록을 요약하는 모델",
+  "CPU 서버에서 사용할 수 있는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 채팅 대화록을 요약하는 모델",
+   "CPU 서버에서 사용할 수 있는 모델"
+  ]
+ },
+ "latency_ms": 901.2
+}

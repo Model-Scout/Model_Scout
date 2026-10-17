@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트를 같은 공간에 임베딩해서 이미지 검색을 하려고 해.",
+ "outputs": [
+  "image-text embedding for image search with Korean text"
+ ],
+ "response": {
+  "query": "image-text embedding for image search with Korean text"
+ },
+ "latency_ms": 959.4
+}

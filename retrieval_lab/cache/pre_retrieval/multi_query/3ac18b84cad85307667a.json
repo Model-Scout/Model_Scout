@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "입력 문장이 어느 언어인지 판별하는 언어 식별 모델이 필요해. 한국어도 정확히 잡아야 해.",
+ "outputs": [
+  "언어 식별 모델이 필요해. 한국어를 정확히 인식해야 해.",
+  "I need a language identification model that accurately detects Korean.",
+  "language identification model, Korean detection, task, declared languages"
+ ],
+ "response": {
+  "queries": [
+   "언어 식별 모델이 필요해. 한국어를 정확히 인식해야 해.",
+   "I need a language identification model that accurately detects Korean.",
+   "language identification model, Korean detection, task, declared languages"
+  ]
+ },
+ "latency_ms": 1283.8
+}

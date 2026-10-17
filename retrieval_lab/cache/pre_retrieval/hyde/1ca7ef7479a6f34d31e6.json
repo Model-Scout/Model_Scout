@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트에 유해 콘텐츠가 있는지 판별하는 안전성 모델이 필요해.",
+ "outputs": [
+  "The Safety Model is designed for the task of detecting harmful content in images and Korean text. It supports Korean as its primary language and is optimized for use cases such as content moderation, social media monitoring, and online safety applications. With a parameter count of 150 million, this model offers a robust understanding of context and nuances in both visual and textual data. Its strengths lie in its high accuracy and efficiency in identifying various forms of harmful content, making it an essential tool for organizations aiming to maintain a safe online environment. The model is available in GGUF format and is licensed under the MIT License."
+ ],
+ "response": {
+  "document": "The Safety Model is designed for the task of detecting harmful content in images and Korean text. It supports Korean as its primary language and is optimized for use cases such as content moderation, social media monitoring, and online safety applications. With a parameter count of 150 million, this model offers a robust understanding of context and nuances in both visual and textual data. Its strengths lie in its high accuracy and efficiency in identifying various forms of harmful content, making it an essential tool for organizations aiming to maintain a safe online environment. The model is available in GGUF format and is licensed under the MIT License."
+ },
+ "latency_ms": 1573.2
+}

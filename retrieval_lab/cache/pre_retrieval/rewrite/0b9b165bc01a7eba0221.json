@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 수학 문제 사진을 보고 풀이를 설명하는 모델이 필요해. 정확도가 중요하고 큰 GPU 서버가 있어.",
+ "outputs": [
+  "Korean math problem image explanation model, high accuracy, large GPU server, task: image captioning, capability: visual understanding, domain: education"
+ ],
+ "response": {
+  "query": "Korean math problem image explanation model, high accuracy, large GPU server, task: image captioning, capability: visual understanding, domain: education"
+ },
+ "latency_ms": 972.6
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?",
+ "outputs": [
+  "The Dongjin-kr/ko-reranker is a Korean RAG (Retrieval-Augmented Generation) model designed for reranking tasks. It excels in understanding and processing Korean text, making it suitable for applications in information retrieval and question answering. With a parameter count of 110 million, it balances performance and efficiency, providing quick responses while maintaining high accuracy. On the other hand, bce-reranker-base_v1 is a robust reranking model that also supports Korean, with a focus on binary cross-entropy loss for improved ranking performance. It is particularly effective in scenarios where precision in ranking is critical, such as search engines and recommendation systems. Both models have their strengths, but the choice depends on specific use cases and performance requirements."
+ ],
+ "response": {
+  "document": "The Dongjin-kr/ko-reranker is a Korean RAG (Retrieval-Augmented Generation) model designed for reranking tasks. It excels in understanding and processing Korean text, making it suitable for applications in information retrieval and question answering. With a parameter count of 110 million, it balances performance and efficiency, providing quick responses while maintaining high accuracy. On the other hand, bce-reranker-base_v1 is a robust reranking model that also supports Korean, with a focus on binary cross-entropy loss for improved ranking performance. It is particularly effective in scenarios where precision in ranking is critical, such as search engines and recommendation systems. Both models have their strengths, but the choice depends on specific use cases and performance requirements."
+ },
+ "latency_ms": 1753.4
+}

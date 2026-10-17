@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?",
+ "outputs": [
+  "Korean RAG reranker comparison Dongjin-kr/ko-reranker bce-reranker-base_v1"
+ ],
+ "response": {
+  "query": "Korean RAG reranker comparison Dongjin-kr/ko-reranker bce-reranker-base_v1"
+ },
+ "latency_ms": 918.4
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘.",
+ "outputs": [
+  "The Whisper-Large-V3 model is designed for automatic speech recognition (ASR) tasks, supporting multiple languages including Korean. With 1.5 billion parameters, it excels in transcribing audio with high accuracy, particularly in noisy environments. The model is optimized for various use cases such as real-time transcription, voice command recognition, and accessibility applications. Its strengths lie in its robust performance across diverse accents and dialects. On the other hand, Whisper-Large-V3-Turbo is a more efficient variant, offering faster processing speeds while maintaining a similar level of accuracy in Korean transcription. This makes it ideal for applications requiring quick responses, such as live translation services. Both models are available in GGUF format and are licensed for commercial use."
+ ],
+ "response": {
+  "document": "The Whisper-Large-V3 model is designed for automatic speech recognition (ASR) tasks, supporting multiple languages including Korean. With 1.5 billion parameters, it excels in transcribing audio with high accuracy, particularly in noisy environments. The model is optimized for various use cases such as real-time transcription, voice command recognition, and accessibility applications. Its strengths lie in its robust performance across diverse accents and dialects. On the other hand, Whisper-Large-V3-Turbo is a more efficient variant, offering faster processing speeds while maintaining a similar level of accuracy in Korean transcription. This makes it ideal for applications requiring quick responses, such as live translation services. Both models are available in GGUF format and are licensed for commercial use."
+ },
+ "latency_ms": 1778.2
+}

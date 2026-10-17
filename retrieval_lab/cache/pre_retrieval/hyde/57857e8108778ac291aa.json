@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?",
+ "outputs": [
+  "KoSimCSE-roberta-multitask is a state-of-the-art model designed for sentence similarity tasks in Korean. It supports multiple languages, with a primary focus on Korean, and boasts 110 million parameters. This model excels in understanding nuanced semantic relationships between sentences, making it ideal for applications such as semantic search, paraphrase detection, and dialogue systems. Its strengths lie in its ability to leverage multitask learning, which enhances its performance across various natural language processing tasks. In contrast, ko-sroberta-multitask, while also effective, may not achieve the same level of performance in sentence similarity due to its different training objectives and architecture. Users seeking high accuracy in sentence similarity assessments may prefer KoSimCSE-roberta-multitask."
+ ],
+ "response": {
+  "document": "KoSimCSE-roberta-multitask is a state-of-the-art model designed for sentence similarity tasks in Korean. It supports multiple languages, with a primary focus on Korean, and boasts 110 million parameters. This model excels in understanding nuanced semantic relationships between sentences, making it ideal for applications such as semantic search, paraphrase detection, and dialogue systems. Its strengths lie in its ability to leverage multitask learning, which enhances its performance across various natural language processing tasks. In contrast, ko-sroberta-multitask, while also effective, may not achieve the same level of performance in sentence similarity due to its different training objectives and architecture. Users seeking high accuracy in sentence similarity assessments may prefer KoSimCSE-roberta-multitask."
+ },
+ "latency_ms": 2177.0
+}
