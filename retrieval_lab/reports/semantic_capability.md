@@ -3,37 +3,39 @@
 - 질의 37개 (채점 37개), 기준 지표 `recall@10`, 관련 등급 ≥ 1
 - Dense `BAAI/bge-m3` · Sparse fielded BM25 · Weighted RRF (k=60) · Pre-Retrieval LLM `gpt-4o-mini`
 - 라벨: 기존 라벨 + 추가 판정(supplemental_judgments.jsonl)
-- 실행 2026-10-17 20:48
+- 실행 2026-10-17 22:14
 
 ## 실험표
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Baseline | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
-| Rewrite | 0.176 | 0.315 | 0.337 | 0.748 | 0.430 | 0.512 | 1313ms |
-| Decomposition | 0.186 | 0.327 | 0.354 | 0.833 | 0.477 | 0.582 | 2349ms |
-| Multi-Query | 0.173 | 0.325 | 0.361 | 0.735 | 0.481 | 0.562 | 2566ms |
-| HyDE | 0.188 | 0.314 | 0.362 | 0.818 | 0.511 | 0.640 | 2742ms |
-| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 3088ms |
+| Baseline | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 708ms |
+| Rewrite | 0.176 | 0.315 | 0.337 | 0.748 | 0.430 | 0.512 | 1644ms |
+| Decomposition | 0.186 | 0.327 | 0.354 | 0.833 | 0.477 | 0.582 | 3656ms |
+| Multi-Query | 0.173 | 0.325 | 0.361 | 0.735 | 0.481 | 0.562 | 3741ms |
+| HyDE | 0.188 | 0.314 | 0.362 | 0.818 | 0.511 | 0.640 | 3596ms |
+| Name Lookup | 0.172 | 0.318 | 0.346 | 0.694 | 0.474 | 0.553 | 708ms |
+| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 5165ms |
 
 ### 보조 지표
 
-| 실험 | P@5 | P@10 | F1@5 | Hit@10 | p99 | 제외 위반@10 | Judged@10 |
-|---|---|---|---|---|---|---|---|
-| Baseline | 0.632 | 0.589 | 0.237 | 0.946 | 343ms | 0.400 | 1.000 |
-| Rewrite | 0.589 | 0.565 | 0.232 | 0.946 | 1357ms | 0.600 | 1.000 |
-| Decomposition | 0.622 | 0.595 | 0.245 | 0.973 | 2403ms | 0.400 | 1.000 |
-| Multi-Query | 0.627 | 0.616 | 0.237 | 0.919 | 3881ms | 0.400 | 1.000 |
-| HyDE | 0.686 | 0.632 | 0.255 | 0.892 | 2747ms | 0.400 | 1.000 |
-| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.643 | 0.624 | 0.253 | 0.973 | 4636ms | 0.600 | 1.000 |
+| 실험 | P@5 | P@10 | F1@5 | Hit@10 | nRecall@10 | p99 | 제외 위반@10 | Judged@10 |
+|---|---|---|---|---|---|---|---|---|
+| Baseline | 0.632 | 0.589 | 0.237 | 0.946 | 0.651 | 760ms | 0.400 | 1.000 |
+| Rewrite | 0.589 | 0.565 | 0.232 | 0.946 | 0.629 | 1736ms | 0.600 | 1.000 |
+| Decomposition | 0.622 | 0.595 | 0.245 | 0.973 | 0.660 | 3719ms | 0.400 | 1.000 |
+| Multi-Query | 0.627 | 0.616 | 0.237 | 0.919 | 0.674 | 5363ms | 0.400 | 1.000 |
+| HyDE | 0.686 | 0.632 | 0.255 | 0.892 | 0.678 | 3646ms | 0.400 | 1.000 |
+| Name Lookup | 0.627 | 0.589 | 0.236 | 0.946 | 0.651 | 760ms | 0.400 | 0.997 |
+| Best Combination (Decomposition + Multi-Query, dense 0.75) | 0.643 | 0.624 | 0.253 | 0.973 | 0.718 | 7072ms | 0.600 | 1.000 |
 
 ## Dense / Sparse / Hybrid 비교 (Pre-Retrieval 없음)
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Dense only (BGE-M3) | 0.211 | 0.325 | 0.342 | 0.762 | 0.468 | 0.550 | 315ms |
-| Sparse only (BM25) | 0.137 | 0.280 | 0.316 | 0.713 | 0.392 | 0.458 | 315ms |
-| Hybrid (Weighted RRF 0.5/0.5) | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
+| Dense only (BGE-M3) | 0.211 | 0.325 | 0.342 | 0.762 | 0.468 | 0.550 | 707ms |
+| Sparse only (BM25) | 0.137 | 0.280 | 0.316 | 0.713 | 0.392 | 0.458 | 707ms |
+| Hybrid (Weighted RRF 0.5/0.5) | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 708ms |
 
 ## 조합 실험
 
@@ -41,7 +43,7 @@
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| Decomposition + Multi-Query | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 3088ms |
+| Decomposition + Multi-Query | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 5165ms |
 
 ## Dense/Sparse 가중치 탐색
 
@@ -49,19 +51,19 @@
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| dense 0.1 / sparse 0.9 | 0.162 | 0.280 | 0.316 | 0.724 | 0.430 | 0.488 | 3088ms |
-| dense 0.2 / sparse 0.8 | 0.174 | 0.294 | 0.331 | 0.727 | 0.451 | 0.519 | 3087ms |
-| dense 0.3 / sparse 0.7 | 0.176 | 0.316 | 0.348 | 0.768 | 0.499 | 0.560 | 3088ms |
-| dense 0.4 / sparse 0.6 | 0.186 | 0.323 | 0.357 | 0.816 | 0.513 | 0.576 | 3087ms |
-| dense 0.5 / sparse 0.5 | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 3087ms |
-| dense 0.55 / sparse 0.45 | 0.189 | 0.339 | 0.369 | 0.809 | 0.505 | 0.626 | 3088ms |
-| dense 0.6 / sparse 0.4 | 0.193 | 0.331 | 0.364 | 0.800 | 0.499 | 0.619 | 3087ms |
-| dense 0.65 / sparse 0.35 | 0.195 | 0.336 | 0.367 | 0.807 | 0.488 | 0.605 | 3087ms |
-| dense 0.7 / sparse 0.3 | 0.195 | 0.359 | 0.373 | 0.809 | 0.484 | 0.597 | 3087ms |
-| dense 0.75 / sparse 0.25 | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 3088ms |
-| dense 0.8 / sparse 0.2 | 0.225 | 0.370 | 0.374 | 0.825 | 0.491 | 0.594 | 3087ms |
-| dense 0.85 / sparse 0.15 | 0.241 | 0.365 | 0.370 | 0.842 | 0.505 | 0.607 | 3087ms |
-| dense 0.9 / sparse 0.1 | 0.240 | 0.367 | 0.371 | 0.842 | 0.510 | 0.614 | 3087ms |
+| dense 0.1 / sparse 0.9 | 0.162 | 0.280 | 0.316 | 0.724 | 0.430 | 0.488 | 5165ms |
+| dense 0.2 / sparse 0.8 | 0.174 | 0.294 | 0.331 | 0.727 | 0.451 | 0.519 | 5165ms |
+| dense 0.3 / sparse 0.7 | 0.176 | 0.316 | 0.348 | 0.768 | 0.499 | 0.560 | 5165ms |
+| dense 0.4 / sparse 0.6 | 0.186 | 0.323 | 0.357 | 0.816 | 0.513 | 0.576 | 5165ms |
+| dense 0.5 / sparse 0.5 | 0.176 | 0.331 | 0.361 | 0.789 | 0.497 | 0.597 | 5165ms |
+| dense 0.55 / sparse 0.45 | 0.189 | 0.339 | 0.369 | 0.809 | 0.505 | 0.626 | 5165ms |
+| dense 0.6 / sparse 0.4 | 0.193 | 0.331 | 0.364 | 0.800 | 0.499 | 0.619 | 5165ms |
+| dense 0.65 / sparse 0.35 | 0.195 | 0.336 | 0.367 | 0.807 | 0.488 | 0.605 | 5165ms |
+| dense 0.7 / sparse 0.3 | 0.195 | 0.359 | 0.373 | 0.809 | 0.484 | 0.597 | 5165ms |
+| dense 0.75 / sparse 0.25 | 0.192 | 0.373 | 0.379 | 0.797 | 0.475 | 0.587 | 5165ms |
+| dense 0.8 / sparse 0.2 | 0.225 | 0.370 | 0.374 | 0.825 | 0.491 | 0.594 | 5165ms |
+| dense 0.85 / sparse 0.15 | 0.241 | 0.365 | 0.370 | 0.842 | 0.505 | 0.607 | 5165ms |
+| dense 0.9 / sparse 0.1 | 0.240 | 0.367 | 0.371 | 0.842 | 0.510 | 0.614 | 5165ms |
 
 ## Dense/Sparse 가중치 탐색 (Pre-Retrieval 없음)
 
@@ -69,19 +71,19 @@
 
 | 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
 |---|---|---|---|---|---|---|---|
-| dense 0.1 / sparse 0.9 | 0.139 | 0.282 | 0.317 | 0.745 | 0.413 | 0.466 | 315ms |
-| dense 0.2 / sparse 0.8 | 0.155 | 0.291 | 0.322 | 0.743 | 0.425 | 0.469 | 315ms |
-| dense 0.3 / sparse 0.7 | 0.160 | 0.289 | 0.322 | 0.698 | 0.448 | 0.499 | 315ms |
-| dense 0.4 / sparse 0.6 | 0.169 | 0.293 | 0.329 | 0.689 | 0.470 | 0.534 | 315ms |
-| dense 0.5 / sparse 0.5 | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 315ms |
-| dense 0.55 / sparse 0.45 | 0.170 | 0.324 | 0.357 | 0.721 | 0.474 | 0.550 | 315ms |
-| dense 0.6 / sparse 0.4 | 0.172 | 0.322 | 0.354 | 0.752 | 0.481 | 0.565 | 315ms |
-| dense 0.65 / sparse 0.35 | 0.183 | 0.323 | 0.356 | 0.759 | 0.485 | 0.574 | 315ms |
-| dense 0.7 / sparse 0.3 | 0.184 | 0.316 | 0.349 | 0.748 | 0.477 | 0.585 | 315ms |
-| dense 0.75 / sparse 0.25 | 0.188 | 0.325 | 0.353 | 0.752 | 0.481 | 0.586 | 315ms |
-| dense 0.8 / sparse 0.2 | 0.189 | 0.324 | 0.352 | 0.766 | 0.478 | 0.588 | 315ms |
-| dense 0.85 / sparse 0.15 | 0.185 | 0.338 | 0.356 | 0.766 | 0.475 | 0.575 | 315ms |
-| dense 0.9 / sparse 0.1 | 0.198 | 0.332 | 0.349 | 0.735 | 0.456 | 0.549 | 315ms |
+| dense 0.1 / sparse 0.9 | 0.139 | 0.282 | 0.317 | 0.745 | 0.413 | 0.466 | 708ms |
+| dense 0.2 / sparse 0.8 | 0.155 | 0.291 | 0.322 | 0.743 | 0.425 | 0.469 | 708ms |
+| dense 0.3 / sparse 0.7 | 0.160 | 0.289 | 0.322 | 0.698 | 0.448 | 0.499 | 708ms |
+| dense 0.4 / sparse 0.6 | 0.169 | 0.293 | 0.329 | 0.689 | 0.470 | 0.534 | 708ms |
+| dense 0.5 / sparse 0.5 | 0.173 | 0.318 | 0.346 | 0.698 | 0.477 | 0.560 | 708ms |
+| dense 0.55 / sparse 0.45 | 0.170 | 0.324 | 0.357 | 0.721 | 0.474 | 0.550 | 708ms |
+| dense 0.6 / sparse 0.4 | 0.172 | 0.322 | 0.354 | 0.752 | 0.481 | 0.565 | 708ms |
+| dense 0.65 / sparse 0.35 | 0.183 | 0.323 | 0.356 | 0.759 | 0.485 | 0.574 | 708ms |
+| dense 0.7 / sparse 0.3 | 0.184 | 0.316 | 0.349 | 0.748 | 0.477 | 0.585 | 708ms |
+| dense 0.75 / sparse 0.25 | 0.188 | 0.325 | 0.353 | 0.752 | 0.481 | 0.586 | 708ms |
+| dense 0.8 / sparse 0.2 | 0.189 | 0.324 | 0.352 | 0.766 | 0.478 | 0.588 | 708ms |
+| dense 0.85 / sparse 0.15 | 0.185 | 0.338 | 0.356 | 0.766 | 0.475 | 0.575 | 708ms |
+| dense 0.9 / sparse 0.1 | 0.198 | 0.332 | 0.349 | 0.735 | 0.456 | 0.549 | 708ms |
 
 ## top-10에서 놓친 관련 모델 (Decomposition + Multi-Query)
 
@@ -122,6 +124,10 @@
 | sg_h063 | 0.27 | Aikyam-Lab/CURE-MED-7B, CMSManhattan/JiRackUltra_14b, KRAFTON/KORani-v3-13B, LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ, LLaMAX/LLaMAX3-8B-Alpaca, LiquidAI/LFM2.5-2.6B-GGUF, MediKo/MediKo-4B-A1B-base, MediKo/MediKo-9B-A4B-inst, Mungert/LFM2-1.2B-RAG-GGUF, MyeongHo0621/Qwen2.5-3B-Korean, NC-AI-consortium-VAETKI/VAETKI, QuantFactory/LFM2-1.2B-RAG-GGUF, SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx, iqbalamo93/Phi-4-mini-instruct-GPTQ-4bit, jwg0830/AX-3.1-Light-sft_v0_21, mradermacher/CURE-MED-3B-i1-GGUF, mradermacher/Korean-Gemma-2B-Instruct-GGUF, nc-ai-consortium/VAETKI-7B-A1B, soka0000/vclm-korean-7b, tensorblock/llama2-13b.kor.v1-GGUF, unsloth/NVIDIA-Nemotron-3-Ultra-550B-A55B-GGUF, young-kim123/qwen3-1.7b-mymodel |
 | sg_h065 | 0.00 | bespin-global/klue-bert-base-aihub-mrc, monologg/koelectra-base-v3-finetuned-korquad, monologg/koelectra-small-v2-distilled-korquad-384, timpal0l/mdeberta-v3-base-squad2 |
 | sg_h068 | 0.50 | Systran/faster-whisper-small, cstr/cohere-transcribe-03-2026-GGUF, epapanita/whisper-large-gguf, handy-computer/whisper-large-gguf, handy-computer/whisper-small-gguf, handy-computer/whisper-tiny-gguf, mlx-community/whisper-large-v3-asr-fp16, openai/whisper-large-v3, openai/whisper-small |
+
+## 추가 판정이 필요한 후보
+
+이번 실험의 설정 중 하나 이상에서 top-10에 나왔지만 아무도 판정하지 않은 모델이 질의 1개에 걸쳐 1개다. 목록은 JSON의 `unjudged_pool`에 있다.
 
 ## 해석 주의
 
