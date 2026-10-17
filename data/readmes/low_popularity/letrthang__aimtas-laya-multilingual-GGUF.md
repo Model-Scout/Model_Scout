@@ -52,6 +52,16 @@ Base: [`convaiinnovations/laya-multilingual`](https://huggingface.co/convaiinnov
 decision head, 322 M parameters, 1024-token context, Apache-2.0). Live AIMTAS server: the Hugging Face Space
 [`letrthang/aimtas-system-one-laya-slm`](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm) — **try it there without a key** (see below).
 
+> ### 🧪 Reference project — Laya in a full RAG app
+> **[spring-ai-with-hybrid-search-and-system-one-typesafe-jev](https://github.com/letrthang/spring-ai-with-hybrid-search-and-system-one-typesafe-jev)**
+> · ▶ **[Live demo](https://spring-ai-with-hybrid-search-and-system.onrender.com)**
+>
+> A Spring AI + Vaadin demo that uses this model (through the Space's public `/demo/systemone` route) as its
+> **⚡ System 1**: Weaviate finds passages (BM25 + vector, fused with RRF), **Laya keeps, drops and re-ranks them**
+> (relevant · answers · prompt injection) as Spring AI `DocumentPostProcessor`s, an OpenRouter LLM writes the answer as
+> System 2 — and **Laya checks that answer** before it is learned and reused. Every call is shown in a data-flow
+> diagram; English, Vietnamese and Japanese; also an AI agentic mode.
+
 ## How it differs from the original Laya model
 The original [`convaiinnovations/laya-multilingual`](https://huggingface.co/convaiinnovations/laya-multilingual) is a
 **general-purpose** decision model (trained on tasks such as ticket triage, routing and moderation). It knows nothing about
@@ -117,5 +127,6 @@ the model was trained on 1024 tokens.
   model. Zero-shot Laya does not judge numeric urgency reliably; fine-tune on your own decisions for production accuracy.
 
 Used by the AIMTAS smart-farm platform's System 1 server (Hugging Face Space
-[`letrthang/aimtas-system-one-laya-slm`](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm)). It never actuates:
+[`letrthang/aimtas-system-one-laya-slm`](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm)) and by the
+RAG demo project [spring-ai-with-hybrid-search-and-system-one-typesafe-jev](https://github.com/letrthang/spring-ai-with-hybrid-search-and-system-one-typesafe-jev). It never actuates:
 callers keep their deterministic safety checks.

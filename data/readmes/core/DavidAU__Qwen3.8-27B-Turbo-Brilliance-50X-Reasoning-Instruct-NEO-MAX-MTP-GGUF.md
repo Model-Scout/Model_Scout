@@ -165,6 +165,11 @@ LIMITS:
 
 <B>Additional Models, using limited tech / versions of Turbo Brilliance (as of this writing)</B>
 
+<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
+https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
+
+Smaller:
+
 These models are smaller, and will give you a limited "tease" of what Turbo Brilliance can do in 9B, 27B, 35B-A3B and larger models 
 and show SOME of the systems planned for the current 27B (and later) releases. Turbo Brilliance "scales up" with parameters, fine tuning and other factors.
 

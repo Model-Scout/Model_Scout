@@ -246,6 +246,29 @@ How to read this:
   v1 scored higher on the evasion set because it flagged almost any unusual-looking text. That also flags unusual but
   harmless text, so v2 was trained not to.
 
+### Third-party multilingual benchmarks (checked October 2026)
+
+Two public benchmarks released after this model was trained, never used for training or tuning:
+[halilneed/turkish-prompt-injection-benchmark](https://huggingface.co/datasets/halilneed/turkish-prompt-injection-benchmark) (3,372 Turkish texts:
+317 attacks, 3,055 benign, including its false-alarm set of business, banking and assistant-instruction texts) and
+[masahiroid/japanese-indirect-prompt-injection-probes](https://huggingface.co/datasets/masahiroid/japanese-indirect-prompt-injection-probes)
+(60 Japanese documents with an embedded injection; the document alone is scored).
+
+| model | Turkish: AUC | Turkish: attacks caught @ 0.5 | Turkish: false alarms @ 0.5 (all benign) | false alarms on assistant data-handling instructions | Japanese indirect injections caught @ 0.5 |
+|---|---|---|---|---|---|
+| **Horizon-Labs/prompt-injection-guard-small (v2.3)** | 0.925 | 0.80 | 0.093 | 0.24 | 0.97 |
+| **Horizon-Labs/prompt-injection-guard-base (v2.2)** | 0.917 | 0.85 | 0.178 | 0.48 | 0.95 |
+| **Horizon-Labs/prompt-injection-guard-large (v2.1)** | 0.845 | 0.74 | 0.234 | 0.65 | 0.98 |
+| protectai/deberta-v3-base-prompt-injection-v2 | 0.724 | 0.56 | 0.189 | 0.32 | 0.83 |
+| meta-llama/Llama-Prompt-Guard-2-86M | 0.772 | 0.14 | 0.002 | 0.01 | 0.20 |
+| leolee99/PIGuard | 0.746 | 0.15 | 0.027 | 0.05 | 0.37 |
+
+- Our models rank Turkish attacks better than the other models tested, and it catches 98% of the Japanese indirect injections.
+- At the default 0.5 threshold it flags 23.4% of the benign Turkish texts. Almost all of these are instructions addressed to the assistant about
+  handling data (for example "keep field X, mask all other personal fields"): 65% of those are flagged, while ordinary business and banking
+  text stays under 6%. If your traffic contains many such instructions from trusted users, raise the threshold (for example to 0.9) or
+  route them separately.
+
 ## Built-in obfuscation normalizer
 
 The tokenizer runs a normalizer before the model sees the text. It works in `transformers` (4.x and 5.x),
