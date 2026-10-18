@@ -1,35 +1,36 @@
 ---
 library_name: gguf
 base_model:
-  - Jackrong/Qwopus3.5-9B-Coder
+- Jackrong/Qwopus3.5-9B-Coder
+- Jackrong/Qwopus3-5-9B-Coder-Flash
 tags:
-  - gguf
-  - quantization
-  - llama.cpp
-  - image-text-to-text
-  - vision
-  - multimodal
-  - text-generation-inference
-  - transformers
-  - conversational
-  - mtp
-  - multi-token-prediction
-  - speculative-decoding
-  - qwen3_5
-  - reasoning
-  - chain-of-thought
-  - agent
-  - coder
-  - tool-use
-  - function-calling
+- gguf
+- quantization
+- llama.cpp
+- image-text-to-text
+- vision
+- multimodal
+- text-generation-inference
+- transformers
+- conversational
+- mtp
+- multi-token-prediction
+- speculative-decoding
+- qwen3_5
+- reasoning
+- chain-of-thought
+- agent
+- coder
+- tool-use
+- function-calling
 license: apache-2.0
 language:
-  - en
-  - zh
-  - ko
-  - ru
-  - ja
-  - es
+- en
+- zh
+- ko
+- ru
+- ja
+- es
 pipeline_tag: image-text-to-text
 ---
 
@@ -37,13 +38,18 @@ pipeline_tag: image-text-to-text
 
 This is a set of custom IQ4_XS quants of [Qwopus3.5-9B-Coder](https://huggingface.co/Jackrong/Qwopus3.5-9B-Coder) using [mradermacher's imatrix](https://huggingface.co/mradermacher/Qwopus3.5-9B-Coder-i1-GGUF), also mirroring [mradermacher's mmproj](https://huggingface.co/mradermacher/Qwopus3.5-9B-Coder-GGUF) files.
 
+V6 is based on the newer Flash version [Qwopus3-5-9B-Coder-Flash](https://huggingface.co/Jackrong/Qwopus3-5-9B-Coder-Flash)
+
 Initially I ran this to retain the MTP heads. Then went further, experiment with uplifting certain layers and the quant sizing of the MTP layers. Very basic stuff, but the result is pretty solid: 98,304 context (don't forget to use yarn past 32K!) in ~6GB VRAM when using beellama/KVarN and initial ~60t/s on a RTX4060 with Windows 11.
 
-| Version | file | size |
-| :--- | --- | ---: | 
-| 1 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS](./Qwopus3.5-9B-Coder-MTP-IQ4_XS.gguf) | ~5.29GiB | 
-| 2 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2](Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2.gguf) | ~5.02GiB | 
-| 3 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3](Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3.gguf)) | ~4.99GiB | 
+| Version | file | size | tensorfile |
+| :--- | --- | ---: | --- |
+| 1 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS](./Qwopus3.5-9B-Coder-MTP-IQ4_XS.gguf) | ~5.29GiB | [tensorv1.txt](./tensor_files/tensorv1.txt) |
+| 2 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2](./Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2.gguf) | ~5.02GiB | [tensorv2.txt](./tensor_files/tensorv2.txt) |
+| 3 | [Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3](./Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3.gguf) | ~4.99GiB | [tensorv3.txt](./tensor_files/tensorv3.txt) |
+| 4 | No gguf, experimental | - | [tensorv4.txt](./tensor_files/tensorv4.txt) |
+| 5 | No gguf, too large | ~5.85GB | [tensorv5.txt](./tensor_files/tensorv5.txt) |
+| 6 | [Qwopus3-5-9B-Coder-Flash-IQ4_XS_v6](./Qwopus3-5-9B-Coder-Flash-IQ4_XS_v6.gguf) | ~5.23GiB | [tensorv6.txt](./tensor_files/tensorv6.txt) |
 
 ## Tools
 
@@ -51,7 +57,9 @@ GGUF was produced using scripts from the root of llama.cpp's [source code](https
 
 Quants were produced using `llama-quantize.exe` from llama.cpp's binary releases.
 
-## Get a gguf
+V6 produced using [GGUFY](https://github.com/qskousen/ggufy) directly from full precision shards. Thanks again **qskousen**!
+
+## Get a gguf (or use ggufy to do both in one step)
 
 ```bash
 python convert_hf_to_gguf.py --outfile T:\_Qwen\Qwopus3.5-9B-Coder\__output\Qwopus3.5-9B-Coder-MTP-{ftype}.gguf --outtype auto --model-name Qwopus3.5-9B-Coder --verbose T:\_Qwen\Qwopus3.5-9B-Coder
@@ -65,55 +73,47 @@ This version is standard iq4_xs (with imatrix, thanks mradermacher!) with the MT
 llama-quantize --imatrix Qwopus3.5-9B-Coder.mradermacher.imatrix.gguf --tensor-type "blk\.32\..*=BF16" T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-bf16.gguf T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-IQ4_XS.gguf IQ4_XS 8
 ```
 
+[tensorv1.txt](./tensor_files/tensorv1.txt)
+
 ## V2
 
 Try keeping a few ffn_down at Q5_K, MTP mostly Q5_K
 
 ```
-llama-quantize --imatrix Qwopus3.5-9B-Coder.mradermacher.imatrix.gguf --tensor-type-file tensors1.txt T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-bf16.gguf T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2.gguf IQ4_XS 8
+llama-quantize --imatrix Qwopus3.5-9B-Coder.mradermacher.imatrix.gguf --tensor-type-file tensors2.txt T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-bf16.gguf T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-IQ4_XS_v2.gguf IQ4_XS 8
 ```
 
-tensor1.txt:
-
-```
-blk.0.ffn_down.weight=Q5_K
-blk.1.ffn_down.weight=Q5_K
-blk.2.ffn_down.weight=Q5_K
-blk.3.ffn_down.weight=Q5_K
-blk.32.attn_k.weight=Q5_K
-blk.32.attn_output.weight=Q5_K
-blk.32.attn_q.weight=Q5_K
-blk.32.attn_v.weight=Q6_K
-blk.32.ffn_down.weight=Q5_K
-blk.32.ffn_gate.weight=Q5_K
-blk.32.ffn_up.weight=Q5_K
-blk.32.nextn.eh_proj.weight=Q5_K
-```
+[tensorv2.txt](./tensor_files/tensorv2.txt)
 
 ## V3
 
 Can we go smaller? Yes, but it doesn't gain much.
 
 ```bash
-llama-quantize --imatrix Qwopus3.5-9B-Coder.mradermacher.imatrix.gguf --tensor-type-file tensors2.txt T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-bf16.gguf T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3.gguf IQ4_XS 8
+llama-quantize --imatrix Qwopus3.5-9B-Coder.mradermacher.imatrix.gguf --tensor-type-file tensors3.txt T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-bf16.gguf T:\_Qwen\Qwopus3.5-9B-coder\__output\Qwopus3.5-9B-Coder-MTP-IQ4_XS_v3.gguf IQ4_XS 8
 ```
 
-tensor2.txt:
+[tensorv3.txt](./tensor_files/tensorv3.txt)
 
-```text
-blk.0.ffn_down.weight=Q5_K
-blk.1.ffn_down.weight=Q5_K
-blk.2.ffn_down.weight=Q5_K
-blk.3.ffn_down.weight=Q5_K
-blk.32.attn_k.weight=IQ4_XS
-blk.32.attn_output.weight=Q5_K
-blk.32.attn_q.weight=IQ4_XS
-blk.32.attn_v.weight=Q5_K
-blk.32.ffn_down.weight=IQ4_XS
-blk.32.ffn_gate.weight=IQ4_XS
-blk.32.ffn_up.weight=IQ4_XS
-blk.32.nextn.eh_proj.weight=IQ4_XS
-```
+## V4
+
+Proved inconclusive, no gain.
+
+[tensorv4.txt](./tensor_files/tensorv4.txt)
+
+## V5
+
+GGUF too big, eats context space on my 8GB GPU
+
+[tensorv5.txt](./tensor_files/tensorv5.txt)
+
+## V6
+
+A little big, most of the time 98K context fits. The new Flash version is extremely fast for this build, getting nearly 60t/s to start.
+
+[tensorv6.txt](./tensor_files/tensorv6.txt)
+
+---
 
 ## inference
 
@@ -188,10 +188,13 @@ rope-scaling=yarn
 yarn-orig-ctx=32768
 rope-scale=3
 ```
+---
 
 ## Conclusion
 
 Prediction acceptance only dropped marginally on V3 compared to V1, still trends above 60% during coding tasks. Unable to quantify any gains from bumping 4 ff_down weights from IQ4_S to Q5_K. Next run I will try V2 again but bump all ff_down weights to Q6_K and MTP head to Q6_K/Q8_K and see where it stands.
+
+V6 marks the first version to use empircal data to decide which layers to avoid making smaller or to make bigger. This initial run only looked for strong kurtosis.
 
 ## thanks
 

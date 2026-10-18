@@ -95,34 +95,34 @@
     }
   },
   "last_incremental_scan": {
-    "started_at": "2026-10-17T22:00:31.735242+00:00",
-    "watermark": "2026-10-16T20:38:49.590454+00:00",
-    "scanned": 1453,
-    "changed": 1453,
-    "eligible": 88,
-    "processable": 15,
-    "removed": 3,
+    "started_at": "2026-10-18T22:51:54.502732+00:00",
+    "watermark": "2026-10-17T22:00:31.735242+00:00",
+    "scanned": 1553,
+    "changed": 1553,
+    "eligible": 78,
+    "processable": 13,
+    "removed": 0,
     "task_scanned": {
-      "text-generation": 757,
-      "feature-extraction": 231,
-      "sentence-similarity": 14,
-      "text-classification": 129,
-      "question-answering": 5,
-      "summarization": 6,
-      "translation": 31,
-      "image-text-to-text": 209,
-      "automatic-speech-recognition": 71
+      "text-generation": 819,
+      "feature-extraction": 208,
+      "sentence-similarity": 8,
+      "text-classification": 137,
+      "question-answering": 7,
+      "summarization": 1,
+      "translation": 35,
+      "image-text-to-text": 256,
+      "automatic-speech-recognition": 82
     },
     "task_seen": {
-      "text-generation": 758,
-      "feature-extraction": 232,
-      "sentence-similarity": 15,
-      "text-classification": 130,
-      "question-answering": 6,
-      "summarization": 7,
-      "translation": 32,
-      "image-text-to-text": 210,
-      "automatic-speech-recognition": 72
+      "text-generation": 820,
+      "feature-extraction": 209,
+      "sentence-similarity": 9,
+      "text-classification": 138,
+      "question-answering": 8,
+      "summarization": 2,
+      "translation": 36,
+      "image-text-to-text": 257,
+      "automatic-speech-recognition": 83
     },
     "task_observed": {
       "text-generation": true,
@@ -136,5 +136,5 @@
       "automatic-speech-recognition": true
     }
   },
-  "unique_candidates": 21061
+  "unique_candidates": 21080
 }

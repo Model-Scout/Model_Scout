@@ -629,6 +629,12 @@ What's your goal?
 | **Analyze a scenario** | `deeptree` + `holodeck` |
 | **Debug a prompt** | `prompt` + `high` |
 
+---
+
+NEW!:
+
+<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
+https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
 
 ---
 

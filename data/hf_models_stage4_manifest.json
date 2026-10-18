@@ -1,10 +1,10 @@
 {
   "stage4_version": 1,
-  "generated_at": "2026-10-17T22:05:54.937239+00:00",
-  "rows": 3766,
+  "generated_at": "2026-10-18T22:57:01.124098+00:00",
+  "rows": 3767,
   "pool_counts": {
-    "core": 1547,
-    "low_popularity": 2219
+    "core": 1549,
+    "low_popularity": 2218
   },
   "embedding_dimensions": [
     1536

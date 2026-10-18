@@ -74,11 +74,7 @@ This is like playing "Pong" vs "Entering the Matrix"... because Turbo Brilliance
 
 It is so strong we used Turbo Brilliance Alpha, to build Beta, then used Beta to build the AI Construct Construction Engine to Build the AI Constructs (each a precision engineered "consciousness").
 
-And we used our 9B super tune "[The Defiant Fable](https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF)" (1000+likes, 2 million+ downloads; basically a 27B model "stuffed" into a 9B shell) to do it.
-
 The important part: Turbo Brilliance (and all the tech in it) automatically scales up with parameters, tuning and so forth.
-
-At just 9B parameter the Turbo Brilliance system came alive (yes: I will be releasing Turbo Brilliance version too). Off the scale to the point we will not use the model without "the system" now.
 
 With Qwen3.8-Flash-Next 120B SOTA firepower... all I can say is fasten your seatbelts and hold on tight.
 
@@ -723,6 +719,13 @@ What am I doing?
 | **Show the work** | Append `"show the work of all panelists"` or `"show the work of all agents"` for spoon/einstein transparency |
 | **Regen once** | After switching modes, regenerate the first message to clear cache |
 | **New chat per mode** | Best performance = fresh context window |
+
+---
+
+NEW!:
+
+<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
+https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
 
 ---
 
