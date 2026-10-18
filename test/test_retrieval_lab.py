@@ -245,3 +245,22 @@ def test_fast_bm25_matches_fielded_bm25():
         scores = fast.score_all(text)
         for index, row in enumerate(rows):
             assert scores[index] == pytest.approx(fast.base.score(row, {"text": text}), abs=1e-12)
+
+
+def test_classifier_rule_and_scores(monkeypatch):
+    from retrieval_lab import classifier
+
+    class Names:
+        ids = ["a", "b"]
+
+        def name_lookup(self, text, eligible):
+            return ["org/x", "org/y"] if "x" in text else ["org/x"]
+
+    monkeypatch.setattr(classifier, "llm_type", lambda text, model=None: ("semantic_capability", 10.0))
+    rule = classifier.classify("x랑 y 중 뭐가 나아?", Names())
+    assert (rule.query_type, rule.source) == ("model_comparison", "rule")
+    assert classifier.classify("요약 모델 필요해", Names()).source == "llm"
+    result = classifier.scores(["model_comparison", "lexical_exact"], ["model_comparison", "semantic_capability"])
+    assert result["accuracy"] == 0.5
+    assert result["per_class"]["model_comparison"]["f1"] == 1.0
+    assert result["confusion"]["lexical_exact"] == {"semantic_capability": 1}

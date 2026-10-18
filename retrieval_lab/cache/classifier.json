@@ -1,0 +1,1782 @@
+{
+ "d026b9bdaacd13f3180b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 624.4
+ },
+ "4fc82333085dc4840b5f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 557.4
+ },
+ "237d7de88d1dad0d62f5": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 592.1
+ },
+ "f2c66f280d80422d324a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 556.0
+ },
+ "65ad15c1fd70dd5156f7": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "API 키 없이 로컬 GPU에서 sentence-transformers로 돌릴 한국어 서비스용 임베딩 모델을 고르려고 해. 한국어 검색 정확도가 가장 중요해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 615.5
+ },
+ "ea072c8315f001c02409": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "AutoRAG 한국어 검색 벤치마크 결과가 있는 임베딩 모델을 고르고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 559.9
+ },
+ "890bd31a9bf7ed567f37": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "COMET 점수로 한국어 번역 품질이 검증된 번역 모델을 고르고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 678.6
+ },
+ "f270aa7dd214fd3d1e2b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "DeepSeek-V3를 24GB GPU 한 장에서 한국어 상담용으로 돌리려고 해. 가능할까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 654.5
+ },
+ "b46aac9576e7f8cc1c34": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "DocVQA나 OCRBench 점수가 공개된 비전 언어 모델로 한국어 문서를 읽으려고 해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 708.9
+ },
+ "7edfd059606e1bfdc25b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Dongjin-kr/ko-reranker가 CPU에서 너무 느려. 더 가벼운 한국어 리랭커가 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 756.3
+ },
+ "7cb410545598c14098ce": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 737.9
+ },
+ "f6b95249965d7dcfdac4": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 610.4
+ },
+ "5980b2bcaf2520d70279": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-3.5-32B-Instruct를 RTX 4090(24GB) 한 장에서 돌릴 수 있어? 안 되면 대안도 알려 줘.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 763.1
+ },
+ "c2b9005957e2af7d75e0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-3.5-7.8B-Instruct가 답변이 너무 느려. 이것보다 작고 빠른 한국어 LLM을 찾아 줘.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 704.6
+ },
+ "63e268f9f020fb587411": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-3.5-7.8B-Instruct를 쓰려는데 라이선스 때문에 상업 서비스에 못 넣어. 비슷한 크기의 상업 가능한 대안이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 754.8
+ },
+ "f4108f3c6890a8d55439": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-3.5-7.8B-Instruct와 A.X-4.0-Light를 라이선스와 한국어 성능 기준으로 비교해 줘.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 532.9
+ },
+ "462ae51e5f242d10fe09": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "EXAONE-4.5-33B로 한국어 문서 이미지를 읽고 싶은데 16GB 맥에서 돌아갈까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 636.3
+ },
+ "8e3f2362c665ef4898d1": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "FLEURS나 Common Voice 한국어 WER가 README에 나온 음성인식 모델을 비교하고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 663.9
+ },
+ "b85c90900c2f0dbcb343": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "FLORES-200 기준 한국어 번역 BLEU나 chrF 점수가 공개된 번역 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 675.8
+ },
+ "c207c4f0c5159b678f5a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "GPTQ Int4로 양자화된 한국어 번역 모델이 필요해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 799.5
+ },
+ "4f6eecad8960a9bdc877": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 574.5
+ },
+ "430bba32885ac69ce81e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 618.2
+ },
+ "26ac62093cfc94a5c89b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "GPU 없이 돌아가는 다국어 추출형 QA 모델이 필요해. 한국어 지원은 필수야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 706.7
+ },
+ "b6118934bfd807a504ac": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Jetson 보드에서 3B급 소형 LLM과 함께 올릴 한국어 임베딩 모델이 필요해. 메모리가 빠듯해서 작게 양자화된 버전이면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 619.6
+ },
+ "7970c7f5b9895bba9cf2": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "K-DTCBench 같은 한국어 문서·표·차트 벤치마크 점수가 있는 비전 언어 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 698.0
+ },
+ "e6c62d63100121873c9e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KLUE NLI 정확도가 README에 나와 있는 한국어 분류 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 627.7
+ },
+ "efcd30c7439354513564": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 635.2
+ },
+ "e1b7349e3fb80fefe840": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KMMLU 점수가 공개된 한국어 LLM을 비교하고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 755.2
+ },
+ "3f971c76dd1bea6567e9": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KR-FinBert-SC처럼 한국어 금융 감성을 분류하는데, 라이선스가 명시돼 상업적으로 쓸 수 있는 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 772.4
+ },
+ "3531bd5da1bf55342c58": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 657.5
+ },
+ "42481ce2a001d0ebaa00": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KURE-v2와 multilingual-e5-large의 한국어 검색 성능을 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 1230.5
+ },
+ "3ad6a517676b616a15bc": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 626.8
+ },
+ "563ef0957b134d68947d": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KoBART(EbanLee/kobart-summary-v3)랑 mT5(csebuetnlp/mT5_multilingual_XLSum) 중 한국어 뉴스 요약에는 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 589.9
+ },
+ "c07d79272b9b58f41b6c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KoBEST(BoolQ, COPA 등) 결과가 README에 있는 한국어 LLM을 찾고 있어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 562.5
+ },
+ "c9a9250dbe185a0cfe96": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 993.5
+ },
+ "653597d626a3a0c143a0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 898.0
+ },
+ "a692a815fa9f155c8919": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KorQuAD에서 EM·F1 점수가 공개된 한국어 기계독해 모델이 필요해. 점수를 보고 고르고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 657.4
+ },
+ "a2c20328e6564e8eebb0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "KorSTS 점수(스피어만 상관계수)가 공개된 한국어 문장 임베딩 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 590.9
+ },
+ "f05d466f659334fc9788": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "LLM 프롬프트로 들어오는 탈옥·유해 요청을 걸러내는 가드레일 분류기가 필요해. 한국어 입력도 처리해야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 565.8
+ },
+ "01de5f9ea80ab8ca2cbb": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "LogicKor 점수가 높은 한국어 LLM이 필요해. 추론·글쓰기 점수를 보고 고를 거야.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 952.1
+ },
+ "286d3ce7969ce1e1a8b5": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 717.9
+ },
+ "60aa04782d2fa02ebf9e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "M1 이상 맥(RAM 16GB)에서 오프라인으로 한국어 회의록을 요약하고 교정할 LLM이 필요해. Ollama 없이 통합 메모리에서 바로 돌아가면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 692.1
+ },
+ "fe20698acb56b4987039": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델이 필요해. nDCG 수치를 보고 비교할 거야.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 608.4
+ },
+ "b6ae2b51c1fad79f4aca": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "MTEB 검색(Retrieval) 점수가 공개된 다국어 임베딩 중 한국어도 지원하는 모델을 고르고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 582.2
+ },
+ "402b345187d773f68bba": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 돌릴 수 있어?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 642.3
+ },
+ "56fcd1287df47a03539b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 769.1
+ },
+ "d1021dfadf2c77885f73": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "NSMC 영화 리뷰 감성분석 정확도가 높은 한국어 모델을 찾고 있어. 정확도 수치가 공개된 모델이면 좋겠어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 767.6
+ },
+ "ea21db7375ce65904394": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 583.4
+ },
+ "a74ba3c3a931963ca379": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 593.0
+ },
+ "a0428750cbc3213448f3": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Phi-4-mini-instruct와 EXAONE-3.5-2.4B-Instruct 중 한국어를 더 잘하는 건 뭐야?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 578.7
+ },
+ "766796b4c460233331b3": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Qwen2.5-72B-Instruct를 RTX 4060(8GB) 한 장에서 한국어 챗봇으로 돌리고 싶어. 이걸로 가능할까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 660.8
+ },
+ "f4b316e9ded803ab8eb5": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성인식 성능을 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 658.9
+ },
+ "b317e4463ae519965643": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 651.0
+ },
+ "37b173905eb2ce5cca46": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 608.8
+ },
+ "08499a070407cae18271": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 701.7
+ },
+ "9d8f14d3670d35cdecd9": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "RTX 3060(12GB) 한 장에서 Ollama로 돌릴 한국어 멀티턴 대화용 LLM이 필요해. FP16은 너무 느려서 int4로 양자화해 빠르게 돌리고 싶어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 706.5
+ },
+ "d89fd6329482e679642e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 684.7
+ },
+ "63533eeab78b9099647f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "VARCO-VISION-14B가 우리 서버엔 커. 이것보다 작은 한국어 비전 언어 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 564.3
+ },
+ "13821f13826bbb8426e3": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "Zeroth나 KsponSpeech 같은 한국어 음성 데이터셋에서 CER이 공개된 음성인식 모델이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 779.7
+ },
+ "0ca9800b70e702a19d76": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "ainize/kobart-news와 비슷한 한국어 요약 모델인데 더 긴 문서를 넣을 수 있는 게 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 757.8
+ },
+ "75060ac536ec368973c8": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "aya-vision-8b가 비상업 라이선스야. 비슷한 크기에 상업적으로 쓸 수 있는 한국어 비전 언어 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 802.4
+ },
+ "09b6f09d8b040adac6ad": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "dragonkue/BGE-m3-ko와 upskyy/bge-m3-korean은 뭐가 달라? 한국어 검색엔 어느 쪽이 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 951.3
+ },
+ "45702ec4a9dd1c64061c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 703.3
+ },
+ "91b3bd5d7169ba843e52": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "kanana-1.5-8b-instruct랑 Midm-2.0-Base-Instruct의 한국어 성능과 크기를 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 556.7
+ },
+ "ec8413eb8eadce7b6ead": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "kanana-1.5-v-3b-instruct를 GPU 8GB 노트북에서 돌릴 수 있어?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 563.4
+ },
+ "0d913930b0299f483895": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 651.4
+ },
+ "5895536e9f7859c5abd9": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "ko-sroberta-multitask를 쓰는데 긴 문단이 잘려. 이것보다 입력을 길게 받는 한국어 임베딩이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 572.8
+ },
+ "c6668825c65ac7778eae": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 1011.9
+ },
+ "1b7817b35987a200ec4c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 755.1
+ },
+ "92981ac3dd6ae5d46a49": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "madlad400-3b-mt와 Hy-MT2-1.8B 중 한국어 번역 품질이 더 좋은 건?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 567.2
+ },
+ "2a1ac004ef6059fd5ac2": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "multilingual-e5-large가 서버에 무거워. 한국어 검색 성능은 비슷하고 더 작은 임베딩 모델이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 879.9
+ },
+ "3cb12960342d3783cd47": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "nllb-200-distilled-600M이 비상업 라이선스라 못 써. 상업적으로 쓸 수 있는 한국어 번역 대안이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 808.0
+ },
+ "ba1cb705c4464f118620": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 577.6
+ },
+ "c95d9523fb0ee267d125": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 602.6
+ },
+ "04f6952aedc2a2fb1b98": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 537.5
+ },
+ "3e0c735937df8f493a5f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "whisper-large-v3-turbo를 RAM 4GB 라즈베리파이에서 한국어 음성인식용으로 돌릴 수 있을까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 648.6
+ },
+ "904144f2a6f7a828400b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "whisper-large-v3를 쓰다가 GPU 없는 서버로 옮겨야 해. CPU에서 돌아갈 더 가벼운 대안이 필요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 652.4
+ },
+ "3e27a311241ad9fd5b05": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘.",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 539.9
+ },
+ "b45ffaff67de0c4b1ee0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "whisper-medium보다 빠르면서 한국어 정확도는 비슷한 음성인식 모델이 있을까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 550.4
+ },
+ "36c9a4d79d82d4e4a11d": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "게임 대사를 영어에서 한국어로 번역하려고 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 628.1
+ },
+ "7e4eeeb981d61b00b79a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "고객 문의 문장의 의도(질문·명령·진술 등)를 분류하는 한국어 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 639.9
+ },
+ "51eeebf19789b0f76849": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 한국어 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 611.7
+ },
+ "64e0f6fd6b8506454495": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 575.0
+ },
+ "d36e3257cb8a2001be10": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "두 한국어 문장이 함의·모순·중립 관계인지 판별하는 NLI 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 570.2
+ },
+ "52a8e46ad57791f50453": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "맥북(M1 Pro 이상)에서 한국어 회의 녹음을 로컬로 전사해 회의록을 만들려고 해. 음성이 외부로 나가면 안 되고 상업적으로 써야 해. 전문 용어·고유명사 인식이 중요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 635.9
+ },
+ "2fea4db270742c5ea477": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 747.3
+ },
+ "eb9b46bdea98ad68f364": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "맥용 전사 앱에 중국어·일본어·한국어 음성을 빠르게 받아적는 엔진을 넣으려고 해. 정확도보다 속도가 우선이야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 621.2
+ },
+ "80bd8d807d3ac6279c9f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 712.1
+ },
+ "9646cd3561527187d1c3": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "메신저 대화 캡처 화면을 읽고 내용을 한국어로 정리하는 모델이 필요해. 로컬에서만 돌려야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 661.4
+ },
+ "c287ca9c3560c6d45e28": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 683.3
+ },
+ "b5a30e1b9ccf9830d39f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 586.7
+ },
+ "7710edac57cc111d84b7": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "번역 결과의 품질을 자동으로 점수 매기는 평가 모델이 필요해. 한국어 번역도 평가해야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 595.1
+ },
+ "e128e1f1f4c48dac28cf": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "번역 모델로 opus-mt-tc-big-en-ko와 nllb-200-distilled-600M 중 뭐가 나아? 라이선스도 비교해 줘.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 747.8
+ },
+ "ccc27baf5e690c11603f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 568.0
+ },
+ "2cc88ff17f91b86b6856": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 730.7
+ },
+ "e2fd7856856a0d0b1723": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 786.8
+ },
+ "2a61e32aa973e1909c74": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "사내 문서 기반 한국어 RAG 답변 생성 모델을 GPU 8GB 노트북에서 돌리려고 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 720.0
+ },
+ "4985dff7dd06ac90b863": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "사내 취업규칙 문서를 근거 조항으로만 답하는 한국어 RAG 챗봇을 만들 거야. 사내 규정을 외부로 보낼 수 없어서 완전히 로컬에서 돌아가야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 614.0
+ },
+ "dac3fcd83ced93b9ab63": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 687.6
+ },
+ "1f88d332812cf2f5d20e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 611.8
+ },
+ "5d49ee6b1498fb66ba02": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 541.4
+ },
+ "dc20477f1735ae8dfc83": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 633.1
+ },
+ "19e140f1500f8df0ad47": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "쇼핑몰 상품 리뷰를 긍정·부정으로 분류하려고 해. 추가 학습 없이 바로 쓸 수 있는 한국어 감성분석 모델이 필요하고, 상업적으로 써야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 597.9
+ },
+ "d9e04e155a330edaebe6": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "쇼핑몰 상품 이미지를 보고 한국어 상품 설명 문구를 써 주는 비전 언어 모델이 필요해. 상업 서비스야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 550.5
+ },
+ "2b4ba391e9c146e9902f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "어르신 대상 서비스에서 사진을 보고 한국어로 대화를 이어 가는 모델이 필요해. GPU 16GB 서버 하나로 돌릴 거야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 592.9
+ },
+ "fc0feec2910f64ef60bb": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "여러 언어 뉴스를 요약하는 다국어 요약 모델이 필요해. 한국어도 포함돼.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 656.0
+ },
+ "f386e05b74968eeffc2e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "영어 기사를 읽고 한국어로 요약해 주는 교차 언어 요약 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 766.4
+ },
+ "f8e6880b6c2bb7616550": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 567.8
+ },
+ "84ef455cab0f5c31f21b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하).",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 583.7
+ },
+ "95ce34a780d1ee89471e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "유저 계정과 미출시 콘텐츠가 담긴 한국어 게임 버그 리포트를 QA 담당자 노트북에서 분류·정리할 로컬 LLM이 필요해. 외부 API로 보낼 수 없고, Q4 양자화 기준 7~8B급이 상한이야. 회사 업무라 상업적으로 쓸 수 있어야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 601.3
+ },
+ "d94ec212a3fb5a02e448": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "의학 질문에 답하는 다국어 의료 QA 모델이 필요해. 한국어 질문도 처리해야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 612.4
+ },
+ "1c04e48e16522d8ce99d": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "이미지와 한국어 텍스트를 같은 공간에 임베딩해서 이미지 검색을 하려고 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 575.4
+ },
+ "fdec0b08c38f50d9ce29": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "이미지와 한국어 텍스트에 유해 콘텐츠가 있는지 판별하는 안전성 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 570.2
+ },
+ "12c6d5f75cd6ebe28757": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 3745.7
+ },
+ "f928e390af164589301e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 616.7
+ },
+ "9171a74bf9d586d2db01": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 572.1
+ },
+ "3a96e1255d470f39f13e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "입력 문장이 어느 언어인지 판별하는 언어 식별 모델이 필요해. 한국어도 정확히 잡아야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 622.6
+ },
+ "b5290dcaa8d70cc07553": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 714.6
+ },
+ "65e1fdb12cd4de2b2644": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "차트와 표가 들어간 한국어 보고서 이미지를 이해하는 모델을 상업 서비스에 쓰려고 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 561.4
+ },
+ "bf7fcc43d82a6819f507": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 611.5
+ },
+ "e2c801d9bd8da35f6bc1": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "커뮤니티 댓글에서 욕설·혐오 표현을 걸러내는 한국어 분류 모델이 필요해. GPU 없이 돌릴 거야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 667.7
+ },
+ "266953382c9ddaa8b86f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "콜센터 통화 녹음을 실시간에 가깝게 한국어로 받아 적어야 해. 상업 서비스이고 GPU 서버가 있어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 573.1
+ },
+ "935740179db288b8b5f2": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 666.3
+ },
+ "41047eaa97f53e3a1697": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국 문화·상식 이해를 HAE-RAE나 CLIcK 벤치마크로 검증한 한국어 LLM이 필요해.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 634.1
+ },
+ "08a0fe89c873d7a28e0e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 FAQ 검색용 문장 임베딩 모델이 필요해. 짧은 질문끼리 비슷한지 비교할 거야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 677.1
+ },
+ "5ffe7991b634e6bf0731": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 571.3
+ },
+ "50a161f18003dbd4ea31": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 581.2
+ },
+ "a9ce4c813f66766f0082": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 MT-Bench 점수가 공개된 대화형 LLM이 필요해. 멀티턴 대화 품질을 숫자로 비교하고 싶어.",
+  "type": "benchmark_lookup",
+  "response": {
+   "type": "benchmark_lookup"
+  },
+  "latency_ms": 702.0
+ },
+ "e9cc5c1ae730d9d066fb": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 OCR 기능을 상업 서비스에 넣으려고 해. GPU 8GB 서버에서 돌아가야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 683.0
+ },
+ "8378f90e66b3bf3363ca": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 PDF 문서 페이지 이미지를 마크다운으로 바꿔 주는 문서 파싱 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 588.3
+ },
+ "d9126a51db6550fb0a19": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 562.9
+ },
+ "fcdc7180cfecdc6f6e99": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 RAG 리랭커를 CPU에서 돌리려고 해. 300M 이하의 가벼운 모델이면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 571.6
+ },
+ "3f8c603e5cc9ea4f64d6": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 RAG에서 검색된 문서 후보를 다시 정렬할 리랭커가 필요해. 상업 서비스에 넣을 거야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 587.5
+ },
+ "c31750884c676de1b32a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 경제 뉴스 기사 수백 건에 긍정·부정·중립 감성 점수를 매기려고 해. 추가 학습 없이 바로 쓸 수 있는 분류 모델이 필요하고 CPU에서 돌릴 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 744.5
+ },
+ "177a1ccb9b8ae77b913c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 619.3
+ },
+ "ecc26441f8b24dde76c1": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?",
+  "type": "model_comparison",
+  "response": {
+   "type": "model_comparison"
+  },
+  "latency_ms": 721.3
+ },
+ "30866cb2cf551a1c411e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 금융 뉴스의 감성을 긍정·부정·중립으로 분류하려고 해. 상업 서비스야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 702.0
+ },
+ "23d41d301ecbd0103814": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 뉴스 기사를 3줄 정도로 요약하는 모델이 필요해. 추가 학습 없이 바로 쓰고 싶어.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 605.2
+ },
+ "332ec9321d12a8499c1f": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 롤플레이·캐릭터 대화용 모델이 필요해. 개인 프로젝트야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 583.1
+ },
+ "b9f06092d35d7fc4c20a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서 OCR을 24GB GPU 한 장에서 로컬로 돌리려고 해. Qwen2.5-VL 32B가 좋다던데 이걸로 가능할까?",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 673.5
+ },
+ "ba87c6eb76391f1aa7db": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 764.6
+ },
+ "206cec04245c52f84034": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 723.6
+ },
+ "19f6139bddb2ca0816c7": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서를 근거로 답하는 RAG를 개인 PC의 Docker에서만 돌리려고 해. 7.8B 모델은 답변에 2분 넘게 걸려서 더 작고 빠른 한국어 모델이 필요해. 학습용 프로젝트라 라이선스는 상관없어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 887.3
+ },
+ "7e21b1b15cf1bb3084ed": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서를 근거로 답하는 RAG를 사내 서버에서만 돌리려고 해. 7.8B 모델은 너무 느려서 더 작고 빠른 한국어 모델이 필요하고, 유료 서비스에 넣을 거라 상업적으로 쓸 수 있어야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 595.4
+ },
+ "0acadf8ab9223971bea7": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 742.9
+ },
+ "2f69184ef15fc2fd3661": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 746.7
+ },
+ "7cf593834927b0bfc373": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문서를 희소(sparse) 벡터로 바꿔 키워드 검색과 섞어 쓰려고 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 655.3
+ },
+ "ff1d825d6c3f9f7419ed": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문장에서 기쁨·슬픔·분노 같은 감정을 분류하는 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 715.7
+ },
+ "124f9886e81206909c8a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야.",
+  "type": "lexical_exact",
+  "response": {
+   "type": "lexical_exact"
+  },
+  "latency_ms": 725.0
+ },
+ "25fdf1741df9bfb80359": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 863.8
+ },
+ "cbe20a7c31cb981aa24b": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 법률 문서 검색용 임베딩 모델이 필요해. 긴 조문도 넣어야 해서 입력 길이가 2048 토큰 이상이면 좋겠어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 699.4
+ },
+ "f7b22c94d74cd68f822e": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 법률 상담 챗봇을 만들려고 해. 법률 도메인 지식이 있는 모델이면 좋겠어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 568.3
+ },
+ "e3498e91183ce9373be5": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 702.3
+ },
+ "ce8eeba7850c84831af0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 손글씨 메모 사진을 텍스트로 옮기는 모델이 필요해. 앱 서버에서 돌릴 거라 3B 이하였으면 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 966.9
+ },
+ "0f499d3ef880df06458d": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 수학 문제 사진을 보고 풀이를 설명하는 모델이 필요해. 정확도가 중요하고 큰 GPU 서버가 있어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 665.6
+ },
+ "7246e78d550ab52c7c3c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 영수증이나 문서 사진에서 글자를 읽고 내용을 정리하는 비전 언어 모델이 필요해. GPU 24GB 한 장에서 돌릴 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 515.2
+ },
+ "3fd78f88cad70d4831d7": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 위키 문서에서 질문의 답을 찾는 KorQuAD 수준의 기계독해 모델이 필요해. 정확도가 중요해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 665.7
+ },
+ "266bc12674ca52758aed": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델이 필요해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 662.9
+ },
+ "3819ecaa3561a7c2b5a0": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 음성인식 모델을 상업 서비스에 넣으려고 해. 잡음이 많은 통화 음성도 잘 받아 적어야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 660.6
+ },
+ "de29d08ba647ccba2e52": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 의료 상담 질문에 답하는 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 781.8
+ },
+ "dd6f0a7b8c0d819dc17c": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 541.2
+ },
+ "0c422312577158823291": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 질의와 영어 문서를 매칭하는 교차 언어 검색 임베딩이 필요해. GPU 서버가 있어.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 682.7
+ },
+ "5f54b88063c52f06f1b2": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 658.5
+ },
+ "83a05cfd67731e1c0812": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 643.9
+ },
+ "c08b7689868cf8be1852": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 코딩 질문에 답하는 로컬 LLM이 필요해. GPU 24GB 한 장이야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 628.9
+ },
+ "db3db752f3be4edfc275": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 653.0
+ },
+ "9427a050131d8da4a727": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 597.1
+ },
+ "b1e8d02e79329f173ef3": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어·영어 상품 설명을 같은 벡터 공간에 넣어 검색하려고 해. 상업 서비스이고 CPU 서버에서 돌릴 거야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 613.6
+ },
+ "44826d70a748144c2f1a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어·영어·중국어·일본어를 서로 번역하는 다국어 번역 모델 하나로 해결하고 싶어. GPU 24GB 서버 한 장이야.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 697.6
+ },
+ "c1169a43e5c6b4a01b53": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어로 된 문서 사진, 표, 차트를 이해하고 질문에 답하는 비전-언어 모델이 필요해. 14B급까지만 로컬 서버에서 돌릴 거야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 537.6
+ },
+ "daf2b9452f4153784a69": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어로 생각하고 답하는 추론(reasoning) 모델이 필요해. 수학·논리 문제를 풀 거야.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 569.7
+ },
+ "f08d38763225f7110007": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "한국어와 영어가 섞인 기술 문서에서 질문에 대한 답을 찾는 QA 모델이 필요해. 여러 언어를 같이 처리할 수 있어야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 577.7
+ },
+ "f2b5e992f06ec593d098": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "회의 녹음에서 할 일과 기여도를 뽑아내는 웹 플랫폼에 쓸 한국어 LLM을 자체 GPU 서버(10~16GB)에서 서빙하려고 해. 외부 AI API는 안 쓰고, 나중에 유료화할 수 있게 상업 라이선스여야 해.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 574.0
+ },
+ "4625a438f0cd3130ef1d": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "회의 전사록을 요약해 회의록 초안을 만드는 기능을 로컬에서 돌리려고 해. GPU는 8GB야.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 795.9
+ },
+ "50f39edd12ceba701f43": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "회의록 같은 긴 한국어 문서를 요약하는 기능을 로컬 GPU 16GB에서 돌리려고 해. 상업적으로 쓸 수 있어야 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 627.6
+ },
+ "dbda6831a93a5238e367": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+  "type": "semantic_constraint",
+  "response": {
+   "type": "semantic_constraint"
+  },
+  "latency_ms": 703.8
+ },
+ "0441f41f11bae7e23a6a": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "휴대폰·태블릿에서 온디바이스로 한국어 녹취를 받아적어야 해. 저장공간과 메모리 부담이 적어야 해서 medium보다 작은 모델을 쓰려고 해.",
+  "type": "structured_constraint",
+  "response": {
+   "type": "structured_constraint"
+  },
+  "latency_ms": 629.4
+ },
+ "74ce257c89e7b8008ff5": {
+  "prompt_version": 2,
+  "model": "gpt-4o-mini",
+  "input": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+  "type": "semantic_capability",
+  "response": {
+   "type": "semantic_capability"
+  },
+  "latency_ms": 642.5
+ }
+}
