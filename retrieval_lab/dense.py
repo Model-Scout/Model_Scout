@@ -1,8 +1,10 @@
 """BGE-M3 dense channel: document index on disk, query encoder in memory.
 
-Build the document index once. On a laptop CPU this takes hours (about 5 s per
-document at 1,024 tokens); a GPU takes minutes. The build checkpoints every
-chunk and resumes when re-run. The result is committed so the team can skip it:
+Build the document index once. On a laptop CPU a full build takes hours (about
+5 s per document at 1,024 tokens); a GPU takes minutes. Rebuilds reuse the
+committed index for every document whose text hash is unchanged, so only new or
+edited documents are encoded. New documents are checkpointed per chunk and the
+build resumes when re-run. The result is committed so the team can skip it:
 
     python -m retrieval_lab.dense --build
 """
@@ -82,24 +84,41 @@ class DenseIndex:
         return self.matrix @ query_vector
 
 
+def reusable_vectors() -> Dict[str, np.ndarray]:
+    """text hash -> vector from the committed index, if it was built the same way."""
+    if not VECTORS_PATH.exists() or not MANIFEST_PATH.exists():
+        return {}
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    if manifest.get("model") != MODEL_NAME or manifest.get("doc_max_tokens") != DOC_MAX_TOKENS:
+        return {}
+    matrix = np.load(VECTORS_PATH)
+    return {text_hash_: matrix[index] for index, text_hash_ in enumerate(manifest["text_hashes"])}
+
+
 def build() -> None:
     rows = load_rows()
     texts = [doc_text(row) for row in rows]
     hashes = [text_hash(text) for text in texts]
-    # Chunk files are keyed by their content hash, so a resumed build never
+    started = time.perf_counter()
+    known = reusable_vectors()
+    missing = [index for index, hash_ in enumerate(hashes) if hash_ not in known]
+    print(f"{len(rows) - len(missing)} docs reused, {len(missing)} to encode", flush=True)
+
+    # Chunk files are keyed by the hashes they contain, so a resumed build never
     # mixes vectors from a different corpus snapshot.
     CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
-    started = time.perf_counter()
-    chunks: List[np.ndarray] = []
-    for start in range(0, len(texts), CHUNK_SIZE):
-        key = text_hash(MODEL_NAME + str(DOC_MAX_TOKENS) + "".join(hashes[start:start + CHUNK_SIZE]))
-        path = CHECKPOINT_DIR / f"{start:05d}_{key}.npy"
+    encoded: Dict[str, np.ndarray] = {}
+    for start in range(0, len(missing), CHUNK_SIZE):
+        chunk = missing[start:start + CHUNK_SIZE]
+        key = text_hash(MODEL_NAME + str(DOC_MAX_TOKENS) + "".join(hashes[i] for i in chunk))
+        path = CHECKPOINT_DIR / f"new_{key}.npy"
         if not path.exists():
-            np.save(path, encode(texts[start:start + CHUNK_SIZE], max_tokens=DOC_MAX_TOKENS, batch_size=8))
-            done = min(start + CHUNK_SIZE, len(texts))
-            print(f"{done}/{len(texts)} docs, {time.perf_counter() - started:.0f}s", flush=True)
-        chunks.append(np.load(path))
-    vectors = np.concatenate(chunks)
+            np.save(path, encode([texts[i] for i in chunk], max_tokens=DOC_MAX_TOKENS, batch_size=8))
+            done = min(start + CHUNK_SIZE, len(missing))
+            print(f"{done}/{len(missing)} new docs, {time.perf_counter() - started:.0f}s", flush=True)
+        encoded.update(zip((hashes[i] for i in chunk), np.load(path)))
+
+    vectors = np.stack([known[hash_] if hash_ in known else encoded[hash_] for hash_ in hashes])
     np.save(VECTORS_PATH, vectors.astype(np.float16))
     manifest = {
         "model": MODEL_NAME,
@@ -109,11 +128,12 @@ def build() -> None:
         "dtype": "float16",
         "rows": len(rows),
         "build_seconds": round(time.perf_counter() - started, 1),
+        "reused_docs": len(rows) - len(missing),
         "model_ids": [row["model_id"] for row in rows],
         "text_hashes": hashes,
     }
     MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(json.dumps({key: manifest[key] for key in ("model", "rows", "dimension", "build_seconds")}))
+    print(json.dumps({key: manifest[key] for key in ("model", "rows", "reused_docs", "dimension", "build_seconds")}))
 
 
 def main() -> None:
