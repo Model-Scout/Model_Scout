@@ -184,6 +184,33 @@ def test_name_lookup_pins_named_models(monkeypatch):
     assert plan.label() == "Name Lookup"
 
 
+def test_dense_build_reuses_unchanged_documents(tmp_path, monkeypatch):
+    monkeypatch.setattr(dense, "VECTORS_PATH", tmp_path / "v.npy")
+    monkeypatch.setattr(dense, "MANIFEST_PATH", tmp_path / "m.json")
+    monkeypatch.setattr(dense, "CHECKPOINT_DIR", tmp_path / "ckpt")
+    encoded = []
+
+    def fake_encode(texts, **_):
+        encoded.extend(texts)
+        return np.array([[float(len(text)), 1.0] for text in texts], dtype=np.float32)
+
+    monkeypatch.setattr(dense, "encode", fake_encode)
+    rows = [{"model_id": f"org/m{i}", "embedding_text": f"text {i}"} for i in range(3)]
+    monkeypatch.setattr(dense, "load_rows", lambda: rows)
+    dense.build()
+    assert len(encoded) == 3
+    # Insert a new model in the middle and edit one: only those two are encoded.
+    rows[:] = [rows[0], {"model_id": "org/new", "embedding_text": "brand new"}, rows[1],
+               {"model_id": "org/m2", "embedding_text": "text 2 edited"}]
+    encoded.clear()
+    dense.build()
+    assert encoded == ["brand new", "text 2 edited"]
+    manifest = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
+    assert manifest["model_ids"] == ["org/m0", "org/new", "org/m1", "org/m2"]
+    assert manifest["reused_docs"] == 2
+    assert np.load(tmp_path / "v.npy")[1, 0] == len("brand new")
+
+
 def test_empty_eligible_returns_no_candidates(monkeypatch):
     retriever = make_retriever(monkeypatch)
     result = retriever.run("anything", planner.RetrievalPlan(query_type="abstention", hard_filters={"tasks": ["question-answering"]}))
