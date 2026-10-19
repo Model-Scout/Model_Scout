@@ -117,3 +117,78 @@ Optional web extra (JS-heavy pages): `pip install rivinity[web]` then
   source embedded.)
 - Review corpus/dataset licenses in `training/data_manifest.py` manifests
   before any redistribution; no production corpus is included.
+
+
+<!-- rivinity-h21-provenance:begin -->
+## Provenance & public artifact status (H21-1, 2026-10-14)
+
+**This repository is an untrained architecture and code prototype.** No trained
+Rivinity checkpoint exists. Random-initialization forward passes, synthetic
+fixtures, and smoke tests are engineering evidence only - they are not language
+quality, multilingual capability, or reasoning claims.
+
+**Lineage (truthful attribution).** The Rivinity core under `rivinity/` is a
+clean-room implementation built during a hardening phase. Earlier prototype
+work was based on the MiniMind-O (`minimind_o`) codebase; that historical
+source is preserved under `legacy/` with its original attribution and is not
+part of the active import or loading path. Root-level copies of prototype
+modules and the unverified root weight file were removed from the public
+loading path in H21-1; see `reports/rivinity_public_artifacts_manifest.json`.
+That manifest records that **no trained Rivinity checkpoint exists** and lists
+every quarantined artifact with its SHA-256.
+
+**One authoritative tokenizer.** The root `tokenizer.json`,
+`tokenizer_config.json`, and `special_tokens_map.json` are byte-identical
+copies of the canonical export in `tokenizer_out/Rivinity-T48/` (vocabulary
+48,006; control tokens 48,000-48,005). Never hand-edit root copies; regenerate
+them by copying the three files from the export.
+
+**Loading contract.** `config.json` carries `auto_map` custom-code entries, so
+loading requires `trust_remote_code=True` with a pinned revision, and it
+requires the `rivinity` package importable (clone the repo and `pip install .`,
+or put the repo root on `sys.path`). The root `configuration_rivinity.py` and
+`modeling_rivinity.py` files are thin loader shims: transformers' dynamic-code
+loader requires repo-file-style `auto_map` references, and the authoritative
+implementation stays in the `rivinity` package (no duplicated model code):
+
+```python
+from transformers import AutoConfig, AutoModelForCausalLM
+REV = "8a0ab5c7710ddda1d9c1a8d58cf71f1935cd5f15"  # replace with the current main SHA
+cfg = AutoConfig.from_pretrained("RANITBAG/on_the_way", revision=REV, trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained("RANITBAG/on_the_way", revision=REV, trust_remote_code=True)
+```
+
+**Supported matrix (tested).** Python >=3.10 (dev box 3.14), torch >=2.4
+(tested 2.14 CPU), transformers >=5.0,<6 (the code uses the v5
+`_tied_weights_keys` mapping format), tokenizers >=0.20,<1 (tested 0.23.2),
+jinja2 >=3.1.
+<!-- rivinity-h21-provenance:end -->
+
+
+<!-- rivinity-h21-web-retrieval:begin -->
+## Web retrieval is a tool capability, not model knowledge (H21-8, 2026-10-16)
+
+Rivinity can answer "model doesn't know -> retrieve -> cite -> answer": scoped
+local retrieval (user/tenant namespace) first, then -- only when evidence is
+insufficient and a provider is configured -- external search through the
+policy-guarded crawler, producing cited answers with provenance and
+diagnostics. Web retrieval is a **tool/RAG capability**: it is not knowledge
+in the model weights, and a fluent cited answer from an untrained model is
+not evidence of model quality. Live web search is opt-in (no provider is
+enabled by default); a self-hosted SearXNG adapter ships as the documented
+provider configuration. All retrieved content is untrusted evidence, never
+system instructions.
+<!-- rivinity-h21-web-retrieval:end -->
+
+<!-- rivinity-h21-12-gguf-truth:begin -->
+## GGUF status: conditional alias, runtime UNPROVEN (H21-12, 2026-10-18)
+
+The converter emits spec-shaped GGUF under a `qwen3moe` host contract with
+tensor-by-tensor review documented in `docs/GGUF_COMPAT_DECISION_H21.md`.
+That alias is **conditional, not proven**: actual llama.cpp load/generation
+is BLOCKED until `tools/gguf_runtime_check.py` passes against a real
+`llama-cli` binary (load >= b5092-era qwen3moe support plus the GQA+qk-norm
+fix). No tokens/sec or quantized-quality claims are made from converter
+round-trip alone. The supported inference path today is the Transformers
+CPU backend.
+<!-- rivinity-h21-12-gguf-truth:end -->

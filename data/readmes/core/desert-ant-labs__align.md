@@ -31,7 +31,7 @@ Accurate word timestamps for any transcript.
 
 Word-timestamp refinement for any transcript, on device.
 
-- **SDKs, install and examples:** https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/docs/models/align.md
+- **SDKs, install and examples:** https://desertant.com/docs/align/
 
 <!-- card-header:end -->
 
@@ -58,7 +58,7 @@ on device.
 **Swift** ([requirements](https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/README.md#swift))
 
 ```swift
-.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "4.0.0")
+.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "4.1.0")
 ```
 
 Then add the `Align` product to your target.

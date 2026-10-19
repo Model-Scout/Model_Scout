@@ -44,7 +44,7 @@ Suggest emoji faster than you can type.
 
 Multilingual on-device emoji suggestion.
 
-- **SDKs, install and examples:** https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/docs/models/emo.md
+- **SDKs, install and examples:** https://desertant.com/docs/emo/
 - **Website:** https://desertant.com/models/emo/
 
 <!-- card-header:end -->
@@ -72,7 +72,7 @@ is small (**5MB** on Apple via Core ML, **11MB** via LiteRT elsewhere) and runs 
 **Swift** ([requirements](https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/README.md#swift))
 
 ```swift
-.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "4.0.0")
+.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "4.1.0")
 ```
 
 Then add the `Emo` product to your target.
@@ -80,7 +80,7 @@ Then add the `Emo` product to your target.
 **Kotlin** ([requirements](https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/README.md#android))
 
 ```kotlin
-implementation("ai.desertant:emo:4.0.0")
+implementation("ai.desertant:emo:4.1.0")
 ```
 
 **JavaScript** ([requirements](https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/README.md#javascript-and-typescript))

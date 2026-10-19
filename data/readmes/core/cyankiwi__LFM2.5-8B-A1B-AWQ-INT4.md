@@ -1,5 +1,6 @@
 ---
 base_model: LiquidAI/LFM2.5-8B-A1B
+base_model_relation: quantized
 language:
 - en
 - ar
@@ -10,6 +11,7 @@ language:
 - ko
 - es
 - pt
+- it
 library_name: transformers
 license: other
 license_link: LICENSE
@@ -21,41 +23,55 @@ tags:
 - edge
 ---
 
-<div align="center">
-  <img src="https://huggingface.co/buckets/cyankiwi/activation-aware-2.0/resolve/banner/cyankiwi-banner-awq-0.png">
+<div align="left">
+  <a href="https://cyan.kiwi" target="_blank"><img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-banners-cyankiwi.png" width="800" alt="cyankiwi, the LLM inference agent for open models"></a>
 </div>
 
 <div align="left">
-  <table align="center" style="border-collapse:collapse; border:none;">
+  <table style="border-collapse:collapse; border:none;">
     <tr style="border:none;">
-      <td align="right" style="border:none; padding:4px 12px 4px 0;"><b>Version</b></td>
-      <td align="left" style="border:none; padding:4px 0;">26.05.01</td>
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Website</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://cyan.kiwi/" target="_blank">cyan.kiwi</a></td>
     </tr>
     <tr style="border:none;">
-      <td align="right" style="border:none; padding:4px 12px 4px 0;"><b>Calibration</b></td>
-      <td align="left" style="border:none; padding:4px 0;">
-      <a href="https://huggingface.co/datasets/cyankiwi/calibration" target="_blank">STEM and Agentic</a>
-      </td>
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Models</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://huggingface.co/cyankiwi" target="_blank">Hugging Face</a> · <a href="https://www.modelscope.ai/organization/cyankiwi" target="_blank">ModelScope</a></td>
     </tr>
     <tr style="border:none;">
-      <td align="right" style="border:none; padding:4px 12px 4px 0;"><b>Languages</b></td>
-      <td align="left" style="border:none; padding:4px 0;">
-        <code>EN</code> <code>ZH</code> <code>HI</code> <code>AR</code> <code>RU</code>
-        <code>JA</code> <code>KO</code> <code>NL</code> <code>FR</code> <code>ES</code>
-      </td>
-    </tr>
-    <tr style="border:none;">
-      <td align="right" style="border:none; padding:4px 12px 4px 0;"><b>Model Size</b></td>
-      <td align="left" style="border:none; padding:4px 0;">5.37 GB</td>
-    </tr>
-    <tr style="border:none;">
-      <td align="right" style="border:none; padding:4px 12px 4px 0;"><b>Contact</b></td>
-      <td align="left" style="border:none; padding:4px 0;">
-        <a href="mailto:ton@cyan.kiwi">Email</a>
-      </td>
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Connect</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://x.com/cyankiwi_ai" target="_blank">X</a> · <a href="https://www.reddit.com/r/cyankiwi/" target="_blank">Reddit</a> · <a href="mailto:ton@cyan.kiwi">Email</a></td>
     </tr>
   </table>
 </div>
+
+<br>
+
+<div align="left">
+  <img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-banners-awq.png" width="800" alt="cyankiwi Activation-aware Weight Quantization">
+</div>
+
+<div align="left">
+  <table style="border-collapse:collapse; border:none;">
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Version</b></td>
+      <td align="left" style="border:none; padding:4px 0;">cyankiwi 26.05.01</td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Calibration</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://huggingface.co/datasets/cyankiwi/calibration" target="_blank">STEM and Agentic</a></td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Model Size</b></td>
+      <td align="left" style="border:none; padding:4px 0;">5.37 GB</td>
+    </tr>
+  </table>
+</div>
+
+<br>
+
+<p align="left">
+  <a href="https://cyan.kiwi/workspace?prompt=Deploy%20cyankiwi/LFM2.5-8B-A1B-AWQ-INT4" target="_blank"><img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-button-deploy.png" width="333" alt="Deploy on cyan.kiwi private endpoints"></a>
+</p>
 
 ---
 
@@ -99,11 +115,11 @@ LFM2.5-8B-A1B is a general-purpose text-only model with the following features:
 
 - **Total parameters**: 8.3B
 - **Active parameters**: 1.5B
-- **Number of layers**: 24 (18 double-gated LIV conv + 6 GQA)
+- **Number of layers**: 24 (18 double-gated conv + 6 GQA)
 - **Training budget**: 38 trillion tokens
-- **Context length**: 131,072
+- **Context length**: 128,000
 - **Vocabulary size**: 128,000
-- **Languages**: English, Arabic, Chinese, French, German, Japanese, Korean, Portuguese, Spanish
+- **Languages**: English, Arabic, Chinese, French, German, Italian, Japanese, Korean, Portuguese, Spanish
 - **Generation parameters**: We recommend the following parameters:
   - `temperature: 0.2`
   - `top_k: 80`
@@ -115,6 +131,7 @@ LFM2.5-8B-A1B is a general-purpose text-only model with the following features:
 | [LFM2.5-8B-A1B-GGUF](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-GGUF) | Quantized format for llama.cpp and compatible tools. Optimized for edge inference and local deployment. |
 | [LFM2.5-8B-A1B-ONNX](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-ONNX) | ONNX Runtime format for cross-platform deployment. |
 | [LFM2.5-8B-A1B-MLX](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-MLX-8bit) | MLX format for Apple Silicon. Optimized for fast inference on Mac devices. |
+| [LFM2.5-8B-A1B-DSpark](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-DSpark) | Speculative decoding drafter (328M). Pair it with this model for ~2.5x faster decoding with identical outputs. |
 
 We recommend using LFM2.5-8B-A1B for agentic workflows, tool use, structured outputs, multilingual assistants, and on-device personal-assistant applications. It is not the best fit for heavy programming or knowledge-intensive question answering without retrieval.
 
@@ -164,9 +181,13 @@ LFM2.5-8B-A1B is supported by many inference frameworks. See the [Inference docu
 |------|-------------|------|:--------:|
 | [Transformers](https://github.com/huggingface/transformers) | Simple inference with direct access to model internals. | <a href="https://docs.liquid.ai/lfm/inference/transformers">Link</a> | <a href="https://colab.research.google.com/drive/1_q3jQ6LtyiuPzFZv7Vw8xSfPU5FwkKZY?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
 | [vLLM](https://github.com/vllm-project/vllm) | High-throughput production deployments with GPU. | <a href="https://docs.liquid.ai/lfm/inference/vllm">Link</a> | <a href="https://colab.research.google.com/drive/1VfyscuHP8A3we_YpnzuabYJzr5ju0Mit?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
+| [SGLang](https://github.com/sgl-project/sglang) | High-throughput production deployments with GPU. | <a href="https://docs.liquid.ai/deployment/gpu-inference/sglang">Link</a> | — |
 | [llama.cpp](https://github.com/ggml-org/llama.cpp) | Cross-platform inference with CPU offloading. | <a href="https://docs.liquid.ai/lfm/inference/llama-cpp">Link</a> | <a href="https://colab.research.google.com/drive/1ohLl3w47OQZA4ELo46i5E4Z6oGWBAyo8?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
 | [MLX](https://github.com/ml-explore/mlx) | Apple's machine learning framework optimized for Apple Silicon. | <a href="https://docs.liquid.ai/lfm/inference/mlx">Link</a> | — |
-| [LM Studio](https://lmstudio.ai/) | Desktop application for running LLMs locally. | <a href="https://docs.liquid.ai/lfm/inference/lm-studio">Link</a> | — |
+| [LM Studio](https://lmstudio.ai/) | Desktop application for running LLMs locally. | <a href="https://docs.liquid.ai/deployment/on-device/lm-studio">Link</a> | — |
+
+> [!TIP]
+> ⚡ **Faster decoding**: attach [LFM2.5-8B-A1B-DSpark](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-DSpark), a 328M speculative-decoding drafter, for ~2.5x faster decoding in SGLang with exactly the same outputs.
 
 Quick start with Transformers (compatible with `transformers>=5.0.0`):
 
@@ -190,7 +211,7 @@ input_ids = tokenizer.apply_chat_template(
     add_generation_prompt=True,
     return_tensors="pt",
     tokenize=True,
-).to(model.device)
+)["input_ids"].to(model.device)
 
 output = model.generate(
     input_ids,
@@ -295,5 +316,14 @@ LFM2.5-8B-A1B is the fastest model in its size class, reaching **18.5K output to
   author  = {Liquid AI},
   journal = {arXiv preprint arXiv:2511.23404},
   year    = {2025}
+}
+```
+
+```bibtex
+@article{smith2026inplace,
+  title   = {In-Place Tokenizer Expansion for Pre-trained LLMs},
+  author  = {Smith, Jimmy T.H. and Dakhran, Tarek and Cabrera, Alberto and Lee, Simon S. and Pak, Paul and Tadimeti, Aditya and Seyde, Tim and Labonne, Maxime and Amini, Alexander and Lechner, Mathias},
+  journal = {arXiv preprint arXiv:2607.15232},
+  year    = {2026},
 }
 ```
