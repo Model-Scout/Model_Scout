@@ -115,6 +115,8 @@ Mac Studio M4 Max, `litert-lm` 0.17.1 CLI, `benchmark --cache no`, 256 prompt an
 | GPU (WebGPU on Metal) | 2332 tok/s | 150.7 tok/s | 0.12 s | 0.031 s | 1.5 s |
 | CPU (XNNPACK) | 207 tok/s | 31.9 tok/s | 1.27 s | 0.884 s | 5.3 s |
 
+Init is the `Init time` the CLI prints; that value includes both `Init Total` and the phases inside it, so it counts engine creation twice ([LiteRT-LM #4057](https://github.com/google-ai-edge/LiteRT-LM/issues/4057)).
+
 Without the XNNPACK weight cache (`--cache no`, as in this table), the new file repacks the weights for the extra signature on the CPU. At a 16-token prompt, init goes from 3.75 s to 5.3 s and peak footprint from 4.17 GB to 5.57 GB (file without `prefill_16` → new file). With the disk weight cache (the app default), init goes from 0.24 s to 0.32 s, footprint from 0.82 GB to 0.87 GB, and TTFT at 16 tokens from 0.33 s to 0.12 s.
 
 ### Galaxy S26 (Android)

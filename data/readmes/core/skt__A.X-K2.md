@@ -209,9 +209,11 @@ inputs = tokenizer.apply_chat_template(
     return_dict=True,
 ).to(model.device)
 
-outputs = model.generate(**inputs, max_new_tokens=1024)
+outputs = model.generate(**inputs, max_new_tokens=1024, do_sample=True, temperature=0.9, top_p=0.95)
 print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_tokens=True))
 ```
+
+We recommend sampling with **`temperature=0.9`** and **`top_p=0.95`**. On the vLLM OpenAI-compatible endpoint, pass the same values as `temperature` and `top_p` in each request.
 
 In thinking mode the output begins with the reasoning trace and closes it with `</think>`. These two markers are ordinary tokens rather than special tokens, so they survive decoding and can be used to split the reasoning from the final answer.
 

@@ -108,6 +108,8 @@ Notes:
 | **GPU (Metal)** | **2045 tok/s** | **138.6 tok/s** | 0.13 s | 1.4 s |
 | CPU | 357 tok/s | 59.3 tok/s | 0.81 s | — |
 
+Init is the `Init time` the CLI prints; that value includes both `Init Total` and the phases inside it, so it counts engine creation twice ([LiteRT-LM #4057](https://github.com/google-ai-edge/LiteRT-LM/issues/4057)).
+
 End-to-end on the fixture set (engine already loaded, one conversation per clip): real-time factor **0.24 on CPU** and **0.19 with the LM on Metal**, i.e. a 10 s clip transcribes in about 2 s.
 
 Galaxy S26 (SM-S942Q, Snapdragon SM8850, Adreno), `litert_lm_advanced_main` built from the litert-lm v0.16.1 tag, `--benchmark` with a 264-token text prompt, one reading per cell (LM only):

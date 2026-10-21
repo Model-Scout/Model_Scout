@@ -121,6 +121,8 @@ Notes:
 | int8 | GPU (Metal) | 1977 tok/s | 139.6 tok/s | 0.14 s | 1.6 s |
 | int8 | CPU | 251 tok/s | 46.8 tok/s | 1.04 s | 6.1 s |
 
+Init is the `Init time` the CLI prints; that value includes both `Init Total` and the phases inside it, so it counts engine creation twice ([LiteRT-LM #4057](https://github.com/google-ai-edge/LiteRT-LM/issues/4057)).
+
 End-to-end streaming on the fixture set (engine loaded, one conversation per clip, 73 turns): time per 2.93 s turn (encoder + prefill of 28 tokens + ~10 decoded tokens) — int4: **0.33 s with the LM on Metal** (real-time factor 0.13), 0.51 s on CPU (0.20); int8: 0.29 s / 0.48 s. The audio encoder is ~0.15–0.19 s of that (8 threads).
 
 Galaxy S26 (SM-S942Q, Snapdragon SM8850, Adreno), `litert_lm_advanced_main` built from the litert-lm v0.16.1 tag, `--benchmark --benchmark_prefill_tokens=256 --benchmark_decode_tokens=256`, one reading per cell, CPU uncapped and SKIN < 40 °C before each leg (LM only):
