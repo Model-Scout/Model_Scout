@@ -81,7 +81,6 @@ npm i @desert-ant-labs/align
 | `mel_filters.bin` | Float32 filter bank | 40KB | Log-mel filter bank the runtime frontend needs |
 | `calibrator.bin` | Gradient-boosted trees | 70KB | Correction calibrator |
 | `refiner_config.json` | JSON | tiny | Runtime config |
-| `LICENSE.md` | Text | tiny | Full license terms |
 
 The compiled `.mlmodelc` stages (Apple platforms) or `.tflite` stages (Linux, Windows and Node),
 plus `mel_filters.bin`, `calibrator.bin`, and `refiner_config.json`, are exactly what the SDK
