@@ -145,7 +145,7 @@ Good for imatrix and 0.6–35B-class work in RAM. <b>9B+ and searches need rente
 ---
 
 ## NOESIS / AMAImedia
-
+ 
 Released as part of the NOESIS Professional Multilingual Dubbing Automation Platform 
 (framework: DHCF-FNO — Deterministic Hybrid Control Framework for Frozen Neural Operators)
  
