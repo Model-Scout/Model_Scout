@@ -185,3 +185,4 @@ model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", devic
 ```
 
 This is an AMAImedia NOESIS release; the BF16 and GGUF variants are kept together and are not external repacks.
+ 

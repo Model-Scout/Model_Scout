@@ -22,11 +22,11 @@ tags:
   - rats-search
 ---
 
-# Armiger Ultra v3.0 (`v3.0-gold-r5`) — Full Multi-Task Neural & Plugin Suite
+# Armiger Ultra `v3.2.1` (Model Bundle `v3.0.0` / `v3.0-gold-r5`) — Full Multi-Task Neural & Plugin Suite
 
-**Version:** `v3.0-gold-r5` · **Weights:** `32.7 MB` FP32 ONNX / PyTorch + `8.3 MB` INT8 ONNX · **Parameters:** `8,295,882` · **License:** Apache-2.0
+**Release:** [`v3.2.1`](https://github.com/spencernorton/armiger/releases/tag/v3.2.1) · **Model Version:** `3.0.0` (`v3.0-gold-r5`) · **Weights:** `32.5 MB` FP32 ONNX / PyTorch + `15.7 MB` INT8 ONNX · **Parameters:** `8,295,882` · **License:** Apache-2.0
 
-**Armiger Ultra v3** is a 9-head byte-level RoPE Transformer (`d=256`, `6` layers, `8` heads) with a 6-plugin pipeline for raw BitTorrent/DHT metadata (`name`, file-tree `paths` + `sizes`, optional tracker/DHT counters). Batched GPU latency is **0.21 ms/item** (`0.29 ms` on M4 Pro MPS). All 6 plugins ship in this repo via `ArmigerUltraPipeline`.
+**Armiger Ultra** is a 9-head byte-level RoPE Transformer (`d=256`, `6` layers, `8` heads) with a 6-plugin pipeline for raw BitTorrent/DHT metadata (`name`, file-tree `paths` + `sizes`, optional tracker/DHT counters). Batched GPU latency is **0.21 ms/item** (`0.29 ms` on M4 Pro MPS). Library and container release **`3.2.1`** uses model bundle **`3.0.0`** (`NorviTech/armiger-ultra` pinned in [`src/armiger/model_manifest.json`](https://github.com/spencernorton/armiger/blob/main/src/armiger/model_manifest.json)). All 6 plugins ship in this repo via `ArmigerUltraPipeline`.
 
 ## Architecture & Bundled Capabilities
 
@@ -49,12 +49,35 @@ tags:
 
 ![Armiger Ultra vs. Regular Armiger Performance Differences](assets/fig_v3_ultra_vs_base_armiger_diff.png)
 
-## Quickstart (Unified 6-Plugin Pipeline)
+## Quickstart (Docker Compose or Python SDK `v3.2.1`)
+
+### Option A — Ready-made Docker Compose stacks (`v3.2.1`, no build or Python install needed)
+
+Save as `compose.yaml` and run `docker compose up -d` (Docker Compose 2.34+):
+
+- **[Bitmagnet + Armiger Ultra](https://github.com/spencernorton/armiger/blob/main/examples/bitmagnet/README.md):**
+  ```yaml
+  include:
+    - oci://ghcr.io/spencernorton/armiger-bitmagnet-stack:3.2.1
+  ```
+- **[Rats Search + Armiger Ultra](https://github.com/spencernorton/armiger/blob/main/examples/rats-search/README.md):**
+  ```yaml
+  include:
+    - oci://ghcr.io/spencernorton/armiger-rats-search-stack:3.2.1
+  ```
+- **[Standalone Armiger Ultra HTTP service (`ghcr.io/spencernorton/armiger:3.2.1`)](https://github.com/spencernorton/armiger/blob/main/docs/quickstart.md)**
+
+### Option B — Python package (`v3.2.1`) with verified model download
+
+```bash
+python -m pip install "armiger[ultra] @ git+https://github.com/spencernorton/armiger.git@v3.2.1"
+python -m armiger download --directory ./models
+```
 
 ```python
-from armiger_ultra_pipeline import ArmigerUltraPipeline
+from armiger import ArmigerUltraPipeline
 
-pipeline = ArmigerUltraPipeline.from_directory(".", variant="ultra")
+pipeline = ArmigerUltraPipeline.from_directory("./models", variant="ultra")
 res = pipeline.classify({
     "name": "Tears.of.Steel.2012.2160p.UHD.BluRay.REMUX.HEVC.TrueHD.7.1.Atmos-OPEN",
     "size": 68_400_000_000,
@@ -64,15 +87,18 @@ res = pipeline.classify({
 print(res["category"], res["mondrian_gates"]["passed_all"], res["swarm_viability"]["viability_tier"])
 ```
 
+*(If running directly inside a checkout of this Hugging Face repository, `from armiger_ultra_pipeline import ArmigerUltraPipeline` is also supported as a flat-import alias.)*
+
 ## Connectors & Integrations
 
-- **Lightweight CPU model (`8.3 MB` INT8 only):** [`NorviTech/armiger`](https://huggingface.co/NorviTech/armiger)
-- **Core source & evaluation harness:** [`spencernorton/armiger`](https://github.com/spencernorton/armiger) · **License:** Apache-2.0
-- **Standalone sidecars for unmodified indexers** ([`spencernorton/Armiger-Connectors`](https://github.com/spencernorton/Armiger-Connectors)):
+- **Lightweight CPU model (`15.7 MB` INT8 only):** [`NorviTech/armiger`](https://huggingface.co/NorviTech/armiger)
+- **Core package, containers & evaluation harness (`v3.2.1`):** [`spencernorton/armiger`](https://github.com/spencernorton/armiger) · **License:** Apache-2.0
+  - [Bitmagnet + Armiger Ultra Setup](https://github.com/spencernorton/armiger/blob/main/examples/bitmagnet/README.md) · [Bitmagnet Environment-Variable Reference](https://github.com/spencernorton/armiger/blob/main/docs/bitmagnet-configuration.md)
+  - [Rats Search + Armiger Ultra Setup](https://github.com/spencernorton/armiger/blob/main/examples/rats-search/README.md)
+  - [Standalone Container Quickstart](https://github.com/spencernorton/armiger/blob/main/docs/quickstart.md) · [Python API & Component Reference](https://github.com/spencernorton/armiger/blob/main/docs/reference.md) · [Evaluation & Limitations](https://github.com/spencernorton/armiger/blob/main/docs/evaluation.md)
+- **Standalone sidecars for unmodified indexers (`v1.1.1`):** [`spencernorton/Armiger-Connectors`](https://github.com/spencernorton/Armiger-Connectors)
   - **Stock Bitmagnet (`bitmagnet-io/bitmagnet`):** [`bitmagnet/bitmagnet_connector.py`](https://github.com/spencernorton/Armiger-Connectors/blob/main/bitmagnet/bitmagnet_connector.py) — polls untagged torrents via GraphQL, runs vectorized Armiger inference, prunes `.exe`/`.scr`/`.lnk` malware and honeypot traps, writes `armiger-*` tags.
   - **Stock Rats Search (`librats/rats-search`):** [`rats-search/rats_search_connector.py`](https://github.com/spencernorton/Armiger-Connectors/blob/main/rats-search/rats_search_connector.py) — drop-in REST/SQLite sidecar classifier and safety filter.
-- **Turnkey indexer, Torznab & `*Arr` stacks** ([`examples/` at `v2.1.3`](https://github.com/spencernorton/armiger/tree/v2.1.3/examples) · [Integration Guide](https://github.com/spencernorton/armiger/blob/v2.1.3/docs/INTEGRATION_GUIDE.md)):
-  - **DH-Waypoint `processorapi/v1` plugin** ([`spencernorton/DH-Waypoint`](https://github.com/spencernorton/DH-Waypoint)): [`examples/dh-waypoint/`](https://github.com/spencernorton/armiger/tree/v2.1.3/examples/dh-waypoint) (`armiger_waypoint_processor.py` + `07-armiger-ultra.plugin.yml` + `docker-compose.yml`) — admission (`/v1/admit`), batch (`/v1/classify`), 4-tier feedback (`/v1/feedback`).
-  - **Bitmagnet pre-ingest & GraphQL bridge:** [`examples/bitmagnet/`](https://github.com/spencernorton/armiger/tree/v2.1.3/examples/bitmagnet) (`bitmagnet_armiger_bridge.py` + `docker-compose.yml`).
-  - **Torznab pre-grab proxy (`Prowlarr`/`Sonarr`/`Radarr`/`Lidarr`/`Readarr`):** [`armiger_torznab_proxy.py`](https://github.com/spencernorton/armiger/blob/v2.1.3/examples/arr-stack/armiger_torznab_proxy.py) — filters malware lures, dead swarms, and unrequested foreign-audio releases from Torznab XML before grab.
-  - **Post-import `*Arr`/qBittorrent webhook:** [`armiger_arr_webhook_receiver.py`](https://github.com/spencernorton/armiger/blob/v2.1.3/examples/arr-stack/armiger_arr_webhook_receiver.py) — `ffprobe` ground truth for local conformal calibration and opt-in anonymous BEP-44/46 updates.
+  - **DH-Waypoint `processorapi/v1` plugin** ([`spencernorton/DH-Waypoint`](https://github.com/spencernorton/DH-Waypoint)): [`dh-waypoint/`](https://github.com/spencernorton/Armiger-Connectors/tree/main/dh-waypoint) — admission (`/v1/admit`), batch (`/v1/classify`), 4-tier feedback (`/v1/feedback`).
+  - **Torznab pre-grab proxy (`Prowlarr`/`Sonarr`/`Radarr`/`Lidarr`/`Readarr`):** [`arr-stack/armiger_torznab_proxy.py`](https://github.com/spencernorton/Armiger-Connectors/blob/main/arr-stack/armiger_torznab_proxy.py) — filters malware lures, dead swarms, and unrequested foreign-audio releases from Torznab XML before grab.
+  - **Post-import `*Arr`/qBittorrent webhook:** [`arr-stack/armiger_arr_webhook_receiver.py`](https://github.com/spencernorton/Armiger-Connectors/blob/main/arr-stack/armiger_arr_webhook_receiver.py) — `ffprobe` ground truth for local conformal calibration and opt-in anonymous BEP-44/46 updates.

@@ -8,6 +8,7 @@ language:
   - zh
 pipeline_tag: text-classification
 tags:
+  - decision-model
   - decision
   - judge
   - llm-as-a-judge
@@ -24,7 +25,7 @@ tags:
 
 <p align="center"><a href="https://github.com/akivet/Mica"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-akivet%2FMica-0B0E14?style=for-the-badge&logo=github"></a> <img alt="GGUF" src="https://img.shields.io/badge/llama.cpp-GGUF-1D3247?style=for-the-badge"> <img alt="Context" src="https://img.shields.io/badge/input-32k_tokens-1D3247?style=for-the-badge"> <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-1D3247?style=for-the-badge"> <a href="https://ko-fi.com/micakiv"><img alt="Ko-fi" src="https://img.shields.io/badge/Ko--fi-support-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white"></a></p>
 
-<p align="center"><a href="#results">Results</a> · <a href="#speed">Speed</a> · <a href="#what-people-use-it-for">Use cases</a> · <a href="#request-format">Request format</a> · <a href="#prompting-guide">Prompting guide</a> · <a href="#pick-a-file-for-your-gpu">Files</a> · <a href="#quick-start">Quick start</a></p>
+<p align="center"><a href="#results">Results</a> · <a href="#speed">Speed</a> · <a href="#demo">Demo</a> · <a href="#what-people-use-it-for">Use cases</a> · <a href="#request-format">Request format</a> · <a href="#prompting-guide">Prompting guide</a> · <a href="#pick-a-file-for-your-gpu">Files</a> · <a href="#quick-start">Quick start</a></p>
 
 <p align="center">Looking forward to v1.0? A small donation on <a href="https://ko-fi.com/micakiv">Ko-fi</a> would mean a lot. I'm just a broke student, and I need your help.</p>
 
@@ -94,7 +95,7 @@ Median time per request on one NVIDIA RTX 6000 Ada, one question with four optio
 
 | Model | Size | 256 | 512 | 1k | 2k | 4k | 8k | 16k | 32k |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Mica v0.5 INT8 (CUDA runtime)** | 4B | **19.8 ms** | **27.3 ms** | **42.9 ms** | **67.3 ms** | **121 ms** | **247 ms** | **527 ms** | **1,186 ms** |
+| **Mica v0.5 INT8 (CUDA runtime)** | 4B | **15.6 ms** | **24.1 ms** | **39.6 ms** | **56.5 ms** | **120 ms** | **209 ms** | **451 ms** | **1,046 ms** |
 | **Mica v0.5 Q8_0 (llama.cpp)** | 4B | 37.1 ms | 57.9 ms | 95.5 ms | 170 ms | 323 ms | 638 ms | 1,347 ms | 3,074 ms |
 | **Mica v0.5 BF16 (llama.cpp)** | 4B | 40.0 ms | 68.9 ms | 117 ms | 215 ms | 420 ms | 829 ms | 1,743 ms | 3,895 ms |
 | **Mica v0.5 IQ4_XS (llama.cpp)** | 4B | 32.5 ms | 50.9 ms | 87.4 ms | 160 ms | 309 ms | 616 ms | 1,296 ms | 2,969 ms |
@@ -110,42 +111,42 @@ Median time per request on one NVIDIA RTX 6000 Ada, one question with four optio
 <details>
 <summary>Latency per task</summary>
 
-Each request of the 32 JDI 0.3 tasks is placed on the length curve above and the median is taken per task. Requests with several questions are costed as one question, so those rows are lower bounds. Median over all requests (243 tokens): Mica v0.5 INT8 (CUDA runtime) 19.8 ms, Mica v0.5 Q8_0 (llama.cpp) 37.1 ms, Mica v0.5 BF16 (llama.cpp) 40.0 ms, Mica v0.5 IQ4_XS (llama.cpp) 32.5 ms, d1 18.8 ms, d3-mini 48.6 ms, PPLX Decider Flash (default) 71.5 ms, PPLX Decider Flash (fast path) 138 ms, Kev 75.3 ms, d3-flash 63.5 ms, PPLX Decider 27B (default) 320 ms, PPLX Decider 27B (fast path) 658 ms.
+Each request of the 32 JDI 0.3 tasks is placed on the length curve above and the median is taken per task. Requests with several questions are costed as one question, so those rows are lower bounds. Median over all requests (243 tokens): Mica v0.5 INT8 (CUDA runtime) 15.6 ms, Mica v0.5 Q8_0 (llama.cpp) 37.1 ms, Mica v0.5 BF16 (llama.cpp) 40.0 ms, Mica v0.5 IQ4_XS (llama.cpp) 32.5 ms, d1 18.8 ms, d3-mini 48.6 ms, PPLX Decider Flash (default) 71.5 ms, PPLX Decider Flash (fast path) 138 ms, Kev 75.3 ms, d3-flash 63.5 ms, PPLX Decider 27B (default) 320 ms, PPLX Decider 27B (fast path) 658 ms.
 
 | Task | Median input tokens | Questions per request | Mica v0.5 INT8 (CUDA runtime) | Mica v0.5 Q8_0 (llama.cpp) | Mica v0.5 BF16 (llama.cpp) | Mica v0.5 IQ4_XS (llama.cpp) | d1 | d3-mini | PPLX Decider Flash (default) | PPLX Decider Flash (fast path) | Kev | d3-flash | PPLX Decider 27B (default) | PPLX Decider 27B (fast path) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| iSarcasmEval | 63 | 2.53 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| WinoGrande | 66 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| Humicroedit | 77 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| CRUXEval | 127 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| ANLI | 155 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| GSM8K | 160 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| CLadder | 161 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| BBH fixed-option tasks | 163 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| New Yorker caption matching | 164 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| MMLU-Pro | 165 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| BPoMP | 168 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| VAST | 185 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| HLE | 211 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| FinEntity | 242 | 2.09 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| cfcolor | 243 | 1 | **19.8 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
-| HellaSwag | 270 | 1 | **20.3 ms** | 38.4 ms | 41.7 ms | 33.6 ms | 19.6 ms | 48.8 ms | 72.9 ms | 139 ms | 76.3 ms | 65.4 ms | 322 ms | 661 ms |
-| Amazon ESCI | 337 | 1 | **22.5 ms** | 44.3 ms | 49.7 ms | 38.9 ms | 23.3 ms | 49.6 ms | 79.2 ms | 140 ms | 80.5 ms | 73.9 ms | 330 ms | 658 ms |
-| ChessBench | 389 | 1 | **24.1 ms** | 48.6 ms | 55.6 ms | 42.7 ms | 26.1 ms | 50.1 ms | 83.6 ms | 140 ms | 83.3 ms | 79.9 ms | 335 ms | 680 ms |
-| HoVer claim verification | 406 | 1 | **24.5 ms** | 49.9 ms | 57.5 ms | 43.9 ms | 27.0 ms | 50.3 ms | 84.9 ms | 141 ms | 84.1 ms | 81.8 ms | 336 ms | 678 ms |
-| NLI4CT | 408 | 1 | **24.6 ms** | 50.0 ms | 57.7 ms | 44.0 ms | 27.1 ms | 50.3 ms | 85.0 ms | 141 ms | 84.2 ms | 82.0 ms | 336 ms | 674 ms |
-| When2Call MCQ | 642 | 1 | **31.7 ms** | 68.2 ms | 81.9 ms | 60.8 ms | 38.4 ms | 61.3 ms | 105 ms | 142 ms | 104 ms | 112 ms | 394 ms | 671 ms |
-| PhishNChips phishing decisions | 687 | 9 | **33.1 ms** | 71.6 ms | 86.1 ms | 64.0 ms | 40.4 ms | 64.6 ms | 109 ms | 142 ms | 109 ms | 118 ms | 410 ms | 664 ms |
-| BANKING77 | 728 | 1 | **34.3 ms** | 74.6 ms | 90.0 ms | 67.0 ms | 42.2 ms | 67.7 ms | 112 ms | 142 ms | 113 ms | 124 ms | 424 ms | 658 ms |
-| BFCL | 733 | 2.72 | **34.5 ms** | 75.0 ms | 90.5 ms | 67.4 ms | 42.5 ms | 68.1 ms | 112 ms | 142 ms | 114 ms | 124 ms | 425 ms | 673 ms |
-| RAGTruth response-level hallucination | 793 | 1 | **36.3 ms** | 79.4 ms | 96.0 ms | 71.6 ms | 45.1 ms | 72.5 ms | 117 ms | 143 ms | 120 ms | 133 ms | 446 ms | 673 ms |
-| Habermas Machine | 1,068 | 1 | **44.1 ms** | 98.9 ms | 121 ms | 90.7 ms | 56.6 ms | 92.5 ms | 140 ms | 150 ms | 149 ms | 169 ms | 546 ms | 663 ms |
-| CLINC150+OOS | 1,084 | 1 | **44.5 ms** | 100 ms | 123 ms | 91.8 ms | 57.3 ms | 93.7 ms | 142 ms | 152 ms | 150 ms | 172 ms | 555 ms | 669 ms |
-| SATA-Bench | 1,087 | 9.73 | **44.6 ms** | 100 ms | 123 ms | 92.0 ms | 57.5 ms | 93.9 ms | 143 ms | 152 ms | 151 ms | 172 ms | 557 ms | 694 ms |
-| MuSR | 1,243 | 1 | **48.7 ms** | 112 ms | 138 ms | 103 ms | 64.4 ms | 106 ms | 162 ms | 174 ms | 168 ms | 193 ms | 656 ms | 793 ms |
-| POP909-CL | 2,737 | 1 | **85.9 ms** | 222 ms | 285 ms | 210 ms | 133 ms | 230 ms | 349 ms | 390 ms | 335 ms | 402 ms | 1,576 ms | 2,002 ms |
-| API-Bank | 6,477 | 1 | **194 ms** | 506 ms | 658 ms | 487 ms | 330 ms | 605 ms | 928 ms | 631 ms | 788 ms | 1,009 ms | 3,601 ms | 3,090 ms |
-| ToolRet | 8,031 | 32 | **242 ms** | 626 ms | 813 ms | 604 ms | 416 ms | 782 ms | 1,213 ms | 650 ms | 975 ms | 1,274 ms | 4,459 ms | 3,103 ms |
+| iSarcasmEval | 63 | 2.53 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| WinoGrande | 66 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| Humicroedit | 77 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| CRUXEval | 127 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| ANLI | 155 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| GSM8K | 160 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| CLadder | 161 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| BBH fixed-option tasks | 163 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| New Yorker caption matching | 164 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| MMLU-Pro | 165 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| BPoMP | 168 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| VAST | 185 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| HLE | 211 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| FinEntity | 242 | 2.09 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| cfcolor | 243 | 1 | **15.6 ms** | 37.1 ms | 40.0 ms | 32.5 ms | 18.8 ms | 48.6 ms | 71.5 ms | 138 ms | 75.3 ms | 63.5 ms | 320 ms | 658 ms |
+| HellaSwag | 270 | 1 | **16.1 ms** | 38.4 ms | 41.7 ms | 33.6 ms | 19.6 ms | 48.8 ms | 72.9 ms | 139 ms | 76.3 ms | 65.4 ms | 322 ms | 661 ms |
+| Amazon ESCI | 337 | 1 | **18.6 ms** | 44.3 ms | 49.7 ms | 38.9 ms | 23.3 ms | 49.6 ms | 79.2 ms | 140 ms | 80.5 ms | 73.9 ms | 330 ms | 658 ms |
+| ChessBench | 389 | 1 | **20.3 ms** | 48.6 ms | 55.6 ms | 42.7 ms | 26.1 ms | 50.1 ms | 83.6 ms | 140 ms | 83.3 ms | 79.9 ms | 335 ms | 680 ms |
+| HoVer claim verification | 406 | 1 | **20.8 ms** | 49.9 ms | 57.5 ms | 43.9 ms | 27.0 ms | 50.3 ms | 84.9 ms | 141 ms | 84.1 ms | 81.8 ms | 336 ms | 678 ms |
+| NLI4CT | 408 | 1 | **20.9 ms** | 50.0 ms | 57.7 ms | 44.0 ms | 27.1 ms | 50.3 ms | 85.0 ms | 141 ms | 84.2 ms | 82.0 ms | 336 ms | 674 ms |
+| When2Call MCQ | 642 | 1 | **28.3 ms** | 68.2 ms | 81.9 ms | 60.8 ms | 38.4 ms | 61.3 ms | 105 ms | 142 ms | 104 ms | 112 ms | 394 ms | 671 ms |
+| PhishNChips phishing decisions | 687 | 9 | **29.7 ms** | 71.6 ms | 86.1 ms | 64.0 ms | 40.4 ms | 64.6 ms | 109 ms | 142 ms | 109 ms | 118 ms | 410 ms | 664 ms |
+| BANKING77 | 728 | 1 | **31.0 ms** | 74.6 ms | 90.0 ms | 67.0 ms | 42.2 ms | 67.7 ms | 112 ms | 142 ms | 113 ms | 124 ms | 424 ms | 658 ms |
+| BFCL | 733 | 2.72 | **31.2 ms** | 75.0 ms | 90.5 ms | 67.4 ms | 42.5 ms | 68.1 ms | 112 ms | 142 ms | 114 ms | 124 ms | 425 ms | 673 ms |
+| RAGTruth response-level hallucination | 793 | 1 | **33.0 ms** | 79.4 ms | 96.0 ms | 71.6 ms | 45.1 ms | 72.5 ms | 117 ms | 143 ms | 120 ms | 133 ms | 446 ms | 673 ms |
+| Habermas Machine | 1,068 | 1 | **40.5 ms** | 98.9 ms | 121 ms | 90.7 ms | 56.6 ms | 92.5 ms | 140 ms | 150 ms | 149 ms | 169 ms | 546 ms | 663 ms |
+| CLINC150+OOS | 1,084 | 1 | **40.8 ms** | 100 ms | 123 ms | 91.8 ms | 57.3 ms | 93.7 ms | 142 ms | 152 ms | 150 ms | 172 ms | 555 ms | 669 ms |
+| SATA-Bench | 1,087 | 9.73 | **40.9 ms** | 100 ms | 123 ms | 92.0 ms | 57.5 ms | 93.9 ms | 143 ms | 152 ms | 151 ms | 172 ms | 557 ms | 694 ms |
+| MuSR | 1,243 | 1 | **43.8 ms** | 112 ms | 138 ms | 103 ms | 64.4 ms | 106 ms | 162 ms | 174 ms | 168 ms | 193 ms | 656 ms | 793 ms |
+| POP909-CL | 2,737 | 1 | **77.4 ms** | 222 ms | 285 ms | 210 ms | 133 ms | 230 ms | 349 ms | 390 ms | 335 ms | 402 ms | 1,576 ms | 2,002 ms |
+| API-Bank | 6,477 | 1 | **173 ms** | 506 ms | 658 ms | 487 ms | 330 ms | 605 ms | 928 ms | 631 ms | 788 ms | 1,009 ms | 3,601 ms | 3,090 ms |
+| ToolRet | 8,031 | 32 | **206 ms** | 626 ms | 813 ms | 604 ms | 416 ms | 782 ms | 1,213 ms | 650 ms | 975 ms | 1,274 ms | 4,459 ms | 3,103 ms |
 
 </details>
 
@@ -162,6 +163,36 @@ One request with a 1k-token input, Mica v0.5 4B, INT8 on the CUDA runtime:
 | Concurrent requests | 1 | 4 | 16 |
 |---|:---:|:---:|:---:|
 | Requests per second | 54 | 57 | 89 |
+
+<br>
+
+## Demo
+
+Mica v0.5 4B, PPLX Decider 1.2 Flash 4B and Laya (395M encoder) making the same decisions side by side. One RTX 6000 Ada,
+Linux; Mica on its INT8 CUDA runtime.
+
+**Tetris**
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/tetris.mp4" controls muted playsinline width="100%"></video>
+
+**Chess**
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/chess.mp4" controls muted playsinline width="100%"></video>
+
+**Snake**
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/snake.mp4" controls muted playsinline width="100%"></video>
+
+**Log hunt**
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/loghunt.mp4" controls muted playsinline width="100%"></video>
+
+To run the demos yourself against your own server, see [`demo/`](https://huggingface.co/sky7350/Mica-v0.5-4B/tree/main/demo):
+
+```bash
+hf download sky7350/Mica-v0.5-4B --include "demo/*" --local-dir mica-demo
+cd mica-demo/demo && python play_tetris.py    # also play_snake.py, play_chess.py, play_loghunt.py
+```
 
 <br>
 
@@ -508,7 +539,7 @@ Linux commands above in WSL2.
 
 INT8 runs on compute capability 8.0 and newer (RTX 30/40/50 series, RTX A-series and Ada workstation cards, L4, L40S,
 A100, H100, H200, B200); other GPUs fall back to bfloat16 by themselves. The first start downloads the INT8 weights (about
-4.9 GB) into `--state-dir` (default `~/.cache/mica_runtime`; `--model` points at weights you already have), loads the kernel settings shipped for common GPUs (`--kernel-tune pinned`, the default; `full` tunes every kernel on this GPU instead), printing each stage, and saves its state there. The server answers as soon as it prints `Ready`; CUDA graphs are then captured in the background while it is idle, and until they are ready a request can wait up to about 0.7 s. On a GPU without shipped settings it starts with the closest GPU's settings and, after 30 s idle, tunes one kernel at a time for this GPU and saves the result. On an RTX 6000 Ada the first start took 26 s after the download and later starts with the same `--state-dir` 14 s, so keep `--state-dir` on a persistent disk. Kernel compilation is CPU-bound, so a host whose CPU is shared and fully loaded starts much more slowly. The longest input is
+4.9 GB) into `--state-dir` (default `~/.cache/mica_runtime`; `--model` points at weights you already have), loads the kernel settings shipped for common GPUs (`--kernel-tune pinned`, the default; `full` tunes every kernel on this GPU instead), printing each stage, and saves its state there. The server answers as soon as it prints `Ready`; CUDA graphs are then captured in the background while it is idle, and until they are ready a request can wait up to about 0.7 s. On a GPU without shipped settings it starts with the closest GPU's settings and, after 30 s idle, tunes one kernel at a time for this GPU and saves the result. On an RTX 6000 Ada the first start takes about 25–35 s after the download and later starts with the same `--state-dir` about 14 s, so keep `--state-dir` on a persistent disk. Kernel compilation is CPU-bound, so a host whose CPU is shared and fully loaded starts much more slowly. The longest input is
 set from the GPU's memory (the GPU table lists it). For bfloat16 from the full weights, download
 `model.safetensors*`, `*.json`, `*.jinja` and `*.txt` and run with `--model weights --w8a8 off`.
 
