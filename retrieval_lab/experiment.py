@@ -24,7 +24,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-from retrieval_lab import golden, metrics
+from retrieval_lab import dense, golden, metrics
 from retrieval_lab.pipeline import Retriever
 from retrieval_lab.planner import (
     BASELINE,
@@ -279,6 +279,8 @@ def main() -> None:
     args = parser.parse_args()
 
     retriever = Retriever()
+    # Load the encoder before timing, or the first query's latency includes the model load.
+    dense.encode(["warmup"])
     corpus_ids = set(retriever.ids)
     wanted = [t for t in args.types.split(",") if t] or list(PLAN_QUERY_TYPES)
     unknown = sorted(set(wanted) - set(PLAN_QUERY_TYPES))

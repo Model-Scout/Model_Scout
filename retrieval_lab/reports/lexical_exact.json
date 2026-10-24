@@ -1,0 +1,2184 @@
+{
+ "query_type": "lexical_exact",
+ "queries": 22,
+ "scored_queries": 21,
+ "metric": "recall@10",
+ "min_grade": 1,
+ "dense_model": "BAAI/bge-m3",
+ "llm": "gpt-4o-mini",
+ "ran_at": "2026-10-14 15:53",
+ "single": [],
+ "combos": [],
+ "improved": [],
+ "baseline": {
+  "plan": {
+   "query_type": "lexical_exact",
+   "hard_filters": {},
+   "dense_weight": 0.5,
+   "sparse_weight": 0.5,
+   "use_rewrite": false,
+   "use_decomposition": false,
+   "use_multi_query": false,
+   "use_hyde": false,
+   "top_k": 30,
+   "rrf_k": 60
+  },
+  "label": "Baseline",
+  "summary": {
+   "queries": 22,
+   "scored_queries": 21,
+   "recall@5": 0.2312925170068027,
+   "recall@10": 0.32857142857142857,
+   "precision@5": 0.18095238095238098,
+   "precision@10": 0.14285714285714285,
+   "f1@5": 0.18440184154469869,
+   "f1@10": 0.18616516536684605,
+   "hit@10": 0.6190476190476191,
+   "mrr@5": 0.32063492063492066,
+   "ndcg@5": 0.24138434470590403,
+   "map@5": 0.21619047619047618,
+   "p50_ms": 333.6,
+   "p95_ms": 508.57,
+   "p99_ms": 666.87,
+   "must_exclude_violation_rate@10": 0.5,
+   "judged@10": 0.17727272727272728,
+   "abstention_accuracy": null
+  },
+  "per_query": [
+   {
+    "query_id": "sg_g002",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "quickmt/quickmt-en-ko",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "Volko76/Qwen2.5-Coder-7B-GGUF",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "unsloth/Qwen2.5-7B-Instruct",
+     "Volko76/Qwen2.5-Coder-1.5B-GGUF",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+     "sappho192/ffxiv-ja-ko-translator",
+     "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF",
+     "LiquidAI/LFM2.5-350M-Base",
+     "sappho192/aihub-ja-ko-translator",
+     "dalatexcoder/LFM2.5-230M-heretic-v1",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "LiquidAI/LFM2.5-230M-Base",
+     "hell0ks/ja-ko-vn-7b-v1-gguf",
+     "LiquidAI/LFM2.5-230M",
+     "hell0ks/ja-ko-vn-12b-v2-gguf",
+     "arcee-ai/Trinity-Large-Preview-W4A16",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "TOTORONG/Solon_Next_v6",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "arcee-ai/Trinity-Nano-Preview-MLX-6bit",
+     "LiquidAI/LFM2.5-2.6B-Base",
+     "TheStageAI/Elastic-Llama-3.1-8B-Instruct",
+     "pirola/Nemotron-3-Nano-30B-A3B-pirola-IQ3_XXS-GGUF",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "nvidia/Nemotron-H-47B-Base-8K"
+    ],
+    "eligible": 2416,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CohereLabs/aya-expanse-8b",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"
+    ],
+    "missed@10": [
+     "CohereLabs/aya-expanse-8b",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "quickmt/quickmt-en-ko",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "Volko76/Qwen2.5-Coder-7B-GGUF",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "unsloth/Qwen2.5-7B-Instruct",
+     "Volko76/Qwen2.5-Coder-1.5B-GGUF",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+     "sappho192/ffxiv-ja-ko-translator",
+     "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF",
+     "LiquidAI/LFM2.5-350M-Base"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 501.34,
+     "sparse": 165.28,
+     "fusion": 0.25,
+     "total": 666.87
+    },
+    "dense_queries": [
+     "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어."
+    ],
+    "sparse_queries": [
+     "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어."
+    ]
+   },
+   {
+    "query_id": "sg_g005",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt_tiny_kor-eng",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "Helsinki-NLP/opus-mt-ko-en",
+     "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+     "Helsinki-NLP/opus-mt-ko-es",
+     "Neurora/opus-hplt-en-ko-v2.0",
+     "Xenova/opus-mt-ko-en",
+     "Helsinki-NLP/opus-mt-ko-ru",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "Helsinki-NLP/opus-mt-ko-fr",
+     "Helsinki-NLP/opus-mt-ko-de",
+     "shun89/opus-mt-ko-zh",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "Darong/BlueT",
+     "sappho192/gemma3-multilingual-translator-270m",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "TheBloke/TowerInstruct-7B-v0.1-GGUF",
+     "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF",
+     "alphaZimuth/Hy-MT2-1.8B-SpecDraft-30B",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-i1-GGUF",
+     "trillionlabs/Tri-1.8B-Translation",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-GGUF",
+     "mradermacher/Tri-1.8B-Translation-i1-GGUF",
+     "alphaZimuth/Hy-MT2-30B-A3B-APEX-GGUF"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "NHNDQ/nllb-finetuned-en2ko",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "missed@10": [
+     "NHNDQ/nllb-finetuned-en2ko",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt_tiny_kor-eng",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "Helsinki-NLP/opus-mt-ko-en",
+     "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+     "Helsinki-NLP/opus-mt-ko-es"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 415.24,
+     "sparse": 93.12,
+     "fusion": 0.21,
+     "total": 508.57
+    },
+    "dense_queries": [
+     "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하)."
+    ],
+    "sparse_queries": [
+     "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하)."
+    ]
+   },
+   {
+    "query_id": "sg_g003",
+    "expected_behavior": "must_exclude_only",
+    "ranked": [
+     "quickmt/quickmt-en-ko",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "sappho192/ffxiv-ja-ko-translator",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "hell0ks/ja-ko-vn-12b-v2-gguf",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "sappho192/aihub-ja-ko-translator",
+     "Volko76/Qwen2.5-Coder-7B-GGUF",
+     "geoffmunn/Qwen3-14B-f16",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+     "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "JSCreatorPro/offline-cpu-madlad-400",
+     "hell0ks/ja-ko-vn-7b-v1-gguf",
+     "LiquidAI/LFM2.5-2.6B-Base",
+     "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned",
+     "arcee-ai/Trinity-Mini-FP8-Block",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "nota-ai/Solar-Open2-250B-Nota-INT4-GlobalPruned",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "TOTORONG/Solon_Next_v6",
+     "TheStageAI/Elastic-Llama-3.1-8B-Instruct",
+     "arcee-ai/Trinity-Large-Preview-W4A16",
+     "plavno/LFM2.5-2.6B-AutoRound-W8A16",
+     "LiquidAI/LFM2.5-230M",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "Aya168/aya-expanse-8b-tofu-13lang-v3",
+     "arcee-ai/Trinity-Large-Thinking-FP8-Block"
+    ],
+    "eligible": 2416,
+    "metrics": null,
+    "relevant": [],
+    "missed@10": [],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "quickmt/quickmt-en-ko",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "sappho192/ffxiv-ja-ko-translator",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "hell0ks/ja-ko-vn-12b-v2-gguf",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "sappho192/aihub-ja-ko-translator",
+     "Volko76/Qwen2.5-Coder-7B-GGUF",
+     "geoffmunn/Qwen3-14B-f16",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 323.36,
+     "sparse": 8.33,
+     "fusion": 0.3,
+     "total": 331.99
+    },
+    "dense_queries": [
+     "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해."
+    ],
+    "sparse_queries": [
+     "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h012",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "quickmt/quickmt-en-ko",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "Helsinki-NLP/opus-mt-ko-en",
+     "Helsinki-NLP/opus-mt_tiny_kor-eng",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-i1-GGUF",
+     "NiuTrans/LMT-60-0.6B-Base",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "Darong/BlueT",
+     "Unbabel/TowerInstruct-Mistral-7B-v0.2",
+     "tencent/Hy-MT2-30B-A3B-GGUF",
+     "xxliam/koubox-nllb-600m-ja-en-ko-zh-oral-ct2",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-GGUF",
+     "NiuTrans/LMT-60-0.6B",
+     "mradermacher/OmniTranslate-1.1-i1-GGUF",
+     "egekocabas/madlad400-7b-mt-Q5_K_M-GGUF",
+     "NiuTrans/LMT-60-8B",
+     "NiuTrans/LMT-60-1.7B",
+     "mradermacher/OmniTranslate-1.0-GGUF",
+     "sappho192/gemma3-multilingual-translator-270m",
+     "mradermacher/OmniTranslate-1.1-GGUF",
+     "facebook/nllb-moe-54b",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-GGUF",
+     "NiuTrans/LMT-60-4B-Base",
+     "hugginguser1234234/GemmaX2-28-2B-int4-ov"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.14285714285714285,
+     "precision@5": 0.2,
+     "f1@5": 0.16666666666666666,
+     "hit@5": 1.0,
+     "recall@10": 0.2857142857142857,
+     "precision@10": 0.2,
+     "f1@10": 0.23529411764705882,
+     "hit@10": 1.0,
+     "mrr@5": 0.2,
+     "map@5": 0.04,
+     "ndcg@5": 0.14041677439671904
+    },
+    "relevant": [
+     "Helsinki-NLP/opus-mt-ko-en",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "facebook/mbart-large-50-many-to-many-mmt",
+     "facebook/nllb-200-1.3B",
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "missed@10": [
+     "facebook/mbart-large-50-many-to-many-mmt",
+     "facebook/nllb-200-1.3B",
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko"
+    ],
+    "unjudged@10": [
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "quickmt/quickmt-en-ko",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "Helsinki-NLP/opus-mt_tiny_kor-eng",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-i1-GGUF"
+    ],
+    "judged@10": 0.4,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 305.76,
+     "sparse": 8.52,
+     "fusion": 0.22,
+     "total": 314.5
+    },
+    "dense_queries": [
+     "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야."
+    ],
+    "sparse_queries": [
+     "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h013",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "quickmt/quickmt-en-ko",
+     "Darong/BlueT",
+     "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+     "mradermacher/EraX-Translator-V1.0-GGUF",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-GGUF",
+     "sappho192/gemma3-multilingual-translator-270m",
+     "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+     "NikolayKozloff/madlad400-10b-mt-Q8_0-GGUF",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-i1-GGUF",
+     "davidkim205/iris-7b",
+     "mtsdurica/madlad400-3b-mt-Q4_K_M-GGUF",
+     "tencent/Hy-MT2-30B-A3B-GGUF",
+     "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-GGUF",
+     "NiuTrans/LMT-60-0.6B-Base",
+     "egekocabas/madlad400-7b-mt-Q5_K_M-GGUF",
+     "yanolja/YanoljaNEXT-Rosetta-12B",
+     "NiuTrans/LMT-60-4B-Base",
+     "NiuTrans/LMT-60-8B",
+     "NHNDQ/nllb-finetuned-en2ko",
+     "NiuTrans/LMT-60-1.7B",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "mradermacher/lfm2-1.2b-koen-mt-v4-100k-GGUF",
+     "htafer/madlad400-10b-mt-Q4_K_M-GGUF"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.1,
+     "precision@5": 0.2,
+     "f1@5": 0.13333333333333333,
+     "hit@5": 1.0,
+     "recall@10": 0.4,
+     "precision@10": 0.4,
+     "f1@10": 0.4000000000000001,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 0.2,
+     "ndcg@5": 0.36297209628774124
+    },
+    "relevant": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "facebook/mbart-large-50-many-to-many-mmt",
+     "facebook/nllb-200-1.3B",
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "quickmt/quickmt-en-ko",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+    ],
+    "missed@10": [
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "facebook/mbart-large-50-many-to-many-mmt",
+     "facebook/nllb-200-1.3B",
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "Helsinki-NLP/opus-mt-tc-big-ko-en"
+    ],
+    "unjudged@10": [
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+     "Darong/BlueT",
+     "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16"
+    ],
+    "judged@10": 0.5,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 270.36,
+     "sparse": 1.62,
+     "fusion": 0.21,
+     "total": 272.19
+    },
+    "dense_queries": [
+     "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아."
+    ],
+    "sparse_queries": [
+     "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아."
+    ]
+   },
+   {
+    "query_id": "sg_h049",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "zapabobouj/nsfw-bge-m3-v5-gguf",
+     "ukung/semantic-lite-gguf",
+     "cstr/multilingual-e5-small-GGUF",
+     "NeoRoth/nemotron-3-embed-1b-gguf",
+     "mykor/granite-embedding-311m-multilingual-r2-GGUF",
+     "groonga/multilingual-e5-base-Q4_K_M-GGUF",
+     "CHKH01/BGE-m3-ko-GGUF",
+     "chris-code/multilingual-e5-large-Q8_0-GGUF",
+     "mradermacher/snowflake-arctic-embed-l-v2.0-academic-GGUF",
+     "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF",
+     "Zenabius/multilingual-e5-large-Q8_0-GGUF",
+     "Bingsu/KURE-v1-Q8_0-GGUF",
+     "batiai/Qwen3-VL-Embedding-2B-GGUF",
+     "ChristianAzinn/labse-gguf",
+     "ggml-org/Nomic-Embed-Text-V2-GGUF",
+     "dinab/multilingual-e5-base-Q8_0-GGUF",
+     "batiai/Qwen3-VL-Embedding-8B-GGUF",
+     "fasoo/fasoo-embedding",
+     "zhiqian99/Qwen3-Embedding-0.6B-GGUF",
+     "dinab/multilingual-e5-base-Q4_K_M-GGUF",
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "zenmagnets/Nemotron-3-Embed-1B-Q4_K_M-GGUF",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "Alibaba-NLP/gte-multilingual-base",
+     "LiquidAI/LFM2-ColBERT-350M-GGUF",
+     "mradermacher/MoAI-Embedding-4B-GGUF",
+     "yixuan-chia/multilingual-e5-base-gguf",
+     "KGESH/nsfw-bge-m3-v5",
+     "upskyy/bge-m3-korean",
+     "upskyy/e5-small-korean"
+    ],
+    "eligible": 435,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "batiai/Qwen3-Embedding-4B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "mradermacher/MoAI-Embedding-4B-GGUF"
+    ],
+    "missed@10": [
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "batiai/Qwen3-Embedding-4B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "mradermacher/MoAI-Embedding-4B-GGUF"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "zapabobouj/nsfw-bge-m3-v5-gguf",
+     "ukung/semantic-lite-gguf",
+     "cstr/multilingual-e5-small-GGUF",
+     "NeoRoth/nemotron-3-embed-1b-gguf",
+     "mykor/granite-embedding-311m-multilingual-r2-GGUF",
+     "groonga/multilingual-e5-base-Q4_K_M-GGUF",
+     "CHKH01/BGE-m3-ko-GGUF",
+     "chris-code/multilingual-e5-large-Q8_0-GGUF",
+     "mradermacher/snowflake-arctic-embed-l-v2.0-academic-GGUF",
+     "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 300.07,
+     "sparse": 71.21,
+     "fusion": 0.34,
+     "total": 371.62
+    },
+    "dense_queries": [
+     "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_h051",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "sappho192/ffxiv-ja-ko-translator",
+     "sappho192/aihub-ja-ko-translator",
+     "hell0ks/ja-ko-vn-12b-v2-gguf",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "hell0ks/ja-ko-vn-7b-v1-gguf",
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "hugginguser1234234/GemmaX2-28-2B-int4-ov",
+     "mradermacher/Tri-1.8B-Translation-i1-GGUF",
+     "sappho192/MiLMMT-46-1B-v0.1-ko-en-ja-pruned-130k-imatrix-Q4_K_M-GGUF",
+     "alphaZimuth/Hy-MT2-1.8B-SpecDraft-30B",
+     "yanolja/YanoljaNEXT-Rosetta-12B",
+     "raxtemur/SONAR_200_text_decoder",
+     "sappho192/gemma3-multilingual-translator-270m",
+     "mradermacher/OmniTranslate-1.1-i1-GGUF",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "42ailab/TranslateGemma-12B-GGUF",
+     "onnx-community/HY-MT1.5-1.8B-ONNX",
+     "xxliam/koubox-nllb-600m-ja-en-ko-zh-oral-ct2",
+     "Babelscape/mrebel-large-32",
+     "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+     "yanolja/YanoljaNEXT-Rosetta-12B-2510-GGUF",
+     "42ailab/TranslateGemma-4B-GGUF",
+     "Babelscape/mrebel-large",
+     "Moayad72/GemmaX2-28-2B-v0.1-Q4_K_M-GGUF",
+     "ModelSpace/GemmaX2-28-9B-v0.1",
+     "ModelSpace/GemmaX2-28-2B-v0.1",
+     "kuotient/Hy-MT2-1.8B-1.25Bit-MLX"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.5714285714285714,
+     "precision@5": 0.8,
+     "f1@5": 0.6666666666666666,
+     "hit@5": 1.0,
+     "recall@10": 0.5714285714285714,
+     "precision@10": 0.4,
+     "f1@10": 0.47058823529411764,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 0.71,
+     "ndcg@5": 0.6608397947263839
+    },
+    "relevant": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "hell0ks/ja-ko-vn-7b-v1",
+     "hell0ks/ja-ko-vn-7b-v1-gguf",
+     "sappho192/aihub-ja-ko-translator",
+     "sappho192/ffxiv-ja-ko-translator"
+    ],
+    "missed@10": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "hell0ks/ja-ko-vn-12b-v2-gguf",
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "hugginguser1234234/GemmaX2-28-2B-int4-ov"
+    ],
+    "judged@10": 0.4,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 331.99,
+     "sparse": 1.57,
+     "fusion": 0.23,
+     "total": 333.79
+    },
+    "dense_queries": [
+     "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야."
+    ],
+    "sparse_queries": [
+     "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h054",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "quickmt/quickmt-en-ko",
+     "casawolice/small100-onnx",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "alphaZimuth/Hy-MT2-1.8B-SpecDraft-30B",
+     "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+     "shun89/opus-mt-ko-zh",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "litert-community/Hy-MT2-1.8B",
+     "NiuTrans/LMT-60-8B",
+     "42ailab/TranslateGemma-27B-GGUF",
+     "NiuTrans/LMT-60-4B-Base",
+     "mradermacher/Hunyuan-MT-7B-i1-GGUF",
+     "NiuTrans/LMT-60-1.7B",
+     "mradermacher/Huihui-HY-MT1.5-7B-abliterated-i1-GGUF",
+     "TheBloke/TowerInstruct-7B-v0.1-GGUF",
+     "datouge/TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF",
+     "mradermacher/Huihui-HY-MT1.5-1.8B-abliterated-i1-GGUF",
+     "mradermacher/Hy-MT2-1.8B-i1-GGUF",
+     "tensorblock/TowerBase-7B-v0.1-GGUF",
+     "kuotient/Hy-MT2-1.8B-1.25Bit-MLX",
+     "wangjazz/Hunyuan-MT1.5-1.8B-MNN",
+     "mradermacher/Hy-MT2-30B-A3B-GGUF",
+     "mradermacher/HY-MT1.5-1.8B-i1-GGUF",
+     "mradermacher/Hy-MT2-7B-i1-GGUF",
+     "42ailab/TranslateGemma-12B-GGUF",
+     "42ailab/TranslateGemma-4B-GGUF",
+     "nuupy/HY-MT1.5-1.8B-Q4_K_M-GGUF",
+     "mradermacher/Hy-MT2-30B-A3B-i1-GGUF",
+     "mradermacher/Hunyuan-MT-7B-GGUF",
+     "dhtocks/nllb-200-distilled-350M_en-ko"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "missed@10": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "shun89/opus-mt-ko-zh"
+    ],
+    "unjudged@10": [
+     "quickmt/quickmt-en-ko",
+     "casawolice/small100-onnx",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "alphaZimuth/Hy-MT2-1.8B-SpecDraft-30B",
+     "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "litert-community/Hy-MT2-1.8B",
+     "NiuTrans/LMT-60-8B",
+     "42ailab/TranslateGemma-27B-GGUF"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 290.71,
+     "sparse": 57.17,
+     "fusion": 0.25,
+     "total": 348.13
+    },
+    "dense_queries": [
+     "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해."
+    ],
+    "sparse_queries": [
+     "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해."
+    ]
+   },
+   {
+    "query_id": "sg_h055",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "LRieser/steam-ai-mention-qwen3-8b-merged",
+     "quickmt/quickmt-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "mradermacher/Human-Like-Qwen2.5-1.5B-Instruct-i1-GGUF",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "NostraEmpire/mirror-madlad400-3b-mt",
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "LifeAi-dev/madlad400-10b-ct2-float32",
+     "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+     "unsloth/Qwen2.5-3B",
+     "mradermacher/OmniTranslate-1.0-GGUF",
+     "featherless-ai-quants/nayohan-llama3-8b-it-translation-sharegpt-en-ko-GGUF",
+     "mradermacher/OmniTranslate-1.1-i1-GGUF",
+     "featherless-ai-quants/nayohan-llama3-8b-it-translation-general-en-ko-1sent-GGUF",
+     "mradermacher/OmniTranslate-1.1-GGUF",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "mtsdurica/madlad400-3b-mt-Q4_K_M-GGUF",
+     "JSCreatorPro/offline-cpu-madlad-400",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "CXDuncan/madlad400-3b-mt-optimized-quantized-onnx",
+     "xxliam/koubox-nllb-600m-ja-en-ko-zh-oral-ct2",
+     "playdev7/theseed",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "santhosh/madlad400-3b-ct2",
+     "google/madlad400-3b-mt",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-GGUF",
+     "egekocabas/madlad400-7b-mt-Q5_K_M-GGUF"
+    ],
+    "eligible": 2416,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CMSManhattan/JiRackUltra_14b",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+     "LiquidAI/LFM2.5-2.6B-GGUF",
+     "facebook/nllb-200-distilled-600M",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "missed@10": [
+     "CMSManhattan/JiRackUltra_14b",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+     "LiquidAI/LFM2.5-2.6B-GGUF",
+     "facebook/nllb-200-distilled-600M",
+     "mradermacher/llama3-8b-it-translation-general-en-ko-1sent-i1-GGUF",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "LRieser/steam-ai-mention-qwen3-8b-merged",
+     "quickmt/quickmt-en-ko",
+     "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+     "mradermacher/Human-Like-Qwen2.5-1.5B-Instruct-i1-GGUF",
+     "Helsinki-NLP/opus-mt-tc-big-ko-en",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "NostraEmpire/mirror-madlad400-3b-mt",
+     "R4kSo1997/opus-mt-en-ko-onnx-int8",
+     "LifeAi-dev/madlad400-10b-ct2-float32"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 287.59,
+     "sparse": 8.08,
+     "fusion": 0.27,
+     "total": 295.94
+    },
+    "dense_queries": [
+     "게임 대사를 영어에서 한국어로 번역하려고 해."
+    ],
+    "sparse_queries": [
+     "게임 대사를 영어에서 한국어로 번역하려고 해."
+    ]
+   },
+   {
+    "query_id": "sg_h073",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "shun89/opus-mt-ko-zh",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "NiuTrans/LMT-60-0.6B-Base",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "NiuTrans/LMT-60-1.7B",
+     "NiuTrans/LMT-60-4B-Base",
+     "erax-ai/EraX-Translator-V1.0-GGUF",
+     "NiuTrans/LMT-60-8B",
+     "NiuTrans/LMT-60-0.6B",
+     "xxliam/koubox-nllb-600m-ja-en-ko-zh-oral-ct2",
+     "wangjazz/Hunyuan-MT1.5-1.8B-MNN",
+     "buddhist-nlp/mitra-qwen35-translate",
+     "mradermacher/YanoljaNEXT-Rosetta-12B-GGUF",
+     "DZgas/Tower-Plus-2B-GGUF",
+     "yanolja/YanoljaNEXT-Rosetta-12B",
+     "NikolayKozloff/madlad400-10b-mt-Q8_0-GGUF",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "egekocabas/madlad400-7b-mt-Q5_K_M-GGUF",
+     "kuotient/Hy-MT2-1.8B-1.25Bit-MLX",
+     "ModelSpace/GemmaX2-28-2B-v0.1",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "ModelSpace/GemmaX2-28-9B-v0.1",
+     "yanolja/YanoljaNEXT-Rosetta-12B-2510-GGUF",
+     "Heng666/madlad400-3b-mt-ct2-int8",
+     "Poirott/Oshi-Translate-Magshot-GGUF",
+     "jbochi/madlad400-3b-mt",
+     "BSC-LT/salamandraTA-7b-instruct",
+     "cstr/madlad400-3b-ct2-int8"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.2,
+     "precision@5": 0.2,
+     "f1@5": 0.20000000000000004,
+     "hit@5": 1.0,
+     "recall@10": 0.2,
+     "precision@10": 0.1,
+     "f1@10": 0.13333333333333333,
+     "hit@10": 1.0,
+     "mrr@5": 0.3333333333333333,
+     "map@5": 0.06666666666666667,
+     "ndcg@5": 0.16958010263680806
+    },
+    "relevant": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "shun89/opus-mt-ko-zh",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "missed@10": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M",
+     "trillionlabs/Tri-1.8B-Translation"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+    ],
+    "unjudged@10": [
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "NiuTrans/LMT-60-0.6B-Base",
+     "NiuTrans/LMT-60-1.7B",
+     "NiuTrans/LMT-60-4B-Base",
+     "erax-ai/EraX-Translator-V1.0-GGUF",
+     "NiuTrans/LMT-60-8B"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 261.56,
+     "sparse": 4.97,
+     "fusion": 0.27,
+     "total": 266.8
+    },
+    "dense_queries": [
+     "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야."
+    ],
+    "sparse_queries": [
+     "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야."
+    ]
+   },
+   {
+    "query_id": "sg_h074",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "mradermacher/EraX-Translator-V1.0-GGUF",
+     "mradermacher/OmniTranslate-1.1-i1-GGUF",
+     "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+     "mradermacher/OmniTranslate-1.0-GGUF",
+     "mradermacher/OmniTranslate-1.1-GGUF",
+     "quickmt/quickmt-en-ko",
+     "Helsinki-NLP/opus-mt-ko-de",
+     "Helsinki-NLP/opus-mt-ko-fr",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "mradermacher/YanoljaNEXT-Rosetta-20B-GGUF",
+     "Helsinki-NLP/opus-mt-tc-big-en-ko",
+     "mradermacher/YanoljaNEXT-Rosetta-20B-i1-GGUF",
+     "jhk/opus-mt-tc-big-wiki-en-ko",
+     "mradermacher/YanoljaNEXT-Rosetta-12B-GGUF",
+     "mradermacher/Tower-7B-d2d-GGUF",
+     "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+     "huggingworld/m2m100_418M",
+     "erax-ai/EraX-Translator-V1.0-GGUF",
+     "DZgas/Tower-Plus-2B-GGUF",
+     "mradermacher/HY-MT1.5-7B-GGUF",
+     "mradermacher/Hy-MT2-7B-GGUF",
+     "ModelSpace/GemmaX2-28-2B-v0.1",
+     "Moayad72/GemmaX2-28-2B-v0.1-Q4_K_M-GGUF",
+     "ModelSpace/GemmaX2-28-9B-v0.1",
+     "dhtocks/nllb-200-distilled-350M_en-ko",
+     "NikolayKozloff/madlad400-10b-mt-Q8_0-GGUF",
+     "sappho192/ffxiv-ja-ko-translator",
+     "mradermacher/Hy-MT2-1.8B-GGUF",
+     "mradermacher/Hy-MT2-7B-i1-GGUF",
+     "sappho192/aihub-ja-ko-translator"
+    ],
+    "eligible": 239,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.4,
+     "precision@10": 0.2,
+     "f1@10": 0.26666666666666666,
+     "hit@10": 1.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Helsinki-NLP/opus-mt-ko-de",
+     "Helsinki-NLP/opus-mt-ko-fr",
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "missed@10": [
+     "facebook/nllb-200-3.3B",
+     "facebook/nllb-200-distilled-1.3B",
+     "facebook/nllb-200-distilled-600M"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "mradermacher/EraX-Translator-V1.0-GGUF",
+     "mradermacher/OmniTranslate-1.1-i1-GGUF",
+     "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+     "mradermacher/OmniTranslate-1.0-GGUF",
+     "mradermacher/OmniTranslate-1.1-GGUF",
+     "quickmt/quickmt-en-ko",
+     "MihaiPopa-1/OmniTranslate-1.1",
+     "mradermacher/YanoljaNEXT-Rosetta-20B-GGUF"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 376.71,
+     "sparse": 96.64,
+     "fusion": 0.25,
+     "total": 473.6
+    },
+    "dense_queries": [
+     "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_h075",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "gaianet/EXAONE-3.0-7.8B-Instruct-GGUF",
+     "gaianet/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "gaianet/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "second-state/EXAONE-3.0-7.8B-Instruct-GGUF",
+     "second-state/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "LGAI-EXAONE/EXAONE-4.0-32B-GGUF",
+     "second-state/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "gaianet/llama-3.2-Korean-Bllossom-3B-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "skt/A.X-K2-GGUF",
+     "teddylee777/llama-3-8b-it-ko-chang-gguf",
+     "bartowski/LGAI-EXAONE_EXAONE-Deep-32B-GGUF",
+     "second-state/llama-3.2-Korean-Bllossom-3B-GGUF",
+     "ThomasBaruzier/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "second-state/EXAONE-Deep-32B-GGUF",
+     "lmstudio-community/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "QuantFactory/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "Mungert/EXAONE-4.0-32B-GGUF",
+     "bartowski/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "tensorblock/EXAONE-3.5-32B-Instruct-Llamafied-GGUF",
+     "Lumia101/EXAONE-4.0.1-32B-GGUF-Q4_K_M",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "oki608900/EXAONE-4.0-1.2B-GGUF",
+     "QuantFactory/ghost-8b-beta-1608-GGUF",
+     "beomi/EXAONE-3.5-2.4B-Instruct-Llamafied",
+     "Open4bits/EXAONE-4.0-1.2B-gguf",
+     "ghost-x/ghost-8b-beta-1608-gguf",
+     "teddylee777/Llama-3-KoEn-8B-Instruct-preview-gguf"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.6666666666666666,
+     "precision@10": 0.2,
+     "f1@10": 0.30769230769230765,
+     "hit@10": 1.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-32B-Instruct-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-GGUF"
+    ],
+    "missed@10": [
+     "LGAI-EXAONE/EXAONE-3.5-32B-Instruct-GGUF"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "gaianet/EXAONE-3.0-7.8B-Instruct-GGUF",
+     "gaianet/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "gaianet/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "second-state/EXAONE-3.0-7.8B-Instruct-GGUF",
+     "second-state/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "LGAI-EXAONE/EXAONE-4.0-32B-GGUF",
+     "second-state/EXAONE-3.5-7.8B-Instruct-GGUF",
+     "gaianet/llama-3.2-Korean-Bllossom-3B-GGUF"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 369.87,
+     "sparse": 18.24,
+     "fusion": 0.35,
+     "total": 388.46
+    },
+    "dense_queries": [
+     "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해."
+    ],
+    "sparse_queries": [
+     "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_h076",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+     "circulus/koelectra-sentiment-v1",
+     "circulus/koelectra-polite-v1",
+     "monologg/koelectra-base-finetuned-nsmc",
+     "MelissaJ/koelectra-emotion-6-emotion-base",
+     "monologg/koelectra-small-finetuned-nsmc",
+     "circulus/koelectra-wellness-v1",
+     "kfkas/legal-question-filter-koelectra",
+     "tobykim/koelectra-44emotions",
+     "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+     "DataWizardd/finbert-sentiment-ko",
+     "banjl4487/MODEL",
+     "solbi12/ecommers_fasion_fine_tuned_3class_model",
+     "Seonghaa/korean-emotion-classifier-roberta",
+     "daekeun-ml/koelectra-small-v3-nsmc",
+     "cringepnh/koelectra-korean-sentiment",
+     "amphora/KorFinASC-XLM-RoBERTa",
+     "hun3359/klue-bert-base-sentiment",
+     "likeyellow/klue-review-star",
+     "bespin-global/klue-roberta-small-3i4k-intent-classification",
+     "FISA-conclave/klue-roberta-news-sentiment",
+     "LangQuant/LQ-FSE-base",
+     "snunlp/KR-FinBert-SC",
+     "bongsoo/kpf-cross-encoder-v1",
+     "Huffon/klue-roberta-base-nli",
+     "sangrimlee/bert-base-multilingual-cased-nsmc",
+     "sky7350/Mica-v0.1-4B",
+     "clapAI/roberta-base-multilingual-sentiment",
+     "Dongjin-kr/ko-reranker",
+     "clapAI/modernBERT-base-multilingual-sentiment"
+    ],
+    "eligible": 84,
+    "metrics": {
+     "recall@5": 0.5,
+     "precision@5": 0.6,
+     "f1@5": 0.5454545454545454,
+     "hit@5": 1.0,
+     "recall@10": 0.8333333333333334,
+     "precision@10": 0.5,
+     "f1@10": 0.625,
+     "hit@10": 1.0,
+     "mrr@5": 0.5,
+     "map@5": 0.3833333333333333,
+     "ndcg@5": 0.4350543107844848
+    },
+    "relevant": [
+     "circulus/koelectra-polite-v1",
+     "circulus/koelectra-sentiment-v1",
+     "circulus/koelectra-wellness-v1",
+     "daekeun-ml/koelectra-small-v3-nsmc",
+     "kfkas/legal-question-filter-koelectra",
+     "monologg/koelectra-base-finetuned-nsmc"
+    ],
+    "missed@10": [
+     "daekeun-ml/koelectra-small-v3-nsmc"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+     "MelissaJ/koelectra-emotion-6-emotion-base",
+     "monologg/koelectra-small-finetuned-nsmc",
+     "tobykim/koelectra-44emotions",
+     "Copycats/koelectra-base-v3-generalized-sentiment-analysis"
+    ],
+    "judged@10": 0.5,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 398.53,
+     "sparse": 6.25,
+     "fusion": 0.14,
+     "total": 404.92
+    },
+    "dense_queries": [
+     "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼."
+    ],
+    "sparse_queries": [
+     "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼."
+    ]
+   },
+   {
+    "query_id": "sg_h077",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "guillaumekln/faster-whisper-base",
+     "guillaumekln/faster-whisper-large-v2",
+     "jinlulululu/faster-whisper-small",
+     "guillaumekln/faster-whisper-medium",
+     "guillaumekln/faster-whisper-small",
+     "Systran/faster-whisper-base",
+     "SungBeom/whisper-small-ko",
+     "guillaumekln/faster-whisper-tiny",
+     "Systran/faster-whisper-large-v3",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "Systran/faster-whisper-medium",
+     "Systran/faster-whisper-tiny",
+     "Systran/faster-whisper-small",
+     "jfmdai/faster-whisper-large-v3-turbo-ct2",
+     "Systran/faster-whisper-large-v1",
+     "Systran/faster-whisper-large-v2",
+     "deepdml/faster-whisper-large-v3-turbo-ct2",
+     "DmitryBig/faster-whisper-large-v3",
+     "leuconoe/whisper-acft-ko",
+     "INo0121/whisper-base-ko-callvoice",
+     "aTrain-core/faster-whisper-large-v3",
+     "ghost613/faster-whisper-large-v3-turbo-korean",
+     "Infomaniak-AI/faster-whisper-large-v3-turbo",
+     "aTrain-core/faster-whisper-large-v3-turbo",
+     "aTrain-core/faster-distil-whisper-large-v2",
+     "SoybeanMilk/faster-whisper-Breeze-ASR-25",
+     "seastar105/whisper-medium-komixv2",
+     "o0dimplz0o/Whisper-Large-v3-turbo-STT-Zeroth-KO-v2",
+     "BuzzASR/korean",
+     "seastar105/whisper-small-komixv2"
+    ],
+    "eligible": 237,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.2,
+     "precision@10": 0.1,
+     "f1@10": 0.13333333333333333,
+     "hit@10": 1.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Systran/faster-whisper-base",
+     "Systran/faster-whisper-medium",
+     "Systran/faster-whisper-small",
+     "deepdml/faster-whisper-large-v3-turbo-ct2",
+     "jfmdai/faster-whisper-large-v3-turbo-ct2"
+    ],
+    "missed@10": [
+     "Systran/faster-whisper-medium",
+     "Systran/faster-whisper-small",
+     "deepdml/faster-whisper-large-v3-turbo-ct2",
+     "jfmdai/faster-whisper-large-v3-turbo-ct2"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "guillaumekln/faster-whisper-base",
+     "guillaumekln/faster-whisper-large-v2",
+     "jinlulululu/faster-whisper-small",
+     "guillaumekln/faster-whisper-medium",
+     "guillaumekln/faster-whisper-small",
+     "SungBeom/whisper-small-ko",
+     "guillaumekln/faster-whisper-tiny",
+     "Systran/faster-whisper-large-v3",
+     "ghost613/whisper-large-v3-turbo-korean"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 349.84,
+     "sparse": 16.85,
+     "fusion": 0.23,
+     "total": 366.92
+    },
+    "dense_queries": [
+     "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야."
+    ],
+    "sparse_queries": [
+     "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야."
+    ]
+   },
+   {
+    "query_id": "sg_h078",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "onnx-community/multilingual-e5-base-ONNX",
+     "onnx-community/harrier-oss-v1-270m-ONNX",
+     "onnx-community/paraphrase-multilingual-MiniLM-L12-v2-ONNX",
+     "onnx-community/granite-embedding-311m-multilingual-r2-ONNX",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+     "onnx-community/granite-embedding-97m-multilingual-r2-ONNX",
+     "upskyy/e5-large-korean",
+     "sentence-transformers/xlm-r-large-en-ko-nli-ststb",
+     "onnx-community/F2LLM-v2-160M-ONNX",
+     "jinaai/jina-embeddings-v3",
+     "sentence-transformers/xlm-r-base-en-ko-nli-ststb",
+     "BidirLM/BidirLM-1B-Embedding",
+     "onelevelstudio/MPNET-0.3B",
+     "BidirLM/BidirLM-1.7B-Embedding",
+     "jinaai/jina-embeddings-v3-hf",
+     "Youmnaaaa/Semantic-model",
+     "Xenova/kobert",
+     "sieu-n/msmarco-distilbert-cos-v5_en-ko-ja_v1.3",
+     "shtilev/medical_embedded_v6",
+     "OneFly7/biencoder_ep10_bs32_lr2e5_cosine_annealing_hard_neg_2",
+     "strauss-oak/mdl_bertopic_globo",
+     "Borsa356/NLI_MNRL_EN_",
+     "dragonkue/multilingual-e5-small-ko",
+     "jirawan-chro/RAG-thai",
+     "shangrilar/sentence-encoder-klue-mrc",
+     "kimcharles/klue-roberta-base-klue-sts",
+     "upskyy/bge-m3-korean",
+     "leewaay/klue-roberta-base-klueNLI-klueSTS-MSL128",
+     "upskyy/e5-small-korean",
+     "upskyy/e5-base-korean"
+    ],
+    "eligible": 435,
+    "metrics": {
+     "recall@5": 0.14285714285714285,
+     "precision@5": 0.2,
+     "f1@5": 0.16666666666666666,
+     "hit@5": 1.0,
+     "recall@10": 0.14285714285714285,
+     "precision@10": 0.1,
+     "f1@10": 0.11764705882352941,
+     "hit@10": 1.0,
+     "mrr@5": 0.2,
+     "map@5": 0.04,
+     "ndcg@5": 0.14041677439671904
+    },
+    "relevant": [
+     "intfloat/multilingual-e5-base",
+     "intfloat/multilingual-e5-small",
+     "janni-t/qwen3-embedding-0.6b-int8-tei-onnx",
+     "sentence-transformers/LaBSE",
+     "sentence-transformers/distiluse-base-multilingual-cased-v1",
+     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    ],
+    "missed@10": [
+     "intfloat/multilingual-e5-base",
+     "intfloat/multilingual-e5-small",
+     "janni-t/qwen3-embedding-0.6b-int8-tei-onnx",
+     "sentence-transformers/LaBSE",
+     "sentence-transformers/distiluse-base-multilingual-cased-v1",
+     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "onnx-community/multilingual-e5-base-ONNX",
+     "onnx-community/harrier-oss-v1-270m-ONNX",
+     "onnx-community/paraphrase-multilingual-MiniLM-L12-v2-ONNX",
+     "onnx-community/granite-embedding-311m-multilingual-r2-ONNX",
+     "onnx-community/granite-embedding-97m-multilingual-r2-ONNX",
+     "upskyy/e5-large-korean",
+     "sentence-transformers/xlm-r-large-en-ko-nli-ststb",
+     "onnx-community/F2LLM-v2-160M-ONNX",
+     "jinaai/jina-embeddings-v3"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 298.8,
+     "sparse": 34.57,
+     "fusion": 0.23,
+     "total": 333.6
+    },
+    "dense_queries": [
+     "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해."
+    ],
+    "sparse_queries": [
+     "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h079",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "mlx-community/LFM2-350M-MLX",
+     "LiquidAI/LFM2.5-230M-MLX-6bit",
+     "choipilkyu/kanana-2-3b-instruct-MLX-6bit",
+     "LiquidAI/LFM2.5-350M-MLX-6bit",
+     "FINAL-Bench/POCKET-KR-MLX",
+     "LiquidAI/LFM2.5-230M-MLX-5bit",
+     "Vontra/Solar-Open2-250B-MLX-4bit",
+     "LiquidAI/LFM2.5-1.2B-Instruct-MLX-6bit",
+     "LiquidAI/LFM2.5-350M-MLX-5bit",
+     "Vontra/Solar-Open2-250B-MLX-8bit",
+     "mlx-community/LFM2.5-2.6B-bf16",
+     "lmstudio-community/LFM2.5-2.6B-MLX-6bit",
+     "choipilkyu/kanana-2-3b-instruct-MLX-mixed_4_6",
+     "Vontra/Solar-Open2-250B-MLX-6bit",
+     "lmstudio-community/LFM2.5-2.6B-MLX-5bit",
+     "mlx-community/kanana-2-3b-instruct-4bit",
+     "LiquidAI/LFM2.5-1.2B-Instruct-MLX-5bit",
+     "mlx-community/kanana-2-3b-instruct-mixed_4_6",
+     "LiquidAI/LFM2.5-1.2B-Instruct-MLX-bf16",
+     "lmstudio-community/granite-4.2-3b-MLX-6bit",
+     "LiquidAI/LFM2.5-2.6B-MLX-6bit",
+     "mlx-community/kanana-2-3b-instruct-6bit",
+     "LiquidAI/LFM2.5-2.6B-MLX-5bit",
+     "mlx-community/EuroLLM-22B-Instruct-2512-mlx-6bit",
+     "lmstudio-community/granite-4.2-30b-MLX-6bit",
+     "lmstudio-community/granite-4.2-8b-MLX-6bit",
+     "mlx-community/LFM2-2.6B-Exp-4bit",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "mlx-community/LFM2.5-350M-bf16",
+     "MyeongHo0621/Qwen2.5-3B-Korean"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "mlx-community/Devstral-Small-2507-4bit",
+     "mlx-community/c4ai-command-r-08-2024-4bit",
+     "mlx-community/c4ai-command-r-plus-4bit",
+     "mlx-community/c4ai-command-r-v01-4bit"
+    ],
+    "missed@10": [
+     "mlx-community/Devstral-Small-2507-4bit",
+     "mlx-community/c4ai-command-r-08-2024-4bit",
+     "mlx-community/c4ai-command-r-plus-4bit",
+     "mlx-community/c4ai-command-r-v01-4bit"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "mlx-community/LFM2-350M-MLX",
+     "LiquidAI/LFM2.5-230M-MLX-6bit",
+     "choipilkyu/kanana-2-3b-instruct-MLX-6bit",
+     "LiquidAI/LFM2.5-350M-MLX-6bit",
+     "FINAL-Bench/POCKET-KR-MLX",
+     "LiquidAI/LFM2.5-230M-MLX-5bit",
+     "Vontra/Solar-Open2-250B-MLX-4bit",
+     "LiquidAI/LFM2.5-1.2B-Instruct-MLX-6bit",
+     "LiquidAI/LFM2.5-350M-MLX-5bit",
+     "Vontra/Solar-Open2-250B-MLX-8bit"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 365.84,
+     "sparse": 20.98,
+     "fusion": 0.29,
+     "total": 387.11
+    },
+    "dense_queries": [
+     "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해."
+    ],
+    "sparse_queries": [
+     "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해."
+    ]
+   },
+   {
+    "query_id": "sg_h080",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2",
+     "spele1100/Ornith-1.0-9B-AWQ-INT4",
+     "bjk110/Qwen3.5-122B-A10B-abliterated-AWQ",
+     "cyankiwi/LFM2.5-8B-A1B-AWQ-INT4",
+     "cyankiwi/LFM2-24B-A2B-AWQ-4bit",
+     "cyankiwi/LFM2.5-8B-A1B-AWQ-FP8",
+     "hymmmm/exaone-3.5-7.8b-emt-awq",
+     "cyankiwi/LFM2-8B-A1B-AWQ-4bit",
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-AWQ",
+     "Orion-zhen/aya-expanse-8b-AWQ",
+     "Orion-zhen/aya-expanse-32b-AWQ",
+     "trillionlabs/Trillion-7B-preview-AWQ",
+     "ThakiCloud/Qwen3.8-27B-W4A16-AWQ",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "casperhansen/mistral-large-instruct-2407-awq",
+     "TechxGenus/Mistral-Large-Instruct-2407-AWQ",
+     "TechxGenus/c4ai-command-r-v01-AWQ",
+     "LGAI-EXAONE/EXAONE-4.0-32B-AWQ",
+     "unsloth/LFM2-700M-unsloth-bnb-4bit",
+     "youngseok12/AX-3.1-Light-sft_v0_21_medical_numerical_600",
+     "usermma/Huihui-LFM2.5-8B-A1B-abliterated-mlx-4Bit",
+     "RedHatAI/Qwen2.5-7B-Instruct-quantized.w4a16",
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+     "exolabs/LFM2.5-8B-A1B-Q4_K_M-dequant-bf16-vllm",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "mlx-community/LFM2-350M-4bit",
+     "unsloth/Qwen2.5-72B-bnb-4bit",
+     "mlx-community/LFM2.5-8B-A1B-MLX-4bit",
+     "jevoma4362/EuroLLM-1.7B-Instruct-mlx-4Bit"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.2,
+     "precision@5": 0.2,
+     "f1@5": 0.20000000000000004,
+     "hit@5": 1.0,
+     "recall@10": 0.2,
+     "precision@10": 0.1,
+     "f1@10": 0.13333333333333333,
+     "hit@10": 1.0,
+     "mrr@5": 0.5,
+     "map@5": 0.1,
+     "ndcg@5": 0.15979138559512832
+    },
+    "relevant": [
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+     "NotoriousH2/kanana-2-30b-a3b-instruct-awq-w4a16",
+     "casperhansen/mistral-large-instruct-2407-awq",
+     "mconcat/Qwopus3.6-27B-v2-AWQ-4bit",
+     "spele1100/Ornith-1.0-9B-AWQ-INT4"
+    ],
+    "missed@10": [
+     "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+     "NotoriousH2/kanana-2-30b-a3b-instruct-awq-w4a16",
+     "casperhansen/mistral-large-instruct-2407-awq",
+     "mconcat/Qwopus3.6-27B-v2-AWQ-4bit"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2",
+     "bjk110/Qwen3.5-122B-A10B-abliterated-AWQ",
+     "cyankiwi/LFM2.5-8B-A1B-AWQ-INT4",
+     "cyankiwi/LFM2-24B-A2B-AWQ-4bit",
+     "cyankiwi/LFM2.5-8B-A1B-AWQ-FP8",
+     "hymmmm/exaone-3.5-7.8b-emt-awq",
+     "cyankiwi/LFM2-8B-A1B-AWQ-4bit",
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-AWQ",
+     "Orion-zhen/aya-expanse-8b-AWQ"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 332.33,
+     "sparse": 47.14,
+     "fusion": 0.3,
+     "total": 379.77
+    },
+    "dense_queries": [
+     "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아."
+    ],
+    "sparse_queries": [
+     "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아."
+    ]
+   },
+   {
+    "query_id": "sg_h081",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "sming0408/klue-roberta-base-klue-sts-mrc1",
+     "bagger3025/klue-roberta-base-klue-sts",
+     "kimcharles/klue-roberta-base-klue-sts",
+     "sming0408/klue-roberta-base-klue-sts-mrc3",
+     "hyuksoo1009/klue-roberta-base-klue-sts-mrc",
+     "NicePeterKim/klue-roberta-base-klue-sts-mrc",
+     "cfokmu/klue-roberta-base-klue-sts",
+     "fenderi/klue-roberta-base-klue-sts",
+     "shangrilar/klue-roberta-base-klue-sts",
+     "ddobokki/unsup-simcse-klue-roberta-small",
+     "juhyun76/klue-roberta-base-klue-sts-mrc",
+     "JeongWoo-P/klue-roberta-base-klue-sts",
+     "saychuwho/klue-roberta-base-klue-sts",
+     "JoonBo/klue-roberta-base-klue-sts",
+     "choiwonjin/klue-roberta-base-klue-sts-mrc",
+     "logexp1/klue-roberta-base-klue-sts-mrc",
+     "kwkwkwkwpark/klue-roberta-base-klue-sts-mrc",
+     "MyoungHwan/klue-roberta-base-klue-sts",
+     "ddobokki/klue-roberta-base-nli-sts",
+     "saychuwho/klue-roberta-base-klue-sts-mrc",
+     "Jinsol0802/klue-roberta-base-klue-sts-mrc",
+     "shangrilar/klue-roberta-base-klue-sts-mrc",
+     "leewaay/klue-roberta-large-klueSTS-cross",
+     "dndjd03/klue-roberta-base-klue-sts",
+     "donkizm/klue-roberta-base-klue-sts",
+     "byKim93/klue-roberta-base-klue-sts-mrc-2",
+     "leewaay/klue-roberta-base-klueNLI-klueSTS-MSL128",
+     "ddobokki/klue-roberta-small-nli-sts",
+     "kimbyl/klue-roberta-base-klue-sts-mrc",
+     "hyunkookim/klue-roberta-base-klue-sts"
+    ],
+    "eligible": 435,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "bespin-global/klue-sroberta-base-continue-learning-by-mnr",
+     "sorryhyun/sentence-embedding-klue-large",
+     "ys7yoo/sentence-roberta-klue-sts",
+     "ys7yoo/sentence-roberta-large-klue-sts"
+    ],
+    "missed@10": [
+     "bespin-global/klue-sroberta-base-continue-learning-by-mnr",
+     "sorryhyun/sentence-embedding-klue-large",
+     "ys7yoo/sentence-roberta-klue-sts",
+     "ys7yoo/sentence-roberta-large-klue-sts"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "sming0408/klue-roberta-base-klue-sts-mrc1",
+     "bagger3025/klue-roberta-base-klue-sts",
+     "kimcharles/klue-roberta-base-klue-sts",
+     "sming0408/klue-roberta-base-klue-sts-mrc3",
+     "hyuksoo1009/klue-roberta-base-klue-sts-mrc",
+     "NicePeterKim/klue-roberta-base-klue-sts-mrc",
+     "cfokmu/klue-roberta-base-klue-sts",
+     "fenderi/klue-roberta-base-klue-sts",
+     "shangrilar/klue-roberta-base-klue-sts",
+     "ddobokki/unsup-simcse-klue-roberta-small"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 284.46,
+     "sparse": 11.86,
+     "fusion": 0.22,
+     "total": 296.54
+    },
+    "dense_queries": [
+     "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야."
+    ],
+    "sparse_queries": [
+     "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h082",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "kakaocorp/kanana-1.5-v-3b-instruct",
+     "NCSOFT/VARCO-VISION-2.0-1.7B",
+     "NCSOFT/VARCO-VISION-2.0-14B",
+     "KDLAI/KDL-Frontier-Parser-nano",
+     "NCSOFT/VARCO-VISION-14B",
+     "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+     "skt/A.X-4.0-VL-Light",
+     "neureps/warmly-qwen35-2b-enko-gguf",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "nc-ai-consortium/VAETKI-VL-7B-A1B",
+     "NCSOFT/VARCO-VISION-14B-HF",
+     "dealignai/Qwen3.5-VL-397B-A17B-UNCENSORED-JANG_1L",
+     "dealignai/Qwen3.5-VL-4B-JANG_4S-CRACK",
+     "WueNLP/centurio_qwen",
+     "jinaai/jina-vlm",
+     "mobilint/aya-vision-8b",
+     "trillionlabs/gWorld-8B",
+     "LGAI-EXAONE/EXAONE-4.5-33B",
+     "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "openfree/Gemma-3-R1984-12B-Q6_K-GGUF",
+     "batiai/gemma-4-12B-it-GGUF",
+     "coder3101/LFM2.5-VL-450M-heretic",
+     "neureps/warmly-qwen35-08b-enko-gguf",
+     "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+     "Archsloth/Qwen3.5-9B-GGUF",
+     "CohereLabs/North-Micro-Vision-Instruct",
+     "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "npario/LFM2.5-VL-3B-GGUF",
+     "LiquidAI/LFM2.5-VL-1.6B",
+     "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit"
+    ],
+    "eligible": 395,
+    "metrics": {
+     "recall@5": 1.0,
+     "precision@5": 0.2,
+     "f1@5": 0.33333333333333337,
+     "hit@5": 1.0,
+     "recall@10": 1.0,
+     "precision@10": 0.1,
+     "f1@10": 0.18181818181818182,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 1.0,
+     "ndcg@5": 1.0
+    },
+    "relevant": [
+     "kakaocorp/kanana-1.5-v-3b-instruct"
+    ],
+    "missed@10": [],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "NCSOFT/VARCO-VISION-2.0-1.7B",
+     "NCSOFT/VARCO-VISION-2.0-14B",
+     "KDLAI/KDL-Frontier-Parser-nano",
+     "NCSOFT/VARCO-VISION-14B",
+     "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+     "skt/A.X-4.0-VL-Light",
+     "neureps/warmly-qwen35-2b-enko-gguf",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "nc-ai-consortium/VAETKI-VL-7B-A1B"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 317.43,
+     "sparse": 6.26,
+     "fusion": 0.26,
+     "total": 323.95
+    },
+    "dense_queries": [
+     "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야."
+    ],
+    "sparse_queries": [
+     "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h083",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "ainize/kobart-news",
+     "EbanLee/kobart-summary-v3",
+     "psyche/KoT5-summarization",
+     "mskayacioglu/mbart50-xlsum",
+     "ncls-p/Qwen2.5-3B-blog-key-points",
+     "ncls-p/Qwen2.5-7B-blog-key-points",
+     "csebuetnlp/mT5_multilingual_XLSum",
+     "QyrouNnet-AI/QNS-2-ReLearn-Preview",
+     "eenzeenee/t5-small-korean-summarization",
+     "csebuetnlp/mT5_m2m_crossSum_enhanced",
+     "eenzeenee/t5-base-korean-summarization",
+     "csebuetnlp/mT5_m2m_crossSum",
+     "csebuetnlp/mT5_m2o_arabic_crossSum",
+     "csebuetnlp/mT5_m2o_english_crossSum",
+     "data-silence/any-news-sum"
+    ],
+    "eligible": 15,
+    "metrics": {
+     "recall@5": 1.0,
+     "precision@5": 0.4,
+     "f1@5": 0.5714285714285715,
+     "hit@5": 1.0,
+     "recall@10": 1.0,
+     "precision@10": 0.2,
+     "f1@10": 0.33333333333333337,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 1.0,
+     "ndcg@5": 1.0
+    },
+    "relevant": [
+     "EbanLee/kobart-summary-v3",
+     "ainize/kobart-news"
+    ],
+    "missed@10": [],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "mskayacioglu/mbart50-xlsum",
+     "ncls-p/Qwen2.5-3B-blog-key-points",
+     "ncls-p/Qwen2.5-7B-blog-key-points",
+     "csebuetnlp/mT5_m2m_crossSum_enhanced"
+    ],
+    "judged@10": 0.6,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 267.34,
+     "sparse": 4.45,
+     "fusion": 0.05,
+     "total": 271.84
+    },
+    "dense_queries": [
+     "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어."
+    ],
+    "sparse_queries": [
+     "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어."
+    ]
+   },
+   {
+    "query_id": "sg_h165",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "OpenVINO/whisper-base-int8-ov",
+     "OpenVINO/whisper-medium-int8-ov",
+     "OpenVINO/whisper-tiny-int8-ov",
+     "OpenVINO/whisper-large-v3-int8-ov",
+     "OpenVINO/whisper-large-v3-turbo-int8-ov",
+     "OpenVINO/whisper-base-fp16-ov",
+     "OpenVINO/whisper-medium-fp16-ov",
+     "Daumee/Qwen3-ASR-0.6B-ONNX-CPU",
+     "OpenVINO/whisper-large-v3-turbo-int4-ov",
+     "OpenVINO/whisper-tiny-fp16-ov",
+     "aufklarer/Nemotron-3.5-ASR-Streaming-0.6B-CoreML-INT8",
+     "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-INT8",
+     "OpenVINO/whisper-large-v3-turbo-fp16-ov",
+     "OpenVINO/whisper-large-v3-fp16-ov",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "Zoont/faster-whisper-large-v3-turbo-int8-ct2",
+     "vrfai/Qwen3-ASR-0.6B-int8-QAD",
+     "Edge0/Audio8-ASR-0.1B-onnx-runtime",
+     "OpenVoiceOS/qwen3-asr-1.7b-onnx",
+     "smcleod/nemotron-3.5-asr-streaming-0.6b-int8",
+     "leuconoe/whisper-acft-ko",
+     "INo0121/whisper-base-ko-callvoice",
+     "Kkonjeong/wav2vec2-base-korean",
+     "appautomaton/nemotron-3.5-asr-streaming-0.6b-int8-mlx",
+     "EvoAwaken-Workshop/VibeVoice-ASR-Streaming-7B-GGUF",
+     "team-lucid/hubert-base-korean",
+     "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
+     "team-lucid/hubert-large-korean",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "FluidInference/cohere-transcribe-03-2026-coreml"
+    ],
+    "eligible": 237,
+    "metrics": {
+     "recall@5": 1.0,
+     "precision@5": 0.8,
+     "f1@5": 0.888888888888889,
+     "hit@5": 1.0,
+     "recall@10": 1.0,
+     "precision@10": 0.4,
+     "f1@10": 0.5714285714285715,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 1.0,
+     "ndcg@5": 1.0
+    },
+    "relevant": [
+     "OpenVINO/whisper-base-int8-ov",
+     "OpenVINO/whisper-large-v3-int8-ov",
+     "OpenVINO/whisper-medium-int8-ov",
+     "OpenVINO/whisper-tiny-int8-ov"
+    ],
+    "missed@10": [],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "OpenVINO/whisper-large-v3-turbo-int8-ov",
+     "OpenVINO/whisper-base-fp16-ov",
+     "OpenVINO/whisper-medium-fp16-ov",
+     "Daumee/Qwen3-ASR-0.6B-ONNX-CPU",
+     "OpenVINO/whisper-large-v3-turbo-int4-ov",
+     "OpenVINO/whisper-tiny-fp16-ov"
+    ],
+    "judged@10": 0.4,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 291.26,
+     "sparse": 20.47,
+     "fusion": 0.23,
+     "total": 311.96
+    },
+    "dense_queries": [
+     "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야."
+    ],
+    "sparse_queries": [
+     "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h166",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "unsloth/LFM2-350M-GGUF",
+     "unsloth/LFM2-700M-GGUF",
+     "LiquidAI/LFM2-700M-GGUF",
+     "LiquidAI/LFM2-350M-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "unsloth/LFM2.5-230M-GGUF",
+     "Dingdust/LFM2.5-230M-heretic",
+     "palette-lab/palette-k-midm",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "mkurman/LFM2.5-2.6B-MedIT-Mesh",
+     "LiquidAI/LFM2-2.6B",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "FINAL-Bench/Darwin-Mistral-G1",
+     "LiquidAI/LFM2-2.6B-Exp",
+     "Mungert/LFM2-2.6B-GGUF",
+     "intrect/VELA",
+     "QuantFactory/LFM2-350M-Extract-GGUF",
+     "prithivMLmods/LiquidAI-LFM2.5-230M-GGUF",
+     "Brunobkr/OFFFELLIA_f16_IBM_Granite-4.2-3b.gguf",
+     "K-intelligence/Midm-2.0-Mini-Instruct",
+     "LiquidAI/LFM2.5-230M",
+     "QuantFactory/Llama-3-KoEn-8B-GGUF",
+     "Mungert/LFM2-350M-Extract-GGUF",
+     "tensorblock/kakaocorp_kanana-1.5-8b-instruct-2505-GGUF",
+     "LiquidAI/LFM2-700M",
+     "TheBloke/Synatra-7B-v0.3-RP-GGUF",
+     "LiquidAI/LFM2-350M",
+     "bakulgrosirherbal/Qwen3.5-9B-Gemini-3.1-Pro-Reasoning-Distill-GGUF",
+     "LiquidAI/LFM2.5-230M-MLX-6bit",
+     "fa123zil/Qwen3.5-9B-Gemini-3.1-Pro-Reasoning-Distill-GGUF"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "K-intelligence/Midm-2.0-Base-Instruct",
+     "K-intelligence/Midm-2.0-Mini-Instruct",
+     "Mungert/Midm-2.0-Base-Instruct-GGUF"
+    ],
+    "missed@10": [
+     "K-intelligence/Midm-2.0-Base-Instruct",
+     "K-intelligence/Midm-2.0-Mini-Instruct",
+     "Mungert/Midm-2.0-Base-Instruct-GGUF"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "unsloth/LFM2-350M-GGUF",
+     "unsloth/LFM2-700M-GGUF",
+     "LiquidAI/LFM2-700M-GGUF",
+     "LiquidAI/LFM2-350M-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "unsloth/LFM2.5-230M-GGUF",
+     "Dingdust/LFM2.5-230M-heretic",
+     "palette-lab/palette-k-midm",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "mkurman/LFM2.5-2.6B-MedIT-Mesh"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 274.11,
+     "sparse": 11.44,
+     "fusion": 0.32,
+     "total": 285.87
+    },
+    "dense_queries": [
+     "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼."
+    ],
+    "sparse_queries": [
+     "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼."
+    ]
+   }
+  ]
+ },
+ "unjudged_pool": {
+  "sg_g002": [
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "LiquidAI/LFM2.5-350M-Base",
+   "Volko76/Qwen2.5-Coder-1.5B-GGUF",
+   "Volko76/Qwen2.5-Coder-7B-GGUF",
+   "hell0ks/ja-ko-vn-7b-v1",
+   "quickmt/quickmt-en-ko",
+   "sappho192/ffxiv-ja-ko-translator",
+   "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF",
+   "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+   "unsloth/Qwen2.5-7B-Instruct"
+  ],
+  "sg_g003": [
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "Volko76/Qwen2.5-Coder-7B-GGUF",
+   "geoffmunn/Qwen3-14B-f16",
+   "hell0ks/ja-ko-vn-12b-v2-gguf",
+   "hell0ks/ja-ko-vn-7b-v1",
+   "quickmt/quickmt-en-ko",
+   "sappho192/aihub-ja-ko-translator",
+   "sappho192/ffxiv-ja-ko-translator",
+   "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko",
+   "unsloth/Qwen2.5-72B-Instruct-bnb-4bit"
+  ],
+  "sg_g005": [
+   "Helsinki-NLP/opus-mt-ko-en",
+   "Helsinki-NLP/opus-mt-ko-es",
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "Helsinki-NLP/opus-mt-tc-big-ko-en",
+   "Helsinki-NLP/opus-mt_tiny_kor-eng",
+   "R4kSo1997/opus-mt-en-ko-onnx-int8",
+   "jhk/opus-mt-tc-big-wiki-en-ko",
+   "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+   "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+   "quickmt/quickmt-en-ko"
+  ],
+  "sg_h012": [
+   "Helsinki-NLP/opus-mt_tiny_kor-eng",
+   "mradermacher/exaone3-instrucTrans-v2-enko-7.8b-i1-GGUF",
+   "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+   "quickmt/quickmt-en-ko",
+   "ray5273/EXAONE-3.5-7.8B-KorEng-Translation",
+   "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+  ],
+  "sg_h013": [
+   "Darong/BlueT",
+   "jhk/opus-mt-tc-big-wiki-en-ko",
+   "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+   "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16",
+   "ray5273/EXAONE-3.5-7.8B-KorEng-Translation"
+  ],
+  "sg_h049": [
+   "CHKH01/BGE-m3-ko-GGUF",
+   "NeoRoth/nemotron-3-embed-1b-gguf",
+   "chris-code/multilingual-e5-large-Q8_0-GGUF",
+   "cstr/multilingual-e5-small-GGUF",
+   "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF",
+   "groonga/multilingual-e5-base-Q4_K_M-GGUF",
+   "mradermacher/snowflake-arctic-embed-l-v2.0-academic-GGUF",
+   "mykor/granite-embedding-311m-multilingual-r2-GGUF",
+   "ukung/semantic-lite-gguf",
+   "zapabobouj/nsfw-bge-m3-v5-gguf"
+  ],
+  "sg_h051": [
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "hell0ks/ja-ko-vn-12b-v2-gguf",
+   "hugginguser1234234/GemmaX2-28-2B-int4-ov",
+   "jhk/opus-mt-tc-big-wiki-en-ko",
+   "quickmt/quickmt-en-ko",
+   "seongs/ke-t5-base-aihub-koen-translation-integrated-10m-en-to-ko"
+  ],
+  "sg_h054": [
+   "42ailab/TranslateGemma-27B-GGUF",
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "NiuTrans/LMT-60-8B",
+   "Sube126/Hy-MT2-1.8B-1.25Bit-MLX",
+   "alphaZimuth/Hy-MT2-1.8B-SpecDraft-30B",
+   "casawolice/small100-onnx",
+   "jhk/opus-mt-tc-big-wiki-en-ko",
+   "litert-community/Hy-MT2-1.8B",
+   "quickmt/quickmt-en-ko"
+  ],
+  "sg_h055": [
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "Helsinki-NLP/opus-mt-tc-big-ko-en",
+   "LRieser/steam-ai-mention-qwen3-8b-merged",
+   "LifeAi-dev/madlad400-10b-ct2-float32",
+   "MihaiPopa-1/OmniTranslate-1.1",
+   "NostraEmpire/mirror-madlad400-3b-mt",
+   "R4kSo1997/opus-mt-en-ko-onnx-int8",
+   "mradermacher/Human-Like-Qwen2.5-1.5B-Instruct-i1-GGUF",
+   "noticemkjung/opus-mt-tc-big-en-ko-ONNX",
+   "quickmt/quickmt-en-ko"
+  ],
+  "sg_h073": [
+   "Helsinki-NLP/opus-mt-tc-big-en-ko",
+   "NiuTrans/LMT-60-0.6B-Base",
+   "NiuTrans/LMT-60-1.7B",
+   "NiuTrans/LMT-60-4B-Base",
+   "NiuTrans/LMT-60-8B",
+   "erax-ai/EraX-Translator-V1.0-GGUF",
+   "jhk/opus-mt-tc-big-wiki-en-ko",
+   "quickmt/quickmt-en-ko"
+  ],
+  "sg_h074": [
+   "MihaiPopa-1/OmniTranslate-1.1",
+   "mradermacher/EraX-Translator-V1.0-GGUF",
+   "mradermacher/EraX-Translator-V1.0-i1-GGUF",
+   "mradermacher/OmniTranslate-1.0-GGUF",
+   "mradermacher/OmniTranslate-1.1-GGUF",
+   "mradermacher/OmniTranslate-1.1-i1-GGUF",
+   "mradermacher/YanoljaNEXT-Rosetta-20B-GGUF",
+   "quickmt/quickmt-en-ko"
+  ],
+  "sg_h075": [
+   "LGAI-EXAONE/EXAONE-4.0-32B-GGUF",
+   "gaianet/EXAONE-3.0-7.8B-Instruct-GGUF",
+   "gaianet/EXAONE-3.5-2.4B-Instruct-GGUF",
+   "gaianet/EXAONE-3.5-7.8B-Instruct-GGUF",
+   "gaianet/llama-3.2-Korean-Bllossom-3B-GGUF",
+   "second-state/EXAONE-3.0-7.8B-Instruct-GGUF",
+   "second-state/EXAONE-3.5-2.4B-Instruct-GGUF",
+   "second-state/EXAONE-3.5-7.8B-Instruct-GGUF"
+  ],
+  "sg_h076": [
+   "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+   "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+   "MelissaJ/koelectra-emotion-6-emotion-base",
+   "monologg/koelectra-small-finetuned-nsmc",
+   "tobykim/koelectra-44emotions"
+  ],
+  "sg_h077": [
+   "SungBeom/whisper-small-ko",
+   "Systran/faster-whisper-large-v3",
+   "ghost613/whisper-large-v3-turbo-korean",
+   "guillaumekln/faster-whisper-base",
+   "guillaumekln/faster-whisper-large-v2",
+   "guillaumekln/faster-whisper-medium",
+   "guillaumekln/faster-whisper-small",
+   "guillaumekln/faster-whisper-tiny",
+   "jinlulululu/faster-whisper-small"
+  ],
+  "sg_h078": [
+   "jinaai/jina-embeddings-v3",
+   "onnx-community/F2LLM-v2-160M-ONNX",
+   "onnx-community/granite-embedding-311m-multilingual-r2-ONNX",
+   "onnx-community/granite-embedding-97m-multilingual-r2-ONNX",
+   "onnx-community/harrier-oss-v1-270m-ONNX",
+   "onnx-community/multilingual-e5-base-ONNX",
+   "onnx-community/paraphrase-multilingual-MiniLM-L12-v2-ONNX",
+   "sentence-transformers/xlm-r-large-en-ko-nli-ststb",
+   "upskyy/e5-large-korean"
+  ],
+  "sg_h079": [
+   "FINAL-Bench/POCKET-KR-MLX",
+   "LiquidAI/LFM2.5-1.2B-Instruct-MLX-6bit",
+   "LiquidAI/LFM2.5-230M-MLX-5bit",
+   "LiquidAI/LFM2.5-230M-MLX-6bit",
+   "LiquidAI/LFM2.5-350M-MLX-5bit",
+   "LiquidAI/LFM2.5-350M-MLX-6bit",
+   "Vontra/Solar-Open2-250B-MLX-4bit",
+   "Vontra/Solar-Open2-250B-MLX-8bit",
+   "choipilkyu/kanana-2-3b-instruct-MLX-6bit",
+   "mlx-community/LFM2-350M-MLX"
+  ],
+  "sg_h080": [
+   "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-AWQ",
+   "Orion-zhen/aya-expanse-8b-AWQ",
+   "bjk110/Qwen3.5-122B-A10B-abliterated-AWQ",
+   "cyankiwi/LFM2-24B-A2B-AWQ-4bit",
+   "cyankiwi/LFM2-8B-A1B-AWQ-4bit",
+   "cyankiwi/LFM2.5-8B-A1B-AWQ-FP8",
+   "cyankiwi/LFM2.5-8B-A1B-AWQ-INT4",
+   "hymmmm/exaone-3.5-7.8b-emt-awq",
+   "hymmmm/exaone-3.5-7.8b-emt-qlora-awq-v2"
+  ],
+  "sg_h081": [
+   "NicePeterKim/klue-roberta-base-klue-sts-mrc",
+   "bagger3025/klue-roberta-base-klue-sts",
+   "cfokmu/klue-roberta-base-klue-sts",
+   "ddobokki/unsup-simcse-klue-roberta-small",
+   "fenderi/klue-roberta-base-klue-sts",
+   "hyuksoo1009/klue-roberta-base-klue-sts-mrc",
+   "kimcharles/klue-roberta-base-klue-sts",
+   "shangrilar/klue-roberta-base-klue-sts",
+   "sming0408/klue-roberta-base-klue-sts-mrc1",
+   "sming0408/klue-roberta-base-klue-sts-mrc3"
+  ],
+  "sg_h082": [
+   "KDLAI/KDL-Frontier-Parser-nano",
+   "NCSOFT/VARCO-VISION-14B",
+   "NCSOFT/VARCO-VISION-2.0-1.7B",
+   "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+   "NCSOFT/VARCO-VISION-2.0-14B",
+   "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+   "nc-ai-consortium/VAETKI-VL-7B-A1B",
+   "neureps/warmly-qwen35-2b-enko-gguf",
+   "skt/A.X-4.0-VL-Light"
+  ],
+  "sg_h083": [
+   "csebuetnlp/mT5_m2m_crossSum_enhanced",
+   "mskayacioglu/mbart50-xlsum",
+   "ncls-p/Qwen2.5-3B-blog-key-points",
+   "ncls-p/Qwen2.5-7B-blog-key-points"
+  ],
+  "sg_h165": [
+   "Daumee/Qwen3-ASR-0.6B-ONNX-CPU",
+   "OpenVINO/whisper-base-fp16-ov",
+   "OpenVINO/whisper-large-v3-turbo-int4-ov",
+   "OpenVINO/whisper-large-v3-turbo-int8-ov",
+   "OpenVINO/whisper-medium-fp16-ov",
+   "OpenVINO/whisper-tiny-fp16-ov"
+  ],
+  "sg_h166": [
+   "Dingdust/LFM2.5-230M-heretic",
+   "LiquidAI/LFM2-350M-GGUF",
+   "LiquidAI/LFM2-700M-GGUF",
+   "MyeongHo0621/Qwen2.5-3B-Korean",
+   "mkurman/LFM2.5-2.6B-MedIT-Mesh",
+   "palette-lab/palette-k-midm",
+   "tensorblock/llama2-13b.kor.v1-GGUF",
+   "unsloth/LFM2-350M-GGUF",
+   "unsloth/LFM2-700M-GGUF",
+   "unsloth/LFM2.5-230M-GGUF"
+  ]
+ },
+ "weights": []
+}

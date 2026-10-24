@@ -1,0 +1,2373 @@
+{
+ "query_type": "structured_constraint",
+ "queries": 24,
+ "scored_queries": 24,
+ "metric": "recall@10",
+ "min_grade": 1,
+ "dense_model": "BAAI/bge-m3",
+ "llm": "gpt-4o-mini",
+ "ran_at": "2026-10-14 15:54",
+ "single": [],
+ "combos": [],
+ "improved": [],
+ "baseline": {
+  "plan": {
+   "query_type": "structured_constraint",
+   "hard_filters": {},
+   "dense_weight": 0.5,
+   "sparse_weight": 0.5,
+   "use_rewrite": false,
+   "use_decomposition": false,
+   "use_multi_query": false,
+   "use_hyde": false,
+   "top_k": 30,
+   "rrf_k": 60
+  },
+  "label": "Baseline",
+  "summary": {
+   "queries": 24,
+   "scored_queries": 24,
+   "recall@5": 0.06388888888888888,
+   "recall@10": 0.10902777777777778,
+   "precision@5": 0.041666666666666664,
+   "precision@10": 0.0375,
+   "f1@5": 0.049173280423280424,
+   "f1@10": 0.05412851037851038,
+   "hit@10": 0.2916666666666667,
+   "mrr@5": 0.12291666666666667,
+   "ndcg@5": 0.05966201444519675,
+   "map@5": 0.03263888888888889,
+   "p50_ms": 329.28,
+   "p95_ms": 412.58,
+   "p99_ms": 477.29,
+   "must_exclude_violation_rate@10": 0.47368421052631576,
+   "judged@10": 0.13749999999999998,
+   "abstention_accuracy": null
+  },
+  "per_query": [
+   {
+    "query_id": "sg_g013",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "cstr/multilingual-e5-small-GGUF",
+     "litert-community/LFM2.5-ColBERT-350M",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "litert-community/LFM2.5-Embedding-350M",
+     "HyperBlaze/BGE-m3-ko",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+     "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+     "jinaai/jina-clip-v2",
+     "leeloolee/intention",
+     "mlx-community/bge-m3-mlx-fp16",
+     "fasoo/fasoo-embedding",
+     "juhyun76/klue-roberta-base-klue-sts-mrc",
+     "kev-KOH/time-embed-bge-m3-lms-temporal-v1-7-2",
+     "Alibaba-NLP/gte-multilingual-base",
+     "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF",
+     "upskyy/bge-m3-korean",
+     "unum-cloud/uform3-image-text-multilingual-base",
+     "upskyy/e5-small-korean",
+     "codefuse-ai/F2LLM-v2-0.6B-Preview",
+     "upskyy/e5-base-korean",
+     "KGESH/nsfw-bge-m3",
+     "mykor/granite-embedding-97m-multilingual-r2-GGUF",
+     "upskyy/e5-large-korean",
+     "codefuse-ai/F2LLM-v2-8B-Preview",
+     "hyunseop/bge-m3-ko",
+     "mradermacher/MoAI-Embedding-4B-GGUF",
+     "codefuse-ai/F2LLM-v2-1.7B-Preview",
+     "facebook/w2v-bert-2.0",
+     "upskyy/gte-base-korean"
+    ],
+    "eligible": 435,
+    "metrics": {
+     "recall@5": 0.25,
+     "precision@5": 0.2,
+     "f1@5": 0.22222222222222224,
+     "hit@5": 1.0,
+     "recall@10": 0.25,
+     "precision@10": 0.1,
+     "f1@10": 0.14285714285714288,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 0.25,
+     "ndcg@5": 0.2807721888661444
+    },
+    "relevant": [
+     "cstr/multilingual-e5-small-GGUF",
+     "dragonkue/multilingual-e5-small-ko",
+     "dragonkue/multilingual-e5-small-ko-v2",
+     "intfloat/multilingual-e5-small"
+    ],
+    "missed@10": [
+     "dragonkue/multilingual-e5-small-ko",
+     "dragonkue/multilingual-e5-small-ko-v2",
+     "intfloat/multilingual-e5-small"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "litert-community/LFM2.5-ColBERT-350M",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "litert-community/LFM2.5-Embedding-350M",
+     "HyperBlaze/BGE-m3-ko",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+     "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+     "jinaai/jina-clip-v2",
+     "leeloolee/intention"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 463.87,
+     "sparse": 13.1,
+     "fusion": 0.32,
+     "total": 477.29
+    },
+    "dense_queries": [
+     "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_g019",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "moonshine-ai/moonshine-base-ko",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "yoyolaiyy3062/SenseVoiceSmall-GGUF-audiocpp",
+     "FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "handy-computer/moonshine-tiny-ko-gguf",
+     "cstr/sensevoice-small-GGUF",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "ghost613/faster-whisper-large-v3-turbo-korean",
+     "handy-computer/moonshine-base-ko-gguf",
+     "Kkonjeong/wav2vec2-base-korean",
+     "team-lucid/hubert-large-korean",
+     "ngoctham/VibeVoice-ASR-BitNet",
+     "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+     "SungBeom/whisper-small-ko",
+     "leuconoe/whisper-acft-ko",
+     "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "freddm/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "slplab/wav2vec2-xls-r-300m_phone-mfa_korean",
+     "cstr/voxtral-mini-4b-realtime-GGUF",
+     "handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf",
+     "mistralai/Voxtral-Mini-4B-Realtime-2602",
+     "seastar105/whisper-small-komixv2",
+     "onnx-community/moonshine-base-ko-ONNX",
+     "moonshine-ai/moonshine-tiny-ko",
+     "junnei/Phi-4-multimodal-instruct-ko-asr",
+     "HeartMuLa/HeartTranscriptor-oss",
+     "seastar105/whisper-medium-komixv2",
+     "epapanita/Voxtral-Mini-4B-Realtime-2602-gguf"
+    ],
+    "eligible": 237,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "OpenVINO/whisper-base-int8-ov",
+     "Systran/faster-whisper-base",
+     "handy-computer/whisper-base-gguf",
+     "openai/whisper-base",
+     "openai/whisper-small"
+    ],
+    "missed@10": [
+     "OpenVINO/whisper-base-int8-ov",
+     "Systran/faster-whisper-base",
+     "handy-computer/whisper-base-gguf",
+     "openai/whisper-base",
+     "openai/whisper-small"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "moonshine-ai/moonshine-base-ko",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "yoyolaiyy3062/SenseVoiceSmall-GGUF-audiocpp",
+     "FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "handy-computer/moonshine-tiny-ko-gguf",
+     "cstr/sensevoice-small-GGUF",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "ghost613/faster-whisper-large-v3-turbo-korean",
+     "handy-computer/moonshine-base-ko-gguf"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 325.05,
+     "sparse": 33.75,
+     "fusion": 0.33,
+     "total": 359.13
+    },
+    "dense_queries": [
+     "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_g026",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "seastar105/whisper-medium-komixv2",
+     "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+     "seastar105/whisper-small-komixv2",
+     "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "team-lucid/hubert-large-korean",
+     "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "moonshine-ai/moonshine-base-ko",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "mistralai/Voxtral-Mini-4B-Realtime-2602",
+     "team-lucid/hubert-base-korean",
+     "theoracleguy/nemotron-3.5-asr-streaming-0.6b",
+     "leuconoe/whisper-acft-ko",
+     "freddm/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "handy-computer/Qwen3-ASR-1.7B-gguf",
+     "handy-computer/whisper-large-v2-gguf",
+     "ngoctham/VibeVoice-ASR-BitNet",
+     "openai/whisper-tiny",
+     "batiai/batisay-ko-turbo",
+     "handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf",
+     "nvidia/nemotron-3.5-asr-streaming-0.6b",
+     "openai/whisper-small",
+     "schift-io/vibevoice7b-schift-quanted-mixed",
+     "openai/whisper-large-v2",
+     "neurlang/ipa-whisper-medium",
+     "INo0121/whisper-base-ko-callvoice",
+     "handy-computer/whisper-large-v3-gguf",
+     "mlx-community/nemotron-3.5-asr-streaming-0.6b-8bit",
+     "w11wo/wav2vec2-xls-r-300m-korean",
+     "Kkonjeong/wav2vec2-base-korean",
+     "appautomaton/nemotron-3.5-asr-streaming-0.6b-int8-mlx"
+    ],
+    "eligible": 237,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Qwen/Qwen3-ASR-1.7B-hf",
+     "cstr/qwen3-asr-1.7b-GGUF",
+     "handy-computer/Qwen3-ASR-1.7B-gguf",
+     "openai/whisper-large-v3"
+    ],
+    "missed@10": [
+     "Qwen/Qwen3-ASR-1.7B-hf",
+     "cstr/qwen3-asr-1.7b-GGUF",
+     "handy-computer/Qwen3-ASR-1.7B-gguf",
+     "openai/whisper-large-v3"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "seastar105/whisper-medium-komixv2",
+     "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+     "seastar105/whisper-small-komixv2",
+     "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "team-lucid/hubert-large-korean",
+     "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "moonshine-ai/moonshine-base-ko",
+     "ghost613/whisper-large-v3-turbo-korean",
+     "mistralai/Voxtral-Mini-4B-Realtime-2602",
+     "team-lucid/hubert-base-korean"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 361.67,
+     "sparse": 27.91,
+     "fusion": 0.27,
+     "total": 389.85
+    },
+    "dense_queries": [
+     "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해."
+    ],
+    "sparse_queries": [
+     "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해."
+    ]
+   },
+   {
+    "query_id": "sg_g027",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "ghost613/whisper-large-v3-turbo-korean",
+     "moonshine-ai/moonshine-base-ko",
+     "BuzzASR/korean",
+     "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "mistralai/Voxtral-Mini-4B-Realtime-2602",
+     "w11wo/wav2vec2-xls-r-300m-korean",
+     "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "team-lucid/hubert-large-korean",
+     "seastar105/whisper-medium-komixv2",
+     "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+     "onnx-community/moonshine-base-ko-ONNX",
+     "team-lucid/hubert-base-korean",
+     "rearleg/SeloWhisper-ko-disfluency",
+     "mlx-community/Voxtral-Mini-4B-Realtime-2602-fp16",
+     "Kkonjeong/wav2vec2-base-korean",
+     "FluidInference/qwen3-asr-0.6b-coreml",
+     "mlx-community/Voxtral-Mini-4B-Realtime-6bit",
+     "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-ONNX-FP16",
+     "SungBeom/whisper-small-ko",
+     "Nairod785/Confucius4-R2T2-Q4_K_M-GGUF",
+     "seastar105/whisper-medium-ko-zeroth",
+     "seastar105/whisper-small-komixv2",
+     "freddm/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "mlx-community/Voxtral-Mini-4B-Realtime-2602-4bit",
+     "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX",
+     "facebook/seamless-m4t-v2-large",
+     "INo0121/whisper-base-ko-callvoice",
+     "OpenVoiceOS/qwen3-asr-1.7b-onnx",
+     "Edge0/Audio8-ASR-0.1B-onnx-runtime",
+     "ghost613/faster-whisper-large-v3-turbo-korean"
+    ],
+    "eligible": 237,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "handy-computer/whisper-large-v3-turbo-gguf",
+     "openai/whisper-large-v3",
+     "openai/whisper-large-v3-turbo",
+     "xkeyC/whisper-large-v3-turbo-gguf"
+    ],
+    "missed@10": [
+     "handy-computer/whisper-large-v3-turbo-gguf",
+     "openai/whisper-large-v3",
+     "openai/whisper-large-v3-turbo",
+     "xkeyC/whisper-large-v3-turbo-gguf"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "ghost613/whisper-large-v3-turbo-korean",
+     "moonshine-ai/moonshine-base-ko",
+     "BuzzASR/korean",
+     "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "mistralai/Voxtral-Mini-4B-Realtime-2602",
+     "w11wo/wav2vec2-xls-r-300m-korean",
+     "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "team-lucid/hubert-large-korean",
+     "seastar105/whisper-medium-komixv2",
+     "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 393.66,
+     "sparse": 18.72,
+     "fusion": 0.2,
+     "total": 412.58
+    },
+    "dense_queries": [
+     "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_h001",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "bespin-global/klue-bert-base-aihub-mrc",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "mradermacher/Korean-Gemma-2B-Instruct-GGUF",
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "QuantFactory/Apollo2-9B-GGUF",
+     "mradermacher/next-1b-GGUF",
+     "mradermacher/next-12b-GGUF",
+     "mradermacher/Prototype-Virus-1B-GGUF",
+     "monologg/koelectra-small-v2-distilled-korquad-384",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2",
+     "monologg/koelectra-base-v3-finetuned-korquad"
+    ],
+    "eligible": 18,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.25,
+     "precision@10": 0.1,
+     "f1@10": 0.14285714285714288,
+     "hit@10": 1.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "bespin-global/klue-bert-base-aihub-mrc",
+     "monologg/koelectra-base-v3-finetuned-korquad",
+     "monologg/koelectra-small-v2-distilled-korquad-384",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "missed@10": [
+     "monologg/koelectra-base-v3-finetuned-korquad",
+     "monologg/koelectra-small-v2-distilled-korquad-384",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "cgus/Apollo2-7B-iMat-GGUF"
+    ],
+    "unjudged@10": [
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "QuantFactory/Apollo2-7B-GGUF"
+    ],
+    "judged@10": 0.7,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 381.68,
+     "sparse": 13.02,
+     "fusion": 0.07,
+     "total": 394.77
+    },
+    "dense_queries": [
+     "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해."
+    ],
+    "sparse_queries": [
+     "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h002",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "bespin-global/klue-bert-base-aihub-mrc",
+     "haiFrHust/VNJPTranslate_base",
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "FreedomIntelligence/Apollo-MoE-7B",
+     "FreedomIntelligence/Apollo2-7B",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "FreedomIntelligence/Apollo2-3.8B",
+     "mradermacher/Korean-Gemma-2B-Instruct-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "FreedomIntelligence/Apollo-MoE-0.5B",
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/next-1b-GGUF",
+     "QuantFactory/Apollo2-9B-GGUF",
+     "FreedomIntelligence/Apollo2-9B",
+     "mradermacher/next-12b-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2",
+     "mradermacher/Prototype-Virus-1B-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "monologg/koelectra-base-v3-finetuned-korquad",
+     "monologg/koelectra-small-v2-distilled-korquad-384"
+    ],
+    "eligible": 24,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "mradermacher/next-1b-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "missed@10": [
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "mradermacher/next-1b-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "bespin-global/klue-bert-base-aihub-mrc"
+    ],
+    "unjudged@10": [
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "FreedomIntelligence/Apollo-MoE-7B",
+     "FreedomIntelligence/Apollo2-7B",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "FreedomIntelligence/Apollo2-3.8B"
+    ],
+    "judged@10": 0.3,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 356.13,
+     "sparse": 2.26,
+     "fusion": 0.07,
+     "total": 358.46
+    },
+    "dense_queries": [
+     "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해."
+    ],
+    "sparse_queries": [
+     "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h004",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF",
+     "mradermacher/Korean-Gemma-2B-Instruct-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "mradermacher/next-12b-GGUF",
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "mradermacher/Prototype-Virus-1B-GGUF",
+     "mradermacher/next-1b-GGUF",
+     "QuantFactory/Apollo2-9B-GGUF",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "monologg/koelectra-small-v2-distilled-korquad-384"
+    ],
+    "eligible": 15,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "monologg/koelectra-small-v2-distilled-korquad-384"
+    ],
+    "missed@10": [
+     "monologg/koelectra-small-v2-distilled-korquad-384"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF",
+     "mradermacher/Korean-Gemma-2B-Instruct-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "QuantFactory/Apollo2-2B-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "cgus/Apollo2-7B-iMat-GGUF"
+    ],
+    "unjudged@10": [
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "mradermacher/next-12b-GGUF"
+    ],
+    "judged@10": 0.7,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 377.12,
+     "sparse": 1.12,
+     "fusion": 0.05,
+     "total": 378.29
+    },
+    "dense_queries": [
+     "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어."
+    ],
+    "sparse_queries": [
+     "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어."
+    ]
+   },
+   {
+    "query_id": "sg_h010",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "jinaai/jina-vlm",
+     "jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF",
+     "thelamapi/next2-fast-GGUF",
+     "mlx-community/LFM2.5-VL-1.6B-4bit",
+     "thelamapi/next2-fast-i1-GGUF",
+     "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "mlx-community/LFM2.5-VL-1.6B-8bit",
+     "mistralai/Ministral-3-3B-Instruct-2512-ONNX",
+     "mlx-community/LFM2.5-VL-450M-6bit",
+     "NCSOFT/VARCO-VISION-2.0-1.7B",
+     "ZuzeTt/LFM2.5-VL-1.6B-GGUF",
+     "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
+     "KDLAI/KDL-Frontier-Parser-nano",
+     "EZCon/GLM-OCR-4bit-mlx",
+     "LiquidAI/LFM2.5-VL-1.6B",
+     "kakaocorp/kanana-1.5-v-3b-instruct",
+     "nopesadly/GLM-OCR-Q4_K_M.gguf",
+     "tamerbaydag/Qwen3.5-9B-DeepSeek-V4-Flash-Q4_K_M-GGUF",
+     "EnlistedGhost/Ministral-3-3B-Instruct-2512-GGUF",
+     "mlx-community/LFM2-VL-3B-4bit",
+     "LiquidAI/LFM2.5-VL-1.6B-GGUF",
+     "EnlistedGhost/Ministral-3-14B-Instruct-2512-GGUF",
+     "EnlistedGhost/Ministral-3-8B-Instruct-2512-GGUF",
+     "LiquidAI/LFM2-VL-3B",
+     "EZCon/GLM-OCR-8bit-mlx",
+     "EnlistedGhost/Ministral-3-14B-Reasoning-2512-GGUF",
+     "LiquidAI/LFM2.5-VL-3B-MLX-8bit"
+    ],
+    "eligible": 252,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CohereLabs/North-Micro-Vision-Instruct",
+     "LiquidAI/LFM2.5-VL-1.6B-GGUF",
+     "NCSOFT/VARCO-VISION-2.0-1.7B"
+    ],
+    "missed@10": [
+     "CohereLabs/North-Micro-Vision-Instruct",
+     "LiquidAI/LFM2.5-VL-1.6B-GGUF",
+     "NCSOFT/VARCO-VISION-2.0-1.7B"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "jinaai/jina-vlm",
+     "jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF",
+     "thelamapi/next2-fast-GGUF",
+     "mlx-community/LFM2.5-VL-1.6B-4bit",
+     "thelamapi/next2-fast-i1-GGUF",
+     "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "mlx-community/LFM2.5-VL-1.6B-8bit",
+     "mistralai/Ministral-3-3B-Instruct-2512-ONNX"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 313.9,
+     "sparse": 18.94,
+     "fusion": 0.24,
+     "total": 333.08
+    },
+    "dense_queries": [
+     "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로."
+    ],
+    "sparse_queries": [
+     "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로."
+    ]
+   },
+   {
+    "query_id": "sg_h018",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "ali-thowfeek/Charty-1B-GGUF",
+     "geoffmunn/Qwen3-14B-f16",
+     "TheBloke/openbuddy-deepseek-67b-v15-base-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+     "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+     "unsloth/Qwen2.5-32B-bnb-4bit",
+     "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned",
+     "FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF",
+     "TheBloke/You_can_cry_Snowman-13B-GGUF",
+     "TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF",
+     "choonok/VetJarvis-1.1-4B-Instruct-GGUF",
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF",
+     "unsloth/Qwen2.5-14B-bnb-4bit",
+     "TheBloke/openbuddy-mistral-7B-v13-base-GGUF",
+     "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "unsloth/Qwen2.5-32B-Instruct-bnb-4bit",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "FINAL-Bench/Darwin-Mistral-G1",
+     "unsloth/Qwen2.5-14B-Instruct-bnb-4bit",
+     "unsloth/Qwen2.5-7B-Instruct-bnb-4bit",
+     "intrect/VELA",
+     "lmstudio-community/Mistral-Large-Instruct-2411-GGUF",
+     "soka0000/vclm-korean-7b",
+     "TheBloke/openbuddy-llama2-34b-v11.1-bf16-GGUF",
+     "IsValorum/Iris-mini-APEX-I-MiniPlus-V2.1-GGUF"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CMSManhattan/JiRackUltra_14b",
+     "kfkas/Legal-Llama-2-ko-7b-Chat",
+     "kfkas/Llama-2-ko-7b-Chat",
+     "sakamakismile/Qwen3.6-27B-Text-NVFP4-MTP"
+    ],
+    "missed@10": [
+     "CMSManhattan/JiRackUltra_14b",
+     "kfkas/Legal-Llama-2-ko-7b-Chat",
+     "kfkas/Llama-2-ko-7b-Chat",
+     "sakamakismile/Qwen3.6-27B-Text-NVFP4-MTP"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "ali-thowfeek/Charty-1B-GGUF",
+     "geoffmunn/Qwen3-14B-f16",
+     "TheBloke/openbuddy-deepseek-67b-v15-base-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+     "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+     "unsloth/Qwen2.5-32B-bnb-4bit",
+     "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned",
+     "FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 350.19,
+     "sparse": 11.46,
+     "fusion": 0.37,
+     "total": 362.02
+    },
+    "dense_queries": [
+     "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해."
+    ],
+    "sparse_queries": [
+     "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h019",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Mungert/LFM2.5-1.2B-Instruct-GGUF",
+     "Atomic-Germ/LFM2.5-1.2B-NPU2",
+     "Atomic-Germ/LFM2.5-1.2B-Thinking-NPU2",
+     "unsloth/LFM2.5-1.2B-Instruct-GGUF",
+     "insraq/LFM2.5-2.6B-heretic-GGUF",
+     "FastFlowLM/LFM2.5-1.2B-NPU2",
+     "ZuzeTt/LFM2.5-1.2B-Instruct-imatrix-GGUF",
+     "prithivMLmods/LFM2-2.6B-Exp-GGUF",
+     "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
+     "thelamapi/next-1b",
+     "LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF",
+     "bartowski/LiquidAI_LFM2.5-1.2B-Instruct-GGUF",
+     "coder3101/LFM2.5-350M-heretic",
+     "LiquidAI/LFM2.5-350M",
+     "bartowski/arcee-ai_Trinity-Mini-GGUF",
+     "unsloth/LFM2.5-1.2B-Thinking-GGUF",
+     "onnx-community/LFM2.5-350M-ONNX",
+     "DavidAU/Qwen3-128k-30B-A3B-NEO-MAX-Imatrix-gguf",
+     "bartowski/Linkbricks-Horizon-AI-Japanese-Pro-V3-70B-GGUF",
+     "cooler8/yejin-korean-1b-v8",
+     "Mungert/LFM2.5-1.2B-Thinking-GGUF",
+     "EasierAI/Mistral-Small-3-24B",
+     "aixk/BAAR3-19M",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "alekringtonnn-ai/zubr-gemma3-1b",
+     "lopezjhonf/LFM2.5-8B-A1B-Uncensored-GGUF",
+     "bartowski/mistralai_Mistral-Small-24B-Base-2501-GGUF",
+     "zaakirio/LFM2.5-8B-A1B-Uncensored-GGUF",
+     "DavidAU/Llama-3.2-1B-Instruct-NEO-WEE-HORROR-GGUF",
+     "aufklarer/Qwen3.5-0.8B-Chat-MLX"
+    ],
+    "eligible": 993,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "LiquidAI/LFM2.5-230M-GGUF",
+     "cooler8/yejin-korean-1b-v8",
+     "cooler8/yejin-korean-1b-v8-sft",
+     "lcw99/ko-dialoGPT-korean-chit-chat"
+    ],
+    "missed@10": [
+     "LiquidAI/LFM2.5-230M-GGUF",
+     "cooler8/yejin-korean-1b-v8",
+     "cooler8/yejin-korean-1b-v8-sft",
+     "lcw99/ko-dialoGPT-korean-chit-chat"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "Mungert/LFM2.5-1.2B-Instruct-GGUF",
+     "Atomic-Germ/LFM2.5-1.2B-NPU2",
+     "Atomic-Germ/LFM2.5-1.2B-Thinking-NPU2",
+     "unsloth/LFM2.5-1.2B-Instruct-GGUF",
+     "insraq/LFM2.5-2.6B-heretic-GGUF",
+     "FastFlowLM/LFM2.5-1.2B-NPU2",
+     "ZuzeTt/LFM2.5-1.2B-Instruct-imatrix-GGUF",
+     "prithivMLmods/LFM2-2.6B-Exp-GGUF",
+     "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
+     "thelamapi/next-1b"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 320.59,
+     "sparse": 19.92,
+     "fusion": 0.22,
+     "total": 340.73
+    },
+    "dense_queries": [
+     "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어."
+    ],
+    "sparse_queries": [
+     "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어."
+    ]
+   },
+   {
+    "query_id": "sg_h027",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "ZuzeTt/LFM2.5-VL-1.6B-GGUF",
+     "ente-ai/LFM2.5-VL-1.6B-GGUF",
+     "neureps/warmly-qwen35-2b-enko-gguf",
+     "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "ensu-app/LFM2.5-VL-1.6B-GGUF",
+     "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+     "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "Archsloth/Qwen3.5-9B-GGUF",
+     "DiffusionFanatic1/LFM2-VL-3B-heretic-Q8_0-GGUF",
+     "unsloth/LFM2.5-VL-1.6B-GGUF",
+     "batiai/gemma-4-12B-it-GGUF",
+     "cstr/internvl2-1b-crispembed-GGUF",
+     "batiai/batisee",
+     "LiquidAI/LFM2.5-VL-1.6B-ONNX",
+     "MuXodious/LFM2.5-VL-1.6B-absolute-heresy-GGUF",
+     "mistralai/Ministral-3-3B-Instruct-2512-ONNX",
+     "IsValorum/Ornith-1.5-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF",
+     "Mattimax/DAC6.5",
+     "neureps/warmly-qwen35-08b-enko-gguf",
+     "gabriellarson/Mistral-Small-3.2-24B-Instruct-2506-GGUF",
+     "FadedRedStar/LFM2.5-VL-1.6B-heretic-imatrix-GGUF",
+     "unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF",
+     "mlx-community/LFM2.5-VL-450M-6bit",
+     "mlx-community/LFM2.5-VL-450M-8bit",
+     "Ex0bit/Qwen3.5-122B-A10B-PRISM-PRO-GGUF",
+     "LiquidAI/LFM2.5-VL-1.6B-GGUF",
+     "Archsloth/Qwen3.8-27B-GGUF"
+    ],
+    "eligible": 210,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Mattimax/DAC6.5",
+     "cstr/internvl2-1b-crispembed-GGUF"
+    ],
+    "missed@10": [
+     "Mattimax/DAC6.5",
+     "cstr/internvl2-1b-crispembed-GGUF"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "ZuzeTt/LFM2.5-VL-1.6B-GGUF",
+     "ente-ai/LFM2.5-VL-1.6B-GGUF",
+     "neureps/warmly-qwen35-2b-enko-gguf",
+     "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S",
+     "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+     "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+     "ensu-app/LFM2.5-VL-1.6B-GGUF",
+     "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+     "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 286.17,
+     "sparse": 1.65,
+     "fusion": 0.27,
+     "total": 288.09
+    },
+    "dense_queries": [
+     "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어."
+    ],
+    "sparse_queries": [
+     "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어."
+    ]
+   },
+   {
+    "query_id": "sg_h033",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "soka0000/vclm-korean-7b",
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "OrionStarAI/Orion-14B-LongChat",
+     "ellamind/sui-1-24b",
+     "QuantFactory/Llama-3-KoEn-8B-GGUF",
+     "prithivMLmods/LFM2.5-2.6B-GGUF",
+     "OpenBuddy/openbuddy-llama3-70b-v21.2-32k",
+     "arcee-ai/Trinity-Large-Preview",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "DavidAU/Llama-3.3-8B-Thinking-Gemini-Flash-11000x-128k",
+     "WestlakeNLP/CycleReviewer-ML-Llama-3.1-8B",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "WestlakeNLP/WhizReviewer-ML-Llama3.1-8B",
+     "ark4004/DeepSeek-llama3.3-Bllossom-70B-jh",
+     "intrect/VELA",
+     "CollectionStudio/Trinity-Large-Base",
+     "FINAL-Bench/Darwin-Mistral-G1",
+     "SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx",
+     "CollectionStudio/Trinity-Large-Preview",
+     "NC-AI-consortium-VAETKI/VAETKI",
+     "arcee-ai/Trinity-Large-Base",
+     "QuantFactory/ghost-8b-beta-GGUF",
+     "aifeifei798/Meta-Llama-3.1-8B-Instruct",
+     "QuantFactory/Llama-3-Ko-8B-Instruct-GGUF",
+     "Outlier-Ai/DeepSeek-R1-Distill-Llama-8B-MLX-4bit",
+     "QuantFactory/ghost-8b-beta-1608-GGUF",
+     "LiquidAI/LFM2.5-2.6B",
+     "ghost-x/ghost-8b-beta-1608-gguf",
+     "LiquidAI/LFM2.5-2.6B-MLX-bf16",
+     "nvidia/NVIDIA-Nemotron-Nano-9B-v2-Base"
+    ],
+    "eligible": 1501,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CMSManhattan/JiRackUltra_14b",
+     "DavidAU/Qwen3-128k-30B-A3B-NEO-MAX-Imatrix-gguf",
+     "LiquidAI/LFM2.5-2.6B-GGUF",
+     "konantech/Konan-LLM-OND"
+    ],
+    "missed@10": [
+     "CMSManhattan/JiRackUltra_14b",
+     "DavidAU/Qwen3-128k-30B-A3B-NEO-MAX-Imatrix-gguf",
+     "LiquidAI/LFM2.5-2.6B-GGUF",
+     "konantech/Konan-LLM-OND"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "soka0000/vclm-korean-7b",
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "OrionStarAI/Orion-14B-LongChat",
+     "ellamind/sui-1-24b",
+     "QuantFactory/Llama-3-KoEn-8B-GGUF",
+     "prithivMLmods/LFM2.5-2.6B-GGUF",
+     "OpenBuddy/openbuddy-llama3-70b-v21.2-32k",
+     "arcee-ai/Trinity-Large-Preview",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "DavidAU/Llama-3.3-8B-Thinking-Gemini-Flash-11000x-128k"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 320.14,
+     "sparse": 16.1,
+     "fusion": 0.29,
+     "total": 336.53
+    },
+    "dense_queries": [
+     "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야."
+    ],
+    "sparse_queries": [
+     "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h036",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF",
+     "TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF",
+     "TheBloke/openbuddy-llama2-70B-v13-base-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "LiquidAI/LFM2.5-230M",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "FINAL-Bench/Darwin-Mistral-G1",
+     "FastFlowLM/LFM2.5-1.2B-Thinking-NPU2",
+     "ali-thowfeek/Charty-1B-GGUF",
+     "FastFlowLM/LFM2-1.2B-NPU2",
+     "intrect/VELA",
+     "TheBloke/openbuddy-llama2-13b64k-v15-GGUF",
+     "LiquidAI/LFM2.5-2.6B-Base",
+     "soka0000/vclm-korean-7b",
+     "Dingdust/LFM2.5-2.6B-heretic",
+     "FastFlowLM/LFM2.5-1.2B-NPU2",
+     "QuantFactory/ghost-8b-beta-GGUF",
+     "Aya168/aya-expanse-8b-tofu-13lang-v3",
+     "LiquidAI/LFM2.5-350M-Base",
+     "TheBloke/openbuddy-llama2-34b-v11.1-bf16-GGUF",
+     "nc-ai-consortium/VAETKI-7B-A1B",
+     "nvidia/Llama-3.3-Nemotron-70B-Reward-Multilingual",
+     "LiquidAI/LFM2.5-230M-Base",
+     "NC-AI-consortium-VAETKI/VAETKI",
+     "TheBloke/PiVoT-0.1-Evil-a-GGUF",
+     "TheBloke/Synatra-V0.1-7B-Instruct-GGUF",
+     "kfkas/Legal-Llama-2-ko-7b-Chat"
+    ],
+    "eligible": 2177,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CMSManhattan/JiRackUltra_14b",
+     "LLM-OS-Models/KoHRM-Text-1.4B-GGUF",
+     "arcee-ai/Trinity-Large-Thinking",
+     "konantech/Konan-LLM-OND"
+    ],
+    "missed@10": [
+     "CMSManhattan/JiRackUltra_14b",
+     "LLM-OS-Models/KoHRM-Text-1.4B-GGUF",
+     "arcee-ai/Trinity-Large-Thinking",
+     "konantech/Konan-LLM-OND"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF",
+     "TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF",
+     "TheBloke/openbuddy-llama2-70B-v13-base-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "LiquidAI/LFM2.5-230M",
+     "MyeongHo0621/Qwen2.5-3B-Korean",
+     "kez-lab/gemma-2-2b-quiz-korean",
+     "FINAL-Bench/Darwin-Mistral-G1"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 350.49,
+     "sparse": 11.73,
+     "fusion": 0.32,
+     "total": 362.54
+    },
+    "dense_queries": [
+     "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야."
+    ],
+    "sparse_queries": [
+     "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야."
+    ]
+   },
+   {
+    "query_id": "sg_h045",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "upskyy/e5-large-korean",
+     "Alibaba-NLP/gte-multilingual-base",
+     "upskyy/e5-base-korean",
+     "yjoonjang/splade-ko-v1",
+     "ysmeta/EVE-Embed-1.1-Legal",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "juyoungml/bge-m3-ko-v1.1",
+     "cstr/multilingual-e5-small-GGUF",
+     "upskyy/bge-m3-korean",
+     "jinaai/jina-embeddings-v3",
+     "upskyy/e5-small-korean",
+     "acul21/harrier-oss-v1-0.6b",
+     "snunlp/KR-SBERT-Medium-klueNLI-klueSTS",
+     "furiosa-ai/harrier-oss-v1-0.6b",
+     "codefuse-ai/ML-Embed-0.6B",
+     "hyunseop/bge-m3-ko",
+     "mykor/comsat-embed-ko-8b-preview-GGUF",
+     "HyperBlaze/BGE-m3-ko",
+     "amazon/Titan-text-embeddings-v2",
+     "harheem/bge-m3-nvidia-ko-v1",
+     "litert-community/LFM2.5-Embedding-350M",
+     "upskyy/gte-base-korean",
+     "dragonkue/BGE-m3-ko",
+     "mlx-community/LFM2.5-Embedding-350M-bf16",
+     "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF",
+     "telepix/PIXIE-Splade-v1.5",
+     "mlx-community/LFM2.5-Embedding-350M-4bit",
+     "ysmeta/EVE-Embed-1.0-Legal",
+     "batiai/Qwen3-VL-Embedding-2B-GGUF",
+     "0xnu/pmmlv2-fine-tuned-igbo"
+    ],
+    "eligible": 435,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "ibm-granite/granite-embedding-311m-multilingual-r2",
+     "ibm-granite/granite-embedding-97m-multilingual-r2",
+     "intfloat/multilingual-e5-base",
+     "intfloat/multilingual-e5-small",
+     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    ],
+    "missed@10": [
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "ibm-granite/granite-embedding-311m-multilingual-r2",
+     "ibm-granite/granite-embedding-97m-multilingual-r2",
+     "intfloat/multilingual-e5-base",
+     "intfloat/multilingual-e5-small",
+     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+     "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    ],
+    "must_exclude_checked": false,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "upskyy/e5-large-korean",
+     "Alibaba-NLP/gte-multilingual-base",
+     "upskyy/e5-base-korean",
+     "yjoonjang/splade-ko-v1",
+     "ysmeta/EVE-Embed-1.1-Legal",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "juyoungml/bge-m3-ko-v1.1",
+     "cstr/multilingual-e5-small-GGUF",
+     "upskyy/bge-m3-korean",
+     "jinaai/jina-embeddings-v3"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 326.57,
+     "sparse": 1.99,
+     "fusion": 0.27,
+     "total": 328.83
+    },
+    "dense_queries": [
+     "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해."
+    ],
+    "sparse_queries": [
+     "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h046",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "alphaedge-ai/multilingual-e5-small-kor-32768",
+     "madatnlp/km-bert",
+     "batiai/Qwen3-Embedding-4B-GGUF",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "Baragi-AI/Munche-v2-768",
+     "mradermacher/LFM2.5-Embedding-350M-GGUF",
+     "litert-community/LFM2.5-Embedding-350M",
+     "zhiqian99/Qwen3-Embedding-0.6B-GGUF",
+     "LiquidAI/LFM2.5-Embedding-350M-GGUF",
+     "litert-community/LFM2.5-ColBERT-350M",
+     "batiai/Qwen3-VL-Embedding-2B-GGUF",
+     "LiquidAI/LFM2.5-ColBERT-350M-GGUF",
+     "smartmind/roberta-ko-small-tsdae",
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "mradermacher/MoAI-Embedding-4B-GGUF",
+     "tamikisg/multilingual-e5-small-coreml",
+     "monologg/kobert",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "ddobokki/unsup-simcse-klue-roberta-small",
+     "Baragi-AI/Munche-768",
+     "ddobokki/klue-roberta-small-nli-sts",
+     "batiai/Qwen3-VL-Embedding-8B-GGUF",
+     "CHKH01/BGE-m3-ko-GGUF",
+     "exp-models/dragonkue-KoEn-E5-Tiny",
+     "batiai/Qwen3-Embedding-0.6B-GGUF",
+     "mykor/KURE-v1-gguf",
+     "mradermacher/LFM2.5-ColBERT-350M-GGUF",
+     "ibm-granite/granite-embedding-97m-multilingual-r2",
+     "LiquidAI/LFM2-ColBERT-350M-GGUF",
+     "Bingsu/KURE-v1-Q8_0-GGUF"
+    ],
+    "eligible": 84,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "ibm-granite/granite-embedding-97m-multilingual-r2"
+    ],
+    "missed@10": [
+     "ibm-granite/granite-embedding-97m-multilingual-r2"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "batiai/Qwen3-Embedding-4B-GGUF"
+    ],
+    "unjudged@10": [
+     "alphaedge-ai/multilingual-e5-small-kor-32768",
+     "madatnlp/km-bert",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "Baragi-AI/Munche-v2-768",
+     "mradermacher/LFM2.5-Embedding-350M-GGUF",
+     "litert-community/LFM2.5-Embedding-350M",
+     "zhiqian99/Qwen3-Embedding-0.6B-GGUF",
+     "LiquidAI/LFM2.5-Embedding-350M-GGUF",
+     "litert-community/LFM2.5-ColBERT-350M"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 265.87,
+     "sparse": 9.79,
+     "fusion": 0.15,
+     "total": 275.81
+    },
+    "dense_queries": [
+     "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하."
+    ],
+    "sparse_queries": [
+     "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하."
+    ]
+   },
+   {
+    "query_id": "sg_h059",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "eenzeenee/t5-small-korean-summarization",
+     "mskayacioglu/mbart50-xlsum",
+     "ncls-p/Qwen2.5-7B-blog-key-points",
+     "ncls-p/Qwen2.5-3B-blog-key-points",
+     "psyche/KoT5-summarization",
+     "ainize/kobart-news",
+     "csebuetnlp/mT5_multilingual_XLSum",
+     "EbanLee/kobart-summary-v3",
+     "eenzeenee/t5-base-korean-summarization",
+     "csebuetnlp/mT5_m2m_crossSum_enhanced",
+     "csebuetnlp/mT5_m2m_crossSum",
+     "csebuetnlp/mT5_m2o_english_crossSum",
+     "QyrouNnet-AI/QNS-2-ReLearn-Preview",
+     "csebuetnlp/mT5_m2o_arabic_crossSum",
+     "data-silence/any-news-sum"
+    ],
+    "eligible": 15,
+    "metrics": {
+     "recall@5": 0.5,
+     "precision@5": 0.2,
+     "f1@5": 0.28571428571428575,
+     "hit@5": 1.0,
+     "recall@10": 1.0,
+     "precision@10": 0.2,
+     "f1@10": 0.33333333333333337,
+     "hit@10": 1.0,
+     "mrr@5": 0.2,
+     "map@5": 0.1,
+     "ndcg@5": 0.23719771276929622
+    },
+    "relevant": [
+     "ainize/kobart-news",
+     "psyche/KoT5-summarization"
+    ],
+    "missed@10": [],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "csebuetnlp/mT5_multilingual_XLSum"
+    ],
+    "unjudged@10": [
+     "eenzeenee/t5-small-korean-summarization",
+     "mskayacioglu/mbart50-xlsum",
+     "ncls-p/Qwen2.5-7B-blog-key-points",
+     "ncls-p/Qwen2.5-3B-blog-key-points",
+     "EbanLee/kobart-summary-v3",
+     "eenzeenee/t5-base-korean-summarization",
+     "csebuetnlp/mT5_m2m_crossSum_enhanced"
+    ],
+    "judged@10": 0.3,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 283.96,
+     "sparse": 1.34,
+     "fusion": 0.08,
+     "total": 285.38
+    },
+    "dense_queries": [
+     "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어."
+    ],
+    "sparse_queries": [
+     "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어."
+    ]
+   },
+   {
+    "query_id": "sg_h064",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "bespin-global/klue-bert-base-aihub-mrc",
+     "haiFrHust/VNJPTranslate_base",
+     "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF",
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "FreedomIntelligence/Apollo-MoE-7B",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "FreedomIntelligence/Apollo2-3.8B",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "FreedomIntelligence/Apollo2-7B",
+     "mradermacher/Korean-Gemma-2B-Instruct-GGUF",
+     "QuantFactory/Apollo2-2B-GGUF",
+     "QuantFactory/Apollo2-9B-GGUF",
+     "FreedomIntelligence/Apollo-MoE-0.5B",
+     "mradermacher/IoGPT-A1-Instruct-i1-GGUF",
+     "FreedomIntelligence/Apollo2-9B",
+     "mradermacher/next-1b-GGUF",
+     "mradermacher/next-12b-GGUF",
+     "mradermacher/Prototype-Virus-1B-GGUF",
+     "mradermacher/Prototype-Virus-1B-i1-GGUF",
+     "mradermacher/next-12b-i1-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2",
+     "monologg/koelectra-base-v3-finetuned-korquad",
+     "monologg/koelectra-small-v2-distilled-korquad-384"
+    ],
+    "eligible": 24,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "mradermacher/next-12b-i1-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "missed@10": [
+     "mradermacher/next-12b-i1-GGUF",
+     "timpal0l/mdeberta-v3-base-squad2"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "bespin-global/klue-bert-base-aihub-mrc"
+    ],
+    "unjudged@10": [
+     "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF",
+     "FreedomIntelligence/Apollo-MoE-7B",
+     "QuantFactory/Apollo2-7B-GGUF",
+     "cgus/Apollo2-7B-iMat-GGUF",
+     "FreedomIntelligence/Apollo2-3.8B",
+     "mradermacher/IoGPT-A1-Instruct-GGUF",
+     "FreedomIntelligence/Apollo2-7B"
+    ],
+    "judged@10": 0.3,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 270.76,
+     "sparse": 1.16,
+     "fusion": 0.07,
+     "total": 271.99
+    },
+    "dense_queries": [
+     "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해."
+    ],
+    "sparse_queries": [
+     "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해."
+    ]
+   },
+   {
+    "query_id": "sg_h069",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "LGAI-EXAONE/EXAONE-Deep-2.4B",
+     "geoffmunn/Qwen3-4B-f16",
+     "QuantFactory/EXAONE-Deep-2.4B-GGUF",
+     "jc-builds/Qwen3.5-4B-Q4_K_M-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+     "LGAI-EXAONE/EXAONE-Deep-2.4B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+     "geoffmunn/Qwen3-14B-f16",
+     "bartowski/LGAI-EXAONE_EXAONE-Deep-2.4B-GGUF",
+     "lucianosb/llama-2-7b-langchain-chat-GGUF",
+     "bradduy/banhmi-gemma4-e4b",
+     "TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF",
+     "unsloth/Qwen2.5-3B-unsloth-bnb-4bit",
+     "TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF",
+     "TheBloke/openbuddy-llama2-34b-v11.1-bf16-GGUF",
+     "unsloth/Qwen2.5-3B-bnb-4bit",
+     "gabriellarson/SimpleChat-4B-V1-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "mobilint/EXAONE-Deep-2.4B",
+     "ThomasBaruzier/EXAONE-3.5-2.4B-Instruct-GGUF",
+     "TheBloke/You_can_cry_Snowman-13B-GGUF",
+     "lunar1020/EXAONE-ExaDialogue-2.4B",
+     "ErtasAI/Phi-4-mini-instruct-bnb-4bit",
+     "lunar1020/EXAONE-ExaDialogue-DPO-2.4B",
+     "TheBloke/openbuddy-mistral-7B-v13-base-GGUF",
+     "unsloth/Qwen2.5-0.5B-unsloth-bnb-4bit",
+     "GOBA-AI-Labs/PrunedHub-GPT-OSS-20B-28x",
+     "MyeongHo0621/Qwen2.5-3B-Korean"
+    ],
+    "eligible": 1287,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "LLM-OS-Models/KoHRM-Text-1.4B-GGUF",
+     "microsoft/Phi-4-mini-instruct"
+    ],
+    "missed@10": [
+     "LLM-OS-Models/KoHRM-Text-1.4B-GGUF",
+     "microsoft/Phi-4-mini-instruct"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "LGAI-EXAONE/EXAONE-Deep-2.4B",
+     "geoffmunn/Qwen3-4B-f16",
+     "QuantFactory/EXAONE-Deep-2.4B-GGUF",
+     "jc-builds/Qwen3.5-4B-Q4_K_M-GGUF",
+     "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+     "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+     "LGAI-EXAONE/EXAONE-Deep-2.4B-GGUF",
+     "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+     "geoffmunn/Qwen3-14B-f16"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 290.9,
+     "sparse": 3.86,
+     "fusion": 0.23,
+     "total": 294.99
+    },
+    "dense_queries": [
+     "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해."
+    ],
+    "sparse_queries": [
+     "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h070",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Kkonjeong/wav2vec2-base-korean",
+     "moonshine-ai/moonshine-base-ko",
+     "moonshine-ai/moonshine-tiny-ko",
+     "onnx-community/moonshine-base-ko-ONNX",
+     "SungBeom/whisper-small-ko",
+     "seastar105/whisper-medium-ko-zeroth",
+     "handy-computer/moonshine-base-ko-gguf",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "handy-computer/moonshine-tiny-ko-gguf",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "leuconoe/whisper-acft-ko",
+     "Edge0/Audio8-ASR-0.1B-onnx-runtime",
+     "christopherthompson81/VibeVoice-ASR-Streaming-1.5B-GGUF",
+     "jiangzhuo9357/Qwen3-ASR-1.7B-ONNX",
+     "team-lucid/hubert-base-korean",
+     "FluidInference/qwen3-asr-0.6b-coreml",
+     "INo0121/whisper-base-ko-callvoice",
+     "cswk/sayit-asr-gguf",
+     "mobilint/whisper-small",
+     "jiangzhuo9357/Qwen3-ASR-0.6B-ONNX",
+     "ghost613/faster-whisper-large-v3-turbo-korean",
+     "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
+     "cstr/sensevoice-small-GGUF",
+     "vitaldb/whisper-v3-turbo-kor-or-lora",
+     "cstr/VibeVoice-7B-GGUF",
+     "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-INT8",
+     "audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF",
+     "nyadla-sys/whisper-tiny.en.tflite",
+     "Nairod785/Confucius4-R2T2-Q4_K_M-GGUF",
+     "aufklarer/Nemotron-3.5-ASR-Streaming-0.6B-CoreML-INT8"
+    ],
+    "eligible": 155,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Systran/faster-whisper-base",
+     "Systran/faster-whisper-tiny"
+    ],
+    "missed@10": [
+     "Systran/faster-whisper-base",
+     "Systran/faster-whisper-tiny"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "SungBeom/whisper-small-ko"
+    ],
+    "unjudged@10": [
+     "Kkonjeong/wav2vec2-base-korean",
+     "moonshine-ai/moonshine-base-ko",
+     "moonshine-ai/moonshine-tiny-ko",
+     "onnx-community/moonshine-base-ko-ONNX",
+     "seastar105/whisper-medium-ko-zeroth",
+     "handy-computer/moonshine-base-ko-gguf",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "handy-computer/moonshine-tiny-ko-gguf",
+     "OpenVoiceOS/sensevoice-small-onnx"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 302.23,
+     "sparse": 1.89,
+     "fusion": 0.22,
+     "total": 304.34
+    },
+    "dense_queries": [
+     "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해."
+    ],
+    "sparse_queries": [
+     "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해."
+    ]
+   },
+   {
+    "query_id": "sg_h072",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "amazon/Titan-text-embeddings-v2",
+     "Alibaba-NLP/gte-multilingual-base",
+     "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+     "dragonkue/BGE-m3-ko",
+     "harheem/bge-m3-nvidia-ko-v1",
+     "yjoonjang/splade-ko-v1",
+     "nmixx-fin/nmixx-bge-m3",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "telepix/PIXIE-Splade-v1.5",
+     "nvidia/Nemotron-3-Embed-1B-BF16",
+     "ukung/semantic-lite-gguf",
+     "ysmeta/EVE-Embed-1.0-Legal",
+     "shadowrock-io/Nemotron-3-Embed-8B-Community-FP8",
+     "telepix/PIXIE-Splade-v1.0",
+     "omai-research/milco-650m",
+     "nvidia/Nemotron-3-Embed-8B-BF16",
+     "ysmeta/EVE-Embed-1.1-Legal",
+     "nvidia/Nemotron-3-Embed-1B-NVFP4",
+     "KGESH/nsfw-bge-m3",
+     "CHKH01/BGE-m3-ko-GGUF",
+     "shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4",
+     "ukung/semantic-lite",
+     "mykor/KURE-v1-gguf",
+     "KGESH/nsfw-bge-m3-v1",
+     "batiai/Qwen3-VL-Embedding-8B-GGUF",
+     "hasankursun/matryoshka-embedding-v1",
+     "zenmagnets/Nemotron-3-Embed-1B-Q4_K_M-GGUF",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "batiai/Qwen3-Embedding-0.6B-GGUF",
+     "mlx-community/bge-m3-mlx-8bit"
+    ],
+    "eligible": 187,
+    "metrics": {
+     "recall@5": 0.2,
+     "precision@5": 0.2,
+     "f1@5": 0.20000000000000004,
+     "hit@5": 1.0,
+     "recall@10": 0.2,
+     "precision@10": 0.1,
+     "f1@10": 0.13333333333333333,
+     "hit@10": 1.0,
+     "mrr@5": 0.5,
+     "map@5": 0.1,
+     "ndcg@5": 0.24842742676916893
+    },
+    "relevant": [
+     "Alibaba-NLP/gte-multilingual-base",
+     "Snowflake/snowflake-arctic-embed-l-v2.0",
+     "batiai/Qwen3-Embedding-4B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "ibm-granite/granite-embedding-311m-multilingual-r2"
+    ],
+    "missed@10": [
+     "Snowflake/snowflake-arctic-embed-l-v2.0",
+     "batiai/Qwen3-Embedding-4B-GGUF",
+     "batiai/Qwen3-Embedding-8B-GGUF",
+     "ibm-granite/granite-embedding-311m-multilingual-r2"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "amazon/Titan-text-embeddings-v2",
+     "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+     "dragonkue/BGE-m3-ko",
+     "harheem/bge-m3-nvidia-ko-v1",
+     "yjoonjang/splade-ko-v1",
+     "nmixx-fin/nmixx-bge-m3",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "telepix/PIXIE-Splade-v1.5",
+     "nvidia/Nemotron-3-Embed-1B-BF16"
+    ],
+    "judged@10": 0.1,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 319.19,
+     "sparse": 9.83,
+     "fusion": 0.26,
+     "total": 329.28
+    },
+    "dense_queries": [
+     "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어."
+    ],
+    "sparse_queries": [
+     "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어."
+    ]
+   },
+   {
+    "query_id": "sg_h103",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "LiquidAI/LFM2.5-1.2B-Thinking",
+     "QuantFactory/Llama-3.2-Taiwan-3B-Instruct-GGUF",
+     "LiquidAI/LFM2-2.6B-Exp",
+     "QuantFactory/Llama-3-KoEn-8B-GGUF",
+     "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy",
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "QuantFactory/Llama-3-Ko-8B-Instruct-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "LiquidAI/LFM2.5-1.2B-Instruct",
+     "mradermacher/CURE-MED-3B-GGUF",
+     "QuantFactory/Llama-3-Open-Ko-8B-GGUF",
+     "mradermacher/CURE-MED-3B-i1-GGUF",
+     "onnx-community/LFM2-350M-Extract-ONNX",
+     "QuantFactory/ghost-8b-beta-GGUF",
+     "mlx-community/LFM2-350M-8bit",
+     "LiquidAI/LFM2.5-2.6B-Base",
+     "QuantFactory/ghost-8b-beta-1608-GGUF",
+     "ghost-x/ghost-8b-beta-1608-gguf",
+     "deul/Kanana-2-30b-a3b-instruct-2601-GGUF",
+     "Mungert/LFM2-2.6B-Exp-GGUF",
+     "mlx-community/LFM2-350M-MLX",
+     "lmstudio-community/LFM2-350M-MLX-bf16",
+     "LiquidAI/LFM2.5-2.6B",
+     "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
+     "mlx-community/LFM2-350M-4bit",
+     "mlx-community/LFM2.5-2.6B-6bit",
+     "unsloth/LFM2.5-1.2B-Thinking-GGUF",
+     "infosave/Granite-4.2-cmf",
+     "mlx-community/LFM2-2.6B-4bit",
+     "Mungert/LFM2.5-1.2B-Thinking-GGUF"
+    ],
+    "eligible": 1091,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.0,
+     "precision@10": 0.0,
+     "f1@10": 0.0,
+     "hit@10": 0.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "CMSManhattan/JiRackUltra_1b"
+    ],
+    "missed@10": [
+     "CMSManhattan/JiRackUltra_1b"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "LiquidAI/LFM2.5-1.2B-Thinking",
+     "QuantFactory/Llama-3.2-Taiwan-3B-Instruct-GGUF",
+     "LiquidAI/LFM2-2.6B-Exp",
+     "QuantFactory/Llama-3-KoEn-8B-GGUF",
+     "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy",
+     "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+     "QuantFactory/Llama-3-Ko-8B-Instruct-GGUF",
+     "tensorblock/llama2-13b.kor.v1-GGUF",
+     "LiquidAI/LFM2.5-1.2B-Instruct",
+     "mradermacher/CURE-MED-3B-GGUF"
+    ],
+    "judged@10": 0.0,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 286.88,
+     "sparse": 25.25,
+     "fusion": 0.29,
+     "total": 312.42
+    },
+    "dense_queries": [
+     "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해."
+    ],
+    "sparse_queries": [
+     "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해."
+    ]
+   },
+   {
+    "query_id": "sg_h104",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "telepix/PIXIE-Spell-v1.5-0.6B",
+     "zhiqian99/Qwen3-Embedding-0.6B-GGUF",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "acul21/harrier-oss-v1-0.6b",
+     "codefuse-ai/ML-Embed-0.6B",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF",
+     "amazon/Titan-text-embeddings-v2",
+     "microsoft/harrier-oss-v1-0.6b",
+     "dragonkue/BGE-m3-ko",
+     "janni-t/qwen3-embedding-0.6b-int8-tei-onnx",
+     "litert-community/LFM2.5-Embedding-350M",
+     "furiosa-ai/harrier-oss-v1-0.6b",
+     "LinerAI/Qwen3-Embedding-0.6B-academic",
+     "Alibaba-NLP/gte-multilingual-base",
+     "harheem/bge-m3-nvidia-ko-v1",
+     "yjoonjang/splade-ko-v1",
+     "onnx-community/harrier-oss-v1-0.6b-ONNX",
+     "upskyy/gte-base-korean",
+     "juyoungml/bge-m3-ko-v1.1",
+     "HyperBlaze/BGE-m3-ko",
+     "batiai/Qwen3-Embedding-0.6B-GGUF",
+     "BCCard/MoAI-Embedding-0.6B",
+     "BidirLM/BidirLM-0.6B-Embedding",
+     "hyunseop/bge-m3-ko",
+     "BidirLM/BidirLM-270M-Embedding",
+     "upskyy/bge-m3-korean",
+     "mlx-community/bge-m3-mlx-8bit",
+     "onnx-community/harrier-oss-v1-270m-ONNX",
+     "mlx-community/bge-m3-mlx-6bit",
+     "hasankursun/matryoshka-embedding-v1"
+    ],
+    "eligible": 156,
+    "metrics": {
+     "recall@5": 0.0,
+     "precision@5": 0.0,
+     "f1@5": 0.0,
+     "hit@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "precision@10": 0.2,
+     "f1@10": 0.25,
+     "hit@10": 1.0,
+     "mrr@5": 0.0,
+     "map@5": 0.0,
+     "ndcg@5": 0.0
+    },
+    "relevant": [
+     "Alibaba-NLP/gte-multilingual-base",
+     "BidirLM/BidirLM-0.6B-Embedding",
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "Snowflake/snowflake-arctic-embed-l-v2.0",
+     "janni-t/qwen3-embedding-0.6b-int8-tei-onnx",
+     "mradermacher/MoAI-Embedding-0.6B-GGUF"
+    ],
+    "missed@10": [
+     "Alibaba-NLP/gte-multilingual-base",
+     "BidirLM/BidirLM-0.6B-Embedding",
+     "PeterAM4/Qwen3-Embedding-0.6B-GGUF",
+     "Snowflake/snowflake-arctic-embed-l-v2.0"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [],
+    "unjudged@10": [
+     "telepix/PIXIE-Spell-v1.5-0.6B",
+     "zhiqian99/Qwen3-Embedding-0.6B-GGUF",
+     "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+     "acul21/harrier-oss-v1-0.6b",
+     "codefuse-ai/ML-Embed-0.6B",
+     "amazon/Titan-text-embeddings-v2",
+     "microsoft/harrier-oss-v1-0.6b",
+     "dragonkue/BGE-m3-ko"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 291.63,
+     "sparse": 14.08,
+     "fusion": 0.23,
+     "total": 305.94
+    },
+    "dense_queries": [
+     "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야."
+    ],
+    "sparse_queries": [
+     "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야."
+    ]
+   },
+   {
+    "query_id": "sg_h105",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "SungBeom/whisper-small-ko",
+     "Edge0/Audio8-ASR-0.1B-onnx-runtime",
+     "leuconoe/whisper-acft-ko",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "seastar105/whisper-small-komixv2",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "moonshine-ai/moonshine-base-ko",
+     "HeartMuLa/HeartTranscriptor-oss",
+     "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
+     "christopherthompson81/VibeVoice-ASR-Streaming-1.5B-GGUF",
+     "jiangzhuo9357/Qwen3-ASR-1.7B-ONNX",
+     "onnx-community/moonshine-base-ko-ONNX",
+     "moonshine-ai/moonshine-tiny-ko",
+     "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX",
+     "INo0121/whisper-base-ko-callvoice",
+     "handy-computer/moonshine-base-ko-gguf",
+     "handy-computer/moonshine-tiny-ko-gguf",
+     "voconly-org/sensevoice-small-gguf",
+     "audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF",
+     "cstr/sensevoice-small-GGUF",
+     "seastar105/whisper-medium-ko-zeroth",
+     "handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf",
+     "cstr/voxtral-mini-4b-realtime-GGUF",
+     "seastar105/whisper-medium-komixv2",
+     "batiai/batisay-ko-turbo",
+     "yoyolaiyy3062/SenseVoiceSmall-GGUF-audiocpp",
+     "freddm/Voxtral-Mini-4B-Realtime-2602-GGUF",
+     "OpenVoiceOS/qwen3-asr-1.7b-onnx",
+     "christopherthompson81/vibevoice-asr-streaming-7b-onnx",
+     "schift-io/vibevoice7b-schift-quanted-mixed"
+    ],
+    "eligible": 200,
+    "metrics": {
+     "recall@5": 0.25,
+     "precision@5": 0.2,
+     "f1@5": 0.22222222222222224,
+     "hit@5": 1.0,
+     "recall@10": 0.25,
+     "precision@10": 0.1,
+     "f1@10": 0.14285714285714288,
+     "hit@10": 1.0,
+     "mrr@5": 1.0,
+     "map@5": 0.25,
+     "ndcg@5": 0.3903800499921017
+    },
+    "relevant": [
+     "SungBeom/whisper-small-ko",
+     "Systran/faster-whisper-small",
+     "openai/whisper-large-v3-turbo",
+     "openai/whisper-small"
+    ],
+    "missed@10": [
+     "Systran/faster-whisper-small",
+     "openai/whisper-large-v3-turbo",
+     "openai/whisper-small"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "Edge0/Audio8-ASR-0.1B-onnx-runtime"
+    ],
+    "unjudged@10": [
+     "leuconoe/whisper-acft-ko",
+     "OpenVoiceOS/sensevoice-small-onnx",
+     "seastar105/whisper-small-komixv2",
+     "SungBeom/stt_kr_conformer_ctc_medium",
+     "moonshine-ai/moonshine-base-ko",
+     "HeartMuLa/HeartTranscriptor-oss",
+     "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
+     "christopherthompson81/VibeVoice-ASR-Streaming-1.5B-GGUF"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 300.76,
+     "sparse": 8.69,
+     "fusion": 0.22,
+     "total": 309.67
+    },
+    "dense_queries": [
+     "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어."
+    ],
+    "sparse_queries": [
+     "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어."
+    ]
+   },
+   {
+    "query_id": "sg_h106",
+    "expected_behavior": "recommend",
+    "ranked": [
+     "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+     "solbi12/ecommers_fasion_fine_tuned_3class_model",
+     "banjl4487/MODEL",
+     "daekeun-ml/koelectra-small-v3-nsmc",
+     "Metabaron6/Shieldstral-1.0-3B-GGUF",
+     "bongsoo/kpf-cross-encoder-v1",
+     "DataWizardd/finbert-sentiment-ko",
+     "Huffon/klue-roberta-base-nli",
+     "bespin-global/klue-roberta-small-3i4k-intent-classification",
+     "FISA-conclave/klue-roberta-news-sentiment",
+     "Zeolit/lettuce-thymos-26m-v1",
+     "LangQuant/LQ-FSE-base",
+     "Horizon-Labs/prompt-injection-guard-small",
+     "snunlp/KR-FinBert-SC",
+     "prismdata/guardrail-ko-11class",
+     "tobykim/koelectra-44emotions",
+     "bongsoo/albert-small-kor-cross-encoder-v1",
+     "clapAI/mmBERT-small-multilingual-sentiment",
+     "Seonghaa/korean-emotion-classifier-roberta",
+     "agentlans/multilingual-e5-small-refusal-classifier",
+     "cis-lmu/glotlid",
+     "hun3359/klue-bert-base-sentiment",
+     "BalaRajesh1/mmbert-small-nli",
+     "MelissaJ/koelectra-emotion-6-emotion-base",
+     "skt/A.X-Encoder-base",
+     "tartuNLP/mmBERT-small-m-edu-classifier",
+     "clapAI/modernBERT-base-multilingual-sentiment",
+     "Copycats/koelectra-base-v3-generalized-sentiment-analysis",
+     "cringepnh/koelectra-korean-sentiment",
+     "gpustack/gte-multilingual-reranker-base-GGUF"
+    ],
+    "eligible": 49,
+    "metrics": {
+     "recall@5": 0.3333333333333333,
+     "precision@5": 0.2,
+     "f1@5": 0.25,
+     "hit@5": 1.0,
+     "recall@10": 0.3333333333333333,
+     "precision@10": 0.1,
+     "f1@10": 0.15384615384615383,
+     "hit@10": 1.0,
+     "mrr@5": 0.25,
+     "map@5": 0.08333333333333333,
+     "ndcg@5": 0.27511096828801057
+    },
+    "relevant": [
+     "bongsoo/albert-small-kor-cross-encoder-v1",
+     "clapAI/mmBERT-small-multilingual-sentiment",
+     "daekeun-ml/koelectra-small-v3-nsmc"
+    ],
+    "missed@10": [
+     "bongsoo/albert-small-kor-cross-encoder-v1",
+     "clapAI/mmBERT-small-multilingual-sentiment"
+    ],
+    "must_exclude_checked": true,
+    "must_exclude_hits": [
+     "bespin-global/klue-roberta-small-3i4k-intent-classification"
+    ],
+    "unjudged@10": [
+     "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+     "solbi12/ecommers_fasion_fine_tuned_3class_model",
+     "banjl4487/MODEL",
+     "Metabaron6/Shieldstral-1.0-3B-GGUF",
+     "bongsoo/kpf-cross-encoder-v1",
+     "DataWizardd/finbert-sentiment-ko",
+     "Huffon/klue-roberta-base-nli",
+     "FISA-conclave/klue-roberta-news-sentiment"
+    ],
+    "judged@10": 0.2,
+    "latency_ms": {
+     "pre_retrieval": 0.0,
+     "dense": 280.4,
+     "sparse": 4.74,
+     "fusion": 0.11,
+     "total": 285.25
+    },
+    "dense_queries": [
+     "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해."
+    ],
+    "sparse_queries": [
+     "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해."
+    ]
+   }
+  ]
+ },
+ "unjudged_pool": {
+  "sg_g013": [
+   "HyperBlaze/BGE-m3-ko",
+   "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+   "jinaai/jina-clip-v2",
+   "leeloolee/intention",
+   "litert-community/LFM2.5-ColBERT-350M",
+   "litert-community/LFM2.5-Embedding-350M",
+   "mradermacher/MoAI-Embedding-0.6B-GGUF",
+   "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+   "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard"
+  ],
+  "sg_g019": [
+   "FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp",
+   "OpenVoiceOS/sensevoice-small-onnx",
+   "SungBeom/stt_kr_conformer_ctc_medium",
+   "cstr/sensevoice-small-GGUF",
+   "ghost613/faster-whisper-large-v3-turbo-korean",
+   "ghost613/whisper-large-v3-turbo-korean",
+   "handy-computer/moonshine-base-ko-gguf",
+   "handy-computer/moonshine-tiny-ko-gguf",
+   "moonshine-ai/moonshine-base-ko",
+   "yoyolaiyy3062/SenseVoiceSmall-GGUF-audiocpp"
+  ],
+  "sg_g026": [
+   "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+   "ghost613/whisper-large-v3-turbo-korean",
+   "mistralai/Voxtral-Mini-4B-Realtime-2602",
+   "moonshine-ai/moonshine-base-ko",
+   "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+   "seastar105/whisper-medium-komixv2",
+   "seastar105/whisper-small-komixv2",
+   "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16",
+   "team-lucid/hubert-base-korean",
+   "team-lucid/hubert-large-korean"
+  ],
+  "sg_g027": [
+   "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF",
+   "BuzzASR/korean",
+   "ghost613/whisper-large-v3-turbo-korean",
+   "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit",
+   "mistralai/Voxtral-Mini-4B-Realtime-2602",
+   "moonshine-ai/moonshine-base-ko",
+   "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF",
+   "seastar105/whisper-medium-komixv2",
+   "team-lucid/hubert-large-korean",
+   "w11wo/wav2vec2-xls-r-300m-korean"
+  ],
+  "sg_h001": [
+   "QuantFactory/Apollo2-7B-GGUF",
+   "mradermacher/IoGPT-A1-Instruct-GGUF",
+   "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF"
+  ],
+  "sg_h002": [
+   "FreedomIntelligence/Apollo-MoE-7B",
+   "FreedomIntelligence/Apollo2-3.8B",
+   "FreedomIntelligence/Apollo2-7B",
+   "QuantFactory/Apollo2-7B-GGUF",
+   "cgus/Apollo2-7B-iMat-GGUF",
+   "mradermacher/IoGPT-A1-Instruct-GGUF",
+   "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF"
+  ],
+  "sg_h004": [
+   "mradermacher/IoGPT-A1-Instruct-GGUF",
+   "mradermacher/next-12b-GGUF",
+   "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF"
+  ],
+  "sg_h010": [
+   "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+   "jc-builds/Qwen3.5-9B-VLM-Q4_K_M-GGUF",
+   "jinaai/jina-vlm",
+   "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+   "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+   "mistralai/Ministral-3-3B-Instruct-2512-ONNX",
+   "mlx-community/LFM2.5-VL-1.6B-4bit",
+   "mlx-community/LFM2.5-VL-1.6B-8bit",
+   "thelamapi/next2-fast-GGUF",
+   "thelamapi/next2-fast-i1-GGUF"
+  ],
+  "sg_h018": [
+   "FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF",
+   "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+   "TheBloke/openbuddy-deepseek-67b-v15-base-GGUF",
+   "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+   "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+   "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF",
+   "ali-thowfeek/Charty-1B-GGUF",
+   "geoffmunn/Qwen3-14B-f16",
+   "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned",
+   "unsloth/Qwen2.5-32B-bnb-4bit"
+  ],
+  "sg_h019": [
+   "Atomic-Germ/LFM2.5-1.2B-NPU2",
+   "Atomic-Germ/LFM2.5-1.2B-Thinking-NPU2",
+   "FastFlowLM/LFM2.5-1.2B-NPU2",
+   "Mungert/LFM2.5-1.2B-Instruct-GGUF",
+   "ZuzeTt/LFM2.5-1.2B-Instruct-imatrix-GGUF",
+   "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
+   "insraq/LFM2.5-2.6B-heretic-GGUF",
+   "prithivMLmods/LFM2-2.6B-Exp-GGUF",
+   "thelamapi/next-1b",
+   "unsloth/LFM2.5-1.2B-Instruct-GGUF"
+  ],
+  "sg_h027": [
+   "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
+   "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S",
+   "ZuzeTt/LFM2.5-VL-1.6B-GGUF",
+   "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S",
+   "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+   "ensu-app/LFM2.5-VL-1.6B-GGUF",
+   "ente-ai/LFM2.5-VL-1.6B-GGUF",
+   "kanarena/supergemma4-e4b-abliterated-multimodal-gguf-4bit",
+   "kof1467/supergemma4-26b-abliterated-multimodal-gguf-4bit",
+   "neureps/warmly-qwen35-2b-enko-gguf"
+  ],
+  "sg_h033": [
+   "DavidAU/Llama-3.3-8B-Thinking-Gemini-Flash-11000x-128k",
+   "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+   "OpenBuddy/openbuddy-llama3-70b-v21.2-32k",
+   "OrionStarAI/Orion-14B-LongChat",
+   "QuantFactory/Llama-3-KoEn-8B-GGUF",
+   "arcee-ai/Trinity-Large-Preview",
+   "ellamind/sui-1-24b",
+   "prithivMLmods/LFM2.5-2.6B-GGUF",
+   "soka0000/vclm-korean-7b",
+   "tensorblock/llama2-13b.kor.v1-GGUF"
+  ],
+  "sg_h036": [
+   "FINAL-Bench/Darwin-Mistral-G1",
+   "LiquidAI/LFM2.5-230M",
+   "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+   "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+   "MyeongHo0621/Qwen2.5-3B-Korean",
+   "TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF",
+   "TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF",
+   "TheBloke/openbuddy-llama2-70B-v13-base-GGUF",
+   "kez-lab/gemma-2-2b-quiz-korean",
+   "tensorblock/llama2-13b.kor.v1-GGUF"
+  ],
+  "sg_h045": [
+   "Alibaba-NLP/gte-multilingual-base",
+   "cstr/multilingual-e5-small-GGUF",
+   "jinaai/jina-embeddings-v3",
+   "juyoungml/bge-m3-ko-v1.1",
+   "mradermacher/MoAI-Embedding-0.6B-GGUF",
+   "upskyy/bge-m3-korean",
+   "upskyy/e5-base-korean",
+   "upskyy/e5-large-korean",
+   "yjoonjang/splade-ko-v1",
+   "ysmeta/EVE-Embed-1.1-Legal"
+  ],
+  "sg_h046": [
+   "Baragi-AI/Munche-v2-768",
+   "LiquidAI/LFM2.5-Embedding-350M-GGUF",
+   "alphaedge-ai/multilingual-e5-small-kor-32768",
+   "litert-community/LFM2.5-ColBERT-350M",
+   "litert-community/LFM2.5-Embedding-350M",
+   "madatnlp/km-bert",
+   "mradermacher/LFM2.5-Embedding-350M-GGUF",
+   "mradermacher/MoAI-Embedding-0.6B-GGUF",
+   "zhiqian99/Qwen3-Embedding-0.6B-GGUF"
+  ],
+  "sg_h059": [
+   "EbanLee/kobart-summary-v3",
+   "csebuetnlp/mT5_m2m_crossSum_enhanced",
+   "eenzeenee/t5-base-korean-summarization",
+   "eenzeenee/t5-small-korean-summarization",
+   "mskayacioglu/mbart50-xlsum",
+   "ncls-p/Qwen2.5-3B-blog-key-points",
+   "ncls-p/Qwen2.5-7B-blog-key-points"
+  ],
+  "sg_h064": [
+   "FreedomIntelligence/Apollo-MoE-7B",
+   "FreedomIntelligence/Apollo2-3.8B",
+   "FreedomIntelligence/Apollo2-7B",
+   "QuantFactory/Apollo2-7B-GGUF",
+   "cgus/Apollo2-7B-iMat-GGUF",
+   "mradermacher/IoGPT-A1-Instruct-GGUF",
+   "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF"
+  ],
+  "sg_h069": [
+   "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+   "LGAI-EXAONE/EXAONE-Deep-2.4B",
+   "LGAI-EXAONE/EXAONE-Deep-2.4B-GGUF",
+   "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF",
+   "QuantFactory/EXAONE-Deep-2.4B-GGUF",
+   "TheBloke/openbuddy-mistral-7B-v13-GGUF",
+   "TheBloke/openbuddy-mistral-7B-v13.1-GGUF",
+   "geoffmunn/Qwen3-14B-f16",
+   "geoffmunn/Qwen3-4B-f16",
+   "jc-builds/Qwen3.5-4B-Q4_K_M-GGUF"
+  ],
+  "sg_h070": [
+   "Kkonjeong/wav2vec2-base-korean",
+   "OpenVoiceOS/sensevoice-small-onnx",
+   "SungBeom/stt_kr_conformer_ctc_medium",
+   "handy-computer/moonshine-base-ko-gguf",
+   "handy-computer/moonshine-tiny-ko-gguf",
+   "moonshine-ai/moonshine-base-ko",
+   "moonshine-ai/moonshine-tiny-ko",
+   "onnx-community/moonshine-base-ko-ONNX",
+   "seastar105/whisper-medium-ko-zeroth"
+  ],
+  "sg_h072": [
+   "amazon/Titan-text-embeddings-v2",
+   "dragonkue/BGE-m3-ko",
+   "dragonkue/snowflake-arctic-embed-l-v2.0-ko",
+   "harheem/bge-m3-nvidia-ko-v1",
+   "nmixx-fin/nmixx-bge-m3",
+   "nvidia/Nemotron-3-Embed-1B-BF16",
+   "telepix/PIXIE-Splade-v1.5",
+   "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+   "yjoonjang/splade-ko-v1"
+  ],
+  "sg_h103": [
+   "LiquidAI/LFM2-2.6B-Exp",
+   "LiquidAI/LFM2.5-1.2B-Instruct",
+   "LiquidAI/LFM2.5-1.2B-Thinking",
+   "LiteLLMs/Llama-3-Open-Ko-8B-GGUF",
+   "MuXodious/LFM2.5-1.2B-Thinking-absolute-heresy",
+   "QuantFactory/Llama-3-Ko-8B-Instruct-GGUF",
+   "QuantFactory/Llama-3-KoEn-8B-GGUF",
+   "QuantFactory/Llama-3.2-Taiwan-3B-Instruct-GGUF",
+   "mradermacher/CURE-MED-3B-GGUF",
+   "tensorblock/llama2-13b.kor.v1-GGUF"
+  ],
+  "sg_h104": [
+   "acul21/harrier-oss-v1-0.6b",
+   "amazon/Titan-text-embeddings-v2",
+   "codefuse-ai/ML-Embed-0.6B",
+   "dragonkue/BGE-m3-ko",
+   "microsoft/harrier-oss-v1-0.6b",
+   "telepix/PIXIE-Spell-v1.5-0.6B",
+   "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
+   "zhiqian99/Qwen3-Embedding-0.6B-GGUF"
+  ],
+  "sg_h105": [
+   "HeartMuLa/HeartTranscriptor-oss",
+   "OpenVoiceOS/sensevoice-small-onnx",
+   "SungBeom/stt_kr_conformer_ctc_medium",
+   "christopherthompson81/VibeVoice-ASR-Streaming-1.5B-GGUF",
+   "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
+   "leuconoe/whisper-acft-ko",
+   "moonshine-ai/moonshine-base-ko",
+   "seastar105/whisper-small-komixv2"
+  ],
+  "sg_h106": [
+   "DataWizardd/finbert-sentiment-ko",
+   "FISA-conclave/klue-roberta-news-sentiment",
+   "Huffon/klue-roberta-base-nli",
+   "Jinuuuu/KoELECTRA_fine_tunning_emotion",
+   "Metabaron6/Shieldstral-1.0-3B-GGUF",
+   "banjl4487/MODEL",
+   "bongsoo/kpf-cross-encoder-v1",
+   "solbi12/ecommers_fasion_fine_tuned_3class_model"
+  ]
+ },
+ "weights": []
+}
