@@ -295,3 +295,6 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 ## License
 - **Model weights:** Qwen Community License 1.0 — see [LICENSE](https://huggingface.co/Qwen/Qwen3.8-Flash-Next/blob/main/LICENSE). Copyright 2026 Qwen.
 - **JiRack code and tools:** MIT License — see `LICENSE-CODE`. © 2025-2026 Konstantin Vladimirovich Grabko, CMS Manhattan JiRack Technology.
+
+
+![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

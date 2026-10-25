@@ -29,6 +29,7 @@ tags:
 - routing
 - tool-call
 - robotics
+- NVIDIA Inception Program Member
 license: mit
 ---
 
@@ -263,3 +264,5 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)
