@@ -138,7 +138,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 >
 
-> **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
+> **[Explore the APEX-I MiniPlus V2.1 collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**
 
 >
 
@@ -302,7 +302,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 > Explore the complete family of APEX-I-MiniPlus models in our official collection:
 
-> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)**.
+> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**.
 
 
 

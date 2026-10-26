@@ -272,7 +272,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 > Explore our official collection:
 
-> **[APEX-I-NanoPlus Collection](https://huggingface.co/collections/IsValorum/apex-i-nanoplus-6ab41467c988a1b1cb9b83bc)**.
+> **[APEX-I-NanoPlus Collection](https://huggingface.co/collections/IsValorum/apex-i-nanoplus-standard-moe-6acfee79c288c5d8e7307785)**.
 
 
 

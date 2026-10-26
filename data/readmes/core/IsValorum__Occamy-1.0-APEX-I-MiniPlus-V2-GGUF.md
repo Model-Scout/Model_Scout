@@ -55,7 +55,7 @@ If you consider these releases to be of high quality and they help you in your d
 >
 > Percentages compare the reported WikiText-2 PPL with GSQ-RCO IQ3_S (7.07). The linked 27B cards document the evaluation protocol and model variants.
 >
-> **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
+> **[Explore the APEX-I Legacy Archive collection](https://huggingface.co/collections/IsValorum/apex-i-legacy-archive-v1-and-v2-6acfee7a56126a10a6a29954)**
 >
 > ### EXPLORE THE ESTABLISHED 35B MoE MINIPLUS LINEUP
 > These are complementary APEX-I-MiniPlus V2.1 releases, not alternate downloads of the same model. Each receives the same tensor-by-tensor approach, integrated MTP where supported, and a design suitable for full or partial system-RAM inference. Choose the model whose native strengths best fit the work you want to do:

@@ -156,7 +156,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 >
 
-> **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
+> **[Explore the APEX-I MiniPlus V2.1 collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**
 
 >
 
@@ -184,7 +184,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 1. [Optimization History & Transparency Notice](#toc-01)
 
-2. [Independent Community Benchmarks (Shortbench / NanoBench #03 Global)](#toc-02)
+2. [Independent Community Benchmarks (Shortbench / NanoBench #03 Global)](#toc-02) — includes the [Known Limitation: Type/Schema Preservation Under Compaction](#known-limitation).
 
 3. [Empirical Benchmarks & Fidelity Verification](#toc-03)
 
@@ -314,7 +314,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 > Explore the complete family of APEX-I-MiniPlus models in our official collection:
 
-> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)**.
+> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**.
 
 
 
@@ -337,7 +337,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 > [!NOTE]
 > **Verified Autonomous Agent Evaluation:** Evaluated on the [Shortbench / NanoBench v0.5.0](https://shortbench.vercel.app/) autonomous coding and agentic benchmark (12 objective software engineering, pipeline, and system integrity tasks).
 
-In extensive independent testing conducted by community member **[@derFusel](https://huggingface.co/derFusel)** on a consumer **NVIDIA GeForce RTX 4070 (12 GB VRAM)** workstation, **Cyber-Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1** achieved a perfect first-pass resolution score, ranking in the **Top 3 globally**:
+In extensive independent testing conducted by community member **[@derFusel](https://huggingface.co/derFusel)** on a consumer **NVIDIA GeForce RTX 4070 (12 GB VRAM)** workstation, **Cyber-Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1** achieved a perfect first-pass resolution score in both non-compacted runs (`reasoning_effort=high`, `q8_0` KV cache); the 96K run ranks **#03 globally** and the 160K run **#05**:
 
 | Benchmark Run | Total Score | Solved Tasks | Completion Time | Global Ranking | Tested Hardware & Configuration | Public Verification Link |
 | :--- | :---: | :---: | :---: | :---: | :--- | :---: |
@@ -347,8 +347,17 @@ In extensive independent testing conducted by community member **[@derFusel](htt
 
 **Key Empirical Takeaways:**
 - **Outperforming Frontier Cloud Models on Local Hardware:** Solved all 12 tasks in 16.22 minutes on a single consumer 12 GB GPU, outpacing commercial frontier API runs such as Gemini 3.8 Flash (17.10 min) on the same test suite.
-- **Flawless Multi-Step Code Generation:** Zero syntax errors, zero tool loop-guards, and first-pass execution across asynchronous file systems, date normalizers, and transactional state recovery tasks.
+- **Flawless Multi-Step Code Generation (non-compacted runs):** Zero syntax errors, zero tool loop-guards, and first-pass execution across asynchronous file systems, date normalizers, and transactional state recovery tasks.
 - **Verified llama-server Parameters for 12 GB GPUs:** High-throughput configuration reported by tester: `-ngl 999 -ctk q8_0 -ctv q8_0 -b 8192 -ub 2048 -n 8192 --temp 0.6 --top-p 0.95 --top-k 20 --min-p 0.05 --jinja --cache-reuse 256 -fa on --cont-batching --n-cpu-moe 16 -c 98304 --load-mode dio`.
+
+<a id="known-limitation"></a>
+
+#### Known Limitation: Type/Schema Preservation Under Compaction
+
+> [!IMPORTANT]
+> The two 100% runs were obtained with `reasoning_effort=high`, `q8_0` KV cache, and no context compaction. In the compacted run (98.3%, 10/12), only two verifier groups were lost: `string_id` in `coding-05` (15 pts, dropping it to 85/100) and `mixed_schema` in `systems-02` (5 pts, dropping it to 95/100). Every retry and vendor-consistency check in `coding-05` still passed. This points to type/schema preservation under reduced reasoning effort and/or history compaction rather than a retry-logic, context-size, KV-cache, or APEX weight-quantization defect.
+>
+> For schema-sensitive agentic tasks, use `reasoning_effort=high` and keep context compaction disabled (or raise its threshold). If compaction is required, keep the following invariant in the system prompt outside the compacted region: **"Preserve exact field types and schema. String IDs must remain strings even if numeric-looking; never coerce identifiers. Preserve mixed/heterogeneous schemas; do not normalize or unify field types. Verify these invariants before finishing."**
 
 ---
 
@@ -597,6 +606,8 @@ llama-server.exe   -m Cyber-Tiel-Coder-35B-A3B.APEX-I-MiniPlus-V2.1.gguf   --mmp
 
 ```
 
+> **Coding note:** The upstream sampling metadata uses `--min-p 0`, while the verified coding runs and the advisory below use `--min-p 0.05`. Use `0.05` for coding/agentic workloads.
+
 
 
 <a id="generation-parameters"></a>
@@ -621,9 +632,11 @@ Sampling metadata recorded from [Cyber-Tiel-Coder-35B-A3B-GGUF-MTP](https://hugg
 
 | **Top-K** | `20` | Source GGUF sampling metadata (`--top-k 20`). |
 
-| **Min-P** | `0.00` | Source GGUF sampling metadata (`--min-p 0`). |
+| **Min-P** | `0.00` upstream / `0.05` coding | Source GGUF metadata is `0.00`; the coding advisory and verified 100% runs use `0.05` to prune low-probability syntax noise. |
 
 | **Template Engine** | `--jinja` | Recommended official chat template flag. |
+
+| **Reasoning Effort (Agentic)** | `high` | Recommended for schema-sensitive agentic tasks; `low`/`minimal` may normalize field types under compaction. See [Known Limitation](#known-limitation). |
 
 | **Context Size** | `262144` | Full native 256K context support (`--ctx-size 262144`). |
 

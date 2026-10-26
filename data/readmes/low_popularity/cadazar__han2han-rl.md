@@ -17,6 +17,8 @@ tags:
 - encoder-decoder
 - reinforcement-learning
 - custom_code
+- flax
+- orbax
 ---
 
 # Han2Han RL
@@ -33,7 +35,7 @@ It is the last of three checkpoints, after
 [`cadazar/han2han-pt`](https://huggingface.co/cadazar/han2han-pt) (pre-trained)
 and [`cadazar/han2han-it`](https://huggingface.co/cadazar/han2han-it)
 (instruction-tuned). It starts from `han2han-it` and takes its prompts the
-same way. The paper (Findings of EMNLP 2026) reports on the first two. This
+same way. The paper ([Findings of EMNLP 2026](https://aclanthology.org/2026.findings-emnlp.2146/)) reports on the first two. This
 checkpoint is follow-up work, and its sentence embeddings have not been
 evaluated.
 
@@ -174,9 +176,10 @@ GRPO from `han2han-it` (`main`), 300 steps, all weights trained in fp32:
   supervised loss on replayed instruction-tuning rows at half weight.
 
 The reinforcement-learning stage is in the GitHub repo under `rl/` (the rewards, the JAX trainer, the
-optimizer recipe and the command that produced this checkpoint). The orbax checkpoint it saved is
-[`cadazar/han2han-rl-flax`](https://huggingface.co/cadazar/han2han-rl-flax), its start
-[`cadazar/han2han-it-flax`](https://huggingface.co/cadazar/han2han-it-flax), and the data a public re-run
+optimizer recipe and the command that produced this checkpoint). The orbax checkpoint it saved is this repo's
+[`flax` revision](https://huggingface.co/cadazar/han2han-rl/tree/flax) (step 300, with the run's logs under
+`run/`; `hf download cadazar/han2han-rl --revision flax --local-dir han2han-rl-flax`), its start the
+`flax` revision of [`cadazar/han2han-it`](https://huggingface.co/cadazar/han2han-it/tree/flax), and the data a public re-run
 reads is [`cadazar/han2han-rl-data`](https://huggingface.co/datasets/cadazar/han2han-rl-data) (the
 run's own pool and held-out sentences cannot be redistributed, so the dataset card gives the numbers on
 its public evaluation sentences).
@@ -193,13 +196,27 @@ its public evaluation sentences).
 
 ## Citation
 
+Published in Findings of the Association for Computational Linguistics: EMNLP 2026 (Budapest),
+pages 45857-45876: https://aclanthology.org/2026.findings-emnlp.2146/
+
 ```bibtex
-@inproceedings{han2han2026,
-  title     = {Han2Han: Efficient Language-Specific Character Representation
-               through Script-Aware Pre-Training for Historical Text Analysis},
-  author    = {Adams, Cellik and Jo, EunKyoung and Kim, Juae},
-  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2026},
-  year      = {2026}
+@inproceedings{adams-etal-2026-han2han,
+    title = "{H}an2{H}an: Efficient Language-Specific Character Representation through Script-Aware Pre-Training for Historical Text Analysis",
+    author = "Adams, Cellik  and
+      Jo, EunKyoung  and
+      Kim, Juae",
+    editor = "Lee, Hung-Yi  and
+      Dev, Sunipa  and
+      Li, Jessy  and
+      Elliott, Desmond",
+    booktitle = "Findings of the {A}ssociation for {C}omputational {L}inguistics: {EMNLP} 2026",
+    month = oct,
+    year = "2026",
+    address = "Budapest, Hungary",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2026.findings-emnlp.2146/",
+    pages = "45857--45876",
+    ISBN = "979-8-89176-462-0"
 }
 ```
 
