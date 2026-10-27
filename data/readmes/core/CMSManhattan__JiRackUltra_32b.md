@@ -61,8 +61,10 @@ A fast and efficient 32B model optimized for CPU inference. The model was refact
 
 # Live chat
 
-https://huggingface.co/spaces/CMSManhattan/JiRackUltra_32b
-
+- https://huggingface.co/spaces/CMSManhattan/JiRackUltra_32b
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 
 
 

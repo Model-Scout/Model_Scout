@@ -66,6 +66,9 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 ## Live Chat 
 
 https://huggingface.co/spaces/CMSManhattan/JiRackUltra_14b
+https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 
 
 ---

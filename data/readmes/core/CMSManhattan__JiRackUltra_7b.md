@@ -69,7 +69,10 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 
 ## Live chat 
 
-https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+- https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 
 
 ---

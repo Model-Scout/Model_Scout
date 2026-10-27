@@ -62,6 +62,13 @@ A fast and efficient ~1.5B model optimized for CPU inference. The model was refa
 - Deployment and scale
 
 
+## Live chat 
+
+- https://huggingface.co/spaces/CMSManhattan/JiRackUltra_1b
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
+
 ---
 
 ## JiRack Codding Agent IDE

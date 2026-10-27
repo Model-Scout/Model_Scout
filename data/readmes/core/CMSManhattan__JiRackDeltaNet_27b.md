@@ -58,8 +58,10 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 - Deployment and scale
 
 # Live chat on HF Space
-https://huggingface.co/spaces/CMSManhattan/JiRackDeltaNet_27b
-
+- https://huggingface.co/spaces/CMSManhattan/JiRackDeltaNet_27b
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 ---
 
 ## JiRack Codding Agent IDE

@@ -133,6 +133,12 @@ Not yet published. Sizes are estimates from the parameter count (~180B stored); 
 
 ## Quick Start
 
+## Live  chat with other models 
+
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
+
 ### Run the JiRack checkpoint directly (PyTorch, CPU)
 The JiRack checkpoint is a directory of safetensors shards that is memory-mapped lazily, so it runs even when the model is larger than RAM (slower: pages are read from disk as experts are used).
 ```bash
