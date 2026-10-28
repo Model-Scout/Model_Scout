@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?",
+ "outputs": [
+  "한국어 금융 뉴스 감성 분류에 적합한 모델은 무엇인가요?",
+  "KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis의 차이점은 무엇인가요?"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 금융 뉴스 감성 분류에 적합한 모델은 무엇인가요?",
+   "KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis의 차이점은 무엇인가요?"
+  ]
+ },
+ "latency_ms": 1023.3
+}

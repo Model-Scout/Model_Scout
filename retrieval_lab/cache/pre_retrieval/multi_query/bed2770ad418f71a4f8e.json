@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질의와 영어 문서를 매칭하는 교차 언어 검색 임베딩이 필요해. GPU 서버가 있어.",
+ "outputs": [
+  "교차 언어 검색 임베딩 모델",
+  "I need cross-lingual search embeddings that match Korean queries with English documents. I have a GPU server.",
+  "교차 언어 검색, 임베딩, 한국어, 영어, GPU 서버"
+ ],
+ "response": {
+  "queries": [
+   "교차 언어 검색 임베딩 모델",
+   "I need cross-lingual search embeddings that match Korean queries with English documents. I have a GPU server.",
+   "교차 언어 검색, 임베딩, 한국어, 영어, GPU 서버"
+  ]
+ },
+ "latency_ms": 1128.7
+}

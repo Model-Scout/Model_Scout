@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?",
+ "outputs": [
+  "KR-FinBert-SC is a specialized model designed for sentiment classification in the financial domain, particularly focusing on Korean financial news. It is trained on a large corpus of financial texts, making it highly effective for understanding the nuances of sentiment in this specific context. The model supports Korean as its primary language and has a parameter count of 110 million, allowing for robust performance in sentiment analysis tasks. Its intended use cases include financial news analysis, market sentiment tracking, and investment decision support. On the other hand, koelectra-base-v3-generalized-sentiment-analysis is a more general sentiment analysis model that can handle various domains, including finance, but may not be as finely tuned for financial texts as KR-FinBert-SC. Therefore, for Korean financial news sentiment classification, KR-FinBert-SC would be the more suitable choice."
+ ],
+ "response": {
+  "document": "KR-FinBert-SC is a specialized model designed for sentiment classification in the financial domain, particularly focusing on Korean financial news. It is trained on a large corpus of financial texts, making it highly effective for understanding the nuances of sentiment in this specific context. The model supports Korean as its primary language and has a parameter count of 110 million, allowing for robust performance in sentiment analysis tasks. Its intended use cases include financial news analysis, market sentiment tracking, and investment decision support. On the other hand, koelectra-base-v3-generalized-sentiment-analysis is a more general sentiment analysis model that can handle various domains, including finance, but may not be as finely tuned for financial texts as KR-FinBert-SC. Therefore, for Korean financial news sentiment classification, KR-FinBert-SC would be the more suitable choice."
+ },
+ "latency_ms": 1813.2
+}

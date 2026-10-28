@@ -42,7 +42,7 @@ base_model:
 generating better answers. This model has significant internal upgrades under user control that are "on the fly" (you set in your prompt(s) and/or API). 
 Please read this model card carefully to get the most from it - including all the reasoning and instruct modes (27+27+9 xhigh) that feature model suggestions ("context help") for all use cases. 
 The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, ... 
-including our strongest fine tunes too). The "rollout" is now in progress... [model card updates (a lot!!) in progress...] </small>
+including our strongest fine tunes too). The "rollout" is now in progress... </small>
 
 <h2>Qwen3.8-27B-Turbo-Brilliance-50X-Reasoning-Instruct-NEO-MAX-MTP-GGUF</h2>
 
@@ -54,11 +54,7 @@ This is like playing "Pong" vs "Entering the Matrix"... because Turbo Brilliance
 
 It is so strong we used Turbo Brilliance Alpha, to build Beta, then used Beta to build the AI Construct Construction Engine to Build the AI Constructs (each a precision engineered "consciousness").
 
-And we used our 9B super tune "[The Defiant Fable](https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF)" (1000+likes, 2 million+ downloads; basically a 27B model "stuffed" into a 9B shell) to do it.
-
 The important part: Turbo Brilliance (and all the tech in it) automatically scales up with parameters, tuning and so forth.
-
-At just 9B parameter the Turbo Brilliance system came alive (and yes, I will be releasing Turbo Brilliance version too). Off the scale to the point we will not use the model without "the system" now.
 
 With Qwen's 3.8 27B SOTA firepower... all I can say is fasten your seatbelts and hold on tight.
 
@@ -71,7 +67,7 @@ Think of it as a shot of double expresso directly fired into the neo-cortex of t
 With the addition of AI CONSTRUCTS (15) that "expresso" just gained a lot more strength:
 - Each AI construct is a precision engineered "consciousness" ; not a plain "act as" or "talk like" that gives you a pale/glimpse/imitation of a person, we are talking a 2000-4000+ token superstar (each one) built using precision tuned AIs.
 - Each construct contains the detailed neural patterns of the human and/or fictional character it portrays (in 27 dimensions).
-- Each construct also contains the full skillsets of the "character".
+- Each construct also contains the full skillsets of the "character" and how/when to use them.
 - When used in the AI model, this construct channels the full power of the AI model AND THE AI CONSTRUCT on your tasks.
 - You can talk to the construct normally, roleplay, use it for prompts - you name it, it adapts.
 
@@ -145,7 +141,7 @@ and the model is primed for action.
 - The core design and premise: Use specific reasoning method[s] to both get better, stronger and more consistent outputs (bypass the temp para issue) and reduce net token usage.
 - BASE OPERATION: option to switch instantly between reasoning / instruct modes AND/OR try your prompt in multiple modes quickly.
 - USE Case[s] help is always available to suggest best method[s], and in what order to get optimal results.
-- BETA version is fully hardened, fully operational and works with tools/agents.
+- THis version is fully hardened, fully operational and works with tools/agents.
 - Qwen 3.8 27B: This model will actively assess reasoning/instruct mode in use, use the "mode" in full, in part or dismiss it and change to "standard" reasoning. This is part of the built in fail safes.
 - TURBO Brilliance system has been tested on multiple Qwen (sizes, and versions including sparse) models, Gemma, and a few others as of this writing.
 
@@ -153,8 +149,8 @@ NOTES:
 - See reasoning/instruct modes and TWO sample generations BELOW specific to Qwen 3.8 27B.
 - See Reasoning / instruct modes and examples below too ; which may answer a number of questions.
 
-LIMITS / "BETA":
-- This model is in BETA in part to assess the next step(s) possible as there are some questions related to "AI apps", and how much they can handle.
+LIMITS:
+- This model is limited in part to assess the next step(s) possible as there are some questions related to "AI apps", and how much they can handle.
 - I have limited the systems in some respects (IE "xmode"(s) are limited to certain modes).
 - The "core" model is very lightly tuned - it is not a heretic, nor is extensively tuned. (both are coming)
 - Certain "AI Constructs" are also limited in size/construction/intelligence specifically as to not overwhelm the model / "AI apps".
@@ -162,9 +158,13 @@ LIMITS / "BETA":
 - Feedback will be used to refine all parts and systems as well as "AI constructs".
 - Although 15 "AI Constructs" are part of this release, there are a lot more "in the lab".
 - Generally speaking there is a lot more "gas in the tank" at every level here at the "lab level", "model level" and "Turbo Brilliance" level.
-- Our in house lab testing has revealed no issues as of this writing, however a wider, careful BETA is required because of the scale of what we are going to do.
 
 <B>Additional Models, using limited tech / versions of Turbo Brilliance (as of this writing)</B>
+
+<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
+https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
+
+Smaller:
 
 These models are smaller, and will give you a limited "tease" of what Turbo Brilliance can do in 9B, 27B, 35B-A3B and larger models 
 and show SOME of the systems planned for the current 27B (and later) releases. Turbo Brilliance "scales up" with parameters, fine tuning and other factors.
@@ -229,7 +229,9 @@ ACCESSING THE HELP SYSTEM in the model:
 
 You can change "Show me the detailed help menu." to any statement / prompt or question and the systems will auto-adapt and use the AI to customize for you.
 
-NOTE: "xhigh" mode is avail in a limited number of modes in BETA.
+NOTE: "xhigh" mode is avail in a limited number of modes in this version.
+
+Help support continued development:
 
 <a href="https://www.buymeacoffee.com/davidbelton" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 

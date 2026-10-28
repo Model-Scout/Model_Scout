@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 검색용 문장 임베딩 모델이 필요해. 짧은 질문끼리 비슷한지 비교할 거야.",
+ "outputs": [
+  "한국어 FAQ 검색용 문장 임베딩 모델",
+  "짧은 질문끼리 비슷한지 비교하는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 FAQ 검색용 문장 임베딩 모델",
+   "짧은 질문끼리 비슷한지 비교하는 모델"
+  ]
+ },
+ "latency_ms": 850.6
+}

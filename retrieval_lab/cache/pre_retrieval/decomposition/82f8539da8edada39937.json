@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델이 필요해.",
+ "outputs": [
+  "음성을 받아 적는 모델",
+  "영어로 번역하는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "음성을 받아 적는 모델",
+   "영어로 번역하는 모델"
+  ]
+ },
+ "latency_ms": 839.5
+}

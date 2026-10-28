@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "의학 질문에 답하는 다국어 의료 QA 모델이 필요해. 한국어 질문도 처리해야 해.",
+ "outputs": [
+  "multilingual medical QA model capable of answering medical questions in Korean"
+ ],
+ "response": {
+  "query": "multilingual medical QA model capable of answering medical questions in Korean"
+ },
+ "latency_ms": 792.0
+}

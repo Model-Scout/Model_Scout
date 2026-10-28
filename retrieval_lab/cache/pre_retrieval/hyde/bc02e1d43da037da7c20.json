@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Qwen3-ASR-0.6B와 whisper-medium의 한국어 음성인식 성능을 비교해 줘.",
+ "outputs": [
+  "Qwen3-ASR-0.6B is a state-of-the-art automatic speech recognition model designed specifically for Korean language tasks. With 0.6 billion parameters, it excels in transcribing spoken Korean into text with high accuracy. The model supports various Korean dialects and is optimized for real-time applications, making it suitable for voice assistants and transcription services. Its strengths lie in its ability to handle noisy environments and diverse accents, providing robust performance across different use cases. In comparison, whisper-medium is a versatile model that also supports Korean but is designed for broader multilingual tasks. While whisper-medium offers good performance, Qwen3-ASR-0.6B is tailored for Korean, potentially yielding better results in specific Korean speech recognition scenarios."
+ ],
+ "response": {
+  "document": "Qwen3-ASR-0.6B is a state-of-the-art automatic speech recognition model designed specifically for Korean language tasks. With 0.6 billion parameters, it excels in transcribing spoken Korean into text with high accuracy. The model supports various Korean dialects and is optimized for real-time applications, making it suitable for voice assistants and transcription services. Its strengths lie in its ability to handle noisy environments and diverse accents, providing robust performance across different use cases. In comparison, whisper-medium is a versatile model that also supports Korean but is designed for broader multilingual tasks. While whisper-medium offers good performance, Qwen3-ASR-0.6B is tailored for Korean, potentially yielding better results in specific Korean speech recognition scenarios."
+ },
+ "latency_ms": 1662.8
+}

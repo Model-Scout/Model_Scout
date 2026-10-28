@@ -52,74 +52,77 @@ tags:
 transcribe_cpp:
   schema_version: 2
   wer_fleurs_ar:
-    q8_0: 25.79
+    q8_0: 25.88
   wer_fleurs_bg:
-    q8_0: 84.98
+    q8_0: 55.78
   wer_fleurs_cs:
-    q8_0: 53.56
+    q8_0: 48.7
   wer_fleurs_da:
-    q8_0: 69.93
+    q8_0: 55.94
   wer_fleurs_el:
-    q8_0: 103.55
+    q8_0: 100.43
   wer_fleurs_en:
-    q8_0: 4.9
+    q8_0: 5.02
   wer_fleurs_et:
-    q8_0: 64.22
+    q8_0: 61.09
   wer_fleurs_fi:
-    q8_0: 68.16
+    q8_0: 65.77
   wer_fleurs_fil:
-    q8_0: 15.62
+    q8_0: 14.29
   wer_fleurs_ga:
-    q8_0: 100.08
+    q8_0: 95.78
   wer_fleurs_hi:
-    q8_0: 43.96
+    q8_0: 23.07
   wer_fleurs_hr:
-    q8_0: 61.07
+    q8_0: 67.52
   wer_fleurs_hu:
-    q8_0: 113.21
+    q8_0: 110.75
   wer_fleurs_id:
-    q8_0: 7.52
+    q8_0: 7.32
   cer_fleurs_ja:
-    q8_0: 2.32
+    q8_0: 2.1
   cer_fleurs_ko:
-    q8_0: 5.2
+    q8_0: 5.41
   wer_fleurs_lt:
-    q8_0: 78.42
+    q8_0: 75.25
   wer_fleurs_lv:
-    q8_0: 56.71
+    q8_0: 52.14
   wer_fleurs_ms:
-    q8_0: 9.92
+    q8_0: 9.11
   wer_fleurs_mt:
-    q8_0: 91.71
+    q8_0: 89.25
   wer_fleurs_nl:
-    q8_0: 42.97
+    q8_0: 42.36
   wer_fleurs_pl:
-    q8_0: 59.34
+    q8_0: 52.34
   wer_fleurs_pt:
-    q8_0: 28.24
+    q8_0: 22.23
   wer_fleurs_ro:
-    q8_0: 74.39
+    q8_0: 67.83
   wer_fleurs_sk:
-    q8_0: 64.01
+    q8_0: 60.13
   wer_fleurs_sl:
-    q8_0: 75.22
+    q8_0: 72.73
   wer_fleurs_sv:
-    q8_0: 75.36
+    q8_0: 71.6
   cer_fleurs_th:
-    q8_0: 7.99
+    q8_0: 7.28
   wer_fleurs_vi:
-    q8_0: 8.32
+    q8_0: 8.22
   cer_fleurs_yue:
-    q8_0: 12.72
+    q8_0: 8.39
   cer_fleurs_zh:
-    q8_0: 8.64
+    q8_0: 7.33
   wer_librispeech_test_clean:
-    bf16: 1.74
-    f16: 1.74
-    q8_0: 1.74
-    q6_k: 1.69
-    q5_k_m: 1.77
-    q4_k_m: 1.89
+    bf16: 1.71
+    f16: 1.71
+    q8_0: 1.72
+    q6_k: 1.66
+    q5_k_m: 1.74
+    q4_k_m: 1.8
+  rtf_m4:
+    cpu: 11.33
+    metal: 25.82
   rtf_m4_max:
     cpu: 19.54
     metal: 70.03
@@ -128,7 +131,8 @@ transcribe_cpp:
     vulkan: 8.84
   streaming: false
   translate: false
-  lang_detect: false
+  lang_detect: true
+  explicit_language_selection: true
   timestamps: none
 ---
 
@@ -156,31 +160,34 @@ bundled Qwen3-0.6B LLM); trained on a smaller multilingual corpus
 ("hundreds of thousands of hours" per the model card, vs Nano's
 "tens of millions"). Takes a 16 kHz mono WAV and emits text. Not
 streaming, no translation, no timestamps. ITN (inverse text
-normalization) is supported by the model and exposed via the
-`--itn` CLI flag and `transcribe_funasr_nano_params { use_itn }`
-in the library API.
+normalization) is on by default, matching upstream, for readable
+casing, punctuation, and digits; pass `--no-itn` for spoken-form
+output.
 
 
 ## Downloads
 
 | Quantization | Download | Size | WER (LibriSpeech test-clean) |
 | --- | --- | ---: | ---: |
-| BF16 | [Fun-ASR-MLT-Nano-2512-BF16.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-BF16.gguf) | 1.67 GB | 1.74% |
-| F16 | [Fun-ASR-MLT-Nano-2512-F16.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-F16.gguf) | 1.67 GB | 1.74% |
-| Q8_0 | [Fun-ASR-MLT-Nano-2512-Q8_0.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q8_0.gguf) | 891 MB | 1.74% |
-| Q6_K | [Fun-ASR-MLT-Nano-2512-Q6_K.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q6_K.gguf) | 691 MB | 1.69% |
-| Q5_K_M | [Fun-ASR-MLT-Nano-2512-Q5_K_M.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q5_K_M.gguf) | 631 MB | 1.77% |
-| Q4_K_M | [Fun-ASR-MLT-Nano-2512-Q4_K_M.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q4_K_M.gguf) | 557 MB | 1.89% |
+| BF16 | [Fun-ASR-MLT-Nano-2512-BF16.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-BF16.gguf) | 1.67 GB | 1.71% |
+| F16 | [Fun-ASR-MLT-Nano-2512-F16.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-F16.gguf) | 1.67 GB | 1.71% |
+| Q8_0 | [Fun-ASR-MLT-Nano-2512-Q8_0.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q8_0.gguf) | 891 MB | 1.72% |
+| Q6_K | [Fun-ASR-MLT-Nano-2512-Q6_K.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q6_K.gguf) | 691 MB | 1.66% |
+| Q5_K_M | [Fun-ASR-MLT-Nano-2512-Q5_K_M.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q5_K_M.gguf) | 631 MB | 1.74% |
+| Q4_K_M | [Fun-ASR-MLT-Nano-2512-Q4_K_M.gguf](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/resolve/main/Fun-ASR-MLT-Nano-2512-Q4_K_M.gguf) | 557 MB | 1.80% |
 
-WER on the full LibriSpeech test-clean split (2,620 utterances). Figures without a commit were published before provenance was recorded.
+WER on the full LibriSpeech test-clean split (2,620 utterances), batch size 8, timestamps none, language hint `en`, decoded on cuda. Measured at transcribe.cpp `c5f26f94`.
 
 Greedy LLM decoding via the bundled Qwen3-0.6B head. The publisher does not report a
 numerical LibriSpeech WER for the MLT variant specifically (the shared README's
 per-model table covers Fun-ASR-Nano only). Gate baseline is our own FunASR 1.3.1
-reference run on the same manifest: 1.76% (95% CI [1.60%, 1.93%]). transcribe.cpp's
-BF16 port matches that baseline within -0.02 percentage-points. LibriSpeech is
-English only; the strength of the MLT variant is multilingual coverage, not English
-accuracy. For the other 30 languages, run your own representative manifest.
+reference run on the same manifest with ITN on (`--use-itn`): 1.71% (95% CI [1.55%,
+1.89%]). transcribe.cpp's BF16 port matches that baseline within -0.01
+percentage-points. LibriSpeech is English only; the strength of the MLT variant is
+multilingual coverage, not English accuracy. All values on this page are measured
+with ITN on, this variant's runtime default. With ITN off the reference scores 1.76%
+and the BF16 port 1.74%; on FLEURS, ITN on lowers error in 27 of 31 languages,
+partly because FLEURS references write numbers as digits.
 
 
 ## Usage
@@ -214,6 +221,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **FunASR Model Open Source License Agreement v1.1**. See the
 [upstream model card](https://huggingface.co/FunAudioLLM/Fun-ASR-MLT-Nano-2512) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

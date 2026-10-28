@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+ "outputs": [
+  "The model is designed for the task of summarization, specifically focusing on extracting key points from Korean blog posts. It supports the Korean language and is optimized for concise and coherent summaries. With a parameter count of 1.2 billion, this model strikes a balance between performance and efficiency, making it suitable for real-time applications. Intended use cases include content curation, social media management, and academic research, where quick insights from lengthy texts are essential. Its strengths lie in its ability to understand context and maintain the original tone of the content, ensuring that the summaries are both informative and engaging."
+ ],
+ "response": {
+  "document": "The model is designed for the task of summarization, specifically focusing on extracting key points from Korean blog posts. It supports the Korean language and is optimized for concise and coherent summaries. With a parameter count of 1.2 billion, this model strikes a balance between performance and efficiency, making it suitable for real-time applications. Intended use cases include content curation, social media management, and academic research, where quick insights from lengthy texts are essential. Its strengths lie in its ability to understand context and maintain the original tone of the content, ensuring that the summaries are both informative and engaging."
+ },
+ "latency_ms": 1545.6
+}

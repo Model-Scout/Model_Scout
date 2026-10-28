@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질의와 영어 문서를 매칭하는 교차 언어 검색 임베딩이 필요해. GPU 서버가 있어.",
+ "outputs": [
+  "교차 언어 검색 임베딩 모델",
+  "GPU 서버에서 사용할 수 있는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "교차 언어 검색 임베딩 모델",
+   "GPU 서버에서 사용할 수 있는 모델"
+  ]
+ },
+ "latency_ms": 829.6
+}

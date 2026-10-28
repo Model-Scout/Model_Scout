@@ -72,7 +72,7 @@ If you consider these releases to be of high quality and they help you in your d
 >
 > Percentages compare the reported WikiText-2 PPL with GSQ-RCO IQ3_S (7.07). The linked 27B cards document the evaluation protocol and model variants.
 >
-> **[Explore the VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)**
+> **[Explore the APEX-I MiniPlus V2.1 Abliterated collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-abliterated-moe-6acfee762fc4a8cf2298c55b)**
 >
 > ### EXPLORE THE ESTABLISHED 35B MoE MINIPLUS LINEUP
 > These are complementary APEX-I-MiniPlus V2.1 releases, not alternate downloads of the same model. Each receives the same tensor-by-tensor approach, integrated MTP where supported, and a design suitable for full or partial system-RAM inference. Choose the model whose native strengths best fit the work you want to do:
@@ -174,7 +174,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 > - **System RAM Streaming Specialist (DDR4/DDR5 & Massive Context):** **Specially engineered to run either partially or entirely out of system RAM across large or full (+160k to 256k) context windows.** By replacing non-linear codebooks with linear SIMD-optimized `Q3_K` edge experts and upgrading shared foundation experts to `Q5_K` across all 40 layers, AVX2 CPU dequantization stalls are completely eliminated. Depending on your processor architecture and memory bandwidth (dual-channel DDR4 or high-speed DDR5 6000+ MT/s), **streaming generation in system RAM can approach speeds remarkably close to full VRAM execution**, allowing both the dedicated `Q8_0` multimodal vision projector (`mmproj`) and the integrated Multi-Token Prediction tensors to be used by compatible runtimes for speculative decoding and the Q8_0 multimodal projector (`mmproj`) to be loaded in GPU VRAM for OCR while the main model weights stream effortlessly from system RAM.
 > 
 > Explore the complete family of APEX-I-MiniPlus models in our official collection:
-> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)**.
+> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-abliterated-moe-6acfee762fc4a8cf2298c55b)**.
 
 ---
 

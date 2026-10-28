@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰으로 녹음한 한국어 회의를 GPU 없는 PC에서 전사하려고 해. 1시간 넘는 음성도 처리해야 하고 속도와 품질이 균형 잡혀야 해.",
+ "outputs": [
+  "transcribe Korean meetings recorded on mobile phone on PC without GPU, handle over 1 hour audio, balance speed and quality"
+ ],
+ "response": {
+  "query": "transcribe Korean meetings recorded on mobile phone on PC without GPU, handle over 1 hour audio, balance speed and quality"
+ },
+ "latency_ms": 947.7
+}

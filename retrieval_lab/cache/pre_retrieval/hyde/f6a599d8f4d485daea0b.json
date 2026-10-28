@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 의료 상담 질문에 답하는 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "The model is designed for the task of providing medical consultation in Korean. It supports the Korean language and is optimized for understanding and generating medical-related queries and responses. With a parameter count of 1.5 billion, it offers a robust understanding of medical terminology and patient inquiries. The model is particularly useful for research purposes, enabling healthcare professionals and researchers to analyze patient interactions and improve medical communication. Its strengths lie in its ability to comprehend complex medical questions and provide accurate, context-aware responses, making it an invaluable tool for medical research and patient support."
+ ],
+ "response": {
+  "document": "The model is designed for the task of providing medical consultation in Korean. It supports the Korean language and is optimized for understanding and generating medical-related queries and responses. With a parameter count of 1.5 billion, it offers a robust understanding of medical terminology and patient inquiries. The model is particularly useful for research purposes, enabling healthcare professionals and researchers to analyze patient interactions and improve medical communication. Its strengths lie in its ability to comprehend complex medical questions and provide accurate, context-aware responses, making it an invaluable tool for medical research and patient support."
+ },
+ "latency_ms": 1446.7
+}

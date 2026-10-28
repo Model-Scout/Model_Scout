@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트를 같은 공간에 임베딩해서 이미지 검색을 하려고 해.",
+ "outputs": [
+  "이미지와 한국어 텍스트를 함께 임베딩하여 이미지 검색을 하고 싶습니다.",
+  "I want to perform image search by embedding images and Korean text in the same space.",
+  "image embedding, Korean text embedding, image search, multimodal models"
+ ],
+ "response": {
+  "queries": [
+   "이미지와 한국어 텍스트를 함께 임베딩하여 이미지 검색을 하고 싶습니다.",
+   "I want to perform image search by embedding images and Korean text in the same space.",
+   "image embedding, Korean text embedding, image search, multimodal models"
+  ]
+ },
+ "latency_ms": 1259.6
+}

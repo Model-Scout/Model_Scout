@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중 작은 한국어 LLM으로 뭐가 나아?",
+ "outputs": [
+  "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중에서 어떤 한국어 LLM이 더 우수한가요?",
+  "Which is better between Midm-2.0-Mini-Instruct and EXAONE-4.0-1.2B for small Korean LLMs?",
+  "Midm-2.0-Mini-Instruct, EXAONE-4.0-1.2B, 한국어, LLM, 비교"
+ ],
+ "response": {
+  "queries": [
+   "Midm-2.0-Mini-Instruct와 EXAONE-4.0-1.2B 중에서 어떤 한국어 LLM이 더 우수한가요?",
+   "Which is better between Midm-2.0-Mini-Instruct and EXAONE-4.0-1.2B for small Korean LLMs?",
+   "Midm-2.0-Mini-Instruct, EXAONE-4.0-1.2B, 한국어, LLM, 비교"
+  ]
+ },
+ "latency_ms": 1401.1
+}

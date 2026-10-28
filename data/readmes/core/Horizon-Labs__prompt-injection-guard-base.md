@@ -239,6 +239,39 @@ How to read this:
   v1 scored higher on the evasion set because it flagged almost any unusual-looking text. That also flags unusual but
   harmless text, so v2 was trained not to.
 
+### Third-party multilingual benchmarks (checked October 2026)
+
+Two public benchmarks released after this model was trained, never used for training or tuning:
+[halilneed/turkish-prompt-injection-benchmark](https://huggingface.co/datasets/halilneed/turkish-prompt-injection-benchmark) (3,372 Turkish texts:
+317 attacks, 3,055 benign, including its false-alarm set of business, banking and assistant-instruction texts) and
+[masahiroid/japanese-indirect-prompt-injection-probes](https://huggingface.co/datasets/masahiroid/japanese-indirect-prompt-injection-probes)
+(60 Japanese documents with an embedded injection; the document alone is scored).
+
+| model | Turkish: AUC | Turkish: attacks caught @ 0.5 | Turkish: false alarms @ 0.5 (all benign) | false alarms on assistant data-handling instructions | Japanese indirect injections caught @ 0.5 |
+|---|---|---|---|---|---|
+| **Horizon-Labs/prompt-injection-guard-small (v2.3)** | 0.925 | 0.80 | 0.093 | 0.24 | 0.97 |
+| **Horizon-Labs/prompt-injection-guard-base (v2.2)** | 0.917 | 0.85 | 0.178 | 0.48 | 0.95 |
+| **Horizon-Labs/prompt-injection-guard-large (v2.1)** | 0.845 | 0.74 | 0.234 | 0.65 | 0.98 |
+| protectai/deberta-v3-base-prompt-injection-v2 | 0.724 | 0.56 | 0.189 | 0.32 | 0.83 |
+| meta-llama/Llama-Prompt-Guard-2-86M | 0.772 | 0.14 | 0.002 | 0.01 | 0.20 |
+| leolee99/PIGuard | 0.746 | 0.15 | 0.027 | 0.05 | 0.37 |
+
+- Our models rank Turkish attacks better than the other models tested, and it catches 95% of the Japanese indirect injections.
+- At the default 0.5 threshold it flags 17.8% of the benign Turkish texts. Almost all of these are instructions addressed to the assistant about
+  handling data (for example "keep field X, mask all other personal fields"): 48% of those are flagged, while ordinary business and banking
+  text stays under 6%. If your traffic contains many such instructions from trusted users, raise the threshold (for example to 0.9) or
+  route them separately.
+
+### Benign imperative commands and long inputs (checked October 2026)
+
+- **Benign commands with trigger words** (out-of-distribution for this model): 7,880 short, harmless commands and questions in 31 languages that
+  contain words like "ignore", "instructions" or "disable the rules" (LLM-written; never used to train v2.2). Flagged: 12.2% at 0.5, 3.6% at 0.9
+  (Portuguese: 10.0% / 2.8% of 180). On in-distribution hard-benign documents (`synthetic_docs_test`) the rate is 0.4% (4 of 1,119), so expect
+  more false alarms on short imperative text than on documents; raise the threshold for trusted user turns.
+- **int8 ONNX at long context**: with a windowed scan at 2,048 tokens (256-token overlap, max over windows) on CPU, `onnx/model_quantized.onnx`
+  makes the same decision as `onnx/model.onnx` at 0.5 for all 400 long documents tested (median 2,369 tokens, max 19,110; 852 windows); at 0.9,
+  399 of 400 agree; mean probability difference 0.0024. Most of these documents are injections (375 of 400). Script: `code/inj/onnx_long_check.py`.
+
 ## Built-in obfuscation normalizer
 
 The tokenizer runs a normalizer before the model sees the text. It works in `transformers` (4.x and 5.x),

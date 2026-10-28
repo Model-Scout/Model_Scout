@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기사를 읽고 한국어로 요약해 주는 교차 언어 요약 모델이 필요해.",
+ "outputs": [
+  "교차 언어 요약 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "교차 언어 요약 모델"
+  ]
+ },
+ "latency_ms": 945.8
+}

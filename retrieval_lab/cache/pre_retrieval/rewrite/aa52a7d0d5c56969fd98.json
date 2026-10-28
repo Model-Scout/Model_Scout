@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 검색용 문장 임베딩 모델이 필요해. 짧은 질문끼리 비슷한지 비교할 거야.",
+ "outputs": [
+  "Korean FAQ search sentence embedding model for comparing similarity between short questions."
+ ],
+ "response": {
+  "query": "Korean FAQ search sentence embedding model for comparing similarity between short questions."
+ },
+ "latency_ms": 828.4
+}

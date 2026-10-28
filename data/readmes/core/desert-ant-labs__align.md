@@ -31,7 +31,7 @@ Accurate word timestamps for any transcript.
 
 Word-timestamp refinement for any transcript, on device.
 
-- **SDKs, install and examples:** https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/docs/models/align.md
+- **SDKs, install and examples:** https://desertant.com/docs/align/
 
 <!-- card-header:end -->
 
@@ -58,7 +58,7 @@ on device.
 **Swift** ([requirements](https://github.com/Desert-Ant-Labs/desert-ant-core/blob/main/README.md#swift))
 
 ```swift
-.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "3.6.0")
+.package(url: "https://github.com/Desert-Ant-Labs/desert-ant-core.git", from: "4.2.0")
 ```
 
 Then add the `Align` product to your target.
@@ -81,7 +81,6 @@ npm i @desert-ant-labs/align
 | `mel_filters.bin` | Float32 filter bank | 40KB | Log-mel filter bank the runtime frontend needs |
 | `calibrator.bin` | Gradient-boosted trees | 70KB | Correction calibrator |
 | `refiner_config.json` | JSON | tiny | Runtime config |
-| `LICENSE.md` | Text | tiny | Full license terms |
 
 The compiled `.mlmodelc` stages (Apple platforms) or `.tflite` stages (Linux, Windows and Node),
 plus `mel_filters.bin`, `calibrator.bin`, and `refiner_config.json`, are exactly what the SDK

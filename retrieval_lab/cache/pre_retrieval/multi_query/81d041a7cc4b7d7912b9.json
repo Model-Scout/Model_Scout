@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 희소(sparse) 벡터로 바꿔 키워드 검색과 섞어 쓰려고 해.",
+ "outputs": [
+  "한국어 문서를 희소 벡터로 변환하여 키워드 검색에 활용하고 싶습니다.",
+  "I want to convert Korean documents into sparse vectors for use in keyword searches.",
+  "Korean document sparse vector keyword search"
+ ],
+ "response": {
+  "queries": [
+   "한국어 문서를 희소 벡터로 변환하여 키워드 검색에 활용하고 싶습니다.",
+   "I want to convert Korean documents into sparse vectors for use in keyword searches.",
+   "Korean document sparse vector keyword search"
+  ]
+ },
+ "latency_ms": 1275.3
+}

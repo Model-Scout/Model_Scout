@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-2.4B-Instruct와 kanana-1.5-2.1b-instruct 중 한국어 대화에 더 좋은 건?",
+ "outputs": [
+  "EXAONE-3.5-2.4B-Instruct is a state-of-the-art conversational model designed for natural language understanding and generation. It supports multiple languages, including Korean, and is optimized for dialogue tasks. With 2.4 billion parameters, it excels in generating coherent and contextually relevant responses, making it ideal for applications in customer support and interactive chatbots. Its strengths lie in its ability to understand nuanced queries and maintain context over longer conversations.\n\nOn the other hand, kanana-1.5-2.1b-instruct is also a conversational model with 2.1 billion parameters, specifically fine-tuned for instruction-following tasks. While it performs well in Korean, its primary focus is on executing commands rather than engaging in free-flowing dialogue. Therefore, for Korean conversation, EXAONE-3.5-2.4B-Instruct would likely provide a better experience."
+ ],
+ "response": {
+  "document": "EXAONE-3.5-2.4B-Instruct is a state-of-the-art conversational model designed for natural language understanding and generation. It supports multiple languages, including Korean, and is optimized for dialogue tasks. With 2.4 billion parameters, it excels in generating coherent and contextually relevant responses, making it ideal for applications in customer support and interactive chatbots. Its strengths lie in its ability to understand nuanced queries and maintain context over longer conversations.\n\nOn the other hand, kanana-1.5-2.1b-instruct is also a conversational model with 2.1 billion parameters, specifically fine-tuned for instruction-following tasks. While it performs well in Korean, its primary focus is on executing commands rather than engaging in free-flowing dialogue. Therefore, for Korean conversation, EXAONE-3.5-2.4B-Instruct would likely provide a better experience."
+ },
+ "latency_ms": 2029.4
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 수학 문제 사진을 보고 풀이를 설명하는 모델이 필요해. 정확도가 중요하고 큰 GPU 서버가 있어.",
+ "outputs": [
+  "The model is designed for the task of solving and explaining mathematical problems presented in images, specifically in Korean. It supports Korean as the primary language and is optimized for high accuracy in understanding and interpreting complex mathematical expressions. With a parameter count of 1.5 billion, it is capable of processing large context lengths, making it suitable for detailed explanations. The model is intended for use cases in educational technology, tutoring applications, and automated homework assistance. Its strengths lie in its ability to accurately recognize and interpret mathematical symbols and provide step-by-step solutions, making it ideal for users with access to large GPU servers."
+ ],
+ "response": {
+  "document": "The model is designed for the task of solving and explaining mathematical problems presented in images, specifically in Korean. It supports Korean as the primary language and is optimized for high accuracy in understanding and interpreting complex mathematical expressions. With a parameter count of 1.5 billion, it is capable of processing large context lengths, making it suitable for detailed explanations. The model is intended for use cases in educational technology, tutoring applications, and automated homework assistance. Its strengths lie in its ability to accurately recognize and interpret mathematical symbols and provide step-by-step solutions, making it ideal for users with access to large GPU servers."
+ },
+ "latency_ms": 1575.1
+}

@@ -19,6 +19,11 @@ tags:
   - moe
 ---
 
+> ### ⭐ Latest and flagship models
+> [![VKORE-46M-NPU](https://img.shields.io/badge/%F0%9F%86%95_VKORE--46M--NPU-pretraining_on_NPU-6c3fd1?style=for-the-badge)](https://huggingface.co/FINAL-Bench/VKORE-46M-NPU) [![Darwin-27B-ZTC-v5](https://img.shields.io/badge/Darwin--27B--ZTC--v5-S1MB_%231_EN+JP-ff6b8b?style=for-the-badge)](https://huggingface.co/FINAL-Bench/Darwin-27B-ZTC-v5)
+> [![POCKET family](https://img.shields.io/badge/%F0%9F%A4%97-POCKET_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6) [![Darwin family](https://img.shields.io/badge/%F0%9F%A4%97-Darwin_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193) [![All models](https://img.shields.io/badge/%F0%9F%A4%97-FINAL--Bench-ffb020)](https://huggingface.co/FINAL-Bench) [![Website](https://img.shields.io/badge/%F0%9F%8C%90-vidraft.net-4ea8ff)](https://vidraft.net) [![THE VC](https://img.shields.io/badge/%F0%9F%93%8A-THE_VC-0a66c2)](https://thevc.kr/vidraft)
+
+
 # POCKET-Darwin-180B-GGUF
 
 <p align="center">

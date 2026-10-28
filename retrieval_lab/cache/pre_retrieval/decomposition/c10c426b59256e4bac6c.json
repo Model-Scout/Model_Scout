@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해.",
+ "outputs": [
+  "법령·판례 검색용 RAG에 적합한 임베딩 모델",
+  "GPU 없이 CPU에서 사용할 수 있는 가벼운 모델",
+  "한국어 지원 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "법령·판례 검색용 RAG에 적합한 임베딩 모델",
+   "GPU 없이 CPU에서 사용할 수 있는 가벼운 모델",
+   "한국어 지원 모델"
+  ]
+ },
+ "latency_ms": 1067.2
+}

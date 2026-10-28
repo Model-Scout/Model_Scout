@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 뉴스 기사를 3줄 정도로 요약하는 모델이 필요해. 추가 학습 없이 바로 쓰고 싶어.",
+ "outputs": [
+  "한국어 뉴스 기사를 간단히 요약할 수 있는 모델을 찾고 있어요.",
+  "I need a model that can summarize Korean news articles in about three lines without additional training.",
+  "모델 요약 한국어 뉴스 기사 추가 학습 없이"
+ ],
+ "response": {
+  "queries": [
+   "한국어 뉴스 기사를 간단히 요약할 수 있는 모델을 찾고 있어요.",
+   "I need a model that can summarize Korean news articles in about three lines without additional training.",
+   "모델 요약 한국어 뉴스 기사 추가 학습 없이"
+  ]
+ },
+ "latency_ms": 954.2
+}

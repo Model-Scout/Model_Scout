@@ -151,6 +151,10 @@ numbers, numerical validation, and reproduction steps.
 
 Inherited from the base model: **Apache-2.0**. See the
 [upstream model card](https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602) for full terms.
+This repository includes the license text
+([`LICENSE`](https://huggingface.co/handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf/blob/main/LICENSE)) and a
+[`NOTICE`](https://huggingface.co/handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf/blob/main/NOTICE) recording
+how these files were derived from the original.
 
 ---
 

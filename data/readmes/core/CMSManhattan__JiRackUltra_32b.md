@@ -59,6 +59,12 @@ A fast and efficient 32B model optimized for CPU inference. The model was refact
 - Adapts to agentic or instruct models for tool calling, using the JiRak tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
 
+# Live chat
+
+https://huggingface.co/spaces/CMSManhattan/JiRackUltra_32b
+
+
+
 
 # JiRack Codding Agent IDE
 - It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
@@ -249,3 +255,5 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

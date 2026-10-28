@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥용 전사 앱에 중국어·일본어·한국어 음성을 빠르게 받아적는 엔진을 넣으려고 해. 정확도보다 속도가 우선이야.",
+ "outputs": [
+  "맥용 전사 앱에 빠른 음성 인식 엔진을 찾고 있어요. 중국어, 일본어, 한국어 지원이 필요하고, 속도가 중요해요.",
+  "I'm looking for a fast speech recognition engine for a transcription app on Mac that supports Chinese, Japanese, and Korean, prioritizing speed over accuracy.",
+  "맥용 전사 앱, 음성 인식 엔진, 중국어, 일본어, 한국어, 속도 우선"
+ ],
+ "response": {
+  "queries": [
+   "맥용 전사 앱에 빠른 음성 인식 엔진을 찾고 있어요. 중국어, 일본어, 한국어 지원이 필요하고, 속도가 중요해요.",
+   "I'm looking for a fast speech recognition engine for a transcription app on Mac that supports Chinese, Japanese, and Korean, prioritizing speed over accuracy.",
+   "맥용 전사 앱, 음성 인식 엔진, 중국어, 일본어, 한국어, 속도 우선"
+  ]
+ },
+ "latency_ms": 1485.2
+}

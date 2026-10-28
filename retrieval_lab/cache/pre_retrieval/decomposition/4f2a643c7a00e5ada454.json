@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?",
+ "outputs": [
+  "kanana-1.5-v-3b-instruct의 이미지 질의응답 성능",
+  "LFM2-VL-3B의 이미지 질의응답 성능",
+  "kanana-1.5-v-3b-instruct의 한국어 지원",
+  "LFM2-VL-3B의 한국어 지원"
+ ],
+ "response": {
+  "sub_queries": [
+   "kanana-1.5-v-3b-instruct의 이미지 질의응답 성능",
+   "LFM2-VL-3B의 이미지 질의응답 성능",
+   "kanana-1.5-v-3b-instruct의 한국어 지원",
+   "LFM2-VL-3B의 한국어 지원"
+  ]
+ },
+ "latency_ms": 1114.6
+}

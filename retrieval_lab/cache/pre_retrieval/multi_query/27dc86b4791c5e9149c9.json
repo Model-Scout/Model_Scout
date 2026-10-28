@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객센터 문의 문장이 존댓말인지 반말인지 구분하는 한국어 모델이 필요해.",
+ "outputs": [
+  "존댓말과 반말을 구분하는 한국어 모델을 찾고 있어요.",
+  "I need a Korean model that can distinguish between honorific and informal speech.",
+  "Korean model, distinguish honorific speech, informal speech, task, use cases"
+ ],
+ "response": {
+  "queries": [
+   "존댓말과 반말을 구분하는 한국어 모델을 찾고 있어요.",
+   "I need a Korean model that can distinguish between honorific and informal speech.",
+   "Korean model, distinguish honorific speech, informal speech, task, use cases"
+  ]
+ },
+ "latency_ms": 1040.4
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객 문의 문장의 의도(질문·명령·진술 등)를 분류하는 한국어 모델이 필요해.",
+ "outputs": [
+  "고객 문의 문장의 의도를 분류하는 한국어 모델을 찾고 있어요.",
+  "I need a Korean model that classifies the intent of customer inquiry sentences (questions, commands, statements, etc.).",
+  "고객 문의, 의도 분류, 한국어 모델, 질문, 명령, 진술"
+ ],
+ "response": {
+  "queries": [
+   "고객 문의 문장의 의도를 분류하는 한국어 모델을 찾고 있어요.",
+   "I need a Korean model that classifies the intent of customer inquiry sentences (questions, commands, statements, etc.).",
+   "고객 문의, 의도 분류, 한국어 모델, 질문, 명령, 진술"
+  ]
+ },
+ "latency_ms": 1372.5
+}

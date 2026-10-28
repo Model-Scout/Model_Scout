@@ -512,7 +512,7 @@ EUpress is an internally created, unpublished dataset.
 | Post-editing | [ApeQuest](https://apequest.wordpress.com/downloads/) | en→{fr, nl, pt} | 15,000 |
 | Structured text (HTML) | [ACAData (bench)](https://huggingface.co/datasets/BSC-LT/ACAData) | 12 pairs (ca/es/en/fr/pt) | 5,381 |
 | Structured text (HTML) | [ACAData (train)](https://huggingface.co/datasets/BSC-LT/ACAData) | 96 pairs (Iberian + EU) | 22,591 |
-| Structured text (HTML) | Catalan hours *(Internally created dataset)* | ca↔es | 389 |
+| Structured text (HTML) | [Catalan hours](https://huggingface.co/datasets/BSC-LT/Catalan_Hours) *(Internally created dataset)* | ca↔es | 389 |
 | Structured text (HTML) | [Europarl](https://huggingface.co/datasets/Helsinki-NLP/europarl) | 200+ EU pairs | 36,437 |
 | Structured text (HTML) | [FLEURS](https://huggingface.co/datasets/google/fleurs) | 129 pairs | 12,900 |
 | Structured text (HTML) | [News-Commentary](https://huggingface.co/datasets/Helsinki-NLP/news_commentary) | 60+ pairs | 15,040 |

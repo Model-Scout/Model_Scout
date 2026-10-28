@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "API 키 없이 로컬 GPU에서 sentence-transformers로 돌릴 한국어 서비스용 임베딩 모델을 고르려고 해. 한국어 검색 정확도가 가장 중요해.",
+ "outputs": [
+  "embedding model for Korean service using sentence-transformers, local GPU, no API key, high Korean search accuracy"
+ ],
+ "response": {
+  "query": "embedding model for Korean service using sentence-transformers, local GPU, no API key, high Korean search accuracy"
+ },
+ "latency_ms": 749.5
+}

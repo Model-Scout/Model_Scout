@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "SenseVoiceSmall이랑 whisper-small 중 한국어 받아쓰기 속도와 정확도가 더 나은 건 뭐야?",
+ "outputs": [
+  "SenseVoiceSmall과 whisper-small 중에서 한국어 받아쓰기의 속도와 정확도가 더 좋은 모델은 무엇인가요?",
+  "Which model is better for Korean transcription speed and accuracy, SenseVoiceSmall or whisper-small?",
+  "Korean transcription, speed, accuracy, SenseVoiceSmall, whisper-small"
+ ],
+ "response": {
+  "queries": [
+   "SenseVoiceSmall과 whisper-small 중에서 한국어 받아쓰기의 속도와 정확도가 더 좋은 모델은 무엇인가요?",
+   "Which model is better for Korean transcription speed and accuracy, SenseVoiceSmall or whisper-small?",
+   "Korean transcription, speed, accuracy, SenseVoiceSmall, whisper-small"
+  ]
+ },
+ "latency_ms": 1200.7
+}

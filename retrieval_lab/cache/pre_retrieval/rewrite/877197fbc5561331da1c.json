@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoSimCSE-roberta-multitask와 ko-sroberta-multitask 중 문장 유사도에 뭐가 나아?",
+ "outputs": [
+  "Compare sentence similarity performance between KoSimCSE-roberta-multitask and ko-sroberta-multitask models."
+ ],
+ "response": {
+  "query": "Compare sentence similarity performance between KoSimCSE-roberta-multitask and ko-sroberta-multitask models."
+ },
+ "latency_ms": 944.6
+}

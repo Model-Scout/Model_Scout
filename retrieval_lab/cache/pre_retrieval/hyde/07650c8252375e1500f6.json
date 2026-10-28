@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어와 영어가 섞인 기술 문서에서 질문에 대한 답을 찾는 QA 모델이 필요해. 여러 언어를 같이 처리할 수 있어야 해.",
+ "outputs": [
+  "The Multilingual QA Model is designed for question-answering tasks that involve mixed-language documents, specifically Korean and English. With 1.2 billion parameters, this model excels in understanding and processing queries that contain both languages, making it ideal for technical documents where bilingual context is common. It supports a context length of up to 512 tokens, allowing for comprehensive analysis of lengthy texts. The model is particularly useful for researchers and professionals in fields such as technology and engineering, where accurate information retrieval is crucial. Its strengths lie in its ability to seamlessly integrate language understanding and provide precise answers, making it a valuable tool for multilingual environments."
+ ],
+ "response": {
+  "document": "The Multilingual QA Model is designed for question-answering tasks that involve mixed-language documents, specifically Korean and English. With 1.2 billion parameters, this model excels in understanding and processing queries that contain both languages, making it ideal for technical documents where bilingual context is common. It supports a context length of up to 512 tokens, allowing for comprehensive analysis of lengthy texts. The model is particularly useful for researchers and professionals in fields such as technology and engineering, where accurate information retrieval is crucial. Its strengths lie in its ability to seamlessly integrate language understanding and provide precise answers, making it a valuable tool for multilingual environments."
+ },
+ "latency_ms": 1489.1
+}

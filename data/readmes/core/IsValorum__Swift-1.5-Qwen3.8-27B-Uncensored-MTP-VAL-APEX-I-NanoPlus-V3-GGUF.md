@@ -62,11 +62,20 @@ VAL-APEX-I stands for:
 > - **[Qwen3.8 27B — MiniPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.16 GB.
 > - **[Qwen3.8 27B — NanoPlus V3](https://huggingface.co/IsValorum/Qwen3.8-27B-VAL-APEX-I-NanoPlus-V3-GGUF)** — 12.18 GB.
 > - **[Swift-1.5 Qwen3.8 27B Uncensored MTP — MiniPlus V3](https://huggingface.co/IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF)** — 14.16 GB.
->
-> **[VAL-APEX-I collection](https://huggingface.co/collections/IsValorum/val-apex-i-6ac563d1784a04a1bb177f47)** · **[MiniPlus collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)** · **[NanoPlus collection](https://huggingface.co/collections/IsValorum/apex-i-nanoplus-6ab41467c988a1b1cb9b83bc)**
+> Collections: **[MiniPlus Abliterated 27B](https://huggingface.co/collections/IsValorum/val-apex-miniplus-abliterated-27b-6acfec541ee5628d2632c663)** · **[MiniPlus Standard 27B](https://huggingface.co/collections/IsValorum/val-apex-miniplus-standard-27b-6acfec54ca4ce4cf5cd5bdb6)** · **[NanoPlus Abliterated 27B](https://huggingface.co/collections/IsValorum/val-apex-nanoplus-abliterated-27b-6acfec5503f6e74218f71f64)** · **[NanoPlus Standard 27B](https://huggingface.co/collections/IsValorum/val-apex-nanoplus-standard-27b-6acfec55c1c99e2a23ebbd9b)**
 
 ---
 
+## <a id="quick-navigation"></a>Quick Navigation Index
+1. [Quantization Metrics & Tensor Map](#toc-comparison)
+2. [Independent Community Benchmarks (NanoBench v0.4.0)](#toc-nanobench)
+3. [Model Files & Technical Specifications](#toc-04)
+4. [Recommended Configuration & Setup](#toc-07)
+5. [Community Compute Fund & Priority Model Requests](#toc-09)
+
+---
+
+<a id="toc-comparison"></a>
 ## 1. Quantization Metrics
 
 ### Size & Quality Metrics
@@ -83,6 +92,21 @@ Whole-file BPW is calculated from the complete GGUF file size and its 27,320,697
 
 
 Evaluation runs: [current canonical V3 job](https://huggingface.co/jobs/IsValorum/6ac97502095c57808930b6b1) · [previous recipe job](https://huggingface.co/jobs/IsValorum/6ac9202ffee2c9007017aab3).
+
+<a id="toc-nanobench"></a>
+### Independent Community Benchmarks (NanoBench v0.4.0)
+
+Independent multi-harness empirical evaluation conducted by community member **[@userr99](https://huggingface.co/userr99)** on a dedicated local workstation (24 GB VRAM / 64 GB RAM using `llama.cpp`). Evaluated across the 12-task autonomous coding and agentic suite on [NanoBench v0.4.0](https://shortbench.vercel.app/) ([public discussion thread & test logs](https://huggingface.co/IsValorum/Huihui-Qwen3.8-27B-Abliterated-VAL-APEX-I-NanoPlus-V3-GGUF/discussions/2)):
+
+| Test Harness | Total Score | Solved Tasks | Agentic (Tool Use) | Coding (Implementation) | Systems (Integrity) | Avg. Runtime |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Oh My Pi (OMP 18.7)** | **96.7 / 100** | 10 / 12 | **100 / 100** | **100 / 100** | 86.7 / 100 | aprox. 1h 47m |
+| **Hermes Agent (v0.21.5)** | **95.4 / 100** | 9 / 12 | **100 / 100** | 97.0 / 100 | 86.7 / 100 | aprox. 1h 47m |
+| **DeepSeek Harness (0.2.0-rc.2)** | **90.4 / 100** | 9 / 12 | **100 / 100** | 97.0 / 100 | 66.7 / 100 | aprox. 1h 47m |
+
+**Key Architectural Insights:**
+- **Zero Tool-Calling Degradation:** Achieved a unanimous **100/100 in Agentic tasks** across all three harnesses, confirming that protecting `output.weight` in `Q6_K` and DeltaNet recurrent memory states (`ssm_a` in `F32`, `ssm_beta` in `Q8_0`) prevents JSON schema rejections and state drift over multi-step workflows.
+- **Universal Harness Compatibility:** Surpassed the 90+ score barrier across all three test harnesses without entering infinite retry loops or syntax divergence.
 
 ### Tensor Precision Map
 
@@ -124,6 +148,7 @@ Both Swift/Base/Huihui files contain **866 audited tensors**: **851 main-model t
 
 ---
 
+<a id="toc-04"></a>
 ## 2. Model Files & Technical Specifications
 
 | File Name | File Size | Whole-file BPW | Description |
@@ -138,6 +163,7 @@ Both Swift/Base/Huihui files contain **866 audited tensors**: **851 main-model t
 
 ---
 
+<a id="toc-07"></a>
 ## 3. Recommended Configuration & Setup
 
 ### llama-server (OpenAI-Compatible API with Native MTP Self-Speculation)
@@ -155,7 +181,8 @@ llama-server \
 
 ---
 
-## 4. Community Compute Fund & Priority Model Requests
+<a id="toc-09"></a>
+## 5. Community Compute Fund & Priority Model Requests
 
 All IsValorum quantizations will always remain completely free and open to the public without paywalls. 
 

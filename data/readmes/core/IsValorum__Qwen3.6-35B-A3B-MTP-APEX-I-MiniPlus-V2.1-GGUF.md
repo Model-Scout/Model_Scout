@@ -127,7 +127,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 > - **System RAM Streaming Specialist (DDR4/DDR5 & Massive Context):** **Specially engineered to run either partially or entirely out of system RAM across large or full (+160k to 256k) context windows.** By replacing non-linear codebooks with linear SIMD-optimized `Q3_K` edge experts and upgrading shared foundation experts to `Q5_K` across all 40 layers, AVX2 CPU dequantization stalls are completely eliminated. Depending on your processor architecture and memory bandwidth (dual-channel DDR4 or high-speed DDR5 6000+ MT/s), **streaming generation in system RAM can approach speeds remarkably close to full VRAM execution**, allowing both the dedicated `Q8_0` multimodal vision projector (`mmproj`) and the integrated Multi-Token Prediction tensors to be used by compatible runtimes for speculative decoding and the Q8_0 multimodal projector (`mmproj`) to be loaded in GPU VRAM for OCR while the main model weights stream effortlessly from system RAM.
 > 
 > Explore the complete family of APEX-I-MiniPlus models in our official collection:
-> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)**.
+> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**.
 
 ---
 

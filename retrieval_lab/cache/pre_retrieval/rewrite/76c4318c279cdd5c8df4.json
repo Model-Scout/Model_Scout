@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBART(EbanLee/kobart-summary-v3)랑 mT5(csebuetnlp/mT5_multilingual_XLSum) 중 한국어 뉴스 요약에는 뭐가 나아?",
+ "outputs": [
+  "Compare KoBART (EbanLee/kobart-summary-v3) and mT5 (csebuetnlp/mT5_multilingual_XLSum) for Korean news summarization."
+ ],
+ "response": {
+  "query": "Compare KoBART (EbanLee/kobart-summary-v3) and mT5 (csebuetnlp/mT5_multilingual_XLSum) for Korean news summarization."
+ },
+ "latency_ms": 5068.2
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥용 전사 앱에 중국어·일본어·한국어 음성을 빠르게 받아적는 엔진을 넣으려고 해. 정확도보다 속도가 우선이야.",
+ "outputs": [
+  "transcription engine for Mac that quickly transcribes Chinese, Japanese, Korean speech with speed priority over accuracy"
+ ],
+ "response": {
+  "query": "transcription engine for Mac that quickly transcribes Chinese, Japanese, Korean speech with speed priority over accuracy"
+ },
+ "latency_ms": 889.7
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 희소(sparse) 벡터로 바꿔 키워드 검색과 섞어 쓰려고 해.",
+ "outputs": [
+  "Korean document sparse vector keyword search"
+ ],
+ "response": {
+  "query": "Korean document sparse vector keyword search"
+ },
+ "latency_ms": 749.6
+}

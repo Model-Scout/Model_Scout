@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 뉴스 기사를 3줄 정도로 요약하는 모델이 필요해. 추가 학습 없이 바로 쓰고 싶어.",
+ "outputs": [
+  "Korean news article summarization model, zero-shot capability, task: summarization"
+ ],
+ "response": {
+  "query": "Korean news article summarization model, zero-shot capability, task: summarization"
+ },
+ "latency_ms": 760.6
+}

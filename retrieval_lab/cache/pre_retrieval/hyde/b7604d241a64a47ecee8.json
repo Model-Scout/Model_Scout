@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+ "outputs": [
+  "The wav2vec2-large-xlsr-korean model is designed for automatic speech recognition (ASR) tasks, specifically optimized for Korean language transcription. With 556 million parameters, it excels in understanding and transcribing spoken Korean with high accuracy, making it suitable for applications in voice assistants, transcription services, and language learning tools. Its strengths lie in its ability to handle various accents and dialects in Korean, providing robust performance in real-world scenarios. On the other hand, the whisper-small model is a versatile ASR model that supports multiple languages, including Korean, but is generally smaller in size and may not perform as well in specialized Korean transcription tasks. For dedicated Korean transcription, wav2vec2-large-xlsr-korean is the superior choice."
+ ],
+ "response": {
+  "document": "The wav2vec2-large-xlsr-korean model is designed for automatic speech recognition (ASR) tasks, specifically optimized for Korean language transcription. With 556 million parameters, it excels in understanding and transcribing spoken Korean with high accuracy, making it suitable for applications in voice assistants, transcription services, and language learning tools. Its strengths lie in its ability to handle various accents and dialects in Korean, providing robust performance in real-world scenarios. On the other hand, the whisper-small model is a versatile ASR model that supports multiple languages, including Korean, but is generally smaller in size and may not perform as well in specialized Korean transcription tasks. For dedicated Korean transcription, wav2vec2-large-xlsr-korean is the superior choice."
+ },
+ "latency_ms": 2292.0
+}

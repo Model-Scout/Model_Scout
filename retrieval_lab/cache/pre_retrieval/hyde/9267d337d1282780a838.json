@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "입력 문장이 어느 언어인지 판별하는 언어 식별 모델이 필요해. 한국어도 정확히 잡아야 해.",
+ "outputs": [
+  "The Language Identification Model is designed to accurately classify the language of input sentences, including Korean. It supports a wide range of languages, making it suitable for multilingual applications. With a parameter count of 50 million, this model strikes a balance between performance and efficiency. It is particularly useful for applications in natural language processing, chatbots, and content moderation, where understanding the language of user input is crucial. The model excels in identifying less common languages and dialects, ensuring high accuracy across diverse datasets. It is available in GGUF format and is licensed under the MIT License, making it accessible for both commercial and non-commercial use."
+ ],
+ "response": {
+  "document": "The Language Identification Model is designed to accurately classify the language of input sentences, including Korean. It supports a wide range of languages, making it suitable for multilingual applications. With a parameter count of 50 million, this model strikes a balance between performance and efficiency. It is particularly useful for applications in natural language processing, chatbots, and content moderation, where understanding the language of user input is crucial. The model excels in identifying less common languages and dialects, ensuring high accuracy across diverse datasets. It is available in GGUF format and is licensed under the MIT License, making it accessible for both commercial and non-commercial use."
+ },
+ "latency_ms": 1877.0
+}

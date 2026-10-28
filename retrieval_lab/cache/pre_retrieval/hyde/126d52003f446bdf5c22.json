@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메신저 대화 캡처 화면을 읽고 내용을 한국어로 정리하는 모델이 필요해. 로컬에서만 돌려야 해.",
+ "outputs": [
+  "The model is designed for the task of summarizing text from messenger conversation screenshots into Korean. It supports multiple languages, with a primary focus on Korean, making it ideal for users who need to process and summarize chat content efficiently. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource requirements, allowing it to run locally on standard hardware. Intended use cases include personal organization of chat histories, customer support analysis, and social media monitoring. Its strengths lie in its ability to understand context and extract key information, ensuring accurate and concise summaries."
+ ],
+ "response": {
+  "document": "The model is designed for the task of summarizing text from messenger conversation screenshots into Korean. It supports multiple languages, with a primary focus on Korean, making it ideal for users who need to process and summarize chat content efficiently. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource requirements, allowing it to run locally on standard hardware. Intended use cases include personal organization of chat histories, customer support analysis, and social media monitoring. Its strengths lie in its ability to understand context and extract key information, ensuring accurate and concise summaries."
+ },
+ "latency_ms": 1538.3
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘.",
+ "outputs": [
+  "Compare openai/whisper-small and Systran/faster-whisper-small for CPU usage."
+ ],
+ "response": {
+  "query": "Compare openai/whisper-small and Systran/faster-whisper-small for CPU usage."
+ },
+ "latency_ms": 1192.9
+}

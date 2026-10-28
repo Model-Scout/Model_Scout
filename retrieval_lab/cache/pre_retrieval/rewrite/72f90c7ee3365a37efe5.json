@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-v-3b-instruct와 LFM2-VL-3B 중 한국어 이미지 질의응답에 뭐가 나아?",
+ "outputs": [
+  "kanana-1.5-v-3b-instruct vs LFM2-VL-3B Korean image question answering"
+ ],
+ "response": {
+  "query": "kanana-1.5-v-3b-instruct vs LFM2-VL-3B Korean image question answering"
+ },
+ "latency_ms": 1050.2
+}

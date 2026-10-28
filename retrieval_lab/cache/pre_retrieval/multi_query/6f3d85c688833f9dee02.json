@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "LLM 프롬프트로 들어오는 탈옥·유해 요청을 걸러내는 가드레일 분류기가 필요해. 한국어 입력도 처리해야 해.",
+ "outputs": [
+  "탈옥 및 유해 요청을 필터링할 수 있는 가드레일 분류기가 필요하며, 한국어 입력도 지원해야 합니다.",
+  "I need a guardrail classifier that filters jailbreak and harmful requests, and it should handle Korean input as well.",
+  "guardrail classifier, filter jailbreak requests, harmful requests, Korean input support"
+ ],
+ "response": {
+  "queries": [
+   "탈옥 및 유해 요청을 필터링할 수 있는 가드레일 분류기가 필요하며, 한국어 입력도 지원해야 합니다.",
+   "I need a guardrail classifier that filters jailbreak and harmful requests, and it should handle Korean input as well.",
+   "guardrail classifier, filter jailbreak requests, harmful requests, Korean input support"
+  ]
+ },
+ "latency_ms": 1450.7
+}

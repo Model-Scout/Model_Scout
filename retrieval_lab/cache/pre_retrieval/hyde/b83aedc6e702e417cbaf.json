@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델이 필요해.",
+ "outputs": [
+  "The model is designed for automatic speech recognition (ASR) and translation tasks, specifically targeting Korean to English translation. It supports both Korean and English languages, making it ideal for bilingual applications. With a parameter count of 1.2 billion, this model offers a robust performance in transcribing spoken Korean and translating it into fluent English. The intended use cases include real-time translation services, language learning applications, and accessibility tools for Korean speakers. Its strengths lie in its high accuracy in speech recognition and contextual understanding, ensuring that nuances in spoken language are preserved during translation. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The model is designed for automatic speech recognition (ASR) and translation tasks, specifically targeting Korean to English translation. It supports both Korean and English languages, making it ideal for bilingual applications. With a parameter count of 1.2 billion, this model offers a robust performance in transcribing spoken Korean and translating it into fluent English. The intended use cases include real-time translation services, language learning applications, and accessibility tools for Korean speakers. Its strengths lie in its high accuracy in speech recognition and contextual understanding, ensuring that nuances in spoken language are preserved during translation. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1553.3
+}

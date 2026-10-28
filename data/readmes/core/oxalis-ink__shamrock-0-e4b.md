@@ -20,6 +20,10 @@ language-learning surfaces (camera translate, text translate, tutor, talk,
 dictionary) across Japanese, Korean, and Simplified Chinese. The E4B sibling
 of [`oxalis-ink/shamrock-0-e2b`](https://huggingface.co/oxalis-ink/shamrock-0-e2b).
 
+## Human Note
+
+As a fair warning... this fine-tune will perform poorly outside of the Oxalis app. Feel free to run it for funzies though :)
+
 ## Layout
 
 | Path | Contents |

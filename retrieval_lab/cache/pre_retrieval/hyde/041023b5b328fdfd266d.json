@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 검색용 문장 임베딩 모델이 필요해. 짧은 질문끼리 비슷한지 비교할 거야.",
+ "outputs": [
+  "The model is designed for the task of sentence embedding specifically for FAQ search applications in Korean. It supports the Korean language and is optimized for comparing the similarity between short questions. With a parameter count of 110 million, this model strikes a balance between performance and efficiency, making it suitable for real-time applications. Its strengths lie in its ability to capture semantic nuances in Korean, allowing for accurate similarity assessments. Intended use cases include customer support automation, chatbot development, and information retrieval systems. The model is available in GGUF format and is licensed under the MIT license, ensuring broad usability."
+ ],
+ "response": {
+  "document": "The model is designed for the task of sentence embedding specifically for FAQ search applications in Korean. It supports the Korean language and is optimized for comparing the similarity between short questions. With a parameter count of 110 million, this model strikes a balance between performance and efficiency, making it suitable for real-time applications. Its strengths lie in its ability to capture semantic nuances in Korean, allowing for accurate similarity assessments. Intended use cases include customer support automation, chatbot development, and information retrieval systems. The model is available in GGUF format and is licensed under the MIT license, ensuring broad usability."
+ },
+ "latency_ms": 1874.9
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메신저 대화 캡처 화면을 읽고 내용을 한국어로 정리하는 모델이 필요해. 로컬에서만 돌려야 해.",
+ "outputs": [
+  "model for summarizing messenger conversation screenshots in Korean, local execution, task: summarization, capability: text understanding, domain: conversational data"
+ ],
+ "response": {
+  "query": "model for summarizing messenger conversation screenshots in Korean, local execution, task: summarization, capability: text understanding, domain: conversational data"
+ },
+ "latency_ms": 1040.2
+}

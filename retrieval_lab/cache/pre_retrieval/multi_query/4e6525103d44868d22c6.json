@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스 감성 분류에 KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 뭐가 맞아?",
+ "outputs": [
+  "KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 한국어 금융 뉴스 감성 분류에 어떤 모델이 더 적합한가요?",
+  "Which model is more suitable for sentiment classification of Korean financial news, KR-FinBert-SC or koelectra-base-v3-generalized-sentiment-analysis?",
+  "한국어 금융 뉴스 감성 분류, KR-FinBert-SC, koelectra-base-v3-generalized-sentiment-analysis, 모델 비교"
+ ],
+ "response": {
+  "queries": [
+   "KR-FinBert-SC와 koelectra-base-v3-generalized-sentiment-analysis 중 한국어 금융 뉴스 감성 분류에 어떤 모델이 더 적합한가요?",
+   "Which model is more suitable for sentiment classification of Korean financial news, KR-FinBert-SC or koelectra-base-v3-generalized-sentiment-analysis?",
+   "한국어 금융 뉴스 감성 분류, KR-FinBert-SC, koelectra-base-v3-generalized-sentiment-analysis, 모델 비교"
+  ]
+ },
+ "latency_ms": 1493.0
+}

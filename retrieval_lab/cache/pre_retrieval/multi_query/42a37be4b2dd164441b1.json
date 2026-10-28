@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿 안에서만 녹취문을 요약하고 분류하는 온디바이스 앱을 만들고 있어. 녹취를 외부 서버로 보낼 수 없고, 0.6B급 모델은 한국어 요약 품질이 부족했어.",
+ "outputs": [
+  "휴대폰과 태블릿에서 사용할 수 있는 녹취문 요약 및 분류 온디바이스 앱을 개발 중입니다. 외부 서버에 녹취를 전송할 수 없고, 0.6B급 모델의 한국어 요약 품질이 만족스럽지 않았습니다.",
+  "I am developing an on-device app for summarizing and classifying transcripts only on mobile phones and tablets. I cannot send the transcripts to an external server, and the quality of Korean summarization with a 0.6B model was insufficient.",
+  "모바일 앱, 태블릿 앱, 녹취문 요약, 분류, 온디바이스, 한국어, 0.6B 모델, 품질 문제"
+ ],
+ "response": {
+  "queries": [
+   "휴대폰과 태블릿에서 사용할 수 있는 녹취문 요약 및 분류 온디바이스 앱을 개발 중입니다. 외부 서버에 녹취를 전송할 수 없고, 0.6B급 모델의 한국어 요약 품질이 만족스럽지 않았습니다.",
+   "I am developing an on-device app for summarizing and classifying transcripts only on mobile phones and tablets. I cannot send the transcripts to an external server, and the quality of Korean summarization with a 0.6B model was insufficient.",
+   "모바일 앱, 태블릿 앱, 녹취문 요약, 분류, 온디바이스, 한국어, 0.6B 모델, 품질 문제"
+  ]
+ },
+ "latency_ms": 2560.3
+}

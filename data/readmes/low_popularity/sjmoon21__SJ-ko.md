@@ -28,7 +28,6 @@ attention, training loop, and GGUF converter were all written by hand. This is a
 educational project, not a production model. It invents facts and can fall into
 repetition loops.
 
-- Live demo: http://49.50.140.57:3000 (still serves the previous 11M release, `sj-0.5.6simf`)
 - Author: Sungjin Moon, Seoul National University, Department of Physics & Astronomy, Physics
 - Contact: mongsil88@snu.ac.kr
 
@@ -161,7 +160,7 @@ working notes, in Korean.
 | Run | Version | Method | Data | Train tokens | Epochs | Wall clock | Params | Tokens/param | Loss per char | Notes (Korean) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | run01 | 0.1.0p | pre-training | 커뮤니티 크롤링 298만자 | 2.84M | 6.5 | 54분 | 5.45M | 3.39 | - | 크롤링 데이터 기반 pre-training. char-level tokenize. clien 데이터가 대부분이라, 커뮤니티 말투이긴 한데 아저씨 말투여서 실패. 추가로, char-level이어서 인지 한자가 너무 많이 등장하는 문제도 존재. step 3000/6000에서 수동 중단 |
-| run02 | 0.2.0p | pre-training | 웹소설 716만자 | 6.80M | 4.2 | 94.8분 | 5.22M | 5.47 | 2.1032 | 전지적 독자 시점, 재벌집 막내아들, 나 혼자만 레벨업 3권 데이터 활용. char-level tokenized. val split이 전독시 후반부에 갇혀 격차가 −0.15로 편향된 결함 발견 |
+| run02 | 0.2.0p | pre-training | 웹소설 716만자 | 6.80M | 4.2 | 94.8분 | 5.22M | 5.47 | 2.1032 | 웹소설 3권 데이터 활용. char-level tokenized. val split이 격차가 −0.15로 편향된 결함 발견 |
 | run03 | 0.2.1p | pre-training | 웹소설 714만자 | 3.75M | 4.10 | 51.6분 | 5.82M | 2.64 | 2.3095 | BPE tokenizer로 변경(vocab 4096). 웹 소설 문체여서 대괄호나 너무 고유명사들이 많이 나오는 문제가 있었음. 데이터 교체필요. 회차 단위 분할 + &lt;&#124;endoftext&#124;&gt; 도입 |
 | run04 | 0.3.0p | pre-training | AI hub 도서 1.79억자 | 91.4M | 1.01 | 312.7분 | 6.15M | 15.01 | 2.2369 | AI hub 도서 데이터 도입(vocab 5366). 영어, 기호 아예 존재하지 않는 문제 있음. 문단이 저작권 보호로 무작위 섞여 있어 논리 전개 학습 불가. 참고문헌 음차 오염 1.7%. 영문/한글 위키 도입 예정 |
 | run05 | 0.3.1s | sft | AI hub RLHF 21,650쌍 | 6.30M | 1.04 | 58.7분 | 6.25M | 1.05 | 1.5161 (sft) | 첫 sft 진행. 나름 성공적 — EOT 학습 성공(질문 유형별 길이 조절까지). 첫 gguf 파일 생성, `ollama run` 확인. bias 이슈로 인한 변환 과정 약 3% 손실 |

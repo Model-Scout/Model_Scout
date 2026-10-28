@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "이미지와 한국어 텍스트에 유해 콘텐츠가 있는지 판별하는 안전성 모델이 필요해.",
+ "outputs": [
+  "Safety model for detecting harmful content in images and Korean text."
+ ],
+ "response": {
+  "query": "Safety model for detecting harmful content in images and Korean text."
+ },
+ "latency_ms": 789.2
+}

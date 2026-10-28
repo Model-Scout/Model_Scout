@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커로 Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 뭐가 나아?",
+ "outputs": [
+  "Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 어떤 것이 더 좋은 한국어 RAG 리랭커인가요?",
+  "Which is better for Korean RAG reranking, Dongjin-kr/ko-reranker or bce-reranker-base_v1?",
+  "Korean RAG reranker, Dongjin-kr/ko-reranker, bce-reranker-base_v1, comparison, performance"
+ ],
+ "response": {
+  "queries": [
+   "Dongjin-kr/ko-reranker와 bce-reranker-base_v1 중 어떤 것이 더 좋은 한국어 RAG 리랭커인가요?",
+   "Which is better for Korean RAG reranking, Dongjin-kr/ko-reranker or bce-reranker-base_v1?",
+   "Korean RAG reranker, Dongjin-kr/ko-reranker, bce-reranker-base_v1, comparison, performance"
+  ]
+ },
+ "latency_ms": 1485.3
+}

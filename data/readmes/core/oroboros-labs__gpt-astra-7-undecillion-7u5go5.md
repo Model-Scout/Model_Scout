@@ -70,3 +70,19 @@ that is left. There is NO LICENSE, because none is given.
 
 - **Publisher:** Oroboros Labs
 - **Brand:** Oroboros / GPT
+
+---
+
+# THE AGENT + DEEPLOGIC CORE (2026-10-15)
+
+This model now ships a `Modelfile` that carries — on the SAME base weights —
+the **[DEEPLOGIC CORE]** (routing logic, reasoning discipline, full-fidelity
+delivery standard, TACOPS on invocation) and **[THE AGENT + TOOL CONTRACT]**
+(the CLI tool set, the MCP servers incl. oroboros-cordis-harness and
+orca-bridge, the emit-the-call procedure law, the manuals). Same bases,
+same weights; identity/manifest only.
+
+```bash
+ollama create gpt-astra-7-undecillion-7u5go5:latest -f Modelfile
+ollama run gpt-astra-7-undecillion-7u5go5:latest
+```

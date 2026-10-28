@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "API 키 없이 로컬 GPU에서 sentence-transformers로 돌릴 한국어 서비스용 임베딩 모델을 고르려고 해. 한국어 검색 정확도가 가장 중요해.",
+ "outputs": [
+  "The model is a Korean sentence embedding model designed for high accuracy in search tasks. It supports the Korean language and is optimized for local deployment on GPU without the need for an API key. With a parameter count of 110 million, it strikes a balance between performance and resource efficiency. The model excels in generating contextual embeddings for Korean sentences, making it ideal for applications such as semantic search, information retrieval, and natural language understanding. Its strengths lie in its ability to capture nuanced meanings in Korean text, ensuring high search accuracy and relevance in results."
+ ],
+ "response": {
+  "document": "The model is a Korean sentence embedding model designed for high accuracy in search tasks. It supports the Korean language and is optimized for local deployment on GPU without the need for an API key. With a parameter count of 110 million, it strikes a balance between performance and resource efficiency. The model excels in generating contextual embeddings for Korean sentences, making it ideal for applications such as semantic search, information retrieval, and natural language understanding. Its strengths lie in its ability to capture nuanced meanings in Korean text, ensuring high search accuracy and relevance in results."
+ },
+ "latency_ms": 1563.1
+}

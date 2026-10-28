@@ -399,4 +399,4 @@ weights, so plan host RAM/VRAM accordingly.
 Upstream did not publish a separate license tag for the GGUF folder, 
 so the upstream model card terms apply. 
 Please cite the upstream quantizer rather than this mirror.
- 
+  

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어와 영어가 섞인 기술 문서에서 질문에 대한 답을 찾는 QA 모델이 필요해. 여러 언어를 같이 처리할 수 있어야 해.",
+ "outputs": [
+  "기술 문서에서 한국어와 영어를 혼합하여 질문에 대한 답변을 찾는 QA 모델을 찾고 있습니다.",
+  "I need a QA model that can find answers to questions in technical documents mixing Korean and English. It should handle multiple languages.",
+  "QA 모델, 한국어, 영어, 기술 문서, 다국어 처리, 질문 답변"
+ ],
+ "response": {
+  "queries": [
+   "기술 문서에서 한국어와 영어를 혼합하여 질문에 대한 답변을 찾는 QA 모델을 찾고 있습니다.",
+   "I need a QA model that can find answers to questions in technical documents mixing Korean and English. It should handle multiple languages.",
+   "QA 모델, 한국어, 영어, 기술 문서, 다국어 처리, 질문 답변"
+  ]
+ },
+ "latency_ms": 1234.8
+}

@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+ "outputs": [
+  "Task: Summarization model for extracting key points from Korean blog posts."
+ ],
+ "response": {
+  "sub_queries": [
+   "Task: Summarization model for extracting key points from Korean blog posts."
+  ]
+ },
+ "latency_ms": 813.0
+}

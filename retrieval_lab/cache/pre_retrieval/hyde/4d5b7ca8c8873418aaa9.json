@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "고객 문의 문장의 의도(질문·명령·진술 등)를 분류하는 한국어 모델이 필요해.",
+ "outputs": [
+  "The model is designed for intent classification of customer inquiry sentences in Korean, effectively categorizing them into types such as questions, commands, and statements. It supports the Korean language exclusively and boasts a parameter count of 110 million, making it suitable for real-time applications. The model is optimized for high accuracy in understanding customer intents, which is crucial for enhancing customer service automation and chatbots. Its strengths lie in its ability to handle nuanced language and context, ensuring reliable classification even in complex sentences. The model is available in GGUF format and is licensed under the MIT license, making it accessible for commercial use."
+ ],
+ "response": {
+  "document": "The model is designed for intent classification of customer inquiry sentences in Korean, effectively categorizing them into types such as questions, commands, and statements. It supports the Korean language exclusively and boasts a parameter count of 110 million, making it suitable for real-time applications. The model is optimized for high accuracy in understanding customer intents, which is crucial for enhancing customer service automation and chatbots. Its strengths lie in its ability to handle nuanced language and context, ensuring reliable classification even in complex sentences. The model is available in GGUF format and is licensed under the MIT license, making it accessible for commercial use."
+ },
+ "latency_ms": 1940.1
+}

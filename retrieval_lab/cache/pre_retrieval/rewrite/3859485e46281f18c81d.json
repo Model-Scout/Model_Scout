@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+ "outputs": [
+  "Korean blog post summarization model"
+ ],
+ "response": {
+  "query": "Korean blog post summarization model"
+ },
+ "latency_ms": 765.4
+}

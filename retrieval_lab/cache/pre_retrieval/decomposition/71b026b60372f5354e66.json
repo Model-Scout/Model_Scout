@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어.",
+ "outputs": [
+  "Find models that support translation tasks.",
+  "Search for models that support over 200 languages.",
+  "Look for models suitable for research purposes regardless of license."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that support translation tasks.",
+   "Search for models that support over 200 languages.",
+   "Look for models suitable for research purposes regardless of license."
+  ]
+ },
+ "latency_ms": 942.1
+}

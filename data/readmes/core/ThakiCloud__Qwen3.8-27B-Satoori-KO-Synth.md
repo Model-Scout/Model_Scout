@@ -231,6 +231,12 @@ python adapters/merge_lora.py --base Qwen/Qwen3.8-27B \
 ⛔ The adapters are trained weights. No source data, dialect-to-standard correspondence
 list, or marker lexicon is included — those may not be redistributed.
 
+## Related papers
+
+Counterfactual Gate-Support Decomposition: Separating Selection from Redistribution in Training-Data Filtering — [arXiv:2610.19343](https://arxiv.org/abs/2610.19343)
+
+This checkpoint is **not** in that paper's grid; it is listed because this card's training set is generated data. If you filter generated examples like these and compare against a same-size random subset, the paper shows the comparison mixes two effects: which items survive inside a region of the input space, and how training mass moves between regions. Its budget-matched four-arm design separates them. On Korean-English retrieval only within-support selection cleared its calibrated null (+29.7 holdout items, 30/30 positive replicates, marginal +5.6 on Korean-Japanese); redistribution and interaction stayed unresolved at the available power, and on a mathematics pool the ordinary design was undefined at every budget. Code and recorded results: [github.com/ThakiCloud/cgsd](https://github.com/ThakiCloud/cgsd).
+
 ## Paper
 
 Metric-Construction Coupling Inflates Measured Synthetic Dialect Recovery — [arXiv:2610.00164](https://arxiv.org/abs/2610.00164)

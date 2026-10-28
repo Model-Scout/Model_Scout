@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 취업규칙 문서를 근거 조항으로만 답하는 한국어 RAG 챗봇을 만들 거야. 사내 규정을 외부로 보낼 수 없어서 완전히 로컬에서 돌아가야 해.",
+ "outputs": [
+  "The model is designed for the task of Retrieval-Augmented Generation (RAG) specifically tailored for Korean language processing. It supports Korean as its primary language and is optimized for local deployment, ensuring that sensitive company documents remain secure and confidential. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model is intended for use cases such as creating chatbots that can answer queries based on internal employment regulations without exposing any external data. Its strengths include high accuracy in understanding and generating contextually relevant responses, making it ideal for HR-related inquiries."
+ ],
+ "response": {
+  "document": "The model is designed for the task of Retrieval-Augmented Generation (RAG) specifically tailored for Korean language processing. It supports Korean as its primary language and is optimized for local deployment, ensuring that sensitive company documents remain secure and confidential. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model is intended for use cases such as creating chatbots that can answer queries based on internal employment regulations without exposing any external data. Its strengths include high accuracy in understanding and generating contextually relevant responses, making it ideal for HR-related inquiries."
+ },
+ "latency_ms": 1555.8
+}

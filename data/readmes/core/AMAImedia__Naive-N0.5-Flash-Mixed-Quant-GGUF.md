@@ -159,7 +159,7 @@ Released as part of the NOESIS Professional Multilingual Dubbing Automation Plat
 ## AMAImedia
  
 - **Original repository:** [NaiveAI/Naive-N0.5-Flash](https://huggingface.co/NaiveAI/Naive-N0.5-Flash)
-
+- **Original Base:** [XiaomiMiMo/MiMo-V2.5-Base](https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Base)
 - **GGUF:** [Mixed-Quant-GGUF](https://huggingface.co/Baekpica/Naive-N0.5-Flash-Mixed-Quant-GGUF/tree/main)
 
 ---
@@ -518,4 +518,4 @@ in the reproduction package.
 [coding-pdf]: assets/coding-benchmarks.pdf
 [ai-rd-figure]: assets/ai-rd-benchmarks.png
 [ai-rd-pdf]: assets/ai-rd-benchmarks.pdf
- 
+  

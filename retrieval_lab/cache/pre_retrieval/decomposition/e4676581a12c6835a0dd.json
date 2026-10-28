@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "의학 질문에 답하는 다국어 의료 QA 모델이 필요해. 한국어 질문도 처리해야 해.",
+ "outputs": [
+  "의학 질문에 답하는 QA 모델",
+  "다국어 지원 모델",
+  "한국어 처리 가능한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "의학 질문에 답하는 QA 모델",
+   "다국어 지원 모델",
+   "한국어 처리 가능한 모델"
+  ]
+ },
+ "latency_ms": 813.0
+}

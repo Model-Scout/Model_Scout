@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질의와 영어 문서를 매칭하는 교차 언어 검색 임베딩이 필요해. GPU 서버가 있어.",
+ "outputs": [
+  "The CrossLingualSearchEmbedder is designed for cross-lingual search tasks, specifically matching Korean queries with English documents. This model supports both Korean and English, making it ideal for applications requiring bilingual capabilities. With 1.2 billion parameters, it offers a robust performance in generating embeddings that capture semantic similarities across languages. The model is optimized for GPU servers, ensuring efficient processing and quick response times. Intended use cases include multilingual search engines, information retrieval systems, and cross-lingual recommendation systems. Its strengths lie in its ability to understand context and nuances in both languages, providing accurate and relevant search results."
+ ],
+ "response": {
+  "document": "The CrossLingualSearchEmbedder is designed for cross-lingual search tasks, specifically matching Korean queries with English documents. This model supports both Korean and English, making it ideal for applications requiring bilingual capabilities. With 1.2 billion parameters, it offers a robust performance in generating embeddings that capture semantic similarities across languages. The model is optimized for GPU servers, ensuring efficient processing and quick response times. Intended use cases include multilingual search engines, information retrieval systems, and cross-lingual recommendation systems. Its strengths lie in its ability to understand context and nuances in both languages, providing accurate and relevant search results."
+ },
+ "latency_ms": 1633.2
+}

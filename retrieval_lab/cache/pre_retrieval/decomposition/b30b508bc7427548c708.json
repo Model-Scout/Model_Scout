@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask와 multilingual-e5-small 중 한국어 검색 임베딩으로 뭐가 나아?",
+ "outputs": [
+  "ko-sroberta-multitask의 한국어 검색 임베딩 성능",
+  "multilingual-e5-small의 한국어 검색 임베딩 성능"
+ ],
+ "response": {
+  "sub_queries": [
+   "ko-sroberta-multitask의 한국어 검색 임베딩 성능",
+   "multilingual-e5-small의 한국어 검색 임베딩 성능"
+  ]
+ },
+ "latency_ms": 905.7
+}

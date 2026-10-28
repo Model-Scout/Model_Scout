@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "openai/whisper-small과 Systran/faster-whisper-small을 CPU에서 쓸 때 뭐가 다른지 비교해 줘.",
+ "outputs": [
+  "openai/whisper-small과 Systran/faster-whisper-small의 CPU 사용 시 차이점 비교",
+  "Compare the differences between openai/whisper-small and Systran/faster-whisper-small when used on CPU.",
+  "openai/whisper-small, Systran/faster-whisper-small, CPU, 비교, 차이점"
+ ],
+ "response": {
+  "queries": [
+   "openai/whisper-small과 Systran/faster-whisper-small의 CPU 사용 시 차이점 비교",
+   "Compare the differences between openai/whisper-small and Systran/faster-whisper-small when used on CPU.",
+   "openai/whisper-small, Systran/faster-whisper-small, CPU, 비교, 차이점"
+  ]
+ },
+ "latency_ms": 1275.5
+}
