@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해.",
+ "outputs": [
+  "한국어 임베딩 모델",
+  "메모리 사용량이 적은 모델",
+  "CPU에서 실행 가능한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 임베딩 모델",
+   "메모리 사용량이 적은 모델",
+   "CPU에서 실행 가능한 모델"
+  ]
+ },
+ "latency_ms": 1068.8
+}

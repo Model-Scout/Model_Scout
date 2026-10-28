@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해.",
+ "outputs": [
+  "The model is a Korean language model designed for various commercial applications, featuring a parameter count of 2.5 billion. It supports a context length of up to 32,000 tokens, making it suitable for handling extensive text inputs and complex queries. This model excels in tasks such as text generation, summarization, and conversational AI, providing high-quality outputs in Korean. Its strengths lie in its ability to understand and generate nuanced language, making it ideal for businesses looking to enhance customer interactions or automate content creation. The model is available under a permissive license, ensuring it can be used freely for commercial purposes."
+ ],
+ "response": {
+  "document": "The model is a Korean language model designed for various commercial applications, featuring a parameter count of 2.5 billion. It supports a context length of up to 32,000 tokens, making it suitable for handling extensive text inputs and complex queries. This model excels in tasks such as text generation, summarization, and conversational AI, providing high-quality outputs in Korean. Its strengths lie in its ability to understand and generate nuanced language, making it ideal for businesses looking to enhance customer interactions or automate content creation. The model is available under a permissive license, ensuring it can be used freely for commercial purposes."
+ },
+ "latency_ms": 1882.5
+}

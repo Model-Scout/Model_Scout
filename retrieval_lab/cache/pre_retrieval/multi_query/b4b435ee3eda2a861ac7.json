@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어.",
+ "outputs": [
+  "작고 1B 이하의 한국어 대화 모델이 필요해, 노트북 CPU에서 실행 가능한 모델을 찾아줘.",
+  "I need a very small Korean conversation model that runs on a laptop CPU, preferably under 1B.",
+  "small Korean conversation model, under 1B, laptop CPU, model card"
+ ],
+ "response": {
+  "queries": [
+   "작고 1B 이하의 한국어 대화 모델이 필요해, 노트북 CPU에서 실행 가능한 모델을 찾아줘.",
+   "I need a very small Korean conversation model that runs on a laptop CPU, preferably under 1B.",
+   "small Korean conversation model, under 1B, laptop CPU, model card"
+  ]
+ },
+ "latency_ms": 1257.4
+}

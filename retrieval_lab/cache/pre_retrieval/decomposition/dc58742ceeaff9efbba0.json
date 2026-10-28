@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어.",
+ "outputs": [
+  "Find vision-language models with parameter count under 1B that support Korean.",
+  "Search for models that can generate image captions in Korean.",
+  "Look for edge-deployable models suitable for image captioning tasks."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find vision-language models with parameter count under 1B that support Korean.",
+   "Search for models that can generate image captions in Korean.",
+   "Look for edge-deployable models suitable for image captioning tasks."
+  ]
+ },
+ "latency_ms": 1203.1
+}

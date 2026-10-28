@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
+ "outputs": [
+  "Korean document summarization model commercial service lightweight parameter count under 1B"
+ ],
+ "response": {
+  "query": "Korean document summarization model commercial service lightweight parameter count under 1B"
+ },
+ "latency_ms": 942.5
+}

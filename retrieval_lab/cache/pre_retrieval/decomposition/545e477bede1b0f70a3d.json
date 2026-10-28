@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야.",
+ "outputs": [
+  "Find Korean LLMs that can handle context lengths greater than 128K tokens.",
+  "Search for models suitable for processing long reports in Korean."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find Korean LLMs that can handle context lengths greater than 128K tokens.",
+   "Search for models suitable for processing long reports in Korean."
+  ]
+ },
+ "latency_ms": 1070.8
+}

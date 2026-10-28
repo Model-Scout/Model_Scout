@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야.",
+ "outputs": [
+  "The LongContext-KR model is a state-of-the-art Korean language model designed to handle exceptionally long contexts of up to 128K tokens. It excels in tasks such as document summarization, question answering, and conversational AI, making it ideal for processing lengthy reports and extracting relevant information. With 1.5 billion parameters, this model leverages advanced transformer architecture to maintain coherence and relevance over extended text inputs. Its intended use cases include academic research, legal document analysis, and any application requiring deep understanding of extensive Korean texts. The model is available in GGUF format and is optimized for performance, ensuring quick response times even with large inputs."
+ ],
+ "response": {
+  "document": "The LongContext-KR model is a state-of-the-art Korean language model designed to handle exceptionally long contexts of up to 128K tokens. It excels in tasks such as document summarization, question answering, and conversational AI, making it ideal for processing lengthy reports and extracting relevant information. With 1.5 billion parameters, this model leverages advanced transformer architecture to maintain coherence and relevance over extended text inputs. Its intended use cases include academic research, legal document analysis, and any application requiring deep understanding of extensive Korean texts. The model is available in GGUF format and is optimized for performance, ensuring quick response times even with large inputs."
+ },
+ "latency_ms": 1927.9
+}

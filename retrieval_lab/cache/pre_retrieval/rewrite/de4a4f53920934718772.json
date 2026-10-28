@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야.",
+ "outputs": [
+  "commercial use, parameter count <= 0.6B, context length > 8192, Korean embedding model, CPU"
+ ],
+ "response": {
+  "query": "commercial use, parameter count <= 0.6B, context length > 8192, Korean embedding model, CPU"
+ },
+ "latency_ms": 1189.6
+}

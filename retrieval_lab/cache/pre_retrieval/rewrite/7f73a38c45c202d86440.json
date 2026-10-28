@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해.",
+ "outputs": [
+  "Korean speech recognition model for mobile devices, commercial use, parameter count under 100M"
+ ],
+ "response": {
+  "query": "Korean speech recognition model for mobile devices, commercial use, parameter count under 100M"
+ },
+ "latency_ms": 944.9
+}

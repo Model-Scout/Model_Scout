@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+ "outputs": [
+  "The model is a high-performance Korean language model designed for commercial use, optimized for deployment on multiple GPU servers. It excels in natural language understanding and generation tasks, making it suitable for applications such as chatbots, content creation, and sentiment analysis. With a parameter count of 1.5 billion, it balances size and efficiency, ensuring fast inference times. The model supports Korean as its primary language and has been benchmarked against leading models, achieving top scores in various NLP tasks. Its architecture allows for easy scaling across multiple GPUs, making it ideal for businesses looking to leverage advanced language processing capabilities."
+ ],
+ "response": {
+  "document": "The model is a high-performance Korean language model designed for commercial use, optimized for deployment on multiple GPU servers. It excels in natural language understanding and generation tasks, making it suitable for applications such as chatbots, content creation, and sentiment analysis. With a parameter count of 1.5 billion, it balances size and efficiency, ensuring fast inference times. The model supports Korean as its primary language and has been benchmarked against leading models, achieving top scores in various NLP tasks. Its architecture allows for easy scaling across multiple GPUs, making it ideal for businesses looking to leverage advanced language processing capabilities."
+ },
+ "latency_ms": 2030.6
+}

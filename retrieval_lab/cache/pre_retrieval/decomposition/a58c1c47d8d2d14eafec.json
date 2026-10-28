@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해.",
+ "outputs": [
+  "한국어 특화 임베딩 모델",
+  "상업 서비스에 사용할 수 있는 라이선스"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 특화 임베딩 모델",
+   "상업 서비스에 사용할 수 있는 라이선스"
+  ]
+ },
+ "latency_ms": 988.0
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로.",
+ "outputs": [
+  "가벼운 VLM 모델을 찾고 있어요. 이미지 내용을 설명할 수 있고, 파라미터 수가 4B 이하인 모델이 필요해요.",
+  "I'm looking for a lightweight VLM that can describe image content and has a parameter count below 4B, suitable for running on a laptop.",
+  "lightweight VLM, image content description, parameter count < 4B, laptop compatible"
+ ],
+ "response": {
+  "queries": [
+   "가벼운 VLM 모델을 찾고 있어요. 이미지 내용을 설명할 수 있고, 파라미터 수가 4B 이하인 모델이 필요해요.",
+   "I'm looking for a lightweight VLM that can describe image content and has a parameter count below 4B, suitable for running on a laptop.",
+   "lightweight VLM, image content description, parameter count < 4B, laptop compatible"
+  ]
+ },
+ "latency_ms": 2054.4
+}

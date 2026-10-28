@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어.",
+ "outputs": [
+  "1B 이하의 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 사용하고 싶습니다.",
+  "I want to run a very small vision-language model under 1B for Korean image captioning on edge devices.",
+  "small vision-language model under 1B Korean image captioning edge device"
+ ],
+ "response": {
+  "queries": [
+   "1B 이하의 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 사용하고 싶습니다.",
+   "I want to run a very small vision-language model under 1B for Korean image captioning on edge devices.",
+   "small vision-language model under 1B Korean image captioning edge device"
+  ]
+ },
+ "latency_ms": 1376.8
+}

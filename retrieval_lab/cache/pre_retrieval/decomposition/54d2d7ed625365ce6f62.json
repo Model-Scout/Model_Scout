@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어.",
+ "outputs": [
+  "task: embedding for Korean document search",
+  "context length: 8192 tokens",
+  "deployment: GPU server"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: embedding for Korean document search",
+   "context length: 8192 tokens",
+   "deployment: GPU server"
+  ]
+ },
+ "latency_ms": 1056.8
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해.",
+ "outputs": [
+  "모바일에서 사용할 수 있는 100M 이하의 한국어 음성 인식 모델을 찾고 있어요.",
+  "I need a Korean speech recognition model that can run on mobile devices and has less than 100M parameters for commercial use.",
+  "모바일 기기, 한국어, 음성 인식, 100M 파라미터 이하, 상업 서비스"
+ ],
+ "response": {
+  "queries": [
+   "모바일에서 사용할 수 있는 100M 이하의 한국어 음성 인식 모델을 찾고 있어요.",
+   "I need a Korean speech recognition model that can run on mobile devices and has less than 100M parameters for commercial use.",
+   "모바일 기기, 한국어, 음성 인식, 100M 파라미터 이하, 상업 서비스"
+  ]
+ },
+ "latency_ms": 1419.5
+}

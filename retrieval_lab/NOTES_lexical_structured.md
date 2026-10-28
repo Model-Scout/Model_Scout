@@ -1,6 +1,6 @@
 # lexical_exact · structured_constraint 작업 노트
 
-담당 희원 · 최종 수정 2026-10-28 · 상세 수치는 `reports/lexical_exact.md|json`, `reports/structured_constraint.md|json`
+담당 희원 · 최종 수정 2026-10-29 · 상세 수치는 `reports/lexical_exact.md|json`, `reports/structured_constraint.md|json`
 
 이 문서는 세션이 바뀌어도 작업을 이어갈 수 있도록 **확인한 사실과 다음에 할 일**을 남긴 것이다. 추측과 측정값을 구분해서 적는다.
 
@@ -10,12 +10,12 @@
 |---|---|---|
 | Query Type 선택 | 완료 | 완료 |
 | Golden Set 20~25개 | 완료 (22) | 완료 (24) |
-| Baseline 측정 | 완료 | 완료(라벨 보완 전) |
-| Pre-Retrieval 단일 A/B | 완료 | 미착수 |
-| 개선 요소 조합 | 완료(해당 없음) | 미착수 |
-| Dense/Sparse Fusion 비교 | 완료 | 미착수 |
-| Weight Grid + Optuna | 완료 | 미착수 |
-| planner_config 기록 | **완료** | 미착수 |
+| Baseline 측정 | 완료 | 완료 |
+| Pre-Retrieval 단일 A/B | 완료 | 완료 |
+| 개선 요소 조합 | 완료(해당 없음) | 완료 |
+| Dense/Sparse Fusion 비교 | 완료 | 완료 |
+| Weight Grid + Optuna | 완료 | 완료 |
+| planner_config 기록 | **완료** | **완료** |
 
 유형 필드는 **`plan_query_type`** 이다(`query_type`과 다름). 매핑은
 [`test/golden/labels/plan_query_types.json`](../test/golden/labels/plan_query_types.json).
@@ -173,61 +173,242 @@ NLLB·mBART는 `translation_pairs`가 비어 `languages`에 zh·ko가 있는 형
 **계열명** — 이름과 `canonical_model_id`가 거의 일치해 이름만으로 충분하다.
 다만 task를 걸면 후보가 급감한다(Kanana 35 → VLM 1개, KoBART 4 → 요약 2개).
 
-## 6. structured_constraint 착수 시 메모
+## 6. structured_constraint 최종 결과 (2026-10-29)
 
-Baseline은 10-14에 측정됐고 **라벨 보완 전**이다(Recall@10 0.109, Judged@10 0.137).
-lexical보다 판정 커버리지가 낮으므로 같은 순서로 진행한다.
+`planner_config.json`에 기록한 설정은 **Known values only**다. Pre-Retrieval은 전부 OFF,
+dense 0.5, 대신 `hard_filter_defaults`로 `require_known_parameters`와
+`require_known_context`를 켠다.
 
-- 미판정 후보 207개. [`lexical_worksheet.py`](lexical_worksheet.py)를 재사용하되
-  `REPORT` 경로와 `LABEL_GAP_QUERIES`를 structured용으로 바꿔야 한다
-- 규칙 지표는 방향·형식·계열이 아니라 **수치·라이선스 조건**이 대상이다
-- **제외 위반@10이 0.474**다. 질의 절반에서 금지 모델이 top-10에 나온다
-- 관련 데이터 공백: `parameter_count` 미상 1,424/3,638(39%), `context_length` 38%.
-  `require_known_parameters` 플래그를 실험 변수로 넣어볼 가치가 있다
-- 골든셋 자체 약점: 질의문에 "50M 이하"가 있는데 `max_parameters_billion`이 None인
-  질의가 많다. 조건이 필드에 없으면 하드 필터가 거를 수 없다
+| 실험 | Recall@5 | Recall@10 | F1@10 | MRR@5 | nDCG@5 | MAP@5 | p95 |
+|---|---|---|---|---|---|---|---|
+| Baseline | 0.125 | 0.268 | 0.229 | 0.312 | 0.187 | 0.182 | 283ms |
+| **Known values only** | **0.222** | **0.379** | **0.255** | **0.411** | **0.294** | **0.295** | **272ms** |
+| Rewrite | 0.075 | 0.205 | 0.123 | 0.140 | 0.076 | 0.049 | 2038ms |
+| Decomposition | 0.121 | 0.194 | 0.143 | 0.293 | 0.168 | 0.130 | 2387ms |
+| Multi-Query | 0.102 | 0.205 | 0.152 | 0.207 | 0.129 | 0.128 | 3209ms |
+| HyDE | 0.136 | 0.233 | 0.129 | 0.212 | 0.127 | 0.085 | 2811ms |
+| Name Lookup | 0.125 | 0.268 | 0.229 | 0.312 | 0.187 | 0.182 | 283ms |
 
-## 7. 골든셋 감사 (두 유형 공통)
+LLM 사전 검색 4종은 lexical과 똑같이 전부 저하했다. Name Lookup은 Baseline과 완전히
+같다. 이 유형 질의에는 모델명이 들어가지 않아 아무 일도 하지 않는다.
 
-| | lexical_exact | structured_constraint |
+채널 비교에서 Hybrid가 단일 채널의 2배였고(Dense 0.133 · Sparse 0.137 · Hybrid 0.268),
+가중치는 0.1~0.9 전 구간에서 0.5가 최적이었다. 여기까지는 lexical과 같다.
+
+### 같은 필터가 유형에 따라 반대로 작동한다
+
+```
+lexical_exact          Known values only  0.555  <  Baseline 0.561   → 선택 안 됨
+structured_constraint  Known values only  0.379  >  Baseline 0.268   → 선택됨
+```
+
+lexical은 수치 조건 질의가 적어 필터가 손해만 보고, structured는 수치 조건이 핵심이라
+이득이다. 계획서의 "유형별 최적값" 전제를 뒷받침하는 결과다.
+
+### 제외 위반이 함께 줄었다
+
+| 실험 | Hit@10 | nRecall@10 | 제외 위반@10 | Judged@10 |
+|---|---|---|---|---|
+| Baseline | 0.542 | 0.328 | 0.474 | 0.362 |
+| **Known values only** | **0.667** | **0.429** | **0.211** | 0.365 |
+
+Recall이 오르면서 제외 위반이 절반 이하로 줄었다. 보통 트레이드오프인데 함께 개선됐다.
+
+## 7. structured 커버리지와 진단
+
+커버리지 조사([`structured_coverage.py`](structured_coverage.py))는 조건을 세 갈래로 센다.
+
+```
+strict   값을 아는 모델 중 조건 만족        7,601
+lenient  값이 없는 모델도 통과 (기본값)    11,632
+그중 판정 불가                             4,031  (35%)
+```
+
+`sg_h004`("파라미터 50M 이하")가 가장 극단적이다. task 풀 24개 중 strict 1개, lenient 15개,
+그중 14개(93%)가 "50M 이하인지 모르는" 모델이다. 조건이 필드에 없는 것이 아니라
+**비교할 숫자가 없다**. 조건 필드는 24개 질의 전부 정상이다(전수 확인).
+
+진단([`structured_diagnose.py`](structured_diagnose.py))은 Recall 0을 세 갈래로 나눈다.
+
+```
+데이터 공백  11개   코퍼스를 채워야 함
+라벨 공백     6개   판정하면 해결
+정상          7개
+```
+
+lexical은 8/9가 라벨 공백이었는데 structured는 11개가 데이터 공백이다. 수치 조건
+유무로 갈린다: 있는 15개는 판정 불가 0.713, 없는 9개는 0.222다.
+
+### 제외 위반 0.474의 정체
+
+규칙으로 잰 조건 위반은 **0.029**뿐이다. `must_exclude` 위반 0.474는 라벨러가
+"이건 아니다"라고 지목한 모델이 나온 것이고, 규칙으로 보면 대부분 위반이 아니라
+판정 불가다. `sg_h004`의 제외 위반 7건은 "50M 초과임이 확인된" 것이 아니라
+"50M 이하인지 모르는" 모델이었다. **사람이 아는 것을 데이터가 모르는 상황**이다.
+
+## 8. 라벨 보완과 검증 (structured)
+
+라벨 공백 6개 질의의 미판정 54건을 판정했다. 파일은
+[`test/golden/labels/supplement_structured_constraint.jsonl`](../test/golden/labels/supplement_structured_constraint.jsonl),
+전부 `judge: "claude"`이며 사람 검수 전이다.
+
+보완 효과는 Recall@10 0.109 → 0.268, Judged@10 0.138 → 0.362였다.
+
+### 외부 검증에서 24건 불일치 (44%)
+
+lexical(20%)보다 나빴다. **lexical에서 지적된 "README 미확인" 편향이 고쳐지지 않고
+선택적 독해로 바뀌었다.** 0점·감점 대상은 읽고, 2점을 줄 모델과 "확인 불가" 판정은
+메타데이터로 처리했다. 54건 중 10건의 reason이 해당 모델 카드에 반박됐다.
+
+**가장 큰 오류: 골든의 `answer_grade`를 읽지 않았다(12건).**
+
+```
+[h002] answer_grade = acceptable_only
+  notes: "상업 가능하면서 한국어 추출형 QA 근거가 강한 후보 없음
+          / 후보 풀에 2점 모델이 없어 1점 모델을 정답으로 올림"
+[h064] answer_grade = acceptable_only
+  notes: "라이선스가 확실하면서 한국어 근거가 강한 후보 없음(2점 없음)"
+```
+
+골든의 `expected_any`가 "2점"이 아니라 **1점을 승격시킨 것**이다. "골든이 Apollo를
+정답으로 인정했으니 2점"이라는 판단을 두 질의에서 6번씩 반복했다. 게다가 reason에
+"의료 특화라 도메인이 다르다"고 적어 놓고 2점을 줬다 — 스스로 세운 AND 기준과 모순이다.
+
+다른 오류 유형:
+
+| 유형 | 건수 | 예 |
+|---|---:|---|
+| README에 답이 있는데 "확인 불가" | 3 | `LiteLLMs/Llama-3-Open-Ko-8B-GGUF` README의 `-c 8192` |
+| 기존 골든 라벨과 충돌 | 1 | `team-lucid/hubert-large-korean`은 h067·h068에서 무관 처리됨 |
+| 인기도·공식성 가점 | 9 | `FunAudioLLM`과 `yoyolaiyy3062`는 README·GGUF 해시가 동일한데 2점/1점 |
+| 질의에 없는 조건 주입 | 3 | `sg_g019`는 license_requirement=unknown인데 라이선스로 감점 |
+
+24건 전부 수용해 수정했다. 점수 분포는 0점 3·1점 25·2점 26에서 **0점 6·1점 35·2점 13**이 됐다.
+
+### 수정해도 결론이 바뀌지 않았다
+
+```
+             수정 전    수정 후
+Baseline      0.270     0.268
+Known only    0.377     0.379
+최적 설정     Known values only (동일)
+```
+
+라벨 44%를 고쳤는데 최적 설정이 그대로다. 채점이 `min_grade=1`이라 2점과 1점을 똑같이
+"관련"으로 세기 때문이고, 수정의 대부분이 2→1이었다. `min_grade=2`로 재면 Baseline이
+0.268 → 0.237로 떨어져 수정 효과가 드러난다.
+
+예주님은 라벨 보완 후 결론이 뒤집혔는데(Rewrite 최적 → Baseline보다 낮음) 이번에는
+뒤집히지 않았다. **결론이 라벨 오류에 둔감하다는 신호**로 읽는다.
+
+### 검증이 제안한 구조 개선
+
+골든셋은 카드가 침묵할 때 1점을 강제하지 않고 `unjudged`(판정 보류)로 뺀다.
+
+```
+[h033] unjudged: LFM2.5-8B-A1B-GGUF — "컨텍스트 128,000 — 질의의 '128K'가
+                 131,072 기준이면 미달이라 판정 보류"
+[h002] unjudged: koelectra-*-korquad — "라이선스 미표기 → 상업 사용 확인 필요"
+```
+
+0/1/2 척도는 "위반 확정"과 "확인 불가"를 똑같이 1점으로 뭉갠다. `LiteLLMs` 오류가
+정확히 이 구조에서 나왔다. **"확인 불가" 버킷을 따로 두는 것을 팀에 제안할 만하다.**
+
+## 9. 공유 코드 변경 (리뷰 필요)
+
+계획서는 Planner의 역할로 Hard Filter 선택을 꼽지만 구현에는 그 자리가 없었다.
+
+```python
+# planner.py — 유형 기본값 위에 질의 값을 얹는다. 질의가 언제나 우선
+filters = dict(values.get("hard_filter_defaults") or {})
+filters.update(hard_filters(query))
+```
+
+`experiment.py`는 세 군데를 고쳤다. 자체 감사에서 찾은 버그들이다.
+
+| 버그 | 증상 | 수정 |
 |---|---|---|
-| 질의 | 23 | 24 |
-| 사례 기반 / 팀 작성 | 2 / 20 | 4 / 20 |
-| 질의당 판정 모델 (최소/중앙/최대) | 2 / 8 / 12 | 4 / 7 / 12 |
-| must_exclude 없는 질의 | 15 | 5 |
-| judged_irrelevant 없는 질의 | 9 | **17** |
-| reliability 등급 | 없음 | 없음 |
+| `evaluate()`가 plan의 hard_filters를 무시 | planner에 0.377을 적었는데 재실행하면 0.270 | 유형 기본값 위에 질의 값을 얹도록 |
+| 조건 없는 질의에도 필터가 걸림 | 전부에 걸면 0.299 (멀쩡한 모델까지 탈락) | 짝이 되는 수치 조건이 있을 때만 |
+| 하드 필터 실험이 최적 후보에서 빠짐 | `use_*` 플래그가 없어 0.299 > 0.270인데도 Baseline 선택 | 후보 목록에 추가 |
 
-코퍼스 3,606개에 대해 질의당 7~8개만 판정돼 있어 **Recall의 해상도가 낮다.**
-정답이 2개인 질의는 0 / 0.5 / 1.0 세 값만 나온다. 절대값을 신뢰하지 말고
-설정 간 상대 비교로만 쓴다.
+지금은 실험표의 Best Combination과 planner의 `evidence.value`가 일치한다.
 
-`reliability` 등급은 사례 기반 골든셋 28개에만 매겨졌고 판정 배치(`judged`) 질의
-40개에는 없다. 희원님 유형의 87%가 여기 속한다.
+**팀에 물어볼 것**: `Known values only` 행이 모든 유형에 적용된다. `hard_filter_defaults`가
+없는 유형은 plan 동작이 바뀌지 않지만, 재실행하면 실험표에 행이 하나 늘고 그 행이 이기면
+최적 설정이 바뀔 수 있다. 옵트인 플래그로 바꿀지 결정이 필요하다.
 
-## 8. 재현 방법
+검증: 신규 self-check 5건 + `test_structured_rules.py` 8건 + `test_lexical_rules.py` 8건
++ 기존 `test_retrieval_lab.py` 17건 통과. lexical 재실행 0.574 유지(회귀 없음).
+
+## 10. 남은 문제
+
+### 검색 recall 실패 — 두 유형 공통
+
+골든 정답이나 더 나은 후보가 코퍼스에 있는데 top-10에 들어오지 않는다.
+
+| 질의 | 코퍼스에 있으나 미검색 |
+|---|---|
+| `sg_h033` | `KISTI-KONI/KONI-Llama3.1-8B-Instruct`(ko 단일, ctx 131072, dl 30,987), `skt/A.X-K2`(dl 135,396), `LGAI-EXAONE/EXAONE-4.0-32B` |
+| `sg_h045` | `dragonkue/snowflake-arctic-embed-l-v2.0-ko`(dl 122,845), `nlpai-lab/KoE5`(dl 59,049), `nlpai-lab/KURE-v2` |
+| `sg_g019` | `seastar105/whisper-small-komixv2`(242M, 평균 WER 7.36) |
+| `sg_g002`(lexical) | `LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct`(dl 395,508) |
+| `sg_h055`(lexical) | `LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ`(dl 613,538) |
+
+근중복 범람도 같은 뿌리다. `sg_h081`은 top-10 전부가 `klue-roberta-base-klue-sts`
+복제본(dl 85~202)이고 `snunlp/KR-SBERT`(dl 171,903)는 탈락했다.
+
+**인기도·중복 제거 신호가 작동하지 않는다.** 가중치로도(0.5가 최적) LLM 사전 검색으로도
+(전부 저하) 고칠 수 없다. 계획서의 실험 메뉴 밖이므로 범위 확장 제안이 필요하다.
+
+### 코퍼스 자체의 공백
+
+`sg_h002`·`sg_h064`는 검색이나 판정 문제가 아니다. 코퍼스에서
+`primary_task=question-answering` + 한국어 + 상업 라이선스를 전수 조회하면 실제
+추출형 한국어 QA 모델은 `timpal0l/mdeberta-v3-base-squad2` 하나뿐이고 이미 골든
+정답이다. 나머지는 생성형이거나 번역 모델이다.
+
+`parameter_count` 39% · `context_length` 38% 결측은 파이프라인에 넘길 내용이다.
+
+```
+lenient: 조건 위반 모델이 top-10의 37.5%에 등장
+strict:  그걸 막는 대신 좋은 모델 3개를 잃음 (sg_h059, sg_h105, sg_h104)
+→ 결측을 메우면 둘 다 해결된다
+```
+
+## 11. 재현 방법
 
 ```bash
 # 커버리지 조사
 .venv/Scripts/python -m retrieval_lab.lexical_coverage
+.venv/Scripts/python -m retrieval_lab.structured_coverage
 
 # 규칙 지표로 질의 분류 (검색 재실행 없음)
 .venv/Scripts/python -m retrieval_lab.lexical_diagnose
+.venv/Scripts/python -m retrieval_lab.structured_diagnose
 
-# 판정 워크시트 생성
+# 판정 워크시트
 .venv/Scripts/python -m retrieval_lab.lexical_worksheet
+.venv/Scripts/python -m retrieval_lab.structured_worksheet
 
-# 규칙 자체 검증
+# 규칙 self-check
 .venv/Scripts/python test/test_lexical_rules.py
+.venv/Scripts/python test/test_structured_rules.py
+.venv/Scripts/python test/test_planner_hard_filter_defaults.py
 
 # 전체 실험 (LLM 필요, .env의 OPENAI_API_KEY)
 .venv/Scripts/python -m retrieval_lab.experiment --types lexical_exact \
     --supplement test/golden/labels/supplement_lexical_structured.jsonl --write-planner
+.venv/Scripts/python -m retrieval_lab.experiment --types structured_constraint \
+    --supplement test/golden/labels/supplement_structured_constraint.jsonl --write-planner
 
 # LLM 없이 Baseline + 채널 비교 + 가중치만
-.venv/Scripts/python -m retrieval_lab.experiment --types lexical_exact --stage weight \
-    --supplement test/golden/labels/supplement_lexical_structured.jsonl
+.venv/Scripts/python -m retrieval_lab.experiment --types structured_constraint --stage weight \
+    --supplement test/golden/labels/supplement_structured_constraint.jsonl
 ```
 
 `--supplement`는 이번에 추가한 플래그다. 공유 파일 대신 자기 판정 파일을 쓴다.
 LLM 호출 결과는 `retrieval_lab/cache/pre_retrieval/`에 캐시되므로 재실행은 무료다.
+
+**주의**: `--stage baseline`이나 `--min-grade`를 바꿔 돌리면 리포트가 그 설정으로
+덮어써진다. 정식 수치를 남기려면 위의 전체 실행 명령으로 다시 생성한다.

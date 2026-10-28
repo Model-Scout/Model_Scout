@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "Korean customer service chatbot, serving on single GPU (24GB), commercial use, no license restrictions"
+ ],
+ "response": {
+  "query": "Korean customer service chatbot, serving on single GPU (24GB), commercial use, no license restrictions"
+ },
+ "latency_ms": 1039.7
+}

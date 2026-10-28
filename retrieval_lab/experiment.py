@@ -40,6 +40,10 @@ from retrieval_lab.planner import (
 )
 from retrieval_lab.pre_retrieval import STRATEGIES, LLMUnavailable, llm_model
 
+# 조건 값이 없는 모델을 거르는 하드 필터. 코퍼스의 parameter_count 39%,
+# context_length 38%가 비어 있어 수치 조건이 붙은 유형에서 결과가 갈린다.
+KNOWN_ONLY_FILTERS = {"require_known_parameters": True, "require_known_context": True}
+
 REPORT_DIR = Path(__file__).resolve().parent / "reports"
 TABLE_COLUMNS = (
     ("Recall@5", "recall@5"), ("Recall@10", "recall@10"), ("F1@10", "f1@10"), ("MRR@5", "mrr@5"),
@@ -54,7 +58,15 @@ DETAIL_COLUMNS = (
 def evaluate(retriever: Retriever, queries: Sequence[golden.GoldenQuery], plan: RetrievalPlan, min_grade: int) -> Dict[str, Any]:
     per_query: List[Dict[str, Any]] = []
     for query in queries:
-        query_plan = replace(plan, query_type=query.plan_query_type, hard_filters=hard_filters(query.query))
+        # plan이 들고 온 유형 기본값 위에 질의 값을 얹는다. 질의가 직접 말한 조건이 언제나 이긴다.
+        filters = {**plan.hard_filters, **hard_filters(query.query)}
+        # require_known_*는 짝이 되는 수치 조건이 있는 질의에서만 의미가 있다. 상한도 하한도
+        # 없는 질의에서 값을 안다는 이유로 후보를 거르면 멀쩡한 모델만 잃는다.
+        if not filters.get("max_parameters_billion") and not filters.get("min_parameters_billion"):
+            filters.pop("require_known_parameters", None)
+        if not filters.get("min_context_length") and not filters.get("max_context_length"):
+            filters.pop("require_known_context", None)
+        query_plan = replace(plan, query_type=query.plan_query_type, hard_filters=filters)
         result = retriever.run(query.text, query_plan)
         top10 = result.ranked[:10]
         per_query.append({
@@ -250,6 +262,18 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
         return result
 
     base_score = result["baseline"]["summary"].get(args.metric) or 0.0
+
+    # 수치 조건을 아는 모델만 남기는 하드 필터. LLM 변환과 달리 질의를 건드리지 않고
+    # 후보를 줄이는 쪽이라 Pre-Retrieval 요소와 같은 자리에서 비교한다.
+    known_only = replace(baseline, hard_filters=KNOWN_ONLY_FILTERS)
+    known_run = try_evaluate(retriever, queries, known_only, args.min_grade, log, "Known values only")
+    if known_run:
+        known_run["label"] = "Known values only"
+        known_run["hard_filter_defaults"] = dict(KNOWN_ONLY_FILTERS)
+        result["single"].append(known_run)
+        if (known_run["summary"].get(args.metric) or 0.0) > base_score + args.min_delta:
+            result["improved_filters"] = dict(KNOWN_ONLY_FILTERS)
+
     for strategy in ELEMENTS:
         run = try_evaluate(retriever, queries, with_strategies(baseline, (strategy,)), args.min_grade, log)
         if run:
@@ -266,7 +290,10 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
                 result["combos"].append(run)
     # Only strategies that beat the baseline on the metric may win (plan rule).
     improved_singles = [run for run in result["single"] if any(run["plan"][f"use_{s}"] for s in result["improved"])]
-    candidates = [result["baseline"]] + improved_singles + result["combos"]
+    # 하드 필터로 이긴 실험은 use_* 플래그가 없어 improved_singles에 잡히지 않는다.
+    improved_filters = [run for run in result["single"]
+                        if run.get("hard_filter_defaults") and result.get("improved_filters")]
+    candidates = [result["baseline"]] + improved_singles + improved_filters + result["combos"]
     best = max(candidates, key=lambda run: score_of(run, args.metric))
     result["best"] = best
 
@@ -359,7 +386,7 @@ def main() -> None:
                     "baseline": result["baseline"]["summary"].get(args.metric),
                     "queries": result["queries"],
                     "ran_at": result["ran_at"],
-                })
+                }, hard_filter_defaults=best.get("hard_filter_defaults"))
     if summary_rows:
         lines = ["| 유형 | 최적 설정 | dense | " + " | ".join(name for name, _ in TABLE_COLUMNS) + " |", "|---" * (len(TABLE_COLUMNS) + 3) + "|"]
         for query_type, result in summary_rows:

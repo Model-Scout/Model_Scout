@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "The model is designed for customer support chatbots, specifically optimized for Korean language interactions. With a parameter count of 6 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on a single 24GB GPU. The model supports various conversational tasks, including answering queries, providing product information, and handling complaints. Its strengths lie in its ability to understand context and generate human-like responses, ensuring a smooth customer experience. The model is licensed under a permissive license, allowing for commercial use without restrictions. Ideal use cases include e-commerce support, service inquiries, and general customer engagement."
+ ],
+ "response": {
+  "document": "The model is designed for customer support chatbots, specifically optimized for Korean language interactions. With a parameter count of 6 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on a single 24GB GPU. The model supports various conversational tasks, including answering queries, providing product information, and handling complaints. Its strengths lie in its ability to understand context and generate human-like responses, ensuring a smooth customer experience. The model is licensed under a permissive license, allowing for commercial use without restrictions. Ideal use cases include e-commerce support, service inquiries, and general customer engagement."
+ },
+ "latency_ms": 1754.5
+}

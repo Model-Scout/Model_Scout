@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
+ "outputs": [
+  "한국어 문서 요약 모델",
+  "상업 서비스에 적합한 모델",
+  "1B 이하의 가벼운 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 문서 요약 모델",
+   "상업 서비스에 적합한 모델",
+   "1B 이하의 가벼운 모델"
+  ]
+ },
+ "latency_ms": 1061.6
+}
