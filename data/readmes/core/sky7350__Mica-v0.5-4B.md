@@ -47,6 +47,25 @@ routing, triage, evaluation.
 
 <br>
 
+## Minecraft demo
+
+One chat message to an in-game assistant: *"I'm hungry, get me at least 3 porkchops and also make me a netherite ingot."*
+Mica v0.5 4B reads the request as a chain of small choice questions (how many items, which category, which item, for
+whom, how many), then picks every next step, starting from bare hands, until both are handed over. Every question, its
+options and Mica's probabilities are shown on the right.
+
+**The request**
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/minecraft_request.mp4" controls muted playsinline width="100%"></video>
+
+**From bare hands to a netherite ingot** (sped up to 2 minutes; the end switches to the player's view)
+
+<video src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/demo/minecraft_netherite.mp4" controls muted playsinline width="100%"></video>
+
+Run locally on an AMD RX 6600 XT; the decision times in the panel are RTX 3090 estimates.
+
+<br>
+
 ## Results
 
 <img src="https://huggingface.co/sky7350/Mica-v0.5-4B/resolve/main/assets/results_jdi_all.png" alt="JDI 0.3" width="100%">

@@ -190,7 +190,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 11. [CRITICAL: Coding Syntax & Repeat Penalty Advisory (Preventing Character Swapping)](#toc-coding-advisory)
 
-12. [Hardened Agentic Chat Template](#toc-chat-template)
+12. [Native-Compatible Agentic Chat Template](#toc-chat-template)
 
 13. [Optional Support](#toc-11)
 
@@ -716,29 +716,22 @@ Sampling metadata recorded from [ornith-ai/Ornith-1.5-35B-A3B](https://huggingfa
 
 > [!TIP]
 
-> ### HARDENED AGENTIC CHAT TEMPLATE (JINJA)
+> ### NATIVE-COMPATIBLE AGENTIC CHAT TEMPLATE (JINJA)
 
-> An optimized `chat_template.jinja` is included at the root of this repository. It hardens agent workflows and multi-turn stability:
-
-> 
-
-> 1. **Binary Thinking Control:** Clean native toggle via `enable_thinking: true/false` preserving native model behavior.
-
-> 2. **Tool-Calling Safeguard (Anti-Premature Stop):** Prevents the model from terminating a turn (`<|im_end|>`) at a colon or action declaration prior to outputting `<tool_call>`.
-
-> 3. **Multi-Turn Thinking Memory:** Preserves historical `<think>` blocks across turns by default, preventing context distribution drift in 78K+ token runs.
+> The repository ships the model's native Qwen3.5 chat template with parser-compatibility fixes:
 
 > 
+> 1. **Binary Thinking Control:** Native `enable_thinking: true/false` toggle.
+> 2. **Native Tool Calls:** Qwen XML `<tool_call><function=...><parameter=...>` format, compatible with `qwen3_xml` and llama.cpp's tool parser. The previous JSON tool format was removed.
+> 3. **Multi-Turn Thinking Memory:** Historical `<think>` blocks are preserved as in the native template.
+> 4. **Parser Compatibility:** No `~` concatenation, explicit guards for optional fields, and LF line endings. Parses in LM Studio 0.4.x and newer, llama.cpp, and Transformers.
+> 
 
-> **Usage with llama-server:**
-
-> ```bash
-
-> llama-server -m Model.gguf --chat-template-file chat_template.jinja
-
-> ```
-
-
+> **Usage:**
+> - llama.cpp: `llama-server -m Model.gguf --jinja` uses the corrected embedded template; `--chat-template-file chat_template.jinja` uses the sidecar.
+> - LM Studio: re-download or re-import the GGUF so the corrected metadata is read. To use the sidecar, select it under Prompt Template; do not paste template code into the System Prompt.
+> - Transformers: use `ornith-ai/Ornith-1.5-35B-A3B` safetensors and set `tokenizer.chat_template = open("chat_template.jinja").read()`. The GGUF is not loadable with Transformers.
+> 
 
 <a id="toc-11"></a>
 

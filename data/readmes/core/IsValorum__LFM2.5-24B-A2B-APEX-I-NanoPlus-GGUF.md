@@ -132,7 +132,7 @@ Q3_K            4      0.93%    Border MoE Experts (down: Layers 2, 3, 38, 39)
 | **Global** | Vocab & Output | `token_embd.weight` (Tied output) | **`Q4_K`** | Preserves core lexical and tokenization fidelity |
 | **Global** | Embedding Norm | `token_embd_norm.weight` | **`F32`** | Exact normalizer preservation |
 | **Layers 0 & 1** | Dense FFN Lead-In | `blk.{0,1}.ffn_{gate,down,up}.weight` | **`Q4_K`** | Uncompressed 4-bit protection on initial representation blocks |
-| **Layers 0 to 39** | MoE Routing Gates | `blk.{2..39}.ffn_gate_inp.weight` | **`F32`** | Absolute zero routing drift across all 64 experts |
+| **Layers 2 to 39** | MoE Routing Gates | `blk.{2..39}.ffn_gate_inp.weight` | **`F32`** | Absolute zero routing drift across all 64 experts |
 | **Layers 0 to 39** | Layer Normalizers | `blk.*.{attn_norm,ffn_norm}` | **`F32`** | Unquantized layer normalizers |
 | **Layers 2..39** | Expert Biases | `blk.*.exp_probs_b.bias` | **`F32`** | Exact expert logit bias preservation |
 | **10 Layers** (2,6,10,14,18,22,26,30,34,38) | Quadratic Attention | `blk.*.attn_{q,k,v}.weight` | **`Q4_K`** | Robust multi-head projection fidelity up to 128K context |
@@ -152,7 +152,7 @@ Q3_K            4      0.93%    Border MoE Experts (down: Layers 2, 3, 38, 39)
 
 | File Name | Size | Whole-File BPW | Format | Quantization Profile |
 | :--- | :---: | :---: | :---: | :---: |
-| `LFM2.5-24B-A2B.APEX-I-NanoPlus.gguf` | 8.15 GB | aprox. 2.94 | GGUF | APEX-I-NanoPlus |
+| `LFM2.5-24B-A2B.APEX-I-NanoPlus.gguf` | 8.15 GB | aprox. 2.72 | GGUF | APEX-I-NanoPlus |
 
 ---
 

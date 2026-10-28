@@ -176,7 +176,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 > [!IMPORTANT]
 
-> ### THE DEFINITIVE SPECIFICATION IN THE 11.8–12.0 GB CEILING (STREAMLINED ARCHITECTURE)
+> ### THE DEFINITIVE SPECIFICATION IN THE 12.5 GB CLASS (STREAMLINED ARCHITECTURE)
 
 > This **APEX-I-NanoPlus** release represents a streamlined, highly optimized configuration for sparse Mixture-of-Experts quantization. The clean model footprint compresses the full 40-layer backbone down to an agile **12.55 GB (11.69 GiB)** footprint, while retaining optional companion files (`mmproj-Q8_0.gguf` and `mtp-Cyber-Tiel-Coder-35B-A3B.gguf`) decoupled in the repository. The WikiText-2 result below measures language-model perplexity; it does not establish SWE-bench coding performance.
 
@@ -196,7 +196,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 > | **[APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Cyber-Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** | 14.75 GB | 13.74 GiB | 3.43 BPW | 7.5124 ± 0.20729 | +0.0524 (+0.70%) | Q5_K_L tier, bordering Q6_K |
 
-> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **approx. 2.93 BPW** | **8.2849 ± 0.23438** | **+0.8249 (+11.06%)** | **Solid Q4_K_M / Q4_K_L Tier** |
+> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **approx. 2.90 BPW** | **8.2849 ± 0.23438** | **+0.8249 (+11.06%)** | **Solid Q4_K_M / Q4_K_L Tier** |
 
 > | *Generic Community IQ2_S* | approx. 12.2 GB | approx. 11.4 GiB | 2.56 BPW | > 8.10 (Degraded) | +0.64+ (Syntax Noise) | Unstable / Syntax Spikes |
 
@@ -256,7 +256,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 
 | **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (20 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` | 14.75 GB (13.74 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
 
-| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined 11.8–12.0 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
+| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined 12.55 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
 
 
 
@@ -294,7 +294,7 @@ In independent testing conducted by community member **[@derFusel](https://huggi
 | **Cyber-Tiel-Coder NanoPlus (Compacted)** | **98.3%** | **10 / 12** | **22.10 min** | RTX 4070 (12GB) / i7-14700K / 32GB RAM (`Pi` Agent) | [Verified Run 3202a27b](https://shortbench.vercel.app/runs/3202a27b-e9b4-4b45-b44f-c08170c2ceee) |
 
 **Key Empirical Takeaways:**
-- **High Retention at Sub-3-bit Footprint:** At only approx. 2.93 BPW, the NanoPlus quantization preserves multi-file syntax, complex regex transformations, and state serialization without regression.
+- **High Retention at Sub-3-bit Footprint:** At only approx. 2.90 BPW, the NanoPlus quantization preserves multi-file syntax, complex regex transformations, and state serialization without regression.
 - **Flawless Tool Calling:** Zero tool-calling drift or schema failure across all agentic tasks, confirming that protecting core gating routers and attention layers avoids formatting decay.
 
 ---
@@ -323,7 +323,7 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 
 | **APEX-I-MiniPlus V2.1** | 3.40 bpw | 14.75 GB (13.74 GiB) | **+0.0632 (PPL: 6.2432)** | Maximum fidelity near-lossless Q5_K / Q6_K tier. Full native 256K context on 24GB workstations. |
 
-| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.82 bpw** | **12.55 GB (11.69 GiB)** | **+0.2215 (PPL: 6.4015 ± 0.1412)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
+| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.90 bpw** | **12.55 GB (11.69 GiB)** | **+0.2215 (PPL: 6.4015 ± 0.1412)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
 
 | **Standard Q4_K_M** | 4.50 bpw | approx. 20.0 GB | approx. +0.18 to +0.28 | Standard industry trade-off; cannot fit in 16GB VRAM. |
 
@@ -347,13 +347,13 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 
 | :--- | :--- | :--- | :--- | :--- |
 
-| **`Cyber-Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.82 BPW** | Core cybernetic agentic coding & hybrid linear attention MoE in APEX-I-NanoPlus |
+| **`Cyber-Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.90 BPW** | Core cybernetic agentic coding & hybrid linear attention MoE in APEX-I-NanoPlus |
 
-| **`mtp-Cyber-Tiel-Coder-35B-A3B.gguf`** | **`1.48 GB (1.38 GiB)`** | `1.38 GiB` | **6.50 BPW** | Dedicated high-precision Multi-Token Prediction (MTP) draft head for speculative decoding |
+| **`mtp-Cyber-Tiel-Coder-35B-A3B.gguf`** | **`1.48 GB (1.38 GiB)`** | `1.38 GiB` | **6.36 BPW** | Dedicated high-precision Multi-Token Prediction (MTP) draft head for speculative decoding |
 
 | **`mmproj-Q8_0.gguf`** | **`614.19 MB (585.74 MiB)`** | `585.74 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for code screenshots & diagrams |
 
-| **Complete download** | **`14.65 GB (13.65 GiB)`** | `13.65 GiB` | — | Main GGUF plus the MTP draft companion and bundled vision projector |
+| **Complete download** | **`14.65 GB (13.64 GiB)`** | `13.64 GiB` | — | Main GGUF plus the MTP draft companion and bundled vision projector |
 
 
 

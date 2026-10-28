@@ -86,20 +86,24 @@ token stays at Q4_K, Q8_0 or source precision.
 > even as rough notes. The prompt, sampling settings and runtime commit help
 > most.
 
-> **Status, 2026-10-27:** [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs)
-> serves this release on one DGX Spark (GB10) with its new `axk2_vq` family
-> ([PR #114](https://github.com/Baekpica/ds4-dfm-rs/pull/114),
-> [family guide](https://github.com/Baekpica/ds4-dfm-rs/blob/27375878335dab4049091775eab0b0f06c1ae509/docs/axk2-vq.md)):
-> MLA with the DSA indexer over FP8 latent and key rows, CUDA kernels for the
-> 9/10-bit GVQ experts, gated RMSNorm, Hermes tool calls and think spans.
-> **Measured, 2K–64K: 370.2 tok/s prefill and 14.91 tok/s decode** (581.4 /
-> 15.59 at 2K, 272.1 / 14.40 at 64K; [below](#dgx-spark-performance)). The full
-> 262,144-token context runs in one bank: a 244,122-token prompt with two codes
-> placed at 15% and 85% returned both, in order (1,494 s at the default plan's
-> 512-row chunks). Teacher-forced over 26,866 held-out positions, the engine's
-> NLL is within 0.1% of this card's reference rerun on GB10. The conversion
-> itself (2026-10-21): 62 independent GGUF parts (107.6 GB), every payload hash
-> in `tensor-manifest.json`, all 94,172 source tensors accounted for.
+> **Status, 2026-10-29:** [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs)
+> serves this release on one DGX Spark (GB10) with its `axk2_vq` family
+> ([family guide](https://github.com/Baekpica/ds4-dfm-rs/blob/b494ba5cd4b7687e10924447a87315aab0ebfe00/docs/axk2-vq.md)).
+> **Updated performance, 2K–64K: 387.4 tok/s prefill and 15.25 tok/s
+> decode**, medians of three run means on optimization build `8bb463ed`
+> ([PR #125](https://github.com/Baekpica/ds4-dfm-rs/pull/125), merged; [conditions and repeat
+> ranges below](#dgx-spark-performance)).
+>
+> **Earlier qualification, 2026-10-27:** [PR #114](https://github.com/Baekpica/ds4-dfm-rs/pull/114)
+> added MLA with the DSA indexer over FP8 latent and key rows, CUDA 9/10-bit
+> GVQ experts, gated RMSNorm, Hermes tool calls and think spans. The full
+> 262,144-token context ran in one bank: a 244,122-token prompt returned two
+> codes at 15% and 85%, in order (1,494 s with 512-row chunks). Over 26,866
+> held-out positions, engine NLL was within 0.1% of this card's reference
+> rerun on GB10. Those quality and serving gates were not rerun for the
+> performance update. The conversion (2026-10-21) remains 62 GGUF parts
+> (107.6 GB), with payload hashes in `tensor-manifest.json` and all 94,172
+> source tensors accounted for.
 
 ## At a glance
 
@@ -119,7 +123,7 @@ token stays at Q4_K, Q8_0 or source precision.
 | MTP / drafter | None in this release (the source has no MTP layer) |
 | zchain / GR-RB sidecars | None |
 | Fidelity (reference forward, release bytes vs FP8 original) | [Measured on the converted bytes](#measured-on-the-converted-bytes) |
-| Runtime | [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs) on DGX Spark (GB10), CUDA: family `axk2_vq` ([guide](https://github.com/Baekpica/ds4-dfm-rs/blob/27375878335dab4049091775eab0b0f06c1ae509/docs/axk2-vq.md)) |
+| Runtime | [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs) on DGX Spark (GB10), CUDA: family `axk2_vq` ([guide](https://github.com/Baekpica/ds4-dfm-rs/blob/b494ba5cd4b7687e10924447a87315aab0ebfe00/docs/axk2-vq.md)) |
 
 ## Serving with ds4-dfm-rs
 
@@ -154,36 +158,78 @@ directory as the model:
 
 ## DGX Spark performance
 
-The ds4-dfm-rs README sweep: three fresh `ds4-bench` processes; every
-frontier prefills 2,048 new tokens on top of the cached prefix, then
-generates 128 forced greedy tokens, and the session restores the prompt
-snapshot before the next frontier. Prompt: the raw Italian novel
-`speed-bench/promessi_sposi.txt`. SM clock 2,190–2,197 MHz.
+**2026-10-29, optimization build:** measured runtime
+[`8bb463ed`](https://github.com/Baekpica/ds4-dfm-rs/commit/8bb463ed51ce597f4d1eb8379092bb8e06230bd8),
+from [PR #125](https://github.com/Baekpica/ds4-dfm-rs/pull/125) (merged as [`ef41bd6d`](https://github.com/Baekpica/ds4-dfm-rs/commit/ef41bd6d627b62d8d51f8616e7b755acdb61ce05)). The
+[campaign](https://github.com/Baekpica/ds4-dfm-rs/blob/b494ba5cd4b7687e10924447a87315aab0ebfe00/docs/axk2-optimization-2026-10-29.md)
+records three separately committed prefill and three decode improvements,
+with fresh-process A/Bs and family-specific fallbacks.
+
+Three fresh `ds4-bench` processes on one GB10: each frontier prefills
+2,048 new tokens over the cached prefix, generates 128 forced greedy
+tokens, then restores the prompt snapshot. Prompt: the raw Italian novel
+`speed-bench/promessi_sposi.txt`. CPU 9 is fixed; CUDA 13.4.92, driver
+615.71.10, 300–2,200 MHz clock policy, observed busy SM clocks
+2184–2190 MHz. Loading is excluded and the first 2K point has no
+extra warmup. The measured model revision is
+`a0c3b02e9b45dc67ef8dd1d48eb48034c93d6607`.
 
 ![A.X-K2 VQ prefill and decode on one DGX Spark, 2K to 64K](assets/axk2-vq-spark-64k-throughput.png)
 
 | Median of three run means | Prefill tok/s | Decode tok/s |
 |---|---:|---:|
-| 2K–64K | **370.2** | **14.91** |
-| 2K–32K | 431.2 | 15.21 |
+| 2K–64K | **387.4** | **15.25** |
+| 2K–32K | 452.9 | 15.57 |
 
-| Frontier | Prefill | Decode |
+| Frontier | Prefill tok/s | Decode tok/s |
 |---:|---:|---:|
-| 2K | 581.4 | 15.59 |
-| 8K | 469.6 | 15.44 |
-| 16K | 427.3 | 15.24 |
-| 32K | 361.2 | 14.88 |
-| 48K | 309.3 | 14.62 |
-| 64K | 272.1 | 14.40 |
+| 2K | 602.4 | 15.95 |
+| 4K | 522.4 | 15.80 |
+| 8K | 495.8 | 15.81 |
+| 16K | 450.2 | 15.59 |
+| 32K | 378.0 | 15.22 |
+| 48K | 322.2 | 14.95 |
+| 64K | 282.6 | 14.71 |
 
-- **Decode** reads ~11.6 GB of weights per token (Q4_K attention and shared
-  experts, the eight selected 9/10-bit experts, Q8_0 indexer projections, the
-  head): ~46 ms at 250 GB/s against ~66 ms measured at 8K. There is no
-  drafter, so this is the plain rate.
-- **Prefill** falls with the frontier because the DSA indexer scores every
-  earlier key for every row and layer; at 64K that adds ~3.4 s to each
-  2,048-token step. Faster index scoring and warp-specialized expert kernels
-  are the next levers ([guide](https://github.com/Baekpica/ds4-dfm-rs/blob/27375878335dab4049091775eab0b0f06c1ae509/docs/axk2-vq.md#limits-and-next-levers)).
+The curves show per-frontier medians and the observed minimum–maximum of
+three runs, not confidence intervals. Run means span 386.94–388.50
+prefill and 15.02–15.29 decode tok/s. 
+The remaining decode spread is unresolved despite fixed CPU affinity, similar
+sampled GPU clocks and CPU performance counters, and zero memory PSI; the raw
+ranges remain part of the result.
+Software power-cap flags occur in 6/5/8 samples across the three runs, at 2190
+MHz; no thermal-cap flag is observed. Full PSI avg10 stays 0, with at least 10.108 GiB
+available. [Raw samples, per-frontier ranges, hashes and reproduction
+conditions](https://github.com/Baekpica/ds4-dfm-rs/blob/b494ba5cd4b7687e10924447a87315aab0ebfe00/docs/benchmarks/axk2-vq-spark-64k-2026-10-29/README.md)
+are retained. The earlier October 27 sweep remains historical; these are
+new absolute rates, not a cumulative matched A/B against it.
+
+```sh
+git fetch origin refs/pull/125/head
+git checkout 8bb463ed51ce597f4d1eb8379092bb8e06230bd8
+make cuda-spark
+python3 tools/host_memory_guard.py --max-gib 128 --high-gib 128 \
+  --reserve-gib 2 --trip-gib 2 --psi-full-limit 0 --timeout 1800 -- \
+  taskset -c 9 ./ds4-bench --cuda -m A.X-K2-VQ-GGUF \
+  --prompt-file speed-bench/promessi_sposi.txt \
+  --ctx-start 2048 --ctx-max 65536 --step-incr 2048 --gen-tokens 128 \
+  --csv plain-N.csv
+```
+
+- **Decode** reads about 11.6 GB of weights per token. The final cold-8K
+  Nsight trace spends about half its decode kernel time in Q4_K streams;
+  the campaign improves Q8 projection, expert gate/up and gated-norm
+  scheduling. There is no MTP or drafter.
+- **Prefill** still falls with context because the DSA indexer scores every
+  earlier causal key per row and layer. The campaign removes a BF16
+  conversion and accelerates sparse-key metadata access; the
+  [guide](https://github.com/Baekpica/ds4-dfm-rs/blob/b494ba5cd4b7687e10924447a87315aab0ebfe00/docs/axk2-vq.md#limits-and-next-levers)
+  records the remaining measured costs.
+
+This is text throughput qualification. The forced novel continuation can
+be repetitive. Focused CUDA fixtures and bounded 8K A/Bs retain the same
+arithmetic and outputs; the October 27 NLL and 262K serving gates were not
+rerun. The conversion's quality warning above still applies.
 
 ## Why this size: 676.5B routed weights and a 256K context
 

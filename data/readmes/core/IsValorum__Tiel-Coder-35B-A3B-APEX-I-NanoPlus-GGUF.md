@@ -94,7 +94,7 @@ If you consider these releases to be of high quality and they help you in your d
 > | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 > | **Unquantized BF16 Base** | approx. 71.0 GB | approx. 66.2 GiB | 16.00 BPW | approx. 7.46 | 0.000 | Full Precision Baseline |
 > | **[APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF)** | 15.23 GB | 14.18 GiB | 3.43 BPW | 7.5117 ± 0.20722 | +0.0517 (+0.69%) | Q5_K_L tier, bordering Q6_K |
-> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **2.82 BPW** | **8.2842 ± 0.23432** | **+0.8242 (+11.05%)** | **Solid Q4_K_M / Q4_K_L Tier** |
+> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **2.90 BPW** | **8.2842 ± 0.23432** | **+0.8242 (+11.05%)** | **Solid Q4_K_M / Q4_K_L Tier** |
 > | *Generic Community IQ2_S* | approx. 12.2 GB | approx. 11.4 GiB | 2.56 BPW | > 8.10 (Degraded) | +0.64+ (Syntax Noise) | Unstable / Syntax Spikes |
 >
 > **Looking for higher precision?** [Tiel-Coder-35B-A3B APEX-I-MiniPlus-V2.1](https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF) offers the full **15.23 GB (3.43 BPW)** release of this Tiel-Coder family, delivering Q5_K_L tier (bordering Q6_K) fidelity for agentic coding and local development.
@@ -125,7 +125,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Generic APEX Mini** | `IQ2_S` (2.50 bpw) | `Q3_K` (only 5 layers) | `Q4_K` / `Q3_K` | `Q3_K` | Compressed | `Q3_K_M` | Compressed | Baseline (approx. 12.5 GB) | Severe syntax errors, broken code indentation, high perplexity in `<think>`. |
 | **MiniPlus V2.1 (Current)** | `IQ3_XXS` + `Q3_K` | `Q3_K` (20 layers) | `Q5_K` | `Q4_K` (`q/k/v`) + `Q6_K` (`output`) | `Q8_0` | `Q6_K` | `F32` | 15.23 GB (14.18 GiB) | Maximum fidelity near-lossless Q5/Q6 tier. Fits 24GB GPUs effortlessly. |
-| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined approx. 11.8–12.0 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
+| **NanoPlus (NEW)** | **`IQ3_XXS` (down) + `IQ2_S` (gate) + `IQ2_XXS` (up)** | **`Q3_K` (down) + `IQ3_XXS` (gate/up)** | **`Q4_K`** | **`Q4_K` (`q/k/v`) + `Q6_K` (`output`)** | **`Q8_0`** | **`Q6_K`** | **`F32`** | **12.55 GB (11.69 GiB)** | **Streamlined 12.55 GB tier. Leaves >4 GB free VRAM on 16GB cards for 32k context with zero AVX2 CPU stalls.** |
 
 > [!TIP]
 > ### Deployment & System Architecture Guide
@@ -176,7 +176,7 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | **Standard Q8_0** | 8.50 bpw | approx. 38 GB | approx. +0.01 | Virtually lossless; excessive memory overhead for consumer hardware. |
 | **Standard Q6_K** | 6.56 bpw | approx. 30 GB | approx. +0.02 to +0.05 | Near-lossless FP16 fidelity; requires multi-GPU or 32GB+ VRAM setups. |
 | **APEX-I-MiniPlus V2.1** | 3.43 bpw | 15.23 GB (14.18 GiB) | **+0.0517 (PPL: 7.5117 ± 0.20722)** | Maximum fidelity near-lossless Q5_K / Q6_K tier. Full native 256K context on 24GB workstations. |
-| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.82 bpw** | **12.55 GB (11.69 GiB)** | **+0.8242 (PPL: 8.2842 ± 0.23432)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
+| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.90 bpw** | **12.55 GB (11.69 GiB)** | **+0.8242 (PPL: 8.2842 ± 0.23432)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
 | **Standard Q4_K_M** | 4.50 bpw | approx. 20.0 GB | approx. +0.18 to +0.28 | Standard industry trade-off; cannot fit in 16GB VRAM. |
 | **Standard Q3_K_M** | 3.44 bpw | 16.5 GB | approx. +0.38 to +0.48 | Noticeable syntax drop, bracket corruption, and tokenizer classification noise. |
 | **Standard IQ2_S / Generic APEX Mini** | 2.50 bpw | approx. 12.2 GB | approx. +0.60 to +1.50+ | Severe reasoning breakdown, high perplexity spikes in `<think>` chains. |
@@ -189,7 +189,7 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 
 | File Name | File Size | Memory Footprint | BPW | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **`Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.82 BPW** | Core agentic coding & hybrid linear attention MoE in APEX-I-NanoPlus |
+| **`Tiel-Coder-35B-A3B.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.90 BPW** | Core agentic coding & hybrid linear attention MoE in APEX-I-NanoPlus |
 | **`mmproj-Q8_0.gguf`** | **`614.19 MB (585.74 MiB)`** | `585.74 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for code screenshots & diagrams |
 | **Complete download** | **`13.17 GB (12.26 GiB)`** | `12.26 GiB` | — | Main GGUF plus the bundled vision projector |
 

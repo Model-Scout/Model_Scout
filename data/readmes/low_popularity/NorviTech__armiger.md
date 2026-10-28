@@ -21,18 +21,18 @@ tags:
   - cpu-inference
 ---
 
-# Armiger `v3.3.0` — INT8 ONNX CPU Classifier
+# Armiger `v3.4.0` — INT8 ONNX CPU Classifier
 
-**Release:** [`v3.3.0`](https://github.com/spencernorton/armiger/releases/tag/v3.3.0) · **Artifact:** `17.6 MB` INT8 ONNX (`armiger.int8.onnx` / `armiger.onnx`) · **Parameters:** `8.05M` · **License:** Apache-2.0
+**Release:** [`v3.4.0`](https://github.com/spencernorton/armiger/releases/tag/v3.4.0) · **Artifact:** `17.6 MB` INT8 ONNX (`armiger.int8.onnx` / `armiger.onnx`) · **Parameters:** `8.05M` · **License:** Apache-2.0
 
 **Armiger (`NorviTech/armiger`)** is the standalone CPU INT8 edition of the byte-level RoPE Transformer (`numpy` + `onnxruntime` only). For FP32 weights, pre-built `armiger-ultra` containers, and the 6-plugin pipeline, see [`NorviTech/armiger-ultra`](https://huggingface.co/NorviTech/armiger-ultra).
 
-![Armiger v3.3.0 Overview](assets/armiger_overview.png)
+![Armiger v3.4.0 Overview](assets/armiger_overview.png)
 
 ## Quickstart
 
 ```bash
-python -m pip install "armiger @ git+https://github.com/spencernorton/armiger.git@v3.3.0"
+python -m pip install "armiger @ git+https://github.com/spencernorton/armiger.git@v3.4.0"
 python -m armiger download --directory ./models-cpu --variant cpu
 ```
 
@@ -55,6 +55,6 @@ print(res["heads"]["category"], res["matching_identity"], res["mondrian_gates"][
 ## Links & Ecosystem
 
 - **Full FP32 + 6-Plugin Suite:** [`NorviTech/armiger-ultra`](https://huggingface.co/NorviTech/armiger-ultra)
-- **Core Package, Containers & Evaluation (`v3.3.0`):** [`spencernorton/armiger`](https://github.com/spencernorton/armiger) (`ghcr.io/spencernorton/armiger-ultra:3.3.0`)
+- **Core Package, Containers & Evaluation (`v3.4.0`):** [`spencernorton/armiger`](https://github.com/spencernorton/armiger) (`ghcr.io/spencernorton/armiger-ultra:3.4.0`)
 - **Indexer Sidecars (Bitmagnet, Rats Search, `*Arr` Torznab):** [`spencernorton/Armiger-Connectors`](https://github.com/spencernorton/Armiger-Connectors)
 - **DH-Waypoint DHT Crawler & Indexer:** [`spencernorton/DH-Waypoint`](https://github.com/spencernorton/DH-Waypoint)

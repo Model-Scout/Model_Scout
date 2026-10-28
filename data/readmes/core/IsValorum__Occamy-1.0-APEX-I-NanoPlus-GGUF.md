@@ -78,7 +78,7 @@ If you consider these releases to be of high quality and they help you in your d
 > | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 > | **Unquantized BF16 Base** | approx. 70.0 GB | approx. 65.2 GiB | 16.00 BPW | approx. 6.18 (Reference) | 0.000 | Full precision baseline |
 > | **[APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2.1-GGUF)** | 14.75 GB | 13.74 GiB | 3.40 BPW | 6.2432 ± 0.1622 | +0.0632 (+1.02%) | Q5_K_M tier |
-> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **approx. 2.93 BPW** | **6.1695 ± 0.15632** | **approx. 0.00 (within error bounds)** | **Solid Q4_K_M / Q4_K_L Tier** |
+> | **APEX-I-NanoPlus (CURRENT)** | **12.55 GB** | **11.69 GiB** | **approx. 2.90 BPW** | **6.1695 ± 0.15632** | **approx. 0.00 (within error bounds)** | **Solid Q4_K_M / Q4_K_L Tier** |
 >
 > **Looking for higher precision?** [APEX-I-MiniPlus V2.1](https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2.1-GGUF) offers the full **14.75 GB (3.40 BPW)** release of this Occamy family, delivering full Q5_K_M tier fidelity with 120 shared experts in physical Q5_K.
 > 
@@ -135,7 +135,7 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 | **Standard Q8_0** | 8.50 bpw | approx. 38 GB | approx. +0.01 | Virtually lossless; excessive memory overhead for consumer hardware. |
 | **Standard Q6_K** | 6.56 bpw | approx. 30 GB | approx. +0.02 to +0.05 | Near-lossless FP16 fidelity; requires multi-GPU or 32GB+ VRAM setups. |
 | **APEX-I-MiniPlus V2.1** | 3.40 bpw | 14.75 GB (13.74 GiB) | **+0.0632 (PPL: 6.2432)** | Maximum fidelity near-lossless Q5_K / Q6_K tier. Full native 256K context on 24GB workstations. |
-| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.82 bpw** | **12.55 GB (11.69 GiB)** | **+0.2215 (PPL: 6.4015 ± 0.1412)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
+| 🏆 **APEX-I-NanoPlus (IsValorum)** | **2.90 bpw** | **12.55 GB (11.69 GiB)** | **+0.2215 (PPL: 6.4015 ± 0.1412)** | **Solid Q4_K_M fidelity tier at only 12.55 GB (82.1% weight reduction). Enables full offload on 16GB GPUs with 32k context and zero AVX2 CPU stalls.** |
 | **Standard Q4_K_M** | 4.50 bpw | approx. 20.0 GB | approx. +0.18 to +0.28 | Standard industry trade-off; cannot fit in 16GB VRAM. |
 | **Standard Q3_K_M** | 3.44 bpw | 16.5 GB | approx. +0.38 to +0.48 | Noticeable syntax drop, bracket corruption, and tokenizer classification noise. |
 | **Standard IQ2_S / Generic APEX Mini** | 2.50 bpw | approx. 12.2 GB | approx. +0.60 to +1.50+ | Severe reasoning breakdown, high perplexity spikes in `<think>` chains. |
@@ -147,10 +147,10 @@ How the handcrafted **APEX-I-NanoPlus** architecture compares against standard f
 
 | File Name | File Size | Memory Footprint | BPW | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| **`Occamy-1.0.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.82 BPW** | Core frontier linear attention & multimodal reasoning MoE in APEX-I-NanoPlus |
+| **`Occamy-1.0.APEX-I-NanoPlus.gguf`** | **`12.55 GB (11.69 GiB)`** | `11.69 GiB` | **2.90 BPW** | Core frontier linear attention & multimodal reasoning MoE in APEX-I-NanoPlus |
 | **`mmproj-Q8_0.gguf`** | **`610.66 MB (582.37 MiB)`** | `582.37 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for document & image reasoning |
 | **occamy-1.0-mtp-Q8_0.gguf** | **1.99 GB (1.85 GiB)** | 1.85 GiB | **8.50 BPW** | Official Accio MTP speculative draft head (high fidelity) |
-| **occamy-1.0-mtp-Q4_K_M.gguf** | **1.26 GB (1.17 GiB)** | 1.17 GiB | **4.50 BPW** | Official Accio MTP speculative draft head (low VRAM) |
+| **occamy-1.0-mtp-Q4_K_M.gguf** | **1.26 GB (1.17 GiB)** | 1.17 GiB | **5.42 BPW** | Official Accio MTP speculative draft head (low VRAM) |
 | **Complete download** | **`13.16 GB (12.26 GiB)`** | `12.26 GiB` | — | Main GGUF plus the bundled vision projector |
 
 - **Base Model:** [Accio-Lab/occamy-1.0](https://huggingface.co/Accio-Lab/occamy-1.0)

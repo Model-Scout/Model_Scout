@@ -1,5 +1,5 @@
 ---
-base_model: KridgeDookie/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
+base_model: PhillyLabs/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
 language:
 - ar
 - zh
@@ -49,7 +49,7 @@ tags:
 <!-- ### quants:  Q2_K IQ3_M Q4_K_S IQ3_XXS Q3_K_M small-IQ4_NL Q4_K_M IQ2_M Q6_K IQ4_XS Q2_K_S IQ1_M Q3_K_S IQ2_XXS Q3_K_L IQ2_XS Q5_K_S IQ2_S IQ1_S Q5_K_M Q4_0 IQ3_XS Q4_1 IQ3_S -->
 <!-- ### quants_skip:  -->
 <!-- ### skip_mmproj:  -->
-weighted/imatrix quants of https://huggingface.co/KridgeDookie/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
+weighted/imatrix quants of https://huggingface.co/PhillyLabs/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
 
 <!-- provided-files -->
 

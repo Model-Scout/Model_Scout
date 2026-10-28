@@ -45,12 +45,10 @@ license_link: https://huggingface.co/Qwen/Qwen3.8-Flash-Next/blob/main/LICENSE
 # Qwen3.8-Flash-Next 180B migrated to the JiRack Ternary Architecture
 - A 180B-parameter Mixture-of-Experts model with only **6B parameters active per token**, which makes high-quality CPU inference realistic at this scale
 - Migrated to the JiRack ternary architecture (BitLinear, per-tensor absmean ternary weights) with a lambda-warmup QAT pipeline, targeting TQ2_0 CPU inference on llama.cpp and Ollama
-- Robotics, Routing, Coding and Advanced tool calling via the JiRack tool-call workflow
+- Planned with QAT and JiRack fine-tuning: robotics, routing, coding and advanced tool calling via the JiRack tool-call workflow
 - The Qwen3.8-Flash-Next base model understands images and video; the JiRack build is currently text-only (see [Current status](#current-status))
 
-## PARTNERSHIP
-- NVIDIA
-- FISERV
+**CMS Manhattan is a member of the NVIDIA Inception Program.**
 
 # JiRack DeltaNet 180B (CPU)
 A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet linear attention interleaved with Qwen Sparse Attention (QSA), 512 experts with top-10 routing plus a shared expert, gated residual (hyper-connection) streams, and a 51B-parameter hashed n-gram embedding table. Only ~6B parameters are computed per token, so throughput on CPU is closer to a 6B dense model while quality is that of a much larger one.
@@ -63,9 +61,9 @@ A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet li
 | Hand-rolled JiRack port of the architecture (`JiRackDeltaNet_180b.py`) | ✅ done |
 | Conversion from Qwen/Qwen3.8-Flash-Next and numerical verification against the reference | ✅ done — next-token prediction matches the reference on 100% of positions; logit differences are within the model's own bf16 noise floor |
 | BitLinear patch (74,028 layers) at lambda = 0 | ✅ done — bit-exact passthrough (max logit difference 0.000000) |
-| Export to Hugging Face layout, llama.cpp GGUF (BF16) | ✅ export verified key-for-key against the original; GGUF conversion in progress |
+| Export to Hugging Face layout and llama.cpp GGUF (BF16, Q4_K_M, Q3_K_M) | ✅ done — export verified key-for-key against the original; GGUF files published (see [GGUF files](#gguf-files)) |
 | Ternary QAT (lambda warmup 0 → 1) | ⏳ not started — requires a machine with ≥ 640 GB RAM |
-| TQ2_0 / Q-quantized GGUF, Ollama and Docker builds | ⏳ not yet published |
+| TQ2_0 GGUF (after QAT), Ollama and Docker builds | ⏳ not yet published |
 
 **Important:** until QAT is complete, the JiRack 180B weights are numerically identical to the base model (lambda = 0 means BitLinear is a pure passthrough). The ternary benefits described on this card apply after QAT.
 
@@ -80,19 +78,19 @@ A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet li
 
 ---
 
-## JiRack Codding Agent IDE
-- It is Agent Coding IDE for JiRack Models to run via Ollama on home PC 
-- It good choose for Agent Coding IDE such as Cursor , Windsurf IDE or Devin IDE etc but more safe that ask you to apply changes and review.
+## JiRack Coding Agent IDE
+- An agentic coding IDE for JiRack models, running them through Ollama on a home PC
+- An alternative to agentic coding IDEs such as Cursor, Windsurf or Devin, with a safer workflow: it asks you to review and apply every change.
 - Web site https://www.jirack.com
-- Eclise Plugin site https://marketplace.eclipse.org/content/jirack-coding-agent
-- Jetbrain Plugin site https://plugins.jetbrains.com/plugin/35073-jirack-agent
-- VS Code Plugin site https://marketplace.visualstudio.com/items?itemName=JiRackautomationCodingAgentIDE.jirack-agent
+- Eclipse plugin site https://marketplace.eclipse.org/content/jirack-coding-agent
+- JetBrains plugin site https://plugins.jetbrains.com/plugin/35073-jirack-agent
+- VS Code plugin site https://marketplace.visualstudio.com/items?itemName=JiRackautomationCodingAgentIDE.jirack-agent
   
-## JiRack Codding Agent IDE files
-- Eclise Final release version https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
+## JiRack Coding Agent IDE files
+- Eclipse final release https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b/resolve/main/jirack_ide_final.zip
 - Microsoft VS Code plugin https://huggingface.co/spaces/CMSManhattan/README/blob/main/jirack-agent-0.9.0.vsix
-- Jetbrain plugin  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/jirack-jetbrains-0.11.0.zip  
-- JiRack DeskTop UI  https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
+- JetBrains plugin https://huggingface.co/spaces/CMSManhattan/README/resolve/main/jirack-jetbrains-0.11.0.zip  
+- JiRack Desktop UI https://huggingface.co/spaces/CMSManhattan/README/resolve/main/windows_v11.zip
   
 ---
 
@@ -118,18 +116,24 @@ A 180B MoE model built on the Qwen3.8-Flash-Next architecture: Gated DeltaNet li
 - [CMSManhattan/JiRackDeltaNetTokenizer](https://huggingface.co/CMSManhattan/JiRackDeltaNetTokenizer)
 - The 180B build currently uses the original Qwen3.8 tokenizer (vocabulary 248,320).
 
-## Planned GGUF variants
+## GGUF files
 
-Not yet published. Sizes are estimates from the parameter count (~180B stored); actual files will differ.
+Published in this repository. Before QAT all of them are quantizations of the unchanged base-model weights.
 
-| Quant | Est. size | Est. RAM | Description |
-|-------|-----------|----------|-------------|
-| BF16 | ~360 GB | 384 GB+ | Full precision reference (identical to the base model before QAT) |
-| Q8_0 | ~190 GB | ~200–256 GB | Near-lossless |
-| Q4_K_M | ~110 GB | ~128 GB | Recommended balance |
-| Q3_K_M | ~88 GB | ~96–128 GB | Good quality / size trade-off |
-| Q2_K | ~75 GB | ~96 GB | Maximum compression without QAT |
-| TQ2_0 (after QAT) | ~65–95 GB | ~96–128 GB | Ternary experts and attention; the size range depends on how the 51B n-gram table is stored |
+| File | Size | RAM (file + context) | Description |
+|------|------|----------------------|-------------|
+| `JiRackDeltaNet_180b-00001-of-00007.gguf` … `-00007-of-00007.gguf` | 354.1 GB (7 parts) | 384 GB+ | BF16, full-precision reference; load the first part, llama.cpp reads the rest |
+| `JiRackDeltaNet_180b_Q4_K_M.gguf` | 119.2 GB | 160–192 GB | Recommended balance |
+| `JiRackDeltaNet_180b_Q3_K_M.gguf` | 94.1 GB | 128 GB | Smaller, good quality / size trade-off |
+
+Planned: TQ2_0 after QAT (~65–95 GB, estimate; depends on how the 51B n-gram table is stored).
+
+### Run with llama.cpp
+Needs a llama.cpp build with the `qwen4exp` architecture (the one used to make these files).
+```bash
+llama-server -m JiRackDeltaNet_180b_Q4_K_M.gguf -c 8192 --jinja --reasoning-budget 0 --port 8080
+```
+`--reasoning-budget 0` turns the base model's default thinking off. The server is OpenAI-compatible (`/v1/chat/completions`).
 
 ## Quick Start
 
@@ -159,14 +163,15 @@ After QAT, add `--bake_ternary` to the export to write the ternary weights.
 ### Docker
 - 180B Docker images with the JiRack UI will be provided after QAT, or by request.
 
-### Ollama 
+### Ollama (planned, after QAT)
 - ollama run cmsmanhattan/JiRackDeltaNet_180b-q4
 - ollama run cmsmanhattan/JiRackDeltaNet_180b-q3
 
-## Ollama quick Start
+## Ollama quick start (planned)
 
-### Run with Ollama (recommended — reasoning off by default)
-- https://ollama.com/cmsmanhattan
+These commands will work once the 180B builds are published at https://ollama.com/cmsmanhattan; until then use the GGUF files with llama.cpp (above).
+
+### Run with Ollama (reasoning off by default)
 ```bash
 ollama pull JiRackDeltaNet_180b-q4
 ollama run JiRackDeltaNet_180b-q4 "What is the capital of France?"
@@ -206,9 +211,9 @@ For commercial licensing, cluster deployment, or enterprise use of JiRack models
 ### Recommended hardware for JiRack DeltaNet 180B
 | Use Case | CPU | RAM | Recommended Quant | Notes |
 |----------|-----|-----|-------------------|-------|
-| Recommended | High-core server CPU (Xeon / EPYC) | 128 GB | Q4_K_M, or TQ2_0 after QAT | Only ~6B active parameters per token |
-| High Performance | Dual-socket server | 256–384 GB | Q8_0 / BF16 | Reference quality |
-| Low Memory | Modern 16+ core CPU + fast NVMe | 96 GB | Q2_K / Q3_K_M | Usable |
+| Recommended | High-core server CPU (Xeon / EPYC) | 160–192 GB | Q4_K_M (119.2 GB), or TQ2_0 after QAT | Only ~6B active parameters per token |
+| High Performance | Dual-socket server | 384 GB+ | BF16 (354.1 GB) | Reference quality |
+| Low Memory | Modern 16+ core CPU + fast NVMe | 128 GB | Q3_K_M (94.1 GB) | Usable |
 | PyTorch checkpoint | Server CPU + NVMe | 256 GB+ | BF16 (lazy mmap) | Works below model size, slower |
 | QAT training | Server CPU | ≥ 640 GB (768 GB recommended) | — | Weights + gradients of ~125B trainable parameters |
 

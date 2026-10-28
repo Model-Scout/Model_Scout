@@ -61,19 +61,20 @@ pipeline_tag: text-generation
 
 - **Base Model:** `Kwaipilot/KAT-Coder-V2.5-Dev`
 - **Architecture Type:** Sparse Mixture-of-Experts (Qwen 35B / 40 Layers / DeltaNet Hybrid)
-- **Total Parameters:** 34.5 Billion (approx. 3.4 Billion active per token)
+- **Total Parameters:** 34.7 Billion (approx. 3.4 Billion active per token)
 - **Quantization Profile:** APEX-I NanoPlus V2.1 (approx. 11.69 GiB / approx. 12.55 GB on web)
 - **Audited Tensors:** Exactly 733 verified tensors
 - **Integrated Speculative Decoding:** Bundled with standalone MTP adapter `mtp-KAT-Coder-V2.5-Dev-Q4_0.gguf`
 
 | Structural Group | Precision Tier | Technical Rationale |
 |---|---|---|
-| **Recurrent Core & Norms** | `F32` | Shielded from quantization noise; protects continuous-state memory dynamics. |
+| **Recurrent Core & Norms** | `F32` (`ssm_a`, `ssm_alpha`, `ssm_conv1d`, `ssm_dt`, `ssm_norm`, RMSNorms) | Shielded from quantization noise; protects continuous-state memory dynamics. |
+| **Recurrent Gates & Output** | `Q4_K` (`ssm_beta`, `ssm_out`) | Linear-attention gate and output projections kept at 4-bit for AVX2 streaming. |
 | **MoE Routers** | `F32` | `ffn_gate_inp` and shared gates locked to 32-bit floats to prevent expert collapse. |
 | **Shared Experts** | `Q4_K` | Preserves fundamental token representations across all 40 layers. |
-| **Boundary Routed Experts** | `Q3_K` / `IQ3_XXS` | First 10 and last 10 layers protected with higher precision codebooks. |
-| **Core Routed Experts** | `IQ2_S` / `IQ2_XXS` | Central layers (10 to 29) compressed via importance matrix guidance. |
-| **Attention Projections** | `Q4_K` | Unified attention projection fidelity. |
+| **Boundary Routed Experts** | `Q3_K` (down) / `IQ3_XXS` (gate, up) | Layers 0-1 and 38-39 protected with higher precision codebooks. |
+| **Core Routed Experts** | `IQ2_S` (gate) / `IQ2_S` + `IQ2_XXS` (up, layers 2-15 and 16-37) | Layers 2-37 compressed via importance matrix guidance. |
+| **Attention Projections** | `Q4_K` (`attn_q/k/v`, `attn_qkv`) / `Q6_K` (`attn_output`) | Unified attention projection fidelity with an armored output projection. |
 | **Output Head** | `Q6_K` | Highest-precision linear projection for vocabulary generation. |
 
 ---

@@ -57,9 +57,9 @@ combinations (see `docs/RIVINITY_ARCHITECTURE.md`).
 | Generation | Budget contract (`max_total/thinking/answer_tokens` + legacy aliases), greedy/sampling, KV cache, stream≡non-stream | `tests/unit/test_rivinity_generation_h6.py` |
 | Web subsystem (`rivinity/web/`) | Crawler (stdlib HTTP + optional Crawl4AI), policy/SSRF, SQLite cache, sanitizer, router, search providers, safe tools | `tests/web/`, `tests/security/` |
 | Grounding/RAG | Unified `Evidence` contract (local + web), capsules, `[E#]` citations, insufficiency states, system-turn separation | `tests/web/test_grounding.py`, `rivinity/grounding.py` |
-| GGUF / llama.cpp | Conversion + metadata contract **PASS**; **runtime BLOCKED** (llama.cpp not installed here) — never claimed | `tools/gguf_runtime_check.py`, `reports/gguf_runtime_*.json` |
+| GGUF / llama.cpp | Conversion + metadata contract **PASS**; **runtime BLOCKED** (llama.cpp not installed here) — never claimed | `tools/gguf_runtime_check.py`, `reports/h21_final/gguf_runtime.json` |
 | Benchmarks | Framework/stub runs labeled `FRAMEWORK_ONLY`; no real model measurements exist | `benchmarks/`, `tests/integration/test_benchmark_integrity_h14.py` |
-| Tests | ~336 CPU tests, 8-layer tree | `python -m unittest discover -s tests -t . -v` |
+| Tests | **656** CPU tests (measured 2026-10-28: 0 failed, 0 errors, 2 skipped; refreshed per verification run in `reports/h21_final/unittest.json`) | `python -m unittest discover -s tests -t . -v` |
 
 ## Usage
 
@@ -153,7 +153,9 @@ implementation stays in the `rivinity` package (no duplicated model code):
 
 ```python
 from transformers import AutoConfig, AutoModelForCausalLM
-REV = "8a0ab5c7710ddda1d9c1a8d58cf71f1935cd5f15"  # replace with the current main SHA
+# pin the CURRENT revision -- see
+# https://huggingface.co/RANITBAG/on_the_way/commits/main
+REV = "<current-main-sha>"  # a stale hardcoded SHA pins you to an old tree
 cfg = AutoConfig.from_pretrained("RANITBAG/on_the_way", revision=REV, trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained("RANITBAG/on_the_way", revision=REV, trust_remote_code=True)
 ```

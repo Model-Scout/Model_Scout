@@ -267,22 +267,22 @@ LFM3-1.7B is designed for **easy customization** for a given domain, task, or ap
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>SFT</strong></td>
 <td style="border: 0; padding: 0.55em 0.75em;">Extract structured JSON from messy documents</td>
-<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/drive/1_azJLYp0vZSxbfWwNX_Hx1w6cxALgUO0?usp=sharing" title="SFT with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
+<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/github/Liquid4All/cookbook/blob/main/finetuning/notebooks/lfm3_sft_with_trl.ipynb" title="SFT with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
 </tr>
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>DPO</strong></td>
 <td style="border: 0; padding: 0.55em 0.75em;">Answer from retrieved documents, or decline</td>
-<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/drive/1Nwb2JHfoU-_tacYBVqGKPEx-2JHt67WO?usp=sharing" title="DPO with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
+<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/github/Liquid4All/cookbook/blob/main/finetuning/notebooks/lfm3_dpo_with_trl.ipynb" title="DPO with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
 </tr>
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>GRPO</strong></td>
 <td style="border: 0; padding: 0.55em 0.75em;">Call the right tools in a 108-tool phone app</td>
-<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/drive/1YfGQVOCCDX36vVYFEpevpgKHOy_4PSYj?usp=sharing" title="GRPO with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
+<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/github/Liquid4All/cookbook/blob/main/finetuning/notebooks/lfm3_grpo_with_trl.ipynb" title="GRPO with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
 </tr>
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>CPT</strong></td>
 <td style="border: 0; padding: 0.55em 0.75em;">Learn a new language (Turkish) from raw text</td>
-<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/drive/1iiv_jr19kVPH0YTwx96O8k_VBkFli_r9?usp=sharing" title="Continued pre-training with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
+<td style="text-align: center; border: 0; padding: 0.55em 0.75em;"><a href="https://colab.research.google.com/github/Liquid4All/cookbook/blob/main/finetuning/notebooks/lfm3_cpt_with_trl.ipynb" title="Continued pre-training with TRL"><img src="https://colab.research.google.com/assets/colab-badge.svg" width="117" height="20" alt="Open in Colab" style="display: inline-block; width: 117px; height: 20px; margin: 0; vertical-align: middle;" /></a></td>
 </tr>
 </tbody>
 </table>

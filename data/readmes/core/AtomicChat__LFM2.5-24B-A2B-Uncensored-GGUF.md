@@ -41,9 +41,11 @@ tags:
   <a href="https://atomic.chat/?utm_source=huggingface&utm_medium=referral&utm_campaign=hf_lfm2_5_24b_a2b_abliterate&utm_content=btn_atomic"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF/resolve/main/btn_atomic.png" width="162" alt="Atomic Chat"></a>
   <a href="https://discord.gg/8wGSsvmg4V"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF/resolve/main/btn_discord.png" width="119" alt="Discord"></a>
   <a href="https://github.com/AtomicBot-ai/Atomic-Chat"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF/resolve/main/btn_github.png" width="115" alt="GitHub"></a>
+  <a href="https://x.com/atomic_chat_hq"><img src="https://huggingface.co/AtomicChat/Qwen3.8-27B-GGUF/resolve/main/btn_x.png" width="108" alt="X"></a>
 </div>
 <ul style="margin: 0 0 12px 0;">
-  <li>On held-out prompts, refusals fall from 96.3% to 1.2% in English and from 62% to 0% in Russian, and from 30 of 30 to none with thinking. MMLU stays where it was: 64.40% before, 65.55% after (inside the noise). No empty or looping replies.</li>
+  <li>Built by the team behind <a href="https://atomic.chat/?utm_source=huggingface&utm_medium=referral&utm_campaign=hf_lfm2_5_24b_a2b_abliterate&utm_content=bullet_app">Atomic Chat</a>, the app that runs open-weight models locally and offline.</li>
+  <li>On held-out prompts, refusals fall from 96.3% to 1.2% in English, and from 30 of 30 to none with thinking. MMLU stays where it was: 64.40% before, 65.55% after (inside the noise). No empty or looping replies.</li>
   <li>Only blocks 14-39 are edited. The same edit across all 40 blocks also removed the refusals, but cost 4 MMLU points; the first 14 blocks carry the damage, not the refusal.</li>
   <li>Already running our <a href="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-GGUF">LFM2.5-24B-A2B quants</a>? Add the adapter with <code>--lora-scaled</code> instead of downloading a new model.</li>
 </ul>
@@ -51,12 +53,12 @@ tags:
 
 ## The builds
 
-| Build | On disk | Mean KLD | Same top-1 | Refused: EN / RU / XSTest |
+| Build | On disk | Mean KLD | Same top-1 | Refused: EN / XSTest |
 |---|---|---|---|---|
-| `AD-Q8_0` | 25.7 GB | 0.229 | 81.4% | 1.2% / 0% / 0% |
+| `AD-Q8_0` | 25.7 GB | 0.229 | 81.4% | 1.2% / 0% |
 | `AD-Q6_K` | 20.9 GB | 0.239 | 81.0% | - |
 | `AD-Q5_K_M` | 17.3 GB | 0.271 | 80.3% | - |
-| **`AD-Q4_K_M`** | **15.4 GB** | **0.274** | **79.6%** | 1.2% / 0% / 0% |
+| **`AD-Q4_K_M`** | **15.4 GB** | **0.274** | **79.6%** | 1.2% / 0% |
 | `AD-IQ4_XS` | 14.5 GB | 0.274 | 79.3% | - |
 | `AD-IQ3_M` | 12.1 GB | 0.359 | 76.0% | - |
 
@@ -85,7 +87,6 @@ the choice.
 | | Original | Ablated |
 |---|---|---|
 | JBB harmful behaviours (EN, 81), refused | 96.3% | **1.2%** |
-| Aya red-teaming (RU, 100), refused | 62.0% | **0%** |
 | XSTest safe prompts (250), refused | 12.8% | **0%** |
 | With thinking (30 prompts, 3072 tokens), refused | 30 of 30 | **0 of 30** |
 | Thinking left unclosed at 3072 tokens | 0 of 30 | 0 of 30 |
@@ -138,7 +139,7 @@ curl localhost:8080/v1/chat/completions -H 'Content-Type: application/json' -d '
 and 2.25 removed those too, with MMLU unchanged, but edit the model harder for
 that last percent. On our published `AD-Q8_0` the adapter gives the same model
 as the baked `AD-Q8_0` here: mean KLD 0.063 without it, 0.229 with it (the baked
-build: 0.229); refused with it: 1.2% / 0% / 0% (EN / RU / XSTest). The other
+build: 0.229); refused with it: 1.2% / 0% (EN / XSTest). The other
 published quants were not measured with it.
 
 ## Get started
@@ -166,8 +167,8 @@ build with `lfm2moe` and the LFM2.5 tokenizer, which upstream has.
 
 1. **Directions.** Difference of means of the residual stream at the last prompt
    token, chat template applied with an empty thinking block: 544 harmful
-   against 544 harmless prompts, English and Russian. The component along the
-   harmless mean is removed. One direction per block: the matrices of block *b*
+   against 544 harmless prompts. The component along the harmless mean is
+   removed. One direction per block: the matrices of block *b*
    are edited along the direction measured at the output of block *b*.
 2. **Edit.** `W' = W - 1.75 r rᵀW` on the 52 matrices that write into the
    residual stream in blocks 14-39: the output of each block's mixer (short
@@ -178,13 +179,13 @@ build with `lfm2moe` and the LFM2.5 tokenizer, which upstream has.
 3. **Choice.** More than 60 variants screened on validation prompts, with edits
    of the same shape along random directions as the control. The search ran on
    the preview's first revision; the comparison that decided it was repeated on
-   the current weights (validation prompts, refused EN / RU, MMLU change):
+   the current weights (validation prompts, refused EN, MMLU change):
 
    | Edited | Refused | MMLU |
    |---|---|---|
-   | all 40 blocks, scale 1.75 | 0% / 0% | -4.05 |
-   | blocks 0-13 only, scale 1.75 | 82% / 38% | -4.2 |
-   | **blocks 14-39, scale 1.75** (this release) | **1% / 0%** | **+1.2** |
+   | all 40 blocks, scale 1.75 | 0% | -4.05 |
+   | blocks 0-13 only, scale 1.75 | 82% | -4.2 |
+   | **blocks 14-39, scale 1.75** (this release) | **1%** | **+1.2** |
    | random directions in the same form, scale 1.75 (the control, test prompts) | unchanged | +0.25 |
 
    On the first revision the gap was wider: all 40 blocks cost 11.6 MMLU points.
@@ -200,7 +201,7 @@ build with `lfm2moe` and the LFM2.5 tokenizer, which upstream has.
 
 The reference is the original BF16 model's logits over our held-out neutral set:
 93 chunks of 4,096 tokens in 30 languages, BF16 PPL 15.67. The refusal numbers
-come from JailbreakBench harmful behaviours (EN), Aya red-teaming (RU) and
+come from JailbreakBench harmful behaviours (EN) and
 XSTest safe prompts, none of them used to estimate the directions or to choose
 the variant; MMLU (2,000 questions) was part of the choice. One machine type for everything: 1× H100 PCIe, llama.cpp
 `980aef8c`, weights of revision `f772950c`. Logs, the adapter, the research rounds and the final comparison are in the
@@ -214,7 +215,7 @@ the variant; MMLU (2,000 questions) was part of the choice. One machine type for
   model is further from the original than our quant of the unmodified model:
   81.4% same top-1 at Q8_0 against 90.1%.
 - Thinking was tested on 30 English prompts with a 3072-token budget.
-- English and Russian refusals were measured; other languages were not.
+- Refusals are reported for English prompts only.
 - Built from the preview's revision `f772950c` (12 October); the public release
   has the same weights, checked file by file.
 - Not run yet on a Mac, in LM Studio or in Ollama.
