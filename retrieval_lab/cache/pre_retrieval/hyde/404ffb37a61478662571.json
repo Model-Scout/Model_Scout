@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야.",
+ "outputs": [
+  "The model is designed for high-quality translation of Korean documents into English. It supports a wide range of formal and informal language styles, making it suitable for various corporate contexts. With 1.5 billion parameters, this model excels in maintaining the nuances and context of the original text, ensuring accurate and fluent translations. Its intended use cases include internal document translation, business communication, and content localization. The model is optimized for speed and efficiency, allowing for quick translations without sacrificing quality. It is available in GGUF format and is licensed under the MIT license, making it easy to integrate into existing systems."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality translation of Korean documents into English. It supports a wide range of formal and informal language styles, making it suitable for various corporate contexts. With 1.5 billion parameters, this model excels in maintaining the nuances and context of the original text, ensuring accurate and fluent translations. Its intended use cases include internal document translation, business communication, and content localization. The model is optimized for speed and efficiency, allowing for quick translations without sacrificing quality. It is available in GGUF format and is licensed under the MIT license, making it easy to integrate into existing systems."
+ },
+ "latency_ms": 1724.3
+}

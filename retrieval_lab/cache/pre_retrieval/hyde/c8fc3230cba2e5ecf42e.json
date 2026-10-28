@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아.",
+ "outputs": [
+  "The model is designed for high-quality English to Korean translation, specifically tailored for technical documents with complex sentences and specialized terminology. It supports both English and Korean as declared languages and boasts a parameter count of 1.5 billion, allowing for nuanced understanding and context retention. With a context length of 512 tokens, it excels in maintaining coherence across lengthy passages. The model is particularly useful for professionals in fields such as engineering, medicine, and law, where precise translation is crucial. Its strengths lie in its ability to accurately translate jargon and maintain the original document's tone and intent, making it an ideal choice for translating technical materials."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality English to Korean translation, specifically tailored for technical documents with complex sentences and specialized terminology. It supports both English and Korean as declared languages and boasts a parameter count of 1.5 billion, allowing for nuanced understanding and context retention. With a context length of 512 tokens, it excels in maintaining coherence across lengthy passages. The model is particularly useful for professionals in fields such as engineering, medicine, and law, where precise translation is crucial. Its strengths lie in its ability to accurately translate jargon and maintain the original document's tone and intent, making it an ideal choice for translating technical materials."
+ },
+ "latency_ms": 2158.3
+}

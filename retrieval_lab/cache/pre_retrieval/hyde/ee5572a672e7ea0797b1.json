@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+ "outputs": [
+  "The model is designed for lightweight Chinese to Korean translation, making it ideal for deployment on CPU environments. With a parameter count of 50 million, it strikes a balance between performance and efficiency, ensuring quick inference times without sacrificing translation quality. The model supports both Chinese and Korean as declared languages, catering specifically to users needing accurate translations in these languages. Its intended use cases include real-time translation applications, mobile apps, and web-based services. Strengths of this model include its ability to handle colloquial expressions and idiomatic phrases, providing natural-sounding translations. The model is available in GGUF format, making it easy to integrate into various applications."
+ ],
+ "response": {
+  "document": "The model is designed for lightweight Chinese to Korean translation, making it ideal for deployment on CPU environments. With a parameter count of 50 million, it strikes a balance between performance and efficiency, ensuring quick inference times without sacrificing translation quality. The model supports both Chinese and Korean as declared languages, catering specifically to users needing accurate translations in these languages. Its intended use cases include real-time translation applications, mobile apps, and web-based services. Strengths of this model include its ability to handle colloquial expressions and idiomatic phrases, providing natural-sounding translations. The model is available in GGUF format, making it easy to integrate into various applications."
+ },
+ "latency_ms": 1983.7
+}

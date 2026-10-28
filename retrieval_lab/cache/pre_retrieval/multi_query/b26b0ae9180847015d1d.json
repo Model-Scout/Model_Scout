@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야.",
+ "outputs": [
+  "한국어에서 중국어로 번역하는 모델을 찾고 있어요.",
+  "I need a model that translates Korean sentences to Chinese. The direction is Korean to Chinese (ko→zh).",
+  "모델, 번역, 한국어→중국어, ko→zh"
+ ],
+ "response": {
+  "queries": [
+   "한국어에서 중국어로 번역하는 모델을 찾고 있어요.",
+   "I need a model that translates Korean sentences to Chinese. The direction is Korean to Chinese (ko→zh).",
+   "모델, 번역, 한국어→중국어, ko→zh"
+  ]
+ },
+ "latency_ms": 1133.1
+}

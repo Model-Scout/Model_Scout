@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해.",
+ "outputs": [
+  "한국어 문장 임베딩 모델",
+  "ONNX 가중치 지원"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 문장 임베딩 모델",
+   "ONNX 가중치 지원"
+  ]
+ },
+ "latency_ms": 991.8
+}

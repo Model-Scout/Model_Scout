@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야.",
+ "outputs": [
+  "faster-whisper(CTranslate2) 형식의 한국어 음성 인식 모델을 찾고 있어요.",
+  "I need a Korean speech recognition model converted to faster-whisper(CTranslate2) format. My existing pipeline is based on faster-whisper.",
+  "Korean speech recognition model, faster-whisper(CTranslate2) format, existing pipeline faster-whisper"
+ ],
+ "response": {
+  "queries": [
+   "faster-whisper(CTranslate2) 형식의 한국어 음성 인식 모델을 찾고 있어요.",
+   "I need a Korean speech recognition model converted to faster-whisper(CTranslate2) format. My existing pipeline is based on faster-whisper.",
+   "Korean speech recognition model, faster-whisper(CTranslate2) format, existing pipeline faster-whisper"
+  ]
+ },
+ "latency_ms": 1539.9
+}

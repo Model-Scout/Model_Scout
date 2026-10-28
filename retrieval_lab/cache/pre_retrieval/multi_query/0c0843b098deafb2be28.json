@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야.",
+ "outputs": [
+  "카카오 Kanana 계열의 한국어 비전 언어 모델을 찾고 있어요. 이미지 질의응답에 사용할 예정입니다.",
+  "I need a Korean vision-language model from the Kakao Kanana family for image question answering.",
+  "Kakao Kanana vision-language model, Korean, image question answering"
+ ],
+ "response": {
+  "queries": [
+   "카카오 Kanana 계열의 한국어 비전 언어 모델을 찾고 있어요. 이미지 질의응답에 사용할 예정입니다.",
+   "I need a Korean vision-language model from the Kakao Kanana family for image question answering.",
+   "Kakao Kanana vision-language model, Korean, image question answering"
+  ]
+ },
+ "latency_ms": 1209.7
+}

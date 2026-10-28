@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아.",
+ "outputs": [
+  "모델 영어 한국어 번역, 긴 문장, 전문 용어, 번역 모델"
+ ],
+ "response": {
+  "query": "모델 영어 한국어 번역, 긴 문장, 전문 용어, 번역 모델"
+ },
+ "latency_ms": 1584.3
+}

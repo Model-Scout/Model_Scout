@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어.",
+ "outputs": [
+  "KoBART based Korean summarization model for news or document summarization"
+ ],
+ "response": {
+  "query": "KoBART based Korean summarization model for news or document summarization"
+ },
+ "latency_ms": 854.4
+}

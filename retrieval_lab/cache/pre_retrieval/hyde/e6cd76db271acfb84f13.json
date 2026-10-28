@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야.",
+ "outputs": [
+  "The Korean Speech Recognition Model is designed for high-performance speech-to-text tasks specifically in the Korean language. This model has been optimized and converted to the OpenVINO format with int8 quantization, making it suitable for deployment on Intel CPUs. With a parameter count of 50 million and a context length of 512, it provides accurate transcriptions in real-time applications. Intended use cases include voice assistants, transcription services, and accessibility tools for the hearing impaired. Its strengths lie in its ability to handle various accents and dialects in Korean, ensuring robust performance across different user inputs."
+ ],
+ "response": {
+  "document": "The Korean Speech Recognition Model is designed for high-performance speech-to-text tasks specifically in the Korean language. This model has been optimized and converted to the OpenVINO format with int8 quantization, making it suitable for deployment on Intel CPUs. With a parameter count of 50 million and a context length of 512, it provides accurate transcriptions in real-time applications. Intended use cases include voice assistants, transcription services, and accessibility tools for the hearing impaired. Its strengths lie in its ability to handle various accents and dialects in Korean, ensuring robust performance across different user inputs."
+ },
+ "latency_ms": 1878.7
+}

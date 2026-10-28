@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+ "outputs": [
+  "translation task",
+  "lightweight model for CPU deployment",
+  "Chinese to Korean translation"
+ ],
+ "response": {
+  "sub_queries": [
+   "translation task",
+   "lightweight model for CPU deployment",
+   "Chinese to Korean translation"
+  ]
+ },
+ "latency_ms": 1047.9
+}

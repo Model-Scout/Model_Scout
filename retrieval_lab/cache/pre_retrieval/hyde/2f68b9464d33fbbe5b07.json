@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야.",
+ "outputs": [
+  "The faster-whisper (CTranslate2) model is an advanced speech recognition system optimized for Korean language processing. With a parameter count of 110 million, it is designed to deliver high accuracy and low latency in transcribing spoken Korean into text. This model excels in real-time applications, making it ideal for live captioning, voice assistants, and transcription services. Its strengths lie in its ability to handle various accents and dialects of Korean, ensuring robust performance across different contexts. The model supports GGUF file format and is compatible with existing faster-whisper pipelines, allowing for seamless integration into current workflows."
+ ],
+ "response": {
+  "document": "The faster-whisper (CTranslate2) model is an advanced speech recognition system optimized for Korean language processing. With a parameter count of 110 million, it is designed to deliver high accuracy and low latency in transcribing spoken Korean into text. This model excels in real-time applications, making it ideal for live captioning, voice assistants, and transcription services. Its strengths lie in its ability to handle various accents and dialects of Korean, ensuring robust performance across different contexts. The model supports GGUF file format and is compatible with existing faster-whisper pipelines, allowing for seamless integration into current workflows."
+ },
+ "latency_ms": 1830.2
+}

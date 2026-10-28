@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야.",
+ "outputs": [
+  "Korean to English translation model for document translation task in internal use"
+ ],
+ "response": {
+  "query": "Korean to English translation model for document translation task in internal use"
+ },
+ "latency_ms": 1093.0
+}

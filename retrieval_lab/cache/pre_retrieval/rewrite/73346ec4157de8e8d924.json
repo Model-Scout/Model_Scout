@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야.",
+ "outputs": [
+  "Japanese to Korean translation model for internal document translation"
+ ],
+ "response": {
+  "query": "Japanese to Korean translation model for internal document translation"
+ },
+ "latency_ms": 890.8
+}

@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야.",
+ "outputs": [
+  "task: translation, translation direction: 한국어→중국어(ko→zh)"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: translation, translation direction: 한국어→중국어(ko→zh)"
+  ]
+ },
+ "latency_ms": 907.8
+}

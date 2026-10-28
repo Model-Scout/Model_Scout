@@ -318,6 +318,9 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=20, help="Optuna 시행 수 (앞의 9회는 0.1~0.9 grid)")
     parser.add_argument("--no-supplement", action="store_true",
                         help="supplemental_judgments.jsonl(추가 판정)을 빼고 기존 라벨만으로 채점")
+    parser.add_argument("--supplement", type=Path, default=None,
+                        help="추가 판정 파일을 직접 지정한다. 공유 파일 대신 자기 유형의 "
+                             "판정만 담은 파일을 쓸 때 사용한다 (--no-supplement가 우선)")
     parser.add_argument("--write-planner", action="store_true", help="유형별 최적 설정을 planner_config.json에 저장")
     args = parser.parse_args()
 
@@ -331,7 +334,7 @@ def main() -> None:
     unknown = sorted(set(wanted) - set(PLAN_QUERY_TYPES))
     if unknown:
         parser.error(f"알 수 없는 유형: {unknown}")
-    supplement_path = None if args.no_supplement else golden.SUPPLEMENT_PATH
+    supplement_path = None if args.no_supplement else (args.supplement or golden.SUPPLEMENT_PATH)
     all_queries = golden.load(args.query_files, corpus_ids, wanted, supplement_path)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     summary_rows = []
@@ -341,7 +344,7 @@ def main() -> None:
             print(f"\n[{query_type}] 라벨된 질의 없음, 건너뜀")
             continue
         result = run_type(retriever, queries, query_type, args, print)
-        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({golden.SUPPLEMENT_PATH.name})"
+        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({supplement_path.name})"
         result["unjudged_pool"] = unjudged_pool(result)
         (REPORT_DIR / f"{query_type}.json").write_text(json.dumps(compact(result), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         (REPORT_DIR / f"{query_type}.md").write_text(render(query_type, result), encoding="utf-8")

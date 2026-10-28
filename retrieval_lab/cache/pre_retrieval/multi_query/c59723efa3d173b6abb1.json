@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야.",
+ "outputs": [
+  "OpenVINO 형식으로 변환된 한국어 음성인식 모델을 찾고 있어요. 인텔 CPU에서 사용할 예정입니다.",
+  "I need a Korean speech recognition model converted to OpenVINO format (int8) for running on Intel CPU.",
+  "Korean speech recognition model, OpenVINO format, int8, Intel CPU"
+ ],
+ "response": {
+  "queries": [
+   "OpenVINO 형식으로 변환된 한국어 음성인식 모델을 찾고 있어요. 인텔 CPU에서 사용할 예정입니다.",
+   "I need a Korean speech recognition model converted to OpenVINO format (int8) for running on Intel CPU.",
+   "Korean speech recognition model, OpenVINO format, int8, Intel CPU"
+  ]
+ },
+ "latency_ms": 1432.8
+}

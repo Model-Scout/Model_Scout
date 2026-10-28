@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해.",
+ "outputs": [
+  "MLX 형식으로 변환된 한국어 LLM을 찾고 있어요.",
+  "I need a Korean LLM that can run directly on MLX format.",
+  "Korean LLM, MLX format, model conversion, Mac compatibility"
+ ],
+ "response": {
+  "queries": [
+   "MLX 형식으로 변환된 한국어 LLM을 찾고 있어요.",
+   "I need a Korean LLM that can run directly on MLX format.",
+   "Korean LLM, MLX format, model conversion, Mac compatibility"
+  ]
+ },
+ "latency_ms": 1301.8
+}

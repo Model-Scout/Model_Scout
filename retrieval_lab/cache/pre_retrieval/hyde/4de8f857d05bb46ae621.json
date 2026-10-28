@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼.",
+ "outputs": [
+  "The KoELECTRA-based Korean Sentence Classification Model is designed for various classification tasks, including sentiment analysis and style detection. It supports the Korean language and is built on the KoELECTRA architecture, which allows for efficient training and high performance. With a parameter count of 110 million, this model is optimized for quick inference and can handle context lengths of up to 512 tokens. Intended use cases include social media sentiment analysis, customer feedback classification, and content moderation. Its strengths lie in its ability to understand nuanced language features and deliver accurate predictions across different classification tasks."
+ ],
+ "response": {
+  "document": "The KoELECTRA-based Korean Sentence Classification Model is designed for various classification tasks, including sentiment analysis and style detection. It supports the Korean language and is built on the KoELECTRA architecture, which allows for efficient training and high performance. With a parameter count of 110 million, this model is optimized for quick inference and can handle context lengths of up to 512 tokens. Intended use cases include social media sentiment analysis, customer feedback classification, and content moderation. Its strengths lie in its ability to understand nuanced language features and deliver accurate predictions across different classification tasks."
+ },
+ "latency_ms": 1972.9
+}

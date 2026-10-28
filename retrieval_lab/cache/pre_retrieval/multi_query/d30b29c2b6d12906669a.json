@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "게임 대사를 영어에서 한국어로 번역하려고 해.",
+ "outputs": [
+  "게임 대사를 영어에서 한국어로 번역하고 싶어요.",
+  "I want to translate game dialogues from English to Korean.",
+  "게임 대사, 영어-한국어, 번역, 모델, Hugging Face"
+ ],
+ "response": {
+  "queries": [
+   "게임 대사를 영어에서 한국어로 번역하고 싶어요.",
+   "I want to translate game dialogues from English to Korean.",
+   "게임 대사, 영어-한국어, 번역, 모델, Hugging Face"
+  ]
+ },
+ "latency_ms": 1225.0
+}

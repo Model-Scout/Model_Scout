@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야.",
+ "outputs": [
+  "The model is designed for high-quality translation tasks, specifically translating Japanese documents into Korean. It supports both languages fluently and is optimized for corporate document translation, making it ideal for internal business communications. With a parameter count of 1.5 billion, it offers a robust understanding of context and nuances in both languages. The model has a context length of 512 tokens, allowing it to handle longer documents effectively. Its strengths lie in maintaining the original tone and style of the source text while ensuring accuracy in translation. This model is available in GGUF format and is licensed under the MIT license, making it suitable for commercial use."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality translation tasks, specifically translating Japanese documents into Korean. It supports both languages fluently and is optimized for corporate document translation, making it ideal for internal business communications. With a parameter count of 1.5 billion, it offers a robust understanding of context and nuances in both languages. The model has a context length of 512 tokens, allowing it to handle longer documents effectively. Its strengths lie in maintaining the original tone and style of the source text while ensuring accuracy in translation. This model is available in GGUF format and is licensed under the MIT license, making it suitable for commercial use."
+ },
+ "latency_ms": 1857.4
+}

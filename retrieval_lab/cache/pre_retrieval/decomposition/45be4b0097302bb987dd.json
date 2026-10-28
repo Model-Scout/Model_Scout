@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야.",
+ "outputs": [
+  "task: 이미지 질의응답",
+  "model family: 카카오 Kanana",
+  "declared languages: 한국어"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: 이미지 질의응답",
+   "model family: 카카오 Kanana",
+   "declared languages: 한국어"
+  ]
+ },
+ "latency_ms": 1098.0
+}

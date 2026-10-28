@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+ "outputs": [
+  "KT의 Midm 2.0 계열 한국어 LLM을 찾고 있어요. GGUF 형식도 괜찮습니다.",
+  "I need a Korean LLM from the KT Midm 2.0 family. The original or GGUF format is fine.",
+  "KT Midm 2.0 Korean LLM, GGUF, original model"
+ ],
+ "response": {
+  "queries": [
+   "KT의 Midm 2.0 계열 한국어 LLM을 찾고 있어요. GGUF 형식도 괜찮습니다.",
+   "I need a Korean LLM from the KT Midm 2.0 family. The original or GGUF format is fine.",
+   "KT Midm 2.0 Korean LLM, GGUF, original model"
+  ]
+ },
+ "latency_ms": 1502.0
+}
