@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해.",
+ "outputs": [
+  "Find models for Korean chatbot tasks that are suitable for deployment on a server without a GPU.",
+  "Search for models with a parameter count of 4B or less that allow commercial use."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models for Korean chatbot tasks that are suitable for deployment on a server without a GPU.",
+   "Search for models with a parameter count of 4B or less that allow commercial use."
+  ]
+ },
+ "latency_ms": 1206.9
+}

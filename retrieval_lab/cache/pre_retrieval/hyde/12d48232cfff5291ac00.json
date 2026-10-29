@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해.",
+ "outputs": [
+  "The model is designed for high-quality translation tasks, specifically supporting Korean to French (ko→fr) and Korean to German (ko→de) translation directions. It is capable of handling a wide range of text types, making it suitable for both casual and formal use cases, such as translating articles, documents, and conversational text. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, ensuring fast translation times while maintaining accuracy. Its strengths lie in its ability to understand context and nuances in the source language, resulting in fluent and natural translations in the target languages. The model is available in GGUF format and is licensed for commercial use."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality translation tasks, specifically supporting Korean to French (ko→fr) and Korean to German (ko→de) translation directions. It is capable of handling a wide range of text types, making it suitable for both casual and formal use cases, such as translating articles, documents, and conversational text. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, ensuring fast translation times while maintaining accuracy. Its strengths lie in its ability to understand context and nuances in the source language, resulting in fluent and natural translations in the target languages. The model is available in GGUF format and is licensed for commercial use."
+ },
+ "latency_ms": 2192.0
+}

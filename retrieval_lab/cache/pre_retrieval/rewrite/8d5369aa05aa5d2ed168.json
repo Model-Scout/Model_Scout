@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+ "outputs": [
+  "Korean LLM, GPU server deployment, commercial use, performance priority"
+ ],
+ "response": {
+  "query": "Korean LLM, GPU server deployment, commercial use, performance priority"
+ },
+ "latency_ms": 1230.1
+}

@@ -36,6 +36,46 @@
         "queries": 37,
         "ran_at": "2026-10-17 22:14"
       }
+    },
+    "lexical_exact": {
+      "dense_weight": 0.5,
+      "use_rewrite": false,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "use_name_lookup": true,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.5,
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.5743506493506494,
+        "baseline": 0.560930735930736,
+        "queries": 22,
+        "ran_at": "2026-10-29 00:12"
+      }
+    },
+    "structured_constraint": {
+      "dense_weight": 0.5,
+      "use_rewrite": false,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "use_name_lookup": false,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.5,
+      "hard_filter_defaults": {
+        "require_known_parameters": true,
+        "require_known_context": true
+      },
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.3786827551533434,
+        "baseline": 0.26757164404223227,
+        "queries": 24,
+        "ran_at": "2026-10-29 00:43"
+      }
     }
   }
 }

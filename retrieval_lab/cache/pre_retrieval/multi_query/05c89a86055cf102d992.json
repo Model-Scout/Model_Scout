@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야.",
+ "outputs": [
+  "128K 토큰 이상의 긴 문맥을 처리할 수 있는 한국어 LLM 모델을 찾고 있습니다.",
+  "I need a Korean LLM that can handle long contexts over 128K tokens for inputting entire reports and asking questions.",
+  "Korean LLM, long context, 128K tokens, handle reports, question answering"
+ ],
+ "response": {
+  "queries": [
+   "128K 토큰 이상의 긴 문맥을 처리할 수 있는 한국어 LLM 모델을 찾고 있습니다.",
+   "I need a Korean LLM that can handle long contexts over 128K tokens for inputting entire reports and asking questions.",
+   "Korean LLM, long context, 128K tokens, handle reports, question answering"
+  ]
+ },
+ "latency_ms": 1483.8
+}

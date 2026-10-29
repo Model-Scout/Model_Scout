@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로.",
+ "outputs": [
+  "Lightweight VLM for image captioning in Korean, parameter count under 4B, suitable for running on a laptop."
+ ],
+ "response": {
+  "query": "Lightweight VLM for image captioning in Korean, parameter count under 4B, suitable for running on a laptop."
+ },
+ "latency_ms": 1218.4
+}

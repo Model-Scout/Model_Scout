@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어.",
+ "outputs": [
+  "small Korean machine reading comprehension model for mobile app with parameter count under 50M"
+ ],
+ "response": {
+  "query": "small Korean machine reading comprehension model for mobile app with parameter count under 50M"
+ },
+ "latency_ms": 1353.0
+}

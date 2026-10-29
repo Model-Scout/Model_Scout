@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하).",
+ "outputs": [
+  "Translate English news headlines to Korean naturally. Task: Translation, Capability: GPU memory 3GB, Context length: 512 tokens or less."
+ ],
+ "response": {
+  "query": "Translate English news headlines to Korean naturally. Task: Translation, Capability: GPU memory 3GB, Context length: 512 tokens or less."
+ },
+ "latency_ms": 1252.1
+}

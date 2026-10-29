@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+ "outputs": [
+  "상업적으로 사용할 수 있는 성능이 뛰어난 한국어 LLM을 여러 대의 GPU 서버에 배포하고 싶습니다.",
+  "I want to deploy a high-performance Korean LLM on multiple GPU servers for commercial use.",
+  "Korean LLM, commercial use, high performance, GPU servers"
+ ],
+ "response": {
+  "queries": [
+   "상업적으로 사용할 수 있는 성능이 뛰어난 한국어 LLM을 여러 대의 GPU 서버에 배포하고 싶습니다.",
+   "I want to deploy a high-performance Korean LLM on multiple GPU servers for commercial use.",
+   "Korean LLM, commercial use, high performance, GPU servers"
+  ]
+ },
+ "latency_ms": 1334.7
+}

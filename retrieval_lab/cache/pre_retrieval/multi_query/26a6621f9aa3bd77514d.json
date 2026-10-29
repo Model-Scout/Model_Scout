@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해.",
+ "outputs": [
+  "transformers.js로 사용할 수 있는 한국어 문장 임베딩 모델 찾기, ONNX 가중치 필요",
+  "Looking for a Korean sentence embedding model that can run on transformers.js with ONNX weights",
+  "Korean sentence embedding model, transformers.js, ONNX weights"
+ ],
+ "response": {
+  "queries": [
+   "transformers.js로 사용할 수 있는 한국어 문장 임베딩 모델 찾기, ONNX 가중치 필요",
+   "Looking for a Korean sentence embedding model that can run on transformers.js with ONNX weights",
+   "Korean sentence embedding model, transformers.js, ONNX weights"
+  ]
+ },
+ "latency_ms": 1294.9
+}

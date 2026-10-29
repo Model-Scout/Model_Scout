@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야.",
+ "outputs": [
+  "Find models based on KLUE-RoBERTa for sentence embedding tasks.",
+  "Search for models suitable for similar sentence retrieval.",
+  "Look for Korean language models for embedding tasks."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models based on KLUE-RoBERTa for sentence embedding tasks.",
+   "Search for models suitable for similar sentence retrieval.",
+   "Look for Korean language models for embedding tasks."
+  ]
+ },
+ "latency_ms": 1436.8
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어.",
+ "outputs": [
+  "The TinyKoreanChat model is designed for efficient conversational AI in the Korean language, optimized to run on standard laptop CPUs. With a parameter count of just 750 million, it strikes a balance between performance and resource efficiency, making it ideal for personal projects and lightweight applications. The model supports natural dialogue generation and can be utilized in chatbots, virtual assistants, and customer service automation. Its strengths lie in its ability to understand context and generate coherent responses in Korean, while maintaining a small footprint suitable for devices with limited computational power."
+ ],
+ "response": {
+  "document": "The TinyKoreanChat model is designed for efficient conversational AI in the Korean language, optimized to run on standard laptop CPUs. With a parameter count of just 750 million, it strikes a balance between performance and resource efficiency, making it ideal for personal projects and lightweight applications. The model supports natural dialogue generation and can be utilized in chatbots, virtual assistants, and customer service automation. Its strengths lie in its ability to understand context and generate coherent responses in Korean, while maintaining a small footprint suitable for devices with limited computational power."
+ },
+ "latency_ms": 1818.7
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어.",
+ "outputs": [
+  "The model is designed for document search and embedding tasks, specifically optimized for Korean language processing. It supports a maximum context length of 8192 tokens, making it ideal for handling extensive documents. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, ensuring quick response times on GPU servers. It is particularly suited for commercial applications, such as search engines and information retrieval systems, where accurate and relevant results are crucial. The model excels in semantic understanding and can effectively capture the nuances of the Korean language, providing high-quality embeddings for various use cases."
+ ],
+ "response": {
+  "document": "The model is designed for document search and embedding tasks, specifically optimized for Korean language processing. It supports a maximum context length of 8192 tokens, making it ideal for handling extensive documents. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, ensuring quick response times on GPU servers. It is particularly suited for commercial applications, such as search engines and information retrieval systems, where accurate and relevant results are crucial. The model excels in semantic understanding and can effectively capture the nuances of the Korean language, providing high-quality embeddings for various use cases."
+ },
+ "latency_ms": 1665.0
+}

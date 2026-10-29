@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아.",
+ "outputs": [
+  "The AWQ 4-bit quantized Korean LLM is designed for efficient language processing tasks, particularly in the Korean language. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource efficiency, making it suitable for deployment in various applications such as chatbots, translation services, and content generation. The model supports a context length of 512 tokens, allowing it to handle moderately complex queries effectively. Its strengths lie in its ability to generate coherent and contextually relevant responses in Korean, while the 4-bit quantization ensures reduced memory usage and faster inference times. This model is particularly beneficial for developers looking to integrate advanced language capabilities into their applications without incurring high computational costs."
+ ],
+ "response": {
+  "document": "The AWQ 4-bit quantized Korean LLM is designed for efficient language processing tasks, particularly in the Korean language. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource efficiency, making it suitable for deployment in various applications such as chatbots, translation services, and content generation. The model supports a context length of 512 tokens, allowing it to handle moderately complex queries effectively. Its strengths lie in its ability to generate coherent and contextually relevant responses in Korean, while the 4-bit quantization ensures reduced memory usage and faster inference times. This model is particularly beneficial for developers looking to integrate advanced language capabilities into their applications without incurring high computational costs."
+ },
+ "latency_ms": 1986.8
+}

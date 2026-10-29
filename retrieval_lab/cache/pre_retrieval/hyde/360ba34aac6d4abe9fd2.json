@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해.",
+ "outputs": [
+  "The Korean Language Model (KLM) is a state-of-the-art large language model designed specifically for Korean text processing tasks. With 1.5 billion parameters, KLM excels in various applications such as text generation, translation, and sentiment analysis. It supports Korean as its primary language and is optimized for performance on macOS systems. The model is available in MLX format, ensuring seamless integration and deployment on MLX-compatible platforms. KLM's strengths lie in its ability to understand context and generate coherent responses, making it ideal for chatbots, content creation, and educational tools. Benchmarked against leading models, KLM demonstrates superior performance in language understanding and generation tasks."
+ ],
+ "response": {
+  "document": "The Korean Language Model (KLM) is a state-of-the-art large language model designed specifically for Korean text processing tasks. With 1.5 billion parameters, KLM excels in various applications such as text generation, translation, and sentiment analysis. It supports Korean as its primary language and is optimized for performance on macOS systems. The model is available in MLX format, ensuring seamless integration and deployment on MLX-compatible platforms. KLM's strengths lie in its ability to understand context and generate coherent responses, making it ideal for chatbots, content creation, and educational tools. Benchmarked against leading models, KLM demonstrates superior performance in language understanding and generation tasks."
+ },
+ "latency_ms": 2091.8
+}

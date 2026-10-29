@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해.",
+ "outputs": [
+  "The Korean Question Answering Model is designed for commercial applications, providing accurate and context-aware responses to user inquiries in Korean. With a parameter count of 1.5 billion, this model excels in understanding and generating natural language, making it suitable for customer support, chatbots, and interactive applications. It supports Korean as its primary language and is optimized for performance with a context length of 512 tokens. The model is available in GGUF format and is licensed under the MIT License, ensuring clear usage rights for commercial purposes. Its strengths include high accuracy in comprehension and response generation, making it a reliable choice for businesses looking to enhance user engagement."
+ ],
+ "response": {
+  "document": "The Korean Question Answering Model is designed for commercial applications, providing accurate and context-aware responses to user inquiries in Korean. With a parameter count of 1.5 billion, this model excels in understanding and generating natural language, making it suitable for customer support, chatbots, and interactive applications. It supports Korean as its primary language and is optimized for performance with a context length of 512 tokens. The model is available in GGUF format and is licensed under the MIT License, ensuring clear usage rights for commercial purposes. Its strengths include high accuracy in comprehension and response generation, making it a reliable choice for businesses looking to enhance user engagement."
+ },
+ "latency_ms": 1711.9
+}

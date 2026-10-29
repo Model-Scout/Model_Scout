@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해.",
+ "outputs": [
+  "Find GGUF Korean embedding models compatible with Ollama.",
+  "Find GGUF Korean embedding models compatible with llama.cpp."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find GGUF Korean embedding models compatible with Ollama.",
+   "Find GGUF Korean embedding models compatible with llama.cpp."
+  ]
+ },
+ "latency_ms": 1179.4
+}

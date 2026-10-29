@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어.",
+ "outputs": [
+  "상업 서비스에서 사용할 한국어 문서 검색 임베딩을 찾고 싶습니다. 입력 토큰 수는 8192 이상이어야 하며, GPU 서버를 사용할 예정입니다.",
+  "I'm looking for Korean document search embeddings for commercial services, with an input requirement of over 8192 tokens and access to a GPU server.",
+  "Korean document search embeddings, commercial use, input over 8192 tokens, GPU server"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에서 사용할 한국어 문서 검색 임베딩을 찾고 싶습니다. 입력 토큰 수는 8192 이상이어야 하며, GPU 서버를 사용할 예정입니다.",
+   "I'm looking for Korean document search embeddings for commercial services, with an input requirement of over 8192 tokens and access to a GPU server.",
+   "Korean document search embeddings, commercial use, input over 8192 tokens, GPU server"
+  ]
+ },
+ "latency_ms": 1635.6
+}

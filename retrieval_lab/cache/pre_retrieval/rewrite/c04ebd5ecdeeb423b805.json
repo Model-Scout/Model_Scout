@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야.",
+ "outputs": [
+  "Korean to Chinese translation model, task: translation, capability: Korean→Chinese (ko→zh)"
+ ],
+ "response": {
+  "query": "Korean to Chinese translation model, task: translation, capability: Korean→Chinese (ko→zh)"
+ },
+ "latency_ms": 1076.0
+}

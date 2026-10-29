@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "The model is designed for question-answering tasks specifically tailored for corporate regulation documents. It supports Korean as its primary language, making it ideal for businesses operating in Korea. With a parameter count of 1.5 billion, it strikes a balance between performance and efficiency. The model is optimized for extracting precise answers from text, ensuring that responses are directly sourced from the provided documents. Its intended use cases include internal compliance checks, employee training, and legal inquiries. The model is licensed under a permissive license, allowing for commercial use without restrictions. Its strengths lie in its ability to understand complex regulatory language and provide accurate, contextually relevant answers."
+ ],
+ "response": {
+  "document": "The model is designed for question-answering tasks specifically tailored for corporate regulation documents. It supports Korean as its primary language, making it ideal for businesses operating in Korea. With a parameter count of 1.5 billion, it strikes a balance between performance and efficiency. The model is optimized for extracting precise answers from text, ensuring that responses are directly sourced from the provided documents. Its intended use cases include internal compliance checks, employee training, and legal inquiries. The model is licensed under a permissive license, allowing for commercial use without restrictions. Its strengths lie in its ability to understand complex regulatory language and provide accurate, contextually relevant answers."
+ },
+ "latency_ms": 1649.9
+}

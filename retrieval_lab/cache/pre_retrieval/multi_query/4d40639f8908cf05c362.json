@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+ "outputs": [
+  "중국어를 한국어로 번역할 수 있는 경량 모델을 CPU에서 사용하고 싶어요.",
+  "I want to run a lightweight model for translating Chinese to Korean on a CPU.",
+  "중국어 한국어 번역 모델, 경량, CPU, GGUF, AWQ, ONNX"
+ ],
+ "response": {
+  "queries": [
+   "중국어를 한국어로 번역할 수 있는 경량 모델을 CPU에서 사용하고 싶어요.",
+   "I want to run a lightweight model for translating Chinese to Korean on a CPU.",
+   "중국어 한국어 번역 모델, 경량, CPU, GGUF, AWQ, ONNX"
+  ]
+ },
+ "latency_ms": 1377.8
+}

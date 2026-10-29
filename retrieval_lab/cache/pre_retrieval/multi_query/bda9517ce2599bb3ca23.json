@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야.",
+ "outputs": [
+  "일본어에서 한국어로 번역하는 모델을 찾고 있어요. 사내 문서 번역에 사용할 예정입니다.",
+  "I need a model for translating Japanese documents into Korean. It will be used for internal document translation.",
+  "Japanese to Korean translation model, internal document translation, model card terms"
+ ],
+ "response": {
+  "queries": [
+   "일본어에서 한국어로 번역하는 모델을 찾고 있어요. 사내 문서 번역에 사용할 예정입니다.",
+   "I need a model for translating Japanese documents into Korean. It will be used for internal document translation.",
+   "Japanese to Korean translation model, internal document translation, model card terms"
+  ]
+ },
+ "latency_ms": 1494.0
+}

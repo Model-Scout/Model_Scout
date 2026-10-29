@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+ "outputs": [
+  "Midm 2.0 Korean LLM model card with GGUF format"
+ ],
+ "response": {
+  "query": "Midm 2.0 Korean LLM model card with GGUF format"
+ },
+ "latency_ms": 925.4
+}

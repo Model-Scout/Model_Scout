@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해.",
+ "outputs": [
+  "The GGUF Korean Embedding Model is designed for efficient and high-quality embeddings specifically for the Korean language. With a parameter count of 1.5 billion, this model excels in tasks such as semantic search, text classification, and information retrieval. It supports Korean as its primary language and is optimized for use cases in natural language processing applications that require understanding and generating Korean text. The model's strengths lie in its ability to capture nuanced meanings and relationships in Korean, making it ideal for applications in chatbots, recommendation systems, and content analysis. It is compatible with Ollama and llama.cpp frameworks, ensuring easy integration into various projects."
+ ],
+ "response": {
+  "document": "The GGUF Korean Embedding Model is designed for efficient and high-quality embeddings specifically for the Korean language. With a parameter count of 1.5 billion, this model excels in tasks such as semantic search, text classification, and information retrieval. It supports Korean as its primary language and is optimized for use cases in natural language processing applications that require understanding and generating Korean text. The model's strengths lie in its ability to capture nuanced meanings and relationships in Korean, making it ideal for applications in chatbots, recommendation systems, and content analysis. It is compatible with Ollama and llama.cpp frameworks, ensuring easy integration into various projects."
+ },
+ "latency_ms": 1865.7
+}

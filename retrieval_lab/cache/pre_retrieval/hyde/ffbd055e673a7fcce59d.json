@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어.",
+ "outputs": [
+  "The model is a compact Korean machine reading comprehension model designed for mobile applications. With a parameter count of just 50M, it strikes a balance between performance and efficiency, making it ideal for resource-constrained environments. The model excels in understanding and answering questions based on provided text, making it suitable for educational apps, customer support, and interactive storytelling. Its lightweight architecture ensures quick inference times, while maintaining high accuracy in comprehension tasks. This model is particularly strong in handling colloquial Korean and can adapt to various contexts, providing users with a seamless experience."
+ ],
+ "response": {
+  "document": "The model is a compact Korean machine reading comprehension model designed for mobile applications. With a parameter count of just 50M, it strikes a balance between performance and efficiency, making it ideal for resource-constrained environments. The model excels in understanding and answering questions based on provided text, making it suitable for educational apps, customer support, and interactive storytelling. Its lightweight architecture ensures quick inference times, while maintaining high accuracy in comprehension tasks. This model is particularly strong in handling colloquial Korean and can adapt to various contexts, providing users with a seamless experience."
+ },
+ "latency_ms": 1567.5
+}

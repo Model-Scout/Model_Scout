@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "Korean speech recognition model for transcribing team meeting recordings.",
+  "Model that can run on a self-hosted GPU server with 16GB of memory.",
+  "Model with a license that allows for commercial use."
+ ],
+ "response": {
+  "sub_queries": [
+   "Korean speech recognition model for transcribing team meeting recordings.",
+   "Model that can run on a self-hosted GPU server with 16GB of memory.",
+   "Model with a license that allows for commercial use."
+  ]
+ },
+ "latency_ms": 1138.5
+}

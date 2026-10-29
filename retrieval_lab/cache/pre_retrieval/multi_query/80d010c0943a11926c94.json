@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해.",
+ "outputs": [
+  "M1 이상 맥에서 100% 오프라인으로 작동하는 한국어 회의 전사 시스템을 위한 음성 인식 모델을 찾고 있습니다.",
+  "I am looking for a speech recognition model that operates 100% offline on M1 Macs with 16GB RAM for a Korean meeting transcription system.",
+  "M1 Mac, 16GB RAM, 100% offline, Korean speech recognition model, stable operation, transcription system"
+ ],
+ "response": {
+  "queries": [
+   "M1 이상 맥에서 100% 오프라인으로 작동하는 한국어 회의 전사 시스템을 위한 음성 인식 모델을 찾고 있습니다.",
+   "I am looking for a speech recognition model that operates 100% offline on M1 Macs with 16GB RAM for a Korean meeting transcription system.",
+   "M1 Mac, 16GB RAM, 100% offline, Korean speech recognition model, stable operation, transcription system"
+  ]
+ },
+ "latency_ms": 2089.5
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해.",
+ "outputs": [
+  "commercial use, parameter count <= 150M, CPU compatible, Korean text classification model"
+ ],
+ "response": {
+  "query": "commercial use, parameter count <= 150M, CPU compatible, Korean text classification model"
+ },
+ "latency_ms": 954.6
+}

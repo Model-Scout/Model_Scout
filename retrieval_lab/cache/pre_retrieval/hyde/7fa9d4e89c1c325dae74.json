@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야.",
+ "outputs": [
+  "The KLUE-RoBERTa-based Korean Sentence Embedding Model is designed for semantic similarity tasks, particularly effective in retrieving similar sentences in Korean. With a parameter count of 110 million, this model excels in understanding contextual nuances in the Korean language. It supports Korean as its primary language and is optimized for tasks such as sentence similarity, paraphrase detection, and information retrieval. The model's strengths lie in its ability to generate high-quality embeddings that capture semantic meaning, making it ideal for applications in chatbots, search engines, and recommendation systems. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The KLUE-RoBERTa-based Korean Sentence Embedding Model is designed for semantic similarity tasks, particularly effective in retrieving similar sentences in Korean. With a parameter count of 110 million, this model excels in understanding contextual nuances in the Korean language. It supports Korean as its primary language and is optimized for tasks such as sentence similarity, paraphrase detection, and information retrieval. The model's strengths lie in its ability to generate high-quality embeddings that capture semantic meaning, making it ideal for applications in chatbots, search engines, and recommendation systems. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1930.9
+}

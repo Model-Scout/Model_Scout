@@ -102,17 +102,25 @@ def plan_for(query_type: str, query: Mapping[str, Any], config: Optional[Mapping
     """Build the plan for one query. Unknown types fall back to the baseline."""
     config = config if config is not None else load_config()
     values = dict((config.get("types") or {}).get(query_type) or {})
-    plan = replace(BASELINE, query_type=query_type, hard_filters=hard_filters(query))
+    # 유형별 hard filter 기본값. 계획서가 Planner의 역할로 Hard Filter 선택을 꼽지만
+    # 지금까지는 질의에 적힌 값만 썼다. 질의가 직접 지정한 값이 언제나 우선한다.
+    filters = dict(values.get("hard_filter_defaults") or {})
+    filters.update(hard_filters(query))
+    plan = replace(BASELINE, query_type=query_type, hard_filters=filters)
     plan = replace(plan, **{key: values[key] for key in _TUNABLE if key in values and key != "dense_weight"})
     if "dense_weight" in values:
         plan = with_dense_weight(plan, values["dense_weight"])
     return plan
 
 
-def save_type_plan(query_type: str, plan: RetrievalPlan, evidence: Mapping[str, Any], path: Path = CONFIG_PATH) -> None:
+def save_type_plan(query_type: str, plan: RetrievalPlan, evidence: Mapping[str, Any],
+                   path: Path = CONFIG_PATH,
+                   hard_filter_defaults: Optional[Mapping[str, Any]] = None) -> None:
     config = load_config(path)
     entry = {key: getattr(plan, key) for key in _TUNABLE}
     entry["sparse_weight"] = plan.sparse_weight
+    if hard_filter_defaults:
+        entry["hard_filter_defaults"] = dict(hard_filter_defaults)
     entry["evidence"] = dict(evidence)
     config.setdefault("types", {})[query_type] = entry
     path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

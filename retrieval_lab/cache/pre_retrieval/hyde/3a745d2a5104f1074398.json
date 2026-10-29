@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "게임 대사를 영어에서 한국어로 번역하려고 해.",
+ "outputs": [
+  "The model is designed for the task of translating game dialogues from English to Korean. It supports both English and Korean languages, making it ideal for localization projects in the gaming industry. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, allowing for quick translations without sacrificing quality. Its context length of 512 tokens ensures that it can handle longer dialogues effectively. The model is particularly useful for game developers and translators looking to enhance the player experience by providing accurate and culturally relevant translations. Its strengths lie in its ability to understand colloquial expressions and gaming jargon, making it a valuable tool for any game localization effort."
+ ],
+ "response": {
+  "document": "The model is designed for the task of translating game dialogues from English to Korean. It supports both English and Korean languages, making it ideal for localization projects in the gaming industry. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, allowing for quick translations without sacrificing quality. Its context length of 512 tokens ensures that it can handle longer dialogues effectively. The model is particularly useful for game developers and translators looking to enhance the player experience by providing accurate and culturally relevant translations. Its strengths lie in its ability to understand colloquial expressions and gaming jargon, making it a valuable tool for any game localization effort."
+ },
+ "latency_ms": 2218.7
+}

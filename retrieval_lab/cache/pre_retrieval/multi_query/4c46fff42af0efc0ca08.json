@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해.",
+ "outputs": [
+  "프랑스어와 독일어로 한국어 문서를 번역할 수 있는 모델을 찾고 있어요.",
+  "I need a model that supports translating Korean documents into French and German.",
+  "모델, 번역, 한국어, 프랑스어, 독일어, ko→fr, ko→de"
+ ],
+ "response": {
+  "queries": [
+   "프랑스어와 독일어로 한국어 문서를 번역할 수 있는 모델을 찾고 있어요.",
+   "I need a model that supports translating Korean documents into French and German.",
+   "모델, 번역, 한국어, 프랑스어, 독일어, ko→fr, ko→de"
+  ]
+ },
+ "latency_ms": 1386.2
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로.",
+ "outputs": [
+  "The model is a lightweight Vision-Language Model (VLM) designed for image captioning tasks, specifically optimized for Korean language support. With a parameter count of 3 billion, it strikes a balance between performance and efficiency, making it suitable for running on standard laptops. This model excels in generating descriptive captions for images, making it ideal for applications in content creation, accessibility tools, and educational resources. Its strengths lie in its ability to understand and generate contextually relevant descriptions in Korean, ensuring high-quality outputs. The model is available in GGUF format and is licensed for open use, encouraging widespread adoption."
+ ],
+ "response": {
+  "document": "The model is a lightweight Vision-Language Model (VLM) designed for image captioning tasks, specifically optimized for Korean language support. With a parameter count of 3 billion, it strikes a balance between performance and efficiency, making it suitable for running on standard laptops. This model excels in generating descriptive captions for images, making it ideal for applications in content creation, accessibility tools, and educational resources. Its strengths lie in its ability to understand and generate contextually relevant descriptions in Korean, ensuring high-quality outputs. The model is available in GGUF format and is licensed for open use, encouraging widespread adoption."
+ },
+ "latency_ms": 1891.5
+}

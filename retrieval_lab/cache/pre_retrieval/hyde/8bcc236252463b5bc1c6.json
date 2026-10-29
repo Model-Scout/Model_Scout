@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어.",
+ "outputs": [
+  "The KoBART-based Korean summarization model is designed specifically for generating concise summaries of news articles and documents. It supports the Korean language and is optimized for tasks requiring high-quality text summarization. With a parameter count of 110 million, this model excels in understanding context and producing coherent summaries. Its intended use cases include news summarization, document summarization, and content generation for various applications. The model's strengths lie in its ability to maintain the original meaning while reducing text length, making it ideal for users seeking efficient information extraction. It is available in GGUF format and is licensed for commercial use."
+ ],
+ "response": {
+  "document": "The KoBART-based Korean summarization model is designed specifically for generating concise summaries of news articles and documents. It supports the Korean language and is optimized for tasks requiring high-quality text summarization. With a parameter count of 110 million, this model excels in understanding context and producing coherent summaries. Its intended use cases include news summarization, document summarization, and content generation for various applications. The model's strengths lie in its ability to maintain the original meaning while reducing text length, making it ideal for users seeking efficient information extraction. It is available in GGUF format and is licensed for commercial use."
+ },
+ "latency_ms": 2225.3
+}

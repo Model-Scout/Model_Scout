@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해.",
+ "outputs": [
+  "translation direction: Japanese to Korean",
+  "deployment: local on RTX 4060 GPU"
+ ],
+ "response": {
+  "sub_queries": [
+   "translation direction: Japanese to Korean",
+   "deployment: local on RTX 4060 GPU"
+  ]
+ },
+ "latency_ms": 1129.5
+}

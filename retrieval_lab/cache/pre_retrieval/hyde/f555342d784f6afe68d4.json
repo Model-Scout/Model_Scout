@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
+ "outputs": [
+  "The model is designed for Korean speech recognition tasks, optimized for performance on PCs with at least 4GB of RAM. It supports Korean as its primary language and is lightweight, making it suitable for real-time applications. With a parameter count of approximately 50 million, it strikes a balance between speed and accuracy, ensuring efficient processing without compromising on recognition quality. The model is ideal for developing demo applications that require quick responses and reliable transcription of spoken Korean. Its strengths lie in its ability to handle various accents and dialects, making it versatile for different user scenarios."
+ ],
+ "response": {
+  "document": "The model is designed for Korean speech recognition tasks, optimized for performance on PCs with at least 4GB of RAM. It supports Korean as its primary language and is lightweight, making it suitable for real-time applications. With a parameter count of approximately 50 million, it strikes a balance between speed and accuracy, ensuring efficient processing without compromising on recognition quality. The model is ideal for developing demo applications that require quick responses and reliable transcription of spoken Korean. Its strengths lie in its ability to handle various accents and dialects, making it versatile for different user scenarios."
+ },
+ "latency_ms": 1960.8
+}

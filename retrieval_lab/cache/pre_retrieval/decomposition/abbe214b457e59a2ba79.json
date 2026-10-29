@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "task: 질의응답",
+  "license: 상업 서비스",
+  "declared languages: 한국어"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: 질의응답",
+   "license: 상업 서비스",
+   "declared languages: 한국어"
+  ]
+ },
+ "latency_ms": 1015.4
+}
