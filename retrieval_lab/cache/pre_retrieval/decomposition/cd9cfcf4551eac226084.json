@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorSTS 점수(스피어만 상관계수)가 공개된 한국어 문장 임베딩 모델이 필요해.",
+ "outputs": [
+  "Find Korean sentence embedding models with KorSTS scores.",
+  "Search for models that provide Spearman correlation metrics for Korean sentence embeddings."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find Korean sentence embedding models with KorSTS scores.",
+   "Search for models that provide Spearman correlation metrics for Korean sentence embeddings."
+  ]
+ },
+ "latency_ms": 1450.9
+}

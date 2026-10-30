@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorQuAD에서 EM·F1 점수가 공개된 한국어 기계독해 모델이 필요해. 점수를 보고 고르고 싶어.",
+ "outputs": [
+  "KorQuAD에서 EM과 F1 점수가 있는 한국어 기계독해 모델을 찾고 싶어요. 점수를 비교하고 싶습니다.",
+  "I need a Korean machine reading comprehension model with EM and F1 scores published on KorQuAD. I want to review the scores before making a selection.",
+  "KorQuAD EM F1 한국어 기계독해 모델"
+ ],
+ "response": {
+  "queries": [
+   "KorQuAD에서 EM과 F1 점수가 있는 한국어 기계독해 모델을 찾고 싶어요. 점수를 비교하고 싶습니다.",
+   "I need a Korean machine reading comprehension model with EM and F1 scores published on KorQuAD. I want to review the scores before making a selection.",
+   "KorQuAD EM F1 한국어 기계독해 모델"
+  ]
+ },
+ "latency_ms": 1884.6
+}

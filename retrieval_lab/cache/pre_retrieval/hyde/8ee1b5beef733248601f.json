@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorQuAD에서 EM·F1 점수가 공개된 한국어 기계독해 모델이 필요해. 점수를 보고 고르고 싶어.",
+ "outputs": [
+  "The Korean Machine Reading Comprehension Model is designed specifically for the task of answering questions based on given passages in Korean. It supports the Korean language and has been benchmarked on the KorQuAD dataset, achieving impressive EM and F1 scores. With a parameter count of 110 million, this model is optimized for performance while maintaining a manageable size for deployment. Its intended use cases include educational applications, customer support automation, and content summarization. The model excels in understanding context and providing accurate answers, making it a strong choice for developers looking to implement Korean language comprehension capabilities."
+ ],
+ "response": {
+  "document": "The Korean Machine Reading Comprehension Model is designed specifically for the task of answering questions based on given passages in Korean. It supports the Korean language and has been benchmarked on the KorQuAD dataset, achieving impressive EM and F1 scores. With a parameter count of 110 million, this model is optimized for performance while maintaining a manageable size for deployment. Its intended use cases include educational applications, customer support automation, and content summarization. The model excels in understanding context and providing accurate answers, making it a strong choice for developers looking to implement Korean language comprehension capabilities."
+ },
+ "latency_ms": 2255.4
+}

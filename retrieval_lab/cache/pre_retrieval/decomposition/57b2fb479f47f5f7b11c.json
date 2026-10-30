@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "AutoRAG 한국어 검색 벤치마크 결과가 있는 임베딩 모델을 고르고 싶어.",
+ "outputs": [
+  "AutoRAG 한국어 검색 벤치마크 결과",
+  "임베딩 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "AutoRAG 한국어 검색 벤치마크 결과",
+   "임베딩 모델"
+  ]
+ },
+ "latency_ms": 1104.7
+}

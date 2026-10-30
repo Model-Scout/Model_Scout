@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "NSMC 영화 리뷰 감성분석 정확도가 높은 한국어 모델을 찾고 있어. 정확도 수치가 공개된 모델이면 좋겠어.",
+ "outputs": [
+  "정확도가 높은 한국어 모델을 찾고 있습니다. NSMC 영화 리뷰 감성 분석에 적합하고, 정확도 수치가 공개된 모델이 필요합니다.",
+  "I'm looking for a Korean model with high accuracy for sentiment analysis on NSMC movie reviews, preferably with disclosed accuracy metrics.",
+  "Korean model, NSMC movie review, sentiment analysis, high accuracy, disclosed accuracy metrics"
+ ],
+ "response": {
+  "queries": [
+   "정확도가 높은 한국어 모델을 찾고 있습니다. NSMC 영화 리뷰 감성 분석에 적합하고, 정확도 수치가 공개된 모델이 필요합니다.",
+   "I'm looking for a Korean model with high accuracy for sentiment analysis on NSMC movie reviews, preferably with disclosed accuracy metrics.",
+   "Korean model, NSMC movie review, sentiment analysis, high accuracy, disclosed accuracy metrics"
+  ]
+ },
+ "latency_ms": 2258.5
+}

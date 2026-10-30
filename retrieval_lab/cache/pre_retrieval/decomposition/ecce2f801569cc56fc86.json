@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBEST(BoolQ, COPA 등) 결과가 README에 있는 한국어 LLM을 찾고 있어.",
+ "outputs": [
+  "Find models that support BoolQ task.",
+  "Find models that support COPA task.",
+  "Find models with results mentioned in README for Korean LLM."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that support BoolQ task.",
+   "Find models that support COPA task.",
+   "Find models with results mentioned in README for Korean LLM."
+  ]
+ },
+ "latency_ms": 1442.8
+}

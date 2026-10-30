@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "NSMC 영화 리뷰 감성분석 정확도가 높은 한국어 모델을 찾고 있어. 정확도 수치가 공개된 모델이면 좋겠어.",
+ "outputs": [
+  "The model is designed for sentiment analysis specifically tailored for movie reviews in Korean, making it ideal for tasks such as analyzing user feedback and understanding audience sentiment. It supports the Korean language and boasts a parameter count of 110 million, ensuring robust performance. The model has been benchmarked on the NSMC dataset, achieving an impressive accuracy of 92.5%. Its strengths lie in its ability to capture nuanced sentiments in reviews, making it suitable for applications in marketing, customer feedback analysis, and content moderation. The model is available in GGUF format and is licensed under the MIT license, promoting ease of use and integration."
+ ],
+ "response": {
+  "document": "The model is designed for sentiment analysis specifically tailored for movie reviews in Korean, making it ideal for tasks such as analyzing user feedback and understanding audience sentiment. It supports the Korean language and boasts a parameter count of 110 million, ensuring robust performance. The model has been benchmarked on the NSMC dataset, achieving an impressive accuracy of 92.5%. Its strengths lie in its ability to capture nuanced sentiments in reviews, making it suitable for applications in marketing, customer feedback analysis, and content moderation. The model is available in GGUF format and is licensed under the MIT license, promoting ease of use and integration."
+ },
+ "latency_ms": 2468.9
+}

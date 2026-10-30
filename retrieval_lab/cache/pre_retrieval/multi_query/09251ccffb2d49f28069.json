@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBEST(BoolQ, COPA 등) 결과가 README에 있는 한국어 LLM을 찾고 있어.",
+ "outputs": [
+  "KoBEST(BoolQ, COPA 등) 결과가 포함된 한국어 LLM을 찾고 있습니다.",
+  "I'm looking for a Korean LLM that includes results from KoBEST (BoolQ, COPA, etc.) in its README.",
+  "Korean LLM, KoBEST, BoolQ, COPA, README"
+ ],
+ "response": {
+  "queries": [
+   "KoBEST(BoolQ, COPA 등) 결과가 포함된 한국어 LLM을 찾고 있습니다.",
+   "I'm looking for a Korean LLM that includes results from KoBEST (BoolQ, COPA, etc.) in its README.",
+   "Korean LLM, KoBEST, BoolQ, COPA, README"
+  ]
+ },
+ "latency_ms": 1699.5
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBEST(BoolQ, COPA 등) 결과가 README에 있는 한국어 LLM을 찾고 있어.",
+ "outputs": [
+  "KoBEST is a state-of-the-art Korean language model designed for various natural language understanding tasks, including BoolQ and COPA. It supports the Korean language and is optimized for tasks such as question answering and commonsense reasoning. With 1.5 billion parameters, KoBEST offers a robust performance across multiple benchmarks, demonstrating strong capabilities in understanding context and generating coherent responses. The model is particularly effective in educational applications, conversational agents, and research purposes. Its strengths lie in its ability to handle nuanced Korean language constructs and provide accurate answers in real-time scenarios."
+ ],
+ "response": {
+  "document": "KoBEST is a state-of-the-art Korean language model designed for various natural language understanding tasks, including BoolQ and COPA. It supports the Korean language and is optimized for tasks such as question answering and commonsense reasoning. With 1.5 billion parameters, KoBEST offers a robust performance across multiple benchmarks, demonstrating strong capabilities in understanding context and generating coherent responses. The model is particularly effective in educational applications, conversational agents, and research purposes. Its strengths lie in its ability to handle nuanced Korean language constructs and provide accurate answers in real-time scenarios."
+ },
+ "latency_ms": 2586.7
+}
