@@ -59,6 +59,7 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 - QAT for TQ_2 Llama.cpp Ternarization docs https://huggingface.co/CMSManhattan/JiRackUltra_7b/blob/main/QAT_to_Llama.cpp_GGUF_TQ2_0.md 
 - Adapts to agentic or instruct models for tool calling, using the JiRak tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
+- JiRack Ternary production demo: https://huggingface.co/CMSManhattan/JiRackTernaryPrecision-8B-chat
 
 
 # Ollama production support 
@@ -70,6 +71,8 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 ## Live chat 
 
 - https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+## Live chat  TQ2_O quants  
+- https://huggingface.co/spaces/CMSManhattan/JiRack-36B-Chat
 - https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
 - https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
 - https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat

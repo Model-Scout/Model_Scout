@@ -22,19 +22,19 @@ tags:
   - rats-search
 ---
 
-# Armiger Ultra `v3.4.0`
+# Armiger Ultra `v3.8.0`
 
-**Release:** [`v3.4.0`](https://github.com/spencernorton/armiger/releases/tag/v3.4.0) · **Weights:** `33.3 MB` FP32 ONNX + `17.6 MB` INT8 ONNX · **Parameters:** `8.05M` · **License:** Apache-2.0
+**Release:** [`v3.8.0`](https://github.com/spencernorton/armiger/releases/tag/v3.8.0) · **Weights:** `33.3 MB` FP32 ONNX + `17.6 MB` INT8 ONNX · **Parameters:** `8.05M` · **License:** Apache-2.0
 
 **Armiger Ultra** is an 8.05M-parameter multi-head byte-level RoPE Transformer (`0.21 ms/item` batched GPU) and 6-plugin pipeline for BitTorrent and DHT metadata classification, canonical title/year extraction, audio/subtitle verification, malware filtering, and swarm liveliness scoring.
 
-![Armiger Ultra v3.4.0 Overview](assets/armiger_overview.png)
+![Armiger Ultra v3.8.0 Overview](assets/armiger_overview.png)
 
 ## Quickstart
 
 ### Pre-Built Docker Container & Compose Stacks (`v3.4.1`)
 
-Library and container 3.4.1 fix connector startup permissions and use the same 3.4.0 model bundle.
+Library and container 3.4.1 fix connector startup permissions and use the v3.8.0 model bundle.
 
 Run the pre-built `armiger-ultra`:
 

@@ -38,12 +38,6 @@ tags:
 # MiniMax-M3.1-Flash VQ GGUF
 
 > [!WARNING]
-> **Experimental low-bit release.** The routed experts, which hold 97% of the weights, are stored
-> at about **2.0 bits per weight** (13-bit vector codes everywhere, plus an 8-bit residual stage on
-> the 20 layers where it was measured to help most), far below common 4-bit GGUF quants.
-> Expect failures the source model rarely shows: reasoning that loops, text that breaks
-> mid-character (`�`) or switches language, weaker answers. Treat it as quantization research.
->
 > **Problems or odd output?** Post them in the
 > [Community tab](https://huggingface.co/Baekpica/MiniMax-M3.1-Flash-VQ-GGUF/discussions), even as
 > rough notes. The prompt, sampling settings and runtime commit help most.
@@ -56,9 +50,11 @@ attention K/V of a long session lives on SSD, addressed block by block by the mo
 indexer.
 
 > **Runtime support, 2026-10-24:** runs on one DGX Spark with the ds4-dfm-rs `minimax_m3_vq` family
-> ([draft PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110), not merged yet): text, images and video, the DSpark draft head and the native context.
-> **Performance, 2026-10-27:** 2K–64K with DSpark: **1,011.0 tok/s prefill, 22.10 tok/s decode**
-> ([below](#dgx-spark-performance), median of three run means). The historical 1,048,319-token prompt prefilled at 580 tok/s and
+> ([merged PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110)): text, images and video, the DSpark draft head and the native context.
+> **Performance, 2026-10-29:** matched 2K–64K Prefill **1,001.85 → 1,020.29 tok/s (+1.84%)**;
+> the last 2K at 64K reaches **990.08 tok/s (+2.87%)**, using the runtime changes in
+> [PR #126](https://github.com/Baekpica/ds4-dfm-rs/pull/126) ([conditions and Decode limits below](#dgx-spark-performance)).
+> The historical 1,048,319-token prompt prefilled at 580 tok/s and
 > decoded. Converted 2026-10-23: 61 independent GGUF parts (115,526,325,376 bytes), every payload
 > hash in `tensor-manifest.json`, all 89,729 source tensors accounted for; codebooks fitted with
 > calibration statistics from 4.18M tokens (text, images and video) run through the original
@@ -84,66 +80,73 @@ indexer.
 | KV contract | MSA index keys **resident** in NVFP4 (72 B per token and layer, 4.22 GiB at 1M); main K/V in NVFP4 (576 B per token and layer, 33.75 GiB at 1M) **on SSD**, read per selected block |
 | Chat template | Original `chat_template.jinja`, unchanged (`<mm:think>` reasoning, adaptive thinking, `reasoning_effort`, XML tool calls with the `]<]minimax[>[` namespace, image/video placeholders) |
 | Fidelity (release bytes vs the original, assistant turns) | KL **0.150**, same top-1 **88.2%** (13-bit everywhere: 0.223; [details](#measured-on-the-converted-bytes)) |
-| Runtime | [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs), family `minimax_m3_vq` ([draft PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110)) |
+| Runtime | [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs), family `minimax_m3_vq` ([merged PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110)) |
 
 ## DGX Spark performance
 
-Remeasured **2026-10-27**, after three adopted prefill and three adopted plain-decode rounds in
-[ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/minimax-vq-optimization-2026-10-27.md), native source `84960118`.
+Remeasured **2026-10-29**, after three new Prefill adoptions: residual FP4 index scoring,
+register query preparation and BF16-pair sparse-attention staging. These changes are in
+[PR #126](https://github.com/Baekpica/ds4-dfm-rs/pull/126), **open at publication**; use its
+`1358c3d3` revision to reproduce the results. The six sweeps were recorded at `3a3486be`;
+`1358c3d3` adds the final report without changing native code. See the
+[campaign report](https://github.com/Baekpica/ds4-dfm-rs/blob/1358c3d3e0b1314df558d4e5cdb70dd844511515/docs/minimax-vq-optimization-2026-10-29.md) and [raw receipts/reproduction](https://github.com/Baekpica/ds4-dfm-rs/blob/1358c3d3e0b1314df558d4e5cdb70dd844511515/docs/benchmarks/minimax-vq-prefill-2026-10-29/README.md).
+
 One DGX Spark / GB10, CUDA 13.4.92, driver 615.71.10; operator-managed **300–2200 MHz** range,
-observed busy SM **2,177–2,190 MHz**. Model weights and the release manifest are unchanged.
+observed busy SM **2,177–2,190 MHz**. The release weights and manifest are unchanged.
+Six fresh processes compare all three new paths off versus on, three repeats each, in
+**off/on/on/off/off/on** order. Each of 32 frontiers from 2K to 64K adds 2,048 prompt tokens,
+generates 128 forced non-EOS output tokens with gated **DSpark draft 3**, then restores the
+prompt snapshot. Allocation is **524,288 tokens**, with resident index keys and SSD-tier K/V
+(0.66 GiB pinned pool, 0.07 GiB prefill stage); the workspace cap is **2,048 rows**.
+Prompt: `speed-bench/promessi_sposi.txt`. No extra warmup: 2K is the first measured prefill.
+The Prefill timing includes DSpark context preparation.
 
-Three fresh benchmark processes cover 32 frontiers from 2K to 64K. Each adds 2,048 prompt tokens,
-generates 128 forced non-EOS greedy tokens with **gated DSpark draft 3**, then restores the prompt
-snapshot. The allocated context is 524,288 tokens: index keys resident, K/V pages in the SSD tier
-(0.66 GiB pinned pool and 0.07 GiB prefill stage). The workspace cap is **2,048 rows**, matching each
-actual frontier, rather than the older 4,096-row cap. Prompt: `speed-bench/promessi_sposi.txt`.
-There is no extra 4K warmup; 2K is each process's first measured prefill.
+![MiniMax-M3.1-Flash VQ matched Prefill comparison; Decode is a forced-continuation observation](assets/minimax-vq-spark-64k-throughput.png)
 
-![MiniMax-M3.1-Flash VQ prefill and DSpark decode on one DGX Spark, 2K to 64K](assets/minimax-vq-spark-64k-throughput.png)
+| Prefill measure | All off, median [min–max] | All on, median [min–max] | Change |
+|---|---:|---:|---:|
+| Mean of 32 frontier rates, tok/s | 1,001.85 [996.93–1,004.99] | **1,020.29 [1,019.50–1,020.53]** | **+1.84%** |
+| 8K, last 2,048 tokens, tok/s | 1,051.22 [1,050.04–1,056.41] | 1,059.90 [1,054.06–1,060.38] | +0.83% |
+| 64K, last 2,048 tokens, tok/s | 962.45 [948.29–962.49] | **990.08 [987.69–995.63]** | **+2.87%** |
+| 8K→64K rate decline | 8.44% | **6.59%** | −1.86 percentage points |
 
-| Median of three run means | Prefill tok/s | Decode tok/s |
-|---|---:|---:|
-| DSpark draft 3 gated, 2K–64K | **1,011.0** | **22.10** |
-| DSpark draft 3 gated, 2K–32K | 1,033.1 | 21.90 |
+All three pairs improve the mean and the 64K rate. Individual-run 8K→64K declines are
+8.34–9.79% off and 6.06–6.86% on. The decline is reduced, not removed; 64K remains below
+1,000 tok/s. These are incremental rates, not a cold full-64K prompt rate. Per-round gains
+are not added or multiplied into this matched comparison.
+
+Selected frontiers with all three paths **on** (medians of three runs):
 
 | Frontier | 2K | 4K | 8K | 16K | 32K | 48K | 64K |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Prefill tok/s | 983.5 | 1,069.3 | 1,054.6 | 1,036.4 | 1,007.0 | 988.7 | 966.6 |
-| Decode tok/s | 24.27 | 24.94 | 19.64 | 21.86 | 20.21 | 26.70 | 19.80 |
+| Prefill tok/s | 970.9 | 1,066.6 | 1,059.9 | 1,046.5 | 1,013.1 | 1,006.8 | 990.1 |
+| Raw Decode tok/s | 24.48 | 24.33 | 19.18 | 21.88 | 20.47 | 22.42 | 23.61 |
 
-Curves are per-frontier medians; bands show the observed min–max of the three runs, not a confidence
-interval. Legends use the median of run means. Run-mean ranges are **0.19% prefill / 1.39% decode**.
-The timing-based gate can choose different draft/plain call sequences in a short frontier despite
-identical output: at 58K, **48 / 48 / 74 calls**, **27.11 / 26.92 / 22.71 tok/s**, a 16.34% min–max
-range relative to the median. The bands retain that variability; these are prose-specific adaptive
-decode measurements, not a fixed steady rate at every frontier.
+Curves are per-frontier medians; bands show observed min–max for **both** settings, not confidence
+intervals. Legends use the median of run means. Raw Decode's on run means span **22.28–22.41 tok/s**
+(median **22.34**), but these repetitive raw-text continuations do **not** qualify a Decode speedup
+or representative MTP quality. The timing gate changes draft/plain call sequences; a speculative
+step can commit EOS internally while this forced-length benchmark filters EOS from output.
+Thus repeated emitted IDs can differ: on at 8K, off at 18K. The graph retains those observations.
 
-All 96 frontier observations have 200,064 finite logits and 128 generated IDs; repeats agree bit for
-bit on all logits and tokens. The recorded cycles confirm speculative mode and draft 3. All three
-guard/payload exits are 0, full-run memory PSI is 0, minimum available host memory is **5.88 GiB**.
-CPU helpers use performance cores `5-9,15-19`; the serial submission thread stays on CPU 5.
-The first default-cap run lost its controller to systemd-oomd and is excluded from the graph; the
-three retained runs use the smaller workspace and a PSI abort threshold as well as the 2 GiB guard.
+All 192 frontier observations have 200,064 finite logits; Prefill logits match exactly across
+repeats of each setting. All 24,576 emitted IDs and draft-3 cycle budgets are valid. The six
+processes exit 0 with **PSI 0** and minimum available memory **5.811 GiB**. Helpers use `5-9,15-19`;
+the serial thread stays on CPU 5 at 3.9 GHz. Each launch uses `clear_cache` and the host guard
+with **2 GiB reserve/trip and 20% PSI limit**. Two initial allocation failures produced no measured
+frontier and are excluded; six runs completed after host recovery/compaction. Stable sampled
+clocks and PSI do not explain every transient; the first 2K and later low samples remain visible.
 
-The separate **resident plain-decode** adoption cohort uses a 131,072-token allocation, 4,096-row
-warmup/chunks, MTP off and 1,024 generated tokens. 64K is a 57,344-token suffix after restoring 8K:
+P1 changes arithmetic. Seven held-out 8K–64K text cases calibrate it against an accepted same-host
+arithmetic change: NLL bias/RMS are at that reference level; at 64K there are six additional
+top-1 differences among 636 assistant positions. This is a disclosed numerical cost, not a
+broad quality improvement. The [report](https://github.com/Baekpica/ds4-dfm-rs/blob/1358c3d3e0b1314df558d4e5cdb70dd844511515/docs/minimax-vq-optimization-2026-10-29.md) also records matched fixed-tail Decode checks,
+per-kernel costs, fallbacks, rejected trials and native fixtures.
 
-| Resident frontier | Prefill tok/s | Plain decode tok/s |
-|---|---:|---:|
-| 8K | 1,224.27 | 21.45 |
-| 64K | 1,144.61 | 21.09 |
-
-The [per-round report](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/minimax-vq-optimization-2026-10-27.md) records each matched A/B,
-exact-output gates, rejected probes and costs. The six marginal gains are not added or multiplied.
-The [fresh sweep receipt](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/benchmarks/minimax-vq-spark-64k-2026-10-27/README.md) retains
-all CSVs, raw clocks, conditions, correctness/cycle hashes, frozen binary identity and the command.
-
-The [previous graph](https://huggingface.co/Baekpica/MiniMax-M3.1-Flash-VQ-GGUF/resolve/2789cbaf1b7dce505d55d6026a67c10e1815c78c/assets/minimax-vq-spark-64k-throughput.png)
-(2026-10-24, 905.1 / 19.56) remains historical. Its clock metadata is unreconciled, and runtime,
-workspace cap and proof collection differ, so no cumulative A/B percentage is claimed.
-[Dated 124K/256K/1M records](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/minimax-vq.md#historical-frontiers-2026-10-24) remain
-separate; no HTTP, vision, full-512K or 1M gate was rerun for this graph.
+The [October 27 sweep](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/benchmarks/minimax-vq-spark-64k-2026-10-27/README.md)
+and [previous graph](https://huggingface.co/Baekpica/MiniMax-M3.1-Flash-VQ-GGUF/resolve/a0e8233d319040f18801f85a2d381568a6081e58/assets/minimax-vq-spark-64k-throughput.png)
+remain historical, as do the [resident plain-decode and longer-context records](https://github.com/Baekpica/ds4-dfm-rs/blob/9b9dc795697c8182825bfe716fe1ca8eab0519ee/docs/minimax-vq.md#historical-frontiers-2026-10-24).
+No HTTP, media, full-512K or full-model 1M gate was rerun for this graph.
 
 ## Why this design: MSA keeps every token, the indexer says which ones to read
 
@@ -344,9 +347,10 @@ Transformers loaders do not read this format.
   runtime streams each layer's blocks while the previous layer computes. An exact 1,048,319-token
   prompt takes 30 minutes (580 tok/s).
 - DSpark's gain depends on the text: on raw Italian prose its proposals are often rejected, and the
-  runtime then decodes plainly ([above](#dgx-spark-performance)). Greedy DSpark output equals plain
-  decoding.
-- The custom format needs ds4-dfm-rs's `minimax_m3_vq` family ([draft PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110), not merged yet).
+  runtime then decodes plainly. The forced-continuation sweep can take different EOS/draft/plain
+  paths across repeats; it does not qualify general Decode speedup or MTP quality
+  ([details above](#dgx-spark-performance)).
+- The custom format needs ds4-dfm-rs's `minimax_m3_vq` family ([merged PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110)).
 
 ## Upstream scores
 
