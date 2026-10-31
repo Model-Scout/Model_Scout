@@ -244,8 +244,15 @@ def collect_data_go_kr(session, refresh, workers):
     files = cached("data_go_kr_dataset", fetch_list("dataset"), refresh)
     apis = cached("data_go_kr_openapi", fetch_list("open-data-list"), refresh)
 
+    # 표준데이터: ~300 national schemas (전국공중화장실표준데이터 ...), registered by 공공데이터활용지원센터
+    # with a blank file type; the ~13K standard-list rows are each region's submission to one of them.
     standard = cached("data_go_kr_standard", fetch_list("standard-data-list"), refresh)
     standard_ids = {r.get("list_id") for r in standard}
+    standard_desc, submissions = {}, defaultdict(list)
+    for r in standard:
+        if len(r.get("desc") or "") > len(standard_desc.get(r.get("list_id"), "")):
+            standard_desc[r.get("list_id")] = r.get("desc") or ""
+        submissions[r.get("list_id")].append(r.get("title"))
     usable = lambda r: r.get("is_deleted") != "Y" and len(r.get("desc") or "") >= MIN_DESCRIPTION_CHARS
 
     apis_by_list = {}
@@ -256,9 +263,12 @@ def collect_data_go_kr(session, refresh, workers):
     picked += [(r, True, "B_ready_api") for r in apis_by_list.values() if r.get("is_core_data") != "Y"
                and publisher_level(r.get("org_nm")) != "local" and r.get("is_confirmed_for_prod") == "Y"]
 
+    for row in files:
+        if row["id"] in standard_ids and row.get("is_deleted") != "Y":
+            desc = max(row.get("desc") or "", standard_desc.get(row["id"], ""), key=len)
+            picked.append(({**row, "desc": desc, "ext": row.get("ext") or "csv"}, False, "C_standard"))
     files_ok = [r for r in files if usable(r) and (r.get("ext") or "").lower() in USABLE_EXTENSIONS]
     national = [r for r in files_ok if publisher_level(r.get("org_nm")) != "local"]
-    picked += [(r, False, "C_standard") for r in national if r["id"] in standard_ids]
     by_category, seen_series = defaultdict(list), set()
     for row in sorted((r for r in national if r["id"] not in standard_ids), key=lambda r: -(r.get("view_cnt") or 0)):
         key = series_key(row.get("title"))
@@ -293,9 +303,10 @@ def collect_data_go_kr(session, refresh, workers):
         title, desc = row.get("title") or row.get("list_title"), " ".join((row.get("desc") or "").replace("<br/>", " ").split())
         keywords = [k.strip() for k in (row.get("keywords") or "").split(",") if k.strip()]
         category = row.get("new_category_nm") or row.get("category_nm")
-        formats = ["api"] if is_api else [(row.get("ext") or "").lower()]
+        formats = ["api"] if is_api else ["csv", "api"] if tier == "C_standard" else [(row.get("ext") or "").lower()]
         license_value = kogl_license(licenses.get(row["id"]))
-        regional = variants.get(series_key(title), [])
+        regional = submissions.get(row["id"]) if tier == "C_standard" else variants.get(series_key(title), [])
+        regional = regional or []
         readme = "\n".join([f"# {title}", "", desc, "", f"제공기관: {row.get('org_nm')}", f"분류: {category}",
                             f"키워드: {', '.join(keywords)}", f"형식: {', '.join(formats)}", f"선정 기준: {TIER_LABELS[tier]}",
                             f"수정일: {row.get('updated_at')}", f"이용허락: {licenses.get(row['id']) or 'unknown'}"]

@@ -3,7 +3,6 @@ type: "dataset"
 id: "data_go_kr/3069954"
 source: "data_go_kr"
 url: "https://www.data.go.kr/data/3069954/openapi.do"
-downloads: 674
 readme_status: "ok"
 readme_language: "ko"
 korean_focus: "ko_only"
@@ -12,13 +11,13 @@ input_modality:
 language:
   - "[[한국어]]"
 commercial_use:
-  - "[[이용 조건 미확인]]"
+  - "[[상업 이용 가능]]"
 domain:
   - "[[문화·관광]]"
 dataset_role:
   - "[[서비스 데이터]]"
 data_format:
-  - "[[XML]]"
+  - "[[API]]"
 ---
 # data_go_kr/3069954
 
@@ -28,7 +27,7 @@ data_format:
 
 - **입력 형식**: [[표 (입력 형식)|표]] — metadata · modality = `tabular` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
-- **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
+- **상업 이용**: [[상업 이용 가능]] — metadata · license = `이용허락범위 제한 없음` · 신뢰도 high
 - **도메인**: [[문화·관광]] — tag_match · tags, title/keywords = `관광` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
-- **데이터 형식**: [[XML]] — metadata · format = `xml` · 신뢰도 high
+- **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high

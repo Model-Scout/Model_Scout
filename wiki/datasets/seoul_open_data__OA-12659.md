@@ -3,7 +3,7 @@ type: "dataset"
 id: "seoul_open_data/OA-12659"
 source: "seoul_open_data"
 url: "https://data.seoul.go.kr/dataList/OA-12659/A/1/datasetView.do"
-readme_status: "thin"
+readme_status: "ok"
 readme_language: "ko"
 korean_focus: "ko_only"
 input_modality:

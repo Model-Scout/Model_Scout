@@ -16,7 +16,6 @@ dataset_role:
   - "[[서비스 데이터]]"
 data_format:
   - "[[API]]"
-  - "[[CSV]]"
 ---
 # seoul_open_data/OA-13663
 
@@ -29,8 +28,3 @@ data_format:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `공공누리 제1유형` · 신뢰도 high
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
-- **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
-
-## 같은 데이터의 사본·중복 등록
-
-- `data_go_kr/15011772`

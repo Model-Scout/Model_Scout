@@ -16,6 +16,7 @@ dataset_role:
   - "[[서비스 데이터]]"
 data_format:
   - "[[API]]"
+  - "[[XML]]"
 ---
 # seoul_open_data/OA-22270
 
@@ -28,7 +29,10 @@ data_format:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `공공누리 제1유형` · 신뢰도 high
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+- **데이터 형식**: [[XML]] — metadata · format = `xml` · 신뢰도 high
 
 ## 같은 데이터의 사본·중복 등록
 
+- `data_go_kr/15146171`
+- `data_go_kr/15146353`
 - `seoul_open_data/OA-21778`

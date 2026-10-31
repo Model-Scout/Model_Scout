@@ -18,6 +18,7 @@ domain:
 dataset_role:
   - "[[서비스 데이터]]"
 data_format:
+  - "[[API]]"
   - "[[CSV]]"
 ---
 # data_go_kr/3039644
@@ -31,4 +32,9 @@ data_format:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `이용허락범위 제한 없음` · 신뢰도 high
 - **도메인**: [[행정·민원]] — tag_match · tags, title/keywords = `통일외교안보` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
+- **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `data_go_kr/15099192`
