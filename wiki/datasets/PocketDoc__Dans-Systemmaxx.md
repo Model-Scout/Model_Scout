@@ -4,6 +4,7 @@ id: "PocketDoc/Dans-Systemmaxx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Systemmaxx"
 downloads: 74
+summary: "PocketDoc/Dans-Systemmaxx 데이터셋은 Gryphe와 Caitlyn의 작업을 기반으로 만들어진 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -28,9 +29,11 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/PocketDoc/Dans-Systemmaxx)
 
+PocketDoc/Dans-Systemmaxx 데이터셋은 Gryphe와 Caitlyn의 작업을 기반으로 만들어진 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 high
+- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:generation = `text` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation = `text` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high

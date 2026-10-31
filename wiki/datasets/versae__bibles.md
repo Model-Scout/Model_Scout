@@ -13,6 +13,8 @@ language:
   - "[[영어]]"
   - "[[한국어]]"
   - "[[다국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
 dataset_size:
@@ -28,5 +30,8 @@ dataset_size:
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `32 languages` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `61` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+샘플 길이: `text` 열 p90 244자 ≈ 61 토큰 (viewer statistics, division/validation)

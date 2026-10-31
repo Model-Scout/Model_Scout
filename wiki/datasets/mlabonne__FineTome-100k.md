@@ -4,11 +4,16 @@ id: "mlabonne/FineTome-100k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/FineTome-100k"
 downloads: 18421
+summary: "FineTome-100k는 Llama 3.1 초효율 미세조정을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[텍스트 생성]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
 dataset_role:
@@ -22,11 +27,15 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/mlabonne/FineTome-100k)
 
+FineTome-100k는 Llama 3.1 초효율 미세조정을 위한 데이터셋입니다.
+
 ## 분류
 
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **작업**: [[텍스트 생성]] — ner · readme = `Fine-tune Llama 3.1 Ultra-Efficiently with Unsloth` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `The FineTome dataset is a subset of arcee-ai/The-Tome` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `Fine-tune Llama 3.1 Ultra-Efficiently with Unsloth` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `It was made for my article "Fine-tune Llama 3.1 Ultra-Efficiently with Unsloth"` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 

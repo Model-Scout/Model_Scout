@@ -169,8 +169,8 @@ facet: [[언어]] · 개념 id `language/es`
 - [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
 - [[launch__MCLASH|launch/MCLASH]]
-- [[Noename__MAVL|Noename/MAVL]]
 - [[legacy-datasets__multilingual_librispeech|legacy-datasets/multilingual_librispeech]]
+- [[Noename__MAVL|Noename/MAVL]]
 - [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
 - [[jaylacho__TOPSD-train|jaylacho/TOPSD-train]]
 - [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
@@ -179,9 +179,9 @@ facet: [[언어]] · 개념 id `language/es`
 - [[recursal__MDN|recursal/MDN]]
 - [[vector-institute__HumaniBench|vector-institute/HumaniBench]]
 - [[patrickamadeus__pawsx_mt_triplet|patrickamadeus/pawsx_mt_triplet]]
-- [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
 - [[florapeterpaul3__geeklink-ocr-benchmark|florapeterpaul3/geeklink-ocr-benchmark]]
 - [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
+- [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
 - [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
 - [[UTokyo-Yokoya-Lab__arxiv-clustering-p2p_CS-MTEB|UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
@@ -205,20 +205,20 @@ facet: [[언어]] · 개념 id `language/es`
 - [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
 - [[shantanugoel__universal-prompt-enhancer|shantanugoel/universal-prompt-enhancer]]
-- [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
 - [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
+- [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 748
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 711
-- [[텍스트 생성]] (작업) · 공유 557
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 752
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 744
+- [[텍스트 생성]] (작업) · 공유 573
 - [[조건부 이용]] (상업 이용) · 공유 364
 - [[상업 이용 가능]] (상업 이용) · 공유 331
-- [[초장문]] (입력 길이) · 공유 304
+- [[초장문]] (입력 길이) · 공유 305
 - [[소형 모델]] (모델 크기) · 공유 125
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 112
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 113
 - [[중형 모델]] (모델 크기) · 공유 107
 - [[초경량 모델]] (모델 크기) · 공유 106
 - [[이미지 이해]] (작업) · 공유 104
-- [[비상업 전용]] (상업 이용) · 공유 55
+- [[일반]] (도메인) · 공유 69

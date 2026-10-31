@@ -4,6 +4,7 @@ id: "jp1924-audio-1/GanwonSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jp1924-audio-1/GanwonSpeech"
 downloads: 98
+summary: "강원도 방언 음성 데이터로 음성 인식 모델 학습에 사용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_only"
@@ -18,6 +19,8 @@ language:
   - "[[한국어]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
+domain:
+  - "[[일반]]"
 data_format:
   - "[[Parquet]]"
 dataset_size:
@@ -27,13 +30,21 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/jp1924-audio-1/GanwonSpeech)
 
+강원도 방언 음성 데이터로 음성 인식 모델 학습에 사용되는 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[음성 인식]] — metadata · task_categories = `automatic-speech-recognition` · 신뢰도 high
-- **입력 형식**: [[음성 (입력 형식)|음성]] — metadata · modality, task:speech_recognition = `audio` · 신뢰도 high
+- **작업**: [[음성 인식]] — metadata · readme, task_categories = `automatic-speech-recognition` · 신뢰도 high
+- **입력 형식**: [[음성 (입력 형식)|음성]] — ner · modality, readme, task:speech_recognition = `- name: audio
+dtype:
+audio:
+sampling_rate: 16000` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:speech_recognition = `text` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:speech_recognition = `- name: sentence
+dtype: string` · 신뢰도 medium
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `language:
+- ko` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high

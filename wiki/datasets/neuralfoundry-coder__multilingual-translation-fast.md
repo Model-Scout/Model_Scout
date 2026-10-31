@@ -4,6 +4,7 @@ id: "neuralfoundry-coder/multilingual-translation-fast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/multilingual-translation-fast"
 downloads: 97
+summary: "7개 언어쌍의 균형 잡힌 다국어 번역 데이터셋으로 빠른 학습 및 평가에 사용됨"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -24,6 +25,10 @@ language:
   - "[[중국어]]"
 commercial_use:
   - "[[비상업 전용]]"
+domain:
+  - "[[일반]]"
+dataset_role:
+  - "[[학습용]]"
 data_format:
   - "[[JSON]]"
 dataset_size:
@@ -33,9 +38,11 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/neuralfoundry-coder/multilingual-translation-fast)
 
+7개 언어쌍의 균형 잡힌 다국어 번역 데이터셋으로 빠른 학습 및 평가에 사용됨
+
 ## 분류
 
-- **작업**: [[번역]] — metadata · tags, task_categories = `translation` · 신뢰도 high
+- **작업**: [[번역]] — metadata · readme, tags, task_categories = `translation` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:translation = `text` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:translation = `text` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
@@ -47,5 +54,7 @@ dataset_size:
 - **언어**: [[vi]] — metadata · languages = `vi` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-sa-4.0` · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `다국어 번역 모델의 빠른 학습 및 평가를 위한 균형 잡힌 데이터셋입니다.` · 신뢰도 low
+- **데이터 용도**: [[학습용]] — ner · readme = `7개 언어쌍에서 각각 동일한 수량을 랜덤 추출하여 구성했습니다.` · 신뢰도 low
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high

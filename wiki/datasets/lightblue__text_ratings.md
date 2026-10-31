@@ -14,6 +14,8 @@ language:
   - "[[영어]]"
   - "[[한국어]]"
   - "[[다국어]]"
+input_length:
+  - "[[중문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 data_format:
@@ -32,6 +34,9 @@ dataset_size:
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `44 languages` · 신뢰도 high
+- **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `3423` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+샘플 길이: `text` 열 p90 13693자 ≈ 3423 토큰 (viewer statistics, ko/train)

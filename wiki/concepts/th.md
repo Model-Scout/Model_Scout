@@ -43,26 +43,26 @@ facet: [[언어]] · 개념 id `language/th`
 - [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
 - [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
 - [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
-- [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
 - [[li-lab__MultiMed-X|li-lab/MultiMed-X]]
+- [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
 - [[telepix__STELLA|telepix/STELLA]]
 - [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
 - [[NeuralMetrics__P-MMEval|NeuralMetrics/P-MMEval]]
-- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[li-lab__MentalHealthBenchX|li-lab/MentalHealthBenchX]]
+- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 35
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 38
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 31
 - [[상업 이용 가능]] (상업 이용) · 공유 29
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 20
+- [[일반]] (도메인) · 공유 25
+- [[학습용]] (데이터 용도) · 공유 22
+- [[단문]] (입력 길이) · 공유 22
+- [[평가용]] (데이터 용도) · 공유 17
+- [[텍스트 분류]] (작업) · 공유 16
+- [[텍스트 생성]] (작업) · 공유 15
 - [[중규모 데이터]] (데이터 규모) · 공유 14
 - [[Parquet]] (데이터 형식) · 공유 13
-- [[대규모 데이터]] (데이터 규모) · 공유 9
-- [[텍스트 생성]] (작업) · 공유 9
-- [[JSON]] (데이터 형식) · 공유 9
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 8
-- [[평가용]] (데이터 용도) · 공유 8
-- [[소규모 데이터]] (데이터 규모) · 공유 7
-- [[표 (입력 형식)|표]] (입력 형식) · 공유 7
+- [[질의응답]] (작업) · 공유 12

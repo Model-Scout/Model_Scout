@@ -4,6 +4,7 @@ id: "neulab/PangeaBench-xchat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/PangeaBench-xchat"
 downloads: 91
+summary: "다국어 시각 질문응답 데이터셋으로 8개 언어의 이미지 기반 질문응답에 사용됨"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -24,6 +25,8 @@ language:
   - "[[다국어]]"
   - "[[rw]]"
   - "[[중국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 dataset_role:
@@ -37,12 +40,15 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/neulab/PangeaBench-xchat)
 
+다국어 시각 질문응답 데이터셋으로 8개 언어의 이미지 기반 질문응답에 사용됨
+
 ## 분류
 
-- **작업**: [[이미지 이해]] — metadata · task_categories = `visual-question-answering` · 신뢰도 high
-- **입력 형식**: [[이미지 (입력 형식)|이미지]] — metadata · modality, task:visual_qa = `image` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:visual_qa = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:visual_qa = `text` · 신뢰도 medium
+- **작업**: [[이미지 이해]] — metadata · readme, task_categories = `visual-question-answering` · 신뢰도 high
+- **입력 형식**: [[이미지 (입력 형식)|이미지]] — ner · modality, readme, task:visual_qa = `- name: image` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:visual_qa = `- name: text` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:visual_qa = `task_categories:
+- visual-question-answering` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[es]] — metadata · languages = `es` · 신뢰도 high
 - **언어**: [[hi]] — metadata · languages = `hi` · 신뢰도 high
@@ -52,7 +58,10 @@ dataset_size:
 - **언어**: [[다국어]] — metadata · languages = `8 languages` · 신뢰도 high
 - **언어**: [[rw]] — metadata · languages = `rw` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `55` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **데이터 용도**: [[평가용]] — name_rule · dataset_id/tags = `evaluation` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+샘플 길이: `text` 열 p90 220자 ≈ 55 토큰 (viewer statistics, default/chinese)

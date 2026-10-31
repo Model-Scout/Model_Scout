@@ -8,6 +8,9 @@ relation); a shared language alone is not a reason to recommend data.
 input_length is ordinal: a dataset longer than the model's context is excluded, an equal
 bin scores full weight (good for evaluating that length), a shorter bin half.
 
+Each link counts by its confidence: metadata high, README-quoted NER medium, unconfirmed
+tags and loosely quoted NER low. A low-confidence task alone does not admit a dataset.
+
 Dense similarity (same text-embedding-3-small space as the model documents) breaks the many
 ties that coarse metadata leaves and lets datasets without task metadata in when their
 README is clearly on topic. A small quality prior prefers used, documented, Korean data.
@@ -36,7 +39,11 @@ TRAINED_WITH_BONUS = 5.0
 DENSE_WEIGHT = 10.0
 # Datasets with no task metadata (NER not run yet) enter only above this cosine.
 DENSE_ONLY_MIN = 0.45
+# ponytail: relevance floor for every candidate when a query vector exists; off-topic data with
+# right-looking tags sits ~0.35-0.39, real matches >= 0.42. Re-tune on the golden set.
+DENSE_MIN = 0.40
 README_PENALTY = {"template": -2.0, "thin": -2.0, "missing": -2.0}
+CONFIDENCE_WEIGHT = {"high": 1.0, "medium": 0.8, "low": 0.3}
 KOREAN_FOCUS_BONUS = {"ko_only": 1.5, "ko_with_others": 1.0, "wide_multilingual": 0.0, "not_ko": -1.0}
 
 
@@ -49,14 +56,15 @@ def _read(name):
 def load_graph():
     entities = {e["entity_id"]: e for e in _read("entities.jsonl")}
     concepts = {c["concept_id"]: c for c in _read("concepts.jsonl")}
-    by_entity, members = defaultdict(set), defaultdict(set)
+    by_entity, members, confidence = defaultdict(set), defaultdict(set), {}
     for link in _read("links.jsonl"):
         by_entity[link["entity_id"]].add(link["concept_id"])
         members[link["concept_id"]].add(link["entity_id"])
+        confidence[link["entity_id"], link["concept_id"]] = CONFIDENCE_WEIGHT[link["confidence"]]
     trained_with = defaultdict(set)
     for rel in _read("relations.jsonl"):
         trained_with[rel["source"]].add(rel["target"])
-    return entities, concepts, by_entity, members, trained_with
+    return entities, concepts, by_entity, members, trained_with, confidence
 
 
 @functools.lru_cache(maxsize=1)
@@ -120,7 +128,7 @@ def concepts_from_terms(terms):
 
 
 def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10):
-    entities, concepts, by_entity, members, _ = load_graph()
+    entities, concepts, by_entity, members, _, confidence = load_graph()
     dense = dense_scores(query_vector) if query_vector is not None else {}
     n = len(entities)
     target_tasks = {c for c in target_concepts if c.startswith("task/")}
@@ -132,9 +140,11 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         dataset_concepts = by_entity[entity_id]
         linked = entity_id in trained_with
         similarity = dense.get(entity["name"])
-        has_task = any(c.startswith("task/") for c in dataset_concepts)
+        trusted_tasks = {c for c in dataset_concepts if c.startswith("task/") and confidence[entity_id, c] >= 0.8}
         topical = similarity is not None and similarity >= DENSE_ONLY_MIN
-        if not (target_tasks & dataset_concepts or linked or (topical and not has_task)):
+        if not (target_tasks & trusted_tasks or linked or (topical and not trusted_tasks)):
+            continue
+        if similarity is not None and similarity < DENSE_MIN and not linked:
             continue
         if commercial_only and "commercial_use/commercial" not in dataset_concepts:
             continue
@@ -146,8 +156,9 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         for concept_id in sorted(target_concepts & dataset_concepts):
             facet = concept_id.split("/", 1)[0]
             if facet in FACET_WEIGHTS and facet != "input_length":
-                score += FACET_WEIGHTS[facet] * math.log(n / len(members[concept_id]))
-                reasons.append(concepts[concept_id]["label"])
+                weight = confidence[entity_id, concept_id]
+                score += weight * FACET_WEIGHTS[facet] * math.log(n / len(members[concept_id]))
+                reasons.append(concepts[concept_id]["label"] + ("?" if weight < 0.8 else ""))
         dataset_length = _length_rank(dataset_concepts)
         if target_length is not None and dataset_length is not None:
             if dataset_length > target_length:
@@ -165,13 +176,14 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         results.append({"dataset": entity["name"], "score": round(score, 3), "graph_score": round(graph_score, 3),
                         "dense": None if similarity is None else round(similarity, 3), "reasons": reasons,
                         "downloads": entity.get("downloads"), "url": entity["url"],
-                        "readme_status": entity.get("readme_status"), "korean_focus": entity.get("korean_focus")})
+                        "readme_status": entity.get("readme_status"), "korean_focus": entity.get("korean_focus"),
+                        "summary_ko": entity.get("summary_ko")})
     results.sort(key=lambda r: (-r["score"], -(r["downloads"] or 0)))
     return results[:limit]
 
 
 def datasets_for_model(model_id, **filters):
-    entities, _, by_entity, _, trained_with = load_graph()
+    entities, _, by_entity, _, trained_with, _ = load_graph()
     entity_id = f"model:{model_id}"
     if entity_id not in entities:
         raise KeyError(f"{model_id} is not in the model corpus")

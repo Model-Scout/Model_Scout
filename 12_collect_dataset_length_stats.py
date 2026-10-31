@@ -26,6 +26,8 @@ SPLIT_PREFERENCE = ("validation", "test", "train")
 # Rough chars-per-token for current multilingual tokenizers; Korean packs far fewer chars per token.
 CHARS_PER_TOKEN = {"ko": 1.5, "default": 4.0}
 MAX_RETRIES = 4
+# Only these failures are worth re-measuring on the next run.
+TRANSIENT_REASONS = {"http_network", "http_429", "retries_exhausted"}
 # Encoded blobs and markup are string_text to the viewer but not prose a model reads as input.
 NON_PROSE_RE = re.compile(r"base64|bytes|html|xml|metadata|test_cases|^(?:image|audio|url|path|id)$|_(?:id|url|path)$", re.I)
 KO_CONFIG_RE = re.compile(r"(?:^|[._\-])(?:ko|kor|kor_hang|korean)(?:$|[._\-])", re.I)
@@ -42,7 +44,8 @@ def get_json(session, path, params):
             time.sleep(5 * 2**attempt)
             continue
         if response.status_code == 429 or response.status_code >= 500:
-            if attempt == MAX_RETRIES:
+            # Viewer 5xx are mostly persistent per dataset (501 = unsupported); retry once, not MAX_RETRIES.
+            if attempt == MAX_RETRIES or response.status_code >= 500 and attempt >= 1:
                 return None, f"http_{response.status_code}"
             time.sleep(int(response.headers.get("Retry-After") or 5 * 2**attempt))
             continue
@@ -130,7 +133,7 @@ def main():
     def stale(r):
         old = cached.get(r["dataset_id"])
         return (not old or old["sha"] != r["sha"]
-                or old["status"] == "unsupported" and old["reason"].startswith("http_")
+                or old["status"] == "unsupported" and old["reason"] in TRANSIENT_REASONS
                 or old["status"] == "ok" and bool(NON_PROSE_RE.search(old["text_column"])))
     todo = [r for r in rows if stale(r)]
     print(f"[LENGTH] {len(rows)} datasets, {len(rows) - len(todo)} cached, measuring {len(todo)}", flush=True)

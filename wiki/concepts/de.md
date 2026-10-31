@@ -179,15 +179,15 @@ facet: [[언어]] · 개념 id `language/de`
 - [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
 - [[grammarly__medit|grammarly/medit]]
 - [[patrickamadeus__pawsx_mt_triplet|patrickamadeus/pawsx_mt_triplet]]
-- [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
 - [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
+- [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
 - [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
 - [[UTokyo-Yokoya-Lab__arxiv-clustering-p2p_CS-MTEB|UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB]]
 - [[floschne__xgqa_1k|floschne/xgqa_1k]]
 - [[Reubencf__multilingual-synthetic-tts|Reubencf/multilingual-synthetic-tts]]
-- [[UTokyo-Yokoya-Lab__arguana_CS-MTEB|UTokyo-Yokoya-Lab/arguana_CS-MTEB]]
 - [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
 - [[operant-ai__doclaynet-document-level|operant-ai/doclaynet-document-level]]
+- [[UTokyo-Yokoya-Lab__arguana_CS-MTEB|UTokyo-Yokoya-Lab/arguana_CS-MTEB]]
 - [[meituan__PIE_bench|meituan/PIE_bench]]
 - [[logitly-ai__flash-coding-sft-v1|logitly-ai/flash-coding-sft-v1]]
 - [[inorganicwriter__SIGNPOST-Bench|inorganicwriter/SIGNPOST-Bench]]
@@ -209,15 +209,15 @@ facet: [[언어]] · 개념 id `language/de`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 743
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 709
-- [[텍스트 생성]] (작업) · 공유 566
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 749
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 743
+- [[텍스트 생성]] (작업) · 공유 585
 - [[조건부 이용]] (상업 이용) · 공유 373
 - [[초장문]] (입력 길이) · 공유 311
 - [[상업 이용 가능]] (상업 이용) · 공유 309
 - [[소형 모델]] (모델 크기) · 공유 119
 - [[중형 모델]] (모델 크기) · 공유 104
 - [[초경량 모델]] (모델 크기) · 공유 99
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 90
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 91
 - [[이미지 이해]] (작업) · 공유 84
-- [[비상업 전용]] (상업 이용) · 공유 60
+- [[일반]] (도메인) · 공유 68

@@ -86,8 +86,8 @@ facet: [[언어]] · 개념 id `language/it`
 - [[second-state__Mistral-Large-Instruct-2407-GGUF|second-state/Mistral-Large-Instruct-2407-GGUF]]
 - [[bartowski__Mistral-Large-Instruct-2411-GGUF|bartowski/Mistral-Large-Instruct-2411-GGUF]]
 - [[bartowski__c4ai-command-r-plus-GGUF|bartowski/c4ai-command-r-plus-GGUF]]
-- [[bartowski__openbuddy-qwen2.5coder-32b-v24.1q-200k-GGUF|bartowski/openbuddy-qwen2.5coder-32b-v24.1q-200k-GGUF]]
 - [[legraphista__Mistral-Small-Instruct-2409-IMat-GGUF|legraphista/Mistral-Small-Instruct-2409-IMat-GGUF]]
+- [[bartowski__openbuddy-qwen2.5coder-32b-v24.1q-200k-GGUF|bartowski/openbuddy-qwen2.5coder-32b-v24.1q-200k-GGUF]]
 - [[bartowski__openbuddy-llama3.3-70b-v24.1-131k-GGUF|bartowski/openbuddy-llama3.3-70b-v24.1-131k-GGUF]]
 - [[ente-ai__LFM2.5-VL-1.6B-GGUF|ente-ai/LFM2.5-VL-1.6B-GGUF]]
 - [[TheBloke__OpenBuddy-Llama2-13B-v11.1-GGUF|TheBloke/OpenBuddy-Llama2-13B-v11.1-GGUF]]
@@ -163,9 +163,9 @@ facet: [[언어]] · 개념 id `language/it`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 321
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 309
-- [[텍스트 생성]] (작업) · 공유 253
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 333
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 323
+- [[텍스트 생성]] (작업) · 공유 261
 - [[상업 이용 가능]] (상업 이용) · 공유 163
 - [[초장문]] (입력 길이) · 공유 138
 - [[조건부 이용]] (상업 이용) · 공유 108
@@ -173,5 +173,5 @@ facet: [[언어]] · 개념 id `language/it`
 - [[소형 모델]] (모델 크기) · 공유 50
 - [[중형 모델]] (모델 크기) · 공유 49
 - [[대형 모델]] (모델 크기) · 공유 46
-- [[초경량 모델]] (모델 크기) · 공유 26
-- [[중규모 데이터]] (데이터 규모) · 공유 23
+- [[일반]] (도메인) · 공유 35
+- [[학습용]] (데이터 용도) · 공유 30

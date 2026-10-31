@@ -4,6 +4,7 @@ id: "UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB"
 downloads: 95
+summary: "기후 관련 문서 검색을 위한 다국어 코드스위칭 쿼리 포함 MTEB 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -11,6 +12,8 @@ task:
   - "[[문서 검색]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 language:
   - "[[de]]"
   - "[[영어]]"
@@ -23,8 +26,14 @@ language:
   - "[[nl]]"
   - "[[pt]]"
   - "[[중국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
+domain:
+  - "[[환경·기상]]"
+dataset_role:
+  - "[[평가용]]"
 data_format:
   - "[[Parquet]]"
 dataset_size:
@@ -34,10 +43,13 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB)
 
+기후 관련 문서 검색을 위한 다국어 코드스위칭 쿼리 포함 MTEB 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[문서 검색]] — metadata · task_categories = `text-retrieval` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:retrieval = `text` · 신뢰도 high
+- **작업**: [[문서 검색]] — metadata · readme, task_categories = `text-retrieval` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:retrieval = `queries rewritten in Chinese-English, Japanese-English, German-English, Spanish-English, Korean-English, French-English, Italian-English, Portuguese-English, Du` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `Original relevance judgments (qrels)` · 신뢰도 low
 - **언어**: [[de]] — metadata · languages = `de` · 신뢰도 high
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[es]] — metadata · languages = `es` · 신뢰도 high
@@ -49,6 +61,11 @@ dataset_size:
 - **언어**: [[nl]] — metadata · languages = `nl` · 신뢰도 high
 - **언어**: [[pt]] — metadata · languages = `pt` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `47` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
+- **도메인**: [[환경·기상]] — ner · readme = `ClimateFEVER CS-MTEB` · 신뢰도 medium
+- **데이터 용도**: [[평가용]] — ner · readme = `Code-switching version of mteb/ClimateFEVER_test_top_250_only_w_correct-v2` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+샘플 길이: `text` 열 p90 188자 ≈ 47 토큰 (viewer statistics, queries_ko_en/test)

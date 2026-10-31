@@ -4,11 +4,16 @@ id: "TeichAI/claude-4.5-opus-high-reasoning-250x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TeichAI/claude-4.5-opus-high-reasoning-250x"
 downloads: 633
+summary: "Claude Opus 4.5 기반 고난이도 추론 질문 데이터셋으로 LLM 미세조정용입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[텍스트 생성]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
 dataset_role:
@@ -22,11 +27,15 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/TeichAI/claude-4.5-opus-high-reasoning-250x)
 
+Claude Opus 4.5 기반 고난이도 추론 질문 데이터셋으로 LLM 미세조정용입니다.
+
 ## 분류
 
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **작업**: [[텍스트 생성]] — ner · readme = `The dataset is meant for creating distilled versions of Claude Opus 4.5 by fine-tuning already existing open-source LLMs.` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `Total tokens (input + output): 2.13 M` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `Total tokens (input + output): 2.13 M` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `The dataset is meant for creating distilled versions of Claude Opus 4.5 by fine-tuning already existing open-source LLMs.` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
 

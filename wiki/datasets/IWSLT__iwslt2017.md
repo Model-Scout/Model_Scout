@@ -4,6 +4,7 @@ id: "IWSLT/iwslt2017"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IWSLT/iwslt2017"
 downloads: 1845
+summary: "IWSLT 2017 다국어 기계 번역 데이터로 여러 언어 간 번역에 사용됨."
 readme_status: "template"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -34,11 +35,13 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/IWSLT/iwslt2017)
 
+IWSLT 2017 다국어 기계 번역 데이터로 여러 언어 간 번역에 사용됨.
+
 ## 분류
 
-- **작업**: [[번역]] — metadata · task_categories = `translation` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — task_rule · task:translation = `text` · 신뢰도 medium
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:translation = `text` · 신뢰도 medium
+- **작업**: [[번역]] — metadata · readme, task_categories = `translation` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:translation = `text translation` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:translation = `text translation` · 신뢰도 medium
 - **언어**: [[ar]] — metadata · languages = `ar` · 신뢰도 high
 - **언어**: [[de]] — metadata · languages = `de` · 신뢰도 high
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high

@@ -4,12 +4,17 @@ id: "QuixiAI/dolphin-r1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/QuixiAI/dolphin-r1"
 downloads: 881
+summary: "Dolphin R1은 R1 스타일 추론 모델 학습용 80만 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[텍스트 생성]]"
 input_modality:
   - "[[표 (입력 형식)|표]]"
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 dataset_role:
@@ -23,12 +28,16 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/QuixiAI/dolphin-r1)
 
+Dolphin R1은 R1 스타일 추론 모델 학습용 80만 샘플 데이터셋입니다.
+
 ## 분류
 
+- **작업**: [[텍스트 생성]] — ner · readme = `The purpose of this dataset is to train R1-style reasoning models.` · 신뢰도 low
 - **입력 형식**: [[표 (입력 형식)|표]] — metadata · modality = `tabular` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `We create a 800k sample dataset similar in composition to the one used to train DeepSeek-R1 Distill models.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `The purpose of this dataset is to train R1-style reasoning models.` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `The purpose of this dataset is to train R1-style reasoning models.` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 

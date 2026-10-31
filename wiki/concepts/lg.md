@@ -62,8 +62,8 @@ facet: [[언어]] · 개념 id `language/lg`
 - [[LGAI-EXAONE__EXAONE-Deep-32B|LGAI-EXAONE/EXAONE-Deep-32B]]
 - [[second-state__EXAONE-3.5-7.8B-Instruct-GGUF|second-state/EXAONE-3.5-7.8B-Instruct-GGUF]]
 - [[Bingsu__exaone-3.0-7.8b-it|Bingsu/exaone-3.0-7.8b-it]]
-- [[second-state__EXAONE-Deep-7.8B-GGUF|second-state/EXAONE-Deep-7.8B-GGUF]]
 - [[second-state__EXAONE-3.5-2.4B-Instruct-GGUF|second-state/EXAONE-3.5-2.4B-Instruct-GGUF]]
+- [[second-state__EXAONE-Deep-7.8B-GGUF|second-state/EXAONE-Deep-7.8B-GGUF]]
 - [[LGAI-EXAONE__K-EXAONE-236B-A23B-GGUF|LGAI-EXAONE/K-EXAONE-236B-A23B-GGUF]]
 - [[LGAI-EXAONE__EXAONE-Deep-7.8B-GGUF|LGAI-EXAONE/EXAONE-Deep-7.8B-GGUF]]
 - [[QuantFactory__EXAONE-Deep-7.8B-GGUF|QuantFactory/EXAONE-Deep-7.8B-GGUF]]
@@ -99,8 +99,8 @@ facet: [[언어]] · 개념 id `language/lg`
 - [[GMODEOS__EXAONE-4.0-1.2B|GMODEOS/EXAONE-4.0-1.2B]]
 - [[tensorblock__EXAONE-3.5-7.8B-Instruct-Llamafied-GGUF|tensorblock/EXAONE-3.5-7.8B-Instruct-Llamafied-GGUF]]
 - [[OpenLLM-Korea__EXAONE-Deep-7.8B|OpenLLM-Korea/EXAONE-Deep-7.8B]]
-- [[LGAI-EXAONE__EXAONE-4.0-1.2B-GPTQ-Int8|LGAI-EXAONE/EXAONE-4.0-1.2B-GPTQ-Int8]]
 - [[lmstudio-community__EXAONE-4.0-1.2B-MLX-8bit|lmstudio-community/EXAONE-4.0-1.2B-MLX-8bit]]
+- [[LGAI-EXAONE__EXAONE-4.0-1.2B-GPTQ-Int8|LGAI-EXAONE/EXAONE-4.0-1.2B-GPTQ-Int8]]
 
 ## 함께 연결된 개념
 

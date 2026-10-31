@@ -20,7 +20,8 @@ facets:
         aliases: [text-retrieval, visual-document-retrieval, document retrieval, semantic search, dense retrieval, sparse retrieval, rag, 검색, 의미 검색]
       embedding:
         label: 임베딩
-        aliases: [feature-extraction, sentence-similarity, semantic-similarity-scoring, embeddings, sentence embedding, 문장 임베딩, 문장 유사도]
+        aliases: [feature-extraction, sentence-similarity, semantic-similarity-scoring, embeddings, sentence embedding, semantic textual similarity,
+                  sts, triplet, 문장 임베딩, 문장 유사도]
       reranking:
         label: 리랭킹
         aliases: [text-ranking, re-ranking, reranker, cross-encoder, 재정렬, 재순위화]
@@ -247,10 +248,10 @@ facets:
     values:
       train:
         label: 학습용
-        aliases: [training, pretraining, fine-tuning, instruction tuning, sft, 학습, 파인튜닝]
+        aliases: [training, pretraining, fine-tuning, fine-tune, instruction tuning, sft, trained, train split, 학습, 파인튜닝, 훈련]
       evaluation:
         label: 평가용
-        aliases: [benchmark, eval, test set, 벤치마크, 평가]
+        aliases: [benchmark, eval, evaluate, evaluates, evaluation suite, test set, test split, 벤치마크, 평가]
       service:
         label: 서비스 데이터
         aliases: [open api, 오픈 api, 파일데이터, 공공데이터]

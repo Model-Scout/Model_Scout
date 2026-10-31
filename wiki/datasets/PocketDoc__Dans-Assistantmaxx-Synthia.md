@@ -4,6 +4,7 @@ id: "PocketDoc/Dans-Assistantmaxx-Synthia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-Synthia"
 downloads: 7
+summary: "Synthia 데이터셋으로, PocketDoc/Dans-Assistantmaxx 관련 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -28,9 +29,11 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-Synthia)
 
+Synthia 데이터셋으로, PocketDoc/Dans-Assistantmaxx 관련 데이터입니다.
+
 ## 분류
 
-- **작업**: [[질의응답]] — metadata · task_categories = `question-answering` · 신뢰도 high
+- **작업**: [[질의응답]] — metadata · task_categories = `question-answering` · 신뢰도 low
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:question_answering = `text` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:question_answering = `text` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high

@@ -3,13 +3,20 @@
     "model": 3606,
     "dataset": 1760
   },
-  "links": 49320,
+  "links": 54803,
   "relations": 2060,
   "links_by_method": {
-    "metadata": 40225,
-    "tag_match": 341,
-    "task_rule": 8559,
-    "name_rule": 195
+    "metadata": 38712,
+    "ner": 7161,
+    "tag_match": 342,
+    "viewer_stats": 956,
+    "task_rule": 7564,
+    "name_rule": 68
+  },
+  "links_by_confidence": {
+    "high": 38259,
+    "low": 4086,
+    "medium": 12458
   },
   "coverage": {
     "model": {
@@ -23,14 +30,14 @@
       "model_size": "2191/3606"
     },
     "dataset": {
-      "task": "1262/1760",
-      "input_modality": "1683/1760",
-      "output_modality": "991/1760",
+      "task": "1613/1760",
+      "input_modality": "1748/1760",
+      "output_modality": "1559/1760",
       "language": "1571/1760",
-      "input_length": "0/1760",
+      "input_length": "956/1760",
       "commercial_use": "1760/1760",
-      "domain": "149/1760",
-      "dataset_role": "657/1760",
+      "domain": "1391/1760",
+      "dataset_role": "1578/1760",
       "data_format": "1325/1760",
       "update_frequency": "0/1760",
       "dataset_size": "1648/1760"

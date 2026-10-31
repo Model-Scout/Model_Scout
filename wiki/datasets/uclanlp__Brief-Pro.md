@@ -4,12 +4,18 @@ id: "uclanlp/Brief-Pro"
 source: "huggingface"
 url: "https://huggingface.co/datasets/uclanlp/Brief-Pro"
 downloads: 55
+summary: "BRIEF-Pro는 다중 홉 추론을 위한 빠르고 정확한 문맥 압축 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[임베딩]]"
+  - "[[문서 검색]]"
 input_modality:
   - "[[표 (입력 형식)|표]]"
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 dataset_role:
@@ -23,12 +29,17 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/uclanlp/Brief-Pro)
 
+BRIEF-Pro는 다중 홉 추론을 위한 빠르고 정확한 문맥 압축 데이터셋입니다.
+
 ## 분류
 
+- **작업**: [[임베딩]] — ner · readme = `Universal Context Compression with Short-to-Long Synthesis for Fast and Accurate Multi-Hop Reasoning` · 신뢰도 low
+- **작업**: [[문서 검색]] — ner · readme = `Fast and Accurate Multi-Hop Reasoning` · 신뢰도 low
 - **입력 형식**: [[표 (입력 형식)|표]] — metadata · modality = `tabular` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:embedding, task:retrieval = `Universal Context Compression with Short-to-Long Synthesis` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `Fast and Accurate Multi-Hop Reasoning` · 신뢰도 low
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `BRIEF-Pro: Universal Context Compression with Short-to-Long Synthesis for Fast and Accurate Multi-Hop Reasoning` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 

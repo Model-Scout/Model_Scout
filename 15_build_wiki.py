@@ -81,15 +81,18 @@ def render_entity(entity, links, relations, pages, concepts, entities):
     props = {"type": entity["kind"], "id": entity["name"], "source": entity["source"], "url": entity["url"],
              "downloads": entity.get("downloads")}
     if entity["kind"] == "dataset":
-        props.update(readme_status=entity.get("readme_status"), readme_language=entity.get("readme_language"),
-                     korean_focus=entity.get("korean_focus"))
+        props.update(summary=entity.get("summary_ko"), readme_status=entity.get("readme_status"),
+                     readme_language=entity.get("readme_language"), korean_focus=entity.get("korean_focus"))
     else:
         props.update(context_length=entity.get("context_length"), parameters_b=entity.get("parameter_count_billion"))
     for facet in FACET_ORDER:
         if by_facet.get(facet):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
-    body = [f"# {entity['name']}", "", f"> {entity['kind']} · [Hugging Face]({entity['url']})", "", "## 분류", ""]
+    body = [f"# {entity['name']}", "", f"> {entity['kind']} · [Hugging Face]({entity['url']})", ""]
+    if entity.get("summary_ko"):
+        body += [entity["summary_ko"], ""]
+    body += ["## 분류", ""]
     for facet in FACET_ORDER:
         for item in by_facet.get(facet, []):
             concept = concepts[item["concept_id"]]

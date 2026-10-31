@@ -7,7 +7,7 @@ aliases:
   - "document understanding"
   - "문서 인식"
   - "광학 문자 인식"
-members: 55
+members: 58
 ---
 # 문서 인식(OCR)
 
@@ -15,7 +15,7 @@ facet: [[작업]] · 개념 id `task/ocr`
 
 별칭: document-question-answering, document understanding, 문서 인식, 광학 문자 인식
 
-## 데이터셋 (55)
+## 데이터셋 (58)
 
 - [[Nishant2414__OCR-Synthetic-Multilingual-v1|Nishant2414/OCR-Synthetic-Multilingual-v1]]
 - [[Cognitive-Lab__NayanaOCR_Corpus_2025|Cognitive-Lab/NayanaOCR_Corpus_2025]]
@@ -34,6 +34,7 @@ facet: [[작업]] · 개념 id `task/ocr`
 - [[whybe-choi__ko-vdr-train-public|whybe-choi/ko-vdr-train-public]]
 - [[sinabis-group__sinabis-1m-synthetic-docx|sinabis-group/sinabis-1m-synthetic-docx]]
 - [[NomaDamas__ko-vdr-train-public|NomaDamas/ko-vdr-train-public]]
+- [[remiai3__tiny-captcha-library|remiai3/tiny-captcha-library]]
 - [[ONTHEIT__KDoc-OCRBench-V2|ONTHEIT/KDoc-OCRBench-V2]]
 - [[schift-io__KoOCR-Bench|schift-io/KoOCR-Bench]]
 - [[HumynLabs__Korean_Receipts_Dataset|HumynLabs/Korean_Receipts_Dataset]]
@@ -42,15 +43,17 @@ facet: [[작업]] · 개념 id `task/ocr`
 - [[WueNLP__Synthdog-Multilingual-100|WueNLP/Synthdog-Multilingual-100]]
 - [[ysmeta__EVE-Train-NPL-1.1|ysmeta/EVE-Train-NPL-1.1]]
 - [[Reubencf__Adaption-low-resource-doc-qa|Reubencf/Adaption-low-resource-doc-qa]]
+- [[kenza-ily__icdar_disco|kenza-ily/icdar_disco]]
 - [[ahmedheakl__DocAtlas-Bench|ahmedheakl/DocAtlas-Bench]]
 - [[Forturne__SDS-KoPub-OCR|Forturne/SDS-KoPub-OCR]]
+- [[AtharvImmverse__tiny-captcha-library|AtharvImmverse/tiny-captcha-library]]
 - [[AtharvImmverse__NemoTron-OCR-Synthetic-Multilingual-v1|AtharvImmverse/NemoTron-OCR-Synthetic-Multilingual-v1]]
 - [[NewTypeCola__VOKU-Archive|NewTypeCola/VOKU-Archive]]
 - [[Reubencf__adaption-multilingual-doc-qa|Reubencf/adaption-multilingual-doc-qa]]
 - [[ysmeta__EVE-Train-NPL-1.0|ysmeta/EVE-Train-NPL-1.0]]
 - [[sinabis-group__sinabis-1m-synthetic-pdf|sinabis-group/sinabis-1m-synthetic-pdf]]
-- [[whybe-choi__kovidore-v2-hr-beir|whybe-choi/kovidore-v2-hr-beir]]
 - [[akhilvssg__TRACE-MAGMaR-2026|akhilvssg/TRACE-MAGMaR-2026]]
+- [[whybe-choi__kovidore-v2-hr-beir|whybe-choi/kovidore-v2-hr-beir]]
 - [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
 - [[Aaqqid__OCR-Synthetic-Multilingual-v1|Aaqqid/OCR-Synthetic-Multilingual-v1]]
 - [[Cognitive-Lab__NayanaOCRBench_Natural|Cognitive-Lab/NayanaOCRBench_Natural]]
@@ -75,15 +78,15 @@ facet: [[작업]] · 개념 id `task/ocr`
 
 ## 함께 연결된 개념
 
-- [[문서 파일 (입력 형식)|문서 파일]] (입력 형식) · 공유 55
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 55
-- [[한국어]] (언어) · 공유 55
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 55
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 50
-- [[상업 이용 가능]] (상업 이용) · 공유 39
+- [[문서 파일 (입력 형식)|문서 파일]] (입력 형식) · 공유 58
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 58
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 58
+- [[한국어]] (언어) · 공유 58
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 58
+- [[상업 이용 가능]] (상업 이용) · 공유 41
+- [[학습용]] (데이터 용도) · 공유 39
+- [[일반]] (도메인) · 공유 35
+- [[다국어]] (언어) · 공유 31
 - [[영어]] (언어) · 공유 30
-- [[다국어]] (언어) · 공유 28
-- [[소규모 데이터]] (데이터 규모) · 공유 25
+- [[소규모 데이터]] (데이터 규모) · 공유 26
 - [[Parquet]] (데이터 형식) · 공유 25
-- [[중규모 데이터]] (데이터 규모) · 공유 17
-- [[평가용]] (데이터 용도) · 공유 15

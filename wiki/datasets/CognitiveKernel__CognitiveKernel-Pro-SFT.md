@@ -4,11 +4,16 @@ id: "CognitiveKernel/CognitiveKernel-Pro-SFT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CognitiveKernel/CognitiveKernel-Pro-SFT"
 downloads: 180
+summary: "GPT-4.1 기반 심층 연구 에이전트 학습용 SFT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[텍스트 생성]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 commercial_use:
   - "[[조건부 이용]]"
 dataset_role:
@@ -22,11 +27,15 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/CognitiveKernel/CognitiveKernel-Pro-SFT)
 
+GPT-4.1 기반 심층 연구 에이전트 학습용 SFT 데이터셋입니다.
+
 ## 분류
 
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **작업**: [[텍스트 생성]] — ner · readme = `Here is the SFT data for the paper Cognitive Kernel-Pro: A Framework for Deep Research Agents and Agent Foundation Models Training.` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `We use GPT-4.1 to sample from the training queries and perform rejection sampling to acquire the successful trajectories.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `We use GPT-4.1 to sample from the training queries and perform rejection sampling to acquire the successful trajectories.` · 신뢰도 medium
 - **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `Here is the SFT data for the paper Cognitive Kernel-Pro: A Framework for Deep Research Agents and Agent Foundation Models Training.` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 

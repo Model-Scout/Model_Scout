@@ -18,6 +18,8 @@ output_modality:
 language:
   - "[[영어]]"
   - "[[uk]]"
+input_length:
+  - "[[장문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 dataset_role:
@@ -40,10 +42,13 @@ dataset_size:
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation, task:summarization, task:translation = `text` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[uk]] — metadata · languages = `uk` · 신뢰도 high
+- **입력 길이**: [[장문]] — viewer_stats · viewer_statistics = `13059` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+샘플 길이: `analysis` 열 p90 52237자 ≈ 13059 토큰 (viewer statistics, default/validation)
 
 ## 이 데이터로 학습한 모델
 

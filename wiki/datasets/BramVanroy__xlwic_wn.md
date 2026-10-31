@@ -23,6 +23,8 @@ language:
   - "[[다국어]]"
   - "[[nl]]"
   - "[[중국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[비상업 전용]]"
 data_format:
@@ -49,6 +51,9 @@ dataset_size:
 - **언어**: [[다국어]] — metadata · languages = `9 languages` · 신뢰도 high
 - **언어**: [[nl]] — metadata · languages = `nl` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `6` · 신뢰도 medium
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-4.0` · 신뢰도 high
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+샘플 길이: `example_2` 열 p90 23자 ≈ 6 토큰 (viewer statistics, ko/test)

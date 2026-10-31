@@ -58,6 +58,27 @@ def label(facet: str, value: str) -> str:
     return concept["label"] if concept else value
 
 
+def mentions(facet: str, value: str, text: str) -> bool:
+    """True when text names the concept by key, label, or alias (word-bounded for Latin terms).
+
+    Used to check that an NER quote actually states its concept, not merely exists in the card.
+    """
+    spec = load_taxonomy()["facets"][facet]["values"].get(value) or {}
+    haystack = _key(text)
+    for term in {value, spec.get("label", ""), *(str(a) for a in spec.get("aliases") or [])}:
+        term = _key(term)
+        if len(term) < 2:
+            continue
+        if term.isascii():
+            # Short terms (sts, qa, rag) must stand alone; longer ones may inflect (benchmark -> benchmarks).
+            tail = r"(?![a-z0-9])" if len(term) < 5 else ""
+            if re.search(rf"(?<![a-z0-9]){re.escape(term)}{tail}", haystack):
+                return True
+        elif term in haystack:
+            return True
+    return False
+
+
 if __name__ == "__main__":
     assert normalize("task", "feature-extraction") == "embedding"
     assert normalize("task", "Text_Generation") == "generation"
@@ -76,4 +97,8 @@ if __name__ == "__main__":
     assert normalize("model_size", 7.6) == "small"
     assert normalize("task", "no such task") is None
     assert label("input_length", "long") == "장문"
+    assert mentions("task", "embedding", "fine-tuning sentence-embedding models")
+    assert mentions("domain", "finance", "Korean financial-domain triplet dataset") or mentions("domain", "finance", "금융 데이터")
+    assert not mentions("task", "retrieval", "business presentations from storage")
+    assert mentions("dataset_role", "evaluation", "two benchmarks for Korean") and not mentions("task", "embedding", "stsx")
     print("taxonomy ok")

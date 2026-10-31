@@ -4,6 +4,7 @@ id: "bzantium/MMMLU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bzantium/MMMLU"
 downloads: 104
+summary: "다국어로 번역된 MMLU 테스트셋으로 AI 모델의 일반 지식 이해도를 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -16,8 +17,14 @@ output_modality:
 language:
   - "[[한국어]]"
   - "[[다국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
+domain:
+  - "[[일반]]"
+dataset_role:
+  - "[[평가용]]"
 data_format:
   - "[[CSV]]"
 dataset_size:
@@ -27,13 +34,20 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/bzantium/MMMLU)
 
+다국어로 번역된 MMLU 테스트셋으로 AI 모델의 일반 지식 이해도를 평가하는 벤치마크 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[질의응답]] — metadata · task_categories = `question-answering` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:question_answering = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:question_answering = `text` · 신뢰도 medium
+- **작업**: [[질의응답]] — metadata · readme, task_categories = `question-answering` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:question_answering = `We translated the MMLU’s test set into 14 languages using professional human translators.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:question_answering = `We translated the MMLU’s test set into 14 languages using professional human translators.` · 신뢰도 medium
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `14 languages` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `96` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `It covers a broad range of topics from 57 different categories, covering elementary-level knowledge up to advanced professional subjects like law, physics, hist` · 신뢰도 low
+- **데이터 용도**: [[평가용]] — ner · readme = `We translated the MMLU’s test set into 14 languages using professional human translators.` · 신뢰도 medium
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+샘플 길이: `Question` 열 p90 384자 ≈ 96 토큰 (viewer statistics, KO_KR/test)

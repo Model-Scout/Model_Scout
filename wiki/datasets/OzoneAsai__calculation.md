@@ -4,9 +4,16 @@ id: "OzoneAsai/calculation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OzoneAsai/calculation"
 downloads: 1639
+summary: "숫자와 기호만 사용된 계산 데이터셋으로 대화 및 지시사항 작업에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
+task:
+  - "[[텍스트 생성]]"
+input_modality:
+  - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 language:
   - "[[de]]"
   - "[[영어]]"
@@ -23,8 +30,13 @@ commercial_use:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/OzoneAsai/calculation)
 
+숫자와 기호만 사용된 계산 데이터셋으로 대화 및 지시사항 작업에 활용 가능
+
 ## 분류
 
+- **작업**: [[텍스트 생성]] — ner · readme = `conversation, instruction` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:generation = `It only used numbers and symbols. So any language is able to use this.` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `It only used numbers and symbols. So any language is able to use this.` · 신뢰도 medium
 - **언어**: [[de]] — metadata · languages = `de` · 신뢰도 high
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[fr]] — metadata · languages = `fr` · 신뢰도 high

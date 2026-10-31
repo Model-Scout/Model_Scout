@@ -4,6 +4,7 @@ id: "MihaiPopa-1/OmniSurgical-1.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MihaiPopa-1/OmniSurgical-1.1"
 downloads: 34
+summary: "OmniSurgical 1.1은 영어-루마니아어, 영어-이모지, 영어-Sulfuristic Speak 번역 데이터셋 확장판입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -19,6 +20,8 @@ language:
   - "[[다국어]]"
   - "[[ron]]"
   - "[[sul]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 dataset_role:
@@ -32,20 +35,25 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/MihaiPopa-1/OmniSurgical-1.1)
 
+OmniSurgical 1.1은 영어-루마니아어, 영어-이모지, 영어-Sulfuristic Speak 번역 데이터셋 확장판입니다.
+
 ## 분류
 
-- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 high
-- **작업**: [[번역]] — metadata · task_categories = `translation` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:generation, task:translation = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation, task:translation = `text` · 신뢰도 medium
+- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
+- **작업**: [[번역]] — metadata · readme, task_categories = `translation` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:translation = `200 English to Romanian sentences` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:translation = `506 English to Sulfuristic Speak (and vice-versa) sentences` · 신뢰도 medium
 - **언어**: [[emj]] — metadata · languages = `emj` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `3 languages` · 신뢰도 high
 - **언어**: [[ron]] — metadata · languages = `ron` · 신뢰도 high
 - **언어**: [[sul]] — metadata · languages = `sul` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `107` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `used to fine-tune existing LLMs (I fine-tuned Qwen 3 0.6B for this!)` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+샘플 길이: `text` 열 p90 429자 ≈ 107 토큰 (viewer statistics, default/train)
 
 ## 이 데이터로 학습한 모델
 

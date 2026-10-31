@@ -2,7 +2,11 @@
 
 Each taxonomy concept is a hyperedge; an entity joins it through a link that records
 where the value came from. This stage uses structured metadata only (no LLM), so every
-link is reproducible. NER links are added by a later stage with method="ner".
+link is reproducible from metadata, except method="ner" links read from Stage D4
+(16_extract_dataset_ner.py). An NER link is "medium" when its README quote names the
+concept and "low" when the quote merely exists. Once NER has read a card, a metadata task
+keeps "high" only if a quote states it, drops to "medium" if NER names it loosely, and to
+"low" if NER does not name it at all (tags like sentence-similarity are often wrong).
 
 Outputs (data/hypergraph/):
   entities.jsonl   one row per model/dataset with quality flags
@@ -20,13 +24,16 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from taxonomy import label, load_taxonomy, normalize
+from taxonomy import label, load_taxonomy, mentions, normalize
 
 DATA_DIR = Path("data")
 OUT_DIR = DATA_DIR / "hypergraph"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 LENGTH_INPUT = DATA_DIR / "hf_datasets_length_stats.jsonl"
+NER_INPUT = DATA_DIR / "hf_datasets_ner.jsonl"
+QUOTE_CHARS = 160
+CONFIDENCE_RANK = ["low", "medium", "high"]
 
 # ponytail: languages are linked one hub each only up to this count; wider corpora join
 # ko/en/multilingual hubs so 100-language crawls do not flood every language page.
@@ -117,9 +124,11 @@ class Linker:
             self.unmapped[f"{entity_id.split(':', 1)[0]}.{facet}.{field}"][str(raw)] += 1
             return
         key = (entity_id, facet, concept)
-        # First evidence wins; later sources for the same concept only add their field.
+        # First evidence keeps method/raw; later sources add their field and can only raise confidence.
         if key in self.links:
-            self.links[key]["fields"] = sorted(set(self.links[key]["fields"]) | {field})
+            link = self.links[key]
+            link["fields"] = sorted(set(link["fields"]) | {field})
+            link["confidence"] = max(link["confidence"], confidence, key=CONFIDENCE_RANK.index)
             return
         self.links[key] = {"entity_id": entity_id, "concept_id": f"{facet}/{concept}", "facet": facet,
                            "method": method, "fields": [field], "raw": raw, "confidence": confidence}
@@ -166,7 +175,22 @@ def map_model(linker, row):
     }
 
 
-def map_dataset(linker, row, length):
+def map_ner(linker, entity_id, ner):
+    """Add README-grounded concepts; demote metadata tasks the README does not back up."""
+    tasks = {}
+    for facet, items in ner["concepts"].items():
+        for item in items:
+            stated = mentions(facet, item["value"], item["quote"])
+            if facet == "task":
+                tasks[item["value"]] = tasks.get(item["value"]) or stated
+            linker.add(entity_id, facet, item["quote"][:QUOTE_CHARS], "readme", method="ner",
+                       confidence="medium" if stated else "low", concept=item["value"])
+    for (owner, facet, concept), link in linker.links.items():
+        if owner == entity_id and facet == "task" and link["method"] != "ner" and not tasks.get(concept):
+            link["confidence"] = "medium" if concept in tasks else "low"
+
+
+def map_dataset(linker, row, length, ner=None):
     entity_id = f"dataset:{row['dataset_id']}"
     for field in ("task_categories", "task_ids"):
         for value in row.get(field) or []:
@@ -177,6 +201,8 @@ def map_dataset(linker, row, length):
         for facet in ("task", "domain"):
             if normalize(facet, tag):
                 linker.add(entity_id, facet, tag, "tags", method="tag_match", confidence="medium")
+    if ner:
+        map_ner(linker, entity_id, ner)
     for value in row.get("modalities") or []:
         linker.add(entity_id, "input_modality", value, "modality")
     linker.modalities_from_tasks(entity_id)
@@ -205,6 +231,7 @@ def map_dataset(linker, row, length):
         "languages": languages, "licenses": row.get("licenses"), "seed_reasons": row.get("seed_reasons"),
         "readme_path": row.get("readme_path"), "readme_language": row.get("readme_language"),
         "readme_status": status, "korean_focus": korean_focus(languages),
+        "summary_ko": ner.get("summary_ko") if ner else None,
         "sample_length": {k: length.get(k) for k in ("text_column", "chars", "tokens_p90_estimate", "config", "split")}
         if length and length.get("status") == "ok" else None,
     }
@@ -233,7 +260,9 @@ def main():
     linker = Linker()
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
     entities = [map_model(linker, row) for path in MODEL_INPUTS for row in read_jsonl(path)]
-    entities += [map_dataset(linker, row, lengths.get(row["dataset_id"])) for row in read_jsonl(DATASET_INPUT)]
+    ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
+    entities += [map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
+                 for row in read_jsonl(DATASET_INPUT)]
     links = sorted(linker.links.values(), key=lambda l: (l["entity_id"], l["concept_id"]))
 
     known = {e["entity_id"] for e in entities}
@@ -265,6 +294,7 @@ def main():
         "entities": Counter(e["kind"] for e in entities),
         "links": len(links), "relations": len(relations),
         "links_by_method": Counter(l["method"] for l in links),
+        "links_by_confidence": Counter(l["confidence"] for l in links),
         "coverage": coverage(entities, links),
         "dataset_readme_status": Counter(e["readme_status"] for e in entities if e["kind"] == "dataset"),
         "dataset_korean_focus": Counter(e["korean_focus"] for e in entities if e["kind"] == "dataset"),
@@ -294,6 +324,22 @@ def self_check():
     assert normalize("task", "unseen-task") is None
     linker.add("model:x", "task", "unseen-task", "task.matched")
     assert linker.unmapped["model.task.task.matched"]["unseen-task"] == 1
+    linker = Linker()
+    row = {"dataset_id": "x/y", "url": "", "sha": "", "task_categories": ["sentence-similarity", "text-generation", "translation"],
+           "modalities": ["text"]}
+    ner = {"summary_ko": "요약", "concepts": {
+        "task": [{"value": "generation", "quote": "for text generation models"},
+                 {"value": "translation", "quote": "used to train the M3 model"}],
+        "input_modality": [{"value": "text", "quote": "columns anchor positive"}],
+        "domain": [{"value": "finance", "quote": "Korean financial-domain data"}]}}
+    entity = map_dataset(linker, row, None, ner)
+    by_concept = {l["concept_id"]: l for l in linker.links.values() if l["entity_id"] == "dataset:x/y"}
+    assert by_concept["task/generation"]["confidence"] == "high"  # metadata confirmed by a stated quote
+    assert by_concept["task/embedding"]["confidence"] == "low"  # tag only; the README reading never names it
+    assert by_concept["task/translation"]["confidence"] == "medium"  # named by NER, but loosely quoted
+    assert by_concept["input_modality/text"]["confidence"] == "high"  # metadata raises the earlier low NER link
+    assert by_concept["domain/finance"]["method"] == "ner" and by_concept["domain/finance"]["confidence"] == "medium"
+    assert entity["summary_ko"] == "요약"
     print("13_build_hypergraph ok")
 
 

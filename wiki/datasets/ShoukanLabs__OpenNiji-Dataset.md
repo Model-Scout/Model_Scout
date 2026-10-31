@@ -4,6 +4,7 @@ id: "ShoukanLabs/OpenNiji-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ShoukanLabs/OpenNiji-Dataset"
 downloads: 124
+summary: "OpenNiji-Dataset은 Discord API에서 수집한 데이터셋으로 URL 만료 문제에 대응하기 위해 분할 버전을 제공함."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -19,6 +20,8 @@ language:
   - "[[일본어]]"
   - "[[한국어]]"
   - "[[다국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[비상업 전용]]"
 data_format:
@@ -30,9 +33,11 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/ShoukanLabs/OpenNiji-Dataset)
 
+OpenNiji-Dataset은 Discord API에서 수집한 데이터셋으로 URL 만료 문제에 대응하기 위해 분할 버전을 제공함.
+
 ## 분류
 
-- **작업**: [[이미지 생성]] — metadata · task_categories = `text-to-image` · 신뢰도 high
+- **작업**: [[이미지 생성]] — metadata · task_categories = `text-to-image` · 신뢰도 low
 - **입력 형식**: [[이미지 (입력 형식)|이미지]] — metadata · modality, task:image_generation = `image` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:image_generation = `text` · 신뢰도 high
 - **출력 형식**: [[이미지 (출력 형식)|이미지]] — task_rule · task:image_generation = `image` · 신뢰도 medium
@@ -40,6 +45,9 @@ dataset_size:
 - **언어**: [[일본어]] — metadata · languages = `ja` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `3 languages` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `106` · 신뢰도 medium
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-4.0` · 신뢰도 high
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+샘플 길이: `prompt` 열 p90 425자 ≈ 106 토큰 (viewer statistics, default/train)

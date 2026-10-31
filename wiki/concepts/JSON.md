@@ -92,8 +92,8 @@ facet: [[데이터 형식]] · 개념 id `data_format/json`
 - [[agentlans__allenai-WildChat|agentlans/allenai-WildChat]]
 - [[TeichAI__claude-4.5-opus-high-reasoning-250x|TeichAI/claude-4.5-opus-high-reasoning-250x]]
 - [[FINAL-Bench__World-Model|FINAL-Bench/World-Model]]
-- [[jgeuter__OpenDecisions|jgeuter/OpenDecisions]]
 - [[hasankursun__multilingual-safety-classification-dataset|hasankursun/multilingual-safety-classification-dataset]]
+- [[jgeuter__OpenDecisions|jgeuter/OpenDecisions]]
 - [[facebook__multiloko|facebook/multiloko]]
 - [[TTA01__AssurAI|TTA01/AssurAI]]
 - [[chengshidehaimianti__CC-Cat|chengshidehaimianti/CC-Cat]]
@@ -120,14 +120,14 @@ facet: [[데이터 형식]] · 개념 id `data_format/json`
 ## 함께 연결된 개념
 
 - [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 399
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 325
+- [[학습용]] (데이터 용도) · 공유 303
 - [[한국어]] (언어) · 공유 267
 - [[상업 이용 가능]] (상업 이용) · 공유 242
 - [[영어]] (언어) · 공유 225
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 218
+- [[일반]] (도메인) · 공유 213
+- [[텍스트 생성]] (작업) · 공유 202
 - [[중규모 데이터]] (데이터 규모) · 공유 191
 - [[다국어]] (언어) · 공유 170
-- [[학습용]] (데이터 용도) · 공유 161
 - [[소규모 데이터]] (데이터 규모) · 공유 157
-- [[텍스트 생성]] (작업) · 공유 145
-- [[이용 조건 미확인]] (상업 이용) · 공유 77
-- [[질의응답]] (작업) · 공유 64
+- [[단문]] (입력 길이) · 공유 151

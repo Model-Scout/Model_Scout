@@ -4,11 +4,16 @@ id: "GreenerPastures/All-Your-Base-Full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GreenerPastures/All-Your-Base-Full"
 downloads: 17
+summary: "다양한 출처의 롤플레잉 데이터를 포함한 지시 중심 데이터셋으로, 기본 모델을 완전한 RP 모델로 만듭니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
+task:
+  - "[[텍스트 생성]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 language:
   - "[[영어]]"
 commercial_use:
@@ -24,9 +29,13 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/GreenerPastures/All-Your-Base-Full)
 
+다양한 출처의 롤플레잉 데이터를 포함한 지시 중심 데이터셋으로, 기본 모델을 완전한 RP 모델로 만듭니다.
+
 ## 분류
 
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **작업**: [[텍스트 생성]] — ner · readme = `The dataset is instruct heavy, but includes roleplaying data from various diverse sources.` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `All data has been deduplicated, deslopped, and shuffled.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `The dataset is instruct heavy, but includes roleplaying data from various diverse sources.` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium

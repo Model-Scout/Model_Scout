@@ -41,8 +41,8 @@ facet: [[언어]] · 개념 id `language/hi`
 - [[tensorblock__PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF|tensorblock/PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF]]
 - [[llm-semantic-router__mmbert-rerank-32k-2d-matryoshka|llm-semantic-router/mmbert-rerank-32k-2d-matryoshka]]
 - [[compute1__Agents-A1-GPTQ-INT4-Sym|compute1/Agents-A1-GPTQ-INT4-Sym]]
-- [[King-Cane__Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF|King-Cane/Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF]]
 - [[BIGJUTT__Step-3.7-Flash-GGUF|BIGJUTT/Step-3.7-Flash-GGUF]]
+- [[King-Cane__Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF|King-Cane/Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF]]
 
 ## 데이터셋 (29)
 
@@ -78,15 +78,15 @@ facet: [[언어]] · 개념 id `language/hi`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 60
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 61
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 54
 - [[상업 이용 가능]] (상업 이용) · 공유 46
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 43
-- [[텍스트 생성]] (작업) · 공유 33
+- [[텍스트 생성]] (작업) · 공유 34
+- [[일반]] (도메인) · 공유 23
 - [[Parquet]] (데이터 형식) · 공유 20
+- [[학습용]] (데이터 용도) · 공유 20
+- [[텍스트 분류]] (작업) · 공유 19
+- [[단문]] (입력 길이) · 공유 14
 - [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 14
 - [[중규모 데이터]] (데이터 규모) · 공유 12
-- [[텍스트 분류]] (작업) · 공유 10
-- [[소규모 데이터]] (데이터 규모) · 공유 9
-- [[조건부 이용]] (상업 이용) · 공유 9
-- [[이미지 이해]] (작업) · 공유 8
-- [[극장문]] (입력 길이) · 공유 8
+- [[평가용]] (데이터 용도) · 공유 11

@@ -126,6 +126,7 @@ def build_chunks(row, entity, links, concepts):
     description = (row.get("description") or "").strip() or cleaned
     card_text = "\n".join(filter(None, [
         f"Dataset 데이터셋: {dataset_id}" + (f" ({pretty})" if pretty else ""),
+        f"요약: {entity['summary_ko']}" if entity.get("summary_ko") else None,
         *concept_lines(links, concepts),
         f"Downloads: {row.get('downloads', 0)}",
         f"Description: {' '.join(clean_markdown(description).split())[:CARD_DESCRIPTION_CHARS]}" if description else None,

@@ -4,14 +4,19 @@ id: "kenza-ily/icdar_disco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kenza-ily/icdar_disco"
 downloads: 321
+summary: "ICDAR 데이터셋의 10개 언어별 문서 이미지와 OCR 텍스트로 구성된 평가용 미니 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
 task:
   - "[[임베딩]]"
+  - "[[문서 인식(OCR)]]"
 input_modality:
+  - "[[문서 파일 (입력 형식)|문서 파일]]"
   - "[[이미지 (입력 형식)|이미지]]"
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
 language:
   - "[[ar]]"
   - "[[hi]]"
@@ -22,6 +27,8 @@ language:
   - "[[중국어]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
+domain:
+  - "[[일반]]"
 data_format:
   - "[[미디어 파일]]"
 dataset_size:
@@ -31,11 +38,16 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/kenza-ily/icdar_disco)
 
+ICDAR 데이터셋의 10개 언어별 문서 이미지와 OCR 텍스트로 구성된 평가용 미니 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[임베딩]] — metadata · task_categories = `feature-extraction` · 신뢰도 high
-- **입력 형식**: [[이미지 (입력 형식)|이미지]] — metadata · modality = `image` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — task_rule · task:embedding = `text` · 신뢰도 medium
+- **작업**: [[임베딩]] — metadata · task_categories = `feature-extraction` · 신뢰도 low
+- **작업**: [[문서 인식(OCR)]] — ner · readme = `Includes actual document images and ground truth OCR text.` · 신뢰도 medium
+- **입력 형식**: [[문서 파일 (입력 형식)|문서 파일]] — task_rule · task:ocr = `document` · 신뢰도 medium
+- **입력 형식**: [[이미지 (입력 형식)|이미지]] — ner · modality, readme, task:ocr = `Includes actual document images` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:embedding = `ground truth OCR text` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:ocr = `ground truth OCR text` · 신뢰도 medium
 - **언어**: [[ar]] — metadata · languages = `ar` · 신뢰도 high
 - **언어**: [[hi]] — metadata · languages = `hi` · 신뢰도 high
 - **언어**: [[일본어]] — metadata · languages = `ja` · 신뢰도 high
@@ -44,5 +56,6 @@ dataset_size:
 - **언어**: [[다국어]] — metadata · languages = `6 languages` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `ICDAR (International Conference on Document Analysis and Recognition) dataset` · 신뢰도 low
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `imagefolder` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high

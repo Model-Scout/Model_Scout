@@ -23,8 +23,8 @@ facet: [[언어]] · 개념 id `language/nl`
 - [[mradermacher__Tower-7B-d2d-GGUF|mradermacher/Tower-7B-d2d-GGUF]]
 - [[ynklab__Tower-7B-Stair_FS4|ynklab/Tower-7B-Stair_FS4]]
 - [[ynklab__Tower-7B-Uni_2c1t|ynklab/Tower-7B-Uni_2c1t]]
-- [[datouge__TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF|datouge/TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF]]
 - [[ynklab__Tower-7B-Stair_2c1t|ynklab/Tower-7B-Stair_2c1t]]
+- [[datouge__TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF|datouge/TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF]]
 - [[Unbabel__TowerInstruct-13B-v0.1|Unbabel/TowerInstruct-13B-v0.1]]
 - [[ynklab__Tower-7B-Sep_2c1t|ynklab/Tower-7B-Sep_2c1t]]
 - [[ynklab__Tower-7B-Sep_0c1t|ynklab/Tower-7B-Sep_0c1t]]
@@ -64,15 +64,15 @@ facet: [[언어]] · 개념 id `language/nl`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 46
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 35
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 47
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 45
 - [[비상업 전용]] (상업 이용) · 공유 23
-- [[번역]] (작업) · 공유 18
+- [[번역]] (작업) · 공유 20
+- [[텍스트 생성]] (작업) · 공유 17
 - [[소형 모델]] (모델 크기) · 공유 17
 - [[상업 이용 가능]] (상업 이용) · 공유 16
 - [[중규모 데이터]] (데이터 규모) · 공유 14
 - [[초장문]] (입력 길이) · 공유 14
-- [[텍스트 생성]] (작업) · 공유 14
+- [[일반]] (도메인) · 공유 13
+- [[학습용]] (데이터 용도) · 공유 13
 - [[Parquet]] (데이터 형식) · 공유 10
-- [[표 (입력 형식)|표]] (입력 형식) · 공유 6
-- [[이용 조건 미확인]] (상업 이용) · 공유 6

@@ -4,6 +4,7 @@ id: "AIM-Intelligence/XL-SafetyBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AIM-Intelligence/XL-SafetyBench"
 downloads: 834
+summary: "XL-SafetyBench는 10개국 언어별로 LLM 안전성과 문화 민감성을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -26,8 +27,12 @@ language:
   - "[[한국어]]"
   - "[[다국어]]"
   - "[[tr]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
+domain:
+  - "[[일반]]"
 dataset_role:
   - "[[평가용]]"
 data_format:
@@ -39,11 +44,13 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/AIM-Intelligence/XL-SafetyBench)
 
+XL-SafetyBench는 10개국 언어별로 LLM 안전성과 문화 민감성을 평가하는 벤치마크 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[텍스트 분류]] — metadata · task_categories = `text-classification` · 신뢰도 high
-- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:classification, task:generation = `text` · 신뢰도 high
+- **작업**: [[텍스트 분류]] — metadata · readme, task_categories = `text-classification` · 신뢰도 medium
+- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification, task:generation = `Each row includes `country` and `language` columns` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation = `text` · 신뢰도 medium
 - **언어**: [[ar]] — metadata · languages = `ar` · 신뢰도 high
 - **언어**: [[de]] — metadata · languages = `de` · 신뢰도 high
@@ -56,7 +63,11 @@ dataset_size:
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `10 languages` · 신뢰도 high
 - **언어**: [[tr]] — metadata · languages = `tr` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `231` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `A Country-Grounded Cross-Cultural Benchmark for LLM Safety and Cultural Sensitivity` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — name_rule · dataset_id/tags = `evaluation` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+샘플 길이: `scenario_english` 열 p90 924자 ≈ 231 토큰 (viewer statistics, cultural/test)

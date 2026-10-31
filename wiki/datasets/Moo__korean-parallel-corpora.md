@@ -16,6 +16,8 @@ output_modality:
 language:
   - "[[영어]]"
   - "[[한국어]]"
+input_length:
+  - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
 data_format:
@@ -34,6 +36,9 @@ dataset_size:
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:translation = `text` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
+- **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `142` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-3.0` · 신뢰도 high
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+샘플 길이: `en` 열 p90 212자 ≈ 142 토큰 (viewer statistics, default/validation)

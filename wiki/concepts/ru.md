@@ -193,20 +193,20 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
 - [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
-- [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
 - [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
+- [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 369
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 341
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 372
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 364
 - [[상업 이용 가능]] (상업 이용) · 공유 282
-- [[텍스트 생성]] (작업) · 공유 231
+- [[텍스트 생성]] (작업) · 공유 242
 - [[초장문]] (입력 길이) · 공유 88
 - [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 68
+- [[일반]] (도메인) · 공유 67
 - [[이미지 이해]] (작업) · 공유 62
+- [[학습용]] (데이터 용도) · 공유 58
 - [[조건부 이용]] (상업 이용) · 공유 54
 - [[중형 모델]] (모델 크기) · 공유 53
-- [[소형 모델]] (모델 크기) · 공유 43
-- [[Parquet]] (데이터 형식) · 공유 38
-- [[대형 모델]] (모델 크기) · 공유 37
+- [[단문]] (입력 길이) · 공유 45

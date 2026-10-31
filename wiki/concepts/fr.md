@@ -175,8 +175,8 @@ facet: [[언어]] · 개념 id `language/fr`
 - [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
 - [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
-- [[Noename__MAVL|Noename/MAVL]]
 - [[legacy-datasets__multilingual_librispeech|legacy-datasets/multilingual_librispeech]]
+- [[Noename__MAVL|Noename/MAVL]]
 - [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
 - [[Heyjab__Multilingual-Harmless-Harmful|Heyjab/Multilingual-Harmless-Harmful]]
 - [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
@@ -218,15 +218,15 @@ facet: [[언어]] · 개념 id `language/fr`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 776
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 736
-- [[텍스트 생성]] (작업) · 공유 597
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 783
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 781
+- [[텍스트 생성]] (작업) · 공유 621
 - [[조건부 이용]] (상업 이용) · 공유 365
 - [[상업 이용 가능]] (상업 이용) · 공유 357
 - [[초장문]] (입력 길이) · 공유 314
 - [[소형 모델]] (모델 크기) · 공유 132
 - [[중형 모델]] (모델 크기) · 공유 106
 - [[초경량 모델]] (모델 크기) · 공유 103
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 87
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 88
 - [[이미지 이해]] (작업) · 공유 79
-- [[비상업 전용]] (상업 이용) · 공유 63
+- [[일반]] (도메인) · 공유 71

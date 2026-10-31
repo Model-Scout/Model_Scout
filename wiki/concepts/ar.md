@@ -161,8 +161,8 @@ facet: [[언어]] · 개념 id `language/ar`
 - [[ChristianCaballero__WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack|ChristianCaballero/WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack]]
 - [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
 - [[grammarly__medit|grammarly/medit]]
-- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
 - [[DABAOSs__dialogue-episodes|DABAOSs/dialogue-episodes]]
+- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
 - [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
 - [[CausalNLP__entropy-ko-jp-data|CausalNLP/entropy-ko-jp-data]]
@@ -172,8 +172,8 @@ facet: [[언어]] · 개념 id `language/ar`
 - [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
 - [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
-- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[NeuralMetrics__P-MMEval|NeuralMetrics/P-MMEval]]
+- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
 - [[shantanugoel__universal-prompt-enhancer|shantanugoel/universal-prompt-enhancer]]
@@ -181,9 +181,9 @@ facet: [[언어]] · 개념 id `language/ar`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 480
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 449
-- [[텍스트 생성]] (작업) · 공유 372
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 484
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 469
+- [[텍스트 생성]] (작업) · 공유 381
 - [[조건부 이용]] (상업 이용) · 공유 303
 - [[초장문]] (입력 길이) · 공유 219
 - [[상업 이용 가능]] (상업 이용) · 공유 135
@@ -191,5 +191,5 @@ facet: [[언어]] · 개념 id `language/ar`
 - [[소형 모델]] (모델 크기) · 공유 87
 - [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 68
 - [[이미지 이해]] (작업) · 공유 57
+- [[일반]] (도메인) · 공유 55
 - [[중형 모델]] (모델 크기) · 공유 53
-- [[비상업 전용]] (상업 이용) · 공유 41

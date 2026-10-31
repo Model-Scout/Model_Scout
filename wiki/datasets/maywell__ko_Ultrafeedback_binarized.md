@@ -4,11 +4,18 @@ id: "maywell/ko_Ultrafeedback_binarized"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/ko_Ultrafeedback_binarized"
 downloads: 235
+summary: "Synatra-7B-Translation 모델로 번역·정제한 Ultrafeedback_binarized 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
 korean_focus: "not_ko"
+task:
+  - "[[번역]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
+input_length:
+  - "[[중문]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
 dataset_role:
@@ -22,13 +29,20 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/maywell/ko_Ultrafeedback_binarized)
 
+Synatra-7B-Translation 모델로 번역·정제한 Ultrafeedback_binarized 데이터셋입니다.
+
 ## 분류
 
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality = `text` · 신뢰도 high
+- **작업**: [[번역]] — ner · readme = `본 데이터는 Synatra-7B-Translation 모델을 통해 Ultrafeedback_binarized를 번역하고 정제한 데이터셋입니다.` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:translation = `본 데이터는 Synatra-7B-Translation 모델을 통해 Ultrafeedback_binarized를 번역하고 정제한 데이터셋입니다.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:translation = `본 데이터는 Synatra-7B-Translation 모델을 통해 Ultrafeedback_binarized를 번역하고 정제한 데이터셋입니다.` · 신뢰도 medium
+- **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `1125` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `데이터를 이용하여 훈련된 모델에 대한 상업적 사용은 허용됩니다.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+샘플 길이: `chosen` 열 p90 4499자 ≈ 1125 토큰 (viewer statistics, default/train)
 
 ## 이 데이터로 학습한 모델
 

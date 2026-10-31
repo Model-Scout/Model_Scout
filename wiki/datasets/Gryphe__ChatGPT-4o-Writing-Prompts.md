@@ -4,6 +4,7 @@ id: "Gryphe/ChatGPT-4o-Writing-Prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gryphe/ChatGPT-4o-Writing-Prompts"
 downloads: 5894
+summary: "ChatGPT-4o 모델이 Reddit Writing Prompts를 활용해 생성한 단편 소설 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -17,6 +18,8 @@ language:
   - "[[영어]]"
 commercial_use:
   - "[[이용 조건 미확인]]"
+domain:
+  - "[[일반]]"
 dataset_role:
   - "[[학습용]]"
 data_format:
@@ -28,14 +31,17 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/Gryphe/ChatGPT-4o-Writing-Prompts)
 
+ChatGPT-4o 모델이 Reddit Writing Prompts를 활용해 생성한 단편 소설 데이터셋입니다.
+
 ## 분류
 
-- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:generation = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation = `text` · 신뢰도 medium
+- **작업**: [[텍스트 생성]] — metadata · readme, task_categories = `text-generation` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation = `prompt/title/genre/story columns` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `3746 short stories` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license = `unknown` · 신뢰도 high
-- **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+- **도메인**: [[일반]] — ner · readme = `using Reddit's Writing Prompts subreddit as a source` · 신뢰도 low
+- **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `A ShareGPT dataset, ready to be used for training` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 

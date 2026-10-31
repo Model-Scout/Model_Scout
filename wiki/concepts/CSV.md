@@ -71,11 +71,11 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[sazzysara21__real-robot-driving-sessions|sazzysara21/real-robot-driving-sessions]]
 - [[k-master__k-beauty-ai-citation-dataset|k-master/k-beauty-ai-citation-dataset]]
 - [[K-University-AIED__LearningChat_ai_video_production|K-University-AIED/LearningChat_ai_video_production]]
-- [[Trelis__openassistant-deepseek-coder|Trelis/openassistant-deepseek-coder]]
 - [[HLeiTR__R3-eval-MMMLU|HLeiTR/R3-eval-MMMLU]]
+- [[Trelis__openassistant-deepseek-coder|Trelis/openassistant-deepseek-coder]]
 - [[HanzhiZhang__Poly-FEVER|HanzhiZhang/Poly-FEVER]]
-- [[WueNLP__mHallucination_Evaluation|WueNLP/mHallucination_Evaluation]]
 - [[JOHNISKING__claude-web-search-by-language|JOHNISKING/claude-web-search-by-language]]
+- [[WueNLP__mHallucination_Evaluation|WueNLP/mHallucination_Evaluation]]
 - [[telepix__STELLA|telepix/STELLA]]
 - [[ssgyejin__KOTOX-classification|ssgyejin/KOTOX-classification]]
 - [[rycont__hanja-grade|rycont/hanja-grade]]
@@ -106,8 +106,8 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[fdemelo__ipa-childes-split|fdemelo/ipa-childes-split]]
 - [[cis-lmu__GlotSparse|cis-lmu/GlotSparse]]
 - [[ali-thowfeek__text-to-mermaid|ali-thowfeek/text-to-mermaid]]
-- [[Saxo__ko_cn_translation_tech_social_science_linkbricks_single_dataset|Saxo/ko_cn_translation_tech_social_science_linkbricks_single_dataset]]
 - [[Saxo__en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface|Saxo/en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface]]
+- [[Saxo__ko_cn_translation_tech_social_science_linkbricks_single_dataset|Saxo/ko_cn_translation_tech_social_science_linkbricks_single_dataset]]
 - [[AIDX-ktds__ko_leaderboard|AIDX-ktds/ko_leaderboard]]
 - [[Saxo__ko_jp_translation_tech_social_science_linkbricks_single_dataset|Saxo/ko_jp_translation_tech_social_science_linkbricks_single_dataset]]
 - [[Saxo__ko-news-corpus-3|Saxo/ko-news-corpus-3]]
@@ -115,21 +115,21 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[Saxo__ko-news-corpus-1|Saxo/ko-news-corpus-1]]
 - [[Saxo__ko-news-corpus-4|Saxo/ko-news-corpus-4]]
 - [[Saxo__ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled|Saxo/ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled]]
-- [[Saxo__ko-news-corpus-7|Saxo/ko-news-corpus-7]]
 - [[Saxo__ko-news-corpus-2|Saxo/ko-news-corpus-2]]
+- [[Saxo__ko-news-corpus-7|Saxo/ko-news-corpus-7]]
 - … 외 10개 (다운로드 순 상위 100개만 표시)
 
 ## 함께 연결된 개념
 
 - [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 110
+- [[학습용]] (데이터 용도) · 공유 81
 - [[상업 이용 가능]] (상업 이용) · 공유 79
 - [[한국어]] (언어) · 공유 79
+- [[단문]] (입력 길이) · 공유 78
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 77
+- [[일반]] (도메인) · 공유 56
 - [[영어]] (언어) · 공유 56
 - [[중규모 데이터]] (데이터 규모) · 공유 54
 - [[다국어]] (언어) · 공유 51
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 38
-- [[학습용]] (데이터 용도) · 공유 37
+- [[텍스트 분류]] (작업) · 공유 43
 - [[표 (입력 형식)|표]] (입력 형식) · 공유 37
-- [[소규모 데이터]] (데이터 규모) · 공유 33
-- [[대규모 데이터]] (데이터 규모) · 공유 23
-- [[텍스트 분류]] (작업) · 공유 22
