@@ -3,7 +3,7 @@ type: "dataset"
 id: "glaiveai/glaive-code-assistant"
 source: "huggingface"
 url: "https://huggingface.co/datasets/glaiveai/glaive-code-assistant"
-downloads: 944
+downloads: 992
 summary: "Glaive-code-assistant는 약 14만 개의 코드 문제와 해답으로 구성된 코드 어시스턴트용 QA 형식 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

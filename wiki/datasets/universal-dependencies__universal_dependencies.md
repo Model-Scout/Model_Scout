@@ -3,7 +3,7 @@ type: "dataset"
 id: "universal-dependencies/universal_dependencies"
 source: "huggingface"
 url: "https://huggingface.co/datasets/universal-dependencies/universal_dependencies"
-downloads: 6384
+downloads: 6857
 summary: "Universal Dependencies Treebank은 다국어 구문 분석과 형태소 분석을 위한 일관된 트리뱅크 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

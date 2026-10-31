@@ -3,7 +3,7 @@ type: "dataset"
 id: "meetsohail/translateplus-flores-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meetsohail/translateplus-flores-benchmark"
-downloads: 99
+downloads: 107
 summary: "TranslatePlus API의 FLORES 데이터셋 기반 20개 언어 번역 품질 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

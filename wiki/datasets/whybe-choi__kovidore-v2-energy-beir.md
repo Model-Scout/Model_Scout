@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/kovidore-v2-energy-beir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/kovidore-v2-energy-beir"
-downloads: 182
+downloads: 166
 summary: "에너지 시장 동향, 정책 계획, 산업 통계 보고서로 구성된 복합 문서 이해용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

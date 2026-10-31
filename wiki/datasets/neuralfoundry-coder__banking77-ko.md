@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralfoundry-coder/banking77-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/banking77-ko"
-downloads: 97
+downloads: 99
 summary: "Banking77 데이터셋의 한국어 번역 버전으로, 은행 고객 질의를 77개 인텐트로 분류하는 텍스트 분류용 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"

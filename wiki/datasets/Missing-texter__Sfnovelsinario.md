@@ -3,7 +3,7 @@ type: "dataset"
 id: "Missing-texter/Sfnovelsinario"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Missing-texter/Sfnovelsinario"
-downloads: 200
+downloads: 222
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

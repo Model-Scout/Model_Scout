@@ -3,7 +3,7 @@ type: "dataset"
 id: "pacscilab/VoxCommunis"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pacscilab/VoxCommunis"
-downloads: 1460
+downloads: 1564
 summary: "Mozilla Common Voice에서 파생된 음성 및 음성 정렬 데이터로 음성 인식 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

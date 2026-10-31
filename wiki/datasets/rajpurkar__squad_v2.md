@@ -3,7 +3,7 @@ type: "dataset"
 id: "rajpurkar/squad_v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rajpurkar/squad_v2"
-downloads: 48090
+downloads: 48678
 summary: "SQuAD 2.0은 위키피디아 문서 기반의 질문응답 데이터셋으로, 답변이 없을 수도 있음."
 readme_status: "template"
 readme_language: "en"

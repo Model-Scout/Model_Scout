@@ -3,7 +3,7 @@ type: "dataset"
 id: "AFOS-Analytics1/south-korea-2025-electoral-divergence"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AFOS-Analytics1/south-korea-2025-electoral-divergence"
-downloads: 100
+downloads: 92
 summary: "2025년 한국 대통령 선거 예측시장, 여론조사, 언론 데이터를 공식 결과와 검증한 선거 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "UCLNLP/sharc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UCLNLP/sharc"
-downloads: 1369
+downloads: 1410
 summary: "ShARC는 규칙이 포함된 텍스트에서 대화형 질의응답을 위한 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

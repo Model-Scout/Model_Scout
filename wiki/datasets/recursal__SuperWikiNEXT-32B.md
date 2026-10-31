@@ -3,7 +3,7 @@ type: "dataset"
 id: "recursal/SuperWikiNEXT-32B"
 source: "huggingface"
 url: "https://huggingface.co/datasets/recursal/SuperWikiNEXT-32B"
-downloads: 430
+downloads: 519
 summary: "SuperWikipedia-NEXT는 60개 언어의 정제된 위키피디아 문서로 구성된 대규모 토큰 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "uonlp/CulturaX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/uonlp/CulturaX"
-downloads: 25647
+downloads: 26438
 summary: "167개 언어 6.3조 토큰 규모의 다국어 대형 언어 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

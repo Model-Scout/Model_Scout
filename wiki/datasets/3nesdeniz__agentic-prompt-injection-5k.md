@@ -3,7 +3,7 @@ type: "dataset"
 id: "3nesdeniz/agentic-prompt-injection-5k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/3nesdeniz/agentic-prompt-injection-5k"
-downloads: 645
+downloads: 579
 summary: "Agentic Prompt-Injection 5K는 프롬프트 인젝션 탐지기 평가 및 학습용 5,000개 예제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

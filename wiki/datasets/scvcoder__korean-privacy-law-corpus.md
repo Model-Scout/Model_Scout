@@ -3,7 +3,7 @@ type: "dataset"
 id: "scvcoder/korean-privacy-law-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/scvcoder/korean-privacy-law-corpus"
-downloads: 87
+downloads: 91
 summary: "한국 개인정보보호법 관련 가이드와 상담사례를 의미 단위로 청킹해 RAG에 활용하는 코퍼스입니다."
 readme_status: "ok"
 readme_language: "mixed"

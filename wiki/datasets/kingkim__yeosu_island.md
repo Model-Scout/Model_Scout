@@ -3,7 +3,7 @@ type: "dataset"
 id: "kingkim/yeosu_island"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kingkim/yeosu_island"
-downloads: 10
+downloads: 11
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

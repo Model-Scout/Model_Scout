@@ -3,7 +3,7 @@ type: "dataset"
 id: "cyanic-selkie/wikianc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cyanic-selkie/wikianc"
-downloads: 446
+downloads: 456
 summary: "WikiAnc는 위키피디아와 위키데이터 덤프에서 자동 생성된 다국어 위키피디아 문단 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

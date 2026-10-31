@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenSafetyLab/Salad-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenSafetyLab/Salad-Data"
-downloads: 1818
+downloads: 1779
 summary: "OpenSafetyLab/Salad-Data는 다양한 질문 유형의 공격 및 방어 강화 데이터를 포함한 다중 선택형 질문 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

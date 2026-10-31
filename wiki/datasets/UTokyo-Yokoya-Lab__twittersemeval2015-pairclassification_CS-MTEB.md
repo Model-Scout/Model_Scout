@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/twittersemeval2015-pairclassification_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/twittersemeval2015-pairclassification_CS-MTEB"
-downloads: 92
+downloads: 108
 summary: "다국어 코드스위칭 문장 쌍으로 문장 쌍 분류를 위한 TwitterSemEval2015 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

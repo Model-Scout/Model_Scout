@@ -3,7 +3,7 @@ type: "dataset"
 id: "kakaobrain/kor_nli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kakaobrain/kor_nli"
-downloads: 604
+downloads: 680
 summary: "한국어 자연어 추론(NLI) 데이터셋으로 자연어 추론 모델 학습에 사용됨."
 readme_status: "template"
 readme_language: "en"

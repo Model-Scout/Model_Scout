@@ -1,6 +1,6 @@
 # 서울시 열린데이터광장 Open API 입출력 인자 조회
 
-서울시 열린데이터광장 Open API 입출력 인자 조회. 시장마트정보 OPENAPI 입출력 인자 조회
+서울시 열린데이터광장 Open API 입출력 인자 조회. 시장마트정보 OPENAPI 입출력 인자 조회 제공 필드: OPENAPI서비스명, 영문변수, 설명, 한글변수, 서비스 ID, 서비스명, 인자 구분, 요청변수타입, 순서
 
 서비스명: SearchOpenAPIIOValueService
 

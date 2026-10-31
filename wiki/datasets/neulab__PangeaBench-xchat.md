@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/PangeaBench-xchat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/PangeaBench-xchat"
-downloads: 91
+downloads: 94
 summary: "다국어 시각 질문응답 데이터셋으로 8개 언어의 이미지 기반 질문응답에 사용됨"
 readme_status: "ok"
 readme_language: "en"

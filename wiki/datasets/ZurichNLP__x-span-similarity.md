@@ -3,7 +3,7 @@ type: "dataset"
 id: "ZurichNLP/x-span-similarity"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ZurichNLP/x-span-similarity"
-downloads: 375
+downloads: 443
 summary: "영어와 타언어 문장 쌍의 의미적 유사성 및 차이 스팬 검출을 위한 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

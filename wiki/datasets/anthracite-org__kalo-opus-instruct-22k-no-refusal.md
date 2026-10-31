@@ -3,7 +3,7 @@ type: "dataset"
 id: "anthracite-org/kalo-opus-instruct-22k-no-refusal"
 source: "huggingface"
 url: "https://huggingface.co/datasets/anthracite-org/kalo-opus-instruct-22k-no-refusal"
-downloads: 1271
+downloads: 1250
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

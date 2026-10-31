@@ -3,7 +3,7 @@ type: "dataset"
 id: "comradev7/Scenic-Font-Analysis"
 source: "huggingface"
 url: "https://huggingface.co/datasets/comradev7/Scenic-Font-Analysis"
-downloads: 101
+downloads: 103
 summary: "삼성 PRISM Scenic Font Analysis 프로젝트의 다중 트랙 글꼴 분석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

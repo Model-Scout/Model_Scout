@@ -3,7 +3,7 @@ type: "dataset"
 id: "nmixx-fin/twice_kr_market_report_retrieval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nmixx-fin/twice_kr_market_report_retrieval"
-downloads: 222
+downloads: 235
 summary: "한국 금융 보고서를 기반으로 주식 시장 관련 문서 검색 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-r1/codeforces-cots"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-r1/codeforces-cots"
-downloads: 5223
+downloads: 5415
 summary: "CodeForces-CoTs는 경쟁 프로그래밍 문제에 대한 추론 모델 학습용 대규모 체인 오브 사고 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "akhilvssg/TRACE-MAGMaR-2026"
 source: "huggingface"
 url: "https://huggingface.co/datasets/akhilvssg/TRACE-MAGMaR-2026"
-downloads: 217
+downloads: 212
 summary: "TRACE-MAGMaR 2026 데이터셋은 다중 비디오 이벤트 이해 및 주장 생성 연구를 위한 전처리, 주장 생성, 교차 비디오 집계 결과를 포함합니다."
 readme_status: "ok"
 readme_language: "en"

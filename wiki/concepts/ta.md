@@ -20,9 +20,9 @@ facet: [[언어]] · 개념 id `language/ta`
 - [[heretic-org__Multilingual-Harmless-Harmful|heretic-org/Multilingual-Harmless-Harmful]]
 - [[Genius1237__TyDiP|Genius1237/TyDiP]]
 - [[ZWHTXY__MMAC-Bench|ZWHTXY/MMAC-Bench]]
-- [[Heyjab__Multilingual-Harmless-Harmful|Heyjab/Multilingual-Harmless-Harmful]]
 - [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
 - [[vector-institute__HumaniBench|vector-institute/HumaniBench]]
+- [[KushanH__m2ds|KushanH/m2ds]]
 
 ## 함께 연결된 개념
 
@@ -30,11 +30,11 @@ facet: [[언어]] · 개념 id `language/ta`
 - [[상업 이용 가능]] (상업 이용) · 공유 9
 - [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 8
 - [[학습용]] (데이터 용도) · 공유 5
-- [[텍스트 분류]] (작업) · 공유 5
-- [[Parquet]] (데이터 형식) · 공유 5
 - [[중문]] (입력 길이) · 공유 5
 - [[일반]] (도메인) · 공유 4
-- [[단문]] (입력 길이) · 공유 4
+- [[텍스트 분류]] (작업) · 공유 4
+- [[중규모 데이터]] (데이터 규모) · 공유 4
+- [[Parquet]] (데이터 형식) · 공유 4
 - [[텍스트 생성]] (작업) · 공유 4
 - [[초경량 모델]] (모델 크기) · 공유 4
-- [[소규모 데이터]] (데이터 규모) · 공유 3
+- [[단문]] (입력 길이) · 공유 3

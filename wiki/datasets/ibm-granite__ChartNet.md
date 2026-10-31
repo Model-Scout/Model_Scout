@@ -3,7 +3,7 @@ type: "dataset"
 id: "ibm-granite/ChartNet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ibm-granite/ChartNet"
-downloads: 10359
+downloads: 11474
 summary: "ChartNet은 차트 이미지, 코드, 데이터, 요약, QA를 포함한 대규모 멀티모달 차트 이해 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

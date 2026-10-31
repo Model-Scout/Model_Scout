@@ -3,7 +3,7 @@ type: "dataset"
 id: "alisawuffles/WANLI"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alisawuffles/WANLI"
-downloads: 15110
+downloads: 15197
 summary: "WANLI는 자연어 추론(NLI) 작업을 위한 108K 영어 문장 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

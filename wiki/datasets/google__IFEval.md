@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/IFEval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/IFEval"
-downloads: 153223
+downloads: 156624
 summary: "IFEval은 대형 언어 모델의 지시 수행 능력을 평가하기 위한 검증 가능한 지시문 약 500개를 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

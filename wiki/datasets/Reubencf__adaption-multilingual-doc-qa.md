@@ -3,7 +3,7 @@ type: "dataset"
 id: "Reubencf/adaption-multilingual-doc-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Reubencf/adaption-multilingual-doc-qa"
-downloads: 235
+downloads: 248
 summary: "다국어 문서에서 특정 사실 정보를 추출하는 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2"
-downloads: 133446
+downloads: 135765
 summary: "1000개 이상의 언어에 대해 고품질 사전학습 데이터를 제공하는 FineWeb2 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

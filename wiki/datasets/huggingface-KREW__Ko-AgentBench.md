@@ -3,7 +3,7 @@ type: "dataset"
 id: "huggingface-KREW/Ko-AgentBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/huggingface-KREW/Ko-AgentBench"
-downloads: 242
+downloads: 243
 summary: "한국 실사용 환경에 특화된 AI 에이전트 능력 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -51,3 +51,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
 
 샘플 길이: `instruction` 열 p90 72자 ≈ 48 토큰 (viewer statistics, default/L1)
+
+## 같은 데이터의 사본·중복 등록
+
+- `xiaoluodeng/Ko-AgentBench`

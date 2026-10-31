@@ -3,7 +3,7 @@ type: "dataset"
 id: "JailbreakV-28K/JailBreakV-28k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JailbreakV-28K/JailBreakV-28k"
-downloads: 3911
+downloads: 4169
 summary: "멀티모달 대형 언어 모델의 탈옥 공격 대응력을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

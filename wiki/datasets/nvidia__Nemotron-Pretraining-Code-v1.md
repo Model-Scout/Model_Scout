@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Pretraining-Code-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Pretraining-Code-v1"
-downloads: 4550
+downloads: 4689
 summary: "Nemotron-Pretraining-Code-v1은 고품질 수학 및 코드 데이터와 다국어 Q&A를 포함한 대규모 사전학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

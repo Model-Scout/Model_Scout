@@ -3,7 +3,7 @@ type: "dataset"
 id: "psymon/Tiny-Ko-Stories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/psymon/Tiny-Ko-Stories"
-downloads: 117
+downloads: 101
 summary: "Tiny-Ko-Stories는 어린이용 한국어 짧은 이야기 데이터셋으로, 소형 언어 모델 학습에 적합합니다."
 readme_status: "ok"
 readme_language: "mixed"

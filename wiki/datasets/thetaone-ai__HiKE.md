@@ -3,7 +3,7 @@ type: "dataset"
 id: "thetaone-ai/HiKE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/thetaone-ai/HiKE"
-downloads: 381
+downloads: 366
 summary: "한국어-영어 코드스위칭 음성인식 평가를 위한 고품질 데이터셋과 평가 프레임워크입니다."
 readme_status: "ok"
 readme_language: "en"

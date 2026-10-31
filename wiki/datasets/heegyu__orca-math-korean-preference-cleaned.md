@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/orca-math-korean-preference-cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/orca-math-korean-preference-cleaned"
-downloads: 61
+downloads: 66
 summary: "수학 문제와 답변 데이터에서 수식 띄어쓰기 제거 및 중복 숫자 제거한 한국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

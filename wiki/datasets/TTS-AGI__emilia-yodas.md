@@ -3,7 +3,7 @@ type: "dataset"
 id: "TTS-AGI/emilia-yodas"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TTS-AGI/emilia-yodas"
-downloads: 4074
+downloads: 4721
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

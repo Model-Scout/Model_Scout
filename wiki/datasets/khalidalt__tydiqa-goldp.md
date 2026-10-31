@@ -3,7 +3,7 @@ type: "dataset"
 id: "khalidalt/tydiqa-goldp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/khalidalt/tydiqa-goldp"
-downloads: 3898
+downloads: 4061
 summary: "11개 언어의 질문-답변 쌍 20만 개로 구성된 다국어 질의응답 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

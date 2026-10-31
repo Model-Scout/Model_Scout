@@ -3,7 +3,7 @@ type: "dataset"
 id: "akariasai/xor_tydi_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/akariasai/xor_tydi_qa"
-downloads: 245
+downloads: 274
 summary: "XOR-TyDi QA는 7개 언어의 정보 탐색 질문과 다국어 교차 언어 답변 검색을 위한 QA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

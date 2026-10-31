@@ -3,7 +3,7 @@ type: "dataset"
 id: "GEM/wiki_lingua"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GEM/wiki_lingua"
-downloads: 99911
+downloads: 100109
 summary: "WikiLingua는 18개 언어의 위키하우 기사와 요약 쌍으로 다국어 추상적 요약 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

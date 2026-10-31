@@ -3,7 +3,7 @@ type: "dataset"
 id: "DWK-Partners/trading-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DWK-Partners/trading-data"
-downloads: 17622
+downloads: 17731
 summary: "한국 DART와 미국 EDGAR 전자공시 데이터를 구조화하여 기업 공시 정보를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,3 +51,10 @@ dataset_size:
 - **도메인**: [[금융·경제]] — tag_match · readme, tags = `finance` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `Pre-collected Parquet files from DartLab — a Python library that turns DART (Korea) and EDGAR (US) disclosure filings into one structured company map.` · 신뢰도 low
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `DWKPartners/dartlab-data`
+- `DWKPartners/trading-data`
+- `DaffyDevESP/trading-data`
+- `Snowfall0601/dartlab-data`

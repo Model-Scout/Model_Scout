@@ -3,7 +3,7 @@ type: "dataset"
 id: "afaji/HyperBrowseComp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/afaji/HyperBrowseComp"
-downloads: 101
+downloads: 105
 summary: "HyperBrowseComp는 13개 언어로 된 웹 브라우징 에이전트 평가용 다국어·다중모달 스트레스 테스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

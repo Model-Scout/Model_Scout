@@ -3,7 +3,7 @@ type: "dataset"
 id: "RobotisAI/evButtonPush-260429-02-hdf5"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RobotisAI/evButtonPush-260429-02-hdf5"
-downloads: 867
+downloads: 892
 summary: "엘리베이터 콜 버튼 누르기 task용 ROBOTIS OMY 6-DoF 매니퓰레이터 시연 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

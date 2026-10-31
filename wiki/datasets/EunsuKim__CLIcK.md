@@ -3,7 +3,7 @@ type: "dataset"
 id: "EunsuKim/CLIcK"
 source: "huggingface"
 url: "https://huggingface.co/datasets/EunsuKim/CLIcK"
-downloads: 7940
+downloads: 7675
 summary: "한국어 언어 모델의 문화 및 언어 지능 평가를 위한 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `question` 열 p90 221자 ≈ 147 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `taeminlee/CLIcK`

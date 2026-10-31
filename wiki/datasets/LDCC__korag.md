@@ -3,7 +3,7 @@ type: "dataset"
 id: "LDCC/korag"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LDCC/korag"
-downloads: 173
+downloads: 171
 summary: "한국어 PDF 문서에서 질의에 맞는 문서를 검색하고 응답을 생성하는 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

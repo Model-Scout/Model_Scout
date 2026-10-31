@@ -3,7 +3,7 @@ type: "dataset"
 id: "almanach/halvest"
 source: "huggingface"
 url: "https://huggingface.co/datasets/almanach/halvest"
-downloads: 1175
+downloads: 1174
 summary: "HALvest는 HAL에서 수집한 오픈 과학 논문 전문 데이터셋으로 연구용으로 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

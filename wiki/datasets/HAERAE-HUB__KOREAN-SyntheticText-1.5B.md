@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/KOREAN-SyntheticText-1.5B"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/KOREAN-SyntheticText-1.5B"
-downloads: 93
+downloads: 113
 summary: "KOREAN-SyntheticText는 1.4B 토큰의 한국어 합성 텍스트 데이터셋으로 텍스트 생성에 사용됨."
 readme_status: "ok"
 readme_language: "en"

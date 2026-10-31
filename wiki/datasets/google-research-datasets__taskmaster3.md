@@ -3,7 +3,7 @@ type: "dataset"
 id: "google-research-datasets/taskmaster3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/taskmaster3"
-downloads: 290
+downloads: 320
 summary: "Taskmaster-3는 영화 티켓 구매 목표 대화 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

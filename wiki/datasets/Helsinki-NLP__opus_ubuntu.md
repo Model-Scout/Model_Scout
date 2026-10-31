@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/opus_ubuntu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/opus_ubuntu"
-downloads: 335
+downloads: 326
 summary: "Ubuntu 소프트웨어 패키지 메시지 번역 데이터셋으로 번역 모델 학습에 사용됨."
 readme_status: "template"
 readme_language: "en"

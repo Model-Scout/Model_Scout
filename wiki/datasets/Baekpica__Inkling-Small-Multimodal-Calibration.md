@@ -3,7 +3,7 @@ type: "dataset"
 id: "Baekpica/Inkling-Small-Multimodal-Calibration"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Baekpica/Inkling-Small-Multimodal-Calibration"
-downloads: 572
+downloads: 571
 summary: "Inkling-Small 모델의 BF16 라우티드 전문가 중요도 수집용 멀티모달 캘리브레이션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

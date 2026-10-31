@@ -3,7 +3,7 @@ type: "dataset"
 id: "recursal/SuperWikiImage-7M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/recursal/SuperWikiImage-7M"
-downloads: 579
+downloads: 605
 summary: "SuperWikiImage-7M은 위키피디아에서 수집한 약 700만 장 이미지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

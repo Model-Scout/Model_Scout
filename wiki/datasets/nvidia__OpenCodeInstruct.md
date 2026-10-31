@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/OpenCodeInstruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/OpenCodeInstruct"
-downloads: 43690
+downloads: 45293
 summary: "OpenCodeInstruct는 코드 생성 특화 LLM 학습용 500만 샘플 규모의 명령어 튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "singletongue/wikipedia-paragraphs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/singletongue/wikipedia-paragraphs"
-downloads: 38200
+downloads: 38289
 summary: "Wikipedia 문단과 위키링크 정보를 포함한 NLP 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "rileykim/MMDoc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rileykim/MMDoc"
-downloads: 193
+downloads: 195
 summary: "MMDoc는 10개 언어쌍의 문서 이미지와 OCR 결과를 포함한 다국어 문서 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "openlanguagedata/flores_plus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openlanguagedata/flores_plus"
-downloads: 11936
+downloads: 12542
 summary: "FLORES+는 다국어 기계 번역 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

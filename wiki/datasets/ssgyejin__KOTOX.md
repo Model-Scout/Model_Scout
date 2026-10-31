@@ -3,7 +3,7 @@ type: "dataset"
 id: "ssgyejin/KOTOX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ssgyejin/KOTOX"
-downloads: 89
+downloads: 95
 summary: "한국어 독성 텍스트 해독 및 정화 연구용으로 고안된 KOTOX 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

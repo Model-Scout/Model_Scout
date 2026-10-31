@@ -4,7 +4,7 @@ configs:
   data_files:
   - split: train
     path: "data/*.jsonl.gz"
-language: [ar, bg, bn, ca, cs, da, de, el, en, es, fa, fi, fil, fr, he, hi, hu, id, is, it, ja, ko, lt, lv, mk, ms, nb, nl, pl, pt, ro, ru, sh, sk, sl, sv, ta, tr, uk, ur, vi, zh]
+language: [ar, bg, bn, ca, cs, da, de, el, en, es, fa, fi, fil, fr, he, hi, hu, id, is, it, ja, ko, lt, lv, mk, ms, nb, nl, pl, pt, ro, ru, sh, sk, sl, sv, ta, th, tr, uk, ur, vi, zh]
 license: cc-by-sa-4.0
 multilinguality: multilingual
 pretty_name: WordTranslation — Offline Word Translation Packs (vocabradar/wordfreq vocabulary) / 离线单词翻译包（vocabradar/wordfreq 词表）
@@ -20,13 +20,13 @@ task_categories:
 
 ## What it is
 
-Offline word-translation packs for **42 languages** around English and Chinese: every word
+Offline word-translation packs for **43 languages** around English and Chinese: every word
 of a language's cleaned vocabulary, paired with its translations. **The vocabulary comes
 straight from the [vocabradar/wordfreq](https://huggingface.co/datasets/vocabradar/wordfreq)
 dataset** — that dataset is this one's direct source: the words translated here are its
-`small_<code>` lists, in the order they are stored there. 162 gzipped JSONL files,
-one per language pair (82.2 MiB in total, 0.09–1.07 MiB each);
-`en ⇄ X` and `zh ⇄ X` share the same 40 partner languages.
+`small_<code>` lists, in the order they are stored there. 166 gzipped JSONL files,
+one per language pair (83.5 MiB in total, 0.09–1.07 MiB each);
+`en ⇄ X` and `zh ⇄ X` share the same 41 partner languages (40 + Thai).
 
 ## What it is for
 
@@ -63,6 +63,13 @@ Reverse directions obtained by gloss inversion are less reliable for closed-clas
 `est` can be read as “east”. HanDeDict/CFDICT entries for grammatical particles are usage
 descriptions rather than single-word equivalents; both cases are kept as-is and marked here.
 
+**Quality control.** Every pack passes a content-level QC sweep before release
+(`tools/qc_check.py`): runaway model output (repeated-character runs, e.g. a French
+`aïe` once glossed as 呜呜呜呜…), placeholder/model-leak strings, mojibake and
+script violations are removed; stray leading combining marks are repaired; emptied
+words are re-translated by the local model cascade and re-checked. Rules and the
+2026-10 cleanup record live in `docs/`.
+
 All directions live in one directory: one gzip JSONL file per language pair,
 `data/<src>_<dst>.jsonl.gz` (the en ⇄ zh pair is stored once). Every line is one JSON
 object with a fixed pair of fields — a source `word` and its `translations`.
@@ -75,7 +82,7 @@ object with a fixed pair of fields — a source `word` and its `translations`.
 ├── README.md
 ├── meta.json                   # per-direction source, cap and language stats
 ├── files.json                  # per-file size (bytes) and SHA-256
-└── data/                       # 162 files: <src>_<dst>.jsonl.gz
+└── data/                       # 166 files: <src>_<dst>.jsonl.gz
 ```
 
 ## Data format
@@ -113,21 +120,21 @@ reverse-direction language has its own denominator.
 
 ### en → X (EnToX)
 
-English Wiktionary source; vocabulary = `small_en` of vocabradar/wordfreq — 40 languages
+English Wiktionary source; vocabulary = `small_en` of vocabradar/wordfreq — 41 languages
 
 | code | language | native name | first line | words translated | hits | entries |
 |------|----------|-------------|------------|------------------|----------|---------|
-| ar | Arabic | العربية | `{"word":"the","translations":["الـ","ال"]}` | 28,223 | 100.0% | 111,494 |
+| ar | Arabic | العربية | `{"word":"the","translations":["الـ","ال"]}` | 28,223 | 100.0% | 111,486 |
 | bg | Bulgarian | български | `{"word":"the","translations":["-та","-то","-те","по"]}` | 28,220 | 100.0% | 74,713 |
-| bn | Bengali | বাংলা | `{"word":"the","translations":["-রা","-এরা","-গুলা","-গুলো","-টা","-টি","গাছা","গাছি","মহাবিশ্ব"]}` | 28,223 | 100.0% | 68,266 |
-| ca | Catalan | català | `{"word":"the","translations":["el","la","l' els m pl les","es","sa","ets","sos","ses","els","les"]}` | 28,223 | 100.0% | 84,344 |
+| bn | Bengali | বাংলা | `{"word":"the","translations":["-রা","-এরা","-গুলা","-গুলো","-টা","-টি","গাছা","গাছি","মহাবিশ্ব"]}` | 28,223 | 100.0% | 67,972 |
+| ca | Catalan | català | `{"word":"the","translations":["el","la","l' els m pl les","es","sa","ets","sos","ses","els","les"]}` | 28,223 | 100.0% | 84,343 |
 | cs | Czech | čeština | `{"word":"the","translations":["ta","ten","to","určitý člen","člen určitý"]}` | 28,223 | 100.0% | 106,829 |
 | da | Danish | dansk | `{"word":"the","translations":["de","den","det","en","et","-et","-en","-ne"]}` | 28,223 | 100.0% | 63,132 |
 | de | German | Deutsch | `{"word":"the","translations":["der","die","das","de","dr","den","dieser","umso","Platz","der die das die"]}` | 28,223 | 100.0% | 146,827 |
 | el | Greek | Ελληνικά | `{"word":"the","translations":["ο","ὁ","στον","στη","στο","άρθρο","η","οι","παράμεσος","στα"]}` | 28,179 | 99.8% | 90,613 |
 | es | Spanish | español | `{"word":"the","translations":["el","la","los","las","lo","el la los las","entonces","pero","pues"]}` | 28,223 | 100.0% | 126,135 |
-| fa | Persian | فارسی | `{"word":"the","translations":["این","آن","ال","باسلیقون","ثلاثة غساله","دلیجه","ساز","سفیدرود","سنده","قبلة"]}` | 28,223 | 100.0% | 91,686 |
-| fi | Finnish | suomi | `{"word":"the","translations":["se","-ni","-si","-nsa","-nsä","-mme","-nne","minun","sinun","hänen"]}` | 28,223 | 100.0% | 128,416 |
+| fa | Persian | فارسی | `{"word":"the","translations":["این","آن","ال","باسلیقون","ثلاثة غساله","دلیجه","ساز","سفیدرود","سنده","قبلة"]}` | 28,223 | 100.0% | 91,682 |
+| fi | Finnish | suomi | `{"word":"the","translations":["se","-ni","-si","-nsa","-nsä","-mme","-nne","minun","sinun","hänen"]}` | 28,223 | 100.0% | 128,415 |
 | fil | Filipino | Filipino | `{"word":"the","translations":["ang","nang","mga"]}` | 28,223 | 100.0% | 48,367 |
 | fr | French | français | `{"word":"the","translations":["le","la","les","l'","comp.","colloquial or regional usage","acquitter","au","aux","ce"]}` | 28,223 | 100.0% | 132,443 |
 | he | Hebrew | עברית | `{"word":"the","translations":["ה־","ה"]}` | 28,222 | 100.0% | 50,356 |
@@ -135,7 +142,7 @@ English Wiktionary source; vocabulary = `small_en` of vocabradar/wordfreq — 40
 | hu | Hungarian | magyar | `{"word":"the","translations":["a","az"]}` | 28,223 | 100.0% | 104,597 |
 | id | Indonesian | Bahasa Indonesia | `{"word":"the","translations":["si","sang","itu","al","-nya","kian"]}` | 28,223 | 100.0% | 93,819 |
 | is | Icelandic | íslenska | `{"word":"the","translations":["-inn","hinn","hið","-in","-nar","-ið","-nir"]}` | 28,223 | 100.0% | 57,806 |
-| it | Italian | italiano | `{"word":"the","translations":["il","lo","la","l'","i","gli","le","li","lì","gl’"]}` | 28,223 | 100.0% | 120,332 |
+| it | Italian | italiano | `{"word":"the","translations":["il","lo","la","l'","i","gli","le","li","lì","gl’"]}` | 28,223 | 100.0% | 120,328 |
 | ja | Japanese | 日本語 | `{"word":"the","translations":["その","正に","正しく","ザ","這","あの","其の","定冠詞","当該","死因"]}` | 28,212 | 100.0% | 145,314 |
 | ko | Korean | 한국어 | `{"word":"the","translations":["-을수록","그","그만큼$2$","저","하면 할수록","하면 할수록 그만큼 더"]}` | 28,217 | 100.0% | 104,823 |
 | lt | Lithuanian | lietuvių | `{"word":"the","translations":["tai"]}` | 28,223 | 100.0% | 42,549 |
@@ -143,21 +150,22 @@ English Wiktionary source; vocabulary = `small_en` of vocabradar/wordfreq — 40
 | mk | Macedonian | македонски | `{"word":"the","translations":["-ов","-те","-от","многуте","највеќе","најголем дел","најмногу","онака","постојано","-во"]}` | 28,184 | 99.9% | 47,766 |
 | ms | Malay | Bahasa Melayu | `{"word":"the","translations":["sang","-nya","itu","ini","si","semakin..., semakin...","lagi..., lagi..."]}` | 28,223 | 100.0% | 85,179 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"the","translations":["det","den","-et","-en","-a","-i","de","desto","jo","-one"]}` | 28,223 | 100.0% | 68,517 |
-| nl | Dutch | Nederlands | `{"word":"the","translations":["de","het","aan de","aan het","des te","die","hoe","naar de","naar het","’t"]}` | 28,223 | 100.0% | 107,160 |
+| nl | Dutch | Nederlands | `{"word":"the","translations":["de","het","aan de","aan het","des te","die","hoe","naar de","naar het","’t"]}` | 28,223 | 100.0% | 107,151 |
 | pl | Polish | polski | `{"word":"the","translations":["ten","czym","im","przedimek określony","ta","to","te"]}` | 28,223 | 100.0% | 95,604 |
-| pt | Portuguese | português | `{"word":"the","translations":["o","a","os","as","o a os as"]}` | 28,223 | 100.0% | 107,950 |
+| pt | Portuguese | português | `{"word":"the","translations":["o","a","os","as","o a os as"]}` | 28,223 | 100.0% | 107,945 |
 | ro | Romanian | română | `{"word":"the","translations":["-ul","-a","cel","cea","-i","cele","-le"]}` | 28,223 | 100.0% | 61,507 |
 | ru | Russian | русский | `{"word":"the","translations":["на ходу","определенный артикль","определённый артикль","подходящий","такой","тем","тот","чем","чем... тем"]}` | 28,219 | 100.0% | 148,990 |
-| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"the","translations":["Alpe","Antarktika","Atlantik","Balkan","Baltik","Drava","Drina","Dunav","Holandija","Jadran"]}` | 28,209 | 100.0% | 118,148 |
+| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"the","translations":["Alpe","Antarktika","Atlantik","Balkan","Baltik","Drava","Drina","Dunav","Holandija","Jadran"]}` | 28,209 | 100.0% | 118,146 |
 | sk | Slovak | slovenčina | `{"word":"the","translations":["ten","to","tá"]}` | 28,223 | 100.0% | 98,458 |
 | sl | Slovenian | slovenščina | `{"word":"the","translations":["the"]}` | 28,223 | 100.0% | 76,078 |
 | sv | Swedish | svenska | `{"word":"the","translations":["den","dess","desto","-en","de","det","ju","vederbörande","vintergatan","överklassen"]}` | 28,223 | 100.0% | 100,554 |
-| ta | Tamil | தமிழ் | `{"word":"the","translations":["அது"]}` | 28,223 | 100.0% | 72,941 |
+| ta | Tamil | தமிழ் | `{"word":"the","translations":["அது"]}` | 28,223 | 100.0% | 72,940 |
+| th | Thai | ไทย | `{"word":"the","translations":["นั้น"]}` | 28,188 | 99.9% | 28,312 |
 | tr | Turkish | Türkçe | `{"word":"the","translations":["bir","harfi tarif","ne kadar","üstlenmek"]}` | 28,223 | 100.0% | 99,531 |
 | uk | Ukrainian | українська | `{"word":"the","translations":["те"]}` | 28,221 | 100.0% | 71,637 |
 | ur | Urdu | اردو | `{"word":"the","translations":["ال"]}` | 28,223 | 100.0% | 60,976 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"the","translations":["con","càng","cái","duy nhất","này","ấy"]}` | 28,223 | 100.0% | 95,230 |
-| **total** | 40 languages | — | — | 1,128,784 | 100.0% | 3,653,869 |
+| **total** | 41 languages | — | — | 1,156,972 | 100.0% | 3,681,852 |
 
 ### X → en (XToEn)
 
@@ -168,8 +176,8 @@ English Wiktionary source, inverted; vocabulary = `small_<code>` of vocabradar/w
 | ar | Arabic | العربية | `{"word":"في","translations":["a","in","on","at","by","into","through","during","times","within"]}` | 55,606 | 100.0% | 101,618 |
 | bg | Bulgarian | български | `{"word":"на","translations":["of","in","on","at","onto","lo"]}` | 35,848 | 100.0% | 55,492 |
 | bn | Bengali | বাংলা | `{"word":"না","translations":["not","no","don't","never","without","please","non","boat","un","na"]}` | 33,045 | 99.9% | 50,042 |
-| ca | Catalan | català | `{"word":"de","translations":["of","in","with","from","about","more","off","again","coral","dee"]}` | 27,028 | 100.0% | 60,057 |
-| cs | Czech | čeština | `{"word":"a","translations":["and","a","that","who","which","any","both","recent","double","plus"]}` | 51,744 | 100.0% | 92,064 |
+| ca | Catalan | català | `{"word":"de","translations":["of","in","with","from","about","more","off","again","coral","dee"]}` | 27,028 | 100.0% | 60,056 |
+| cs | Czech | čeština | `{"word":"a","translations":["and","a","that","who","which","any","both","recent","double","plus"]}` | 51,744 | 100.0% | 92,063 |
 | da | Danish | dansk | `{"word":"i","translations":["to","of","a","in","for","you","on","with","at","by"]}` | 29,321 | 100.0% | 50,479 |
 | de | German | Deutsch | `{"word":"die","translations":["the","a","that","this","but","an","all","what","who","which"]}` | 38,989 | 100.0% | 114,757 |
 | el | Greek | Ελληνικά | `{"word":"και","translations":["and","that","but","which","also","too","both"]}` | 43,188 | 100.0% | 61,778 |
@@ -177,14 +185,14 @@ English Wiktionary source, inverted; vocabulary = `small_<code>` of vocabradar/w
 | fa | Persian | فارسی | `{"word":"و","translations":["and","both"]}` | 30,108 | 100.0% | 57,014 |
 | fi | Finnish | suomi | `{"word":"ja","translations":["and","so","also","too","both","plus","likewise","wedge"]}` | 59,143 | 100.0% | 107,690 |
 | fil | Filipino | Filipino | `{"word":"sa","translations":["to","of","a","in","for","on","with","at","by","from"]}` | 30,098 | 100.0% | 40,648 |
-| fr | French | français | `{"word":"de","translations":["to","of","a","in","for","on","with","be","as","at"]}` | 31,203 | 100.0% | 100,219 |
+| fr | French | français | `{"word":"de","translations":["to","of","a","in","for","on","with","be","as","at"]}` | 31,203 | 100.0% | 100,218 |
 | he | Hebrew | עברית | `{"word":"את","translations":["you","with","me","alongside","amongst","thou","shovel","spade"]}` | 57,376 | 99.9% | 68,773 |
-| hi | Hindi | हिन्दी | `{"word":"के","translations":["of","in","for","with","as","have","by","from","his","about"]}` | 24,031 | 100.0% | 56,347 |
+| hi | Hindi | हिन्दी | `{"word":"के","translations":["of","in","for","with","as","have","by","from","his","about"]}` | 24,031 | 100.0% | 56,346 |
 | hu | Hungarian | magyar | `{"word":"a","translations":["the","a","black","amps"]}` | 46,525 | 100.0% | 81,700 |
 | id | Indonesian | Bahasa Indonesia | `{"word":"yang","translations":["that","who","which","second","third","whose","rel"]}` | 30,967 | 100.0% | 77,623 |
 | is | Icelandic | íslenska | `{"word":"og","translations":["and","but","which","also","both","plus"]}` | 42,207 | 100.0% | 56,957 |
-| it | Italian | italiano | `{"word":"di","translations":["to","of","in","for","that","on","with","be","at","by"]}` | 35,954 | 100.0% | 96,115 |
-| ja | Japanese | 日本語 | `{"word":"の","translations":["indicates possessive","nominalizes verbs and adjectives","substitutes for \"ga\" in subordinate phrases","indicates a confident conclusion","indicates emotional emphasis","indicates question","field","plain","hidden interior part","wild"]}` | 27,856 | 100.0% | 138,072 |
+| it | Italian | italiano | `{"word":"di","translations":["to","of","in","for","that","on","with","be","at","by"]}` | 35,954 | 100.0% | 96,114 |
+| ja | Japanese | 日本語 | `{"word":"の","translations":["indicates possessive","nominalizes verbs and adjectives","substitutes for \"ga\" in subordinate phrases","indicates a confident conclusion","indicates emotional emphasis","indicates question","field","plain","hidden interior part","wild"]}` | 27,856 | 100.0% | 138,071 |
 | ko | Korean | 한국어 | `{"word":"이","translations":["and","that","you","this","be","he","but","she","only","two"]}` | 26,807 | 100.0% | 48,935 |
 | lt | Lithuanian | lietuvių | `{"word":"ir","translations":["and","even","afterward"]}` | 63,973 | 100.0% | 71,616 |
 | lv | Latvian | latviešu | `{"word":"un","translations":["and"]}` | 45,464 | 100.0% | 51,239 |
@@ -192,25 +200,26 @@ English Wiktionary source, inverted; vocabulary = `small_<code>` of vocabradar/w
 | ms | Malay | Bahasa Melayu | `{"word":"yang","translations":["that","one","which","change","cash","coins","umbrella"]}` | 28,571 | 100.0% | 69,966 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"i","translations":["to","of","a","in","for","you","on","with","at","by"]}` | 25,994 | 100.0% | 48,694 |
 | nl | Dutch | Nederlands | `{"word":"de","translations":["the","you","this","one","able","bus","exposure","repaid","earthy"]}` | 28,715 | 100.0% | 78,061 |
-| pl | Polish | polski | `{"word":"w","translations":["to","of","a","in","for","on","with","at","by","an"]}` | 49,664 | 100.0% | 81,503 |
+| pl | Polish | polski | `{"word":"w","translations":["to","of","a","in","for","on","with","at","by","an"]}` | 49,664 | 100.0% | 81,502 |
 | pt | Portuguese | português | `{"word":"de","translations":["of","for","with","by","from","about","something","old","someone","hunger"]}` | 33,123 | 100.0% | 82,780 |
 | ro | Romanian | română | `{"word":"de","translations":["of","for","on","by","from","since","against"]}` | 43,279 | 100.0% | 62,582 |
 | ru | Russian | русский | `{"word":"в","translations":["to","of","a","in","for","on","with","as","at","by"]}` | 59,604 | 100.0% | 122,769 |
 | sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"je","translations":["is","are","if","has","her","did","sued"]}` | 54,698 | 100.0% | 97,376 |
-| sk | Slovak | slovenčina | `{"word":"a","translations":["and","amps"]}` | 59,414 | 100.0% | 101,830 |
+| sk | Slovak | slovenčina | `{"word":"a","translations":["and","amps"]}` | 59,414 | 100.0% | 101,829 |
 | sl | Slovenian | slovenščina | `{"word":"je","translations":["is"]}` | 53,882 | 100.0% | 77,313 |
 | sv | Swedish | svenska | `{"word":"är","translations":["is","are","am","result","arise"]}` | 30,515 | 100.0% | 66,415 |
 | ta | Tamil | தமிழ் | `{"word":"ஒரு","translations":["a","an","hour","sole","sheep","mono"]}` | 64,751 | 100.0% | 83,531 |
+| th | Thai | ไทย | `{"word":"ที่","translations":["place","that","which","who"]}` | 39,499 | 99.5% | 39,856 |
 | tr | Turkish | Türkçe | `{"word":"ve","translations":["and","so","both","species","vee"]}` | 63,130 | 100.0% | 95,737 |
 | uk | Ukrainian | українська | `{"word":"в","translations":["to","in","have","at","into","per"]}` | 46,285 | 100.0% | 62,505 |
 | ur | Urdu | اردو | `{"word":"کے","translations":["of","at"]}` | 22,442 | 100.0% | 37,850 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"là","translations":["is","that","was","be","as","are","were","been","how","some"]}` | 10,519 | 100.0% | 26,597 |
-| zh | Chinese | 中文 | `{"word":"的","translations":["of","s","used after an attribute when it modifies a noun","used at the end of a declarative sentence for emphasis","also pr. [di4] or [di5] in poetry and songs","a taxi","a cab","really and truly","bull's-eye","target"]}` | 35,723 | 100.0% | 145,875 |
-| **total** | 41 languages | — | — | 1,644,455 | 100.0% | 3,121,507 |
+| zh | Chinese | 中文 | `{"word":"的","translations":["of","s","used after an attribute when it modifies a noun","used at the end of a declarative sentence for emphasis","also pr. [di4] or [di5] in poetry and songs","a taxi","a cab","really and truly","bull's-eye","target"]}` | 35,723 | 100.0% | 145,872 |
+| **total** | 42 languages | — | — | 1,683,954 | 100.0% | 3,161,352 |
 
 ### zh → X (ZhToX)
 
-Chinese Wiktionary source; vocabulary = `small_zh` of vocabradar/wordfreq — 40 languages
+Chinese Wiktionary source; vocabulary = `small_zh` of vocabradar/wordfreq — 41 languages
 
 | code | language | native name | first line | words translated | hits | entries |
 |------|----------|-------------|------------|------------------|----------|---------|
@@ -220,7 +229,7 @@ Chinese Wiktionary source; vocabulary = `small_zh` of vocabradar/wordfreq — 40
 | ca | Catalan | català | `{"word":"的","translations":["de"]}` | 35,721 | 100.0% | 36,571 |
 | cs | Czech | čeština | `{"word":"的","translations":["Jeho"]}` | 35,723 | 100.0% | 36,903 |
 | da | Danish | dansk | `{"word":"的","translations":["Dan"]}` | 35,722 | 100.0% | 36,601 |
-| de | German | Deutsch | `{"word":"的","translations":["wird nach einem Adjektiv oder einer Attributphrase verwendet","wird nach einem Verb verwendet, um das Subjekt, die Zeit","Ziel, das Schwarze","klar"]}` | 35,721 | 100.0% | 60,923 |
+| de | German | Deutsch | `{"word":"的","translations":["wird nach einem Adjektiv oder einer Attributphrase verwendet","wird nach einem Verb verwendet, um das Subjekt, die Zeit","Ziel, das Schwarze","klar"]}` | 35,721 | 100.0% | 60,922 |
 | el | Greek | Ελληνικά | `{"word":"的","translations":["του"]}` | 35,229 | 98.6% | 36,199 |
 | es | Spanish | español | `{"word":"的","translations":["de"]}` | 35,723 | 100.0% | 38,381 |
 | fa | Persian | فارسی | `{"word":"的","translations":["که"]}` | 35,721 | 100.0% | 37,234 |
@@ -237,7 +246,7 @@ Chinese Wiktionary source; vocabulary = `small_zh` of vocabradar/wordfreq — 40
 | ko | Korean | 한국어 | `{"word":"的","translations":["-의"]}` | 35,706 | 100.0% | 36,859 |
 | lt | Lithuanian | lietuvių | `{"word":"的","translations":["ž"]}` | 35,721 | 100.0% | 36,204 |
 | lv | Latvian | latviešu | `{"word":"的","translations":["Latv"]}` | 35,663 | 99.8% | 36,253 |
-| mk | Macedonian | македонски | `{"word":"的","translations":["Македонски"]}` | 35,592 | 99.6% | 36,533 |
+| mk | Macedonian | македонски | `{"word":"的","translations":["Македонски"]}` | 35,587 | 99.6% | 36,528 |
 | ms | Malay | Bahasa Melayu | `{"word":"的","translations":["nya"]}` | 35,723 | 100.0% | 36,659 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"的","translations":["Det"]}` | 35,721 | 100.0% | 36,475 |
 | nl | Dutch | Nederlands | `{"word":"的","translations":["van"]}` | 35,723 | 100.0% | 37,389 |
@@ -245,16 +254,17 @@ Chinese Wiktionary source; vocabulary = `small_zh` of vocabradar/wordfreq — 40
 | pt | Portuguese | português | `{"word":"的","translations":["do"]}` | 35,719 | 100.0% | 37,492 |
 | ro | Romanian | română | `{"word":"的","translations":["de”"]}` | 35,719 | 100.0% | 36,937 |
 | ru | Russian | русский | `{"word":"的","translations":["дом"]}` | 35,694 | 99.9% | 63,021 |
-| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"的","translations":["Srbijanski"]}` | 35,495 | 99.4% | 37,199 |
+| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"的","translations":["Srbijanski"]}` | 35,494 | 99.4% | 37,198 |
 | sk | Slovak | slovenčina | `{"word":"的","translations":["So"]}` | 35,723 | 100.0% | 36,532 |
 | sl | Slovenian | slovenščina | `{"word":"的","translations":["Slovenski"]}` | 35,721 | 100.0% | 36,300 |
 | sv | Swedish | svenska | `{"word":"的","translations":["av"]}` | 35,723 | 100.0% | 37,092 |
 | ta | Tamil | தமிழ் | `{"word":"的","translations":["அதன்"]}` | 35,723 | 100.0% | 36,048 |
+| th | Thai | ไทย | `{"word":"的","translations":["ของ"]}` | 34,357 | 96.2% | 34,368 |
 | tr | Turkish | Türkçe | `{"word":"的","translations":["oldu"]}` | 35,723 | 100.0% | 37,256 |
 | uk | Ukrainian | українська | `{"word":"的","translations":["Українською"]}` | 35,699 | 99.9% | 37,623 |
 | ur | Urdu | اردو | `{"word":"的","translations":["کی"]}` | 35,723 | 100.0% | 36,683 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"的","translations":["của"]}` | 35,722 | 100.0% | 37,470 |
-| **total** | 40 languages | — | — | 1,427,844 | 99.9% | 1,559,097 |
+| **total** | 41 languages | — | — | 1,462,195 | 99.8% | 1,593,458 |
 
 ### X → zh (XToZh)
 
@@ -299,11 +309,12 @@ Chinese Wiktionary source, inverted; vocabulary = `small_<code>` of vocabradar/w
 | sl | Slovenian | slovenščina | `{"word":"je","translations":["je"]}` | 53,870 | 100.0% | 53,934 |
 | sv | Swedish | svenska | `{"word":"är","translations":["是"]}` | 30,507 | 100.0% | 30,680 |
 | ta | Tamil | தமிழ் | `{"word":"ஒரு","translations":["一个"]}` | 64,563 | 99.7% | 64,609 |
+| th | Thai | ไทย | `{"word":"ที่","translations":["地点","地點"]}` | 34,098 | 85.9% | 34,634 |
 | tr | Turkish | Türkçe | `{"word":"ve","translations":["ve"]}` | 63,011 | 99.8% | 63,200 |
 | uk | Ukrainian | українська | `{"word":"в","translations":["在"]}` | 46,084 | 99.6% | 46,236 |
 | ur | Urdu | اردو | `{"word":"کے","translations":["的"]}` | 22,415 | 99.9% | 22,547 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"là","translations":["是"]}` | 10,510 | 99.9% | 10,589 |
-| **total** | 41 languages | — | — | 1,634,555 | 99.8% | 1,750,627 |
+| **total** | 42 languages | — | — | 1,668,653 | 99.5% | 1,785,261 |
 
 ## Regenerating
 
@@ -377,11 +388,11 @@ so the words actually stick.
 
 ## 这是什么
 
-**42 种语言**的离线单词翻译包，围绕英文与中文两翼：把某语言清洗后的词表里的每个词配上译文。
+**43 种语言**的离线单词翻译包，围绕英文与中文两翼：把某语言清洗后的词表里的每个词配上译文。
 **词表直接来自 [vocabradar/wordfreq](https://huggingface.co/datasets/vocabradar/wordfreq)
 数据集** —— 它就是本数据集的直接源头：这里翻译的就是它的 `small_<code>` 词表，按它在数据集里的
-原顺序逐词来。共 162 个 gzip JSONL 文件，每对语言一个（合计 82.2 MiB，
-单个 0.09–1.07 MiB）；`en ⇄ X` 与 `zh ⇄ X` 共用同一批 40 种伙伴语言。
+原顺序逐词来。共 166 个 gzip JSONL 文件，每对语言一个（合计 83.5 MiB，
+单个 0.09–1.07 MiB）；`en ⇄ X` 与 `zh ⇄ X` 共用同一批 41 种伙伴语言（40 + 泰语）。
 
 ## 有什么用
 
@@ -408,6 +419,11 @@ Wiktionary（经 [wiktextract](https://github.com/tatuylonen/wiktextract) /
 （冠词、系动词、助词）可靠性较低：德语 `der` 可能落到实词义，法语 `est` 可能被读成“东”。
 HanDeDict/CFDICT 中语法助词的词条是用法说明而非单词对译；两类情况都按原样保留并在此注明。
 
+**发布前质检**：每个包发布前过一遍内容级质检（`tools/qc_check.py`）——模型失控复读
+（如法中 `aïe` 曾被译成 呜呜呜呜… 这类单字连跑）、占位语/模型泄漏、乱码与脚本违规
+一律剔除；游离附加号开头的词典残留原位修复；被清空的词走本地模型级联补译并复检。
+规则明细与 2026-10 清理记录见 `docs/`。
+
 所有方向共用一个目录：每对语言一个 gzip JSONL 文件 `data/<src>_<dst>.jsonl.gz`
 （en ⇄ zh 只存一份）。每行一个 JSON 对象，字段固定 —— 源词 `word` 及其 `translations`。
 
@@ -417,7 +433,7 @@ HanDeDict/CFDICT 中语法助词的词条是用法说明而非单词对译；两
 ├── README.md
 ├── meta.json                   # 各方向的来源、上限与语言统计
 ├── files.json                  # 每个文件的大小（字节）与 SHA-256
-└── data/                       # 162 个文件：<src>_<dst>.jsonl.gz
+└── data/                       # 166 个文件：<src>_<dst>.jsonl.gz
 ```
 
 ## 数据格式
@@ -452,17 +468,17 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 
 | 代码 | 语言 | 自称 | 首行 | 已译词数 | 命中率 | 条目数 |
 |------|------|------|------|----------|--------|--------|
-| ar | Arabic | العربية | `{"word":"the","translations":["الـ","ال"]}` | 28,223 | 100.0% | 111,494 |
+| ar | Arabic | العربية | `{"word":"the","translations":["الـ","ال"]}` | 28,223 | 100.0% | 111,486 |
 | bg | Bulgarian | български | `{"word":"the","translations":["-та","-то","-те","по"]}` | 28,220 | 100.0% | 74,713 |
-| bn | Bengali | বাংলা | `{"word":"the","translations":["-রা","-এরা","-গুলা","-গুলো","-টা","-টি","গাছা","গাছি","মহাবিশ্ব"]}` | 28,223 | 100.0% | 68,266 |
-| ca | Catalan | català | `{"word":"the","translations":["el","la","l' els m pl les","es","sa","ets","sos","ses","els","les"]}` | 28,223 | 100.0% | 84,344 |
+| bn | Bengali | বাংলা | `{"word":"the","translations":["-রা","-এরা","-গুলা","-গুলো","-টা","-টি","গাছা","গাছি","মহাবিশ্ব"]}` | 28,223 | 100.0% | 67,972 |
+| ca | Catalan | català | `{"word":"the","translations":["el","la","l' els m pl les","es","sa","ets","sos","ses","els","les"]}` | 28,223 | 100.0% | 84,343 |
 | cs | Czech | čeština | `{"word":"the","translations":["ta","ten","to","určitý člen","člen určitý"]}` | 28,223 | 100.0% | 106,829 |
 | da | Danish | dansk | `{"word":"the","translations":["de","den","det","en","et","-et","-en","-ne"]}` | 28,223 | 100.0% | 63,132 |
 | de | German | Deutsch | `{"word":"the","translations":["der","die","das","de","dr","den","dieser","umso","Platz","der die das die"]}` | 28,223 | 100.0% | 146,827 |
 | el | Greek | Ελληνικά | `{"word":"the","translations":["ο","ὁ","στον","στη","στο","άρθρο","η","οι","παράμεσος","στα"]}` | 28,179 | 99.8% | 90,613 |
 | es | Spanish | español | `{"word":"the","translations":["el","la","los","las","lo","el la los las","entonces","pero","pues"]}` | 28,223 | 100.0% | 126,135 |
-| fa | Persian | فارسی | `{"word":"the","translations":["این","آن","ال","باسلیقون","ثلاثة غساله","دلیجه","ساز","سفیدرود","سنده","قبلة"]}` | 28,223 | 100.0% | 91,686 |
-| fi | Finnish | suomi | `{"word":"the","translations":["se","-ni","-si","-nsa","-nsä","-mme","-nne","minun","sinun","hänen"]}` | 28,223 | 100.0% | 128,416 |
+| fa | Persian | فارسی | `{"word":"the","translations":["این","آن","ال","باسلیقون","ثلاثة غساله","دلیجه","ساز","سفیدرود","سنده","قبلة"]}` | 28,223 | 100.0% | 91,682 |
+| fi | Finnish | suomi | `{"word":"the","translations":["se","-ni","-si","-nsa","-nsä","-mme","-nne","minun","sinun","hänen"]}` | 28,223 | 100.0% | 128,415 |
 | fil | Filipino | Filipino | `{"word":"the","translations":["ang","nang","mga"]}` | 28,223 | 100.0% | 48,367 |
 | fr | French | français | `{"word":"the","translations":["le","la","les","l'","comp.","colloquial or regional usage","acquitter","au","aux","ce"]}` | 28,223 | 100.0% | 132,443 |
 | he | Hebrew | עברית | `{"word":"the","translations":["ה־","ה"]}` | 28,222 | 100.0% | 50,356 |
@@ -470,7 +486,7 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | hu | Hungarian | magyar | `{"word":"the","translations":["a","az"]}` | 28,223 | 100.0% | 104,597 |
 | id | Indonesian | Bahasa Indonesia | `{"word":"the","translations":["si","sang","itu","al","-nya","kian"]}` | 28,223 | 100.0% | 93,819 |
 | is | Icelandic | íslenska | `{"word":"the","translations":["-inn","hinn","hið","-in","-nar","-ið","-nir"]}` | 28,223 | 100.0% | 57,806 |
-| it | Italian | italiano | `{"word":"the","translations":["il","lo","la","l'","i","gli","le","li","lì","gl’"]}` | 28,223 | 100.0% | 120,332 |
+| it | Italian | italiano | `{"word":"the","translations":["il","lo","la","l'","i","gli","le","li","lì","gl’"]}` | 28,223 | 100.0% | 120,328 |
 | ja | Japanese | 日本語 | `{"word":"the","translations":["その","正に","正しく","ザ","這","あの","其の","定冠詞","当該","死因"]}` | 28,212 | 100.0% | 145,314 |
 | ko | Korean | 한국어 | `{"word":"the","translations":["-을수록","그","그만큼$2$","저","하면 할수록","하면 할수록 그만큼 더"]}` | 28,217 | 100.0% | 104,823 |
 | lt | Lithuanian | lietuvių | `{"word":"the","translations":["tai"]}` | 28,223 | 100.0% | 42,549 |
@@ -478,21 +494,22 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | mk | Macedonian | македонски | `{"word":"the","translations":["-ов","-те","-от","многуте","највеќе","најголем дел","најмногу","онака","постојано","-во"]}` | 28,184 | 99.9% | 47,766 |
 | ms | Malay | Bahasa Melayu | `{"word":"the","translations":["sang","-nya","itu","ini","si","semakin..., semakin...","lagi..., lagi..."]}` | 28,223 | 100.0% | 85,179 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"the","translations":["det","den","-et","-en","-a","-i","de","desto","jo","-one"]}` | 28,223 | 100.0% | 68,517 |
-| nl | Dutch | Nederlands | `{"word":"the","translations":["de","het","aan de","aan het","des te","die","hoe","naar de","naar het","’t"]}` | 28,223 | 100.0% | 107,160 |
+| nl | Dutch | Nederlands | `{"word":"the","translations":["de","het","aan de","aan het","des te","die","hoe","naar de","naar het","’t"]}` | 28,223 | 100.0% | 107,151 |
 | pl | Polish | polski | `{"word":"the","translations":["ten","czym","im","przedimek określony","ta","to","te"]}` | 28,223 | 100.0% | 95,604 |
-| pt | Portuguese | português | `{"word":"the","translations":["o","a","os","as","o a os as"]}` | 28,223 | 100.0% | 107,950 |
+| pt | Portuguese | português | `{"word":"the","translations":["o","a","os","as","o a os as"]}` | 28,223 | 100.0% | 107,945 |
 | ro | Romanian | română | `{"word":"the","translations":["-ul","-a","cel","cea","-i","cele","-le"]}` | 28,223 | 100.0% | 61,507 |
 | ru | Russian | русский | `{"word":"the","translations":["на ходу","определенный артикль","определённый артикль","подходящий","такой","тем","тот","чем","чем... тем"]}` | 28,219 | 100.0% | 148,990 |
-| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"the","translations":["Alpe","Antarktika","Atlantik","Balkan","Baltik","Drava","Drina","Dunav","Holandija","Jadran"]}` | 28,209 | 100.0% | 118,148 |
+| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"the","translations":["Alpe","Antarktika","Atlantik","Balkan","Baltik","Drava","Drina","Dunav","Holandija","Jadran"]}` | 28,209 | 100.0% | 118,146 |
 | sk | Slovak | slovenčina | `{"word":"the","translations":["ten","to","tá"]}` | 28,223 | 100.0% | 98,458 |
 | sl | Slovenian | slovenščina | `{"word":"the","translations":["the"]}` | 28,223 | 100.0% | 76,078 |
 | sv | Swedish | svenska | `{"word":"the","translations":["den","dess","desto","-en","de","det","ju","vederbörande","vintergatan","överklassen"]}` | 28,223 | 100.0% | 100,554 |
-| ta | Tamil | தமிழ் | `{"word":"the","translations":["அது"]}` | 28,223 | 100.0% | 72,941 |
+| ta | Tamil | தமிழ் | `{"word":"the","translations":["அது"]}` | 28,223 | 100.0% | 72,940 |
+| th | Thai | ไทย | `{"word":"the","translations":["นั้น"]}` | 28,188 | 99.9% | 28,312 |
 | tr | Turkish | Türkçe | `{"word":"the","translations":["bir","harfi tarif","ne kadar","üstlenmek"]}` | 28,223 | 100.0% | 99,531 |
 | uk | Ukrainian | українська | `{"word":"the","translations":["те"]}` | 28,221 | 100.0% | 71,637 |
 | ur | Urdu | اردو | `{"word":"the","translations":["ال"]}` | 28,223 | 100.0% | 60,976 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"the","translations":["con","càng","cái","duy nhất","này","ấy"]}` | 28,223 | 100.0% | 95,230 |
-| **合计** | 40 种语言 | — | — | 1,128,784 | 100.0% | 3,653,869 |
+| **合计** | 41 种语言 | — | — | 1,156,972 | 100.0% | 3,681,852 |
 
 ### X → en (XToEn)
 
@@ -503,8 +520,8 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | ar | Arabic | العربية | `{"word":"في","translations":["a","in","on","at","by","into","through","during","times","within"]}` | 55,606 | 100.0% | 101,618 |
 | bg | Bulgarian | български | `{"word":"на","translations":["of","in","on","at","onto","lo"]}` | 35,848 | 100.0% | 55,492 |
 | bn | Bengali | বাংলা | `{"word":"না","translations":["not","no","don't","never","without","please","non","boat","un","na"]}` | 33,045 | 99.9% | 50,042 |
-| ca | Catalan | català | `{"word":"de","translations":["of","in","with","from","about","more","off","again","coral","dee"]}` | 27,028 | 100.0% | 60,057 |
-| cs | Czech | čeština | `{"word":"a","translations":["and","a","that","who","which","any","both","recent","double","plus"]}` | 51,744 | 100.0% | 92,064 |
+| ca | Catalan | català | `{"word":"de","translations":["of","in","with","from","about","more","off","again","coral","dee"]}` | 27,028 | 100.0% | 60,056 |
+| cs | Czech | čeština | `{"word":"a","translations":["and","a","that","who","which","any","both","recent","double","plus"]}` | 51,744 | 100.0% | 92,063 |
 | da | Danish | dansk | `{"word":"i","translations":["to","of","a","in","for","you","on","with","at","by"]}` | 29,321 | 100.0% | 50,479 |
 | de | German | Deutsch | `{"word":"die","translations":["the","a","that","this","but","an","all","what","who","which"]}` | 38,989 | 100.0% | 114,757 |
 | el | Greek | Ελληνικά | `{"word":"και","translations":["and","that","but","which","also","too","both"]}` | 43,188 | 100.0% | 61,778 |
@@ -512,14 +529,14 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | fa | Persian | فارسی | `{"word":"و","translations":["and","both"]}` | 30,108 | 100.0% | 57,014 |
 | fi | Finnish | suomi | `{"word":"ja","translations":["and","so","also","too","both","plus","likewise","wedge"]}` | 59,143 | 100.0% | 107,690 |
 | fil | Filipino | Filipino | `{"word":"sa","translations":["to","of","a","in","for","on","with","at","by","from"]}` | 30,098 | 100.0% | 40,648 |
-| fr | French | français | `{"word":"de","translations":["to","of","a","in","for","on","with","be","as","at"]}` | 31,203 | 100.0% | 100,219 |
+| fr | French | français | `{"word":"de","translations":["to","of","a","in","for","on","with","be","as","at"]}` | 31,203 | 100.0% | 100,218 |
 | he | Hebrew | עברית | `{"word":"את","translations":["you","with","me","alongside","amongst","thou","shovel","spade"]}` | 57,376 | 99.9% | 68,773 |
-| hi | Hindi | हिन्दी | `{"word":"के","translations":["of","in","for","with","as","have","by","from","his","about"]}` | 24,031 | 100.0% | 56,347 |
+| hi | Hindi | हिन्दी | `{"word":"के","translations":["of","in","for","with","as","have","by","from","his","about"]}` | 24,031 | 100.0% | 56,346 |
 | hu | Hungarian | magyar | `{"word":"a","translations":["the","a","black","amps"]}` | 46,525 | 100.0% | 81,700 |
 | id | Indonesian | Bahasa Indonesia | `{"word":"yang","translations":["that","who","which","second","third","whose","rel"]}` | 30,967 | 100.0% | 77,623 |
 | is | Icelandic | íslenska | `{"word":"og","translations":["and","but","which","also","both","plus"]}` | 42,207 | 100.0% | 56,957 |
-| it | Italian | italiano | `{"word":"di","translations":["to","of","in","for","that","on","with","be","at","by"]}` | 35,954 | 100.0% | 96,115 |
-| ja | Japanese | 日本語 | `{"word":"の","translations":["indicates possessive","nominalizes verbs and adjectives","substitutes for \"ga\" in subordinate phrases","indicates a confident conclusion","indicates emotional emphasis","indicates question","field","plain","hidden interior part","wild"]}` | 27,856 | 100.0% | 138,072 |
+| it | Italian | italiano | `{"word":"di","translations":["to","of","in","for","that","on","with","be","at","by"]}` | 35,954 | 100.0% | 96,114 |
+| ja | Japanese | 日本語 | `{"word":"の","translations":["indicates possessive","nominalizes verbs and adjectives","substitutes for \"ga\" in subordinate phrases","indicates a confident conclusion","indicates emotional emphasis","indicates question","field","plain","hidden interior part","wild"]}` | 27,856 | 100.0% | 138,071 |
 | ko | Korean | 한국어 | `{"word":"이","translations":["and","that","you","this","be","he","but","she","only","two"]}` | 26,807 | 100.0% | 48,935 |
 | lt | Lithuanian | lietuvių | `{"word":"ir","translations":["and","even","afterward"]}` | 63,973 | 100.0% | 71,616 |
 | lv | Latvian | latviešu | `{"word":"un","translations":["and"]}` | 45,464 | 100.0% | 51,239 |
@@ -527,21 +544,22 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | ms | Malay | Bahasa Melayu | `{"word":"yang","translations":["that","one","which","change","cash","coins","umbrella"]}` | 28,571 | 100.0% | 69,966 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"i","translations":["to","of","a","in","for","you","on","with","at","by"]}` | 25,994 | 100.0% | 48,694 |
 | nl | Dutch | Nederlands | `{"word":"de","translations":["the","you","this","one","able","bus","exposure","repaid","earthy"]}` | 28,715 | 100.0% | 78,061 |
-| pl | Polish | polski | `{"word":"w","translations":["to","of","a","in","for","on","with","at","by","an"]}` | 49,664 | 100.0% | 81,503 |
+| pl | Polish | polski | `{"word":"w","translations":["to","of","a","in","for","on","with","at","by","an"]}` | 49,664 | 100.0% | 81,502 |
 | pt | Portuguese | português | `{"word":"de","translations":["of","for","with","by","from","about","something","old","someone","hunger"]}` | 33,123 | 100.0% | 82,780 |
 | ro | Romanian | română | `{"word":"de","translations":["of","for","on","by","from","since","against"]}` | 43,279 | 100.0% | 62,582 |
 | ru | Russian | русский | `{"word":"в","translations":["to","of","a","in","for","on","with","as","at","by"]}` | 59,604 | 100.0% | 122,769 |
 | sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"je","translations":["is","are","if","has","her","did","sued"]}` | 54,698 | 100.0% | 97,376 |
-| sk | Slovak | slovenčina | `{"word":"a","translations":["and","amps"]}` | 59,414 | 100.0% | 101,830 |
+| sk | Slovak | slovenčina | `{"word":"a","translations":["and","amps"]}` | 59,414 | 100.0% | 101,829 |
 | sl | Slovenian | slovenščina | `{"word":"je","translations":["is"]}` | 53,882 | 100.0% | 77,313 |
 | sv | Swedish | svenska | `{"word":"är","translations":["is","are","am","result","arise"]}` | 30,515 | 100.0% | 66,415 |
 | ta | Tamil | தமிழ் | `{"word":"ஒரு","translations":["a","an","hour","sole","sheep","mono"]}` | 64,751 | 100.0% | 83,531 |
+| th | Thai | ไทย | `{"word":"ที่","translations":["place","that","which","who"]}` | 39,499 | 99.5% | 39,856 |
 | tr | Turkish | Türkçe | `{"word":"ve","translations":["and","so","both","species","vee"]}` | 63,130 | 100.0% | 95,737 |
 | uk | Ukrainian | українська | `{"word":"в","translations":["to","in","have","at","into","per"]}` | 46,285 | 100.0% | 62,505 |
 | ur | Urdu | اردو | `{"word":"کے","translations":["of","at"]}` | 22,442 | 100.0% | 37,850 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"là","translations":["is","that","was","be","as","are","were","been","how","some"]}` | 10,519 | 100.0% | 26,597 |
-| zh | Chinese | 中文 | `{"word":"的","translations":["of","s","used after an attribute when it modifies a noun","used at the end of a declarative sentence for emphasis","also pr. [di4] or [di5] in poetry and songs","a taxi","a cab","really and truly","bull's-eye","target"]}` | 35,723 | 100.0% | 145,875 |
-| **合计** | 41 种语言 | — | — | 1,644,455 | 100.0% | 3,121,507 |
+| zh | Chinese | 中文 | `{"word":"的","translations":["of","s","used after an attribute when it modifies a noun","used at the end of a declarative sentence for emphasis","also pr. [di4] or [di5] in poetry and songs","a taxi","a cab","really and truly","bull's-eye","target"]}` | 35,723 | 100.0% | 145,872 |
+| **合计** | 42 种语言 | — | — | 1,683,954 | 100.0% | 3,161,352 |
 
 ### zh → X (ZhToX)
 
@@ -555,7 +573,7 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | ca | Catalan | català | `{"word":"的","translations":["de"]}` | 35,721 | 100.0% | 36,571 |
 | cs | Czech | čeština | `{"word":"的","translations":["Jeho"]}` | 35,723 | 100.0% | 36,903 |
 | da | Danish | dansk | `{"word":"的","translations":["Dan"]}` | 35,722 | 100.0% | 36,601 |
-| de | German | Deutsch | `{"word":"的","translations":["wird nach einem Adjektiv oder einer Attributphrase verwendet","wird nach einem Verb verwendet, um das Subjekt, die Zeit","Ziel, das Schwarze","klar"]}` | 35,721 | 100.0% | 60,923 |
+| de | German | Deutsch | `{"word":"的","translations":["wird nach einem Adjektiv oder einer Attributphrase verwendet","wird nach einem Verb verwendet, um das Subjekt, die Zeit","Ziel, das Schwarze","klar"]}` | 35,721 | 100.0% | 60,922 |
 | el | Greek | Ελληνικά | `{"word":"的","translations":["του"]}` | 35,229 | 98.6% | 36,199 |
 | es | Spanish | español | `{"word":"的","translations":["de"]}` | 35,723 | 100.0% | 38,381 |
 | fa | Persian | فارسی | `{"word":"的","translations":["که"]}` | 35,721 | 100.0% | 37,234 |
@@ -572,7 +590,7 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | ko | Korean | 한국어 | `{"word":"的","translations":["-의"]}` | 35,706 | 100.0% | 36,859 |
 | lt | Lithuanian | lietuvių | `{"word":"的","translations":["ž"]}` | 35,721 | 100.0% | 36,204 |
 | lv | Latvian | latviešu | `{"word":"的","translations":["Latv"]}` | 35,663 | 99.8% | 36,253 |
-| mk | Macedonian | македонски | `{"word":"的","translations":["Македонски"]}` | 35,592 | 99.6% | 36,533 |
+| mk | Macedonian | македонски | `{"word":"的","translations":["Македонски"]}` | 35,587 | 99.6% | 36,528 |
 | ms | Malay | Bahasa Melayu | `{"word":"的","translations":["nya"]}` | 35,723 | 100.0% | 36,659 |
 | nb | Norwegian Bokmål | norsk bokmål | `{"word":"的","translations":["Det"]}` | 35,721 | 100.0% | 36,475 |
 | nl | Dutch | Nederlands | `{"word":"的","translations":["van"]}` | 35,723 | 100.0% | 37,389 |
@@ -580,16 +598,17 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | pt | Portuguese | português | `{"word":"的","translations":["do"]}` | 35,719 | 100.0% | 37,492 |
 | ro | Romanian | română | `{"word":"的","translations":["de”"]}` | 35,719 | 100.0% | 36,937 |
 | ru | Russian | русский | `{"word":"的","translations":["дом"]}` | 35,694 | 99.9% | 63,021 |
-| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"的","translations":["Srbijanski"]}` | 35,495 | 99.4% | 37,199 |
+| sh | Serbo-Croatian | srpskohrvatski / српскохрватски | `{"word":"的","translations":["Srbijanski"]}` | 35,494 | 99.4% | 37,198 |
 | sk | Slovak | slovenčina | `{"word":"的","translations":["So"]}` | 35,723 | 100.0% | 36,532 |
 | sl | Slovenian | slovenščina | `{"word":"的","translations":["Slovenski"]}` | 35,721 | 100.0% | 36,300 |
 | sv | Swedish | svenska | `{"word":"的","translations":["av"]}` | 35,723 | 100.0% | 37,092 |
 | ta | Tamil | தமிழ் | `{"word":"的","translations":["அதன்"]}` | 35,723 | 100.0% | 36,048 |
+| th | Thai | ไทย | `{"word":"的","translations":["ของ"]}` | 34,357 | 96.2% | 34,368 |
 | tr | Turkish | Türkçe | `{"word":"的","translations":["oldu"]}` | 35,723 | 100.0% | 37,256 |
 | uk | Ukrainian | українська | `{"word":"的","translations":["Українською"]}` | 35,699 | 99.9% | 37,623 |
 | ur | Urdu | اردو | `{"word":"的","translations":["کی"]}` | 35,723 | 100.0% | 36,683 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"的","translations":["của"]}` | 35,722 | 100.0% | 37,470 |
-| **合计** | 40 种语言 | — | — | 1,427,844 | 99.9% | 1,559,097 |
+| **合计** | 41 种语言 | — | — | 1,462,195 | 99.8% | 1,593,458 |
 
 ### X → zh (XToZh)
 
@@ -634,11 +653,12 @@ native name 同源）。*首行* 是该行自己那个文件的第一行，原�
 | sl | Slovenian | slovenščina | `{"word":"je","translations":["je"]}` | 53,870 | 100.0% | 53,934 |
 | sv | Swedish | svenska | `{"word":"är","translations":["是"]}` | 30,507 | 100.0% | 30,680 |
 | ta | Tamil | தமிழ் | `{"word":"ஒரு","translations":["一个"]}` | 64,563 | 99.7% | 64,609 |
+| th | Thai | ไทย | `{"word":"ที่","translations":["地点","地點"]}` | 34,098 | 85.9% | 34,634 |
 | tr | Turkish | Türkçe | `{"word":"ve","translations":["ve"]}` | 63,011 | 99.8% | 63,200 |
 | uk | Ukrainian | українська | `{"word":"в","translations":["在"]}` | 46,084 | 99.6% | 46,236 |
 | ur | Urdu | اردو | `{"word":"کے","translations":["的"]}` | 22,415 | 99.9% | 22,547 |
 | vi | Vietnamese | Tiếng Việt | `{"word":"là","translations":["是"]}` | 10,510 | 99.9% | 10,589 |
-| **合计** | 41 种语言 | — | — | 1,634,555 | 99.8% | 1,750,627 |
+| **合计** | 42 种语言 | — | — | 1,668,653 | 99.5% | 1,785,261 |
 
 ## 重新生成
 

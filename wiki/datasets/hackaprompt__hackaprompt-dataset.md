@@ -3,7 +3,7 @@ type: "dataset"
 id: "hackaprompt/hackaprompt-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hackaprompt/hackaprompt-dataset"
-downloads: 1137
+downloads: 1101
 summary: "프롬프트 해킹 대회 제출물을 모은 데이터셋으로 분석 연구에 활용됨."
 readme_status: "template"
 readme_language: "en"

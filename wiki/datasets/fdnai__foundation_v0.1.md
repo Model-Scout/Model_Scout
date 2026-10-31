@@ -3,7 +3,7 @@ type: "dataset"
 id: "fdnai/foundation_v0.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fdnai/foundation_v0.1"
-downloads: 566
+downloads: 557
 summary: "101개 언어로 된 LLM 사전학습 전용 파운데이션 레이어 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

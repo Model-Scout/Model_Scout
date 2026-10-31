@@ -3,7 +3,7 @@ type: "dataset"
 id: "LHF/escorpius-mr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LHF/escorpius-mr"
-downloads: 8979
+downloads: 8940
 summary: "esCorpius-mr은 다국어 웹 크롤링 원시 말뭉치로, 중복 제거 도구 벤치마킹에 사용됨."
 readme_status: "ok"
 readme_language: "en"

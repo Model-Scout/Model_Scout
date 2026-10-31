@@ -3,7 +3,7 @@ type: "dataset"
 id: "TrustAIRLab/in-the-wild-jailbreak-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts"
-downloads: 4886
+downloads: 4685
 summary: "대규모 언어 모델의 탈옥 프롬프트를 수집·분석한 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

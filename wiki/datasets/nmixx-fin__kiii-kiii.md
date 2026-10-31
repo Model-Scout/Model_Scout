@@ -3,7 +3,7 @@ type: "dataset"
 id: "nmixx-fin/kiii-kiii"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nmixx-fin/kiii-kiii"
-downloads: 93
+downloads: 84
 summary: "한국 금융 문서의 개인정보 탐지 평가용 합성 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

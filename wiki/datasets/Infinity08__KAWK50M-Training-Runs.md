@@ -3,7 +3,7 @@ type: "dataset"
 id: "Infinity08/KAWK50M-Training-Runs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Infinity08/KAWK50M-Training-Runs"
-downloads: 217
+downloads: 206
 summary: "KAWK50M 프로젝트의 학습 이력 아카이브로 실험 재현과 진단용 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"

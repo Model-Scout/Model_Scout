@@ -3,7 +3,7 @@ type: "dataset"
 id: "deepmind/aqua_rat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deepmind/aqua_rat"
-downloads: 19455
+downloads: 19618
 summary: "약 10만 개의 대수학 문제와 단계별 해설로 구성된 데이터셋으로, 문제 해결 프로그램 생성 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

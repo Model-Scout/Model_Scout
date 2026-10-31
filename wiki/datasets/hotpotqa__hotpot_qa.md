@@ -3,7 +3,7 @@ type: "dataset"
 id: "hotpotqa/hotpot_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hotpotqa/hotpot_qa"
-downloads: 83373
+downloads: 82259
 summary: "HotpotQA는 위키피디아 기반 다중 문서 추론 질문-답변 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

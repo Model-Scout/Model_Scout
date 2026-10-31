@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/kor_race"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/kor_race"
-downloads: 159
+downloads: 164
 summary: "RACE 데이터셋은 비상업적 연구용으로 인터넷에서 수집한 지문과 문제로 구성된 영어 독해 평가 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

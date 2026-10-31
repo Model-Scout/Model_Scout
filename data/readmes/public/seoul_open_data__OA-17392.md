@@ -1,6 +1,6 @@
 # 서울시 가판 시설 운영정보
 
-서울시 가판 시설 운영정보. http://openapi.seoul.go.kr:8088/sample/xml/servicerGapanInfo/1/5/
+서울시 가판 시설 운영정보. http://openapi.seoul.go.kr:8088/sample/xml/servicerGapanInfo/1/5/ 제공 필드: 시도, 시설물명, 시설물타입, 시설면적(높이), 점용면적(넓이), 시설면적(세로), 점용면적(세로), 시설면적(가로), 점용종료일, 점용구분, 점용시작일, 관리번호, 본번, 주변정보, 점용면적(가로), 도로명주소, 시군구, 부번, 법정동, 지형
 
 서비스명: servicerGapanInfo
 

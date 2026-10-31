@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-thoughts/OpenThoughts-114k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-thoughts/OpenThoughts-114k"
-downloads: 96583
+downloads: 98499
 summary: "수학, 과학, 코드, 퍼즐 문제를 포함한 114k 고품질 추론 데이터셋으로 모델 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

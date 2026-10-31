@@ -3,7 +3,7 @@ type: "dataset"
 id: "PoetryMTEB/MultilingualPoetryGEWEmotionClassification"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PoetryMTEB/MultilingualPoetryGEWEmotionClassification"
-downloads: 217
+downloads: 222
 summary: "다국어 시 감정 분류 데이터셋으로, Geneva Emotion Wheel 기반 다중 레이블 감정 분류에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bgub/wikipedia-mds"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bgub/wikipedia-mds"
-downloads: 996
+downloads: 950
 summary: "위키피디아 덤프에서 언어별로 정제된 전체 문서 데이터를 학습용으로 제공하는 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

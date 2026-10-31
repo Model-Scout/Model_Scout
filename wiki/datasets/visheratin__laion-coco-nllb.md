@@ -3,7 +3,7 @@ type: "dataset"
 id: "visheratin/laion-coco-nllb"
 source: "huggingface"
 url: "https://huggingface.co/datasets/visheratin/laion-coco-nllb"
-downloads: 1322
+downloads: 1510
 summary: "LAION-COCO 데이터셋을 NLLB-200 모델로 200개 언어로 번역한 이미지 캡션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

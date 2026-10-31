@@ -3,7 +3,7 @@ type: "dataset"
 id: "Hikaf143/LLMDataProcessing"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Hikaf143/LLMDataProcessing"
-downloads: 80
+downloads: 82
 summary: "Common Crawl 원시 데이터를 전처리해 LLM 사전학습, SFT, DPO용 데이터셋으로 만든 파이프라인 결과물입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ Common Crawl 원시 데이터를 전처리해 LLM 사전학습, SFT, DPO용 데�
 - **도메인**: [[일반]] — ner · readme = `real scraped web content` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `pretraining corpus, plus a derived SFT (instruction-tuning) set and a DPO (preference) set` · 신뢰도 medium
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `mkd-minju/LLMDataProcessing`

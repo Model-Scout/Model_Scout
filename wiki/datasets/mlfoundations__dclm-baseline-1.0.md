@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dclm-baseline-1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dclm-baseline-1.0"
-downloads: 323254
+downloads: 341787
 summary: "DCLM-baseline은 4조 토큰, 30억 문서 기반 언어 모델 사전학습용 연구 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

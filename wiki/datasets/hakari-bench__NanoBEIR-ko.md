@@ -3,7 +3,7 @@ type: "dataset"
 id: "hakari-bench/NanoBEIR-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hakari-bench/NanoBEIR-ko"
-downloads: 262
+downloads: 249
 summary: "NanoBEIR-ko는 한국어 문서 랭킹 평가를 위한 Nano 스타일 검색 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

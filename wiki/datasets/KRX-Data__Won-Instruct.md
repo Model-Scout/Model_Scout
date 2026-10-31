@@ -3,7 +3,7 @@ type: "dataset"
 id: "KRX-Data/Won-Instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KRX-Data/Won-Instruct"
-downloads: 208
+downloads: 218
 summary: "한국 금융 분야 전문 언어 모델 학습용 금융 추론 지침-응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "carosh/cli-1m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/carosh/cli-1m"
-downloads: 229
+downloads: 224
 summary: "산업별 다양한 자연어-셸 명령어 쌍 97만 개로 구성된 다국어 CLI 명령어 생성 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -50,3 +50,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `SFT-ready, license-filtered, quality-gated` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `gavi56/cli-1m`

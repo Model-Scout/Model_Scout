@@ -31,3 +31,31 @@ data_format:
 - **도메인**: [[지리·위치]] — tag_match · tags, title/keywords = `위치` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `seoul_open_data/OA-20889`
+- `seoul_open_data/OA-20890`
+- `seoul_open_data/OA-20891`
+- `seoul_open_data/OA-20892`
+- `seoul_open_data/OA-20893`
+- `seoul_open_data/OA-20894`
+- `seoul_open_data/OA-20895`
+- `seoul_open_data/OA-20896`
+- `seoul_open_data/OA-20897`
+- `seoul_open_data/OA-20898`
+- `seoul_open_data/OA-20899`
+- `seoul_open_data/OA-20900`
+- `seoul_open_data/OA-20901`
+- `seoul_open_data/OA-20902`
+- `seoul_open_data/OA-20903`
+- `seoul_open_data/OA-20904`
+- `seoul_open_data/OA-20905`
+- `seoul_open_data/OA-20906`
+- `seoul_open_data/OA-20907`
+- `seoul_open_data/OA-20908`
+- `seoul_open_data/OA-20909`
+- `seoul_open_data/OA-20910`
+- `seoul_open_data/OA-20911`
+- `seoul_open_data/OA-20912`
+- `seoul_open_data/OA-20913`

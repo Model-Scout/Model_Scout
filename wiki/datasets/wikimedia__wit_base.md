@@ -3,7 +3,7 @@ type: "dataset"
 id: "wikimedia/wit_base"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wikimedia/wit_base"
-downloads: 6813
+downloads: 6853
 summary: "WIT는 위키백과 이미지와 텍스트를 연결한 다국어 멀티모달 데이터셋으로 이미지 캡셔닝과 텍스트 검색에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -61,3 +61,7 @@ WIT는 위키백과 이미지와 텍스트를 연결한 다국어 멀티모달 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `caption_attribution_description` 열 p90 1612자 ≈ 403 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `VedaLabs/wit_base`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "liuhaotian/LLaVA-Pretrain"
 source: "huggingface"
 url: "https://huggingface.co/datasets/liuhaotian/LLaVA-Pretrain"
-downloads: 6591
+downloads: 6595
 summary: "LLaVA-Pretrain은 GPT-4 비전/언어 능력 향상을 위한 시각-언어 사전학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

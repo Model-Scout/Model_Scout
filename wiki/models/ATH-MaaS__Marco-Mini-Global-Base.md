@@ -52,7 +52,6 @@ model_size:
 - [[nvidia__Nemotron-CC-v2|nvidia/Nemotron-CC-v2]]
 - [[nvidia__Nemotron-CC-v2.1|nvidia/Nemotron-CC-v2.1]]
 - [[nvidia__Nemotron-Pretraining-SFT-v1|nvidia/Nemotron-Pretraining-SFT-v1]]
-- [[nvidia__Nemotron-Pretraining-Specialized-v1|nvidia/Nemotron-Pretraining-Specialized-v1]]
 - [[nvidia__OpenMathInstruct-2|nvidia/OpenMathInstruct-2]]
 - [[open-thoughts__OpenThoughts3-1.2M|open-thoughts/OpenThoughts3-1.2M]]
 - [[opencsg__Fineweb-Edu-Chinese-V2.1|opencsg/Fineweb-Edu-Chinese-V2.1]]

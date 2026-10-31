@@ -3,7 +3,7 @@ type: "dataset"
 id: "snupilab/aka-llama-korean-dataset-multiturn-raw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/snupilab/aka-llama-korean-dataset-multiturn-raw"
-downloads: 145
+downloads: 155
 summary: "한국어 다중턴 대화 생성을 위한 원시 대화 데이터셋으로 연구 개발용입니다."
 readme_status: "ok"
 readme_language: "en"

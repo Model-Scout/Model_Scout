@@ -3,7 +3,7 @@ type: "dataset"
 id: "miracl/miracl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/miracl/miracl"
-downloads: 13258
+downloads: 13532
 summary: "MIRACL은 18개 언어의 다국어 정보 검색을 위한 주제와 관련성 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

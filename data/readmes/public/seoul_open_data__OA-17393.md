@@ -1,6 +1,6 @@
 # 서울시 도로점용지 정보
 
-서울시 도로점용지 정보. http://openapi.seoul.go.kr:8088/sample/xml/servicePlace/1/5/
+서울시 도로점용지 정보. http://openapi.seoul.go.kr:8088/sample/xml/servicePlace/1/5/ 제공 필드: 세입구분, 시도, 점용종료일, 점용구분, 점용시작일, 점용종류, 관리번호, 본번, 점용면적, 도로명주소 본번, 도로명주소 부번, 도로명주소, 시군구, 부번, 법정동
 
 서비스명: servicePlace
 

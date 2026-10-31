@@ -3,7 +3,7 @@ type: "dataset"
 id: "tahmedge/MM-JudgeBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tahmedge/MM-JudgeBench"
-downloads: 345
+downloads: 305
 summary: "MM-JudgeBench는 다국어 멀티모달 선호도 평가용 비전-언어 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

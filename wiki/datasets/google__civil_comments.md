@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/civil_comments"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/civil_comments"
-downloads: 11079
+downloads: 10987
 summary: "2015~2017년 영어 뉴스 사이트 댓글 데이터로, 연구용 공개 아카이브입니다."
 readme_status: "template"
 readme_language: "en"

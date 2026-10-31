@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/AyaVisionBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/AyaVisionBench"
-downloads: 519
+downloads: 515
 summary: "Aya Vision Benchmark는 23개 언어와 9개 시각-언어 과제로 다국어 시각-언어 모델 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -57,3 +57,7 @@ Aya Vision Benchmark는 23개 언어와 9개 시각-언어 과제로 다국어 �
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `prompt` 열 p90 113자 ≈ 28 토큰 (viewer statistics, kor_Hang/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/cohereforai/ayavisionbench`

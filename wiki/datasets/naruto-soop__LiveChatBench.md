@@ -3,7 +3,7 @@ type: "dataset"
 id: "naruto-soop/LiveChatBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/naruto-soop/LiveChatBench"
-downloads: 100
+downloads: 91
 summary: "한국어 라이브 스트리밍 채팅 메시지의 영어 번역 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

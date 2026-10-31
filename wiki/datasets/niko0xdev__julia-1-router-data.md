@@ -3,7 +3,7 @@ type: "dataset"
 id: "niko0xdev/julia-1-router-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/niko0xdev/julia-1-router-data"
-downloads: 112
+downloads: 121
 summary: "julia-1-router 모델 학습 및 평가용 합성 다국어 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

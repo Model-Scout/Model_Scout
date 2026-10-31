@@ -3,7 +3,7 @@ type: "dataset"
 id: "catherinearnett/morphscore"
 source: "huggingface"
 url: "https://huggingface.co/datasets/catherinearnett/morphscore"
-downloads: 598
+downloads: 624
 summary: "MorphScore는 형태소 경계에 따른 토크나이저 평가를 위한 86개 언어 데이터셋 모음입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/deja-vu-pairwise-evals"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/deja-vu-pairwise-evals"
-downloads: 140
+downloads: 115
 summary: "다국어 LLM 평가를 위한 자동 쌍대 선호 평가 데이터로 모델 비교 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

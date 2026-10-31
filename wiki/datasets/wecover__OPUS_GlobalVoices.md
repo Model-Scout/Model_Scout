@@ -3,7 +3,7 @@ type: "dataset"
 id: "wecover/OPUS_GlobalVoices"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wecover/OPUS_GlobalVoices"
-downloads: 12498
+downloads: 12840
 summary: "다양한 언어의 병렬 문장 데이터로 기계 번역 등 다국어 자연어처리에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

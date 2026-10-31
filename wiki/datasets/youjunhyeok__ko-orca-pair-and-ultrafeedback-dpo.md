@@ -3,7 +3,7 @@ type: "dataset"
 id: "youjunhyeok/ko-orca-pair-and-ultrafeedback-dpo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/youjunhyeok/ko-orca-pair-and-ultrafeedback-dpo"
-downloads: 39
+downloads: 40
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

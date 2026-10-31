@@ -3,7 +3,7 @@ type: "dataset"
 id: "zouhar/wmt-human-all"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zouhar/wmt-human-all"
-downloads: 105
+downloads: 110
 summary: "WMT 캠페인에서 수집한 인간 번역 품질 평가 점수를 통합한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

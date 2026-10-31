@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/c4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/c4"
-downloads: 724712
+downloads: 727689
 summary: "Common Crawl 웹 크롤링 데이터를 정제한 대규모 영어 및 다국어 말뭉치로, 언어 모델 사전학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

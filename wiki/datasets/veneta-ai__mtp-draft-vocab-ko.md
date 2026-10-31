@@ -3,7 +3,7 @@ type: "dataset"
 id: "veneta-ai/mtp-draft-vocab-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/veneta-ai/mtp-draft-vocab-ko"
-downloads: 246
+downloads: 260
 summary: "한국어 위키백과 기반 MTP 추측 디코딩용 초안 어휘집 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

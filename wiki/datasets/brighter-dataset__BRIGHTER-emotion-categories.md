@@ -3,7 +3,7 @@ type: "dataset"
 id: "brighter-dataset/BRIGHTER-emotion-categories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/brighter-dataset/BRIGHTER-emotion-categories"
-downloads: 3277
+downloads: 3256
 summary: "28개 언어의 다중 라벨 감정 분류를 위한 BRIGHTER 감정 범주 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

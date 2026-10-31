@@ -3,7 +3,7 @@ type: "dataset"
 id: "legacy-datasets/wikipedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/legacy-datasets/wikipedia"
-downloads: 49130
+downloads: 46771
 summary: "위키피디아 덤프에서 언어별로 정제한 전체 문서 데이터를 담은 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -49,6 +49,13 @@ dataset_size:
 - **도메인**: [[일반]] — ner · readme = `Wikipedia dataset containing cleaned articles of all languages.` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `The datasets are built from the Wikipedia dump` · 신뢰도 medium
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `AiHazz/wikipedia2`
+- `Rajface345/wikipedia`
+- `livinNector/wikipedia`
+- `openskyml/wikipedia`
 
 ## 이 데이터로 학습한 모델
 

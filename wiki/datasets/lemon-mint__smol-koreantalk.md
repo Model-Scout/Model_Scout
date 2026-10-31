@@ -3,7 +3,7 @@ type: "dataset"
 id: "lemon-mint/smol-koreantalk"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lemon-mint/smol-koreantalk"
-downloads: 200
+downloads: 187
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai4privacy/pii-masking-health-phi-400k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai4privacy/pii-masking-health-phi-400k"
-downloads: 93
+downloads: 140
 summary: "아시아 태평양 지역을 포함한 개인 건강 및 의료 정보(PII) 마스킹 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

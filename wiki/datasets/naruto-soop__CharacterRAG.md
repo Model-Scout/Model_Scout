@@ -3,7 +3,7 @@ type: "dataset"
 id: "naruto-soop/CharacterRAG"
 source: "huggingface"
 url: "https://huggingface.co/datasets/naruto-soop/CharacterRAG"
-downloads: 167
+downloads: 153
 summary: "15명의 가상 캐릭터 페르소나 문서와 450개의 질의응답 쌍으로 구성된 RAG 기반 역할극 에이전트용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

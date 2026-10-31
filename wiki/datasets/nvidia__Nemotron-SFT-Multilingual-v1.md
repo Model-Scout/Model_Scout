@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-SFT-Multilingual-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-SFT-Multilingual-v1"
-downloads: 3292
+downloads: 3390
 summary: "Nemotron-SFT-Multilingual-v1은 STEM, 수학, 코딩 다국어 추론 데이터셋으로 다국어 대형언어모델 후학습용입니다."
 readme_status: "ok"
 readme_language: "en"

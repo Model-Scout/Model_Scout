@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/GLM-5.1-Reasoning-1M-Cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/GLM-5.1-Reasoning-1M-Cleaned"
-downloads: 946
+downloads: 990
 summary: "GLM-5.1-Reasoning-1M-Cleaned는 GLM-5.1 모델 기반의 추론 및 지식 추론용 정제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

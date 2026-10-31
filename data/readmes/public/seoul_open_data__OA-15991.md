@@ -1,6 +1,6 @@
 # 서울시 50플러스일자리몽땅 교육정보
 
-서울시 50플러스일자리몽땅 교육정보. http://openapi.seoul.go.kr:8088/sample/xml/FiftyPotalEduInfo/1/5/
+서울시 50플러스일자리몽땅 교육정보. http://openapi.seoul.go.kr:8088/sample/xml/FiftyPotalEduInfo/1/5/ 제공 필드: 강좌비용, 강좌상세화면, 강좌종료일, 강좌명, 강좌번호, 강좌시작일, 강좌상태, 기관주소, 기관명, 강의실, 수업시간, 정원, 등록종료일, 등록시작일
 
 서비스명: FiftyPotalEduInfo
 

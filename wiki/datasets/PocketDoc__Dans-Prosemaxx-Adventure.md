@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-Adventure"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-Adventure"
-downloads: 45
+downloads: 46
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

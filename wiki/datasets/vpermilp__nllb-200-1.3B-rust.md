@@ -3,7 +3,7 @@ type: "dataset"
 id: "vpermilp/nllb-200-1.3B-rust"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vpermilp/nllb-200-1.3B-rust"
-downloads: 123
+downloads: 146
 summary: "NLLB-200 1.3B 모델은 200개 언어 간 기계 번역 연구용으로 개발된 다국어 번역 모델입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bzantium/korean-jev-decision-index"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bzantium/korean-jev-decision-index"
-downloads: 181
+downloads: 189
 summary: "한국어로 된 의사결정 모델 평가용 벤치마크 데이터셋으로, 다양한 영역의 질문에 대한 답변 확률, 예/아니오 판단, 평점을 예측하는 데 사용됨."
 readme_status: "ok"
 readme_language: "en"

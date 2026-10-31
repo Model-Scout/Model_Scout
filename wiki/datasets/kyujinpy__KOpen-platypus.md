@@ -3,7 +3,7 @@ type: "dataset"
 id: "kyujinpy/KOpen-platypus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kyujinpy/KOpen-platypus"
-downloads: 243
+downloads: 241
 summary: "Open-Platypus 관련 데이터셋을 한국어로 번역한 데이터셋으로, LLM 논리 추론 능력 향상에 사용됨."
 readme_status: "ok"
 readme_language: "en"

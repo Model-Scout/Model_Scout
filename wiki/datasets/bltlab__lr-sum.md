@@ -3,7 +3,7 @@ type: "dataset"
 id: "bltlab/lr-sum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bltlab/lr-sum"
-downloads: 671
+downloads: 700
 summary: "LR-Sum은 적은 자원 언어를 위한 뉴스 요약 자동화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

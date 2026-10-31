@@ -3,7 +3,7 @@ type: "dataset"
 id: "JustANormalTinkerer/animetext-ocr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JustANormalTinkerer/animetext-ocr"
-downloads: 899
+downloads: 1245
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

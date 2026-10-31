@@ -3,7 +3,7 @@ type: "dataset"
 id: "recursal/MDN"
 source: "huggingface"
 url: "https://huggingface.co/datasets/recursal/MDN"
-downloads: 155
+downloads: 189
 summary: "MDN 웹 문서 스크래핑 데이터로 대형 언어 모델 학습에 활용되는 다국어 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

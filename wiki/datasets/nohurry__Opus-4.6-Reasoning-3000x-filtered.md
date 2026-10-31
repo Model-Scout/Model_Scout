@@ -3,7 +3,7 @@ type: "dataset"
 id: "nohurry/Opus-4.6-Reasoning-3000x-filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nohurry/Opus-4.6-Reasoning-3000x-filtered"
-downloads: 482
+downloads: 470
 summary: "Opus-4.6-Reasoning-3000x 데이터셋에서 거부 문장을 제거한 필터링 버전입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "moon1ite/kor_hate"
 source: "huggingface"
 url: "https://huggingface.co/datasets/moon1ite/kor_hate"
-downloads: 232
+downloads: 330
 summary: "한국 연예 뉴스 댓글에서 성별 편향, 사회적 편향, 혐오 발언을 라벨링한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

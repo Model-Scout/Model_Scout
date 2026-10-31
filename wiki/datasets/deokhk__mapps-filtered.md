@@ -3,7 +3,7 @@ type: "dataset"
 id: "deokhk/mapps-filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deokhk/mapps-filtered"
-downloads: 121
+downloads: 120
 summary: "프로그래밍 문제를 다국어로 번역한 데이터셋으로 다국어 프로그램 합성 등에 활용됨"
 readme_status: "ok"
 readme_language: "en"

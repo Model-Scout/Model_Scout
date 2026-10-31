@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumynLabs/Korean_Real_Estate_Ads_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumynLabs/Korean_Real_Estate_Ads_Dataset"
-downloads: 110
+downloads: 98
 summary: "한국 부동산 광고 이미지 데이터셋으로 OCR, 시각 이해, 부동산 분석 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

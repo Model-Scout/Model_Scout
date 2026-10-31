@@ -3,7 +3,7 @@ type: "dataset"
 id: "Forturne/SDS-KoPub-OCR"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Forturne/SDS-KoPub-OCR"
-downloads: 269
+downloads: 312
 summary: "40,781페이지 한국 공공문서의 OCR 레이아웃 파싱 결과와 멀티모달 임베딩 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

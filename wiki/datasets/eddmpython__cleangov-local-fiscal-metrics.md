@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/cleangov-local-fiscal-metrics"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/cleangov-local-fiscal-metrics"
-downloads: 165
+downloads: 366
 summary: "지방재정365 통합공시 및 재정분석 결과를 제공하는 지방재정 데이터 API입니다."
 readme_status: "ok"
 readme_language: "en"

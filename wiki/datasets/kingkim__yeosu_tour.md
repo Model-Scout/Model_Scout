@@ -3,7 +3,7 @@ type: "dataset"
 id: "kingkim/yeosu_tour"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kingkim/yeosu_tour"
-downloads: 29
+downloads: 30
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

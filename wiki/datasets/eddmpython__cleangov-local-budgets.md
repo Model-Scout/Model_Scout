@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/cleangov-local-budgets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/cleangov-local-budgets"
-downloads: 190
+downloads: 230
 summary: "지방재정365 예산 통계·재정지표 Open API로 지방 예산 구성과 관련 지표를 제공하는 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

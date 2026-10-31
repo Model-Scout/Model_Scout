@@ -3,7 +3,7 @@ type: "dataset"
 id: "daje/korean-tts-training"
 source: "huggingface"
 url: "https://huggingface.co/datasets/daje/korean-tts-training"
-downloads: 136
+downloads: 139
 summary: "Google Gemini TTS 모델로 생성한 한국어 음성 데이터셋으로 TTS 학습에 사용됨."
 readme_status: "ok"
 readme_language: "mixed"

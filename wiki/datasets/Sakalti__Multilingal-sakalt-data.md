@@ -3,7 +3,7 @@ type: "dataset"
 id: "Sakalti/Multilingal-sakalt-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Sakalti/Multilingal-sakalt-data"
-downloads: 87
+downloads: 93
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

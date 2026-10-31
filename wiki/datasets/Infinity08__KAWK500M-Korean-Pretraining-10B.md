@@ -3,7 +3,7 @@ type: "dataset"
 id: "Infinity08/KAWK500M-Korean-Pretraining-10B"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Infinity08/KAWK500M-Korean-Pretraining-10B"
-downloads: 20
+downloads: 21
 summary: "한국어 중심 500M급 decoder-only 모델 학습용 사전 토큰화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

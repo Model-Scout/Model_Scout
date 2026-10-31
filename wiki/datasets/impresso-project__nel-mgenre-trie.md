@@ -3,7 +3,7 @@ type: "dataset"
 id: "impresso-project/nel-mgenre-trie"
 source: "huggingface"
 url: "https://huggingface.co/datasets/impresso-project/nel-mgenre-trie"
-downloads: 128
+downloads: 119
 summary: "mGENRE 기반 다국어 개체명 연결을 위한 위키데이터 QID 조회 및 속성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

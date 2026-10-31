@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Domain_Translation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Domain_Translation"
-downloads: 257
+downloads: 277
 summary: "BenchMAX의 도메인별 다국어 번역 능력 평가를 위한 병렬 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "palette-lab/songgot-tools-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/palette-lab/songgot-tools-ko"
-downloads: 104
+downloads: 102
 summary: "한국어 도구 호출 데이터로, Songgot 모델 후학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

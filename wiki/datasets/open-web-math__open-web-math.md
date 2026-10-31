@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-web-math/open-web-math"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-web-math/open-web-math"
-downloads: 33184
+downloads: 32895
 summary: "OpenWebMath는 인터넷에서 수집한 고품질 수학 텍스트 데이터셋으로, 대형 언어 모델 사전학습 및 미세조정에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Scicom-intl/Emilia-YODAS-Voice-Conversion"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Scicom-intl/Emilia-YODAS-Voice-Conversion"
-downloads: 742
+downloads: 769
 summary: "Emilia-YODAS-Voice-Conversion은 음성 변환을 위한 다국어 음성 토큰 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

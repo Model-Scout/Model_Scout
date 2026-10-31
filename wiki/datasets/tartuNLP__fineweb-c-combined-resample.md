@@ -3,7 +3,7 @@ type: "dataset"
 id: "tartuNLP/fineweb-c-combined-resample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tartuNLP/fineweb-c-combined-resample"
-downloads: 37
+downloads: 41
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

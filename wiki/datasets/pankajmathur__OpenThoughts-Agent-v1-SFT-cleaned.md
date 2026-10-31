@@ -3,7 +3,7 @@ type: "dataset"
 id: "pankajmathur/OpenThoughts-Agent-v1-SFT-cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pankajmathur/OpenThoughts-Agent-v1-SFT-cleaned"
-downloads: 25
+downloads: 27
 summary: "OpenThoughts-Agent-v1-SFT는 에이전트 학습용 SFT 데이터셋으로, 터미널 명령어 및 버그 수정 작업에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

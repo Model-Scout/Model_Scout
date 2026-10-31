@@ -3,7 +3,7 @@ type: "dataset"
 id: "adisyonist/14-allergens-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/adisyonist/14-allergens-v2"
-downloads: 94
+downloads: 95
 summary: "식당 메뉴 텍스트에서 14가지 EU 식품 알레르기 유발 물질을 예측하는 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

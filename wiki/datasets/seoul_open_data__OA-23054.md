@@ -28,3 +28,7 @@ data_format:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `이용허락범위 제한 없음` · 신뢰도 high
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `seoul_open_data/OA-22899`

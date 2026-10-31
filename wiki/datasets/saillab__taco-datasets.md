@@ -3,7 +3,7 @@ type: "dataset"
 id: "saillab/taco-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/saillab/taco-datasets"
-downloads: 312
+downloads: 318
 summary: "TaCo 논문에서 사용된 다국어 GPT-4 기반 데이터셋 모음으로, 학술 연구용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -28,6 +28,7 @@ dataset_role:
   - "[[학습용]]"
 data_format:
   - "[[JSON]]"
+  - "[[Parquet]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -50,6 +51,11 @@ TaCo 논문에서 사용된 다국어 GPT-4 기반 데이터셋 모음으로, �
 - **도메인**: [[일반]] — ner · readme = `This repo consists of the datasets used for the TaCo paper.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `This repo consists of the datasets used for the TaCo paper.` · 신뢰도 low
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
+- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 1611자 ≈ 403 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `saillab/testalpaca_sanskrit_taco`

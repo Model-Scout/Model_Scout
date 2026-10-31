@@ -3,7 +3,7 @@ type: "dataset"
 id: "KoalaAI/Text-Moderation-Multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KoalaAI/Text-Moderation-Multilingual"
-downloads: 135
+downloads: 138
 summary: "다국어 텍스트 모더레이션 데이터로 콘텐츠 필터링 분류기 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

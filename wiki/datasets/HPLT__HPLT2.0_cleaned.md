@@ -3,7 +3,7 @@ type: "dataset"
 id: "HPLT/HPLT2.0_cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HPLT/HPLT2.0_cleaned"
-downloads: 215231
+downloads: 213857
 summary: "HPLT 프로젝트가 제작한 191개 언어의 웹 크롤링 문서 대규모 데이터셋으로, 언어 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

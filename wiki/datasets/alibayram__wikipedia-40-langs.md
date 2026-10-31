@@ -3,7 +3,7 @@ type: "dataset"
 id: "alibayram/wikipedia-40-langs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alibayram/wikipedia-40-langs"
-downloads: 171
+downloads: 165
 summary: "40개 언어의 위키피디아 문서 812,000개로 다국어 NLP 연구와 언어 모델링에 활용됨"
 readme_status: "ok"
 readme_language: "en"
@@ -61,3 +61,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 45213자 ≈ 11303 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `magibu/wikipedia-40-langs`

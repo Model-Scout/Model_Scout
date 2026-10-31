@@ -3,7 +3,7 @@ type: "dataset"
 id: "occiglot/tokenizer-wiki-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/occiglot/tokenizer-wiki-bench"
-downloads: 19184
+downloads: 20027
 summary: "45개 언어 위키피디아 데이터를 활용한 다국어 토크나이저 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

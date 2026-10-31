@@ -3,7 +3,7 @@ type: "dataset"
 id: "nyu-mll/blimp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nyu-mll/blimp"
-downloads: 69299
+downloads: 69240
 summary: "BLiMP는 영어 문법 현상 평가용 최소대립쌍 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

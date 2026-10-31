@@ -3,7 +3,7 @@ type: "dataset"
 id: "kuotient/gsm8k-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kuotient/gsm8k-ko"
-downloads: 172
+downloads: 186
 summary: "kuotient/gsm8k-ko는 한국어 수학 문제 해결 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

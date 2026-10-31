@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jongbin-kr/lg-longtail-data-selection-experiment-archive-20260829"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jongbin-kr/lg-longtail-data-selection-experiment-archive-20260829"
-downloads: 206
+downloads: 221
 summary: "ConvFinQA 데이터 선택 예산 확장 실험을 위한 LG 롱테일 데이터 선택 아카이브입니다."
 readme_status: "ok"
 readme_language: "en"

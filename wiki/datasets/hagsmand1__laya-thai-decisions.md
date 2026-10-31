@@ -3,7 +3,7 @@ type: "dataset"
 id: "hagsmand1/laya-thai-decisions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hagsmand1/laya-thai-decisions"
-downloads: 139
+downloads: 148
 summary: "태국어 텍스트에 대한 유형별 결정 질문 데이터셋으로 분류 및 의사결정 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

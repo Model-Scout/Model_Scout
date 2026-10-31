@@ -6,6 +6,10 @@ The local index is the source of truth and the tables are derived from it: only 
 text hash changed are uploaded, and datasets or chunks that left the index are deleted.
 Everything runs in one transaction, so a failed sync leaves the previous index intact.
 
+Storage is budgeted (free Supabase = 500 MB): vectors are halfvec, chunk text is a 600-char
+preview (full text stays in data/dataset_index/chunks.jsonl), and the sync refuses to write
+when the projected database size passes SUPABASE_DB_BUDGET_MB (default 450).
+
     python 20_sync_dataset_index.py            # offline validation and size estimate
     python 20_sync_dataset_index.py --apply    # write Supabase
 """
@@ -13,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -21,8 +26,11 @@ INDEX_DIR = DATA_DIR / "dataset_index"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 SCHEMA_SQL = Path(__file__).with_name("supabase_dataset_schema.sql")
 DIMENSION = 1536
-# Rough Postgres bytes per chunk row: halfvec (2 B x 1536) + text + overhead.
-BYTES_PER_CHUNK = 2 * DIMENSION + 1200
+TEXT_PREVIEW_CHARS = 600
+# Postgres bytes per chunk beyond its text: halfvec (2 B x 1536), tuple header, pk/fk/hash indexes.
+CHUNK_OVERHEAD_BYTES = 2 * DIMENSION + 400
+DATASET_OVERHEAD_BYTES = 300
+DEFAULT_BUDGET_MB = 450
 
 
 def read_jsonl(path):
@@ -59,6 +67,26 @@ def validate(manifest, chunks, vectors, entities):
         raise SystemExit("dataset index validation failed:\n- " + "\n- ".join(problems))
 
 
+def estimated_bytes(chunks, entities):
+    text = sum(len(c["text"][:TEXT_PREVIEW_CHARS].encode("utf-8")) for c in chunks)
+    entity = sum(len(json.dumps(e, ensure_ascii=False).encode("utf-8")) for e in entities.values())
+    return text + len(chunks) * CHUNK_OVERHEAD_BYTES + entity + len(entities) * DATASET_OVERHEAD_BYTES
+
+
+def check_budget(cur, needed_bytes):
+    """Projected DB size = today's size - the dataset tables we replace + what we will write."""
+    cur.execute("""select pg_database_size(current_database()),
+                          coalesce(pg_total_relation_size(to_regclass('public.model_scout_dataset_chunks')), 0)
+                        + coalesce(pg_total_relation_size(to_regclass('public.model_scout_datasets')), 0)""")
+    database, current = cur.fetchone()
+    projected_mb = (database - current + needed_bytes) / 1e6
+    budget_mb = float(os.getenv("SUPABASE_DB_BUDGET_MB", DEFAULT_BUDGET_MB))
+    if projected_mb > budget_mb:
+        raise SystemExit(f"projected database {projected_mb:.0f} MB > budget {budget_mb:.0f} MB; "
+                         "lower MAX_SECTION_CHUNKS (14) or FILE_CAP_PER_CATEGORY (18), or raise SUPABASE_DB_BUDGET_MB")
+    return round(projected_mb)
+
+
 def apply(manifest, chunks, vectors, entities, concepts, batch_size):
     from psycopg2.extras import execute_values
 
@@ -66,6 +94,9 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
 
     conn = db_connection()
     try:
+        with conn.cursor() as cur:
+            projected_mb = check_budget(cur, estimated_bytes(chunks, entities))
+        conn.rollback()
         with conn, conn.cursor() as cur:  # one transaction
             cur.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
             dataset_rows = [(name, e["source"], e.get("title"), e["url"], e.get("summary_ko"), sorted(concepts[name]),
@@ -87,7 +118,7 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
             changed = [i for i, c in enumerate(chunks) if stored.get(c["chunk_id"]) != c["text_hash"]]
             for start in range(0, len(changed), batch_size):
                 rows = [(chunks[i]["chunk_id"], chunks[i]["dataset_id"], chunks[i]["kind"], chunks[i]["heading_path"],
-                         chunks[i]["text"], chunks[i]["text_hash"], vector_literal(vectors[i]))
+                         chunks[i]["text"][:TEXT_PREVIEW_CHARS], chunks[i]["text_hash"], vector_literal(vectors[i]))
                         for i in changed[start:start + batch_size]]
                 execute_values(cur, """
                     insert into public.model_scout_dataset_chunks
@@ -109,7 +140,7 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
             table_size, db_size = cur.fetchone()
     finally:
         conn.close()
-    return {"datasets": len(dataset_rows), "removed_datasets": removed_datasets, "uploaded_chunks": len(changed),
+    return {"projected_mb": projected_mb, "datasets": len(dataset_rows), "removed_datasets": removed_datasets, "uploaded_chunks": len(changed),
             "removed_chunks": removed_chunks, "chunks_in_db": total, "chunks_table": table_size, "database": db_size}
 
 
@@ -124,7 +155,7 @@ def main():
     manifest, chunks, vectors, entities, concepts = load_index()
     validate(manifest, chunks, vectors, entities)
     summary = {"datasets": len(entities), "chunks": len(chunks),
-               "estimated_table_mb": round(len(chunks) * BYTES_PER_CHUNK / 1e6)}
+               "estimated_write_mb": round(estimated_bytes(chunks, entities) / 1e6)}
     if args.apply:
         summary.update(apply(manifest, chunks, vectors, entities, concepts, args.batch_size))
     print(json.dumps(summary, ensure_ascii=False))
@@ -147,6 +178,8 @@ def self_check():
         raise AssertionError("orphan chunk accepted")
     except SystemExit:
         pass
+    sample = [{"text": "가" * 1000}]
+    assert estimated_bytes(sample, {}) == 3 * TEXT_PREVIEW_CHARS + CHUNK_OVERHEAD_BYTES  # preview only, UTF-8 bytes
     print("20_sync_dataset_index ok")
 
 

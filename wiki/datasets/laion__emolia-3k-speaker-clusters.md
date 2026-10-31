@@ -3,7 +3,7 @@ type: "dataset"
 id: "laion/emolia-3k-speaker-clusters"
 source: "huggingface"
 url: "https://huggingface.co/datasets/laion/emolia-3k-speaker-clusters"
-downloads: 84
+downloads: 91
 summary: "TTS-AGI/emolia-hq 음성 데이터에서 3,000개 화자 클러스터를 추출한 음성 클러스터 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -69,3 +69,7 @@ TTS-AGI/emolia-hq 음성 데이터에서 3,000개 화자 클러스터를 추출�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `__key__` 열 p90 45자 ≈ 11 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `TTS-AGI/emolia-3k-speaker-clusters-DACVAE`

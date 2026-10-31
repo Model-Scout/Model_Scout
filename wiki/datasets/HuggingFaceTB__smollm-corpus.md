@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceTB/smollm-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceTB/smollm-corpus"
-downloads: 60641
+downloads: 60828
 summary: "SmolLM-Corpus는 소형 언어 모델 학습용 고품질 교육 및 합성 데이터 모음입니다."
 readme_status: "ok"
 readme_language: "en"

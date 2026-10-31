@@ -3,7 +3,7 @@ type: "dataset"
 id: "openbmb/UltraChat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openbmb/UltraChat"
-downloads: 6270
+downloads: 6485
 summary: "Turbo API 기반의 대규모 다중 라운드 대화 데이터로, 다양한 주제의 질의응답과 창작 지원에 활용됨."
 readme_status: "ok"
 readme_language: "en"

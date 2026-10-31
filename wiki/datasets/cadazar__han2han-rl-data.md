@@ -3,7 +3,7 @@ type: "dataset"
 id: "cadazar/han2han-rl-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cadazar/han2han-rl-data"
-downloads: 86
+downloads: 88
 summary: "한자-한글 혼합 문장과 한국어 지시문 대화 데이터를 포함한 Han2Han RL 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

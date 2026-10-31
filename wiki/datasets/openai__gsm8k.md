@@ -3,7 +3,7 @@ type: "dataset"
 id: "openai/gsm8k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openai/gsm8k"
-downloads: 980999
+downloads: 979383
 summary: "GSM8K는 초등학교 수준의 다단계 수학 문제와 해답을 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

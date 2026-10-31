@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/fusion-pairwise-evals-finetuned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/fusion-pairwise-evals-finetuned"
-downloads: 166
+downloads: 147
 summary: "m-ArenaHard-v2.0 벤치마크에서 모델 간 쌍별 선호도 평가 데이터로, 모델 비교 분석에 사용됨."
 readme_status: "ok"
 readme_language: "en"

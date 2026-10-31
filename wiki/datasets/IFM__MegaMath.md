@@ -3,7 +3,7 @@ type: "dataset"
 id: "IFM/MegaMath"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IFM/MegaMath"
-downloads: 64979
+downloads: 67713
 summary: "MegaMath는 3000억 토큰 규모의 수학 특화 오픈 프리트레이닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

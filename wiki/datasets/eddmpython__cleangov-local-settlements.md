@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/cleangov-local-settlements"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/cleangov-local-settlements"
-downloads: 339
+downloads: 309
 summary: "지방재정365 결산 통계 Open API로 자치단체 재정 결산 데이터를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HiTZ/CROQ"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HiTZ/CROQ"
-downloads: 154
+downloads: 156
 summary: "CROQ는 다국어 문화 관련 개방형 질문 데이터셋으로 LLM의 문화적 편향 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

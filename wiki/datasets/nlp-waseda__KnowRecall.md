@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlp-waseda/KnowRecall"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlp-waseda/KnowRecall"
-downloads: 100
+downloads: 111
 summary: "KnowRecall는 다국어 VQA 벤치마크로, 다국어 환경에서 MLLM의 사실 지식 일관성을 평가합니다."
 readme_status: "ok"
 readme_language: "en"

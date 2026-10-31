@@ -3,7 +3,7 @@ type: "dataset"
 id: "google-research-datasets/go_emotions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/go_emotions"
-downloads: 29084
+downloads: 29136
 summary: "GoEmotions는 27가지 감정 범주로 라벨링된 58k 개의 Reddit 댓글 데이터셋으로 감정 분류에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

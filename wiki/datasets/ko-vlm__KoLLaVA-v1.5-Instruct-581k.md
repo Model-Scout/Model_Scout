@@ -3,7 +3,7 @@ type: "dataset"
 id: "ko-vlm/KoLLaVA-v1.5-Instruct-581k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ko-vlm/KoLLaVA-v1.5-Instruct-581k"
-downloads: 1510
+downloads: 1603
 summary: "한국어 Vision-Language 모델 학습용 instruction tuning 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

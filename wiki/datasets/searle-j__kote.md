@@ -3,7 +3,7 @@ type: "dataset"
 id: "searle-j/kote"
 source: "huggingface"
 url: "https://huggingface.co/datasets/searle-j/kote"
-downloads: 207
+downloads: 229
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

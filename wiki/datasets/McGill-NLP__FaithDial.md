@@ -3,7 +3,7 @@ type: "dataset"
 id: "McGill-NLP/FaithDial"
 source: "huggingface"
 url: "https://huggingface.co/datasets/McGill-NLP/FaithDial"
-downloads: 993
+downloads: 1058
 summary: "FaithDial은 정보 탐색 대화에서 환각 없는 응답을 위한 신뢰성 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

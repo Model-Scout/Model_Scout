@@ -2,7 +2,7 @@
 type: "concept"
 facet: "language"
 key: "yue"
-members: 12
+members: 13
 ---
 # yue
 
@@ -23,15 +23,21 @@ facet: [[언어]] · 개념 id `language/yue`
 - [[OpenVoiceOS__sensevoice-small-onnx|OpenVoiceOS/sensevoice-small-onnx]]
 - [[yoyolaiyy3062__SenseVoiceSmall-GGUF-audiocpp|yoyolaiyy3062/SenseVoiceSmall-GGUF-audiocpp]]
 
+## 데이터셋 (1)
+
+- [[UsergyAI__Global-Conversational-Speech|UsergyAI/Global-Conversational-Speech]]
+
 ## 함께 연결된 개념
 
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 12
-- [[음성 (입력 형식)|음성]] (입력 형식) · 공유 11
-- [[음성 인식]] (작업) · 공유 11
-- [[조건부 이용]] (상업 이용) · 공유 7
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 13
+- [[음성 (입력 형식)|음성]] (입력 형식) · 공유 12
+- [[음성 인식]] (작업) · 공유 12
+- [[조건부 이용]] (상업 이용) · 공유 8
 - [[상업 이용 가능]] (상업 이용) · 공유 3
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 2
 - [[비상업 전용]] (상업 이용) · 공유 2
+- [[중규모 데이터]] (데이터 규모) · 공유 1
+- [[의료·보건]] (도메인) · 공유 1
+- [[음성 분류]] (작업) · 공유 1
+- [[텍스트 생성]] (작업) · 공유 1
 - [[초장문]] (입력 길이) · 공유 1
-- [[초경량 모델]] (모델 크기) · 공유 1
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 1
-- [[번역]] (작업) · 공유 1

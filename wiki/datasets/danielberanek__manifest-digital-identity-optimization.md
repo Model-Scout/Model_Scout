@@ -3,7 +3,7 @@ type: "dataset"
 id: "danielberanek/manifest-digital-identity-optimization"
 source: "huggingface"
 url: "https://huggingface.co/datasets/danielberanek/manifest-digital-identity-optimization"
-downloads: 226
+downloads: 214
 summary: "디지털 아이덴티티 최적화 매니페스트와 온톨로지를 다국어로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

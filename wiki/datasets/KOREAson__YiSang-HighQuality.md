@@ -3,7 +3,7 @@ type: "dataset"
 id: "KOREAson/YiSang-HighQuality"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KOREAson/YiSang-HighQuality"
-downloads: 108
+downloads: 110
 summary: "YiSang-HighQuality는 영어와 한국어 혼합 체인 오브 사고(CoT) 추론 데이터셋으로 다국어 추론 향상에 사용됨."
 readme_status: "ok"
 readme_language: "en"

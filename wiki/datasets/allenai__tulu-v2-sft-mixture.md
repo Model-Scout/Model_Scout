@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/tulu-v2-sft-mixture"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/tulu-v2-sft-mixture"
-downloads: 1096
+downloads: 1134
 summary: "Tulu V2 Mix는 다양한 공개 데이터셋을 혼합한 언어 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

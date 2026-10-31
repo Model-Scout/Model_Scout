@@ -3,8 +3,8 @@ type: "dataset"
 id: "doanhlt/cabin-interpreter-interview-test"
 source: "huggingface"
 url: "https://huggingface.co/datasets/doanhlt/cabin-interpreter-interview-test"
-downloads: 157
-summary: "동시통역, 다국어 음성인식, 2방향 인터뷰 평가용 유튜브 영상 데이터셋입니다."
+downloads: 250
+summary: "동시통역 및 음성인식 평가용 268개 영상 인터뷰 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -39,7 +39,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/doanhlt/cabin-interpreter-interview-test)
 
-동시통역, 다국어 음성인식, 2방향 인터뷰 평가용 유튜브 영상 데이터셋입니다.
+동시통역 및 음성인식 평가용 268개 영상 인터뷰 데이터셋입니다.
 
 ## 분류
 
@@ -48,8 +48,8 @@ dataset_size:
 - **작업**: [[번역]] — metadata · readme, task_categories = `translation` · 신뢰도 medium
 - **입력 형식**: [[음성 (입력 형식)|음성]] — ner · modality, readme, task:speech_recognition = `Chuẩn âm thanh trích xuất: 16kHz Mono WAV` · 신뢰도 high
 - **입력 형식**: [[표 (입력 형식)|표]] — metadata · modality = `tabular` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:question_answering, task:translation = `Danh mục đầy đủ toàn bộ 218 video kèm siêu dữ liệu (URL, tiêu đề, cặp ngôn ngữ, loại hình hội thoại)` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:question_answering, task:speech_recognition, task:translation = `đánh giá năng lực dịch song song (simultaneous / consecutive interpretation), nhận dạng giọng nói đa ngôn ngữ (ASR) và xử lý ngữ cảnh đối đáp 2 chiều` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:question_answering, task:translation = `text` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:question_answering, task:speech_recognition, task:translation = `đánh giá năng lực dịch song song (simultaneous / consecutive interpretation)` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `11 languages` · 신뢰도 high

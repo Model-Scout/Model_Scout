@@ -3,7 +3,7 @@ type: "dataset"
 id: "arthrod/docx-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/arthrod/docx-corpus"
-downloads: 87
+downloads: 94
 summary: "공개 웹에서 수집한 736K개 이상의 .docx 문서 메타데이터로 문서 유형과 주제 분류에 활용됨"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "fsicoli/common_voice_18_0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fsicoli/common_voice_18_0"
-downloads: 160
+downloads: 175
 summary: "Mozilla Common Voice 18.0 비공식 음성 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

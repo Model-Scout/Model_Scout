@@ -3,7 +3,7 @@ type: "dataset"
 id: "adithya7/xlel_wd_dictionary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/adithya7/xlel_wd_dictionary"
-downloads: 822
+downloads: 697
 summary: "XLEL-WD는 위키데이터 이벤트 항목의 다국어 사전으로 이벤트 링크 작업에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

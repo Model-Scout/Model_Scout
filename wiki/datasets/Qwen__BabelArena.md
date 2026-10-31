@@ -3,7 +3,7 @@ type: "dataset"
 id: "Qwen/BabelArena"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Qwen/BabelArena"
-downloads: 861
+downloads: 9126
 summary: "BabelArena는 23개 언어, 13개 도메인, 702개 작업을 포함한 다국어 LLM 에이전트 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

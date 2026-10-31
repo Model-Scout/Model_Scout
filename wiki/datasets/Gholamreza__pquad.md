@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gholamreza/pquad"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gholamreza/pquad"
-downloads: 88
+downloads: 109
 summary: "페르시아어 위키백과 기반 독해 질문-응답 데이터셋으로, 독해 및 질의응답 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

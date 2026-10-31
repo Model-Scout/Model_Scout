@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Safety-Guard-Dataset-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Safety-Guard-Dataset-v3"
-downloads: 2258
+downloads: 2292
 summary: "12개 언어로 된 다국어 LLM 안전 가드 모델 학습용 고품질 안전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

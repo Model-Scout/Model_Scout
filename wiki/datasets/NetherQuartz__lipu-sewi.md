@@ -3,7 +3,7 @@ type: "dataset"
 id: "NetherQuartz/lipu-sewi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NetherQuartz/lipu-sewi"
-downloads: 41
+downloads: 44
 summary: "Toki Pona 성경 데이터셋으로 다국어 번역 및 문장 유사도 연구에 활용됨"
 readme_status: "ok"
 readme_language: "en"

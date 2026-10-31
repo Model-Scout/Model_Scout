@@ -3,7 +3,7 @@ type: "dataset"
 id: "TeichAI/glm-4.7-2000x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TeichAI/glm-4.7-2000x"
-downloads: 102
+downloads: 118
 summary: "GLM 4.7 모델로 생성된 추론 데이터셋으로, 오픈소스 LLM 미세조정용입니다."
 readme_status: "ok"
 readme_language: "en"

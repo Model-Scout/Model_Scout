@@ -3,7 +3,7 @@ type: "dataset"
 id: "grammarly/medit"
 source: "huggingface"
 url: "https://huggingface.co/datasets/grammarly/medit"
-downloads: 158
+downloads: 181
 summary: "mEdIT 데이터셋은 다국어 텍스트 편집 모델 학습용으로 문법 교정, 단순화, 패러프레이징 데이터를 포함합니다."
 readme_status: "ok"
 readme_language: "en"

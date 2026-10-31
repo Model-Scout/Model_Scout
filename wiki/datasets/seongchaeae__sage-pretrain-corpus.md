@@ -3,7 +3,7 @@ type: "dataset"
 id: "seongchaeae/sage-pretrain-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/seongchaeae/sage-pretrain-corpus"
-downloads: 1740
+downloads: 1913
 summary: "상업적 사용 가능 라이선스 기반 한국어·영어 사전학습용 코퍼스, Sage 한국어 LLM 프로젝트용"
 readme_status: "ok"
 readme_language: "en"

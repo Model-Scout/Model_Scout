@@ -3,7 +3,7 @@ type: "dataset"
 id: "kenza-ily/icdar_disco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kenza-ily/icdar_disco"
-downloads: 321
+downloads: 330
 summary: "ICDAR 데이터셋의 10개 언어별 문서 이미지와 OCR 텍스트로 구성된 평가용 미니 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

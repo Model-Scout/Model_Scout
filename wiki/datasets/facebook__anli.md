@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/anli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/anli"
-downloads: 81957
+downloads: 82032
 summary: "Adversarial NLI는 반복적 인간-모델 협업으로 수집된 대규모 자연어 추론 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

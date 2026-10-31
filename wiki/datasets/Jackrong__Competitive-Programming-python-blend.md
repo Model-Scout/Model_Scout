@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/Competitive-Programming-python-blend"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/Competitive-Programming-python-blend"
-downloads: 671
+downloads: 631
 summary: "Python 중심의 경쟁 프로그래밍 및 코드 추론용 혼합 감독 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

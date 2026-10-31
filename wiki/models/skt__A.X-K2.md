@@ -51,4 +51,3 @@ model_size:
 
 - [[HuggingFaceFW__fineweb-2|HuggingFaceFW/fineweb-2]]
 - [[nvidia__Nemotron-CC-v2.1|nvidia/Nemotron-CC-v2.1]]
-- [[nvidia__Nemotron-Pretraining-Code-v2|nvidia/Nemotron-Pretraining-Code-v2]]

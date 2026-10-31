@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-law-article-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-law-article-chat"
-downloads: 15
+downloads: 18
 summary: "중화민국 대만 법규 조문을 기반으로 한 법률 질의응답 데이터셋으로 법규 조회 및 해석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

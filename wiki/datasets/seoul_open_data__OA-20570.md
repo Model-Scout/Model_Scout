@@ -28,3 +28,31 @@ data_format:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `공공누리 제1유형` · 신뢰도 high
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `seoul_open_data/OA-20679`
+- `seoul_open_data/OA-20680`
+- `seoul_open_data/OA-20681`
+- `seoul_open_data/OA-20682`
+- `seoul_open_data/OA-20683`
+- `seoul_open_data/OA-20684`
+- `seoul_open_data/OA-20685`
+- `seoul_open_data/OA-20686`
+- `seoul_open_data/OA-20687`
+- `seoul_open_data/OA-20688`
+- `seoul_open_data/OA-20689`
+- `seoul_open_data/OA-20690`
+- `seoul_open_data/OA-20691`
+- `seoul_open_data/OA-20692`
+- `seoul_open_data/OA-20693`
+- `seoul_open_data/OA-20694`
+- `seoul_open_data/OA-20695`
+- `seoul_open_data/OA-20696`
+- `seoul_open_data/OA-20697`
+- `seoul_open_data/OA-20698`
+- `seoul_open_data/OA-20699`
+- `seoul_open_data/OA-20700`
+- `seoul_open_data/OA-20701`
+- `seoul_open_data/OA-20702`
+- `seoul_open_data/OA-20703`

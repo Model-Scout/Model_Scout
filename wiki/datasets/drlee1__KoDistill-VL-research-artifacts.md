@@ -3,7 +3,7 @@ type: "dataset"
 id: "drlee1/KoDistill-VL-research-artifacts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/drlee1/KoDistill-VL-research-artifacts"
-downloads: 393
+downloads: 397
 summary: "KoDistill-VL 연구용 코드와 학생 모델 예측 기록을 비상업적 연구 목적으로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

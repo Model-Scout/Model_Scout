@@ -3,7 +3,7 @@ type: "dataset"
 id: "Trelis/openassistant-deepseek-coder"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Trelis/openassistant-deepseek-coder"
-downloads: 140
+downloads: 148
 summary: "OpenAssistant 대화 데이터셋으로, 챗봇 모델 파인튜닝에 사용됨."
 readme_status: "ok"
 readme_language: "en"

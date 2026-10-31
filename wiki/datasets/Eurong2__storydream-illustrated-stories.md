@@ -3,7 +3,7 @@ type: "dataset"
 id: "Eurong2/storydream-illustrated-stories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Eurong2/storydream-illustrated-stories"
-downloads: 242
+downloads: 245
 summary: "StoryDream은 50개 이야기의 3단계 난이도별 일러스트와 텍스트를 제공하는 한국어/영어 그림책 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

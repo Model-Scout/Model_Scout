@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/aya_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/aya_dataset"
-downloads: 21476
+downloads: 22495
 summary: "Aya Dataset는 65개 언어로 구성된 다국어 지침 파인튜닝용 데이터셋으로, 다국어 LLM 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "tellang/yeji-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tellang/yeji-datasets"
-downloads: 202
+downloads: 195
 summary: "점술 AI 학습용 원본 수집 데이터로 사주팔자, 호로스코프, 자미두수, 타로 도메인을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

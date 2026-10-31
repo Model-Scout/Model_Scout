@@ -3,7 +3,7 @@ type: "dataset"
 id: "taresco/xP3x_african_subset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taresco/xP3x_african_subset"
-downloads: 2320
+downloads: 2350
 summary: "아프리카 언어와 아랍어, 영어, 프랑스어, 포르투갈어를 포함한 xP3x 데이터셋 하위셋입니다."
 readme_status: "ok"
 readme_language: "en"

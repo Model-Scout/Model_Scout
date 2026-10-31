@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/kor_duorc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/kor_duorc"
-downloads: 85
+downloads: 77
 summary: "DuoRC 데이터셋은 복잡한 언어 이해를 위한 패러프레이즈 독해 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/boolq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/boolq"
-downloads: 87480
+downloads: 87314
 summary: "BoolQ는 자연 발생적인 예/아니오 질문에 답하는 질의응답 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "google-research-datasets/tydiqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/tydiqa"
-downloads: 18037
+downloads: 18262
 summary: "11개 언어의 204K 문항으로 구성된 다국어 질문응답 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -47,3 +47,9 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `document_plaintext` 열 p90 39669자 ≈ 9917 토큰 (viewer statistics, primary_task/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `NiiOO/tydiqa`
+- `adsyamsafa/tydiqa-id`
+- `neulab/PangeaBench-tydiqa`

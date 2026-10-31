@@ -3,7 +3,7 @@ type: "dataset"
 id: "ChristianCaballero/WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ChristianCaballero/WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack"
-downloads: 162
+downloads: 140
 summary: "다국어 WhatsApp 스타일 대화 데이터로 자연스러운 인간 대화 모델 학습에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

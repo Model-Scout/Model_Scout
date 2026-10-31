@@ -18,6 +18,7 @@ dataset_role:
   - "[[서비스 데이터]]"
 data_format:
   - "[[API]]"
+  - "[[XML]]"
 ---
 # seoul_open_data/OA-15799
 
@@ -31,3 +32,8 @@ data_format:
 - **도메인**: [[교통·모빌리티]] — tag_match · tags, title/keywords = `지하철` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+- **데이터 형식**: [[XML]] — metadata · format = `xml` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `data_go_kr/15125683`

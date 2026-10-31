@@ -1,6 +1,6 @@
 # 서울시 도시계획 시행계획 공고 정보
 
-서울시 도시계획 시행계획 공고 정보. http://openapi.seoul.go.kr:8088/sample/xml/TbWcmBoardB0414/1/5/
+서울시 도시계획 시행계획 공고 정보. http://openapi.seoul.go.kr:8088/sample/xml/TbWcmBoardB0414/1/5/ 제공 필드: 안건제목, 첨부파일 개수, 첨부파일 아이디, 첨부파일주소, 내용, 공람장소, 파일명, 파일크기, 소관부서, 공고기간, 게시물 아이디, 전화
 
 서비스명: TbWcmBoardB0414
 

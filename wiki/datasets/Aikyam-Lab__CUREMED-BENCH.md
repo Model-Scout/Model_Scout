@@ -3,7 +3,7 @@ type: "dataset"
 id: "Aikyam-Lab/CUREMED-BENCH"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Aikyam-Lab/CUREMED-BENCH"
-downloads: 198
+downloads: 205
 summary: "다국어 의료 추론 벤치마크 데이터셋으로, 다양한 언어의 의료 과제 평가 및 미세조정용입니다."
 readme_status: "ok"
 readme_language: "en"

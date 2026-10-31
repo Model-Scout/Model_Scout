@@ -3,7 +3,7 @@ type: "dataset"
 id: "nhatminh/korean-asr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nhatminh/korean-asr"
-downloads: 124
+downloads: 122
 summary: "YODAS2 한국어 음성 인식용 의사 라벨 데이터셋으로 ASR 모델 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

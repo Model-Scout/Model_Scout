@@ -3,7 +3,7 @@ type: "dataset"
 id: "MarkrAI/korfinvdr-financial_magazine"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MarkrAI/korfinvdr-financial_magazine"
-downloads: 135
+downloads: 128
 summary: "한국예금보험공사 금융위험 리뷰 기사로 구성된 한국어 시각 문서 검색 및 복합 문서 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

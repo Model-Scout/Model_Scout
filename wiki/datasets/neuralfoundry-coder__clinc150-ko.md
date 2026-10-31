@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralfoundry-coder/clinc150-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/clinc150-ko"
-downloads: 88
+downloads: 87
 summary: "DeepPavlov/clinc150 데이터셋의 한국어 번역 버전으로, 인텐트 분류 및 범위 외 탐지용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

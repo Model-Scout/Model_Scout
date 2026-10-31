@@ -3,7 +3,7 @@ type: "dataset"
 id: "Malikeh1375/code-switching-tokenizer-robustness"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Malikeh1375/code-switching-tokenizer-robustness"
-downloads: 189
+downloads: 194
 summary: "다국어 및 코드스위칭 환경에서 토크나이저 강건성 평가를 위한 16개 언어 변종 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "vibrantlabsai/fiqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vibrantlabsai/fiqa"
-downloads: 3889
+downloads: 3941
 summary: "금융 도메인 질문과 답변, 문서 검색 데이터를 포함한 RAG 시스템 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

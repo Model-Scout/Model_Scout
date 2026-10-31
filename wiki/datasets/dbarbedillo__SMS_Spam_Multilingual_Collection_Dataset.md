@@ -3,7 +3,7 @@ type: "dataset"
 id: "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset"
-downloads: 301
+downloads: 308
 summary: "다국어 SMS 스팸 메시지 모음으로 스팸 탐지 연구에 사용됨"
 readme_status: "ok"
 readme_language: "en"
@@ -54,3 +54,11 @@ spam- spam text` · 신뢰도 medium
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `text_jv` 열 p90 180자 ≈ 45 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `KumarSahil299885/SMS_Spam_Multilingual_Collection_Dataset`
+- `ashu0311/SMS_Spam_Multilingual_Collection_Dataset`
+- `bhoomee/SMS_Spam_Multilingual_Collection_Dataset`
+- `mahrukhsaeed/SMS_Spam_Multilingual_Collection_Dataset`
+- `rjraj111/SMS_Spam_Multilingual_Collection_Dataset`

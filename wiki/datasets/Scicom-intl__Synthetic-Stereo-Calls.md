@@ -3,7 +3,7 @@ type: "dataset"
 id: "Scicom-intl/Synthetic-Stereo-Calls"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Scicom-intl/Synthetic-Stereo-Calls"
-downloads: 282
+downloads: 320
 summary: "두 채널로 구성된 깨끗한 스튜디오 음성 기반 2인 통화 데이터로, 통화 음성 향상 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

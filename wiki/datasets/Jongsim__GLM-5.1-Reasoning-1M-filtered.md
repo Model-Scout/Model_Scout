@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jongsim/GLM-5.1-Reasoning-1M-filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jongsim/GLM-5.1-Reasoning-1M-filtered"
-downloads: 101
+downloads: 80
 summary: "GLM-5.1-Reasoning-1M-filtered는 거절 응답을 필터링한 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

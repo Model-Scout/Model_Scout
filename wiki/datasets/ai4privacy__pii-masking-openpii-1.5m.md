@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai4privacy/pii-masking-openpii-1.5m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1.5m"
-downloads: 3066
+downloads: 3033
 summary: "OpenPII 1.5M은 아시아 태평양 확장판을 포함한 다국어 개인정보 식별자(PII) 마스킹 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ OpenPII 1.5M은 아시아 태평양 확장판을 포함한 다국어 개인정�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `masked_text` 열 p90 680자 ≈ 170 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `woojin1069/pii-masking-openpii-1.5m`

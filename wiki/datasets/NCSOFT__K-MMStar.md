@@ -3,7 +3,7 @@ type: "dataset"
 id: "NCSOFT/K-MMStar"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NCSOFT/K-MMStar"
-downloads: 304
+downloads: 315
 summary: "K-MMStar는 한국어로 번역된 시각-언어 모델 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

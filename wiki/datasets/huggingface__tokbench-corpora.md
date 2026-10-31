@@ -3,7 +3,7 @@ type: "dataset"
 id: "huggingface/tokbench-corpora"
 source: "huggingface"
 url: "https://huggingface.co/datasets/huggingface/tokbench-corpora"
-downloads: 1034
+downloads: 1002
 summary: "토크벤치 벤치마크용 고정된 공개 데이터 발췌 말뭉치로 토크나이저 성능 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "shibing624/sharegpt_gpt4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shibing624/sharegpt_gpt4"
-downloads: 1359
+downloads: 1460
 summary: "GPT4 기반 다국어 다중 대화형 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

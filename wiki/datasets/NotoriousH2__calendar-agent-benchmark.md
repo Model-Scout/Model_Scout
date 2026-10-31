@@ -3,7 +3,7 @@ type: "dataset"
 id: "NotoriousH2/calendar-agent-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NotoriousH2/calendar-agent-benchmark"
-downloads: 64
+downloads: 68
 summary: "Calendar Agent의 Tool Calling SFT와 환경 기반 RLVR 학습 및 평가용 합성 일정 관리 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"

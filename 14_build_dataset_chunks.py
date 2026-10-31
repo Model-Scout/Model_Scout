@@ -35,8 +35,11 @@ BATCH_SIZE = 64
 # Chunk budgets in characters; ~400-500 tokens either way (Korean packs fewer chars per token).
 CHUNK_CHARS = {"ko": 900, "mixed": 1200, "en": 2000}
 MIN_CHUNK_CHARS = 60
-# ponytail: hard cap so a 250K-char card cannot dominate retrieval; raise if long cards lose key sections.
-MAX_SECTION_CHUNKS = 40
+# ponytail: sections past the first 15 rarely change which dataset matches, and every vector costs
+# Supabase storage (20); raise if long cards lose key sections.
+MAX_SECTION_CHUNKS = 15
+# Portal cards are one paragraph plus fields; the card chunk holds all of it, so no sections.
+CARD_ONLY_SOURCES = {"seoul_open_data", "data_go_kr"}
 CARD_DESCRIPTION_CHARS = 1500
 # Cards whose README is empty boilerplate are embedded from metadata alone.
 CARD_ONLY_STATUSES = {"template", "thin", "missing"}
@@ -135,7 +138,7 @@ def build_chunks(row, entity, links, concepts):
     ]))
     chunks = [{"chunk_id": f"{dataset_id}#card", "dataset_id": dataset_id, "kind": "card", "heading_path": [],
                "text": card_text}]
-    if entity["readme_status"] in CARD_ONLY_STATUSES:
+    if entity["readme_status"] in CARD_ONLY_STATUSES or row.get("source") in CARD_ONLY_SOURCES:
         return chunks
     budget = CHUNK_CHARS.get(row.get("readme_language") or "en", CHUNK_CHARS["en"])
     for heading_path, body in sections(cleaned):

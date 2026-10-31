@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bc-AI/codva-it-data-v5.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bc-AI/codva-it-data-v5.1"
-downloads: 188
+downloads: 183
 summary: "CodVa 모델을 위한 다국어 코딩, 수학, 추론, 일반 QA 지침 튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

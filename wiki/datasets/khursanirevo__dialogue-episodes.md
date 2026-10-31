@@ -3,7 +3,7 @@ type: "dataset"
 id: "khursanirevo/dialogue-episodes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/khursanirevo/dialogue-episodes"
-downloads: 7367
+downloads: 7596
 summary: "다국어 대화 에피소드와 분리된 화자 오디오를 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -66,3 +66,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `This dataset contains dialogue episodes` · 신뢰도 low
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `audiofolder` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `DABAOSs/dialogue-episodes`

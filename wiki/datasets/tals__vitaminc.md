@@ -3,7 +3,7 @@ type: "dataset"
 id: "tals/vitaminc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tals/vitaminc"
-downloads: 6144
+downloads: 6084
 summary: "Wikipedia 편집 기반의 사실 검증 데이터셋으로, 견고한 사실 검증 연구에 사용됨."
 readme_status: "ok"
 readme_language: "en"

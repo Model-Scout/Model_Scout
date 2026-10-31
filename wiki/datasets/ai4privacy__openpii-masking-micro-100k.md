@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai4privacy/openpii-masking-micro-100k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai4privacy/openpii-masking-micro-100k"
-downloads: 281
+downloads: 288
 summary: "OpenPII Micro는 다국어 개인 식별 정보(PII) 마스킹을 위한 10만 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

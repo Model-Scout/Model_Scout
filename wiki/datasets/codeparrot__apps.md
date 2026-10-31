@@ -3,7 +3,7 @@ type: "dataset"
 id: "codeparrot/apps"
 source: "huggingface"
 url: "https://huggingface.co/datasets/codeparrot/apps"
-downloads: 23291
+downloads: 24257
 summary: "APPS는 자연어 명세로부터 파이썬 코드 생성을 평가하는 1만 문제 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

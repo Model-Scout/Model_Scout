@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/kovidore-v2-hr-beir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/kovidore-v2-hr-beir"
-downloads: 217
+downloads: 211
 summary: "한국의 노동 전망과 고용 정책 보고서로 구성된 복합 문서 이해용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

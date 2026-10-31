@@ -3,7 +3,7 @@ type: "dataset"
 id: "KRAFTON/KMMAU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KRAFTON/KMMAU"
-downloads: 211
+downloads: 212
 summary: "KMMAU는 한국어 음성 모델 평가를 위한 다양한 오디오 이해 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

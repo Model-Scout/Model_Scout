@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Function_Completion"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Function_Completion"
-downloads: 439
+downloads: 409
 summary: "BenchMAX_Function_Completion은 다국어 코드 생성 능력을 평가하는 함수 완성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

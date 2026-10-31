@@ -3,7 +3,7 @@ type: "dataset"
 id: "MaoXun/AuthBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MaoXun/AuthBench"
-downloads: 185
+downloads: 206
 summary: "AuthBench는 다국어 저자 식별 및 검증을 위한 대규모 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "MBZUAI/Bactrian-X"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MBZUAI/Bactrian-X"
-downloads: 2154
+downloads: 2206
 summary: "Bactrian-X는 52개 언어로 번역된 340만 개의 지시-응답 쌍 데이터셋으로 다국어 자연어처리에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -50,3 +50,7 @@ Bactrian-X는 52개 언어로 번역된 340만 개의 지시-응답 쌍 데이�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 679자 ≈ 170 토큰 (viewer statistics, ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Inoka-32/Bactrian-X`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Davlan/sib200_14classes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Davlan/sib200_14classes"
-downloads: 92
+downloads: 97
 summary: "SIB-200은 205개 언어의 뉴스 문장 14개 주제 분류 데이터셋으로, 소수샷 평가에 적합합니다."
 readme_status: "ok"
 readme_language: "en"

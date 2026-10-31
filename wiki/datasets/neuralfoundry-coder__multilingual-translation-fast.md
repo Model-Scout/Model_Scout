@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralfoundry-coder/multilingual-translation-fast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/multilingual-translation-fast"
-downloads: 97
+downloads: 111
 summary: "7개 언어쌍의 균형 잡힌 다국어 번역 데이터셋으로 빠른 학습 및 평가에 사용됨"
 readme_status: "ok"
 readme_language: "en"

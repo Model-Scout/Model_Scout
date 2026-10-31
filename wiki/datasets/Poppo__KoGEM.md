@@ -3,7 +3,7 @@ type: "dataset"
 id: "Poppo/KoGEM"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Poppo/KoGEM"
-downloads: 125
+downloads: 189
 summary: "KoGEM은 한국어 언어 능력을 평가하는 1.5천개 객관식 문제 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

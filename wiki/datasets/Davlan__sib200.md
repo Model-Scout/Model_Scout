@@ -3,7 +3,7 @@ type: "dataset"
 id: "Davlan/sib200"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Davlan/sib200"
-downloads: 16431
+downloads: 17233
 summary: "SIB-200은 205개 언어의 위키피디아 문장 주제 분류용 대규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "jhu-clsp/megawika-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jhu-clsp/megawika-2"
-downloads: 9647
+downloads: 9743
 summary: "MegaWika 2는 위키피디아 문서와 인용 웹 출처를 포함한 다국어 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Aegis-AI-Content-Safety-Dataset-2.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-2.0"
-downloads: 16014
+downloads: 15291
 summary: "인간과 LLM 간 상호작용의 안전성 평가를 위한 AI 콘텐츠 안전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

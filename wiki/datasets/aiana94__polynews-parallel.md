@@ -3,7 +3,7 @@ type: "dataset"
 id: "aiana94/polynews-parallel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aiana94/polynews-parallel"
-downloads: 774
+downloads: 819
 summary: "PolyNewsParallel은 64개 언어, 833개 언어쌍의 뉴스 제목 병렬 데이터셋으로 기계 번역과 문서 검색에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "wannaphong/WanJuanSiLu-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wannaphong/WanJuanSiLu-sft"
-downloads: 86
+downloads: 85
 summary: "아랍어, 러시아어, 한국어, 베트남어, 태국어의 문화 관련 질문-답변 쌍을 포함한 SFT 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

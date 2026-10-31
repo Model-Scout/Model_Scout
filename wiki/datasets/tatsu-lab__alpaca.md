@@ -3,7 +3,7 @@ type: "dataset"
 id: "tatsu-lab/alpaca"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tatsu-lab/alpaca"
-downloads: 81314
+downloads: 80708
 summary: "OpenAI text-davinci-003으로 생성한 52,000개 명령어 데이터로 언어모델 튜닝용입니다."
 readme_status: "template"
 readme_language: "en"

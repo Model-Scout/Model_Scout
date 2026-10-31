@@ -3,7 +3,7 @@ type: "dataset"
 id: "Shelton1013/SwitchLingua_audio"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Shelton1013/SwitchLingua_audio"
-downloads: 204
+downloads: 188
 summary: "SwitchLingua는 다국어·다민족 코드스위칭 음성·텍스트 데이터셋으로 음성인식 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

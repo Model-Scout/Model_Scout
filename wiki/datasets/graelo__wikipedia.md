@@ -3,7 +3,7 @@ type: "dataset"
 id: "graelo/wikipedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/graelo/wikipedia"
-downloads: 936
+downloads: 1024
 summary: "다국어 위키피디아 문서 정제 데이터셋으로, 최신 덤프를 기반으로 구축됨."
 readme_status: "ok"
 readme_language: "en"

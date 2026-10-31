@@ -3,7 +3,7 @@ type: "dataset"
 id: "alexandrainst/multi-wiki-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alexandrainst/multi-wiki-qa"
-downloads: 1746
+downloads: 1821
 summary: "Wikipedia 문서와 LLM 생성 질문/답변 기반 독해 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

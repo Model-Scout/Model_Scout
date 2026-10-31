@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/laion2b_multi_korean_subset_with_image"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/laion2b_multi_korean_subset_with_image"
-downloads: 164
+downloads: 268
 summary: "img2dataset으로 다운로드한 9,800,137장 한국어 이미지-텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

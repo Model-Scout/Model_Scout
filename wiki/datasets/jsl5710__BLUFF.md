@@ -3,7 +3,7 @@ type: "dataset"
 id: "jsl5710/BLUFF"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jsl5710/BLUFF"
-downloads: 281
+downloads: 789
 summary: "BLUFF는 79개 언어의 가짜 뉴스 탐지를 위한 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

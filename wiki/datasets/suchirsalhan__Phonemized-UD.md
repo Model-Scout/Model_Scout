@@ -3,7 +3,7 @@ type: "dataset"
 id: "suchirsalhan/Phonemized-UD"
 source: "huggingface"
 url: "https://huggingface.co/datasets/suchirsalhan/Phonemized-UD"
-downloads: 2100
+downloads: 1803
 summary: "34개 이상의 언어에 대해 Universal Dependencies를 음소화한 다국어 음소화 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"

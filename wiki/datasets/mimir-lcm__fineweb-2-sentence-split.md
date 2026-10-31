@@ -3,7 +3,7 @@ type: "dataset"
 id: "mimir-lcm/fineweb-2-sentence-split"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mimir-lcm/fineweb-2-sentence-split"
-downloads: 4609
+downloads: 4804
 summary: "Fineweb 2 데이터를 문장 단위로 분할한 데이터셋으로, 언어별 균형을 맞추기 위해 샘플링함."
 readme_status: "ok"
 readme_language: "en"

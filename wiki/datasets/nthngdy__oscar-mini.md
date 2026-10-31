@@ -3,7 +3,7 @@ type: "dataset"
 id: "nthngdy/oscar-mini"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nthngdy/oscar-mini"
-downloads: 967
+downloads: 933
 summary: "OSCAR는 Common Crawl 데이터를 언어별로 분류·필터링한 대규모 다국어 말뭉치로, 언어 모델 사전학습용입니다."
 readme_status: "ok"
 readme_language: "en"

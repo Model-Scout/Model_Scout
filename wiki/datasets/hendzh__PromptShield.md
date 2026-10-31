@@ -3,7 +3,7 @@ type: "dataset"
 id: "hendzh/PromptShield"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hendzh/PromptShield"
-downloads: 1316
+downloads: 1306
 summary: "PromptShield 데이터셋은 프롬프트 인젝션 공격 탐지를 위한 이진 분류용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

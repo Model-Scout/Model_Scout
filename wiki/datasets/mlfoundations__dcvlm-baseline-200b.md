@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm-baseline-200b"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm-baseline-200b"
-downloads: 40040
+downloads: 42615
 summary: "DCVLM-Baseline은 2000억 토큰 규모의 멀티모달 사전학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "SY95/WCCA-AK-images"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SY95/WCCA-AK-images"
-downloads: 316
+downloads: 330
 summary: "한국 디자이너 앙드레 김의 오뜨 꾸뛰르 의상 3D 스캔 및 다중 시점 이미지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

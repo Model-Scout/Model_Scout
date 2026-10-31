@@ -3,7 +3,7 @@ type: "dataset"
 id: "ZJU-Safety/DataShield"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ZJU-Safety/DataShield"
-downloads: 219
+downloads: 225
 summary: "DataShield는 LLM 미세조정 데이터의 위험도를 평가해 위험 데이터 제거에 활용하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

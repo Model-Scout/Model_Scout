@@ -3,7 +3,7 @@ type: "dataset"
 id: "JiashengGuo/ExpressEdit"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JiashengGuo/ExpressEdit"
-downloads: 113
+downloads: 116
 summary: "ExpressEdit는 스타일화된 얼굴 표정 편집을 위한 표현 태그와 예시 스토리, 이미지 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"

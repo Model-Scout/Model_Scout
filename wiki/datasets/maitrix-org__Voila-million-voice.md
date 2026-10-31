@@ -3,7 +3,7 @@ type: "dataset"
 id: "maitrix-org/Voila-million-voice"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maitrix-org/Voila-million-voice"
-downloads: 548
+downloads: 566
 summary: "Voila는 실시간 음성-언어 통합 모델로 음성 인식, 음성 합성, 음성 번역 등에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

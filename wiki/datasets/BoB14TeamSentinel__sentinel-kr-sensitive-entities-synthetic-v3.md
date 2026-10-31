@@ -3,7 +3,7 @@ type: "dataset"
 id: "BoB14TeamSentinel/sentinel-kr-sensitive-entities-synthetic-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BoB14TeamSentinel/sentinel-kr-sensitive-entities-synthetic-v3"
-downloads: 104
+downloads: 106
 summary: "Sentinel KR Sensitive Entities (Synthetic) v3는 한국어 합성 데이터로 민감정보 탐지용입니다."
 readme_status: "ok"
 readme_language: "en"

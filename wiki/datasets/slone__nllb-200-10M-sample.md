@@ -3,7 +3,7 @@ type: "dataset"
 id: "slone/nllb-200-10M-sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/slone/nllb-200-10M-sample"
-downloads: 185
+downloads: 200
 summary: "NLLB-200 데이터셋에서 추출한 1천만 문장쌍 샘플로 다국어 번역 모델 미세조정에 사용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,7 @@ NLLB-200 데이터셋에서 추출한 1천만 문장쌍 샘플로 다국어 번�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text2` 열 p90 126자 ≈ 31 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `vansh62/nllb-200-10M-sample`

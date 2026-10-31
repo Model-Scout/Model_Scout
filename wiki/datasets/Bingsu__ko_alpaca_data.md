@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/ko_alpaca_data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/ko_alpaca_data"
-downloads: 128
+downloads: 133
 summary: "alpaca 데이터를 한국어로 번역하고 OpenAI API로 출력 데이터를 생성한 한국어 명령-응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

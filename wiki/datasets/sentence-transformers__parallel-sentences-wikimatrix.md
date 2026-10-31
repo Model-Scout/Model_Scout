@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-wikimatrix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-wikimatrix"
-downloads: 2816
+downloads: 2758
 summary: "WikiMatrix 데이터셋은 여러 언어의 병렬 문장(영어+다른 언어)을 포함하며 다국어 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

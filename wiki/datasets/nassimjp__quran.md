@@ -3,7 +3,7 @@ type: "dataset"
 id: "nassimjp/quran"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nassimjp/quran"
-downloads: 463
+downloads: 482
 summary: "79개 언어, 185개 번역의 구절 정렬된 다국어 꾸란 말뭉치로, 수니파 정통 내 번역만 포함됨."
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 148자 ≈ 37 토큰 (viewer statistics, ko-hamidchoi/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `quranlab/quran`

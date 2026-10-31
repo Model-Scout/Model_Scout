@@ -3,7 +3,7 @@ type: "dataset"
 id: "JooYoon/riidolaya-statehint-pilot100-development"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JooYoon/riidolaya-statehint-pilot100-development"
-downloads: 614
+downloads: 621
 summary: "AI 어시스턴트가 작성한 100개의 가상 개발 메시지 데이터셋으로 분류 모델 개발에 활용됨."
 readme_status: "ok"
 readme_language: "en"

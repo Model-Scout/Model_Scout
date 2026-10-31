@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/bible_para"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/bible_para"
-downloads: 219
+downloads: 233
 summary: "성경 번역본으로 만든 102개 언어 병렬 말뭉치 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

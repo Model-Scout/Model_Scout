@@ -3,7 +3,7 @@ type: "dataset"
 id: "afkfatih/turkish-gemma-51k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/afkfatih/turkish-gemma-51k"
-downloads: 32
+downloads: 33
 summary: "Türkçe sohbet ve talimat takip görevleri için 51,914개 대화 예제를 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "wicho/kor_sae"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wicho/kor_sae"
-downloads: 168
+downloads: 187
 summary: "한국어 비정형 지시문에서 의도 인자를 추출하는 데이터셋으로, 대화 시스템의 의도 추출에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "jobs-git/HPLT2.0_cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jobs-git/HPLT2.0_cleaned"
-downloads: 836
+downloads: 915
 summary: "191개 언어로 된 대규모 웹 크롤링 문서 모음으로, 다국어 언어 모델 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "lightblue/reasoning-multilingual-R1-Llama-70B-train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lightblue/reasoning-multilingual-R1-Llama-70B-train"
-downloads: 224
+downloads: 253
 summary: "30개 이상의 언어를 포함하는 다국어 추론 데이터셋으로 다국어 추론 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

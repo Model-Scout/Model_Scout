@@ -3,7 +3,7 @@ type: "dataset"
 id: "SciDrawAI/SciDraw-6K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SciDrawAI/SciDraw-6K"
-downloads: 896
+downloads: 817
 summary: "SciDraw-6K는 11개 언어 프롬프트와 함께 제공되는 6,291개의 과학 일러스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

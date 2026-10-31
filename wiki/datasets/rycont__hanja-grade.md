@@ -3,7 +3,7 @@ type: "dataset"
 id: "rycont/hanja-grade"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rycont/hanja-grade"
-downloads: 121
+downloads: 101
 summary: "한국어문회에서 분류한 급수별 한자 데이터셋으로 학습자료용입니다."
 readme_status: "ok"
 readme_language: "mixed"

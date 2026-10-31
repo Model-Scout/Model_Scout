@@ -3,7 +3,7 @@ type: "dataset"
 id: "wikimedia/wikisource"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wikimedia/wikisource"
-downloads: 5655
+downloads: 6169
 summary: "Wikisource의 여러 언어별 정제된 문서 데이터셋으로 텍스트 학습용입니다."
 readme_status: "template"
 readme_language: "en"

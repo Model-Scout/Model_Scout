@@ -3,7 +3,7 @@ type: "dataset"
 id: "binjang/NIKL-korean-english-dictionary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/binjang/NIKL-korean-english-dictionary"
-downloads: 152
+downloads: 160
 summary: "한국어 단어와 품사, 정의, 예문, 난이도, 의미 범주를 포함한 한국어-영어 사전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

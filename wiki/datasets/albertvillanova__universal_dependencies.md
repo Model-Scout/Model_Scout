@@ -3,7 +3,7 @@ type: "dataset"
 id: "albertvillanova/universal_dependencies"
 source: "huggingface"
 url: "https://huggingface.co/datasets/albertvillanova/universal_dependencies"
-downloads: 342
+downloads: 324
 summary: "Universal Dependencies는 다국어 구문 분석과 언어 유형학 연구를 위한 일관된 트리뱅크 주석 프로젝트입니다."
 readme_status: "template"
 readme_language: "en"

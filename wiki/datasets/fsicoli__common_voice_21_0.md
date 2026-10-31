@@ -3,7 +3,7 @@ type: "dataset"
 id: "fsicoli/common_voice_21_0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fsicoli/common_voice_21_0"
-downloads: 1513
+downloads: 1523
 summary: "Mozilla Common Voice 21.0 비공식 버전 음성 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -47,3 +47,7 @@ Mozilla Common Voice 21.0 비공식 버전 음성 데이터셋으로 음성 인�
 - **도메인**: [[일반]] — ner · readme = `This dataset is an unofficial version of the Mozilla Common Voice Corpus 21.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `The dataset can be downloaded and prepared in one call to your local drive by using the load_dataset function.` · 신뢰도 low
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `999999999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Theafricatechguy/common_voice_21_0`

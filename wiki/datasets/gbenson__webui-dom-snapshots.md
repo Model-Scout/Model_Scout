@@ -3,7 +3,7 @@ type: "dataset"
 id: "gbenson/webui-dom-snapshots"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gbenson/webui-dom-snapshots"
-downloads: 203
+downloads: 225
 summary: "WebUI DOM 스냅샷 데이터셋으로 웹 UI 분석에 활용됨."
 readme_status: "template"
 readme_language: "en"

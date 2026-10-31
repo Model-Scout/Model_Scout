@@ -2,7 +2,7 @@
 type: "concept"
 facet: "language"
 key: "hi"
-members: 68
+members: 90
 ---
 # hi
 
@@ -47,52 +47,74 @@ facet: [[언어]] · 개념 id `language/hi`
 - [[vllm-sr__mmbert-rerank-32k-2d-matryoshka|vllm-sr/mmbert-rerank-32k-2d-matryoshka]]
 - [[llm-semantic-router__mmbert-rerank-32k-2d-matryoshka|llm-semantic-router/mmbert-rerank-32k-2d-matryoshka]]
 - [[compute1__Agents-A1-GPTQ-INT4-Sym|compute1/Agents-A1-GPTQ-INT4-Sym]]
-- [[BIGJUTT__Step-3.7-Flash-GGUF|BIGJUTT/Step-3.7-Flash-GGUF]]
 - [[King-Cane__Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF|King-Cane/Dans-PersonalityEngine-V1.3.0-24b-Q4_K_M-GGUF]]
+- [[BIGJUTT__Step-3.7-Flash-GGUF|BIGJUTT/Step-3.7-Flash-GGUF]]
 
-## 데이터셋 (29)
+## 데이터셋 (51)
 
 - [[arsaporta__symile-m3|arsaporta/symile-m3]]
 - [[nvidia__Nemotron-SFT-Multilingual-v2|nvidia/Nemotron-SFT-Multilingual-v2]]
 - [[hac541309__open-lid-dataset|hac541309/open-lid-dataset]]
 - [[heretic-org__Multilingual-Harmless-Harmful|heretic-org/Multilingual-Harmless-Harmful]]
 - [[BSC-LT__BSC_ParaMT_8|BSC-LT/BSC_ParaMT_8]]
-- [[retowyss__Persona-Fluxed-10k-2608|retowyss/Persona-Fluxed-10k-2608]]
 - [[AIM-Intelligence__XL-SafetyBench|AIM-Intelligence/XL-SafetyBench]]
-- [[BSC-LT__ALIA_mixed_authentic_synthetic_MT|BSC-LT/ALIA_mixed_authentic_synthetic_MT]]
+- [[retowyss__Persona-Fluxed-10k-2608|retowyss/Persona-Fluxed-10k-2608]]
 - [[changelinglab__cmul2arctic-l1cls|changelinglab/cmul2arctic-l1cls]]
 - [[Genius1237__TyDiP|Genius1237/TyDiP]]
+- [[BSC-LT__ALIA_mixed_authentic_synthetic_MT|BSC-LT/ALIA_mixed_authentic_synthetic_MT]]
 - [[Baekpica__Inkling-Small-Multimodal-Calibration|Baekpica/Inkling-Small-Multimodal-Calibration]]
-- [[suneetha24__symile-m3|suneetha24/symile-m3]]
 - [[nvidia__Nemotron-RL-CFBench-v1|nvidia/Nemotron-RL-CFBench-v1]]
 - [[kenza-ily__icdar_disco|kenza-ily/icdar_disco]]
 - [[ZWHTXY__MMAC-Bench|ZWHTXY/MMAC-Bench]]
-- [[moonscape-software__macro_prosody_sample_set|moonscape-software/macro_prosody_sample_set]]
 - [[urgent-challenge__urgent2026-sqa|urgent-challenge/urgent2026-sqa]]
-- [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[launch__MCLASH|launch/MCLASH]]
-- [[Heyjab__Multilingual-Harmless-Harmful|Heyjab/Multilingual-Harmless-Harmful]]
+- [[moonscape-software__macro_prosody_sample_set|moonscape-software/macro_prosody_sample_set]]
+- [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
 - [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
+- [[naplab__AVMeme-Exam|naplab/AVMeme-Exam]]
 - [[comradev7__Scenic-Font-Analysis|comradev7/Scenic-Font-Analysis]]
-- [[neulab__PangeaBench-xchat|neulab/PangeaBench-xchat]]
 - [[Calandracas__calibration-blend|Calandracas/calibration-blend]]
+- [[neulab__PangeaBench-xchat|neulab/PangeaBench-xchat]]
 - [[shantanugoel__universal-prompt-enhancer|shantanugoel/universal-prompt-enhancer]]
 - [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
+- [[Pandorabots__real-human-chatbot-dialogue-31B-sample|Pandorabots/real-human-chatbot-dialogue-31B-sample]]
+- [[SirJohnBasu__syntava-cube-publication|SirJohnBasu/syntava-cube-publication]]
+- [[camel-ai__ai_society_translated|camel-ai/ai_society_translated]]
+- [[Kenpache__multilingual-financial-sentiment-v2|Kenpache/multilingual-financial-sentiment-v2]]
+- [[keisuke3602__youtube-asr-human-caption-benchmark|keisuke3602/youtube-asr-human-caption-benchmark]]
+- [[ggirishg__MultiFraudAlign|ggirishg/MultiFraudAlign]]
+- [[seonglae__OptimismBench|seonglae/OptimismBench]]
 - [[Baekpica__Solar-Open2-120B-A15B-REAM-148E-Healing-Mix|Baekpica/Solar-Open2-120B-A15B-REAM-148E-Healing-Mix]]
+- [[Luel-ai__luel-multilingual-tts-samples|Luel-ai/luel-multilingual-tts-samples]]
+- [[datasetsANDmodels__99sentences-translate2-10languages|datasetsANDmodels/99sentences-translate2-10languages]]
+- [[Nexdata-kr__104320-Images-Korean-and-Hindi-OCR-Data-in-Natural-Scenes|Nexdata-kr/104320-Images-Korean-and-Hindi-OCR-Data-in-Natural-Scenes]]
+- [[spectralbranding__exp-cross-language|spectralbranding/exp-cross-language]]
+- [[validia-ai__distillery|validia-ai/distillery]]
+- [[locailabs__self_cognition_nemotron_120b|locailabs/self_cognition_nemotron_120b]]
+- [[impresso-project__wiki_comparable_corpus_en_de_hi_it_ko_zh|impresso-project/wiki_comparable_corpus_en_de_hi_it_ko_zh]]
+- [[huggingzetro__cole-conversational-corpus|huggingzetro/cole-conversational-corpus]]
+- [[piyushsinghpasi__mscoco-multilingual-30k|piyushsinghpasi/mscoco-multilingual-30k]]
+- [[InfoBayAI__Bounding_Box_with_Annotation_Dataset|InfoBayAI/Bounding_Box_with_Annotation_Dataset]]
+- [[jaeyong2__LAION-art-EN-improved-captions-translate|jaeyong2/LAION-art-EN-improved-captions-translate]]
+- [[useKled__non-latin-script-text|useKled/non-latin-script-text]]
+- [[supernyoung__ai_panel_surv_ansr_ginko|supernyoung/ai_panel_surv_ansr_ginko]]
+- [[azminetoushikwasi__global-festivals-translated|azminetoushikwasi/global-festivals-translated]]
+- [[SirJohnBasu__basu-digital-bacterium-hypothesis|SirJohnBasu/basu-digital-bacterium-hypothesis]]
+- [[anshkumar__all-output-jsonl|anshkumar/all-output-jsonl]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 67
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 59
-- [[상업 이용 가능]] (상업 이용) · 공유 51
-- [[텍스트 생성]] (작업) · 공유 39
-- [[일반]] (도메인) · 공유 23
-- [[Parquet]] (데이터 형식) · 공유 20
-- [[텍스트 분류]] (작업) · 공유 20
-- [[학습용]] (데이터 용도) · 공유 20
-- [[단문]] (입력 길이) · 공유 14
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 14
-- [[중규모 데이터]] (데이터 규모) · 공유 12
-- [[평가용]] (데이터 용도) · 공유 11
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 89
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 81
+- [[상업 이용 가능]] (상업 이용) · 공유 61
+- [[텍스트 생성]] (작업) · 공유 49
+- [[일반]] (도메인) · 공유 37
+- [[학습용]] (데이터 용도) · 공유 32
+- [[Parquet]] (데이터 형식) · 공유 26
+- [[텍스트 분류]] (작업) · 공유 26
+- [[중규모 데이터]] (데이터 규모) · 공유 21
+- [[소규모 데이터]] (데이터 규모) · 공유 20
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 18
+- [[평가용]] (데이터 용도) · 공유 15

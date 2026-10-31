@@ -3,7 +3,7 @@ type: "dataset"
 id: "apple/mkqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/apple/mkqa"
-downloads: 648
+downloads: 750
 summary: "MKQA는 26개 언어로 번역된 10만 개 질문-답변 쌍의 다국어 지식 질의응답 평가 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

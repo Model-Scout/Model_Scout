@@ -3,7 +3,7 @@ type: "dataset"
 id: "oscar-corpus/oscar"
 source: "huggingface"
 url: "https://huggingface.co/datasets/oscar-corpus/oscar"
-downloads: 281
+downloads: 308
 summary: "OSCAR는 Common Crawl 데이터를 언어별로 분류 및 필터링해 만든 대규모 다국어 말뭉치로, 언어 모델 사전학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

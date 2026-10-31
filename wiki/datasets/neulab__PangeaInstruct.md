@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/PangeaInstruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/PangeaInstruct"
-downloads: 2509
+downloads: 2536
 summary: "39개 언어를 포함한 다국어·다문화·다중모달 명령어 튜닝 데이터셋으로 Pangea-7B 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

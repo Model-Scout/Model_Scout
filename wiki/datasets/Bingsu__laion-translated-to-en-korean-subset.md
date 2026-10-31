@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/laion-translated-to-en-korean-subset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/laion-translated-to-en-korean-subset"
-downloads: 97
+downloads: 109
 summary: "한국어만 포함된 laion 데이터셋의 하위 집합으로 이미지-텍스트 쌍 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

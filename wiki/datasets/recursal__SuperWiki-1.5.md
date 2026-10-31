@@ -3,7 +3,7 @@ type: "dataset"
 id: "recursal/SuperWiki-1.5"
 source: "huggingface"
 url: "https://huggingface.co/datasets/recursal/SuperWiki-1.5"
-downloads: 146
+downloads: 173
 summary: "SuperWIKI-1.5는 다국어 위키피디아 문서로 구성된 대규모 언어 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

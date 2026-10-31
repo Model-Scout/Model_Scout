@@ -1,6 +1,6 @@
 # 서울시 도시관리계획 입안 정보
 
-서울시 도시관리계획 입안 정보. http://openapi.seoul.go.kr:8088/sample/xml/upisDraft/1/5/
+서울시 도시관리계획 입안 정보. http://openapi.seoul.go.kr:8088/sample/xml/upisDraft/1/5/ 제공 필드: 안건명, 안건목적, 안건사유, 결정권자, 지자체코드, 담당자, 입안자, 입안계획유형, 입안업무유형, 처리상태, 프로젝트코드, 위치, 업무절차, 담당부서
 
 서비스명: upisDraft
 

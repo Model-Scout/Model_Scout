@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/kullm-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/kullm-v2"
-downloads: 482
+downloads: 457
 summary: "GPT4ALL, Dolly, Vicuna 데이터의 한국어 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,6 +46,10 @@ GPT4ALL, Dolly, Vicuna 데이터의 한국어 번역 데이터셋입니다.
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 1520자 ≈ 1013 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `csujeong/kullm-v2.1`
 
 ## 이 데이터로 학습한 모델
 

@@ -3,7 +3,7 @@ type: "dataset"
 id: "seyoungsong/Open-Korean-Historical-Corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/seyoungsong/Open-Korean-Historical-Corpus"
-downloads: 908
+downloads: 942
 summary: "한국어 역사 말뭉치로, 한국어 NLP와 역사언어학 연구에 활용되는 대규모 공개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

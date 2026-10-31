@@ -3,7 +3,7 @@ type: "dataset"
 id: "zhyfei314/Mynary-Offline-Dictionary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zhyfei314/Mynary-Offline-Dictionary"
-downloads: 93
+downloads: 97
 summary: "Wiktionary 기반의 Mynary 오프라인 사전 팩으로 언어 학습과 로컬 조회용입니다."
 readme_status: "ok"
 readme_language: "en"

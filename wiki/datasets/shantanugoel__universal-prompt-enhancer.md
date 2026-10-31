@@ -3,7 +3,7 @@ type: "dataset"
 id: "shantanugoel/universal-prompt-enhancer"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shantanugoel/universal-prompt-enhancer"
-downloads: 82
+downloads: 89
 summary: "생성 미디어 프롬프트 재작성용 합성 교사 감독 데이터셋으로, 이미지·음향 등 14개 모드 포함"
 readme_status: "ok"
 readme_language: "en"

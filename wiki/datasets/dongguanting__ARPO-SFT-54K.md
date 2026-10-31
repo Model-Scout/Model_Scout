@@ -3,7 +3,7 @@ type: "dataset"
 id: "dongguanting/ARPO-SFT-54K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dongguanting/ARPO-SFT-54K"
-downloads: 127
+downloads: 140
 summary: "ARPO-SFT-54K는 LLM 기반 에이전트의 강화학습을 위한 수퍼바이즈드 파인튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

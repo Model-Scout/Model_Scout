@@ -3,7 +3,7 @@ type: "dataset"
 id: "google-research-datasets/paws"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/paws"
-downloads: 115113
+downloads: 109394
 summary: "PAWS 데이터셋은 단어 순서와 문맥 정보를 활용한 패러프레이즈 식별용 문장 쌍 데이터입니다."
 readme_status: "template"
 readme_language: "en"

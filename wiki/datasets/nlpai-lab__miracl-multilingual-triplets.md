@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/miracl-multilingual-triplets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/miracl-multilingual-triplets"
-downloads: 592
+downloads: 678
 summary: "51개 언어로 된 MIRACL 삼중항 데이터셋으로 다국어 검색 및 리랭킹 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -59,3 +59,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `positive` 열 p90 631자 ≈ 158 토큰 (viewer statistics, ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `BhavyaSoni21/miracl-multilingual-triplets`

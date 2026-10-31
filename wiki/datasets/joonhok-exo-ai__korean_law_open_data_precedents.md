@@ -3,7 +3,7 @@ type: "dataset"
 id: "joonhok-exo-ai/korean_law_open_data_precedents"
 source: "huggingface"
 url: "https://huggingface.co/datasets/joonhok-exo-ai/korean_law_open_data_precedents"
-downloads: 463
+downloads: 494
 summary: "국가법령정보센터의 대한민국 판례 171,599건을 수집한 법률 판례 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

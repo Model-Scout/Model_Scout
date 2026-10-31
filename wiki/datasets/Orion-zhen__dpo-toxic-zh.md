@@ -3,7 +3,7 @@ type: "dataset"
 id: "Orion-zhen/dpo-toxic-zh"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Orion-zhen/dpo-toxic-zh"
-downloads: 28
+downloads: 36
 summary: "DPO Toxic Chinese v2.0은 모델의 검열/정렬을 우회하는 고독성·유해 텍스트 데이터셋이다."
 readme_status: "ok"
 readme_language: "en"

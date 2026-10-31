@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-index/open-wikipedia-markdown"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-index/open-wikipedia-markdown"
-downloads: 1523
+downloads: 1520
 summary: "위키피디아 모든 언어판 문서를 깔끔한 마크다운 형식으로 변환한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

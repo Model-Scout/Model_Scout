@@ -3,7 +3,7 @@ type: "dataset"
 id: "SpellOnYou/kor_sarcasm"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SpellOnYou/kor_sarcasm"
-downloads: 202
+downloads: 215
 summary: "한국어 트윗에서 빈정거림(sarcasm) 여부를 감지하기 위한 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

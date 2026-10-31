@@ -3,7 +3,7 @@ type: "dataset"
 id: "miracl/nomiracl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/miracl/nomiracl"
-downloads: 1578
+downloads: 1741
 summary: "NoMIRACL은 18개 언어의 LLM 검색 결과 관련성 평가를 위한 인간 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

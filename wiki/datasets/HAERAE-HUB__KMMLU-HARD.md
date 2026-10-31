@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/KMMLU-HARD"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/KMMLU-HARD"
-downloads: 1645
+downloads: 1632
 summary: "KMMLU는 한국어 원본 시험 문제로 구성된 45개 과목의 전문가 수준 객관식 문제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

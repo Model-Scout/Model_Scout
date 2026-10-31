@@ -3,7 +3,7 @@ type: "dataset"
 id: "aiqwe/FinShibainu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aiqwe/FinShibainu"
-downloads: 95
+downloads: 94
 summary: "KRX LLM 경진대회 우수상 수상 shibainu24 모델 학습용 금융 QA 및 MCQA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

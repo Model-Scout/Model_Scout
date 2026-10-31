@@ -3,7 +3,7 @@ type: "dataset"
 id: "CMSManhattan/wiki13_tokenized_precision"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CMSManhattan/wiki13_tokenized_precision"
-downloads: 235
+downloads: 244
 summary: "13개 언어 위키피디아 토큰화 데이터셋으로 언어 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

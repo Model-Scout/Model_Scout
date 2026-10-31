@@ -3,7 +3,7 @@ type: "dataset"
 id: "wandb/RAGTruth-processed"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wandb/RAGTruth-processed"
-downloads: 2245
+downloads: 2243
 summary: "RAGTruth 데이터셋은 RAG 기반 텍스트 생성 모델의 환각 평가용으로 전문가 주석을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "aixk/bg-1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aixk/bg-1"
-downloads: 100
+downloads: 106
 summary: "AI 자율 봇넷, 내부 침투, 크리덴셜 탈취, 복합 L7 DoS 공격 패킷 트래픽 시계열 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "fal/image-generation-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fal/image-generation-prompts"
-downloads: 183
+downloads: 167
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "beomi/kowikitext-qa-ref-detail-preview"
 source: "huggingface"
 url: "https://huggingface.co/datasets/beomi/kowikitext-qa-ref-detail-preview"
-downloads: 8
+downloads: 10
 summary: "한국어 위키피디아 텍스트를 추론 과정이 포함된 QA 형식으로 변환한 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ParaPat/para_pat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ParaPat/para_pat"
-downloads: 143
+downloads: 156
 summary: "ParaPat는 74개 언어쌍 특허 초록 병렬 말뭉치로 번역 연구에 활용됨."
 readme_status: "template"
 readme_language: "en"

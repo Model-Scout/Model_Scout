@@ -3,7 +3,7 @@ type: "dataset"
 id: "Wismut/nym-pii-multilingual-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Wismut/nym-pii-multilingual-data"
-downloads: 497
+downloads: 480
 summary: "23개 언어, 6개 문자로 구성된 합성 PII 토큰 분류 데이터로 PII 탐지 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

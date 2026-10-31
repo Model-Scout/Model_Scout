@@ -3,7 +3,7 @@ type: "dataset"
 id: "hac541309/pg-ko-tknizer-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hac541309/pg-ko-tknizer-ko"
-downloads: 151
+downloads: 145
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

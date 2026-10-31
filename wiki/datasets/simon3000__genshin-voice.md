@@ -3,7 +3,7 @@ type: "dataset"
 id: "simon3000/genshin-voice"
 source: "huggingface"
 url: "https://huggingface.co/datasets/simon3000/genshin-voice"
-downloads: 16541
+downloads: 16581
 summary: "Genshin Impact 게임 캐릭터 음성 대사 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,13 @@ Genshin Impact 게임 캐릭터 음성 대사 데이터셋으로 음성 인식 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `inGameFilename` 열 p90 68자 ≈ 17 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `DeQuackDealer/genshin-voice`
+- `MegaGarnet/genshin-voice`
+- `horseman-mark/genshin-voice`
+- `rAVEUK/genshin-voice`
+- `s240513/g-voice`
+- `snowfungo/genshin-voice`
+- `sumdigger/genshin-voice`

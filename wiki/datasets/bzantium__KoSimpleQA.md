@@ -3,7 +3,7 @@ type: "dataset"
 id: "bzantium/KoSimpleQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bzantium/KoSimpleQA"
-downloads: 189
+downloads: 200
 summary: "KoSimpleQA는 한국 문화 지식을 평가하는 1,000개 문항의 한국어 사실 검증 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

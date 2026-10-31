@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/Everything-Instruct-Multilingual-DPO"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/Everything-Instruct-Multilingual-DPO"
-downloads: 91
+downloads: 97
 summary: "다국어 지침 데이터셋으로, 간체 중국어를 번체로 변환하고 DPO 단계 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

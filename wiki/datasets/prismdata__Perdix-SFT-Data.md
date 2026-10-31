@@ -3,7 +3,7 @@ type: "dataset"
 id: "prismdata/Perdix-SFT-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prismdata/Perdix-SFT-Data"
-downloads: 116
+downloads: 121
 summary: "Perdix-1.1B-Instruct 모델 지시 미세조정을 위한 공개 대화 데이터셋과 토크나이즈 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

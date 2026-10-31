@@ -3,7 +3,7 @@ type: "dataset"
 id: "microsoft/rStar-Coder"
 source: "huggingface"
 url: "https://huggingface.co/datasets/microsoft/rStar-Coder"
-downloads: 7902
+downloads: 7960
 summary: "rStar-Coder는 대규모 경쟁 프로그래밍 문제와 장기 추론 솔루션, 다양한 난이도의 테스트 케이스를 포함한 코드 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

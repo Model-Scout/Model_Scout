@@ -3,7 +3,7 @@ type: "dataset"
 id: "ayousanz/Emilia-Dataset-JA-Plus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ayousanz/Emilia-Dataset-JA-Plus"
-downloads: 740
+downloads: 894
 summary: "Emilia는 101k 시간 규모의 다국어 음성 데이터셋으로 대규모 음성 생성 연구에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

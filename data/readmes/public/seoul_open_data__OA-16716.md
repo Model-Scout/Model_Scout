@@ -1,6 +1,6 @@
 # 서울시 환경분쟁조정 사건 진행 현황
 
-서울시 환경분쟁조정 사건 진행 현황. http://openapi.seoul.go.kr:8088/sample/xml/TB_VIEW_CASES/1/5/
+서울시 환경분쟁조정 사건 진행 현황. http://openapi.seoul.go.kr:8088/sample/xml/TB_VIEW_CASES/1/5/ 제공 필드: 신청인수, 신청인 법인 여부, 신청일, 신청번호, 신청구분, 피해금액, 수수료, 사건명, 사건순번, 입력일시, 구비서류우편송달여부, 수정일시, 피신청인 법인 여부, 상태명
 
 서비스명: TB_VIEW_CASES
 

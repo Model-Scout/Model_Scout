@@ -1,0 +1,44 @@
+---
+language:
+- es
+- fr
+- de
+- pt
+- it
+- nl
+- pl
+- ru
+- uk
+- ro
+- cs
+- sv
+- el
+- tr
+- ar
+- he
+- fa
+- hi
+- bn
+- ur
+- gu
+- ta
+- te
+- mr
+- id
+- ms
+- vi
+- th
+- ko
+- ja
+- zh
+- sr
+- sw
+- yo
+- am
+- ha
+- multilingual
+- fi
+- hu
+- da
+---
+based off of https://hf.co/datasets/TeichAI/claude-sonnet-4.5-high-reasoning-250x, machine translated to 40 languages, filtered slightly.

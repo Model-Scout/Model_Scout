@@ -3,7 +3,7 @@ type: "dataset"
 id: "FredZhang7/stable-diffusion-prompts-2.47M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FredZhang7/stable-diffusion-prompts-2.47M"
-downloads: 282
+downloads: 287
 summary: "Stable Diffusion 이미지 생성용 2.47M 텍스트 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

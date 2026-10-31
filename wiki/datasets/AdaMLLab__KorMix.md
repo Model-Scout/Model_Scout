@@ -3,7 +3,7 @@ type: "dataset"
 id: "AdaMLLab/KorMix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AdaMLLab/KorMix"
-downloads: 2213
+downloads: 2482
 summary: "KorMix는 한국어 특화 품질 필터링과 중복 제거를 거친 한국어 사전학습 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"

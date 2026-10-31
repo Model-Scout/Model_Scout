@@ -3,7 +3,7 @@ type: "dataset"
 id: "okawaritsuika/nai-shared-styles"
 source: "huggingface"
 url: "https://huggingface.co/datasets/okawaritsuika/nai-shared-styles"
-downloads: 236
+downloads: 262
 summary: "아카라이브 AI 그림 채널의 그림체 공유 게시글에서 수집한 예제 이미지와 NovelAI 생성 메타데이터 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

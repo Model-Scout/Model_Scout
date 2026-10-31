@@ -3,7 +3,7 @@ type: "dataset"
 id: "songys/kor_qpair"
 source: "huggingface"
 url: "https://huggingface.co/datasets/songys/kor_qpair"
-downloads: 150
+downloads: 210
 summary: "두 질문의 의미적 동일성을 판단하는 한국어 질문 쌍 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

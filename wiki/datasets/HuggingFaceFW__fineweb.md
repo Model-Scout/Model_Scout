@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb"
-downloads: 365588
+downloads: 369071
 summary: "FineWeb은 CommonCrawl 기반의 18.5조 토큰 규모 영어 웹 데이터로 LLM 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

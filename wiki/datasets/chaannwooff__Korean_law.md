@@ -3,7 +3,7 @@ type: "dataset"
 id: "chaannwooff/Korean_law"
 source: "huggingface"
 url: "https://huggingface.co/datasets/chaannwooff/Korean_law"
-downloads: 87
+downloads: 89
 summary: "법제처 국가법령정보센터 OpenAPI로 수집한 한국어 법령 전문 조문 단위 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

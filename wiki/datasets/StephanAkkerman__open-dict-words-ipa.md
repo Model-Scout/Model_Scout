@@ -3,7 +3,7 @@ type: "dataset"
 id: "StephanAkkerman/open-dict-words-ipa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/StephanAkkerman/open-dict-words-ipa"
-downloads: 582
+downloads: 576
 summary: "여러 언어의 단어에 대한 IPA 발음 데이터를 제공하는 오픈 사전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

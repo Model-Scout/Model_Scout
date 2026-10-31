@@ -3,7 +3,7 @@ type: "dataset"
 id: "cis-lmu/glotlid-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cis-lmu/glotlid-corpus"
-downloads: 380
+downloads: 388
 summary: "GlotLID 모델 학습용 언어 식별 데이터셋으로 약 2000개 언어 분류 가능"
 readme_status: "ok"
 readme_language: "en"

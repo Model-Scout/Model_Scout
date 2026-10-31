@@ -3,7 +3,7 @@ type: "dataset"
 id: "mingyujeon/kias-solar-wind"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mingyujeon/kias-solar-wind"
-downloads: 196
+downloads: 218
 summary: "SDO/AIA 193Å 이미지와 코로날 홀 시각화 포함 태양풍 예측 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

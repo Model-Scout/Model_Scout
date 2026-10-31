@@ -3,7 +3,7 @@ type: "dataset"
 id: "sardinelab/DocBlocks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sardinelab/DocBlocks"
-downloads: 239
+downloads: 247
 summary: "DocBlocks는 긴 문맥 번역을 위한 다국어 문서 수준 기계 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

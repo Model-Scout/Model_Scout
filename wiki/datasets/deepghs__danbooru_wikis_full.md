@@ -3,7 +3,7 @@ type: "dataset"
 id: "deepghs/danbooru_wikis_full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deepghs/danbooru_wikis_full"
-downloads: 172
+downloads: 193
 summary: "danbooru.donmai.us의 위키 페이지, 태그, 태그 별칭, 태그 함의를 포함한 전체 위키 데이터셋으로 LLM 학습에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

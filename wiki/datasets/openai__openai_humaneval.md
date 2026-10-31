@@ -3,7 +3,7 @@ type: "dataset"
 id: "openai/openai_humaneval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openai/openai_humaneval"
-downloads: 237160
+downloads: 236808
 summary: "OpenAI HumanEval은 164개의 파이썬 프로그래밍 문제와 단위 테스트를 포함한 코드 생성 평가용 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ggml-org/ci"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ggml-org/ci"
-downloads: 25369
+downloads: 24278
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

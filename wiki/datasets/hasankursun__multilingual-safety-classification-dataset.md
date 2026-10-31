@@ -3,7 +3,7 @@ type: "dataset"
 id: "hasankursun/multilingual-safety-classification-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hasankursun/multilingual-safety-classification-dataset"
-downloads: 618
+downloads: 637
 summary: "60개 언어로 된 안전성 분류 데이터셋으로 다국어 콘텐츠 검열 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

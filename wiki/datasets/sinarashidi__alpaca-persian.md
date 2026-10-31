@@ -3,7 +3,7 @@ type: "dataset"
 id: "sinarashidi/alpaca-persian"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sinarashidi/alpaca-persian"
-downloads: 89
+downloads: 92
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

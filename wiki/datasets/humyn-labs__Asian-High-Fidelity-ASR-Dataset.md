@@ -3,7 +3,7 @@ type: "dataset"
 id: "humyn-labs/Asian-High-Fidelity-ASR-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/humyn-labs/Asian-High-Fidelity-ASR-Dataset"
-downloads: 268
+downloads: 272
 summary: "베트남어, 한국어, 아랍어, 필리핀어 대화 음성 인식용 고품질 음성-텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

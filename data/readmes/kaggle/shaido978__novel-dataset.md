@@ -1,0 +1,54 @@
+# Translated novels (NovelUpdates)
+
+Statistics and associations between translated novels from www.novelsupdates.com
+
+Dataset of translated novels from novelupdates (https://www.novelupdates.com) containing information about translated novels. The dataset contains translated English novels from eight original languages (Chinese, Japanese, Korean, Malaysian, Filipino, Indonesian, Khmer, and Thai). There is currently a total of 21,831 novels.  
+
+Both individual novel statistics such as the number of chapters and ranking as well as relations to other novels are available.  
+
+Current Version: 0.1.4  
+Updated on 2024-07-10  
+Source code: https://github.com/shaido987/novel-dataset/tree/master 
+
+
+
+Dataset columns:
+
+- General Information
+  - Novel ID
+  - Name
+  - Associated Names
+  - Original Langauge
+  - Author / Authors
+  - Genres
+  - Tags
+- Publishing Information
+  - Start Year
+  - Licensed
+  - Original Publisher
+  - English Publisher
+- Chapter Information
+  - Number of Chapters (original language)
+  - Completed (original language)
+  - Number of Chapters (translation)
+  - Completed (translation)
+- Release Information (translation)
+  - Release Frequency
+  - Activity Weekly Rank
+  - Activity Monthly Rank
+  - Activity All-time Rank
+- Community Information (translation)
+  - On Number of Reading Lists
+  - Reading List Monthly Rank
+  - Reading List All-time Rank
+  - Rating
+  - Rating Votes
+- Related Series Information
+  - Related Series IDs
+  - Recommended Series IDs
+  - Recommendation List IDs
+
+출처: Kaggle (shaido978/novel-dataset)
+태그: literature, exploratory data analysis, data analytics, tabular, graph
+라이선스: MIT
+수정일: 2024-07-20T08:23:24.963Z

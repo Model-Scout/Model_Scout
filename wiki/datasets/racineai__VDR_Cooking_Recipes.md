@@ -3,7 +3,7 @@ type: "dataset"
 id: "racineai/VDR_Cooking_Recipes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/racineai/VDR_Cooking_Recipes"
-downloads: 739
+downloads: 758
 summary: "요리 레시피 문서와 요리 가이드의 텍스트와 이미지를 포함한 멀티모달 데이터셋으로, 질의응답과 문서 검색 등에 활용됨."
 readme_status: "ok"
 readme_language: "en"

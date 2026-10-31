@@ -3,7 +3,7 @@ type: "dataset"
 id: "snuh/specialist-level_medical_knowledge_dataset_sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/snuh/specialist-level_medical_knowledge_dataset_sft"
-downloads: 339
+downloads: 273
 summary: "서울대병원 HARI가 개발한 13개 의학 전문 분야 임상 추론 및 질의응답용 증강 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

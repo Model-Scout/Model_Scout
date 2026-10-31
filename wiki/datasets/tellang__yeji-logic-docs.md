@@ -3,7 +3,7 @@ type: "dataset"
 id: "tellang/yeji-logic-docs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tellang/yeji-logic-docs"
-downloads: 96
+downloads: 91
 summary: "점술 로직 및 알고리즘 문서화 데이터셋으로 계산 로직과 해석 알고리즘을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

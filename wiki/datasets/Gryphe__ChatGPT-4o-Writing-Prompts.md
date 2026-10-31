@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gryphe/ChatGPT-4o-Writing-Prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gryphe/ChatGPT-4o-Writing-Prompts"
-downloads: 5894
+downloads: 5484
 summary: "ChatGPT-4o 모델이 Reddit Writing Prompts를 활용해 생성한 단편 소설 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

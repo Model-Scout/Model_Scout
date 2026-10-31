@@ -3,7 +3,7 @@ type: "dataset"
 id: "nyuuzyou/phishing-snapshots"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nyuuzyou/phishing-snapshots"
-downloads: 629
+downloads: 685
 summary: "2024년 중 수집된 피싱 및 악성코드 웹사이트 스냅샷 데이터로, 탐지 및 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -1,6 +1,6 @@
 # 서울시 One-PMIS 안전점검 일정
 
-서울시 One-PMIS 안전점검 일정. 서울특별시 One-PMIS 안전점검 일정
+서울시 One-PMIS 안전점검 일정. 서울특별시 One-PMIS 안전점검 일정 제공 필드: 점검일자, 점검기관, 점검자, 사업코드, 사업명, 순번
 
 서비스명: pmisSafetyCheckList
 

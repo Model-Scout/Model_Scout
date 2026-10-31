@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb-edu-llama3-annotations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu-llama3-annotations"
-downloads: 749
+downloads: 781
 summary: "FineWeb 웹페이지의 교육적 가치를 평가하기 위한 FineWeb-Edu 분류기 학습용 주석 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

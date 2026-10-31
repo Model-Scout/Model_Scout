@@ -3,7 +3,7 @@ type: "dataset"
 id: "xujfcn/Crazyrouter-Model-Pricing"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xujfcn/Crazyrouter-Model-Pricing"
-downloads: 351
+downloads: 400
 summary: "40개 챗봇 모델의 1백만 토큰당 API 가격 비교 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

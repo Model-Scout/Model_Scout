@@ -3,7 +3,7 @@ type: "dataset"
 id: "mariocedo/GlobalMedQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mariocedo/GlobalMedQA"
-downloads: 100
+downloads: 106
 summary: "GlobalMedQA는 14개국 13개 언어의 의료 객관식 문제로 구성된 다국어 의료 지식 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

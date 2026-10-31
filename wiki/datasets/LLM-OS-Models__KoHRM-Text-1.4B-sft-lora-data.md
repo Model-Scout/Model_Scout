@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLM-OS-Models/KoHRM-Text-1.4B-sft-lora-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLM-OS-Models/KoHRM-Text-1.4B-sft-lora-data"
-downloads: 893
+downloads: 915
 summary: "KoHRM-Text-1.4B SFT 및 LoRA 준비 데이터로, KoHRM 사전학습 후 행동 정렬 실험용입니다."
 readme_status: "ok"
 readme_language: "en"

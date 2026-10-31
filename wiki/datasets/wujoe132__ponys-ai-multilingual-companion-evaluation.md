@@ -3,7 +3,7 @@ type: "dataset"
 id: "wujoe132/ponys-ai-multilingual-companion-evaluation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wujoe132/ponys-ai-multilingual-companion-evaluation"
-downloads: 157
+downloads: 165
 summary: "Ponys.ai 다국어 AI 동반자 평가 프로토콜로 대화 및 캐릭터 경험 평가용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

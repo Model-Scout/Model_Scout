@@ -3,7 +3,7 @@ type: "dataset"
 id: "FBK-MT/Speech-MASSIVE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FBK-MT/Speech-MASSIVE"
-downloads: 2143
+downloads: 2586
 summary: "12개 언어의 음성 기반 다국어 음성 언어 이해(SLU) 데이터셋으로 의도 예측과 슬롯 채우기 작업에 활용됨."
 readme_status: "ok"
 readme_language: "en"

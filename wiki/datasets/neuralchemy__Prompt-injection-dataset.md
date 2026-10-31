@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralchemy/Prompt-injection-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralchemy/Prompt-injection-dataset"
-downloads: 3095
+downloads: 2894
 summary: "대형 언어 모델의 프롬프트 인젝션 및 탈옥 공격 탐지를 위한 이진 분류 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

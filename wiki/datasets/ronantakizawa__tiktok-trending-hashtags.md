@@ -3,7 +3,7 @@ type: "dataset"
 id: "ronantakizawa/tiktok-trending-hashtags"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ronantakizawa/tiktok-trending-hashtags"
-downloads: 485
+downloads: 258
 summary: "2022년부터 2025년까지 TikTok에서 유행한 해시태그 데이터를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -77,3 +77,9 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `tag` 열 p90 16자 ≈ 4 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Jahnavi0911/tiktok-trending-hashtags`
+- `ZouSeth/tiktok-trending-hashtags`
+- `kaggle/ronantakizawa/tiktok-trending-hashtags`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "SMH-DEV-AI/NOESIS-1M-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SMH-DEV-AI/NOESIS-1M-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54"
-downloads: 235
+downloads: 213
 summary: "NOESIS 다국어 추론 라우터 SFT 데이터셋으로 다국어 지능형 튜닝에 활용됨."
 readme_status: "ok"
 readme_language: "en"

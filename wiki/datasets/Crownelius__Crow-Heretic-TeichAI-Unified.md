@@ -3,7 +3,7 @@ type: "dataset"
 id: "Crownelius/Crow-Heretic-TeichAI-Unified"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Crownelius/Crow-Heretic-TeichAI-Unified"
-downloads: 64
+downloads: 71
 summary: "데이터셋 설명이나 용도가 명시되어 있지 않은 Crownelius/Crow-Heretic-TeichAI-Unified 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

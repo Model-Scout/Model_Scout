@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/WildChat-1M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/WildChat-1M"
-downloads: 36879
+downloads: 38153
 summary: "WildChat-1M은 인간과 ChatGPT 간 100만 대화 및 인구통계 데이터를 포함한 다국어 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

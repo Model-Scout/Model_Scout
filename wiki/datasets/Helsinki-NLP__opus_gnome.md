@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/opus_gnome"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/opus_gnome"
-downloads: 297
+downloads: 281
 summary: "Opus Gnome은 다양한 언어 쌍의 번역 데이터셋으로 번역 작업에 사용됩니다."
 readme_status: "template"
 readme_language: "en"

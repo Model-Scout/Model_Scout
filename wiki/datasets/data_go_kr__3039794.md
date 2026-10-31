@@ -32,3 +32,7 @@ data_format:
 - **도메인**: [[행정·민원]] — tag_match · tags, title/keywords = `공공행정` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `data_go_kr/3080514`

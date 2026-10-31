@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceH4/MATH-500"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceH4/MATH-500"
-downloads: 190413
+downloads: 189732
 summary: "OpenAI의 MATH 벤치마크에서 500문제를 추출한 수학 문제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

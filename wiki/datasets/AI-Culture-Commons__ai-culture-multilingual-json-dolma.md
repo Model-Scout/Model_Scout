@@ -3,7 +3,7 @@ type: "dataset"
 id: "AI-Culture-Commons/ai-culture-multilingual-json-dolma"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AI-Culture-Commons/ai-culture-multilingual-json-dolma"
-downloads: 108
+downloads: 113
 summary: "12개 언어로 정제된 철학·문화 콘텐츠 5천개 기사 병렬 데이터셋으로 AI 문화 연구용."
 readme_status: "ok"
 readme_language: "en"

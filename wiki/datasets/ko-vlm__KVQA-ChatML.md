@@ -3,7 +3,7 @@ type: "dataset"
 id: "ko-vlm/KVQA-ChatML"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ko-vlm/KVQA-ChatML"
-downloads: 1024
+downloads: 1111
 summary: "SKT의 KVQA 데이터셋을 ChatML 형식으로 변환한 한국어 시각질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

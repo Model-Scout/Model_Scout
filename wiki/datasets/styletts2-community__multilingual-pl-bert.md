@@ -3,7 +3,7 @@ type: "dataset"
 id: "styletts2-community/multilingual-pl-bert"
 source: "huggingface"
 url: "https://huggingface.co/datasets/styletts2-community/multilingual-pl-bert"
-downloads: 7784
+downloads: 8401
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "squarelike/sharegpt_deepl_ko_translation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/squarelike/sharegpt_deepl_ko_translation"
-downloads: 80
+downloads: 86
 summary: "sharegpt_deepl_ko 데이터를 한-영 번역 데이터로 변환한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

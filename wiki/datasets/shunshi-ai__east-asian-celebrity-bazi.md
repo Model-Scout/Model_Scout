@@ -3,7 +3,7 @@ type: "dataset"
 id: "shunshi-ai/east-asian-celebrity-bazi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shunshi-ai/east-asian-celebrity-bazi"
-downloads: 151
+downloads: 153
 summary: "중국, 한국, 일본 유명인 2,284명의 출생일을 사주(삼주)로 변환한 문화·역사 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

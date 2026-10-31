@@ -3,7 +3,7 @@ type: "dataset"
 id: "IDONTCARELETMEIN/tech-trade-press"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IDONTCARELETMEIN/tech-trade-press"
-downloads: 95
+downloads: 100
 summary: "기술 및 무역 관련 뉴스와 출판물을 2020-2026년까지 수집한 대규모 텍스트 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"

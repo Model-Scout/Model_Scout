@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/include-lite-44"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/include-lite-44"
-downloads: 1129
+downloads: 1134
 summary: "44개 언어의 학술 및 전문 시험 문제로 구성된 다국어 LLM 평가용 지식 및 추론 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

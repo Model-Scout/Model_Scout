@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/fusion-synth-data-ufb"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/fusion-synth-data-ufb"
-downloads: 185
+downloads: 165
 summary: "다섯 개 교사 모델의 완성문을 포함한 10,000개 UFB 프롬프트의 합성 데이터로, 모델 학습과 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

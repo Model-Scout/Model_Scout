@@ -3,7 +3,7 @@ type: "dataset"
 id: "ysmeta/EVE-Train-NPL-1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ysmeta/EVE-Train-NPL-1.0"
-downloads: 232
+downloads: 230
 summary: "베트남어 부실채권 담보 감정 문서의 시각-언어 모델 학습용 합성 스캔 문서 이미지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

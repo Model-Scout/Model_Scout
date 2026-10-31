@@ -3,7 +3,7 @@ type: "dataset"
 id: "sapienzanlp/ea-mt-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sapienzanlp/ea-mt-benchmark"
-downloads: 112
+downloads: 113
 summary: "EA-MT는 도전적인 개체명 번역을 평가하는 다국어 기계번역 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

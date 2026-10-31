@@ -3,7 +3,7 @@ type: "dataset"
 id: "CarrotAI/ko-instruction-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CarrotAI/ko-instruction-dataset"
-downloads: 128
+downloads: 142
 summary: "WizardLM 모델로 생성된 고품질 한국어 명령어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

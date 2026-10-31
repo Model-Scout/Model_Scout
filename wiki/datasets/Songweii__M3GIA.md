@@ -3,7 +3,7 @@ type: "dataset"
 id: "Songweii/M3GIA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Songweii/M3GIA"
-downloads: 296
+downloads: 279
 summary: "M3GIA는 다국어·다중모달 대형언어모델의 인지능력을 평가하는 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

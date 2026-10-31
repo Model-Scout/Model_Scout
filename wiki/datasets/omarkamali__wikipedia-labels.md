@@ -3,7 +3,7 @@ type: "dataset"
 id: "omarkamali/wikipedia-labels"
 source: "huggingface"
 url: "https://huggingface.co/datasets/omarkamali/wikipedia-labels"
-downloads: 116
+downloads: 117
 summary: "358개 위키백과 언어의 구조적 라벨(네임스페이스 및 별칭) 데이터셋으로, 위키백과 콘텐츠 정리에 활용됨."
 readme_status: "ok"
 readme_language: "en"

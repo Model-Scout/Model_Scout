@@ -3,7 +3,7 @@ type: "dataset"
 id: "maywell/korean_textbooks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/korean_textbooks"
-downloads: 1218
+downloads: 1235
 summary: "Gemini Pro로 생성한 대규모 한국어 인공 합성 데이터셋으로 다양한 태스크에 맞춰 가공하여 사용 가능하다."
 readme_status: "ok"
 readme_language: "en"

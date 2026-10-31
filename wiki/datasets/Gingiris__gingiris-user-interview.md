@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-user-interview"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-user-interview"
-downloads: 113
+downloads: 118
 summary: "HeyGen의 937회 창업자 주도 사용자 인터뷰 프레임워크로 PMF 검증과 사용자 등급화를 지원하는 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

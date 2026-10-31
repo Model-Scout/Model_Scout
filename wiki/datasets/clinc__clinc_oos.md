@@ -3,7 +3,7 @@ type: "dataset"
 id: "clinc/clinc_oos"
 source: "huggingface"
 url: "https://huggingface.co/datasets/clinc/clinc_oos"
-downloads: 25614
+downloads: 25147
 summary: "CLINC150은 대화 시스템의 지원 의도 범위 밖 쿼리를 포함한 텍스트 분류 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

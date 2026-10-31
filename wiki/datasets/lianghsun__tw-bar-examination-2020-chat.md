@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-bar-examination-2020-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-bar-examination-2020-chat"
-downloads: 65
+downloads: 75
 summary: "2020년 대만 변호사 시험 객관식 문제로 구성된 Alpaca 형식 미세조정 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

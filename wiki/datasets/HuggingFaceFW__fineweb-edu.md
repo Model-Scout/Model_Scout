@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb-edu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu"
-downloads: 436721
+downloads: 436681
 summary: "FineWeb-Edu는 1.3조 토큰 규모의 교육용 웹 페이지 데이터셋으로, 교육 품질 분류기를 활용해 고품질 교육 데이터를 선별한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

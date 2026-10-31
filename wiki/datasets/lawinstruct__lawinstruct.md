@@ -3,7 +3,7 @@ type: "dataset"
 id: "lawinstruct/lawinstruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lawinstruct/lawinstruct"
-downloads: 492
+downloads: 551
 readme_status: "template"
 readme_language: "en"
 korean_focus: "wide_multilingual"

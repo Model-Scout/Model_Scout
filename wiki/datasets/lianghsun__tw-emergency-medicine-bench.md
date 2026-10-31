@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-emergency-medicine-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-emergency-medicine-bench"
-downloads: 58
+downloads: 69
 summary: "台灣衛生福利部急診醫學科專科醫師甄審筆試題庫 기반의繁體中文醫學多選題評測資料集입니다."
 readme_status: "ok"
 readme_language: "en"

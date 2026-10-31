@@ -3,7 +3,7 @@ type: "dataset"
 id: "princeton-nlp/SWE-bench_Verified"
 source: "huggingface"
 url: "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified"
-downloads: 167527
+downloads: 164441
 summary: "SWE-bench Verified는 GitHub 이슈 자동 해결 능력을 평가하는 데이터셋 SWE-bench의 인간 검증된 500개 샘플 하위집합입니다."
 readme_status: "ok"
 readme_language: "en"

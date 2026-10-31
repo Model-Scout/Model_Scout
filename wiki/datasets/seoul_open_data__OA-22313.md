@@ -31,3 +31,31 @@ data_format:
 - **도메인**: [[교육]] — tag_match · title/keywords = `education` · 신뢰도 medium
 - **데이터 용도**: [[서비스 데이터]] — source_rule · source = `service` · 신뢰도 medium
 - **데이터 형식**: [[API]] — metadata · format = `api` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `seoul_open_data/OA-22942`
+- `seoul_open_data/OA-22943`
+- `seoul_open_data/OA-22944`
+- `seoul_open_data/OA-22945`
+- `seoul_open_data/OA-22946`
+- `seoul_open_data/OA-22947`
+- `seoul_open_data/OA-22948`
+- `seoul_open_data/OA-22949`
+- `seoul_open_data/OA-22950`
+- `seoul_open_data/OA-22951`
+- `seoul_open_data/OA-22952`
+- `seoul_open_data/OA-22953`
+- `seoul_open_data/OA-22954`
+- `seoul_open_data/OA-22955`
+- `seoul_open_data/OA-22956`
+- `seoul_open_data/OA-22957`
+- `seoul_open_data/OA-22958`
+- `seoul_open_data/OA-22959`
+- `seoul_open_data/OA-22960`
+- `seoul_open_data/OA-22961`
+- `seoul_open_data/OA-22962`
+- `seoul_open_data/OA-22963`
+- `seoul_open_data/OA-22964`
+- `seoul_open_data/OA-22965`
+- `seoul_open_data/OA-22966`

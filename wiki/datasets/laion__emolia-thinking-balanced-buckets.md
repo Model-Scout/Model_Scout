@@ -3,7 +3,7 @@ type: "dataset"
 id: "laion/emolia-thinking-balanced-buckets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/laion/emolia-thinking-balanced-buckets"
-downloads: 606
+downloads: 617
 summary: "VoiceNet/emolia-thinking 데이터셋의 음성 차원별 균형 잡힌 버킷 샘플로 음성 특성 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

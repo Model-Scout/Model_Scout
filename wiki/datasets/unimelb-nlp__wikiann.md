@@ -3,7 +3,7 @@ type: "dataset"
 id: "unimelb-nlp/wikiann"
 source: "huggingface"
 url: "https://huggingface.co/datasets/unimelb-nlp/wikiann"
-downloads: 27525
+downloads: 27572
 summary: "WikiANN은 위키피디아 문서에 LOC, PER, ORG 개체명 태그를 붙인 다국어 개체명 인식 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -48,3 +48,9 @@ WikiANN은 위키피디아 문서에 LOC, PER, ORG 개체명 태그를 붙인 �
 - **데이터 용도**: [[학습용]] — ner · readme = `balanced train, dev, and test splits of Rahimi et al. (2019)` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Alumniiiith/wikiann`
+- `Tox1can/wikiann`
+- `aarontseng/wikiann`

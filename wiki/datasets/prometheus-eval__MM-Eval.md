@@ -3,7 +3,7 @@ type: "dataset"
 id: "prometheus-eval/MM-Eval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prometheus-eval/MM-Eval"
-downloads: 118
+downloads: 136
 summary: "MM-Eval은 18개 언어를 포함한 다국어 메타 평가 벤치마크로, 언어 효과 분석에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

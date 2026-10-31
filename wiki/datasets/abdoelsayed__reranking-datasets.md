@@ -3,7 +3,7 @@ type: "dataset"
 id: "abdoelsayed/reranking-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/abdoelsayed/reranking-datasets"
-downloads: 1214
+downloads: 1267
 summary: "다양한 검색 및 리랭킹 데이터셋을 제공하는 연구용 데이터 모음집입니다."
 readme_status: "ok"
 readme_language: "en"

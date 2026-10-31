@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/belebele-fleurs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/belebele-fleurs"
-downloads: 1903
+downloads: 2123
 summary: "Belebele-Fleurs는 다국어 음성 이해와 장문 자동 음성 인식을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

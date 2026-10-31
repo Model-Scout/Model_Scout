@@ -3,7 +3,7 @@ type: "dataset"
 id: "projetogabi/healthbench-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/projetogabi/healthbench-multilingual"
-downloads: 131
+downloads: 169
 summary: "HealthBench Multilingual은 32개 언어로 번역된 의료 AI 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

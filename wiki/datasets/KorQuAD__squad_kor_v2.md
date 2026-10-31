@@ -3,7 +3,7 @@ type: "dataset"
 id: "KorQuAD/squad_kor_v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KorQuAD/squad_kor_v2"
-downloads: 158
+downloads: 167
 summary: "KorQuAD 2.0은 한국어 위키피디아 문서 기반 질의응답 데이터셋으로 다양한 길이와 형식의 답변을 포함합니다."
 readme_status: "template"
 readme_language: "en"

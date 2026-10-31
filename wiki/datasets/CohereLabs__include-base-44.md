@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/include-base-44"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/include-base-44"
-downloads: 9012
+downloads: 9277
 summary: "44개 언어로 된 학술 및 전문 시험 문제로 다국어 LLM 성능 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

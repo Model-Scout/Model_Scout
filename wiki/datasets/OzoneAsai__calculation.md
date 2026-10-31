@@ -3,7 +3,7 @@ type: "dataset"
 id: "OzoneAsai/calculation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OzoneAsai/calculation"
-downloads: 1639
+downloads: 2108
 summary: "숫자와 기호만 사용된 계산 데이터셋으로 대화 및 지시사항 작업에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -25,6 +25,8 @@ language:
   - "[[중국어]]"
 commercial_use:
   - "[[상업 이용 가능]]"
+data_format:
+  - "[[Parquet]]"
 ---
 # OzoneAsai/calculation
 
@@ -46,3 +48,8 @@ commercial_use:
 - **언어**: [[ru]] — metadata · languages = `ru` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `wtfpl` · 신뢰도 high
+- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `OzoneAsai/4typeCalculation`

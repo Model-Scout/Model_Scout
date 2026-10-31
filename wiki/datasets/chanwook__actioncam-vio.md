@@ -3,7 +3,7 @@ type: "dataset"
 id: "chanwook/actioncam-vio"
 source: "huggingface"
 url: "https://huggingface.co/datasets/chanwook/actioncam-vio"
-downloads: 93
+downloads: 96
 summary: "액션캠 영상과 IMU 데이터를 활용한 SLAM 재현용 actioncam-vio 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

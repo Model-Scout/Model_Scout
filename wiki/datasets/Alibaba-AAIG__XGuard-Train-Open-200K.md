@@ -3,7 +3,7 @@ type: "dataset"
 id: "Alibaba-AAIG/XGuard-Train-Open-200K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Alibaba-AAIG/XGuard-Train-Open-200K"
-downloads: 305
+downloads: 295
 summary: "XGuard-Train-Open-200K은 대형 언어 모델 안전 가드레일 학습용 20만 개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

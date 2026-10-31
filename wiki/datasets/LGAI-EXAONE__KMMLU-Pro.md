@@ -3,7 +3,7 @@ type: "dataset"
 id: "LGAI-EXAONE/KMMLU-Pro"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LGAI-EXAONE/KMMLU-Pro"
-downloads: 2957
+downloads: 2947
 summary: "KMMLU-Pro는 한국 국가전문자격시험 문제 2,822개로 구성된 전문직 자격 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

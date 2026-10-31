@@ -3,7 +3,7 @@ type: "dataset"
 id: "cis-lmu/m_lama"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cis-lmu/m_lama"
-downloads: 229
+downloads: 253
 summary: "53개 언어로 번역된 LAMA 벤치마크 데이터로, 다국어 지식 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

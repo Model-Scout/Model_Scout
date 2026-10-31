@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenSPG/KAG-Thinker-training-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenSPG/KAG-Thinker-training-dataset"
-downloads: 31
+downloads: 32
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

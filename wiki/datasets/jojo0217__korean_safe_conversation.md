@@ -3,7 +3,7 @@ type: "dataset"
 id: "jojo0217/korean_safe_conversation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jojo0217/korean_safe_conversation"
-downloads: 316
+downloads: 321
 summary: "성균관대와 VAIV COMPANY가 구축한 윤리적 일상대화 챗봇 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -49,6 +49,10 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 658자 ≈ 439 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Eri4nder/korean_safe_conversation`
 
 ## 이 데이터로 학습한 모델
 

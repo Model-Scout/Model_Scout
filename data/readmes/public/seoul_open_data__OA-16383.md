@@ -1,0 +1,40 @@
+# 서울시 중구 안경업 인허가 정보
+
+서울시 중구 안경업 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_010201_JG/1/5/ 제공 필드: 인허가취소일자, 인허가일자, 사업장명, 휴업종료일자, 휴업시작일자, 폐업일자, 정점굴절계기수, 상세영업상태코드, 상세영업상태명, 시력표수, 안경세척기수, 가열기수, 최종수정일자, 렌즈절단기수, 관리번호, 측정의자수, 개방자치단체코드, 조제용연마기수, 동공거리측정기수, 도로명우편번호, 도로명주소, 표본렌즈수, 소재지우편번호, 전화번호, 지번주소, 총면적, 영업상태코드, 영업상태명, 데이터갱신일자, 데이터갱신구분, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_010201_JG
+
+## 제공 필드
+
+- 인허가취소일자 (APVCANCELYMD)
+- 인허가일자 (APVPERMYMD)
+- 사업장명 (BPLCNM)
+- 휴업종료일자 (CLGENDDT)
+- 휴업시작일자 (CLGSTDT)
+- 폐업일자 (DCBYMD)
+- 정점굴절계기수 (DEFPTRFRTGGNUM)
+- 상세영업상태코드 (DTLSTATEGBN)
+- 상세영업상태명 (DTLSTATENM)
+- 시력표수 (EYEPYONUM)
+- 안경세척기수 (GLSWASHERNUM)
+- 가열기수 (HEATNUM)
+- 최종수정일자 (LASTMODTS)
+- 렌즈절단기수 (LENSCUTNUM)
+- 관리번호 (MGTNO)
+- 측정의자수 (MSMCHAIRNUM)
+- 개방자치단체코드 (OPNSFTEAMCODE)
+- 조제용연마기수 (PPTNUSEGRNDNUM)
+- 동공거리측정기수 (PUPILDISTMEASNUM)
+- 도로명우편번호 (RDNPOSTNO)
+- 도로명주소 (RDNWHLADDR)
+- 표본렌즈수 (SAMPLENSNUM)
+- 소재지우편번호 (SITEPOSTNO)
+- 전화번호 (SITETEL)
+- 지번주소 (SITEWHLADDR)
+- 총면적 (TOTAR)
+- 영업상태코드 (TRDSTATEGBN)
+- 영업상태명 (TRDSTATENM)
+- 데이터갱신일자 (UPDATEDT)
+- 데이터갱신구분 (UPDATEGBN)
+- 좌표정보(X) (X)
+- 좌표정보(Y) (Y)

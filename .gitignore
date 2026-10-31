@@ -52,3 +52,4 @@ data/public_catalog/
 
 # Dataset vectors live in Supabase (20_sync_dataset_index.py); 14 --embed rebuilds this file from there.
 data/dataset_index/embeddings.npy
+data/dataset_index/embeddings.npy

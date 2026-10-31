@@ -3,7 +3,7 @@ type: "dataset"
 id: "openai/MMMLU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openai/MMMLU"
-downloads: 15816
+downloads: 15634
 summary: "MMMLU는 57개 분야의 다국어 지식 평가용 AI 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,6 +55,14 @@ MMMLU는 57개 분야의 다국어 지식 평가용 AI 벤치마크 데이터셋
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `Question` 열 p90 382자 ≈ 96 토큰 (viewer statistics, KO_KR/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `PaulMvp/MMMLU`
+- `Yashugowda20/MMMLU`
+- `budecosystem/mmmlu`
+- `bzantium/MMMLU`
+- `jiangbingcheng/MMMLU`
 
 ## 이 데이터로 학습한 모델
 

@@ -3,7 +3,7 @@ type: "dataset"
 id: "playcat/playcat-cat-behavior-new-data-set"
 source: "huggingface"
 url: "https://huggingface.co/datasets/playcat/playcat-cat-behavior-new-data-set"
-downloads: 139
+downloads: 126
 summary: "고양이 행동풍부화 연구를 위한 한영 이중언어 데이터셋으로, 학술·특허·커뮤니티 지식 포함"
 readme_status: "ok"
 readme_language: "en"

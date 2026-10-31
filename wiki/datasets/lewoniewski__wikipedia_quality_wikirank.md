@@ -3,7 +3,7 @@ type: "dataset"
 id: "lewoniewski/wikipedia_quality_wikirank"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lewoniewski/wikipedia_quality_wikirank"
-downloads: 204
+downloads: 192
 summary: "47개 언어 위키피디아 문서 4700만 건의 WikiRank 품질 점수 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

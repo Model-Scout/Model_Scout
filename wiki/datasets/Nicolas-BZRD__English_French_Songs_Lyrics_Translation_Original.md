@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nicolas-BZRD/English_French_Songs_Lyrics_Translation_Original"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nicolas-BZRD/English_French_Songs_Lyrics_Translation_Original"
-downloads: 93
+downloads: 110
 summary: "원곡 가사와 프랑스어 번역 가사를 포함한 99,289곡의 노래 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

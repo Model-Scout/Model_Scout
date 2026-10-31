@@ -3,7 +3,7 @@ type: "dataset"
 id: "floschne/xgqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/floschne/xgqa"
-downloads: 392
+downloads: 398
 summary: "xGQA 데이터셋의 few_shot-test 분할 클론으로 다국어 시각 질의응답에 사용됨."
 readme_status: "ok"
 readme_language: "en"

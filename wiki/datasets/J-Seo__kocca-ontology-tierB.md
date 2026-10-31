@@ -3,7 +3,7 @@ type: "dataset"
 id: "J-Seo/kocca-ontology-tierB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/J-Seo/kocca-ontology-tierB"
-downloads: 107
+downloads: 106
 summary: "국립국어원 4대 한국어 언어자원을 통합한 170만 표제어 SQLite 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

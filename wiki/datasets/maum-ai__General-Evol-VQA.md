@@ -3,7 +3,7 @@ type: "dataset"
 id: "maum-ai/General-Evol-VQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maum-ai/General-Evol-VQA"
-downloads: 219
+downloads: 225
 summary: "Vision-Language 모델의 일반 지시 능력 향상을 위한 한영 VQA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

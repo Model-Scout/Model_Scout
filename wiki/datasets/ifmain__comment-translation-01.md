@@ -3,7 +3,7 @@ type: "dataset"
 id: "ifmain/comment-translation-01"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ifmain/comment-translation-01"
-downloads: 91
+downloads: 103
 summary: "69,000개의 Reddit 댓글을 17개 언어로 번역한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Granary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Granary"
-downloads: 6117
+downloads: 6234
 summary: "25개 유럽어 음성 인식 및 번역용 대규모 다국어 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Cascade-RL-RLHF"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Cascade-RL-RLHF"
-downloads: 110
+downloads: 113
 summary: "RLHF 훈련용으로 설계된 언어 모델 정렬 지원 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

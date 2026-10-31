@@ -3,7 +3,7 @@ type: "dataset"
 id: "BCCard/Semantic-Router-Instruction"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BCCard/Semantic-Router-Instruction"
-downloads: 108
+downloads: 117
 summary: "5개 언어로 된 300만 행 규모의 다국어 명령어 데이터셋으로, 14개 축에 따른 발화 분류용입니다."
 readme_status: "ok"
 readme_language: "en"

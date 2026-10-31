@@ -3,7 +3,7 @@ type: "dataset"
 id: "SamsungResearch/TRUEBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SamsungResearch/TRUEBench"
-downloads: 1927
+downloads: 1934
 summary: "TRUEBench는 삼성리서치가 개발한 다국어 대화 시나리오 기반 LLM 업무 생산성 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,7 +51,11 @@ TRUEBench는 삼성리서치가 개발한 다국어 대화 시나리오 기반 L
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `TRUEBench includes diverse dialog scenarios and language conditions.` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · dataset_id/tags, readme = `TRUEBench is a benchmark introduced by Samsung Research to evaluate the performance of large language models (LLMs) as human job assistants` · 신뢰도 medium
-- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
+- **데이터 형식**: [[Parquet]] — metadata · format = `optimized-parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
 
 샘플 길이: `sub_category` 열 p90 20자 ≈ 5 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `lokesh2320/TRUEBench`

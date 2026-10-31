@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralfoundry-coder/multilingual-translation-thinking-fast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/multilingual-translation-thinking-fast"
-downloads: 160
+downloads: 171
 summary: "다국어 번역 모델의 Thinking Mode 학습을 위한 균형 잡힌 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

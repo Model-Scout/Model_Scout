@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/mvl-sib"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/mvl-sib"
-downloads: 2153
+downloads: 2271
 summary: "MVL-SIB는 205개 언어와 7개 주제별 이미지-문장 쌍을 제공하는 다국어 시각-언어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

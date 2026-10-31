@@ -3,7 +3,7 @@ type: "dataset"
 id: "jongrock17/KoPolNLI-pre-v0.9"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jongrock17/KoPolNLI-pre-v0.9"
-downloads: 86
+downloads: 46
 summary: "KoPolNLI-pre-v0.9은 한국어 정치·사회 이슈 전제-가설 데이터셋으로 NLI 연구용입니다."
 readme_status: "ok"
 readme_language: "mixed"

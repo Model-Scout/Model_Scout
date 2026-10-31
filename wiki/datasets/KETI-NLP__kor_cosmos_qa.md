@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/kor_cosmos_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/kor_cosmos_qa"
-downloads: 303
+downloads: 304
 summary: "KETI-NLP/kor_cosmos_qa는 문맥 기반 상식 추론을 위한 한국어 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

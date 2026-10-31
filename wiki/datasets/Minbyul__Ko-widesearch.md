@@ -3,7 +3,7 @@ type: "dataset"
 id: "Minbyul/Ko-widesearch"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Minbyul/Ko-widesearch"
-downloads: 142
+downloads: 141
 summary: "Ko-WideSearch는 한국어 웹 에이전트를 위한 광범위 탐색 벤치마크로, 표의 모든 속성 셀을 채우는 작업을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

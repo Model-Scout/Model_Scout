@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/Magpie-Pro-MT-300K-v0.1-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/Magpie-Pro-MT-300K-v0.1-ko"
-downloads: 127
+downloads: 144
 summary: "Magpie-Pro-MT-300K-v0.1-ko는 영어-한국어 번역 데이터셋으로 기계 번역 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

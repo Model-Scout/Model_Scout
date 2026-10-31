@@ -3,7 +3,7 @@ type: "dataset"
 id: "legesher/language-canon"
 source: "huggingface"
 url: "https://huggingface.co/datasets/legesher/language-canon"
-downloads: 84
+downloads: 85
 summary: "프로그래밍 개념의 자연어별 명칭을 언어 공동체가 표준화한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/DeepSeek-V4-Distill-8000x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/DeepSeek-V4-Distill-8000x"
-downloads: 1074
+downloads: 949
 summary: "DeepSeek-V4-Distill-8100x는 추론 지향 증류를 위한 감독 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

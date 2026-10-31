@@ -3,7 +3,7 @@ type: "dataset"
 id: "AIM-Intelligence/XL-SafetyBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AIM-Intelligence/XL-SafetyBench"
-downloads: 834
+downloads: 878
 summary: "XL-SafetyBench는 10개국 언어별로 LLM 안전성과 문화 민감성을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -71,3 +71,7 @@ XL-SafetyBench는 10개국 언어별로 LLM 안전성과 문화 민감성을 평
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `scenario_english` 열 p90 924자 ≈ 231 토큰 (viewer statistics, cultural/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `ljyyy3317/XL-SafetyBench`

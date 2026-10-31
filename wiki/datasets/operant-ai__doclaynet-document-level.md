@@ -3,7 +3,7 @@ type: "dataset"
 id: "operant-ai/doclaynet-document-level"
 source: "huggingface"
 url: "https://huggingface.co/datasets/operant-ai/doclaynet-document-level"
-downloads: 124
+downloads: 143
 summary: "DocLayNet 문서 단위 재구성 데이터셋으로 문서 분류 및 텍스트 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

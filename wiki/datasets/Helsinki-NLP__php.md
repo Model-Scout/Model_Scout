@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/php"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/php"
-downloads: 194
+downloads: 221
 summary: "영어로 작성된 PHP 매뉴얼을 21개 언어로 부분 번역한 병렬 말뭉치 데이터입니다."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Skywork/Skywork-OR1-RL-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Skywork/Skywork-OR1-RL-Data"
-downloads: 1676
+downloads: 1734
 summary: "수학과 코딩 문제로 구성된 RL 학습용 데이터셋으로 Skywork-OR1 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

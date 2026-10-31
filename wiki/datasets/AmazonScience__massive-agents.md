@@ -3,7 +3,7 @@ type: "dataset"
 id: "AmazonScience/massive-agents"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AmazonScience/massive-agents"
-downloads: 576
+downloads: 611
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "codeparrot/github-code-clean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/codeparrot/github-code-clean"
-downloads: 40750
+downloads: 40882
 summary: "GitHub에서 수집한 32개 프로그래밍 언어의 1TB 코드 파일 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

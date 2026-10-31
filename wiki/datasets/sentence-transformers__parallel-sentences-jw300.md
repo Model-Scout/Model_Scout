@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-jw300"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-jw300"
-downloads: 716
+downloads: 765
 summary: "JW300 병렬 문장 데이터셋으로 다국어 문장 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

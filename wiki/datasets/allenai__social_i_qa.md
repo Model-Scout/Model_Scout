@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/social_i_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/social_i_qa"
-downloads: 35858
+downloads: 35142
 summary: "Social IQa는 사회적 상식 추론을 평가하는 QA 벤치마크 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

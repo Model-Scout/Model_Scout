@@ -3,7 +3,7 @@ type: "dataset"
 id: "coastalcph/tydi_xor_rc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/coastalcph/tydi_xor_rc"
-downloads: 2311
+downloads: 2595
 summary: "XORQA 확장판으로 7개 언어 질문과 영어 문서 기반의 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

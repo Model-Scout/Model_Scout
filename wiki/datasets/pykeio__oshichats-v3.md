@@ -3,7 +3,7 @@ type: "dataset"
 id: "pykeio/oshichats-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pykeio/oshichats-v3"
-downloads: 145
+downloads: 142
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

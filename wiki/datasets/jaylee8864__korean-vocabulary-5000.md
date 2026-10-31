@@ -3,7 +3,7 @@ type: "dataset"
 id: "jaylee8864/korean-vocabulary-5000"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jaylee8864/korean-vocabulary-5000"
-downloads: 153
+downloads: 162
 summary: "한국어 단어 5,000개와 9개 언어 번역, 예문, 발음 정보 포함 어휘 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -61,3 +61,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `context_description` 열 p90 346자 ≈ 87 토큰 (viewer statistics, de/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `wannaphong/korean-vocabulary-5000`

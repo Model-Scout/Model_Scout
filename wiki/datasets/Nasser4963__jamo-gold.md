@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nasser4963/jamo-gold"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nasser4963/jamo-gold"
-downloads: 189
+downloads: 192
 summary: "JAMO Gold는 OCR 엔진이 실제 문자가 아닌 글자를 판별하는지 테스트하는 한글 글자 인식 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

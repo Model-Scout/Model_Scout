@@ -1,0 +1,161 @@
+---
+language:
+  - ko
+  - en
+license: other
+license_name: cc-by-4.0-and-educational-use-only
+pretty_name: Korean Trade Domain QA Dataset
+tags:
+  - trade
+  - korean
+  - question-answering
+  - hs-code
+  - customs
+  - incoterms
+  - exam
+  - trade-terminology
+annotations_creators:
+  - machine-generated
+  - found
+language_creators:
+  - machine-generated
+  - found
+multilinguality:
+  - multilingual
+size_categories:
+  - 10K<n<100K
+task_categories:
+  - question-answering
+task_ids:
+  - extractive-qa
+  - multiple-choice-qa
+source_datasets:
+  - original
+configs:
+  - config_name: default
+    data_files:
+      - split: train
+        path: data/train-00000.parquet
+dataset_info:
+  features:
+    - name: context
+      dtype: string
+    - name: question
+      dtype: string
+    - name: answer
+      dtype: string
+    - name: source_type
+      dtype: string
+  config_name: default
+  splits:
+    - name: train
+      num_bytes: 7257123
+      num_examples: 21399
+  download_size: 7257123
+  dataset_size: 7257123
+---
+
+# Korean Trade Domain QA Dataset
+
+A Korean-language question-answering dataset for the international trade domain, combining 21,399 QA pairs from three complementary sources: official 무역영어 1급 certification exam questions, trade terminology definitions, and lecture-derived QA pairs. Designed for fine-tuning and evaluating LLMs on Korean trade domain knowledge.
+
+## Dataset Description
+
+The dataset covers vocabulary, regulations, procedures, and concepts from Korean international trade — including HS codes, Incoterms, letters of credit, customs law, and trade finance. Three source types are included and identified by the `source_type` field.
+
+| `source_type` | Source | Rows | Task type |
+|---------------|--------|------|-----------|
+| `exam_mcq` | Official 무역영어 1급 certification exams (KITA) | 1,430 | Multiple-choice QA |
+| `term_qa` | Korean international trade terminology definitions | 15,678 | Term ↔ Definition QA |
+| `transcript_qa` | LLM-generated QA from lecture transcripts | 4,291 | Free-form QA |
+| **Total** | | **21,399** | |
+
+## Data Fields
+
+| Field | Type | Nullable | Description |
+|-------|------|----------|-------------|
+| `context` | string | no | Question context or passage. For `exam_mcq`: the full question with 4 numbered options and the correct answer appended (`정답:`). For `term_qa`: the term entry with definition. For `transcript_qa`: a lecture content fragment. |
+| `question` | string | no | The question itself. |
+| `answer` | string | no | The correct answer text. |
+| `source_type` | string | no | Source category: `exam_mcq`, `term_qa`, or `transcript_qa`. |
+
+## Examples
+
+One representative row per `source_type` (short → medium → longer):
+
+| `source_type` | `context` (truncated) | `question` (truncated) | `answer` (truncated) |
+|---------------|-----------------------|------------------------|----------------------|
+| `transcript_qa` | 신용장에서 확인은행은 신용장 확인을 담당하며, 통지은행은 신용장을 전달하는 역할을 합니다 | 신용장에서 확인은행과 통지은행의 역할은 무엇인가요? | 확인은행은 신용장 확인을 담당하며, 통지은행은 신용장을 전달하는 역할을 합니다 |
+| `term_qa` | 가격인하: 무역거래에서는 채무나 손해배상금을 경감하거나 세금의 미지급분의 일부 또는 전부를 취소하는 것을 말한다. 예를 들어 수입화물이 손상되어 상품가치가 하락한 경우 관세를 감액… | 설명: '무역거래에서는 채무나 손해배상금을 경감하거나…' 이 설명에 해당하는 무역 용어는 무엇인가요? | 가격인하, Abatement |
+| `exam_mcq` | 다음 중 우리나라 대외무역법의 성격에 대한 설명으로 거리가 먼 것을 고르시오. 1. 우리나라에서 성립되고 이행되는 대외무역행위는 기본적으로 대외무역법을 적용한다. 2. 타 법에서 명시적으로 대외무역법의 적용을 배제하면 당해 법은 특별법으로서 우선 적용된다. 3. 대외무역법은 국내법으로서 외국인의 국내 무역행위는 적용 대상이 아니다. 4. 관계 행정기관의 장은… | 다음 중 우리나라 대외무역법의 성격에 대한 설명으로 거리가 먼 것을 고르시오. (1~4번 선택지 포함) | 대외무역법은 국내법으로서 국민의 국내 경제생활에 적용되는 법률이기 때문에 외국인이 국내에서 행하는 무역행위는 그 적용 대상이 아니다 |
+
+## Source Details
+
+### `exam_mcq` — 무역영어 1급 Certification Exams
+
+Official multiple-choice questions from 22 sessions of the Korean 무역영어 1급 (International Trade English) national certification exam administered by KITA (한국무역협회). Sessions covered: 27회, 28회, 29회, 30회, 31회, 32회, 33회, 34회, 35회, 38회, 39회, 41회, 42회, 43회, 44회, 45회, 46회, 47회, 48회, 50회, 51회, 52회 (22 sessions, 1,430 questions).
+
+Topics span Korean trade law (대외무역법), export/import procedures, customs regulation, Incoterms, UCP 600 (letters of credit), international contracts, and trade insurance.
+
+**Note on `context` format for `exam_mcq`**: The `context` field contains the full question text including all 4 answer options (numbered 1–4) and the correct answer after `정답:`. The `question` field repeats just the question stem and options (without the appended answer).
+
+### `term_qa` — Trade Terminology QA
+
+15,678 QA pairs generated from ~7,800 Korean international trade terms (파생어 inclusive). Each term produces two complementary questions:
+- **Description → Term**: Given the definition, identify the Korean (and English) term name.
+- **Term → Description**: Given the term name, explain its meaning.
+
+Terms cover Incoterms, payment instruments, customs procedures, shipping documents, trade finance, and logistics terminology.
+
+### `transcript_qa` — Lecture Transcript QA
+
+4,291 QA pairs generated by LLM from lecture transcript summaries covering Korean trade education content (신용장, 무역계약, 관세법, 보험, etc.). Questions are free-form; answers are concise.
+
+## Usage
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("lablup/synthetic_trade_qa_kr")
+print(ds["train"][0])
+```
+
+Filter by source type:
+```python
+exam_only       = ds["train"].filter(lambda x: x["source_type"] == "exam_mcq")
+term_only        = ds["train"].filter(lambda x: x["source_type"] == "term_qa")
+transcript_only  = ds["train"].filter(lambda x: x["source_type"] == "transcript_qa")
+```
+
+Use as an instruction fine-tuning format:
+```python
+def format_prompt(row):
+    return {
+        "prompt": f"Context: {row['context']}\n\nQuestion: {row['question']}\n\nAnswer:",
+        "response": row["answer"],
+    }
+
+formatted = ds["train"].map(format_prompt)
+```
+
+## Data Splits
+
+| Split | Rows |
+|-------|------|
+| train | 21,399 |
+
+No validation or test split is provided. Create your own with `train_test_split()`.
+
+## License
+
+This dataset uses a mixed license:
+
+- **`term_qa`** and **`transcript_qa`** (19,969 rows): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- **`exam_mcq`** (1,430 rows): Educational use only. These are verbatim or lightly reformatted questions from official KITA 무역영어 1급 certification exams. Use for research and educational purposes; redistribution or commercial use of exam content may require permission from KITA (한국무역협회).
+
+## Limitations
+
+- `exam_mcq` questions are from real official exams and reflect the exam format (4-choice MCQ); they are not re-generated or paraphrased
+- `term_qa` definitions are original paraphrases of trade terminology; they may not match official ICC/WCO wording precisely
+- `transcript_qa` answers are LLM-generated and have not been independently verified by domain experts
+- Coverage skews toward topics common in Korean trade certification exams and is not representative of all trade domains

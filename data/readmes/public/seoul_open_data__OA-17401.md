@@ -1,6 +1,6 @@
 # 서울시 자원회수시설 TMS 공지사항
 
-서울시 자원회수시설 TMS 공지사항. http://openapi.seoul.go.kr:8088/sample/xml/viwTmsNotice/1/5/
+서울시 자원회수시설 TMS 공지사항. http://openapi.seoul.go.kr:8088/sample/xml/viwTmsNotice/1/5/ 제공 필드: 입력날짜, 수정날짜, 게시물번호(pk), 제목, 상세정보링크, 사용여부
 
 서비스명: viwTmsNotice
 

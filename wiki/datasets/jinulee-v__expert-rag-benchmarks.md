@@ -3,7 +3,7 @@ type: "dataset"
 id: "jinulee-v/expert-rag-benchmarks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jinulee-v/expert-rag-benchmarks"
-downloads: 142
+downloads: 149
 summary: "법률 분야 전문가 수준의 RAG 벤치마크 데이터셋으로, 법률 문서 검색 및 질의응답 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "maywell/koVast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/koVast"
-downloads: 181
+downloads: 163
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

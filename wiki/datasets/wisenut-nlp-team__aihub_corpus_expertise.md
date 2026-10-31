@@ -3,7 +3,7 @@ type: "dataset"
 id: "wisenut-nlp-team/aihub_corpus_expertise"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wisenut-nlp-team/aihub_corpus_expertise"
-downloads: 226
+downloads: 254
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

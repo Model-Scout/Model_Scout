@@ -3,7 +3,7 @@ type: "dataset"
 id: "shaunliu82714/GSEN"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shaunliu82714/GSEN"
-downloads: 217
+downloads: 262
 summary: "Genshin Impact 게임 캐릭터 음성 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "tasksource/lingnli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tasksource/lingnli"
-downloads: 2340
+downloads: 2357
 summary: "ling_in_loop 데이터셋은 NLU 데이터 수집 개선을 위한 언어학자 개입 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

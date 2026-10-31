@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/Claude-opus-4.7-TraceInversion-5000x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/Claude-opus-4.7-TraceInversion-5000x"
-downloads: 474
+downloads: 475
 summary: "Claude 4.7 모델의 압축된 추론 과정을 역설계해 고품질 심층 추론 데이터를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -61,6 +61,16 @@ Claude 4.7 모델의 압축된 추론 과정을 역설계해 고품질 심층 �
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `inverted_reasoning` 열 p90 5992자 ≈ 1498 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Coding-With-Bashir/BashCoder`
+- `Hiren122/Claude-opus-4.7-TraceInversion-5000x`
+- `Reepsie1234/Claude-opus-4.7-TraceInversion-5000x`
+- `Scratper/Claude-opus-4.7-TraceInversion-5000x`
+- `ansulev/claude-opus-4.7-traceinversion-5k`
+- `hose1logo1/Claude-opus-4.7-TraceInversion-5000x`
+- `microssroads/Claude-opus-4.7-TraceInversion-5000x`
 
 ## 이 데이터로 학습한 모델
 

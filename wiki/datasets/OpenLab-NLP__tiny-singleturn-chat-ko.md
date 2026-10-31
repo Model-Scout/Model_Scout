@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenLab-NLP/tiny-singleturn-chat-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenLab-NLP/tiny-singleturn-chat-ko"
-downloads: 85
+downloads: 83
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

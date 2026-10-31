@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Cascade-2-SFT-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Cascade-2-SFT-Data"
-downloads: 12023
+downloads: 12478
 summary: "Nemotron-Cascade-2 학습용 SFT 데이터로 수학, 과학, 대화, 소프트웨어 엔지니어링 등 다양한 분야 포함"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "kuotient/orca-math-word-problems-193k-korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kuotient/orca-math-word-problems-193k-korean"
-downloads: 126
+downloads: 141
 summary: "Orca-Math의 한국어 번역 수학 문제 데이터셋으로, 초등 수학 문제 해결에 활용됨."
 readme_status: "ok"
 readme_language: "en"

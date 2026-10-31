@@ -3,7 +3,7 @@ type: "dataset"
 id: "eliceai/korean-webtext-edu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eliceai/korean-webtext-edu"
-downloads: 871
+downloads: 878
 summary: "HAERAE-HUB/KOREAN-WEBTEXT에서 교육적 가치가 높은 한국어 웹 텍스트를 선별한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

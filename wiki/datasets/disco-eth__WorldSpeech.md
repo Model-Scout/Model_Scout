@@ -3,7 +3,7 @@ type: "dataset"
 id: "disco-eth/WorldSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/disco-eth/WorldSpeech"
-downloads: 21757
+downloads: 25084
 summary: "127개 언어 변종의 6만5천 시간 이상 인간 전사 음성 데이터로 다국어 음성인식 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ dataset_size:
 - **도메인**: [[일반]] — ner · readme = `A multilingual ASR dataset containing over 65k hours of human transcribed speech across 127 language-region variants` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `A multilingual ASR dataset containing over 65k hours of human transcribed speech across 127 language-region variants` · 신뢰도 low
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Centi234/WorldSpeech`

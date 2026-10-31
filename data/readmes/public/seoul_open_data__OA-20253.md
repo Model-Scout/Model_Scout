@@ -1,6 +1,6 @@
 # 서울시 물재생센터 개방실적
 
-서울시 물재생센터 개방실적. http://openapi.seoul.go.kr:8088/sample/xml/OpenRep/1/5/
+서울시 물재생센터 개방실적. http://openapi.seoul.go.kr:8088/sample/xml/OpenRep/1/5/ 제공 필드: 개방횟수, 개방장소구분, 처리장개방일자, 비고, 이용인원, 물재생센터명칭
 
 서비스명: OpenRep
 

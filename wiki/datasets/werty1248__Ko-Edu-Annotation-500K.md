@@ -3,7 +3,7 @@ type: "dataset"
 id: "werty1248/Ko-Edu-Annotation-500K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/werty1248/Ko-Edu-Annotation-500K"
-downloads: 112
+downloads: 115
 summary: "한국어 사전학습 데이터의 퀄리티 평가를 위한 어노테이션 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

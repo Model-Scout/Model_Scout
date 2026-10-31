@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-aso-growth"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-aso-growth"
-downloads: 141
+downloads: 143
 summary: "30개 이상의 앱 사례를 기반으로 한 ASO 및 앱 콜드 스타트 성장 전략 가이드북입니다."
 readme_status: "ok"
 readme_language: "en"

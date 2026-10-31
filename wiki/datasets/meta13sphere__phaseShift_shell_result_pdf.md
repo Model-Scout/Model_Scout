@@ -3,7 +3,7 @@ type: "dataset"
 id: "meta13sphere/phaseShift_shell_result_pdf"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meta13sphere/phaseShift_shell_result_pdf"
-downloads: 12281
+downloads: 12028
 summary: "AI 분야 수학 증명과 연구 자료를 담은 PDF 데이터셋으로, AI 연구 및 개발에 활용됨."
 readme_status: "ok"
 readme_language: "en"

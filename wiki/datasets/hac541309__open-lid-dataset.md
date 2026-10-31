@@ -3,7 +3,7 @@ type: "dataset"
 id: "hac541309/open-lid-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hac541309/open-lid-dataset"
-downloads: 1572
+downloads: 1458
 summary: "201개 언어의 언어 식별 모델 학습용 오픈 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

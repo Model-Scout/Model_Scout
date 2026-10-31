@@ -3,7 +3,7 @@ type: "dataset"
 id: "ismaelfi/melolingua-cefr-graded-multilingual-stories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ismaelfi/melolingua-cefr-graded-multilingual-stories"
-downloads: 93
+downloads: 103
 summary: "MeloLingua CEFR 등급별 다국어 학습용 이야기 데이터셋으로 언어 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -71,3 +71,7 @@ MeloLingua CEFR 등급별 다국어 학습용 이야기 데이터셋으로 언�
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `choices_json` 열 p90 158자 ≈ 39 토큰 (viewer statistics, questions/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/ismaelfi/melolingua-cefr-graded-multilingual-stories`

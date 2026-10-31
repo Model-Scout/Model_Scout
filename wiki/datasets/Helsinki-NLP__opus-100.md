@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/opus-100"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/opus-100"
-downloads: 23975
+downloads: 24531
 summary: "OPUS-100은 영어 중심의 100개 언어 다국어 병렬 말뭉치로 번역에 사용됨."
 readme_status: "template"
 readme_language: "en"
@@ -45,6 +45,12 @@ OPUS-100은 영어 중심의 100개 언어 다국어 병렬 말뭉치로 번역�
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Stevenjisu/opus-100`
+- `ds123DDD/opus-100`
+- `hfxunlp/opus-100`
 
 ## 이 데이터로 학습한 모델
 

@@ -3,7 +3,7 @@ type: "dataset"
 id: "hoonisone/K-STR-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hoonisone/K-STR-Bench"
-downloads: 156
+downloads: 152
 summary: "한국어 장면 텍스트 인식을 위한 대규모 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

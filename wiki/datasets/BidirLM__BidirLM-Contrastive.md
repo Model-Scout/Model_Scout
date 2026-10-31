@@ -3,7 +3,7 @@ type: "dataset"
 id: "BidirLM/BidirLM-Contrastive"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BidirLM/BidirLM-Contrastive"
-downloads: 1148
+downloads: 1186
 summary: "BidirLM-Contrastive는 79개 데이터셋에서 1천만 쿼리-문서 쌍을 포함한 임베딩 모델 학습용 대조 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -1,6 +1,6 @@
 # 서울의 공원 E-BOOK
 
-서울의 공원 E-BOOK. 서울의 공원 E-BOOK
+서울의 공원 E-BOOK. 서울의 공원 E-BOOK 제공 필드: 내용, 순번, 이미지, 제목, 링크 URL, 등록일
 
 서비스명: vCafeEbook
 

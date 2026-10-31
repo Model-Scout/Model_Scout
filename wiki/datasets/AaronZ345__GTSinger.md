@@ -3,7 +3,7 @@ type: "dataset"
 id: "AaronZ345/GTSinger"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AaronZ345/GTSinger"
-downloads: 44129
+downloads: 43151
 summary: "GTSinger는 다양한 언어와 기법의 고품질 노래 음성 및 음악 점수를 포함한 노래 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -73,3 +73,8 @@ GTSinger는 다양한 언어와 기법의 고품질 노래 음성 및 음악 점
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `speech_fn` 열 p90 90자 ≈ 22 토큰 (viewer statistics, meta/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `YGGYY/GTSinger`
+- `YsangTuineT/GTSinger`

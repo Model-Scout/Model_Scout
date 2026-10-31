@@ -3,7 +3,7 @@ type: "dataset"
 id: "mymiyu/heri2026-sft-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mymiyu/heri2026-sft-datasets"
-downloads: 115
+downloads: 122
 summary: "한국 문화유산 해설 AI 학습용 중간 산출물로 문화유산 스토리텔링 SFT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

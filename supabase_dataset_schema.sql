@@ -24,7 +24,7 @@ create table if not exists public.model_scout_dataset_chunks (
     dataset_id text not null references public.model_scout_datasets(dataset_id) on delete cascade,
     kind text not null,
     heading_path text[] not null default '{}',
-    text text not null,
+    text text not null,  -- first 600 chars; full text is in data/dataset_index/chunks.jsonl
     text_hash text not null,
     embedding halfvec(1536) not null,
     updated_at timestamptz not null default now()

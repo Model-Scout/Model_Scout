@@ -3,7 +3,7 @@ type: "dataset"
 id: "RomanKudriavskii/jeff-guard-multilang-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RomanKudriavskii/jeff-guard-multilang-dataset"
-downloads: 259
+downloads: 270
 summary: "12개 언어로 된 103K 행의 프롬프트 인젝션 탐지 데이터셋으로 AI 에이전트 텍스트 필터링 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Wookhyeon/korean-law-articles"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Wookhyeon/korean-law-articles"
-downloads: 108
+downloads: 113
 summary: "법제처 API로 수집한 대한민국 현행 법령 5,583건 본문 전수 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

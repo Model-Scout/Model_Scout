@@ -3,7 +3,7 @@ type: "dataset"
 id: "Iman998/XhotpotQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Iman998/XhotpotQA"
-downloads: 160
+downloads: 180
 summary: "XHotpotQA는 다국어 혼합 증거 기반 다중 홉 질의응답 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

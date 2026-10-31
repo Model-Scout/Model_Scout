@@ -1,0 +1,40 @@
+# 서울시 의료유사업 인허가 정보
+
+서울시 의료유사업 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_010110/1/5/ 제공 필드: 인허가취소일자, 인허가일자, 보조종업원수, 욕실면적, 사업장명, 휴업종료일자, 휴업시작일자, 폐업일자, 상세영업상태코드, 상세영업상태명, 종업원수, 기타종업원수, 시설관리자수, 최종수정일자, 의료유사업종별명, 관리번호, 개방자치단체코드, 자격증소유자수, 도로명우편번호, 도로명주소, 병상수, 소재지우편번호, 전화번호, 지번주소, 총면적, 영업상태코드, 영업상태명, 데이터갱신일자, 데이터갱신구분, 업태구분명, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_010110
+
+## 제공 필드
+
+- 인허가취소일자 (APVCANCELYMD)
+- 인허가일자 (APVPERMYMD)
+- 보조종업원수 (ASTNEPNUM)
+- 욕실면적 (BATRAR)
+- 사업장명 (BPLCNM)
+- 휴업종료일자 (CLGENDDT)
+- 휴업시작일자 (CLGSTDT)
+- 폐업일자 (DCBYMD)
+- 상세영업상태코드 (DTLSTATEGBN)
+- 상세영업상태명 (DTLSTATENM)
+- 종업원수 (EPCNT)
+- 기타종업원수 (ETCEPCNT)
+- 시설관리자수 (FACILMNGNUM)
+- 최종수정일자 (LASTMODTS)
+- 의료유사업종별명 (METRBOSASSRNM)
+- 관리번호 (MGTNO)
+- 개방자치단체코드 (OPNSFTEAMCODE)
+- 자격증소유자수 (QUTNOWNERNUM)
+- 도로명우편번호 (RDNPOSTNO)
+- 도로명주소 (RDNWHLADDR)
+- 병상수 (SICBNUM)
+- 소재지우편번호 (SITEPOSTNO)
+- 전화번호 (SITETEL)
+- 지번주소 (SITEWHLADDR)
+- 총면적 (TOTAR)
+- 영업상태코드 (TRDSTATEGBN)
+- 영업상태명 (TRDSTATENM)
+- 데이터갱신일자 (UPDATEDT)
+- 데이터갱신구분 (UPDATEGBN)
+- 업태구분명 (UPTAENM)
+- 좌표정보(X) (X)
+- 좌표정보(Y) (Y)

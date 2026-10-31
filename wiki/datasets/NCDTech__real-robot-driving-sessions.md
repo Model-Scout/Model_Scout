@@ -54,3 +54,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `These are the exact sessions that trained NCDTech/real-robot-driving-mlp-numpy` · 신뢰도 medium
 - **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `sazzysara21/real-robot-driving-sessions`

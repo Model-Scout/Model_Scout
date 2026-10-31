@@ -3,7 +3,7 @@ type: "dataset"
 id: "NetherQuartz/tatoeba-tokipona"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NetherQuartz/tatoeba-tokipona"
-downloads: 86
+downloads: 93
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Granary-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Granary-v2"
-downloads: 1074
+downloads: 3205
 summary: "Granary-v2는 48개 언어의 다국어 음성 인식, 번역, 지시문 데이터를 제공하는 NVIDIA의 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

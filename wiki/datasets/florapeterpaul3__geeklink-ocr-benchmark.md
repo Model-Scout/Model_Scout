@@ -3,7 +3,7 @@ type: "dataset"
 id: "florapeterpaul3/geeklink-ocr-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/florapeterpaul3/geeklink-ocr-benchmark"
-downloads: 152
+downloads: 242
 summary: "비디오 자막 OCR 성능 평가용 6개 언어 자막 이미지 1,140개 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

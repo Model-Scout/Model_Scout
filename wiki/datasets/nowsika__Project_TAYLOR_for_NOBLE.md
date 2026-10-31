@@ -3,7 +3,7 @@ type: "dataset"
 id: "nowsika/Project_TAYLOR_for_NOBLE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nowsika/Project_TAYLOR_for_NOBLE"
-downloads: 90
+downloads: 93
 summary: "Project NOBLE의 윤리 판단 위에 톤과 페르소나를 입히는 TAYLOR 레이어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

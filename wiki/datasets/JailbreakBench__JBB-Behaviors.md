@@ -3,7 +3,7 @@ type: "dataset"
 id: "JailbreakBench/JBB-Behaviors"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors"
-downloads: 29043
+downloads: 29147
 summary: "JailbreakBench는 대형 언어 모델의 우회 공격 및 방어 성능을 평가하는 오픈 소스 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

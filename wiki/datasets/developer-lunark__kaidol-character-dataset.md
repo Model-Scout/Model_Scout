@@ -3,7 +3,7 @@ type: "dataset"
 id: "developer-lunark/kaidol-character-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/developer-lunark/kaidol-character-dataset"
-downloads: 657
+downloads: 664
 summary: "41개 고유 캐릭터의 한국어 롤플레이 대화 데이터셋으로 캐릭터별 음성 프로필 기반 대화 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "mixed"

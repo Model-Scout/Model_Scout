@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLM-SocialMedia/Korean-YouTube-Comment-Sentiment-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLM-SocialMedia/Korean-YouTube-Comment-Sentiment-Dataset"
-downloads: 135
+downloads: 148
 summary: "유튜브 한국어 댓글 5,482개와 감정 레이블로 구성된 감정 분류용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

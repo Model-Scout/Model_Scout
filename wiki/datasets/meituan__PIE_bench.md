@@ -3,7 +3,7 @@ type: "dataset"
 id: "meituan/PIE_bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meituan/PIE_bench"
-downloads: 118
+downloads: 122
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

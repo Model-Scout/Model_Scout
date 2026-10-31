@@ -3,7 +3,7 @@ type: "dataset"
 id: "tellang/yeji-processed"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tellang/yeji-processed"
-downloads: 123
+downloads: 117
 summary: "점술 AI 파인튜닝을 위한 정제된 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Egor-3926/CoT-XLang"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Egor-3926/CoT-XLang"
-downloads: 235
+downloads: 250
 summary: "CoT-XLang은 영어, 러시아어, 일본어 등 여러 언어의 단계별 추론 텍스트 예제로 구성된 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -2,7 +2,7 @@
 type: "concept"
 facet: "language"
 key: "ar"
-members: 514
+members: 542
 ---
 # ar
 
@@ -112,84 +112,112 @@ facet: [[언어]] · 개념 id `language/ar`
 - [[LiquidAI__LFM2-VL-3B|LiquidAI/LFM2-VL-3B]]
 - … 외 350개 (다운로드 순 상위 100개만 표시)
 
-## 데이터셋 (64)
+## 데이터셋 (92)
 
 - [[khursanirevo__dialogue-episodes|khursanirevo/dialogue-episodes]]
 - [[arsaporta__symile-m3|arsaporta/symile-m3]]
-- [[JacobLinCool__AuraBench|JacobLinCool/AuraBench]]
 - [[songjhPKU__PM4Bench|songjhPKU/PM4Bench]]
+- [[JacobLinCool__AuraBench|JacobLinCool/AuraBench]]
 - [[coastalcph__tydi_xor_rc|coastalcph/tydi_xor_rc]]
 - [[xhluca__publichealth-qa|xhluca/publichealth-qa]]
 - [[IWSLT__iwslt2017|IWSLT/iwslt2017]]
 - [[3ae3ae3ae__mmlu-prox-lite-evals|3ae3ae3ae/mmlu-prox-lite-evals]]
-- [[DAMO-NLP-SG__MultiJail|DAMO-NLP-SG/MultiJail]]
 - [[RidheshBhati__tts_farm|RidheshBhati/tts_farm]]
-- [[ByteDance__MTVQA|ByteDance/MTVQA]]
 - [[Qwen__P-MMEval|Qwen/P-MMEval]]
+- [[ByteDance__MTVQA|ByteDance/MTVQA]]
+- [[aims-foundations__safety-irt|aims-foundations/safety-irt]]
+- [[safety-irt__safety-data|safety-irt/safety-data]]
 - [[BSC-LT__BSC_ParaMT_8|BSC-LT/BSC_ParaMT_8]]
 - [[AIM-Intelligence__XL-SafetyBench|AIM-Intelligence/XL-SafetyBench]]
-- [[BSC-LT__ALIA_mixed_authentic_synthetic_MT|BSC-LT/ALIA_mixed_authentic_synthetic_MT]]
 - [[changelinglab__cmul2arctic-l1cls|changelinglab/cmul2arctic-l1cls]]
-- [[pufanyi__MIMICIT|pufanyi/MIMICIT]]
-- [[ispras-crawlers__newsxlm|ispras-crawlers/newsxlm]]
 - [[nyuuzyou__phishing-snapshots|nyuuzyou/phishing-snapshots]]
-- [[safety-irt__safety-data|safety-irt/safety-data]]
-- [[suneetha24__symile-m3|suneetha24/symile-m3]]
+- [[pufanyi__MIMICIT|pufanyi/MIMICIT]]
+- [[webbrain-one__webbrain-vl-2-450M-dataset|webbrain-one/webbrain-vl-2-450M-dataset]]
+- [[BSC-LT__ALIA_mixed_authentic_synthetic_MT|BSC-LT/ALIA_mixed_authentic_synthetic_MT]]
+- [[ispras-crawlers__newsxlm|ispras-crawlers/newsxlm]]
 - [[hbe__neuronpedia-sae-concepts|hbe/neuronpedia-sae-concepts]]
-- [[ronantakizawa__tiktok-trending-hashtags|ronantakizawa/tiktok-trending-hashtags]]
 - [[ginigen-ai__smol-worldcup|ginigen-ai/smol-worldcup]]
-- [[aims-foundations__safety-irt|aims-foundations/safety-irt]]
-- [[ronak-wani__Wiki2019-multilingual-dense-embeddings|ronak-wani/Wiki2019-multilingual-dense-embeddings]]
 - [[khursanirevo__multiturn_ks|khursanirevo/multiturn_ks]]
-- [[nvidia__Nemotron-RL-CFBench-v1|nvidia/Nemotron-RL-CFBench-v1]]
+- [[ronak-wani__Wiki2019-multilingual-dense-embeddings|ronak-wani/Wiki2019-multilingual-dense-embeddings]]
 - [[Pixel-Linguist__rendered-sts17|Pixel-Linguist/rendered-sts17]]
+- [[nvidia__Nemotron-RL-CFBench-v1|nvidia/Nemotron-RL-CFBench-v1]]
 - [[kenza-ily__icdar_disco|kenza-ily/icdar_disco]]
-- [[ronantakizawa__twitter-trending-hashtags|ronantakizawa/twitter-trending-hashtags]]
-- [[humyn-labs__Asian-High-Fidelity-ASR-Dataset|humyn-labs/Asian-High-Fidelity-ASR-Dataset]]
+- [[missvector__linux-commands|missvector/linux-commands]]
 - [[urgent-challenge__urgent2026-sqa|urgent-challenge/urgent2026-sqa]]
 - [[akariasai__xor_tydi_qa|akariasai/xor_tydi_qa]]
-- [[missvector__linux-commands|missvector/linux-commands]]
-- [[PiTtawat9__P-MMEval|PiTtawat9/P-MMEval]]
+- [[humyn-labs__Asian-High-Fidelity-ASR-Dataset|humyn-labs/Asian-High-Fidelity-ASR-Dataset]]
+- [[ronantakizawa__tiktok-trending-hashtags|ronantakizawa/tiktok-trending-hashtags]]
 - [[sphita__anthropic-crawl|sphita/anthropic-crawl]]
-- [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
-- [[MaoXun__AuthBench|MaoXun/AuthBench]]
-- [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
-- [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
-- [[humane-lab__PetQA|humane-lab/PetQA]]
+- [[ronantakizawa__twitter-trending-hashtags|ronantakizawa/twitter-trending-hashtags]]
 - [[longhp1618__multilingual-lima|longhp1618/multilingual-lima]]
-- [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
-- [[ChristianCaballero__WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack|ChristianCaballero/WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack]]
-- [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
+- [[MaoXun__AuthBench|MaoXun/AuthBench]]
+- [[humane-lab__PetQA|humane-lab/PetQA]]
+- [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
 - [[grammarly__medit|grammarly/medit]]
-- [[DABAOSs__dialogue-episodes|DABAOSs/dialogue-episodes]]
-- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
+- [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
+- [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
+- [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
+- [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
+- [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
+- [[logitly-ai__flash-coding-sft-v1|logitly-ai/flash-coding-sft-v1]]
 - [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
+- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
+- [[ChristianCaballero__WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack|ChristianCaballero/WhatsApp-style-Conversations-Ar-En-Zh-Ko-Logs-Pack]]
+- [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
 - [[CausalNLP__entropy-ko-jp-data|CausalNLP/entropy-ko-jp-data]]
 - [[meituan__PIE_bench|meituan/PIE_bench]]
-- [[logitly-ai__flash-coding-sft-v1|logitly-ai/flash-coding-sft-v1]]
-- [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
-- [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
-- [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
-- [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
-- [[NeuralMetrics__P-MMEval|NeuralMetrics/P-MMEval]]
-- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
-- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
+- [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
+- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
+- [[NeuralMetrics__P-MMEval|NeuralMetrics/P-MMEval]]
+- [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[shantanugoel__universal-prompt-enhancer|shantanugoel/universal-prompt-enhancer]]
+- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
+- [[Pandorabots__real-human-chatbot-dialogue-31B-sample|Pandorabots/real-human-chatbot-dialogue-31B-sample]]
+- [[camel-ai__ai_society_translated|camel-ai/ai_society_translated]]
+- [[SirJohnBasu__syntava-cube-publication|SirJohnBasu/syntava-cube-publication]]
+- [[younght__MPEDES|younght/MPEDES]]
+- [[Kenpache__multilingual-financial-sentiment-v2|Kenpache/multilingual-financial-sentiment-v2]]
+- [[iNLP-Lab__multilingual-lima|iNLP-Lab/multilingual-lima]]
+- [[doanhlt__cabin-interpreted-interviews|doanhlt/cabin-interpreted-interviews]]
+- [[iNLP-Lab__multilingual-s1|iNLP-Lab/multilingual-s1]]
+- [[EtMmohammedHafsati__datagen-thor-samples|EtMmohammedHafsati/datagen-thor-samples]]
+- [[seonglae__OptimismBench|seonglae/OptimismBench]]
+- [[prometheus-eval__MMQA|prometheus-eval/MMQA]]
+- [[HYU-NLP__MIDAS|HYU-NLP/MIDAS]]
+- [[datasetsANDmodels__99sentences-translate2-10languages|datasetsANDmodels/99sentences-translate2-10languages]]
+- [[Luel-ai__luel-multilingual-tts-samples|Luel-ai/luel-multilingual-tts-samples]]
+- [[spectralbranding__exp-cross-language|spectralbranding/exp-cross-language]]
+- [[davanstrien__ml-kge|davanstrien/ml-kge]]
+- [[validia-ai__distillery|validia-ai/distillery]]
+- [[huggingzetro__cole-conversational-corpus|huggingzetro/cole-conversational-corpus]]
+- [[akahana__mini-multilanguage|akahana/mini-multilanguage]]
+- [[PeepDaSlan9__DIDI|PeepDaSlan9/DIDI]]
+- [[blcuicall__omgeval|blcuicall/omgeval]]
+- [[InfoBayAI__Bounding_Box_with_Annotation_Dataset|InfoBayAI/Bounding_Box_with_Annotation_Dataset]]
+- [[useKled__non-latin-script-text|useKled/non-latin-script-text]]
+- [[RO-KO__XLQA|RO-KO/XLQA]]
+- [[saadumar26__lfm25-base-blind-spots|saadumar26/lfm25-base-blind-spots]]
+- [[SirJohnBasu__basu-digital-bacterium-hypothesis|SirJohnBasu/basu-digital-bacterium-hypothesis]]
+- [[auftragstaktik-ou__multilingual-academic-pdf-ocr-guide|auftragstaktik-ou/multilingual-academic-pdf-ocr-guide]]
+- [[KZ-Media-Developers__Chronos-Thinking-v1-mini|KZ-Media-Developers/Chronos-Thinking-v1-mini]]
+- [[ReDUB__ComfyOpenSubtitles|ReDUB/ComfyOpenSubtitles]]
+- [[datasetsANDmodels__8-different-languages|datasetsANDmodels/8-different-languages]]
+- [[anshkumar__all-output-jsonl|anshkumar/all-output-jsonl]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 514
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 497
-- [[텍스트 생성]] (작업) · 공유 407
-- [[조건부 이용]] (상업 이용) · 공유 330
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 541
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 524
+- [[텍스트 생성]] (작업) · 공유 421
+- [[조건부 이용]] (상업 이용) · 공유 336
 - [[초장문]] (입력 길이) · 공유 239
-- [[상업 이용 가능]] (상업 이용) · 공유 138
+- [[상업 이용 가능]] (상업 이용) · 공유 150
 - [[초경량 모델]] (모델 크기) · 공유 93
 - [[소형 모델]] (모델 크기) · 공유 90
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 70
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 73
+- [[일반]] (도메인) · 공유 70
 - [[중형 모델]] (모델 크기) · 공유 64
-- [[이미지 이해]] (작업) · 공유 59
-- [[일반]] (도메인) · 공유 55
+- [[이미지 이해]] (작업) · 공유 61

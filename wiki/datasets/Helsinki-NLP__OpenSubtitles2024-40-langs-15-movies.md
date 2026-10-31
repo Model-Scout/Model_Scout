@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/OpenSubtitles2024-40-langs-15-movies"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/OpenSubtitles2024-40-langs-15-movies"
-downloads: 84
+downloads: 82
 summary: "OpenSubtitles2024 코퍼스에서 파생된 40개 언어 15편 영화 자막 동기화 다중 병렬 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

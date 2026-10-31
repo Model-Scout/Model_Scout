@@ -3,7 +3,7 @@ type: "dataset"
 id: "naver-ai/kobbq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/naver-ai/kobbq"
-downloads: 190
+downloads: 195
 summary: "KoBBQ는 한국 문화에 맞춘 사회적 편향 평가용 한국어 질의응답 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

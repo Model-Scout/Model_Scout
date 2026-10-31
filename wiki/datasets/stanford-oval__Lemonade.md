@@ -3,7 +3,7 @@ type: "dataset"
 id: "stanford-oval/Lemonade"
 source: "huggingface"
 url: "https://huggingface.co/datasets/stanford-oval/Lemonade"
-downloads: 104
+downloads: 113
 summary: "LEMONADE는 20개 언어 뉴스 기사에서 이벤트 추출을 위한 전문가 주석 대규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

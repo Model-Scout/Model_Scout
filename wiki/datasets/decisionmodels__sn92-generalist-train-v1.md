@@ -3,7 +3,7 @@ type: "dataset"
 id: "decisionmodels/sn92-generalist-train-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/decisionmodels/sn92-generalist-train-v1"
-downloads: 220
+downloads: 233
 summary: "SN92 generalist decision data는 10개 카테고리, 27개 언어로 구성된 의사결정 모델 학습용 합성 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

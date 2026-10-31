@@ -3,7 +3,7 @@ type: "dataset"
 id: "ndgold/live-linguist-easylanguage-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ndgold/live-linguist-easylanguage-sft"
-downloads: 941
+downloads: 999
 summary: "29개 언어의 복잡한 문장을 쉬운 언어로 재작성한 데이터로 Live Linguist 간소화기 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

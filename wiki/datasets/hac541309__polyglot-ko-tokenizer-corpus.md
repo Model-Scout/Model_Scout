@@ -3,7 +3,7 @@ type: "dataset"
 id: "hac541309/polyglot-ko-tokenizer-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hac541309/polyglot-ko-tokenizer-corpus"
-downloads: 258
+downloads: 161
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Fujitsu-FRE/MAPS_Verified"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Fujitsu-FRE/MAPS_Verified"
-downloads: 270
+downloads: 271
 summary: "다국어 에이전트 AI 시스템 성능과 보안을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

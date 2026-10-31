@@ -3,7 +3,7 @@ type: "dataset"
 id: "Emulated-Inc/function-calling-training-pool"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Emulated-Inc/function-calling-training-pool"
-downloads: 176
+downloads: 171
 summary: "다섯 개 데이터셋에서 수집한 함수 호출 훈련용 데이터로, 함수 호출 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

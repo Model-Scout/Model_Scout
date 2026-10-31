@@ -3,7 +3,7 @@ type: "dataset"
 id: "rayraykim/Nemotron-Personas-Korea-Saju"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rayraykim/Nemotron-Personas-Korea-Saju"
-downloads: 362
+downloads: 435
 summary: "한국어 LLM의 페르소나 다양성 및 문화적 컨텍스트 표현을 위한 사주명리 분석 포함 합성 페르소나 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

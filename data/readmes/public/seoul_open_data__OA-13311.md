@@ -1,6 +1,6 @@
 # 서울시 소통 돌발 링크 Vertex 정보
 
-서울시 소통 돌발 링크 Vertex 정보. 서울시 소통 돌발 링크(1220003800) Vertex 정보
+서울시 소통 돌발 링크 Vertex 정보. 서울시 소통 돌발 링크(1220003800) Vertex 정보 제공 필드: TM X 좌표, TM Y 좌표, 링크 아이디, Vertex 순서
 
 서비스명: LinkVerInfo
 

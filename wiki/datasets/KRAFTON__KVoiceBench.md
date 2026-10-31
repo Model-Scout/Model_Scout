@@ -3,7 +3,7 @@ type: "dataset"
 id: "KRAFTON/KVoiceBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KRAFTON/KVoiceBench"
-downloads: 86
+downloads: 78
 summary: "한국어 음성 질문응답 평가를 위한 KVoiceBench 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

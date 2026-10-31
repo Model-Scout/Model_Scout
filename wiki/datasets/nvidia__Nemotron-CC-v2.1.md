@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-CC-v2.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-CC-v2.1"
-downloads: 17073
+downloads: 20501
 summary: "Nemotron-CC-v2.1은 NVIDIA Nemotron 3 LLM 학습용 고품질 영어 웹 및 코드 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -45,6 +45,12 @@ Nemotron-CC-v2.1은 NVIDIA Nemotron 3 LLM 학습용 고품질 영어 웹 및 코
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `9999999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `nvidia/Nemotron-CC-Code-v1`
+- `nvidia/Nemotron-Pretraining-Code-v2`
+- `nvidia/Nemotron-Pretraining-Specialized-v1`
 
 ## 이 데이터로 학습한 모델
 

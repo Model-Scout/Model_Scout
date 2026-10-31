@@ -2,7 +2,7 @@
 type: "concept"
 facet: "language"
 key: "ru"
-members: 402
+members: 436
 ---
 # ru
 
@@ -112,101 +112,121 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[lmstudio-community__Mistral-Small-24B-Instruct-2501-GGUF|lmstudio-community/Mistral-Small-24B-Instruct-2501-GGUF]]
 - … 외 221개 (다운로드 순 상위 100개만 표시)
 
-## 데이터셋 (81)
+## 데이터셋 (115)
 
 - [[AaronZ345__GTSinger|AaronZ345/GTSinger]]
 - [[SALT-NLP__SWE-chat|SALT-NLP/SWE-chat]]
 - [[Nishant2414__OCR-Synthetic-Multilingual-v1|Nishant2414/OCR-Synthetic-Multilingual-v1]]
-- [[nvidia__OCR-Synthetic-Multilingual-v1|nvidia/OCR-Synthetic-Multilingual-v1]]
-- [[Felix92__OCR-Synthetic-Multilingual-v1|Felix92/OCR-Synthetic-Multilingual-v1]]
 - [[khursanirevo__dialogue-episodes|khursanirevo/dialogue-episodes]]
-- [[YuanHo__OCR-Synthetic-Multilingual-v1|YuanHo/OCR-Synthetic-Multilingual-v1]]
 - [[takuM23__multilingual_audio_alignments|takuM23/multilingual_audio_alignments]]
 - [[songjhPKU__PM4Bench|songjhPKU/PM4Bench]]
 - [[coastalcph__tydi_xor_rc|coastalcph/tydi_xor_rc]]
-- [[xhluca__publichealth-qa|xhluca/publichealth-qa]]
-- [[Arturito1__OCR-Synthetic-Multilingual-v1|Arturito1/OCR-Synthetic-Multilingual-v1]]
-- [[3ae3ae3ae__mmlu-prox-lite-evals|3ae3ae3ae/mmlu-prox-lite-evals]]
 - [[OzoneAsai__calculation|OzoneAsai/calculation]]
-- [[AAdonis__multilingual_audio_alignments|AAdonis/multilingual_audio_alignments]]
-- [[khursani8__maa|khursani8/maa]]
+- [[xhluca__publichealth-qa|xhluca/publichealth-qa]]
+- [[3ae3ae3ae__mmlu-prox-lite-evals|3ae3ae3ae/mmlu-prox-lite-evals]]
+- [[JustANormalTinkerer__animetext-ocr|JustANormalTinkerer/animetext-ocr]]
 - [[ByteDance__MTVQA|ByteDance/MTVQA]]
 - [[heretic-org__Multilingual-Harmless-Harmful|heretic-org/Multilingual-Harmless-Harmful]]
-- [[YGGYY__GTSinger|YGGYY/GTSinger]]
-- [[JustANormalTinkerer__animetext-ocr|JustANormalTinkerer/animetext-ocr]]
 - [[SciDrawAI__SciDraw-6K|SciDrawAI/SciDraw-6K]]
-- [[OzoneAsai__4typeCalculation|OzoneAsai/4typeCalculation]]
 - [[almanach__Biomed-Enriched|almanach/Biomed-Enriched]]
-- [[deepghs__AnimeText|deepghs/AnimeText]]
-- [[AmazonScience__tydi-as2|AmazonScience/tydi-as2]]
-- [[ispras-crawlers__newsxlm|ispras-crawlers/newsxlm]]
 - [[nyuuzyou__phishing-snapshots|nyuuzyou/phishing-snapshots]]
+- [[AmazonScience__tydi-as2|AmazonScience/tydi-as2]]
 - [[Genius1237__TyDiP|Genius1237/TyDiP]]
+- [[ispras-crawlers__newsxlm|ispras-crawlers/newsxlm]]
 - [[Baekpica__Inkling-Small-Multimodal-Calibration|Baekpica/Inkling-Small-Multimodal-Calibration]]
-- [[ronantakizawa__tiktok-trending-hashtags|ronantakizawa/tiktok-trending-hashtags]]
+- [[deepghs__AnimeText|deepghs/AnimeText]]
+- [[Unbabel__TowerBlocks-v0.2|Unbabel/TowerBlocks-v0.2]]
 - [[Jackrong__Claude-opus-4.7-TraceInversion-5000x|Jackrong/Claude-opus-4.7-TraceInversion-5000x]]
+- [[khursanirevo__multiturn_ks|khursanirevo/multiturn_ks]]
+- [[xujfcn__Crazyrouter-Model-Pricing|xujfcn/Crazyrouter-Model-Pricing]]
 - [[ronak-wani__Wiki2019-multilingual-dense-embeddings|ronak-wani/Wiki2019-multilingual-dense-embeddings]]
 - [[floschne__xgqa|floschne/xgqa]]
-- [[khursanirevo__multiturn_ks|khursanirevo/multiturn_ks]]
-- [[jaeyong2__cartesia-sonic-preview-ztts1-zero-shot|jaeyong2/cartesia-sonic-preview-ztts1-zero-shot]]
 - [[MC7ever__all-in-one-llm-corpus|MC7ever/all-in-one-llm-corpus]]
-- [[xujfcn__Crazyrouter-Model-Pricing|xujfcn/Crazyrouter-Model-Pricing]]
-- [[Unbabel__TowerBlocks-v0.2|Unbabel/TowerBlocks-v0.2]]
 - [[Nanbeige__SSR-RCoT-16K|Nanbeige/SSR-RCoT-16K]]
-- [[alvations__c4p0|alvations/c4p0]]
-- [[ronantakizawa__twitter-trending-hashtags|ronantakizawa/twitter-trending-hashtags]]
-- [[AtharvImmverse__NemoTron-OCR-Synthetic-Multilingual-v1|AtharvImmverse/NemoTron-OCR-Synthetic-Multilingual-v1]]
-- [[Jackrong__Claude-opus-4.6-TraceInversion-9000x|Jackrong/Claude-opus-4.6-TraceInversion-9000x]]
-- [[akariasai__xor_tydi_qa|akariasai/xor_tydi_qa]]
-- [[sardinelab__DocBlocks|sardinelab/DocBlocks]]
-- [[Egor-3926__CoT-XLang|Egor-3926/CoT-XLang]]
+- [[jaeyong2__cartesia-sonic-preview-ztts1-zero-shot|jaeyong2/cartesia-sonic-preview-ztts1-zero-shot]]
 - [[missvector__linux-commands|missvector/linux-commands]]
+- [[alvations__c4p0|alvations/c4p0]]
+- [[akariasai__xor_tydi_qa|akariasai/xor_tydi_qa]]
+- [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
+- [[ronantakizawa__tiktok-trending-hashtags|ronantakizawa/tiktok-trending-hashtags]]
+- [[Jackrong__Claude-opus-4.6-TraceInversion-9000x|Jackrong/Claude-opus-4.6-TraceInversion-9000x]]
+- [[Egor-3926__CoT-XLang|Egor-3926/CoT-XLang]]
+- [[sardinelab__DocBlocks|sardinelab/DocBlocks]]
 - [[xujfcn__Crazyrouter-Multimodal-Pricing|xujfcn/Crazyrouter-Multimodal-Pricing]]
 - [[sphita__anthropic-crawl|sphita/anthropic-crawl]]
-- [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
+- [[ronantakizawa__twitter-trending-hashtags|ronantakizawa/twitter-trending-hashtags]]
 - [[bpop__spite-gigaspeech-Euro9B|bpop/spite-gigaspeech-Euro9B]]
-- [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
-- [[Aaqqid__OCR-Synthetic-Multilingual-v1|Aaqqid/OCR-Synthetic-Multilingual-v1]]
-- [[rileykim__MMDoc|rileykim/MMDoc]]
 - [[MaoXun__AuthBench|MaoXun/AuthBench]]
-- [[Heyjab__Multilingual-Harmless-Harmful|Heyjab/Multilingual-Harmless-Harmful]]
-- [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
-- [[jaylacho__TOPSD-train|jaylacho/TOPSD-train]]
-- [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
+- [[rileykim__MMDoc|rileykim/MMDoc]]
 - [[recursal__MDN|recursal/MDN]]
-- [[DABAOSs__dialogue-episodes|DABAOSs/dialogue-episodes]]
-- [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
+- [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
+- [[jaylacho__TOPSD-train|jaylacho/TOPSD-train]]
+- [[ispras-crawlers__newsxlm-mhtml|ispras-crawlers/newsxlm-mhtml]]
+- [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
 - [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
 - [[floschne__xgqa_1k|floschne/xgqa_1k]]
-- [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
-- [[Reubencf__multilingual-synthetic-tts|Reubencf/multilingual-synthetic-tts]]
 - [[operant-ai__doclaynet-document-level|operant-ai/doclaynet-document-level]]
-- [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
-- [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
-- [[Unbabel__TowerBlocks-v0.1|Unbabel/TowerBlocks-v0.1]]
-- [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
+- [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
 - [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
-- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
-- [[SparkShieldLab__C-SafeQA|SparkShieldLab/C-SafeQA]]
-- [[IDONTCARELETMEIN__tech-trade-press|IDONTCARELETMEIN/tech-trade-press]]
-- [[ismaelfi__melolingua-cefr-graded-multilingual-stories|ismaelfi/melolingua-cefr-graded-multilingual-stories]]
-- [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
-- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
+- [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
+- [[laosbustickets__southeast-asia-transport-data|laosbustickets/southeast-asia-transport-data]]
+- [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
-- [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
+- [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
+- [[SparkShieldLab__C-SafeQA|SparkShieldLab/C-SafeQA]]
+- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
+- [[ismaelfi__melolingua-cefr-graded-multilingual-stories|ismaelfi/melolingua-cefr-graded-multilingual-stories]]
+- [[Unbabel__TowerBlocks-v0.1|Unbabel/TowerBlocks-v0.1]]
+- [[IDONTCARELETMEIN__tech-trade-press|IDONTCARELETMEIN/tech-trade-press]]
+- [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
+- [[double7__TowerBlocks-MT|double7/TowerBlocks-MT]]
+- [[Reubencf__multilingual-synthetic-tts|Reubencf/multilingual-synthetic-tts]]
+- [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
+- [[MichiganNLP__MAiDE-up|MichiganNLP/MAiDE-up]]
+- [[camel-ai__ai_society_translated|camel-ai/ai_society_translated]]
+- [[fluently-sets__ultraset|fluently-sets/ultraset]]
+- [[younght__MPEDES|younght/MPEDES]]
+- [[Nexdata-kr__500000-Images-Multilingual-OCR-Dataset-in-21-Languages|Nexdata-kr/500000-Images-Multilingual-OCR-Dataset-in-21-Languages]]
+- [[bpop__spite-CV16-Euro9B|bpop/spite-CV16-Euro9B]]
+- [[bpop__spite-CV16-TP9B|bpop/spite-CV16-TP9B]]
+- [[agentlans__public-announcements|agentlans/public-announcements]]
+- [[Reubencf__Adaption-multilingual-speech|Reubencf/Adaption-multilingual-speech]]
+- [[doanhlt__cabin-interpreted-interviews|doanhlt/cabin-interpreted-interviews]]
+- [[JakeTurner616__mtg-cards-SIFT-Features|JakeTurner616/mtg-cards-SIFT-Features]]
+- [[agentlans__public-announcements-clean-audio|agentlans/public-announcements-clean-audio]]
+- [[seonglae__OptimismBench|seonglae/OptimismBench]]
+- [[hjm1980__korea-places-multilingual|hjm1980/korea-places-multilingual]]
+- [[Franreno__MultilingualReferringExpression|Franreno/MultilingualReferringExpression]]
+- [[rileykim__multilingual-image-text-translation|rileykim/multilingual-image-text-translation]]
+- [[MC7ever__super-lfm-blend-v3|MC7ever/super-lfm-blend-v3]]
+- [[MC7ever__super-lfm-blend-v1|MC7ever/super-lfm-blend-v1]]
+- [[lenML__advbench_behaviors_m5|lenML/advbench_behaviors_m5]]
+- [[MC7ever__super-lfm-blend-v2|MC7ever/super-lfm-blend-v2]]
+- [[namruni__ai-olimpiyat-onizleme|namruni/ai-olimpiyat-onizleme]]
+- [[debugdll__TextSynth-100k|debugdll/TextSynth-100k]]
+- [[jaeyong2__cartesia-sonic-preview-ztts1-zero-shot-sample|jaeyong2/cartesia-sonic-preview-ztts1-zero-shot-sample]]
+- [[MC7ever__super-lfm-clean-sft-v1|MC7ever/super-lfm-clean-sft-v1]]
+- [[spectralbranding__exp-cross-language|spectralbranding/exp-cross-language]]
+- [[davanstrien__ml-kge|davanstrien/ml-kge]]
+- [[MC7ever__super-lfm-blend-v4|MC7ever/super-lfm-blend-v4]]
+- [[Unbabel__TowerEval-Data-v0.1|Unbabel/TowerEval-Data-v0.1]]
+- [[dancinlab__anima-chat-corpus-mix-70wiki-30dialogue|dancinlab/anima-chat-corpus-mix-70wiki-30dialogue]]
+- [[marcelone__text-correction_collection|marcelone/text-correction_collection]]
+- [[validia-ai__distillery|validia-ai/distillery]]
+- … 외 15개 (다운로드 순 상위 100개만 표시)
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 389
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 378
-- [[상업 이용 가능]] (상업 이용) · 공유 297
-- [[텍스트 생성]] (작업) · 공유 248
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 422
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 410
+- [[상업 이용 가능]] (상업 이용) · 공유 310
+- [[텍스트 생성]] (작업) · 공유 267
 - [[초장문]] (입력 길이) · 공유 92
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 75
-- [[이미지 이해]] (작업) · 공유 69
-- [[일반]] (도메인) · 공유 67
-- [[학습용]] (데이터 용도) · 공유 58
-- [[조건부 이용]] (상업 이용) · 공유 55
-- [[중형 모델]] (모델 크기) · 공유 54
-- [[단문]] (입력 길이) · 공유 45
+- [[일반]] (도메인) · 공유 83
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 79
+- [[학습용]] (데이터 용도) · 공유 72
+- [[조건부 이용]] (상업 이용) · 공유 67
+- [[이미지 이해]] (작업) · 공유 67
+- [[중규모 데이터]] (데이터 규모) · 공유 57
+- [[단문]] (입력 길이) · 공유 56

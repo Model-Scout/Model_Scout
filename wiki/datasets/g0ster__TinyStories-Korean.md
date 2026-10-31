@@ -3,7 +3,7 @@ type: "dataset"
 id: "g0ster/TinyStories-Korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/g0ster/TinyStories-Korean"
-downloads: 173
+downloads: 198
 summary: "roneneldan의 TinyStories를 한국어로 번역한 텍스트 생성용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

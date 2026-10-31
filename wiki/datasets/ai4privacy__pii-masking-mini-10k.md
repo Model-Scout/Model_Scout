@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai4privacy/pii-masking-mini-10k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai4privacy/pii-masking-mini-10k"
-downloads: 199
+downloads: 210
 summary: "다국어 개인식별정보(PII) 마스킹을 위한 1만개 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

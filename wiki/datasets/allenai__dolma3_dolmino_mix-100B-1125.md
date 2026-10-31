@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/dolma3_dolmino_mix-100B-1125"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/dolma3_dolmino_mix-100B-1125"
-downloads: 35733
+downloads: 33303
 summary: "Olmo 3 32B 모델 2단계 학습용 고품질 수학, 코드, QA, 추론 데이터셋 풀입니다."
 readme_status: "ok"
 readme_language: "en"

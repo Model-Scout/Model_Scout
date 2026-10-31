@@ -3,7 +3,7 @@ type: "dataset"
 id: "retrina0678/miimo-audio-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/retrina0678/miimo-audio-dataset"
-downloads: 254
+downloads: 767
 summary: "음향 이벤트 분류 학습용 오디오 데이터셋으로 다양한 환경음과 증강 데이터를 포함함."
 readme_status: "ok"
 readme_language: "mixed"

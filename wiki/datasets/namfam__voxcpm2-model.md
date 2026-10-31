@@ -3,7 +3,7 @@ type: "dataset"
 id: "namfam/voxcpm2-model"
 source: "huggingface"
 url: "https://huggingface.co/datasets/namfam/voxcpm2-model"
-downloads: 106
+downloads: 122
 summary: "VoxCPM2는 30개 언어를 지원하는 2B 파라미터 텍스트-투-스피치 모델입니다."
 readme_status: "ok"
 readme_language: "en"

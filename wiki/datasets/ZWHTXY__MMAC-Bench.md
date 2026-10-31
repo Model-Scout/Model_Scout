@@ -3,7 +3,7 @@ type: "dataset"
 id: "ZWHTXY/MMAC-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ZWHTXY/MMAC-Bench"
-downloads: 298
+downloads: 318
 summary: "MMAC-Bench 데이터셋은 텍스트 및 멀티모달 QA를 위한 동남아시아 언어 기반 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "datalama/miracl-hard-negatives"
 source: "huggingface"
 url: "https://huggingface.co/datasets/datalama/miracl-hard-negatives"
-downloads: 625
+downloads: 655
 summary: "18개 언어의 검색을 위한 MIRACL 다국어 정보 검색 하드 네거티브 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "yoh/modular-sentence-encoders-paraphrase"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yoh/modular-sentence-encoders-paraphrase"
-downloads: 118
+downloads: 120
 summary: "23개 언어로 번역된 다중 병렬 패러프레이즈 말뭉치로 문장 인코더 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

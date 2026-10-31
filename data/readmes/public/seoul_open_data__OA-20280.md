@@ -1,6 +1,6 @@
 # 서울시 지구단위 계획 정보
 
-서울시 지구단위 계획 정보. http://openapi.seoul.go.kr:8088/sample/xml/upisDistUnitPlan/1/5/
+서울시 지구단위 계획 정보. http://openapi.seoul.go.kr:8088/sample/xml/upisDistUnitPlan/1/5/ 제공 필드: 면적변경, 면적변경후, 면적기정, 면적증감코드, 결정고시관리코드, 대분류, 지차체, 프로젝트코드, 위치명, 지역명, 조서관리코드, 조서유형(구분)
 
 서비스명: upisDistUnitPlan
 

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/HelpSteer2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/HelpSteer2"
-downloads: 29395
+downloads: 29364
 summary: "HelpSteer2는 모델을 더 유용하고 정확하며 일관되게 조정하기 위한 오픈소스 보상 모델 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

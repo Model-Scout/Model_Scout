@@ -3,7 +3,7 @@ type: "dataset"
 id: "ironDong/Children_Counsel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ironDong/Children_Counsel"
-downloads: 248
+downloads: 234
 summary: "아동·청소년 상담 음성 및 전사 데이터로 음성 인식 및 상담 분석에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

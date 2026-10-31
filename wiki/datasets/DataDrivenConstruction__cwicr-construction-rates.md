@@ -3,7 +3,7 @@ type: "dataset"
 id: "DataDrivenConstruction/cwicr-construction-rates"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DataDrivenConstruction/cwicr-construction-rates"
-downloads: 1215
+downloads: 1307
 summary: "30개국 건설 작업, 자원, 비용 정보를 다국어로 제공하는 기계 판독 가능 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -54,3 +54,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `rate_original_name` 열 p90 184자 ≈ 46 토큰 (viewer statistics, default/en)
+
+## 같은 데이터의 사본·중복 등록
+
+- `srii2829/cwicr-construction-rates`

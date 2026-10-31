@@ -3,7 +3,7 @@ type: "dataset"
 id: "zeno-labs/pick-and-place-gopro-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zeno-labs/pick-and-place-gopro-v1"
-downloads: 123
+downloads: 119
 summary: "GoPro 헤드 마운트 카메라로 촬영한 Pick and place 도메인 로봇 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

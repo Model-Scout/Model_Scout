@@ -3,7 +3,7 @@ type: "dataset"
 id: "sujalrajpoot/TrueSyncAI-Aurion"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sujalrajpoot/TrueSyncAI-Aurion"
-downloads: 34
+downloads: 35
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

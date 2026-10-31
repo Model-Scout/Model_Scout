@@ -1,0 +1,5 @@
+---
+license: openrail
+language:
+- ko
+---

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Shitao/MLDR"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Shitao/MLDR"
-downloads: 2085
+downloads: 2041
 summary: "MLDR은 13개 언어의 위키피디아, Wudao, mC4 기반 다국어 장문 문서 검색 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -42,3 +42,7 @@ MLDR은 13개 언어의 위키피디아, Wudao, mC4 기반 다국어 장문 문�
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `MLDR is a Multilingual Long-Document Retrieval dataset built on Wikipeida, Wudao and mC4, covering 13 typologically diverse languages.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `For each language, there are three splits: `train`, `dev`, and `test`. The `corpus` is also avaliable here.` · 신뢰도 medium
+
+## 같은 데이터의 사본·중복 등록
+
+- `whooray/MLDR`

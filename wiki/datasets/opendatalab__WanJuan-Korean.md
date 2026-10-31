@@ -3,7 +3,7 @@ type: "dataset"
 id: "opendatalab/WanJuan-Korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/opendatalab/WanJuan-Korean"
-downloads: 206
+downloads: 202
 summary: "WanJuan-Korean 코퍼스는 역사, 정치, 문화 등 7개 분야 34개 하위분류의 280GB 한국어 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

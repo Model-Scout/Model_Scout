@@ -3,7 +3,7 @@ type: "dataset"
 id: "jmjmjm3/kor-smishing-message"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jmjmjm3/kor-smishing-message"
-downloads: 137
+downloads: 141
 summary: "한국어 문자 메시지의 정상과 스미싱을 분류하는 데이터셋으로 스미싱 탐지에 활용됩니다."
 readme_status: "ok"
 readme_language: "mixed"

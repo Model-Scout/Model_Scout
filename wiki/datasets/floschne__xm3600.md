@@ -3,7 +3,7 @@ type: "dataset"
 id: "floschne/xm3600"
 source: "huggingface"
 url: "https://huggingface.co/datasets/floschne/xm3600"
-downloads: 1043
+downloads: 1076
 summary: "Crossmodal-3600은 다국어 멀티모달 평가를 위한 이미지와 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

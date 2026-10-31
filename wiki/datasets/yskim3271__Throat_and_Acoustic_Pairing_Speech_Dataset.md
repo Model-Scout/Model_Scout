@@ -3,7 +3,7 @@ type: "dataset"
 id: "yskim3271/Throat_and_Acoustic_Pairing_Speech_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yskim3271/Throat_and_Acoustic_Pairing_Speech_Dataset"
-downloads: 383
+downloads: 410
 summary: "60명의 한국어 원어민이 동시에 녹음한 목소리와 음향 마이크 음성 쌍 데이터셋으로 음성 향상 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

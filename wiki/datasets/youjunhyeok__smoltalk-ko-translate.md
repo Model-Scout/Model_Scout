@@ -3,7 +3,7 @@ type: "dataset"
 id: "youjunhyeok/smoltalk-ko-translate"
 source: "huggingface"
 url: "https://huggingface.co/datasets/youjunhyeok/smoltalk-ko-translate"
-downloads: 224
+downloads: 228
 summary: "HuggingFaceTB/smoltalk 데이터셋을 한국어로 번역한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

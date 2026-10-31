@@ -3,7 +3,7 @@ type: "dataset"
 id: "NaughtyConstrictor/fact-check-bureau"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NaughtyConstrictor/fact-check-bureau"
-downloads: 258
+downloads: 260
 summary: "영어와 프랑스어 팩트체크 기사 및 주장 데이터로 팩트체크 검색 파이프라인 개발용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

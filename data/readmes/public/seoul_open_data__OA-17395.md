@@ -1,6 +1,6 @@
 # 서울시 자원회수시설 용어
 
-서울시 자원회수시설 용어. http://openapi.seoul.go.kr:8088/sample/xml/viwDictionary/1/5/
+서울시 자원회수시설 용어. http://openapi.seoul.go.kr:8088/sample/xml/viwDictionary/1/5/ 제공 필드: 내용, 입력날짜, 수정날짜, 게시물번호(pk), 사용여부, 단어
 
 서비스명: viwDictionary
 

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Yuyongkim/inconvenience-public-safety"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Yuyongkim/inconvenience-public-safety"
-downloads: 84
+downloads: 88
 summary: "한국 공공안전 관련 3개 등록부를 2017년 개정 규칙에 따라 점자로 변환한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

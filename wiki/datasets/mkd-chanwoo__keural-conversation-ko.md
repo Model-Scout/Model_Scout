@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-chanwoo/keural-conversation-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-chanwoo/keural-conversation-ko"
-downloads: 107
+downloads: 110
 summary: "한국어 일상 대화 AI 학습용 합성 데이터셋으로 9개 주제, 191,093개 멀티턴 대화 쌍 포함"
 readme_status: "ok"
 readme_language: "mixed"

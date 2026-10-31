@@ -3,7 +3,7 @@ type: "dataset"
 id: "tellang/yeji-bazi-rules"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tellang/yeji-bazi-rules"
-downloads: 81
+downloads: 76
 summary: "사주팔자 해석 규칙과 가이드라인 데이터셋으로 십신, 용신, 격국, 대운 해석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

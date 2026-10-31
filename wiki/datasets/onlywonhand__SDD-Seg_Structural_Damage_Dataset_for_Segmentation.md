@@ -3,7 +3,7 @@ type: "dataset"
 id: "onlywonhand/SDD-Seg_Structural_Damage_Dataset_for_Segmentation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/onlywonhand/SDD-Seg_Structural_Damage_Dataset_for_Segmentation"
-downloads: 179
+downloads: 178
 summary: "토목 구조물 손상 탐지와 부재 분류를 위한 14채널 세그멘테이션 마스크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "huawei-noah/entity_cs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/huawei-noah/entity_cs"
-downloads: 434
+downloads: 318
 summary: "EntityCS는 위키피디아와 위키데이터를 활용해 엔티티 기반 코드스위칭 말뭉치를 구축한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

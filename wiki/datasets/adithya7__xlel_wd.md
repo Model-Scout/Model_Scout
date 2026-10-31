@@ -3,7 +3,7 @@ type: "dataset"
 id: "adithya7/xlel_wd"
 source: "huggingface"
 url: "https://huggingface.co/datasets/adithya7/xlel_wd"
-downloads: 486
+downloads: 490
 summary: "XLEL-WD는 다국어 위키피디아/위키뉴스 기사에서 위키데이터 이벤트 항목으로 연결하는 다국어 이벤트 링크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

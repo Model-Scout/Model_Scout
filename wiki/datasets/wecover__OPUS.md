@@ -3,7 +3,7 @@ type: "dataset"
 id: "wecover/OPUS"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wecover/OPUS"
-downloads: 1320
+downloads: 1430
 summary: "OPUS의 여러 병렬 말뭉치를 언어쌍별로 25,000개씩 수집한 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "seoulraphaellee/korean-assembly-minutes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/seoulraphaellee/korean-assembly-minutes"
-downloads: 2866
+downloads: 2478
 summary: "대한민국 국회 회의록 원문과 AI 요약을 연도별로 모은 아카이브 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

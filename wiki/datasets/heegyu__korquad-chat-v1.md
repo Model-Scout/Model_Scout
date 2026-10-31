@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/korquad-chat-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/korquad-chat-v1"
-downloads: 53
+downloads: 55
 summary: "KorQuAD 1.0 문서를 기반으로 ChatGPT가 생성한 9619개 한국어 지식기반 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

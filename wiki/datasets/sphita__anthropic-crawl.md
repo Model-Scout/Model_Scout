@@ -3,7 +3,7 @@ type: "dataset"
 id: "sphita/anthropic-crawl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sphita/anthropic-crawl"
-downloads: 225
+downloads: 236
 summary: "Anthropic의 공개 웹사이트에서 수집한 고품질 웹 크롤링 데이터로 AI 안전 연구 등에 활용됨."
 readme_status: "ok"
 readme_language: "en"

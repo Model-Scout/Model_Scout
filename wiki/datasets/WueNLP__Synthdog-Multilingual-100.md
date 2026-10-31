@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/Synthdog-Multilingual-100"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/Synthdog-Multilingual-100"
-downloads: 350
+downloads: 368
 summary: "Synthdog-Multilingual-100은 다국어 OCR 성능 향상을 위한 이미지-텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

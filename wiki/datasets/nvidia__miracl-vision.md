@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/miracl-vision"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/miracl-vision"
-downloads: 1213
+downloads: 1185
 summary: "MIRACL-VISION은 18개 언어의 위키피디아 이미지와 질문으로 다국어 시각 문서 검색 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

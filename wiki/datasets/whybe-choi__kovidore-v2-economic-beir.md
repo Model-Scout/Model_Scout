@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/kovidore-v2-economic-beir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/kovidore-v2-economic-beir"
-downloads: 197
+downloads: 180
 summary: "한국 주요 경제지표에 관한 정기 보고서로 구성된 복합 문서 이해용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

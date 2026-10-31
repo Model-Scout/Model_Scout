@@ -3,7 +3,7 @@ type: "dataset"
 id: "meetween/mumospee_v3.1-testing"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meetween/mumospee_v3.1-testing"
-downloads: 83
+downloads: 118
 summary: "Mumospee V3는 다중 모달 음성 데이터셋으로 음성 인식 등 다양한 작업 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

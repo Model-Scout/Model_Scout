@@ -3,7 +3,7 @@ type: "dataset"
 id: "jojo0217/korean_rlhf_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jojo0217/korean_rlhf_dataset"
-downloads: 207
+downloads: 204
 summary: "성균관대 산학협력 프로젝트로 한국어 LLM SFT 학습용으로 구축한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

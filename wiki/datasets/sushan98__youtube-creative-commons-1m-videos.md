@@ -3,7 +3,7 @@ type: "dataset"
 id: "sushan98/youtube-creative-commons-1m-videos"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sushan98/youtube-creative-commons-1m-videos"
-downloads: 171
+downloads: 178
 summary: "1,000,000개의 크리에이티브 커먼즈 라이선스 유튜브 영상 링크와 메타데이터 모음집입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Horizon-Labs/multilingual-rerank-distill"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Horizon-Labs/multilingual-rerank-distill"
-downloads: 121
+downloads: 131
 summary: "47개 언어의 334,400개 검색 쿼리와 5.35M 쌍의 Qwen3-Reranker-4B 점수로 다국어 리랭킹 모델 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

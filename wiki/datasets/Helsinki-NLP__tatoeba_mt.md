@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/tatoeba_mt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/tatoeba_mt"
-downloads: 785
+downloads: 810
 summary: "Tatoeba Translation Challenge는 다국어 기계 번역 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "xujfcn/Crazyrouter-Multimodal-Pricing"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xujfcn/Crazyrouter-Multimodal-Pricing"
-downloads: 229
+downloads: 243
 summary: "이미지, 영상, 음성, 음악, 3D 모델 API의 2026년 10월 11일 기준 요금 정보를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

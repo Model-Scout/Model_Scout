@@ -3,7 +3,7 @@ type: "dataset"
 id: "prismdata/Perdix-Pretrain-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prismdata/Perdix-Pretrain-Data"
-downloads: 183
+downloads: 290
 summary: "Perdix-1.1B-Base 사전학습에 쓴 공개 데이터셋의 parquet 파일 모음 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "waylake/ko-verified-cot"
 source: "huggingface"
 url: "https://huggingface.co/datasets/waylake/ko-verified-cot"
-downloads: 41
+downloads: 39
 summary: "KMMLU 한국어 다지선다형 문제에 대한 검증된 짧은 추론 과정 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

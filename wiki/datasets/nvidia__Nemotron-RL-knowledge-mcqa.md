@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-knowledge-mcqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-knowledge-mcqa"
-downloads: 3952
+downloads: 3947
 summary: "Nemotron-RL-knowledge-mcqa는 다양한 분야 지식 기반 다지선다형 질문응답 데이터셋으로 LLM 후학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

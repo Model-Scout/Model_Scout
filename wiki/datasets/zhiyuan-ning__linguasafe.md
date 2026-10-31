@@ -3,7 +3,7 @@ type: "dataset"
 id: "zhiyuan-ning/linguasafe"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zhiyuan-ning/linguasafe"
-downloads: 101
+downloads: 103
 summary: "다국어 언어 학습용 데이터셋으로 다양한 언어와 레벨의 프롬프트를 포함함"
 readme_status: "ok"
 readme_language: "en"

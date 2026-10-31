@@ -3,7 +3,7 @@ type: "dataset"
 id: "amphion/Emilia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/amphion/Emilia"
-downloads: 109
+downloads: 104
 summary: "Emilia는 6개 언어의 다양한 음성 스타일과 전사문을 포함한 대규모 다국어 음성 생성용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

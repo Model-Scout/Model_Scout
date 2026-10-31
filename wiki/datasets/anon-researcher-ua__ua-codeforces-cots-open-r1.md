@@ -3,7 +3,7 @@ type: "dataset"
 id: "anon-researcher-ua/ua-codeforces-cots-open-r1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/anon-researcher-ua/ua-codeforces-cots-open-r1"
-downloads: 10
+downloads: 12
 summary: "우크라이나어 문제 설명과 추론을 포함한 Codeforces Python 솔루션 데이터셋으로 다국어 코드 추론 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

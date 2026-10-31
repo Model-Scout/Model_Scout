@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-structured-law-article"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-structured-law-article"
-downloads: 20
+downloads: 22
 summary: "중화민국(대만)의 구조화된 법률 조문 데이터셋으로, 법률 LLM의 SFT 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

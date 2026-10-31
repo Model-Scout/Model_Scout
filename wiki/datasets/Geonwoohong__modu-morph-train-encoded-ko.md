@@ -3,7 +3,7 @@ type: "dataset"
 id: "Geonwoohong/modu-morph-train-encoded-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Geonwoohong/modu-morph-train-encoded-ko"
-downloads: 107
+downloads: 95
 summary: "한국어 형태소 부호화 말뭉치로 형태소 연구 및 표현 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

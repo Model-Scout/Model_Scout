@@ -3,7 +3,7 @@ type: "dataset"
 id: "podongchip/kospi-daily-stock-features-2021-2026"
 source: "huggingface"
 url: "https://huggingface.co/datasets/podongchip/kospi-daily-stock-features-2021-2026"
-downloads: 480
+downloads: 474
 summary: "2021~2026년 KOSPI 948개 종목 일별 시세와 기술·거시지표 결합 주식 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -58,3 +58,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `머신러닝 학습용 한국 주식 데이터셋입니다.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/podongchip/korean-stock-daily-prices-indicators-20212026`

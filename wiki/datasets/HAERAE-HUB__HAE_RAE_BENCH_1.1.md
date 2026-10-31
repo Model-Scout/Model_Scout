@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/HAE_RAE_BENCH_1.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/HAE_RAE_BENCH_1.1"
-downloads: 6942
+downloads: 6644
 summary: "한국 문화와 맥락 이해를 평가하는 13개 과제로 구성된 한국어 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

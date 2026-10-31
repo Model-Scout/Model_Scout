@@ -3,7 +3,7 @@ type: "dataset"
 id: "sean0042/KorMedMCQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sean0042/KorMedMCQA"
-downloads: 4324
+downloads: 3744
 summary: "한국 의료 전문 자격시험 문제로 구성된 다지선다형 질의응답 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

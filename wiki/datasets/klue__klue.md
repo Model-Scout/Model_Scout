@@ -3,7 +3,7 @@ type: "dataset"
 id: "klue/klue"
 source: "huggingface"
 url: "https://huggingface.co/datasets/klue/klue"
-downloads: 5518
+downloads: 5772
 summary: "KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터셋 모음입니다."
 readme_status: "ok"
 readme_language: "en"

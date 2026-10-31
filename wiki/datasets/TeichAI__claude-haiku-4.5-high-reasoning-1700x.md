@@ -3,7 +3,7 @@ type: "dataset"
 id: "TeichAI/claude-haiku-4.5-high-reasoning-1700x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TeichAI/claude-haiku-4.5-high-reasoning-1700x"
-downloads: 66
+downloads: 67
 summary: "Claude Haiku 4.5 기반 고난도 추론 데이터셋으로 LLM 미세조정용입니다."
 readme_status: "ok"
 readme_language: "en"

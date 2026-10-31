@@ -3,7 +3,7 @@ type: "dataset"
 id: "Myungseung/kakaotalk_min"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Myungseung/kakaotalk_min"
-downloads: 27
+downloads: 26
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

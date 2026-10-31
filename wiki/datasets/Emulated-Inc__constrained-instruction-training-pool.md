@@ -3,7 +3,7 @@ type: "dataset"
 id: "Emulated-Inc/constrained-instruction-training-pool"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Emulated-Inc/constrained-instruction-training-pool"
-downloads: 174
+downloads: 167
 summary: "여러 데이터셋에서 제약 조건이 포함된 글쓰기 과제용 공개 프롬프트 모음으로, 제약 조건 검증과 응답 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

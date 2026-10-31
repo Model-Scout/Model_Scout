@@ -3,7 +3,7 @@ type: "dataset"
 id: "clzoro/Claude-Distills"
 source: "huggingface"
 url: "https://huggingface.co/datasets/clzoro/Claude-Distills"
-downloads: 276
+downloads: 301
 summary: "Claude 모델 증류용으로 통합 및 중복 제거된 오픈소스 데이터셋 모음입니다."
 readme_status: "ok"
 readme_language: "en"

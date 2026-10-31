@@ -3,7 +3,7 @@ type: "dataset"
 id: "NagaYu/signpost-label-quality"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NagaYu/signpost-label-quality"
-downloads: 88
+downloads: 97
 summary: "접근성 트리에서 라벨의 품질을 평가해 제어 식별 여부를 판단하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

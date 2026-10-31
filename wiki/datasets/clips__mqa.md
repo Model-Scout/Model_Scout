@@ -3,7 +3,7 @@ type: "dataset"
 id: "clips/mqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/clips/mqa"
-downloads: 2586
+downloads: 2521
 summary: "Common Crawl에서 추출한 다국어 FAQ 및 커뮤니티 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -47,3 +47,7 @@ Common Crawl에서 추출한 다국어 FAQ 및 커뮤니티 질의응답 데이�
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `999999999.0` · 신뢰도 high
 
 샘플 길이: `name` 열 p90 132자 ≈ 33 토큰 (viewer statistics, ko-all-question/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `JudSacr/mqa`

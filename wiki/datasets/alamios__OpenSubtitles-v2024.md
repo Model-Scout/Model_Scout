@@ -3,7 +3,7 @@ type: "dataset"
 id: "alamios/OpenSubtitles-v2024"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alamios/OpenSubtitles-v2024"
-downloads: 973
+downloads: 785
 summary: "OpenSubtitles-v2024은 영화 및 TV 자막 번역 데이터로 기계 번역 등에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

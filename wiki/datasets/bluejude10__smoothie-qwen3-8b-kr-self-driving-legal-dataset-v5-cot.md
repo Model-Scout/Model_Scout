@@ -3,7 +3,7 @@ type: "dataset"
 id: "bluejude10/smoothie-qwen3-8b-kr-self-driving-legal-dataset-v5-cot"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bluejude10/smoothie-qwen3-8b-kr-self-driving-legal-dataset-v5-cot"
-downloads: 94
+downloads: 97
 summary: "대한민국 자율주행자동차 법령 관련 CoT 파인튜닝 데이터셋으로 법률 질의응답 성능 향상용입니다."
 readme_status: "ok"
 readme_language: "ko"

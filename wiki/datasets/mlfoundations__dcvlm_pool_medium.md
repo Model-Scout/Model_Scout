@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm_pool_medium"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm_pool_medium"
-downloads: 36715
+downloads: 37409
 summary: "DataComp-VLM 벤치마크용 4억 8천만 샘플의 원시 미디어 데이터 풀로, 데이터 큐레이션에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -1,6 +1,6 @@
 # 서울시 자동차 번호판 영치 현황
 
-서울시 자동차 번호판 영치 현황. http://openapi.seoul.go.kr:8088/sample/xml/CscyPublicView/1/5/
+서울시 자동차 번호판 영치 현황. http://openapi.seoul.go.kr:8088/sample/xml/CscyPublicView/1/5/ 제공 필드: 영치기관, 영치기관코드, 영치월, 영치건수, 영치년도
 
 서비스명: CscyPublicView
 

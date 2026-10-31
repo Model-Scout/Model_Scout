@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/WildChat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/WildChat"
-downloads: 3626
+downloads: 3566
 summary: "WildChat은 인간과 ChatGPT 간 65만 대화 모음으로, 교육 및 사용자 행동 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

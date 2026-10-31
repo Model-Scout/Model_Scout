@@ -3,7 +3,7 @@ type: "dataset"
 id: "ServiceNow-AI/M2Lingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ServiceNow-AI/M2Lingual"
-downloads: 413
+downloads: 420
 summary: "다국어 다중턴 대화 데이터셋으로 대화형 AI 모델 학습과 평가에 활용됨"
 readme_status: "ok"
 readme_language: "en"

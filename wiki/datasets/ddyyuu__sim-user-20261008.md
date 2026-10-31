@@ -3,7 +3,7 @@ type: "dataset"
 id: "ddyyuu/sim-user-20261008"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ddyyuu/sim-user-20261008"
-downloads: 238
+downloads: 244
 summary: "MuJoCo 조이스틱 시뮬레이션 시연 데이터로 팀 공동 학습용입니다."
 readme_status: "ok"
 readme_language: "mixed"

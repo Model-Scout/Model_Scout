@@ -3,7 +3,7 @@ type: "dataset"
 id: "jhu-clsp/seamless-align"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jhu-clsp/seamless-align"
-downloads: 538
+downloads: 563
 summary: "Meta AI가 공개한 음성-음성, 텍스트-음성, 음성-텍스트 병렬 데이터를 기반으로 한 다국어 음성 및 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

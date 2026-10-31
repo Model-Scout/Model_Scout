@@ -3,7 +3,7 @@ type: "dataset"
 id: "davidkim205/FinDartBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/davidkim205/FinDartBench"
-downloads: 118
+downloads: 122
 summary: "FinDartBench는 DART 공시 문서 기반 한국어 금융 질의응답 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

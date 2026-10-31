@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenAssistant/oasst2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenAssistant/oasst2"
-downloads: 18504
+downloads: 18409
 summary: "OpenAssistant 대화 데이터셋으로, 대화형 AI 학습 및 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -55,6 +55,11 @@ OpenAssistant 대화 데이터셋으로, 대화형 AI 학습 및 평가에 사�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 1454자 ≈ 364 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `liarrrrrrrr/oasst2`
+- `tian77hh/oasst2`
 
 ## 이 데이터로 학습한 모델
 

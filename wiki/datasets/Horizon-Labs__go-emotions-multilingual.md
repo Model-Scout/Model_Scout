@@ -3,7 +3,7 @@ type: "dataset"
 id: "Horizon-Labs/go-emotions-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Horizon-Labs/go-emotions-multilingual"
-downloads: 121
+downloads: 129
 summary: "GoEmotions 데이터셋을 35개 언어로 기계 번역한 감정 분류 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

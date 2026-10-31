@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/zeroth-korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/zeroth-korean"
-downloads: 867
+downloads: 910
 summary: "한국어 음성 인식 학습용으로 51.6시간 음성 및 전사 데이터 제공"
 readme_status: "ok"
 readme_language: "en"

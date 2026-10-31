@@ -3,7 +3,7 @@ type: "dataset"
 id: "DimensionV/KR-MOB-SMISHING-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DimensionV/KR-MOB-SMISHING-v1"
-downloads: 122
+downloads: 120
 summary: "한국형 모바일 스미싱 합성 데이터셋으로 SIEM 상관분석 훈련 및 보안 분석가 교육에 활용됨"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "garnetrapture/evai-assets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/garnetrapture/evai-assets"
-downloads: 318
+downloads: 323
 summary: "서브컬처 스타일 AI 학습과 캐릭터 채팅용 캐릭터, 스토리, 음성 자산 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

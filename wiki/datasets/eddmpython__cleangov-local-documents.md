@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/cleangov-local-documents"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/cleangov-local-documents"
-downloads: 785
+downloads: 789
 summary: "지방자치단체 예산서, 결산서 등 재정 문서 원문과 URL 색인 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

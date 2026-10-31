@@ -3,7 +3,7 @@ type: "dataset"
 id: "safety-irt/safety-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/safety-irt/safety-data"
-downloads: 570
+downloads: 1006
 summary: "61개 모델의 10개 언어별 안전성 평가 응답 190만 건 데이터로 안전 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

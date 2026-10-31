@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/bluesky"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/bluesky"
-downloads: 517
+downloads: 535
 summary: "약 900만 개의 Bluesky 공개 게시글을 정제하여 기계학습 연구용으로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 118자 ≈ 29 토큰 (viewer statistics, ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `bobHe2099/bluesky`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "omarkamali/wikipedia-monthly"
 source: "huggingface"
 url: "https://huggingface.co/datasets/omarkamali/wikipedia-monthly"
-downloads: 20603
+downloads: 19930
 summary: "월간으로 갱신되는 다국어 위키피디아 덤프로 NLP 프로젝트에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

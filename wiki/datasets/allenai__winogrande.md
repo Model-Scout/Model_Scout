@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/winogrande"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/winogrande"
-downloads: 235017
+downloads: 231713
 summary: "WinoGrande는 상식 추론을 위한 44,000개 문제로 구성된 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

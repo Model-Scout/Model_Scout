@@ -3,7 +3,7 @@ type: "dataset"
 id: "macavaney/miracl-noauth"
 source: "huggingface"
 url: "https://huggingface.co/datasets/macavaney/miracl-noauth"
-downloads: 1342
+downloads: 1365
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Necent/llm-jailbreak-prompt-injection-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Necent/llm-jailbreak-prompt-injection-dataset"
-downloads: 1535
+downloads: 1749
 summary: "LLM 안전성 훈련용으로 30개 이상 공개 소스를 통합한 탈옥 및 프롬프트 주입 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

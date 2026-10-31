@@ -3,7 +3,7 @@ type: "dataset"
 id: "cfpark00/KoreanSAT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cfpark00/KoreanSAT"
-downloads: 127
+downloads: 150
 summary: "KoreanSAT 벤치마크로 수학 영역의 연도별 출제 주제를 분석한 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

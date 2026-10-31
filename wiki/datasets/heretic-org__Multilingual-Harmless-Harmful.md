@@ -3,7 +3,7 @@ type: "dataset"
 id: "heretic-org/Multilingual-Harmless-Harmful"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heretic-org/Multilingual-Harmless-Harmful"
-downloads: 1105
+downloads: 1089
 summary: "9개 언어로 번역된 무해/유해 프롬프트 쌍 데이터셋으로 다국어 연구에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -67,3 +67,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `english` 열 p90 97자 ≈ 24 토큰 (viewer statistics, korean/harmful)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Heyjab/Multilingual-Harmless-Harmful`

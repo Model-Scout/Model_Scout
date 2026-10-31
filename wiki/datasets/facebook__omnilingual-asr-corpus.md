@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/omnilingual-asr-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/omnilingual-asr-corpus"
-downloads: 5502
+downloads: 6117
 summary: "348개 소수 언어의 자발적 음성 녹음과 전사 데이터로 음성 인식 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

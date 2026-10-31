@@ -3,7 +3,7 @@ type: "dataset"
 id: "Reubencf/multilingual-synthetic-tts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Reubencf/multilingual-synthetic-tts"
-downloads: 129
+downloads: 87
 summary: "Qwen3-TTS 기반 9개 언어 다국어 합성 음성 데이터셋으로 TTS, ASR, 음성 변환 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

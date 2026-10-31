@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceTB/smoltalk"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceTB/smoltalk"
-downloads: 49686
+downloads: 49415
 summary: "SmolTalk은 LLM 지도학습용 합성 데이터셋으로 다양한 텍스트 편집, 요약, 추론 작업에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

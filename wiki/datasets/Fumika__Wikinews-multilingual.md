@@ -3,7 +3,7 @@ type: "dataset"
 id: "Fumika/Wikinews-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Fumika/Wikinews-multilingual"
-downloads: 195
+downloads: 171
 summary: "33개 언어로 된 15,200개 위키뉴스 기사 병렬 문장 데이터셋으로 다국어 뉴스 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "izlley2/llm0to1-sft-synth-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/izlley2/llm0to1-sft-synth-ko"
-downloads: 146
+downloads: 148
 summary: "한국어 도서 재작성문과 자체 합성으로 만든 한국어 SFT 데이터로, QA와 지시이행 태스크에 활용됨."
 readme_status: "ok"
 readme_language: "ko"

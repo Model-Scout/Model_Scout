@@ -3,7 +3,7 @@ type: "dataset"
 id: "kresnik/zeroth_korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kresnik/zeroth_korean"
-downloads: 2775
+downloads: 2743
 summary: "한국어 음성 인식 연구를 위한 공개 음성 데이터셋으로, 약 51.6시간 훈련 데이터 포함."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "GEM/surface_realisation_st_2020"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GEM/surface_realisation_st_2020"
-downloads: 983
+downloads: 967
 summary: "11개 언어의 보편 의존구조를 자연어 문장으로 재구성하는 다국어 표면 실현 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

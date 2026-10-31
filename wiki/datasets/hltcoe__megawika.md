@@ -3,7 +3,7 @@ type: "dataset"
 id: "hltcoe/megawika"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hltcoe/megawika"
-downloads: 31125
+downloads: 31818
 summary: "MegaWika는 50개 언어 위키피디아 문단과 웹 인용문, 영어 번역, QA 쌍을 포함한 다국어 텍스트 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

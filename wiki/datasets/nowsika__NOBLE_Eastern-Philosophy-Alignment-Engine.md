@@ -3,7 +3,7 @@ type: "dataset"
 id: "nowsika/NOBLE_Eastern-Philosophy-Alignment-Engine"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nowsika/NOBLE_Eastern-Philosophy-Alignment-Engine"
-downloads: 656
+downloads: 621
 summary: "동양철학 기반 윤리적 AI 정렬을 위한 프롬프트 엔진과 글로벌 문화 딜레마 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

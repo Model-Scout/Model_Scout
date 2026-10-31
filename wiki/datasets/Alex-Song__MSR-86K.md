@@ -3,7 +3,7 @@ type: "dataset"
 id: "Alex-Song/MSR-86K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Alex-Song/MSR-86K"
-downloads: 89
+downloads: 88
 summary: "MSR-86K는 15개 언어의 8만 6천 시간 분량 음성 인식 연구용 다국어 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

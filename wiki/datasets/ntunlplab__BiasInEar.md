@@ -3,7 +3,7 @@ type: "dataset"
 id: "ntunlplab/BiasInEar"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ntunlplab/BiasInEar"
-downloads: 100
+downloads: 90
 summary: "BiasInEar는 다국어 음성 질문 응답과 음성 편향 분석을 위한 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "iontail/KoSum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/iontail/KoSum"
-downloads: 125
+downloads: 56
 summary: "KoSum은 700개의 한국어 유튜브 영상으로 구성된 멀티모달 영상 요약 및 하이라이트 검출 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

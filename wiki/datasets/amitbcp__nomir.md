@@ -3,7 +3,7 @@ type: "dataset"
 id: "amitbcp/nomir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/amitbcp/nomir"
-downloads: 138
+downloads: 231
 summary: "NoMIRACL은 18개 언어의 RAG 기반 LLM 견고성 평가용 인간 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

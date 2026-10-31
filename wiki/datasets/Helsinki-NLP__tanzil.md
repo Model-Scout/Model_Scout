@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/tanzil"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/tanzil"
-downloads: 161
+downloads: 180
 summary: "Tanzil 프로젝트가 수집한 꾸란 번역문 42개 언어 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HYU-NLP/BlendX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HYU-NLP/BlendX"
-downloads: 117
+downloads: 134
 summary: "BlendX는 다중 의도 탐지를 위한 영어 및 한국어 혼합 패턴 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

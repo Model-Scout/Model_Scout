@@ -3,7 +3,7 @@ type: "dataset"
 id: "aixk/long_stock"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aixk/long_stock"
-downloads: 83
+downloads: 86
 summary: "주식 시계열 데이터와 기술적 지표를 포함한 투자 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

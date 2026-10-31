@@ -3,7 +3,7 @@ type: "dataset"
 id: "NewTypeCola/VOKU-Archive"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NewTypeCola/VOKU-Archive"
-downloads: 252
+downloads: 332
 summary: "경기대학교 학생 방송국 VOKU의 1988~2019년 라디오 대본과 큐시트 66,010페이지를 제공하는 디지털 아카이브입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-MemoryCore-CoreCurriculum-Small"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-MemoryCore-CoreCurriculum-Small"
-downloads: 74
+downloads: 144
 summary: "다양한 분야의 기초 지식을 담은 질문-답변 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

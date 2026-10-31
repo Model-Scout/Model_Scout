@@ -3,7 +3,7 @@ type: "dataset"
 id: "GOAT-AI/gatcv6"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GOAT-AI/gatcv6"
-downloads: 405
+downloads: 423
 summary: "AI 코딩 에이전트의 작업 세션을 기록한 데이터셋으로, 소프트웨어 작업 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

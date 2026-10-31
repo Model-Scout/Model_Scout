@@ -3,7 +3,7 @@ type: "dataset"
 id: "1T/veil-pii-ko-synth"
 source: "huggingface"
 url: "https://huggingface.co/datasets/1T/veil-pii-ko-synth"
-downloads: 83
+downloads: 100
 summary: "Veil-PII-Ko-Lite 학습용 한국어 개인정보(PII) 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

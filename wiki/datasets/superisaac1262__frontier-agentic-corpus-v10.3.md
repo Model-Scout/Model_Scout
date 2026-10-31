@@ -3,7 +3,7 @@ type: "dataset"
 id: "superisaac1262/frontier-agentic-corpus-v10.3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/superisaac1262/frontier-agentic-corpus-v10.3"
-downloads: 376
+downloads: 317
 summary: "최첨단 교사 모델로부터 생성된 다단계 에이전트 추론 및 코딩, 수학, 과학 데이터 분석 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"

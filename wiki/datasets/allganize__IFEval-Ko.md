@@ -3,7 +3,7 @@ type: "dataset"
 id: "allganize/IFEval-Ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allganize/IFEval-Ko"
-downloads: 3065
+downloads: 2935
 summary: "한국어 대형 언어 모델의 지시 수행 능력을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

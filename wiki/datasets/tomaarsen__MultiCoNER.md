@@ -3,7 +3,7 @@ type: "dataset"
 id: "tomaarsen/MultiCoNER"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tomaarsen/MultiCoNER"
-downloads: 374
+downloads: 370
 summary: "MultiCoNER은 11개 언어와 3개 도메인을 포함한 다국어 개체명 인식 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

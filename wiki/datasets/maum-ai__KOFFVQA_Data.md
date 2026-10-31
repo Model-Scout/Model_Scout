@@ -3,7 +3,7 @@ type: "dataset"
 id: "maum-ai/KOFFVQA_Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maum-ai/KOFFVQA_Data"
-downloads: 82
+downloads: 104
 summary: "한국어로 된 이미지 질문응답 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

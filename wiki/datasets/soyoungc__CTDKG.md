@@ -3,7 +3,7 @@ type: "dataset"
 id: "soyoungc/CTDKG"
 source: "huggingface"
 url: "https://huggingface.co/datasets/soyoungc/CTDKG"
-downloads: 267
+downloads: 270
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

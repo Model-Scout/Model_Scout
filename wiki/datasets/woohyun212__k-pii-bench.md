@@ -3,7 +3,7 @@ type: "dataset"
 id: "woohyun212/k-pii-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/woohyun212/k-pii-bench"
-downloads: 247
+downloads: 262
 summary: "한국어 개인 정보 탐지를 위한 12개 도메인, 18개 PII 유형의 합성 문서 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

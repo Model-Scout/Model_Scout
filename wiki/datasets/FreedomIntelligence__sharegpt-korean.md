@@ -3,7 +3,7 @@ type: "dataset"
 id: "FreedomIntelligence/sharegpt-korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FreedomIntelligence/sharegpt-korean"
-downloads: 64
+downloads: 58
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

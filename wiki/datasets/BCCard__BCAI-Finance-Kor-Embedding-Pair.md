@@ -3,7 +3,7 @@ type: "dataset"
 id: "BCCard/BCAI-Finance-Kor-Embedding-Pair"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BCCard/BCAI-Finance-Kor-Embedding-Pair"
-downloads: 59
+downloads: 58
 summary: "한국 금융 도메인 문장 임베딩 학습 및 검색 평가용 (anchor, positive) 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

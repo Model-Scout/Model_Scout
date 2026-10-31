@@ -3,7 +3,7 @@ type: "dataset"
 id: "hakari-bench/NanoMIRACL"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hakari-bench/NanoMIRACL"
-downloads: 2239
+downloads: 2401
 summary: "NanoMIRACL은 MIRACL에서 파생된 다국어 위키피디아 문서 검색 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

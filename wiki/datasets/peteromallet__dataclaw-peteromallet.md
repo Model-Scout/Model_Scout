@@ -3,7 +3,7 @@ type: "dataset"
 id: "peteromallet/dataclaw-peteromallet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/peteromallet/dataclaw-peteromallet"
-downloads: 433
+downloads: 415
 summary: "DataClaw가 생성한 코딩 에이전트 대화 로그 데이터셋으로, 자유롭게 공유 가능하다."
 readme_status: "ok"
 readme_language: "en"

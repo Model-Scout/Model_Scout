@@ -3,7 +3,7 @@ type: "dataset"
 id: "Scicom-intl/semantic-vad-eot"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Scicom-intl/semantic-vad-eot"
-downloads: 22339
+downloads: 21292
 summary: "다국어 음성 데이터와 침묵 구간 정보를 포함한 사용자 발화 단위의 음성 데이터셋으로, 음성 대화의 끝 지점 탐지에 활용됨."
 readme_status: "ok"
 readme_language: "en"

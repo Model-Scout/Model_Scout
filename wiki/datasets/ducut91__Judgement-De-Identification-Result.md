@@ -3,7 +3,7 @@ type: "dataset"
 id: "ducut91/Judgement-De-Identification-Result"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ducut91/Judgement-De-Identification-Result"
-downloads: 84
+downloads: 93
 summary: "법원 판결문 개인정보 비식별 모델 성능 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "li-lab/MultiMed-X"
 source: "huggingface"
 url: "https://huggingface.co/datasets/li-lab/MultiMed-X"
-downloads: 139
+downloads: 156
 summary: "MultiMed-X는 비영어권 의료 환경에서 다국어 의료 추론 평가를 위한 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

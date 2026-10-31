@@ -3,7 +3,7 @@ type: "dataset"
 id: "YenYein/mindcast-timeseries-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/YenYein/mindcast-timeseries-benchmark"
-downloads: 111
+downloads: 116
 summary: "MINDCAST 시계열 예측 결과 데이터로 1~6개월 예측 성능 평가에 활용됨"
 readme_status: "ok"
 readme_language: "mixed"

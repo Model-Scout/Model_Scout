@@ -3,7 +3,7 @@ type: "dataset"
 id: "ahmedheakl/DocAtlas-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ahmedheakl/DocAtlas-Bench"
-downloads: 272
+downloads: 290
 summary: "DocAtlas-Bench는 82개 언어의 문서 페이지 파싱 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

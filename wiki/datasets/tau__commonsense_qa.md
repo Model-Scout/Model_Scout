@@ -3,7 +3,7 @@ type: "dataset"
 id: "tau/commonsense_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tau/commonsense_qa"
-downloads: 126258
+downloads: 126334
 summary: "CommonsenseQA는 상식 지식을 필요로 하는 객관식 질문 답변 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

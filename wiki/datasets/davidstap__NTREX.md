@@ -3,7 +3,7 @@ type: "dataset"
 id: "davidstap/NTREX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/davidstap/NTREX"
-downloads: 1668
+downloads: 1852
 summary: "영어에서 128개 언어로 번역 평가용 뉴스 테스트 참조 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

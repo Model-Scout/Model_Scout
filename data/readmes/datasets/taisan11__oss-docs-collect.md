@@ -27,7 +27,7 @@ A daily snapshot of selected open-source software documentation collected by oss
 
 - Documents: 1783
 - Repositories: 14
-- Generated: 2026-10-28T22:20:24.360Z
+- Generated: 2026-10-30T22:02:04.714Z
 - Format: JSONL
 
 ## Schema

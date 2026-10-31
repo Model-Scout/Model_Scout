@@ -3,7 +3,7 @@ type: "dataset"
 id: "bookcorpus/bookcorpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bookcorpus/bookcorpus"
-downloads: 14092
+downloads: 13225
 summary: "책과 영화의 시각적 내용을 설명하기 위해 책과 영화를 정렬한 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

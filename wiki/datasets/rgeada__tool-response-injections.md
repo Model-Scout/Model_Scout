@@ -3,7 +3,7 @@ type: "dataset"
 id: "rgeada/tool-response-injections"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rgeada/tool-response-injections"
-downloads: 300
+downloads: 304
 summary: "도구 응답 내 프롬프트 인젝션 탐지를 위한 분류 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

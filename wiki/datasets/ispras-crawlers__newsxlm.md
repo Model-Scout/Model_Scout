@@ -3,7 +3,7 @@ type: "dataset"
 id: "ispras-crawlers/newsxlm"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ispras-crawlers/newsxlm"
-downloads: 634
+downloads: 579
 summary: "NewsXLM은 56개 언어, 759개 사이트의 뉴스 웹페이지 속성 추출용 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

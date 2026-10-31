@@ -3,7 +3,7 @@ type: "dataset"
 id: "hateslopacademy/otpensource_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hateslopacademy/otpensource_dataset"
-downloads: 94
+downloads: 98
 summary: "무신사 패션 아이템 데이터로 패션 추천, 트렌드 분석, 이미지-텍스트 생성에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumynLabs/Korean_Product_Labels_Image_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumynLabs/Korean_Product_Labels_Image_Dataset"
-downloads: 89
+downloads: 125
 summary: "한국 제품 라벨과 포장 이미지로 OCR, 제품 분류, 시각-언어 AI 연구에 활용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `Training OCR and product recognition models` · 신뢰도 medium
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `imagefolder` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Hyde01/Korean_Product_Labels_Image_Dataset`

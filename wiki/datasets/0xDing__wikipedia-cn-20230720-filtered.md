@@ -3,7 +3,7 @@ type: "dataset"
 id: "0xDing/wikipedia-cn-20230720-filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/0xDing/wikipedia-cn-20230720-filtered"
-downloads: 3772
+downloads: 3756
 summary: "중국 대륙 지역 맞춤어로 정제한 2023년 7월 20일자 중국어 위키피디아 고품질 문서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

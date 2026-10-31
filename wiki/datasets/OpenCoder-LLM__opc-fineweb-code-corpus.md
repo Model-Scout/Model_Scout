@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenCoder-LLM/opc-fineweb-code-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenCoder-LLM/opc-fineweb-code-corpus"
-downloads: 7219
+downloads: 8351
 summary: "OpenCoder 사전학습에 사용된 Fineweb에서 추출한 코드 관련 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

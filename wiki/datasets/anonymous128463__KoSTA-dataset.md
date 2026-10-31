@@ -3,7 +3,7 @@ type: "dataset"
 id: "anonymous128463/KoSTA-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/anonymous128463/KoSTA-dataset"
-downloads: 356
+downloads: 358
 summary: "한국어 PII 장면 텍스트 편집 벤치마크로, 원본과 타깃 이미지 쌍 611개로 구성됨."
 readme_status: "ok"
 readme_language: "mixed"

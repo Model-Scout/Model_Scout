@@ -3,7 +3,7 @@ type: "dataset"
 id: "bowang0911/KR-legal-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bowang0911/KR-legal-qa"
-downloads: 189
+downloads: 188
 summary: "KR-legal-qa 데이터셋은 한국어 법률 질의응답을 위한 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "kyujinpy/OpenOrca-KO"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kyujinpy/OpenOrca-KO"
-downloads: 169
+downloads: 176
 summary: "OpenOrca 데이터셋 중 약 2만개를 번역한 한국어 데이터셋으로 자연어처리 모델 학습에 활용됨"
 readme_status: "ok"
 readme_language: "en"

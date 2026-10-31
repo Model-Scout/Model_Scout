@@ -3,7 +3,7 @@ type: "dataset"
 id: "AKS-DHLAB/KPoEM"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AKS-DHLAB/KPoEM"
-downloads: 154
+downloads: 148
 summary: "한국 근현대시 483편의 감정 주석 데이터로 시 감정 분류 및 생성 연구에 활용됨"
 readme_status: "ok"
 readme_language: "en"

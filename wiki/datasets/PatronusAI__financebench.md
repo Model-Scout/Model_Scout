@@ -3,7 +3,7 @@ type: "dataset"
 id: "PatronusAI/financebench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PatronusAI/financebench"
-downloads: 6867
+downloads: 7271
 summary: "FinanceBench는 공개 기업 관련 금융 질의응답 성능 평가용 테스트셋입니다."
 readme_status: "ok"
 readme_language: "en"

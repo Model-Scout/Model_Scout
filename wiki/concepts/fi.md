@@ -2,7 +2,7 @@
 type: "concept"
 facet: "language"
 key: "fi"
-members: 46
+members: 47
 ---
 # fi
 
@@ -50,7 +50,7 @@ facet: [[언어]] · 개념 id `language/fi`
 - [[tensorblock__openbuddy-qwen2.5llamaify-14b-v23.1-200k-GGUF|tensorblock/openbuddy-qwen2.5llamaify-14b-v23.1-200k-GGUF]]
 - [[OpenBuddy__openbuddy-llama3.3-70b-v24.1-131k|OpenBuddy/openbuddy-llama3.3-70b-v24.1-131k]]
 
-## 데이터셋 (7)
+## 데이터셋 (8)
 
 - [[coastalcph__tydi_xor_rc|coastalcph/tydi_xor_rc]]
 - [[AmazonScience__tydi-as2|AmazonScience/tydi-as2]]
@@ -59,18 +59,19 @@ facet: [[언어]] · 개념 id `language/fi`
 - [[maximoss__lingnli-multi|maximoss/lingnli-multi]]
 - [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
 - [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
+- [[ucrelnlp__wikipedia-ga-fa-ids|ucrelnlp/wikipedia-ga-fa-ids]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 46
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 44
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 47
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 45
 - [[텍스트 생성]] (작업) · 공유 38
-- [[조건부 이용]] (상업 이용) · 공유 23
-- [[상업 이용 가능]] (상업 이용) · 공유 19
+- [[조건부 이용]] (상업 이용) · 공유 24
+- [[상업 이용 가능]] (상업 이용) · 공유 20
 - [[초장문]] (입력 길이) · 공유 11
 - [[대형 모델]] (모델 크기) · 공유 9
+- [[일반]] (도메인) · 공유 8
 - [[중문]] (입력 길이) · 공유 8
-- [[일반]] (도메인) · 공유 7
 - [[학습용]] (데이터 용도) · 공유 6
+- [[중규모 데이터]] (데이터 규모) · 공유 6
 - [[중형 모델]] (모델 크기) · 공유 6
-- [[질의응답]] (작업) · 공유 5

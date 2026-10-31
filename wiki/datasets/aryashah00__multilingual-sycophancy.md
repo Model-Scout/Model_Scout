@@ -3,7 +3,7 @@ type: "dataset"
 id: "aryashah00/multilingual-sycophancy"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aryashah00/multilingual-sycophancy"
-downloads: 193
+downloads: 271
 summary: "38개 언어, 33개 의견 범주에 걸친 다국어 시콥시 현상 평가용 병렬 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

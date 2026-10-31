@@ -3,7 +3,7 @@ type: "dataset"
 id: "missycuo/korean-movies-asr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/missycuo/korean-movies-asr"
-downloads: 281
+downloads: 339
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

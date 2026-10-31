@@ -3,7 +3,7 @@ type: "dataset"
 id: "bowang0911/korean-qa-gen"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bowang0911/korean-qa-gen"
-downloads: 193
+downloads: 191
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

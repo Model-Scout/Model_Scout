@@ -3,7 +3,7 @@ type: "dataset"
 id: "ahelk/ccaligned_multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ahelk/ccaligned_multilingual"
-downloads: 198
+downloads: 224
 summary: "CCAligned는 영어와 137개 언어의 웹 문서 쌍을 정렬한 다국어 병렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

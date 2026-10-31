@@ -3,7 +3,7 @@ type: "dataset"
 id: "etri-lirs/KoTSQA-v.2.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/etri-lirs/KoTSQA-v.2.0"
-downloads: 82
+downloads: 90
 summary: "한국어 시간민감형 질의응답 데이터셋으로 LLM의 지식충돌 문제 평가용입니다."
 readme_status: "ok"
 readme_language: "mixed"

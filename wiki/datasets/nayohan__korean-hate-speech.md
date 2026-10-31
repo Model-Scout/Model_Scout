@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/korean-hate-speech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/korean-hate-speech"
-downloads: 164
+downloads: 171
 summary: "온라인 뉴스 댓글에서 혐오 발언 탐지를 위한 한국어 말뭉치 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "AquaV/Multi-Environment-Operations-Sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AquaV/Multi-Environment-Operations-Sharegpt"
-downloads: 43
+downloads: 41
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

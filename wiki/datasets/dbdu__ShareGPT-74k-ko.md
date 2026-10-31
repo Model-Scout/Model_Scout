@@ -3,7 +3,7 @@ type: "dataset"
 id: "dbdu/ShareGPT-74k-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dbdu/ShareGPT-74k-ko"
-downloads: 116
+downloads: 126
 summary: "ShareGPT-90k의 한국어 번역 데이터셋으로, 대화 데이터 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

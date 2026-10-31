@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/mldr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/mldr"
-downloads: 4538
+downloads: 4622
 summary: "MLDR 데이터셋은 BGE-M3 모델 학습용 삼중항 문장 쌍 데이터를 제공한다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "martinsu/latvian-wikipedia-qa-gemma3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/martinsu/latvian-wikipedia-qa-gemma3"
-downloads: 32
+downloads: 35
 summary: "라트비아어 위키백과 문서 기반 다중턴 질의응답 합성 데이터셋으로 대화형 AI 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

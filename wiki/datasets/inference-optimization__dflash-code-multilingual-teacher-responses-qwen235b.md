@@ -3,7 +3,7 @@ type: "dataset"
 id: "inference-optimization/dflash-code-multilingual-teacher-responses-qwen235b"
 source: "huggingface"
 url: "https://huggingface.co/datasets/inference-optimization/dflash-code-multilingual-teacher-responses-qwen235b"
-downloads: 152
+downloads: 127
 summary: "Qwen3-235B 모델이 생성한 코드 및 다국어 교사 응답 데이터셋으로, DFlash 추론 최적화용임."
 readme_status: "ok"
 readme_language: "en"

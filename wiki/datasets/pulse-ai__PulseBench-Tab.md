@@ -3,7 +3,7 @@ type: "dataset"
 id: "pulse-ai/PulseBench-Tab"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pulse-ai/PulseBench-Tab"
-downloads: 216
+downloads: 187
 summary: "PulseBench-Tab은 9개 언어 문서 이미지에서 표 추출을 위한 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

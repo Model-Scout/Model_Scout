@@ -3,7 +3,7 @@ type: "dataset"
 id: "unalignment/toxic-dpo-v0.2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/unalignment/toxic-dpo-v0.2"
-downloads: 232
+downloads: 234
 summary: "DPO를 이용해 모델의 검열을 해제하는 데 쓰이는 고독성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
