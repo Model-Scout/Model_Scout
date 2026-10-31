@@ -20,12 +20,15 @@ answer with an off-taxonomy task or a malformed constraint fails validation, not
 from __future__ import annotations
 
 import argparse
+import functools
 import importlib.util
 import json
 import logging
 import operator
 import os
+import time
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Annotated, Any, Literal, Optional, TypedDict
@@ -86,6 +89,28 @@ class State(TypedDict, total=False):
     turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
 
 
+def ttl_cache(seconds, maxsize=512):
+    """Memoize JSON-serializable results for a while: model search hits Supabase, which the CI
+    refreshes daily, so a 10-minute window is safe. Values are stored as JSON so callers can
+    never mutate a cached result."""
+    def decorate(fn):
+        store = {}
+
+        @functools.wraps(fn)
+        def wrapper(*args):
+            hit = store.get(args)
+            if hit and time.time() - hit[0] < seconds:
+                return json.loads(hit[1])
+            value = fn(*args)
+            if len(store) >= maxsize:
+                store.pop(next(iter(store)))
+            store[args] = (time.time(), json.dumps(value, ensure_ascii=False))
+            return value
+        return wrapper
+    return decorate
+
+
+@functools.lru_cache(maxsize=1)
 def _load_09():
     spec = importlib.util.spec_from_file_location("model_scout_mcp", ROOT / "09_model_scout_mcp_readonly.py")
     module = importlib.util.module_from_spec(spec)
@@ -116,28 +141,29 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   commercial_only: true only if they mention 상업/수익/서비스 출시/commercial.
   max_parameter_count_billion: only for a stated GPU/memory limit (24GB GPU ~ 8, 16GB ~ 4, 8GB ~ 2), else null.
   min_context_length: only for stated long inputs (긴 문서, 계약서 전체 등), else null.
-dataset_terms: 1-4 short words for the project's data domain and input length, Korean or English (e.g. 교통, 위치, 장문, legal).
+dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
+  (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
 dataset_query: one Korean sentence describing the data the project needs.
 When PREVIOUS_PLAN is given, the user is refining it: return the whole updated plan, changing only
 what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets the size limit)."""
 
-EXPLAIN_PROMPT = """You are Model Scout. Answer in Korean markdown (headings and bullets, never JSON or code blocks)
-using ONLY the JSON given: the plan, models
-retrieved per need, datasets per model, project training datasets, and service data. For each need: the top
-model with why it fits (task, context length, license), up to two alternatives, and its datasets with the
-reasons listed. Then "프로젝트 학습·평가 데이터" (project_training) and "서비스 데이터 (공공데이터)" (service_data:
-서울 열린데이터광장 / 공공데이터포털 sources the app would call or load at runtime). Write model and dataset ids exactly as given. If a list is empty, say so
-and suggest what to search instead. Copy license and context_length values verbatim; never invent ids,
-numbers, or licenses, and never call an 'unknown' license commercial. End with one line of caveats
-(license 'unknown', 신뢰도 낮은 연결 marked '?')."""
+EXPLAIN_PROMPT = """You are Model Scout. The client already shows every retrieved model and dataset as
+cards, so write a short Korean markdown briefing (no JSON, no code blocks, about 250-400 words) using ONLY the JSON
+given: for each need, the top model in one line with why it fits (task, context length, license) and the
+alternatives by id only; then the 2-3 most useful datasets per need, "프로젝트 학습·평가 데이터" (project_training,
+top 3) and "서비스 데이터 (공공데이터)" (service_data, top 3: 서울 열린데이터광장 / 공공데이터포털 sources the app
+calls at runtime), each with a few-word reason. Write ids exactly as given; copy license and context_length
+verbatim; never invent ids, numbers, or licenses; never call an 'unknown' license commercial. If a list is empty,
+say so and what to search instead. End with one line of caveats (license 'unknown', '?' = weak link)."""
 
 
-def decompose(state: State) -> State:
-    user = state["request"]
-    if state.get("plan"):
-        history = "\n".join(f"- {t['request']}" for t in (state.get("turns") or [])[-HISTORY_TURNS:])
-        user = (f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n{json.dumps(state['plan'], ensure_ascii=False)}"
-                f"\n\nNEW_MESSAGE:\n{state['request']}")
+@ttl_cache(seconds=24 * 3600)
+def _first_plan(request):
+    """A first-turn plan depends only on the request (temperature 0), so it is cached."""
+    return _parse_plan(request)
+
+
+def _parse_plan(user):
     response = _openai().chat.completions.parse(
         model=LLM_MODEL, temperature=0, max_tokens=800, response_format=ProjectPlan,
         messages=[{"role": "system", "content": DECOMPOSE_PROMPT}, {"role": "user", "content": user}])
@@ -145,7 +171,15 @@ def decompose(state: State) -> State:
     if plan is None:
         raise ValueError(f"planner refused: {response.choices[0].message.refusal}")
     plan.needs = plan.needs[:MAX_NEEDS]
-    return {"plan": plan.model_dump()}
+    return plan.model_dump()
+
+
+def decompose(state: State) -> State:
+    if not state.get("plan"):
+        return {"plan": _first_plan(" ".join(state["request"].split()))}
+    history = "\n".join(f"- {t['request']}" for t in (state.get("turns") or [])[-HISTORY_TURNS:])
+    return {"plan": _parse_plan(f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
+                                f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}")}
 
 
 def _compact_model(row):
@@ -157,19 +191,27 @@ def _compact_model(row):
             "url": row.get("model_url")}
 
 
+@ttl_cache(seconds=600)
+def _model_rows(query, task_filters, max_params, min_context):
+    out = _load_09().search_models(query, match_count=MODELS_PER_NEED * 2, task_filters=list(task_filters) or None,
+                                   korean_required=True, max_parameter_count_billion=max_params,
+                                   min_context_length=min_context)
+    return [_compact_model(r) for r in out["results"]]
+
+
 def search_models(state: State) -> State:
-    tools, constraints = _load_09(), state["plan"]["constraints"]
-    found = []
-    for need in state["plan"]["needs"]:
-        out = tools.search_models(need["model_query"], match_count=MODELS_PER_NEED * 2,
-                                  task_filters=hf_tags(need["task"]) or None, korean_required=True,
-                                  max_parameter_count_billion=constraints["max_parameter_count_billion"],
-                                  min_context_length=constraints["min_context_length"])
-        rows = [_compact_model(r) for r in out["results"]]
+    constraints = state["plan"]["constraints"]
+
+    def one(need):
+        rows = _model_rows(need["model_query"], tuple(hf_tags(need["task"])),
+                           constraints["max_parameter_count_billion"], constraints["min_context_length"])
         if constraints["commercial_only"]:
             rows = [r for r in rows if r["commercial_use"] == "commercial"]
-        found.append({"need": need, "models": rows[:MODELS_PER_NEED]})
-    return {"models": found}
+        return {"need": need, "models": rows[:MODELS_PER_NEED]}
+
+    # Needs are independent searches (one DB round trip each); run them side by side.
+    with ThreadPoolExecutor(max_workers=MAX_NEEDS) as pool:
+        return {"models": list(pool.map(one, state["plan"]["needs"]))}
 
 
 def _compact_dataset(row):
@@ -178,35 +220,49 @@ def _compact_dataset(row):
 
 def search_datasets(state: State) -> State:
     entities = load_graph()[0]
-    commercial = state["plan"]["constraints"]["commercial_only"]
-    per_model = {}
-    for group in state["models"]:
-        # The top model that the hypergraph knows; Supabase can be ahead of the local graph.
-        for model in group["models"]:
-            if f"model:{model['model_id']}" in entities:
-                rows = datasets_for_model(model["model_id"], commercial_only=commercial, limit=DATASETS_PER_MODEL)
-                per_model[model["model_id"]] = [_compact_dataset(r) for r in rows]
-                break
     plan = state["plan"]
+    commercial = plan["constraints"]["commercial_only"]
+    # The top model per need that the hypergraph knows; Supabase can be ahead of the local graph.
+    top_models = [next((m["model_id"] for m in group["models"] if f"model:{m['model_id']}" in entities), None)
+                  for group in state["models"]]
+    top_models = list(dict.fromkeys(m for m in top_models if m))
     terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
-    vector = embed_query(plan["dataset_query"])
-    pool = rank_datasets(concepts_from_terms(terms), query_vector=vector, commercial_only=commercial, limit=PROJECT_POOL)
-    training = [_compact_dataset(r) for r in pool if r["source"] in ("huggingface", "kaggle")][:PROJECT_DATASETS]
-    # Service data is matched on the project's domain alone; model tasks say nothing about it.
-    served = rank_datasets(concepts_from_terms(plan["dataset_terms"]), query_vector=vector, commercial_only=commercial,
-                           roles=["service"], limit=PROJECT_DATASETS)
-    service = [_compact_dataset(r) for r in served]
-    return {"datasets": {"per_model": per_model, "project_training": training, "service_data": service}}
+
+    with ThreadPoolExecutor(max_workers=len(top_models) + 2) as pool:
+        vector = pool.submit(embed_query, plan["dataset_query"])
+        per_model_jobs = {m: pool.submit(datasets_for_model, m, commercial_only=commercial, limit=DATASETS_PER_MODEL)
+                          for m in top_models}
+        query_vector = vector.result()
+        project_job = pool.submit(rank_datasets, concepts_from_terms(terms), query_vector=query_vector,
+                                  commercial_only=commercial, limit=PROJECT_POOL, keywords=plan["dataset_terms"])
+        # Service data is matched on the project's domain alone; model tasks say nothing about it.
+        service_job = pool.submit(rank_datasets, concepts_from_terms(plan["dataset_terms"]), query_vector=query_vector,
+                                  commercial_only=commercial, roles=["service"], limit=PROJECT_DATASETS,
+                                  keywords=plan["dataset_terms"])
+        per_model = {m: [_compact_dataset(r) for r in job.result()] for m, job in per_model_jobs.items()}
+        training = [_compact_dataset(r) for r in project_job.result() if r["source"] in ("huggingface", "kaggle")]
+        service = [_compact_dataset(r) for r in service_job.result()]
+    return {"datasets": {"per_model": per_model, "project_training": training[:PROJECT_DATASETS], "service_data": service}}
 
 
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets")}
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
-    response = _openai().chat.completions.create(
-        model=LLM_MODEL, temperature=0, max_tokens=1800,
+    from langgraph.config import get_stream_writer
+
+    # Tokens go out as they arrive (stream_mode="custom"), so a web client shows the answer while
+    # it is still being written; the full text is also kept in state for the checkpoint.
+    write, parts = get_stream_writer(), []
+    stream = _openai().chat.completions.create(
+        model=LLM_MODEL, temperature=0, max_tokens=900, stream=True,
         messages=[{"role": "system", "content": EXPLAIN_PROMPT},
                   {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}])
-    answer = response.choices[0].message.content
+    for chunk in stream:
+        delta = chunk.choices[0].delta.content if chunk.choices else None
+        if delta:
+            parts.append(delta)
+            write({"token": delta})
+    answer = "".join(parts)
     return {"answer": answer, "turns": [{"request": state["request"], "answer": answer}]}
 
 

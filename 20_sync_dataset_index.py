@@ -4,11 +4,12 @@ Reads data/dataset_index (14) and data/hypergraph (13) and mirrors them into
 public.model_scout_datasets / public.model_scout_dataset_chunks (supabase_dataset_schema.sql).
 The local index is the source of truth and the tables are derived from it: only chunks whose
 text hash changed are uploaded, and datasets or chunks that left the index are deleted.
-Everything runs in one transaction, so a failed sync leaves the previous index intact.
+Writes are committed in batches (upserts first, deletes last), so an interrupted sync leaves a
+superset of the index and a rerun resumes from the text-hash diff.
 
 Storage is budgeted (free Supabase = 500 MB): vectors are halfvec, chunk text is a 600-char
 preview (full text stays in data/dataset_index/chunks.jsonl), and the sync refuses to write
-when the projected database size passes SUPABASE_DB_BUDGET_MB (default 450).
+when the projected database size passes SUPABASE_DB_BUDGET_MB (default 480).
 
     python 20_sync_dataset_index.py            # offline validation and size estimate
     python 20_sync_dataset_index.py --apply    # write Supabase
@@ -30,7 +31,11 @@ TEXT_PREVIEW_CHARS = 600
 # Postgres bytes per chunk beyond its text: halfvec (2 B x 1536), tuple header, pk/fk/hash indexes.
 CHUNK_OVERHEAD_BYTES = 2 * DIMENSION + 400
 DATASET_OVERHEAD_BYTES = 300
-DEFAULT_BUDGET_MB = 450
+# Free tier turns read-only at 500 MB; 480 leaves room for model-table growth between syncs.
+DEFAULT_BUDGET_MB = 480
+# Measured 2026-11-01: 34.8K chunks + 15K datasets took 209 MB against a 160 MB raw estimate
+# (TOAST, page fill, index pages), so the estimate is scaled up before the budget check.
+STORAGE_FACTOR = 1.35
 
 
 def read_jsonl(path):
@@ -70,7 +75,8 @@ def validate(manifest, chunks, vectors, entities):
 def estimated_bytes(chunks, entities):
     text = sum(len(c["text"][:TEXT_PREVIEW_CHARS].encode("utf-8")) for c in chunks)
     entity = sum(len(json.dumps(e, ensure_ascii=False).encode("utf-8")) for e in entities.values())
-    return text + len(chunks) * CHUNK_OVERHEAD_BYTES + entity + len(entities) * DATASET_OVERHEAD_BYTES
+    raw = text + len(chunks) * CHUNK_OVERHEAD_BYTES + entity + len(entities) * DATASET_OVERHEAD_BYTES
+    return int(raw * STORAGE_FACTOR)
 
 
 def check_budget(cur, needed_bytes):
@@ -97,29 +103,38 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
         with conn.cursor() as cur:
             projected_mb = check_budget(cur, estimated_bytes(chunks, entities))
         conn.rollback()
-        with conn, conn.cursor() as cur:  # one transaction
+        with conn, conn.cursor() as cur:
             cur.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
-            dataset_rows = [(name, e["source"], e.get("title"), e["url"], e.get("summary_ko"), sorted(concepts[name]),
-                             json.dumps(e, ensure_ascii=False)) for name, e in entities.items()]
-            for start in range(0, len(dataset_rows), batch_size):
+
+        # Batched commits: each batch is its own short transaction (a single 200 MB transaction
+        # risks the pooler's statement timeout). Upserts run first and deletes last, so a sync
+        # that dies midway leaves a superset of the index, never a gap; rerunning resumes from
+        # the text-hash diff.
+        dataset_rows = [(name, e["source"], e.get("title"), e["url"], e.get("summary_ko"), sorted(concepts[name]),
+                         json.dumps(e, ensure_ascii=False)) for name, e in entities.items()]
+        for start in range(0, len(dataset_rows), batch_size):
+            with conn, conn.cursor() as cur:
                 execute_values(cur, """
                     insert into public.model_scout_datasets
                         (dataset_id, source, title, url, summary_ko, concepts, entity)
                     values %s
                     on conflict (dataset_id) do update set source = excluded.source, title = excluded.title,
                         url = excluded.url, summary_ko = excluded.summary_ko, concepts = excluded.concepts,
-                        entity = excluded.entity, active = true, updated_at = now()""",
+                        entity = excluded.entity, active = true, updated_at = now()
+                    -- unchanged rows are skipped: a no-op update still writes a new tuple (bloat)
+                    where (model_scout_datasets.entity, model_scout_datasets.concepts, model_scout_datasets.active)
+                          is distinct from (excluded.entity, excluded.concepts, true)""",
                     dataset_rows[start:start + batch_size])
-            cur.execute("delete from public.model_scout_datasets where not (dataset_id = any(%s))", (list(entities),))
-            removed_datasets = cur.rowcount
 
+        with conn, conn.cursor() as cur:
             cur.execute("select chunk_id, text_hash from public.model_scout_dataset_chunks")
             stored = dict(cur.fetchall())
-            changed = [i for i, c in enumerate(chunks) if stored.get(c["chunk_id"]) != c["text_hash"]]
-            for start in range(0, len(changed), batch_size):
-                rows = [(chunks[i]["chunk_id"], chunks[i]["dataset_id"], chunks[i]["kind"], chunks[i]["heading_path"],
-                         chunks[i]["text"][:TEXT_PREVIEW_CHARS], chunks[i]["text_hash"], vector_literal(vectors[i]))
-                        for i in changed[start:start + batch_size]]
+        changed = [i for i, c in enumerate(chunks) if stored.get(c["chunk_id"]) != c["text_hash"]]
+        for start in range(0, len(changed), batch_size):
+            rows = [(chunks[i]["chunk_id"], chunks[i]["dataset_id"], chunks[i]["kind"], chunks[i]["heading_path"],
+                     chunks[i]["text"][:TEXT_PREVIEW_CHARS], chunks[i]["text_hash"], vector_literal(vectors[i]))
+                    for i in changed[start:start + batch_size]]
+            with conn, conn.cursor() as cur:
                 execute_values(cur, """
                     insert into public.model_scout_dataset_chunks
                         (chunk_id, dataset_id, kind, heading_path, text, text_hash, embedding)
@@ -128,10 +143,14 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
                         heading_path = excluded.heading_path, text = excluded.text, text_hash = excluded.text_hash,
                         embedding = excluded.embedding, updated_at = now()""",
                     rows, template="(%s, %s, %s, %s, %s, %s, %s::halfvec)")
-                print(f"[SYNC] chunks {min(start + batch_size, len(changed))}/{len(changed)}", flush=True)
+            print(f"[SYNC] chunks {min(start + batch_size, len(changed))}/{len(changed)}", flush=True)
+
+        with conn, conn.cursor() as cur:
             cur.execute("delete from public.model_scout_dataset_chunks where not (chunk_id = any(%s))",
                         ([c["chunk_id"] for c in chunks],))
             removed_chunks = cur.rowcount
+            cur.execute("delete from public.model_scout_datasets where not (dataset_id = any(%s))", (list(entities),))
+            removed_datasets = cur.rowcount
         with conn.cursor() as cur:
             cur.execute("select count(*) from public.model_scout_dataset_chunks")
             total = cur.fetchone()[0]
@@ -140,14 +159,15 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
             table_size, db_size = cur.fetchone()
     finally:
         conn.close()
-    return {"projected_mb": projected_mb, "datasets": len(dataset_rows), "removed_datasets": removed_datasets, "uploaded_chunks": len(changed),
-            "removed_chunks": removed_chunks, "chunks_in_db": total, "chunks_table": table_size, "database": db_size}
+    return {"projected_mb": projected_mb, "datasets": len(dataset_rows), "removed_datasets": removed_datasets,
+            "uploaded_chunks": len(changed), "removed_chunks": removed_chunks, "chunks_in_db": total,
+            "chunks_table": table_size, "database": db_size}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--apply", action="store_true", help="write Supabase")
-    parser.add_argument("--batch-size", type=int, default=200)
+    parser.add_argument("--batch-size", type=int, default=300)
     parser.add_argument("--self-check", action="store_true")
     args = parser.parse_args()
     if args.self_check:
@@ -179,7 +199,7 @@ def self_check():
     except SystemExit:
         pass
     sample = [{"text": "가" * 1000}]
-    assert estimated_bytes(sample, {}) == 3 * TEXT_PREVIEW_CHARS + CHUNK_OVERHEAD_BYTES  # preview only, UTF-8 bytes
+    assert estimated_bytes(sample, {}) == int((3 * TEXT_PREVIEW_CHARS + CHUNK_OVERHEAD_BYTES) * STORAGE_FACTOR)
     print("20_sync_dataset_index ok")
 
 

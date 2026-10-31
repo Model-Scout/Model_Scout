@@ -33,7 +33,9 @@ HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 DATASET_INDEX_DIR = DATA_DIR / "dataset_index"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 # ponytail: hand-set weights; tune against the golden set once dataset queries exist there.
-FACET_WEIGHTS = {"task": 3.0, "domain": 2.0, "input_length": 2.0, "language": 1.0, "input_modality": 0.5}
+# input_length mostly filters (longer-than-model data is excluded); a large bonus let any long, loosely
+# tagged set outrank core data once the download floor was dropped, so it only nudges.
+FACET_WEIGHTS = {"task": 3.0, "domain": 2.0, "input_length": 1.0, "language": 1.0, "input_modality": 0.5}
 TRAINED_WITH_BONUS = 5.0
 # ponytail: dense cosine for text-embedding-3-small sits ~0.1-0.7; x10 makes 0.1 cosine worth one point.
 DENSE_WEIGHT = 10.0
@@ -44,6 +46,30 @@ DENSE_ONLY_MIN = 0.45
 DENSE_MIN = 0.40
 README_PENALTY = {"template": -2.0, "thin": -2.0, "missing": -2.0}
 CONFIDENCE_WEIGHT = {"high": 1.0, "medium": 0.8, "low": 0.3}
+# Data built for a neighbouring task still trains or evaluates the model: embedding models are
+# trained and benchmarked on retrieval corpora (MIRACL, Ko-StrategyQA) and NLI/STS pairs.
+# ponytail: hand-set affinities; tune with the dataset golden set.
+TASK_AFFINITY = {
+    "embedding": {"retrieval": 0.7, "reranking": 0.5},
+    "retrieval": {"embedding": 0.7, "reranking": 0.5},
+    "reranking": {"retrieval": 0.8, "embedding": 0.6},
+    "generation": {"question_answering": 0.7, "summarization": 0.6, "translation": 0.5, "language_modeling": 0.5},
+    "question_answering": {"generation": 0.6, "retrieval": 0.5},
+    "summarization": {"generation": 0.6},
+    "translation": {"generation": 0.5},
+}
+HARD_MODALITIES = {"input_modality/image", "input_modality/video", "input_modality/audio"}
+# Every model here serves Korean, so the language facet scores Korean coverage only; in this
+# Korean-heavy corpus an English match is the rarer hub and would otherwise outscore it.
+SCORED_LANGUAGES = {"language/ko"}
+# Lexical layer for the words a user actually typed (따릉이, 미세먼지, 서울): exact title matches
+# and region fit matter for public data, where one schema exists per city or province.
+KEYWORD_BONUS, KEYWORD_BONUS_CAP = 1.0, 2.0
+REGION_MATCH_BONUS, REGION_MISMATCH_PENALTY = 1.5, -3.0
+REGIONS = ("서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충청북도", "충남",
+           "충청남도", "전북", "전라북도", "전남", "전라남도", "경북", "경상북도", "경남", "경상남도", "제주")
+REGION_CANON = {"충청북도": "충북", "충청남도": "충남", "전라북도": "전북", "전라남도": "전남", "경상북도": "경북",
+                "경상남도": "경남"}
 KOREAN_FOCUS_BONUS = {"ko_only": 1.5, "ko_with_others": 1.0, "wide_multilingual": 0.0, "not_ko": -1.0}
 
 
@@ -138,7 +164,8 @@ def dense_scores(query_vector):
     return dict(zip(names, best.tolist()))
 
 
-def embed_query(text):
+@functools.lru_cache(maxsize=1024)
+def embed_query(text):  # deterministic per text; repeated demo questions skip the API call
     from dotenv import load_dotenv
     from openai import OpenAI
 
@@ -164,12 +191,49 @@ def concepts_from_terms(terms):
     return found
 
 
-def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10):
+def dataset_regions(entity):
+    """Regions a dataset is about, from its source and title; empty for national data."""
+    if entity.get("source") == "seoul_open_data":
+        return {"서울"}
+    title = entity.get("title") or ""
+    return {REGION_CANON.get(r, r) for r in REGIONS if r in title}
+
+
+def keyword_score(entity, keywords):
+    """Bonus for typed words found in the title, plus region fit when the user named a region."""
+    if not keywords:
+        return 0.0, []
+    title = (entity.get("title") or entity["name"]).casefold()
+    wanted = {REGION_CANON.get(k, k) for k in keywords if k in REGIONS}
+    words = [k for k in keywords if k not in REGIONS and len(k) >= 2]
+    found = [k for k in words if k.casefold() in title]
+    score, reasons = min(KEYWORD_BONUS * len(found), KEYWORD_BONUS_CAP), [f"'{k}' 일치" for k in found]
+    regions = dataset_regions(entity)
+    if wanted and regions:
+        if regions & wanted:
+            score += REGION_MATCH_BONUS
+            reasons.append(f"{'/'.join(sorted(regions & wanted))} 지역")
+        else:
+            score += REGION_MISMATCH_PENALTY
+    return score, reasons
+
+
+def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10,
+                  keywords=()):
     entities, concepts, by_entity, members, _, confidence = load_graph()
     dense = dense_scores(query_vector) if query_vector is not None else {}
     n = len(entities)
-    target_tasks = {c for c in target_concepts if c.startswith("task/")}
+    # Dataset task -> (affinity, the target task it serves). A neighbour match is scored as a
+    # fraction of a direct match on the *target* hub, so a rare neighbour (요약) cannot outrank
+    # the model's own crowded task (생성) on idf alone.
+    task_affinity = {}
+    for concept_id in (c for c in target_concepts if c.startswith("task/")):
+        task = concept_id.split("/", 1)[1]
+        for other, affinity in {task: 1.0, **TASK_AFFINITY.get(task, {})}.items():
+            if affinity > task_affinity.get(f"task/{other}", (0.0, None))[0]:
+                task_affinity[f"task/{other}"] = (affinity, concept_id)
     target_length = _length_rank(target_concepts)
+    target_inputs = {c for c in target_concepts if c.startswith("input_modality/")}
     results = []
     for entity_id, entity in entities.items():
         if entity["kind"] != "dataset":
@@ -179,9 +243,14 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         similarity = dense.get(entity["name"])
         trusted_tasks = {c for c in dataset_concepts if c.startswith("task/") and confidence[entity_id, c] >= 0.8}
         topical = similarity is not None and similarity >= DENSE_ONLY_MIN
-        if not (target_tasks & trusted_tasks or linked or (topical and not trusted_tasks)):
+        if not (task_affinity.keys() & trusted_tasks or linked or (topical and not trusted_tasks)):
             continue
         if similarity is not None and similarity < DENSE_MIN and not linked:
+            continue
+        # A model cannot consume a modality it has no input for: a text reranker gains nothing from
+        # visual-document retrieval sets even though their queries are text.
+        dataset_inputs = {c for c in dataset_concepts if c.startswith("input_modality/")}
+        if target_inputs and not linked and (dataset_inputs & HARD_MODALITIES) - target_inputs:
             continue
         if commercial_only and "commercial_use/commercial" not in dataset_concepts:
             continue
@@ -190,20 +259,36 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         reasons, score = [], TRAINED_WITH_BONUS if linked else 0.0
         if linked:
             reasons.append("학습 데이터로 인용됨")
-        for concept_id in sorted(target_concepts & dataset_concepts):
+        # One contribution per facet (its best match): a dataset tagged with ten languages or
+        # tasks should not outscore one that matches the model's single language or task.
+        best = {}
+        matched = (target_concepts | task_affinity.keys()) & dataset_concepts
+        for concept_id in sorted(matched):
             facet = concept_id.split("/", 1)[0]
-            if facet in FACET_WEIGHTS and facet != "input_length":
-                weight = confidence[entity_id, concept_id]
-                score += weight * FACET_WEIGHTS[facet] * math.log(n / len(members[concept_id]))
-                reasons.append(concepts[concept_id]["label"] + ("?" if weight < 0.8 else ""))
+            if facet not in FACET_WEIGHTS or facet == "input_length":
+                continue
+            if facet == "language" and concept_id not in SCORED_LANGUAGES:
+                continue
+            affinity, hub = task_affinity.get(concept_id, (1.0, concept_id))
+            weight = confidence[entity_id, concept_id] * affinity
+            value = weight * FACET_WEIGHTS[facet] * math.log(n / len(members[hub]))
+            if value > best.get(facet, (0.0, None))[0]:
+                best[facet] = (value, concept_id)
+        for facet, (value, concept_id) in best.items():
+            score += value
+            weight = confidence[entity_id, concept_id]
+            reasons.append(concepts[concept_id]["label"] + ("?" if weight < 0.8 else ""))
         dataset_length = _length_rank(dataset_concepts)
         if target_length is not None and dataset_length is not None:
             if dataset_length > target_length:
                 continue
+            # Compatibility, not topic: a flat bonus, so a rare long-text hub cannot outrank task fit.
             length_id = next(c for c in dataset_concepts if c.startswith("input_length/"))
-            weight = 1.0 if dataset_length == target_length else 0.5
-            score += weight * FACET_WEIGHTS["input_length"] * math.log(n / len(members[length_id]))
+            score += FACET_WEIGHTS["input_length"] * (1.0 if dataset_length == target_length else 0.5)
             reasons.append(f"{concepts[length_id]['label']} (모델 입력 길이 이내)")
+        bonus, matched_words = keyword_score(entity, keywords)
+        score += bonus
+        reasons += matched_words
         graph_score = score
         if similarity is not None:
             score += DENSE_WEIGHT * similarity
@@ -247,7 +332,7 @@ if __name__ == "__main__":
         rows = datasets_for_model(args.model, **filters)
     else:
         vector = embed_query(args.query) if args.query else None
-        rows = rank_datasets(concepts_from_terms(args.terms), query_vector=vector, **filters)
+        rows = rank_datasets(concepts_from_terms(args.terms), query_vector=vector, keywords=args.terms, **filters)
     for row in rows:
         print(f"{row['score']:7.2f}  graph {row['graph_score']:5.1f}  dense {row['dense'] or 0:.2f}  "
               f"{row['dataset']:<50} {' · '.join(row['reasons'])}" + (f"  [{row['title']}]" if row.get("title") else ""))
