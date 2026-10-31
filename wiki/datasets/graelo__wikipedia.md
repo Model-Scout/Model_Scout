@@ -1,0 +1,40 @@
+---
+type: "dataset"
+id: "graelo/wikipedia"
+source: "huggingface"
+url: "https://huggingface.co/datasets/graelo/wikipedia"
+downloads: 936
+readme_status: "ok"
+readme_language: "en"
+korean_focus: "wide_multilingual"
+task:
+  - "[[텍스트 생성]]"
+  - "[[언어 모델링]]"
+input_modality:
+  - "[[텍스트 (입력 형식)|텍스트]]"
+output_modality:
+  - "[[텍스트 (출력 형식)|텍스트]]"
+language:
+  - "[[한국어]]"
+  - "[[다국어]]"
+commercial_use:
+  - "[[상업 이용 가능]]"
+  - "[[조건부 이용]]"
+dataset_size:
+  - "[[초대규모 데이터]]"
+---
+# graelo/wikipedia
+
+> dataset · [Hugging Face](https://huggingface.co/datasets/graelo/wikipedia)
+
+## 분류
+
+- **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 high
+- **작업**: [[언어 모델링]] — metadata · task_categories, task_ids = `fill-mask` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:generation, task:language_modeling = `text` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation, task:language_modeling = `text` · 신뢰도 medium
+- **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
+- **언어**: [[다국어]] — metadata · languages = `316 languages` · 신뢰도 high
+- **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-3.0` · 신뢰도 high
+- **상업 이용**: [[조건부 이용]] — metadata · license = `gfdl` · 신뢰도 high
+- **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `999999999.0` · 신뢰도 high

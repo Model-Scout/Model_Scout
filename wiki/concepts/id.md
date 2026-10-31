@@ -1,0 +1,55 @@
+---
+type: "concept"
+facet: "language"
+key: "id"
+members: 25
+---
+# id
+
+facet: [[언어]] · 개념 id `language/id`
+
+## 모델 (2)
+
+- [[omai-research__milco-300m|omai-research/milco-300m]]
+- [[Aya168__aya-expanse-8b-tofu-13lang-v3|Aya168/aya-expanse-8b-tofu-13lang-v3]]
+
+## 데이터셋 (23)
+
+- [[meaecosystem__pustaka|meaecosystem/pustaka]]
+- [[khursanirevo__dialogue-episodes|khursanirevo/dialogue-episodes]]
+- [[3ae3ae3ae__mmlu-prox-lite-evals|3ae3ae3ae/mmlu-prox-lite-evals]]
+- [[AIM-Intelligence__XL-SafetyBench|AIM-Intelligence/XL-SafetyBench]]
+- [[AmazonScience__tydi-as2|AmazonScience/tydi-as2]]
+- [[floschne__xgqa|floschne/xgqa]]
+- [[khursanirevo__multiturn_ks|khursanirevo/multiturn_ks]]
+- [[ZWHTXY__MMAC-Bench|ZWHTXY/MMAC-Bench]]
+- [[Egor-3926__CoT-XLang|Egor-3926/CoT-XLang]]
+- [[rileykim__MMDoc|rileykim/MMDoc]]
+- [[humane-lab__PetQA|humane-lab/PetQA]]
+- [[uilab__JuICE|uilab/JuICE]]
+- [[neuralfoundry-coder__multilingual-translation-thinking-fast|neuralfoundry-coder/multilingual-translation-thinking-fast]]
+- [[DABAOSs__dialogue-episodes|DABAOSs/dialogue-episodes]]
+- [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
+- [[floschne__xgqa_1k|floschne/xgqa_1k]]
+- [[telepix__STELLA|telepix/STELLA]]
+- [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
+- [[meituan__PIE_bench|meituan/PIE_bench]]
+- [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
+- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
+- [[neuralfoundry-coder__multilingual-translation-fast|neuralfoundry-coder/multilingual-translation-fast]]
+- [[neulab__PangeaBench-xchat|neulab/PangeaBench-xchat]]
+
+## 함께 연결된 개념
+
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 24
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 22
+- [[상업 이용 가능]] (상업 이용) · 공유 17
+- [[중규모 데이터]] (데이터 규모) · 공유 10
+- [[Parquet]] (데이터 형식) · 공유 9
+- [[질의응답]] (작업) · 공유 8
+- [[평가용]] (데이터 용도) · 공유 7
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 7
+- [[소규모 데이터]] (데이터 규모) · 공유 6
+- [[비상업 전용]] (상업 이용) · 공유 6
+- [[이미지 이해]] (작업) · 공유 6
+- [[텍스트 생성]] (작업) · 공유 5

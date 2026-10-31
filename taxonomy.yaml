@@ -1,0 +1,345 @@
+# Model Scout 분류 체계 (controlled vocabulary, SKOS 방식)
+#
+# - facet: 속성 종류 (작업, 언어, 입력 길이 ...).
+# - value: 개념 하나 = 위키 허브 페이지 하나([[label]]) = 하이퍼엣지 하나.
+#   그 개념에 매핑된 모델·데이터셋이 모두 이 허브로 연결된다.
+# - aliases: NER/메타데이터 원문 값을 이 개념으로 모으는 별칭. 대소문자·하이픈·밑줄·공백 차이는 무시.
+#   한 facet 안에서 같은 별칭이 두 개념에 걸리면 taxonomy.py가 로드 시 에러를 낸다.
+# - applies_to: model과 dataset 둘 다 있으면 모델↔데이터셋 연결에 쓰는 공유 facet.
+# - ordinal: 숫자를 구간(max 이하)으로 매핑. 값 순서가 곧 크기 순서.
+
+version: 1
+
+facets:
+  task:
+    label: 작업
+    applies_to: [model, dataset]
+    values:
+      retrieval:
+        label: 문서 검색
+        aliases: [text-retrieval, visual-document-retrieval, document retrieval, semantic search, dense retrieval, sparse retrieval, rag, 검색, 의미 검색]
+      embedding:
+        label: 임베딩
+        aliases: [feature-extraction, sentence-similarity, semantic-similarity-scoring, embeddings, sentence embedding, 문장 임베딩, 문장 유사도]
+      reranking:
+        label: 리랭킹
+        aliases: [text-ranking, re-ranking, reranker, cross-encoder, 재정렬, 재순위화]
+      generation:
+        label: 텍스트 생성
+        aliases: [text-generation, text2text-generation, chat, conversational, instruction following, llm, 대화, 챗봇]
+      summarization:
+        label: 요약
+        aliases: [summary, 문서 요약]
+      translation:
+        label: 번역
+        aliases: [machine translation, 기계 번역]
+      question_answering:
+        label: 질의응답
+        aliases: [question-answering, extractive qa, open-domain-qa, closed-domain-qa, multiple-choice, multiple-choice-qa, qa, mrc, 질문 답변, 기계독해]
+      classification:
+        label: 텍스트 분류
+        aliases: [text-classification, zero-shot-classification, natural-language-inference, multi-class-classification,
+                  multi-label-classification, multi-input-text-classification, intent-classification, topic-classification,
+                  sentiment-classification, semantic-similarity-classification, hate-speech-detection, text-scoring,
+                  sentiment analysis, nli, 분류, 감성 분석, 자연어 추론]
+      information_extraction:
+        label: 정보 추출
+        aliases: [token-classification, ner, named entity recognition, 개체명 인식, 텍스트 추출]
+      speech_recognition:
+        label: 음성 인식
+        aliases: [automatic-speech-recognition, audio-text-to-text, asr, speech-to-text, stt, 받아쓰기]
+      text_to_speech:
+        label: 음성 합성
+        aliases: [text-to-speech, text-to-audio, tts]
+      visual_qa:
+        label: 이미지 이해
+        aliases: [image-text-to-text, video-text-to-text, visual-question-answering, vqa, image-to-text, image captioning, 이미지 질의응답, 이미지 캡션]
+      ocr:
+        label: 문서 인식(OCR)
+        aliases: [document-question-answering, document understanding, 문서 인식, 광학 문자 인식]
+      chart_understanding:
+        label: 차트 이해
+        aliases: [chartqa, chart qa, chart understanding, 차트 질의응답, 도표 이해]
+      table_qa:
+        label: 표 질의응답
+        aliases: [table-question-answering, tabular qa]
+      tool_use:
+        label: 도구 호출
+        aliases: [function calling, tool calling, 함수 호출]
+      forecasting:
+        label: 시계열 예측
+        aliases: [time-series-forecasting, time series forecasting, 수요 예측]
+      language_modeling:
+        label: 언어 모델링
+        aliases: [fill-mask, language-modeling, masked-language-modeling, pretraining corpus, 사전학습 말뭉치]
+      audio_classification:
+        label: 음성 분류
+        aliases: [audio-classification, keyword-spotting, audio-emotion-recognition, voice-activity-detection, 감정 인식]
+      vision:
+        label: 이미지 인식
+        aliases: [image-classification, zero-shot-image-classification, object-detection, image-segmentation, 객체 탐지]
+      image_generation:
+        label: 이미지 생성
+        aliases: [text-to-image, image-to-image]
+      tabular_prediction:
+        label: 표 데이터 예측
+        aliases: [tabular-classification, tabular-regression]
+
+  input_modality:
+    label: 입력 형식
+    applies_to: [model, dataset]
+    values: &modalities
+      text:
+        label: 텍스트
+        aliases: [txt, 문장]
+      image:
+        label: 이미지
+        aliases: [images, 사진, 그림]
+      audio:
+        label: 음성
+        aliases: [speech, 오디오, 소리]
+      video:
+        label: 영상
+        aliases: [동영상]
+      table:
+        label: 표
+        aliases: [tabular, 표 데이터, 정형 데이터]
+      time_series:
+        label: 시계열
+        aliases: [time series, timeseries, 시계열 데이터]
+      geospatial:
+        label: 위치·좌표
+        aliases: [gis, geojson, shp, 좌표, 위경도, 위도, 경도, latitude, longitude]
+      document:
+        label: 문서 파일
+        aliases: [pdf, docx, hwp, 문서]
+      code:
+        label: 코드
+        aliases: [source code, 소스 코드]
+
+  output_modality:
+    label: 출력 형식
+    applies_to: [model, dataset]
+    values: *modalities
+
+  language:
+    label: 언어
+    applies_to: [model, dataset]
+    # 별칭은 retrieval_metadata.normalize_language_code가 먼저 ISO 코드로 바꾼다.
+    # open: 여기에 없는 언어 코드도 그대로 개념으로 받는다.
+    open: true
+    values:
+      ko:
+        label: 한국어
+      en:
+        label: 영어
+      ja:
+        label: 일본어
+        aliases: [jp]
+      zh:
+        label: 중국어
+        aliases: [cn, zh-cn, zh-tw]
+      multilingual:
+        label: 다국어
+        # 규칙: 언어 3개 이상이면 개별 언어와 함께 다국어에도 매핑
+        aliases: [multi-lingual, multilingual]
+
+  input_length:
+    label: 입력 길이
+    applies_to: [model, dataset]
+    ordinal: true
+    unit: tokens
+    # 모델: 최대 입력 길이(context_length). 데이터셋: 샘플 길이 p90.
+    # 연결 규칙: 모델 구간 >= 데이터셋 구간이면 처리 가능, 같으면 해당 길이 평가용으로 우선 추천.
+    values:
+      short:
+        label: 단문
+        max: 512
+        aliases: [sentence, 짧은 문장]
+      medium:
+        label: 중문
+        max: 4096
+        aliases: [paragraph, 단락]
+      long:
+        label: 장문
+        max: 16384
+        aliases: [long document, long context, 긴 문서]
+      very_long:
+        label: 초장문
+        max: 131072
+        aliases: [very long context, 128k]
+      ultra_long:
+        label: 극장문
+        max: null
+        aliases: [ultra long context, 1m context]
+
+  commercial_use:
+    label: 상업 이용
+    applies_to: [model, dataset]
+    values:
+      commercial:
+        label: 상업 이용 가능
+        aliases: [apache-2.0, mit, bsd-2-clause, bsd-3-clause, cc0-1.0, cc-by-3.0, cc-by-4.0, cc-by-sa-3.0, cc-by-sa-4.0,
+                  unlicense, wtfpl, openmdw-1.1, cc-by-2.0, cc-by-2.5, mpl-2.0, ms-pl, cdla-permissive-2.0,
+                  odbl, cdla-sharing-1.0, odc-by, pddl, "CC0: Public Domain", 공공누리 제1유형, 공공누리 1유형, kogl type 1,
+                  공공누리 제3유형, 공공누리 3유형, kogl type 3]
+      non_commercial:
+        label: 비상업 전용
+        aliases: [cc-by-nc-2.0, cc-by-nc-3.0, cc-by-nc-4.0, cc-by-nc-sa-2.0, cc-by-nc-sa-3.0, cc-by-nc-sa-4.0, cc-by-nc-nd-4.0,
+                  공공누리 제2유형, 공공누리 2유형, kogl type 2, 공공누리 제4유형, 공공누리 4유형, kogl type 4]
+      conditional:
+        label: 조건부 이용
+        # 자체 라이선스(사용자 수·용도 제한), 카피레프트(소스 공개 의무), 변경금지(ND, 파인튜닝 결과물 배포 제한): 원문 확인 필요
+        aliases: [other, gpl, gfdl, cc-by-nd-4.0, gpl-2.0, gpl-3.0, lgpl-3.0, agpl-3.0, llama2, llama3, llama3.1, llama3.2, llama3.3, llama4, gemma, openrail, openrail++,
+                  creativeml-openrail-m, bigscience-openrail-m, bigscience-bloom-rail-1.0, exaone, qwen,
+                  tongyi-qianwen]
+      unknown:
+        label: 이용 조건 미확인
+        aliases: [none, unknown, "null", "", cc]
+
+  domain:
+    label: 도메인
+    applies_to: [model, dataset]
+    values:
+      transport:
+        label: 교통·모빌리티
+        aliases: [traffic, transportation, mobility, 교통, 자전거, 따릉이, 주차, 주차장, 버스, 지하철, 도로]
+      location:
+        label: 지리·위치
+        aliases: [geographic, poi, map, 지도, 주소, 위치]
+      environment:
+        label: 환경·기상
+        aliases: [weather, climate, 날씨, 기상, 대기, 미세먼지]
+      health:
+        label: 의료·보건
+        aliases: [medical, clinical, healthcare, 의료, 보건, 병원]
+      legal:
+        label: 법률
+        aliases: [law, 법령, 판결문, 판례]
+      finance:
+        label: 금융·경제
+        aliases: [financial, economy, 금융, 경제, 주식]
+      education:
+        label: 교육
+        aliases: [교육, 학교, 수능]
+      public_admin:
+        label: 행정·민원
+        aliases: [government, civil complaint, 행정, 민원, 정책, 다산콜]
+      culture_tourism:
+        label: 문화·관광
+        aliases: [tourism, culture, 관광, 문화, 축제]
+      commerce:
+        label: 상거래·상품
+        aliases: [e-commerce, shopping, product review, 쇼핑, 상품, 리뷰]
+      news_media:
+        label: 뉴스·미디어
+        aliases: [news, 뉴스, 기사, 방송]
+      academic:
+        label: 학술·논문
+        aliases: [scientific, paper, arxiv, 논문, 학술]
+      general:
+        label: 일반
+        aliases: [general domain, wikipedia, web, 위키백과]
+
+  dataset_role:
+    label: 데이터 용도
+    applies_to: [dataset]
+    values:
+      train:
+        label: 학습용
+        aliases: [training, pretraining, fine-tuning, instruction tuning, sft, 학습, 파인튜닝]
+      evaluation:
+        label: 평가용
+        aliases: [benchmark, eval, test set, 벤치마크, 평가]
+      service:
+        label: 서비스 데이터
+        aliases: [open api, 오픈 api, 파일데이터, 공공데이터]
+
+  data_format:
+    label: 데이터 형식
+    applies_to: [dataset]
+    values:
+      csv:
+        label: CSV
+        aliases: [tsv, xlsx, xls, 엑셀]
+      json:
+        label: JSON
+        aliases: [jsonl, json lines]
+      xml:
+        label: XML
+      text_file:
+        label: 텍스트 파일
+        aliases: [text, txt]
+      parquet:
+        label: Parquet
+        aliases: [arrow, optimized-parquet]
+      api:
+        label: API
+        aliases: [rest api, openapi, 오픈 api 제공]
+      geo_file:
+        label: 공간 파일
+        aliases: [shapefile, kml, geojson 파일]
+      media_files:
+        label: 미디어 파일
+        aliases: [jpg, png, wav, mp3, mp4, imagefolder, audiofolder, webdataset]
+
+  update_frequency:
+    label: 갱신 주기
+    applies_to: [dataset]
+    values:
+      realtime:
+        label: 실시간
+        aliases: [real-time, 실시간 제공]
+      daily:
+        label: 일간
+        aliases: [매일, 일 단위]
+      monthly:
+        label: 월간
+        aliases: [매월, 월 단위]
+      yearly:
+        label: 연간
+        aliases: [매년, 연 단위]
+      irregular:
+        label: 비정기
+        aliases: [수시, 비정기적]
+      static:
+        label: 고정
+        aliases: [갱신 없음, one-time]
+
+  dataset_size:
+    label: 데이터 규모
+    applies_to: [dataset]
+    ordinal: true
+    unit: examples
+    values:
+      small_data:
+        label: 소규모 데이터
+        max: 10000
+      medium_data:
+        label: 중규모 데이터
+        max: 1000000
+      large_data:
+        label: 대규모 데이터
+        max: 100000000
+      huge_data:
+        label: 초대규모 데이터
+        max: null
+
+  model_size:
+    label: 모델 크기
+    applies_to: [model]
+    ordinal: true
+    unit: billion_parameters
+    values:
+      tiny:
+        label: 초경량 모델
+        max: 1
+      small:
+        label: 소형 모델
+        max: 8
+      medium:
+        label: 중형 모델
+        max: 34
+      large:
+        label: 대형 모델
+        max: null
