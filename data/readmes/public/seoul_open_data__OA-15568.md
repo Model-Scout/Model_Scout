@@ -1,0 +1,35 @@
+# 서울시 상권분석서비스(길단위인구-상권)
+
+서울시 상권분석서비스(길단위인구-상권). 서울시 상권분석서비스(길단위인구-상권)
+
+서비스명: VwsmTrdarFlpopQq
+
+## 제공 필드
+
+- 연령대_10_유동인구_수 (AGRDE_10_FLPOP_CO)
+- 연령대_20_유동인구_수 (AGRDE_20_FLPOP_CO)
+- 연령대_30_유동인구_수 (AGRDE_30_FLPOP_CO)
+- 연령대_40_유동인구_수 (AGRDE_40_FLPOP_CO)
+- 연령대_50_유동인구_수 (AGRDE_50_FLPOP_CO)
+- 연령대_60_이상_유동인구_수 (AGRDE_60_ABOVE_FLPOP_CO)
+- 여성_유동인구_수 (FML_FLPOP_CO)
+- 금요일_유동인구_수 (FRI_FLPOP_CO)
+- 남성_유동인구_수 (ML_FLPOP_CO)
+- 월요일_유동인구_수 (MON_FLPOP_CO)
+- 토요일_유동인구_수 (SAT_FLPOP_CO)
+- 기준_년분기_코드 (STDR_YYQU_CD)
+- 일요일_유동인구_수 (SUN_FLPOP_CO)
+- 목요일_유동인구_수 (THUR_FLPOP_CO)
+- 시간대_00_06_유동인구_수 (TMZON_00_06_FLPOP_CO)
+- 시간대_06_11_유동인구_수 (TMZON_06_11_FLPOP_CO)
+- 시간대_11_14_유동인구_수 (TMZON_11_14_FLPOP_CO)
+- 시간대_14_17_유동인구_수 (TMZON_14_17_FLPOP_CO)
+- 시간대_17_21_유동인구_수 (TMZON_17_21_FLPOP_CO)
+- 시간대_21_24_유동인구_수 (TMZON_21_24_FLPOP_CO)
+- 총_유동인구_수 (TOT_FLPOP_CO)
+- 상권_코드 (TRDAR_CD)
+- 상권_코드_명 (TRDAR_CD_NM)
+- 상권_구분_코드 (TRDAR_SE_CD)
+- 상권_구분_코드_명 (TRDAR_SE_CD_NM)
+- 화요일_유동인구_수 (TUES_FLPOP_CO)
+- 수요일_유동인구_수 (WED_FLPOP_CO)

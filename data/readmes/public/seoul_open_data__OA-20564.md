@@ -1,0 +1,19 @@
+# 서울시 보육교직원 보수교육 안내
+
+서울시 보육교직원 보수교육 안내. 서울시 보육교직원 보수교육_교육신청
+
+서비스명: TvEduapplylist
+
+## 제공 필드
+
+- 주소 (ADDR)
+- 신청인원 (APLYCNT)
+- 신청정원 (CAPACNT)
+- 교육시작일자 (EDUFRDATE)
+- 교육과정기수 (EDUGISU)
+- 교육상태명(예정/마감/신청) (EDUSTATE)
+- 교육종료일자 (EDUTODATE)
+- 교육년도 (EDUYY)
+- 교육과정명 (EDU_NAME)
+- 교육기관명 (SISUL_NAME)
+- 연락처 (TEL)

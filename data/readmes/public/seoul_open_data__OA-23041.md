@@ -1,0 +1,33 @@
+# 서울시 문화행사 정보
+
+서울시 문화행사 정보. (AI친화)서울시 문화행사 정보
+
+서비스명: aiViewCulture
+
+## 제공 필드
+
+- 자치구코드 (CGG_CD)
+- 분류 (CODENAME)
+- 날짜 (DATE)
+- 종료일 (END_DATE)
+- 기타내용 (ETC_DESC)
+- 자치구 (GUNAME)
+- 문화포털상세URL (HMPG_ADDR)
+- 문의 (INQUIRY)
+- 유무료 (IS_FREE)
+- 위도(X좌표) (LAT)
+- 경도(Y좌표) (LOT)
+- 대표이미지 (MAIN_IMG)
+- 홈페이지 주소 (ORG_LINK)
+- 기관명 (ORG_NAME)
+- 장소 (PLACE)
+- 출연자정보 (PLAYER)
+- 프로그램소개 (PROGRAM)
+- 행사시간 (PRO_TIME)
+- 신청일 (RGSTDATE)
+- 시작일 (STRTDATE)
+- 테마분류 (THEMECODE)
+- 시민/기관 (TICKET)
+- 공연/행사명 (TITLE)
+- 이용요금 (USE_FEE)
+- 이용대상 (USE_TRGT)

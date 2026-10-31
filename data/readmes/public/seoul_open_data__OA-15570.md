@@ -1,0 +1,34 @@
+# 서울시 상권분석서비스(직장인구-상권배후지)
+
+서울시 상권분석서비스(직장인구-상권배후지). 서울시 상권분석서비스(직장인구-상권배후지)
+
+서비스명: Vwsm_TrdhlWrcPopltnQq
+
+## 제공 필드
+
+- 연령대_10_직장_인구_수 (AGRDE_10_WRC_POPLTN_CO)
+- 연령대_20_직장_인구_수 (AGRDE_20_WRC_POPLTN_CO)
+- 연령대_30_직장_인구_수 (AGRDE_30_WRC_POPLTN_CO)
+- 연령대_40_직장_인구_수 (AGRDE_40_WRC_POPLTN_CO)
+- 연령대_50_직장_인구_수 (AGRDE_50_WRC_POPLTN_CO)
+- 연령대_60_이상_직장_인구_수 (AGRDE_60_ABOVE_WRC_POPLTN_CO)
+- 여성연령대_10_직장_인구_수 (FAG_10_WRC_POPLTN_CO)
+- 여성연령대_20_직장_인구_수 (FAG_20_WRC_POPLTN_CO)
+- 여성연령대_30_직장_인구_수 (FAG_30_WRC_POPLTN_CO)
+- 여성연령대_40_직장_인구_수 (FAG_40_WRC_POPLTN_CO)
+- 여성연령대_50_직장_인구_수 (FAG_50_WRC_POPLTN_CO)
+- 여성연령대_60_이상_직장_인구_수 (FAG_60_ABOVE_WRC_POPLTN_CO)
+- 여성_직장_인구_수 (FML_WRC_POPLTN_CO)
+- 남성연령대_10_직장_인구_수 (MAG_10_WRC_POPLTN_CO)
+- 남성연령대_20_직장_인구_수 (MAG_20_WRC_POPLTN_CO)
+- 남성연령대_30_직장_인구_수 (MAG_30_WRC_POPLTN_CO)
+- 남성연령대_40_직장_인구_수 (MAG_40_WRC_POPLTN_CO)
+- 남성연령대_50_직장_인구_수 (MAG_50_WRC_POPLTN_CO)
+- 남성연령대_60_이상_직장_인구_수 (MAG_60_ABOVE_WRC_POPLTN_CO)
+- 남성_직장_인구_수 (ML_WRC_POPLTN_CO)
+- 기준_년분기_코드 (STDR_YYQU_CD)
+- 총_직장_인구_수 (TOT_WRC_POPLTN_CO)
+- 상권배후지_코드 (TRDAR_CD)
+- 상권배후지_코드_명 (TRDAR_CD_NM)
+- 상권_구분_코드 (TRDAR_SE_CD)
+- 상권_구분_코드_명 (TRDAR_SE_CD_NM)

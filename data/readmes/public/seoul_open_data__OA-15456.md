@@ -1,0 +1,16 @@
+# 서울시 보육통계 보육교사 1인당 아동수 현황 정보
+
+서울시 보육통계 보육교사 1인당 아동수 현황 정보. 보육교사 1인당 아동수 현황
+
+서비스명: statOnePerChildInfo
+
+## 제공 필드
+
+- 자치구코드 (ARCODE)
+- 자치구명 (ARCODENM)
+- 보육아동수_여 (CHILDFPN)
+- 보육아동수_남 (CHILDMPN)
+- 통계연도 (STYEAR)
+- 보육교사수_여 (TEACHERFPN)
+- 뵤육교사수_남 (TEACHERMPN)
+- 보육교사 1인당 아동수 (TEACHERRATE)

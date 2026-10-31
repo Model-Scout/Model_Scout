@@ -1,0 +1,12 @@
+# 서울시 황사 경보 현황
+
+서울시 황사 경보 현황. 서울시 황사 경보 조회
+
+서비스명: WarningYellowDustService
+
+## 제공 필드
+
+- 오염물질 종류 (ARPO_KND)
+- 행동요령(경보) (BKH_WARN)
+- 발표시간(YYYYMMDDHHMI) (PRSNTN_TM)
+- 경보 등급 (WARN_GRD)

@@ -1,0 +1,50 @@
+# 서울시 시영주차장 실시간 주차대수 정보
+
+서울시 시영주차장 실시간 주차대수 정보. 서울시 시영주차장 실시간 주차대수 정보
+
+서비스명: GetParkingInfo
+
+## 제공 필드
+
+- 주소 (ADDR)
+- 추가 단위 요금 (ADD_PRK_CRG)
+- 추가 단위 시간(분 단위) (ADD_PRK_HR)
+- 기본 주차 요금 (BSC_PRK_CRG)
+- 기본 주차 시간(분 단위) (BSC_PRK_HR)
+- 버스 추가 단위 시간(분 단위) (BUS_ADD_PRK_CRG)
+- 버스 추가 단위 요금 (BUS_ADD_PRK_HR)
+- 버스 기본 주차 요금 (BUS_BSC_PRK_CRG)
+- 버스 기본 주차 시간(분 단위) (BUS_BSC_PRK_HR)
+- 일 최대 요금 (DAY_MAX_CRG)
+- 공휴일 유,무료 구분 (LHLDY_CHGD_FREE_SE)
+- 공휴일 유,무료 구분명 (LHLDY_CHGD_FREE_SE_NAME)
+- 공휴일 운영 시작시각(HHMM) (LHLDY_OPER_BGNG_TM)
+- 공휴일 운영 종료시각(HHMM) (LHLDY_OPER_END_TM)
+- 야간무료개방여부 (NGHT_PAY_YN)
+- 야간무료개방여부명 (NGHT_PAY_YN_NM)
+- 현재 주차 차량수 (NOW_PRK_VHCL_CNT)
+- 현재 주차 차량수 업데이트시간 (NOW_PRK_VHCL_UPDT_TM)
+- 운영구분 (OPER_SE)
+- 운영구분명 (OPER_SE_NM)
+- 유무료구분 (PAY_YN)
+- 유무료구분명 (PAY_YN_NM)
+- 주차장코드 (PKLT_CD)
+- 주차장명 (PKLT_NM)
+- 주차장 종류 (PKLT_TYPE)
+- 월 정기권 금액 (PRD_AMT)
+- 주차현황 정보 제공여부명 (PRK_STTS_NM)
+- 주차현황 정보 제공여부 (PRK_STTS_YN)
+- 주차장 종류명 (PRK_TYPE_NM)
+- 토요일 유,무료 구분명 (SAT_CHGD_FREE_NM)
+- 토요일 유,무료 구분 (SAT_CHGD_FREE_SE)
+- 공유 주차장 기타사항 (SHRN_PKLT_ETC): Y:공유주차장 N:공유주차장 아님
+- 공유 주차장 관리업체명 (SHRN_PKLT_MNG_NM)
+- 공유 주차장 관리업체 링크 (SHRN_PKLT_MNG_URL)
+- 공유 주차장 여부 (SHRN_PKLT_YN)
+- 노상 주차장 관리그룹번호 (STRT_PKLT_MNG_NO)
+- 전화번호 (TELNO)
+- 총 주차면 (TPKCT)
+- 평일 운영 시작시각(HHMM) (WD_OPER_BGNG_TM)
+- 평일 운영 종료시각(HHMM) (WD_OPER_END_TM)
+- 주말 운영 시작시각(HHMM) (WE_OPER_BGNG_TM)
+- 주말 운영 종료시각(HHMM) (WE_OPER_END_TM)

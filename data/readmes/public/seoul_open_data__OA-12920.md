@@ -1,0 +1,46 @@
+# 서울주택도시개발공사_결산내역
+
+서울주택도시개발공사_결산내역. 서울주택도시개발공사_결산내역
+
+서비스명: ctySoaInfo
+
+## 제공 필드
+
+- 자산합계 (AST_SUM)
+- 당좌자산 (CA_AST)
+- 법인세비용 (COTX_CST)
+- 자본조정 (CPAD)
+- 자본금 (CPTL)
+- 자본합계 (CPT_SUM)
+- 유동자산 (CRAST)
+- 유동부채 (CRLBL)
+- 기타비유동자산 (ETC_AST)
+- 기타사업 (ETC_BIZ)
+- 기타사업_원가 (ETC_BIZ_ORG)
+- 기타포괄손익누계액 (ETC_PFLS_ACTOT)
+- 주택건설사업 (HS_BIZ)
+- 주택건설사업_원가 (HS_BIZ_ORG)
+- 재고자산 (INVT_AST)
+- 무형자산 (ITN_AST)
+- 투자자산 (IVST_AST)
+- 부채와자본합계 (LBLT_CPT_SUM)
+- 부채합계 (LBLT_SUM)
+- 분양택지 (LTOT)
+- 분양택지_원가 (LTOT_ORG)
+- 비유동자산 (NCAST)
+- 비유동부채 (NCLBL)
+- 판매비와 관리비 (NTSL_MNCO)
+- 경상이익 (ORDPF)
+- 이익잉여금 (PRF_SRAMT)
+- 임대사업 (RENT_BIZ)
+- 임대사업_원가 (RENT_BIZ_ORG)
+- 영업외 비용 (SALS_EX_CST)
+- 영업외 수익 (SALS_EX_PRF)
+- 영업이익 (SALS_PRF)
+- 매출액 (SLS)
+- 매출원가 (SLS_PRMCO)
+- 매출총이익 (SLS_TPRF)
+- 당기순이익 (THTM_NETPF)
+- 세전순이익 (TXTN_NETPF)
+- 유형자산 (TYPE_AST)
+- 년도 (YR)

@@ -1,22 +1,23 @@
 {
   "entities": {
     "model": 3853,
-    "dataset": 1760
+    "dataset": 5936
   },
-  "links": 57177,
+  "links": 82530,
   "relations": 2203,
   "links_by_method": {
-    "metadata": 40565,
+    "metadata": 57269,
     "ner": 7161,
-    "tag_match": 342,
+    "tag_match": 4808,
     "viewer_stats": 956,
     "task_rule": 8084,
-    "name_rule": 69
+    "name_rule": 76,
+    "source_rule": 4176
   },
   "links_by_confidence": {
-    "high": 40112,
+    "high": 56816,
     "low": 4086,
-    "medium": 12979
+    "medium": 21628
   },
   "coverage": {
     "model": {
@@ -30,30 +31,30 @@
       "model_size": "2336/3853"
     },
     "dataset": {
-      "task": "1613/1760",
-      "input_modality": "1748/1760",
-      "output_modality": "1559/1760",
-      "language": "1571/1760",
-      "input_length": "956/1760",
-      "commercial_use": "1760/1760",
-      "domain": "1391/1760",
-      "dataset_role": "1578/1760",
-      "data_format": "1325/1760",
-      "update_frequency": "0/1760",
-      "dataset_size": "1648/1760"
+      "task": "1613/5936",
+      "input_modality": "5924/5936",
+      "output_modality": "1559/5936",
+      "language": "5747/5936",
+      "input_length": "956/5936",
+      "commercial_use": "5936/5936",
+      "domain": "4675/5936",
+      "dataset_role": "5754/5936",
+      "data_format": "5501/5936",
+      "update_frequency": "0/5936",
+      "dataset_size": "1648/5936"
     }
   },
   "dataset_readme_status": {
     "template": 124,
-    "ok": 1470,
-    "thin": 117,
+    "ok": 5408,
+    "thin": 355,
     "missing": 49
   },
   "dataset_korean_focus": {
     "not_ko": 354,
     "wide_multilingual": 660,
     "ko_with_others": 389,
-    "ko_only": 357
+    "ko_only": 4533
   },
   "unmapped_top": {
     "dataset.data_format.format": [

@@ -1,0 +1,17 @@
+# 서울시 상권분석서비스(상권변화지표-자치구)
+
+서울시 상권분석서비스(상권변화지표-자치구). 서울시 상권분석서비스(상권변화지표-자치구)
+
+서비스명: VwsmSignguIxQq
+
+## 제공 필드
+
+- 폐업_영업_개월_평균 (CLS_SALE_MT_AVRG)
+- 운영_영업_개월_평균 (OPR_SALE_MT_AVRG)
+- 자치구_코드 (SIGNGU_CD)
+- 자치구_코드_명 (SIGNGU_CD_NM)
+- 기준_년분기_코드 (STDR_YYQU_CD)
+- 서울_폐업_영업_개월_평균 (SU_CLS_SALE_MT_AVRG)
+- 서울_운영_영업_개월_평균 (SU_OPR_SALE_MT_AVRG)
+- 상권_변화_지표 (TRDAR_CHNGE_IX)
+- 상권_변화_지표_명 (TRDAR_CHNGE_IX_NM)

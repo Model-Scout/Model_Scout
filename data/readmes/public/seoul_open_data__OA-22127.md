@@ -1,0 +1,33 @@
+# 공동체주택 홈페이지 주택 호실 정보
+
+공동체주택 홈페이지 주택 호실 정보. 한국고용정보원_공동체주택 홈페이지 주택 호실 정보 샘플
+
+서비스명: TmHomeRoomView
+
+## 제공 필드
+
+- 층 (ADDR_FLR)
+- 호 (ADDR_HO)
+- 실 (ADDR_SIL)
+- 면적 (AREA)
+- 보증금 (DPST)
+- 평면도이미지 타입 (GRPL_IMG_TYPE)
+- 주거형태-01:기타, 02:다세대주택, 03:도시형생활주택, 04:연립주택, 05:단독주택, 06:아파트, 07:기숙사, 08:근린생활시설 (HAB_TYPE)
+- 주택코드 (HS_CD)
+- 주택정보 호실 번호 (HS_INFO_HOSIL_NO)
+- 공동사용면적 (JNT_USE_AREA)
+- 전세금 (LODB_PRC)
+- 분양 매매가 (LTOT_TRD_PRC)
+- 수정자-uniq_id 입력 (MDFCN_ID)
+- 수정일 (MDFCN_YMD)
+- 월임대료 (MM_RTFE)
+- 관리비 (MNCO)
+- 입주타입-01:1인1실, 02:2인1실, 03:3인1실, 04:기타 (MOVIN_TYPE)
+- 입주가능일 (MVN_PSBLTY_DAY)
+- 입주가능인원 (MVN_PSBLTY_PPL)
+- 입주신청상태여부-y:입주신청중, n:입주마감 (MVN_REG_STTS_YN)
+- 등록일 (REG_DAY)
+- 등록자-uniq_id 입력 (REG_ID)
+- 방 이름 (ROOM_NM)
+- 정렬 (SORT)
+- 사용여부 (USE_YN)

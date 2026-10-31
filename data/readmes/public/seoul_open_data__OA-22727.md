@@ -1,0 +1,22 @@
+# 서울시 교통공사 지하철역 편의시설위치정보 승차권자동발매기 현황
+
+서울시 교통공사 지하철역 편의시설위치정보 승차권자동발매기 현황. 서울시 편의시설위치정보 승차권자동발매기 현황
+
+서비스명: getFcTkatm
+
+## 제공 필드
+
+- 기준일자 (crtrYmd)
+- 상세위치 (dtlPstn)
+- 시설명 (fcltNm)
+- 시설번호 (fcltNo)
+- 지상지하구분 (grndUdgdSe)
+- 호선명 (lineNm)
+- 관리번호 (mngNo)
+- 역코드 (stnCd)
+- 역층 (stnFlr)
+- 역명 (stnNm)
+- 역번호 (stnNo)
+- 발매기수량 (tkmchnQty)
+- 발매기유형 (tkmchnType)
+- 근접출입구번호 (vcntEntrcNo)

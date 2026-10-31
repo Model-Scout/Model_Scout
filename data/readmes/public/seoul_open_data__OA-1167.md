@@ -1,0 +1,20 @@
+# 서울시 하천 수위 현황
+
+서울시 하천 수위 현황. 서울시 하천 수위 정보
+
+서비스명: ListRiverStageService
+
+## 제공 필드
+
+- 통제수위(m) (CNTRL_WATL): 통제수위(m)
+- 송신지 자료수집 시각 (DTRSM_DATA_CLCT_TM): 송신지 자료수집 시각
+- 제방고(m) (EBM_HGT): 제방고(m)
+- 구청명 (GU_OFC_NM): 구청명
+- 계획홍수위(m) (PLAN_FLDE): 계획홍수위(m)
+- 하상고(m) (RBH): 하상고(m)
+- 수신서버 저장 시각 (RCPTN_SRVR_STRG_TM): 수신서버 저장 시각
+- 실시간 하천 수위값(m) (RLTM_RVR_WATL_CNT): 실시간 하천 수위값(m)
+- 하천명 (RVR_NM): 하천명
+- 구청코드 (STDG_SGG_CD): 구청코드
+- 수위계코드 (WATG_CD): 수위계코드
+- 수위계명 (WATG_NM): 수위계명

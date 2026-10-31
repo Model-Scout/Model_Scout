@@ -27,6 +27,7 @@ HUB_MEMBER_LIMIT = 100
 COOCCURRING_LIMIT = 12
 UNSAFE_RE = re.compile(r'[\\/:*?"<>|#^\[\]]')
 FACET_ORDER = list(load_taxonomy()["facets"])
+SOURCE_LABELS = {"huggingface": "Hugging Face", "seoul_open_data": "서울 열린데이터광장", "data_go_kr": "공공데이터포털"}
 
 
 def read_jsonl(path):
@@ -89,7 +90,7 @@ def render_entity(entity, links, relations, pages, concepts, entities):
         if by_facet.get(facet):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
-    body = [f"# {entity['name']}", "", f"> {entity['kind']} · [Hugging Face]({entity['url']})", ""]
+    body = [f"# {entity['name']}", "", f"> {entity['kind']} · [{SOURCE_LABELS.get(entity['source'], entity['source'])}]({entity['url']})", ""]
     if entity.get("summary_ko"):
         body += [entity["summary_ko"], ""]
     body += ["## 분류", ""]

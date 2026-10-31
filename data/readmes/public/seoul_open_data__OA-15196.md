@@ -1,0 +1,18 @@
+# 서울시 전세버스업체 정보
+
+서울시 전세버스업체 정보. 서울특별시 전세버스업체 정보
+
+서비스명: rentalBusBizInfo
+
+## 제공 필드
+
+- 개업일자 (ADDR_LOC)
+- 재개업일자 (ADDR_POST)
+- 휴업시작일자 (CAR_TEL)
+- 도로명전체주소 (DEPT_CEO)
+- 소재지전체주소 (DEPT_NM)
+- 휴업종료일자 (FAX_TEL)
+- 구분 (OFFICE_SE)
+- 영업상태명 (OFFICE_TEL)
+- 폐업일자 (SAL_TEL)
+- 사업장명 (SEQ)

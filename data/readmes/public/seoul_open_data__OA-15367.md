@@ -1,0 +1,18 @@
+# 서울시 한양도성 순성안내 구간 주요지점 정보
+
+서울시 한양도성 순성안내 구간 주요지점 정보. 한양도성 순성안내 구간 주요지점
+
+서비스명: hanYangCourseDetailInfo
+
+## 제공 필드
+
+- 지점 이미지 (SCD_IMG)
+- 지점 이미지 저장경로 (SCD_IMG_PATH)
+- 지점 설명 (SCD_INFO)
+- 도성까지 거리 (SCD_LENGTH)
+- 지점 명 (SCD_NAME)
+- 등록일 (SCD_RDATE)
+- 지점 관리번호 (SCD_SEQ)
+- 도성까지 시간 (SCD_TIME)
+- 최종수정일 (SCD_UDATE)
+- 구간 관리번호 (SCM_SEQ)

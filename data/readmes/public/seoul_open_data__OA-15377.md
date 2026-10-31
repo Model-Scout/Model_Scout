@@ -1,0 +1,42 @@
+# 서울생활인구 관내이동
+
+서울생활인구 관내이동. 서울 생활인구 서울 관내이동 생활인구(기준일)
+
+서비스명: SPOP_ORGN_CT_IN_SE_DONG
+
+## 제공 필드
+
+- 행정동코드 (ADSTRD_CODE_SE)
+- 여자10세부터14세생활인구수 (FEMALE_F10T14_LVPOP_CO)
+- 여자15세부터19세생활인구수 (FEMALE_F15T19_LVPOP_CO)
+- 여자20세부터24세생활인구수 (FEMALE_F20T24_LVPOP_CO)
+- 여자25세부터29세생활인구수 (FEMALE_F25T29_LVPOP_CO)
+- 여자30세부터34세생활인구수 (FEMALE_F30T34_LVPOP_CO)
+- 여자35세부터39세생활인구수 (FEMALE_F35T39_LVPOP_CO)
+- 여자40세부터44세생활인구수 (FEMALE_F40T44_LVPOP_CO)
+- 여자45세부터49세생활인구수 (FEMALE_F45T49_LVPOP_CO)
+- 여자50세부터54세생활인구수 (FEMALE_F50T54_LVPOP_CO)
+- 여자55세부터59세생활인구수 (FEMALE_F55T59_LVPOP_CO)
+- 여자60세부터64세생활인구수 (FEMALE_F60T64_LVPOP_CO)
+- 여자65세부터69세생활인구수 (FEMALE_F65T69_LVPOP_CO)
+- 여자70세부터74세생활인구수 (FEMALE_F70T74_LVPOP_CO)
+- 여자75세부터79세생활인구수 (FEMALE_F75T79_LVPOP_CO)
+- 장기체류외국인수 (LNGTR_STAY_FRGNR_CO)
+- 남자10세부터14세생활인구수 (MALE_F10T14_LVPOP_CO)
+- 남자15세부터19세생활인구수 (MALE_F15T19_LVPOP_CO)
+- 남자20세부터24세생활인구수 (MALE_F20T24_LVPOP_CO)
+- 남자25세부터29세생활인구수 (MALE_F25T29_LVPOP_CO)
+- 남자30세부터34세생활인구수 (MALE_F30T34_LVPOP_CO)
+- 남자35세부터39세생활인구수 (MALE_F35T39_LVPOP_CO)
+- 남자40세부터44세생활인구수 (MALE_F40T44_LVPOP_CO)
+- 남자45세부터49세생활인구수 (MALE_F45T49_LVPOP_CO)
+- 남자50세부터54세생활인구수 (MALE_F50T54_LVPOP_CO)
+- 남자55세부터59세생활인구수 (MALE_F55T59_LVPOP_CO)
+- 남자60세부터64세생활인구수 (MALE_F60T64_LVPOP_CO)
+- 남자65세부터69세생활인구수 (MALE_F65T69_LVPOP_CO)
+- 남자70세부터74세생활인구수 (MALE_F70T74_LVPOP_CO)
+- 남자75세부터79세생활인구수 (MALE_F75T79_LVPOP_CO)
+- 거주지 자치구 코드 (MLNG_RESDNC_CODE_SE)
+- 기준일ID (STDR_DE_ID)
+- 시간대구분 (TMZON_PD_SE)
+- 총생활인구수 (TOT_LVPOP_CO)

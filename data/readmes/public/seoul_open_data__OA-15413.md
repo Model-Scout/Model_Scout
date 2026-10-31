@@ -1,0 +1,19 @@
+# 서울시 시민참여예산사업 예산집행 정보
+
+서울시 시민참여예산사업 예산집행 정보. 참여예산사업 예산집행정보
+
+서비스명: bizSuggExecutionInfo
+
+## 제공 필드
+
+- 사업명 (BIZ_NM)
+- 사업추진단계 (BIZ_PROC_NM)
+- 예산편성사업비 (BUD_COST)
+- 사업위치 (BUD_LOC)
+- 예산편성사업명 (BUD_NM)
+- 지출금액 (EXE_COST)
+- 집행기준일 (EXE_DT)
+- 사업추진집행률 (EXE_RATE)
+- 년도 (FIS_YEAR)
+- 제안번호 (SUGG_NO)
+- 비고 (UNEXE_DESC)

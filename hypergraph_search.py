@@ -170,10 +170,13 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         graph_score = score
         if similarity is not None:
             score += DENSE_WEIGHT * similarity
-        score += 0.5 * math.log10(1 + (entity.get("downloads") or 0))
+        # Download counts are only comparable within the Hub; portal counts mean something else.
+        if entity.get("source", "huggingface") == "huggingface":
+            score += 0.5 * math.log10(1 + (entity.get("downloads") or 0))
         score += README_PENALTY.get(entity.get("readme_status"), 0.0)
         score += 0.0 if linked else KOREAN_FOCUS_BONUS.get(entity.get("korean_focus"), 0.0)
-        results.append({"dataset": entity["name"], "score": round(score, 3), "graph_score": round(graph_score, 3),
+        results.append({"dataset": entity["name"], "title": entity.get("title"), "source": entity.get("source"),
+                        "score": round(score, 3), "graph_score": round(graph_score, 3),
                         "dense": None if similarity is None else round(similarity, 3), "reasons": reasons,
                         "downloads": entity.get("downloads"), "url": entity["url"],
                         "readme_status": entity.get("readme_status"), "korean_focus": entity.get("korean_focus"),
@@ -210,4 +213,4 @@ if __name__ == "__main__":
         rows = rank_datasets(concepts_from_terms(args.terms), query_vector=vector, **filters)
     for row in rows:
         print(f"{row['score']:7.2f}  graph {row['graph_score']:5.1f}  dense {row['dense'] or 0:.2f}  "
-              f"{row['dataset']:<50} {' · '.join(row['reasons'])}")
+              f"{row['dataset']:<50} {' · '.join(row['reasons'])}" + (f"  [{row['title']}]" if row.get("title") else ""))

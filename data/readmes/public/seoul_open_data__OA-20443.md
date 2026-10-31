@@ -1,0 +1,16 @@
+# 에너지공사-월별 열공급량
+
+에너지공사-월별 열공급량. 에너지공사-월별 열공급량
+
+서비스명: TbEnergyHeatsupplyamt
+
+## 제공 필드
+
+- 지사코드 (BROF_CD)
+- 지사명 (BROF_NM)
+- 열공급량 (HSQTY)
+- 작업일시 (JOB_DT)
+- 지역코드 (RGN_CD)
+- 지역명 (RGN_NM)
+- 단위 (UNIT)
+- 년월 (YM)

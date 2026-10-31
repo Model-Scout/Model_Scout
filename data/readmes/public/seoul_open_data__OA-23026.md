@@ -1,0 +1,24 @@
+# 서울시 사회복지시설 행사정보(한국사회보장정보원)
+
+서울시 사회복지시설 행사정보(한국사회보장정보원). 서울시 사회복지시설 행사정보(한국사회보장정보원)
+
+서비스명: welfareEqpEvent
+
+## 제공 필드
+
+- 시작일자 (BGN_DE)
+- 내용 (CNTN)
+- 종료일자 (END_DE)
+- 행사담당자명 (EVNT_CRGR_NM)
+- 행사장소 (EVNT_PLC)
+- 행사전화번호 (EVNT_TEL_NO)
+- 행사대상 (EVNT_TRGET)
+- 행사대상내용 (EVNT_TRGET_CNTN)
+- 시설코드 (FCLT_CD)
+- 시설종류코드 (FCLT_KIND_CD)
+- 시설종류명 (FCLT_KIND_NM)
+- 시설명 (FCLT_NM)
+- 소관시군구코드 (JRSD_SGG_CD)
+- 소관시군구코드명 (JRSD_SGG_NM)
+- 회차 (SEQ)
+- 제목 (TITLE)

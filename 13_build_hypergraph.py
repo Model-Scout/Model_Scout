@@ -30,6 +30,7 @@ DATA_DIR = Path("data")
 OUT_DIR = DATA_DIR / "hypergraph"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
+PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"  # 서울 열린데이터광장 + 공공데이터포털 (18)
 LENGTH_INPUT = DATA_DIR / "hf_datasets_length_stats.jsonl"
 NER_INPUT = DATA_DIR / "hf_datasets_ner.jsonl"
 QUOTE_CHARS = 160
@@ -197,12 +198,23 @@ def map_dataset(linker, row, length, ner=None):
             linker.add(entity_id, "task", value, field)
     # Free-form Hub tags (no "prefix:") often name a task or domain exactly: "rag", "legal", "medical".
     free_tags = [t for t in row.get("tags") or [] if ":" not in t]
+    # Portal keywords are plain words (검색 = "search" in "지하철역 검색"), not ML task tags.
+    tag_facets = ("task", "domain") if row.get("source", "huggingface") == "huggingface" else ("domain",)
     for tag in free_tags:
-        for facet in ("task", "domain"):
+        for facet in tag_facets:
             if normalize(facet, tag):
                 linker.add(entity_id, facet, tag, "tags", method="tag_match", confidence="medium")
     if ner:
         map_ner(linker, entity_id, ner)
+    source = row.get("source", "huggingface")
+    if source != "huggingface":
+        # Public portal data is looked up by apps at runtime; titles are Korean compounds
+        # (공공자전거, 미세먼지농도) that hold a domain alias without equalling it.
+        linker.add(entity_id, "dataset_role", "service", "source", method="source_rule", confidence="medium")
+        text = " ".join([(row.get("card_data") or {}).get("pretty_name") or "", *(row.get("tags") or [])])
+        for value in load_taxonomy()["facets"]["domain"]["values"]:
+            if value != "general" and mentions("domain", value, text):
+                linker.add(entity_id, "domain", value, "title/keywords", method="tag_match", confidence="medium", concept=value)
     for value in row.get("modalities") or []:
         linker.add(entity_id, "input_modality", value, "modality")
     linker.modalities_from_tasks(entity_id)
@@ -226,12 +238,13 @@ def map_dataset(linker, row, length, ner=None):
                    method="viewer_stats", confidence="medium")
     status = readme_status(row)
     return {
-        "entity_id": entity_id, "kind": "dataset", "name": row["dataset_id"], "source": "huggingface",
+        "entity_id": entity_id, "kind": "dataset", "name": row["dataset_id"], "source": source,
         "url": row["url"], "downloads": row.get("downloads"), "likes": row.get("likes"), "gated": row.get("gated"),
         "languages": languages, "licenses": row.get("licenses"), "seed_reasons": row.get("seed_reasons"),
         "readme_path": row.get("readme_path"), "readme_language": row.get("readme_language"),
         "readme_status": status, "korean_focus": korean_focus(languages),
         "summary_ko": ner.get("summary_ko") if ner else None,
+        "title": (row.get("card_data") or {}).get("pretty_name") if source != "huggingface" else None,
         "sample_length": {k: length.get(k) for k in ("text_column", "chars", "tokens_p90_estimate", "config", "split")}
         if length and length.get("status") == "ok" else None,
     }
@@ -262,7 +275,7 @@ def main():
     entities = [map_model(linker, row) for path in MODEL_INPUTS for row in read_jsonl(path)]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
     entities += [map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
-                 for row in read_jsonl(DATASET_INPUT)]
+                 for path in (DATASET_INPUT, PUBLIC_INPUT) for row in read_jsonl(path)]
     links = sorted(linker.links.values(), key=lambda l: (l["entity_id"], l["concept_id"]))
 
     known = {e["entity_id"] for e in entities}
@@ -340,6 +353,12 @@ def self_check():
     assert by_concept["input_modality/text"]["confidence"] == "high"  # metadata raises the earlier low NER link
     assert by_concept["domain/finance"]["method"] == "ner" and by_concept["domain/finance"]["confidence"] == "medium"
     assert entity["summary_ko"] == "요약"
+    public = {"dataset_id": "seoul_open_data/OA-1", "source": "seoul_open_data", "url": "", "sha": "", "languages": ["ko"],
+              "licenses": [], "formats": ["api"], "tags": ["공공자전거", "검색"], "card_data": {"pretty_name": "서울시 공공자전거 대여소"}}
+    assert map_dataset(linker, public, None)["source"] == "seoul_open_data"
+    public_links = {l["concept_id"] for l in linker.links.values() if l["entity_id"] == "dataset:seoul_open_data/OA-1"}
+    assert {"domain/transport", "dataset_role/service", "data_format/api", "language/ko"} <= public_links, public_links
+    assert "task/retrieval" not in public_links, public_links
     print("13_build_hypergraph ok")
 
 

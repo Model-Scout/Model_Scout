@@ -1,0 +1,20 @@
+# 서울시 도로표지 설치정보
+
+서울시 도로표지 설치정보. 서울특별시 도로표지 설치정보
+
+서비스명: signalInstlInfo
+
+## 제공 필드
+
+- 근거리이미지1 (CLSRNG_IMG_1)
+- 근거리이미지2 (CLSRNG_IMG_2)
+- 근거리이미지3 (CLSRNG_IMG_3)
+- 근거리이미지4 (CLSRNG_IMG_4)
+- 근거리이미지5 (CLSRNG_IMG_5)
+- 데이터기준일자 (DATA_CRTR_YMD)
+- 원거리이미지1 (LDST_IMG_1)
+- 원거리이미지2 (LDST_IMG_2)
+- 표지종별 (RPRS_KND_NM)
+- 표지일련번호 (RPRS_SN)
+- X좌표 (XCRD)
+- Y좌표 (YCRD)

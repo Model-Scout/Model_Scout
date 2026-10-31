@@ -1,0 +1,48 @@
+# 서울시 교통공사 지하철역 편의시설위치정보 환승주차장 현황
+
+서울시 교통공사 지하철역 편의시설위치정보 환승주차장 현황. 서울시 편의시설위치정보 환승주차장 현황
+
+서비스명: getFcPklt
+
+## 제공 필드
+
+- 추가단위요금 (addUnitCrg)
+- 추가단위시간 (addUnitHr)
+- 요금정보 (crgInfo)
+- 기준일자 (crtrYmd)
+- 일주차권요금 (dayPrkvCrg)
+- 일주차권요금적용시간 (dayPrkvCrgAplyHr)
+- 부제시행구분 (dptmtplcEnfcSe)
+- 급지구분 (gdarSe)
+- 위도 (lat)
+- 소재지지번주소 (lctnLotnoAddr)
+- 소재지도로명주소 (lctnRoadNmAddr)
+- 공휴일운영시작시각 (lhldyOperBgngTm)
+- 공휴일운영종료시각 (lhldyOperEndTm)
+- 호선명 (lineNm)
+- 경도 (lot)
+- 월정기권요금 (mmCmtkCrg)
+- 관리기관명 (mngInstNm)
+- 관리기관전화번호 (mngInstTelno)
+- 관리번호 (mngNo)
+- 운영요일 (operDow)
+- 주차장관리번호 (pkltMngNo)
+- 주차장명 (pkltNm)
+- 주차장구분 (pkltSe)
+- 주차장유형 (pkltType)
+- 주차기본요금 (prkBscCrg)
+- 주차기본시간 (prkBscHr)
+- 주차구획수 (prkCmptmtCnt)
+- 제공기관코드 (pvsnInstCd)
+- 제공기관명 (pvsnInstNm)
+- 장애인전용주차구역보유여부 (pwdbsDvrPrkZoneHldYn)
+- 토요일운영시작시각 (satOperBgngTm)
+- 토요일운영종료시각 (satOperEndTm)
+- 특기사항 (spcltMttr)
+- 결제방법 (stlmMthd)
+- 역코드 (stnCd)
+- 역명 (stnNm)
+- 역번호 (stnNo)
+- 근접출입구번호 (vcntEntrcNo)
+- 평일운영시작시각 (wkdayOperBgngTm)
+- 평일운영종료시각 (wkdayOperEndTm)

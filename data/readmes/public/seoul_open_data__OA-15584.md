@@ -1,0 +1,37 @@
+# 서울시 상권분석서비스(상주인구-상권)
+
+서울시 상권분석서비스(상주인구-상권). 서울시 상권분석서비스(상주인구-상권)
+
+서비스명: VwsmTrdarRepopQq
+
+## 제공 필드
+
+- 연령대_10_상주인구_수 (AGRDE_10_REPOP_CO)
+- 연령대_20_상주인구_수 (AGRDE_20_REPOP_CO)
+- 연령대_30_상주인구_수 (AGRDE_30_REPOP_CO)
+- 연령대_40_상주인구_수 (AGRDE_40_REPOP_CO)
+- 연령대_50_상주인구_수 (AGRDE_50_REPOP_CO)
+- 연령대_60_이상_상주인구_수 (AGRDE_60_ABOVE_REPOP_CO)
+- 아파트_가구_수 (APT_HSHLD_CO)
+- 여성연령대_10_상주인구_수 (FAG_10_REPOP_CO)
+- 여성연령대_20_상주인구_수 (FAG_20_REPOP_CO)
+- 여성연령대_30_상주인구_수 (FAG_30_REPOP_CO)
+- 여성연령대_40_상주인구_수 (FAG_40_REPOP_CO)
+- 여성연령대_50_상주인구_수 (FAG_50_REPOP_CO)
+- 여성연령대_60_이상_상주인구_수 (FAG_60_ABOVE_REPOP_CO)
+- 여성_상주인구_수 (FML_REPOP_CO)
+- 남성연령대_10_상주인구_수 (MAG_10_REPOP_CO)
+- 남성연령대_20_상주인구_수 (MAG_20_REPOP_CO)
+- 남성연령대_30_상주인구_수 (MAG_30_REPOP_CO)
+- 남성연령대_40_상주인구_수 (MAG_40_REPOP_CO)
+- 남성연령대_50_상주인구_수 (MAG_50_REPOP_CO)
+- 남성연령대_60_이상_상주인구_수 (MAG_60_ABOVE_REPOP_CO)
+- 남성_상주인구_수 (ML_REPOP_CO)
+- 비_아파트_가구_수 (NON_APT_HSHLD_CO)
+- 기준_년분기_코드 (STDR_YYQU_CD)
+- 총_가구_수 (TOT_HSHLD_CO)
+- 총_상주인구_수 (TOT_REPOP_CO)
+- 상권_코드 (TRDAR_CD)
+- 상권_코드_명 (TRDAR_CD_NM)
+- 상권_구분_코드 (TRDAR_SE_CD)
+- 상권_구분_코드_명 (TRDAR_SE_CD_NM)

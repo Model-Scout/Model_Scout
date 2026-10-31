@@ -1,0 +1,14 @@
+# 서울시 불법주정차/전용차로 위반 단속 CCTV 위치정보
+
+서울시 불법주정차/전용차로 위반 단속 CCTV 위치정보. 서울시 전역 고정형CCTV 위치정보
+
+서비스명: TbOpendataFixedcctv
+
+## 제공 필드
+
+- 자치구 (CGG_CD)
+- 단속지점명 (CRDN_BRNCH_NM)
+- 고정형CCTV지번주소 (FIX_CCTV_ADDR)
+- 현장구분 (GRNDS_SE)
+- 위도 (LAT)
+- 경도 (LOT)

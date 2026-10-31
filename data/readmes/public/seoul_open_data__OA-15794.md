@@ -1,0 +1,46 @@
+# 서울시 배수펌프장 정보
+
+서울시 배수펌프장 정보. 배수펌프장 정보
+
+서비스명: Drps
+
+## 제공 필드
+
+- 주소 (ADDR)
+- 실양정 (APH)
+- 초기흡입수위 (BGNG_IHL_WATL)
+- 지선수로 (BRANCH_WWY)
+- 상세주소 (DADDR)
+- 토출수위 (DCG_WATL)
+- 전양정 (DEVH)
+- 유역면적 (DRAR)
+- 배수장_최대배수량 (DRGF_MAX_DRG_QTY)
+- 배수장_계획빈도 (DRGF_PLAN_FRQC)
+- 배수문바닥표고 (DRGG_FLR_EL)
+- 배수문규격 (DRGG_SPCFCT)
+- 제방고 (EBM_HGT)
+- 시행기관 (ENFC_INST_NM)
+- 시설물명 (FCLTY_NM)
+- 시설관리자 (FCLT_MNGR)
+- 수립년도 (FNDG_YR)
+- 부지표고 (LAND_EL)
+- 기계실바닥표고 (MCHN_ROOM_FLR_EL)
+- 간선수로 (MNL_WWY)
+- 본류하천_유역면적 (MNST_RVR_BASIN_AREA)
+- 본류하천_홍수량 (MNST_RVR_FLOOD_QTY)
+- 본류하천_계획빈도 (MNST_RVR_PLAN_FRQC)
+- 전동기 (MOTOR)
+- 계획홍수위 (PLAN_FLDE)
+- 보호면적 (PRTC_AREA)
+- 전기실바닥표고 (PRVTM_FLR_EL)
+- 펌프규격 (PUMP_SPCFCT)
+- 유수지면적 (RSRVR_AREA)
+- 유수지용량 (RSRVR_CAPC)
+- 유수지표고_HWL (RSRVR_EL_HWL)
+- 유수지표고_LWL (RSRVR_EL_LWL)
+- 하천기본계획 사업명 (RVR_BSC_PLAN_BIZ_NM)
+- 하천기본계획코드 (RVR_BSC_PLAN_CD)
+- 하천등급 (RVR_GRD)
+- 하천명 (RVR_NM)
+- 구분 (SE)
+- 일련번호 (SN)

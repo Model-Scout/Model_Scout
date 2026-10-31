@@ -1,0 +1,18 @@
+# 서울교통공사_역직원 폭행 등 감정노동 피해 현황
+
+서울교통공사_역직원 폭행 등 감정노동 피해 현황. 역직원 폭행 등 감정노동 피해 현황
+
+서비스명: tbTrfcEmpDamagePrst
+
+## 제공 필드
+
+- 피해상황 (DAMAGE_CDT)
+- 호선 (LINE)
+- 발생일자 (OCCU_DATE)
+- 발생시간 (OCCU_TIME)
+- 연번 (SN)
+- 전철역코드 (SUBW_CD)
+- 역명 (SUBW_NM)
+- 외부역번호 (TELNO)
+- 피해인원 (VICTIM)
+- 데이터 기준일자 (YMD)

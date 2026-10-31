@@ -7,7 +7,7 @@ aliases:
   - "xlsx"
   - "xls"
   - "엑셀"
-members: 110
+members: 2011
 ---
 # CSV
 
@@ -15,7 +15,7 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 
 별칭: tsv, xlsx, xls, 엑셀
 
-## 데이터셋 (110)
+## 데이터셋 (2011)
 
 - [[JailbreakBench__JBB-Behaviors|JailbreakBench/JBB-Behaviors]]
 - [[openai__MMMLU|openai/MMMLU]]
@@ -71,11 +71,11 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[sazzysara21__real-robot-driving-sessions|sazzysara21/real-robot-driving-sessions]]
 - [[k-master__k-beauty-ai-citation-dataset|k-master/k-beauty-ai-citation-dataset]]
 - [[K-University-AIED__LearningChat_ai_video_production|K-University-AIED/LearningChat_ai_video_production]]
-- [[HLeiTR__R3-eval-MMMLU|HLeiTR/R3-eval-MMMLU]]
 - [[Trelis__openassistant-deepseek-coder|Trelis/openassistant-deepseek-coder]]
+- [[HLeiTR__R3-eval-MMMLU|HLeiTR/R3-eval-MMMLU]]
 - [[HanzhiZhang__Poly-FEVER|HanzhiZhang/Poly-FEVER]]
-- [[WueNLP__mHallucination_Evaluation|WueNLP/mHallucination_Evaluation]]
 - [[JOHNISKING__claude-web-search-by-language|JOHNISKING/claude-web-search-by-language]]
+- [[WueNLP__mHallucination_Evaluation|WueNLP/mHallucination_Evaluation]]
 - [[telepix__STELLA|telepix/STELLA]]
 - [[ssgyejin__KOTOX-classification|ssgyejin/KOTOX-classification]]
 - [[rycont__hanja-grade|rycont/hanja-grade]]
@@ -86,10 +86,10 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[YenYein__mindcast-timeseries-benchmark|YenYein/mindcast-timeseries-benchmark]]
 - [[bzantium__MMMLU|bzantium/MMMLU]]
 - [[K-University-AIED__LearningChat_accounting_ai_questions|K-University-AIED/LearningChat_accounting_ai_questions]]
-- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[meetsohail__translateplus-flores-benchmark|meetsohail/translateplus-flores-benchmark]]
-- [[rubricreward__llm-metric-mrewardbench|rubricreward/llm-metric-mrewardbench]]
+- [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[sappho192__Tatoeba-Challenge-jpn-kor|sappho192/Tatoeba-Challenge-jpn-kor]]
+- [[rubricreward__llm-metric-mrewardbench|rubricreward/llm-metric-mrewardbench]]
 - [[traintogpb__aihub-koen-translation-integrated-large-10m|traintogpb/aihub-koen-translation-integrated-large-10m]]
 - [[ismaelfi__melolingua-cefr-graded-multilingual-stories|ismaelfi/melolingua-cefr-graded-multilingual-stories]]
 - [[MasahiroKaneko__eagle|MasahiroKaneko/eagle]]
@@ -100,14 +100,14 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[OpenLab-NLP__tiny-singleturn-chat-ko|OpenLab-NLP/tiny-singleturn-chat-ko]]
 - [[ducut91__Judgement-De-Identification-Result|ducut91/Judgement-De-Identification-Result]]
 - [[aixk__long_stock|aixk/long_stock]]
-- [[felfri__MAGBIG|felfri/MAGBIG]]
 - [[maum-ai__KOFFVQA_Data|maum-ai/KOFFVQA_Data]]
+- [[felfri__MAGBIG|felfri/MAGBIG]]
 - [[lewoniewski__wikipedia-citation-index|lewoniewski/wikipedia-citation-index]]
 - [[fdemelo__ipa-childes-split|fdemelo/ipa-childes-split]]
 - [[cis-lmu__GlotSparse|cis-lmu/GlotSparse]]
 - [[ali-thowfeek__text-to-mermaid|ali-thowfeek/text-to-mermaid]]
-- [[Saxo__en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface|Saxo/en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface]]
 - [[Saxo__ko_cn_translation_tech_social_science_linkbricks_single_dataset|Saxo/ko_cn_translation_tech_social_science_linkbricks_single_dataset]]
+- [[Saxo__en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface|Saxo/en_ko_translation_tech_science_linkbricks_single_dataset_with_prompt_text_huggingface]]
 - [[AIDX-ktds__ko_leaderboard|AIDX-ktds/ko_leaderboard]]
 - [[Saxo__ko_jp_translation_tech_social_science_linkbricks_single_dataset|Saxo/ko_jp_translation_tech_social_science_linkbricks_single_dataset]]
 - [[Saxo__ko-news-corpus-3|Saxo/ko-news-corpus-3]]
@@ -117,19 +117,19 @@ facet: [[데이터 형식]] · 개념 id `data_format/csv`
 - [[Saxo__ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled|Saxo/ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled]]
 - [[Saxo__ko-news-corpus-7|Saxo/ko-news-corpus-7]]
 - [[Saxo__ko-news-corpus-2|Saxo/ko-news-corpus-2]]
-- … 외 10개 (다운로드 순 상위 100개만 표시)
+- … 외 1911개 (다운로드 순 상위 100개만 표시)
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 110
-- [[학습용]] (데이터 용도) · 공유 81
-- [[상업 이용 가능]] (상업 이용) · 공유 79
-- [[한국어]] (언어) · 공유 79
-- [[단문]] (입력 길이) · 공유 78
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 77
-- [[일반]] (도메인) · 공유 56
-- [[영어]] (언어) · 공유 56
-- [[중규모 데이터]] (데이터 규모) · 공유 54
-- [[다국어]] (언어) · 공유 51
-- [[텍스트 분류]] (작업) · 공유 43
-- [[표 (입력 형식)|표]] (입력 형식) · 공유 37
+- [[한국어]] (언어) · 공유 1980
+- [[표 (입력 형식)|표]] (입력 형식) · 공유 1938
+- [[상업 이용 가능]] (상업 이용) · 공유 1923
+- [[서비스 데이터]] (데이터 용도) · 공유 1904
+- [[행정·민원]] (도메인) · 공유 612
+- [[의료·보건]] (도메인) · 공유 298
+- [[금융·경제]] (도메인) · 공유 280
+- [[지리·위치]] (도메인) · 공유 262
+- [[교통·모빌리티]] (도메인) · 공유 208
+- [[교육]] (도메인) · 공유 201
+- [[문화·관광]] (도메인) · 공유 170
+- [[법률]] (도메인) · 공유 151

@@ -1,0 +1,46 @@
+# 서울시 일자리포털 채용정보
+
+서울시 일자리포털 채용정보. 서울시 일자리포털 채용정보
+
+서비스명: recMntList
+
+## 제공 필드
+
+- 경력 (CAREER)
+- 자격면허 (CERTIFICATE)
+- 마감일자 (CLOSE_DT)
+- 모집인원 (COLLECT_PSNCNT)
+- 기업명 (COMPANY)
+- 컴퓨터활용능력 (COMP_ABL)
+- 전화번호 (CONTACT_TELNO)
+- 회사주소 (CORP_ADDR)
+- 채용부서 (EMP_CHARGER_DPT)
+- 고용형태코드 (EMP_TP_CD)
+- 고용형태 (EMP_TP_NM)
+- 근무형태코드 (ENTER_TP_CD)
+- 기타복리후생 (ETC_WELFARE)
+- 연금4대보험 (FOUR_INS)
+- 업종 (IND_TP_CD_NM)
+- 직종코드 (JOBS_CD)
+- 모집직종 (JOBS_NM)
+- 직무내용 (JOB_CONT)
+- 전공 (MAJOR)
+- 최대학력 (MAX_EDUBG)
+- 최대학력코드 (MAX_EDUBG_ICD)
+- 최소학력 (MIN_EDUBG)
+- 최소학력코드 (MIN_EDUBG_ICD)
+- 병역특례채용희망 (MLTSVC_EXC_HOPE)
+- 우대조건 (PF_COND)
+- 접수방법 (RCPT_MTHD)
+- 근무지역 (REGION)
+- 근무지역코드 (REGION_CD)
+- 등록일자 (REG_DT)
+- 퇴직금 (RETIREPAY)
+- 임금형태코드 (SAL_TP_CD)
+- 임금조건 (SAL_TP_NM)
+- 전형방법 (SEL_MTHD)
+- 근무지도로명주소코드 (STRTNM_CD)
+- 제출서류준비물 (SUBMIT_DOC)
+- 채용제목 (TITLE)
+- 근무시간/형태 (WORKDAY_WORKHR_CONT)
+- 근무예정지 (WORK_REGION)

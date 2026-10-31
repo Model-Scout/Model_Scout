@@ -25,6 +25,7 @@ from pathlib import Path
 
 DATA_DIR = Path("data")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
+PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 OUT_DIR = DATA_DIR / "dataset_index"
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -152,10 +153,21 @@ def build_chunks(row, entity, links, concepts):
 def embed(texts, model):
     from openai import OpenAI
 
+    import time
+
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     vectors = []
     for start in range(0, len(texts), BATCH_SIZE):
-        response = client.embeddings.create(model=model, input=texts[start:start + BATCH_SIZE])
+        # A dropped connection mid-run would otherwise discard every batch embedded so far.
+        for attempt in range(6):
+            try:
+                response = client.embeddings.create(model=model, input=texts[start:start + BATCH_SIZE])
+                break
+            except Exception as error:
+                if attempt == 5:
+                    raise
+                print(f"[EMBED] retry {attempt + 1} after {type(error).__name__}", flush=True)
+                time.sleep(10 * 2**attempt)
         vectors.extend(item.embedding for item in sorted(response.data, key=lambda item: item.index))
         print(f"[EMBED] {min(start + BATCH_SIZE, len(texts))}/{len(texts)}", flush=True)
     return vectors
@@ -178,7 +190,7 @@ def main():
         raise SystemExit("run 13_build_hypergraph.py first")
 
     chunks = []
-    for row in read_jsonl(DATASET_INPUT):
+    for row in read_jsonl(DATASET_INPUT) + read_jsonl(PUBLIC_INPUT):
         entity_id = f"dataset:{row['dataset_id']}"
         chunks.extend(build_chunks(row, entities[entity_id], links_by_entity[entity_id], concepts))
     for chunk in chunks:

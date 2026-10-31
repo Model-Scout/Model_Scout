@@ -1,0 +1,16 @@
+# 사업소별 일별 유량 현황
+
+사업소별 일별 유량 현황. 사업소별 일별 유량 현황
+
+서비스명: WoWcbsDayStatic
+
+## 제공 필드
+
+- 사업소 코드 (BUSNP_CD)
+- 사업소 명 (BUSNP_NM)
+- 사업소 구분 코드 (BUSNP_SE_CD)
+- 사업소 구분명 (BUSNP_SE_NM)
+- 측정값 (MSRMT_VL)
+- 유량 구분 코드 (ROF_SE_CD)
+- 유량 구분 명 (ROF_SE_NM)
+- 일자 (YMD)

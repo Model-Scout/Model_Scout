@@ -1,0 +1,16 @@
+# 서울주택도시개발공사_주택관리현황
+
+서울주택도시개발공사_주택관리현황. [SH공사]주택관리현황 조회
+
+서비스명: SearchSHRentApt
+
+## 제공 필드
+
+- 주소 (APT_ADDR)
+- 세대수 (APT_CNT)
+- 단지명 (APT_NM)
+- 입주개시일 (APT_OPEN_DT)
+- 전화번호 (APT_TEL)
+- 주택유형 (APT_TYPE)
+- 우편번호 (APT_ZIP)
+- 구명 (GU_NM)

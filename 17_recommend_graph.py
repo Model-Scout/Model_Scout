@@ -37,6 +37,8 @@ MODEL_TASK_FALLBACK = {"retrieval": "embedding"}
 MODELS_PER_NEED = 3
 DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
+# HF data trains/evaluates models (ranked with the needs' tasks); portal data is what the app serves.
+PROJECT_POOL = 30
 MAX_NEEDS = 4
 
 
@@ -100,9 +102,10 @@ dataset_query: one Korean sentence describing the data the project needs."""
 
 EXPLAIN_PROMPT = """You are Model Scout. Answer in Korean markdown (headings and bullets, never JSON or code blocks)
 using ONLY the JSON given: the plan, models
-retrieved per need, datasets per model, and project datasets. For each need: the top model with why it
-fits (task, context length, license), up to two alternatives, and its datasets with the reasons listed.
-Then project-domain datasets. Write model and dataset ids exactly as given. If a list is empty, say so
+retrieved per need, datasets per model, project training datasets, and service data. For each need: the top
+model with why it fits (task, context length, license), up to two alternatives, and its datasets with the
+reasons listed. Then "프로젝트 학습·평가 데이터" (project_training) and "서비스 데이터 (공공데이터)" (service_data:
+서울 열린데이터광장 / 공공데이터포털 sources the app would call or load at runtime). Write model and dataset ids exactly as given. If a list is empty, say so
 and suggest what to search instead. Copy license and context_length values verbatim; never invent ids,
 numbers, or licenses, and never call an 'unknown' license commercial. End with one line of caveats
 (license 'unknown', 신뢰도 낮은 연결 marked '?')."""
@@ -143,7 +146,7 @@ def search_models(state: State) -> State:
 
 
 def _compact_dataset(row):
-    return {k: row[k] for k in ("dataset", "score", "reasons", "downloads", "url", "summary_ko")}
+    return {k: row[k] for k in ("dataset", "title", "source", "score", "reasons", "downloads", "url", "summary_ko")}
 
 
 def search_datasets(state: State) -> State:
@@ -159,9 +162,14 @@ def search_datasets(state: State) -> State:
                 break
     plan = state["plan"]
     terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
-    project = rank_datasets(concepts_from_terms(terms), query_vector=embed_query(plan["dataset_query"]),
-                            commercial_only=commercial, limit=PROJECT_DATASETS)
-    return {"datasets": {"per_model": per_model, "project": [_compact_dataset(r) for r in project]}}
+    vector = embed_query(plan["dataset_query"])
+    pool = rank_datasets(concepts_from_terms(terms), query_vector=vector, commercial_only=commercial, limit=PROJECT_POOL)
+    training = [_compact_dataset(r) for r in pool if r["source"] == "huggingface"][:PROJECT_DATASETS]
+    # Service data is matched on the project's domain alone; model tasks say nothing about it.
+    served = rank_datasets(concepts_from_terms(plan["dataset_terms"]), query_vector=vector, commercial_only=commercial,
+                           roles=["service"], limit=PROJECT_DATASETS)
+    service = [_compact_dataset(r) for r in served]
+    return {"datasets": {"per_model": per_model, "project_training": training, "service_data": service}}
 
 
 def explain(state: State) -> State:

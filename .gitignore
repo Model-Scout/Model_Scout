@@ -46,3 +46,6 @@ data/retrieval_lab/.bge_m3_build/
 
 # Planning doc page renders (local only).
 png/
+
+# Public-portal raw catalog cache (data.go.kr list is 160MB+); re-downloaded by 18_collect_public_datasets.py --refresh.
+data/public_catalog/

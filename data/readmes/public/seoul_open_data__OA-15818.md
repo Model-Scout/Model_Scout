@@ -1,0 +1,56 @@
+# 서울시 공동주택 아파트 정보
+
+서울시 공동주택 아파트 정보. 서울특별시 공동주택 아파트 정보
+
+서비스명: OpenAptInfo
+
+## 제공 필드
+
+- 단지첨부파일 (APT_ATCH_FILE): 단지첨부파일
+- k-아파트코드 (APT_CD): k-아파트코드
+- 단지소개기존clob (APT_CMPX): 단지소개기존clob
+- k-아파트명 (APT_NM): k-아파트명
+- kapt도로명주소 (APT_RDN_ADDR): kapt도로명주소
+- kapt법정동주소 (APT_STDG_ADDR): kapt법정동주소
+- 건축면적 (BDAR): 건축면적
+- k-건설사(시공사) (BLDR): k-건설사(시공사)
+- 청소비관리형태 (CLNG_MNG_FORM): 청소비관리형태
+- 단지신청일 (CMPX_APLD_DAY): 단지신청일
+- 단지승인일 (CMPX_APRV_DAY): 단지승인일
+- k-단지분류(아파트,주상복합등등) (CMPX_CLSF): k-단지분류(아파트,주상복합등등)
+- 주소(시도)k-apt주소split (CTPV_ADDR): 주소(시도)k-apt주소split
+- 나머지주소 (DADDR): 나머지주소
+- k-시행사 (DVLR): k-시행사
+- 주소(읍면동) (EMD_ADDR): 주소(읍면동)
+- 고용보험관리번호 (EPIS_MNG_NO): 고용보험관리번호
+- 경비비관리형태 (EPS_MNG_FORM): 경비비관리형태
+- k-팩스번호 (FXNO): k-팩스번호
+- k-연면적 (GFA): k-연면적
+- 세대전기계약방법 (HH_ELCT_CTRT_MTHD): 세대전기계약방법
+- k-세대타입(분양형태) (HH_TYPE): k-세대타입(분양형태)
+- k-홈페이지 (HMPG): k-홈페이지
+- k-수정일자 (MDFCN_YMD): k-수정일자
+- k-관리비부과면적 (MNCO_LEVY_AREA): k-관리비부과면적
+- 관리비 업로드 (MNCO_ULD_YN): 수동:Y, 자동:N
+- k-관리방식 (MNG_MTHD): k-관리방식
+- k-난방방식 (MN_MTHD): k-난방방식
+- 주차대수 (PRK_CNTOM): 주차대수
+- 주소(도로명) (RDN_ADDR): 주소(도로명)
+- k-등록일자 (REG_YMD): k-등록일자
+- 주소(도로상세주소) (ROAD_DADDR): 주소(도로상세주소)
+- k-복도유형 (ROAD_TYPE): k-복도유형
+- k-주거전용면적 (RSDT_XUAR): k-주거전용면적
+- 기타/의무/임대/임의=1/2/3/4 (SE_CD): 기타/의무/임대/임의=1/2/3/4
+- 주소(시군구) (SGG_ADDR): 주소(시군구)
+- 번호 (SN): 번호
+- k-전화번호 (TELNO): k-전화번호
+- k-전체세대수 (TNOHSH): k-전체세대수
+- k-사용검사일-사용승인일 (USE_APRV_YMD): k-사용검사일-사용승인일
+- 사용허가여부 (USE_YN): Y/N/X/I=승인/미승인/탈퇴/등록중
+- k-전체동수 (WHOL_DONG_CNT): k-전체동수
+- 좌표X (XCRD): 좌표X
+- k-85㎡~135㎡이하 (XUAR_HH_STTS135): k-85㎡~135㎡이하
+- k-135㎡초과 (XUAR_HH_STTS136): k-135㎡초과
+- k-전용면적별세대현황(60㎡이하) (XUAR_HH_STTS60): k-전용면적별세대현황(60㎡이하)
+- k-전용면적별세대현황(60㎡~85㎡이하) (XUAR_HH_STTS85): k-전용면적별세대현황(60㎡~85㎡이하)
+- 좌표Y (YCRD): 좌표Y

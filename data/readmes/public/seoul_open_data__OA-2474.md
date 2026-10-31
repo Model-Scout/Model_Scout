@@ -1,0 +1,42 @@
+# 서울시 희망서울 생활지표 정보 (2020년)
+
+서울시 희망서울 생활지표 정보 (2020년). 희망서울생활지표
+
+서비스명: SeoulHopesLifeIndicators
+
+## 제공 필드
+
+- 누적조회수 (ACC_HIT)
+- 실적 (ACTUAL)
+- 희망지표 Pool 설명 (CONTENT)
+- 관리부서명 (CONTROL_DEPT_NM)
+- 담당자명 (CPR_MANAGE_NM)
+- 담당자 연락처 (CPR_MANAGE_TEL)
+- 희망지표POOL아이디 (CPR_METRIC_GRP_ID)
+- 희망지표 Pool 명 (CPR_METRIC_GRP_NM)
+- 희망지표아이디 (CPR_METRIC_ID)
+- 희망지표명 (CPR_METRIC_NM)
+- 희망지표명(영문) (CPR_METRIC_NM_ENG)
+- 생성일자 (CREATE_DT)
+- 분야설명 (FIELD_DESC)
+- 분야설명(영문) (FIELD_DESC_ENG)
+- 분야아이디 (FIELD_ID)
+- 분야명 (FIELD_NM)
+- 분야명(영문) (FIELD_NM_ENG)
+- 해당년도 조회수 (HIT)
+- 항목명 (ITEM_NM)
+- 항목 단위 (ITEM_UNIT)
+- 관리년도 (MANAGE_YEAR)
+- 지표설명 (METRIC_DESC)
+- 지표설명(영문) (METRIC_DESC_ENG)
+- 수정일자 (MODIFY_DT)
+- 실적 기준월 (MON)
+- 참고내용 (REF_DESC)
+- 관련URL (REF_URL)
+- 갱신주기 (RENEW_CYCLE)
+- 갱신주기(기호) (RENEW_CYCLE_SIGN)
+- 대표과제 아이디 (REPRESENT_ID)
+- 추가차트 항목번호 (SEQ)
+- 누계시점 (SUM_METHOD)
+- 지표 단위 (UNIT)
+- 지표 기준년도 (YEAR)

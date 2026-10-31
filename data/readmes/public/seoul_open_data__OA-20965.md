@@ -1,0 +1,47 @@
+# 서울시 우리동네키움센터 시설현황정보
+
+서울시 우리동네키움센터 시설현황정보. 서울시 우리동네키움센터 시설현황정보
+
+서비스명: TnFcltySttusInfo1001
+
+## 제공 필드
+
+- 연령구분코드 (AGE_SE_CODE)
+- 연령구분 (AGE_SE_NM)
+- 자치구코드 (ATDRC_CODE)
+- 자치구코드배열 (ATDRC_CODE_ARRAY)
+- 자치구명 (ATDRC_NM)
+- 기본주소 (BASS_ADRES)
+- 상세주소 (DETAIL_ADRES)
+- 일사용료 (DE_RNTFEE)
+- 일사용료무료여부 (DE_RNTFEE_FREE_AT)
+- 일자기부담금 (DE_SELF_ALOTM)
+- 재량휴일시작시간 (DSCR_RESTDE_BEGIN_TIME)
+- 재량휴일종료시간 (DSCR_RESTDE_END_TIME)
+- 시설ID (FCLTY_ID)
+- 시설명 (FCLTY_NM)
+- 설립일 (FOND_DE)
+- 아침돌봄서비스여부 (MORN_RESVE_USE_YN)
+- 월사용료 (MT_RNTFEE)
+- 월사용료무료여부 (MT_RNTFEE_FREE_AT)
+- 월자기부담금 (MT_SELF_ALOTM)
+- 일시돌봄정원수 (ONCE_CARE_PSNCPA_CO)
+- 상시돌봄정원수 (ORDTM_CARE_PSNCPA_CO)
+- 전용면적 (PRVUSE_AR)
+- 전용면적(m2) (PRVUSE_AR_M2)
+- 등록일시 (REGIST_DT)
+- 사용료 (RNTFEE)
+- 사용료무료여부 (RNTFEE_FREE_AT)
+- 토요일운영여부 (SAT_OPER_AT)
+- 토요일운영시작시간 (SAT_OPER_BEGIN_TIME)
+- 토요일운영종료시간 (SAT_OPER_END_TIME)
+- 학기시작시간 (SEMSTR_BEGIN_TIME)
+- 학기종료시간 (SEMSTR_END_TIME)
+- 서비스분류코드 (SVC_CL_CODE)
+- 서비스분류명 (SVC_CL_NM)
+- 수정일시 (UPDT_DT)
+- 방학시작시간 (VCTN_BEGIN_TIME)
+- 방학종료시간 (VCTN_END_TIME)
+- X좌표값 (X_CRDNT_VALUE)
+- Y좌표값 (Y_CRDNT_VALUE)
+- 우편번호 (ZIP)

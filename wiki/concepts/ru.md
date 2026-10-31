@@ -180,8 +180,8 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[floschne__xgqa_1k|floschne/xgqa_1k]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
 - [[Reubencf__multilingual-synthetic-tts|Reubencf/multilingual-synthetic-tts]]
-- [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
 - [[operant-ai__doclaynet-document-level|operant-ai/doclaynet-document-level]]
+- [[neulab__PangeaBench-xgqa|neulab/PangeaBench-xgqa]]
 - [[imvladikon__QAmeleon|imvladikon/QAmeleon]]
 - [[Unbabel__TowerBlocks-v0.1|Unbabel/TowerBlocks-v0.1]]
 - [[hakimi20274__xeus-l14-content-features|hakimi20274/xeus-l14-content-features]]
@@ -193,8 +193,8 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
 - [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
 - [[felfri__MAGBIG|felfri/MAGBIG]]
-- [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
 - [[ansulev__claude-opus-4.6-traceinversion-9k|ansulev/claude-opus-4.6-traceinversion-9k]]
+- [[RISys-Lab__LingT2I|RISys-Lab/LingT2I]]
 
 ## 함께 연결된 개념
 
