@@ -1169,6 +1169,15 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
             str(MODEL_IDS_PATH),
         ]
     )
+    # Stage 2's language gate drops models whose README targets another language. They never
+    # change on the Hub, so the Stage 1 scan alone would leave their old DB rows active.
+    language_excluded = set()
+    for pool in POOLS:
+        report = DATA_DIR / f"hf_models_stage2_{pool}_language_excluded.json"
+        if report.exists():
+            language_excluded.update(json.loads(report.read_text(encoding="utf-8")))
+    processable_ids -= language_excluded
+    scan["removed_ids"] = sorted(set(scan["removed_ids"]) | language_excluded)
     run_command(
         [
             python,
