@@ -33,7 +33,7 @@ from retrieval_lab.planner import (
     ELEMENTS,
     PLAN_QUERY_TYPES,
     RetrievalPlan,
-    hard_filters,
+    hard_filter_plan,
     save_type_plan,
     with_dense_weight,
     with_strategies,
@@ -58,15 +58,10 @@ DETAIL_COLUMNS = (
 def evaluate(retriever: Retriever, queries: Sequence[golden.GoldenQuery], plan: RetrievalPlan, min_grade: int) -> Dict[str, Any]:
     per_query: List[Dict[str, Any]] = []
     for query in queries:
-        # plan이 들고 온 유형 기본값 위에 질의 값을 얹는다. 질의가 직접 말한 조건이 언제나 이긴다.
-        filters = {**plan.hard_filters, **hard_filters(query.query)}
-        # require_known_*는 짝이 되는 수치 조건이 있는 질의에서만 의미가 있다. 상한도 하한도
-        # 없는 질의에서 값을 안다는 이유로 후보를 거르면 멀쩡한 모델만 잃는다.
-        if not filters.get("max_parameters_billion") and not filters.get("min_parameters_billion"):
-            filters.pop("require_known_parameters", None)
-        if not filters.get("min_context_length") and not filters.get("max_context_length"):
-            filters.pop("require_known_context", None)
-        query_plan = replace(plan, query_type=query.plan_query_type, hard_filters=filters)
+        # 서비스(planner.plan_for)와 같은 함수로 필터를 만든다. 측정한 설정과
+        # 서비스하는 설정이 갈라지지 않게 하는 유일한 방법이다.
+        query_plan = replace(plan, query_type=query.plan_query_type,
+                             hard_filters=hard_filter_plan(plan.hard_filters, query.query))
         result = retriever.run(query.text, query_plan)
         top10 = result.ranked[:10]
         per_query.append({
@@ -299,6 +294,10 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
 
     if args.weight_search != "none":
         base_plan = with_strategies(baseline, tuple(s for s in ELEMENTS if best["plan"].get(f"use_{s}")))
+        # 하드 필터로 이긴 설정은 use_* 플래그가 없어서 with_strategies로는 안 따라온다.
+        # 이걸 빼먹으면 weight_base 라벨만 붙고 실제로는 Baseline 가중치를 재게 된다.
+        if best.get("hard_filter_defaults"):
+            base_plan = replace(base_plan, hard_filters=dict(best["hard_filter_defaults"]))
         result["weight_base"] = best["label"]
         result["weight_method"] = args.weight_search
         result["weights"] = weight_search(retriever, queries, base_plan, args.min_grade, args.metric, args.weight_search, args.trials, log)

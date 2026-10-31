@@ -6,7 +6,7 @@
  "min_grade": 1,
  "dense_model": "BAAI/bge-m3",
  "llm": "gpt-4o-mini",
- "ran_at": "2026-10-29 00:43",
+ "ran_at": "2026-10-31 15:56",
  "single": [
   {
    "label": "Known values only",
@@ -41,9 +41,9 @@
     "map@5": 0.2949074074074074,
     "nrecall@5": 0.3326388888888889,
     "nrecall@10": 0.425,
-    "p50_ms": 204.44,
-    "p95_ms": 271.84,
-    "p99_ms": 308.51,
+    "p50_ms": 194.91,
+    "p95_ms": 235.15,
+    "p99_ms": 293.0,
     "must_exclude_violation_rate@10": 0.21052631578947367,
     "judged@10": 0.3652777777777778,
     "abstention_accuracy": null
@@ -79,9 +79,9 @@
     "map@5": 0.04888888888888889,
     "nrecall@5": 0.11041666666666666,
     "nrecall@10": 0.21736111111111112,
-    "p50_ms": 1385.45,
-    "p95_ms": 2038.03,
-    "p99_ms": 4587.47,
+    "p50_ms": 1379.61,
+    "p95_ms": 2026.7,
+    "p99_ms": 4595.47,
     "must_exclude_violation_rate@10": 0.3157894736842105,
     "judged@10": 0.19166666666666665,
     "abstention_accuracy": null
@@ -117,9 +117,9 @@
     "map@5": 0.1295601851851852,
     "nrecall@5": 0.17777777777777778,
     "nrecall@10": 0.21631944444444443,
-    "p50_ms": 1916.25,
-    "p95_ms": 2387.08,
-    "p99_ms": 2455.4,
+    "p50_ms": 1836.12,
+    "p95_ms": 2163.26,
+    "p99_ms": 2257.4,
     "must_exclude_violation_rate@10": 0.3684210526315789,
     "judged@10": 0.2333333333333333,
     "abstention_accuracy": null
@@ -155,9 +155,9 @@
     "map@5": 0.12763888888888889,
     "nrecall@5": 0.19166666666666668,
     "nrecall@10": 0.2333333333333333,
-    "p50_ms": 2542.2,
-    "p95_ms": 3208.54,
-    "p99_ms": 3710.77,
+    "p50_ms": 2370.72,
+    "p95_ms": 2895.84,
+    "p99_ms": 3493.45,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.2625,
     "abstention_accuracy": null
@@ -193,9 +193,9 @@
     "map@5": 0.08458333333333333,
     "nrecall@5": 0.18194444444444446,
     "nrecall@10": 0.24722222222222223,
-    "p50_ms": 2374.04,
-    "p95_ms": 2810.79,
-    "p99_ms": 4500.71,
+    "p50_ms": 2187.5,
+    "p95_ms": 2741.93,
+    "p99_ms": 4451.88,
     "must_exclude_violation_rate@10": 0.3684210526315789,
     "judged@10": 0.21250000000000002,
     "abstention_accuracy": null
@@ -231,9 +231,9 @@
     "map@5": 0.1822222222222222,
     "nrecall@5": 0.23055555555555554,
     "nrecall@10": 0.31527777777777777,
-    "p50_ms": 220.97,
-    "p95_ms": 283.03,
-    "p99_ms": 308.67,
+    "p50_ms": 200.86,
+    "p95_ms": 258.76,
+    "p99_ms": 293.22,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.3625,
     "abstention_accuracy": null
@@ -272,9 +272,9 @@
    "map@5": 0.1822222222222222,
    "nrecall@5": 0.23055555555555554,
    "nrecall@10": 0.31527777777777777,
-   "p50_ms": 220.87,
-   "p95_ms": 283.03,
-   "p99_ms": 308.68,
+   "p50_ms": 200.62,
+   "p95_ms": 258.78,
+   "p99_ms": 293.02,
    "must_exclude_violation_rate@10": 0.47368421052631576,
    "judged@10": 0.3625,
    "abstention_accuracy": null
@@ -358,10 +358,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 233.78,
-     "sparse": 74.58,
-     "fusion": 0.32,
-     "total": 308.68
+     "dense": 227.71,
+     "sparse": 65.07,
+     "fusion": 0.24,
+     "total": 293.02
     },
     "dense_queries": [
      "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해."
@@ -451,10 +451,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 210.98,
-     "sparse": 15.83,
-     "fusion": 0.22,
-     "total": 227.03
+     "dense": 218.5,
+     "sparse": 14.92,
+     "fusion": 0.14,
+     "total": 233.56
     },
     "dense_queries": [
      "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해."
@@ -543,10 +543,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 235.81,
-     "sparse": 18.18,
-     "fusion": 0.27,
-     "total": 254.26
+     "dense": 211.09,
+     "sparse": 12.3,
+     "fusion": 0.16,
+     "total": 223.55
     },
     "dense_queries": [
      "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해."
@@ -633,10 +633,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 248.64,
-     "sparse": 9.74,
-     "fusion": 0.13,
-     "total": 258.51
+     "dense": 201.5,
+     "sparse": 10.32,
+     "fusion": 0.19,
+     "total": 212.01
     },
     "dense_queries": [
      "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해."
@@ -707,10 +707,10 @@
     "judged@10": 0.7,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 270.91,
-     "sparse": 12.08,
+     "dense": 205.96,
+     "sparse": 7.36,
      "fusion": 0.04,
-     "total": 283.03
+     "total": 213.36
     },
     "dense_queries": [
      "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해."
@@ -794,10 +794,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 256.95,
-     "sparse": 3.07,
-     "fusion": 0.08,
-     "total": 260.1
+     "dense": 212.35,
+     "sparse": 2.57,
+     "fusion": 0.04,
+     "total": 214.96
     },
     "dense_queries": [
      "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해."
@@ -866,10 +866,10 @@
     "judged@10": 0.7,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 196.46,
-     "sparse": 0.71,
-     "fusion": 0.03,
-     "total": 197.2
+     "dense": 189.2,
+     "sparse": 0.65,
+     "fusion": 0.04,
+     "total": 189.89
     },
     "dense_queries": [
      "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어."
@@ -956,10 +956,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 202.74,
-     "sparse": 9.96,
-     "fusion": 0.14,
-     "total": 212.84
+     "dense": 189.47,
+     "sparse": 11.37,
+     "fusion": 0.19,
+     "total": 201.03
     },
     "dense_queries": [
      "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로."
@@ -1048,10 +1048,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 221.45,
-     "sparse": 12.52,
-     "fusion": 0.25,
-     "total": 234.22
+     "dense": 196.07,
+     "sparse": 4.42,
+     "fusion": 0.13,
+     "total": 200.62
     },
     "dense_queries": [
      "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해."
@@ -1140,10 +1140,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 205.34,
-     "sparse": 21.1,
-     "fusion": 0.28,
-     "total": 226.72
+     "dense": 175.76,
+     "sparse": 13.99,
+     "fusion": 0.14,
+     "total": 189.89
     },
     "dense_queries": [
      "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어."
@@ -1228,10 +1228,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 259.77,
-     "sparse": 1.1,
-     "fusion": 0.15,
-     "total": 261.02
+     "dense": 175.04,
+     "sparse": 0.72,
+     "fusion": 0.14,
+     "total": 175.9
     },
     "dense_queries": [
      "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어."
@@ -1317,10 +1317,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 208.05,
-     "sparse": 15.03,
-     "fusion": 0.28,
-     "total": 223.36
+     "dense": 199.67,
+     "sparse": 10.39,
+     "fusion": 0.15,
+     "total": 210.21
     },
     "dense_queries": [
      "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야."
@@ -1409,10 +1409,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 215.45,
-     "sparse": 5.23,
-     "fusion": 0.19,
-     "total": 220.87
+     "dense": 188.04,
+     "sparse": 4.97,
+     "fusion": 0.14,
+     "total": 193.15
     },
     "dense_queries": [
      "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야."
@@ -1507,10 +1507,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.49,
-     "sparse": 1.17,
-     "fusion": 0.16,
-     "total": 202.82
+     "dense": 178.96,
+     "sparse": 1.57,
+     "fusion": 0.14,
+     "total": 180.67
     },
     "dense_queries": [
      "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해."
@@ -1594,10 +1594,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 217.57,
-     "sparse": 9.79,
-     "fusion": 0.2,
-     "total": 227.56
+     "dense": 174.45,
+     "sparse": 8.48,
+     "fusion": 0.08,
+     "total": 183.01
     },
     "dense_queries": [
      "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하."
@@ -1663,10 +1663,10 @@
     "judged@10": 0.3,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 221.73,
+     "dense": 188.87,
      "sparse": 0.57,
      "fusion": 0.03,
-     "total": 222.33
+     "total": 189.47
     },
     "dense_queries": [
      "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어."
@@ -1742,10 +1742,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 193.43,
-     "sparse": 0.61,
-     "fusion": 0.04,
-     "total": 194.08
+     "dense": 189.76,
+     "sparse": 0.7,
+     "fusion": 0.05,
+     "total": 190.51
     },
     "dense_queries": [
      "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해."
@@ -1830,10 +1830,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 204.27,
-     "sparse": 3.02,
-     "fusion": 0.21,
-     "total": 207.5
+     "dense": 196.79,
+     "sparse": 2.74,
+     "fusion": 0.23,
+     "total": 199.76
     },
     "dense_queries": [
      "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해."
@@ -1919,10 +1919,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 192.19,
-     "sparse": 1.24,
-     "fusion": 0.19,
-     "total": 193.62
+     "dense": 182.27,
+     "sparse": 0.95,
+     "fusion": 0.15,
+     "total": 183.37
     },
     "dense_queries": [
      "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해."
@@ -2011,10 +2011,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 204.08,
-     "sparse": 5.74,
-     "fusion": 0.15,
-     "total": 209.97
+     "dense": 200.89,
+     "sparse": 9.26,
+     "fusion": 0.18,
+     "total": 210.33
     },
     "dense_queries": [
      "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어."
@@ -2097,10 +2097,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 195.05,
-     "sparse": 15.43,
-     "fusion": 0.15,
-     "total": 210.63
+     "dense": 236.86,
+     "sparse": 21.65,
+     "fusion": 0.27,
+     "total": 258.78
     },
     "dense_queries": [
      "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해."
@@ -2189,10 +2189,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 198.61,
-     "sparse": 8.79,
-     "fusion": 0.19,
-     "total": 207.59
+     "dense": 216.88,
+     "sparse": 12.17,
+     "fusion": 0.15,
+     "total": 229.2
     },
     "dense_queries": [
      "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야."
@@ -2280,10 +2280,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 193.2,
-     "sparse": 5.27,
-     "fusion": 0.13,
-     "total": 198.6
+     "dense": 194.2,
+     "sparse": 5.58,
+     "fusion": 0.14,
+     "total": 199.92
     },
     "dense_queries": [
      "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어."
@@ -2369,10 +2369,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 197.11,
-     "sparse": 3.27,
-     "fusion": 0.06,
-     "total": 200.44
+     "dense": 196.98,
+     "sparse": 3.91,
+     "fusion": 0.09,
+     "total": 200.98
     },
     "dense_queries": [
      "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해."
@@ -2414,9 +2414,9 @@
     "map@5": 0.044722222222222226,
     "nrecall@5": 0.08888888888888889,
     "nrecall@10": 0.14479166666666668,
-    "p50_ms": 220.75,
-    "p95_ms": 283.01,
-    "p99_ms": 308.54,
+    "p50_ms": 200.61,
+    "p95_ms": 258.61,
+    "p99_ms": 292.94,
     "must_exclude_violation_rate@10": 0.5263157894736842,
     "judged@10": 0.2041666666666667,
     "abstention_accuracy": null
@@ -2452,9 +2452,9 @@
     "map@5": 0.08871527777777777,
     "nrecall@5": 0.12916666666666668,
     "nrecall@10": 0.15729166666666666,
-    "p50_ms": 220.74,
-    "p95_ms": 283.02,
-    "p99_ms": 308.43,
+    "p50_ms": 200.6,
+    "p95_ms": 258.61,
+    "p99_ms": 292.89,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.225,
     "abstention_accuracy": null
@@ -2498,9 +2498,9 @@
    "map@5": 0.2949074074074074,
    "nrecall@5": 0.3326388888888889,
    "nrecall@10": 0.425,
-   "p50_ms": 204.44,
-   "p95_ms": 271.84,
-   "p99_ms": 308.51,
+   "p50_ms": 194.91,
+   "p95_ms": 235.15,
+   "p99_ms": 293.0,
    "must_exclude_violation_rate@10": 0.21052631578947367,
    "judged@10": 0.3652777777777778,
    "abstention_accuracy": null
@@ -2584,10 +2584,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 233.78,
-     "sparse": 74.58,
-     "fusion": 0.15,
-     "total": 308.51
+     "dense": 227.71,
+     "sparse": 65.07,
+     "fusion": 0.22,
+     "total": 293.0
     },
     "dense_queries": [
      "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해."
@@ -2677,10 +2677,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 210.98,
-     "sparse": 15.83,
-     "fusion": 0.11,
-     "total": 226.92
+     "dense": 218.5,
+     "sparse": 14.92,
+     "fusion": 0.16,
+     "total": 233.58
     },
     "dense_queries": [
      "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해."
@@ -2769,10 +2769,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 235.81,
-     "sparse": 18.18,
-     "fusion": 0.12,
-     "total": 254.11
+     "dense": 211.09,
+     "sparse": 12.3,
+     "fusion": 0.18,
+     "total": 223.57
     },
     "dense_queries": [
      "팀 회의 녹음을 전사할 한국어 음성인식 모델을 자체 GPU 서버(16GB)에서 돌리려고 해. 외부 AI API는 못 쓰고, 나중에 상업화할 수 있게 라이선스 제약이 없어야 해."
@@ -2859,10 +2859,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 248.64,
-     "sparse": 9.74,
-     "fusion": 0.12,
-     "total": 258.5
+     "dense": 201.5,
+     "sparse": 10.32,
+     "fusion": 0.14,
+     "total": 211.96
     },
     "dense_queries": [
      "M1 이상 맥(RAM 16GB)에서 100% 오프라인으로 도는 한국어 회의 전사 시스템을 만들려고 해. 외부 전송 없이 안정적으로 돌아가는 음성인식 모델이 필요해."
@@ -2909,10 +2909,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 270.85,
-     "sparse": 0.96,
-     "fusion": 0.03,
-     "total": 271.84
+     "dense": 205.99,
+     "sparse": 0.71,
+     "fusion": 0.02,
+     "total": 206.72
     },
     "dense_queries": [
      "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해."
@@ -2996,10 +2996,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 256.95,
-     "sparse": 3.07,
-     "fusion": 0.06,
-     "total": 260.08
+     "dense": 212.35,
+     "sparse": 2.57,
+     "fusion": 0.05,
+     "total": 214.97
     },
     "dense_queries": [
      "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해."
@@ -3040,10 +3040,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 196.46,
-     "sparse": 0.81,
-     "fusion": 0.03,
-     "total": 197.3
+     "dense": 189.18,
+     "sparse": 0.6,
+     "fusion": 0.02,
+     "total": 189.8
     },
     "dense_queries": [
      "모바일 앱에 넣을 아주 작은 한국어 기계독해 모델이 필요해. 파라미터 50M 이하면 좋겠어."
@@ -3130,10 +3130,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 202.27,
-     "sparse": 0.8,
-     "fusion": 0.09,
-     "total": 203.16
+     "dense": 189.01,
+     "sparse": 0.98,
+     "fusion": 0.1,
+     "total": 190.09
     },
     "dense_queries": [
      "한국어 질문으로 이미지 내용을 설명해 주는 가벼운 VLM이 필요해. 노트북에서 돌릴 거라 4B 이하로."
@@ -3222,10 +3222,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 221.45,
-     "sparse": 12.52,
-     "fusion": 0.28,
-     "total": 234.25
+     "dense": 196.07,
+     "sparse": 4.42,
+     "fusion": 0.26,
+     "total": 200.75
     },
     "dense_queries": [
      "한국어 고객 상담 챗봇을 사내 GPU(24GB) 한 장으로 서빙하려고 해. 상업 서비스라 라이선스 제약이 없어야 해."
@@ -3310,10 +3310,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 202.65,
-     "sparse": 0.8,
-     "fusion": 0.12,
-     "total": 203.57
+     "dense": 172.85,
+     "sparse": 0.83,
+     "fusion": 0.13,
+     "total": 173.81
     },
     "dense_queries": [
      "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어."
@@ -3377,10 +3377,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 259.2,
-     "sparse": 0.68,
-     "fusion": 0.04,
-     "total": 259.92
+     "dense": 174.69,
+     "sparse": 0.56,
+     "fusion": 0.03,
+     "total": 175.28
     },
     "dense_queries": [
      "1B 이하의 아주 작은 비전 언어 모델로 한국어 이미지 설명을 엣지 기기에서 돌리고 싶어."
@@ -3473,10 +3473,10 @@
     "judged@10": 0.6,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 205.38,
-     "sparse": 1.7,
-     "fusion": 0.21,
-     "total": 207.29
+     "dense": 198.0,
+     "sparse": 1.39,
+     "fusion": 0.15,
+     "total": 199.54
     },
     "dense_queries": [
      "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야."
@@ -3565,10 +3565,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 215.45,
-     "sparse": 5.23,
-     "fusion": 0.21,
-     "total": 220.89
+     "dense": 188.04,
+     "sparse": 4.97,
+     "fusion": 0.17,
+     "total": 193.18
     },
     "dense_queries": [
      "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야."
@@ -3663,10 +3663,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.49,
-     "sparse": 1.17,
-     "fusion": 0.21,
-     "total": 202.87
+     "dense": 178.96,
+     "sparse": 1.57,
+     "fusion": 0.17,
+     "total": 180.7
     },
     "dense_queries": [
      "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해."
@@ -3743,10 +3743,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 217.3,
-     "sparse": 0.66,
-     "fusion": 0.07,
-     "total": 218.03
+     "dense": 174.24,
+     "sparse": 0.73,
+     "fusion": 0.06,
+     "total": 175.03
     },
     "dense_queries": [
      "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하."
@@ -3801,10 +3801,10 @@
     "judged@10": 0.16666666666666666,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 221.74,
-     "sparse": 0.55,
+     "dense": 188.94,
+     "sparse": 0.58,
      "fusion": 0.03,
-     "total": 222.32
+     "total": 189.55
     },
     "dense_queries": [
      "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어."
@@ -3880,10 +3880,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 193.43,
-     "sparse": 0.61,
-     "fusion": 0.04,
-     "total": 194.08
+     "dense": 189.76,
+     "sparse": 0.7,
+     "fusion": 0.06,
+     "total": 190.52
     },
     "dense_queries": [
      "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해."
@@ -3968,10 +3968,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 200.56,
-     "sparse": 0.99,
+     "dense": 193.75,
+     "sparse": 1.03,
      "fusion": 0.13,
-     "total": 201.68
+     "total": 194.91
     },
     "dense_queries": [
      "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해."
@@ -4041,10 +4041,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 191.65,
-     "sparse": 0.54,
+     "dense": 181.9,
+     "sparse": 0.55,
      "fusion": 0.03,
-     "total": 192.22
+     "total": 182.48
     },
     "dense_queries": [
      "모바일 기기에서 돌릴 한국어 음성인식 모델이 필요해. 상업 서비스이고 100M 파라미터 이하여야 해."
@@ -4133,10 +4133,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 203.74,
-     "sparse": 0.61,
-     "fusion": 0.09,
-     "total": 204.44
+     "dense": 200.5,
+     "sparse": 0.71,
+     "fusion": 0.1,
+     "total": 201.31
     },
     "dense_queries": [
      "한국어 문서 검색용 임베딩을 상업 서비스에서 쓰려는데, 입력이 8192 토큰 이상이어야 하고 GPU 서버가 있어."
@@ -4219,10 +4219,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 192.34,
-     "sparse": 0.66,
-     "fusion": 0.11,
-     "total": 193.11
+     "dense": 234.2,
+     "sparse": 0.85,
+     "fusion": 0.1,
+     "total": 235.15
     },
     "dense_queries": [
      "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해."
@@ -4313,10 +4313,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 198.37,
-     "sparse": 0.5,
+     "dense": 216.7,
+     "sparse": 0.58,
      "fusion": 0.08,
-     "total": 198.95
+     "total": 217.36
     },
     "dense_queries": [
      "상업 이용 가능, 0.6B 이하, 입력 8192 토큰 이상인 한국어 임베딩 모델이 필요해. CPU에서 돌릴 거야."
@@ -4406,10 +4406,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 192.73,
-     "sparse": 0.47,
-     "fusion": 0.06,
-     "total": 193.26
+     "dense": 193.41,
+     "sparse": 0.51,
+     "fusion": 0.05,
+     "total": 193.97
     },
     "dense_queries": [
      "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어."
@@ -4495,10 +4495,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 197.07,
-     "sparse": 0.54,
-     "fusion": 0.05,
-     "total": 197.66
+     "dense": 196.96,
+     "sparse": 0.49,
+     "fusion": 0.03,
+     "total": 197.48
     },
     "dense_queries": [
      "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해."
@@ -4520,7 +4520,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.1,
     "sparse_weight": 0.9,
     "use_rewrite": false,
@@ -4534,23 +4537,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.0951137506284565,
-    "recall@10": 0.13931152589240825,
-    "precision@5": 0.125,
-    "precision@10": 0.1125,
-    "f1@5": 0.0902409953880542,
-    "f1@10": 0.10991042237419048,
-    "hit@10": 0.375,
-    "mrr@5": 0.24305555555555555,
-    "ndcg@5": 0.13995467424182825,
-    "map@5": 0.1275,
-    "nrecall@5": 0.15416666666666667,
-    "nrecall@10": 0.16145833333333334,
-    "p50_ms": 220.9,
-    "p95_ms": 283.03,
-    "p99_ms": 308.82,
-    "must_exclude_violation_rate@10": 0.47368421052631576,
-    "judged@10": 0.2333333333333333,
+    "recall@5": 0.16803041729512316,
+    "recall@10": 0.21570041478129712,
+    "precision@5": 0.15,
+    "precision@10": 0.12916666666666668,
+    "f1@5": 0.12816310867781458,
+    "f1@10": 0.13580119826496637,
+    "hit@10": 0.4583333333333333,
+    "mrr@5": 0.2916666666666667,
+    "ndcg@5": 0.20344100112525912,
+    "map@5": 0.1897685185185185,
+    "nrecall@5": 0.2222222222222222,
+    "nrecall@10": 0.2378472222222222,
+    "p50_ms": 194.89,
+    "p95_ms": 235.13,
+    "p99_ms": 292.95,
+    "must_exclude_violation_rate@10": 0.15789473684210525,
+    "judged@10": 0.23611111111111113,
     "abstention_accuracy": null
    }
   },
@@ -4558,7 +4561,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.2,
     "sparse_weight": 0.8,
     "use_rewrite": false,
@@ -4572,23 +4578,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.10942998994469583,
-    "recall@10": 0.17072178230266466,
-    "precision@5": 0.15,
-    "precision@10": 0.13749999999999998,
-    "f1@5": 0.10737062501768385,
-    "f1@10": 0.13578594781493333,
-    "hit@10": 0.4583333333333333,
-    "mrr@5": 0.2604166666666667,
-    "ndcg@5": 0.15921814421985017,
-    "map@5": 0.1486111111111111,
-    "nrecall@5": 0.17916666666666667,
-    "nrecall@10": 0.196875,
-    "p50_ms": 221.07,
-    "p95_ms": 283.03,
-    "p99_ms": 308.8,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.25416666666666665,
+    "recall@5": 0.17401332327802918,
+    "recall@10": 0.2575273378582202,
+    "precision@5": 0.16666666666666666,
+    "precision@10": 0.15833333333333335,
+    "f1@5": 0.13695940497411085,
+    "f1@10": 0.16762910465809014,
+    "hit@10": 0.5833333333333334,
+    "mrr@5": 0.2986111111111111,
+    "ndcg@5": 0.21563871692024572,
+    "map@5": 0.20879629629629629,
+    "nrecall@5": 0.2388888888888889,
+    "nrecall@10": 0.28368055555555555,
+    "p50_ms": 194.86,
+    "p95_ms": 235.12,
+    "p99_ms": 292.87,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.26944444444444443,
     "abstention_accuracy": null
    }
   },
@@ -4596,7 +4602,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.25,
     "sparse_weight": 0.75,
     "use_rewrite": false,
@@ -4610,23 +4619,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.12229763700351937,
-    "recall@10": 0.17697178230266467,
-    "precision@5": 0.16666666666666666,
-    "precision@10": 0.14583333333333334,
-    "f1@5": 0.1204177630648219,
-    "f1@10": 0.14290715993614544,
-    "hit@10": 0.4583333333333333,
-    "mrr@5": 0.2673611111111111,
-    "ndcg@5": 0.16268497540848736,
-    "map@5": 0.1534722222222222,
-    "nrecall@5": 0.19791666666666666,
-    "nrecall@10": 0.20520833333333333,
-    "p50_ms": 221.57,
-    "p95_ms": 283.04,
-    "p99_ms": 309.39,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.25833333333333336,
+    "recall@5": 0.19382541478129714,
+    "recall@10": 0.26030511563599795,
+    "precision@5": 0.19999999999999998,
+    "precision@10": 0.1625,
+    "f1@5": 0.15981046458987636,
+    "f1@10": 0.1709624379914235,
+    "hit@10": 0.5833333333333334,
+    "mrr@5": 0.3090277777777778,
+    "ndcg@5": 0.23507250974212,
+    "map@5": 0.23611111111111113,
+    "nrecall@5": 0.2743055555555555,
+    "nrecall@10": 0.2878472222222222,
+    "p50_ms": 194.87,
+    "p95_ms": 235.13,
+    "p99_ms": 292.89,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.2736111111111111,
     "abstention_accuracy": null
    }
   },
@@ -4634,7 +4643,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.3,
     "sparse_weight": 0.7,
     "use_rewrite": false,
@@ -4648,23 +4660,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.1289749874308698,
-    "recall@10": 0.19884678230266464,
-    "precision@5": 0.18333333333333335,
-    "precision@10": 0.15833333333333333,
-    "f1@5": 0.12994935347876527,
-    "f1@10": 0.1572803793093648,
-    "hit@10": 0.5,
-    "mrr@5": 0.2743055555555555,
-    "ndcg@5": 0.17269120852534048,
-    "map@5": 0.17361111111111113,
-    "nrecall@5": 0.21458333333333335,
-    "nrecall@10": 0.22847222222222222,
-    "p50_ms": 220.95,
-    "p95_ms": 283.04,
-    "p99_ms": 308.66,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.26666666666666666,
+    "recall@5": 0.19147498743086977,
+    "recall@10": 0.3273190045248869,
+    "precision@5": 0.20833333333333334,
+    "precision@10": 0.18333333333333335,
+    "f1@5": 0.16235676088617265,
+    "f1@10": 0.19669929372827924,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.3368055555555556,
+    "ndcg@5": 0.24314311001795363,
+    "map@5": 0.2517361111111111,
+    "nrecall@5": 0.27708333333333335,
+    "nrecall@10": 0.35694444444444445,
+    "p50_ms": 194.86,
+    "p95_ms": 235.13,
+    "p99_ms": 292.87,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.29444444444444445,
     "abstention_accuracy": null
    }
   },
@@ -4672,7 +4684,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.4,
     "sparse_weight": 0.6,
     "use_rewrite": false,
@@ -4686,23 +4701,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.13800276520864757,
-    "recall@10": 0.2446345525389643,
-    "precision@5": 0.20833333333333334,
-    "precision@10": 0.19999999999999998,
-    "f1@5": 0.1431846475964123,
-    "f1@10": 0.19699075649256811,
-    "hit@10": 0.5833333333333334,
-    "mrr@5": 0.28750000000000003,
-    "ndcg@5": 0.1877380652891226,
-    "map@5": 0.18618055555555557,
-    "nrecall@5": 0.23958333333333334,
-    "nrecall@10": 0.28368055555555555,
-    "p50_ms": 220.96,
-    "p95_ms": 283.03,
-    "p99_ms": 308.58,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.30833333333333335,
+    "recall@5": 0.2039749874308698,
+    "recall@10": 0.34880121920563095,
+    "precision@5": 0.24166666666666667,
+    "precision@10": 0.21666666666666667,
+    "f1@5": 0.18049401578813343,
+    "f1@10": 0.22433320571001733,
+    "hit@10": 0.625,
+    "mrr@5": 0.34861111111111115,
+    "ndcg@5": 0.26214134192558947,
+    "map@5": 0.27743055555555557,
+    "nrecall@5": 0.3104166666666667,
+    "nrecall@10": 0.38784722222222223,
+    "p50_ms": 194.86,
+    "p95_ms": 235.12,
+    "p99_ms": 292.86,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.3277777777777778,
     "abstention_accuracy": null
    }
   },
@@ -4710,7 +4725,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.45,
     "sparse_weight": 0.55,
     "use_rewrite": false,
@@ -4724,23 +4742,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.11126665409753644,
-    "recall@10": 0.25366233031674207,
-    "precision@5": 0.19999999999999998,
-    "precision@10": 0.21250000000000002,
-    "f1@5": 0.1276955887250005,
-    "f1@10": 0.20744530194711355,
-    "hit@10": 0.5833333333333334,
-    "mrr@5": 0.28055555555555556,
-    "ndcg@5": 0.17626500608510762,
-    "map@5": 0.17520833333333333,
-    "nrecall@5": 0.21666666666666667,
-    "nrecall@10": 0.29618055555555556,
-    "p50_ms": 220.82,
-    "p95_ms": 283.04,
-    "p99_ms": 309.01,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.325,
+    "recall@5": 0.20848887631975868,
+    "recall@10": 0.361301219205631,
+    "precision@5": 0.25,
+    "precision@10": 0.22916666666666666,
+    "f1@5": 0.18616897808074281,
+    "f1@10": 0.23620820571001733,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.3638888888888889,
+    "ndcg@5": 0.27403414686838173,
+    "map@5": 0.28215277777777775,
+    "nrecall@5": 0.31875000000000003,
+    "nrecall@10": 0.403125,
+    "p50_ms": 194.87,
+    "p95_ms": 235.13,
+    "p99_ms": 292.92,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.34027777777777773,
     "abstention_accuracy": null
    }
   },
@@ -4748,7 +4766,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.5,
     "sparse_weight": 0.5,
     "use_rewrite": false,
@@ -4762,23 +4783,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.12515554298642534,
-    "recall@10": 0.26757164404223227,
-    "precision@5": 0.20833333333333334,
-    "precision@10": 0.23750000000000002,
-    "f1@5": 0.13811225539166716,
-    "f1@10": 0.22865639794987622,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.31180555555555556,
-    "ndcg@5": 0.1872210360607638,
-    "map@5": 0.1822222222222222,
-    "nrecall@5": 0.23055555555555554,
-    "nrecall@10": 0.31527777777777777,
-    "p50_ms": 222.45,
-    "p95_ms": 283.03,
-    "p99_ms": 308.67,
-    "must_exclude_violation_rate@10": 0.47368421052631576,
-    "judged@10": 0.3625,
+    "recall@5": 0.22237776520864758,
+    "recall@10": 0.3786827551533434,
+    "precision@5": 0.25833333333333336,
+    "precision@10": 0.25,
+    "f1@5": 0.19658564474740947,
+    "f1@10": 0.2548333460018243,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.41111111111111115,
+    "ndcg@5": 0.29383475985253554,
+    "map@5": 0.2949074074074074,
+    "nrecall@5": 0.3326388888888889,
+    "nrecall@10": 0.425,
+    "p50_ms": 194.86,
+    "p95_ms": 235.18,
+    "p99_ms": 292.87,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.3652777777777778,
     "abstention_accuracy": null
    }
   },
@@ -4786,7 +4807,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.55,
     "sparse_weight": 0.45,
     "use_rewrite": false,
@@ -4800,23 +4824,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.12515554298642534,
-    "recall@10": 0.25192621920563096,
-    "precision@5": 0.20833333333333334,
-    "precision@10": 0.21666666666666667,
-    "f1@5": 0.13811225539166716,
-    "f1@10": 0.21087300849982007,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.29097222222222224,
-    "ndcg@5": 0.18880545065897844,
-    "map@5": 0.17680555555555555,
-    "nrecall@5": 0.23055555555555554,
-    "nrecall@10": 0.29444444444444445,
-    "p50_ms": 221.11,
-    "p95_ms": 283.07,
-    "p99_ms": 308.75,
-    "must_exclude_violation_rate@10": 0.47368421052631576,
-    "judged@10": 0.3333333333333333,
+    "recall@5": 0.27098887631975865,
+    "recall@10": 0.376926219205631,
+    "precision@5": 0.275,
+    "precision@10": 0.24166666666666667,
+    "f1@5": 0.2180502912120559,
+    "f1@10": 0.24983404746085905,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.43333333333333335,
+    "ndcg@5": 0.3235291956673468,
+    "map@5": 0.310462962962963,
+    "nrecall@5": 0.3826388888888889,
+    "nrecall@10": 0.41944444444444445,
+    "p50_ms": 194.87,
+    "p95_ms": 235.13,
+    "p99_ms": 292.91,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.35694444444444445,
     "abstention_accuracy": null
    }
   },
@@ -4824,7 +4848,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.6,
     "sparse_weight": 0.4,
     "use_rewrite": false,
@@ -4838,23 +4865,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.1320999874308698,
-    "recall@10": 0.24065485168426345,
-    "precision@5": 0.21666666666666667,
-    "precision@10": 0.19583333333333333,
-    "f1@5": 0.14568801296742473,
-    "f1@10": 0.19504708623368042,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.27847222222222223,
-    "ndcg@5": 0.1867208286074041,
-    "map@5": 0.17451388888888889,
-    "nrecall@5": 0.2388888888888889,
-    "nrecall@10": 0.27638888888888885,
-    "p50_ms": 221.36,
-    "p95_ms": 283.04,
-    "p99_ms": 309.03,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.30833333333333335,
+    "recall@5": 0.28140554298642534,
+    "recall@10": 0.3621826294620412,
+    "precision@5": 0.2833333333333333,
+    "precision@10": 0.22083333333333333,
+    "f1@5": 0.22730955047131518,
+    "f1@10": 0.23258767064926486,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.44027777777777777,
+    "ndcg@5": 0.3244276273589312,
+    "map@5": 0.30810185185185185,
+    "nrecall@5": 0.39305555555555555,
+    "nrecall@10": 0.3986111111111111,
+    "p50_ms": 194.93,
+    "p95_ms": 235.16,
+    "p99_ms": 292.86,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.34027777777777773,
     "abstention_accuracy": null
    }
   },
@@ -4862,7 +4889,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.65,
     "sparse_weight": 0.35,
     "use_rewrite": false,
@@ -4876,23 +4906,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.12932220965309202,
-    "recall@10": 0.21144733534439417,
-    "precision@5": 0.20833333333333334,
-    "precision@10": 0.17916666666666667,
-    "f1@5": 0.14152134630075808,
-    "f1@10": 0.17814192349518435,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.27847222222222223,
-    "ndcg@5": 0.17272761263385386,
-    "map@5": 0.15951388888888887,
-    "nrecall@5": 0.23055555555555554,
-    "nrecall@10": 0.24305555555555555,
-    "p50_ms": 220.97,
-    "p95_ms": 283.04,
-    "p99_ms": 308.73,
-    "must_exclude_violation_rate@10": 0.47368421052631576,
-    "judged@10": 0.2916666666666667,
+    "recall@5": 0.285572209653092,
+    "recall@10": 0.3621417797888386,
+    "precision@5": 0.2833333333333333,
+    "precision@10": 0.2125,
+    "f1@5": 0.2307186413804061,
+    "f1@10": 0.22818250791076877,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.44027777777777777,
+    "ndcg@5": 0.3246818161853448,
+    "map@5": 0.2940740740740741,
+    "nrecall@5": 0.39305555555555555,
+    "nrecall@10": 0.39444444444444443,
+    "p50_ms": 194.86,
+    "p95_ms": 235.13,
+    "p99_ms": 292.9,
+    "must_exclude_violation_rate@10": 0.21052631578947367,
+    "judged@10": 0.3277777777777778,
     "abstention_accuracy": null
    }
   },
@@ -4900,7 +4930,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.7,
     "sparse_weight": 0.3,
     "use_rewrite": false,
@@ -4914,23 +4947,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.09701011814982403,
-    "recall@10": 0.19954122674710909,
-    "precision@5": 0.16666666666666666,
-    "precision@10": 0.1625,
-    "f1@5": 0.11259341149047031,
-    "f1@10": 0.1643111032150887,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.26180555555555557,
-    "ndcg@5": 0.14703295417817766,
-    "map@5": 0.12409722222222223,
-    "nrecall@5": 0.1763888888888889,
-    "nrecall@10": 0.2263888888888889,
-    "p50_ms": 220.96,
-    "p95_ms": 283.04,
-    "p99_ms": 308.99,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.26666666666666666,
+    "recall@5": 0.2740934514831574,
+    "recall@10": 0.3502356711915535,
+    "precision@5": 0.25,
+    "precision@10": 0.19583333333333333,
+    "f1@5": 0.21369546847488027,
+    "f1@10": 0.21435168763067314,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.4263888888888889,
+    "ndcg@5": 0.30519829317684566,
+    "map@5": 0.25833333333333336,
+    "nrecall@5": 0.3597222222222222,
+    "nrecall@10": 0.37777777777777777,
+    "p50_ms": 194.88,
+    "p95_ms": 235.12,
+    "p99_ms": 292.94,
+    "must_exclude_violation_rate@10": 0.2631578947368421,
+    "judged@10": 0.3111111111111111,
     "abstention_accuracy": null
    }
   },
@@ -4938,7 +4971,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.75,
     "sparse_weight": 0.25,
     "use_rewrite": false,
@@ -4952,23 +4988,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.09770456259426848,
-    "recall@10": 0.17868746857717446,
-    "precision@5": 0.16666666666666666,
-    "precision@10": 0.14166666666666666,
-    "f1@5": 0.11332870560811738,
-    "f1@10": 0.14426550837782723,
-    "hit@10": 0.5416666666666666,
-    "mrr@5": 0.25972222222222224,
-    "ndcg@5": 0.14781254813295797,
-    "map@5": 0.1275,
-    "nrecall@5": 0.1763888888888889,
-    "nrecall@10": 0.20173611111111112,
-    "p50_ms": 220.93,
-    "p95_ms": 283.04,
-    "p99_ms": 308.76,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.24583333333333335,
+    "recall@5": 0.26437122926093515,
+    "recall@10": 0.3328541352438411,
+    "precision@5": 0.23333333333333336,
+    "precision@10": 0.17500000000000002,
+    "f1@5": 0.201953044232456,
+    "f1@10": 0.19572654733886619,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.41250000000000003,
+    "ndcg@5": 0.28235931883250254,
+    "map@5": 0.24694444444444444,
+    "nrecall@5": 0.3430555555555556,
+    "nrecall@10": 0.35590277777777773,
+    "p50_ms": 194.86,
+    "p95_ms": 235.13,
+    "p99_ms": 292.9,
+    "must_exclude_violation_rate@10": 0.2631578947368421,
+    "judged@10": 0.2902777777777778,
     "abstention_accuracy": null
    }
   },
@@ -4976,7 +5012,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.8,
     "sparse_weight": 0.2,
     "use_rewrite": false,
@@ -4990,23 +5029,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.07842665912518854,
-    "recall@10": 0.17062122926093515,
-    "precision@5": 0.13333333333333333,
-    "precision@10": 0.13333333333333333,
-    "f1@5": 0.09102230830172008,
-    "f1@10": 0.1369121612418714,
-    "hit@10": 0.5,
-    "mrr@5": 0.26319444444444445,
-    "ndcg@5": 0.12097162017165752,
-    "map@5": 0.09791666666666667,
-    "nrecall@5": 0.14097222222222222,
-    "nrecall@10": 0.19131944444444446,
-    "p50_ms": 220.96,
-    "p95_ms": 283.04,
-    "p99_ms": 308.71,
-    "must_exclude_violation_rate@10": 0.47368421052631576,
-    "judged@10": 0.24166666666666667,
+    "recall@5": 0.2638433257918552,
+    "recall@10": 0.32687122926093515,
+    "precision@5": 0.21666666666666667,
+    "precision@10": 0.16666666666666666,
+    "f1@5": 0.1972392395186513,
+    "f1@10": 0.18877002559973577,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.4152777777777778,
+    "ndcg@5": 0.270395001528218,
+    "map@5": 0.22104166666666666,
+    "nrecall@5": 0.3263888888888889,
+    "nrecall@10": 0.34756944444444443,
+    "p50_ms": 194.85,
+    "p95_ms": 235.12,
+    "p99_ms": 292.86,
+    "must_exclude_violation_rate@10": 0.2631578947368421,
+    "judged@10": 0.28194444444444444,
     "abstention_accuracy": null
    }
   },
@@ -5014,7 +5053,10 @@
    "label": "Baseline",
    "plan": {
     "query_type": "structured_constraint",
-    "hard_filters": {},
+    "hard_filters": {
+     "require_known_parameters": true,
+     "require_known_context": true
+    },
     "dense_weight": 0.9,
     "sparse_weight": 0.1,
     "use_rewrite": false,
@@ -5028,23 +5070,23 @@
    "summary": {
     "queries": 24,
     "scored_queries": 24,
-    "recall@5": 0.05338580945198592,
-    "recall@10": 0.14931969582704877,
-    "precision@5": 0.09166666666666667,
-    "precision@10": 0.10833333333333334,
-    "f1@5": 0.06244486722427899,
-    "f1@10": 0.11478658787535599,
-    "hit@10": 0.5,
-    "mrr@5": 0.15763888888888888,
-    "ndcg@5": 0.07027864453413583,
-    "map@5": 0.052638888888888895,
-    "nrecall@5": 0.09722222222222222,
-    "nrecall@10": 0.16354166666666667,
-    "p50_ms": 220.94,
-    "p95_ms": 283.04,
-    "p99_ms": 308.72,
-    "must_exclude_violation_rate@10": 0.42105263157894735,
-    "judged@10": 0.2125,
+    "recall@5": 0.23880247611865257,
+    "recall@10": 0.3125141402714932,
+    "precision@5": 0.17500000000000002,
+    "precision@10": 0.14583333333333334,
+    "f1@5": 0.1686617984412102,
+    "f1@10": 0.1718527855665537,
+    "hit@10": 0.6666666666666666,
+    "mrr@5": 0.29097222222222224,
+    "ndcg@5": 0.21209908277852693,
+    "map@5": 0.16743055555555555,
+    "nrecall@5": 0.2826388888888889,
+    "nrecall@10": 0.3267361111111111,
+    "p50_ms": 194.85,
+    "p95_ms": 235.12,
+    "p99_ms": 292.86,
+    "must_exclude_violation_rate@10": 0.2631578947368421,
+    "judged@10": 0.2611111111111111,
     "abstention_accuracy": null
    }
   }
@@ -5080,9 +5122,9 @@
     "map@5": 0.1275,
     "nrecall@5": 0.15416666666666667,
     "nrecall@10": 0.16145833333333334,
-    "p50_ms": 220.96,
-    "p95_ms": 283.14,
-    "p99_ms": 308.89,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.89,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.2333333333333333,
     "abstention_accuracy": null
@@ -5118,9 +5160,9 @@
     "map@5": 0.1486111111111111,
     "nrecall@5": 0.17916666666666667,
     "nrecall@10": 0.196875,
-    "p50_ms": 220.96,
-    "p95_ms": 283.04,
-    "p99_ms": 308.7,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.25416666666666665,
     "abstention_accuracy": null
@@ -5156,9 +5198,9 @@
     "map@5": 0.1534722222222222,
     "nrecall@5": 0.19791666666666666,
     "nrecall@10": 0.20520833333333333,
-    "p50_ms": 220.99,
-    "p95_ms": 283.03,
-    "p99_ms": 308.87,
+    "p50_ms": 200.57,
+    "p95_ms": 258.58,
+    "p99_ms": 292.89,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.25833333333333336,
     "abstention_accuracy": null
@@ -5194,9 +5236,9 @@
     "map@5": 0.17361111111111113,
     "nrecall@5": 0.21458333333333335,
     "nrecall@10": 0.22847222222222222,
-    "p50_ms": 220.95,
-    "p95_ms": 283.04,
-    "p99_ms": 308.69,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.26666666666666666,
     "abstention_accuracy": null
@@ -5232,9 +5274,9 @@
     "map@5": 0.18618055555555557,
     "nrecall@5": 0.23958333333333334,
     "nrecall@10": 0.28368055555555555,
-    "p50_ms": 222.14,
-    "p95_ms": 283.05,
-    "p99_ms": 308.65,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.30833333333333335,
     "abstention_accuracy": null
@@ -5270,9 +5312,9 @@
     "map@5": 0.17520833333333333,
     "nrecall@5": 0.21666666666666667,
     "nrecall@10": 0.29618055555555556,
-    "p50_ms": 220.96,
-    "p95_ms": 283.04,
-    "p99_ms": 309.08,
+    "p50_ms": 200.58,
+    "p95_ms": 258.59,
+    "p99_ms": 292.92,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.325,
     "abstention_accuracy": null
@@ -5308,9 +5350,9 @@
     "map@5": 0.1822222222222222,
     "nrecall@5": 0.23055555555555554,
     "nrecall@10": 0.31527777777777777,
-    "p50_ms": 221.03,
-    "p95_ms": 283.07,
-    "p99_ms": 308.69,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.3625,
     "abstention_accuracy": null
@@ -5346,9 +5388,9 @@
     "map@5": 0.17680555555555555,
     "nrecall@5": 0.23055555555555554,
     "nrecall@10": 0.29444444444444445,
-    "p50_ms": 220.85,
-    "p95_ms": 283.02,
-    "p99_ms": 308.75,
+    "p50_ms": 200.7,
+    "p95_ms": 258.59,
+    "p99_ms": 292.89,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.3333333333333333,
     "abstention_accuracy": null
@@ -5384,9 +5426,9 @@
     "map@5": 0.17451388888888889,
     "nrecall@5": 0.2388888888888889,
     "nrecall@10": 0.27638888888888885,
-    "p50_ms": 220.95,
-    "p95_ms": 283.06,
-    "p99_ms": 309.04,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.87,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.30833333333333335,
     "abstention_accuracy": null
@@ -5422,9 +5464,9 @@
     "map@5": 0.15951388888888887,
     "nrecall@5": 0.23055555555555554,
     "nrecall@10": 0.24305555555555555,
-    "p50_ms": 221.18,
-    "p95_ms": 283.03,
-    "p99_ms": 308.77,
+    "p50_ms": 200.57,
+    "p95_ms": 258.58,
+    "p99_ms": 292.89,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.2916666666666667,
     "abstention_accuracy": null
@@ -5460,9 +5502,9 @@
     "map@5": 0.12409722222222223,
     "nrecall@5": 0.1763888888888889,
     "nrecall@10": 0.2263888888888889,
-    "p50_ms": 221.03,
-    "p95_ms": 283.04,
-    "p99_ms": 308.69,
+    "p50_ms": 200.57,
+    "p95_ms": 258.59,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.26666666666666666,
     "abstention_accuracy": null
@@ -5498,9 +5540,9 @@
     "map@5": 0.1275,
     "nrecall@5": 0.1763888888888889,
     "nrecall@10": 0.20173611111111112,
-    "p50_ms": 220.93,
-    "p95_ms": 283.04,
-    "p99_ms": 308.83,
+    "p50_ms": 200.57,
+    "p95_ms": 258.58,
+    "p99_ms": 292.9,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.24583333333333335,
     "abstention_accuracy": null
@@ -5536,9 +5578,9 @@
     "map@5": 0.09791666666666667,
     "nrecall@5": 0.14097222222222222,
     "nrecall@10": 0.19131944444444446,
-    "p50_ms": 220.9,
-    "p95_ms": 283.04,
-    "p99_ms": 308.62,
+    "p50_ms": 200.56,
+    "p95_ms": 258.58,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.47368421052631576,
     "judged@10": 0.24166666666666667,
     "abstention_accuracy": null
@@ -5574,9 +5616,9 @@
     "map@5": 0.052638888888888895,
     "nrecall@5": 0.09722222222222222,
     "nrecall@10": 0.16354166666666667,
-    "p50_ms": 221.05,
-    "p95_ms": 283.04,
-    "p99_ms": 308.67,
+    "p50_ms": 200.56,
+    "p95_ms": 258.58,
+    "p99_ms": 292.86,
     "must_exclude_violation_rate@10": 0.42105263157894735,
     "judged@10": 0.2125,
     "abstention_accuracy": null
@@ -5742,7 +5784,9 @@
    "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF"
   ],
   "sg_h010": [
+   "EZCon/GLM-OCR-4bit-g32-mxfp4-mixed_4_8-mlx",
    "EZCon/GLM-OCR-4bit-mlx",
+   "EZCon/GLM-OCR-8bit-mlx",
    "EZCon/GLM-OCR-mlx",
    "EnlistedGhost/Ministral-3-14B-Instruct-2512-GGUF",
    "EnlistedGhost/Ministral-3-14B-Reasoning-2512-GGUF",
@@ -5754,6 +5798,7 @@
    "KDLAI/KDL-Frontier-Parser-nano",
    "LiquidAI/LFM2-VL-3B",
    "LiquidAI/LFM2.5-VL-1.6B",
+   "LiquidAI/LFM2.5-VL-3B-MLX-4bit",
    "LiquidAI/LFM2.5-VL-3B-MLX-6bit",
    "LiquidAI/LFM2.5-VL-3B-MLX-8bit",
    "LiquidAI/LFM2.5-VL-3B-MLX-bf16",
@@ -5761,6 +5806,7 @@
    "LiquidAI/LFM2.5-VL-450M",
    "LiquidAI/LFM2.5-VL-450M-MLX-4bit",
    "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
+   "NCSOFT/VARCO-VISION-2.0-1.7B-OCR",
    "ZuzeTt/LFM2.5-VL-1.6B-GGUF",
    "brunogcp/supergemma4-26b-abliterated-multimodal-gguf-4bit",
    "coder3101/LFM2.5-VL-450M-heretic",
@@ -5831,19 +5877,24 @@
    "IsValorum/Thomson-1.0-Small-APEX-I-MiniPlus-V2.1-GGUF",
    "LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF",
    "LiquidAI/LFM2.5-350M",
+   "MihaiPopa-1/LFM2.5-350M-heretic",
    "Mungert/LFM2.5-1.2B-Instruct-GGUF",
    "NexaAI/LFM2-24B-A2B-GGUF",
    "ZuzeTt/LFM2.5-1.2B-Instruct-imatrix-GGUF",
    "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
+   "aixk/BAAR2-3M",
    "aixk/BAAR2-9M",
    "aixk/BAAR3-19M",
    "alekringtonnn-ai/zubr-gemma3-1b",
    "aufklarer/Qwen3.5-0.8B-Chat-MLX",
    "coder3101/LFM2.5-350M-heretic",
    "heegyu/kogpt-neox-small",
+   "idah4/etm-korean-tiny",
+   "inboxpraveen/Kavach-PII-270M",
    "insraq/LFM2.5-2.6B-heretic-GGUF",
    "kykim/gpt3-kor-small_based_on_gpt2",
    "lopezjhonf/LFM2.5-8B-A1B-Uncensored-GGUF",
+   "mobilint/kanana-nano-2.1b-instruct-regulus-rb-usb",
    "north-wind/TinyStories-Korean-800K",
    "onnx-community/LFM2.5-350M-ONNX",
    "plavno/LFM2.5-2.6B-AutoRound-W8A16",
@@ -5873,6 +5924,7 @@
    "LiquidAI/LFM2.5-VL-450M-MLX-5bit",
    "LiquidAI/LFM2.5-VL-450M-MLX-6bit",
    "LiquidAI/LFM2.5-VL-450M-MLX-8bit",
+   "LiquidAI/LFM2.5-VL-450M-MLX-bf16",
    "Mattimax/DAC6.5-GGUF",
    "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF",
    "MuXodious/LFM2.5-VL-1.6B-absolute-heresy-GGUF",
@@ -5916,6 +5968,7 @@
    "KYUNGYONG/DeepSeek-llama3.1-Bllossom-8B-Q4-mlx",
    "LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF",
    "LiquidAI/LFM2.5-2.6B",
+   "LiquidAI/LFM2.5-2.6B-MLX-bf16",
    "Mungert/LFM2-1.2B-RAG-GGUF",
    "MyeongHo0621/Qwen2.5-3B-Korean",
    "NC-AI-consortium-VAETKI/VAETKI",
@@ -5931,11 +5984,13 @@
    "arcee-ai/Trinity-Large-Base",
    "ark4004/DeepSeek-llama3.3-Bllossom-70B-jh",
    "bakulgrosirherbal/Qwen3.5-9B-Gemini-3.1-Pro-Reasoning-Distill-GGUF",
+   "bjk110/Qwen3.5-122B-A10B-abliterated-NVFP4",
    "bullerwins/Qwen2.5-7B-Instruct-GGUF",
    "ghost-x/ghost-8b-beta-1608-gguf",
    "intrect/VELA",
    "llmcompressor-quants/Qwen2.5-7B-Instruct-fp8-dynamic",
    "mikehenken/Qwen3.5-27B-Gemini-3.1-Pro-Reasoning-Distill-GGUF",
+   "nota-ai/Solar-Open2-250B-Nota-INT4",
    "nvidia/NVIDIA-Nemotron-Nano-9B-v2-Base",
    "unsloth/Qwen2.5-72B-Instruct-bnb-4bit",
    "young-kim123/qwen3-1.7b-mymodel"
@@ -6019,6 +6074,7 @@
    "CISCai/jina-embeddings-v3-separation-distilled",
    "LiquidAI/LFM2.5-ColBERT-350M-GGUF",
    "LiquidAI/LFM2.5-Embedding-350M-GGUF",
+   "Xenova/kobert",
    "alphaedge-ai/multilingual-e5-small-kor-32768",
    "batiai/Qwen3-Embedding-0.6B-GGUF",
    "batiai/Qwen3-VL-Embedding-2B-GGUF",
@@ -6026,7 +6082,9 @@
    "ddobokki/unsup-simcse-klue-roberta-small",
    "exp-models/dragonkue-KoEn-E5-Tiny",
    "fisher046/granite-embedding-311m-multilingual-r2-Q8_0-GGUF",
+   "gomyk/me5s-me5s_compressed_v3_distilled",
    "gomyk/me5s-student-me5s_compressed_v3_distilled",
+   "gomyk/me5s-student-me5s_compressed_v4_distilled",
    "litert-community/LFM2.5-ColBERT-350M",
    "litert-community/LFM2.5-Embedding-350M",
    "madatnlp/km-bert",
@@ -6040,6 +6098,8 @@
    "smartmind/roberta-ko-small-tsdae",
    "tamikisg/multilingual-e5-small-coreml",
    "ukung/semantic-lite-gguf",
+   "utter-project/mHuBERT-147-base-1st-iter",
+   "utter-project/mHuBERT-147-base-2nd-iter",
    "zhiqian99/Qwen3-Embedding-0.6B-GGUF"
   ],
   "sg_h059": [
@@ -6067,8 +6127,11 @@
   "sg_h069": [
    "Dingdust/LFM2.5-2.6B-heretic",
    "ErtasAI/Phi-4-mini-instruct-bnb-4bit",
+   "GMODEOS/EXAONE-4.0-1.2B",
    "GOBA-AI-Labs/PrunedHub-GPT-OSS-20B-28x",
    "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct",
+   "LGAI-EXAONE/EXAONE-4.0-1.2B",
+   "LGAI-EXAONE/EXAONE-4.0-1.2B-GPTQ-Int8",
    "LGAI-EXAONE/EXAONE-Deep-2.4B",
    "LGAI-EXAONE/EXAONE-Deep-2.4B-GGUF",
    "LiquidAI/LFM2.5-1.2B-Thinking",
@@ -6099,6 +6162,7 @@
    "lunar1020/EXAONE-ExaDialogue-DPO-2.4B",
    "mlx-community/Phi-4-mini-instruct-mlx-4Bit",
    "mlx-community/Phi-4-mini-instruct-mlx-6Bit",
+   "mlx-community/exaone-4.0-1.2b-4bit",
    "mobilint/EXAONE-Deep-2.4B",
    "mobilint/EXAONE-Deep-2.4B-Batch16",
    "second-state/EXAONE-Deep-2.4B-GGUF",
@@ -6128,6 +6192,7 @@
    "moonshine-ai/moonshine-base-ko",
    "moonshine-ai/moonshine-tiny-ko",
    "onnx-community/moonshine-base-ko-ONNX",
+   "openai/whisper-base",
    "openai/whisper-tiny",
    "seastar105/whisper-medium-ko-zeroth",
    "team-lucid/hubert-base-korean"
@@ -6169,6 +6234,10 @@
    "ysmeta/EVE-Embed-1.1-Legal"
   ],
   "sg_h103": [
+   "Bingsu/kanana-2-1.3b-instruct",
+   "Jackrong/Qwen3.5-0.8B-Claude-4.6-Opus-Reasoning-Distilled",
+   "Jeethu/granite-4.2-3b-PARO",
+   "Jeethu/granite-4.2-8b-PARO",
    "LiquidAI/LFM2-2.6B-Exp",
    "LiquidAI/LFM2.5-1.2B-Instruct",
    "LiquidAI/LFM2.5-1.2B-Thinking",
@@ -6185,6 +6254,7 @@
    "QuantFactory/ghost-8b-beta-1608-GGUF",
    "QuantFactory/ghost-8b-beta-GGUF",
    "SEOKDONG/llama3.2_1B_korean_v0.2_sft_by_aidx",
+   "SamsungSDS-Research/SGuard-ContentFilter-2B-v1",
    "ZuzeTt/LFM2.5-1.2B-Thinking-imatrix-GGUF",
    "deul/Kanana-2-30b-a3b-instruct-2601-GGUF",
    "ghost-x/ghost-8b-beta-1608-gguf",
@@ -6196,6 +6266,7 @@
    "mlx-community/LFM2-350M-4bit",
    "mlx-community/LFM2-350M-8bit",
    "mlx-community/LFM2-350M-MLX",
+   "mlx-community/LFM2.5-1.2B-Instruct-4bit",
    "mlx-community/LFM2.5-1.2B-Thinking-4bit",
    "mlx-community/LFM2.5-1.2B-Thinking-6bit",
    "mradermacher/CURE-MED-3B-GGUF",
@@ -6230,6 +6301,7 @@
    "microsoft/harrier-oss-v1-0.6b",
    "mlx-community/bge-m3-mlx-6bit",
    "mlx-community/bge-m3-mlx-8bit",
+   "onnx-community/harrier-oss-v1-0.6b-ONNX",
    "telepix/PIXIE-Spell-v1.5-0.6B",
    "tss-deposium/pplx-embed-v1-0.6b-onnx-int8-standard",
    "upskyy/bge-m3-korean",
@@ -6249,10 +6321,12 @@
    "OpenVoiceOS/sensevoice-small-onnx",
    "SungBeom/stt_kr_conformer_ctc_medium",
    "batiai/batisay-ko-turbo",
+   "binant/whisper-small",
    "christopherthompson81/VibeVoice-ASR-Streaming-1.5B-GGUF",
    "christopherthompson81/vibevoice-asr-streaming-1.5b-onnx",
    "cstr/VibeVoice-7B-GGUF",
    "facebook/mms-1b-fl102",
+   "facebook/mms-1b-l1107",
    "ghost613/whisper-large-v3-turbo-korean",
    "handy-computer/moonshine-base-ko-gguf",
    "handy-computer/moonshine-tiny-ko-gguf",
@@ -6260,11 +6334,14 @@
    "jiangzhuo9357/Qwen3-ASR-1.7B-ONNX",
    "kimthegarden/whisper-small-ko-new",
    "leuconoe/whisper-acft-ko",
+   "mlx-community/nemotron-3.5-asr-streaming-0.6b-8bit",
    "mobilint/whisper-large-v3-turbo",
    "mobilint/whisper-small",
    "moonshine-ai/moonshine-base-ko",
    "moonshine-ai/moonshine-tiny-ko",
    "onnx-community/moonshine-base-ko-ONNX",
+   "openai/whisper-base",
+   "openai/whisper-tiny",
    "seastar105/whisper-medium-komixv2",
    "seastar105/whisper-small-komixv2",
    "slplab/wav2vec2-xls-r-300m_phone-mfa_korean",
@@ -6280,6 +6357,7 @@
    "Huffon/klue-roberta-base-nli",
    "Jinuuuu/KoELECTRA_fine_tunning_emotion",
    "LangQuant/LQ-FSE-base",
+   "MelissaJ/koelectra-emotion-6-emotion-base",
    "Metabaron6/Shieldstral-1.0-3B-GGUF",
    "Seonghaa/korean-emotion-classifier-roberta",
    "Zeolit/lettuce-thymos-26m-v1",
