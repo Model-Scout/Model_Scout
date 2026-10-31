@@ -43,3 +43,6 @@ graphify-out/
 
 # Retrieval lab: BGE-M3 index build checkpoints (resumable, removed after a full build).
 data/retrieval_lab/.bge_m3_build/
+
+# Planning doc page renders (local only).
+png/
