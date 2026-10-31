@@ -4,7 +4,7 @@ id: "kaggle/ahnuf05/nano-banana-2-0-the-omni-subject-dataset"
 source: "kaggle"
 url: "https://www.kaggle.com/datasets/ahnuf05/nano-banana-2-0-the-omni-subject-dataset"
 downloads: 676
-summary: "Google Gemini가 생성한 1,067개 AI 이미지로 AI 이미지 탐지 모델 학습용 데이터셋입니다."
+summary: "Google Gemini로 생성된 1,067개 AI 이미지로 AI 이미지 탐지 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_only"
@@ -17,7 +17,7 @@ domain:
 
 > dataset · [Kaggle](https://www.kaggle.com/datasets/ahnuf05/nano-banana-2-0-the-omni-subject-dataset)
 
-Google Gemini가 생성한 1,067개 AI 이미지로 AI 이미지 탐지 모델 학습용 데이터셋입니다.
+Google Gemini로 생성된 1,067개 AI 이미지로 AI 이미지 탐지 모델 학습용 데이터셋입니다.
 
 ## 분류
 

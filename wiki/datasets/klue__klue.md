@@ -54,7 +54,7 @@ KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `59` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-4.0` · 신뢰도 high
-- **도메인**: [[일반]] — ner · readme = `KLUE is a collection of 8 tasks to evaluate natural language understanding capability of Korean language models.` · 신뢰도 low
+- **도메인**: [[일반]] — ner · readme = `natural language understanding capability of Korean language models` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `validation: 9,107` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `train: 45,678` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high

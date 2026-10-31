@@ -40,7 +40,7 @@ OpenMathReasoning-mini 데이터셋을 한국어로 번역한 수학 문제 및 
 ## 분류
 
 - **작업**: [[텍스트 생성]] — metadata · readme, task_categories = `text-generation` · 신뢰도 medium
-- **작업**: [[질의응답]] — metadata · readme, task_categories = `question-answering` · 신뢰도 medium
+- **작업**: [[질의응답]] — metadata · task_categories = `question-answering` · 신뢰도 low
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:question_answering = `수학 문제` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:question_answering = `풀이 과정 (Chain-of-Thought)` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high

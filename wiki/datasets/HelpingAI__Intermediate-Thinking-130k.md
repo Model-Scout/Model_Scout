@@ -4,11 +4,12 @@ id: "HelpingAI/Intermediate-Thinking-130k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HelpingAI/Intermediate-Thinking-130k"
 downloads: 24
-summary: "135,000개 예제로 구성된 다국어 중간 사고 과정 학습 및 평가용 데이터셋입니다."
+summary: "135,000개 고품질 샘플로 중간 사고 과정을 통한 언어 모델 추론 능력 향상용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
 task:
+  - "[[텍스트 분류]]"
   - "[[텍스트 생성]]"
   - "[[질의응답]]"
 input_modality:
@@ -32,14 +33,15 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/HelpingAI/Intermediate-Thinking-130k)
 
-135,000개 예제로 구성된 다국어 중간 사고 과정 학습 및 평가용 데이터셋입니다.
+135,000개 고품질 샘플로 중간 사고 과정을 통한 언어 모델 추론 능력 향상용 데이터셋입니다.
 
 ## 분류
 
+- **작업**: [[텍스트 분류]] — ner · readme = `Advancing AI reasoning methodologies` · 신뢰도 low
 - **작업**: [[텍스트 생성]] — metadata · readme, task_categories = `text-generation` · 신뢰도 medium
 - **작업**: [[질의응답]] — ner · readme = `Multi-step problem solving evaluation` · 신뢰도 low
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:question_answering = `A comprehensive dataset of 135,000 high-quality samples designed to advance language model reasoning capabilities` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:question_answering = `training and evaluation of models with sophisticated self-correction and iterative reasoning abilities` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification, task:generation, task:question_answering = `A comprehensive dataset of 135,000 high-quality samples designed to advance language model reasoning capabilities through structured intermediate thinking proce` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:question_answering = `This dataset enables training and evaluation of models with sophisticated self-correction and iterative reasoning abilities` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `42 languages` · 신뢰도 high

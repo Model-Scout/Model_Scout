@@ -16,8 +16,8 @@ facet: [[언어]] · 개념 id `language/bn`
 - [[safety-irt__safety-data|safety-irt/safety-data]]
 - [[AmazonScience__tydi-as2|AmazonScience/tydi-as2]]
 - [[ginigen-ai__smol-worldcup|ginigen-ai/smol-worldcup]]
-- [[ronak-wani__Wiki2019-multilingual-dense-embeddings|ronak-wani/Wiki2019-multilingual-dense-embeddings]]
 - [[floschne__xgqa|floschne/xgqa]]
+- [[ronak-wani__Wiki2019-multilingual-dense-embeddings|ronak-wani/Wiki2019-multilingual-dense-embeddings]]
 - [[akariasai__xor_tydi_qa|akariasai/xor_tydi_qa]]
 - [[longhp1618__multilingual-lima|longhp1618/multilingual-lima]]
 - [[jaylacho__TOPSD-train|jaylacho/TOPSD-train]]
@@ -42,7 +42,7 @@ facet: [[언어]] · 개념 id `language/bn`
 - [[상업 이용 가능]] (상업 이용) · 공유 17
 - [[질의응답]] (작업) · 공유 15
 - [[학습용]] (데이터 용도) · 공유 13
-- [[평가용]] (데이터 용도) · 공유 11
+- [[평가용]] (데이터 용도) · 공유 12
 - [[중규모 데이터]] (데이터 규모) · 공유 11
 - [[텍스트 분류]] (작업) · 공유 10
 - [[텍스트 생성]] (작업) · 공유 10

@@ -4,7 +4,7 @@ id: "Gingiris/gingiris-twitter-agent-ops"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-twitter-agent-ops"
 downloads: 79
-summary: "AI 에이전트가 트위터/X 계정을 자동 운영하며 팔로워를 증가시키는 완전한 SOP 데이터셋입니다."
+summary: "AI 에이전트를 활용한 트위터 자동 운영 SOP로 팔로워 증가 및 콘텐츠 관리 지원 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -34,14 +34,14 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/Gingiris/gingiris-twitter-agent-ops)
 
-AI 에이전트가 트위터/X 계정을 자동 운영하며 팔로워를 증가시키는 완전한 SOP 데이터셋입니다.
+AI 에이전트를 활용한 트위터 자동 운영 SOP로 팔로워 증가 및 콘텐츠 관리 지원 데이터셋입니다.
 
 ## 분류
 
 - **작업**: [[텍스트 생성]] — metadata · readme, task_categories = `text-generation` · 신뢰도 medium
 - **작업**: [[문서 검색]] — ner · readme = `将账号主人的所有一手内容转化为可检索的文本` · 신뢰도 low
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:generation, task:retrieval = `日均发布 1 条，全程自动化运营` · 신뢰도 medium
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `让 agent 写出"像这个人"的内容` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `日均发布 1 条，全程自动化运营` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[일본어]] — metadata · languages = `ja` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high

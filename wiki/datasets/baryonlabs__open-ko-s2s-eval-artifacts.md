@@ -4,7 +4,7 @@ id: "baryonlabs/open-ko-s2s-eval-artifacts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/baryonlabs/open-ko-s2s-eval-artifacts"
 downloads: 71
-summary: "Open Ko-S2S 평가 산출물로 음성 인식 모델의 문자 오류율(CER) 검증용 데이터셋입니다."
+summary: "Open Ko-S2S 평가 산출물로, 음성 인식 모델의 문자 오류율(CER) 검증용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
 korean_focus: "ko_only"
@@ -36,7 +36,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/baryonlabs/open-ko-s2s-eval-artifacts)
 
-Open Ko-S2S 평가 산출물로 음성 인식 모델의 문자 오류율(CER) 검증용 데이터셋입니다.
+Open Ko-S2S 평가 산출물로, 음성 인식 모델의 문자 오류율(CER) 검증용 데이터셋입니다.
 
 ## 분류
 

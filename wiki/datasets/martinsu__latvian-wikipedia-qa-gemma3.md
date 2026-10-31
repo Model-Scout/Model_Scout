@@ -4,7 +4,7 @@ id: "martinsu/latvian-wikipedia-qa-gemma3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/martinsu/latvian-wikipedia-qa-gemma3"
 downloads: 35
-summary: "라트비아어 위키백과 문서 기반 다중턴 질의응답 합성 데이터셋으로 대화형 AI 학습에 활용됨."
+summary: "라트비아어 위키백과 문서 기반의 다중턴 질의응답 합성 데이터셋으로, 라트비아어 QA 및 대화형 AI 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -32,11 +32,11 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/martinsu/latvian-wikipedia-qa-gemma3)
 
-라트비아어 위키백과 문서 기반 다중턴 질의응답 합성 데이터셋으로 대화형 AI 학습에 활용됨.
+라트비아어 위키백과 문서 기반의 다중턴 질의응답 합성 데이터셋으로, 라트비아어 QA 및 대화형 AI 학습에 활용됨.
 
 ## 분류
 
-- **작업**: [[텍스트 생성]] — tag_match · tags = `conversational` · 신뢰도 low
+- **작업**: [[텍스트 생성]] — tag_match · readme, tags = `conversational` · 신뢰도 medium
 - **작업**: [[질의응답]] — metadata · readme, tags, task_categories = `question-answering` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:question_answering = `Multi-turn conversations with user-assistant exchanges` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:question_answering = `Multi-turn conversations with user-assistant exchanges` · 신뢰도 medium

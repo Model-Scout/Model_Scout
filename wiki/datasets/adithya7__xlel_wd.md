@@ -37,8 +37,8 @@ XLEL-WD는 다국어 위키피디아/위키뉴스 기사에서 위키데이터 �
 ## 분류
 
 - **작업**: [[문서 검색]] — ner · readme = `This dataset can be used for the task of event linking.` · 신뢰도 low
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:retrieval = `This dataset contains mention references from multilingual Wikipedia/Wikinews articles` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `mention references from multilingual Wikipedia/Wikinews articles to event items in Wikidata` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:retrieval = `This dataset contains text from 44 languages.` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `This dataset contains mention references from multilingual Wikipedia/Wikinews articles to event items in Wikidata.` · 신뢰도 low
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `44 languages` · 신뢰도 high

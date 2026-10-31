@@ -4,7 +4,7 @@ id: "kyujinpy/KOR-OpenOrca-Platypus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kyujinpy/KOR-OpenOrca-Platypus"
 downloads: 73
-summary: "OpenOrca 데이터셋은 FLAN 데이터를 증강한 한국어 고품질 자연어처리 학습 및 평가용 데이터셋입니다."
+summary: "OpenOrca 데이터셋은 FLAN 데이터를 증강한 한국어 고품질 자연어처리 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_only"
@@ -42,7 +42,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/kyujinpy/KOR-OpenOrca-Platypus)
 
-OpenOrca 데이터셋은 FLAN 데이터를 증강한 한국어 고품질 자연어처리 학습 및 평가용 데이터셋입니다.
+OpenOrca 데이터셋은 FLAN 데이터를 증강한 한국어 고품질 자연어처리 학습용 데이터셋입니다.
 
 ## 분류
 

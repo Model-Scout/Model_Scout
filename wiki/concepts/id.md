@@ -40,8 +40,8 @@ facet: [[언어]] · 개념 id `language/id`
 - [[neuralfoundry-coder__multilingual-translation-fast|neuralfoundry-coder/multilingual-translation-fast]]
 - [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[neulab__PangeaBench-xchat|neulab/PangeaBench-xchat]]
-- [[Nexdata-kr__500000-Images-Multilingual-OCR-Dataset-in-21-Languages|Nexdata-kr/500000-Images-Multilingual-OCR-Dataset-in-21-Languages]]
 - [[SirJohnBasu__syntava-cube-publication|SirJohnBasu/syntava-cube-publication]]
+- [[Nexdata-kr__500000-Images-Multilingual-OCR-Dataset-in-21-Languages|Nexdata-kr/500000-Images-Multilingual-OCR-Dataset-in-21-Languages]]
 - [[datalama__STELLA|datalama/STELLA]]
 - [[neuralfoundry-coder__finance-instructions-ko-sample|neuralfoundry-coder/finance-instructions-ko-sample]]
 - [[rileykim__multilingual-image-text-translation|rileykim/multilingual-image-text-translation]]
@@ -61,8 +61,8 @@ facet: [[언어]] · 개념 id `language/id`
 - [[arvestcv__zwds-numerology-knowledge|arvestcv/zwds-numerology-knowledge]]
 - [[datasetsANDmodels__8-different-languages|datasetsANDmodels/8-different-languages]]
 - [[Menoviar28__menov48|Menoviar28/menov48]]
-- [[ziozzang__deepl-trans-ID-KO|ziozzang/deepl-trans-ID-KO]]
 - [[jp1924__MultilingualCorpusInFinancialSector|jp1924/MultilingualCorpusInFinancialSector]]
+- [[ziozzang__deepl-trans-ID-KO|ziozzang/deepl-trans-ID-KO]]
 
 ## 함께 연결된 개념
 
@@ -72,7 +72,7 @@ facet: [[언어]] · 개념 id `language/id`
 - [[일반]] (도메인) · 공유 30
 - [[Parquet]] (데이터 형식) · 공유 23
 - [[학습용]] (데이터 용도) · 공유 20
-- [[평가용]] (데이터 용도) · 공유 15
+- [[평가용]] (데이터 용도) · 공유 16
 - [[중규모 데이터]] (데이터 규모) · 공유 15
 - [[번역]] (작업) · 공유 14
 - [[단문]] (입력 길이) · 공유 13

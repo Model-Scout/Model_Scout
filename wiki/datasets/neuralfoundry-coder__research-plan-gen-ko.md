@@ -4,7 +4,7 @@ id: "neuralfoundry-coder/research-plan-gen-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/research-plan-gen-ko"
 downloads: 59
-summary: "영어 연구 계획 데이터셋을 한국어로 번역한 연구 계획 생성용 데이터셋입니다."
+summary: "영어 연구 계획 생성 데이터셋을 한국어로 번역한 연구 계획 생성용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -34,7 +34,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/neuralfoundry-coder/research-plan-gen-ko)
 
-영어 연구 계획 데이터셋을 한국어로 번역한 연구 계획 생성용 데이터셋입니다.
+영어 연구 계획 생성 데이터셋을 한국어로 번역한 연구 계획 생성용 데이터셋입니다.
 
 ## 분류
 

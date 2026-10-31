@@ -132,6 +132,34 @@ def verify(extracted, context):
     return dict(kept), dropped
 
 
+def validate_loose(data):
+    """Free-form JSON -> the Pydantic model, keeping only items that validate on their own."""
+    from typing import get_args
+
+    from pydantic import ValidationError
+
+    model, fields = ner_model(), {"summary_ko": str((data or {}).get("summary_ko") or "")}
+    for facet in NER_FACETS:
+        evidence = get_args(model.model_fields[facet].annotation)[0]
+        fields[facet] = []
+        for item in (data or {}).get(facet) or []:
+            try:
+                fields[facet].append(evidence.model_validate(item))
+            except ValidationError:
+                continue
+    return model(**fields)
+
+
+def json_mode_fallback(client, system, context):
+    """Last resort after strict decoding looped twice: plain JSON mode, validated item by item."""
+    shape = ("\nReturn one JSON object with keys summary_ko and " + ", ".join(NER_FACETS)
+             + "; each facet is a list of {\"value\": <concept key>, \"quote\": <text>}.")
+    response = client.chat.completions.create(
+        model=MODEL, temperature=0, max_tokens=900, response_format={"type": "json_object"},
+        messages=[{"role": "system", "content": system + shape}, {"role": "user", "content": context}])
+    return validate_loose(json.loads(response.choices[0].message.content)), response
+
+
 def extract(client, row, context, system):
     from openai import LengthFinishReasonError
 
@@ -150,7 +178,9 @@ def extract(client, row, context, system):
             # decoding loop past any token limit. Retry once on the card's head with a tighter brief;
             # quotes are then verified against that same head.
             if hint:
-                raise
+                print(f"[NER] json-mode fallback {row['dataset_id']}", flush=True)
+                parsed, response = json_mode_fallback(client, system + hint, context)
+                break
             hint = "\nAt most 3 items per facet, strongest first. Quotes as plain text, no backslash escapes."
             context = context[:RETRY_CONTEXT_CHARS]
             print(f"[NER] re-asking {row['dataset_id']}: {type(error).__name__}", flush=True)
@@ -253,6 +283,8 @@ def self_check():
     good = model.model_validate({"summary_ko": "요약", "task": [{"value": "embedding", "quote": "q"}], "domain": [],
                                  "dataset_role": [], "input_modality": [], "output_modality": []})
     assert good.model_dump()["task"] == [{"value": "embedding", "quote": "q"}]
+    loose = validate_loose({"summary_ko": "s", "task": [{"value": "embedding", "quote": "a"}, {"value": "nope", "quote": "b"}, "junk"]})
+    assert [i.value for i in loose.task] == ["embedding"] and loose.domain == []
     try:
         model.model_validate({**good.model_dump(), "task": [{"value": "not_a_concept", "quote": "q"}]})
         raise AssertionError("off-taxonomy value accepted")

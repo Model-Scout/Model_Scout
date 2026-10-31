@@ -40,8 +40,8 @@ AIHub 초거대 언어모델 신뢰성 벤치마크 기반 한국어 LLM 신뢰�
 
 - **작업**: [[텍스트 분류]] — metadata · readme, task_categories = `text-classification` · 신뢰도 medium
 - **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:classification, task:generation = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:generation = `text` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification, task:generation = `프롬프트/질문 (DPO용)` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `선호 응답 (DPO용)` · 신뢰도 medium
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `45` · 신뢰도 medium
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-4.0` · 신뢰도 high

@@ -4,7 +4,7 @@ id: "bltlab/lr-sum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bltlab/lr-sum"
 downloads: 700
-summary: "LR-Sum은 적은 자원 언어를 위한 뉴스 요약 자동화 데이터셋입니다."
+summary: "LR-Sum은 적은 자원 언어를 위한 뉴스 요약 자동화 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -36,14 +36,14 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/bltlab/lr-sum)
 
-LR-Sum은 적은 자원 언어를 위한 뉴스 요약 자동화 데이터셋입니다.
+LR-Sum은 적은 자원 언어를 위한 뉴스 요약 자동화 연구용 데이터셋입니다.
 
 ## 분류
 
 - **작업**: [[텍스트 생성]] — metadata · readme, task_categories = `text-generation` · 신뢰도 high
 - **작업**: [[요약]] — metadata · readme, task_categories = `summarization` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:summarization = `LR-Sum is a automatic summarization dataset of newswire text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:summarization = `human-written summaries for 39 languages` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:summarization = `LR-Sum contains human-written summaries for 39 languages` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `39 languages` · 신뢰도 high

@@ -36,13 +36,13 @@ WEATHub은 24개 언어의 단어 연관성을 측정해 언어 모델 내 편�
 
 ## 분류
 
-- **작업**: [[텍스트 분류]] — ner · readme = `- `bias_eval` : The dataset is used to measure biased associations.` · 신뢰도 low
+- **작업**: [[텍스트 분류]] — ner · readme = `The dataset is used to measure biased associations.` · 신뢰도 low
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification = `It contains words organized into groups of (target1, target2, attribute1, attribute2)` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `It contains words organized into groups of (target1, target2, attribute1, attribute2)` · 신뢰도 low
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `24 languages` · 신뢰도 high
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `WEATHub is a dataset containing 24 languages.` · 신뢰도 low
-- **데이터 용도**: [[학습용]] — ner · readme = `This dataset corresponds to the data described in the paper "Global Voices, Local Biases: Socio-Cultural Prejudices across Languages"` · 신뢰도 low
+- **데이터 용도**: [[학습용]] — ner · readme = `This dataset is intended to be used for measuring intrinsic biases in word embeddings obtained from language models.` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high

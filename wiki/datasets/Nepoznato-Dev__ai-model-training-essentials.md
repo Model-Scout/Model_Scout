@@ -4,7 +4,7 @@ id: "Nepoznato-Dev/ai-model-training-essentials"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nepoznato-Dev/ai-model-training-essentials"
 downloads: 66
-summary: "소규모 언어 모델 학습을 위한 다국어 지식 기반 및 교육용 말뭉치입니다."
+summary: "소규모 로컬 AI 모델 학습을 위한 다국어 지식 기반 및 교육용 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -32,14 +32,14 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/Nepoznato-Dev/ai-model-training-essentials)
 
-소규모 언어 모델 학습을 위한 다국어 지식 기반 및 교육용 말뭉치입니다.
+소규모 로컬 AI 모델 학습을 위한 다국어 지식 기반 및 교육용 말뭉치입니다.
 
 ## 분류
 
 - **작업**: [[텍스트 분류]] — metadata · task_categories = `text-classification` · 신뢰도 low
 - **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
 - **작업**: [[언어 모델링]] — metadata · readme, task_categories = `fill-mask` · 신뢰도 medium
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:classification, task:generation, task:language_modeling = `curated educational content and technical documentation` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:classification, task:generation, task:language_modeling = `This dataset is a collection of curated, structured knowledge designed to help small language models learn effectively.` · 신뢰도 medium
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:language_modeling = `This dataset is a collection of curated, structured knowledge designed to help small language models learn effectively.` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high

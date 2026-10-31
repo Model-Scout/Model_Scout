@@ -54,7 +54,7 @@ dataset_size:
 - **작업**: [[이미지 이해]] — metadata · task_categories = `image-to-text` · 신뢰도 low
 - **입력 형식**: [[이미지 (입력 형식)|이미지]] — ner · modality, readme, task:vision, task:visual_qa = `Sharp photos of real-world writing` · 신뢰도 high
 - **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — task_rule · task:classification, task:information_extraction, task:question_answering, task:visual_qa = `text` · 신뢰도 medium
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:question_answering, task:visual_qa = `text` · 신뢰도 medium
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:question_answering, task:visual_qa = `Labeled (script tag)` · 신뢰도 medium
 - **언어**: [[ar]] — metadata · languages = `ar` · 신뢰도 high
 - **언어**: [[bn]] — metadata · languages = `bn` · 신뢰도 high
 - **언어**: [[hi]] — metadata · languages = `hi` · 신뢰도 high

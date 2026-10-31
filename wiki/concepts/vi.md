@@ -75,12 +75,12 @@ facet: [[언어]] · 개념 id `language/vi`
 - [[doanhlt__cabin-interpreted-interviews|doanhlt/cabin-interpreted-interviews]]
 - [[iNLP-Lab__multilingual-s1|iNLP-Lab/multilingual-s1]]
 - [[neuralfoundry-coder__finance-instructions-ko-sample|neuralfoundry-coder/finance-instructions-ko-sample]]
-- [[prometheus-eval__MMQA|prometheus-eval/MMQA]]
 - [[rileykim__multilingual-image-text-translation|rileykim/multilingual-image-text-translation]]
+- [[prometheus-eval__MMQA|prometheus-eval/MMQA]]
 - [[JiayiHe__Multilingual-Pathology-Fairness|JiayiHe/Multilingual-Pathology-Fairness]]
 - [[nguyenthanhasia__sino-xenic-reasoning-gap-dataset|nguyenthanhasia/sino-xenic-reasoning-gap-dataset]]
-- [[mondk__for-train-granite-4.0|mondk/for-train-granite-4.0]]
 - [[datasetsANDmodels__99sentences-translate2-10languages|datasetsANDmodels/99sentences-translate2-10languages]]
+- [[mondk__for-train-granite-4.0|mondk/for-train-granite-4.0]]
 - [[namruni__ai-olimpiyat-onizleme|namruni/ai-olimpiyat-onizleme]]
 - [[ManhHoDinh__titlegen-conversations|ManhHoDinh/titlegen-conversations]]
 - [[jaeyong2__persona-inst|jaeyong2/persona-inst]]
@@ -113,5 +113,5 @@ facet: [[언어]] · 개념 id `language/vi`
 - [[텍스트 생성]] (작업) · 공유 28
 - [[소규모 데이터]] (데이터 규모) · 공유 24
 - [[단문]] (입력 길이) · 공유 21
-- [[평가용]] (데이터 용도) · 공유 20
+- [[평가용]] (데이터 용도) · 공유 21
 - [[텍스트 분류]] (작업) · 공유 19

@@ -4,7 +4,7 @@ id: "kaggle/sergionefedov/global-aviation-industry-2010-2026"
 source: "kaggle"
 url: "https://www.kaggle.com/datasets/sergionefedov/global-aviation-industry-2010-2026"
 downloads: 3138
-summary: "2010년부터 2026년까지 글로벌 항공 산업의 재무, 주문, 여객 트래픽, 주요 사건 데이터를 담은 시계열 데이터셋입니다."
+summary: "2010년부터 2026년까지 글로벌 항공 산업의 재무, 주문, 여객, 사고 데이터를 포함한 시계열 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_only"
@@ -25,7 +25,7 @@ domain:
 
 > dataset · [Kaggle](https://www.kaggle.com/datasets/sergionefedov/global-aviation-industry-2010-2026)
 
-2010년부터 2026년까지 글로벌 항공 산업의 재무, 주문, 여객 트래픽, 주요 사건 데이터를 담은 시계열 데이터셋입니다.
+2010년부터 2026년까지 글로벌 항공 산업의 재무, 주문, 여객, 사고 데이터를 포함한 시계열 데이터셋입니다.
 
 ## 분류
 

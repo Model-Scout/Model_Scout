@@ -4,7 +4,7 @@ id: "kaggle/aliahmadmphil/asia-weather-prediction-dataset-15-cities"
 source: "kaggle"
 url: "https://www.kaggle.com/datasets/aliahmadmphil/asia-weather-prediction-dataset-15-cities"
 downloads: 41
-summary: "아시아 15개 도시의 10년간 일별 기후 데이터로 날씨 예측 및 기후 분석에 활용되는 데이터셋입니다."
+summary: "아시아 15개 도시의 10년간 일별 기후 데이터로 날씨 예측 및 기후 분석에 활용됨"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -27,7 +27,7 @@ dataset_role:
 
 > dataset · [Kaggle](https://www.kaggle.com/datasets/aliahmadmphil/asia-weather-prediction-dataset-15-cities)
 
-아시아 15개 도시의 10년간 일별 기후 데이터로 날씨 예측 및 기후 분석에 활용되는 데이터셋입니다.
+아시아 15개 도시의 10년간 일별 기후 데이터로 날씨 예측 및 기후 분석에 활용됨
 
 ## 분류
 
@@ -38,4 +38,4 @@ dataset_role:
 - **출력 형식**: [[시계열 (출력 형식)|시계열]] — task_rule · task:forecasting = `time_series` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `Apache 2.0` · 신뢰도 high
 - **도메인**: [[환경·기상]] — tag_match · tags = `environment` · 신뢰도 medium
-- **데이터 용도**: [[학습용]] — ner · readme = `This dataset is specifically designed to facilitate weather prediction modeling and climate pattern analysis across diverse Asian geographical regions.` · 신뢰도 low
+- **데이터 용도**: [[학습용]] — ner · readme = `It provides researchers, data scientists, and machine learning practitioners with high-quality, structured data to develop and test predictive models` · 신뢰도 low

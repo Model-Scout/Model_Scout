@@ -10,6 +10,7 @@ readme_language: "ko"
 korean_focus: "ko_with_others"
 task:
   - "[[텍스트 분류]]"
+  - "[[질의응답]]"
 input_modality:
   - "[[텍스트 (입력 형식)|텍스트]]"
 output_modality:
@@ -39,8 +40,9 @@ LLM 평가자의 루브릭 준수 능력 측정을 위한 한국어·영어 평�
 ## 분류
 
 - **작업**: [[텍스트 분류]] — ner · readme = `LLM evaluator의 루브릭 준수 능력(rubric following)을 측정하기 위한 평가 벤치마크` · 신뢰도 low
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification = `instruction, rubric 및 response를 평가 프롬프트 형식으로 결합한다` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme = `1~5점 레이블을 새로 부여한다` · 신뢰도 low
+- **작업**: [[질의응답]] — ner · readme = `evaluator의 5점 척도 판정 성능 비교` · 신뢰도 low
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:classification, task:question_answering = `instruction, rubric 및 response를 한국어로 변환한 벤치마크` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:question_answering = `1~5점 레이블` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `2415` · 신뢰도 medium

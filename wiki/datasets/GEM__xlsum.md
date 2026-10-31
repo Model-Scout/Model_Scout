@@ -4,7 +4,7 @@ id: "GEM/xlsum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GEM/xlsum"
 downloads: 5434
-summary: "BBC 뉴스 기사 135만 쌍의 다국어 요약 데이터셋으로, 45개 언어를 포함합니다."
+summary: "BBC 뉴스 기사 1.35백만 쌍의 다국어 요약 데이터셋으로, 45개 언어를 포함합니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -31,7 +31,7 @@ data_format:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/GEM/xlsum)
 
-BBC 뉴스 기사 135만 쌍의 다국어 요약 데이터셋으로, 45개 언어를 포함합니다.
+BBC 뉴스 기사 1.35백만 쌍의 다국어 요약 데이터셋으로, 45개 언어를 포함합니다.
 
 ## 분류
 

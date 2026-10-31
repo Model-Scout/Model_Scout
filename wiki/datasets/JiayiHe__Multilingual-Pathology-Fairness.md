@@ -66,7 +66,7 @@ dataset_size:
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `56` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
-- **도메인**: [[일반]] — ner · readme = `multilingual medical AI research` · 신뢰도 low
+- **도메인**: [[일반]] — ner · readme = `Multilingual medical AI research` · 신뢰도 low
 - **도메인**: [[의료·보건]] — tag_match · readme, tags = `medical` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `This dataset contains 949,872 medical pathology cases` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high

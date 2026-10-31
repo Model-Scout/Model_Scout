@@ -4,7 +4,7 @@ id: "Highsky7/Topview_Lane"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Highsky7/Topview_Lane"
 downloads: 36
-summary: "BevLane은 Bird's-Eye-View 시점의 차선 분할을 위한 데이터셋으로 자율주행 연구에 활용됨."
+summary: "BevLane은 자율주행 및 로봇 내비게이션을 위한 BEV 시점 차선 분할 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
@@ -34,7 +34,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/Highsky7/Topview_Lane)
 
-BevLane은 Bird's-Eye-View 시점의 차선 분할을 위한 데이터셋으로 자율주행 연구에 활용됨.
+BevLane은 자율주행 및 로봇 내비게이션을 위한 BEV 시점 차선 분할 데이터셋입니다.
 
 ## 분류
 
