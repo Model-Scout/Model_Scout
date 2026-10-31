@@ -83,8 +83,15 @@ async def lifespan(app: FastAPI):
 
     hypergraph_search.load_graph()
     rg._load_09()
+    try:  # first query after a restart or DB rewrite reads cold pages; pay that here, not per user
+        rg._load_09().search_models("한국어 임베딩 모델", match_count=1)
+    except Exception:
+        logging.exception("warm-up search failed; continuing")
     saver, pool = _checkpointer()
-    app.state.graph = rg.build_graph(checkpointer=saver)
+    app.state.graph, app.state.pool = rg.build_graph(checkpointer=saver), pool
+    if pool is not None:
+        with pool.connection() as conn:
+            logging.info("pruned %s idle conversations", rg.prune_idle_threads(conn, days=int(os.getenv("THREAD_TTL_DAYS", "30"))))
     yield
     if pool is not None:
         pool.close()
@@ -107,7 +114,8 @@ def stream_recommendation(graph, message, thread_id):
     config = {"configurable": {"thread_id": thread_id}}
     started = time.time()
     try:
-        for mode, data in graph.stream({"request": message}, config, stream_mode=["updates", "custom"]):
+        for mode, data in graph.stream({"request": message}, config, stream_mode=["updates", "custom"],
+                                       durability="exit"):  # one checkpoint per turn
             if mode == "custom":
                 yield sse("token", {"text": data["token"]})
                 continue
@@ -116,6 +124,9 @@ def stream_recommendation(graph, message, thread_id):
                 if node in NODE_EVENTS:
                     event, key = NODE_EVENTS[node]
                     yield sse(event, values[key])
+        if app.state.pool is not None:
+            with app.state.pool.connection() as conn:
+                rg.prune_thread(conn, thread_id)
         yield sse("done", {"thread_id": thread_id, "elapsed": round(time.time() - started, 2)})
     except Exception as error:  # surfaced to the client; the stream must end with an event
         logging.exception("recommendation failed")

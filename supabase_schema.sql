@@ -36,7 +36,7 @@ create table if not exists public.model_scout_models (
     document_hash text,
     embedding_model text not null,
     embedding_dimensions integer not null,
-    embedding vector(1536) not null,
+    embedding halfvec(1536) not null,  -- values are fp16-exact; see supabase_migration_model_search_tsv.sql
     last_seen_run uuid references public.model_scout_sync_runs(run_id),
     active boolean not null default true,
     refreshed_at timestamptz not null default now(),
@@ -93,7 +93,20 @@ create index if not exists model_scout_models_candidate_type_idx
 create index if not exists model_scout_models_primary_task_idx
     on public.model_scout_models ((task->>'primary'));
 create index if not exists model_scout_models_embedding_hnsw_idx
-    on public.model_scout_models using hnsw (embedding vector_cosine_ops);
+    on public.model_scout_models using hnsw (embedding halfvec_cosine_ops);
+
+-- Full-text vector for the hybrid search, stored once instead of rebuilt per query.
+alter table public.model_scout_models
+    add column if not exists search_tsv tsvector generated always as (
+        setweight(to_tsvector('simple', coalesce(model_id, '')), 'A') ||
+        setweight(to_tsvector('simple', coalesce(filter_metadata->>'translation_pairs', '')), 'A') ||
+        setweight(to_tsvector('simple', coalesce(filter_metadata->>'search_aliases', '')), 'A') ||
+        setweight(to_tsvector('simple', coalesce(task::text, '')), 'B') ||
+        setweight(to_tsvector('simple', coalesce(language::text, '')), 'B') ||
+        setweight(to_tsvector('simple', coalesce(filter_metadata::text, '')), 'C') ||
+        setweight(to_tsvector('simple', coalesce(benchmark_metadata::text, '')), 'C') ||
+        setweight(to_tsvector('simple', coalesce(technical_metadata::text, '') || coalesce(semantic_metadata::text, '')), 'D')
+    ) stored;
 
 alter table public.model_scout_models enable row level security;
 
@@ -184,20 +197,11 @@ with scored as (
         m.source_provenance,
         m.task_consistency,
         coalesce(e.parents, '[]'::jsonb) as evidence_index,
-        (1 - (m.embedding <=> query_embedding))::real as dense_similarity,
+        (1 - (m.embedding <=> query_embedding::halfvec(1536)))::real as dense_similarity,
         least(
             1.0,
             ts_rank_cd(
-                (
-                    setweight(to_tsvector('simple', coalesce(m.model_id, '')), 'A') ||
-                    setweight(to_tsvector('simple', coalesce(m.filter_metadata->>'translation_pairs', '')), 'A') ||
-                    setweight(to_tsvector('simple', coalesce(m.filter_metadata->>'search_aliases', '')), 'A') ||
-                    setweight(to_tsvector('simple', coalesce(m.task::text, '')), 'B') ||
-                    setweight(to_tsvector('simple', coalesce(m.language::text, '')), 'B') ||
-                    setweight(to_tsvector('simple', coalesce(m.filter_metadata::text, '')), 'C') ||
-                    setweight(to_tsvector('simple', coalesce(m.benchmark_metadata::text, '')), 'C') ||
-                    setweight(to_tsvector('simple', coalesce(m.technical_metadata::text, '') || coalesce(m.semantic_metadata::text, '')), 'D')
-                ),
+                m.search_tsv,
                 plainto_tsquery('simple', coalesce(query_text, ''))
             )::real
         )::real as sparse_score

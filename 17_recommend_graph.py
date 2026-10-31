@@ -26,6 +26,7 @@ import json
 import logging
 import operator
 import os
+import threading
 import time
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -94,17 +95,19 @@ def ttl_cache(seconds, maxsize=512):
     refreshes daily, so a 10-minute window is safe. Values are stored as JSON so callers can
     never mutate a cached result."""
     def decorate(fn):
-        store = {}
+        store, lock = {}, threading.Lock()  # the API serves requests on several threads
 
         @functools.wraps(fn)
         def wrapper(*args):
-            hit = store.get(args)
+            with lock:
+                hit = store.get(args)
             if hit and time.time() - hit[0] < seconds:
                 return json.loads(hit[1])
             value = fn(*args)
-            if len(store) >= maxsize:
-                store.pop(next(iter(store)))
-            store[args] = (time.time(), json.dumps(value, ensure_ascii=False))
+            with lock:
+                if len(store) >= maxsize:
+                    store.pop(next(iter(store)))
+                store[args] = (time.time(), json.dumps(value, ensure_ascii=False))
             return value
         return wrapper
     return decorate
@@ -310,11 +313,42 @@ def postgres_checkpointer():
         yield saver
 
 
+PRUNE_SQL = (
+    # A thread's latest checkpoint already holds every turn (state.turns), so older checkpoints,
+    # their pending writes and blobs no longer referenced by it are dead weight on a 500 MB DB.
+    "delete from {s}.checkpoint_writes w where w.thread_id = %(t)s and w.checkpoint_id <> %(c)s",
+    "delete from {s}.checkpoints where thread_id = %(t)s and checkpoint_id <> %(c)s",
+    "delete from {s}.checkpoint_blobs b where b.thread_id = %(t)s and not exists (select 1 from {s}.checkpoints k "
+    "where k.thread_id = %(t)s and k.checkpoint_id = %(c)s and k.checkpoint->'channel_versions'->>b.channel = b.version)",
+)
+
+
+def prune_thread(conn, thread_id):
+    """Keep only the newest checkpoint of one conversation (PostgresSaver tables)."""
+    row = conn.execute(f"select checkpoint_id from {CHECKPOINT_SCHEMA}.checkpoints where thread_id = %s "
+                       "and checkpoint_ns = '' order by checkpoint_id desc limit 1", (thread_id,)).fetchone()
+    if row:
+        latest = row["checkpoint_id"] if isinstance(row, dict) else row[0]
+        for statement in PRUNE_SQL:
+            conn.execute(statement.format(s=CHECKPOINT_SCHEMA), {"t": thread_id, "c": latest})
+
+
+def prune_idle_threads(conn, days=30):
+    """Drop conversations untouched for `days` (checkpoint ids are time-ordered uuid6)."""
+    stale = [r["thread_id"] if isinstance(r, dict) else r[0] for r in conn.execute(
+        f"select thread_id from {CHECKPOINT_SCHEMA}.checkpoints group by thread_id "
+        "having max((checkpoint->>'ts')::timestamptz) < now() - make_interval(days => %s)", (days,)).fetchall()]
+    for table in ("checkpoint_writes", "checkpoint_blobs", "checkpoints"):
+        conn.execute(f"delete from {CHECKPOINT_SCHEMA}.{table} where thread_id = any(%s)", (stale,))
+    return len(stale)
+
+
 def run(request: str, thread_id: Optional[str] = None, checkpointer=None) -> dict[str, Any]:
     graph = build_graph(checkpointer=checkpointer)
     config = {"configurable": {"thread_id": thread_id}} if thread_id else None
     state: dict[str, Any] = {"request": request}
-    for update in graph.stream({"request": request}, config, stream_mode="updates"):
+    # durability="exit": persist once per turn, not after every node (5x fewer checkpoint rows).
+    for update in graph.stream({"request": request}, config, stream_mode="updates", durability="exit"):
         for node, values in update.items():
             print(f"[graph] {node} done", file=sys.stderr, flush=True)
             state.update(values)
@@ -376,6 +410,7 @@ def main():
     if args.thread and not args.memory:
         with postgres_checkpointer() as saver:
             state = run(args.request, args.thread, saver)
+            prune_thread(saver.conn, args.thread)
     else:
         from langgraph.checkpoint.memory import InMemorySaver
 
