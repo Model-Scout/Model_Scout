@@ -55,3 +55,10 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `response` 열 p90 2359자 ≈ 590 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
+- [[musubilabs__policylm-1.7b|musubilabs/policylm-1.7b]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

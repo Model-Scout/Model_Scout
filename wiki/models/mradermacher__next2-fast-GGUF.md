@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/next2-fast-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/next2-fast-GGUF"
-downloads: 399
+downloads: 465
 task:
   - "[[텍스트 생성]]"
 input_modality:

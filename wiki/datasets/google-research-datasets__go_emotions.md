@@ -54,4 +54,6 @@ GoEmotions는 27가지 감정 범주로 라벨링된 58k 개의 Reddit 댓글 �
 
 ## 이 데이터로 학습한 모델
 
+- [[Horizon-Labs__multilingual-emotions-base|Horizon-Labs/multilingual-emotions-base]]
+- [[Horizon-Labs__multilingual-emotions-small|Horizon-Labs/multilingual-emotions-small]]
 - [[Zeolit__lettuce-thymos-26m-v1|Zeolit/lettuce-thymos-26m-v1]]

@@ -51,3 +51,7 @@ BoolQ는 자연 발생적인 예/아니오 질문에 답하는 질의응답 데�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `passage` 열 p90 969자 ≈ 242 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

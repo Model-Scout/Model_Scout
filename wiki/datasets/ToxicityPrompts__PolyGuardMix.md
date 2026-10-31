@@ -54,3 +54,5 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[Verm1ion__injection-sentry-xlmr|Verm1ion/injection-sentry-xlmr]]
+- [[musubilabs__policylm-1.7b|musubilabs/policylm-1.7b]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

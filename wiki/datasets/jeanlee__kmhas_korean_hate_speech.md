@@ -46,3 +46,7 @@ K-MHaS는 한국 온라인 뉴스 댓글의 혐오 표현을 8개 세부 범주�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 60자 ≈ 40 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

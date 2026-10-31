@@ -42,3 +42,7 @@ APPS는 자연어 명세로부터 파이썬 코드 생성을 평가하는 1만 �
 - **도메인**: [[일반]] — ner · readme = `programming problem formulation in English, some ground truth Python solutions` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `The dataset contains a train and test splits with 5000 samples each` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `You can load and iterate through the dataset with the following two lines of code for the train split` · 신뢰도 medium
+
+## 이 데이터로 학습한 모델
+
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]

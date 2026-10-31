@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/kanana-1.5-2.1b-instruct-2505-regulus-rb-usb"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/kanana-1.5-2.1b-instruct-2505-regulus-rb-usb"
-downloads: 323
+downloads: 430
 context_length: 4096
 parameters_b: 0.23
 task:

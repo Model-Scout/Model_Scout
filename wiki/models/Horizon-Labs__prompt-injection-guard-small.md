@@ -3,7 +3,7 @@ type: "model"
 id: "Horizon-Labs/prompt-injection-guard-small"
 source: "huggingface"
 url: "https://huggingface.co/Horizon-Labs/prompt-injection-guard-small"
-downloads: 154
+downloads: 2851
 context_length: 8192
 parameters_b: 0.141
 task:

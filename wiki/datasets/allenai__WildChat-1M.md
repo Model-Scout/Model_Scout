@@ -50,3 +50,8 @@ WildChat-1M은 인간과 ChatGPT 간 100만 대화 및 인구통계 데이터를
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `hashed_ip` 열 p90 64자 ≈ 16 토큰 (viewer statistics, default/train)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]

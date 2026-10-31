@@ -3,7 +3,7 @@ type: "model"
 id: "Baekpica/Solar-Open2-250B-Mixed-Quant-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/Baekpica/Solar-Open2-250B-Mixed-Quant-GGUF"
-downloads: 1010
+downloads: 17518
 task:
   - "[[텍스트 생성]]"
 input_modality:

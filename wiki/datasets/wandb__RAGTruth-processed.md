@@ -52,3 +52,8 @@ Model output` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `input_str` 열 p90 6066자 ≈ 1516 토큰 (viewer statistics, default/test)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__hallucination-guard-base|Horizon-Labs/hallucination-guard-base]]
+- [[Horizon-Labs__hallucination-guard-small|Horizon-Labs/hallucination-guard-small]]

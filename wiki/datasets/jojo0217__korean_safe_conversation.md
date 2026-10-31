@@ -49,3 +49,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 658자 ≈ 439 토큰 (viewer statistics, default/train)
+
+## 이 데이터로 학습한 모델
+
+- [[shopkeeper__kor-finewiki-1b-chat|shopkeeper/kor-finewiki-1b-chat]]

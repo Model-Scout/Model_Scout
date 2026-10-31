@@ -3,7 +3,7 @@ type: "model"
 id: "litert-community/Hy-MT2-1.8B"
 source: "huggingface"
 url: "https://huggingface.co/litert-community/Hy-MT2-1.8B"
-downloads: 257
+downloads: 1191
 task:
   - "[[번역]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/Fun-ASR-MLT-Nano-2512-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/Fun-ASR-MLT-Nano-2512-gguf"
-downloads: 32461
+downloads: 39479
 task:
   - "[[음성 인식]]"
 input_modality:

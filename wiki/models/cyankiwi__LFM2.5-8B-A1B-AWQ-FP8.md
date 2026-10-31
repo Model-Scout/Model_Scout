@@ -3,9 +3,9 @@ type: "model"
 id: "cyankiwi/LFM2.5-8B-A1B-AWQ-FP8"
 source: "huggingface"
 url: "https://huggingface.co/cyankiwi/LFM2.5-8B-A1B-AWQ-FP8"
-downloads: 250
+downloads: 129
 context_length: 128000
-parameters_b: 8.472
+parameters_b: 8.468
 task:
   - "[[텍스트 생성]]"
 input_modality:
@@ -18,6 +18,7 @@ language:
   - "[[영어]]"
   - "[[es]]"
   - "[[fr]]"
+  - "[[it]]"
   - "[[일본어]]"
   - "[[한국어]]"
   - "[[다국어]]"
@@ -44,13 +45,14 @@ model_size:
 - **언어**: [[영어]] — metadata · language_codes = `en` · 신뢰도 high
 - **언어**: [[es]] — metadata · language_codes = `es` · 신뢰도 high
 - **언어**: [[fr]] — metadata · language_codes = `fr` · 신뢰도 high
+- **언어**: [[it]] — metadata · language_codes = `it` · 신뢰도 high
 - **언어**: [[일본어]] — metadata · language_codes = `ja` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · language_codes = `ko` · 신뢰도 high
-- **언어**: [[다국어]] — metadata · language_codes = `9 languages` · 신뢰도 high
+- **언어**: [[다국어]] — metadata · language_codes = `10 languages` · 신뢰도 high
 - **언어**: [[pt]] — metadata · language_codes = `pt` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · language_codes = `zh` · 신뢰도 high
 - **입력 길이**: [[초장문]] — metadata · context_length = `128000` · 신뢰도 high
 - **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high
-- **모델 크기**: [[중형 모델]] — metadata · parameter_count_billion = `8.472` · 신뢰도 high
+- **모델 크기**: [[중형 모델]] — metadata · parameter_count_billion = `8.468` · 신뢰도 high
 
 처리 가능한 데이터 길이: [[단문]] · [[중문]] · [[장문]] · [[초장문]]

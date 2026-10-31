@@ -49,3 +49,7 @@ BLiMP는 영어 문법 현상 평가용 최소대립쌍 데이터셋입니다.
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `sentence_bad` 열 p90 63자 ≈ 16 토큰 (viewer statistics, adjunct_island/train)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

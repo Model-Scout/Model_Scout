@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/Qwopus-GLM-18B-Healed-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/Qwopus-GLM-18B-Healed-GGUF"
-downloads: 374
+downloads: 434
 task:
   - "[[텍스트 생성]]"
 input_modality:

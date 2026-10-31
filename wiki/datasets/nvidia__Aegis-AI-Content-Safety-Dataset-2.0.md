@@ -50,3 +50,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `response` 열 p90 896자 ≈ 224 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

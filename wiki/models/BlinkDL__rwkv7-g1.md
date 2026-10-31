@@ -3,7 +3,7 @@ type: "model"
 id: "BlinkDL/rwkv7-g1"
 source: "huggingface"
 url: "https://huggingface.co/BlinkDL/rwkv7-g1"
-downloads: 7074
+downloads: 31663
 task:
   - "[[텍스트 생성]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "model"
 id: "ThakiCloud/Qwen3.8-27B-Satoori-KO-Synth"
 source: "huggingface"
 url: "https://huggingface.co/ThakiCloud/Qwen3.8-27B-Satoori-KO-Synth"
-downloads: 1130
+downloads: 613
 context_length: 262144
 parameters_b: 27.781
 task:

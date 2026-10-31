@@ -1,33 +1,33 @@
 {
   "entities": {
-    "model": 3606,
+    "model": 3853,
     "dataset": 1760
   },
-  "links": 54803,
-  "relations": 2060,
+  "links": 57177,
+  "relations": 2203,
   "links_by_method": {
-    "metadata": 38712,
+    "metadata": 40565,
     "ner": 7161,
     "tag_match": 342,
     "viewer_stats": 956,
-    "task_rule": 7564,
-    "name_rule": 68
+    "task_rule": 8084,
+    "name_rule": 69
   },
   "links_by_confidence": {
-    "high": 38259,
+    "high": 40112,
     "low": 4086,
-    "medium": 12458
+    "medium": 12979
   },
   "coverage": {
     "model": {
-      "task": "3606/3606",
-      "input_modality": "3606/3606",
-      "output_modality": "3087/3606",
-      "language": "3511/3606",
-      "input_length": "2248/3606",
-      "commercial_use": "3606/3606",
-      "domain": "0/3606",
-      "model_size": "2191/3606"
+      "task": "3853/3853",
+      "input_modality": "3853/3853",
+      "output_modality": "3313/3853",
+      "language": "3758/3853",
+      "input_length": "2403/3853",
+      "commercial_use": "3853/3853",
+      "domain": "0/3853",
+      "model_size": "2336/3853"
     },
     "dataset": {
       "task": "1613/1760",

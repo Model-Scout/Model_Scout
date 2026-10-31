@@ -51,3 +51,7 @@ NoMIRACL은 18개 언어의 LLM 검색 결과 관련성 평가를 위한 인간 
 - **데이터 용도**: [[평가용]] — ner · readme = `a completely human-annotated dataset designed for evaluating multilingual LLM relevance` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

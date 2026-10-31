@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/North-Micro-Vision-Instruct"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/North-Micro-Vision-Instruct"
-downloads: 166829
+downloads: 169645
 context_length: 500000
 parameters_b: 2.485
 task:

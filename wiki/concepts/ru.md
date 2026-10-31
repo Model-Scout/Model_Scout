@@ -2,13 +2,13 @@
 type: "concept"
 facet: "language"
 key: "ru"
-members: 384
+members: 402
 ---
 # ru
 
 facet: [[언어]] · 개념 id `language/ru`
 
-## 모델 (303)
+## 모델 (321)
 
 - [[Jackrong__Qwen3.5-9B-DeepSeek-V4-Flash-GGUF|Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF]]
 - [[Jackrong__Qwopus3.5-9B-Coder-MTP-GGUF|Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF]]
@@ -19,6 +19,7 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[dealignai__GLM-5.3-CYBERSECURITY-FP8|dealignai/GLM-5.3-CYBERSECURITY-FP8]]
 - [[Jackrong__DeepSeek-V4-Pro-Qwen3.5-9B-MTP-GGUF|Jackrong/DeepSeek-V4-Pro-Qwen3.5-9B-MTP-GGUF]]
 - [[audio-cpp__VibeVoice-ASR-Streaming-7B-GGUF|audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF]]
+- [[IsValorum__Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF|IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF]]
 - [[microsoft__VibeVoice-ASR-Streaming-1.5B|microsoft/VibeVoice-ASR-Streaming-1.5B]]
 - [[nvidia__Nemotron-H-56B-Base-8K|nvidia/Nemotron-H-56B-Base-8K]]
 - [[bartowski__Mistral-Small-24B-Instruct-2501-GGUF|bartowski/Mistral-Small-24B-Instruct-2501-GGUF]]
@@ -27,12 +28,14 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[OpenBuddy__openbuddy-mistral-22b-v21.1-32k|OpenBuddy/openbuddy-mistral-22b-v21.1-32k]]
 - [[OpenBuddy__openbuddy-yi1.5-34b-v21.3-32k|OpenBuddy/openbuddy-yi1.5-34b-v21.3-32k]]
 - [[OpenBuddy__openbuddy-yi1.5-34b-v21.6-32k-fp16|OpenBuddy/openbuddy-yi1.5-34b-v21.6-32k-fp16]]
+- [[IsValorum__Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF|IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF]]
 - [[bartowski__huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF|bartowski/huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF]]
 - [[geoffmunn__Qwen3-8B-f16|geoffmunn/Qwen3-8B-f16]]
 - [[cstr__qwen3-asr-1.7b-GGUF|cstr/qwen3-asr-1.7b-GGUF]]
 - [[microsoft__VibeVoice-ASR-Streaming-7B|microsoft/VibeVoice-ASR-Streaming-7B]]
 - [[bartowski__Mistral-Small-Instruct-2409-GGUF|bartowski/Mistral-Small-Instruct-2409-GGUF]]
 - [[RedHatAI__Mistral-Small-24B-Instruct-2501-FP8-dynamic|RedHatAI/Mistral-Small-24B-Instruct-2501-FP8-dynamic]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]
 - [[bartowski__Ministral-8B-Instruct-2410-GGUF|bartowski/Ministral-8B-Instruct-2410-GGUF]]
 - [[stepfun-ai__Step-3.7-Flash-GGUF|stepfun-ai/Step-3.7-Flash-GGUF]]
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
@@ -42,6 +45,7 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[geoffmunn__Qwen3-4B-f16|geoffmunn/Qwen3-4B-f16]]
 - [[Jackrong__MLX-Qwen3.5-9B-DeepSeek-V4-Flash-4bit|Jackrong/MLX-Qwen3.5-9B-DeepSeek-V4-Flash-4bit]]
 - [[mlx-community__bge-m3-mlx-fp16|mlx-community/bge-m3-mlx-fp16]]
+- [[IsValorum__MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF|IsValorum/MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF]]
 - [[bartowski__FINAL-Bench_Darwin-36B-Opus-GGUF|bartowski/FINAL-Bench_Darwin-36B-Opus-GGUF]]
 - [[DavidAU__Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF]]
 - [[DavidAU__Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF]]
@@ -54,32 +58,37 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[coderavi__Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit|coderavi/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit]]
 - [[geoffmunn__Qwen3-14B-f16|geoffmunn/Qwen3-14B-f16]]
 - [[bartowski__Mistral-Large-Instruct-2407-GGUF|bartowski/Mistral-Large-Instruct-2407-GGUF]]
+- [[saidutta69__Qwen3-VL-2B-Instruct-heretic|saidutta69/Qwen3-VL-2B-Instruct-heretic]]
 - [[TheBloke__openbuddy-openllama-7B-v12-bf16-GGUF|TheBloke/openbuddy-openllama-7B-v12-bf16-GGUF]]
 - [[dealignai__GLM-5.3-UNCENSORED-FP8|dealignai/GLM-5.3-UNCENSORED-FP8]]
+- [[StandardThinking__StandardOne-8B|StandardThinking/StandardOne-8B]]
 - [[LoneStriker__openbuddy-mixtral-7bx8-v18.1-32k-GGUF|LoneStriker/openbuddy-mixtral-7bx8-v18.1-32k-GGUF]]
 - [[TheBloke__TowerInstruct-7B-v0.1-GGUF|TheBloke/TowerInstruct-7B-v0.1-GGUF]]
+- [[StandardThinking__StandardOne-3B|StandardThinking/StandardOne-3B]]
 - [[0xWhiteMage__Qwen3.8-27B-Kearuga|0xWhiteMage/Qwen3.8-27B-Kearuga]]
 - [[Jackrong__Negentropy-claude-opus-4.7-9B-GGUF|Jackrong/Negentropy-claude-opus-4.7-9B-GGUF]]
 - [[TheBloke__openbuddy-llama2-34b-v11.1-bf16-GGUF|TheBloke/openbuddy-llama2-34b-v11.1-bf16-GGUF]]
+- [[omai-research__milco-300m|omai-research/milco-300m]]
 - [[lmstudio-community__Mistral-Large-Instruct-2407-GGUF|lmstudio-community/Mistral-Large-Instruct-2407-GGUF]]
 - [[mradermacher__next-32b-i1-GGUF|mradermacher/next-32b-i1-GGUF]]
 - [[geoffmunn__Qwen3-32B-f16|geoffmunn/Qwen3-32B-f16]]
 - [[Mungert__Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-GGUF|Mungert/Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-GGUF]]
+- [[saidutta69__Qwen3-4B-Instruct-2507-heretic|saidutta69/Qwen3-4B-Instruct-2507-heretic]]
+- [[oroboros-labs__gpt-5.6-sol-undecillion-6u5go5|oroboros-labs/gpt-5.6-sol-undecillion-6u5go5]]
 - [[mradermacher__next-14b-i1-GGUF|mradermacher/next-14b-i1-GGUF]]
 - [[mradermacher__Qwopus3.6-27B-v1-preview-i1-GGUF|mradermacher/Qwopus3.6-27B-v1-preview-i1-GGUF]]
+- [[oroboros-labs__gpt-astra-7-undecillion-7u5go5|oroboros-labs/gpt-astra-7-undecillion-7u5go5]]
 - [[TheBloke__openbuddy-mistral-7B-v13.1-GGUF|TheBloke/openbuddy-mistral-7B-v13.1-GGUF]]
 - [[mradermacher__next2.5-i1-GGUF|mradermacher/next2.5-i1-GGUF]]
 - [[mlx-community__bge-m3-mlx-8bit|mlx-community/bge-m3-mlx-8bit]]
-- [[StandardThinking__StandardOne-8B|StandardThinking/StandardOne-8B]]
 - [[42ailab__TranslateGemma-4B-GGUF|42ailab/TranslateGemma-4B-GGUF]]
 - [[TheBloke__openbuddy-deepseek-67b-v15-base-GGUF|TheBloke/openbuddy-deepseek-67b-v15-base-GGUF]]
 - [[DavidAU__Mistral-Small-Instruct-2409-22B-NEO-Imatrix-GGUF|DavidAU/Mistral-Small-Instruct-2409-22B-NEO-Imatrix-GGUF]]
 - [[OptimizeLLM__Qwen3-VL-30B-A3B-Thinking-NVFP4|OptimizeLLM/Qwen3-VL-30B-A3B-Thinking-NVFP4]]
-- [[joeblowma__Qwopus3.5-9B-Coder-MTP-GGUF|joeblowma/Qwopus3.5-9B-Coder-MTP-GGUF]]
+- [[IsValorum__MiniCPM-V-4.7-35B-A3B-APEX-I-NanoPlus-GGUF|IsValorum/MiniCPM-V-4.7-35B-A3B-APEX-I-NanoPlus-GGUF]]
 - [[second-state__Mistral-Large-Instruct-2407-GGUF|second-state/Mistral-Large-Instruct-2407-GGUF]]
 - [[bartowski__Mistral-Large-Instruct-2411-GGUF|bartowski/Mistral-Large-Instruct-2411-GGUF]]
 - [[thelamapi__next2.5-i1-GGUF|thelamapi/next2.5-i1-GGUF]]
-- [[StandardThinking__StandardOne-3B|StandardThinking/StandardOne-3B]]
 - [[legraphista__Mistral-Small-Instruct-2409-IMat-GGUF|legraphista/Mistral-Small-Instruct-2409-IMat-GGUF]]
 - [[mradermacher__next-8b-i1-GGUF|mradermacher/next-8b-i1-GGUF]]
 - [[geoffmunn__Qwen3-Coder-30B-A3B-Instruct-f16|geoffmunn/Qwen3-Coder-30B-A3B-Instruct-f16]]
@@ -90,27 +99,18 @@ facet: [[언어]] · 개념 id `language/ru`
 - [[mradermacher__next-70b-i1-GGUF|mradermacher/next-70b-i1-GGUF]]
 - [[raxtemur__SONAR_200_text_decoder|raxtemur/SONAR_200_text_decoder]]
 - [[zhiqian99__Qwen3-Embedding-0.6B-GGUF|zhiqian99/Qwen3-Embedding-0.6B-GGUF]]
+- [[joeblowma__Qwopus3.5-9B-Coder-MTP-GGUF|joeblowma/Qwopus3.5-9B-Coder-MTP-GGUF]]
 - [[SL-AI__GRaPE-2.5-Quasar|SL-AI/GRaPE-2.5-Quasar]]
 - [[mondk__claude-llama-8B-think-mlx-4Bit|mondk/claude-llama-8B-think-mlx-4Bit]]
 - [[TheBloke__openbuddy-mistral-7B-v13-GGUF|TheBloke/openbuddy-mistral-7B-v13-GGUF]]
 - [[MaziyarPanahi__openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF|MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF]]
 - [[mradermacher__next2-air-i1-GGUF|mradermacher/next2-air-i1-GGUF]]
 - [[legraphista__Mistral-Large-Instruct-2407-IMat-GGUF|legraphista/Mistral-Large-Instruct-2407-IMat-GGUF]]
-- [[ApolloRaines__Qwen2.5-7B-Parasite|ApolloRaines/Qwen2.5-7B-Parasite]]
 - [[Calandracas__minnow-pico-50M-base|Calandracas/minnow-pico-50M-base]]
 - [[thelamapi__next2-air-i1-GGUF|thelamapi/next2-air-i1-GGUF]]
 - [[SL-AI__GRaPE-2.5-Helios-GGUF|SL-AI/GRaPE-2.5-Helios-GGUF]]
 - [[lmstudio-community__Mistral-Small-24B-Instruct-2501-GGUF|lmstudio-community/Mistral-Small-24B-Instruct-2501-GGUF]]
-- [[ApolloRaines__Mistral-7B-Instruct-v0.3-Parasite|ApolloRaines/Mistral-7B-Instruct-v0.3-Parasite]]
-- [[DavidAU__Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning|DavidAU/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning]]
-- [[Jackrong__Qwen3.5-9B-DeepSeek-V4-Flash|Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash]]
-- [[zaakirio__LFM2.5-1.2B-Instruct-Uncensored-GGUF|zaakirio/LFM2.5-1.2B-Instruct-Uncensored-GGUF]]
-- [[SL-AI__GRaPE-2.5-Quasar-GGUF|SL-AI/GRaPE-2.5-Quasar-GGUF]]
-- [[Lamapi__next-8b-Q4_K_M-GGUF|Lamapi/next-8b-Q4_K_M-GGUF]]
-- [[Mungert__Qwopus3.5-9B-Coder-MTP-GGUF|Mungert/Qwopus3.5-9B-Coder-MTP-GGUF]]
-- [[LoneStriker__openbuddy-deepseek-10b-v17.1-4k-GGUF|LoneStriker/openbuddy-deepseek-10b-v17.1-4k-GGUF]]
-- [[Lamapi__next-14b-Q4_K_M-GGUF|Lamapi/next-14b-Q4_K_M-GGUF]]
-- … 외 203개 (다운로드 순 상위 100개만 표시)
+- … 외 221개 (다운로드 순 상위 100개만 표시)
 
 ## 데이터셋 (81)
 
@@ -198,15 +198,15 @@ facet: [[언어]] · 개념 id `language/ru`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 372
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 364
-- [[상업 이용 가능]] (상업 이용) · 공유 282
-- [[텍스트 생성]] (작업) · 공유 242
-- [[초장문]] (입력 길이) · 공유 88
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 68
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 389
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 378
+- [[상업 이용 가능]] (상업 이용) · 공유 297
+- [[텍스트 생성]] (작업) · 공유 248
+- [[초장문]] (입력 길이) · 공유 92
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 75
+- [[이미지 이해]] (작업) · 공유 69
 - [[일반]] (도메인) · 공유 67
-- [[이미지 이해]] (작업) · 공유 62
 - [[학습용]] (데이터 용도) · 공유 58
-- [[조건부 이용]] (상업 이용) · 공유 54
-- [[중형 모델]] (모델 크기) · 공유 53
+- [[조건부 이용]] (상업 이용) · 공유 55
+- [[중형 모델]] (모델 크기) · 공유 54
 - [[단문]] (입력 길이) · 공유 45

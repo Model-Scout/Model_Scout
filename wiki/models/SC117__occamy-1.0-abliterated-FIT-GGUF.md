@@ -3,7 +3,7 @@ type: "model"
 id: "SC117/occamy-1.0-abliterated-FIT-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/SC117/occamy-1.0-abliterated-FIT-GGUF"
-downloads: 7638
+downloads: 12255
 task:
   - "[[이미지 이해]]"
 input_modality:

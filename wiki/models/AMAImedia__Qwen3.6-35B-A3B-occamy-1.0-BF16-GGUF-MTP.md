@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Qwen3.6-35B-A3B-occamy-1.0-BF16-GGUF-MTP"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Qwen3.6-35B-A3B-occamy-1.0-BF16-GGUF-MTP"
-downloads: 758
+downloads: 829
 context_length: 262144
 parameters_b: 35.107
 task:

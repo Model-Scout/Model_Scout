@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/DLM-LST-9B-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/DLM-LST-9B-GGUF"
-downloads: 311
+downloads: 680
 task:
   - "[[텍스트 생성]]"
 input_modality:

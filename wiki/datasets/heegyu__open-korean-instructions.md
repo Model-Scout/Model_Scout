@@ -49,4 +49,5 @@ dataset_size:
 
 ## 이 데이터로 학습한 모델
 
+- [[prismdata__Perdix-1.1B-Instruct|prismdata/Perdix-1.1B-Instruct]]
 - [[tensorblock__ft-solar-10.7b-v2.1-dpo-GGUF|tensorblock/ft-solar-10.7b-v2.1-dpo-GGUF]]

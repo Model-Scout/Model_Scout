@@ -61,3 +61,4 @@ Databricks 직원들이 생성한 15,000개 이상의 명령-응답 쌍으로 LL
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

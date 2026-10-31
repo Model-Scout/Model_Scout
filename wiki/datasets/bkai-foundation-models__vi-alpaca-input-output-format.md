@@ -46,9 +46,3 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 1914자 ≈ 478 토큰 (viewer statistics, default/train)
-
-## 이 데이터로 학습한 모델
-
-- [[haiFrHust__VNJPTranslate_base|haiFrHust/VNJPTranslate_base]]
-- [[trungnguyensun__VNJPTranslate_base-Q4_K_M-GGUF|trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF]]
-- [[trungnguyensun__VNJPTranslate_base-Q8_0-GGUF|trungnguyensun/VNJPTranslate_base-Q8_0-GGUF]]

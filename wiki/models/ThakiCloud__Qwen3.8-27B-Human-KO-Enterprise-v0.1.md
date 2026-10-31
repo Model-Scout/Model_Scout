@@ -3,7 +3,7 @@ type: "model"
 id: "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1"
 source: "huggingface"
 url: "https://huggingface.co/ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1"
-downloads: 211
+downloads: 545
 context_length: 262144
 parameters_b: 27.781
 task:

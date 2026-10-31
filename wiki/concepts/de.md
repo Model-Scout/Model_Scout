@@ -2,13 +2,13 @@
 type: "concept"
 facet: "language"
 key: "de"
-members: 768
+members: 815
 ---
 # de
 
 facet: [[언어]] · 개념 id `language/de`
 
-## 모델 (676)
+## 모델 (723)
 
 - [[LiquidAI__LFM2.5-230M-GGUF|LiquidAI/LFM2.5-230M-GGUF]]
 - [[LiquidAI__LFM2.5-8B-A1B-GGUF|LiquidAI/LFM2.5-8B-A1B-GGUF]]
@@ -17,6 +17,7 @@ facet: [[언어]] · 개념 id `language/de`
 - [[stelterlab__Mistral-Small-24B-Instruct-2501-AWQ|stelterlab/Mistral-Small-24B-Instruct-2501-AWQ]]
 - [[LiquidAI__LFM2.5-1.2B-Instruct|LiquidAI/LFM2.5-1.2B-Instruct]]
 - [[CohereLabs__c4ai-command-r-v01|CohereLabs/c4ai-command-r-v01]]
+- [[AtomicChat__LFM2.5-24B-A2B-Uncensored-GGUF|AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF]]
 - [[lmstudio-community__LFM2.5-1.2B-Instruct-MLX-8bit|lmstudio-community/LFM2.5-1.2B-Instruct-MLX-8bit]]
 - [[LiquidAI__LFM2.5-350M|LiquidAI/LFM2.5-350M]]
 - [[lmstudio-community__LFM2.5-1.2B-Instruct-MLX-4bit|lmstudio-community/LFM2.5-1.2B-Instruct-MLX-4bit]]
@@ -36,6 +37,7 @@ facet: [[언어]] · 개념 id `language/de`
 - [[unsloth__LFM2.5-1.2B-Instruct-GGUF|unsloth/LFM2.5-1.2B-Instruct-GGUF]]
 - [[LiquidAI__LFM2.5-VL-450M|LiquidAI/LFM2.5-VL-450M]]
 - [[audio-cpp__VibeVoice-ASR-Streaming-7B-GGUF|audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF]]
+- [[IsValorum__Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF|IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-MiniPlus-V3-GGUF]]
 - [[LiquidAI__LFM2-8B-A1B|LiquidAI/LFM2-8B-A1B]]
 - [[LiquidAI__LFM2.5-VL-1.6B|LiquidAI/LFM2.5-VL-1.6B]]
 - [[unsloth__LFM2.5-8B-A1B-GGUF|unsloth/LFM2.5-8B-A1B-GGUF]]
@@ -45,6 +47,7 @@ facet: [[언어]] · 개념 id `language/de`
 - [[lukey03__Qwen3.5-9B-abliterated-GGUF|lukey03/Qwen3.5-9B-abliterated-GGUF]]
 - [[Edge0__Audio8-ASR-0.1B|Edge0/Audio8-ASR-0.1B]]
 - [[LiquidAI__LFM2.5-1.2B-Base|LiquidAI/LFM2.5-1.2B-Base]]
+- [[LiquidAI__LFM2.5-24B-A2B-GGUF|LiquidAI/LFM2.5-24B-A2B-GGUF]]
 - [[LGAI-EXAONE__K-EXAONE-236B-A23B|LGAI-EXAONE/K-EXAONE-236B-A23B]]
 - [[LiquidAI__LFM2.5-VL-450M-GGUF|LiquidAI/LFM2.5-VL-450M-GGUF]]
 - [[LiquidAI__LFM2.5-350M-Base|LiquidAI/LFM2.5-350M-Base]]
@@ -74,8 +77,8 @@ facet: [[언어]] · 개념 id `language/de`
 - [[OpenBuddy__openbuddy-llama3-8b-v21.2-32k|OpenBuddy/openbuddy-llama3-8b-v21.2-32k]]
 - [[OpenBuddy__openbuddy-yi1.5-34b-v21.6-32k-fp16|OpenBuddy/openbuddy-yi1.5-34b-v21.6-32k-fp16]]
 - [[OpenBuddy__openbuddy-llama3-70b-v21.2-32k|OpenBuddy/openbuddy-llama3-70b-v21.2-32k]]
+- [[IsValorum__Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF|IsValorum/Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF]]
 - [[bartowski__huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF|bartowski/huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF]]
-- [[unsloth__LFM2.5-230M|unsloth/LFM2.5-230M]]
 - [[alpindale__c4ai-command-r-plus-GPTQ|alpindale/c4ai-command-r-plus-GPTQ]]
 - [[geoffmunn__Qwen3-8B-f16|geoffmunn/Qwen3-8B-f16]]
 - [[bartowski__c4ai-command-r-v01-GGUF|bartowski/c4ai-command-r-v01-GGUF]]
@@ -86,7 +89,9 @@ facet: [[언어]] · 개념 id `language/de`
 - [[LiquidAI__LFM2-350M-GGUF|LiquidAI/LFM2-350M-GGUF]]
 - [[bartowski__Mistral-Small-Instruct-2409-GGUF|bartowski/Mistral-Small-Instruct-2409-GGUF]]
 - [[RedHatAI__Mistral-Small-24B-Instruct-2501-FP8-dynamic|RedHatAI/Mistral-Small-24B-Instruct-2501-FP8-dynamic]]
+- [[onnx-community__LFM2.5-350M-ONNX|onnx-community/LFM2.5-350M-ONNX]]
 - [[bartowski__PocketDoc_Dans-PersonalityEngine-V1.3.0-24b-GGUF|bartowski/PocketDoc_Dans-PersonalityEngine-V1.3.0-24b-GGUF]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]
 - [[Mungert__Dans-PersonalityEngine-V1.3.0-24b-GGUF|Mungert/Dans-PersonalityEngine-V1.3.0-24b-GGUF]]
 - [[bartowski__Ministral-8B-Instruct-2410-GGUF|bartowski/Ministral-8B-Instruct-2410-GGUF]]
 - [[stepfun-ai__Step-3.7-Flash-GGUF|stepfun-ai/Step-3.7-Flash-GGUF]]
@@ -104,13 +109,8 @@ facet: [[언어]] · 개념 id `language/de`
 - [[geoffmunn__Qwen3-4B-f16|geoffmunn/Qwen3-4B-f16]]
 - [[LiquidAI__LFM2-700M|LiquidAI/LFM2-700M]]
 - [[mlx-community__bge-m3-mlx-fp16|mlx-community/bge-m3-mlx-fp16]]
-- [[unsloth__LFM2.5-VL-1.6B-GGUF|unsloth/LFM2.5-VL-1.6B-GGUF]]
-- [[bartowski__FINAL-Bench_Darwin-36B-Opus-GGUF|bartowski/FINAL-Bench_Darwin-36B-Opus-GGUF]]
-- [[DavidAU__Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF]]
-- [[LiquidAI__LFM2-1.2B-Extract-GGUF|LiquidAI/LFM2-1.2B-Extract-GGUF]]
-- [[DavidAU__Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF]]
-- [[LiquidAI__LFM2.5-8B-A1B-MLX-4bit|LiquidAI/LFM2.5-8B-A1B-MLX-4bit]]
-- … 외 576개 (다운로드 순 상위 100개만 표시)
+- [[IsValorum__MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF|IsValorum/MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF]]
+- … 외 623개 (다운로드 순 상위 100개만 표시)
 
 ## 데이터셋 (92)
 
@@ -158,8 +158,8 @@ facet: [[언어]] · 개념 id `language/de`
 - [[Unbabel__TowerBlocks-v0.2|Unbabel/TowerBlocks-v0.2]]
 - [[taisan11__oss-docs-collect|taisan11/oss-docs-collect]]
 - [[FinnSchmidt__CD-ESA|FinnSchmidt/CD-ESA]]
-- [[UTokyo-Yokoya-Lab__trec-covid_CS-MTEB|UTokyo-Yokoya-Lab/trec-covid_CS-MTEB]]
 - [[laion__emolia-voicenet-gemini-annotations|laion/emolia-voicenet-gemini-annotations]]
+- [[UTokyo-Yokoya-Lab__trec-covid_CS-MTEB|UTokyo-Yokoya-Lab/trec-covid_CS-MTEB]]
 - [[alvations__c4p0|alvations/c4p0]]
 - [[ZurichNLP__rsd-ists-2016|ZurichNLP/rsd-ists-2016]]
 - [[urgent-challenge__urgent2026-sqa|urgent-challenge/urgent2026-sqa]]
@@ -170,8 +170,8 @@ facet: [[언어]] · 개념 id `language/de`
 - [[pulse-ai__PulseBench-Tab|pulse-ai/PulseBench-Tab]]
 - [[bpop__spite-gigaspeech-Euro9B|bpop/spite-gigaspeech-Euro9B]]
 - [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
-- [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
+- [[MaoXun__AuthBench|MaoXun/AuthBench]]
 - [[legacy-datasets__multilingual_librispeech|legacy-datasets/multilingual_librispeech]]
 - [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
 - [[humane-lab__PetQA|humane-lab/PetQA]]
@@ -179,8 +179,8 @@ facet: [[언어]] · 개념 id `language/de`
 - [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
 - [[grammarly__medit|grammarly/medit]]
 - [[patrickamadeus__pawsx_mt_triplet|patrickamadeus/pawsx_mt_triplet]]
-- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
 - [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
+- [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
 - [[pykeio__oshichats-v3|pykeio/oshichats-v3]]
 - [[UTokyo-Yokoya-Lab__arxiv-clustering-p2p_CS-MTEB|UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB]]
 - [[floschne__xgqa_1k|floschne/xgqa_1k]]
@@ -209,15 +209,15 @@ facet: [[언어]] · 개념 id `language/de`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 749
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 743
-- [[텍스트 생성]] (작업) · 공유 585
-- [[조건부 이용]] (상업 이용) · 공유 373
-- [[초장문]] (입력 길이) · 공유 311
-- [[상업 이용 가능]] (상업 이용) · 공유 309
-- [[소형 모델]] (모델 크기) · 공유 119
-- [[중형 모델]] (모델 크기) · 공유 104
-- [[초경량 모델]] (모델 크기) · 공유 99
-- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 91
-- [[이미지 이해]] (작업) · 공유 84
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 794
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 786
+- [[텍스트 생성]] (작업) · 공유 619
+- [[조건부 이용]] (상업 이용) · 공유 403
+- [[초장문]] (입력 길이) · 공유 333
+- [[상업 이용 가능]] (상업 이용) · 공유 324
+- [[소형 모델]] (모델 크기) · 공유 124
+- [[중형 모델]] (모델 크기) · 공유 116
+- [[초경량 모델]] (모델 크기) · 공유 100
+- [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 98
+- [[이미지 이해]] (작업) · 공유 91
 - [[일반]] (도메인) · 공유 68

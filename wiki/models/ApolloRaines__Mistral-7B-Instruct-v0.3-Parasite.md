@@ -3,7 +3,7 @@ type: "model"
 id: "ApolloRaines/Mistral-7B-Instruct-v0.3-Parasite"
 source: "huggingface"
 url: "https://huggingface.co/ApolloRaines/Mistral-7B-Instruct-v0.3-Parasite"
-downloads: 821
+downloads: 256
 context_length: 32768
 parameters_b: 7.248
 task:

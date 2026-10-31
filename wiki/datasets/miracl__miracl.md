@@ -42,4 +42,5 @@ MIRACL은 18개 언어의 다국어 정보 검색을 위한 주제와 관련성 
 
 ## 이 데이터로 학습한 모델
 
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[opensearch-project__opensearch-neural-sparse-encoding-multilingual-v1|opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1]]

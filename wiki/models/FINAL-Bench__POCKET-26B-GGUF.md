@@ -3,7 +3,7 @@ type: "model"
 id: "FINAL-Bench/POCKET-26B-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF"
-downloads: 326635
+downloads: 239147
 task:
   - "[[텍스트 생성]]"
 input_modality:

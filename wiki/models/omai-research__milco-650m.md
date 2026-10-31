@@ -3,7 +3,7 @@ type: "model"
 id: "omai-research/milco-650m"
 source: "huggingface"
 url: "https://huggingface.co/omai-research/milco-650m"
-downloads: 2323
+downloads: 1365
 context_length: 8192
 task:
   - "[[임베딩]]"

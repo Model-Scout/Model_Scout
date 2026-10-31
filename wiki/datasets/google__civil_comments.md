@@ -51,3 +51,11 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 758자 ≈ 190 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
+- [[Horizon-Labs__multilingual-toxicity-base|Horizon-Labs/multilingual-toxicity-base]]
+- [[Horizon-Labs__multilingual-toxicity-small|Horizon-Labs/multilingual-toxicity-small]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

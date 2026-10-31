@@ -53,3 +53,8 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `source_text` 열 p90 746자 ≈ 187 토큰 (viewer statistics, default/train)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__multilingual-toxicity-base|Horizon-Labs/multilingual-toxicity-base]]
+- [[Horizon-Labs__multilingual-toxicity-small|Horizon-Labs/multilingual-toxicity-small]]

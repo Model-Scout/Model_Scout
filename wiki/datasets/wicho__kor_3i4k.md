@@ -55,3 +55,4 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[bespin-global__klue-roberta-small-3i4k-intent-classification|bespin-global/klue-roberta-small-3i4k-intent-classification]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

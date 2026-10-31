@@ -43,14 +43,14 @@ facet: [[언어]] · 개념 id `language/th`
 - [[Neurora__versta-glyphmatte|Neurora/versta-glyphmatte]]
 - [[weilin2468__multilingual_audio_alignments|weilin2468/multilingual_audio_alignments]]
 - [[deokhk__multilingual_reasoning_gap_outputs|deokhk/multilingual_reasoning_gap_outputs]]
-- [[li-lab__MultiMed-X|li-lab/MultiMed-X]]
 - [[hagsmand1__laya-thai-decisions|hagsmand1/laya-thai-decisions]]
+- [[li-lab__MultiMed-X|li-lab/MultiMed-X]]
 - [[telepix__STELLA|telepix/STELLA]]
 - [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[DatasetMan__PM4Bench-QGO-Train|DatasetMan/PM4Bench-QGO-Train]]
 - [[NeuralMetrics__P-MMEval|NeuralMetrics/P-MMEval]]
-- [[li-lab__MentalHealthBenchX|li-lab/MentalHealthBenchX]]
 - [[wannaphong__WanJuanSiLu-sft|wannaphong/WanJuanSiLu-sft]]
+- [[li-lab__MentalHealthBenchX|li-lab/MentalHealthBenchX]]
 
 ## 함께 연결된 개념
 

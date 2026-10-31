@@ -2,13 +2,13 @@
 type: "concept"
 facet: "language"
 key: "hi"
-members: 62
+members: 68
 ---
 # hi
 
 facet: [[언어]] · 개념 id `language/hi`
 
-## 모델 (33)
+## 모델 (39)
 
 - [[dealignai__GLM-5.3-CYBERSECURITY-FP8|dealignai/GLM-5.3-CYBERSECURITY-FP8]]
 - [[geoffmunn__Qwen3-8B-f16|geoffmunn/Qwen3-8B-f16]]
@@ -19,26 +19,32 @@ facet: [[언어]] · 개념 id `language/hi`
 - [[bartowski__PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF|bartowski/PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF]]
 - [[geoffmunn__Qwen3-14B-f16|geoffmunn/Qwen3-14B-f16]]
 - [[dealignai__GLM-5.3-UNCENSORED-FP8|dealignai/GLM-5.3-UNCENSORED-FP8]]
+- [[omai-research__milco-300m|omai-research/milco-300m]]
 - [[geoffmunn__Qwen3-32B-f16|geoffmunn/Qwen3-32B-f16]]
 - [[PocketDoc__Dans-PersonalityEngine-V1.3.0-24b|PocketDoc/Dans-PersonalityEngine-V1.3.0-24b]]
 - [[geoffmunn__Qwen3-Coder-30B-A3B-Instruct-f16|geoffmunn/Qwen3-Coder-30B-A3B-Instruct-f16]]
 - [[Archsloth__Qwen3-4B-GGUF|Archsloth/Qwen3-4B-GGUF]]
 - [[Vtuber-plan__Qwen3.8-27B-Uncensored-NVFP4|Vtuber-plan/Qwen3.8-27B-Uncensored-NVFP4]]
+- [[Aya168__aya-expanse-8b-tofu-13lang-v3|Aya168/aya-expanse-8b-tofu-13lang-v3]]
 - [[geoffmunn__Qwen3-30B-A3B-Thinking-2507|geoffmunn/Qwen3-30B-A3B-Thinking-2507]]
 - [[Kenpache__multilingual-financial-sentiment-v2|Kenpache/multilingual-financial-sentiment-v2]]
-- [[omai-research__milco-300m|omai-research/milco-300m]]
 - [[shivnathtathe__nvidia_Riva-Translate-4B-Instruct-v2-GGUF|shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF]]
+- [[burabeeh__Kimibrain-Uncensored|burabeeh/Kimibrain-Uncensored]]
 - [[Genius1237__xlm-roberta-large-tydip|Genius1237/xlm-roberta-large-tydip]]
 - [[geoffmunn__Qwen3-Coder-30B-A3B-Instruct-f32|geoffmunn/Qwen3-Coder-30B-A3B-Instruct-f32]]
-- [[Aya168__aya-expanse-8b-tofu-13lang-v3|Aya168/aya-expanse-8b-tofu-13lang-v3]]
 - [[taurusduan__GLM-5.3-Flash-UNCENSORED-W4A16|taurusduan/GLM-5.3-Flash-UNCENSORED-W4A16]]
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
 - [[anon-researcher-ua__codegpt-oss-20b-GGUF|anon-researcher-ua/codegpt-oss-20b-GGUF]]
 - [[AIAgens__GLM-5.3-Flash-UNCENSORED-W4A16|AIAgens/GLM-5.3-Flash-UNCENSORED-W4A16]]
 - [[PocketDoc__Dans-PersonalityEngine-V1.3.0-12b|PocketDoc/Dans-PersonalityEngine-V1.3.0-12b]]
 - [[QyrouNnet-AI__QNS-2-ReLearn-Preview|QyrouNnet-AI/QNS-2-ReLearn-Preview]]
+- [[AneekC__quipu-moe-1B-A149M|AneekC/quipu-moe-1B-A149M]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
 - [[ashuaria__Step-3.7-Flash-GGUF-FineTune|ashuaria/Step-3.7-Flash-GGUF-FineTune]]
+- [[dealignai__Nemotron-3.5-Bolt-74B-A9B-CRACK-24GB-GGUF|dealignai/Nemotron-3.5-Bolt-74B-A9B-CRACK-24GB-GGUF]]
 - [[jonathan60028__GLM-5.3-UNCENSORED-FP8|jonathan60028/GLM-5.3-UNCENSORED-FP8]]
 - [[tensorblock__PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF|tensorblock/PocketDoc_Dans-PersonalityEngine-V1.3.0-12b-GGUF]]
+- [[vllm-sr__mmbert-rerank-32k-2d-matryoshka|vllm-sr/mmbert-rerank-32k-2d-matryoshka]]
 - [[llm-semantic-router__mmbert-rerank-32k-2d-matryoshka|llm-semantic-router/mmbert-rerank-32k-2d-matryoshka]]
 - [[compute1__Agents-A1-GPTQ-INT4-Sym|compute1/Agents-A1-GPTQ-INT4-Sym]]
 - [[BIGJUTT__Step-3.7-Flash-GGUF|BIGJUTT/Step-3.7-Flash-GGUF]]
@@ -78,14 +84,14 @@ facet: [[언어]] · 개념 id `language/hi`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 61
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 54
-- [[상업 이용 가능]] (상업 이용) · 공유 46
-- [[텍스트 생성]] (작업) · 공유 34
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 67
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 59
+- [[상업 이용 가능]] (상업 이용) · 공유 51
+- [[텍스트 생성]] (작업) · 공유 39
 - [[일반]] (도메인) · 공유 23
 - [[Parquet]] (데이터 형식) · 공유 20
+- [[텍스트 분류]] (작업) · 공유 20
 - [[학습용]] (데이터 용도) · 공유 20
-- [[텍스트 분류]] (작업) · 공유 19
 - [[단문]] (입력 길이) · 공유 14
 - [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 14
 - [[중규모 데이터]] (데이터 규모) · 공유 12

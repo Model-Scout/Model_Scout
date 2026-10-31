@@ -50,3 +50,7 @@ Granary-v2는 48개 언어의 다국어 음성 인식, 번역, 지시문 데이�
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `Granary-v2 is NVIDIA's second release of generated labels and instruction pairs for multilingual speech.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `This repository contains label manifests only.` · 신뢰도 medium
+
+## 이 데이터로 학습한 모델
+
+- [[nvidia__NVIDIA-Nemotron-3.5-Transcribe-30B-A4B|nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B]]

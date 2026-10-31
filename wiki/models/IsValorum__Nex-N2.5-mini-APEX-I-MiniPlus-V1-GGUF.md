@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Nex-N2.5-mini-APEX-I-MiniPlus-V1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Nex-N2.5-mini-APEX-I-MiniPlus-V1-GGUF"
-downloads: 3762
+downloads: 4950
 task:
   - "[[이미지 이해]]"
 input_modality:

@@ -46,3 +46,7 @@ CLINC150은 대화 시스템의 지원 의도 범위 밖 쿼리를 포함한 텍
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 61자 ≈ 15 토큰 (viewer statistics, imbalanced/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

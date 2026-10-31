@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Ornith-1.5-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Ornith-1.5-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 2965
+downloads: 7181
 task:
   - "[[이미지 이해]]"
 input_modality:

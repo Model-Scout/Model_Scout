@@ -43,4 +43,5 @@ dataset_size:
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]
 - [[BytedTsinghua-SIA__DAPO-Qwen-32B|BytedTsinghua-SIA/DAPO-Qwen-32B]]

@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/whisper-large-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/whisper-large-gguf"
-downloads: 31795
+downloads: 36111
 task:
   - "[[음성 인식]]"
 input_modality:

@@ -51,3 +51,7 @@ CommonsenseQA는 상식 지식을 필요로 하는 객관식 질문 답변 데�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `question` 열 p90 108자 ≈ 27 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

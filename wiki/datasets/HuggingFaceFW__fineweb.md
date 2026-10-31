@@ -50,6 +50,10 @@ FineWeb은 CommonCrawl 기반의 18.5조 토큰 규모 영어 웹 데이터로 L
 
 ## 이 데이터로 학습한 모델
 
+- [[Horizon-Labs__multilingual-embedding-base|Horizon-Labs/multilingual-embedding-base]]
+- [[Horizon-Labs__multilingual-embedding-small|Horizon-Labs/multilingual-embedding-small]]
+- [[Horizon-Labs__multilingual-sentiment-base|Horizon-Labs/multilingual-sentiment-base]]
+- [[Horizon-Labs__multilingual-sentiment-small|Horizon-Labs/multilingual-sentiment-small]]
 - [[PsycheFoundation__consilience-40b-7Y9v38s5|PsycheFoundation/consilience-40b-7Y9v38s5]]
 - [[WaveCut__Qwen3.5-2B-MLX-DWQ-4bit|WaveCut/Qwen3.5-2B-MLX-DWQ-4bit]]
 - [[ikhou__dict-xs|ikhou/dict-xs]]

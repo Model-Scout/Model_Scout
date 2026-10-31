@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Hy4-preview-BF16-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Hy4-preview-BF16-GGUF"
-downloads: 3880
+downloads: 2692
 context_length: 1048576
 parameters_b: 779.961
 task:

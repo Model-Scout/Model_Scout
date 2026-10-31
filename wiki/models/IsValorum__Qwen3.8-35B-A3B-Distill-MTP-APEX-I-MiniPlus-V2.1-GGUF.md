@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Qwen3.8-35B-A3B-Distill-MTP-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Qwen3.8-35B-A3B-Distill-MTP-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 9431
+downloads: 12233
 task:
   - "[[텍스트 생성]]"
 input_modality:

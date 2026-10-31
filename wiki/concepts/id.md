@@ -2,16 +2,19 @@
 type: "concept"
 facet: "language"
 key: "id"
-members: 25
+members: 28
 ---
 # id
 
 facet: [[언어]] · 개념 id `language/id`
 
-## 모델 (2)
+## 모델 (5)
 
 - [[omai-research__milco-300m|omai-research/milco-300m]]
 - [[Aya168__aya-expanse-8b-tofu-13lang-v3|Aya168/aya-expanse-8b-tofu-13lang-v3]]
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M|AneekC/quipu-moe-1B-A149M]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
 
 ## 데이터셋 (23)
 
@@ -41,15 +44,15 @@ facet: [[언어]] · 개념 id `language/id`
 
 ## 함께 연결된 개념
 
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 24
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 23
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 27
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 26
+- [[상업 이용 가능]] (상업 이용) · 공유 20
 - [[일반]] (도메인) · 공유 19
-- [[상업 이용 가능]] (상업 이용) · 공유 17
 - [[평가용]] (데이터 용도) · 공유 11
 - [[질의응답]] (작업) · 공유 11
 - [[학습용]] (데이터 용도) · 공유 11
 - [[중규모 데이터]] (데이터 규모) · 공유 10
 - [[단문]] (입력 길이) · 공유 10
 - [[Parquet]] (데이터 형식) · 공유 9
+- [[텍스트 생성]] (작업) · 공유 9
 - [[이미지 (입력 형식)|이미지]] (입력 형식) · 공유 7
-- [[소규모 데이터]] (데이터 규모) · 공유 6

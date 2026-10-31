@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/NOESIS-Qwopus3.5-9B-Coder-v3.5-BF16"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/NOESIS-Qwopus3.5-9B-Coder-v3.5-BF16"
-downloads: 4394
+downloads: 1113
 context_length: 262144
 parameters_b: 8.954
 task:

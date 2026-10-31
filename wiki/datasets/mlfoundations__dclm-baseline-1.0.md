@@ -62,3 +62,4 @@ DCLM-baseline은 4조 토큰, 30억 문서 기반 언어 모델 사전학습용 
 - [[fla-hub__RWKV7-G1j-13.3B-20260831|fla-hub/RWKV7-G1j-13.3B-20260831]]
 - [[fla-hub__RWKV7-G1j-2.9B-20260831|fla-hub/RWKV7-G1j-2.9B-20260831]]
 - [[fla-hub__RWKV7-G1j-7.2B-20260831|fla-hub/RWKV7-G1j-7.2B-20260831]]
+- [[prismdata__Perdix-1.1B-Base|prismdata/Perdix-1.1B-Base]]

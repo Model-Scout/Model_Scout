@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/cohere-transcribe-03-2026"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/cohere-transcribe-03-2026"
-downloads: 207102
+downloads: 149717
 parameters_b: 2.066
 task:
   - "[[음성 인식]]"

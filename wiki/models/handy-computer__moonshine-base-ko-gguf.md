@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/moonshine-base-ko-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/moonshine-base-ko-gguf"
-downloads: 738
+downloads: 549
 task:
   - "[[음성 인식]]"
 input_modality:
@@ -13,7 +13,7 @@ output_modality:
 language:
   - "[[한국어]]"
 commercial_use:
-  - "[[상업 이용 가능]]"
+  - "[[조건부 이용]]"
 ---
 # handy-computer/moonshine-base-ko-gguf
 
@@ -25,4 +25,4 @@ commercial_use:
 - **입력 형식**: [[음성 (입력 형식)|음성]] — task_rule · task:speech_recognition = `audio` · 신뢰도 medium
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:speech_recognition = `text` · 신뢰도 medium
 - **언어**: [[한국어]] — metadata · language_codes = `ko` · 신뢰도 high
-- **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
+- **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high

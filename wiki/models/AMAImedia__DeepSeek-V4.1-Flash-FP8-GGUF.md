@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/DeepSeek-V4.1-Flash-FP8-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/DeepSeek-V4.1-Flash-FP8-GGUF"
-downloads: 16345
+downloads: 14868
 context_length: 1048576
 parameters_b: 763.205
 task:

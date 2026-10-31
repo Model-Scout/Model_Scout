@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/cohere-transcribe-03-2026-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/cohere-transcribe-03-2026-gguf"
-downloads: 960840
+downloads: 1109362
 task:
   - "[[음성 인식]]"
 input_modality:

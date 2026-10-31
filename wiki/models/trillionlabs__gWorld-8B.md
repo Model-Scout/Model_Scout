@@ -3,7 +3,7 @@ type: "model"
 id: "trillionlabs/gWorld-8B"
 source: "huggingface"
 url: "https://huggingface.co/trillionlabs/gWorld-8B"
-downloads: 119
+downloads: 166
 context_length: 262144
 parameters_b: 8.767
 task:

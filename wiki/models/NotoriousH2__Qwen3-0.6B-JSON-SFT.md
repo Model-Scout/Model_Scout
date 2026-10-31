@@ -3,7 +3,7 @@ type: "model"
 id: "NotoriousH2/Qwen3-0.6B-JSON-SFT"
 source: "huggingface"
 url: "https://huggingface.co/NotoriousH2/Qwen3-0.6B-JSON-SFT"
-downloads: 1380
+downloads: 954
 context_length: 131072
 parameters_b: 0.596
 task:

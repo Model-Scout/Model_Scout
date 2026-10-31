@@ -40,3 +40,7 @@ Social IQa는 사회적 상식 추론을 평가하는 QA 벤치마크 데이터�
 - **도메인**: [[일반]] — ner · readme = `a new question-answering benchmark for testing social commonsense intelligence` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `Social IQa contains over 37,000 QA pairs for evaluating models’ abilities` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

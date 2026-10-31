@@ -46,9 +46,3 @@ GPT-4로 생성한 일본어 질문답변 데이터로 비영어권 모델 파�
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 946자 ≈ 237 토큰 (viewer statistics, default/train)
-
-## 이 데이터로 학습한 모델
-
-- [[haiFrHust__VNJPTranslate_base|haiFrHust/VNJPTranslate_base]]
-- [[trungnguyensun__VNJPTranslate_base-Q4_K_M-GGUF|trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF]]
-- [[trungnguyensun__VNJPTranslate_base-Q8_0-GGUF|trungnguyensun/VNJPTranslate_base-Q8_0-GGUF]]

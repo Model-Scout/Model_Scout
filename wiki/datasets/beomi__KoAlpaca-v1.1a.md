@@ -56,6 +56,7 @@ KoAlpaca-v1.1a는 한국어 지침-응답 데이터셋으로 텍스트 생성에
 - [[mradermacher__DataVortexM-7B-Instruct-v0.1-i1-GGUF|mradermacher/DataVortexM-7B-Instruct-v0.1-i1-GGUF]]
 - [[mradermacher__DataVortexTL-1.1B-v0.1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-GGUF]]
 - [[mradermacher__DataVortexTL-1.1B-v0.1-i1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-i1-GGUF]]
+- [[shopkeeper__kor-finewiki-1b-chat|shopkeeper/kor-finewiki-1b-chat]]
 - [[tensorblock__DataVortexTL-1.1B-v0.1-GGUF|tensorblock/DataVortexTL-1.1B-v0.1-GGUF]]
 - [[tensorblock__Mistral-instruct-Y24-DPO-GGUF|tensorblock/Mistral-instruct-Y24-DPO-GGUF]]
 - [[tensorblock__Mistral-instruct-Y24-v5-GGUF|tensorblock/Mistral-instruct-Y24-v5-GGUF]]

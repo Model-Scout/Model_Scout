@@ -48,3 +48,4 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[cadazar__han2han-it|cadazar/han2han-it]]
+- [[cadazar__han2han-rl|cadazar/han2han-rl]]

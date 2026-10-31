@@ -3,7 +3,7 @@ type: "model"
 id: "mncai/Hunmin-397B-A17B-CUA"
 source: "huggingface"
 url: "https://huggingface.co/mncai/Hunmin-397B-A17B-CUA"
-downloads: 281
+downloads: 302
 context_length: 262144
 parameters_b: 396.802
 task:

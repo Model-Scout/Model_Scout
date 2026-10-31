@@ -43,5 +43,6 @@ MASSIVE는 52개 언어의 100만 개 이상 발화로 구성된 다국어 자�
 
 ## 이 데이터로 학습한 모델
 
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[ethicalabs__Echo-DSRN-v0.1.3-Intent-CLF|ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF]]
 - [[palette-lab__songgot-x-0.8b|palette-lab/songgot-x-0.8b]]

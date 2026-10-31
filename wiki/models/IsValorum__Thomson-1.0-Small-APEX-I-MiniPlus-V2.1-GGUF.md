@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Thomson-1.0-Small-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Thomson-1.0-Small-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 2287
+downloads: 4041
 task:
   - "[[텍스트 생성]]"
 input_modality:

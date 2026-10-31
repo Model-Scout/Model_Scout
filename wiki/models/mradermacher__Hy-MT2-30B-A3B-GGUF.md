@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/Hy-MT2-30B-A3B-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/Hy-MT2-30B-A3B-GGUF"
-downloads: 3549
+downloads: 1844
 task:
   - "[[번역]]"
 input_modality:

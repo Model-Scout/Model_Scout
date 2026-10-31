@@ -47,3 +47,7 @@ MKQA는 26개 언어로 번역된 10만 개 질문-답변 쌍의 다국어 지�
 - **데이터 용도**: [[평가용]] — ner · readme = `question answering evaluation set` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

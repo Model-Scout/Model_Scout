@@ -49,6 +49,7 @@ dataset_size:
 
 ## 이 데이터로 학습한 모델
 
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[jhgan__ko-sroberta-nli-mrl|jhgan/ko-sroberta-nli-mrl]]
 - [[snumin44__simcse-ko-bert-supervised|snumin44/simcse-ko-bert-supervised]]
 - [[snumin44__simcse-ko-roberta-supervised|snumin44/simcse-ko-roberta-supervised]]

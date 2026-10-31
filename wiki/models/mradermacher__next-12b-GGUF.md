@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/next-12b-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/next-12b-GGUF"
-downloads: 576
+downloads: 492
 task:
   - "[[질의응답]]"
 input_modality:

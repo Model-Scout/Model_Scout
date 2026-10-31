@@ -68,6 +68,7 @@ KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터
 - [[SECUFIBRE__klue-roberta-base-klue-sts|SECUFIBRE/klue-roberta-base-klue-sts]]
 - [[bespin-global__klue-sentence-roberta-base|bespin-global/klue-sentence-roberta-base]]
 - [[bespin-global__klue-sroberta-base-continue-learning-by-mnr|bespin-global/klue-sroberta-base-continue-learning-by-mnr]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[blueapple8259__TinyKo|blueapple8259/TinyKo]]
 - [[jhgan__ko-sroberta-nli-mrl|jhgan/ko-sroberta-nli-mrl]]
 - [[snumin44__simcse-ko-bert-supervised|snumin44/simcse-ko-bert-supervised]]

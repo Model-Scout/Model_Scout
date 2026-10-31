@@ -3,7 +3,7 @@ type: "model"
 id: "cstr/nemotron-3.5-asr-streaming-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/cstr/nemotron-3.5-asr-streaming-GGUF"
-downloads: 820
+downloads: 1673
 task:
   - "[[음성 인식]]"
 input_modality:

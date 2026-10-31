@@ -49,3 +49,7 @@ Wikipedia 편집 기반의 사실 검증 데이터셋으로, 견고한 사실 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `evidence` 열 p90 262자 ≈ 65 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

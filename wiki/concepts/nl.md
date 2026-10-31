@@ -23,8 +23,8 @@ facet: [[언어]] · 개념 id `language/nl`
 - [[mradermacher__Tower-7B-d2d-GGUF|mradermacher/Tower-7B-d2d-GGUF]]
 - [[ynklab__Tower-7B-Stair_FS4|ynklab/Tower-7B-Stair_FS4]]
 - [[ynklab__Tower-7B-Uni_2c1t|ynklab/Tower-7B-Uni_2c1t]]
-- [[ynklab__Tower-7B-Stair_2c1t|ynklab/Tower-7B-Stair_2c1t]]
 - [[datouge__TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF|datouge/TowerInstruct-Mistral-7B-v0.2-Q4_K_M-GGUF]]
+- [[ynklab__Tower-7B-Stair_2c1t|ynklab/Tower-7B-Stair_2c1t]]
 - [[Unbabel__TowerInstruct-13B-v0.1|Unbabel/TowerInstruct-13B-v0.1]]
 - [[ynklab__Tower-7B-Sep_2c1t|ynklab/Tower-7B-Sep_2c1t]]
 - [[ynklab__Tower-7B-Sep_0c1t|ynklab/Tower-7B-Sep_0c1t]]
@@ -34,8 +34,8 @@ facet: [[언어]] · 개념 id `language/nl`
 - [[Unbabel__TowerInstruct-7B-v0.1|Unbabel/TowerInstruct-7B-v0.1]]
 - [[tensorblock__TowerBase-7B-v0.1-GGUF|tensorblock/TowerBase-7B-v0.1-GGUF]]
 - [[tensorblock__TowerInstruct-Mistral-7B-v0.2-GGUF|tensorblock/TowerInstruct-Mistral-7B-v0.2-GGUF]]
-- [[arzeth__TowerInstruct-7B-v0.2-GGUF|arzeth/TowerInstruct-7B-v0.2-GGUF]]
 - [[Unbabel__TowerBase-7B-v0.1|Unbabel/TowerBase-7B-v0.1]]
+- [[arzeth__TowerInstruct-7B-v0.2-GGUF|arzeth/TowerInstruct-7B-v0.2-GGUF]]
 - [[compute1__Agents-A1-GPTQ-INT4-Sym|compute1/Agents-A1-GPTQ-INT4-Sym]]
 
 ## 데이터셋 (21)

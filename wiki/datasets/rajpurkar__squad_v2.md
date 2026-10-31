@@ -52,4 +52,5 @@ SQuAD 2.0은 위키피디아 문서 기반의 질문응답 데이터셋으로, �
 
 ## 이 데이터로 학습한 모델
 
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[timpal0l__mdeberta-v3-base-squad2|timpal0l/mdeberta-v3-base-squad2]]

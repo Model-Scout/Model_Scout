@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/EXAONE-3.5-2.4B-Instruct-regulus-rb-usb"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/EXAONE-3.5-2.4B-Instruct-regulus-rb-usb"
-downloads: 671
+downloads: 511
 context_length: 4096
 parameters_b: 0.262
 task:

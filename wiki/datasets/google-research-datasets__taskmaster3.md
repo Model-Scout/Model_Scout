@@ -43,3 +43,7 @@ Taskmaster-3는 영화 티켓 구매 목표 대화 데이터셋입니다.
 - **도메인**: [[상거래·상품]] — ner · readme = `movie ticketing dialogs` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `This collection was created using the "self-dialog" method.` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

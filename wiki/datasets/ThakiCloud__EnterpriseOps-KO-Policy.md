@@ -55,3 +55,4 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[ThakiCloud__Qwen3.8-27B-Human-KO-Enterprise-v0.1|ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.1]]
+- [[ThakiCloud__Qwen3.8-27B-Human-KO-Enterprise-v0.2|ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-v0.2]]

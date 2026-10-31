@@ -70,3 +70,4 @@ dataset_size:
 - [[palette-lab__songgot-l|palette-lab/songgot-l]]
 - [[palette-lab__songgot-m|palette-lab/songgot-m]]
 - [[pathcosmos__frankenstallm|pathcosmos/frankenstallm]]
+- [[shopkeeper__kor-finewiki-1b-base|shopkeeper/kor-finewiki-1b-base]]

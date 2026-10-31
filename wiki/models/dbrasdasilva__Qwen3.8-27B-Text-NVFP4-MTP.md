@@ -3,7 +3,7 @@ type: "model"
 id: "dbrasdasilva/Qwen3.8-27B-Text-NVFP4-MTP"
 source: "huggingface"
 url: "https://huggingface.co/dbrasdasilva/Qwen3.8-27B-Text-NVFP4-MTP"
-downloads: 331
+downloads: 487
 context_length: 262144
 parameters_b: 15.145
 task:

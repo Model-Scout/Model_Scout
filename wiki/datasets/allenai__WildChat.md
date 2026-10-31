@@ -47,3 +47,4 @@ WildChat은 인간과 ChatGPT 간 65만 대화 모음으로, 교육 및 사용�
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

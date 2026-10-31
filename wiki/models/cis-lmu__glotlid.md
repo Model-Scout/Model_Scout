@@ -3,7 +3,7 @@ type: "model"
 id: "cis-lmu/glotlid"
 source: "huggingface"
 url: "https://huggingface.co/cis-lmu/glotlid"
-downloads: 223277
+downloads: 503933
 task:
   - "[[텍스트 분류]]"
 input_modality:

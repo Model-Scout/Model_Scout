@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/KAT-Coder-V2.5-Dev-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/KAT-Coder-V2.5-Dev-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 3084
+downloads: 5644
 task:
   - "[[텍스트 생성]]"
 input_modality:

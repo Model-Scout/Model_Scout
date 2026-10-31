@@ -53,3 +53,7 @@ HelpSteer2는 모델을 더 유용하고 정확하며 일관되게 조정하기 
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `response` 열 p90 2955자 ≈ 739 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

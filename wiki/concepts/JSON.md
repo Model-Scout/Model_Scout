@@ -92,8 +92,8 @@ facet: [[데이터 형식]] · 개념 id `data_format/json`
 - [[agentlans__allenai-WildChat|agentlans/allenai-WildChat]]
 - [[TeichAI__claude-4.5-opus-high-reasoning-250x|TeichAI/claude-4.5-opus-high-reasoning-250x]]
 - [[FINAL-Bench__World-Model|FINAL-Bench/World-Model]]
-- [[hasankursun__multilingual-safety-classification-dataset|hasankursun/multilingual-safety-classification-dataset]]
 - [[jgeuter__OpenDecisions|jgeuter/OpenDecisions]]
+- [[hasankursun__multilingual-safety-classification-dataset|hasankursun/multilingual-safety-classification-dataset]]
 - [[facebook__multiloko|facebook/multiloko]]
 - [[TTA01__AssurAI|TTA01/AssurAI]]
 - [[chengshidehaimianti__CC-Cat|chengshidehaimianti/CC-Cat]]
@@ -107,14 +107,14 @@ facet: [[데이터 형식]] · 개념 id `data_format/json`
 - [[MMTR-Bench__MMTR-Bench-Dataset|MMTR-Bench/MMTR-Bench-Dataset]]
 - [[Jackrong__Kimi-K2.5-Reasoning-1M-Cleaned|Jackrong/Kimi-K2.5-Reasoning-1M-Cleaned]]
 - [[Wismut__nym-pii-multilingual-data|Wismut/nym-pii-multilingual-data]]
-- [[nohurry__Opus-4.6-Reasoning-3000x-filtered|nohurry/Opus-4.6-Reasoning-3000x-filtered]]
 - [[nlpai-lab__kullm-v2|nlpai-lab/kullm-v2]]
+- [[nohurry__Opus-4.6-Reasoning-3000x-filtered|nohurry/Opus-4.6-Reasoning-3000x-filtered]]
 - [[Jackrong__Claude-opus-4.7-TraceInversion-5000x|Jackrong/Claude-opus-4.7-TraceInversion-5000x]]
 - [[r-three-moto__multilingual-addition|r-three-moto/multilingual-addition]]
 - [[mkd-minju__korean_data_scraper_aihub|mkd-minju/korean_data_scraper_aihub]]
 - [[LLaMAX__BenchMAX_Function_Completion|LLaMAX/BenchMAX_Function_Completion]]
-- [[ginigen-ai__smol-worldcup|ginigen-ai/smol-worldcup]]
 - [[DGME__FLORES-200|DGME/FLORES-200]]
+- [[ginigen-ai__smol-worldcup|ginigen-ai/smol-worldcup]]
 - … 외 299개 (다운로드 순 상위 100개만 표시)
 
 ## 함께 연결된 개념
