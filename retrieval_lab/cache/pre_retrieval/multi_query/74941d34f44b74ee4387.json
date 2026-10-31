@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 사내 서버에서만 돌리려고 해. 7.8B 모델은 너무 느려서 더 작고 빠른 한국어 모델이 필요하고, 유료 서비스에 넣을 거라 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "상업적으로 사용할 수 있는 빠른 한국어 RAG 모델을 찾고 있습니다. 7.8B 모델보다 작고, 사내 서버에서 사용할 수 있는 모델이 필요합니다.",
+  "I'm looking for a fast Korean RAG model that can be used commercially and is smaller than the 7.8B model for deployment on an internal server.",
+  "Korean RAG model, commercial use, smaller than 7.8B, fast, internal server"
+ ],
+ "response": {
+  "queries": [
+   "상업적으로 사용할 수 있는 빠른 한국어 RAG 모델을 찾고 있습니다. 7.8B 모델보다 작고, 사내 서버에서 사용할 수 있는 모델이 필요합니다.",
+   "I'm looking for a fast Korean RAG model that can be used commercially and is smaller than the 7.8B model for deployment on an internal server.",
+   "Korean RAG model, commercial use, smaller than 7.8B, fast, internal server"
+  ]
+ },
+ "latency_ms": 1570.1
+}

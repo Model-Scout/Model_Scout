@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-32B-Instruct를 RTX 4090(24GB) 한 장에서 돌릴 수 있어? 안 되면 대안도 알려 줘.",
+ "outputs": [
+  "Can EXAONE-3.5-32B-Instruct run on RTX 4090 (24GB)? If not, suggest alternatives."
+ ],
+ "response": {
+  "query": "Can EXAONE-3.5-32B-Instruct run on RTX 4090 (24GB)? If not, suggest alternatives."
+ },
+ "latency_ms": 1130.0
+}

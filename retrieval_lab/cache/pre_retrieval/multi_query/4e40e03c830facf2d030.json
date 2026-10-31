@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법률 문서 검색용 임베딩 모델이 필요해. 긴 조문도 넣어야 해서 입력 길이가 2048 토큰 이상이면 좋겠어.",
+ "outputs": [
+  "법률 문서 검색을 위한 한국어 임베딩 모델을 찾고 있습니다. 입력 길이는 2048 토큰 이상이어야 합니다.",
+  "I need a Korean embedding model for searching legal documents, preferably with an input length of over 2048 tokens.",
+  "Korean embedding model, legal document search, input length over 2048 tokens"
+ ],
+ "response": {
+  "queries": [
+   "법률 문서 검색을 위한 한국어 임베딩 모델을 찾고 있습니다. 입력 길이는 2048 토큰 이상이어야 합니다.",
+   "I need a Korean embedding model for searching legal documents, preferably with an input length of over 2048 tokens.",
+   "Korean embedding model, legal document search, input length over 2048 tokens"
+  ]
+ },
+ "latency_ms": 1465.5
+}

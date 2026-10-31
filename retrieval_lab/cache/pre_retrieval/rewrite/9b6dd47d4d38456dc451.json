@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-4.5-33B로 한국어 문서 이미지를 읽고 싶은데 16GB 맥에서 돌아갈까?",
+ "outputs": [
+  "EXAONE-4.5-33B Korean document image reading capability 16GB Mac compatibility"
+ ],
+ "response": {
+  "query": "EXAONE-4.5-33B Korean document image reading capability 16GB Mac compatibility"
+ },
+ "latency_ms": 1078.2
+}

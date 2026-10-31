@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 OCR을 24GB GPU 한 장에서 로컬로 돌리려고 해. Qwen2.5-VL 32B가 좋다던데 이걸로 가능할까?",
+ "outputs": [
+  "Korean document OCR Qwen2.5-VL 32B 24GB GPU local execution"
+ ],
+ "response": {
+  "query": "Korean document OCR Qwen2.5-VL 32B 24GB GPU local execution"
+ },
+ "latency_ms": 1062.0
+}

@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Zeroth나 KsponSpeech 같은 한국어 음성 데이터셋에서 CER이 공개된 음성인식 모델이 필요해.",
+ "outputs": [
+  "Find speech recognition models that have publicly available CER benchmarks on Korean speech datasets like Zeroth or KsponSpeech."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find speech recognition models that have publicly available CER benchmarks on Korean speech datasets like Zeroth or KsponSpeech."
+  ]
+ },
+ "latency_ms": 1136.7
+}

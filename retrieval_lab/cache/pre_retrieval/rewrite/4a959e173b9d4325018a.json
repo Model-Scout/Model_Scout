@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+ "outputs": [
+  "whisper-large-v3 Korean speech recognition RAM 1GB capability"
+ ],
+ "response": {
+  "query": "whisper-large-v3 Korean speech recognition RAM 1GB capability"
+ },
+ "latency_ms": 925.4
+}

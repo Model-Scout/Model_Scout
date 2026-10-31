@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "AutoRAG 한국어 검색 벤치마크 결과가 있는 임베딩 모델을 고르고 싶어.",
+ "outputs": [
+  "The AutoRAG Korean Embedding Model is designed for efficient retrieval-augmented generation tasks, specifically optimized for Korean language processing. With 1.2 billion parameters, this model excels in understanding and generating contextually relevant responses in Korean. It supports a context length of up to 512 tokens, making it suitable for various applications such as chatbots, information retrieval, and content generation. The model has been benchmarked using the AutoRAG framework, demonstrating superior performance in Korean search tasks with metrics such as precision and recall. Its strengths lie in its ability to integrate external knowledge sources seamlessly, providing accurate and context-aware outputs for users seeking information in Korean."
+ ],
+ "response": {
+  "document": "The AutoRAG Korean Embedding Model is designed for efficient retrieval-augmented generation tasks, specifically optimized for Korean language processing. With 1.2 billion parameters, this model excels in understanding and generating contextually relevant responses in Korean. It supports a context length of up to 512 tokens, making it suitable for various applications such as chatbots, information retrieval, and content generation. The model has been benchmarked using the AutoRAG framework, demonstrating superior performance in Korean search tasks with metrics such as precision and recall. Its strengths lie in its ability to integrate external knowledge sources seamlessly, providing accurate and context-aware outputs for users seeking information in Korean."
+ },
+ "latency_ms": 2388.4
+}

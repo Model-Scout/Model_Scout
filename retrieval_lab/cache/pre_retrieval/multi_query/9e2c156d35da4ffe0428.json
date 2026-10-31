@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "kanana-1.5-v-3b-instruct를 GPU 8GB 노트북에서 돌릴 수 있어?",
+ "outputs": [
+  "kanana-1.5-v-3b-instruct를 8GB GPU 노트북에서 사용할 수 있는지 알려줘",
+  "Can I run kanana-1.5-v-3b-instruct on a laptop with 8GB GPU?",
+  "kanana-1.5-v-3b-instruct, GPU 8GB, 실행 가능 여부"
+ ],
+ "response": {
+  "queries": [
+   "kanana-1.5-v-3b-instruct를 8GB GPU 노트북에서 사용할 수 있는지 알려줘",
+   "Can I run kanana-1.5-v-3b-instruct on a laptop with 8GB GPU?",
+   "kanana-1.5-v-3b-instruct, GPU 8GB, 실행 가능 여부"
+  ]
+ },
+ "latency_ms": 1662.9
+}

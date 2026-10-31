@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 문서 기반 한국어 RAG 답변 생성 모델을 GPU 8GB 노트북에서 돌리려고 해.",
+ "outputs": [
+  "Korean RAG answer generation model for internal documents running on GPU 8GB"
+ ],
+ "response": {
+  "query": "Korean RAG answer generation model for internal documents running on GPU 8GB"
+ },
+ "latency_ms": 860.8
+}

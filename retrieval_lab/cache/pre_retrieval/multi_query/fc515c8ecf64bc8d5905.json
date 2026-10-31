@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성인식 모델을 상업 서비스에 넣으려고 해. 잡음이 많은 통화 음성도 잘 받아 적어야 해.",
+ "outputs": [
+  "상업 서비스에 사용할 수 있는 한국어 음성 인식 모델을 찾고 있습니다. 특히 잡음이 많은 통화 음성을 잘 인식해야 합니다.",
+  "I'm looking for a Korean speech recognition model for commercial services that can accurately transcribe noisy call audio.",
+  "Korean speech recognition model, commercial use, noisy call audio transcription, performance, benchmarks"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에 사용할 수 있는 한국어 음성 인식 모델을 찾고 있습니다. 특히 잡음이 많은 통화 음성을 잘 인식해야 합니다.",
+   "I'm looking for a Korean speech recognition model for commercial services that can accurately transcribe noisy call audio.",
+   "Korean speech recognition model, commercial use, noisy call audio transcription, performance, benchmarks"
+  ]
+ },
+ "latency_ms": 1399.4
+}

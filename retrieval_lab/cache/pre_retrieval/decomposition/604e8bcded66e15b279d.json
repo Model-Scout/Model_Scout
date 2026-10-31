@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ainize/kobart-news와 비슷한 한국어 요약 모델인데 더 긴 문서를 넣을 수 있는 게 필요해.",
+ "outputs": [
+  "Find Korean summarization models that support longer context lengths than ainize/kobart-news.",
+  "Search for Korean summarization models similar to ainize/kobart-news."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find Korean summarization models that support longer context lengths than ainize/kobart-news.",
+   "Search for Korean summarization models similar to ainize/kobart-news."
+  ]
+ },
+ "latency_ms": 1185.2
+}

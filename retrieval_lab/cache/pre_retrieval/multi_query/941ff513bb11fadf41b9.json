@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+ "outputs": [
+  "한국어 회의 녹음 전사를 위해 로컬 GPU(12GB)에서 사용할 수 있는 모델을 찾고 싶고, 정확도가 가장 중요해요.",
+  "I'm looking for a model to transcribe Korean meeting recordings on a local GPU (12GB), prioritizing accuracy.",
+  "Korean transcription, local GPU 12GB, accuracy priority, model for meeting recordings"
+ ],
+ "response": {
+  "queries": [
+   "한국어 회의 녹음 전사를 위해 로컬 GPU(12GB)에서 사용할 수 있는 모델을 찾고 싶고, 정확도가 가장 중요해요.",
+   "I'm looking for a model to transcribe Korean meeting recordings on a local GPU (12GB), prioritizing accuracy.",
+   "Korean transcription, local GPU 12GB, accuracy priority, model for meeting recordings"
+  ]
+ },
+ "latency_ms": 1484.9
+}

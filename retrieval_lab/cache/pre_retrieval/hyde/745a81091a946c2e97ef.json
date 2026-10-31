@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델이 필요해. nDCG 수치를 보고 비교할 거야.",
+ "outputs": [
+  "The MIRACL Korean Embedding Model is designed specifically for information retrieval tasks, particularly in the context of Korean language processing. With a parameter count of 300 million, this model excels in generating high-quality embeddings that enhance search performance. It has been benchmarked using the nDCG metric, demonstrating superior performance in the MIRACL Korean search benchmark. The model supports Korean as its primary language and is optimized for applications in search engines, recommendation systems, and semantic understanding tasks. Its strengths lie in its ability to capture nuanced meanings in Korean text, making it an ideal choice for developers looking to improve search relevance and user experience."
+ ],
+ "response": {
+  "document": "The MIRACL Korean Embedding Model is designed specifically for information retrieval tasks, particularly in the context of Korean language processing. With a parameter count of 300 million, this model excels in generating high-quality embeddings that enhance search performance. It has been benchmarked using the nDCG metric, demonstrating superior performance in the MIRACL Korean search benchmark. The model supports Korean as its primary language and is optimized for applications in search engines, recommendation systems, and semantic understanding tasks. Its strengths lie in its ability to capture nuanced meanings in Korean text, making it an ideal choice for developers looking to improve search relevance and user experience."
+ },
+ "latency_ms": 2387.7
+}

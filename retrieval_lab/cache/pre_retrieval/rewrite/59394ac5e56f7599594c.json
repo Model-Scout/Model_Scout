@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "어르신 대상 서비스에서 사진을 보고 한국어로 대화를 이어 가는 모델이 필요해. GPU 16GB 서버 하나로 돌릴 거야.",
+ "outputs": [
+  "Korean conversation model for elderly service based on image input, capable of running on a single 16GB GPU server."
+ ],
+ "response": {
+  "query": "Korean conversation model for elderly service based on image input, capable of running on a single 16GB GPU server."
+ },
+ "latency_ms": 995.5
+}

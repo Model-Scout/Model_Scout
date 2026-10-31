@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Dongjin-kr/ko-reranker가 CPU에서 너무 느려. 더 가벼운 한국어 리랭커가 필요해.",
+ "outputs": [
+  "Find lighter Korean rerankers than Dongjin-kr/ko-reranker.",
+  "Search for Korean rerankers suitable for CPU deployment."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find lighter Korean rerankers than Dongjin-kr/ko-reranker.",
+   "Search for Korean rerankers suitable for CPU deployment."
+  ]
+ },
+ "latency_ms": 1080.4
+}

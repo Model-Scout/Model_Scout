@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "K-DTCBench 같은 한국어 문서·표·차트 벤치마크 점수가 있는 비전 언어 모델이 필요해.",
+ "outputs": [
+  "Vision-language model with benchmark scores like K-DTCBench in Korean documents, tables, charts."
+ ],
+ "response": {
+  "query": "Vision-language model with benchmark scores like K-DTCBench in Korean documents, tables, charts."
+ },
+ "latency_ms": 1242.3
+}

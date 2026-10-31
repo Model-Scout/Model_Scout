@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-medium보다 빠르면서 한국어 정확도는 비슷한 음성인식 모델이 있을까?",
+ "outputs": [
+  "The FastSpeech-KR model is designed for efficient speech recognition with a focus on Korean language accuracy. It boasts a parameter count of 50 million and supports a context length of 512 tokens. This model is optimized for speed, making it faster than Whisper-Medium while maintaining comparable accuracy in Korean transcription tasks. FastSpeech-KR is particularly useful for real-time applications such as virtual assistants and transcription services. Its strengths lie in its ability to handle various accents and dialects in Korean, ensuring high-quality outputs across diverse use cases. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The FastSpeech-KR model is designed for efficient speech recognition with a focus on Korean language accuracy. It boasts a parameter count of 50 million and supports a context length of 512 tokens. This model is optimized for speed, making it faster than Whisper-Medium while maintaining comparable accuracy in Korean transcription tasks. FastSpeech-KR is particularly useful for real-time applications such as virtual assistants and transcription services. Its strengths lie in its ability to handle various accents and dialects in Korean, ensuring high-quality outputs across diverse use cases. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1822.5
+}

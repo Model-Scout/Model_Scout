@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 OCR 기능을 상업 서비스에 넣으려고 해. GPU 8GB 서버에서 돌아가야 해.",
+ "outputs": [
+  "상업 서비스에 사용할 한국어 OCR 모델을 찾고 있어요. GPU 8GB에서 작동해야 해요.",
+  "I'm looking for a Korean OCR model for commercial services that can run on a GPU with 8GB.",
+  "Korean OCR, commercial use, GPU 8GB, model card"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에 사용할 한국어 OCR 모델을 찾고 있어요. GPU 8GB에서 작동해야 해요.",
+   "I'm looking for a Korean OCR model for commercial services that can run on a GPU with 8GB.",
+   "Korean OCR, commercial use, GPU 8GB, model card"
+  ]
+ },
+ "latency_ms": 1253.8
+}

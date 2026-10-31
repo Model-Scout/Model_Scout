@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-32B-Instruct를 RTX 4090(24GB) 한 장에서 돌릴 수 있어? 안 되면 대안도 알려 줘.",
+ "outputs": [
+  "EXAONE-3.5-32B-Instruct deployment on RTX 4090 (24GB)",
+  "Alternatives to EXAONE-3.5-32B-Instruct for RTX 4090 (24GB)"
+ ],
+ "response": {
+  "sub_queries": [
+   "EXAONE-3.5-32B-Instruct deployment on RTX 4090 (24GB)",
+   "Alternatives to EXAONE-3.5-32B-Instruct for RTX 4090 (24GB)"
+  ]
+ },
+ "latency_ms": 1107.2
+}

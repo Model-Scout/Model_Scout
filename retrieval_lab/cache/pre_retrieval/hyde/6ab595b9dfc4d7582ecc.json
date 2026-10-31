@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "어르신 대상 서비스에서 사진을 보고 한국어로 대화를 이어 가는 모델이 필요해. GPU 16GB 서버 하나로 돌릴 거야.",
+ "outputs": [
+  "The model is designed for conversational AI, specifically tailored for engaging with elderly users through image-based interactions in Korean. It supports the Korean language and is optimized for a 16GB GPU server, ensuring efficient performance. With a parameter count of 1.5 billion, it excels in understanding context and generating relevant responses based on visual inputs. Intended use cases include virtual companionship, assistance in daily activities, and enhancing social interactions for seniors. Its strengths lie in its ability to interpret images and maintain coherent dialogues, making it an ideal choice for services aimed at improving the quality of life for elderly individuals."
+ ],
+ "response": {
+  "document": "The model is designed for conversational AI, specifically tailored for engaging with elderly users through image-based interactions in Korean. It supports the Korean language and is optimized for a 16GB GPU server, ensuring efficient performance. With a parameter count of 1.5 billion, it excels in understanding context and generating relevant responses based on visual inputs. Intended use cases include virtual companionship, assistance in daily activities, and enhancing social interactions for seniors. Its strengths lie in its ability to interpret images and maintain coherent dialogues, making it an ideal choice for services aimed at improving the quality of life for elderly individuals."
+ },
+ "latency_ms": 1463.7
+}

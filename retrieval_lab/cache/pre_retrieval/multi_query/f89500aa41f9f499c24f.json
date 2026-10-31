@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "AutoRAG 한국어 검색 벤치마크 결과가 있는 임베딩 모델을 고르고 싶어.",
+ "outputs": [
+  "AutoRAG 한국어 검색 벤치마크 결과가 포함된 임베딩 모델을 찾고 싶어요.",
+  "I want to find embedding models with AutoRAG Korean search benchmark results.",
+  "AutoRAG, 한국어, 검색, 벤치마크, 임베딩 모델"
+ ],
+ "response": {
+  "queries": [
+   "AutoRAG 한국어 검색 벤치마크 결과가 포함된 임베딩 모델을 찾고 싶어요.",
+   "I want to find embedding models with AutoRAG Korean search benchmark results.",
+   "AutoRAG, 한국어, 검색, 벤치마크, 임베딩 모델"
+  ]
+ },
+ "latency_ms": 2099.9
+}

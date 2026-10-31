@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask를 쓰는데 긴 문단이 잘려. 이것보다 입력을 길게 받는 한국어 임베딩이 필요해.",
+ "outputs": [
+  "Korean embedding model with longer input context length than ko-sroberta-multitask"
+ ],
+ "response": {
+  "query": "Korean embedding model with longer input context length than ko-sroberta-multitask"
+ },
+ "latency_ms": 922.3
+}

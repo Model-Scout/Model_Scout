@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "LogicKor 점수가 높은 한국어 LLM이 필요해. 추론·글쓰기 점수를 보고 고를 거야.",
+ "outputs": [
+  "LogicKor 점수가 높은 한국어 LLM",
+  "추론 점수가 높은 한국어 LLM",
+  "글쓰기 점수가 높은 한국어 LLM"
+ ],
+ "response": {
+  "sub_queries": [
+   "LogicKor 점수가 높은 한국어 LLM",
+   "추론 점수가 높은 한국어 LLM",
+   "글쓰기 점수가 높은 한국어 LLM"
+  ]
+ },
+ "latency_ms": 1645.7
+}

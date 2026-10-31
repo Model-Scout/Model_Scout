@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스의 감성을 긍정·부정·중립으로 분류하려고 해. 상업 서비스야.",
+ "outputs": [
+  "한국어 금융 뉴스의 감성 분석을 긍정, 부정, 중립으로 분류하는 모델을 찾고 있어요.",
+  "I'm looking for a model that classifies the sentiment of Korean financial news into positive, negative, and neutral. It's for a commercial service.",
+  "Korean financial news sentiment classification, positive negative neutral, commercial service, model card"
+ ],
+ "response": {
+  "queries": [
+   "한국어 금융 뉴스의 감성 분석을 긍정, 부정, 중립으로 분류하는 모델을 찾고 있어요.",
+   "I'm looking for a model that classifies the sentiment of Korean financial news into positive, negative, and neutral. It's for a commercial service.",
+   "Korean financial news sentiment classification, positive negative neutral, commercial service, model card"
+  ]
+ },
+ "latency_ms": 1232.7
+}

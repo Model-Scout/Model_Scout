@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 돌릴 수 있어?",
+ "outputs": [
+  "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 사용할 수 있는지 알려줘.",
+  "Can I run Midm-2.0-Base-Instruct on an RTX 3060 (12GB)?",
+  "Midm-2.0-Base-Instruct RTX 3060 12GB 사용 가능 여부"
+ ],
+ "response": {
+  "queries": [
+   "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 사용할 수 있는지 알려줘.",
+   "Can I run Midm-2.0-Base-Instruct on an RTX 3060 (12GB)?",
+   "Midm-2.0-Base-Instruct RTX 3060 12GB 사용 가능 여부"
+  ]
+ },
+ "latency_ms": 1301.5
+}

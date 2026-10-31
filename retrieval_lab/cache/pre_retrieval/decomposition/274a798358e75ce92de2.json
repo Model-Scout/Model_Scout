@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야.",
+ "outputs": [
+  "Korean speech recognition models for local deployment without GPU",
+  "Models with a focus on CER as a benchmark for accuracy",
+  "Models suitable for t3.medium server specifications"
+ ],
+ "response": {
+  "sub_queries": [
+   "Korean speech recognition models for local deployment without GPU",
+   "Models with a focus on CER as a benchmark for accuracy",
+   "Models suitable for t3.medium server specifications"
+  ]
+ },
+ "latency_ms": 1534.0
+}

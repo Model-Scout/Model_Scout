@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-medium보다 빠르면서 한국어 정확도는 비슷한 음성인식 모델이 있을까?",
+ "outputs": [
+  "Find speech recognition models that are faster than whisper-medium.",
+  "Find speech recognition models that have similar Korean accuracy to whisper-medium."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find speech recognition models that are faster than whisper-medium.",
+   "Find speech recognition models that have similar Korean accuracy to whisper-medium."
+  ]
+ },
+ "latency_ms": 1245.5
+}

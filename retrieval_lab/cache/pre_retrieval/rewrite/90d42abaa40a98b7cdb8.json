@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ainize/kobart-news와 비슷한 한국어 요약 모델인데 더 긴 문서를 넣을 수 있는 게 필요해.",
+ "outputs": [
+  "similar to ainize/kobart-news Korean summarization model with longer context length"
+ ],
+ "response": {
+  "query": "similar to ainize/kobart-news Korean summarization model with longer context length"
+ },
+ "latency_ms": 1055.9
+}

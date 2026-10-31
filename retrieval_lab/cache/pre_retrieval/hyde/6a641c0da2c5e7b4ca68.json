@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 OCR 기능을 상업 서비스에 넣으려고 해. GPU 8GB 서버에서 돌아가야 해.",
+ "outputs": [
+  "The model is designed for Optical Character Recognition (OCR) specifically for Korean text. It supports Korean as its primary language and is optimized for deployment on servers with 8GB of GPU memory. With a parameter count of 50 million, it strikes a balance between performance and resource efficiency. The model excels in recognizing handwritten and printed Korean characters, making it ideal for commercial applications such as document digitization, automated data entry, and text extraction from images. Its strengths include high accuracy rates and fast processing times, ensuring reliable performance in real-world scenarios. The model is available in GGUF format and is licensed for commercial use."
+ ],
+ "response": {
+  "document": "The model is designed for Optical Character Recognition (OCR) specifically for Korean text. It supports Korean as its primary language and is optimized for deployment on servers with 8GB of GPU memory. With a parameter count of 50 million, it strikes a balance between performance and resource efficiency. The model excels in recognizing handwritten and printed Korean characters, making it ideal for commercial applications such as document digitization, automated data entry, and text extraction from images. Its strengths include high accuracy rates and fast processing times, ensuring reliable performance in real-world scenarios. The model is available in GGUF format and is licensed for commercial use."
+ },
+ "latency_ms": 1744.1
+}

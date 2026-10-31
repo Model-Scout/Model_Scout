@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+ "outputs": [
+  "The Korean Summarization Model is designed specifically for generating concise and coherent summaries of Korean text. It supports the Korean language and is optimized for tasks such as extractive and abstractive summarization. With a parameter count of 1.5 billion, this model offers a context length of 512 tokens, making it suitable for processing medium-length documents. The model has been benchmarked using the ROUGE metric, achieving impressive scores that demonstrate its effectiveness in summarization tasks. Intended use cases include news article summarization, academic paper summarization, and content generation for social media. Its strengths lie in its ability to maintain the original meaning while producing fluent and readable summaries."
+ ],
+ "response": {
+  "document": "The Korean Summarization Model is designed specifically for generating concise and coherent summaries of Korean text. It supports the Korean language and is optimized for tasks such as extractive and abstractive summarization. With a parameter count of 1.5 billion, this model offers a context length of 512 tokens, making it suitable for processing medium-length documents. The model has been benchmarked using the ROUGE metric, achieving impressive scores that demonstrate its effectiveness in summarization tasks. Intended use cases include news article summarization, academic paper summarization, and content generation for social media. Its strengths lie in its ability to maintain the original meaning while producing fluent and readable summaries."
+ },
+ "latency_ms": 2497.0
+}

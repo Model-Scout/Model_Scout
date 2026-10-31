@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥북(M1 Pro 이상)에서 한국어 회의 녹음을 로컬로 전사해 회의록을 만들려고 해. 음성이 외부로 나가면 안 되고 상업적으로 써야 해. 전문 용어·고유명사 인식이 중요해.",
+ "outputs": [
+  "Korean transcription local meeting notes MacBook (M1 Pro or higher) speech recognition, commercial use, specialized terminology, proper noun recognition"
+ ],
+ "response": {
+  "query": "Korean transcription local meeting notes MacBook (M1 Pro or higher) speech recognition, commercial use, specialized terminology, proper noun recognition"
+ },
+ "latency_ms": 2908.4
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 위키 문서에서 질문의 답을 찾는 KorQuAD 수준의 기계독해 모델이 필요해. 정확도가 중요해.",
+ "outputs": [
+  "KorQuAD 수준의 기계독해 모델을 찾고 있습니다. 한국어 위키 문서에서 질문에 대한 답변을 정확하게 찾는 것이 중요합니다.",
+  "I need a machine reading comprehension model at the KorQuAD level that can find answers to questions from Korean wiki documents. Accuracy is important.",
+  "KorQuAD, 기계독해, 한국어, 정확도, 모델"
+ ],
+ "response": {
+  "queries": [
+   "KorQuAD 수준의 기계독해 모델을 찾고 있습니다. 한국어 위키 문서에서 질문에 대한 답변을 정확하게 찾는 것이 중요합니다.",
+   "I need a machine reading comprehension model at the KorQuAD level that can find answers to questions from Korean wiki documents. Accuracy is important.",
+   "KorQuAD, 기계독해, 한국어, 정확도, 모델"
+  ]
+ },
+ "latency_ms": 2175.4
+}

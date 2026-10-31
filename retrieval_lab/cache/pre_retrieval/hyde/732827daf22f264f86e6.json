@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 코딩 질문에 답하는 로컬 LLM이 필요해. GPU 24GB 한 장이야.",
+ "outputs": [
+  "The model is a local large language model (LLM) specifically designed for coding-related queries in Korean. It supports multiple programming languages and is optimized for performance on a single GPU with 24GB of memory. With a parameter count of 7 billion, it strikes a balance between efficiency and capability, making it suitable for developers seeking assistance with coding tasks, debugging, and code generation. The model excels in understanding context and providing accurate responses, making it an ideal choice for Korean-speaking programmers looking for a reliable coding assistant. It is available in GGUF format and is licensed for commercial use."
+ ],
+ "response": {
+  "document": "The model is a local large language model (LLM) specifically designed for coding-related queries in Korean. It supports multiple programming languages and is optimized for performance on a single GPU with 24GB of memory. With a parameter count of 7 billion, it strikes a balance between efficiency and capability, making it suitable for developers seeking assistance with coding tasks, debugging, and code generation. The model excels in understanding context and providing accurate responses, making it an ideal choice for Korean-speaking programmers looking for a reliable coding assistant. It is available in GGUF format and is licensed for commercial use."
+ },
+ "latency_ms": 1644.3
+}

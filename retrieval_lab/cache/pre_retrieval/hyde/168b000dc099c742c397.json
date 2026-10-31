@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 사내 서버에서만 돌리려고 해. 7.8B 모델은 너무 느려서 더 작고 빠른 한국어 모델이 필요하고, 유료 서비스에 넣을 거라 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "The model is a compact and efficient 3.5B parameter transformer designed specifically for Korean language tasks. It excels in retrieval-augmented generation (RAG) applications, making it ideal for answering questions based on Korean documents. With a context length of 512 tokens, it provides quick responses while maintaining high accuracy. This model is commercially licensed, allowing for integration into paid services. Its strengths lie in its speed and ability to handle nuanced Korean language queries effectively, making it suitable for enterprise-level applications where performance and reliability are crucial."
+ ],
+ "response": {
+  "document": "The model is a compact and efficient 3.5B parameter transformer designed specifically for Korean language tasks. It excels in retrieval-augmented generation (RAG) applications, making it ideal for answering questions based on Korean documents. With a context length of 512 tokens, it provides quick responses while maintaining high accuracy. This model is commercially licensed, allowing for integration into paid services. Its strengths lie in its speed and ability to handle nuanced Korean language queries effectively, making it suitable for enterprise-level applications where performance and reliability are crucial."
+ },
+ "latency_ms": 1670.8
+}

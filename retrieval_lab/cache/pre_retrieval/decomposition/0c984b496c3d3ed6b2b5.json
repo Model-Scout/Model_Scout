@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-4.5-33B로 한국어 문서 이미지를 읽고 싶은데 16GB 맥에서 돌아갈까?",
+ "outputs": [
+  "EXAONE-4.5-33B 모델의 메모리 요구 사항은 얼마인가요?",
+  "EXAONE-4.5-33B 모델은 한국어 문서 이미지를 처리할 수 있나요?",
+  "EXAONE-4.5-33B 모델은 어떤 파일 형식(GGUF, AWQ, ONNX)으로 제공되나요?"
+ ],
+ "response": {
+  "sub_queries": [
+   "EXAONE-4.5-33B 모델의 메모리 요구 사항은 얼마인가요?",
+   "EXAONE-4.5-33B 모델은 한국어 문서 이미지를 처리할 수 있나요?",
+   "EXAONE-4.5-33B 모델은 어떤 파일 형식(GGUF, AWQ, ONNX)으로 제공되나요?"
+  ]
+ },
+ "latency_ms": 1307.3
+}

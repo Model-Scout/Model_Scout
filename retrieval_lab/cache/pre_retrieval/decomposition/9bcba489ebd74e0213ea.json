@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 코딩 질문에 답하는 로컬 LLM이 필요해. GPU 24GB 한 장이야.",
+ "outputs": [
+  "코딩 질문에 답하는 로컬 LLM",
+  "GPU 24GB에 적합한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "코딩 질문에 답하는 로컬 LLM",
+   "GPU 24GB에 적합한 모델"
+  ]
+ },
+ "latency_ms": 1193.4
+}

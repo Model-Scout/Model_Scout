@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorSTS 점수(스피어만 상관계수)가 공개된 한국어 문장 임베딩 모델이 필요해.",
+ "outputs": [
+  "The Korean Sentence Embedding Model is designed for semantic textual similarity tasks, specifically optimized for the Korean language. With 110 million parameters, this model excels in generating high-quality sentence embeddings that capture nuanced meanings in Korean text. It has been benchmarked using the KorSTS dataset, achieving impressive Spearman correlation scores, making it ideal for applications in information retrieval, paraphrase detection, and sentiment analysis. The model supports various file formats, including GGUF and ONNX, ensuring compatibility with different deployment environments. Its strengths lie in its ability to understand context and semantics in Korean, providing reliable embeddings for downstream tasks."
+ ],
+ "response": {
+  "document": "The Korean Sentence Embedding Model is designed for semantic textual similarity tasks, specifically optimized for the Korean language. With 110 million parameters, this model excels in generating high-quality sentence embeddings that capture nuanced meanings in Korean text. It has been benchmarked using the KorSTS dataset, achieving impressive Spearman correlation scores, making it ideal for applications in information retrieval, paraphrase detection, and sentiment analysis. The model supports various file formats, including GGUF and ONNX, ensuring compatibility with different deployment environments. Its strengths lie in its ability to understand context and semantics in Korean, providing reliable embeddings for downstream tasks."
+ },
+ "latency_ms": 2475.3
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 영수증이나 문서 사진에서 글자를 읽고 내용을 정리하는 비전 언어 모델이 필요해. GPU 24GB 한 장에서 돌릴 거야.",
+ "outputs": [
+  "The Vision Language Model is designed for Optical Character Recognition (OCR) tasks, specifically tailored for processing Korean text from receipts and documents. It supports Korean as its primary language and is optimized for efficient performance on a single GPU with 24GB of memory. With a parameter count of 1.5 billion, this model excels in accurately extracting and organizing textual information from images. Intended use cases include digitizing receipts, automating data entry, and enhancing document management systems. Its strengths lie in high accuracy, robust handling of various fonts and layouts, and the ability to understand context, making it an ideal choice for businesses looking to streamline their documentation processes."
+ ],
+ "response": {
+  "document": "The Vision Language Model is designed for Optical Character Recognition (OCR) tasks, specifically tailored for processing Korean text from receipts and documents. It supports Korean as its primary language and is optimized for efficient performance on a single GPU with 24GB of memory. With a parameter count of 1.5 billion, this model excels in accurately extracting and organizing textual information from images. Intended use cases include digitizing receipts, automating data entry, and enhancing document management systems. Its strengths lie in high accuracy, robust handling of various fonts and layouts, and the ability to understand context, making it an ideal choice for businesses looking to streamline their documentation processes."
+ },
+ "latency_ms": 1746.7
+}

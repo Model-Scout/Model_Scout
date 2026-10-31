@@ -1,0 +1,443 @@
+{"query_id": "sg_a001", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 2, "reason": "한국어 OCR 특화 비전-언어 2.124B. 24GB GPU에 여유 있고 질의에 라이선스 조건 없음", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "ONTHEIT/BizOnAI-OCR", "score": 2, "reason": "한국어 문서 OCR 전용 8.767B, openrail. 24GB GPU로 실행 가능", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "npario/LFM2.5-VL-3B-GGUF", "score": 1, "reason": "claim에 'batch processing scanned documents with OCR' 명시. 다만 OCR 특화 모델은 아님", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "unsloth/LFM2.5-VL-3B", "score": 1, "reason": "LFM2.5-VL 3.123B 공식 재배포. 문서 스캔 처리 언급 있으나 OCR 전용 아님", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "heretic-org/LFM2.5-VL-3B-heretic", "score": 1, "reason": "LFM2.5-VL의 abliterated 개조본. 문서 스캔 언급 있으나 개조본이라 신뢰도 낮음", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed", "score": 1, "reason": "LFM2.5-VL 양자화본 2.133B, vLLM 전용. OCR 특화 아님", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "LiquidAI/LFM2.5-VL-3B-ONNX", "score": 1, "reason": "LFM2.5-VL ONNX 변환본. claim이 image-text-to-text 태그뿐이라 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "LiquidAI/LFM2.5-VL-1.6B-ONNX", "score": 1, "reason": "1.6B ONNX. 한국어 포함 10언어이나 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "cstr/internvl2.5-2b-crispembed-GGUF", "score": 1, "reason": "InternVL2.5 2B GGUF. 범용 비전-언어이고 한국어 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_a001", "model_id": "neureps/warmly-qwen35-2b-enko-gguf", "score": 1, "reason": "영한 2언어 2B GGUF. image-text-to-text 태그만 있고 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "BuzzASR/korean", "score": 2, "reason": "한국어 전용 ASR 1.543B (whisper-large-v3 파인튜닝), MIT로 상업 이용 가능. 맥 로컬 실행에 문제 없음", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "handy-computer/moonshine-base-ko-gguf", "score": 2, "reason": "한국어 전용 ASR GGUF, MIT, llama.cpp로 맥 로컬 실행 가능. 상업 조건 충족", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "mlx-community/Voxtral-Mini-4B-Realtime-2602-fp16", "score": 2, "reason": "MLX 포맷으로 Apple Silicon 전용 최적화, apache-2.0. 질의의 맥북 로컬·상업 조건에 직접 부합", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "handy-computer/moonshine-tiny-ko-gguf", "score": 1, "reason": "한국어 ASR tiny GGUF, MIT. 조건은 충족하나 claim에 'no timestamps' 명시이고 전문용어 인식에는 용량이 부족", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit", "score": 1, "reason": "CoreML 6bit로 Apple Silicon 전용, M4 Pro에서 30초 오디오 836ms. 다만 GPL-3.0으로 상업 이용에 전염성 조건이 붙음", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "moonshine-ai/moonshine-base-ko", "score": 1, "reason": "한국어 전용 ASR 0.062B 원본. license=other로 상업 이용 여부 확인 불가", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "moonshine-ai/moonshine-tiny-ko", "score": 1, "reason": "한국어 ASR 0.027B. license=other로 상업 조건 확인 불가하고 전문용어 인식에 용량 부족", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "onnx-community/moonshine-base-ko-ONNX", "score": 1, "reason": "한국어 ASR ONNX 변환본. license 표기 없어 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "cstr/sensevoice-small-GGUF", "score": 1, "reason": "5언어 ASR GGUF, llama.cpp로 맥 실행 가능. 한국어 특화 아니고 license=other", "judge": "claude"}
+{"query_id": "sg_g006", "model_id": "Edge0/Audio8-ASR-0.1B-onnx-runtime", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 상업 이용을 명시 요구해 조건 위반", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "ghost613/whisper-large-v3-turbo-korean", "score": 2, "reason": "기존 정답 whisper-large-v3-turbo의 한국어 파인튜닝 0.809B. 12GB GPU에 여유 있고 정확도 우선 조건에 부합", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "seastar105/whisper-medium-komixv2", "score": 2, "reason": "한국어 whisper-medium 파인튜닝 0.764B. 12GB GPU로 충분하고 한국어 정확도 향상 목적", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "mistralai/Voxtral-Mini-4B-Realtime-2602", "score": 1, "reason": "공식 Voxtral 4.43B, apache-2.0, 12GB로 실행 가능. 다만 실시간 스트리밍 특화로 정확도 우선 요구와 방향이 다름", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 1, "reason": "Voxtral GGUF 변환본. 실시간 스트리밍 특화라 정확도 우선 조건과 어긋남", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 1, "reason": "Voxtral GGUF 재업로드. 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "epapanita/cohere-transcribe-03-2026-gguf", "score": 1, "reason": "14언어 전용 ASR GGUF, 'RTF 3배 빠름' claim. 속도 특화라 정확도 우선과 방향이 다름", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "seastar105/whisper-small-komixv2", "score": 1, "reason": "한국어 whisper-small 0.242B. 12GB GPU 여유를 못 살리고 정확도 우선 조건에 용량이 부족", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "team-lucid/hubert-large-korean", "score": 1, "reason": "한국어 HuBERT 0.315B. HuBERT는 음성 표현학습 모델로 ASR 디코더 파인튜닝이 별도로 필요", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "iris-sfg/Voxtral-Mini-4B-Realtime-2602-4bit", "score": 0, "reason": "MLX 4bit 양자화본으로 Apple Silicon 전용. 질의의 로컬 GPU(CUDA) 환경에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_g008", "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16", "score": 0, "reason": "LiteRT(TFLite)는 Android 엣지 런타임. claim도 'Android GPU/NNAPI'로 GPU 서버 전사 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "LiquidAI/LFM2.5-1.2B-Thinking", "score": 1, "reason": "공식 LFM2.5 1.17B 범용 텍스트 모델. 8GB GPU에 여유 있으나 한국어·요약 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "Dingdust/LFM2.5-2.6B-heretic", "score": 1, "reason": "LFM2.5 2.697B, claim에 '2.5GB 메모리 미만' 명시로 8GB 충족. abliterated 개조본이라 신뢰도 낮음", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF, 대화 최적화. 양자화하면 8GB에 들어가나 요약 특화는 아님", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF", "score": 1, "reason": "한국어 SOLAR 10.7B GGUF. 4bit 양자화 시 8GB 경계이고 요약 특화 아님", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "dalatexcoder/LFM2.5-230M-heretic-v1", "score": 1, "reason": "0.23B 초소형으로 8GB에 충분. 회의록 요약 품질에는 용량이 부족하고 개조본", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "TheBloke/PiVoT-0.1-early-GGUF", "score": 1, "reason": "Mistral 기반 한국어 GGUF. 'early' 실험 단계 모델로 요약 근거 없음", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF", "score": 0, "reason": "Mixtral 8x7B(약 47B) GGUF. 8GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned", "score": 0, "reason": "201.957B 모델. 양자화·프루닝 후에도 8GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "ali-thowfeek/Charty-1B-GGUF", "score": 0, "reason": "text-to-mermaid 다이어그램 생성 특화(학습 데이터 3,837건). 회의록 요약 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g009", "model_id": "choonok/VetJarvis-1.1-4B-Instruct-GGUF", "score": 0, "reason": "수의학 도메인 특화 모델. 회의록 요약 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "NCSOFT/VARCO-VISION-14B-HF", "score": 2, "reason": "기존 정답 NCSOFT/VARCO-VISION-14B의 HF 포맷판 15.196B. 16B 상한 충족이고 claim에 bounding box 기반 문서 이해 명시", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 2, "reason": "한국어 비전-언어 3.668B, claim에 'Korea-specific benchmarks 최적화' 명시. 문서·차트 이해 용도에 부합", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "trillionlabs/gWorld-8B", "score": 2, "reason": "한국어 비전-언어 8.767B, apache-2.0. 16B 상한 충족", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "thelamapi/next-4b", "score": 1, "reason": "4.3B 멀티모달, claim에 'multimodal QA' 있으나 52언어 범용이고 한국어 문서·표·차트 근거 없음", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "MuXodious/Ministral-3-14B-Instruct-2512-absolute-heresy", "score": 0, "reason": "Ministral 3 14B는 텍스트 전용 모델이고 claim에 비전 기능 근거가 없음. 비전-언어 요구와 불일치", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "EnlistedGhost/Ministral-3-14B-Instruct-2512-GGUF", "score": 0, "reason": "텍스트 전용 Ministral GGUF. claim이 instruct·chat 용도뿐으로 비전 근거 없음", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "EnlistedGhost/Ministral-3-3B-Instruct-2512-GGUF", "score": 0, "reason": "위와 같은 텍스트 전용 모델의 3B판", "judge": "claude"}
+{"query_id": "sg_g010", "model_id": "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF", "score": 0, "reason": "27B 모델로 질의의 14B급·16B 상한을 초과(params 미확인으로 하드 필터를 통과). abliterated 개조본", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "LiquidAI/LFM2-1.2B-RAG", "score": 2, "reason": "RAG 특화 공식 모델 1.17B, 한국어 포함. claim에 '제공된 문서 기반 질의응답' 명시로 질의 용도와 정확히 부합하고 7B 이하", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "LiquidAI/LFM2-1.2B-RAG-GGUF", "score": 2, "reason": "위 모델의 공식 GGUF. Docker 로컬 실행에 적합하고 claim에 내부 지식베이스 grounding 명시", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "QuantFactory/LFM2-1.2B-RAG-GGUF", "score": 1, "reason": "LFM2-1.2B-RAG의 제3자 GGUF 변환본. 원본과 중복이나 조건은 충족", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "Mungert/LFM2-1.2B-RAG-GGUF", "score": 1, "reason": "LFM2-1.2B-RAG의 또 다른 제3자 변환본. 원본과 중복", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "CMSManhattan/JiRackUltra_1b", "score": 1, "reason": "1.777B, 13언어, MIT, CPU 추론 최적화로 7B 이하 충족. RAG 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "QuantFactory/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 7.8B. 질의가 '7.8B 모델이 2분 넘게 걸려서 더 작은 것'을 요구했으므로 거부 대상", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "second-state/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 6.862B GGUF. 위와 같은 이유로 질의가 명시적으로 배제한 크기대", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "TheStageAI/Elastic-Llama-3.1-8B-Instruct", "score": 0, "reason": "Llama-3.1 8B로 7B 상한 초과(params 미확인으로 필터 통과)", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "mlx-community/HY-MT1.5-1.8B-8bit", "score": 0, "reason": "claim이 36언어 번역 전용. RAG 답변 생성 용도와 불일치하고 MLX는 Apple 전용", "judge": "claude"}
+{"query_id": "sg_g015", "model_id": "aixk/BAAR2-9M", "score": 0, "reason": "0.01B(9M) 초소형, context 512. claim도 'task-specific 파인튜닝 필요'로 RAG 답변 생성 불가", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "LiquidAI/LFM2-1.2B-RAG", "score": 1, "reason": "RAG 특화 1.17B로 용도·크기 충족. 다만 license=other로 질의의 상업 이용 조건을 확인할 수 없음", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "LiquidAI/LFM2-1.2B-RAG-GGUF", "score": 1, "reason": "RAG 특화 공식 GGUF. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "QuantFactory/LFM2-1.2B-RAG-GGUF", "score": 1, "reason": "LFM2-1.2B-RAG 제3자 변환본. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "Mungert/LFM2-1.2B-RAG-GGUF", "score": 1, "reason": "LFM2-1.2B-RAG 제3자 변환본. 위와 같음", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "QuantFactory/EXAONE-3.5-7.8B-Instruct-GGUF", "score": 0, "reason": "EXAONE-3.5 7.8B. 질의가 '7.8B가 너무 느려서 더 작은 것'을 요구해 거부 대상이고 license=other로 상업 조건도 미확인", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "QuantFactory/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 7.8B. 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "second-state/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 6.862B. 질의가 배제한 크기대", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "gaianet/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 6.862B 제3자 변환본. 위와 같음", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "geoffmunn/Qwen3-14B-f16", "score": 0, "reason": "Qwen3 14B로 7B 상한 초과. claim도 '24GB GPU 권장'으로 조건과 불일치", "judge": "claude"}
+{"query_id": "sg_g016", "model_id": "mlx-community/HY-MT1.5-1.8B-8bit", "score": 0, "reason": "36언어 번역 전용 모델이고 MLX는 Apple 전용. 사내 서버 RAG 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "LiteLLMs/Llama-3-Open-Ko-8B-GGUF", "score": 2, "reason": "한국어 Llama3 8B GGUF로 Ollama 호환. claim에 GPU 가속·chat completion 명시, 12GB에서 int4 실행 가능", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "cyankiwi/LFM2.5-8B-A1B-AWQ-INT4", "score": 1, "reason": "AWQ INT4 양자화 8.468B로 질의의 int4 조건 충족, llama.cpp 지원. 한국어 특화는 아니고 9언어 범용", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 1, "reason": "한국어 13B GGUF, llama.cpp. int4 양자화 시 12GB 경계이나 Ollama 사용 가능", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "blaj/LFM2.5-2.6B-heretic-int4-ov", "score": 1, "reason": "int4 양자화로 조건 충족하나 OpenVINO 포맷은 Intel 가속용이고 Ollama와 무관. abliterated 개조본", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "beomi/llama-2-ko-7b", "score": 1, "reason": "한국어 Llama2 6.856B. BF16 기본이고 GGUF 변환본이 아니라 Ollama int4 실행에 추가 변환이 필요", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "RedHatAI/Mistral-Small-24B-Instruct-2501-quantized.w4a16", "score": 1, "reason": "w4a16 4bit 양자화 23.572B. claim이 vLLM 전용이고 한국어 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "OpenBuddy/openbuddy-openllama-7b-v5-fp16", "score": 0, "reason": "FP16 배포본. 질의가 'FP16은 너무 느려서 int4로' 명시해 조건을 정면으로 어긋남", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "Oscilla/LFM2-350M-mlx-4Bit", "score": 0, "reason": "MLX 4bit는 Apple Silicon 전용. RTX 3060 환경에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "kfkas/Legal-Llama-2-ko-7b-Chat", "score": 0, "reason": "법률 도메인 특화 챗 모델. 일반 멀티턴 대화 용도와 도메인 불일치", "judge": "claude"}
+{"query_id": "sg_g017", "model_id": "nota-ai/Solar-Open2-250B-Nota-INT4", "score": 0, "reason": "INT4 양자화 후에도 41.018B. 12GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "QuantFactory/Llama-3-Open-Ko-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF로 8B 상한 충족, claim에 'commercial and research use' 명시. license=other로 상업 조건은 완전히 확인되지 않음", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "bartowski/LGAI-EXAONE_EXAONE-Deep-7.8B-GGUF", "score": 1, "reason": "EXAONE-Deep 7.8B GGUF, Q4_K_L 등 Q4 양자화 제공으로 조건 충족. license=other로 상업 확인 불가", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "LGAI-EXAONE/EXAONE-Deep-7.8B", "score": 1, "reason": "7.818B로 8B 상한 경계 충족. 추론(thought) 특화 모델이고 license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "LGAI-EXAONE/EXAONE-Deep-7.8B-AWQ", "score": 1, "reason": "EXAONE-Deep AWQ 양자화 7.818B. 위와 같은 이유로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "LiquidAI/LFM2.5-2.6B-ONNX", "score": 1, "reason": "1.772B, claim에 Q4·Q8 양자화 지원 명시로 노트북 실행 적합. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "LiteLLMs/openbuddy-llama3-8b-v21.1-8k-GGUF", "score": 1, "reason": "Llama3 8B GGUF로 상한 충족. 한국어 특화 아니고 license=other", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "QuantFactory/Llama-3-KoEn-8B-GGUF", "score": 0, "reason": "license=cc-by-nc-sa-4.0 비상업. 질의가 '회사 업무라 상업적으로 쓸 수 있어야' 명시해 조건 위반", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "Outlier-Ai/Qwen2.5-Coder-7B-Instruct-MLX-4bit", "score": 0, "reason": "MLX는 Apple Silicon 전용이고 Coder 특화. 버그 리포트 분류·정리 용도와도 불일치", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 0, "reason": "13B로 질의의 7~8B 상한 초과", "judge": "claude"}
+{"query_id": "sg_g021", "model_id": "www622846/qwen3.5-9b-rp-lora-v2", "score": 0, "reason": "9B로 상한 초과이고 roleplay LoRA. warnings에 'roleplay dialogue data(캐릭터 카드, 로어북)' 명시로 업무 분류 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "moonshine-ai/moonshine-tiny-ko", "score": 2, "reason": "한국어 전용 ASR 0.027B. 온디바이스 저장공간·메모리 조건에 가장 부합하고 medium보다 훨씬 작음", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "moonshine-ai/moonshine-base-ko", "score": 2, "reason": "한국어 전용 ASR 0.062B. claim에 '동급 크기 대비 정확도 우위' 명시, 온디바이스 적합", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "SungBeom/whisper-small-ko", "score": 2, "reason": "한국어 whisper-small 파인튜닝, apache-2.0. medium보다 작고 0.7B 상한 충족", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "onnx-community/nemotron-3.5-asr-streaming-0.6b-onnx-int4", "score": 2, "reason": "0.6B int4 ONNX, MIT. claim에 저지연 스트리밍·높은 처리량 명시로 온디바이스 조건에 부합", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "cstr/sensevoice-small-GGUF", "score": 1, "reason": "small 크기 ASR GGUF로 llama.cpp 온디바이스 실행 가능. 5언어 범용이고 한국어 특화 아님", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "Systran/faster-whisper-medium", "score": 0, "reason": "medium 크기. 질의가 'medium보다 작은 모델'을 명시 요구해 조건 위반", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "guillaumekln/faster-whisper-medium", "score": 0, "reason": "medium 크기로 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "onnx-community/Voxtral-Mini-4B-Realtime-2602-ONNX", "score": 0, "reason": "4.43B로 0.7B 상한을 크게 초과. 온디바이스 메모리 조건과 불일치", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "nyadla-sys/whisper-tiny.en.tflite", "score": 0, "reason": "whisper-tiny.en은 영어 전용 모델. 한국어 녹취 요구와 불일치", "judge": "claude"}
+{"query_id": "sg_g028", "model_id": "INo0121/whisper-base-ko-callvoice", "score": 0, "reason": "limitations·warnings에 'can only be used for learning purposes'가 명시돼 온디바이스 서비스 용도로 쓸 수 없음", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "MyeongHo0621/Qwen2.5-3B-Korean", "score": 2, "reason": "claim에 '20만 고품질 한국어 대화 데이터 학습, LoRA 병합 완료 즉시 사용' 명시. 3.086B로 맥 16GB 통합메모리에 여유 있고 cpu·llama.cpp 지원", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "LiteLLMs/Llama-3-Open-Ko-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF로 llama.cpp 맥 실행 가능. 요약·교정 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "kfkas/Llama-2-ko-7b-Chat", "score": 1, "reason": "한국어 Llama2 7B 챗 모델. 16GB 경계이고 요약·교정 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 1, "reason": "한국어 13B GGUF, llama.cpp. 양자화 시 16GB 가능하나 요약 특화 아님", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "onnx-community/LFM2-350M-Extract-ONNX", "score": 1, "reason": "정보 추출(Extract) 특화 0.268B ONNX. 방향은 근접하나 회의록 요약·교정에는 용량이 부족", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "beomi/llama-2-ko-7b", "score": 1, "reason": "한국어 Llama2 6.856B. limitations에 'Apple Silicon does not support BF16, use CPU instead' 명시로 맥 성능이 제약됨", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "jiwoochris/ko-llama2-v1", "score": 1, "reason": "한국어 12.747B, MIT. FP16으로는 16GB 통합메모리를 초과해 별도 양자화가 필요", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "LLM-OS-Models/LFM2.5-8B-A1B-Terminal-ToolBench-Full-SFT-1Epoch-GGUF", "score": 0, "reason": "claim이 '터미널 상태를 읽어 다음 터미널 액션 JSON을 출력하는 자동화 SFT 모델'. 회의록 요약·교정 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "kez-lab/gemma-2-2b-quiz-korean", "score": 0, "reason": "한국어 퀴즈 생성 특화 파인튜닝. 요약·교정 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_g029", "model_id": "kfkas/Legal-Llama-2-ko-7b-Chat", "score": 0, "reason": "법률 도메인 특화 챗 모델. 회의록 요약·교정과 도메인 불일치", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "RedHatAI/Mistral-Small-24B-Instruct-2501-quantized.w4a16", "score": 2, "reason": "w4a16 4bit 양자화로 24B를 약 12GB에 적재해 10~16GB 조건 충족. apache-2.0으로 상업 이용 가능하고 claim에 vLLM 서빙 최적화 명시", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "LiquidAI/LFM2.5-1.2B-Thinking", "score": 1, "reason": "공식 LFM2.5 1.17B. GPU 조건은 충족하나 license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "LiteLLMs/Llama-3-Open-Ko-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF로 16GB 충족. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF, 대화 최적화. llama3 라이선스는 조건부 상업 허용이라 확인이 필요", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 1, "reason": "한국어 13B GGUF. llama2 라이선스는 조건부 상업 허용", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "LiquidAI/LFM2.5-230M", "score": 1, "reason": "0.23B 초소형. 할 일·기여도 추출 품질에 용량이 부족하고 license=other", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "LDCC/LDCC-SOLAR-10.7B", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 '나중에 유료화할 수 있게 상업 라이선스' 명시로 조건 위반", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "TheBloke/SOLARC-MOE-10.7Bx4-GGUF", "score": 0, "reason": "license=cc-by-nc-sa-4.0 비상업이고 10.7Bx4 MoE로 16GB 상한도 초과", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "leonsarmiento/LFM2.5-8B-A1B-8bit-XL-mlx", "score": 0, "reason": "MLX 8bit는 Apple Silicon 전용. 자체 GPU 서버 서빙 환경에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_g030", "model_id": "kfkas/Legal-Llama-2-ko-7b-Chat", "score": 0, "reason": "법률 도메인 특화. 회의 내용에서 할 일·기여도를 추출하는 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model", "score": 2, "reason": "claim에 '한국어 패션 리뷰 감정을 긍정·부정·중립 3분류로 파인튜닝' 명시. 쇼핑몰 리뷰 도메인에 직접 부합하고 apache-2.0으로 상업 이용 가능", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "hun3359/klue-bert-base-sentiment", "score": 2, "reason": "KLUE BERT 기반 한국어 감성 단일레이블 분류 0.111B. cc-by-sa-4.0으로 상업 이용 가능하고 추가 학습 없이 사용 가능", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "Seonghaa/korean-emotion-classifier-roberta", "score": 1, "reason": "한국어 분류 0.111B, MIT로 상업 가능. 다만 claim이 '감정(emotion) 예측'으로 긍정·부정 2분 감성과는 라벨 체계가 다름", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "Jinuuuu/KoELECTRA_fine_tunning_emotion", "score": 1, "reason": "KoELECTRA 감정 분류, MIT. example_title이 '당황·행복' 등 다중 감정이라 긍부정 분류와 라벨 체계가 다름", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "DataWizardd/finbert-sentiment-ko", "score": 1, "reason": "한국어 금융 감성분석 0.101B, MIT. 감성분석 과제는 맞으나 금융 도메인으로 쇼핑몰 리뷰와 불일치", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "sangrimlee/bert-base-multilingual-cased-nsmc", "score": 1, "reason": "NSMC 학습 한국어 감성분석으로 과제 부합. license 표기가 없어 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_h005", "model_id": "snunlp/KR-FinBert-SC", "score": 1, "reason": "한국어 금융 감성분류. 도메인이 금융이고 license 표기가 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "Dongjin-kr/ko-reranker", "score": 2, "reason": "한국어 리랭커 전용 모델 0.56B, MIT로 상업 이용 가능. claim도 문서 의미 기반 재정렬로 질의 용도와 정확히 부합", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "llm-semantic-router/mmbert-rerank-32k-2d-matryoshka", "score": 2, "reason": "claim에 '32K context 다국어 리랭커, 2D Matryoshka 지원' 명시. apache-2.0으로 상업 가능하고 한국어 포함 10언어", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "Horizon-Labs/prompt-injection-guard-base", "score": 0, "reason": "프롬프트 인젝션 탐지 분류기. 검색 결과 재정렬(리랭킹) 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "Horizon-Labs/prompt-injection-guard-small", "score": 0, "reason": "위와 같은 인젝션 탐지 모델의 small판", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "DataWizardd/finbert-sentiment-ko", "score": 0, "reason": "금융 감성분석 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "Jinuuuu/KoELECTRA_fine_tunning_emotion", "score": 0, "reason": "감정 분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "snunlp/KR-FinBert-SC", "score": 0, "reason": "금융 감성분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h008", "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model", "score": 0, "reason": "패션 리뷰 감정 3분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "RedHatAI/Mistral-Small-3.1-24B-Instruct-2503-quantized.w8a8", "score": 2, "reason": "w8a8 양자화 24.011B로 24GB GPU에 적재 가능. claim에 비전 기능 명시이고 apache-2.0", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "RedHatAI/Mistral-Small-3.1-24B-Instruct-2503", "score": 1, "reason": "비전 지원 24.011B이나 양자화되지 않아 FP16으로는 24GB를 초과. 별도 양자화 필요", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "sowilow/gemma-4-26b-a4b-it-DGX-Spark-GGUF", "score": 1, "reason": "gemma-4 26B a4b(활성 4B) GGUF로 24GB 실행 가능. 문서 OCR 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S", "score": 1, "reason": "Gemma4 26B abliterated 개조본 TQ3 양자화. image-text-to-text 태그뿐으로 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S", "score": 1, "reason": "위 모델의 재업로드. 같은 이유", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "neureps/warmly-qwen35-2b-enko-gguf", "score": 1, "reason": "영한 2B GGUF. image-text-to-text 태그만 있고 영수증·문서 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "Jiunsong/supergemma4-26b-abliterated-multimodal-mlx-4bit", "score": 0, "reason": "MLX 4bit는 Apple Silicon 전용. 질의의 GPU 24GB(CUDA) 환경에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "Jiunsong/supergemma4-26b-abliterated-multimodal-mlx-8bit", "score": 0, "reason": "위와 같은 MLX 전용 모델의 8bit판", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "AMAImedia/GLM-5.3-Flash-FP8-GGUF", "score": 0, "reason": "321.323B 모델. FP8 양자화로도 24GB GPU 한 장에 적재 불가", "judge": "claude"}
+{"query_id": "sg_h009", "model_id": "IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF", "score": 0, "reason": "코드 특화 35B 모델. 영수증·문서 OCR 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "KDLAI/KDL-Frontier-Parser-nano", "score": 1, "reason": "claim에 '레이아웃 감지 → 영역 crop → 영역별 재호출' 파이프라인 명시로 차트·표 이해 용도에 직접 부합. 다만 AGPL-3.0은 상업 서비스 시 소스 공개 의무가 붙음", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 1, "reason": "한국어 비전-언어 3.668B, claim에 'Korea-specific benchmarks 최적화' 명시. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "McG-221/SuperQwen3.8-27b-abliterated-Q8_0-GGUF", "score": 1, "reason": "apache-2.0으로 상업 가능하고 image-to-text 지원. abliterated 개조본이라 신뢰도가 낮고 차트·표 근거 없음", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "sowilow/gemma-4-26b-a4b-it-DGX-Spark-GGUF", "score": 1, "reason": "gemma 라이선스는 조건부 상업 허용. 차트·표 이해 근거 없음", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "sowilow/gemma-4-e2b-it-DGX-Spark-GGUF", "score": 1, "reason": "gemma-4 e2b 소형 GGUF. 조건부 상업이고 차트·표 근거 없음", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "sowilow/Qwen3.5-2B-DGX-Spark-GGUF", "score": 1, "reason": "Qwen3.5 2B GGUF, license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 상업 서비스를 명시 요구해 조건 위반", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "davidkim205/exchange-12b", "score": 0, "reason": "claim이 'Model Type: Text Generation'으로 비전 기능 근거가 없고 license 표기도 없음", "judge": "claude"}
+{"query_id": "sg_h011", "model_id": "nabi-chan/Qwen3.6-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled-MLX-4bit", "score": 0, "reason": "MLX 4bit는 Apple Silicon 전용이고 추론 증류 모델. 상업 서비스용 차트·표 이해와 불일치", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF", "score": 2, "reason": "한국어 SOLAR 10.7B GGUF, apache-2.0으로 상업 이용 가능. GGUF 양자화로 16GB GPU 실행 가능", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "TheBloke/PiVoT-0.1-early-GGUF", "score": 1, "reason": "cc-by-sa-4.0으로 상업 가능하고 16GB 실행 가능. 'early' 실험 단계 모델이고 요약 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF로 16GB 충족. llama3 라이선스는 조건부 상업 허용", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "LiteLLMs/Llama-3-Open-Ko-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "MaziyarPanahi/zephykor-ko-beta-7b-chang-GGUF", "score": 1, "reason": "한국어 7B GGUF로 16GB 충족. license 표기가 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "geoffmunn/Qwen3-14B-f16", "score": 1, "reason": "apache-2.0으로 상업 가능하나 claim이 '24GB GPU 권장'이고 f16 배포본이라 16GB에 부족", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "TheBloke/openbuddy-deepseek-67b-v15-base-GGUF", "score": 0, "reason": "67B 모델. 양자화해도 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned", "score": 0, "reason": "201.957B 모델. 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "ali-thowfeek/Charty-1B-GGUF", "score": 0, "reason": "text-to-mermaid 다이어그램 생성 특화. 긴 문서 요약 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h015", "model_id": "choonok/VetJarvis-1.1-4B-Instruct-GGUF", "score": 0, "reason": "수의학 도메인 특화. 회의록 요약 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "ysmeta/EVE-Embed-1.1-Legal", "score": 2, "reason": "claim에 '한국어 법률 판례 검색 임베딩' 명시로 질의 도메인에 정확히 부합. ctx 8194로 2048 조건 충족, apache-2.0", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "ysmeta/EVE-Embed-1.0-Legal", "score": 2, "reason": "위 모델의 1.0판. 한국어 법률 판례 검색 특화이고 ctx 8194", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "dragonkue/BGE-m3-ko", "score": 2, "reason": "한국어 BGE-M3 파인튜닝 0.568B, ctx 8194로 긴 조문 입력 가능. apache-2.0", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "whybe-choi/kovre", "score": 2, "reason": "한국어 임베딩 2.128B, ctx 262144로 긴 조문에 충분. claim에 '2B가 Qwen3-VL-Embedding-8B를 능가' 명시", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "hyunseop/bge-m3-ko", "score": 1, "reason": "dragonkue/BGE-m3-ko 기반 H100 파인튜닝, ctx 8194 충족. license 표기가 없음", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "nmixx-fin/nmixx-bge-m3", "score": 1, "reason": "ctx 8194 충족이나 claim이 '한국어 금융 텍스트' 특화. 법률 도메인과 불일치", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "kev-KOH/time-embed-bge-m3-lms-temporal-v1-6-1", "score": 1, "reason": "ctx 8194 충족이나 claim이 'LMS 시간 질의' 특화. 법률 도메인과 불일치", "judge": "claude"}
+{"query_id": "sg_h016", "model_id": "yjoonjang/colbert-ko-v1", "score": 1, "reason": "ColBERT 다벡터 임베딩 ctx 16384. 검색용이나 단일 벡터 임베딩과 구조가 달라 파이프라인 교체가 필요", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "Alibaba-NLP/gte-multilingual-base", "score": 2, "reason": "0.305B, ctx 32768, apache-2.0. runtime에 cpu·cuda가 documented로 기록돼 CPU 서버 조건 충족이고 claim에 다국어 검색 SOTA 명시", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "cnmoro/snowflake-arctic-embed-m-v2.0-cpu", "score": 2, "reason": "모델명에 -cpu가 명시된 CPU 최적화 배포본 0.305B, apache-2.0. 74언어로 한영 공용 벡터공간 충족", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "Snowflake/snowflake-arctic-embed-m-v2.0", "score": 2, "reason": "공식 0.305B, apache-2.0, ONNX 지원으로 CPU 실행 가능. 74언어 검색 최적화", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "Snowflake/snowflake-arctic-embed-l-v2.0", "score": 2, "reason": "공식 0.568B, apache-2.0, ONNX. 74언어 검색 최적화로 조건 충족", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "elastic/multilingual-e5-small-optimized", "score": 2, "reason": "기존 정답 intfloat/multilingual-e5-small의 Elastic 최적화판 0.117B, MIT. 93언어이고 소형이라 CPU 서버에 적합", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "telepix/PIXIE-Spell-v1.5-0.6B", "score": 2, "reason": "claim에 '한국어·영어 정보검색으로 학습된 디코더 기반 임베딩' 명시로 질의에 직접 부합. apache-2.0", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "Aksml123/snowflake-arctic-embed-l-v2.0", "score": 1, "reason": "Snowflake 공식 모델의 재업로드. 조건은 충족하나 원본과 중복", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "arthurxx0101/snowflake-arctic-embed-l-v2.0", "score": 1, "reason": "Snowflake 공식 모델의 또 다른 재업로드. 원본과 중복", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "tvergho/logos-retriever-v1", "score": 1, "reason": "Snowflake arctic-embed 기반 파생 0.568B, apache-2.0. 상품 설명 도메인 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h017", "model_id": "Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf", "score": 1, "reason": "GGUF 변환본으로 CPU 실행에 적합하나 license 표기가 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 2, "reason": "기존 정답 mistralai/Voxtral-Mini-4B-Realtime-2602의 GGUF 변환본. apache-2.0 상업 가능하고 claim에 causal attention 기반 스트리밍 명시", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 2, "reason": "기존 정답 Voxtral-Mini-4B-Realtime의 GGUF 변환본, apache-2.0. 실시간 전사 조건 충족", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "freddm/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 2, "reason": "기존 정답 Voxtral-Mini-4B-Realtime의 또 다른 GGUF 변환본, apache-2.0", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "leuconoe/whisper-acft-ko", "score": 1, "reason": "한국어 whisper 파인튜닝으로 한국어 조건은 충족. 실시간 스트리밍 특화가 아니고 license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "seastar105/whisper-medium-komixv2", "score": 1, "reason": "한국어 whisper-medium 파인튜닝. 실시간 특화 아니고 license 표기가 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "seastar105/whisper-small-komixv2", "score": 1, "reason": "한국어 whisper-small 파인튜닝. 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "cstr/sensevoice-small-GGUF", "score": 1, "reason": "5언어 ASR GGUF. 한국어 특화 아니고 license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h020", "model_id": "soniqo/Nemotron-3.5-ASR-Streaming-Multilingual-0.6B-LiteRT-FP16", "score": 0, "reason": "기존 정답 nemotron-3.5-asr-streaming의 LiteRT판이나 LiteRT는 Android 엣지 런타임. 질의의 GPU 서버 환경과 불일치하고 license=other", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "npario/LFM2.5-VL-3B-GGUF", "score": 1, "reason": "16언어 비전-언어 3B GGUF로 크기 조건 충족. claim에 '스캔 문서 배치 처리' 언급은 있으나 손글씨 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "unsloth/LFM2.5-VL-3B-GGUF", "score": 1, "reason": "LFM2.5-VL 3B GGUF 공식 재배포. 크기 조건 충족이나 손글씨 인식 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "bartowski/LiquidAI_LFM2.5-VL-3B-GGUF", "score": 1, "reason": "LFM2.5-VL 3B 제3자 GGUF. 손글씨 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "LiquidAI/LFM2.5-VL-3B-ONNX", "score": 1, "reason": "LFM2.5-VL 3B ONNX로 앱 서버 배포에 적합. image-text-to-text 태그뿐으로 손글씨 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "NANI-Nithin/LFM2.5-VL-3B-GGUF", "score": 1, "reason": "LFM2.5-VL 3B 제3자 GGUF. 손글씨 OCR 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "LiquidAI/LFM2-VL-3B", "score": 0, "reason": "claim에 'Supported languages: English'가 명시돼 한국어 손글씨 인식 근거가 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "LiquidAI/LFM2-VL-3B-GGUF", "score": 0, "reason": "위 모델의 GGUF. 같은 이유로 한국어 지원 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "ZuzeTt/LFM2-VL-3B-heretic-Imatrix-GGUF", "score": 0, "reason": "LFM2-VL(English 전용) abliterated 개조본. 한국어 근거 없음", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "mlx-community/LFM2-VL-3B-4bit", "score": 0, "reason": "MLX 4bit는 Apple Silicon 전용이고 원본이 English 전용. 앱 서버 환경·한국어 모두 불일치", "judge": "claude"}
+{"query_id": "sg_h021", "model_id": "mistralai/Ministral-3-3B-Instruct-2512-ONNX", "score": 0, "reason": "claim이 '3.4B Language Model'로 텍스트 전용. 이미지 입력을 받는 비전 모델이 아님", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "skt/A.X-4.0-VL-Light", "score": 2, "reason": "한국어 비전-언어 7.69B, apache-2.0으로 상업 이용 가능. 이미지 기반 한국어 생성 조건 충족", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 1, "reason": "한국어 비전-언어 3.668B로 용도 부합. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "unsloth/LFM2.5-VL-3B", "score": 1, "reason": "16언어 비전-언어 3.123B. license=other로 상업 조건 미확인이고 한국어 생성 특화 아님", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "NCSOFT/VARCO-VISION-14B", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 상업 서비스를 명시 요구해 조건 위반", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B", "score": 0, "reason": "license=cc-by-nc-4.0 비상업으로 조건 위반", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 0, "reason": "cc-by-nc-4.0 비상업이고 OCR 특화라 상품 설명 문구 생성 용도와도 불일치", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "KDLAI/KDL-Frontier-Parser-nano", "score": 0, "reason": "문서 레이아웃 파싱 파이프라인 모델. 상품 설명 문구 생성 용도와 불일치하고 AGPL-3.0", "judge": "claude"}
+{"query_id": "sg_h022", "model_id": "davidkim205/exchange-12b", "score": 0, "reason": "claim이 'Model Type: Text Generation'으로 비전 근거가 없고 license 표기도 없음", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "neureps/warmly-qwen35-2b-enko-gguf", "score": 1, "reason": "영한 2언어 비전-언어 GGUF, apache-2.0. 16GB에 여유 있으나 대화 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "neureps/warmly-qwen35-08b-enko-gguf", "score": 1, "reason": "영한 0.8B 비전-언어 GGUF. 16GB 충족이나 대화 품질 근거 없음", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "OptimizeLLM/Qwen3-VL-30B-A3B-Thinking-NVFP4", "score": 1, "reason": "A3B MoE(활성 3B) NVFP4 양자화 17.991B, apache-2.0. 16GB 경계이고 추론(Thinking) 특화라 대화 용도와 다름", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "sowilow/gemma-4-e2b-it-DGX-Spark-GGUF", "score": 1, "reason": "gemma-4 e2b GGUF, cuda·llama.cpp로 16GB 충족. 한국어 대화 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "YTan2000/Gemma4-26b-Super-Abliterated-TQ3_4S", "score": 1, "reason": "Gemma4 26B TQ3 양자화로 16GB 경계. abliterated 개조본이라 어르신 대상 서비스에는 안전성 근거가 부족", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S", "score": 1, "reason": "위 모델의 재업로드. 같은 이유", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "RedHatAI/Mistral-Small-3.1-24B-Instruct-2503-quantized.w8a8", "score": 0, "reason": "w8a8 양자화 24.011B로 약 24GB 필요. 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "RedHatAI/Mistral-Small-3.1-24B-Instruct-2503", "score": 0, "reason": "비양자화 24.011B. 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "AMAImedia/GLM-5.3-Flash-FP8-GGUF", "score": 0, "reason": "321.323B 모델. 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h024", "model_id": "coder543/command-a-plus-05-2026-gguf", "score": 0, "reason": "command-a-plus 계열 대형 모델(100B급). 16GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "Mungert/LFM2-1.2B-RAG-GGUF", "score": 2, "reason": "기존 정답 LiquidAI/LFM2-1.2B-RAG-GGUF의 재업로드. RAG 특화 1.2B로 8GB 노트북 조건 충족", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "OpenVINO/Phi-4-mini-instruct-int8-ov", "score": 2, "reason": "claim에 'Supports RAG text generation' 명시. int8 양자화 4.238B, MIT로 8GB 조건 충족", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF. 양자화 시 8GB 경계이고 RAG 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "TheBloke/openbuddy-mistral-7B-v13-GGUF", "score": 1, "reason": "Mistral 7B GGUF, apache-2.0. 8GB 양자화 가능하나 한국어·RAG 특화 아님", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "TheBloke/PiVoT-0.1-early-GGUF", "score": 1, "reason": "한국어 Mistral 기반 GGUF. 'early' 실험 단계이고 RAG 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "MaziyarPanahi/OPEN-SOLAR-KO-10.7B-GGUF", "score": 1, "reason": "한국어 10.7B GGUF. 8GB에는 저비트 양자화가 필요하고 RAG 특화 아님", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF", "score": 0, "reason": "Mixtral 8x7B(약 47B). 8GB GPU 노트북으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "TheBloke/Synatra-7B-v0.3-RP-GGUF", "score": 0, "reason": "RP(roleplay) 특화 모델이고 license=cc-by-nc-4.0. 사내 문서 RAG 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h029", "model_id": "aixk/BAAR2-9M", "score": 0, "reason": "0.01B(9M), context 512. RAG 답변 생성에 필요한 용량·문맥 모두 부족", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "MyeongHo0621/Qwen2.5-3B-Korean", "score": 1, "reason": "한국어 20만 대화 학습 3.086B, apache-2.0. 24GB에 여유 있으나 코딩 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "LiteLLMs/Llama-3-Open-Ko-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF로 24GB 충족. 코딩 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "LiteLLMs/Ko-Llama3-Luxia-8B-GGUF", "score": 1, "reason": "한국어 Llama3 8B GGUF, 대화 최적화. 코딩 특화 아님", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "beomi/llama-2-ko-7b", "score": 1, "reason": "한국어 Llama2 6.856B. 24GB 충족이나 코딩 특화 아니고 context 2048로 짧음", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 1, "reason": "한국어 13B GGUF로 24GB 충족. 코딩 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "TheBloke/openbuddy-llama2-13b64k-v15-GGUF", "score": 1, "reason": "13B 64k context GGUF, 9언어. 긴 코드 입력에 유리하나 한국어·코딩 특화 아님", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "Dingdust/LFM2.5-2.6B-heretic", "score": 1, "reason": "범용 텍스트 2.697B. abliterated 개조본이고 한국어·코딩 특화 아님", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "LiquidAI/LFM2.5-230M", "score": 0, "reason": "0.23B 초소형. 코딩 질문 답변에 필요한 용량이 부족", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "dalatexcoder/LFM2.5-230M-heretic-v1", "score": 0, "reason": "0.23B abliterated 개조본. 코딩 답변 용량 부족", "judge": "claude"}
+{"query_id": "sg_h030", "model_id": "choonok/VetJarvis-1.1-4B-Instruct-GGUF", "score": 0, "reason": "수의학 도메인 특화. 코딩 질문 답변 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "snunlp/KR-FinBert-SC", "score": 1, "reason": "한국어 금융 감성분류로 도메인이 정확히 부합. license 표기가 없어 상업 조건을 확인할 수 없음", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model", "score": 1, "reason": "긍정·부정·중립 3분류 라벨 체계가 질의와 동일하고 apache-2.0. 다만 패션 리뷰 도메인으로 금융 뉴스와 불일치", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "Copycats/koelectra-base-v3-generalized-sentiment-analysis", "score": 1, "reason": "한국어 범용 감성분석, apache-2.0 상업 가능. claim이 상품 리뷰 중심으로 금융 뉴스 도메인은 아님", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "hun3359/klue-bert-base-sentiment", "score": 1, "reason": "한국어 감성 단일레이블 분류, cc-by-sa-4.0 상업 가능. 금융 도메인 특화 아님", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "Jinuuuu/KoELECTRA_fine_tunning_emotion", "score": 0, "reason": "감정(당황·행복 등) 분류 모델. 긍정·부정·중립 감성 3분류와 라벨 체계가 다름", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "likeyellow/klue-review-star", "score": 0, "reason": "license=cc-by-nc-sa-4.0 비상업으로 조건 위반이고 리뷰 별점 예측 과제", "judge": "claude"}
+{"query_id": "sg_h038", "model_id": "banjl4487/MODEL", "score": 0, "reason": "claim이 pipeline_tag 표기뿐으로 과제·도메인 근거가 전혀 없음", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "Huffon/klue-roberta-base-nli", "score": 1, "reason": "KLUE RoBERTa NLI 0.11B로 문장쌍 분류 구조라 cross-encoder 리랭커로 전용할 여지가 있음. 다만 리랭킹 학습 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "Horizon-Labs/prompt-injection-guard-small", "score": 0, "reason": "프롬프트 인젝션 탐지 분류기. 검색 결과 재정렬 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "DataWizardd/finbert-sentiment-ko", "score": 0, "reason": "금융 감성분석 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "FISA-conclave/klue-roberta-news-sentiment", "score": 0, "reason": "뉴스 감성분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "Jinuuuu/KoELECTRA_fine_tunning_emotion", "score": 0, "reason": "감정 분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "bespin-global/klue-roberta-small-3i4k-intent-classification", "score": 0, "reason": "3i4k 의도 분류 전용이고 license=cc-by-nc-4.0. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h043", "model_id": "Metabaron6/Shieldstral-1.0-3B-GGUF", "score": 0, "reason": "3B로 300M 상한을 크게 초과하고 보안 검사용 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "litert-community/Hy-MT2-1.8B", "score": 2, "reason": "claim에 'Tencent 다국어 번역 모델, 33언어' 명시로 한·영·중·일 상호 번역을 한 모델로 처리 가능. apache-2.0이고 24GB에 여유", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "shivnathtathe/nvidia_Riva-Translate-4B-Instruct-v2-GGUF", "score": 2, "reason": "claim에 '36언어 번역 지원' 명시로 4개 언어 상호 번역 충족. apache-2.0, GGUF로 24GB 실행 가능", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "erax-ai/EraX-Translator-V1.0-GGUF", "score": 1, "reason": "Gemma3-4B 기반 11언어 번역으로 다국어 조건은 충족. gemma 라이선스는 조건부이고 한·중·일 품질 근거 없음", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "Helsinki-NLP/opus-mt-tc-big-en-ko", "score": 0, "reason": "영어→한국어 단방향 2언어 모델. '하나로 해결'하는 다국어 상호 번역 요구와 불일치", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "Helsinki-NLP/opus-mt-tc-big-ko-en", "score": 0, "reason": "한국어→영어 단방향 2언어 모델. 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "noticemkjung/opus-mt-tc-big-en-ko-ONNX", "score": 0, "reason": "영한 단방향 모델의 ONNX 변환본. 다국어 상호 번역 아님", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "ooeoeo/opus-mt-tc-big-en-ko-ct2-float16", "score": 0, "reason": "영한 단방향 모델의 CTranslate2 변환본. 다국어 상호 번역 아님", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "quickmt/quickmt-en-ko", "score": 0, "reason": "영한 단방향 번역 전용. 중국어·일본어를 다루지 못함", "judge": "claude"}
+{"query_id": "sg_h052", "model_id": "sappho192/ffxiv-ja-ko-translator", "score": 0, "reason": "FFXIV 게임 대사 일한 번역 특화 2언어. 도메인과 언어 범위 모두 불일치", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "alekringtonnn-ai/zubr-gemma3-1b", "score": 1, "reason": "gemma3 1B, apache-2.0, 16언어로 1B 상한 경계 충족. 한국어 문서 QA 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "mobilint/kanana-nano-2.1b-instruct-regulus-rb-usb", "score": 1, "reason": "한국어 kanana-nano 계열 0.23B로 1B 이하 충족. 질의에 라이선스 조건이 없어 cc-by-nc-4.0도 허용되나 문서 QA 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "blueapple8259/TinyKo", "score": 1, "reason": "한국어 전용 0.026B, context 16384로 문서 입력에 유리. 초소형이라 QA 답변 품질 근거가 부족", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "kimjg/recallResolver-1B", "score": 1, "reason": "한국어 1B, context 131072로 문서 입력에 유리. PEFT(LoRA) 어댑터이고 license 표기 없음", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "tensorblock/DataVortexTL-1.1B-v0.1-GGUF", "score": 1, "reason": "한국어 1.1B GGUF로 1B 상한을 약간 초과. 문서 QA 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "lopezjhonf/LFM2.5-8B-A1B-Uncensored-GGUF", "score": 0, "reason": "활성 파라미터는 약 1B이나 전체 8B로 1B 상한 초과. uncensored 개조본이라 문서 QA 용도에도 부적합", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "zaakirio/LFM2.5-8B-A1B-Uncensored-GGUF", "score": 0, "reason": "위와 같은 8B MoE uncensored 모델의 다른 업로드", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "MaziyarPanahi/Mini_Synatra_SFT-Mistral-7B-Instruct-v0.1-GGUF", "score": 0, "reason": "Mistral 7B 기반으로 1B 상한을 크게 초과", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "DavidAU/Llama-3.2-1B-Instruct-NEO-WEE-HORROR-GGUF", "score": 0, "reason": "호러 창작·롤플레이 특화 파인튜닝. 문서 질의응답 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h066", "model_id": "tonymocchi/gpt2_small_morphTokenizer", "score": 0, "reason": "GPT2 small 형태소 토크나이저 실험본. 문서 QA 답변 생성 품질 근거가 전혀 없음", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "handy-computer/moonshine-base-ko-gguf", "score": 1, "reason": "한국어 전용 ASR GGUF, MIT로 상업 이용 가능. 잡음 강건성 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "ghost613/whisper-large-v3-turbo-korean", "score": 1, "reason": "기존 정답 whisper 계열의 한국어 파인튜닝 0.809B. license 표기가 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "leuconoe/whisper-acft-ko", "score": 1, "reason": "한국어 whisper 파인튜닝. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "seastar105/whisper-medium-komixv2", "score": 1, "reason": "한국어 whisper-medium 파인튜닝. license 표기 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "seastar105/whisper-small-komixv2", "score": 1, "reason": "한국어 whisper-small 파인튜닝. 위와 같음", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "moonshine-ai/moonshine-base-ko", "score": 1, "reason": "한국어 전용 ASR 0.062B. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "onnx-community/moonshine-base-ko-ONNX", "score": 1, "reason": "한국어 ASR ONNX 변환본. license 표기 없어 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "moonshine-ai/moonshine-tiny-ko", "score": 1, "reason": "한국어 ASR 0.027B. license=other이고 초소형이라 잡음 환경 정확도 근거 부족", "judge": "claude"}
+{"query_id": "sg_h067", "model_id": "INo0121/whisper-base-ko-callvoice", "score": 0, "reason": "통화 음성 특화로 도메인은 정확히 부합하나, limitations·warnings에 'can only be used for learning purposes'가 명시돼 상업 서비스에 쓸 수 없음", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "thelamapi/next-ocr-GGUF", "score": 2, "reason": "기존 정답 thelamapi/next-ocr의 GGUF 변환본. claim에 'High-Accuracy OCR' 명시, apache-2.0으로 상업 가능하고 GGUF로 8GB 실행 가능", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "thelamapi/next-ocr-i1-GGUF", "score": 2, "reason": "기존 정답 next-ocr의 i1 양자화 GGUF. 같은 OCR 성능 근거와 apache-2.0", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "ONTHEIT/BizOnAI-OCR", "score": 1, "reason": "한국어 문서 OCR 전용 8.767B, openrail로 상업 가능. 8GB GPU에는 양자화가 필요", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "trillionlabs/gWorld-8B", "score": 1, "reason": "한국어 비전-언어 8.767B, apache-2.0. 8GB 경계이고 OCR 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "npario/LFM2.5-VL-3B-GGUF", "score": 1, "reason": "3B GGUF로 8GB 충족. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "useful-quants/LFM2.5-VL-3B-NVFP4-FP8-Mixed", "score": 1, "reason": "2.133B 양자화로 8GB 충족. license=other로 상업 조건 미확인", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 0, "reason": "한국어 OCR 특화이고 8GB에도 맞으나 license=cc-by-nc-4.0 비상업으로 조건 위반", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "AMAImedia/GLM-5.3-Flash-FP8-GGUF", "score": 0, "reason": "321.323B 모델. 8GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h071", "model_id": "IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2-GGUF", "score": 0, "reason": "13언어 범용 GGUF로 OCR 근거가 없고 claim도 양자화 방식 설명뿐", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "RedHatAI/Qwen2.5-7B-Instruct-FP8-dynamic", "score": 2, "reason": "기존 정답 unsloth/Qwen2.5-7B-Instruct와 같은 7B 계열의 FP8 양자화 7.617B로 8GB에 적재 가능. 72B 대신 쓸 현실적 대안", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "MyeongHo0621/Qwen2.5-3B-Korean", "score": 2, "reason": "한국어 20만 대화 학습 3.086B, apache-2.0. 8GB에 여유 있고 한국어 챗봇 용도에 직접 부합", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "huihui-ai/Qwen2.5-7B-Instruct-abliterated-v2", "score": 1, "reason": "7.616B로 양자화 시 8GB 가능하고 기존 정답 7B 계열. abliterated 개조본이라 신뢰도가 낮음", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "evolveon/Qwen2.5-7B-Instruct-abliterated", "score": 1, "reason": "7.616B abliterated 개조본. 위와 같은 이유", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "huihui-ai/Qwen2.5-72B-Instruct-abliterated", "score": 0, "reason": "72.706B. 질의가 언급한 바로 그 모델의 개조본이고 8GB GPU로 실행 불가. 질의의 답은 '불가능하니 더 작은 대안'이다", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "unsloth/Qwen2.5-72B-Instruct", "score": 0, "reason": "72.706B. 질의가 언급한 모델 그 자체로 8GB에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "huihui-ai/Qwen2.5-32B-Instruct-abliterated", "score": 0, "reason": "32.764B. 8GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "unsloth/Qwen2.5-32B", "score": 0, "reason": "32.764B. 8GB GPU로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h123", "model_id": "rbinrs/Qwen2.5-14B-Instruct-abliterated-v2", "score": 0, "reason": "14.77B. 양자화해도 8GB로는 부족", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "geoffmunn/Qwen3-14B-f16", "score": 2, "reason": "claim에 '24GB GPU(RTX 4090)에서 실행' 명시, apache-2.0. DeepSeek-V3 대신 쓸 24GB급 현실적 대안", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "MyeongHo0621/Qwen2.5-3B-Korean", "score": 2, "reason": "한국어 20만 대화 학습 3.086B. 24GB에 여유 있고 한국어 상담 용도에 직접 부합", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "nvidia/NVIDIA-Nemotron-Nano-12B-v2-Base", "score": 1, "reason": "12.31B, 16언어, cuda·vLLM 지원으로 24GB 실행 가능. 한국어 상담 특화 근거는 없고 base 모델이라 instruct 튜닝이 없음", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "tensorblock/llama2-13b.kor.v1-GGUF", "score": 1, "reason": "한국어 13B GGUF로 24GB 실행 가능. 상담 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "dalatexcoder/LFM2.5-230M-heretic-v1", "score": 1, "reason": "0.23B로 24GB에 충분하나 상담 답변 품질에 용량이 부족하고 abliterated 개조본", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "TheBloke/openbuddy-deepseek-67b-v15-base-GGUF", "score": 0, "reason": "DeepSeek 67B 기반. 질의가 언급한 DeepSeek 계열이지만 24GB GPU 한 장으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "Jiunsong/SuperDeepseek-V4-Flash-abliterated-MQ-2xDGX", "score": 0, "reason": "306.253B이고 모델명에 2xDGX가 명시돼 DGX 2대가 필요. 24GB GPU 한 장과 불일치", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "nota-ai/Solar-Open2-250B-Nota-NVFP4-GlobalPruned", "score": 0, "reason": "201.957B. 양자화·프루닝 후에도 24GB로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h124", "model_id": "TheBloke/openbuddy-mixtral-7bx8-v16.3-32k-GGUF", "score": 0, "reason": "Mixtral 8x7B(약 47B). 24GB GPU 한 장으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "seastar105/whisper-small-komixv2", "score": 2, "reason": "한국어 whisper-small 0.242B. 1GB RAM 보드에 적재 가능한 현실적 대안", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "kimthegarden/whisper-small-ko-new", "score": 2, "reason": "한국어 whisper-small 0.242B, MIT. claim에 '일반 도메인 한국어 음성인식' 명시", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "SungBeom/whisper-small-ko", "score": 2, "reason": "한국어 whisper-small 파인튜닝, apache-2.0. 1GB 보드에 적합한 대안", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "ghost613/faster-whisper-large-v3-turbo-korean", "score": 1, "reason": "질의가 언급한 large-v3 계열이나 CTranslate2 int8 변환으로 1GB 경계까지 줄일 여지가 있음", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "leuconoe/whisper-acft-ko", "score": 1, "reason": "한국어 whisper 파인튜닝. 파라미터 수가 확인되지 않아 1GB 적재 여부를 판단할 수 없음", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "ghost613/whisper-large-v3-turbo-korean", "score": 0, "reason": "0.809B large-v3-turbo. 질의가 언급한 모델 계열이고 FP16으로 약 1.6GB라 1GB RAM에 적재 불가", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "o0dimplz0o/Whisper-Large-v3-turbo-STT-Zeroth-KO-v2", "score": 0, "reason": "0.809B large-v3-turbo 파인튜닝. 1GB RAM으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "vitaldb/whisper-v3-turbo-kor-or-lora", "score": 0, "reason": "whisper-v3-turbo LoRA. 베이스가 질의가 거부한 크기대이고 1GB에 부적합", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "seastar105/whisper-medium-komixv2", "score": 0, "reason": "0.764B medium. 1GB RAM 보드에 적재 불가", "judge": "claude"}
+{"query_id": "sg_h125", "model_id": "BuzzASR/korean", "score": 0, "reason": "1.543B. 1GB RAM으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct", "score": 2, "reason": "질의가 지목한 7.8B의 공식 소형판 2.405B. 같은 계열에서 더 작고 빨라 질의 요구에 정확히 부합", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct-AWQ", "score": 2, "reason": "EXAONE-3.5-2.4B의 AWQ 양자화 2.667B. 더 작고 더 빠른 대안", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "mobilint/EXAONE-3.5-7.8B-Instruct", "score": 1, "reason": "모델명은 7.8B이나 parameter_count가 0.419B로 기록된 양자화 배포본이라 실제로는 더 가벼울 수 있음. 다만 이름이 질의가 거부한 모델과 같아 혼동 위험", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "QuantFactory/EXAONE-3.5-7.8B-Instruct-GGUF", "score": 0, "reason": "질의가 '너무 느리다'고 지목한 EXAONE-3.5-7.8B-Instruct 그 모델의 GGUF 변환본. 더 작은 모델을 요구한 질의와 정면으로 어긋남", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "bartowski/EXAONE-3.5-7.8B-Instruct-GGUF", "score": 0, "reason": "질의가 거부한 7.8B 모델의 또 다른 GGUF 변환본", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "gaianet/EXAONE-3.5-7.8B-Instruct-GGUF", "score": 0, "reason": "질의가 거부한 7.8B 모델의 GGUF 변환본(6.862B)", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "second-state/EXAONE-3.5-7.8B-Instruct-GGUF", "score": 0, "reason": "질의가 거부한 7.8B 모델의 GGUF 변환본", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "QuantFactory/EXAONE-Deep-7.8B-GGUF", "score": 0, "reason": "EXAONE-Deep 7.8B로 질의가 배제한 크기대이고 추론 특화로 더 느림", "judge": "claude"}
+{"query_id": "sg_h147", "model_id": "gaianet/EXAONE-3.0-7.8B-Instruct-GGUF", "score": 0, "reason": "EXAONE-3.0의 7.8B판. 질의가 배제한 크기대이고 구버전", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "Daumee/Qwen3-ASR-0.6B-ONNX-CPU", "score": 2, "reason": "모델명과 runtime 모두 CPU를 명시한 ONNX int8 0.6B, apache-2.0. 0.8B 상한과 CPU 조건에 정확히 부합", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "handy-computer/Qwen3-ASR-0.6B-gguf", "score": 2, "reason": "Qwen3-ASR 0.6B GGUF로 CPU 추론 가능, apache-2.0. claim에 '높은 품질과 강건한 인식' 명시", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "cstr/cohere-transcribe-03-2026-GGUF", "score": 2, "reason": "14언어 ASR GGUF로 runtime에 cpu·onnx·llama.cpp가 기록돼 CPU 조건 충족, apache-2.0", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "neurlang/ipa-whisper-small", "score": 1, "reason": "0.242B로 크기·CPU 조건은 충족하나 IPA 음소 전사 특화라 한국어 텍스트 전사 용도와 출력 형식이 다름", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "leuconoe/whisper-acft-ko", "score": 1, "reason": "한국어 whisper 파인튜닝. 파라미터 수가 확인되지 않아 0.8B 상한 충족 여부를 판단할 수 없음", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "handy-computer/Qwen3-ASR-1.7B-gguf", "score": 0, "reason": "1.7B로 0.8B 상한 초과", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "epapanita/Qwen3-ASR-1.7B-gguf", "score": 0, "reason": "1.7B로 0.8B 상한 초과", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 0, "reason": "4.43B로 0.8B 상한을 크게 초과", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "praiselab-picuslab/Voxtral-Mini-4B-Realtime-2602-GGUF", "score": 0, "reason": "4.43B로 상한 초과", "judge": "claude"}
+{"query_id": "sg_h149", "model_id": "aufklarer/Qwen3-ASR-CoreML", "score": 0, "reason": "CoreML은 Apple Silicon 전용. GPU 없는 리눅스 서버로 옮긴다는 질의 조건과 불일치", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "kimthegarden/whisper-small-ko-new", "score": 2, "reason": "한국어 whisper-small 0.242B, MIT. medium보다 작고 빠르며 claim에 일반 도메인 한국어 인식 명시", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "seastar105/whisper-small-komixv2", "score": 2, "reason": "한국어 whisper-small 파인튜닝 0.242B. medium보다 빠르고 한국어 정확도를 보강한 계열", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "OpenVINO/whisper-medium-int8-ov", "score": 1, "reason": "whisper-medium의 int8 양자화로 medium 자체보다는 빠르나, 질의가 'medium보다 빠른 모델'을 요구한 맥락에서 같은 모델의 양자화본은 부분적 답", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "moonshine-ai/moonshine-tiny-ko", "score": 1, "reason": "한국어 0.027B로 속도는 확실히 빠르나 '정확도는 비슷' 조건을 충족한다는 근거가 없음", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "leuconoe/whisper-acft-ko", "score": 1, "reason": "한국어 whisper 파인튜닝. 파라미터 수 미확인으로 0.76B 상한 충족 여부 판단 불가", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "OpenVINO/whisper-medium-fp16-ov", "score": 0, "reason": "whisper-medium FP16 그 자체. 질의가 'medium보다 빠른' 모델을 요구해 조건 불충족", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "handy-computer/whisper-medium-gguf", "score": 0, "reason": "whisper-medium GGUF 변환본으로 medium 자체. 질의 요구와 어긋남", "judge": "claude"}
+{"query_id": "sg_h150", "model_id": "ghost613/faster-whisper-large-v3-turbo-korean", "score": 0, "reason": "0.809B로 0.76B 상한 초과이고 medium보다 큰 large-v3-turbo 계열", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "alphaedge-ai/bge-m3-kor-32768", "score": 2, "reason": "한국어 BGE-M3 파생 0.345B, context 8194. 모델명의 32768이 긴 입력 지원을 알리고 MIT로 제약 없음", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "hyunseop/bge-m3-ko", "score": 2, "reason": "한국어 BGE-M3 파인튜닝 0.568B, context 8194로 ko-sroberta의 512보다 16배 길어 질의 요구 충족", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "juyoungml/bge-m3-ko-v1.1", "score": 2, "reason": "한국어 BGE-M3 0.568B, context 8194. 긴 문단 입력 조건 충족", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "sigridjineth/ModernBERT-korean-large-preview", "score": 2, "reason": "한국어 ModernBERT 0.395B, context 8192. 긴 입력 지원으로 조건 충족", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "yjoonjang/colbert-ko-v1", "score": 1, "reason": "context 16384로 길이는 가장 유리하나 ColBERT 다벡터 구조라 기존 단일 벡터 파이프라인 교체가 필요", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "kev-KOH/time-embed-bge-m3-lms-temporal-v1-6-1", "score": 1, "reason": "context 8194 충족이나 claim이 'LMS 시간 질의' 특화로 일반 문단 임베딩 용도와 다름", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "gogamza/kobart-base-v2", "score": 1, "reason": "context 1026으로 1024 하한을 간신히 충족. KoBART는 생성 모델 기반이라 임베딩 전용 모델 대비 검색 성능 근거가 없음", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "gogamza/kobart-base-v1", "score": 1, "reason": "context 1026으로 하한 경계 충족. 위와 같은 이유이고 v2보다 구버전", "judge": "claude"}
+{"query_id": "sg_h151", "model_id": "KGESH/nsfw-bge-m3", "score": 0, "reason": "context 8194는 충족하나 NSFW 분류 특화 파생본. 일반 문단 임베딩 용도와 불일치", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "dragonkue/multilingual-e5-small-ko", "score": 2, "reason": "기존 정답 multilingual-e5-small의 한국어 파인튜닝 0.118B, apache-2.0. large보다 작고 한국어 성능을 보강한 직접 대안", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "dragonkue/multilingual-e5-small-ko-v2", "score": 2, "reason": "위 모델의 v2판 0.118B. 한국어 특화 + 소형 조건 충족", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "upskyy/e5-small-korean", "score": 2, "reason": "e5-small 한국어 파인튜닝 0.118B, MIT. large 대비 크기를 크게 줄이면서 한국어 성능 보강", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "upskyy/e5-base-korean", "score": 2, "reason": "e5-base 한국어 파인튜닝 0.278B, MIT. 0.5B 상한 충족이고 large보다 작음", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "Alibaba-NLP/gte-multilingual-base", "score": 2, "reason": "0.305B, runtime에 cpu·cuda 기록, apache-2.0. claim에 다국어 검색 SOTA 명시로 성능 유지 + 크기 축소 조건 충족", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "alphaedge-ai/multilingual-e5-small-kor-32768", "score": 1, "reason": "한국어 e5-small 파생 0.034B로 매우 작음. 극단적 축소라 '성능 비슷' 조건 충족 근거가 부족", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "alphaedge-ai/multilingual-e5-base-kor-32768", "score": 1, "reason": "한국어 e5-base 파생 0.111B. 조건은 충족하나 성능 유지 근거 없음", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "CHKH01/BGE-m3-ko-GGUF", "score": 1, "reason": "한국어 최적화 임베딩 int8 GGUF로 서버 부담을 줄임. multilingual-e5 계열이 아니라 성능 비교 근거가 없음", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "tamikisg/multilingual-e5-small-coreml", "score": 0, "reason": "CoreML은 Apple Silicon 전용. 서버 배포 환경과 불일치", "judge": "claude"}
+{"query_id": "sg_h152", "model_id": "Yoonyoul/fine-tuned-e5-small-drugproduct", "score": 0, "reason": "claim이 '한국어 의약품 제품 의미 임베딩' 특화. 일반 검색 용도와 도메인 불일치", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "NHNDQ/nllb-finetuned-en2ko", "score": 2, "reason": "NLLB 영한 파인튜닝, cc-by-4.0으로 상업 이용 가능. 질의가 거부한 nllb-200-distilled-600M의 직접 대안", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "sappho192/gemma3-multilingual-translator-270m", "score": 2, "reason": "claim에 '한국어·영어·일본어 6방향 번역' 명시, apache-2.0으로 상업 가능. 0.268B 소형", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "mradermacher/YanoljaNEXT-Rosetta-20B-GGUF", "score": 1, "reason": "11언어 번역 GGUF, apache-2.0으로 상업 가능. 20B로 크고 한국어 품질 근거 없음", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "mradermacher/YanoljaNEXT-Rosetta-20B-i1-GGUF", "score": 1, "reason": "위 모델의 i1 양자화. apache-2.0 상업 가능하나 크기가 큼", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "hell0ks/ja-ko-vn-7b-v1", "score": 1, "reason": "일한 번역 7.526B, apache-2.0 상업 가능. 비주얼 노벨 대사 특화로 도메인이 좁고 번역 방향이 ja-ko", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "mradermacher/YanoljaNEXT-Rosetta-12B-GGUF", "score": 1, "reason": "11언어 번역 GGUF이나 gemma 라이선스로 상업 이용에 조건이 붙음", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "mradermacher/YanoljaNEXT-Rosetta-4B-2511-i1-GGUF", "score": 1, "reason": "32언어 번역 4B GGUF. gemma 라이선스로 조건부 상업", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "mradermacher/lfm2-1.2b-koen-mt-v4-100k-GGUF", "score": 1, "reason": "한영 번역 1.2B GGUF로 크기가 적합. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_h153", "model_id": "xxliam/koubox-nllb-600m-ja-en-ko-zh-oral-ct2", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 거부한 것과 같은 라이선스 문제로 조건 위반", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "skt/A.X-4.0-VL-Light", "score": 2, "reason": "한국어 비전-언어 7.69B, apache-2.0으로 상업 가능. aya-vision-8b와 비슷한 크기라 질의 요구에 정확히 부합", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "trillionlabs/gWorld-8B", "score": 2, "reason": "한국어 비전-언어 8.767B, apache-2.0. 8B급 동일 크기대 상업 가능 대안", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "nc-ai-consortium/VAETKI-VL-7B-A1B", "score": 2, "reason": "한국어 비전-언어 7.576B, MIT로 상업 가능. 비슷한 크기 조건 충족", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "Archsloth/Qwen3.5-9B-GGUF", "score": 1, "reason": "9B 비전-언어 GGUF, apache-2.0으로 상업 가능. 한국어 특화 근거가 없음", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "huihui-ai/Huihui-Qwopus3.5-4B-v3-abliterated", "score": 1, "reason": "4.66B, apache-2.0이나 claim에 '연구·실험 용도 권장' 명시이고 abliterated 개조본이라 상업 서비스에 부적합", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 1, "reason": "한국어 비전-언어 3.668B. license=other로 상업 조건 확인 불가", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "ZuzeTt/LFM2.5-VL-1.6B-GGUF", "score": 1, "reason": "1.6B 비전-언어 GGUF. license=other로 상업 조건 미확인이고 8B급보다 훨씬 작음", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "mlx-community/LFM2.5-VL-1.6B-8bit", "score": 0, "reason": "MLX 8bit는 Apple Silicon 전용이고 license=other. 상업 조건과 범용성 모두 불충족", "judge": "claude"}
+{"query_id": "sg_h154", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 0, "reason": "license=cc-by-nc-4.0 비상업. 질의가 거부한 것과 같은 라이선스 문제", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "FadedRedStar/LFM2.5-VL-1.6B-heretic-GGUF", "score": 1, "reason": "1.6B 비전-언어 GGUF로 8GB에 여유. abliterated 개조본이라 신뢰도가 낮음", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "FadedRedStar/LFM2.5-VL-1.6B-heretic-imatrix-GGUF", "score": 1, "reason": "위 모델의 imatrix 양자화. 8GB 충족이나 개조본", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-GGUF", "score": 1, "reason": "450M 비전-언어 GGUF로 8GB에 충분. 개조본이고 3B급 품질은 기대하기 어려움", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "FadedRedStar/LFM2.5-VL-450M-heretic-imatrix-GGUF", "score": 1, "reason": "위 모델의 imatrix판. 같은 이유", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "trillionlabs/gWorld-8B", "score": 1, "reason": "한국어 비전-언어 8.767B. 양자화 없이는 8GB 초과이고 질의가 물은 3B급보다 큼", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "sowilow/gemma-4-26b-a4b-it-DGX-Spark-GGUF", "score": 0, "reason": "26B a4b 모델. 8GB GPU 노트북으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "brunogcp/Gemma4-26b-Super-Abliterated-TQ3_4S", "score": 0, "reason": "26B abliterated 양자화본. 8GB로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "AMAImedia/GLM-5.3-Flash-FP8-GGUF", "score": 0, "reason": "321.323B. 8GB로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h155", "model_id": "IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF", "score": 0, "reason": "코드 특화 35B. 8GB 초과이고 비전 문서 용도와도 불일치", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "gaianet/EXAONE-3.5-32B-Instruct-GGUF", "score": 2, "reason": "기존 정답 LGAI-EXAONE/EXAONE-3.5-32B-Instruct-GGUF와 같은 32B GGUF 변환본(20.657B). 양자화로 24GB에 적재 가능해 질의의 '가능한가'에 직접 답함", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "second-state/EXAONE-3.5-32B-Instruct-GGUF", "score": 2, "reason": "EXAONE-3.5-32B의 또 다른 GGUF 변환본(20.657B). 24GB 실행 가능", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct", "score": 2, "reason": "기존 정답 EXAONE-3.5-7.8B-Instruct-AWQ의 원본 7.818B. 32B가 부담될 때의 공식 대안으로 24GB에 여유", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct", "score": 1, "reason": "EXAONE 2.405B 소형판으로 24GB에 충분. 32B 대비 성능 격차가 커 '대안'으로는 보수적", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "hymmmm/exaone-3.5-7.8b-emt-awq", "score": 1, "reason": "EXAONE-3.5-7.8B의 AWQ 양자화 제3자 배포본. 24GB 충족이나 공식 배포본 대비 검증 근거 부족", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "mobilint/EXAONE-3.5-7.8B-Instruct", "score": 1, "reason": "parameter_count가 0.419B로 기록된 양자화 배포본. 24GB 충족이나 기록된 크기와 모델명이 불일치해 확인이 필요", "judge": "claude"}
+{"query_id": "sg_h156", "model_id": "mobilint/EXAONE-3.5-2.4B-Instruct", "score": 1, "reason": "parameter_count 0.262B 양자화 배포본. 24GB 충족이나 32B 대안으로는 격차가 큼", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 2, "reason": "한국어 비전-언어 3.668B로 16GB 맥 통합메모리에 여유. 33B가 불가능할 때의 현실적 대안이고 한국어 문서 이해에 부합", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "dealignai/Qwen3.5-VL-4B-JANG_4S-CRACK", "score": 1, "reason": "4.825B로 16GB에 적재 가능하고 claim에 'MLX Studio 지원' 명시로 맥 환경에 맞음. 다만 CRACK 개조본이라 신뢰도가 낮음", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "LGAI-EXAONE/EXAONE-4.5-33B-AWQ", "score": 0, "reason": "질의가 지목한 EXAONE-4.5-33B의 AWQ 양자화 34.592B. 4bit로도 약 17GB 이상이라 16GB 맥에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "LGAI-EXAONE/EXAONE-4.5-33B-FP8", "score": 0, "reason": "EXAONE-4.5-33B FP8 34.35B. FP8로도 약 34GB가 필요해 16GB 맥 실행 불가", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "LGAI-EXAONE/EXAONE-4.5-33B-GGUF", "score": 0, "reason": "EXAONE-4.5-33B GGUF. 질의가 물은 모델 그 자체이고 16GB로는 저비트 양자화에도 여유가 없음", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "Jiunsong/supergemma4-26b-abliterated-multimodal-mlx-8bit", "score": 0, "reason": "25.806B MLX 8bit는 약 26GB 필요. 16GB 맥에서 실행 불가", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "dealignai/Qwen3.5-VL-122B-A10B-UNCENSORED-JANG_2S", "score": 0, "reason": "132.239B. 16GB 맥으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h157", "model_id": "dealignai/Qwen3.5-VL-35B-A3B-JANG_4K-CRACK", "score": 0, "reason": "47.495B. 16GB 맥으로 실행 불가", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "kakaocorp/kanana-1.5-v-3b-instruct", "score": 2, "reason": "한국어 비전-언어 3.668B로 14B보다 훨씬 작음. 기존 정답 VARCO-VISION-2.0-1.7B와 같은 한국어 특화 소형 대안", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "nc-ai-consortium/VAETKI-VL-7B-A1B", "score": 2, "reason": "한국어 비전-언어 7.576B, MIT. 13B 상한 충족이고 14B보다 작은 직접 대안", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "trillionlabs/gWorld-8B", "score": 2, "reason": "한국어 비전-언어 8.767B, apache-2.0. 13B 상한 충족", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "neureps/warmly-qwen35-2b-enko-gguf", "score": 1, "reason": "영한 2B 비전-언어 GGUF, apache-2.0으로 크기 조건 충족. 한국어 비전 성능 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "neureps/warmly-qwen35-08b-enko-gguf", "score": 1, "reason": "영한 0.8B 비전-언어 GGUF. 크기는 충족하나 14B 대체 품질 근거 없음", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "Archsloth/Qwen3.5-9B-GGUF", "score": 1, "reason": "9B 비전-언어 GGUF, apache-2.0으로 13B 상한 충족. 한국어 특화 근거 없음", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "NCSOFT/VARCO-VISION-2.0-1.7B-OCR", "score": 1, "reason": "기존 정답 VARCO-VISION-2.0-1.7B의 OCR 특화판 2.124B로 크기 조건 충족. OCR 전용이라 일반 비전-언어 용도보다 범위가 좁음", "judge": "claude"}
+{"query_id": "sg_h158", "model_id": "Archsloth/Qwen3.8-27B-GGUF", "score": 0, "reason": "27B 모델로 13B 상한을 초과. 질의가 '14B보다 작은 것'을 요구한 것과 정면으로 어긋남", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "FISA-conclave/klue-roberta-news-sentiment", "score": 2, "reason": "기존 정답과 동일 항목이나 미판정으로 남아 있던 건. 한국어 뉴스 감성분류 0.111B, apache-2.0으로 라이선스 명시 + 상업 가능", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "LangQuant/LQ-FSE-base", "score": 2, "reason": "claim에 '금융 문서에서 대표 문장 추출' 명시로 금융 도메인에 부합. MIT로 라이선스가 명시돼 상업 이용 가능", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "clapAI/modernBERT-base-multilingual-sentiment", "score": 1, "reason": "16언어 감성분류 0.15B, apache-2.0으로 상업 가능. 금융 도메인 특화 근거는 없음", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "Copycats/koelectra-base-v3-generalized-sentiment-analysis", "score": 1, "reason": "한국어 범용 감성분석, apache-2.0 상업 가능. claim이 상품 리뷰 중심으로 금융 도메인과 불일치", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "hun3359/klue-bert-base-sentiment", "score": 1, "reason": "한국어 감성 단일레이블 분류, cc-by-sa-4.0 상업 가능. 금융 특화 아님", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model", "score": 1, "reason": "apache-2.0 상업 가능하나 패션 리뷰 도메인으로 금융과 불일치", "judge": "claude"}
+{"query_id": "sg_h159", "model_id": "sangrimlee/bert-base-multilingual-cased-nsmc", "score": 0, "reason": "license 표기가 없어 질의의 '라이선스가 명시돼 상업적으로 쓸 수 있는' 조건을 정면으로 불충족", "judge": "claude"}
+{"query_id": "sg_h160", "model_id": "csebuetnlp/mT5_m2o_english_crossSum", "score": 0, "reason": "mT5 다국어 요약이나 claim이 'm2o english'로 영어 출력 중심이고 43언어 범용. 한국어 요약 특화가 아니고 context 값도 확인되지 않아 2048 조건을 판단할 수 없음", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "mykor/Midm-2.0-Base-Instruct-gguf", "score": 2, "reason": "기존 정답 Mungert/Midm-2.0-Base-Instruct-GGUF와 같은 Midm-2.0-Base GGUF 변환본, MIT. 양자화로 12GB 적재 가능해 질의에 직접 답함", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "minjaechoi/Midm-2.0-Mini-Instruct-W4A16", "score": 2, "reason": "기존 정답 K-intelligence/Midm-2.0-Mini-Instruct의 W4A16 양자화 2.306B, MIT. 12GB에 여유 있는 Mini 대안", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "mykor/Midm-2.0-Mini-Instruct-gguf", "score": 2, "reason": "Midm-2.0-Mini GGUF 변환본, MIT. 12GB 실행 가능한 공식 대안 계열", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "unsloth/LFM2.5-1.2B-Instruct", "score": 1, "reason": "1.17B로 12GB에 여유. 한국어 특화가 아니고 Midm 대체 품질 근거 없음", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "unsloth/LFM2.5-1.2B-Instruct-GGUF", "score": 1, "reason": "위 모델의 GGUF. 같은 이유", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "FastFlowLM/LFM2.5-1.2B-NPU2", "score": 1, "reason": "0.94B NPU 배포본. 12GB GPU 질의와 실행 가속기가 다르고 한국어 특화 아님", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "MuXodious/LFM2.5-1.2B-Instruct-absolute-heresy", "score": 1, "reason": "1.17B abliterated 개조본. 12GB 충족이나 신뢰도가 낮음", "judge": "claude"}
+{"query_id": "sg_h161", "model_id": "unsloth/Devstral-Small-2507", "score": 0, "reason": "23.572B 코딩 에이전트 특화. 12GB GPU로 실행 불가하고 용도도 불일치", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "seastar105/whisper-small-komixv2", "score": 2, "reason": "한국어 whisper-small 0.242B. 4GB RAM 라즈베리파이에 적재 가능한 현실적 대안", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "SungBeom/whisper-small-ko", "score": 2, "reason": "한국어 whisper-small 파인튜닝, apache-2.0. 4GB RAM 조건에 적합", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "ghost613/whisper-large-v3-turbo-korean", "score": 1, "reason": "질의가 물은 whisper-large-v3-turbo의 한국어 파인튜닝 0.809B. FP16 약 1.6GB로 4GB RAM에는 들어가나 라즈베리파이 CPU 속도는 별개 문제", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "ghost613/faster-whisper-large-v3-turbo-korean", "score": 1, "reason": "large-v3-turbo의 CTranslate2 한국어판. int8 변환으로 4GB RAM 적재가 가능해 질의의 '가능한가'에 조건부로 답함", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "o0dimplz0o/Whisper-Large-v3-turbo-STT-Zeroth-KO-v2", "score": 1, "reason": "large-v3-turbo Zeroth 한국어 파인튜닝 0.809B. 4GB RAM 적재는 가능하나 실시간성 근거 없음", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "batiai/batisay-ko-turbo", "score": 1, "reason": "한국어 turbo 계열 0.809B, llama.cpp 예제 포함으로 라즈베리파이 실행 여지가 있음. license=other", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "vitaldb/whisper-v3-turbo-kor-or-lora", "score": 1, "reason": "whisper-v3-turbo 한국어 LoRA, apache-2.0. 4GB 적재 가능하나 LoRA 병합이 필요", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "seastar105/whisper-medium-komixv2", "score": 1, "reason": "한국어 whisper-medium 0.764B. 4GB RAM 적재는 가능하나 라즈베리파이 CPU로는 느림", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "BuzzASR/korean", "score": 0, "reason": "1.543B로 FP16 약 3GB. 4GB RAM 보드에서 OS·버퍼를 고려하면 실행이 어려움", "judge": "claude"}
+{"query_id": "sg_h162", "model_id": "team-lucid/hubert-large-korean", "score": 0, "reason": "HuBERT는 음성 표현학습 모델로 ASR 디코더 파인튜닝이 별도로 필요. 바로 전사에 쓸 수 없음", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "DataWizardd/finbert-sentiment-ko", "score": 0, "reason": "금융 감성분석 모델 0.101B. 크기·CPU 조건은 맞으나 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "Jinuuuu/KoELECTRA_fine_tunning_emotion", "score": 0, "reason": "감정 분류 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "solbi12/ecommers_fasion_fine_tuned_3class_model", "score": 0, "reason": "패션 리뷰 감정 3분류. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "likeyellow/klue-review-star", "score": 0, "reason": "리뷰 별점 예측 모델이고 license=cc-by-nc-sa-4.0. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "Metabaron6/Shieldstral-1.0-3B-GGUF", "score": 0, "reason": "3B로 0.3B 상한을 크게 초과하고 보안 검사용 모델. 리랭커가 아님", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "banjl4487/MODEL", "score": 0, "reason": "claim이 pipeline_tag 표기뿐으로 리랭커 근거가 전혀 없음", "judge": "claude"}
+{"query_id": "sg_h163", "model_id": "shreyasmeher/Qwen-GLOCON-Reasoning", "score": 0, "reason": "추론 특화 모델로 파라미터 수 미확인. GLOCON 정치 이벤트 분류 계열이고 리랭커가 아님", "judge": "claude"}

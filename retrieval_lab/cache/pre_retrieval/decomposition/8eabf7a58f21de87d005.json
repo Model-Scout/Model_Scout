@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "aya-vision-8b가 비상업 라이선스야. 비슷한 크기에 상업적으로 쓸 수 있는 한국어 비전 언어 모델이 필요해.",
+ "outputs": [
+  "Find commercial licenses for Korean vision language models similar in size to aya-vision-8b.",
+  "Search for Korean vision language models with a parameter count close to aya-vision-8b."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find commercial licenses for Korean vision language models similar in size to aya-vision-8b.",
+   "Search for Korean vision language models with a parameter count close to aya-vision-8b."
+  ]
+ },
+ "latency_ms": 981.4
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE NLI 정확도가 README에 나와 있는 한국어 분류 모델이 필요해.",
+ "outputs": [
+  "KLUE NLI is a Korean natural language inference model designed for the task of text classification. It supports the Korean language and is optimized for understanding relationships between sentences, making it ideal for applications in sentiment analysis, question answering, and dialogue systems. With a parameter count of 110 million, this model balances performance and efficiency, providing high accuracy in NLI tasks. Its strengths lie in its ability to comprehend nuanced language and context, making it suitable for various use cases in the Korean language processing domain. The model is available in GGUF format and has been benchmarked against standard metrics, demonstrating superior performance in Korean NLI tasks."
+ ],
+ "response": {
+  "document": "KLUE NLI is a Korean natural language inference model designed for the task of text classification. It supports the Korean language and is optimized for understanding relationships between sentences, making it ideal for applications in sentiment analysis, question answering, and dialogue systems. With a parameter count of 110 million, this model balances performance and efficiency, providing high accuracy in NLI tasks. Its strengths lie in its ability to comprehend nuanced language and context, making it suitable for various use cases in the Korean language processing domain. The model is available in GGUF format and has been benchmarked against standard metrics, demonstrating superior performance in Korean NLI tasks."
+ },
+ "latency_ms": 2132.3
+}

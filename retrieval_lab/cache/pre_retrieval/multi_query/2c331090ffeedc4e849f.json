@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLORES-200 기준 한국어 번역 BLEU나 chrF 점수가 공개된 번역 모델이 필요해.",
+ "outputs": [
+  "FLORES-200 기준으로 한국어 번역의 BLEU 또는 chrF 점수가 공개된 번역 모델을 찾고 있어요.",
+  "I need translation models that have published BLEU or chrF scores for Korean translation based on FLORES-200.",
+  "FLORES-200, 한국어 번역, BLEU 점수, chrF 점수, 공개된 모델"
+ ],
+ "response": {
+  "queries": [
+   "FLORES-200 기준으로 한국어 번역의 BLEU 또는 chrF 점수가 공개된 번역 모델을 찾고 있어요.",
+   "I need translation models that have published BLEU or chrF scores for Korean translation based on FLORES-200.",
+   "FLORES-200, 한국어 번역, BLEU 점수, chrF 점수, 공개된 모델"
+  ]
+ },
+ "latency_ms": 1996.9
+}

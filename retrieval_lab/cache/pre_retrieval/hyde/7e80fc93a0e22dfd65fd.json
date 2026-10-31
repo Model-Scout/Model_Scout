@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Dongjin-kr/ko-reranker가 CPU에서 너무 느려. 더 가벼운 한국어 리랭커가 필요해.",
+ "outputs": [
+  "The LightKorean-Reranker is a lightweight model designed for efficient reranking tasks in Korean. With only 50 million parameters, it is optimized for CPU performance, making it significantly faster than heavier models like Dongjin-kr/ko-reranker. This model supports Korean as its primary language and is ideal for applications in information retrieval, search engine optimization, and question-answering systems. Its strengths lie in its ability to quickly process and rank results while maintaining high accuracy, making it suitable for real-time applications. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The LightKorean-Reranker is a lightweight model designed for efficient reranking tasks in Korean. With only 50 million parameters, it is optimized for CPU performance, making it significantly faster than heavier models like Dongjin-kr/ko-reranker. This model supports Korean as its primary language and is ideal for applications in information retrieval, search engine optimization, and question-answering systems. Its strengths lie in its ability to quickly process and rank results while maintaining high accuracy, making it suitable for real-time applications. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1537.1
+}

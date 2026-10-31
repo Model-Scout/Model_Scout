@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어·영어·중국어·일본어를 서로 번역하는 다국어 번역 모델 하나로 해결하고 싶어. GPU 24GB 서버 한 장이야.",
+ "outputs": [
+  "The Multilingual Translation Model is designed for seamless translation among Korean, English, Chinese, and Japanese. With a parameter count of 1.5 billion, this model excels in handling diverse language pairs, making it ideal for applications in global communication, content localization, and cross-cultural exchanges. It supports a context length of 512 tokens, ensuring comprehensive understanding of input text. The model is optimized for deployment on servers with 24GB GPU memory, providing efficient processing and quick response times. Its strengths lie in its ability to maintain contextual integrity and produce fluent translations across all supported languages. The model is available in GGUF format and is licensed under the MIT License."
+ ],
+ "response": {
+  "document": "The Multilingual Translation Model is designed for seamless translation among Korean, English, Chinese, and Japanese. With a parameter count of 1.5 billion, this model excels in handling diverse language pairs, making it ideal for applications in global communication, content localization, and cross-cultural exchanges. It supports a context length of 512 tokens, ensuring comprehensive understanding of input text. The model is optimized for deployment on servers with 24GB GPU memory, providing efficient processing and quick response times. Its strengths lie in its ability to maintain contextual integrity and produce fluent translations across all supported languages. The model is available in GGUF format and is licensed under the MIT License."
+ },
+ "latency_ms": 1607.8
+}
