@@ -20,7 +20,6 @@ tags:
 - 1.58bit
 - cpu
 - gguf
-- qwen2.5
 - deepseek
 - efficient
 - low-memory
@@ -32,7 +31,7 @@ tags:
 license: mit
 ---
 # JiRack Ultra 1B (CPU)
-A fast and efficient ~1.5B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Tool call**, and **Robotics** tags. Built on a redesigned DeepSeek R1 architecture with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
+A fast and efficient ~1.5B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Tool call**, and **Robotics** tags. Built on a DeepSeek model redesigned by CMSManhattan with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
 - JiRack is a cloud-ready model that helps save money on cloud infrastructure. It can be used as an expert model in RAG deployments, with the ONNX JiRack Java server as an alternative.
 
 
@@ -123,9 +122,9 @@ A fast and efficient ~1.5B model optimized for CPU inference. The model was refa
 ## Available Variants
 | Tag | Quant | Size | Approx. RAM | Description |
 |-----|-------|------|-------------|-------------|
-| `cmsmanhattan/jirack-ultra-1b-cpu:latest` | Full | 0.55 GB | ~1.8 GB | Full ternary reference |
-| `cmsmanhattan/jirack-ultra-1b-cpu-q4:latest` | Q4_K_M | 0.38 GB | ~1.4 GB | Recommended balance |
-| `cmsmanhattan/jirack-ultra-1b-cpu-q3:latest` | Q3_K_M | 0.31 GB | ~1.2 GB | Good quality / size trade-off |
+| `cmsmanhattan/jirack-ultra-1b-cpu:latest` | Full | 3.56 GB | ~4.1 GB | Full ternary reference |
+| `cmsmanhattan/jirack-ultra-1b-cpu-q4:latest` | Q4_K_M | 1.12 GB | ~1.6 GB | Recommended balance |
+| `cmsmanhattan/jirack-ultra-1b-cpu-q3:latest` | Q3_K_M | 0.92 GB | ~1.4 GB | Good quality / size trade-off |
 | `cmsmanhattan/jirack-ultra-1b-cpu-q2:latest` | Q2_K | 0.24 GB | ~1.0 GB | Maximum compression |
 ## Quick Start
 ### Run with Docker
@@ -253,7 +252,7 @@ I added the default model in full precision. This serves as the base for quantiz
 ## Architecture Notes
 - **Refactored with BitNet features**: Native BitLinear ternary path (b1.58-style) with λ-warmup STE
 - **Updated tokenizer**: Extended with new special tags for **Routing**, **Tool call**, and **Robotics**
-- Base: Redesigned Llama-3.2-1B style (Hidden 2048, Intermediate 8192, 16 layers, GQA 32/8, vocab 128256)
+- Architecture: Qwen2 layout (hidden 1,536, intermediate 8,960, 28 layers, GQA 12/2, vocabulary 151,936, untied embeddings, RoPE theta 10,000)
 - RoPE θ = 10000, RMSNorm ε = 1e-6
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
 
@@ -269,5 +268,7 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+Base models: a DeepSeek model (MIT License, `LICENSE-DEEPSEEK`), itself derived from a Qwen model (Apache License 2.0, `LICENSE-APACHE`); see `NOTICE.md`.
 
 ![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

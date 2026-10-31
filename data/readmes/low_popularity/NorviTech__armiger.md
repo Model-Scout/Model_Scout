@@ -21,13 +21,13 @@ tags:
   - cpu-inference
 ---
 
-# Armiger `v3.8.0` — INT8 ONNX CPU Classifier
+# Armiger `v3.10.0` — INT8 ONNX CPU Classifier
 
-**Release:** [`v3.8.0`](https://github.com/spencernorton/armiger/releases/tag/v3.8.0) · **Artifact:** `17.6 MB` INT8 ONNX (`armiger.int8.onnx` / `armiger.onnx`) · **Parameters:** `8.05M` · **License:** Apache-2.0
+**Release:** [`v3.10.0`](https://github.com/spencernorton/armiger/releases/tag/v3.10.0) · **Artifact:** `17.6 MB` INT8 ONNX (`armiger.int8.onnx` / `armiger.onnx`) · **Parameters:** `8.05M` · **License:** Apache-2.0
 
 **Armiger (`NorviTech/armiger`)** is the standalone CPU INT8 edition of the byte-level RoPE Transformer (`numpy` + `onnxruntime` only). For FP32 weights, pre-built `armiger-ultra` containers, and the 6-plugin pipeline, see [`NorviTech/armiger-ultra`](https://huggingface.co/NorviTech/armiger-ultra).
 
-![Armiger v3.8.0 Overview](assets/armiger_overview.png)
+![Armiger v3.10.0 Overview](assets/armiger_overview.png)
 
 ## Quickstart
 

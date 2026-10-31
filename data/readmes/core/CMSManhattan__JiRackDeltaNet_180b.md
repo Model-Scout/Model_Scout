@@ -35,14 +35,14 @@ tags:
 - ternary-transformer
 - quantization
 - qat
-base_model: Qwen/Qwen3.8-Flash-Next
+
 pipeline_tag: text-generation
 license: other
 license_name: qwen-community-1.0
 license_link: https://huggingface.co/Qwen/Qwen3.8-Flash-Next/blob/main/LICENSE
 ---
 
-# Qwen3.8-Flash-Next 180B migrated to the JiRack Ternary Architecture
+# JiRack Ternary Architecture
 - A 180B-parameter Mixture-of-Experts model with only **6B parameters active per token**, which makes high-quality CPU inference realistic at this scale
 - Migrated to the JiRack ternary architecture (BitLinear, per-tensor absmean ternary weights) with a lambda-warmup QAT pipeline, targeting TQ2_0 CPU inference on llama.cpp and Ollama
 - Planned with QAT and JiRack fine-tuning: robotics, routing, coding and advanced tool calling via the JiRack tool-call workflow
