@@ -1326,6 +1326,57 @@ def normalize_language_values(values):
     return output
 
 
+# A fine-tune can inherit its base model's language tags (VNJPTranslate lists kor from
+# Qwen2.5 but is trained for Vietnamese/Japanese). When the README never mentions Korean
+# and its name or title names another target language, the Korean tag is not evidence.
+README_FRONTMATTER_RE = re.compile(r"\A---\n.*?\n---\n", re.S)
+KOREAN_MENTION_RE = re.compile(
+    r"korean|한국어|한국|(?<![a-z])ko(?:-kr)?(?![a-z])|(?<![a-z])kor(?![a-z])|[가-힣]{2,}", re.I)
+TARGET_LANGUAGE_RE = re.compile(
+    r"(?<![a-z])(vietnamese|japanese|chinese|mandarin|cantonese|thai|indonesian|malay|tagalog|filipino|"
+    r"hindi|urdu|bengali|tamil|telugu|marathi|punjabi|nepali|sinhala|arabic|persian|farsi|turkish|hebrew|"
+    r"kazakh|uzbek|mongolian|russian|ukrainian|polish|czech|german|french|spanish|portuguese|italian|dutch|"
+    r"flemish|swedish|norwegian|danish|finnish|greek|romanian|hungarian|hausa|yoruba|igbo|swahili|amharic|"
+    r"zulu|afrikaans|pakistani|brazilian|catalan|basque|serbian|croatian|bulgarian|khmer|burmese)(?![a-z])",
+    re.I)
+
+
+def non_korean_targets(model_id, readme_text):
+    """Languages a model's name or README title targets, when nothing in it mentions Korean."""
+    name = model_id.split("/")[-1]
+    body = README_FRONTMATTER_RE.sub("", readme_text or "", count=1)
+    if KOREAN_MENTION_RE.search(body) or KOREAN_MENTION_RE.search(name):
+        return []
+    title = next((line for line in body.splitlines() if line.startswith("# ")), "")
+    return sorted({m.casefold() for m in TARGET_LANGUAGE_RE.findall(f"{re.sub(r'[-_]', ' ', name)} {title}")})
+
+
+def _saved_readme(model_id):
+    for pool in SOURCE_POOLS:
+        path = DATA_DIR / "readmes" / pool / f"{model_id.replace('/', '__')}.md"
+        if path.is_file():
+            return path.read_text(encoding="utf-8", errors="ignore")
+    return None
+
+
+def language_exclusions(rows):
+    """model_id -> reason for rows whose own or base model's README targets another language.
+
+    Runs on saved READMEs, so resumed rows are re-checked without new Hub calls.
+    """
+    excluded = {}
+    for row in rows:
+        model_id = row["model_id"]
+        for source in [model_id, *(row.get("base_models") or [])]:
+            readme = _saved_readme(source)
+            targets = non_korean_targets(source, readme) if readme is not None else []
+            if targets:
+                via = "" if source == model_id else f" (base {source})"
+                excluded[model_id] = f"README targets {', '.join(targets)} and never mentions Korean{via}"
+                break
+    return excluded
+
+
 def verify_languages(stage1_row, card_metadata, readme_text):
     """Additional factual evidence; never rewrite the Stage 1 candidate."""
     stage1_language = stage1_row.get("language", {})
@@ -2344,7 +2395,17 @@ def process_pool(source_pool, model_ids=None):
     success = skipped = errors = 0
     print(f"[{source_pool}] START: source={len(all_source_rows):,} selected={len(source_rows):,}", flush=True)
 
+    # Accumulates across checkpoints and runs so excluded models are neither re-enriched nor
+    # dropped from the report. ponytail: an excluded model stays excluded even if its card later
+    # adds Korean; delete its entry from the report to re-check it.
+    report = DATA_DIR / f"hf_models_stage2_{source_pool}_language_excluded.json"
+    excluded = json.loads(report.read_text(encoding="utf-8")) if report.is_file() else {}
+
     def checkpoint():
+        excluded.update(language_exclusions(results_by_id.values()))
+        for model_id in excluded:
+            results_by_id.pop(model_id, None)
+        report.write_text(json.dumps(excluded, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         rows = list(results_by_id.values())
         validate_stage2_rows(rows, source_pool)
         # Validate current v7-source results; older retained rows keep provenance.
@@ -2352,11 +2413,12 @@ def process_pool(source_pool, model_ids=None):
         # carry rows that disappeared from the source pool into output.
         save_jsonl_atomic(list(results_by_id.values()), config["output"])
 
+    checkpoint()  # apply the language gate to resumed rows before the loop
     try:
         for index, source_row in enumerate(source_rows, start=1):
             model_id = source_row["model_id"]
             prefix = f"[{source_pool}] {index}/{len(source_rows)}"
-            if model_id in results_by_id:
+            if model_id in results_by_id or model_id in excluded:
                 skipped += 1
                 print(f"{prefix} SKIP {model_id}")
             else:

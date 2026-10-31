@@ -1,0 +1,5 @@
+{
+  "CohereLabs/c4ai-command-r7b-arabic-02-2025": "README targets arabic and never mentions Korean",
+  "csebuetnlp/mT5_m2o_arabic_crossSum": "README targets arabic and never mentions Korean",
+  "AMAImedia/Kimi-K3-0.40B-Kazakh-CPT-step200": "README targets kazakh and never mentions Korean"
+}
