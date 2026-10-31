@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "차트와 표가 들어간 한국어 보고서 이미지를 이해하는 모델을 상업 서비스에 쓰려고 해.",
+ "outputs": [
+  "차트와 표가 포함된 한국어 보고서를 이해할 수 있는 모델을 상업적으로 사용하고 싶습니다.",
+  "I want to use a model that can understand Korean reports with charts and tables for commercial services.",
+  "Korean report model, understand charts, tables, commercial use"
+ ],
+ "response": {
+  "queries": [
+   "차트와 표가 포함된 한국어 보고서를 이해할 수 있는 모델을 상업적으로 사용하고 싶습니다.",
+   "I want to use a model that can understand Korean reports with charts and tables for commercial services.",
+   "Korean report model, understand charts, tables, commercial use"
+  ]
+ },
+ "latency_ms": 1163.6
+}

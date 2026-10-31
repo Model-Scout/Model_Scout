@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 영수증이나 문서 사진에서 글자를 읽고 내용을 정리하는 비전 언어 모델이 필요해. GPU 24GB 한 장에서 돌릴 거야.",
+ "outputs": [
+  "비전 언어 모델",
+  "GPU 24GB에서 실행 가능한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "비전 언어 모델",
+   "GPU 24GB에서 실행 가능한 모델"
+  ]
+ },
+ "latency_ms": 994.3
+}

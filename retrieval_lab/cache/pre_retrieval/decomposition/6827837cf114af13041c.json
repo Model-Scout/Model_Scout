@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "VARCO-VISION-14B가 우리 서버엔 커. 이것보다 작은 한국어 비전 언어 모델이 필요해.",
+ "outputs": [
+  "Find smaller Korean vision language models than VARCO-VISION-14B."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find smaller Korean vision language models than VARCO-VISION-14B."
+  ]
+ },
+ "latency_ms": 1187.6
+}

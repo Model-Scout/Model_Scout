@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask를 쓰는데 긴 문단이 잘려. 이것보다 입력을 길게 받는 한국어 임베딩이 필요해.",
+ "outputs": [
+  "ko-sroberta-multitask보다 긴 입력을 처리할 수 있는 한국어 임베딩 모델을 찾고 싶어요.",
+  "I'm looking for a Korean embedding model that can handle longer inputs than ko-sroberta-multitask.",
+  "Korean embedding, long input, model, context length, ko-sroberta-multitask"
+ ],
+ "response": {
+  "queries": [
+   "ko-sroberta-multitask보다 긴 입력을 처리할 수 있는 한국어 임베딩 모델을 찾고 싶어요.",
+   "I'm looking for a Korean embedding model that can handle longer inputs than ko-sroberta-multitask.",
+   "Korean embedding, long input, model, context length, ko-sroberta-multitask"
+  ]
+ },
+ "latency_ms": 1783.8
+}

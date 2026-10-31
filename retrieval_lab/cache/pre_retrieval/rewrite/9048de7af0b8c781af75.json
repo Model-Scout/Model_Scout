@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-7.8B-Instruct가 답변이 너무 느려. 이것보다 작고 빠른 한국어 LLM을 찾아 줘.",
+ "outputs": [
+  "Find smaller and faster Korean LLM than EXAONE-3.5-7.8B-Instruct."
+ ],
+ "response": {
+  "query": "Find smaller and faster Korean LLM than EXAONE-3.5-7.8B-Instruct."
+ },
+ "latency_ms": 880.7
+}

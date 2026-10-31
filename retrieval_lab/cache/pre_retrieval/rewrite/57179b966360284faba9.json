@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어로 된 문서 사진, 표, 차트를 이해하고 질문에 답하는 비전-언어 모델이 필요해. 14B급까지만 로컬 서버에서 돌릴 거야.",
+ "outputs": [
+  "Vision-language model for understanding Korean documents, images, tables, charts and answering questions, local server, parameter count up to 14B."
+ ],
+ "response": {
+  "query": "Vision-language model for understanding Korean documents, images, tables, charts and answering questions, local server, parameter count up to 14B."
+ },
+ "latency_ms": 1701.0
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해.",
+ "outputs": [
+  "small generative model for Korean document question answering under 1B parameters"
+ ],
+ "response": {
+  "query": "small generative model for Korean document question answering under 1B parameters"
+ },
+ "latency_ms": 1067.9
+}

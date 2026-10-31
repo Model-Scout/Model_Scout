@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 문서 기반 한국어 RAG 답변 생성 모델을 GPU 8GB 노트북에서 돌리려고 해.",
+ "outputs": [
+  "사내 문서 기반 한국어 RAG 답변 생성 모델",
+  "GPU 8GB 노트북에서 사용할 수 있는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "사내 문서 기반 한국어 RAG 답변 생성 모델",
+   "GPU 8GB 노트북에서 사용할 수 있는 모델"
+  ]
+ },
+ "latency_ms": 1259.7
+}

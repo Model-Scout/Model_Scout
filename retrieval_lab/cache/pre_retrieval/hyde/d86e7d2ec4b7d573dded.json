@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask를 쓰는데 긴 문단이 잘려. 이것보다 입력을 길게 받는 한국어 임베딩이 필요해.",
+ "outputs": [
+  "The Korean LongContext-Embedding model is designed for tasks requiring extensive input lengths, making it ideal for processing long paragraphs in Korean. With a parameter count of 1.5 billion and a context length of up to 4096 tokens, this model excels in various applications such as document summarization, sentiment analysis, and conversational AI. It supports multiple languages, with a primary focus on Korean, ensuring high-quality embeddings for nuanced understanding. The model is available in GGUF format and is optimized for performance, providing robust results in benchmarks like GLUE and SuperGLUE. Its strengths lie in its ability to maintain contextual integrity over longer texts, making it a perfect choice for users needing comprehensive Korean embeddings."
+ ],
+ "response": {
+  "document": "The Korean LongContext-Embedding model is designed for tasks requiring extensive input lengths, making it ideal for processing long paragraphs in Korean. With a parameter count of 1.5 billion and a context length of up to 4096 tokens, this model excels in various applications such as document summarization, sentiment analysis, and conversational AI. It supports multiple languages, with a primary focus on Korean, ensuring high-quality embeddings for nuanced understanding. The model is available in GGUF format and is optimized for performance, providing robust results in benchmarks like GLUE and SuperGLUE. Its strengths lie in its ability to maintain contextual integrity over longer texts, making it a perfect choice for users needing comprehensive Korean embeddings."
+ },
+ "latency_ms": 1608.4
+}

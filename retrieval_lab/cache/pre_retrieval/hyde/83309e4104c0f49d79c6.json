@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "쇼핑몰 상품 이미지를 보고 한국어 상품 설명 문구를 써 주는 비전 언어 모델이 필요해. 상업 서비스야.",
+ "outputs": [
+  "The Vision-Language Model is designed for generating Korean product descriptions based on shopping mall images. It supports Korean as the primary language and is optimized for commercial services in e-commerce. With a parameter count of 1.5 billion, this model excels in understanding visual content and producing coherent, contextually relevant text. Its strengths lie in its ability to accurately interpret product features and convey them in an engaging manner, making it ideal for online retailers looking to enhance their product listings. The model is available in GGUF format and has been benchmarked against leading models in the field, achieving high scores in both accuracy and fluency metrics."
+ ],
+ "response": {
+  "document": "The Vision-Language Model is designed for generating Korean product descriptions based on shopping mall images. It supports Korean as the primary language and is optimized for commercial services in e-commerce. With a parameter count of 1.5 billion, this model excels in understanding visual content and producing coherent, contextually relevant text. Its strengths lie in its ability to accurately interpret product features and convey them in an engaging manner, making it ideal for online retailers looking to enhance their product listings. The model is available in GGUF format and has been benchmarked against leading models in the field, achieving high scores in both accuracy and fluency metrics."
+ },
+ "latency_ms": 1600.8
+}

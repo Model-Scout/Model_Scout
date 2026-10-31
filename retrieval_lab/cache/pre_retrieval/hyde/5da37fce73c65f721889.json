@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성인식 모델을 상업 서비스에 넣으려고 해. 잡음이 많은 통화 음성도 잘 받아 적어야 해.",
+ "outputs": [
+  "The model is designed for robust Korean speech recognition, particularly in noisy environments such as phone calls. It supports the Korean language and is optimized for real-time transcription tasks. With a parameter count of 150 million, it balances performance and efficiency, making it suitable for commercial applications. The model excels in handling various accents and background noise, ensuring high accuracy in transcription. Intended use cases include customer service automation, voice command systems, and transcription services. It has been benchmarked against leading models, achieving a Word Error Rate (WER) of 5.2% in challenging audio conditions, making it a strong choice for businesses looking to integrate reliable speech recognition into their services."
+ ],
+ "response": {
+  "document": "The model is designed for robust Korean speech recognition, particularly in noisy environments such as phone calls. It supports the Korean language and is optimized for real-time transcription tasks. With a parameter count of 150 million, it balances performance and efficiency, making it suitable for commercial applications. The model excels in handling various accents and background noise, ensuring high accuracy in transcription. Intended use cases include customer service automation, voice command systems, and transcription services. It has been benchmarked against leading models, achieving a Word Error Rate (WER) of 5.2% in challenging audio conditions, making it a strong choice for businesses looking to integrate reliable speech recognition into their services."
+ },
+ "latency_ms": 1613.9
+}

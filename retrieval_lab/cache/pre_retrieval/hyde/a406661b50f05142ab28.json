@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-4.5-33B로 한국어 문서 이미지를 읽고 싶은데 16GB 맥에서 돌아갈까?",
+ "outputs": [
+  "EXAONE-4.5-33B is a state-of-the-art model designed for document image processing, particularly optimized for Korean language support. With 33 billion parameters, it excels in tasks such as text extraction, document classification, and layout analysis. The model is capable of handling complex document structures and provides high accuracy in recognizing Korean text within images. It is recommended for use cases in digitizing archives, automating document workflows, and enhancing OCR systems. Given its size, running EXAONE-4.5-33B on a 16GB Mac may be challenging, as it typically requires more memory for optimal performance. Users may need to consider using a machine with higher RAM or leveraging cloud-based solutions for efficient processing."
+ ],
+ "response": {
+  "document": "EXAONE-4.5-33B is a state-of-the-art model designed for document image processing, particularly optimized for Korean language support. With 33 billion parameters, it excels in tasks such as text extraction, document classification, and layout analysis. The model is capable of handling complex document structures and provides high accuracy in recognizing Korean text within images. It is recommended for use cases in digitizing archives, automating document workflows, and enhancing OCR systems. Given its size, running EXAONE-4.5-33B on a 16GB Mac may be challenging, as it typically requires more memory for optimal performance. Users may need to consider using a machine with higher RAM or leveraging cloud-based solutions for efficient processing."
+ },
+ "latency_ms": 1773.4
+}

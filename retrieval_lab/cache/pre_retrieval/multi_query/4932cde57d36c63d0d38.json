@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿에서 온디바이스로 한국어 녹취를 받아적어야 해. 저장공간과 메모리 부담이 적어야 해서 medium보다 작은 모델을 쓰려고 해.",
+ "outputs": [
+  "온디바이스에서 한국어 녹취를 받아적기 위한 medium보다 작은 모델을 찾고 있어요.",
+  "I'm looking for a model smaller than medium for transcribing Korean audio on-device for mobile and tablet.",
+  "Korean transcription, on-device, model size < medium, mobile, tablet, low memory, low storage"
+ ],
+ "response": {
+  "queries": [
+   "온디바이스에서 한국어 녹취를 받아적기 위한 medium보다 작은 모델을 찾고 있어요.",
+   "I'm looking for a model smaller than medium for transcribing Korean audio on-device for mobile and tablet.",
+   "Korean transcription, on-device, model size < medium, mobile, tablet, low memory, low storage"
+  ]
+ },
+ "latency_ms": 1252.3
+}

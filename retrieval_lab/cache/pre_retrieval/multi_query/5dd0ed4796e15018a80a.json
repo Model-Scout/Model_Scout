@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어로 된 문서 사진, 표, 차트를 이해하고 질문에 답하는 비전-언어 모델이 필요해. 14B급까지만 로컬 서버에서 돌릴 거야.",
+ "outputs": [
+  "비전-언어 모델로 한국어 문서의 사진, 표, 차트를 이해하고 질문에 답할 수 있는 모델을 찾고 싶어요. 14B 이하의 모델을 로컬 서버에서 사용할 예정입니다.",
+  "I need a vision-language model that can understand Korean documents, images, tables, and charts, and answer questions. I will run it on a local server with a parameter count of up to 14B.",
+  "비전-언어 모델, 한국어, 문서, 사진, 표, 차트, 질문 응답, 14B, 로컬 서버"
+ ],
+ "response": {
+  "queries": [
+   "비전-언어 모델로 한국어 문서의 사진, 표, 차트를 이해하고 질문에 답할 수 있는 모델을 찾고 싶어요. 14B 이하의 모델을 로컬 서버에서 사용할 예정입니다.",
+   "I need a vision-language model that can understand Korean documents, images, tables, and charts, and answer questions. I will run it on a local server with a parameter count of up to 14B.",
+   "비전-언어 모델, 한국어, 문서, 사진, 표, 차트, 질문 응답, 14B, 로컬 서버"
+  ]
+ },
+ "latency_ms": 2104.6
+}

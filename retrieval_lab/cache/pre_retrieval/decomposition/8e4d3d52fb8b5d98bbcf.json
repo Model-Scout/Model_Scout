@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "회의록 같은 긴 한국어 문서를 요약하는 기능을 로컬 GPU 16GB에서 돌리려고 해. 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "Find models that can summarize long Korean documents.",
+  "Find models that can be deployed on a local GPU with 16GB of memory.",
+  "Find models that are licensed for commercial use."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that can summarize long Korean documents.",
+   "Find models that can be deployed on a local GPU with 16GB of memory.",
+   "Find models that are licensed for commercial use."
+  ]
+ },
+ "latency_ms": 1323.0
+}

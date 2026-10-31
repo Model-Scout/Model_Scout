@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DeepSeek-V3를 24GB GPU 한 장에서 한국어 상담용으로 돌리려고 해. 가능할까?",
+ "outputs": [
+  "DeepSeek-V3 is a state-of-the-art conversational AI model designed specifically for Korean language interactions. With a parameter count of 1.5 billion and optimized for a context length of 512 tokens, it is well-suited for real-time dialogue applications. The model is capable of understanding and generating natural responses in Korean, making it ideal for customer support and counseling scenarios. Its strengths lie in its ability to handle nuanced conversations and provide contextually relevant answers. DeepSeek-V3 is available in GGUF format and is designed to run efficiently on a single 24GB GPU, ensuring smooth performance for interactive use cases."
+ ],
+ "response": {
+  "document": "DeepSeek-V3 is a state-of-the-art conversational AI model designed specifically for Korean language interactions. With a parameter count of 1.5 billion and optimized for a context length of 512 tokens, it is well-suited for real-time dialogue applications. The model is capable of understanding and generating natural responses in Korean, making it ideal for customer support and counseling scenarios. Its strengths lie in its ability to handle nuanced conversations and provide contextually relevant answers. DeepSeek-V3 is available in GGUF format and is designed to run efficiently on a single 24GB GPU, ensuring smooth performance for interactive use cases."
+ },
+ "latency_ms": 1805.5
+}

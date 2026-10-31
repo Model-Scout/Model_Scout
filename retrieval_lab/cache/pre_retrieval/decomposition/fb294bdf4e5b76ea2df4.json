@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "multilingual-e5-large가 서버에 무거워. 한국어 검색 성능은 비슷하고 더 작은 임베딩 모델이 필요해.",
+ "outputs": [
+  "Find smaller embedding models with similar Korean search performance to multilingual-e5-large.",
+  "Search for multilingual embedding models suitable for server deployment."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find smaller embedding models with similar Korean search performance to multilingual-e5-large.",
+   "Search for multilingual embedding models suitable for server deployment."
+  ]
+ },
+ "latency_ms": 1057.6
+}

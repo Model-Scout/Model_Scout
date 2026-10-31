@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 개인 PC의 Docker에서만 돌리려고 해. 7.8B 모델은 답변에 2분 넘게 걸려서 더 작고 빠른 한국어 모델이 필요해. 학습용 프로젝트라 라이선스는 상관없어.",
+ "outputs": [
+  "The model is a compact 3.5B parameter Korean language model designed for efficient retrieval-augmented generation (RAG) tasks. It excels in providing quick and accurate responses based on Korean documents, making it ideal for personal projects running on Docker environments. With a context length of 512 tokens, this model is optimized for speed, ensuring response times well under two minutes. It supports various use cases, including chatbots, document summarization, and question-answering systems. The model is available in GGUF format and is suitable for users who prioritize performance and efficiency in their applications."
+ ],
+ "response": {
+  "document": "The model is a compact 3.5B parameter Korean language model designed for efficient retrieval-augmented generation (RAG) tasks. It excels in providing quick and accurate responses based on Korean documents, making it ideal for personal projects running on Docker environments. With a context length of 512 tokens, this model is optimized for speed, ensuring response times well under two minutes. It supports various use cases, including chatbots, document summarization, and question-answering systems. The model is available in GGUF format and is suitable for users who prioritize performance and efficiency in their applications."
+ },
+ "latency_ms": 1599.7
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+ "outputs": [
+  "Can whisper-large-v3 perform Korean speech recognition?",
+  "What are the deployment requirements for whisper-large-v3?",
+  "What is the parameter count and context length of whisper-large-v3?"
+ ],
+ "response": {
+  "sub_queries": [
+   "Can whisper-large-v3 perform Korean speech recognition?",
+   "What are the deployment requirements for whisper-large-v3?",
+   "What is the parameter count and context length of whisper-large-v3?"
+  ]
+ },
+ "latency_ms": 1365.5
+}

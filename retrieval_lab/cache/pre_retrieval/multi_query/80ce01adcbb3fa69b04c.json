@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 손글씨 메모 사진을 텍스트로 옮기는 모델이 필요해. 앱 서버에서 돌릴 거라 3B 이하였으면 해.",
+ "outputs": [
+  "한국어 손글씨 메모 사진을 텍스트로 변환하는 모델을 찾고 있어요. 3B 이하의 모델이면 좋겠어요.",
+  "I need a model that converts handwritten Korean memo photos into text. It should be under 3B for running on an app server.",
+  "모델: 손글씨 인식, 언어: 한국어, 파라미터 수: 3B 이하, 용도: 사진 텍스트 변환"
+ ],
+ "response": {
+  "queries": [
+   "한국어 손글씨 메모 사진을 텍스트로 변환하는 모델을 찾고 있어요. 3B 이하의 모델이면 좋겠어요.",
+   "I need a model that converts handwritten Korean memo photos into text. It should be under 3B for running on an app server.",
+   "모델: 손글씨 인식, 언어: 한국어, 파라미터 수: 3B 이하, 용도: 사진 텍스트 변환"
+  ]
+ },
+ "latency_ms": 1508.9
+}

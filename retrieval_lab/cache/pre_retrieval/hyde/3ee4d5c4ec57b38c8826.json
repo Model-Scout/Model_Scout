@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어로 된 문서 사진, 표, 차트를 이해하고 질문에 답하는 비전-언어 모델이 필요해. 14B급까지만 로컬 서버에서 돌릴 거야.",
+ "outputs": [
+  "The Vision-Language Model is designed to understand and interpret documents, images, tables, and charts in Korean. With a parameter count of 14 billion, this model excels in multimodal tasks, allowing it to answer questions based on visual and textual inputs. It supports Korean as its primary language, making it ideal for applications in education, research, and data analysis. The model's strengths lie in its ability to accurately extract information from complex visual data and provide contextually relevant answers, making it a valuable tool for users needing insights from diverse document formats."
+ ],
+ "response": {
+  "document": "The Vision-Language Model is designed to understand and interpret documents, images, tables, and charts in Korean. With a parameter count of 14 billion, this model excels in multimodal tasks, allowing it to answer questions based on visual and textual inputs. It supports Korean as its primary language, making it ideal for applications in education, research, and data analysis. The model's strengths lie in its ability to accurately extract information from complex visual data and provide contextually relevant answers, making it a valuable tool for users needing insights from diverse document formats."
+ },
+ "latency_ms": 1629.7
+}

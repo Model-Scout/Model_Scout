@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "차트와 표가 들어간 한국어 보고서 이미지를 이해하는 모델을 상업 서비스에 쓰려고 해.",
+ "outputs": [
+  "The model is designed for the task of image understanding, specifically focusing on Korean reports that include charts and tables. It supports multiple languages, with a primary focus on Korean, making it ideal for processing and interpreting Korean-language documents. With a parameter count of 1.5 billion and a context length of 512 tokens, this model excels in extracting relevant information from complex visual data. Intended use cases include commercial services that require automated analysis of reports, enhancing productivity and accuracy in data interpretation. Its strengths lie in its ability to accurately recognize and interpret visual elements, providing insights that are crucial for decision-making processes."
+ ],
+ "response": {
+  "document": "The model is designed for the task of image understanding, specifically focusing on Korean reports that include charts and tables. It supports multiple languages, with a primary focus on Korean, making it ideal for processing and interpreting Korean-language documents. With a parameter count of 1.5 billion and a context length of 512 tokens, this model excels in extracting relevant information from complex visual data. Intended use cases include commercial services that require automated analysis of reports, enhancing productivity and accuracy in data interpretation. Its strengths lie in its ability to accurately recognize and interpret visual elements, providing insights that are crucial for decision-making processes."
+ },
+ "latency_ms": 1707.1
+}

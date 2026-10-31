@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+ "outputs": [
+  "RAM 1GB 보드에서 whisper-large-v3로 한국어 음성인식이 가능한가요?",
+  "Is it possible to run Korean speech recognition with whisper-large-v3 on a board with 1GB RAM?",
+  "whisper-large-v3, 한국어, 음성인식, RAM 1GB, 가능성"
+ ],
+ "response": {
+  "queries": [
+   "RAM 1GB 보드에서 whisper-large-v3로 한국어 음성인식이 가능한가요?",
+   "Is it possible to run Korean speech recognition with whisper-large-v3 on a board with 1GB RAM?",
+   "whisper-large-v3, 한국어, 음성인식, RAM 1GB, 가능성"
+  ]
+ },
+ "latency_ms": 1194.4
+}

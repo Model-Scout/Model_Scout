@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 OCR을 24GB GPU 한 장에서 로컬로 돌리려고 해. Qwen2.5-VL 32B가 좋다던데 이걸로 가능할까?",
+ "outputs": [
+  "Qwen2.5-VL 32B is a powerful model designed for Optical Character Recognition (OCR) tasks, particularly optimized for Korean language processing. With a parameter count of 32 billion, it excels in accurately recognizing and interpreting text from images, making it suitable for various applications such as document digitization and automated data entry. The model supports a context length of up to 2048 tokens, allowing it to handle extensive text inputs effectively. Its strengths lie in its high accuracy and efficiency, enabling users to run it locally on a single 24GB GPU without significant performance issues. This makes Qwen2.5-VL 32B an excellent choice for users looking to implement Korean OCR solutions."
+ ],
+ "response": {
+  "document": "Qwen2.5-VL 32B is a powerful model designed for Optical Character Recognition (OCR) tasks, particularly optimized for Korean language processing. With a parameter count of 32 billion, it excels in accurately recognizing and interpreting text from images, making it suitable for various applications such as document digitization and automated data entry. The model supports a context length of up to 2048 tokens, allowing it to handle extensive text inputs effectively. Its strengths lie in its high accuracy and efficiency, enabling users to run it locally on a single 24GB GPU without significant performance issues. This makes Qwen2.5-VL 32B an excellent choice for users looking to implement Korean OCR solutions."
+ },
+ "latency_ms": 1572.6
+}

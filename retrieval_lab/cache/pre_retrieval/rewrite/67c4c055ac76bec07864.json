@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "콜센터 통화 녹음을 실시간에 가깝게 한국어로 받아 적어야 해. 상업 서비스이고 GPU 서버가 있어.",
+ "outputs": [
+  "콜센터 통화 녹음 실시간 한국어 받아쓰기 task: transcription, capability: real-time, domain: commercial service, hardware: GPU server"
+ ],
+ "response": {
+  "query": "콜센터 통화 녹음 실시간 한국어 받아쓰기 task: transcription, capability: real-time, domain: commercial service, hardware: GPU server"
+ },
+ "latency_ms": 1210.9
+}

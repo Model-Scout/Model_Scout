@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "어르신 대상 서비스에서 사진을 보고 한국어로 대화를 이어 가는 모델이 필요해. GPU 16GB 서버 하나로 돌릴 거야.",
+ "outputs": [
+  "어르신을 위한 서비스에서 사진을 보고 한국어로 대화할 수 있는 모델이 필요해요. GPU 16GB 서버에서 사용할 예정입니다.",
+  "I need a model that can continue a conversation in Korean by looking at photos for a service aimed at seniors. I will run it on a server with 16GB GPU.",
+  "모델, 한국어, 사진, 대화, 어르신, GPU 16GB"
+ ],
+ "response": {
+  "queries": [
+   "어르신을 위한 서비스에서 사진을 보고 한국어로 대화할 수 있는 모델이 필요해요. GPU 16GB 서버에서 사용할 예정입니다.",
+   "I need a model that can continue a conversation in Korean by looking at photos for a service aimed at seniors. I will run it on a server with 16GB GPU.",
+   "모델, 한국어, 사진, 대화, 어르신, GPU 16GB"
+  ]
+ },
+ "latency_ms": 1640.0
+}
