@@ -13,6 +13,7 @@ Outputs (data/hypergraph/):
   links.jsonl      entity -> concept, with method, source field, raw value, confidence
   relations.jsonl  entity -> entity edges (model trained_with dataset)
   concepts.jsonl   every concept with its member count
+  duplicates.json  mirror / cross-listed dataset -> canonical id and reason (dataset_dedup.py)
   report.json      coverage per facet and the raw values that did not map
 """
 from __future__ import annotations
@@ -24,6 +25,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from dataset_dedup import duplicate_map
 from taxonomy import label, load_taxonomy, mentions, normalize
 
 DATA_DIR = Path("data")
@@ -31,6 +33,8 @@ OUT_DIR = DATA_DIR / "hypergraph"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"  # 서울 열린데이터광장 + 공공데이터포털 (18)
+KAGGLE_INPUT = DATA_DIR / "kaggle_datasets_stage1.jsonl"  # 19
+PORTAL_SOURCES = {"seoul_open_data", "data_go_kr"}
 LENGTH_INPUT = DATA_DIR / "hf_datasets_length_stats.jsonl"
 NER_INPUT = DATA_DIR / "hf_datasets_ner.jsonl"
 QUOTE_CHARS = 160
@@ -199,7 +203,7 @@ def map_dataset(linker, row, length, ner=None):
     # Free-form Hub tags (no "prefix:") often name a task or domain exactly: "rag", "legal", "medical".
     free_tags = [t for t in row.get("tags") or [] if ":" not in t]
     # Portal keywords are plain words (검색 = "search" in "지하철역 검색"), not ML task tags.
-    tag_facets = ("task", "domain") if row.get("source", "huggingface") == "huggingface" else ("domain",)
+    tag_facets = ("domain",) if row.get("source") in PORTAL_SOURCES else ("task", "domain")
     for tag in free_tags:
         for facet in tag_facets:
             if normalize(facet, tag):
@@ -207,7 +211,7 @@ def map_dataset(linker, row, length, ner=None):
     if ner:
         map_ner(linker, entity_id, ner)
     source = row.get("source", "huggingface")
-    if source != "huggingface":
+    if source in PORTAL_SOURCES:
         # Public portal data is looked up by apps at runtime; titles are Korean compounds
         # (공공자전거, 미세먼지농도) that hold a domain alias without equalling it.
         linker.add(entity_id, "dataset_role", "service", "source", method="source_rule", confidence="medium")
@@ -245,6 +249,7 @@ def map_dataset(linker, row, length, ner=None):
         "readme_status": status, "korean_focus": korean_focus(languages),
         "summary_ko": ner.get("summary_ko") if ner else None,
         "title": (row.get("card_data") or {}).get("pretty_name") if source != "huggingface" else None,
+        "quality_flags": row.get("quality_flags") or [],
         "sample_length": {k: length.get(k) for k in ("text_column", "chars", "tokens_p90_estimate", "config", "split")}
         if length and length.get("status") == "ok" else None,
     }
@@ -274,17 +279,34 @@ def main():
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
     entities = [map_model(linker, row) for path in MODEL_INPUTS for row in read_jsonl(path)]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
-    entities += [map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
-                 for path in (DATASET_INPUT, PUBLIC_INPUT) for row in read_jsonl(path)]
+    hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(PUBLIC_INPUT)
+    duplicates = duplicate_map(hf_rows, public_rows)
+    canonical_rows = [r for r in hf_rows + public_rows if r["dataset_id"] not in duplicates]
+    copies = defaultdict(list)
+    for dataset_id, info in duplicates.items():
+        copies[info["canonical"]].append(dataset_id)
+    by_id = {r["dataset_id"]: r for r in hf_rows + public_rows}
+    for row in canonical_rows:
+        # A portal file and its OpenAPI twin are one dataset offered two ways.
+        for copy in copies.get(row["dataset_id"], []):
+            row["formats"] = sorted(set(row.get("formats") or []) | set(by_id[copy].get("formats") or []))
+    for row in canonical_rows:
+        entity = map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
+        entity["duplicates"] = sorted(copies.get(row["dataset_id"], []))
+        entities.append(entity)
     links = sorted(linker.links.values(), key=lambda l: (l["entity_id"], l["concept_id"]))
 
     known = {e["entity_id"] for e in entities}
     relations = []
-    for row in read_jsonl(DATASET_INPUT):
+    seen_relations = set()
+    for row in hf_rows:
+        # A model citing a mirror is linked to the canonical dataset.
+        target = duplicates.get(row["dataset_id"], {}).get("canonical", row["dataset_id"])
         for model_id in row.get("referenced_by_models") or []:
-            if f"model:{model_id}" in known:
+            if f"model:{model_id}" in known and (model_id, target) not in seen_relations:
+                seen_relations.add((model_id, target))
                 relations.append({"source": f"model:{model_id}", "relation": "trained_with",
-                                  "target": f"dataset:{row['dataset_id']}", "method": "metadata",
+                                  "target": f"dataset:{target}", "method": "metadata",
                                   "fields": ["cardData.datasets"], "confidence": "high"})
 
     members = Counter(link["concept_id"] for link in links)
@@ -300,12 +322,14 @@ def main():
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_jsonl(OUT_DIR / "entities.jsonl", entities)
+    (OUT_DIR / "duplicates.json").write_text(json.dumps(duplicates, ensure_ascii=False, indent=1), encoding="utf-8")
     write_jsonl(OUT_DIR / "links.jsonl", links)
     write_jsonl(OUT_DIR / "relations.jsonl", relations)
     write_jsonl(OUT_DIR / "concepts.jsonl", concepts)
     report = {
         "entities": Counter(e["kind"] for e in entities),
         "links": len(links), "relations": len(relations),
+        "dataset_duplicates_removed": Counter(by_id[d].get("source", "huggingface") for d in duplicates),
         "links_by_method": Counter(l["method"] for l in links),
         "links_by_confidence": Counter(l["confidence"] for l in links),
         "coverage": coverage(entities, links),

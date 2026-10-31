@@ -26,6 +26,7 @@ from pathlib import Path
 DATA_DIR = Path("data")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"
+KAGGLE_INPUT = DATA_DIR / "kaggle_datasets_stage1.jsonl"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 OUT_DIR = DATA_DIR / "dataset_index"
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -173,6 +174,34 @@ def embed(texts, model):
     return vectors
 
 
+def db_vectors(hashes):
+    """Vectors already published to Supabase (20), so a fresh clone without embeddings.npy
+    re-embeds only new text. Best effort: no database configured -> nothing reused."""
+    import numpy as np
+
+    from supabase_db import configured, db_connection, parse_vector
+
+    if not hashes or not configured():
+        return {}
+    try:
+        conn = db_connection()
+    except Exception as error:
+        print(f"[EMBED] Supabase reuse skipped: {type(error).__name__}", flush=True)
+        return {}
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select to_regclass('public.model_scout_dataset_chunks')")
+            if cur.fetchone()[0] is None:
+                return {}
+            cur.execute("select distinct on (text_hash) text_hash, embedding::text from public.model_scout_dataset_chunks "
+                        "where text_hash = any(%s)", (list(hashes),))
+            found = {h: parse_vector(v).astype(np.float16) for h, v in cur.fetchall()}
+    finally:
+        conn.close()
+    print(f"[EMBED] reused {len(found)} vectors from Supabase", flush=True)
+    return found
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--embed", action="store_true", help="call the embedding API for new/changed chunks")
@@ -190,8 +219,10 @@ def main():
         raise SystemExit("run 13_build_hypergraph.py first")
 
     chunks = []
-    for row in read_jsonl(DATASET_INPUT) + read_jsonl(PUBLIC_INPUT):
+    for row in read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT) + read_jsonl(PUBLIC_INPUT):
         entity_id = f"dataset:{row['dataset_id']}"
+        if entity_id not in entities:  # a mirror collapsed into its canonical dataset by 13
+            continue
         chunks.extend(build_chunks(row, entities[entity_id], links_by_entity[entity_id], concepts))
     for chunk in chunks:
         chunk["text_hash"] = text_hash(chunk["text"])
@@ -220,6 +251,7 @@ def main():
         if old["model"] == EMBEDDING_MODEL:
             old_vectors = np.load(vectors_path)
             reuse = {h: old_vectors[i] for i, h in enumerate(old["text_hashes"])}
+    reuse.update(db_vectors({c["text_hash"] for c in chunks} - set(reuse)))
     todo = sorted({c["text_hash"]: c["text"] for c in chunks if c["text_hash"] not in reuse}.items())
     print(f"[EMBED] reuse {len(chunks) - sum(c['text_hash'] not in reuse for c in chunks)} chunks, embedding {len(todo)} unique texts", flush=True)
     if todo:

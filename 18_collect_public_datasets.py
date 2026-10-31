@@ -5,7 +5,7 @@ locally; only the selected datasets cost per-item calls (field schema, license).
 
   seoul_open_data   SearchOpenAPIService (catalog, ~5.9K OpenAPIs) + SearchOpenAPIIOValueService
                     (output fields) + the dataset page for its 공공누리 type (the catalog has none).
-                    City-level APIs only: district (구청) mirrors repeat them.
+                    All ~5.9K APIs; district and translated editions are grouped later, not dropped.
   data_go_kr        목록조회서비스 15077093 (/dataset ~100K files, /open-data-list ~17K APIs) +
                     per-dataset catalog JSON-LD for the 공공누리 license.
 
@@ -91,6 +91,19 @@ def cached(name, fetch, refresh):
     return read_jsonl(path)
 
 
+def cached_items(name, items, item_key, one, refresh, workers):
+    """Per-item lookups cached in <name>.jsonl by "key"; only items not cached yet are fetched,
+    so widening the selection costs just the new items."""
+    path = CATALOG_DIR / f"{name}.jsonl"
+    have = {} if refresh else {r["key"]: r["value"] for r in read_jsonl(path) if "key" in r}
+    missing = [item for item in items if item_key(item) not in have]
+    if missing:
+        with ThreadPoolExecutor(workers) as pool:
+            have.update(zip(map(item_key, missing), pool.map(one, missing)))
+        write_jsonl(path, [{"key": k, "value": v} for k, v in have.items()])
+    return have
+
+
 def kogl_license(text):
     """Portal license text -> a taxonomy alias: 공공누리 type, or the portal's no-restriction grant."""
     match = KOGL_RE.search(text or "")
@@ -138,30 +151,22 @@ def collect_seoul(session, refresh, workers):
         return rows
 
     catalog = cached("seoul_openapi", fetch_catalog, refresh)
-    selected = [r for r in catalog if SEOUL_CITY_HOST in (r.get("REQ_URL") or "").lower()
-                and not SEOUL_DISTRICT_RE.search(r["INF_NM"]) and not SEOUL_SKIP_RE.search(r["INF_NM"])]
+    # Every API is kept; district / 인허가 / translated editions are folded into one series by
+    # dataset_dedup (13), so they stay findable without crowding the ranking.
+    selected = catalog
 
-    def fetch_fields():
-        def one(row):
-            return {"INF_ID": row["INF_ID"], "fields": seoul_page(session, key, "SearchOpenAPIIOValueService", 1, 300,
-                                                                  row["INF_ID"])[1]}
-        with ThreadPoolExecutor(workers) as pool:
-            return list(pool.map(one, selected))
+    def one_fields(row):
+        return seoul_page(session, key, "SearchOpenAPIIOValueService", 1, 300, row["INF_ID"])[1]
 
-    fields = {r["INF_ID"]: r["fields"] for r in cached("seoul_openapi_fields", fetch_fields, refresh)}
+    def one_license(row):
+        try:
+            return kogl_license(session.get(SEOUL_PAGE.format(row["INF_ID"]), timeout=60).text)
+        except requests.RequestException:  # best effort, like the data.go.kr lookup
+            return None
 
-    def fetch_licenses():
-        def one(row):
-            try:
-                response = session.get(SEOUL_PAGE.format(row["INF_ID"]), timeout=60)
-                license_value = kogl_license(response.text)
-            except requests.RequestException:  # best effort, like the data.go.kr lookup
-                license_value = None
-            return {"INF_ID": row["INF_ID"], "license": license_value}
-        with ThreadPoolExecutor(workers) as pool:
-            return list(pool.map(one, selected))
-
-    licenses = {r["INF_ID"]: r["license"] for r in cached("seoul_licenses", fetch_licenses, refresh)}
+    inf_id = lambda row: row["INF_ID"]  # noqa: E731
+    fields = cached_items("seoul_fields_by_id", selected, inf_id, one_fields, refresh, workers)
+    licenses = cached_items("seoul_licenses_by_id", selected, inf_id, one_license, refresh, workers)
     rows = []
     for item in selected:
         outputs = [f for f in fields.get(item["INF_ID"], []) if f.get("PTYPE_NM") != "요청인자"]
@@ -176,7 +181,7 @@ def collect_seoul(session, refresh, workers):
             f"https://data.seoul.go.kr/dataList/{item['INF_ID']}/A/1/datasetView.do",
             WORD_RE.findall(title), ["api"], [licenses[item["INF_ID"]]] if licenses.get(item["INF_ID"]) else [], None,
             {"api_service": item["API_SERVICE_NM"], "field_count": len(outputs)}, readme))
-    print(f"[seoul] catalog {len(catalog)}, city-level {len(selected)}, rows {len(rows)}", flush=True)
+    print(f"[seoul] catalog {len(catalog)}, rows {len(rows)}, licensed {sum(bool(r['licenses']) for r in rows)}", flush=True)
     return rows
 
 
@@ -214,20 +219,16 @@ def collect_data_go_kr(session, refresh, workers):
             members.sort(key=lambda r: -(r.get("view_cnt") or 0))
             picked += [(r, is_api) for r in members[:limit]]
 
-    def fetch_licenses():
-        def one(item):
-            row, is_api = item
-            kind = "openapi" if is_api else "fileData"
-            item_id = row.get("list_id") or row["id"]
-            try:
-                meta = get_json(session, f"https://www.data.go.kr/catalog/{item_id}/{kind}.json")
-            except Exception:  # the license lookup is best effort; unknown stays visible downstream
-                meta = {}
-            return {"id": row["id"], "license": (meta.get("license") or {}).get("name")}
-        with ThreadPoolExecutor(workers) as pool:
-            return list(pool.map(one, picked))
+    def one_license(item):
+        row, is_api = item
+        kind = "openapi" if is_api else "fileData"
+        try:
+            meta = get_json(session, f"https://www.data.go.kr/catalog/{row.get('list_id') or row['id']}/{kind}.json")
+        except Exception:  # the license lookup is best effort; unknown stays visible downstream
+            meta = {}
+        return (meta.get("license") or {}).get("name")
 
-    licenses = {r["id"]: r["license"] for r in cached("data_go_kr_licenses", fetch_licenses, refresh)}
+    licenses = cached_items("data_go_kr_licenses_by_id", picked, lambda item: item[0]["id"], one_license, refresh, workers)
     out, seen = [], set()
     for row, is_api in picked:
         item_id = re.sub(r"[^0-9A-Za-z_-]", "_", str(row.get("list_id") or row["id"]))

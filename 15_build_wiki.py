@@ -27,7 +27,8 @@ HUB_MEMBER_LIMIT = 100
 COOCCURRING_LIMIT = 12
 UNSAFE_RE = re.compile(r'[\\/:*?"<>|#^\[\]]')
 FACET_ORDER = list(load_taxonomy()["facets"])
-SOURCE_LABELS = {"huggingface": "Hugging Face", "seoul_open_data": "서울 열린데이터광장", "data_go_kr": "공공데이터포털"}
+SOURCE_LABELS = {"huggingface": "Hugging Face", "kaggle": "Kaggle", "seoul_open_data": "서울 열린데이터광장",
+                 "data_go_kr": "공공데이터포털"}
 
 
 def read_jsonl(path):
@@ -109,6 +110,8 @@ def render_entity(entity, links, relations, pages, concepts, entities):
         sample = entity["sample_length"]
         body += ["", f"샘플 길이: `{sample['text_column']}` 열 p90 {sample['chars'].get('p90')}자"
                      f" ≈ {sample['tokens_p90_estimate']} 토큰 (viewer statistics, {sample['config']}/{sample['split']})"]
+    if entity.get("duplicates"):
+        body += ["", "## 같은 데이터의 사본·중복 등록", "", *(f"- `{d}`" for d in entity["duplicates"])]
     if relations:
         title = "## 학습 데이터" if entity["kind"] == "model" else "## 이 데이터로 학습한 모델"
         body += ["", title, ""]

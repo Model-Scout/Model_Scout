@@ -79,6 +79,37 @@ def load_dataset_vectors():
     return matrix, owner, names
 
 
+def _supabase_dense_scores(query_vector):
+    from supabase_db import db_connection, vector_literal
+
+    conn = db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select dataset_id, similarity from public.match_model_scout_datasets(%s::halfvec)",
+                        (vector_literal(query_vector),))
+            return dict(cur.fetchall())
+    finally:
+        conn.close()
+
+
+def model_vector(model_id):
+    """Stage 4 vector of a model: local snapshot if present (gitignored), else Supabase."""
+    if all(path.exists() for path in MODEL_INPUTS):
+        return load_model_vectors().get(model_id)
+    from supabase_db import configured, db_connection, parse_vector
+
+    if not configured():
+        return None
+    conn = db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select embedding::text from public.model_scout_models where model_id = %s and active", (model_id,))
+            row = cur.fetchone()
+    finally:
+        conn.close()
+    return parse_vector(row[0]) if row else None
+
+
 @functools.lru_cache(maxsize=1)
 def load_model_vectors():
     vectors = {}
@@ -92,7 +123,13 @@ def load_model_vectors():
 
 
 def dense_scores(query_vector):
-    """Best cosine between the query and any chunk (card or README section) of each dataset."""
+    """Best cosine between the query and any chunk (card or README section) of each dataset.
+
+    Uses the local index when this checkout has it (embeddings.npy is not in git), else the
+    copy published to Supabase by 20_sync_dataset_index.py.
+    """
+    if not (DATASET_INDEX_DIR / "embeddings.npy").exists():
+        return _supabase_dense_scores(query_vector)
     matrix, owner, names = load_dataset_vectors()
     query = np.asarray(query_vector, dtype=np.float32)
     sims = matrix @ (query / (np.linalg.norm(query) + 1e-12))
@@ -191,7 +228,7 @@ def datasets_for_model(model_id, **filters):
     if entity_id not in entities:
         raise KeyError(f"{model_id} is not in the model corpus")
     return rank_datasets(by_entity[entity_id], trained_with=trained_with[entity_id],
-                         query_vector=load_model_vectors().get(model_id), **filters)
+                         query_vector=model_vector(model_id), **filters)
 
 
 if __name__ == "__main__":

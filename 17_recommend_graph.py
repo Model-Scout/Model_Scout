@@ -7,8 +7,15 @@ splits the idea into needs (taxonomy task keys) and writes the final answer from
 retrieved rows. Same input -> same retrieval, which keeps the golden-set evaluation honest.
 Free-form follow-ups ("이 데이터셋 라이선스는?") stay with the tool-calling agent in 10.
 
-    python 17_recommend_graph.py "따릉이 경로 추천 서비스를 만들고 싶어"
+Multi-turn: with --thread, LangGraph's PostgresSaver keeps each conversation in Supabase
+(schema `langgraph`, outside `public` and the Data API). A later turn ("상업용만", "GPU 8GB야")
+revises the previous plan instead of starting over. The plan is a Pydantic model, so an LLM
+answer with an off-taxonomy task or a malformed constraint fails validation, not retrieval.
+
+    python 17_recommend_graph.py "따릉이 경로 추천 서비스를 만들고 싶어" --thread demo
+    python 17_recommend_graph.py "상업용으로만 다시 추천해줘" --thread demo
     python 17_recommend_graph.py "..." --json      # full state instead of the answer
+    python 17_recommend_graph.py "..." --memory    # in-process checkpointer, no database
 """
 from __future__ import annotations
 
@@ -16,12 +23,15 @@ import argparse
 import importlib.util
 import json
 import logging
+import operator
 import os
 import sys
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, TypedDict
+from typing import Annotated, Any, Literal, Optional, TypedDict
 
 from langgraph.graph import END, START, StateGraph
+from pydantic import BaseModel, Field
 
 from hypergraph_search import concepts_from_terms, datasets_for_model, embed_query, load_graph, rank_datasets
 from taxonomy import load_taxonomy, normalize
@@ -40,14 +50,40 @@ PROJECT_DATASETS = 6
 # HF data trains/evaluates models (ranked with the needs' tasks); portal data is what the app serves.
 PROJECT_POOL = 30
 MAX_NEEDS = 4
+# Earlier turns given to the planner and the writer; older ones only cost tokens.
+HISTORY_TURNS = 4
+CHECKPOINT_SCHEMA = "langgraph"
+
+TaskKey = Literal[tuple(load_taxonomy()["facets"]["task"]["values"])]
+
+
+class Need(BaseModel):
+    task: TaskKey
+    purpose_ko: str = Field(description="one Korean sentence on what this model does in the project")
+    model_query: str = Field(description="search query, Korean and English keywords mixed")
+
+
+class Constraints(BaseModel):
+    commercial_only: bool
+    max_parameter_count_billion: Optional[float]
+    min_context_length: Optional[int]
+
+
+class ProjectPlan(BaseModel):
+    summary_ko: str
+    needs: list[Need]
+    constraints: Constraints
+    dataset_terms: list[str]
+    dataset_query: str
 
 
 class State(TypedDict, total=False):
     request: str
-    plan: dict
+    plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
     models: list
     datasets: dict
     answer: str
+    turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
 
 
 def _load_09():
@@ -72,33 +108,18 @@ def hf_tags(task_key):
     return [tag for tag in MODEL_HF_TASKS if normalize("task", tag) == task_key]
 
 
-def plan_schema():
-    nullable = lambda kind: {"type": [kind, "null"]}
-    need = {"type": "object", "additionalProperties": False, "required": ["task", "purpose_ko", "model_query"],
-            "properties": {"task": {"type": "string", "enum": list(load_taxonomy()["facets"]["task"]["values"])},
-                           "purpose_ko": {"type": "string"}, "model_query": {"type": "string"}}}
-    constraints = {"type": "object", "additionalProperties": False,
-                   "required": ["commercial_only", "max_parameter_count_billion", "min_context_length"],
-                   "properties": {"commercial_only": {"type": "boolean"},
-                                  "max_parameter_count_billion": nullable("number"),
-                                  "min_context_length": nullable("integer")}}
-    return {"type": "object", "additionalProperties": False,
-            "required": ["summary_ko", "needs", "constraints", "dataset_terms", "dataset_query"],
-            "properties": {"summary_ko": {"type": "string"}, "needs": {"type": "array", "items": need},
-                           "constraints": constraints, "dataset_terms": {"type": "array", "items": {"type": "string"}},
-                           "dataset_query": {"type": "string"}}}
-
-
 DECOMPOSE_PROMPT = f"""You plan model and data choices for a Korean AI project idea.
 needs: 1-{MAX_NEEDS} distinct model roles the project needs, most important first. task is a taxonomy key.
   purpose_ko: one Korean sentence on what that model does in this project.
   model_query: a search query for that model, Korean and English keywords mixed (e.g. "한국어 문서 임베딩 embedding retrieval").
 constraints: only what the user explicitly said; otherwise false/null. Do not infer limits from the idea itself.
   commercial_only: true only if they mention 상업/수익/서비스 출시/commercial.
-  max_parameter_count_billion: only for a stated GPU/memory limit (24GB GPU ~ 8, 16GB ~ 4), else null.
+  max_parameter_count_billion: only for a stated GPU/memory limit (24GB GPU ~ 8, 16GB ~ 4, 8GB ~ 2), else null.
   min_context_length: only for stated long inputs (긴 문서, 계약서 전체 등), else null.
 dataset_terms: 1-4 short words for the project's data domain and input length, Korean or English (e.g. 교통, 위치, 장문, legal).
-dataset_query: one Korean sentence describing the data the project needs."""
+dataset_query: one Korean sentence describing the data the project needs.
+When PREVIOUS_PLAN is given, the user is refining it: return the whole updated plan, changing only
+what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets the size limit)."""
 
 EXPLAIN_PROMPT = """You are Model Scout. Answer in Korean markdown (headings and bullets, never JSON or code blocks)
 using ONLY the JSON given: the plan, models
@@ -112,13 +133,19 @@ numbers, or licenses, and never call an 'unknown' license commercial. End with o
 
 
 def decompose(state: State) -> State:
-    response = _openai().chat.completions.create(
-        model=LLM_MODEL, temperature=0, max_tokens=800,
-        messages=[{"role": "system", "content": DECOMPOSE_PROMPT}, {"role": "user", "content": state["request"]}],
-        response_format={"type": "json_schema", "json_schema": {"name": "project_plan", "strict": True, "schema": plan_schema()}})
-    plan = json.loads(response.choices[0].message.content)
-    plan["needs"] = plan["needs"][:MAX_NEEDS]
-    return {"plan": plan}
+    user = state["request"]
+    if state.get("plan"):
+        history = "\n".join(f"- {t['request']}" for t in (state.get("turns") or [])[-HISTORY_TURNS:])
+        user = (f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n{json.dumps(state['plan'], ensure_ascii=False)}"
+                f"\n\nNEW_MESSAGE:\n{state['request']}")
+    response = _openai().chat.completions.parse(
+        model=LLM_MODEL, temperature=0, max_tokens=800, response_format=ProjectPlan,
+        messages=[{"role": "system", "content": DECOMPOSE_PROMPT}, {"role": "user", "content": user}])
+    plan = response.choices[0].message.parsed
+    if plan is None:
+        raise ValueError(f"planner refused: {response.choices[0].message.refusal}")
+    plan.needs = plan.needs[:MAX_NEEDS]
+    return {"plan": plan.model_dump()}
 
 
 def _compact_model(row):
@@ -164,7 +191,7 @@ def search_datasets(state: State) -> State:
     terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
     vector = embed_query(plan["dataset_query"])
     pool = rank_datasets(concepts_from_terms(terms), query_vector=vector, commercial_only=commercial, limit=PROJECT_POOL)
-    training = [_compact_dataset(r) for r in pool if r["source"] == "huggingface"][:PROJECT_DATASETS]
+    training = [_compact_dataset(r) for r in pool if r["source"] in ("huggingface", "kaggle")][:PROJECT_DATASETS]
     # Service data is matched on the project's domain alone; model tasks say nothing about it.
     served = rank_datasets(concepts_from_terms(plan["dataset_terms"]), query_vector=vector, commercial_only=commercial,
                            roles=["service"], limit=PROJECT_DATASETS)
@@ -174,14 +201,16 @@ def search_datasets(state: State) -> State:
 
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets")}
+    payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     response = _openai().chat.completions.create(
         model=LLM_MODEL, temperature=0, max_tokens=1800,
         messages=[{"role": "system", "content": EXPLAIN_PROMPT},
                   {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}])
-    return {"answer": response.choices[0].message.content}
+    answer = response.choices[0].message.content
+    return {"answer": answer, "turns": [{"request": state["request"], "answer": answer}]}
 
 
-def build_graph(nodes=None):
+def build_graph(nodes=None, checkpointer=None):
     nodes = nodes or {"decompose": decompose, "search_models": search_models,
                       "search_datasets": search_datasets, "explain": explain}
     graph = StateGraph(State)
@@ -192,29 +221,88 @@ def build_graph(nodes=None):
     graph.add_edge("search_models", "search_datasets")
     graph.add_edge("search_datasets", "explain")
     graph.add_edge("explain", END)
-    return graph.compile()
+    return graph.compile(checkpointer=checkpointer)
 
 
-def run(request: str) -> dict[str, Any]:
+def supabase_conninfo():
+    from dotenv import load_dotenv
+
+    load_dotenv(ROOT / ".env")
+    env = os.environ
+    # Session-mode pooler (port 5432) keeps prepared statements working for PostgresSaver.
+    return (f"host={env['SUPABASE_DB_HOST']} port={env['SUPABASE_DB_PORT']} dbname={env['SUPABASE_DB_NAME']} "
+            f"user={env['SUPABASE_DB_USER']} password={env['SUPABASE_PASSWORD']} sslmode=require "
+            f"options='-c search_path={CHECKPOINT_SCHEMA}'")
+
+
+@contextmanager
+def postgres_checkpointer():
+    """PostgresSaver on Supabase; its tables live in their own schema, created on first use."""
+    import psycopg
+    from langgraph.checkpoint.postgres import PostgresSaver
+
+    conninfo = supabase_conninfo()
+    with psycopg.connect(conninfo, autocommit=True) as conn:
+        conn.execute(f"create schema if not exists {CHECKPOINT_SCHEMA}")
+    with PostgresSaver.from_conn_string(conninfo) as saver:
+        saver.setup()  # idempotent migrations
+        # Conversations are private: no Data API role may read them (the owner role bypasses RLS).
+        with saver.conn.cursor() as cur:
+            cur.execute(f"revoke all on schema {CHECKPOINT_SCHEMA} from anon, authenticated")
+            for table in ("checkpoints", "checkpoint_blobs", "checkpoint_writes", "checkpoint_migrations"):
+                cur.execute(f"alter table {CHECKPOINT_SCHEMA}.{table} enable row level security")
+        yield saver
+
+
+def run(request: str, thread_id: Optional[str] = None, checkpointer=None) -> dict[str, Any]:
+    graph = build_graph(checkpointer=checkpointer)
+    config = {"configurable": {"thread_id": thread_id}} if thread_id else None
     state: dict[str, Any] = {"request": request}
-    for update in build_graph().stream({"request": request}, stream_mode="updates"):
+    for update in graph.stream({"request": request}, config, stream_mode="updates"):
         for node, values in update.items():
             print(f"[graph] {node} done", file=sys.stderr, flush=True)
             state.update(values)
-    return state
+    # With a thread, the checkpoint holds the whole conversation (plan, turns) across runs.
+    return graph.get_state(config).values if config else state
 
 
 def self_check():
     assert set(hf_tags("embedding")) == {"sentence-similarity", "feature-extraction"}, hf_tags("embedding")
     assert hf_tags("generation") == ["text-generation"] and hf_tags("reranking") == []
     assert hf_tags("retrieval") == hf_tags("embedding")
-    assert plan_schema()["properties"]["needs"]["items"]["properties"]["task"]["enum"][0] == "retrieval"
+    from pydantic import ValidationError
+    from langgraph.checkpoint.memory import InMemorySaver
+
+    plan = {"summary_ko": "s", "needs": [{"task": "embedding", "purpose_ko": "p", "model_query": "q"}],
+            "constraints": {"commercial_only": False, "max_parameter_count_billion": None, "min_context_length": None},
+            "dataset_terms": ["교통"], "dataset_query": "q"}
+    assert ProjectPlan.model_validate(plan).needs[0].task == "embedding"
+    try:
+        ProjectPlan.model_validate({**plan, "needs": [{"task": "dancing", "purpose_ko": "p", "model_query": "q"}]})
+        raise AssertionError("off-taxonomy task accepted")
+    except ValidationError:
+        pass
     order = []
     stub = lambda name, out: (lambda state: (order.append(name), out)[1])
     graph = build_graph({"decompose": stub("decompose", {"plan": {}}), "search_models": stub("search_models", {"models": []}),
                          "search_datasets": stub("search_datasets", {"datasets": {}}), "explain": stub("explain", {"answer": "ok"})})
     assert graph.invoke({"request": "x"})["answer"] == "ok"
     assert order == ["decompose", "search_models", "search_datasets", "explain"], order
+    # Multi-turn: turns accumulate per thread, and the second turn's planner sees the first plan.
+    seen = []
+    def planner(state):
+        seen.append(state.get("plan"))
+        return {"plan": {"n": len(seen)}}
+    def writer(state):
+        return {"answer": f"a{len(seen)}", "turns": [{"request": state["request"], "answer": f"a{len(seen)}"}]}
+    noop = lambda state: {}
+    memory = build_graph({"decompose": planner, "search_models": noop, "search_datasets": noop, "explain": writer},
+                         checkpointer=InMemorySaver())
+    config = {"configurable": {"thread_id": "t"}}
+    memory.invoke({"request": "first"}, config)
+    final = memory.invoke({"request": "second"}, config)
+    assert seen == [None, {"n": 1}], seen
+    assert [t["request"] for t in final["turns"]] == ["first", "second"], final["turns"]
     print("17_recommend_graph ok")
 
 
@@ -222,12 +310,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("request", nargs="?")
     parser.add_argument("--json", action="store_true", help="print the full state")
+    parser.add_argument("--thread", help="conversation id; turns persist in Supabase (PostgresSaver)")
+    parser.add_argument("--memory", action="store_true", help="keep --thread in process memory instead")
     parser.add_argument("--self-check", action="store_true")
     args = parser.parse_args()
     if args.self_check or not args.request:
         return self_check()
     logging.getLogger("httpx").setLevel(logging.WARNING)
-    state = run(args.request)
+    if args.thread and not args.memory:
+        with postgres_checkpointer() as saver:
+            state = run(args.request, args.thread, saver)
+    else:
+        from langgraph.checkpoint.memory import InMemorySaver
+
+        state = run(args.request, args.thread, InMemorySaver() if args.thread else None)
     print(json.dumps(state, ensure_ascii=False, indent=2) if args.json else state["answer"])
 
 

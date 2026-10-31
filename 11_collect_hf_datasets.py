@@ -1,7 +1,8 @@
 """Stage D1: collect Hugging Face dataset cards for the dataset wiki.
 
 Two seeds, merged by dataset id:
-  1. language:ko datasets with downloads >= --min-downloads (same floor as models).
+  1. every language:ko dataset (--min-downloads 0). Popularity is not quality: poorly documented
+     cards stay in and are penalized by README status downstream instead.
   2. datasets our Korean models cite in cardData.datasets, kept regardless of downloads
      because they are the trained_with links between models and datasets.
 
@@ -29,7 +30,7 @@ from retrieval_metadata import normalize_language_code
 # =========================================================
 
 STAGE_VERSION = 1
-MIN_DOWNLOADS = 80
+MIN_DOWNLOADS = 0
 API_MAX_RETRIES = 5
 API_RETRY_BASE_SECONDS = 2
 
