@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 코딩 질문에 답하는 로컬 LLM이 필요해. GPU 24GB 한 장이야.",
+ "outputs": [
+  "한국어로 코딩 질문에 답할 수 있는 로컬 LLM을 찾고 있어요. GPU는 24GB입니다.",
+  "I need a local LLM that can answer coding questions in Korean. I have one 24GB GPU.",
+  "local LLM, Korean coding questions, 24GB GPU, model card, task, declared languages"
+ ],
+ "response": {
+  "queries": [
+   "한국어로 코딩 질문에 답할 수 있는 로컬 LLM을 찾고 있어요. GPU는 24GB입니다.",
+   "I need a local LLM that can answer coding questions in Korean. I have one 24GB GPU.",
+   "local LLM, Korean coding questions, 24GB GPU, model card, task, declared languages"
+  ]
+ },
+ "latency_ms": 1237.7
+}

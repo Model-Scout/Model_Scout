@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 음성인식 모델을 상업 서비스에 넣으려고 해. 잡음이 많은 통화 음성도 잘 받아 적어야 해.",
+ "outputs": [
+  "Korean speech recognition model for commercial service, robust to noisy call audio"
+ ],
+ "response": {
+  "query": "Korean speech recognition model for commercial service, robust to noisy call audio"
+ },
+ "latency_ms": 860.4
+}

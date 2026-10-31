@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해.",
+ "outputs": [
+  "1B 이하의 소형 생성형 모델로 한국어 문서 질의응답을 원합니다.",
+  "I am looking for small generative models under 1B for Korean document question answering.",
+  "small generative model, under 1B, Korean, document, question answering"
+ ],
+ "response": {
+  "queries": [
+   "1B 이하의 소형 생성형 모델로 한국어 문서 질의응답을 원합니다.",
+   "I am looking for small generative models under 1B for Korean document question answering.",
+   "small generative model, under 1B, Korean, document, question answering"
+  ]
+ },
+ "latency_ms": 1381.2
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-3.5-32B-Instruct를 RTX 4090(24GB) 한 장에서 돌릴 수 있어? 안 되면 대안도 알려 줘.",
+ "outputs": [
+  "EXAONE-3.5-32B-Instruct is a state-of-the-art language model designed for instruction-following tasks. It supports multiple languages, including Korean, and boasts 32 billion parameters, making it capable of understanding and generating complex text. The model is optimized for performance on high-end GPUs, such as the RTX 4090 with 24GB of VRAM. However, due to its large size, running the full model may exceed the memory limits of a single RTX 4090. As an alternative, users can consider using a quantized version of the model or exploring smaller variants within the EXAONE family that are more memory-efficient while still providing robust performance for instruction-based applications."
+ ],
+ "response": {
+  "document": "EXAONE-3.5-32B-Instruct is a state-of-the-art language model designed for instruction-following tasks. It supports multiple languages, including Korean, and boasts 32 billion parameters, making it capable of understanding and generating complex text. The model is optimized for performance on high-end GPUs, such as the RTX 4090 with 24GB of VRAM. However, due to its large size, running the full model may exceed the memory limits of a single RTX 4090. As an alternative, users can consider using a quantized version of the model or exploring smaller variants within the EXAONE family that are more memory-efficient while still providing robust performance for instruction-based applications."
+ },
+ "latency_ms": 1878.1
+}

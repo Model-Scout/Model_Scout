@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어·영어 상품 설명을 같은 벡터 공간에 넣어 검색하려고 해. 상업 서비스이고 CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "한국어와 영어 상품 설명을 동일한 벡터 공간에서 검색할 수 있는 모델을 찾고 있어요. 상업적 서비스로 CPU 서버에서 사용할 예정입니다.",
+  "I'm looking for a model that can search Korean and English product descriptions in the same vector space. It's for a commercial service and will run on a CPU server.",
+  "Korean English product description search, same vector space, commercial service, CPU server"
+ ],
+ "response": {
+  "queries": [
+   "한국어와 영어 상품 설명을 동일한 벡터 공간에서 검색할 수 있는 모델을 찾고 있어요. 상업적 서비스로 CPU 서버에서 사용할 예정입니다.",
+   "I'm looking for a model that can search Korean and English product descriptions in the same vector space. It's for a commercial service and will run on a CPU server.",
+   "Korean English product description search, same vector space, commercial service, CPU server"
+  ]
+ },
+ "latency_ms": 1442.4
+}

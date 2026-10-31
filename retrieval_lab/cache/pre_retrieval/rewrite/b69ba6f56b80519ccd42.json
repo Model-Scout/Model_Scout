@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스의 감성을 긍정·부정·중립으로 분류하려고 해. 상업 서비스야.",
+ "outputs": [
+  "Sentiment classification of Korean financial news into positive, negative, neutral for commercial service."
+ ],
+ "response": {
+  "query": "Sentiment classification of Korean financial news into positive, negative, neutral for commercial service."
+ },
+ "latency_ms": 842.3
+}

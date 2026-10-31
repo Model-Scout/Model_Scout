@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KR-FinBert-SC처럼 한국어 금융 감성을 분류하는데, 라이선스가 명시돼 상업적으로 쓸 수 있는 모델이 필요해.",
+ "outputs": [
+  "KR-FinBert-Commercial is a state-of-the-art model designed for sentiment classification in the financial domain, specifically tailored for the Korean language. With 110 million parameters, this model excels in understanding nuanced financial sentiments expressed in Korean texts. It is licensed under the MIT License, allowing for commercial use, making it ideal for businesses looking to analyze market sentiments or customer feedback. The model supports a context length of 512 tokens and is available in GGUF format. Its strengths lie in its ability to accurately classify sentiments related to financial news, reports, and social media, providing valuable insights for financial analysts and decision-makers."
+ ],
+ "response": {
+  "document": "KR-FinBert-Commercial is a state-of-the-art model designed for sentiment classification in the financial domain, specifically tailored for the Korean language. With 110 million parameters, this model excels in understanding nuanced financial sentiments expressed in Korean texts. It is licensed under the MIT License, allowing for commercial use, making it ideal for businesses looking to analyze market sentiments or customer feedback. The model supports a context length of 512 tokens and is available in GGUF format. Its strengths lie in its ability to accurately classify sentiments related to financial news, reports, and social media, providing valuable insights for financial analysts and decision-makers."
+ },
+ "latency_ms": 1804.9
+}

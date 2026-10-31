@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "K-DTCBench 같은 한국어 문서·표·차트 벤치마크 점수가 있는 비전 언어 모델이 필요해.",
+ "outputs": [
+  "Find vision-language models that have benchmarks related to K-DTCBench.",
+  "Search for vision-language models that support Korean language.",
+  "Look for vision-language models that provide document, table, or chart capabilities."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find vision-language models that have benchmarks related to K-DTCBench.",
+   "Search for vision-language models that support Korean language.",
+   "Look for vision-language models that provide document, table, or chart capabilities."
+  ]
+ },
+ "latency_ms": 1995.1
+}

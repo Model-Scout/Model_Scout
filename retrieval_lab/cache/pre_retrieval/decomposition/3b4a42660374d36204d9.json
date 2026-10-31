@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스의 감성을 긍정·부정·중립으로 분류하려고 해. 상업 서비스야.",
+ "outputs": [
+  "감성 분류 모델",
+  "금융 뉴스 도메인",
+  "상업 서비스에 적합한 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "감성 분류 모델",
+   "금융 뉴스 도메인",
+   "상업 서비스에 적합한 모델"
+  ]
+ },
+ "latency_ms": 1089.4
+}

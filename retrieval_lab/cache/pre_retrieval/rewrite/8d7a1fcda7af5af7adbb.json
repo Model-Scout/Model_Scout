@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KMMLU 점수가 공개된 한국어 LLM을 비교하고 싶어.",
+ "outputs": [
+  "Compare Korean LLMs with KMMLU benchmark scores."
+ ],
+ "response": {
+  "query": "Compare Korean LLMs with KMMLU benchmark scores."
+ },
+ "latency_ms": 2145.1
+}

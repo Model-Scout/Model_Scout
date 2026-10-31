@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어·영어·중국어·일본어를 서로 번역하는 다국어 번역 모델 하나로 해결하고 싶어. GPU 24GB 서버 한 장이야.",
+ "outputs": [
+  "다국어 번역 모델을 찾고 싶어요. 한국어, 영어, 중국어, 일본어를 지원하고 GPU 24GB 서버에서 사용할 수 있는 모델이 필요해요.",
+  "I want to find a multilingual translation model that can handle Korean, English, Chinese, and Japanese, suitable for a GPU server with 24GB.",
+  "다국어 번역, 한국어, 영어, 중국어, 일본어, GPU 24GB, 모델"
+ ],
+ "response": {
+  "queries": [
+   "다국어 번역 모델을 찾고 싶어요. 한국어, 영어, 중국어, 일본어를 지원하고 GPU 24GB 서버에서 사용할 수 있는 모델이 필요해요.",
+   "I want to find a multilingual translation model that can handle Korean, English, Chinese, and Japanese, suitable for a GPU server with 24GB.",
+   "다국어 번역, 한국어, 영어, 중국어, 일본어, GPU 24GB, 모델"
+  ]
+ },
+ "latency_ms": 1573.0
+}

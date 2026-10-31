@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3를 쓰다가 GPU 없는 서버로 옮겨야 해. CPU에서 돌아갈 더 가벼운 대안이 필요해.",
+ "outputs": [
+  "whisper-large-v3 대신 사용할 수 있는 CPU에서 실행 가능한 더 가벼운 모델을 추천해 주세요.",
+  "I need a lighter alternative to whisper-large-v3 that can run on a CPU server.",
+  "lighter model for CPU, alternative to whisper-large-v3, inference on CPU"
+ ],
+ "response": {
+  "queries": [
+   "whisper-large-v3 대신 사용할 수 있는 CPU에서 실행 가능한 더 가벼운 모델을 추천해 주세요.",
+   "I need a lighter alternative to whisper-large-v3 that can run on a CPU server.",
+   "lighter model for CPU, alternative to whisper-large-v3, inference on CPU"
+  ]
+ },
+ "latency_ms": 1231.0
+}

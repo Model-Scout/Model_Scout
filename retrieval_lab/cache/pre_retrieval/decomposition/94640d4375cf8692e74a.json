@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ko-sroberta-multitask를 쓰는데 긴 문단이 잘려. 이것보다 입력을 길게 받는 한국어 임베딩이 필요해.",
+ "outputs": [
+  "Find models that provide longer context lengths for Korean embeddings.",
+  "Search for Korean-capable models suitable for multitask learning."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that provide longer context lengths for Korean embeddings.",
+   "Search for Korean-capable models suitable for multitask learning."
+  ]
+ },
+ "latency_ms": 1000.7
+}

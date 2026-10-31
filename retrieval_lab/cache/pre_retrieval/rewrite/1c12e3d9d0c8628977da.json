@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+ "outputs": [
+  "Korean summarization model with ROUGE score"
+ ],
+ "response": {
+  "query": "Korean summarization model with ROUGE score"
+ },
+ "latency_ms": 1379.5
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLEURS나 Common Voice 한국어 WER가 README에 나온 음성인식 모델을 비교하고 싶어.",
+ "outputs": [
+  "This model is designed for automatic speech recognition (ASR) tasks, specifically optimized for the Korean language. It has been trained on diverse datasets, including FLEURS and Common Voice, to enhance its performance in real-world applications. With a parameter count of 150 million and a context length of 512 tokens, it excels in recognizing spoken Korean across various accents and dialects. The model is available in GGUF format and is licensed under the MIT license, making it suitable for both commercial and research purposes. Its strengths lie in its high accuracy and low word error rate (WER), making it an ideal choice for developers looking to implement robust speech recognition systems in applications such as virtual assistants, transcription services, and language learning tools."
+ ],
+ "response": {
+  "document": "This model is designed for automatic speech recognition (ASR) tasks, specifically optimized for the Korean language. It has been trained on diverse datasets, including FLEURS and Common Voice, to enhance its performance in real-world applications. With a parameter count of 150 million and a context length of 512 tokens, it excels in recognizing spoken Korean across various accents and dialects. The model is available in GGUF format and is licensed under the MIT license, making it suitable for both commercial and research purposes. Its strengths lie in its high accuracy and low word error rate (WER), making it an ideal choice for developers looking to implement robust speech recognition systems in applications such as virtual assistants, transcription services, and language learning tools."
+ },
+ "latency_ms": 3684.5
+}

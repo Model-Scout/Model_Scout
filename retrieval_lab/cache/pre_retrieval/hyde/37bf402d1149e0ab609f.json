@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "multilingual-e5-large가 서버에 무거워. 한국어 검색 성능은 비슷하고 더 작은 임베딩 모델이 필요해.",
+ "outputs": [
+  "The Multilingual E5 Small model is designed for efficient embedding generation across multiple languages, including Korean. With a parameter count of 110 million, it offers a lightweight alternative to larger models like multilingual-e5-large, making it suitable for deployment in resource-constrained environments. This model excels in tasks such as semantic search and text classification, providing competitive performance in Korean language tasks. Its smaller size ensures faster inference times while maintaining high accuracy, making it ideal for applications in chatbots, recommendation systems, and content retrieval. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The Multilingual E5 Small model is designed for efficient embedding generation across multiple languages, including Korean. With a parameter count of 110 million, it offers a lightweight alternative to larger models like multilingual-e5-large, making it suitable for deployment in resource-constrained environments. This model excels in tasks such as semantic search and text classification, providing competitive performance in Korean language tasks. Its smaller size ensures faster inference times while maintaining high accuracy, making it ideal for applications in chatbots, recommendation systems, and content retrieval. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1721.0
+}

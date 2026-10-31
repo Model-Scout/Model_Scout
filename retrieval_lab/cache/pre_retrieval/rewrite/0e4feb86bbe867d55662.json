@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 영수증이나 문서 사진에서 글자를 읽고 내용을 정리하는 비전 언어 모델이 필요해. GPU 24GB 한 장에서 돌릴 거야.",
+ "outputs": [
+  "Vision language model for reading and summarizing text from Korean receipts or documents, capable of running on a single GPU with 24GB memory."
+ ],
+ "response": {
+  "query": "Vision language model for reading and summarizing text from Korean receipts or documents, capable of running on a single GPU with 24GB memory."
+ },
+ "latency_ms": 1020.5
+}

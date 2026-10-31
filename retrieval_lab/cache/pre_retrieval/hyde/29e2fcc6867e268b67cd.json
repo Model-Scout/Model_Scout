@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLORES-200 기준 한국어 번역 BLEU나 chrF 점수가 공개된 번역 모델이 필요해.",
+ "outputs": [
+  "The model is designed for high-quality machine translation tasks, specifically targeting Korean as one of its primary languages. It boasts a parameter count of 1.5 billion and supports a context length of 512 tokens. This model excels in translating various text types, making it suitable for applications in localization, content creation, and academic research. Its performance has been benchmarked against the FLORES-200 dataset, achieving impressive BLEU and chrF scores, indicating its effectiveness in producing fluent and accurate translations. The model is available in GGUF format and is licensed under the MIT license, ensuring broad usability for developers and researchers alike."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality machine translation tasks, specifically targeting Korean as one of its primary languages. It boasts a parameter count of 1.5 billion and supports a context length of 512 tokens. This model excels in translating various text types, making it suitable for applications in localization, content creation, and academic research. Its performance has been benchmarked against the FLORES-200 dataset, achieving impressive BLEU and chrF scores, indicating its effectiveness in producing fluent and accurate translations. The model is available in GGUF format and is licensed under the MIT license, ensuring broad usability for developers and researchers alike."
+ },
+ "latency_ms": 2654.9
+}

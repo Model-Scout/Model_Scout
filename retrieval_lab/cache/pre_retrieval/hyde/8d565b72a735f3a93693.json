@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Qwen2.5-72B-Instruct를 RTX 4060(8GB) 한 장에서 한국어 챗봇으로 돌리고 싶어. 이걸로 가능할까?",
+ "outputs": [
+  "Qwen2.5-72B-Instruct is a state-of-the-art language model designed for conversational AI tasks, particularly in generating human-like responses in various languages, including Korean. With 72 billion parameters, it excels in understanding context and providing coherent replies, making it suitable for chatbot applications. The model supports a context length of up to 2048 tokens, allowing for engaging and contextually relevant conversations. Its strengths lie in its ability to handle nuanced dialogues and maintain conversational flow. While it is optimized for performance, running it on an RTX 4060 with 8GB of VRAM may require careful management of memory usage, potentially limiting the complexity of interactions."
+ ],
+ "response": {
+  "document": "Qwen2.5-72B-Instruct is a state-of-the-art language model designed for conversational AI tasks, particularly in generating human-like responses in various languages, including Korean. With 72 billion parameters, it excels in understanding context and providing coherent replies, making it suitable for chatbot applications. The model supports a context length of up to 2048 tokens, allowing for engaging and contextually relevant conversations. Its strengths lie in its ability to handle nuanced dialogues and maintain conversational flow. While it is optimized for performance, running it on an RTX 4060 with 8GB of VRAM may require careful management of memory usage, potentially limiting the complexity of interactions."
+ },
+ "latency_ms": 2449.4
+}

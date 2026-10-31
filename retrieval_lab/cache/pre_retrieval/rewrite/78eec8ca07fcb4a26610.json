@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLORES-200 기준 한국어 번역 BLEU나 chrF 점수가 공개된 번역 모델이 필요해.",
+ "outputs": [
+  "translation model with FLORES-200 benchmark scores for Korean translation in BLEU or chrF metric"
+ ],
+ "response": {
+  "query": "translation model with FLORES-200 benchmark scores for Korean translation in BLEU or chrF metric"
+ },
+ "latency_ms": 1317.5
+}

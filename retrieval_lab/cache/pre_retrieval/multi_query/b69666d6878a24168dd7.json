@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "multilingual-e5-large가 서버에 무거워. 한국어 검색 성능은 비슷하고 더 작은 임베딩 모델이 필요해.",
+ "outputs": [
+  "더 작은 임베딩 모델을 찾고 있어요. 한국어 검색 성능이 비슷한 모델이 필요해요.",
+  "I'm looking for a smaller embedding model with similar Korean search performance as multilingual-e5-large.",
+  "Korean search performance, smaller embedding model, multilingual-e5-large, model comparison"
+ ],
+ "response": {
+  "queries": [
+   "더 작은 임베딩 모델을 찾고 있어요. 한국어 검색 성능이 비슷한 모델이 필요해요.",
+   "I'm looking for a smaller embedding model with similar Korean search performance as multilingual-e5-large.",
+   "Korean search performance, smaller embedding model, multilingual-e5-large, model comparison"
+  ]
+ },
+ "latency_ms": 1310.1
+}

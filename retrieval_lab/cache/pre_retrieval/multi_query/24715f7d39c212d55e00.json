@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "aya-vision-8b가 비상업 라이선스야. 비슷한 크기에 상업적으로 쓸 수 있는 한국어 비전 언어 모델이 필요해.",
+ "outputs": [
+  "aya-vision-8b의 비상업적 라이센스와 유사한 크기의 상업적 사용이 가능한 한국어 비전 언어 모델을 찾고 있습니다.",
+  "I need a commercially usable Korean vision language model similar in size to aya-vision-8b, which has a non-commercial license.",
+  "commercial license, Korean vision language model, similar size to aya-vision-8b"
+ ],
+ "response": {
+  "queries": [
+   "aya-vision-8b의 비상업적 라이센스와 유사한 크기의 상업적 사용이 가능한 한국어 비전 언어 모델을 찾고 있습니다.",
+   "I need a commercially usable Korean vision language model similar in size to aya-vision-8b, which has a non-commercial license.",
+   "commercial license, Korean vision language model, similar size to aya-vision-8b"
+  ]
+ },
+ "latency_ms": 1549.2
+}

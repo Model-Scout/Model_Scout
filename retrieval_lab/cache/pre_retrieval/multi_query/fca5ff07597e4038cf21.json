@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RTX 3060(12GB) 한 장에서 Ollama로 돌릴 한국어 멀티턴 대화용 LLM이 필요해. FP16은 너무 느려서 int4로 양자화해 빠르게 돌리고 싶어.",
+ "outputs": [
+  "RTX 3060(12GB)에서 Ollama로 사용할 수 있는 한국어 멀티턴 대화 LLM을 찾고 싶어요. int4 양자화로 빠르게 실행할 수 있는 모델이 필요해요.",
+  "I need a Korean multi-turn dialogue LLM that can run on an RTX 3060(12GB) using Ollama. I want it to be quantized to int4 for faster performance, as FP16 is too slow.",
+  "RTX 3060(12GB), Ollama, 한국어, 멀티턴 대화, LLM, int4 양자화, 빠른 실행"
+ ],
+ "response": {
+  "queries": [
+   "RTX 3060(12GB)에서 Ollama로 사용할 수 있는 한국어 멀티턴 대화 LLM을 찾고 싶어요. int4 양자화로 빠르게 실행할 수 있는 모델이 필요해요.",
+   "I need a Korean multi-turn dialogue LLM that can run on an RTX 3060(12GB) using Ollama. I want it to be quantized to int4 for faster performance, as FP16 is too slow.",
+   "RTX 3060(12GB), Ollama, 한국어, 멀티턴 대화, LLM, int4 양자화, 빠른 실행"
+  ]
+ },
+ "latency_ms": 1674.5
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 문서 기반 한국어 RAG 답변 생성 모델을 GPU 8GB 노트북에서 돌리려고 해.",
+ "outputs": [
+  "The model is designed for Retrieval-Augmented Generation (RAG) tasks, specifically tailored for generating responses based on internal documents in Korean. It supports the Korean language and is optimized for deployment on devices with 8GB of GPU memory, making it accessible for personal or small-scale use. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model excels in providing contextually relevant answers by retrieving information from a specified document set, making it ideal for corporate environments where accurate and timely information retrieval is crucial. Its strengths include high accuracy in understanding Korean nuances and the ability to generate coherent and contextually appropriate responses."
+ ],
+ "response": {
+  "document": "The model is designed for Retrieval-Augmented Generation (RAG) tasks, specifically tailored for generating responses based on internal documents in Korean. It supports the Korean language and is optimized for deployment on devices with 8GB of GPU memory, making it accessible for personal or small-scale use. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model excels in providing contextually relevant answers by retrieving information from a specified document set, making it ideal for corporate environments where accurate and timely information retrieval is crucial. Its strengths include high accuracy in understanding Korean nuances and the ability to generate coherent and contextually appropriate responses."
+ },
+ "latency_ms": 1818.5
+}

@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 돌릴 수 있어?",
+ "outputs": [
+  "Midm-2.0-Base-Instruct deployment on RTX 3060",
+  "Midm-2.0-Base-Instruct parameter count and context length"
+ ],
+ "response": {
+  "sub_queries": [
+   "Midm-2.0-Base-Instruct deployment on RTX 3060",
+   "Midm-2.0-Base-Instruct parameter count and context length"
+  ]
+ },
+ "latency_ms": 1080.8
+}

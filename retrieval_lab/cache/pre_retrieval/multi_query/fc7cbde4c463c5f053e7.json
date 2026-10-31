@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "M1 이상 맥(RAM 16GB)에서 오프라인으로 한국어 회의록을 요약하고 교정할 LLM이 필요해. Ollama 없이 통합 메모리에서 바로 돌아가면 좋겠어.",
+ "outputs": [
+  "M1 이상 맥에서 오프라인으로 한국어 회의록 요약 및 교정 가능한 LLM을 찾고 있습니다.",
+  "I need an LLM that can summarize and correct Korean meeting notes offline on an M1 Mac with 16GB RAM, preferably running directly from integrated memory without Ollama.",
+  "M1 Mac, 16GB RAM, offline, Korean meeting notes, summarization, correction, LLM, integrated memory"
+ ],
+ "response": {
+  "queries": [
+   "M1 이상 맥에서 오프라인으로 한국어 회의록 요약 및 교정 가능한 LLM을 찾고 있습니다.",
+   "I need an LLM that can summarize and correct Korean meeting notes offline on an M1 Mac with 16GB RAM, preferably running directly from integrated memory without Ollama.",
+   "M1 Mac, 16GB RAM, offline, Korean meeting notes, summarization, correction, LLM, integrated memory"
+  ]
+ },
+ "latency_ms": 1311.9
+}

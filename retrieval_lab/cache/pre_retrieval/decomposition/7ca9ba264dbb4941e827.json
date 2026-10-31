@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 개인 PC의 Docker에서만 돌리려고 해. 7.8B 모델은 답변에 2분 넘게 걸려서 더 작고 빠른 한국어 모델이 필요해. 학습용 프로젝트라 라이선스는 상관없어.",
+ "outputs": [
+  "RAG 모델 한국어 문서 기반",
+  "작고 빠른 한국어 모델",
+  "Docker에서 실행 가능한 모델",
+  "라이선스에 구애받지 않는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "RAG 모델 한국어 문서 기반",
+   "작고 빠른 한국어 모델",
+   "Docker에서 실행 가능한 모델",
+   "라이선스에 구애받지 않는 모델"
+  ]
+ },
+ "latency_ms": 1113.6
+}

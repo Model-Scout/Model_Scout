@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커를 CPU에서 돌리려고 해. 300M 이하의 가벼운 모델이면 좋겠어.",
+ "outputs": [
+  "한국어 RAG 리랭커를 CPU에서 사용할 수 있는 300M 이하의 경량 모델을 찾고 있어요.",
+  "I'm looking for a lightweight Korean RAG re-ranker that can run on CPU and has less than 300M parameters.",
+  "Korean RAG re-ranker, CPU, lightweight model, under 300M parameters"
+ ],
+ "response": {
+  "queries": [
+   "한국어 RAG 리랭커를 CPU에서 사용할 수 있는 300M 이하의 경량 모델을 찾고 있어요.",
+   "I'm looking for a lightweight Korean RAG re-ranker that can run on CPU and has less than 300M parameters.",
+   "Korean RAG re-ranker, CPU, lightweight model, under 300M parameters"
+  ]
+ },
+ "latency_ms": 1450.4
+}

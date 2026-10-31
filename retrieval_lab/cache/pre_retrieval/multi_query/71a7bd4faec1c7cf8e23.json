@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KR-FinBert-SC처럼 한국어 금융 감성을 분류하는데, 라이선스가 명시돼 상업적으로 쓸 수 있는 모델이 필요해.",
+ "outputs": [
+  "KR-FinBert-SC와 유사하게 한국어 금융 감성을 분류할 수 있는 상업적 사용이 가능한 라이선스 모델을 찾고 있습니다.",
+  "I need a model that can classify Korean financial sentiment like KR-FinBert-SC and has a license for commercial use.",
+  "Korean financial sentiment classification, commercial license, model like KR-FinBert-SC"
+ ],
+ "response": {
+  "queries": [
+   "KR-FinBert-SC와 유사하게 한국어 금융 감성을 분류할 수 있는 상업적 사용이 가능한 라이선스 모델을 찾고 있습니다.",
+   "I need a model that can classify Korean financial sentiment like KR-FinBert-SC and has a license for commercial use.",
+   "Korean financial sentiment classification, commercial license, model like KR-FinBert-SC"
+  ]
+ },
+ "latency_ms": 1463.9
+}

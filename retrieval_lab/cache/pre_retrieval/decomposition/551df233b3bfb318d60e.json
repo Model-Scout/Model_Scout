@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 위키 문서에서 질문의 답을 찾는 KorQuAD 수준의 기계독해 모델이 필요해. 정확도가 중요해.",
+ "outputs": [
+  "기계독해 모델",
+  "KorQuAD 수준의 정확도"
+ ],
+ "response": {
+  "sub_queries": [
+   "기계독해 모델",
+   "KorQuAD 수준의 정확도"
+  ]
+ },
+ "latency_ms": 1661.1
+}

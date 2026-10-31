@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DeepSeek-V3를 24GB GPU 한 장에서 한국어 상담용으로 돌리려고 해. 가능할까?",
+ "outputs": [
+  "DeepSeek-V3 24GB GPU 한국어 상담 task capability"
+ ],
+ "response": {
+  "query": "DeepSeek-V3 24GB GPU 한국어 상담 task capability"
+ },
+ "latency_ms": 1037.8
+}

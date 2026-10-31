@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RTX 3060(12GB) 한 장에서 Ollama로 돌릴 한국어 멀티턴 대화용 LLM이 필요해. FP16은 너무 느려서 int4로 양자화해 빠르게 돌리고 싶어.",
+ "outputs": [
+  "The model is a Korean-capable multi-turn dialogue LLM designed for efficient performance on consumer-grade GPUs like the RTX 3060 (12GB). It supports Korean as its primary language and is optimized for fast inference through INT4 quantization, making it suitable for real-time applications. With a parameter count of 6 billion, it strikes a balance between size and performance, allowing for engaging and contextually aware conversations. Intended use cases include chatbots, virtual assistants, and interactive storytelling. The model excels in maintaining context over multiple turns, providing coherent and relevant responses, making it ideal for developers looking to implement conversational AI in Korean."
+ ],
+ "response": {
+  "document": "The model is a Korean-capable multi-turn dialogue LLM designed for efficient performance on consumer-grade GPUs like the RTX 3060 (12GB). It supports Korean as its primary language and is optimized for fast inference through INT4 quantization, making it suitable for real-time applications. With a parameter count of 6 billion, it strikes a balance between size and performance, allowing for engaging and contextually aware conversations. Intended use cases include chatbots, virtual assistants, and interactive storytelling. The model excels in maintaining context over multiple turns, providing coherent and relevant responses, making it ideal for developers looking to implement conversational AI in Korean."
+ },
+ "latency_ms": 1934.2
+}

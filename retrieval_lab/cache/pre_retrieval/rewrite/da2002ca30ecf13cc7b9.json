@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorQuAD에서 EM·F1 점수가 공개된 한국어 기계독해 모델이 필요해. 점수를 보고 고르고 싶어.",
+ "outputs": [
+  "Korean machine reading comprehension model with EM and F1 scores in KorQuAD benchmark."
+ ],
+ "response": {
+  "query": "Korean machine reading comprehension model with EM and F1 scores in KorQuAD benchmark."
+ },
+ "latency_ms": 1838.7
+}

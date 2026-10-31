@@ -76,6 +76,42 @@
         "queries": 24,
         "ran_at": "2026-10-31 15:56"
       }
+    },
+    "benchmark_lookup": {
+      "dense_weight": 0.5,
+      "use_rewrite": false,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "use_name_lookup": false,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.5,
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.7326136826136826,
+        "baseline": 0.7326136826136826,
+        "queries": 18,
+        "ran_at": "2026-10-31 02:34"
+      }
+    },
+    "semantic_constraint": {
+      "dense_weight": 0.5,
+      "use_rewrite": false,
+      "use_decomposition": false,
+      "use_multi_query": false,
+      "use_hyde": false,
+      "use_name_lookup": false,
+      "top_k": 30,
+      "rrf_k": 60,
+      "sparse_weight": 0.5,
+      "evidence": {
+        "metric": "recall@10",
+        "value": 0.6519305074010957,
+        "baseline": 0.6519305074010957,
+        "queries": 50,
+        "ran_at": "2026-10-31 16:13"
+      }
     }
   }
 }

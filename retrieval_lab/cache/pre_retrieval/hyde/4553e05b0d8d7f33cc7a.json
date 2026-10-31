@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "유저 계정과 미출시 콘텐츠가 담긴 한국어 게임 버그 리포트를 QA 담당자 노트북에서 분류·정리할 로컬 LLM이 필요해. 외부 API로 보낼 수 없고, Q4 양자화 기준 7~8B급이 상한이야. 회사 업무라 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "The model is a local LLM designed for classifying and organizing Korean game bug reports containing user accounts and unreleased content. It supports Korean as its primary language and is optimized for tasks related to quality assurance in gaming. With a parameter count of 7-8 billion, it strikes a balance between performance and efficiency, making it suitable for deployment on a QA manager's laptop without reliance on external APIs. The model is quantized according to Q4 standards, ensuring reduced memory usage while maintaining accuracy. Intended use cases include bug report management, content validation, and user feedback analysis, making it a valuable tool for game development teams."
+ ],
+ "response": {
+  "document": "The model is a local LLM designed for classifying and organizing Korean game bug reports containing user accounts and unreleased content. It supports Korean as its primary language and is optimized for tasks related to quality assurance in gaming. With a parameter count of 7-8 billion, it strikes a balance between performance and efficiency, making it suitable for deployment on a QA manager's laptop without reliance on external APIs. The model is quantized according to Q4 standards, ensuring reduced memory usage while maintaining accuracy. Intended use cases include bug report management, content validation, and user feedback analysis, making it a valuable tool for game development teams."
+ },
+ "latency_ms": 1627.2
+}

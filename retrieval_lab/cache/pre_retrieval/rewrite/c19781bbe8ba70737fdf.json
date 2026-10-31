@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 사내 서버에서만 돌리려고 해. 7.8B 모델은 너무 느려서 더 작고 빠른 한국어 모델이 필요하고, 유료 서비스에 넣을 거라 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "RAG Korean model commercial use case smaller faster than 7.8B"
+ ],
+ "response": {
+  "query": "RAG Korean model commercial use case smaller faster than 7.8B"
+ },
+ "latency_ms": 1809.3
+}

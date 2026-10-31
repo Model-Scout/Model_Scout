@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해.",
+ "outputs": [
+  "Find small generative models with parameter count under 1B for Korean document question answering."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find small generative models with parameter count under 1B for Korean document question answering."
+  ]
+ },
+ "latency_ms": 901.4
+}

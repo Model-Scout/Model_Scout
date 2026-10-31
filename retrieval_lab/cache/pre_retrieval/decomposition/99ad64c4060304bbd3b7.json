@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Qwen2.5-72B-Instruct를 RTX 4060(8GB) 한 장에서 한국어 챗봇으로 돌리고 싶어. 이걸로 가능할까?",
+ "outputs": [
+  "Qwen2.5-72B-Instruct 한국어 챗봇으로 사용 가능성",
+  "Qwen2.5-72B-Instruct RTX 4060(8GB)에서 실행 가능성",
+  "Qwen2.5-72B-Instruct의 파라미터 수 및 컨텍스트 길이"
+ ],
+ "response": {
+  "sub_queries": [
+   "Qwen2.5-72B-Instruct 한국어 챗봇으로 사용 가능성",
+   "Qwen2.5-72B-Instruct RTX 4060(8GB)에서 실행 가능성",
+   "Qwen2.5-72B-Instruct의 파라미터 수 및 컨텍스트 길이"
+  ]
+ },
+ "latency_ms": 1403.2
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델이 필요해. nDCG 수치를 보고 비교할 거야.",
+ "outputs": [
+  "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델과 nDCG 수치를 알고 싶어.",
+  "I need an embedding model confirmed in the MIRACL Korean search benchmark, and I will compare the nDCG scores.",
+  "MIRACL, 한국어 검색, 임베딩 모델, nDCG, 성능, 벤치마크"
+ ],
+ "response": {
+  "queries": [
+   "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델과 nDCG 수치를 알고 싶어.",
+   "I need an embedding model confirmed in the MIRACL Korean search benchmark, and I will compare the nDCG scores.",
+   "MIRACL, 한국어 검색, 임베딩 모델, nDCG, 성능, 벤치마크"
+  ]
+ },
+ "latency_ms": 1930.4
+}

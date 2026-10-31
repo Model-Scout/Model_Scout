@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어·영어 상품 설명을 같은 벡터 공간에 넣어 검색하려고 해. 상업 서비스이고 CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "search for models capable of multilingual text embedding for product descriptions in Korean and English, suitable for commercial use on CPU servers"
+ ],
+ "response": {
+  "query": "search for models capable of multilingual text embedding for product descriptions in Korean and English, suitable for commercial use on CPU servers"
+ },
+ "latency_ms": 942.6
+}
