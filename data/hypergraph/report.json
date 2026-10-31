@@ -1,0 +1,188 @@
+{
+  "entities": {
+    "model": 3606,
+    "dataset": 1760
+  },
+  "links": 54803,
+  "relations": 2060,
+  "links_by_method": {
+    "metadata": 38712,
+    "ner": 7161,
+    "tag_match": 342,
+    "viewer_stats": 956,
+    "task_rule": 7564,
+    "name_rule": 68
+  },
+  "links_by_confidence": {
+    "high": 38259,
+    "low": 4086,
+    "medium": 12458
+  },
+  "coverage": {
+    "model": {
+      "task": "3606/3606",
+      "input_modality": "3606/3606",
+      "output_modality": "3087/3606",
+      "language": "3511/3606",
+      "input_length": "2248/3606",
+      "commercial_use": "3606/3606",
+      "domain": "0/3606",
+      "model_size": "2191/3606"
+    },
+    "dataset": {
+      "task": "1613/1760",
+      "input_modality": "1748/1760",
+      "output_modality": "1559/1760",
+      "language": "1571/1760",
+      "input_length": "956/1760",
+      "commercial_use": "1760/1760",
+      "domain": "1391/1760",
+      "dataset_role": "1578/1760",
+      "data_format": "1325/1760",
+      "update_frequency": "0/1760",
+      "dataset_size": "1648/1760"
+    }
+  },
+  "dataset_readme_status": {
+    "template": 124,
+    "ok": 1470,
+    "thin": 117,
+    "missing": 49
+  },
+  "dataset_korean_focus": {
+    "not_ko": 354,
+    "wide_multilingual": 660,
+    "ko_with_others": 389,
+    "ko_only": 357
+  },
+  "unmapped_top": {
+    "dataset.data_format.format": [
+      [
+        "agent-traces",
+        1
+      ]
+    ],
+    "dataset.input_modality.modality": [
+      [
+        "3d",
+        2
+      ]
+    ],
+    "dataset.task.task_categories": [
+      [
+        "other",
+        24
+      ],
+      [
+        "reinforcement-learning",
+        9
+      ],
+      [
+        "robotics",
+        8
+      ],
+      [
+        "audio-to-audio",
+        7
+      ],
+      [
+        "image-to-video",
+        2
+      ],
+      [
+        "text-to-video",
+        2
+      ],
+      [
+        "video-classification",
+        2
+      ],
+      [
+        "image-feature-extraction",
+        2
+      ],
+      [
+        "depth-estimation",
+        1
+      ],
+      [
+        "table-to-text",
+        1
+      ],
+      [
+        "zero-shot-object-detection",
+        1
+      ],
+      [
+        "image-to-3d",
+        1
+      ],
+      [
+        "any-to-any",
+        1
+      ],
+      [
+        "image-text-to-image",
+        1
+      ]
+    ],
+    "dataset.task.task_ids": [
+      [
+        "part-of-speech",
+        3
+      ],
+      [
+        "parsing",
+        3
+      ],
+      [
+        "dialogue-modeling",
+        2
+      ],
+      [
+        "dialogue-generation",
+        2
+      ],
+      [
+        "acceptability-classification",
+        1
+      ],
+      [
+        "lemmatization",
+        1
+      ],
+      [
+        "fact-checking",
+        1
+      ],
+      [
+        "task-planning",
+        1
+      ],
+      [
+        "news-articles-summarization",
+        1
+      ],
+      [
+        "closed-book-qa",
+        1
+      ],
+      [
+        "entity-linking-retrieval",
+        1
+      ],
+      [
+        "speaker-identification",
+        1
+      ],
+      [
+        "slot-filling",
+        1
+      ],
+      [
+        "abstractive-qa",
+        1
+      ]
+    ]
+  }
+}

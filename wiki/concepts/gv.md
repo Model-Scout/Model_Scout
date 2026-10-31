@@ -1,0 +1,26 @@
+---
+type: "concept"
+facet: "language"
+key: "gv"
+members: 1
+---
+# gv
+
+facet: [[언어]] · 개념 id `language/gv`
+
+## 데이터셋 (1)
+
+- [[moonscape-software__macro_prosody_sample_set|moonscape-software/macro_prosody_sample_set]]
+
+## 함께 연결된 개념
+
+- [[조건부 이용]] (상업 이용) · 공유 1
+- [[Parquet]] (데이터 형식) · 공유 1
+- [[중규모 데이터]] (데이터 규모) · 공유 1
+- [[일반]] (도메인) · 공유 1
+- [[음성 (입력 형식)|음성]] (입력 형식) · 공유 1
+- [[표 (입력 형식)|표]] (입력 형식) · 공유 1
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 1
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 1
+- [[텍스트 분류]] (작업) · 공유 1
+- [[임베딩]] (작업) · 공유 1

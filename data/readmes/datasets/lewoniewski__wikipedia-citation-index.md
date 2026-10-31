@@ -1,0 +1,63 @@
+---
+license: apache-2.0
+language:
+- ar
+- az
+- be
+- bg
+- ca
+- cs
+- da
+- de
+- el
+- en
+- eo
+- es
+- et
+- eu
+- fa
+- fi
+- fr
+- gl
+- he
+- hi
+- hr
+- hu
+- hy
+- id
+- it
+- ja
+- ka
+- kk
+- ko
+- la
+- lt
+- ms
+- nl
+- nn
+- no
+- pl
+- pt
+- ro
+- ru
+- sh
+- sk
+- sl
+- sr
+- sv
+- ta
+- th
+- tr
+- uk
+- ur
+- uz
+- vi
+- vo
+- zh
+tags:
+- Wikipedia
+size_categories:
+- 10M<n<100M
+---
+
+Dataset with citation indexes as of 1 August 2024 for 47 million Wikipedia articles in 55 language versions. Research: [ArXiv](https://arxiv.org/abs/2505.16506)
