@@ -186,7 +186,11 @@ def fetch_readme(row, previous, token):
         return row
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
-    row.update(readme_path=path.relative_to(BACKEND_DIR).as_posix(), readme_language=readme_language(text), readme_chars=len(text))
+    row.update(
+        readme_path=path.relative_to(BACKEND_DIR).as_posix(),
+        readme_language=readme_language(text),
+        readme_chars=len(text),
+    )
     return row
 
 
