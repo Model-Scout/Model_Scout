@@ -18,8 +18,8 @@ from typing import Any, Dict, Iterable, List
 ROOT = Path(__file__).resolve().parents[1]
 VALIDATION_PATH = ROOT / "test" / "stage4_retrieval_validation.json"
 STAGE3_PATHS = (
-    ROOT.parent / "backend" / "data" / "hf_models_stage3_core.jsonl",
-    ROOT.parent / "backend" / "data" / "hf_models_stage3_low_popularity.jsonl",
+    ROOT / "data" / "hf_models_stage3_core.jsonl",
+    ROOT / "data" / "hf_models_stage3_low_popularity.jsonl",
 )
 REPORT_PATH = ROOT / "test" / "stage4_golden_set_evaluation.md"
 

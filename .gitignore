@@ -16,40 +16,43 @@ env/
 Thumbs.db
 
 # Supabase sync runtime log
-backend/data/supabase_sync.log
+ai/data/supabase_sync.log
 
 # Stage 4 vectors are canonical in Supabase pgvector.
-backend/data/hf_models_stage4_core.jsonl
-backend/data/hf_models_stage4_low_popularity.jsonl
-backend/data/hf_models_stage4_*_errors.jsonl
+ai/data/hf_models_stage4_core.jsonl
+ai/data/hf_models_stage4_low_popularity.jsonl
+ai/data/hf_models_stage4_*_errors.jsonl
 
 # Reproducible benchmark intermediates and incremental queues.
-backend/data/hf_models_benchmark_*.jsonl
-backend/data/.stage4_delta_*.jsonl
-backend/data/.stage4_*_delta_checkpoint.jsonl
-backend/data/.hf_models_benchmark_delta_*.jsonl
-backend/data/.incremental_model_ids.json
-backend/data/.benchmark_changed_model_ids.json
-backend/data/.hf_models_benchmark_state_*.json
-backend/data/.hf_models_benchmark_state_candidate.json
-backend/data/.hf_models_benchmark_changed_ids_*.json
+ai/data/hf_models_benchmark_*.jsonl
+ai/data/.stage4_delta_*.jsonl
+ai/data/.stage4_*_delta_checkpoint.jsonl
+ai/data/.hf_models_benchmark_delta_*.jsonl
+ai/data/.incremental_model_ids.json
+ai/data/.benchmark_changed_model_ids.json
+ai/data/.hf_models_benchmark_state_*.json
+ai/data/.hf_models_benchmark_state_candidate.json
+ai/data/.hf_models_benchmark_changed_ids_*.json
 
 # Stage 1 resume checkpoints are transient and are not corpus snapshots.
-backend/data/.stage1_v*_checkpoint/
+ai/data/.stage1_v*_checkpoint/
 
 # Local analysis and editor metadata.
 graphify-out/
 .serena/
 
 # Retrieval lab: BGE-M3 index build checkpoints (resumable, removed after a full build).
-backend/data/retrieval_lab/.bge_m3_build/
+ai/data/retrieval_lab/.bge_m3_build/
 
 # Planning doc page renders (local only).
 png/
 
 # Public-portal raw catalog cache (data.go.kr list is 160MB+); re-downloaded by 18_collect_public_datasets.py --refresh.
-backend/data/public_catalog/
+ai/data/public_catalog/
 
 # Dataset vectors live in Supabase (20_sync_dataset_index.py); 14 --embed rebuilds this file from there.
-backend/data/dataset_index/embeddings.npy
-backend/data/dataset_index/embeddings.npy
+ai/data/dataset_index/embeddings.npy
+ai/data/dataset_index/embeddings.npy
+
+# LLM wiki (Obsidian vault) is generated from ai/data/hypergraph by 15_build_wiki.py.
+ai/wiki/

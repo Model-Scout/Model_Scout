@@ -21,7 +21,7 @@ from pathlib import Path
 
 from taxonomy import load_taxonomy
 
-HYPERGRAPH_DIR = Path(__file__).resolve().parents[1] / "backend" / "data" / "hypergraph"
+HYPERGRAPH_DIR = Path(__file__).resolve().parent / "data" / "hypergraph"
 WIKI_DIR = Path(__file__).resolve().parent / "wiki"
 # ponytail: hubs list the top members by downloads; Obsidian backlinks still show all of them.
 HUB_MEMBER_LIMIT = 100

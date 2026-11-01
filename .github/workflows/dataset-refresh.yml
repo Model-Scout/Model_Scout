@@ -62,7 +62,7 @@ jobs:
         if: env.FULL == 'true'
         uses: actions/cache@v4
         with:
-          path: backend/data/public_catalog
+          path: ai/data/public_catalog
           key: public-catalog-${{ github.run_id }}
           restore-keys: public-catalog-
 
@@ -97,19 +97,20 @@ jobs:
       - name: Publish vectors to Supabase
         run: python 20_sync_dataset_index.py --apply
 
-      - name: Commit data and wiki
+      # wiki/ is gitignored; wiki-pages.yml rebuilds it from the committed hypergraph.
+      - name: Commit data
         run: |
           git config user.name "model-scout-sync[bot]"
           git config user.email "model-scout-sync[bot]@users.noreply.github.com"
-          git add ../backend/data/hypergraph ../backend/data/dataset_index/chunks.jsonl ../backend/data/dataset_index/manifest.json wiki \
-                  ../backend/data/hf_datasets_stage1.jsonl ../backend/data/hf_datasets_stage1_state.json ../backend/data/hf_datasets_length_stats.jsonl \
-                  ../backend/data/hf_datasets_ner.jsonl ../backend/data/kaggle_datasets_stage1.jsonl ../backend/data/public_datasets_stage1.jsonl \
-                  ../backend/data/readmes/datasets ../backend/data/readmes/kaggle ../backend/data/readmes/public
+          git add data/hypergraph data/dataset_index/chunks.jsonl data/dataset_index/manifest.json \
+                  data/hf_datasets_stage1.jsonl data/hf_datasets_stage1_state.json data/hf_datasets_length_stats.jsonl \
+                  data/hf_datasets_ner.jsonl data/kaggle_datasets_stage1.jsonl data/public_datasets_stage1.jsonl \
+                  data/readmes/datasets data/readmes/kaggle data/readmes/public
           if git diff --cached --quiet; then
-            echo "No dataset or wiki changes"
+            echo "No dataset changes"
             exit 0
           fi
-          git commit -m "chore: refresh dataset hypergraph, index and wiki"
+          git commit -m "chore: refresh dataset hypergraph and index"
           for attempt in 1 2 3; do
             git pull --rebase --autostash && git push && exit 0
             sleep 10

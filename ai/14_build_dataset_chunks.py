@@ -24,8 +24,8 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"
 KAGGLE_INPUT = DATA_DIR / "kaggle_datasets_stage1.jsonl"
@@ -128,7 +128,7 @@ def concept_lines(links, concepts):
 
 def build_chunks(row, entity, links, concepts):
     dataset_id = row["dataset_id"]
-    raw = (BACKEND_DIR / row["readme_path"]).read_text(encoding="utf-8") if row.get("readme_path") else ""
+    raw = (AI_DIR / row["readme_path"]).read_text(encoding="utf-8") if row.get("readme_path") else ""
     cleaned = clean_markdown(raw)
     pretty = (row.get("card_data") or {}).get("pretty_name")
     description = (row.get("description") or "").strip() or cleaned

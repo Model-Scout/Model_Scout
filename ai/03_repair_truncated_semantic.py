@@ -26,7 +26,7 @@ from dotenv import load_dotenv
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 REPAIR_PROMPT_VERSION = "stage3-atomic-evidence-full-readme-v1"
 REPAIR_CHUNKER_VERSION = "atomic-evidence-full-readme-v1"

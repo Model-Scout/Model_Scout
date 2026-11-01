@@ -36,8 +36,8 @@ REPORT_PATH = GOLDEN_DIR / "reports" / "semantic_golden_retrieval.json"
 AUDIT_PATH = GOLDEN_DIR / "reports" / "golden_audit.json"
 OUTPUT_STEM = GOLDEN_DIR / "reports" / "semantic_golden_evaluation"
 STAGE2_PATHS = (
-    ROOT.parent / "backend" / "data" / "hf_models_stage2_core.jsonl",
-    ROOT.parent / "backend" / "data" / "hf_models_stage2_low_popularity.jsonl",
+    ROOT / "data" / "hf_models_stage2_core.jsonl",
+    ROOT / "data" / "hf_models_stage2_low_popularity.jsonl",
 )
 
 # Provisional license policy for scoring only. Licenses outside both sets

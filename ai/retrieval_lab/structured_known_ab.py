@@ -31,7 +31,7 @@ from retrieval_lab.pipeline import Retriever
 from retrieval_lab.planner import BASELINE, HARD_FILTER_KEYS
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 QUERY_TYPE = "structured_constraint"
 TOP_K = 10

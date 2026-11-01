@@ -24,7 +24,7 @@ from retrieval_metadata import augment_filter_metadata
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 DEFAULT_MODEL = "text-embedding-3-small"
 DEFAULT_BATCH_SIZE = 32

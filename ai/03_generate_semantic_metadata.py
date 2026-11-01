@@ -29,7 +29,7 @@ from evidence_index import INDEX_SCHEMA_VERSION, materialize_parent_child_eviden
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 SOURCE_POOLS = ("core", "low_popularity")
 STAGE3_VERSION = 1
 PROMPT_VERSION = "stage3-atomic-evidence-v1"

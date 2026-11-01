@@ -40,8 +40,8 @@ from pathlib import Path
 
 import requests
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 OUTPUT = DATA_DIR / "public_datasets_stage1.jsonl"
 CATALOG_DIR = DATA_DIR / "public_catalog"
 README_DIR = DATA_DIR / "readmes" / "public"
@@ -201,7 +201,7 @@ def card_row(source, item_id, title, description, url, tags, formats, licenses, 
         "tags": sorted(set(tags)),
         "description": description,
         "card_data": {"pretty_name": title},
-        "readme_path": readme_path.relative_to(BACKEND_DIR).as_posix(),
+        "readme_path": readme_path.relative_to(AI_DIR).as_posix(),
         "readme_language": "ko",
         "readme_chars": len(readme),
         **extra,

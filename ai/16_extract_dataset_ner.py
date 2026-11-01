@@ -32,8 +32,8 @@ from pydantic import BaseModel, create_model
 
 from taxonomy import load_taxonomy
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 # Kaggle tags are noisy (restaurant reviews tagged finance/health); NER confirms or demotes them.
 # Portal data (18) is skipped: its category already names the domain and it has no ML task.

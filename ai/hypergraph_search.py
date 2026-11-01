@@ -29,7 +29,7 @@ import numpy as np
 
 from taxonomy import load_taxonomy, normalize
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "backend" / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 DATASET_INDEX_DIR = DATA_DIR / "dataset_index"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")

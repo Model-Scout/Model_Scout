@@ -26,7 +26,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"  # stored readme_path values are relative to it
+AI_DIR = Path(__file__).resolve().parent  # stored readme_path values are relative to it
 FRONTMATTER_RE = re.compile(r"\A---\n.*?\n---\n", re.S)
 MIN_BODY_CHARS = 300
 NAME_JACCARD = 0.8
@@ -47,7 +47,7 @@ TITLE_PUNCT_RE = re.compile(r"[\s_()\[\]·,.\-]+")
 
 def readme_body(row):
     path = row.get("readme_path")
-    path = BACKEND_DIR / path if path else None
+    path = AI_DIR / path if path else None
     text = path.read_text(encoding="utf-8", errors="ignore") if path and path.exists() else ""
     return " ".join(FRONTMATTER_RE.sub("", text, count=1).split())
 

@@ -23,7 +23,7 @@ from typing import Any, Dict, List
 from retrieval_lab import structured_rules as rules
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 LABEL_DIR = ROOT / "test" / "golden" / "labels"
 REPORT = ROOT / "retrieval_lab" / "reports" / "structured_constraint.json"
 OUT_PATH = LABEL_DIR / "worksheet_structured_constraint.jsonl"

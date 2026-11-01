@@ -15,8 +15,7 @@ on:
       - "ai/project_checks.py"
       - "ai/pyproject.toml"
       - "ai/requirements*.txt"
-      - "backend/data/hypergraph/**"
-      - "ai/wiki/**"
+      - "ai/data/hypergraph/**"
       - ".github/workflows/dataset-*.yml"
   push:
     branches: [main, dk]
@@ -31,8 +30,7 @@ on:
       - "ai/project_checks.py"
       - "ai/pyproject.toml"
       - "ai/requirements*.txt"
-      - "backend/data/hypergraph/**"
-      - "ai/wiki/**"
+      - "ai/data/hypergraph/**"
       - ".github/workflows/dataset-*.yml"
   workflow_dispatch:
 
@@ -80,8 +78,11 @@ jobs:
           for f in 1[1-9]_*.py 20_sync_dataset_index.py; do python "$f" --self-check; done
           for f in taxonomy.py dataset_dedup.py supabase_db.py project_checks.py; do python "$f"; done
 
+      # wiki/ is gitignored; build it from the hypergraph, then check its links.
       - name: Wiki links resolve
-        run: python 15_build_wiki.py --check
+        run: |
+          python 15_build_wiki.py
+          python 15_build_wiki.py --check
 
       # Needs the OpenAI key (query embeddings) and Supabase (dataset vectors); skipped on forks.
       - name: Ranking quality floor

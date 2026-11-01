@@ -14,7 +14,7 @@ from typing import Any, Dict, List
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 
 

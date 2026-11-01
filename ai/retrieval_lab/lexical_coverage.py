@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Dict, List, Set
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 
 # ISO 코드로 쓰는 언어 이름. 질의가 "중국어를 한국어로"처럼 한국어로 적혀 있다.

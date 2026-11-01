@@ -25,7 +25,7 @@ from retrieval_metadata import normalize_query_terms
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 QUERY_PATH = ROOT / "test" / "retrieval_queries.jsonl"
 REPORT_JSON = ROOT / "test" / "stage4_retrieval_validation.json"
 REPORT_MD = ROOT / "test" / "stage4_retrieval_validation.md"

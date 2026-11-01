@@ -27,8 +27,8 @@ import re
 import time
 from pathlib import Path
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 OUTPUT = DATA_DIR / "kaggle_datasets_stage1.jsonl"
 CATALOG_DIR = DATA_DIR / "public_catalog"
 README_DIR = DATA_DIR / "readmes" / "kaggle"
@@ -152,7 +152,7 @@ def build_row(listing, meta):
         "tags": tags,
         "description": subtitle or description[:300],
         "card_data": {"pretty_name": title},
-        "readme_path": readme_path.relative_to(BACKEND_DIR).as_posix(),
+        "readme_path": readme_path.relative_to(AI_DIR).as_posix(),
         "readme_language": readme_language(text),
         "readme_chars": len(readme),
         "usability": listing.get("usabilityRating"),
