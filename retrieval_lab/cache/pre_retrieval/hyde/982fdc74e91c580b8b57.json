@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 위키 문서에서 질문의 답을 찾는 KorQuAD 수준의 기계독해 모델이 필요해. 정확도가 중요해.",
+ "outputs": [
+  "The model is designed for machine reading comprehension tasks, specifically targeting the KorQuAD benchmark for Korean language documents. It supports Korean as its primary language and is optimized for high accuracy in answering questions based on Korean Wikipedia articles. With a parameter count of 300 million, it strikes a balance between performance and efficiency, allowing for a context length of up to 512 tokens. The model is particularly suited for applications in educational technology, automated customer support, and information retrieval systems. Its strengths lie in its ability to understand nuanced questions and provide precise answers, making it a valuable tool for developers looking to enhance user interaction with Korean text."
+ ],
+ "response": {
+  "document": "The model is designed for machine reading comprehension tasks, specifically targeting the KorQuAD benchmark for Korean language documents. It supports Korean as its primary language and is optimized for high accuracy in answering questions based on Korean Wikipedia articles. With a parameter count of 300 million, it strikes a balance between performance and efficiency, allowing for a context length of up to 512 tokens. The model is particularly suited for applications in educational technology, automated customer support, and information retrieval systems. Its strengths lie in its ability to understand nuanced questions and provide precise answers, making it a valuable tool for developers looking to enhance user interaction with Korean text."
+ },
+ "latency_ms": 2989.1
+}

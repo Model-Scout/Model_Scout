@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MTEB 검색(Retrieval) 점수가 공개된 다국어 임베딩 중 한국어도 지원하는 모델을 고르고 싶어.",
+ "outputs": [
+  "MTEB 검색 점수가 공개된 다국어 임베딩 모델 중 한국어 지원 모델 찾기",
+  "I want to find multilingual embedding models that support Korean and have MTEB retrieval scores published.",
+  "MTEB, Retrieval, 다국어 임베딩, 한국어 지원, 모델"
+ ],
+ "response": {
+  "queries": [
+   "MTEB 검색 점수가 공개된 다국어 임베딩 모델 중 한국어 지원 모델 찾기",
+   "I want to find multilingual embedding models that support Korean and have MTEB retrieval scores published.",
+   "MTEB, Retrieval, 다국어 임베딩, 한국어 지원, 모델"
+  ]
+ },
+ "latency_ms": 2079.1
+}

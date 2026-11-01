@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "회의록 같은 긴 한국어 문서를 요약하는 기능을 로컬 GPU 16GB에서 돌리려고 해. 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "회의록을 요약할 수 있는 모델을 찾고 싶어요. 로컬 GPU 16GB에서 사용할 수 있고 상업적 용도로도 가능한 모델이 필요해요.",
+  "I'm looking for a model that can summarize long Korean documents like meeting minutes. It should run on a local GPU with 16GB and be commercially usable.",
+  "Korean document summarization, local GPU 16GB, commercial use, model card"
+ ],
+ "response": {
+  "queries": [
+   "회의록을 요약할 수 있는 모델을 찾고 싶어요. 로컬 GPU 16GB에서 사용할 수 있고 상업적 용도로도 가능한 모델이 필요해요.",
+   "I'm looking for a model that can summarize long Korean documents like meeting minutes. It should run on a local GPU with 16GB and be commercially usable.",
+   "Korean document summarization, local GPU 16GB, commercial use, model card"
+  ]
+ },
+ "latency_ms": 1642.9
+}

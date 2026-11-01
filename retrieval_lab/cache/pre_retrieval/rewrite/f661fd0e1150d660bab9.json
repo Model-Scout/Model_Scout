@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "쇼핑몰 상품 이미지를 보고 한국어 상품 설명 문구를 써 주는 비전 언어 모델이 필요해. 상업 서비스야.",
+ "outputs": [
+  "Vision-language model for generating Korean product descriptions from shopping mall product images, commercial service."
+ ],
+ "response": {
+  "query": "Vision-language model for generating Korean product descriptions from shopping mall product images, commercial service."
+ },
+ "latency_ms": 849.0
+}

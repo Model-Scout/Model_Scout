@@ -35,7 +35,7 @@ tags:
 license: mit
 ---
 
-# Qwen 3.8 27b migrated to Ternary Architedure 
+# JiRack Ternary Architedure 
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via JiRackDeltaNetTokenizer
 - JiRack DeltaNet understand video and images that best for Robotics also

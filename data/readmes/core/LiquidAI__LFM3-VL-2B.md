@@ -87,7 +87,7 @@ The [LFM3 family](https://huggingface.co/collections/LiquidAI/lfm3) includes bas
 </tr>
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>Inputs</strong></td>
-<td style="border: 0; padding: 0.55em 0.75em;">Text, images, and video at native resolution. Each 2×2 block of patches becomes one language token. Video is sampled at 2 fps.</td>
+<td style="border: 0; padding: 0.55em 0.75em;">Text, images, and video at native resolution. Each 2×2 block of patches becomes one language token. Video is sampled at 2 fps, with 4 to 768 frames by default.</td>
 </tr>
 <tr style="border: 0;">
 <td style="border: 0; padding: 0.55em 0.75em;"><strong>Context length</strong></td>
@@ -263,6 +263,18 @@ response = client.chat.completions.create(
 )
 print(response.choices[0].message.content)
 ```
+
+</details>
+
+<details>
+<summary><strong>Video frame rate and frame limit</strong></summary>
+
+By default, LFM3-VL-2B samples video at 2 fps, with at least 4 and at most 768 frames per video. Each frame adds vision tokens, so for long videos a lower frame rate or frame limit uses less context and memory.
+
+- **Transformers:** set the frame rate per call with `processor.apply_chat_template(..., processor_kwargs={"fps": 1})`. Set the frame limit when you load the processor: `AutoProcessor.from_pretrained(model_id, trust_remote_code=True, max_frames=128)`.
+- **vLLM:** set a server default in `--media-io-kwargs`, for example `'{"video": {"video_backend": "qwen3_vl", "fps": 1, "max_frames": 128}}'`. Override it per request with `extra_body={"media_io_kwargs": {"video": {"fps": 1, "max_frames": 128}}}`.
+- **SGLang:** change `fps`, `min_frames`, and `max_frames` under `video_processor` in `processor_config.json` in a local copy of the checkpoint.
+- **llama.cpp:** always uses 2 fps and 4 to 768 frames for this model. `--video-fps` has no effect.
 
 </details>
 

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "K-DTCBench 같은 한국어 문서·표·차트 벤치마크 점수가 있는 비전 언어 모델이 필요해.",
+ "outputs": [
+  "The Vision-Language Model (VLM) is designed for tasks involving both visual and textual data, specifically optimized for Korean language processing. With 1.2 billion parameters and a context length of 512 tokens, this model excels in understanding and generating content related to images, documents, and charts in Korean. It is particularly useful for applications in education, data analysis, and content creation, where visual context is crucial. The model has been benchmarked using K-DTCBench, achieving high scores in metrics such as accuracy and F1-score, demonstrating its effectiveness in handling complex visual-language tasks. Available in GGUF format, it is licensed under the MIT License, making it accessible for various use cases."
+ ],
+ "response": {
+  "document": "The Vision-Language Model (VLM) is designed for tasks involving both visual and textual data, specifically optimized for Korean language processing. With 1.2 billion parameters and a context length of 512 tokens, this model excels in understanding and generating content related to images, documents, and charts in Korean. It is particularly useful for applications in education, data analysis, and content creation, where visual context is crucial. The model has been benchmarked using K-DTCBench, achieving high scores in metrics such as accuracy and F1-score, demonstrating its effectiveness in handling complex visual-language tasks. Available in GGUF format, it is licensed under the MIT License, making it accessible for various use cases."
+ },
+ "latency_ms": 2309.9
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "콜센터 통화 녹음을 실시간에 가깝게 한국어로 받아 적어야 해. 상업 서비스이고 GPU 서버가 있어.",
+ "outputs": [
+  "The model is designed for real-time transcription of call center audio recordings in Korean. It supports the Korean language exclusively and is optimized for high accuracy in transcribing conversational speech. With a parameter count of 1.5 billion, it offers a context length of 512 tokens, making it suitable for handling extended dialogues. The model is available in GGUF format and is licensed under a commercial use agreement. Intended use cases include customer service automation, quality assurance in call centers, and enhancing customer interaction analysis. Its strengths lie in its ability to understand various accents and dialects in Korean, ensuring reliable transcription even in noisy environments."
+ ],
+ "response": {
+  "document": "The model is designed for real-time transcription of call center audio recordings in Korean. It supports the Korean language exclusively and is optimized for high accuracy in transcribing conversational speech. With a parameter count of 1.5 billion, it offers a context length of 512 tokens, making it suitable for handling extended dialogues. The model is available in GGUF format and is licensed under a commercial use agreement. Intended use cases include customer service automation, quality assurance in call centers, and enhancing customer interaction analysis. Its strengths lie in its ability to understand various accents and dialects in Korean, ensuring reliable transcription even in noisy environments."
+ },
+ "latency_ms": 1552.8
+}

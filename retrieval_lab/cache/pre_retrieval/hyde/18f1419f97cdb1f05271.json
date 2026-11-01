@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어·영어 상품 설명을 같은 벡터 공간에 넣어 검색하려고 해. 상업 서비스이고 CPU 서버에서 돌릴 거야.",
+ "outputs": [
+  "The model is designed for cross-lingual semantic search, specifically optimized for Korean and English product descriptions. It supports both languages and is capable of embedding text into the same vector space for efficient retrieval. With a parameter count of 1.2 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on CPU servers. The model excels in commercial applications, particularly in e-commerce, where accurate and relevant search results are crucial. Its strengths include high-quality embeddings, robust handling of diverse product descriptions, and the ability to maintain contextual relevance across languages."
+ ],
+ "response": {
+  "document": "The model is designed for cross-lingual semantic search, specifically optimized for Korean and English product descriptions. It supports both languages and is capable of embedding text into the same vector space for efficient retrieval. With a parameter count of 1.2 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on CPU servers. The model excels in commercial applications, particularly in e-commerce, where accurate and relevant search results are crucial. Its strengths include high-quality embeddings, robust handling of diverse product descriptions, and the ability to maintain contextual relevance across languages."
+ },
+ "latency_ms": 1772.2
+}

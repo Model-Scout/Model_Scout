@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해.",
+ "outputs": [
+  "This model is a compact generative model designed for Korean document question answering tasks. With a parameter count of under 1 billion, it strikes a balance between performance and efficiency, making it suitable for deployment in resource-constrained environments. The model supports Korean as its primary language, ensuring high-quality responses to user queries in this language. Intended use cases include customer support, educational tools, and interactive applications where users seek information from Korean documents. Its strengths lie in its ability to understand context and generate coherent answers, making it a valuable asset for businesses and developers looking to enhance user engagement through natural language processing."
+ ],
+ "response": {
+  "document": "This model is a compact generative model designed for Korean document question answering tasks. With a parameter count of under 1 billion, it strikes a balance between performance and efficiency, making it suitable for deployment in resource-constrained environments. The model supports Korean as its primary language, ensuring high-quality responses to user queries in this language. Intended use cases include customer support, educational tools, and interactive applications where users seek information from Korean documents. Its strengths lie in its ability to understand context and generate coherent answers, making it a valuable asset for businesses and developers looking to enhance user engagement through natural language processing."
+ },
+ "latency_ms": 1570.2
+}

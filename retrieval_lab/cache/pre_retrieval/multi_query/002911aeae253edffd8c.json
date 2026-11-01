@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야.",
+ "outputs": [
+  "GPU 없는 t3.medium 서버에서 한국어 음성 인식 모델을 찾고 싶어요. CER로 정확도를 평가할 수 있는 모델이 필요해요.",
+  "I'm looking for a Korean speech recognition model that can run locally on a t3.medium server without a GPU. I need it as a fallback when external APIs fail, and I will evaluate accuracy using CER.",
+  "Korean speech recognition, local inference, t3.medium, no GPU, fallback, CER accuracy"
+ ],
+ "response": {
+  "queries": [
+   "GPU 없는 t3.medium 서버에서 한국어 음성 인식 모델을 찾고 싶어요. CER로 정확도를 평가할 수 있는 모델이 필요해요.",
+   "I'm looking for a Korean speech recognition model that can run locally on a t3.medium server without a GPU. I need it as a fallback when external APIs fail, and I will evaluate accuracy using CER.",
+   "Korean speech recognition, local inference, t3.medium, no GPU, fallback, CER accuracy"
+  ]
+ },
+ "latency_ms": 1960.8
+}

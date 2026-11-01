@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "M1 이상 맥(RAM 16GB)에서 오프라인으로 한국어 회의록을 요약하고 교정할 LLM이 필요해. Ollama 없이 통합 메모리에서 바로 돌아가면 좋겠어.",
+ "outputs": [
+  "The model is designed for summarizing and proofreading Korean meeting notes, making it ideal for users with M1 or higher Macs with 16GB of RAM. It supports the Korean language and is optimized for offline use, allowing seamless integration with local memory without the need for external tools like Ollama. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model excels in generating concise summaries while maintaining the context and nuances of the original text. Use cases include enhancing productivity in business meetings and improving documentation quality. Its strengths lie in its ability to understand and process Korean language intricacies effectively."
+ ],
+ "response": {
+  "document": "The model is designed for summarizing and proofreading Korean meeting notes, making it ideal for users with M1 or higher Macs with 16GB of RAM. It supports the Korean language and is optimized for offline use, allowing seamless integration with local memory without the need for external tools like Ollama. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model excels in generating concise summaries while maintaining the context and nuances of the original text. Use cases include enhancing productivity in business meetings and improving documentation quality. Its strengths lie in its ability to understand and process Korean language intricacies effectively."
+ },
+ "latency_ms": 1842.6
+}

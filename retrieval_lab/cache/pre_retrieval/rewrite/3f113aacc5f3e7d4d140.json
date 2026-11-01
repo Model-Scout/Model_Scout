@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3-turbo를 RAM 4GB 라즈베리파이에서 한국어 음성인식용으로 돌릴 수 있을까?",
+ "outputs": [
+  "whisper-large-v3-turbo RAM 4GB Raspberry Pi Korean speech recognition"
+ ],
+ "response": {
+  "query": "whisper-large-v3-turbo RAM 4GB Raspberry Pi Korean speech recognition"
+ },
+ "latency_ms": 821.3
+}

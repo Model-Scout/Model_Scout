@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE NLI 정확도가 README에 나와 있는 한국어 분류 모델이 필요해.",
+ "outputs": [
+  "KLUE NLI 모델의 정확도 정보가 포함된 한국어 분류 모델을 찾고 있어요.",
+  "I need a Korean classification model that has accuracy information for KLUE NLI in the README.",
+  "Korean classification model, KLUE NLI, accuracy, README"
+ ],
+ "response": {
+  "queries": [
+   "KLUE NLI 모델의 정확도 정보가 포함된 한국어 분류 모델을 찾고 있어요.",
+   "I need a Korean classification model that has accuracy information for KLUE NLI in the README.",
+   "Korean classification model, KLUE NLI, accuracy, README"
+  ]
+ },
+ "latency_ms": 1465.8
+}

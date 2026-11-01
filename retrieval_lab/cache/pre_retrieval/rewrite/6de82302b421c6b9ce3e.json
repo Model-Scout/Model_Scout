@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "nllb-200-distilled-600M이 비상업 라이선스라 못 써. 상업적으로 쓸 수 있는 한국어 번역 대안이 필요해.",
+ "outputs": [
+  "commercial use Korean translation alternative for nllb-200-distilled-600M"
+ ],
+ "response": {
+  "query": "commercial use Korean translation alternative for nllb-200-distilled-600M"
+ },
+ "latency_ms": 996.0
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MTEB 검색(Retrieval) 점수가 공개된 다국어 임베딩 중 한국어도 지원하는 모델을 고르고 싶어.",
+ "outputs": [
+  "The Multilingual Embedding Model (MEM) is designed for retrieval tasks across multiple languages, including Korean. With 1.2 billion parameters, it excels in generating high-quality embeddings that capture semantic similarities in diverse linguistic contexts. The model supports over 20 languages, making it ideal for applications in cross-lingual information retrieval, multilingual search engines, and content recommendation systems. Its strengths lie in its ability to maintain contextual integrity and provide accurate embeddings for low-resource languages like Korean. The model has been benchmarked using the MTEB retrieval score, demonstrating superior performance in multilingual settings."
+ ],
+ "response": {
+  "document": "The Multilingual Embedding Model (MEM) is designed for retrieval tasks across multiple languages, including Korean. With 1.2 billion parameters, it excels in generating high-quality embeddings that capture semantic similarities in diverse linguistic contexts. The model supports over 20 languages, making it ideal for applications in cross-lingual information retrieval, multilingual search engines, and content recommendation systems. Its strengths lie in its ability to maintain contextual integrity and provide accurate embeddings for low-resource languages like Korean. The model has been benchmarked using the MTEB retrieval score, demonstrating superior performance in multilingual settings."
+ },
+ "latency_ms": 2512.9
+}

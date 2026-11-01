@@ -6,7 +6,7 @@
  "min_grade": 1,
  "dense_model": "BAAI/bge-m3",
  "llm": "gpt-4o-mini",
- "ran_at": "2026-10-29 00:12",
+ "ran_at": "2026-10-31 15:57",
  "single": [
   {
    "label": "Known values only",
@@ -41,9 +41,9 @@
     "map@5": 0.42136363636363633,
     "nrecall@5": 0.4954545454545455,
     "nrecall@10": 0.5963744588744588,
-    "p50_ms": 227.26,
-    "p95_ms": 305.27,
-    "p99_ms": 323.1,
+    "p50_ms": 201.18,
+    "p95_ms": 254.95,
+    "p99_ms": 297.2,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5318181818181817,
     "abstention_accuracy": null
@@ -79,9 +79,9 @@
     "map@5": 0.28045454545454546,
     "nrecall@5": 0.3772727272727273,
     "nrecall@10": 0.45140692640692637,
-    "p50_ms": 1270.37,
-    "p95_ms": 1855.5,
-    "p99_ms": 4363.87,
+    "p50_ms": 1257.64,
+    "p95_ms": 1832.6,
+    "p99_ms": 4341.23,
     "must_exclude_violation_rate@10": 0.625,
     "judged@10": 0.3590909090909091,
     "abstention_accuracy": null
@@ -117,9 +117,9 @@
     "map@5": 0.3304545454545455,
     "nrecall@5": 0.4272727272727273,
     "nrecall@10": 0.5227813852813853,
-    "p50_ms": 1778.59,
-    "p95_ms": 2395.39,
-    "p99_ms": 2460.56,
+    "p50_ms": 1693.74,
+    "p95_ms": 2234.09,
+    "p99_ms": 2341.78,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.41818181818181815,
     "abstention_accuracy": null
@@ -155,9 +155,9 @@
     "map@5": 0.4072727272727273,
     "nrecall@5": 0.4818181818181818,
     "nrecall@10": 0.5496753246753247,
-    "p50_ms": 2281.76,
-    "p95_ms": 2821.85,
-    "p99_ms": 2878.31,
+    "p50_ms": 2193.43,
+    "p95_ms": 2610.79,
+    "p99_ms": 2681.13,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.41818181818181815,
     "abstention_accuracy": null
@@ -193,9 +193,9 @@
     "map@5": 0.39272727272727276,
     "nrecall@5": 0.4454545454545455,
     "nrecall@10": 0.4683982683982684,
-    "p50_ms": 2458.48,
-    "p95_ms": 2857.75,
-    "p99_ms": 2908.62,
+    "p50_ms": 2374.42,
+    "p95_ms": 2779.62,
+    "p99_ms": 2873.03,
     "must_exclude_violation_rate@10": 0.625,
     "judged@10": 0.36363636363636365,
     "abstention_accuracy": null
@@ -231,9 +231,9 @@
     "map@5": 0.4220833333333333,
     "nrecall@5": 0.5196969696969697,
     "nrecall@10": 0.6141774891774893,
-    "p50_ms": 228.01,
-    "p95_ms": 305.66,
-    "p99_ms": 323.38,
+    "p50_ms": 206.1,
+    "p95_ms": 255.05,
+    "p99_ms": 297.68,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5454545454545454,
     "abstention_accuracy": null
@@ -274,9 +274,9 @@
    "map@5": 0.42136363636363633,
    "nrecall@5": 0.4954545454545455,
    "nrecall@10": 0.6020562770562771,
-   "p50_ms": 227.91,
-   "p95_ms": 305.32,
-   "p99_ms": 323.41,
+   "p50_ms": 205.55,
+   "p95_ms": 254.98,
+   "p99_ms": 297.22,
    "must_exclude_violation_rate@10": 0.5,
    "judged@10": 0.5363636363636364,
    "abstention_accuracy": null
@@ -351,10 +351,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 213.95,
-     "sparse": 91.18,
-     "fusion": 0.19,
-     "total": 305.32
+     "dense": 218.45,
+     "sparse": 78.62,
+     "fusion": 0.15,
+     "total": 297.22
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어."
@@ -434,10 +434,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.37,
-     "sparse": 49.83,
-     "fusion": 0.19,
-     "total": 251.39
+     "dense": 193.58,
+     "sparse": 41.4,
+     "fusion": 0.11,
+     "total": 235.09
     },
     "dense_queries": [
      "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하)."
@@ -508,10 +508,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 209.74,
-     "sparse": 4.52,
-     "fusion": 0.33,
-     "total": 214.59
+     "dense": 203.25,
+     "sparse": 3.21,
+     "fusion": 0.13,
+     "total": 206.59
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해."
@@ -603,10 +603,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 196.35,
-     "sparse": 7.89,
-     "fusion": 0.16,
-     "total": 204.4
+     "dense": 186.69,
+     "sparse": 7.78,
+     "fusion": 0.14,
+     "total": 194.61
     },
     "dense_queries": [
      "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야."
@@ -700,10 +700,10 @@
     "judged@10": 0.5,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.81,
-     "sparse": 1.14,
-     "fusion": 0.13,
-     "total": 208.08
+     "dense": 195.63,
+     "sparse": 1.3,
+     "fusion": 0.19,
+     "total": 197.12
     },
     "dense_queries": [
      "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아."
@@ -791,10 +791,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 224.46,
-     "sparse": 41.82,
-     "fusion": 0.22,
-     "total": 266.5
+     "dense": 191.09,
+     "sparse": 38.28,
+     "fusion": 0.14,
+     "total": 229.51
     },
     "dense_queries": [
      "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해."
@@ -881,10 +881,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.05,
-     "sparse": 0.86,
-     "fusion": 0.13,
-     "total": 207.04
+     "dense": 175.88,
+     "sparse": 0.75,
+     "fusion": 0.12,
+     "total": 176.75
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야."
@@ -967,10 +967,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 184.82,
-     "sparse": 34.01,
-     "fusion": 0.12,
-     "total": 218.95
+     "dense": 176.6,
+     "sparse": 39.24,
+     "fusion": 0.24,
+     "total": 216.08
     },
     "dense_queries": [
      "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해."
@@ -1061,10 +1061,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 173.02,
-     "sparse": 3.45,
+     "dense": 184.06,
+     "sparse": 3.56,
      "fusion": 0.16,
-     "total": 176.63
+     "total": 187.78
     },
     "dense_queries": [
      "게임 대사를 영어에서 한국어로 번역하려고 해."
@@ -1154,10 +1154,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 195.21,
-     "sparse": 2.81,
-     "fusion": 0.22,
-     "total": 198.24
+     "dense": 186.77,
+     "sparse": 1.94,
+     "fusion": 0.15,
+     "total": 188.86
     },
     "dense_queries": [
      "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야."
@@ -1244,10 +1244,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.03,
-     "sparse": 51.95,
-     "fusion": 0.24,
-     "total": 258.22
+     "dense": 201.23,
+     "sparse": 53.62,
+     "fusion": 0.13,
+     "total": 254.98
     },
     "dense_queries": [
      "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해."
@@ -1330,10 +1330,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 227.05,
-     "sparse": 14.22,
-     "fusion": 0.26,
-     "total": 241.53
+     "dense": 209.61,
+     "sparse": 14.27,
+     "fusion": 0.16,
+     "total": 224.04
     },
     "dense_queries": [
      "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해."
@@ -1416,10 +1416,10 @@
     "judged@10": 0.5,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 223.94,
-     "sparse": 3.24,
-     "fusion": 0.21,
-     "total": 227.39
+     "dense": 198.26,
+     "sparse": 2.85,
+     "fusion": 0.11,
+     "total": 201.22
     },
     "dense_queries": [
      "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼."
@@ -1508,10 +1508,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 219.28,
-     "sparse": 11.55,
-     "fusion": 0.2,
-     "total": 231.03
+     "dense": 202.55,
+     "sparse": 12.32,
+     "fusion": 0.16,
+     "total": 215.03
     },
     "dense_queries": [
      "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야."
@@ -1604,10 +1604,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.69,
-     "sparse": 18.0,
+     "dense": 187.39,
+     "sparse": 18.01,
      "fusion": 0.15,
-     "total": 219.84
+     "total": 205.55
     },
     "dense_queries": [
      "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해."
@@ -1693,10 +1693,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 213.72,
-     "sparse": 13.99,
-     "fusion": 0.2,
-     "total": 227.91
+     "dense": 194.84,
+     "sparse": 12.82,
+     "fusion": 0.18,
+     "total": 207.84
     },
     "dense_queries": [
      "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해."
@@ -1785,10 +1785,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 257.45,
-     "sparse": 43.15,
-     "fusion": 0.24,
-     "total": 300.84
+     "dense": 201.04,
+     "sparse": 23.23,
+     "fusion": 0.15,
+     "total": 224.42
     },
     "dense_queries": [
      "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아."
@@ -1876,10 +1876,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 300.31,
-     "sparse": 22.63,
-     "fusion": 0.47,
-     "total": 323.41
+     "dense": 182.37,
+     "sparse": 8.01,
+     "fusion": 0.13,
+     "total": 190.51
     },
     "dense_queries": [
      "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야."
@@ -1959,10 +1959,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 287.22,
-     "sparse": 6.57,
-     "fusion": 0.18,
-     "total": 293.97
+     "dense": 193.82,
+     "sparse": 3.92,
+     "fusion": 0.21,
+     "total": 197.95
     },
     "dense_queries": [
      "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야."
@@ -2023,10 +2023,10 @@
     "judged@10": 0.6,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 214.31,
-     "sparse": 5.03,
-     "fusion": 0.05,
-     "total": 219.39
+     "dense": 182.51,
+     "sparse": 3.11,
+     "fusion": 0.03,
+     "total": 185.65
     },
     "dense_queries": [
      "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어."
@@ -2106,10 +2106,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 242.68,
-     "sparse": 17.86,
-     "fusion": 0.23,
-     "total": 260.77
+     "dense": 192.38,
+     "sparse": 13.26,
+     "fusion": 0.12,
+     "total": 205.76
     },
     "dense_queries": [
      "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야."
@@ -2196,10 +2196,10 @@
     "judged@10": 0.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 234.12,
-     "sparse": 8.23,
-     "fusion": 0.25,
-     "total": 242.6
+     "dense": 194.8,
+     "sparse": 5.93,
+     "fusion": 0.15,
+     "total": 200.88
     },
     "dense_queries": [
      "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼."
@@ -2241,9 +2241,9 @@
     "map@5": 0.2921590909090909,
     "nrecall@5": 0.3704545454545455,
     "nrecall@10": 0.4016774891774892,
-    "p50_ms": 227.77,
-    "p95_ms": 305.24,
-    "p99_ms": 323.0,
+    "p50_ms": 205.46,
+    "p95_ms": 254.9,
+    "p99_ms": 297.15,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.3181818181818182,
     "abstention_accuracy": null
@@ -2279,9 +2279,9 @@
     "map@5": 0.2825378787878788,
     "nrecall@5": 0.3431818181818182,
     "nrecall@10": 0.4002705627705627,
-    "p50_ms": 227.8,
-    "p95_ms": 305.19,
-    "p99_ms": 323.0,
+    "p50_ms": 205.45,
+    "p95_ms": 254.9,
+    "p99_ms": 297.13,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.2818181818181818,
     "abstention_accuracy": null
@@ -2318,9 +2318,9 @@
    "map@5": 0.4220833333333333,
    "nrecall@5": 0.5196969696969697,
    "nrecall@10": 0.6141774891774893,
-   "p50_ms": 228.01,
-   "p95_ms": 305.66,
-   "p99_ms": 323.38,
+   "p50_ms": 206.1,
+   "p95_ms": 255.05,
+   "p99_ms": 297.68,
    "must_exclude_violation_rate@10": 0.5,
    "judged@10": 0.5454545454545454,
    "abstention_accuracy": null
@@ -2395,10 +2395,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 213.95,
-     "sparse": 91.18,
-     "fusion": 0.53,
-     "total": 305.66
+     "dense": 218.45,
+     "sparse": 78.62,
+     "fusion": 0.61,
+     "total": 297.68
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어."
@@ -2478,10 +2478,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.37,
-     "sparse": 49.83,
+     "dense": 193.58,
+     "sparse": 41.4,
      "fusion": 0.25,
-     "total": 251.45
+     "total": 235.23
     },
     "dense_queries": [
      "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하)."
@@ -2552,10 +2552,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 209.74,
-     "sparse": 4.52,
+     "dense": 203.25,
+     "sparse": 3.21,
      "fusion": 0.4,
-     "total": 214.66
+     "total": 206.86
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해."
@@ -2647,10 +2647,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 196.35,
-     "sparse": 7.89,
-     "fusion": 0.22,
-     "total": 204.46
+     "dense": 186.69,
+     "sparse": 7.78,
+     "fusion": 0.24,
+     "total": 194.71
     },
     "dense_queries": [
      "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야."
@@ -2744,10 +2744,10 @@
     "judged@10": 0.5,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.81,
-     "sparse": 1.14,
-     "fusion": 0.21,
-     "total": 208.16
+     "dense": 195.63,
+     "sparse": 1.3,
+     "fusion": 0.24,
+     "total": 197.17
     },
     "dense_queries": [
      "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아."
@@ -2835,10 +2835,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 224.46,
-     "sparse": 41.82,
-     "fusion": 1.24,
-     "total": 267.52
+     "dense": 191.09,
+     "sparse": 38.28,
+     "fusion": 0.89,
+     "total": 230.26
     },
     "dense_queries": [
      "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해."
@@ -2925,10 +2925,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.05,
-     "sparse": 0.86,
-     "fusion": 0.21,
-     "total": 207.12
+     "dense": 175.88,
+     "sparse": 0.75,
+     "fusion": 0.16,
+     "total": 176.79
     },
     "dense_queries": [
      "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야."
@@ -3011,10 +3011,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 184.82,
-     "sparse": 34.01,
-     "fusion": 0.23,
-     "total": 219.06
+     "dense": 176.6,
+     "sparse": 39.24,
+     "fusion": 0.15,
+     "total": 215.99
     },
     "dense_queries": [
      "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해."
@@ -3105,10 +3105,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 173.02,
-     "sparse": 3.45,
-     "fusion": 0.58,
-     "total": 177.05
+     "dense": 184.06,
+     "sparse": 3.56,
+     "fusion": 0.43,
+     "total": 188.05
     },
     "dense_queries": [
      "게임 대사를 영어에서 한국어로 번역하려고 해."
@@ -3198,10 +3198,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 195.21,
-     "sparse": 2.81,
-     "fusion": 0.35,
-     "total": 198.37
+     "dense": 186.77,
+     "sparse": 1.94,
+     "fusion": 0.17,
+     "total": 188.88
     },
     "dense_queries": [
      "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야."
@@ -3288,10 +3288,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 206.03,
-     "sparse": 51.95,
-     "fusion": 0.29,
-     "total": 258.27
+     "dense": 201.23,
+     "sparse": 53.62,
+     "fusion": 0.2,
+     "total": 255.05
     },
     "dense_queries": [
      "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해."
@@ -3375,10 +3375,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 227.05,
-     "sparse": 14.22,
-     "fusion": 1.51,
-     "total": 242.78
+     "dense": 209.61,
+     "sparse": 14.27,
+     "fusion": 1.21,
+     "total": 225.09
     },
     "dense_queries": [
      "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해."
@@ -3458,10 +3458,10 @@
     "judged@10": 0.6,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 223.94,
-     "sparse": 3.24,
-     "fusion": 0.59,
-     "total": 227.77
+     "dense": 198.26,
+     "sparse": 2.85,
+     "fusion": 0.55,
+     "total": 201.66
     },
     "dense_queries": [
      "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼."
@@ -3548,10 +3548,10 @@
     "judged@10": 0.2,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 219.28,
-     "sparse": 11.55,
-     "fusion": 0.87,
-     "total": 231.7
+     "dense": 202.55,
+     "sparse": 12.32,
+     "fusion": 0.83,
+     "total": 215.7
     },
     "dense_queries": [
      "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야."
@@ -3644,10 +3644,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 201.69,
-     "sparse": 18.0,
-     "fusion": 0.58,
-     "total": 220.27
+     "dense": 187.39,
+     "sparse": 18.01,
+     "fusion": 0.7,
+     "total": 206.1
     },
     "dense_queries": [
      "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해."
@@ -3733,10 +3733,10 @@
     "judged@10": 1.0,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 213.72,
-     "sparse": 13.99,
-     "fusion": 0.3,
-     "total": 228.01
+     "dense": 194.84,
+     "sparse": 12.82,
+     "fusion": 0.42,
+     "total": 208.08
     },
     "dense_queries": [
      "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해."
@@ -3825,10 +3825,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 257.45,
-     "sparse": 43.15,
-     "fusion": 0.45,
-     "total": 301.05
+     "dense": 201.04,
+     "sparse": 23.23,
+     "fusion": 0.69,
+     "total": 224.96
     },
     "dense_queries": [
      "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아."
@@ -3919,10 +3919,10 @@
     "judged@10": 0.9,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 300.31,
-     "sparse": 22.63,
-     "fusion": 0.44,
-     "total": 323.38
+     "dense": 182.37,
+     "sparse": 8.01,
+     "fusion": 0.63,
+     "total": 191.01
     },
     "dense_queries": [
      "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야."
@@ -4002,10 +4002,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 287.22,
-     "sparse": 6.57,
-     "fusion": 0.47,
-     "total": 294.26
+     "dense": 193.82,
+     "sparse": 3.92,
+     "fusion": 0.66,
+     "total": 198.4
     },
     "dense_queries": [
      "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야."
@@ -4066,10 +4066,10 @@
     "judged@10": 0.6,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 214.31,
-     "sparse": 5.03,
-     "fusion": 0.22,
-     "total": 219.56
+     "dense": 182.51,
+     "sparse": 3.11,
+     "fusion": 0.34,
+     "total": 185.96
     },
     "dense_queries": [
      "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어."
@@ -4149,10 +4149,10 @@
     "judged@10": 0.4,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 242.68,
-     "sparse": 17.86,
-     "fusion": 0.53,
-     "total": 261.07
+     "dense": 192.38,
+     "sparse": 13.26,
+     "fusion": 0.78,
+     "total": 206.42
     },
     "dense_queries": [
      "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야."
@@ -4237,10 +4237,10 @@
     "judged@10": 0.1,
     "latency_ms": {
      "pre_retrieval": 0.0,
-     "dense": 234.12,
-     "sparse": 8.23,
-     "fusion": 1.23,
-     "total": 243.58
+     "dense": 194.8,
+     "sparse": 5.93,
+     "fusion": 1.26,
+     "total": 201.99
     },
     "dense_queries": [
      "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼."
@@ -4284,9 +4284,9 @@
     "map@5": 0.33242424242424246,
     "nrecall@5": 0.40378787878787875,
     "nrecall@10": 0.46958874458874456,
-    "p50_ms": 228.0,
-    "p95_ms": 305.56,
-    "p99_ms": 323.36,
+    "p50_ms": 205.79,
+    "p95_ms": 254.96,
+    "p99_ms": 297.56,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.3409090909090909,
     "abstention_accuracy": null
@@ -4322,9 +4322,9 @@
     "map@5": 0.39405303030303035,
     "nrecall@5": 0.5037878787878788,
     "nrecall@10": 0.5137445887445887,
-    "p50_ms": 227.94,
-    "p95_ms": 305.43,
-    "p99_ms": 323.41,
+    "p50_ms": 205.75,
+    "p95_ms": 254.94,
+    "p99_ms": 297.35,
     "must_exclude_violation_rate@10": 0.625,
     "judged@10": 0.40454545454545454,
     "abstention_accuracy": null
@@ -4360,9 +4360,9 @@
     "map@5": 0.43662878787878784,
     "nrecall@5": 0.5515151515151515,
     "nrecall@10": 0.5395021645021645,
-    "p50_ms": 228.05,
-    "p95_ms": 305.58,
-    "p99_ms": 323.36,
+    "p50_ms": 205.82,
+    "p95_ms": 254.96,
+    "p99_ms": 297.31,
     "must_exclude_violation_rate@10": 0.375,
     "judged@10": 0.4318181818181818,
     "abstention_accuracy": null
@@ -4398,9 +4398,9 @@
     "map@5": 0.45723484848484847,
     "nrecall@5": 0.5787878787878789,
     "nrecall@10": 0.5531385281385282,
-    "p50_ms": 227.92,
-    "p95_ms": 305.37,
-    "p99_ms": 323.26,
+    "p50_ms": 205.74,
+    "p95_ms": 254.93,
+    "p99_ms": 297.25,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.45,
     "abstention_accuracy": null
@@ -4436,9 +4436,9 @@
     "map@5": 0.43132575757575753,
     "nrecall@5": 0.5196969696969697,
     "nrecall@10": 0.5884199134199134,
-    "p50_ms": 227.96,
-    "p95_ms": 305.48,
-    "p99_ms": 323.47,
+    "p50_ms": 205.78,
+    "p95_ms": 254.96,
+    "p99_ms": 297.25,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5,
     "abstention_accuracy": null
@@ -4474,9 +4474,9 @@
     "map@5": 0.42178030303030306,
     "nrecall@5": 0.5106060606060606,
     "nrecall@10": 0.5884199134199134,
-    "p50_ms": 228.0,
-    "p95_ms": 305.67,
-    "p99_ms": 323.36,
+    "p50_ms": 205.83,
+    "p95_ms": 254.96,
+    "p99_ms": 297.48,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5136363636363637,
     "abstention_accuracy": null
@@ -4512,9 +4512,9 @@
     "map@5": 0.4220833333333333,
     "nrecall@5": 0.5196969696969697,
     "nrecall@10": 0.6141774891774893,
-    "p50_ms": 228.22,
-    "p95_ms": 305.46,
-    "p99_ms": 323.45,
+    "p50_ms": 205.76,
+    "p95_ms": 254.94,
+    "p99_ms": 297.27,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5454545454545454,
     "abstention_accuracy": null
@@ -4550,9 +4550,9 @@
     "map@5": 0.4054166666666667,
     "nrecall@5": 0.5015151515151515,
     "nrecall@10": 0.592965367965368,
-    "p50_ms": 228.0,
-    "p95_ms": 305.81,
-    "p99_ms": 323.37,
+    "p50_ms": 205.84,
+    "p95_ms": 254.96,
+    "p99_ms": 297.36,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5136363636363637,
     "abstention_accuracy": null
@@ -4588,9 +4588,9 @@
     "map@5": 0.4053409090909091,
     "nrecall@5": 0.5106060606060606,
     "nrecall@10": 0.5838744588744589,
-    "p50_ms": 227.97,
-    "p95_ms": 305.53,
-    "p99_ms": 323.33,
+    "p50_ms": 205.76,
+    "p95_ms": 254.94,
+    "p99_ms": 297.27,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.4863636363636364,
     "abstention_accuracy": null
@@ -4626,9 +4626,9 @@
     "map@5": 0.4030681818181818,
     "nrecall@5": 0.5106060606060606,
     "nrecall@10": 0.5353896103896104,
-    "p50_ms": 228.25,
-    "p95_ms": 305.52,
-    "p99_ms": 323.37,
+    "p50_ms": 205.81,
+    "p95_ms": 254.96,
+    "p99_ms": 297.38,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.45909090909090905,
     "abstention_accuracy": null
@@ -4664,9 +4664,9 @@
     "map@5": 0.3794318181818182,
     "nrecall@5": 0.48333333333333334,
     "nrecall@10": 0.5163419913419913,
-    "p50_ms": 227.97,
-    "p95_ms": 305.41,
-    "p99_ms": 323.41,
+    "p50_ms": 205.79,
+    "p95_ms": 254.94,
+    "p99_ms": 297.3,
     "must_exclude_violation_rate@10": 0.375,
     "judged@10": 0.4318181818181818,
     "abstention_accuracy": null
@@ -4702,9 +4702,9 @@
     "map@5": 0.35375,
     "nrecall@5": 0.4446969696969697,
     "nrecall@10": 0.48793290043290044,
-    "p50_ms": 228.01,
-    "p95_ms": 305.58,
-    "p99_ms": 323.36,
+    "p50_ms": 205.82,
+    "p95_ms": 254.95,
+    "p99_ms": 297.37,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.39545454545454545,
     "abstention_accuracy": null
@@ -4740,9 +4740,9 @@
     "map@5": 0.3342045454545455,
     "nrecall@5": 0.40378787878787875,
     "nrecall@10": 0.4933441558441558,
-    "p50_ms": 227.97,
-    "p95_ms": 305.46,
-    "p99_ms": 323.36,
+    "p50_ms": 205.82,
+    "p95_ms": 255.01,
+    "p99_ms": 297.29,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.40454545454545454,
     "abstention_accuracy": null
@@ -4778,9 +4778,9 @@
     "map@5": 0.3297727272727273,
     "nrecall@5": 0.40378787878787875,
     "nrecall@10": 0.43917748917748917,
-    "p50_ms": 228.0,
-    "p95_ms": 305.46,
-    "p99_ms": 323.4,
+    "p50_ms": 205.81,
+    "p95_ms": 254.95,
+    "p99_ms": 297.32,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.34545454545454546,
     "abstention_accuracy": null
@@ -4818,9 +4818,9 @@
     "map@5": 0.3145833333333333,
     "nrecall@5": 0.4,
     "nrecall@10": 0.44686147186147185,
-    "p50_ms": 227.82,
-    "p95_ms": 305.34,
-    "p99_ms": 323.04,
+    "p50_ms": 205.49,
+    "p95_ms": 254.93,
+    "p99_ms": 297.22,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.32727272727272727,
     "abstention_accuracy": null
@@ -4856,9 +4856,9 @@
     "map@5": 0.38515151515151513,
     "nrecall@5": 0.49090909090909096,
     "nrecall@10": 0.491017316017316,
-    "p50_ms": 227.81,
-    "p95_ms": 305.26,
-    "p99_ms": 323.03,
+    "p50_ms": 205.49,
+    "p95_ms": 254.94,
+    "p99_ms": 297.17,
     "must_exclude_violation_rate@10": 0.625,
     "judged@10": 0.3909090909090909,
     "abstention_accuracy": null
@@ -4894,9 +4894,9 @@
     "map@5": 0.42363636363636364,
     "nrecall@5": 0.5181818181818182,
     "nrecall@10": 0.5076839826839827,
-    "p50_ms": 227.91,
-    "p95_ms": 305.34,
-    "p99_ms": 323.14,
+    "p50_ms": 205.48,
+    "p95_ms": 254.95,
+    "p99_ms": 297.17,
     "must_exclude_violation_rate@10": 0.375,
     "judged@10": 0.41363636363636364,
     "abstention_accuracy": null
@@ -4932,9 +4932,9 @@
     "map@5": 0.455,
     "nrecall@5": 0.5545454545454546,
     "nrecall@10": 0.5364718614718614,
-    "p50_ms": 227.83,
-    "p95_ms": 305.28,
-    "p99_ms": 323.04,
+    "p50_ms": 205.48,
+    "p95_ms": 254.94,
+    "p99_ms": 297.17,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.43636363636363634,
     "abstention_accuracy": null
@@ -4970,9 +4970,9 @@
     "map@5": 0.43242424242424243,
     "nrecall@5": 0.5045454545454545,
     "nrecall@10": 0.5853896103896103,
-    "p50_ms": 227.82,
-    "p95_ms": 305.25,
-    "p99_ms": 323.03,
+    "p50_ms": 205.48,
+    "p95_ms": 254.94,
+    "p99_ms": 297.17,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.4954545454545455,
     "abstention_accuracy": null
@@ -5008,9 +5008,9 @@
     "map@5": 0.42287878787878785,
     "nrecall@5": 0.4954545454545455,
     "nrecall@10": 0.5762987012987013,
-    "p50_ms": 227.85,
-    "p95_ms": 305.44,
-    "p99_ms": 323.13,
+    "p50_ms": 205.49,
+    "p95_ms": 254.93,
+    "p99_ms": 297.19,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5045454545454545,
     "abstention_accuracy": null
@@ -5046,9 +5046,9 @@
     "map@5": 0.42136363636363633,
     "nrecall@5": 0.4954545454545455,
     "nrecall@10": 0.6020562770562771,
-    "p50_ms": 227.81,
-    "p95_ms": 305.26,
-    "p99_ms": 323.03,
+    "p50_ms": 205.49,
+    "p95_ms": 254.93,
+    "p99_ms": 297.18,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5363636363636364,
     "abstention_accuracy": null
@@ -5084,9 +5084,9 @@
     "map@5": 0.4106060606060606,
     "nrecall@5": 0.48636363636363633,
     "nrecall@10": 0.5762987012987013,
-    "p50_ms": 227.9,
-    "p95_ms": 305.37,
-    "p99_ms": 323.06,
+    "p50_ms": 205.48,
+    "p95_ms": 254.93,
+    "p99_ms": 297.24,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.5,
     "abstention_accuracy": null
@@ -5122,9 +5122,9 @@
     "map@5": 0.41037878787878784,
     "nrecall@5": 0.4954545454545455,
     "nrecall@10": 0.5611471861471862,
-    "p50_ms": 227.82,
-    "p95_ms": 305.26,
-    "p99_ms": 323.04,
+    "p50_ms": 205.49,
+    "p95_ms": 254.93,
+    "p99_ms": 297.18,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.4727272727272727,
     "abstention_accuracy": null
@@ -5160,9 +5160,9 @@
     "map@5": 0.4026515151515151,
     "nrecall@5": 0.4863636363636364,
     "nrecall@10": 0.5414502164502164,
-    "p50_ms": 227.84,
-    "p95_ms": 305.49,
-    "p99_ms": 323.08,
+    "p50_ms": 205.48,
+    "p95_ms": 254.96,
+    "p99_ms": 297.19,
     "must_exclude_violation_rate@10": 0.5,
     "judged@10": 0.45454545454545453,
     "abstention_accuracy": null
@@ -5198,9 +5198,9 @@
     "map@5": 0.38356060606060605,
     "nrecall@5": 0.4681818181818182,
     "nrecall@10": 0.4996753246753247,
-    "p50_ms": 227.81,
-    "p95_ms": 305.24,
-    "p99_ms": 323.03,
+    "p50_ms": 205.48,
+    "p95_ms": 254.93,
+    "p99_ms": 297.18,
     "must_exclude_violation_rate@10": 0.375,
     "judged@10": 0.4227272727272728,
     "abstention_accuracy": null
@@ -5236,9 +5236,9 @@
     "map@5": 0.3610606060606061,
     "nrecall@5": 0.4318181818181818,
     "nrecall@10": 0.47581168831168835,
-    "p50_ms": 227.83,
-    "p95_ms": 305.31,
-    "p99_ms": 323.04,
+    "p50_ms": 205.47,
+    "p95_ms": 254.91,
+    "p99_ms": 297.16,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.3909090909090909,
     "abstention_accuracy": null
@@ -5274,9 +5274,9 @@
     "map@5": 0.3416666666666667,
     "nrecall@5": 0.3909090909090909,
     "nrecall@10": 0.4887987012987013,
-    "p50_ms": 227.87,
-    "p95_ms": 305.24,
-    "p99_ms": 323.03,
+    "p50_ms": 205.49,
+    "p95_ms": 254.93,
+    "p99_ms": 297.16,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.4,
     "abstention_accuracy": null
@@ -5312,9 +5312,9 @@
     "map@5": 0.3247348484848485,
     "nrecall@5": 0.3909090909090909,
     "nrecall@10": 0.41493506493506493,
-    "p50_ms": 227.82,
-    "p95_ms": 305.24,
-    "p99_ms": 323.04,
+    "p50_ms": 205.48,
+    "p95_ms": 254.93,
+    "p99_ms": 297.16,
     "must_exclude_violation_rate@10": 0.25,
     "judged@10": 0.33636363636363636,
     "abstention_accuracy": null

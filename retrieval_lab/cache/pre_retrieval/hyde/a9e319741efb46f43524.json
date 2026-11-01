@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥북(M1 Pro 이상)에서 한국어 회의 녹음을 로컬로 전사해 회의록을 만들려고 해. 음성이 외부로 나가면 안 되고 상업적으로 써야 해. 전문 용어·고유명사 인식이 중요해.",
+ "outputs": [
+  "The model is designed for transcribing Korean audio recordings, specifically optimized for local processing on MacBook (M1 Pro and above) devices. It supports high accuracy in recognizing specialized terminology and proper nouns, making it ideal for generating meeting minutes from recorded discussions. With a parameter count of 1.5 billion, it offers robust performance while ensuring data privacy by keeping all processing local. The model is capable of handling various accents and speech patterns in Korean, making it suitable for diverse meeting contexts. It is licensed for commercial use, ensuring compliance for business applications."
+ ],
+ "response": {
+  "document": "The model is designed for transcribing Korean audio recordings, specifically optimized for local processing on MacBook (M1 Pro and above) devices. It supports high accuracy in recognizing specialized terminology and proper nouns, making it ideal for generating meeting minutes from recorded discussions. With a parameter count of 1.5 billion, it offers robust performance while ensuring data privacy by keeping all processing local. The model is capable of handling various accents and speech patterns in Korean, making it suitable for diverse meeting contexts. It is licensed for commercial use, ensuring compliance for business applications."
+ },
+ "latency_ms": 1767.5
+}

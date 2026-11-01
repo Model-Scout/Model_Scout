@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG에서 검색된 문서 후보를 다시 정렬할 리랭커가 필요해. 상업 서비스에 넣을 거야.",
+ "outputs": [
+  "리랭커 for Korean RAG, commercial service, document ranking"
+ ],
+ "response": {
+  "query": "리랭커 for Korean RAG, commercial service, document ranking"
+ },
+ "latency_ms": 955.0
+}

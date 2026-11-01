@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 OCR 기능을 상업 서비스에 넣으려고 해. GPU 8GB 서버에서 돌아가야 해.",
+ "outputs": [
+  "Korean OCR commercial service GPU 8GB"
+ ],
+ "response": {
+  "query": "Korean OCR commercial service GPU 8GB"
+ },
+ "latency_ms": 801.3
+}

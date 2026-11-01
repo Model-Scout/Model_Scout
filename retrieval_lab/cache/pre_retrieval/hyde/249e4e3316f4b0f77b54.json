@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커를 CPU에서 돌리려고 해. 300M 이하의 가벼운 모델이면 좋겠어.",
+ "outputs": [
+  "The model is a lightweight RAG (Retrieval-Augmented Generation) re-ranker designed specifically for Korean language tasks. With a parameter count of 300M, it is optimized for efficient performance on CPU, making it suitable for environments with limited computational resources. This model excels in enhancing the relevance of retrieved documents in response to user queries, making it ideal for applications in chatbots, information retrieval systems, and content recommendation engines. Its strengths lie in its ability to understand and process Korean text effectively, ensuring high-quality outputs while maintaining a low resource footprint."
+ ],
+ "response": {
+  "document": "The model is a lightweight RAG (Retrieval-Augmented Generation) re-ranker designed specifically for Korean language tasks. With a parameter count of 300M, it is optimized for efficient performance on CPU, making it suitable for environments with limited computational resources. This model excels in enhancing the relevance of retrieved documents in response to user queries, making it ideal for applications in chatbots, information retrieval systems, and content recommendation engines. Its strengths lie in its ability to understand and process Korean text effectively, ensuring high-quality outputs while maintaining a low resource footprint."
+ },
+ "latency_ms": 1567.5
+}

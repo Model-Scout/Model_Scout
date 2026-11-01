@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 OCR을 24GB GPU 한 장에서 로컬로 돌리려고 해. Qwen2.5-VL 32B가 좋다던데 이걸로 가능할까?",
+ "outputs": [
+  "한국어 문서 OCR을 수행할 수 있는 모델을 찾고 싶습니다.",
+  "Qwen2.5-VL 32B 모델의 GPU 메모리 요구 사항을 확인하고 싶습니다."
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 문서 OCR을 수행할 수 있는 모델을 찾고 싶습니다.",
+   "Qwen2.5-VL 32B 모델의 GPU 메모리 요구 사항을 확인하고 싶습니다."
+  ]
+ },
+ "latency_ms": 1021.3
+}

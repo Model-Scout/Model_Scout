@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "쇼핑몰 상품 리뷰를 긍정·부정으로 분류하려고 해. 추가 학습 없이 바로 쓸 수 있는 한국어 감성분석 모델이 필요하고, 상업적으로 써야 해.",
+ "outputs": [
+  "상업적으로 사용할 수 있는 한국어 감성 분석 모델을 찾고 있습니다. 추가 학습 없이 쇼핑몰 상품 리뷰를 긍정과 부정으로 분류할 수 있는 모델이 필요합니다.",
+  "I need a Korean sentiment analysis model that can classify shopping mall product reviews as positive or negative without additional training, and it must be commercially usable.",
+  "Korean sentiment analysis model, classify reviews, positive negative, commercial use, no additional training"
+ ],
+ "response": {
+  "queries": [
+   "상업적으로 사용할 수 있는 한국어 감성 분석 모델을 찾고 있습니다. 추가 학습 없이 쇼핑몰 상품 리뷰를 긍정과 부정으로 분류할 수 있는 모델이 필요합니다.",
+   "I need a Korean sentiment analysis model that can classify shopping mall product reviews as positive or negative without additional training, and it must be commercially usable.",
+   "Korean sentiment analysis model, classify reviews, positive negative, commercial use, no additional training"
+  ]
+ },
+ "latency_ms": 1281.3
+}

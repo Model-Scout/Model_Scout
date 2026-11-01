@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3를 쓰다가 GPU 없는 서버로 옮겨야 해. CPU에서 돌아갈 더 가벼운 대안이 필요해.",
+ "outputs": [
+  "The Whisper-small-v1 model is designed for efficient speech recognition tasks, particularly in Korean. With a parameter count of 60 million, it is significantly lighter than its larger counterparts, making it suitable for CPU-only environments. This model supports multiple languages, including Korean, and is optimized for real-time transcription and voice command applications. Its strengths lie in its reduced computational requirements while maintaining a high level of accuracy in speech recognition. Ideal use cases include mobile applications, embedded systems, and any scenario where resource constraints are a concern. The model is available in GGUF format and is licensed under the MIT license."
+ ],
+ "response": {
+  "document": "The Whisper-small-v1 model is designed for efficient speech recognition tasks, particularly in Korean. With a parameter count of 60 million, it is significantly lighter than its larger counterparts, making it suitable for CPU-only environments. This model supports multiple languages, including Korean, and is optimized for real-time transcription and voice command applications. Its strengths lie in its reduced computational requirements while maintaining a high level of accuracy in speech recognition. Ideal use cases include mobile applications, embedded systems, and any scenario where resource constraints are a concern. The model is available in GGUF format and is licensed under the MIT license."
+ },
+ "latency_ms": 1580.9
+}

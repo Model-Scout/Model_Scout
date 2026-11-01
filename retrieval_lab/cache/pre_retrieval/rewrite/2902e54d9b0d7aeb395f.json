@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 위키 문서에서 질문의 답을 찾는 KorQuAD 수준의 기계독해 모델이 필요해. 정확도가 중요해.",
+ "outputs": [
+  "machine reading comprehension model for KorQuAD level, high accuracy, Korean language"
+ ],
+ "response": {
+  "query": "machine reading comprehension model for KorQuAD level, high accuracy, Korean language"
+ },
+ "latency_ms": 1888.3
+}

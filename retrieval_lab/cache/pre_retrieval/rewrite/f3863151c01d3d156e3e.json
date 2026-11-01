@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG 리랭커를 CPU에서 돌리려고 해. 300M 이하의 가벼운 모델이면 좋겠어.",
+ "outputs": [
+  "Korean RAG re-ranker lightweight model under 300M parameters CPU"
+ ],
+ "response": {
+  "query": "Korean RAG re-ranker lightweight model under 300M parameters CPU"
+ },
+ "latency_ms": 989.4
+}

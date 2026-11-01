@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Dongjin-kr/ko-reranker가 CPU에서 너무 느려. 더 가벼운 한국어 리랭커가 필요해.",
+ "outputs": [
+  "lightweight Korean reranker for CPU"
+ ],
+ "response": {
+  "query": "lightweight Korean reranker for CPU"
+ },
+ "latency_ms": 871.0
+}

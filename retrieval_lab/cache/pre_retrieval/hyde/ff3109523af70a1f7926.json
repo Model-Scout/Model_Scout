@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "휴대폰·태블릿에서 온디바이스로 한국어 녹취를 받아적어야 해. 저장공간과 메모리 부담이 적어야 해서 medium보다 작은 모델을 쓰려고 해.",
+ "outputs": [
+  "The model is designed for on-device transcription of Korean audio, making it ideal for mobile phones and tablets. It supports Korean as its primary language and is optimized for low memory and storage usage, with a parameter count of under 100 million, classifying it as a small model. Intended use cases include real-time transcription for note-taking, voice commands, and accessibility features. Its strengths lie in its efficient processing speed and accuracy in understanding colloquial Korean, making it suitable for everyday use in various environments."
+ ],
+ "response": {
+  "document": "The model is designed for on-device transcription of Korean audio, making it ideal for mobile phones and tablets. It supports Korean as its primary language and is optimized for low memory and storage usage, with a parameter count of under 100 million, classifying it as a small model. Intended use cases include real-time transcription for note-taking, voice commands, and accessibility features. Its strengths lie in its efficient processing speed and accuracy in understanding colloquial Korean, making it suitable for everyday use in various environments."
+ },
+ "latency_ms": 1657.9
+}

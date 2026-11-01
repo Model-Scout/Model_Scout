@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "회의 전사록을 요약해 회의록 초안을 만드는 기능을 로컬에서 돌리려고 해. GPU는 8GB야.",
+ "outputs": [
+  "회의 전사록 요약 및 회의록 초안 작성을 위한 로컬 모델 검색, GPU 8GB",
+  "I want to run a local model that summarizes meeting transcripts to create meeting minutes drafts, with 8GB GPU.",
+  "회의록 초안, 전사록 요약, 로컬 실행, GPU 8GB"
+ ],
+ "response": {
+  "queries": [
+   "회의 전사록 요약 및 회의록 초안 작성을 위한 로컬 모델 검색, GPU 8GB",
+   "I want to run a local model that summarizes meeting transcripts to create meeting minutes drafts, with 8GB GPU.",
+   "회의록 초안, 전사록 요약, 로컬 실행, GPU 8GB"
+  ]
+ },
+ "latency_ms": 1429.8
+}

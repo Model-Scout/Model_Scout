@@ -20,7 +20,6 @@ tags:
 - 1.58bit
 - cpu
 - gguf
-- qwen2.5
 - deepseek
 - efficient
 - low-memory
@@ -36,7 +35,7 @@ license: mit
 
 
 # JiRack Ultra 14B (CPU)
-A fast and efficient 14B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Media**, **Vision**, **Sound**, **Tool call**, and **Robotics** tags. Built on a DeepSeek R1-14B architecture with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
+A fast and efficient 14B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Media**, **Vision**, **Sound**, **Tool call**, and **Robotics** tags. Built on a DeepSeek model redesigned by CMSManhattan with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
 - JiRack is a cloud-ready model that helps save money on cloud infrastructure. It can be used as an expert model in RAG deployments, with the ONNX JiRack Java server as an alternative.
 
 # JiRack Ternary Architedure & JiRack Tokenizer
@@ -57,6 +56,7 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 - QAT for TQ_2 Llama.cpp Ternarization docs https://huggingface.co/CMSManhattan/JiRackUltra_14b/blob/main/QAT_to_Llama.cpp_GGUF_TQ2_0_JirackUltra_14b.md
 - Adapts to agentic or instruct models for tool calling, using the JiRak tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
+- JiRack Ternary production demo: https://huggingface.co/CMSManhattan/JiRackTernaryPrecision-16B-chat
 
 ## QAT 
 - QAT approach 1 script train_qat_ultra_14b_bf16_fulltext_ada_warmup.py
@@ -66,9 +66,11 @@ A fast and efficient 14B model optimized for CPU inference. The model was refact
 ## Live Chat 
 
 https://huggingface.co/spaces/CMSManhattan/JiRackUltra_14b
-https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
-https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
-https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
+## Live chat  TQ2_O quants  
+- https://huggingface.co/spaces/CMSManhattan/JiRack-36B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 
 
 ---
@@ -248,7 +250,7 @@ I added the default model in full precision. This serves as the base for quantiz
 ## Architecture Notes
 - **Refactored with BitNet features**: Native BitLinear ternary path (b1.58-style) with λ-warmup STE
 - **Updated tokenizer**: Extended with new special tags for **Routing**, **Tool call**, and **Robotics**
-- Base: Qwen2.5-14B style (Hidden 5120, 48 layers, GQA 40/8, vocab 152064)
+- Architecture: Qwen2 layout (hidden 5,120, intermediate 13,824, 48 layers, GQA 40/8, vocabulary 152,064, untied embeddings, RoPE theta 1,000,000)
 - RoPE θ = 1 000 000, RMSNorm ε = 1e-6
 - Intermediate size: 13824
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
@@ -267,5 +269,7 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+Base models: a DeepSeek model (MIT License, `LICENSE-DEEPSEEK`), itself derived from a Qwen model (Apache License 2.0, `LICENSE-APACHE`); see `NOTICE.md`.
 
 ![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

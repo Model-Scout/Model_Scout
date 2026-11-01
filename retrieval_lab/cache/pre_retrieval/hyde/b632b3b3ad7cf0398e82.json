@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 금융 뉴스의 감성을 긍정·부정·중립으로 분류하려고 해. 상업 서비스야.",
+ "outputs": [
+  "The model is designed for sentiment analysis of Korean financial news articles, classifying sentiments into positive, negative, and neutral categories. It supports the Korean language and is optimized for commercial use cases, particularly in the finance sector. With a parameter count of 1.5 billion, it offers a robust understanding of nuanced financial language and context. The model excels in accurately identifying sentiment trends, making it ideal for businesses looking to gauge public sentiment on financial news. It has been benchmarked against leading sentiment analysis models, achieving high scores on metrics such as F1 and accuracy. The model is available in GGUF format and is licensed for commercial applications."
+ ],
+ "response": {
+  "document": "The model is designed for sentiment analysis of Korean financial news articles, classifying sentiments into positive, negative, and neutral categories. It supports the Korean language and is optimized for commercial use cases, particularly in the finance sector. With a parameter count of 1.5 billion, it offers a robust understanding of nuanced financial language and context. The model excels in accurately identifying sentiment trends, making it ideal for businesses looking to gauge public sentiment on financial news. It has been benchmarked against leading sentiment analysis models, achieving high scores on metrics such as F1 and accuracy. The model is available in GGUF format and is licensed for commercial applications."
+ },
+ "latency_ms": 1714.8
+}

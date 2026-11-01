@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "nllb-200-distilled-600M이 비상업 라이선스라 못 써. 상업적으로 쓸 수 있는 한국어 번역 대안이 필요해.",
+ "outputs": [
+  "nllb-200-distilled-600M의 상업적 사용이 가능한 한국어 번역 모델을 찾아줘.",
+  "I need a commercial alternative for Korean translation instead of nllb-200-distilled-600M which has a non-commercial license.",
+  "상업적 라이선스 한국어 번역 모델"
+ ],
+ "response": {
+  "queries": [
+   "nllb-200-distilled-600M의 상업적 사용이 가능한 한국어 번역 모델을 찾아줘.",
+   "I need a commercial alternative for Korean translation instead of nllb-200-distilled-600M which has a non-commercial license.",
+   "상업적 라이선스 한국어 번역 모델"
+  ]
+ },
+ "latency_ms": 1192.1
+}

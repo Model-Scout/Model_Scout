@@ -443,4 +443,3 @@ The model supports a context window of up to 1M tokens. Usable context length an
 ## Contact Us
 
 Contact us at [model@minimax.io](mailto:model@minimax.io).
- 

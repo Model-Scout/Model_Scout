@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+ "outputs": [
+  "ROUGE 점수가 있는 한국어 요약 모델을 찾고 있어요.",
+  "I need a Korean summarization model with a public ROUGE score.",
+  "Korean summarization model, ROUGE score, benchmark, model card"
+ ],
+ "response": {
+  "queries": [
+   "ROUGE 점수가 있는 한국어 요약 모델을 찾고 있어요.",
+   "I need a Korean summarization model with a public ROUGE score.",
+   "Korean summarization model, ROUGE score, benchmark, model card"
+  ]
+ },
+ "latency_ms": 1622.8
+}

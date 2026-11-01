@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KMMLU 점수가 공개된 한국어 LLM을 비교하고 싶어.",
+ "outputs": [
+  "The Korean Language Model (KLM) is a state-of-the-art large language model designed specifically for Korean text processing. With 1.5 billion parameters and a context length of 2048 tokens, KLM excels in various natural language understanding tasks, including text generation, translation, and sentiment analysis. It supports multiple languages, primarily focusing on Korean, and is optimized for high performance in benchmarks such as KMMLU. The model is available in GGUF format and is licensed under the MIT License, making it suitable for both research and commercial applications. Its strengths lie in its ability to generate coherent and contextually relevant text, making it ideal for chatbots, content creation, and educational tools."
+ ],
+ "response": {
+  "document": "The Korean Language Model (KLM) is a state-of-the-art large language model designed specifically for Korean text processing. With 1.5 billion parameters and a context length of 2048 tokens, KLM excels in various natural language understanding tasks, including text generation, translation, and sentiment analysis. It supports multiple languages, primarily focusing on Korean, and is optimized for high performance in benchmarks such as KMMLU. The model is available in GGUF format and is licensed under the MIT License, making it suitable for both research and commercial applications. Its strengths lie in its ability to generate coherent and contextually relevant text, making it ideal for chatbots, content creation, and educational tools."
+ },
+ "latency_ms": 3133.1
+}

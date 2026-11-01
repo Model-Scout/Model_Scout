@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE-4.5-33B로 한국어 문서 이미지를 읽고 싶은데 16GB 맥에서 돌아갈까?",
+ "outputs": [
+  "EXAONE-4.5-33B로 한국어 문서 이미지를 처리할 수 있을까요? 16GB 맥에서 실행 가능한지 알고 싶습니다.",
+  "Can I process Korean document images with EXAONE-4.5-33B on a 16GB Mac?",
+  "EXAONE-4.5-33B, 한국어, 문서 이미지, 16GB, 맥, 실행 가능성"
+ ],
+ "response": {
+  "queries": [
+   "EXAONE-4.5-33B로 한국어 문서 이미지를 처리할 수 있을까요? 16GB 맥에서 실행 가능한지 알고 싶습니다.",
+   "Can I process Korean document images with EXAONE-4.5-33B on a 16GB Mac?",
+   "EXAONE-4.5-33B, 한국어, 문서 이미지, 16GB, 맥, 실행 가능성"
+  ]
+ },
+ "latency_ms": 1654.7
+}

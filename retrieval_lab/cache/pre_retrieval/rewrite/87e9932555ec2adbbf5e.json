@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "차트와 표가 들어간 한국어 보고서 이미지를 이해하는 모델을 상업 서비스에 쓰려고 해.",
+ "outputs": [
+  "model for understanding Korean reports with charts and tables for commercial service"
+ ],
+ "response": {
+  "query": "model for understanding Korean reports with charts and tables for commercial service"
+ },
+ "latency_ms": 746.8
+}

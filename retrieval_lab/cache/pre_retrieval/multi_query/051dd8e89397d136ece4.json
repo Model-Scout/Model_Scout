@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "콜센터 통화 녹음을 실시간에 가깝게 한국어로 받아 적어야 해. 상업 서비스이고 GPU 서버가 있어.",
+ "outputs": [
+  "콜센터 통화 녹음을 실시간으로 한국어로 텍스트로 변환할 수 있는 모델을 찾고 있어요.",
+  "I need a model that can transcribe call center recordings into Korean in near real-time. It's for a commercial service and I have a GPU server.",
+  "콜센터 통화 녹음, 실시간 한국어 텍스트 변환, 상업 서비스, GPU 서버"
+ ],
+ "response": {
+  "queries": [
+   "콜센터 통화 녹음을 실시간으로 한국어로 텍스트로 변환할 수 있는 모델을 찾고 있어요.",
+   "I need a model that can transcribe call center recordings into Korean in near real-time. It's for a commercial service and I have a GPU server.",
+   "콜센터 통화 녹음, 실시간 한국어 텍스트 변환, 상업 서비스, GPU 서버"
+  ]
+ },
+ "latency_ms": 1499.5
+}

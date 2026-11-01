@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+ "outputs": [
+  "ROUGE 점수가 공개된 한국어 요약 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "ROUGE 점수가 공개된 한국어 요약 모델"
+  ]
+ },
+ "latency_ms": 946.0
+}

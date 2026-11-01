@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "NSMC 영화 리뷰 감성분석 정확도가 높은 한국어 모델을 찾고 있어. 정확도 수치가 공개된 모델이면 좋겠어.",
+ "outputs": [
+  "Find Korean model for NSMC movie review sentiment analysis with high accuracy and published accuracy metrics."
+ ],
+ "response": {
+  "query": "Find Korean model for NSMC movie review sentiment analysis with high accuracy and published accuracy metrics."
+ },
+ "latency_ms": 1513.8
+}

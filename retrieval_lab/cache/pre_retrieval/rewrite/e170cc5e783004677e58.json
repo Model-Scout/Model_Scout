@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3를 쓰다가 GPU 없는 서버로 옮겨야 해. CPU에서 돌아갈 더 가벼운 대안이 필요해.",
+ "outputs": [
+  "Find lighter alternative to whisper-large-v3 for CPU inference."
+ ],
+ "response": {
+  "query": "Find lighter alternative to whisper-large-v3 for CPU inference."
+ },
+ "latency_ms": 918.4
+}

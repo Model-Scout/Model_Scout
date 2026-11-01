@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3-turbo를 RAM 4GB 라즈베리파이에서 한국어 음성인식용으로 돌릴 수 있을까?",
+ "outputs": [
+  "whisper-large-v3-turbo 음성 인식 모델의 RAM 요구 사항은 얼마인가요?",
+  "whisper-large-v3-turbo 모델은 한국어를 지원하나요?",
+  "whisper-large-v3-turbo 모델의 크기나 파라미터 수는 얼마인가요?",
+  "whisper-large-v3-turbo 모델은 어떤 라이센스를 가지고 있나요?"
+ ],
+ "response": {
+  "sub_queries": [
+   "whisper-large-v3-turbo 음성 인식 모델의 RAM 요구 사항은 얼마인가요?",
+   "whisper-large-v3-turbo 모델은 한국어를 지원하나요?",
+   "whisper-large-v3-turbo 모델의 크기나 파라미터 수는 얼마인가요?",
+   "whisper-large-v3-turbo 모델은 어떤 라이센스를 가지고 있나요?"
+  ]
+ },
+ "latency_ms": 1356.1
+}

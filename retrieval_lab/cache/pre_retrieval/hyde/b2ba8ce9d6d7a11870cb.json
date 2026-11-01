@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "whisper-large-v3-turbo를 RAM 4GB 라즈베리파이에서 한국어 음성인식용으로 돌릴 수 있을까?",
+ "outputs": [
+  "The whisper-large-v3-turbo model is designed for automatic speech recognition (ASR) tasks, specifically optimized for various languages including Korean. With a parameter count of approximately 1.5 billion, it strikes a balance between performance and resource requirements. This model is particularly suited for real-time applications, making it ideal for use cases such as voice assistants, transcription services, and interactive voice response systems. However, running this model on a Raspberry Pi with only 4GB of RAM may pose challenges, as it typically requires more memory for efficient processing. Users may need to consider quantization techniques or lighter alternatives for optimal performance on limited hardware."
+ ],
+ "response": {
+  "document": "The whisper-large-v3-turbo model is designed for automatic speech recognition (ASR) tasks, specifically optimized for various languages including Korean. With a parameter count of approximately 1.5 billion, it strikes a balance between performance and resource requirements. This model is particularly suited for real-time applications, making it ideal for use cases such as voice assistants, transcription services, and interactive voice response systems. However, running this model on a Raspberry Pi with only 4GB of RAM may pose challenges, as it typically requires more memory for efficient processing. Users may need to consider quantization techniques or lighter alternatives for optimal performance on limited hardware."
+ },
+ "latency_ms": 2014.1
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+ "outputs": [
+  "Task: Transcription",
+  "Deployment: Local GPU (12GB)",
+  "Priority: Accuracy"
+ ],
+ "response": {
+  "sub_queries": [
+   "Task: Transcription",
+   "Deployment: Local GPU (12GB)",
+   "Priority: Accuracy"
+  ]
+ },
+ "latency_ms": 940.6
+}

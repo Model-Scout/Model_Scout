@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "회의 녹음에서 할 일과 기여도를 뽑아내는 웹 플랫폼에 쓸 한국어 LLM을 자체 GPU 서버(10~16GB)에서 서빙하려고 해. 외부 AI API는 안 쓰고, 나중에 유료화할 수 있게 상업 라이선스여야 해.",
+ "outputs": [
+  "Korean LLM for extracting tasks and contributions from meeting recordings, self-hosted on GPU server (10-16GB), commercial license, no external AI API"
+ ],
+ "response": {
+  "query": "Korean LLM for extracting tasks and contributions from meeting recordings, self-hosted on GPU server (10-16GB), commercial license, no external AI API"
+ },
+ "latency_ms": 1235.9
+}

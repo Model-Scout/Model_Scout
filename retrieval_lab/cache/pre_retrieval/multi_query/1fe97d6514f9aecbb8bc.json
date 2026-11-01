@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 문서 기반 한국어 RAG 답변 생성 모델을 GPU 8GB 노트북에서 돌리려고 해.",
+ "outputs": [
+  "사내 문서 기반 한국어 RAG 모델을 GPU 8GB 노트북에서 실행하고 싶어요.",
+  "I want to run a Korean RAG model based on internal documents on a GPU 8GB laptop.",
+  "Korean RAG model internal documents GPU 8GB notebook"
+ ],
+ "response": {
+  "queries": [
+   "사내 문서 기반 한국어 RAG 모델을 GPU 8GB 노트북에서 실행하고 싶어요.",
+   "I want to run a Korean RAG model based on internal documents on a GPU 8GB laptop.",
+   "Korean RAG model internal documents GPU 8GB notebook"
+  ]
+ },
+ "latency_ms": 2345.4
+}

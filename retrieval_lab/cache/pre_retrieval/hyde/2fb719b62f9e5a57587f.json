@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "ainize/kobart-news와 비슷한 한국어 요약 모델인데 더 긴 문서를 넣을 수 있는 게 필요해.",
+ "outputs": [
+  "The model is a Korean text summarization model designed to handle longer documents effectively. It supports the Korean language and is optimized for summarizing news articles, research papers, and lengthy reports. With a parameter count of 1.5 billion, it offers an extended context length of up to 4096 tokens, making it suitable for comprehensive document analysis. The model is built on the transformer architecture, ensuring high-quality summaries while maintaining the original context. Intended use cases include academic research, media analysis, and content creation. Its strengths lie in its ability to generate coherent and concise summaries from extensive texts, outperforming existing models like ainize/kobart-news in handling larger inputs."
+ ],
+ "response": {
+  "document": "The model is a Korean text summarization model designed to handle longer documents effectively. It supports the Korean language and is optimized for summarizing news articles, research papers, and lengthy reports. With a parameter count of 1.5 billion, it offers an extended context length of up to 4096 tokens, making it suitable for comprehensive document analysis. The model is built on the transformer architecture, ensuring high-quality summaries while maintaining the original context. Intended use cases include academic research, media analysis, and content creation. Its strengths lie in its ability to generate coherent and concise summaries from extensive texts, outperforming existing models like ainize/kobart-news in handling larger inputs."
+ },
+ "latency_ms": 2046.4
+}
