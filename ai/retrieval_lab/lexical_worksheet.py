@@ -24,7 +24,7 @@ from typing import Dict, List
 from retrieval_lab import lexical_rules as rules
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 REPORT = ROOT / "retrieval_lab" / "reports" / "lexical_exact.json"
 OUT_PATH = ROOT / "test" / "golden" / "labels" / "worksheet_lexical_exact.jsonl"
 POOLS = ("core", "low_popularity")

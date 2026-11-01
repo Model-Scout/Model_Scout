@@ -1,13 +1,19 @@
 name: Publish wiki (Quartz)
 
-# Renders wiki/ (Obsidian vault, [[links]], frontmatter) as a static site with Quartz v4 and
-# deploys it to GitHub Pages. Needs Settings -> Pages -> Source: GitHub Actions.
+# Builds wiki/ (Obsidian vault, [[links]], frontmatter; gitignored) from the hypergraph, renders
+# it as a static site with Quartz v4 and deploys it to GitHub Pages.
+# Needs Settings -> Pages -> Source: GitHub Actions.
 # Pushes made by other workflows with GITHUB_TOKEN do not fire `push`, so a finished
 # dataset refresh triggers this through workflow_run.
 on:
   push:
     branches: [main]
-    paths: ["ai/wiki/**", ".github/workflows/wiki-pages.yml"]
+    paths:
+      - "ai/data/hypergraph/**"
+      - "ai/15_build_wiki.py"
+      - "ai/taxonomy.py"
+      - "ai/taxonomy.yaml"
+      - ".github/workflows/wiki-pages.yml"
   workflow_run:
     workflows: ["Dataset refresh"]
     types: [completed]
@@ -34,6 +40,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main  # workflow_run starts from the commit before the refresh pushed
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build wiki from the hypergraph
+        run: |
+          python -m pip install pyyaml
+          cd ai && python 15_build_wiki.py
 
       - uses: actions/setup-node@v4
         with:

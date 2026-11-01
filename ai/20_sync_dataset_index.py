@@ -23,8 +23,8 @@ import os
 from collections import defaultdict
 from pathlib import Path
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 INDEX_DIR = DATA_DIR / "dataset_index"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 SCHEMA_SQL = Path(__file__).with_name("supabase_dataset_schema.sql")

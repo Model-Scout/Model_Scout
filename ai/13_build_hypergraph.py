@@ -29,8 +29,8 @@ from pathlib import Path
 from dataset_dedup import duplicate_map
 from taxonomy import label, load_taxonomy, mentions, normalize
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 OUT_DIR = DATA_DIR / "hypergraph"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
@@ -104,9 +104,9 @@ def size_category_upper(value):
 
 def readme_status(row):
     path = row.get("readme_path")
-    if not path or not (BACKEND_DIR / path).exists():
+    if not path or not (AI_DIR / path).exists():
         return "missing"
-    body = FRONTMATTER_RE.sub("", (BACKEND_DIR / path).read_text(encoding="utf-8"), count=1).strip()
+    body = FRONTMATTER_RE.sub("", (AI_DIR / path).read_text(encoding="utf-8"), count=1).strip()
     if body.count(TEMPLATE_MARK) >= 5:
         return "template"
     return "thin" if len(body) < 200 else "ok"

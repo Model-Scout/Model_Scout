@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 LABEL_DIR = ROOT / "test" / "golden" / "labels"
 POOLS = ("core", "low_popularity")
 QUERY_FILES = ("semantic_golden_queries.jsonl", "semantic_judged_queries.jsonl")

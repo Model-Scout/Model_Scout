@@ -24,7 +24,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 DEFAULT_QUERY_FILE = ROOT / "test" / "retrieval_queries.jsonl"
 DEFAULT_JSON = ROOT / "test" / "retrieval_accuracy_by_type.json"
 DEFAULT_MD = ROOT / "test" / "retrieval_accuracy_by_type.md"

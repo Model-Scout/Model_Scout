@@ -64,18 +64,18 @@ jobs:
           git config user.name "model-scout-sync[bot]"
           git config user.email "model-scout-sync[bot]@users.noreply.github.com"
           git add \
-            ../backend/data/hf_models_stage1_*.jsonl \
-            ../backend/data/hf_models_stage1_state.json \
-            ../backend/data/hf_models_stage2_core.jsonl \
-            ../backend/data/hf_models_stage2_low_popularity.jsonl \
-            ../backend/data/hf_models_stage3_core.jsonl \
-            ../backend/data/hf_models_stage3_low_popularity.jsonl \
-          ../backend/data/hf_models_stage4_manifest.json \
-          ../backend/data/readmes/core \
-          ../backend/data/readmes/low_popularity
-          if test -f ../backend/data/hf_models_benchmark_state.json; then git add ../backend/data/hf_models_benchmark_state.json; fi
+            data/hf_models_stage1_*.jsonl \
+            data/hf_models_stage1_state.json \
+            data/hf_models_stage2_core.jsonl \
+            data/hf_models_stage2_low_popularity.jsonl \
+            data/hf_models_stage3_core.jsonl \
+            data/hf_models_stage3_low_popularity.jsonl \
+          data/hf_models_stage4_manifest.json \
+          data/readmes/core \
+          data/readmes/low_popularity
+          if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
           # Stage 2 language-gate exclusions; persisted so excluded models are not re-enriched each run.
-          for f in ../backend/data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
+          for f in data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
           if git diff --cached --quiet; then
             echo "No snapshot changes to commit"
             exit 0

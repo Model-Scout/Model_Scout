@@ -69,8 +69,8 @@ SNAPSHOT_DROP_MIN_FRACTION = 0.5
 # OUTPUT
 # =========================================================
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 
 CORE_OUTPUT = (
     DATA_DIR

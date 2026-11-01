@@ -20,7 +20,7 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "backend" / "data"
+DATA_DIR = Path(__file__).resolve().parent / "data"
 INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 OUTPUT = DATA_DIR / "hf_datasets_length_stats.jsonl"
 VIEWER = "https://datasets-server.huggingface.co"

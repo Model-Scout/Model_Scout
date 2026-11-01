@@ -53,8 +53,8 @@ def read_jsonl(path: Path) -> List[Dict[str, Any]]:
 
 def golden_section(pool_builder, validator) -> List[Dict[str, Any]]:
     rows = {row["model_id"].casefold(): row for row in validator.load_rows()}
-    stage2 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT.parent / "backend" / "data" / f"hf_models_stage2_{pool}.jsonl")}
-    stage3 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT.parent / "backend" / "data" / f"hf_models_stage3_{pool}.jsonl")}
+    stage2 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT / "data" / f"hf_models_stage2_{pool}.jsonl")}
+    stage3 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT / "data" / f"hf_models_stage3_{pool}.jsonl")}
     queries = []
     for label in read_jsonl(GOLDEN_LABELS):
         cards: List[Dict[str, Any]] = []

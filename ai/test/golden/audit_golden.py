@@ -226,7 +226,7 @@ def main() -> None:
     cases = {case["case_id"]: case for path in CASE_PATHS for case in read_jsonl(path)}
     rows = {row["model_id"].casefold(): row for row in validator.load_rows()}
     stage2 = {row["model_id"].casefold(): row for pool in validator.POOLS
-              for row in read_jsonl(ROOT.parent / "backend" / "data" / f"hf_models_stage2_{pool}.jsonl")}
+              for row in read_jsonl(ROOT / "data" / f"hf_models_stage2_{pool}.jsonl")}
     for key, row in rows.items():
         row["license"] = (stage2.get(key) or {}).get("license", (row.get("filter_metadata") or {}).get("license"))
 

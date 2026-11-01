@@ -36,8 +36,8 @@ MIN_DOWNLOADS = 0
 API_MAX_RETRIES = 5
 API_RETRY_BASE_SECONDS = 2
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 OUTPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 STATE_OUTPUT = DATA_DIR / "hf_datasets_stage1_state.json"
 README_DIR = DATA_DIR / "readmes" / "datasets"
@@ -187,7 +187,7 @@ def fetch_readme(row, previous, token):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     row.update(
-        readme_path=path.relative_to(BACKEND_DIR).as_posix(),
+        readme_path=path.relative_to(AI_DIR).as_posix(),
         readme_language=readme_language(text),
         readme_chars=len(text),
     )

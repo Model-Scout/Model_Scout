@@ -154,8 +154,8 @@ def main() -> None:
     validator = load_module("model_scout_validator", ROOT / "05_validate_retrieval.py")
     sparse = load_module("model_scout_sparse", ROOT / "test" / "compare_dense_sparse.py")
     rows = validator.load_rows()
-    stage2 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT.parent / "backend" / "data" / f"hf_models_stage2_{pool}.jsonl")}
-    stage3 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT.parent / "backend" / "data" / f"hf_models_stage3_{pool}.jsonl")}
+    stage2 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT / "data" / f"hf_models_stage2_{pool}.jsonl")}
+    stage3 = {r["model_id"]: r for pool in validator.POOLS for r in read_jsonl(ROOT / "data" / f"hf_models_stage3_{pool}.jsonl")}
     bm25 = CachedBM25(rows, sparse)
     rng = random.Random(SEED)
 

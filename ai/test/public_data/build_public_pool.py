@@ -39,9 +39,9 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = ROOT / "test" / "public_data"
 QUERY_PATH = HERE / "labels" / "public_data_queries.jsonl"
 OUTPUT_PATH = HERE / "reports" / "public_pool.json"
-ENTITIES = ROOT.parent / "backend" / "data" / "hypergraph" / "entities.jsonl"
-CHUNKS = ROOT.parent / "backend" / "data" / "dataset_index" / "chunks.jsonl"
-STAGE1 = ROOT.parent / "backend" / "data" / "public_datasets_stage1.jsonl"
+ENTITIES = ROOT / "data" / "hypergraph" / "entities.jsonl"
+CHUNKS = ROOT / "data" / "dataset_index" / "chunks.jsonl"
+STAGE1 = ROOT / "data" / "public_datasets_stage1.jsonl"
 PUBLIC_SOURCES = {"seoul_open_data", "data_go_kr"}
 POOL_SIZE = 12
 SEED = 20261101
@@ -133,7 +133,7 @@ def load_corpus() -> list[dict[str, Any]]:
 
 
 def dense_ranking(query: str, corpus: list[dict[str, Any]]) -> list[int] | None:
-    if not ((ROOT.parent / "backend" / "data" / "dataset_index" / "embeddings.npy").exists() and os.environ.get("OPENAI_API_KEY")):
+    if not ((ROOT / "data" / "dataset_index" / "embeddings.npy").exists() and os.environ.get("OPENAI_API_KEY")):
         return None
     import hypergraph_search as hs
 

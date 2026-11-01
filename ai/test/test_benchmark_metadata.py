@@ -114,8 +114,8 @@ def test_metadata_table_is_not_a_benchmark():
 
 def test_retrieval_hydration_covers_stage4_rows():
     root = Path(__file__).resolve().parents[1]
-    catalog = _VALIDATOR.load_catalog(root.parent / "backend" / "data")
-    data_dir = root.parent / "backend" / "data"
+    catalog = _VALIDATOR.load_catalog(root / "data")
+    data_dir = root / "data"
     for pool in ("core", "low_popularity"):
         stage2_ids = {
             json.loads(line)["model_id"]
@@ -135,9 +135,9 @@ def test_retrieval_hydration_covers_stage4_rows():
 
 def test_retrieval_hydration_includes_evidence():
     root = Path(__file__).resolve().parents[1]
-    catalog = _VALIDATOR.load_catalog(root.parent / "backend" / "data")
+    catalog = _VALIDATOR.load_catalog(root / "data")
     row = json.loads(
-        (root.parent / "backend" / "data" / "hf_models_stage4_core.jsonl")
+        (root / "data" / "hf_models_stage4_core.jsonl")
         .read_text(encoding="utf-8")
         .splitlines()[0]
     )

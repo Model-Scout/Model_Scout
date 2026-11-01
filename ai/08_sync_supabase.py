@@ -33,7 +33,7 @@ from dotenv import load_dotenv
 from retrieval_metadata import augment_filter_metadata
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 SCHEMA_PATH = ROOT / "supabase_schema.sql"
 POOLS = ("core", "low_popularity")
 MODEL_IDS_PATH = DATA_DIR / ".incremental_model_ids.json"

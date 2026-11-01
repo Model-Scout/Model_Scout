@@ -25,8 +25,8 @@ api = HfApi(
 )
 
 
-BACKEND_DIR = Path(__file__).resolve().parents[1] / "backend"
-DATA_DIR = BACKEND_DIR / "data"
+AI_DIR = Path(__file__).resolve().parent
+DATA_DIR = AI_DIR / "data"
 
 
 # =========================================================
@@ -509,8 +509,8 @@ def load_and_save_readme(
                 True,
 
             "path":
-                output_path.relative_to(BACKEND_DIR).as_posix()
-                if output_path.is_relative_to(BACKEND_DIR)
+                output_path.relative_to(AI_DIR).as_posix()
+                if output_path.is_relative_to(AI_DIR)
                 else str(output_path),
             "source_url":
                 model_page_url(model_id),
@@ -2326,7 +2326,7 @@ def validate_stage2_rows(rows, source_pool):
         readme = row.get("source", {}).get("readme", {})
         if readme.get("available"):
             path = readme.get("path")
-            if not path or (BACKEND_DIR / path).parent != POOL_CONFIGS[source_pool]["readme_dir"]:
+            if not path or (AI_DIR / path).parent != POOL_CONFIGS[source_pool]["readme_dir"]:
                 reasons.append("README path is outside the source pool directory")
         if reasons:
             problems.append(f"{model_id}: {'; '.join(reasons)}")

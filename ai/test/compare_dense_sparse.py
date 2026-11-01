@@ -29,7 +29,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 GOLDEN_QUERY_PATH = ROOT / "test" / "retrieval_queries.jsonl"
 DENSE_REPORT_PATH = ROOT / "test" / "stage4_retrieval_validation.json"
 REPORT_JSON = ROOT / "test" / "dense_sparse_comparison.json"

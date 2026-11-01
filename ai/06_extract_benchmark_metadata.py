@@ -20,7 +20,7 @@ from benchmark_metadata import extract_benchmarks
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 MAX_COMPACT_RESULTS = 256
 CHANGED_IDS_PATH = DATA_DIR / ".benchmark_changed_model_ids.json"

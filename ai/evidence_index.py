@@ -19,7 +19,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence, Tuple
 
 
 ROOT = Path(__file__).resolve().parent
-DATA_DIR = ROOT.parent / "backend" / "data"
+DATA_DIR = ROOT / "data"
 POOLS = ("core", "low_popularity")
 INDEX_SCHEMA_VERSION = 1
 INDEX_VERSION = 1
