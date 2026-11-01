@@ -33,6 +33,7 @@ DATA_DIR = Path(__file__).resolve().parent / "data"
 HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
 DATASET_INDEX_DIR = DATA_DIR / "dataset_index"
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
+LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/"
 # ponytail: hand-set weights; tune against the golden set once dataset queries exist there.
 # input_length mostly filters (longer-than-model data is excluded); a large bonus let any long, loosely
 # tagged set outrank core data once the download floor was dropped, so it only nudges.
@@ -192,9 +193,18 @@ def _supabase_dense_scores(query_vector):
         conn.close()
 
 
+def _is_lfs_pointer(path):
+    with open(path, "rb") as f:
+        return f.read(len(LFS_POINTER_PREFIX)) == LFS_POINTER_PREFIX
+
+
 def model_vector(model_id):
-    """Stage 4 vector of a model: local snapshot if present (gitignored), else Supabase."""
-    if all(path.exists() for path in MODEL_INPUTS):
+    """Stage 4 vector of a model: local snapshot if present (gitignored), else Supabase.
+
+    The snapshots are Git LFS files, so a checkout without LFS (CI) has pointer stubs in their
+    place; those count as absent.
+    """
+    if all(path.exists() and not _is_lfs_pointer(path) for path in MODEL_INPUTS):
         return load_model_vectors().get(model_id)
     from supabase_db import configured, db_connection, parse_vector
 
