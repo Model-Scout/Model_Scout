@@ -219,7 +219,7 @@ def evaluate_public(path):
     for label in labels:
         if not label["evaluable"]:
             continue
-        grades = {}
+        grades: dict[str, int] = {}
         for dataset, grade in label["relevant"].items():
             for name in alias.get(dataset, {dataset}):
                 grades[name] = max(grade, grades.get(name, 0))
