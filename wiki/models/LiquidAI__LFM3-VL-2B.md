@@ -3,7 +3,7 @@ type: "model"
 id: "LiquidAI/LFM3-VL-2B"
 source: "huggingface"
 url: "https://huggingface.co/LiquidAI/LFM3-VL-2B"
-downloads: 1596
+downloads: 4193
 context_length: 128000
 parameters_b: 1.918
 task:

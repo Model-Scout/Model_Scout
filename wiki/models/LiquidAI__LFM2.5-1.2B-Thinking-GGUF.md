@@ -3,7 +3,7 @@ type: "model"
 id: "LiquidAI/LFM2.5-1.2B-Thinking-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF"
-downloads: 10782
+downloads: 12427
 task:
   - "[[텍스트 생성]]"
 input_modality:

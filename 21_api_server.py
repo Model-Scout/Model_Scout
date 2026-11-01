@@ -3,13 +3,19 @@
 The full answer takes ~10-25 s (two LLM calls and the model search), so the API streams each
 step as it finishes instead of waiting for the end:
 
-    event: status    {"node": "decompose", "elapsed": 2.4}        after every graph node
-    event: plan      ProjectPlan                                     needs + constraints
-    event: models    [{need, models}]                                per-need model ranking
-    event: datasets  {per_model, project_training, service_data}
-    event: token     {"text": "..."}                                 answer, as it is written
-    event: done      {"thread_id": "...", "elapsed": 14.1}
-    event: error     {"message": "..."}
+    event: status      {"node": "decompose", "elapsed": 2.4}      after every graph node
+    event: plan        ProjectPlan                                   needs + constraints
+    event: clarify     {"questions": [...], "thread_id": "..."}      vague request: answer, then POST
+                                                                     again with {"thread_id", "answer"}
+    event: models      [{need, models}]                              per need; each model has gpu_fit,
+                                                                     benchmarks and a README evidence quote
+    event: datasets    {per_model, project_training, service_data}   each with licenses + evidence quotes
+    event: assessment  {"license": {verdict, label, reason, ...}}    commercial launch verdict
+    event: token       {"text": "..."}                               answer, as it is written
+    event: done        {"thread_id": "...", "elapsed": 14.1}
+    event: error       {"message": "..."}
+
+    GET /api/compare?models=a,b,c&gpu_gb=8   side-by-side model table (size, context, license, GPU fit, benchmarks)
 
 Conversations persist in Supabase (PostgresSaver, schema langgraph) by thread_id, so a follow-up
 ("상업용만 다시") revises the previous plan. Without database settings it falls back to memory.
@@ -18,6 +24,7 @@ Conversations persist in Supabase (PostgresSaver, schema langgraph) by thread_id
     curl -N -X POST localhost:8000/api/recommend -H 'content-type: application/json' \\
          -d '{"message": "따릉이 경로 추천 서비스를 만들고 싶어"}'
 """
+
 from __future__ import annotations
 
 import importlib.util
@@ -29,9 +36,9 @@ import time
 import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Optional
+from typing import Any, cast
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
@@ -43,6 +50,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 def _load_graph_module():
     spec = importlib.util.spec_from_file_location("recommend_graph", ROOT / "17_recommend_graph.py")
+    assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
     sys.modules["recommend_graph"] = module  # LangGraph resolves the State annotations through it
     spec.loader.exec_module(module)
@@ -53,8 +61,11 @@ rg = _load_graph_module()
 
 
 class RecommendRequest(BaseModel):
-    message: str = Field(min_length=2, max_length=2000)
-    thread_id: Optional[str] = Field(default=None, pattern=r"^[A-Za-z0-9_.:-]{1,80}$")
+    message: str | None = Field(default=None, min_length=2, max_length=2000)
+    answer: str | None = Field(
+        default=None, min_length=1, max_length=2000, description="reply to a clarify event; needs the same thread_id"
+    )
+    thread_id: str | None = Field(default=None, pattern=r"^[A-Za-z0-9_.:-]{1,80}$")
 
 
 def _checkpointer():
@@ -71,9 +82,15 @@ def _checkpointer():
 
     with rg.postgres_checkpointer():  # creates schema/tables and locks them down, idempotent
         pass
-    pool = ConnectionPool(rg.supabase_conninfo(), min_size=1, max_size=int(os.getenv("CHECKPOINT_POOL_SIZE", "5")),
-                          kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row}, open=True)
-    return PostgresSaver(pool), pool
+    pool = ConnectionPool(
+        rg.supabase_conninfo(),
+        min_size=1,
+        max_size=int(os.getenv("CHECKPOINT_POOL_SIZE", "5")),
+        kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row},
+        open=True,
+    )
+    # row_factory=dict_row makes these dict-row connections; the pool's generic type cannot say so.
+    return PostgresSaver(cast(Any, pool)), pool
 
 
 @asynccontextmanager
@@ -91,37 +108,52 @@ async def lifespan(app: FastAPI):
     app.state.graph, app.state.pool = rg.build_graph(checkpointer=saver), pool
     if pool is not None:
         with pool.connection() as conn:
-            logging.info("pruned %s idle conversations", rg.prune_idle_threads(conn, days=int(os.getenv("THREAD_TTL_DAYS", "30"))))
+            logging.info(
+                "pruned %s idle conversations",
+                rg.prune_idle_threads(conn, days=int(os.getenv("THREAD_TTL_DAYS", "30"))),
+            )
     yield
     if pool is not None:
         pool.close()
 
 
 app = FastAPI(title="Model Scout API", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
-                   allow_methods=["GET", "POST"], allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 
 def sse(event, data):
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 
-NODE_EVENTS = {"decompose": ("plan", "plan"), "search_models": ("models", "models"),
-               "search_datasets": ("datasets", "datasets")}
+NODE_EVENTS = {
+    "decompose": ("plan", "plan"),
+    "search_models": ("models", "models"),
+    "search_datasets": ("datasets", "datasets"),
+    "assess": ("assessment", "assessment"),
+}
 
 
-def stream_recommendation(graph, message, thread_id):
+def stream_recommendation(graph, payload, thread_id):
     config = {"configurable": {"thread_id": thread_id}}
     started = time.time()
     try:
-        for mode, data in graph.stream({"request": message}, config, stream_mode=["updates", "custom"],
-                                       durability="exit"):  # one checkpoint per turn
+        for mode, data in graph.stream(
+            payload, config, stream_mode=["updates", "custom"], durability="exit"
+        ):  # one checkpoint per turn
             if mode == "custom":
                 yield sse("token", {"text": data["token"]})
                 continue
             for node, values in data.items():
+                if node == "__interrupt__":  # clarify paused the run; the client answers and resumes
+                    yield sse("clarify", {"questions": values[0].value["questions"], "thread_id": thread_id})
+                    continue
                 yield sse("status", {"node": node, "elapsed": round(time.time() - started, 2)})
-                if node in NODE_EVENTS:
+                if node in NODE_EVENTS and values and NODE_EVENTS[node][1] in values:
                     event, key = NODE_EVENTS[node]
                     yield sse(event, values[key])
         if app.state.pool is not None:
@@ -135,10 +167,21 @@ def stream_recommendation(graph, message, thread_id):
 
 @app.post("/api/recommend")
 def recommend(body: RecommendRequest):
-    thread_id = body.thread_id or uuid.uuid4().hex
-    return StreamingResponse(stream_recommendation(app.state.graph, body.message, thread_id),
-                             media_type="text/event-stream",
-                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+    if body.answer is not None:
+        if not body.thread_id or not rg.pending_questions(
+            app.state.graph, {"configurable": {"thread_id": body.thread_id}}
+        ):
+            raise HTTPException(409, "no clarify question is waiting on this thread")
+        payload, thread_id = rg.Command(resume=body.answer), body.thread_id
+    elif body.message:
+        payload, thread_id = {"request": body.message}, body.thread_id or uuid.uuid4().hex
+    else:
+        raise HTTPException(422, "message or answer is required")
+    return StreamingResponse(
+        stream_recommendation(app.state.graph, payload, thread_id),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
 
 
 @app.get("/api/threads/{thread_id}")
@@ -147,6 +190,17 @@ def thread(thread_id: str):
     if not values:
         raise HTTPException(404, "unknown thread")
     return {"thread_id": thread_id, "turns": values.get("turns", []), "plan": values.get("plan")}
+
+
+@app.get("/api/compare")
+def compare(
+    models: str = Query(description="2-3 comma-separated model ids"),
+    gpu_gb: float | None = Query(default=None, gt=0, le=1024),
+):
+    ids = [m.strip() for m in models.split(",") if m.strip()]
+    if not 2 <= len(ids) <= 3:
+        raise HTTPException(422, "compare 2 or 3 models")
+    return rg.compare(ids, gpu_gb)
 
 
 @app.get("/api/health")

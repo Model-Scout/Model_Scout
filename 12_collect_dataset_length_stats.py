@@ -6,6 +6,7 @@ dataset's sample length, so input_length can be mapped without NER. Results are 
 dataset sha; unsupported datasets are recorded with their reason and retried only when
 the repo changes.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +30,9 @@ MAX_RETRIES = 4
 # Only these failures are worth re-measuring on the next run.
 TRANSIENT_REASONS = {"http_network", "http_429", "retries_exhausted"}
 # Encoded blobs and markup are string_text to the viewer but not prose a model reads as input.
-NON_PROSE_RE = re.compile(r"base64|bytes|html|xml|metadata|test_cases|^(?:image|audio|url|path|id)$|_(?:id|url|path)$", re.I)
+NON_PROSE_RE = re.compile(
+    r"base64|bytes|html|xml|metadata|test_cases|^(?:image|audio|url|path|id)$|_(?:id|url|path)$", re.I
+)
 KO_CONFIG_RE = re.compile(r"(?:^|[._\-])(?:ko|kor|kor_hang|korean)(?:$|[._\-])", re.I)
 
 
@@ -51,7 +54,11 @@ def get_json(session, path, params):
             continue
         if response.status_code != 200:
             # Viewer returns 4xx with an error body for unsupported/gated/too-large datasets.
-            return None, (response.json().get("error", "") if response.headers.get("content-type", "").startswith("application/json") else "")[:200] or f"http_{response.status_code}"
+            return None, (
+                response.json().get("error", "")
+                if response.headers.get("content-type", "").startswith("application/json")
+                else ""
+            )[:200] or f"http_{response.status_code}"
         return response.json(), None
     return None, "retries_exhausted"
 
@@ -63,7 +70,7 @@ def histogram_quantile(histogram, q):
     if not total or len(edges) != len(counts) + 1:
         return None
     target, seen = q * total, 0
-    for count, low, high in zip(counts, edges, edges[1:]):
+    for count, low, high in zip(counts, edges, edges[1:], strict=False):
         if seen + count >= target:
             return low + (high - low) * ((target - seen) / count if count else 0)
         seen += count
@@ -71,11 +78,19 @@ def histogram_quantile(histogram, q):
 
 
 def chars_per_token(languages):
-    return CHARS_PER_TOKEN["ko"] if languages and set(languages) <= {"ko", "en"} and "ko" in languages else CHARS_PER_TOKEN["default"]
+    return (
+        CHARS_PER_TOKEN["ko"]
+        if languages and set(languages) <= {"ko", "en"} and "ko" in languages
+        else CHARS_PER_TOKEN["default"]
+    )
 
 
 def measure(session, row):
-    base = {"dataset_id": row["dataset_id"], "sha": row["sha"], "measured_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    base = {
+        "dataset_id": row["dataset_id"],
+        "sha": row["sha"],
+        "measured_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
     splits, error = get_json(session, "splits", {"dataset": row["dataset_id"]})
     if error or not splits.get("splits"):
         return {**base, "status": "unsupported", "reason": error or "no_splits"}
@@ -89,11 +104,19 @@ def measure(session, row):
     stats, error = get_json(session, "statistics", {"dataset": row["dataset_id"], "config": config, "split": split})
     if error:
         return {**base, "status": "unsupported", "reason": error, "config": config, "split": split}
-    columns = [s for s in stats.get("statistics", []) if s["column_type"] == "string_text"
-               and not NON_PROSE_RE.search(s["column_name"])]
+    columns = [
+        s
+        for s in stats.get("statistics", [])
+        if s["column_type"] == "string_text" and not NON_PROSE_RE.search(s["column_name"])
+    ]
     if not columns:
-        return {**base, "status": "no_text_column", "config": config, "split": split,
-                "column_types": sorted({s["column_type"] for s in stats.get("statistics", [])})}
+        return {
+            **base,
+            "status": "no_text_column",
+            "config": config,
+            "split": split,
+            "column_types": sorted({s["column_type"] for s in stats.get("statistics", [])}),
+        }
     longest = max(columns, key=lambda s: s["column_statistics"].get("median") or 0)
     col = longest["column_statistics"]
     p90 = histogram_quantile(col.get("histogram") or {}, 0.9)
@@ -106,7 +129,8 @@ def measure(session, row):
         "num_examples": stats.get("num_examples"),
         "partial": stats.get("partial"),
         "text_column": longest["column_name"],
-        "chars": {k: col.get(k) for k in ("min", "median", "mean", "max")} | {"p90": round(p90) if p90 is not None else None},
+        "chars": {k: col.get(k) for k in ("min", "median", "mean", "max")}
+        | {"p90": round(p90) if p90 is not None else None},
         "chars_per_token": ratio,
         "tokens_p90_estimate": round((p90 if p90 is not None else col.get("max") or 0) / ratio),
         "text_columns": [s["column_name"] for s in columns],
@@ -126,15 +150,24 @@ def main():
     session = requests.Session()
     if token := os.getenv("HF_TOKEN"):
         session.headers["Authorization"] = f"Bearer {token}"
-    rows = [json.loads(line) for line in open(INPUT, encoding="utf-8")][: args.limit]
+    with open(INPUT, encoding="utf-8") as f:
+        rows = [json.loads(line) for line in f][: args.limit]
     cached = {}
     if OUTPUT.exists():
-        cached = {r["dataset_id"]: r for r in map(json.loads, open(OUTPUT, encoding="utf-8"))}
+        with open(OUTPUT, encoding="utf-8") as f:
+            cached = {r["dataset_id"]: r for r in map(json.loads, f)}
+
     def stale(r):
         old = cached.get(r["dataset_id"])
-        return (not old or old["sha"] != r["sha"]
-                or old["status"] == "unsupported" and old["reason"] in TRANSIENT_REASONS
-                or old["status"] == "ok" and bool(NON_PROSE_RE.search(old["text_column"])))
+        return (
+            not old
+            or old["sha"] != r["sha"]
+            or old["status"] == "unsupported"
+            and old["reason"] in TRANSIENT_REASONS
+            or old["status"] == "ok"
+            and bool(NON_PROSE_RE.search(old["text_column"]))
+        )
+
     todo = [r for r in rows if stale(r)]
     print(f"[LENGTH] {len(rows)} datasets, {len(rows) - len(todo)} cached, measuring {len(todo)}", flush=True)
 
@@ -152,7 +185,9 @@ def main():
 
     temp = OUTPUT.with_suffix(".jsonl.tmp")
     with open(temp, "w", encoding="utf-8") as f:
-        f.writelines(json.dumps(results[r["dataset_id"]], ensure_ascii=False) + "\n" for r in rows if r["dataset_id"] in results)
+        f.writelines(
+            json.dumps(results[r["dataset_id"]], ensure_ascii=False) + "\n" for r in rows if r["dataset_id"] in results
+        )
     os.replace(temp, OUTPUT)
     status: dict[str, int] = {}
     for r in results.values():
@@ -169,7 +204,9 @@ def self_check():
     assert chars_per_token(["ko", "en", "ja"]) == 4.0 and chars_per_token([]) == 4.0
     assert KO_CONFIG_RE.search("20231101.ko") and KO_CONFIG_RE.search("kor_Hang") and KO_CONFIG_RE.search("en-ko")
     assert NON_PROSE_RE.search("image_base64") and NON_PROSE_RE.search("mhtml") and NON_PROSE_RE.search("doc_id")
-    assert not NON_PROSE_RE.search("text") and not NON_PROSE_RE.search("context") and not NON_PROSE_RE.search("question")
+    assert (
+        not NON_PROSE_RE.search("text") and not NON_PROSE_RE.search("context") and not NON_PROSE_RE.search("question")
+    )
     assert not KO_CONFIG_RE.search("kok") and not KO_CONFIG_RE.search("kong")
     print("12_collect_dataset_length_stats ok")
 

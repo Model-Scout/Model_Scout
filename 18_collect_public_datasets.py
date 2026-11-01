@@ -25,6 +25,7 @@ card text that chunking, embedding, and the wiki read.
 Outputs: data/public_datasets_stage1.jsonl, data/public_catalog/*.jsonl (raw catalog cache),
 data/readmes/public/<source>__<id>.md
 """
+
 from __future__ import annotations
 
 import argparse
@@ -55,10 +56,30 @@ MAX_REGIONAL_VARIANTS = 30
 MIN_DESCRIPTION_CHARS = 150
 # File types a model pipeline can read; images, hwp-only notices and zip bundles are skipped.
 USABLE_EXTENSIONS = {"csv", "json", "xml", "json+xml", "xlsx", "xls", "shp", "geojson", "txt"}
-PROVINCES = ("서울특별시", "부산광역시", "대구광역시", "인천광역시", "광주광역시", "대전광역시", "울산광역시",
-             "세종특별자치시", "경기도", "강원특별자치도", "강원도", "충청북도", "충청남도", "전북특별자치도",
-             "전라북도", "전라남도", "경상북도", "경상남도", "제주특별자치도")
-REGION_PREFIX_RE = re.compile(r"^(?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도)[_\s]*)?(?:[가-힣]+(?:시|군|구)[_\s]+)?")
+PROVINCES = (
+    "서울특별시",
+    "부산광역시",
+    "대구광역시",
+    "인천광역시",
+    "광주광역시",
+    "대전광역시",
+    "울산광역시",
+    "세종특별자치시",
+    "경기도",
+    "강원특별자치도",
+    "강원도",
+    "충청북도",
+    "충청남도",
+    "전북특별자치도",
+    "전라북도",
+    "전라남도",
+    "경상북도",
+    "경상남도",
+    "제주특별자치도",
+)
+REGION_PREFIX_RE = re.compile(
+    r"^(?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도)[_\s]*)?(?:[가-힣]+(?:시|군|구)[_\s]+)?"
+)
 EDITION_RE = re.compile(r"_?\d{8}$|\(\d{4}[^)]*\)|\d{4}\s*년")
 KOGL_RE = re.compile(r"(?:제|공공누리)\s*([1-4])\s*유형")
 SEOUL_PAGE = "https://data.seoul.go.kr/dataList/{}/A/1/datasetView.do"
@@ -113,7 +134,7 @@ def cached_items(name, items, item_key, one, refresh, workers):
     missing = [item for item in items if item_key(item) not in have]
     if missing:
         with ThreadPoolExecutor(workers) as pool:
-            have.update(zip(map(item_key, missing), pool.map(one, missing)))
+            have.update(zip(map(item_key, missing), pool.map(one, missing), strict=False))
         write_jsonl(path, [{"key": k, "value": v} for k, v in have.items()])
     return have
 
@@ -126,8 +147,12 @@ def kogl_license(text):
     return "이용허락범위 제한 없음" if "제한 없음" in (text or "") else None
 
 
-TIER_LABELS = {"A_core_api": "국가중점데이터 OpenAPI", "B_ready_api": "운영 자동승인 OpenAPI",
-               "C_standard": "표준데이터", "C_national_file": "중앙·광역 기관 파일데이터"}
+TIER_LABELS = {
+    "A_core_api": "국가중점데이터 OpenAPI",
+    "B_ready_api": "운영 자동승인 OpenAPI",
+    "C_standard": "표준데이터",
+    "C_national_file": "중앙·광역 기관 파일데이터",
+}
 
 
 def publisher_level(org):
@@ -156,17 +181,34 @@ def card_row(source, item_id, title, description, url, tags, formats, licenses, 
     readme_path = README_DIR / f"{source}__{item_id}.md"
     readme_path.write_text(readme, encoding="utf-8")
     return {
-        "dataset_id": dataset_id, "source": source, "url": url,
+        "dataset_id": dataset_id,
+        "source": source,
+        "url": url,
         "sha": hashlib.sha256(readme.encode("utf-8")).hexdigest()[:40],
-        "seed_reasons": [source], "referenced_by_models": [], "downloads": downloads, "likes": None, "gated": False,
-        "languages": ["ko"], "licenses": licenses, "task_categories": [], "task_ids": [], "size_categories": [],
-        "modalities": ["tabular"], "formats": formats, "tags": sorted(set(tags)), "description": description,
-        "card_data": {"pretty_name": title}, "readme_path": str(readme_path), "readme_language": "ko",
-        "readme_chars": len(readme), **extra,
+        "seed_reasons": [source],
+        "referenced_by_models": [],
+        "downloads": downloads,
+        "likes": None,
+        "gated": False,
+        "languages": ["ko"],
+        "licenses": licenses,
+        "task_categories": [],
+        "task_ids": [],
+        "size_categories": [],
+        "modalities": ["tabular"],
+        "formats": formats,
+        "tags": sorted(set(tags)),
+        "description": description,
+        "card_data": {"pretty_name": title},
+        "readme_path": str(readme_path),
+        "readme_language": "ko",
+        "readme_chars": len(readme),
+        **extra,
     }
 
 
 # ---------------------------------------------------------------- 서울 열린데이터광장
+
 
 def seoul_page(session, key, service, start, end, *args):
     data = get_json(session, "/".join([SEOUL_API, key, "json", service, str(start), str(end), *args]) + "/")
@@ -209,36 +251,76 @@ def collect_seoul(session, refresh, workers):
     for item in selected:
         outputs = [f for f in fields.get(item["INF_ID"], []) if f.get("PTYPE_NM") != "요청인자"]
         title = item["INF_NM"]
-        lines = [f"- {f.get('COL_KOR_NM') or ''} ({f.get('COL_ENG_NM') or ''})" + (f": {f['COL_EXP']}" if f.get("COL_EXP") else "")
-                 for f in outputs]
+        lines = [
+            f"- {f.get('COL_KOR_NM') or ''} ({f.get('COL_ENG_NM') or ''})"
+            + (f": {f['COL_EXP']}" if f.get("COL_EXP") else "")
+            for f in outputs
+        ]
         # The card is the only vector a portal dataset gets (14), so it carries the field names.
         names = [f.get("COL_KOR_NM") for f in outputs if f.get("COL_KOR_NM")]
-        description = f"{title}. {item.get('EXM_NM') or ''}".strip() + (f" 제공 필드: {', '.join(names[:40])}" if names else "")
-        readme = "\n".join([f"# {title}", "", description, "", f"서비스명: {item['API_SERVICE_NM']}", "",
-                            "## 제공 필드", "", *lines]) + "\n"
-        rows.append(card_row(
-            "seoul_open_data", item["INF_ID"], title, description,
-            f"https://data.seoul.go.kr/dataList/{item['INF_ID']}/A/1/datasetView.do",
-            WORD_RE.findall(title), ["api"], [licenses[item["INF_ID"]]] if licenses.get(item["INF_ID"]) else [], None,
-            {"api_service": item["API_SERVICE_NM"], "field_count": len(outputs)}, readme))
-    print(f"[seoul] catalog {len(catalog)}, rows {len(rows)}, licensed {sum(bool(r['licenses']) for r in rows)}", flush=True)
+        description = f"{title}. {item.get('EXM_NM') or ''}".strip() + (
+            f" 제공 필드: {', '.join(names[:40])}" if names else ""
+        )
+        readme = (
+            "\n".join(
+                [
+                    f"# {title}",
+                    "",
+                    description,
+                    "",
+                    f"서비스명: {item['API_SERVICE_NM']}",
+                    "",
+                    "## 제공 필드",
+                    "",
+                    *lines,
+                ]
+            )
+            + "\n"
+        )
+        rows.append(
+            card_row(
+                "seoul_open_data",
+                item["INF_ID"],
+                title,
+                description,
+                f"https://data.seoul.go.kr/dataList/{item['INF_ID']}/A/1/datasetView.do",
+                WORD_RE.findall(title),
+                ["api"],
+                [licenses[item["INF_ID"]]] if licenses.get(item["INF_ID"]) else [],
+                None,
+                {"api_service": item["API_SERVICE_NM"], "field_count": len(outputs)},
+                readme,
+            )
+        )
+    print(
+        f"[seoul] catalog {len(catalog)}, rows {len(rows)}, licensed {sum(bool(r['licenses']) for r in rows)}",
+        flush=True,
+    )
     return rows
 
 
 # ---------------------------------------------------------------- 공공데이터포털
+
 
 def collect_data_go_kr(session, refresh, workers):
     key = os.environ["DATA_GO_KR_API_KEY"]
 
     def fetch_list(path):
         def fetch():
-            first = get_json(session, f"{DATA_GO_KR_API}/{path}",
-                             {"page": 1, "perPage": PAGE_SIZE, "returnType": "JSON", "serviceKey": key})
+            first = get_json(
+                session,
+                f"{DATA_GO_KR_API}/{path}",
+                {"page": 1, "perPage": PAGE_SIZE, "returnType": "JSON", "serviceKey": key},
+            )
             rows, pages = first["data"], -(-first["matchCount"] // PAGE_SIZE)
             for page in range(2, pages + 1):
-                rows += get_json(session, f"{DATA_GO_KR_API}/{path}",
-                                 {"page": page, "perPage": PAGE_SIZE, "returnType": "JSON", "serviceKey": key})["data"]
+                rows += get_json(
+                    session,
+                    f"{DATA_GO_KR_API}/{path}",
+                    {"page": page, "perPage": PAGE_SIZE, "returnType": "JSON", "serviceKey": key},
+                )["data"]
             return rows
+
         return fetch
 
     files = cached("data_go_kr_dataset", fetch_list("dataset"), refresh)
@@ -248,20 +330,26 @@ def collect_data_go_kr(session, refresh, workers):
     # with a blank file type; the ~13K standard-list rows are each region's submission to one of them.
     standard = cached("data_go_kr_standard", fetch_list("standard-data-list"), refresh)
     standard_ids = {r.get("list_id") for r in standard}
-    standard_desc, submissions = {}, defaultdict(list)
+    standard_desc: dict[str, str] = {}
+    submissions: defaultdict[str, list[str]] = defaultdict(list)
     for r in standard:
         if len(r.get("desc") or "") > len(standard_desc.get(r.get("list_id"), "")):
             standard_desc[r.get("list_id")] = r.get("desc") or ""
         submissions[r.get("list_id")].append(r.get("title"))
     usable = lambda r: r.get("is_deleted") != "Y" and len(r.get("desc") or "") >= MIN_DESCRIPTION_CHARS
 
-    apis_by_list = {}
+    apis_by_list: dict[str, dict] = {}
     for row in apis:  # one listing per API; several operations share a list_id
         if usable(row):
             apis_by_list.setdefault(row.get("list_id") or row["id"], row)
     picked = [(r, True, "A_core_api") for r in apis_by_list.values() if r.get("is_core_data") == "Y"]
-    picked += [(r, True, "B_ready_api") for r in apis_by_list.values() if r.get("is_core_data") != "Y"
-               and publisher_level(r.get("org_nm")) != "local" and r.get("is_confirmed_for_prod") == "Y"]
+    picked += [
+        (r, True, "B_ready_api")
+        for r in apis_by_list.values()
+        if r.get("is_core_data") != "Y"
+        and publisher_level(r.get("org_nm")) != "local"
+        and r.get("is_confirmed_for_prod") == "Y"
+    ]
 
     for row in files:
         if row["id"] in standard_ids and row.get("is_deleted") != "Y":
@@ -293,36 +381,80 @@ def collect_data_go_kr(session, refresh, workers):
             meta = {}
         return (meta.get("license") or {}).get("name")
 
-    licenses = cached_items("data_go_kr_licenses_by_id", picked, lambda item: item[0]["id"], one_license, refresh, workers)
+    licenses = cached_items(
+        "data_go_kr_licenses_by_id", picked, lambda item: item[0]["id"], one_license, refresh, workers
+    )
     out, seen = [], set()
     for row, is_api, tier in picked:
         item_id = re.sub(r"[^0-9A-Za-z_-]", "_", str(row.get("list_id") or row["id"]))
         if item_id in seen:  # one OpenAPI listing can expose several operations
             continue
         seen.add(item_id)
-        title, desc = row.get("title") or row.get("list_title"), " ".join((row.get("desc") or "").replace("<br/>", " ").split())
+        title, desc = (
+            row.get("title") or row.get("list_title"),
+            " ".join((row.get("desc") or "").replace("<br/>", " ").split()),
+        )
         keywords = [k.strip() for k in (row.get("keywords") or "").split(",") if k.strip()]
         category = row.get("new_category_nm") or row.get("category_nm")
         formats = ["api"] if is_api else ["csv", "api"] if tier == "C_standard" else [(row.get("ext") or "").lower()]
         license_value = kogl_license(licenses.get(row["id"]))
         regional = submissions.get(row["id"]) if tier == "C_standard" else variants.get(series_key(title), [])
         regional = regional or []
-        readme = "\n".join([f"# {title}", "", desc, "", f"제공기관: {row.get('org_nm')}", f"분류: {category}",
-                            f"키워드: {', '.join(keywords)}", f"형식: {', '.join(formats)}", f"선정 기준: {TIER_LABELS[tier]}",
-                            f"수정일: {row.get('updated_at')}", f"이용허락: {licenses.get(row['id']) or 'unknown'}"]
-                           + ([f"지역별 원본 {len(regional)}건: {', '.join(regional[:MAX_REGIONAL_VARIANTS])}"] if regional else [])) + "\n"
-        out.append(card_row(
-            "data_go_kr", item_id, title, desc, row.get("page_url") or f"https://www.data.go.kr/data/{item_id}/openapi.do",
-            keywords + [x for x in (category, row.get("category_nm")) if x], formats,
-            [license_value] if license_value else [], row.get("download_cnt"),
-            {"org": row.get("org_nm"), "category": category, "last_modified": row.get("updated_at"),
-             "views": row.get("view_cnt"), "list_type": "openapi" if is_api else "file", "tier": tier,
-             "regional_variants": regional[:MAX_REGIONAL_VARIANTS], "regional_variant_count": len(regional)}, readme))
-    tiers = defaultdict(int)
+        readme = (
+            "\n".join(
+                [
+                    f"# {title}",
+                    "",
+                    desc,
+                    "",
+                    f"제공기관: {row.get('org_nm')}",
+                    f"분류: {category}",
+                    f"키워드: {', '.join(keywords)}",
+                    f"형식: {', '.join(formats)}",
+                    f"선정 기준: {TIER_LABELS[tier]}",
+                    f"수정일: {row.get('updated_at')}",
+                    f"이용허락: {licenses.get(row['id']) or 'unknown'}",
+                ]
+                + (
+                    [f"지역별 원본 {len(regional)}건: {', '.join(regional[:MAX_REGIONAL_VARIANTS])}"]
+                    if regional
+                    else []
+                )
+            )
+            + "\n"
+        )
+        out.append(
+            card_row(
+                "data_go_kr",
+                item_id,
+                title,
+                desc,
+                row.get("page_url") or f"https://www.data.go.kr/data/{item_id}/openapi.do",
+                keywords + [x for x in (category, row.get("category_nm")) if x],
+                formats,
+                [license_value] if license_value else [],
+                row.get("download_cnt"),
+                {
+                    "org": row.get("org_nm"),
+                    "category": category,
+                    "last_modified": row.get("updated_at"),
+                    "views": row.get("view_cnt"),
+                    "list_type": "openapi" if is_api else "file",
+                    "tier": tier,
+                    "regional_variants": regional[:MAX_REGIONAL_VARIANTS],
+                    "regional_variant_count": len(regional),
+                },
+                readme,
+            )
+        )
+    tiers: defaultdict[str, int] = defaultdict(int)
     for row in out:
         tiers[row["tier"]] += 1
-    print(f"[data.go.kr] files {len(files)}, apis {len(apis)}, selected {len(out)} {dict(tiers)}, "
-          f"licensed {sum(bool(r['licenses']) for r in out)}", flush=True)
+    print(
+        f"[data.go.kr] files {len(files)}, apis {len(apis)}, selected {len(out)} {dict(tiers)}, "
+        f"licensed {sum(bool(r['licenses']) for r in out)}",
+        flush=True,
+    )
     return out
 
 
@@ -359,14 +491,24 @@ def self_check():
     assert kogl_license("공공저작물 : 출처표시 + 상업적 이용금지 + 변경금지 (제4유형)") == "공공누리 제4유형"
     assert kogl_license("공공누리 1유형 : 출처표시 (상업적 이용 및 변경 가능)") == "공공누리 제1유형"
     assert kogl_license(None) is None and kogl_license("이용허락범위 제한 없음") == "이용허락범위 제한 없음"
-    assert SEOUL_DISTRICT_RE.search("서울시 강서구 모범음식점") and not SEOUL_DISTRICT_RE.search("서울시 공공자전거 따릉이 대여소 정보")
+    assert SEOUL_DISTRICT_RE.search("서울시 강서구 모범음식점") and not SEOUL_DISTRICT_RE.search(
+        "서울시 공공자전거 따릉이 대여소 정보"
+    )
     assert SEOUL_SKIP_RE.search("서울시 의원 인허가 정보") and SEOUL_SKIP_RE.search("한양도성 스탬프 투어 정보(일문)")
     assert publisher_level("행정안전부") == "national" and publisher_level("경기도") == "province"
     assert publisher_level("경기도 성남시") == "local" and publisher_level("부산광역시 동구") == "local"
     assert series_key("경상남도 창원시_누비자 터미널_20251231") == series_key("누비자 터미널")
     assert series_key("행정안전부_공중화장실정보_20251127") == series_key("경기도 성남시_공중화장실정보")
-    assert series_key("해양수산부 국립해양조사원_기본수준점_20260209") == series_key("해양수산부 국립해양조사원_기본수준점")
-    assert WORD_RE.findall("서울시 공공자전거 따릉이 실시간 대여정보") == ["서울시", "공공자전거", "따릉이", "실시간", "대여정보"]
+    assert series_key("해양수산부 국립해양조사원_기본수준점_20260209") == series_key(
+        "해양수산부 국립해양조사원_기본수준점"
+    )
+    assert WORD_RE.findall("서울시 공공자전거 따릉이 실시간 대여정보") == [
+        "서울시",
+        "공공자전거",
+        "따릉이",
+        "실시간",
+        "대여정보",
+    ]
     print("18_collect_public_datasets ok")
 
 

@@ -1,0 +1,72 @@
+name: Publish wiki (Quartz)
+
+# Renders wiki/ (Obsidian vault, [[links]], frontmatter) as a static site with Quartz v4 and
+# deploys it to GitHub Pages. Needs Settings -> Pages -> Source: GitHub Actions.
+# Pushes made by other workflows with GITHUB_TOKEN do not fire `push`, so a finished
+# dataset refresh triggers this through workflow_run.
+on:
+  push:
+    branches: [main]
+    paths: ["wiki/**", ".github/workflows/wiki-pages.yml"]
+  workflow_run:
+    workflows: ["Dataset refresh"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: wiki-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      QUARTZ_VERSION: v4.5.2
+      NODE_OPTIONS: --max-old-space-size=6144  # ~19K pages
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main  # workflow_run starts from the commit before the refresh pushed
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch Quartz
+        run: |
+          git clone --depth 1 --branch "$QUARTZ_VERSION" https://github.com/jackyzha0/quartz.git site
+          cd site && npm ci
+
+      - name: Configure site
+        run: |
+          cd site
+          sed -i \
+            -e 's/pageTitle: "[^"]*"/pageTitle: "Model Scout 위키"/' \
+            -e 's/locale: "[^"]*"/locale: "ko-KR"/' \
+            -e 's#baseUrl: "[^"]*"#baseUrl: "${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"#' \
+            quartz.config.ts
+          rm -rf content && cp -r ../wiki content
+
+      - name: Build
+        run: cd site && npx quartz build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

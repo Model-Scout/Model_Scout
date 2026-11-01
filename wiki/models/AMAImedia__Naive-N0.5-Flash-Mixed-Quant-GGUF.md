@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Naive-N0.5-Flash-Mixed-Quant-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Naive-N0.5-Flash-Mixed-Quant-GGUF"
-downloads: 942
+downloads: 1157
 task:
   - "[[텍스트 생성]]"
 input_modality:

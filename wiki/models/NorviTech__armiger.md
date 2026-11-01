@@ -3,7 +3,7 @@ type: "model"
 id: "NorviTech/armiger"
 source: "huggingface"
 url: "https://huggingface.co/NorviTech/armiger"
-downloads: 202
+downloads: 239
 task:
   - "[[텍스트 분류]]"
 input_modality:

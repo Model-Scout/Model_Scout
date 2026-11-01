@@ -6,53 +6,133 @@ top 10; ids missing from the current corpus are reported and skipped, not counte
 
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
 """
+
 from __future__ import annotations
 
 import argparse
 import sys
+from typing import Any
 
 import hypergraph_search as hs
 
 SEOUL = "seoul_open_data/"
-SCENARIOS = [
+SCENARIOS: list[dict[str, Any]] = [
     {"name": "embedding: snowflake-ko", "model": "dragonkue/snowflake-arctic-embed-l-v2.0-ko", "expected": "embedding"},
     {"name": "embedding: KoSimCSE", "model": "BM-K/KoSimCSE-Unsup-RoBERTa", "expected": "embedding"},
     {"name": "embedding: e5-small", "model": "intfloat/multilingual-e5-small", "expected": "embedding"},
     {"name": "reranker: ko-reranker", "model": "Dongjin-kr/ko-reranker", "expected": "reranking"},
     {"name": "generation: Qwen2.5-3B-Korean", "model": "MyeongHo0621/Qwen2.5-3B-Korean", "expected": "generation"},
-    {"name": "service: 따릉이", "terms": ["교통", "따릉이"], "roles": ["service"],
-     "query": "따릉이 대여소 위치와 실시간 대여 가능 자전거 수", "expected": "ddareungi"},
-    {"name": "service: 서울 미세먼지", "terms": ["미세먼지", "서울"], "roles": ["service"],
-     "query": "서울시 실시간 미세먼지 농도와 대기질 측정 데이터", "expected": "air"},
+    {
+        "name": "service: 따릉이",
+        "terms": ["교통", "따릉이"],
+        "roles": ["service"],
+        "query": "따릉이 대여소 위치와 실시간 대여 가능 자전거 수",
+        "expected": "ddareungi",
+    },
+    {
+        "name": "service: 서울 미세먼지",
+        "terms": ["미세먼지", "서울"],
+        "roles": ["service"],
+        "query": "서울시 실시간 미세먼지 농도와 대기질 측정 데이터",
+        "expected": "air",
+    },
 ]
 EXPECTED = {
     "embedding": {
-        "klue/klue", "kakaobrain/kor_nli", "taeminlee/Ko-StrategyQA", "miracl/miracl", "miracl/miracl-corpus",
-        "sentence-transformers/miracl", "nlpai-lab/miracl-multilingual-triplets", "KaLM-Embedding/KaLM-reranker-training-data",
-        "cnupo23/korean-medicine-embedding-dataset", "BCCard/BCAI-Finance-Kor-Embedding-Triplet",
-        "BCCard/BCAI-Finance-Kor-Embedding-Pair", "whybe-choi/ko-vdr-hn", "whybe-choi/ko-triplet-hn", "codefuse-ai/F2LLM-v2",
-        "hakari-bench/NanoMIRACL", "MoritzLaurer/multilingual-NLI-26lang-2mil7", "felfri/MSTS",
-        "gyung/ko-law-retriever-artifacts-20260622", "datalama/miracl-hard-negatives", "yoh/modular-sentence-encoders-sts",
-        "Pixel-Linguist/rendered-sts17", "BidirLM/BidirLM-Contrastive", "sentence-transformers/parallel-sentences-talks",
-        "LLM-OS-Models2/ko-legal-embedding-training-v1", "watchstep/ko-en-code-mixing-sts"},
+        "klue/klue",
+        "kakaobrain/kor_nli",
+        "taeminlee/Ko-StrategyQA",
+        "miracl/miracl",
+        "miracl/miracl-corpus",
+        "sentence-transformers/miracl",
+        "nlpai-lab/miracl-multilingual-triplets",
+        "KaLM-Embedding/KaLM-reranker-training-data",
+        "cnupo23/korean-medicine-embedding-dataset",
+        "BCCard/BCAI-Finance-Kor-Embedding-Triplet",
+        "BCCard/BCAI-Finance-Kor-Embedding-Pair",
+        "whybe-choi/ko-vdr-hn",
+        "whybe-choi/ko-triplet-hn",
+        "codefuse-ai/F2LLM-v2",
+        "hakari-bench/NanoMIRACL",
+        "MoritzLaurer/multilingual-NLI-26lang-2mil7",
+        "felfri/MSTS",
+        "gyung/ko-law-retriever-artifacts-20260622",
+        "datalama/miracl-hard-negatives",
+        "yoh/modular-sentence-encoders-sts",
+        "Pixel-Linguist/rendered-sts17",
+        "BidirLM/BidirLM-Contrastive",
+        "sentence-transformers/parallel-sentences-talks",
+        "LLM-OS-Models2/ko-legal-embedding-training-v1",
+        "watchstep/ko-en-code-mixing-sts",
+    },
     "reranking": {
-        "KaLM-Embedding/KaLM-reranker-training-data", "Horizon-Labs/multilingual-rerank-distill",
-        "olaverse/reranker-triples-multi", "nlpai-lab/miracl-multilingual-triplets",
-        "lightblue/reranker_continuous_filt_max7_train", "ggh5454/legal-provence-ko-with-teacher-scores",
-        "ggh5454/legal-provence-ko", "datalama/miracl-hard-negatives", "miracl/miracl", "taeminlee/Ko-StrategyQA",
-        "whybe-choi/ko-triplet-hn", "sentence-transformers/miracl", "upskyy/ko-wiki-reranking",
-        "LLM-OS-Models/korean-embedding-ko-triplet-hn-pilot-10k"},
+        "KaLM-Embedding/KaLM-reranker-training-data",
+        "Horizon-Labs/multilingual-rerank-distill",
+        "olaverse/reranker-triples-multi",
+        "nlpai-lab/miracl-multilingual-triplets",
+        "lightblue/reranker_continuous_filt_max7_train",
+        "ggh5454/legal-provence-ko-with-teacher-scores",
+        "ggh5454/legal-provence-ko",
+        "datalama/miracl-hard-negatives",
+        "miracl/miracl",
+        "taeminlee/Ko-StrategyQA",
+        "whybe-choi/ko-triplet-hn",
+        "sentence-transformers/miracl",
+        "upskyy/ko-wiki-reranking",
+        "LLM-OS-Models/korean-embedding-ko-triplet-hn-pilot-10k",
+    },
     "generation": {
-        "allganize/IFEval-Ko", "nayohan/GPT4-LLM-Cleaned-ko", "kyujinpy/OpenOrca-KO", "kyujinpy/KOR-OpenOrca-Platypus-v3",
-        "nvidia/Nemotron-SFT-Multilingual-v2", "brandonbaek/konglish-synthetic-instruct",
-        "llami-team/Korean-OpenThoughts-114k-Normalized", "KOREAson/YiSang-HighQuality", "jojo0217/korean_rlhf_dataset",
-        "HAERAE-HUB/KMMLU", "HAERAE-HUB/HAE_RAE_BENCH_1.1", "nlpai-lab/databricks-dolly-15k-ko",
-        "squarelike/OpenOrca-gugugo-ko", "nlpai-lab/openassistant-guanaco-ko", "beomi/KoAlpaca-v1.1a",
-        "Qwen/P-MMEval", "MyeongHo0621/korean-quality-cleaned"},
-    "ddareungi": {SEOUL + i for i in ("OA-15493", "OA-13252", "OA-15182", "OA-20447", "OA-21235", "OA-15246",
-                                      "OA-15248", "OA-15249", "OA-15242", "OA-15245", "OA-21229")},
-    "air": {SEOUL + i for i in ("OA-2223", "OA-2275", "OA-2221", "OA-2218", "OA-2217", "OA-2216", "OA-21090",
-                                "OA-1200", "OA-2219", "OA-2220", "OA-15526", "OA-1201")},
+        "allganize/IFEval-Ko",
+        "nayohan/GPT4-LLM-Cleaned-ko",
+        "kyujinpy/OpenOrca-KO",
+        "kyujinpy/KOR-OpenOrca-Platypus-v3",
+        "nvidia/Nemotron-SFT-Multilingual-v2",
+        "brandonbaek/konglish-synthetic-instruct",
+        "llami-team/Korean-OpenThoughts-114k-Normalized",
+        "KOREAson/YiSang-HighQuality",
+        "jojo0217/korean_rlhf_dataset",
+        "HAERAE-HUB/KMMLU",
+        "HAERAE-HUB/HAE_RAE_BENCH_1.1",
+        "nlpai-lab/databricks-dolly-15k-ko",
+        "squarelike/OpenOrca-gugugo-ko",
+        "nlpai-lab/openassistant-guanaco-ko",
+        "beomi/KoAlpaca-v1.1a",
+        "Qwen/P-MMEval",
+        "MyeongHo0621/korean-quality-cleaned",
+    },
+    "ddareungi": {
+        SEOUL + i
+        for i in (
+            "OA-15493",
+            "OA-13252",
+            "OA-15182",
+            "OA-20447",
+            "OA-21235",
+            "OA-15246",
+            "OA-15248",
+            "OA-15249",
+            "OA-15242",
+            "OA-15245",
+            "OA-21229",
+        )
+    },
+    "air": {
+        SEOUL + i
+        for i in (
+            "OA-2223",
+            "OA-2275",
+            "OA-2221",
+            "OA-2218",
+            "OA-2217",
+            "OA-2216",
+            "OA-21090",
+            "OA-1200",
+            "OA-2219",
+            "OA-2220",
+            "OA-15526",
+            "OA-1201",
+        )
+    },
 }
 K = 10
 
@@ -60,15 +140,20 @@ K = 10
 def run(scenario):
     if "model" in scenario:
         return [r["dataset"] for r in hs.datasets_for_model(scenario["model"], limit=K)]
-    rows = hs.rank_datasets(hs.concepts_from_terms(scenario["terms"]), query_vector=hs.embed_query(scenario["query"]),
-                            roles=scenario.get("roles"), limit=K, keywords=scenario["terms"])
+    rows = hs.rank_datasets(
+        hs.concepts_from_terms(scenario["terms"]),
+        query_vector=hs.embed_query(scenario["query"]),
+        roles=scenario.get("roles"),
+        limit=K,
+        keywords=scenario["terms"],
+    )
     return [r["dataset"] for r in rows]
 
 
 def evaluate():
     entities = hs.load_graph()[0]
     present = {e["name"] for e in entities.values() if e["kind"] == "dataset"}
-    rows = []
+    rows: list[tuple[str, float | None, float | None, float | None, str]] = []
     for scenario in SCENARIOS:
         if "model" in scenario and f"model:{scenario['model']}" not in entities:
             rows.append((scenario["name"], None, None, None, "model not in corpus"))
@@ -77,8 +162,15 @@ def evaluate():
         top = run(scenario)
         hits = [d for d in top if d in expected]
         first = next((i for i, d in enumerate(top, 1) if d in expected), None)
-        rows.append((scenario["name"], len(hits) / K, len(hits) / min(K, len(expected)) if expected else None,
-                     1 / first if first else 0.0, f"{len(expected)} expected in corpus"))
+        rows.append(
+            (
+                scenario["name"],
+                len(hits) / K,
+                len(hits) / min(K, len(expected)) if expected else None,
+                1 / first if first else 0.0,
+                f"{len(expected)} expected in corpus",
+            )
+        )
     return rows
 
 

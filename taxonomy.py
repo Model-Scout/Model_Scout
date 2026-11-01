@@ -4,12 +4,13 @@ Every concept is a wiki hub page; mapping a model or dataset to a concept links 
 everything else mapped there. Alias collisions inside a facet fail at load time so a
 typo in the vocabulary cannot silently send values to the wrong hub.
 """
+
 from __future__ import annotations
 
 import functools
 import re
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import yaml
 
@@ -37,7 +38,7 @@ def load_taxonomy() -> dict:
     return data
 
 
-def normalize(facet: str, raw: Any) -> Optional[str]:
+def normalize(facet: str, raw: Any) -> str | None:
     """Return the concept key for a raw value, or None when the vocabulary has no match."""
     spec = load_taxonomy()["facets"][facet]
     if isinstance(raw, (list, tuple)) and len(raw) == 1:
@@ -98,7 +99,11 @@ if __name__ == "__main__":
     assert normalize("task", "no such task") is None
     assert label("input_length", "long") == "장문"
     assert mentions("task", "embedding", "fine-tuning sentence-embedding models")
-    assert mentions("domain", "finance", "Korean financial-domain triplet dataset") or mentions("domain", "finance", "금융 데이터")
+    assert mentions("domain", "finance", "Korean financial-domain triplet dataset") or mentions(
+        "domain", "finance", "금융 데이터"
+    )
     assert not mentions("task", "retrieval", "business presentations from storage")
-    assert mentions("dataset_role", "evaluation", "two benchmarks for Korean") and not mentions("task", "embedding", "stsx")
+    assert mentions("dataset_role", "evaluation", "two benchmarks for Korean") and not mentions(
+        "task", "embedding", "stsx"
+    )
     print("taxonomy ok")

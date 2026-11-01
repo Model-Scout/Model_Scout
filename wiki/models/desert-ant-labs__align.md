@@ -3,7 +3,7 @@ type: "model"
 id: "desert-ant-labs/align"
 source: "huggingface"
 url: "https://huggingface.co/desert-ant-labs/align"
-downloads: 720
+downloads: 727
 task:
   - "[[음성 인식]]"
 input_modality:

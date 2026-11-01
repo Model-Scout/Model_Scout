@@ -3,7 +3,7 @@ type: "model"
 id: "furiosa-ai/EXAONE-4.5-33B-FP8"
 source: "huggingface"
 url: "https://huggingface.co/furiosa-ai/EXAONE-4.5-33B-FP8"
-downloads: 806
+downloads: 940
 context_length: 262144
 parameters_b: 34.35
 task:

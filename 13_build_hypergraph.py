@@ -16,6 +16,7 @@ Outputs (data/hypergraph/):
   duplicates.json  mirror / cross-listed dataset -> canonical id and reason (dataset_dedup.py)
   report.json      coverage per facet and the raw values that did not map
 """
+
 from __future__ import annotations
 
 import argparse
@@ -135,8 +136,15 @@ class Linker:
             link["fields"] = sorted(set(link["fields"]) | {field})
             link["confidence"] = max(link["confidence"], confidence, key=CONFIDENCE_RANK.index)
             return
-        self.links[key] = {"entity_id": entity_id, "concept_id": f"{facet}/{concept}", "facet": facet,
-                           "method": method, "fields": [field], "raw": raw, "confidence": confidence}
+        self.links[key] = {
+            "entity_id": entity_id,
+            "concept_id": f"{facet}/{concept}",
+            "facet": facet,
+            "method": method,
+            "fields": [field],
+            "raw": raw,
+            "confidence": confidence,
+        }
 
     def languages(self, entity_id, languages, field, multilingual_flag=False):
         linked = languages if len(languages) <= MAX_LINKED_LANGUAGES else [c for c in languages if c in ("ko", "en")]
@@ -153,6 +161,30 @@ class Linker:
                 self.add(entity_id, "input_modality", value, f"task:{task}", method="task_rule", confidence="medium")
             for value in outputs:
                 self.add(entity_id, "output_modality", value, f"task:{task}", method="task_rule", confidence="medium")
+
+
+def load_model_rows():
+    """Stage 4 rows: the local snapshot when present, else the active rows in Supabase.
+
+    Stage 4 files are gitignored (vectors live in Supabase), so a CI checkout reads the table.
+    """
+    if all(path.exists() for path in MODEL_INPUTS):
+        return [row for path in MODEL_INPUTS for row in read_jsonl(path)]
+    from supabase_db import db_connection
+
+    conn = db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "select model_id, source_pool, task, filter_metadata from public.model_scout_models "
+                "where active order by model_id"
+            )
+            return [
+                {"model_id": m, "source_pool": pool, "task": task or {}, "filter_metadata": meta or {}}
+                for m, pool, task, meta in cur.fetchall()
+            ]
+    finally:
+        conn.close()
 
 
 def map_model(linker, row):
@@ -173,23 +205,37 @@ def map_model(linker, row):
     if fm.get("parameter_count_billion"):
         linker.add(entity_id, "model_size", fm["parameter_count_billion"], "parameter_count_billion")
     return {
-        "entity_id": entity_id, "kind": "model", "name": row["model_id"], "source": "huggingface",
-        "url": f"https://huggingface.co/{row['model_id']}", "source_pool": row.get("source_pool"),
-        "downloads": fm.get("downloads"), "languages": languages, "license": fm.get("license"),
-        "context_length": fm.get("context_length"), "parameter_count_billion": fm.get("parameter_count_billion"),
+        "entity_id": entity_id,
+        "kind": "model",
+        "name": row["model_id"],
+        "source": "huggingface",
+        "url": f"https://huggingface.co/{row['model_id']}",
+        "source_pool": row.get("source_pool"),
+        "downloads": fm.get("downloads"),
+        "languages": languages,
+        "license": fm.get("license"),
+        "context_length": fm.get("context_length"),
+        "parameter_count_billion": fm.get("parameter_count_billion"),
     }
 
 
 def map_ner(linker, entity_id, ner):
     """Add README-grounded concepts; demote metadata tasks the README does not back up."""
-    tasks = {}
+    tasks: dict[str, bool] = {}
     for facet, items in ner["concepts"].items():
         for item in items:
             stated = mentions(facet, item["value"], item["quote"])
             if facet == "task":
                 tasks[item["value"]] = tasks.get(item["value"]) or stated
-            linker.add(entity_id, facet, item["quote"][:QUOTE_CHARS], "readme", method="ner",
-                       confidence="medium" if stated else "low", concept=item["value"])
+            linker.add(
+                entity_id,
+                facet,
+                item["quote"][:QUOTE_CHARS],
+                "readme",
+                method="ner",
+                confidence="medium" if stated else "low",
+                concept=item["value"],
+            )
     for (owner, facet, concept), link in linker.links.items():
         if owner == entity_id and facet == "task" and link["method"] != "ner" and not tasks.get(concept):
             link["confidence"] = "medium" if concept in tasks else "low"
@@ -218,7 +264,9 @@ def map_dataset(linker, row, length, ner=None):
         text = " ".join([(row.get("card_data") or {}).get("pretty_name") or "", *(row.get("tags") or [])])
         for value in load_taxonomy()["facets"]["domain"]["values"]:
             if value != "general" and mentions("domain", value, text):
-                linker.add(entity_id, "domain", value, "title/keywords", method="tag_match", confidence="medium", concept=value)
+                linker.add(
+                    entity_id, "domain", value, "title/keywords", method="tag_match", confidence="medium", concept=value
+                )
     for value in row.get("modalities") or []:
         linker.add(entity_id, "input_modality", value, "modality")
     linker.modalities_from_tasks(entity_id)
@@ -232,26 +280,45 @@ def map_dataset(linker, row, length, ner=None):
         upper = size_category_upper(value)
         if upper is not None:
             # Category upper bounds are exclusive ("1K<n<10K"), so step just below them.
-            linker.add(entity_id, "dataset_size", upper - 1, "size_categories", concept=normalize("dataset_size", upper - 1))
+            linker.add(
+                entity_id, "dataset_size", upper - 1, "size_categories", concept=normalize("dataset_size", upper - 1)
+            )
     if row.get("referenced_by_models"):
         linker.add(entity_id, "dataset_role", "train", "referenced_by_models", confidence="medium")
     if EVAL_NAME_RE.search(row["dataset_id"]) or any(normalize("dataset_role", t) == "evaluation" for t in free_tags):
         linker.add(entity_id, "dataset_role", "evaluation", "dataset_id/tags", method="name_rule", confidence="medium")
     if length and length.get("status") == "ok" and length.get("tokens_p90_estimate"):
-        linker.add(entity_id, "input_length", length["tokens_p90_estimate"], "viewer_statistics",
-                   method="viewer_stats", confidence="medium")
+        linker.add(
+            entity_id,
+            "input_length",
+            length["tokens_p90_estimate"],
+            "viewer_statistics",
+            method="viewer_stats",
+            confidence="medium",
+        )
     status = readme_status(row)
     return {
-        "entity_id": entity_id, "kind": "dataset", "name": row["dataset_id"], "source": source,
-        "url": row["url"], "downloads": row.get("downloads"), "likes": row.get("likes"), "gated": row.get("gated"),
-        "languages": languages, "licenses": row.get("licenses"), "seed_reasons": row.get("seed_reasons"),
-        "readme_path": row.get("readme_path"), "readme_language": row.get("readme_language"),
-        "readme_status": status, "korean_focus": korean_focus(languages),
+        "entity_id": entity_id,
+        "kind": "dataset",
+        "name": row["dataset_id"],
+        "source": source,
+        "url": row["url"],
+        "downloads": row.get("downloads"),
+        "likes": row.get("likes"),
+        "gated": row.get("gated"),
+        "languages": languages,
+        "licenses": row.get("licenses"),
+        "seed_reasons": row.get("seed_reasons"),
+        "readme_path": row.get("readme_path"),
+        "readme_language": row.get("readme_language"),
+        "readme_status": status,
+        "korean_focus": korean_focus(languages),
         "summary_ko": ner.get("summary_ko") if ner else None,
         "title": (row.get("card_data") or {}).get("pretty_name") if source != "huggingface" else None,
         "quality_flags": row.get("quality_flags") or [],
         "sample_length": {k: length.get(k) for k in ("text_column", "chars", "tokens_p90_estimate", "config", "split")}
-        if length and length.get("status") == "ok" else None,
+        if length and length.get("status") == "ok"
+        else None,
     }
 
 
@@ -263,8 +330,11 @@ def coverage(entities, links):
     report = {}
     for kind in ("model", "dataset"):
         ids = {e["entity_id"] for e in entities if e["kind"] == kind}
-        report[kind] = {facet: f"{len(linked[facet] & ids)}/{len(ids)}" for facet, spec in facets.items()
-                        if kind in spec["applies_to"]}
+        report[kind] = {
+            facet: f"{len(linked[facet] & ids)}/{len(ids)}"
+            for facet, spec in facets.items()
+            if kind in spec["applies_to"]
+        }
     return report
 
 
@@ -277,7 +347,7 @@ def main():
 
     linker = Linker()
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
-    entities = [map_model(linker, row) for path in MODEL_INPUTS for row in read_jsonl(path)]
+    entities = [map_model(linker, row) for row in load_model_rows()]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
     hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(PUBLIC_INPUT)
     duplicates = duplicate_map(hf_rows, public_rows)
@@ -294,7 +364,7 @@ def main():
         entity = map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
         entity["duplicates"] = sorted(copies.get(row["dataset_id"], []))
         entities.append(entity)
-    links = sorted(linker.links.values(), key=lambda l: (l["entity_id"], l["concept_id"]))
+    links = sorted(linker.links.values(), key=lambda link: (link["entity_id"], link["concept_id"]))
 
     known = {e["entity_id"] for e in entities}
     relations = []
@@ -305,20 +375,36 @@ def main():
         for model_id in row.get("referenced_by_models") or []:
             if f"model:{model_id}" in known and (model_id, target) not in seen_relations:
                 seen_relations.add((model_id, target))
-                relations.append({"source": f"model:{model_id}", "relation": "trained_with",
-                                  "target": f"dataset:{target}", "method": "metadata",
-                                  "fields": ["cardData.datasets"], "confidence": "high"})
+                relations.append(
+                    {
+                        "source": f"model:{model_id}",
+                        "relation": "trained_with",
+                        "target": f"dataset:{target}",
+                        "method": "metadata",
+                        "fields": ["cardData.datasets"],
+                        "confidence": "high",
+                    }
+                )
 
     members = Counter(link["concept_id"] for link in links)
     concepts = []
     for facet, spec in load_taxonomy()["facets"].items():
-        keys = list(spec["values"]) + sorted({c.split("/", 1)[1] for c in members if c.startswith(facet + "/")} - set(spec["values"]))
+        keys = list(spec["values"]) + sorted(
+            {c.split("/", 1)[1] for c in members if c.startswith(facet + "/")} - set(spec["values"])
+        )
         for key in keys:
             concept_id = f"{facet}/{key}"
-            concepts.append({"concept_id": concept_id, "facet": facet, "facet_label": spec["label"], "key": key,
-                             "label": label(facet, key),
-                             "aliases": [a for a in spec["values"].get(key, {}).get("aliases", []) if a],
-                             "members": members.get(concept_id, 0)})
+            concepts.append(
+                {
+                    "concept_id": concept_id,
+                    "facet": facet,
+                    "facet_label": spec["label"],
+                    "key": key,
+                    "label": label(facet, key),
+                    "aliases": [a for a in spec["values"].get(key, {}).get("aliases", []) if a],
+                    "members": members.get(concept_id, 0),
+                }
+            )
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     write_jsonl(OUT_DIR / "entities.jsonl", entities)
@@ -328,10 +414,11 @@ def main():
     write_jsonl(OUT_DIR / "concepts.jsonl", concepts)
     report = {
         "entities": Counter(e["kind"] for e in entities),
-        "links": len(links), "relations": len(relations),
+        "links": len(links),
+        "relations": len(relations),
         "dataset_duplicates_removed": Counter(by_id[d].get("source", "huggingface") for d in duplicates),
-        "links_by_method": Counter(l["method"] for l in links),
-        "links_by_confidence": Counter(l["confidence"] for l in links),
+        "links_by_method": Counter(link["method"] for link in links),
+        "links_by_confidence": Counter(link["confidence"] for link in links),
         "coverage": coverage(entities, links),
         "dataset_readme_status": Counter(e["readme_status"] for e in entities if e["kind"] == "dataset"),
         "dataset_korean_focus": Counter(e["korean_focus"] for e in entities if e["kind"] == "dataset"),
@@ -351,36 +438,69 @@ def self_check():
     assert korean_focus([f"l{i}" for i in range(11)] + ["ko"]) == "wide_multilingual"
 
     linker = Linker()
-    model = {"model_id": "BAAI/bge-reranker-v2-m3", "task": {"matched": ["text-classification"]},
-             "language_codes": ["en", "ko", "zh"],
-             "filter_metadata": {"license": "apache-2.0", "context_length": 8192, "parameter_count_billion": 0.57}}
+    model = {
+        "model_id": "BAAI/bge-reranker-v2-m3",
+        "task": {"matched": ["text-classification"]},
+        "language_codes": ["en", "ko", "zh"],
+        "filter_metadata": {"license": "apache-2.0", "context_length": 8192, "parameter_count_billion": 0.57},
+    }
     map_model(linker, model)
     concepts = {link["concept_id"] for link in linker.links.values()}
-    assert {"task/classification", "task/reranking", "input_modality/text", "language/ko",
-            "language/multilingual", "commercial_use/commercial", "input_length/long", "model_size/tiny"} <= concepts, concepts
+    assert {
+        "task/classification",
+        "task/reranking",
+        "input_modality/text",
+        "language/ko",
+        "language/multilingual",
+        "commercial_use/commercial",
+        "input_length/long",
+        "model_size/tiny",
+    } <= concepts, concepts
     assert normalize("task", "unseen-task") is None
     linker.add("model:x", "task", "unseen-task", "task.matched")
     assert linker.unmapped["model.task.task.matched"]["unseen-task"] == 1
     linker = Linker()
-    row = {"dataset_id": "x/y", "url": "", "sha": "", "task_categories": ["sentence-similarity", "text-generation", "translation"],
-           "modalities": ["text"]}
-    ner = {"summary_ko": "요약", "concepts": {
-        "task": [{"value": "generation", "quote": "for text generation models"},
-                 {"value": "translation", "quote": "used to train the M3 model"}],
-        "input_modality": [{"value": "text", "quote": "columns anchor positive"}],
-        "domain": [{"value": "finance", "quote": "Korean financial-domain data"}]}}
+    row = {
+        "dataset_id": "x/y",
+        "url": "",
+        "sha": "",
+        "task_categories": ["sentence-similarity", "text-generation", "translation"],
+        "modalities": ["text"],
+    }
+    ner = {
+        "summary_ko": "요약",
+        "concepts": {
+            "task": [
+                {"value": "generation", "quote": "for text generation models"},
+                {"value": "translation", "quote": "used to train the M3 model"},
+            ],
+            "input_modality": [{"value": "text", "quote": "columns anchor positive"}],
+            "domain": [{"value": "finance", "quote": "Korean financial-domain data"}],
+        },
+    }
     entity = map_dataset(linker, row, None, ner)
-    by_concept = {l["concept_id"]: l for l in linker.links.values() if l["entity_id"] == "dataset:x/y"}
+    by_concept = {link["concept_id"]: link for link in linker.links.values() if link["entity_id"] == "dataset:x/y"}
     assert by_concept["task/generation"]["confidence"] == "high"  # metadata confirmed by a stated quote
     assert by_concept["task/embedding"]["confidence"] == "low"  # tag only; the README reading never names it
     assert by_concept["task/translation"]["confidence"] == "medium"  # named by NER, but loosely quoted
     assert by_concept["input_modality/text"]["confidence"] == "high"  # metadata raises the earlier low NER link
     assert by_concept["domain/finance"]["method"] == "ner" and by_concept["domain/finance"]["confidence"] == "medium"
     assert entity["summary_ko"] == "요약"
-    public = {"dataset_id": "seoul_open_data/OA-1", "source": "seoul_open_data", "url": "", "sha": "", "languages": ["ko"],
-              "licenses": [], "formats": ["api"], "tags": ["공공자전거", "검색"], "card_data": {"pretty_name": "서울시 공공자전거 대여소"}}
+    public = {
+        "dataset_id": "seoul_open_data/OA-1",
+        "source": "seoul_open_data",
+        "url": "",
+        "sha": "",
+        "languages": ["ko"],
+        "licenses": [],
+        "formats": ["api"],
+        "tags": ["공공자전거", "검색"],
+        "card_data": {"pretty_name": "서울시 공공자전거 대여소"},
+    }
     assert map_dataset(linker, public, None)["source"] == "seoul_open_data"
-    public_links = {l["concept_id"] for l in linker.links.values() if l["entity_id"] == "dataset:seoul_open_data/OA-1"}
+    public_links = {
+        link["concept_id"] for link in linker.links.values() if link["entity_id"] == "dataset:seoul_open_data/OA-1"
+    }
     assert {"domain/transport", "dataset_role/service", "data_format/api", "language/ko"} <= public_links, public_links
     assert "task/retrieval" not in public_links, public_links
     print("13_build_hypergraph ok")

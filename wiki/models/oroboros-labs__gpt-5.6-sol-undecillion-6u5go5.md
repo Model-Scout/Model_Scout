@@ -3,7 +3,7 @@ type: "model"
 id: "oroboros-labs/gpt-5.6-sol-undecillion-6u5go5"
 source: "huggingface"
 url: "https://huggingface.co/oroboros-labs/gpt-5.6-sol-undecillion-6u5go5"
-downloads: 1721
+downloads: 2063
 task:
   - "[[이미지 이해]]"
 input_modality:

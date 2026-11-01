@@ -10,8 +10,8 @@ facet: [[언어]] · 개념 id `language/bo`
 
 ## 모델 (2)
 
-- [[buddhist-nlp__mitra-qwen35-translate|buddhist-nlp/mitra-qwen35-translate]]
 - [[christian-steinert__mitra-qwen35-translate-GGUF|christian-steinert/mitra-qwen35-translate-GGUF]]
+- [[buddhist-nlp__mitra-qwen35-translate|buddhist-nlp/mitra-qwen35-translate]]
 
 ## 함께 연결된 개념
 

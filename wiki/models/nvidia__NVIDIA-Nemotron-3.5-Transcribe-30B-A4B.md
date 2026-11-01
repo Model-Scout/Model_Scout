@@ -3,7 +3,7 @@ type: "model"
 id: "nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B"
 source: "huggingface"
 url: "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B"
-downloads: 338
+downloads: 4276
 context_length: 262144
 parameters_b: 33.698
 task:

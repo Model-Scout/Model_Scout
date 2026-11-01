@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/MiniMax-M3.1-Flash-NVFP4-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/MiniMax-M3.1-Flash-NVFP4-GGUF"
-downloads: 800
+downloads: 1272
 context_length: 1048576
 parameters_b: 220.491
 task:

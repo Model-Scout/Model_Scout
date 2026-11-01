@@ -9,6 +9,7 @@ Two seeds, merged by dataset id:
 Only metadata and README.md are stored; dataset files are never downloaded. Taxonomy
 mapping and NER run as a later stage on these rows.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -18,6 +19,7 @@ import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 from huggingface_hub import HfApi, get_session, hf_hub_url
@@ -51,6 +53,7 @@ _LATIN_RE = re.compile(r"[A-Za-z]")
 # HELPERS
 # =========================================================
 
+
 def with_retry(fn, label):
     for attempt in range(API_MAX_RETRIES + 1):
         try:
@@ -65,8 +68,13 @@ def with_retry(fn, label):
             delay = API_RETRY_BASE_SECONDS * (2**attempt)
             if status == 429:
                 # Hub rate limits use a 5-minute window; short backoff just burns the remaining retries.
-                delay = max(delay, int(response.headers.get("Retry-After") or 30))
-            print(f"[API RETRY] {label} attempt={attempt + 1}/{API_MAX_RETRIES} after {type(exc).__name__}: sleeping {delay}s", flush=True)
+                headers = getattr(response, "headers", None) or {}
+                delay = max(delay, int(headers.get("Retry-After") or 30))
+            print(
+                f"[API RETRY] {label} attempt={attempt + 1}/{API_MAX_RETRIES} "
+                f"after {type(exc).__name__}: sleeping {delay}s",
+                flush=True,
+            )
             time.sleep(delay)
 
 
@@ -121,6 +129,7 @@ def save_atomic(path, write):
 # COLLECTION
 # =========================================================
 
+
 def build_row(info, seed_reasons, referenced_by):
     tags = list(info.tags or [])
     card = info.card_data.to_dict() if info.card_data else {}
@@ -138,7 +147,9 @@ def build_row(info, seed_reasons, referenced_by):
         "gated": info.gated,
         "created_at": info.created_at.isoformat() if info.created_at else None,
         "last_modified": info.last_modified.isoformat() if info.last_modified else None,
-        "languages": sorted({code for value in tag_values(tags, "language") if (code := normalize_language_code(value))}),
+        "languages": sorted(
+            {code for value in tag_values(tags, "language") if (code := normalize_language_code(value))}
+        ),
         "licenses": tag_values(tags, "license"),
         "task_categories": tag_values(tags, "task_categories"),
         "task_ids": tag_values(tags, "task_ids"),
@@ -184,7 +195,7 @@ def collect(api, min_downloads, limit, workers, token):
 
     # Seed 1: Korean datasets, sorted by downloads so the floor ends the scan.
     def list_korean():
-        found = []
+        found: list[Any] = []
         for info in api.list_datasets(language="ko", sort="downloads", direction=-1, full=True):
             if (info.downloads or 0) < min_downloads or (limit and len(found) >= limit):
                 break
@@ -225,7 +236,11 @@ def collect(api, min_downloads, limit, workers, token):
         if target := resolved_ids.get(ref):
             reasons.setdefault(target, set()).add("model_reference")
             ref_by_id[target] = sorted(set(ref_by_id.get(target, [])) | set(models))
-    print(f"[SEED] model references: {len(refs)} cited, {len(refs) - len(unresolved)} resolved, {len(unresolved)} unresolved", flush=True)
+    print(
+        f"[SEED] model references: {len(refs)} cited, {len(refs) - len(unresolved)} resolved, "
+        f"{len(unresolved)} unresolved",
+        flush=True,
+    )
 
     built = [build_row(info, reasons[dataset_id], ref_by_id.get(dataset_id, [])) for dataset_id, info in rows.items()]
     return built, refs, unresolved
@@ -277,7 +292,9 @@ def main():
         "readme_languages": readme_langs,
     }
     save_atomic(STATE_OUTPUT, lambda f: json.dump(state, f, ensure_ascii=False, indent=2))
-    print(json.dumps({k: v for k, v in state.items() if k != "unresolved_model_references"}, ensure_ascii=False, indent=2))
+    print(
+        json.dumps({k: v for k, v in state.items() if k != "unresolved_model_references"}, ensure_ascii=False, indent=2)
+    )
     print(f"Output -> {OUTPUT}\nState  -> {STATE_OUTPUT}\nREADME -> {README_DIR}")
 
 

@@ -9,6 +9,7 @@ the pages. Layout:
   wiki/datasets/<org__name>.md
 Each link line names the metadata field it came from, so every edge is traceable.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -27,8 +28,12 @@ HUB_MEMBER_LIMIT = 100
 COOCCURRING_LIMIT = 12
 UNSAFE_RE = re.compile(r'[\\/:*?"<>|#^\[\]]')
 FACET_ORDER = list(load_taxonomy()["facets"])
-SOURCE_LABELS = {"huggingface": "Hugging Face", "kaggle": "Kaggle", "seoul_open_data": "서울 열린데이터광장",
-                 "data_go_kr": "공공데이터포털"}
+SOURCE_LABELS = {
+    "huggingface": "Hugging Face",
+    "kaggle": "Kaggle",
+    "seoul_open_data": "서울 열린데이터광장",
+    "data_go_kr": "공공데이터포털",
+}
 
 
 def read_jsonl(path):
@@ -48,8 +53,10 @@ def entity_page(entity):
 def concept_pages(concepts):
     """Hub page name = label, or 'label (facet)' when two facets share a label (텍스트 in/out)."""
     counts = Counter(c["label"] for c in concepts.values())
-    return {cid: "concepts/" + safe_name(c["label"] if counts[c["label"]] == 1 else f"{c['label']} ({c['facet_label']})")
-            for cid, c in concepts.items()}
+    return {
+        cid: "concepts/" + safe_name(c["label"] if counts[c["label"]] == 1 else f"{c['label']} ({c['facet_label']})")
+        for cid, c in concepts.items()
+    }
 
 
 def link(page, text=None):
@@ -80,18 +87,32 @@ def render_entity(entity, links, relations, pages, concepts, entities):
     by_facet = defaultdict(list)
     for item in links:
         by_facet[item["facet"]].append(item)
-    props = {"type": entity["kind"], "id": entity["name"], "source": entity["source"], "url": entity["url"],
-             "downloads": entity.get("downloads")}
+    props = {
+        "type": entity["kind"],
+        "id": entity["name"],
+        "source": entity["source"],
+        "url": entity["url"],
+        "downloads": entity.get("downloads"),
+    }
     if entity["kind"] == "dataset":
-        props.update(summary=entity.get("summary_ko"), readme_status=entity.get("readme_status"),
-                     readme_language=entity.get("readme_language"), korean_focus=entity.get("korean_focus"))
+        props.update(
+            summary=entity.get("summary_ko"),
+            readme_status=entity.get("readme_status"),
+            readme_language=entity.get("readme_language"),
+            korean_focus=entity.get("korean_focus"),
+        )
     else:
         props.update(context_length=entity.get("context_length"), parameters_b=entity.get("parameter_count_billion"))
     for facet in FACET_ORDER:
         if by_facet.get(facet):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
-    body = [f"# {entity['name']}", "", f"> {entity['kind']} · [{SOURCE_LABELS.get(entity['source'], entity['source'])}]({entity['url']})", ""]
+    body = [
+        f"# {entity['name']}",
+        "",
+        f"> {entity['kind']} · [{SOURCE_LABELS.get(entity['source'], entity['source'])}]({entity['url']})",
+        "",
+    ]
     if entity.get("summary_ko"):
         body += [entity["summary_ko"], ""]
     body += ["## 분류", ""]
@@ -100,16 +121,21 @@ def render_entity(entity, links, relations, pages, concepts, entities):
             concept = concepts[item["concept_id"]]
             source = ", ".join(item["fields"])
             raw = "" if item["raw"] is None else f" = `{item['raw']}`"
-            body.append(f"- **{concept['facet_label']}**: {link(pages[item['concept_id']], concept['label'])}"
-                        f" — {item['method']} · {source}{raw} · 신뢰도 {item['confidence']}")
+            body.append(
+                f"- **{concept['facet_label']}**: {link(pages[item['concept_id']], concept['label'])}"
+                f" — {item['method']} · {source}{raw} · 신뢰도 {item['confidence']}"
+            )
     length = next((i for i in by_facet.get("input_length", [])), None)
     if entity["kind"] == "model" and length:
         compatible = compatible_lengths(concepts, length["concept_id"].split("/", 1)[1])
         body += ["", "처리 가능한 데이터 길이: " + " · ".join(link(pages[c], concepts[c]["label"]) for c in compatible)]
     if entity["kind"] == "dataset" and entity.get("sample_length"):
         sample = entity["sample_length"]
-        body += ["", f"샘플 길이: `{sample['text_column']}` 열 p90 {sample['chars'].get('p90')}자"
-                     f" ≈ {sample['tokens_p90_estimate']} 토큰 (viewer statistics, {sample['config']}/{sample['split']})"]
+        body += [
+            "",
+            f"샘플 길이: `{sample['text_column']}` 열 p90 {sample['chars'].get('p90')}자"
+            f" ≈ {sample['tokens_p90_estimate']} 토큰 (viewer statistics, {sample['config']}/{sample['split']})",
+        ]
     if entity.get("duplicates"):
         body += ["", "## 같은 데이터의 사본·중복 등록", "", *(f"- `{d}`" for d in entity["duplicates"])]
     if relations:
@@ -121,14 +147,20 @@ def render_entity(entity, links, relations, pages, concepts, entities):
 
 
 def render_concept(concept_id, concept, members, cooccurring, pages, concepts, entities):
-    props = {"type": "concept", "facet": concept["facet"], "key": concept["key"], "aliases": concept["aliases"],
-             "members": len(members)}
+    props = {
+        "type": "concept",
+        "facet": concept["facet"],
+        "key": concept["key"],
+        "aliases": concept["aliases"],
+        "members": len(members),
+    }
     body = [f"# {concept['label']}", "", f"facet: [[{safe_name(concept['facet_label'])}]] · 개념 id `{concept_id}`", ""]
     if concept["aliases"]:
         body += ["별칭: " + ", ".join(concept["aliases"]), ""]
     for kind, title in (("model", "모델"), ("dataset", "데이터셋")):
-        ids = sorted((m for m in members if entities[m]["kind"] == kind),
-                     key=lambda m: -(entities[m].get("downloads") or 0))
+        ids = sorted(
+            (m for m in members if entities[m]["kind"] == kind), key=lambda m: -(entities[m].get("downloads") or 0)
+        )
         if not ids:
             continue
         body += [f"## {title} ({len(ids)})", ""]
@@ -138,16 +170,49 @@ def render_concept(concept_id, concept, members, cooccurring, pages, concepts, e
         body.append("")
     if cooccurring:
         body += ["## 함께 연결된 개념", ""]
-        body += [f"- {link(pages[c], concepts[c]['label'])} ({concepts[c]['facet_label']}) · 공유 {n}" for c, n in cooccurring]
+        body += [
+            f"- {link(pages[c], concepts[c]['label'])} ({concepts[c]['facet_label']}) · 공유 {n}"
+            for c, n in cooccurring
+        ]
     return frontmatter(props) + "\n".join(body) + "\n"
+
+
+WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:[#|][^\]]*)?\]\]")
+
+
+def broken_links(wiki_dir):
+    """[[targets]] that resolve to no page (Obsidian matches by file name, anywhere in the vault)."""
+    pages = {path.stem for path in wiki_dir.rglob("*.md")}
+    broken: Counter[str] = Counter()
+    for path in wiki_dir.rglob("*.md"):
+        for target in WIKILINK_RE.findall(path.read_text(encoding="utf-8")):
+            if target.strip() not in pages:
+                broken[target.strip()] += 1
+    return broken
+
+
+def check(wiki_dir=WIKI_DIR):
+    """CI gate: every link resolves and the vault is not empty."""
+    pages = sum(1 for _ in wiki_dir.rglob("*.md"))
+    broken = broken_links(wiki_dir)
+    print(
+        json.dumps(
+            {"pages": pages, "broken_link_targets": len(broken), "examples": broken.most_common(5)}, ensure_ascii=False
+        )
+    )
+    if broken or pages == 0:
+        raise SystemExit(1)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--self-check", action="store_true")
+    parser.add_argument("--check", action="store_true", help="verify every [[link]] in wiki/ resolves (CI gate)")
     args = parser.parse_args()
     if args.self_check:
         return self_check()
+    if args.check:
+        return check()
 
     entities = {e["entity_id"]: e for e in read_jsonl(HYPERGRAPH_DIR / "entities.jsonl")}
     concepts = {c["concept_id"]: c for c in read_jsonl(HYPERGRAPH_DIR / "concepts.jsonl")}
@@ -164,7 +229,7 @@ def main():
         related[rel["target"]].append(rel["source"])
 
     # Co-occurrence between hubs = how many entities two hyperedges share.
-    pair_counts = defaultdict(Counter)
+    pair_counts: defaultdict[str, Counter[str]] = defaultdict(Counter)
     for entity_links in links_by_entity.values():
         ids = sorted({i["concept_id"] for i in entity_links})
         for a in ids:
@@ -177,23 +242,35 @@ def main():
     for folder in ("models", "datasets", "concepts", "facets"):
         (staging / folder).mkdir(parents=True)
     for entity_id, entity in entities.items():
-        text = render_entity(entity, links_by_entity[entity_id], sorted(set(related[entity_id])), pages, concepts, entities)
+        text = render_entity(
+            entity, links_by_entity[entity_id], sorted(set(related[entity_id])), pages, concepts, entities
+        )
         (staging / f"{entity_page(entity)}.md").write_text(text, encoding="utf-8")
     for concept_id, concept in concepts.items():
         if not members[concept_id]:
             continue
-        cooccurring = [(c, n) for c, n in pair_counts[concept_id].most_common() if concepts[c]["facet"] != concept["facet"]]
-        text = render_concept(concept_id, concept, members[concept_id], cooccurring[:COOCCURRING_LIMIT], pages, concepts, entities)
+        cooccurring = [
+            (c, n) for c, n in pair_counts[concept_id].most_common() if concepts[c]["facet"] != concept["facet"]
+        ]
+        text = render_concept(
+            concept_id, concept, members[concept_id], cooccurring[:COOCCURRING_LIMIT], pages, concepts, entities
+        )
         (staging / f"{pages[concept_id]}.md").write_text(text, encoding="utf-8")
     facets = load_taxonomy()["facets"]
-    index = ["# Model Scout 위키", "", f"모델 {sum(e['kind'] == 'model' for e in entities.values())}개 · "
-             f"데이터셋 {sum(e['kind'] == 'dataset' for e in entities.values())}개 · 연결 {len(links)}개", ""]
+    index = [
+        "# Model Scout 위키",
+        "",
+        f"모델 {sum(e['kind'] == 'model' for e in entities.values())}개 · "
+        f"데이터셋 {sum(e['kind'] == 'dataset' for e in entities.values())}개 · 연결 {len(links)}개",
+        "",
+    ]
     for facet, spec in facets.items():
         rows = [(cid, c) for cid, c in concepts.items() if c["facet"] == facet and members[cid]]
         facet_body = [f"# {spec['label']}", "", f"대상: {', '.join(spec['applies_to'])}", ""]
         facet_body += [f"- {link(pages[cid], c['label'])} · {len(members[cid])}" for cid, c in rows]
         (staging / "facets" / f"{safe_name(spec['label'])}.md").write_text(
-            frontmatter({"type": "facet", "facet": facet}) + "\n".join(facet_body) + "\n", encoding="utf-8")
+            frontmatter({"type": "facet", "facet": facet}) + "\n".join(facet_body) + "\n", encoding="utf-8"
+        )
         index.append(f"- [[{safe_name(spec['label'])}]] · 개념 {len(rows)}개")
     (staging / "index.md").write_text("\n".join(index) + "\n", encoding="utf-8")
 
@@ -204,16 +281,23 @@ def main():
 
 
 def self_check():
-    assert safe_name('a/b:c#d') == "a_b_c_d"
+    assert safe_name("a/b:c#d") == "a_b_c_d"
     assert entity_page({"kind": "dataset", "name": "klue/klue"}) == "datasets/klue__klue"
-    pages = concept_pages({"input_modality/text": {"label": "텍스트", "facet_label": "입력 형식"},
-                           "output_modality/text": {"label": "텍스트", "facet_label": "출력 형식"},
-                           "task/summarization": {"label": "요약", "facet_label": "작업"}})
-    assert pages["input_modality/text"] == "concepts/텍스트 (입력 형식)" and pages["task/summarization"] == "concepts/요약"
+    pages = concept_pages(
+        {
+            "input_modality/text": {"label": "텍스트", "facet_label": "입력 형식"},
+            "output_modality/text": {"label": "텍스트", "facet_label": "출력 형식"},
+            "task/summarization": {"label": "요약", "facet_label": "작업"},
+        }
+    )
+    assert (
+        pages["input_modality/text"] == "concepts/텍스트 (입력 형식)" and pages["task/summarization"] == "concepts/요약"
+    )
     assert link("concepts/요약") == "[[요약]]" and link("models/a__b", "a/b") == "[[a__b|a/b]]"
     assert compatible_lengths({}, "long") == ["input_length/short", "input_length/medium", "input_length/long"]
     assert compatible_lengths({}, "nope") == []
     assert frontmatter({"a": 1, "b": ["[[x]]"], "c": None}) == '---\na: 1\nb:\n  - "[[x]]"\n---\n'
+    assert WIKILINK_RE.findall("see [[요약]] and [[a__b|a/b]] and [[장문#x]]") == ["요약", "a__b", "장문"]
     print("15_build_wiki ok")
 
 

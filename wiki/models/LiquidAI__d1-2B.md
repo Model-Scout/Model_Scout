@@ -3,7 +3,7 @@ type: "model"
 id: "LiquidAI/d1-2B"
 source: "huggingface"
 url: "https://huggingface.co/LiquidAI/d1-2B"
-downloads: 591
+downloads: 1776
 context_length: 128000
 parameters_b: 1.918
 task:

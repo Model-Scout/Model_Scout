@@ -14,6 +14,7 @@ when the projected database size passes SUPABASE_DB_BUDGET_MB (default 480).
     python 20_sync_dataset_index.py            # offline validation and size estimate
     python 20_sync_dataset_index.py --apply    # write Supabase
 """
+
 from __future__ import annotations
 
 import argparse
@@ -67,7 +68,9 @@ def validate(manifest, chunks, vectors, entities):
         problems.append("chunk texts changed since the last embedding; run 14 --embed")
     orphans = {c["dataset_id"] for c in chunks} - set(entities)
     if orphans:
-        problems.append(f"{len(orphans)} chunk datasets missing from the hypergraph, e.g. {sorted(orphans)[:3]}; run 13 then 14")
+        problems.append(
+            f"{len(orphans)} chunk datasets missing from the hypergraph, e.g. {sorted(orphans)[:3]}; run 13 then 14"
+        )
     if problems:
         raise SystemExit("dataset index validation failed:\n- " + "\n- ".join(problems))
 
@@ -88,8 +91,10 @@ def check_budget(cur, needed_bytes):
     projected_mb = (database - current + needed_bytes) / 1e6
     budget_mb = float(os.getenv("SUPABASE_DB_BUDGET_MB", DEFAULT_BUDGET_MB))
     if projected_mb > budget_mb:
-        raise SystemExit(f"projected database {projected_mb:.0f} MB > budget {budget_mb:.0f} MB; "
-                         "lower MAX_SECTION_CHUNKS (14) or FILE_CAP_PER_CATEGORY (18), or raise SUPABASE_DB_BUDGET_MB")
+        raise SystemExit(
+            f"projected database {projected_mb:.0f} MB > budget {budget_mb:.0f} MB; "
+            "lower MAX_SECTION_CHUNKS (14) or FILE_CAP_PER_CATEGORY (18), or raise SUPABASE_DB_BUDGET_MB"
+        )
     return round(projected_mb)
 
 
@@ -110,11 +115,23 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
         # risks the pooler's statement timeout). Upserts run first and deletes last, so a sync
         # that dies midway leaves a superset of the index, never a gap; rerunning resumes from
         # the text-hash diff.
-        dataset_rows = [(name, e["source"], e.get("title"), e["url"], e.get("summary_ko"), sorted(concepts[name]),
-                         json.dumps(e, ensure_ascii=False)) for name, e in entities.items()]
+        dataset_rows = [
+            (
+                name,
+                e["source"],
+                e.get("title"),
+                e["url"],
+                e.get("summary_ko"),
+                sorted(concepts[name]),
+                json.dumps(e, ensure_ascii=False),
+            )
+            for name, e in entities.items()
+        ]
         for start in range(0, len(dataset_rows), batch_size):
             with conn, conn.cursor() as cur:
-                execute_values(cur, """
+                execute_values(
+                    cur,
+                    """
                     insert into public.model_scout_datasets
                         (dataset_id, source, title, url, summary_ko, concepts, entity)
                     values %s
@@ -124,44 +141,69 @@ def apply(manifest, chunks, vectors, entities, concepts, batch_size):
                     -- unchanged rows are skipped: a no-op update still writes a new tuple (bloat)
                     where (model_scout_datasets.entity, model_scout_datasets.concepts, model_scout_datasets.active)
                           is distinct from (excluded.entity, excluded.concepts, true)""",
-                    dataset_rows[start:start + batch_size])
+                    dataset_rows[start : start + batch_size],
+                )
 
         with conn, conn.cursor() as cur:
             cur.execute("select chunk_id, text_hash from public.model_scout_dataset_chunks")
             stored = dict(cur.fetchall())
         changed = [i for i, c in enumerate(chunks) if stored.get(c["chunk_id"]) != c["text_hash"]]
         for start in range(0, len(changed), batch_size):
-            rows = [(chunks[i]["chunk_id"], chunks[i]["dataset_id"], chunks[i]["kind"], chunks[i]["heading_path"],
-                     chunks[i]["text"][:TEXT_PREVIEW_CHARS], chunks[i]["text_hash"], vector_literal(vectors[i]))
-                    for i in changed[start:start + batch_size]]
+            rows = [
+                (
+                    chunks[i]["chunk_id"],
+                    chunks[i]["dataset_id"],
+                    chunks[i]["kind"],
+                    chunks[i]["heading_path"],
+                    chunks[i]["text"][:TEXT_PREVIEW_CHARS],
+                    chunks[i]["text_hash"],
+                    vector_literal(vectors[i]),
+                )
+                for i in changed[start : start + batch_size]
+            ]
             with conn, conn.cursor() as cur:
-                execute_values(cur, """
+                execute_values(
+                    cur,
+                    """
                     insert into public.model_scout_dataset_chunks
                         (chunk_id, dataset_id, kind, heading_path, text, text_hash, embedding)
                     values %s
                     on conflict (chunk_id) do update set dataset_id = excluded.dataset_id, kind = excluded.kind,
                         heading_path = excluded.heading_path, text = excluded.text, text_hash = excluded.text_hash,
                         embedding = excluded.embedding, updated_at = now()""",
-                    rows, template="(%s, %s, %s, %s, %s, %s, %s::halfvec)")
+                    rows,
+                    template="(%s, %s, %s, %s, %s, %s, %s::halfvec)",
+                )
             print(f"[SYNC] chunks {min(start + batch_size, len(changed))}/{len(changed)}", flush=True)
 
         with conn, conn.cursor() as cur:
-            cur.execute("delete from public.model_scout_dataset_chunks where not (chunk_id = any(%s))",
-                        ([c["chunk_id"] for c in chunks],))
+            cur.execute(
+                "delete from public.model_scout_dataset_chunks where not (chunk_id = any(%s))",
+                ([c["chunk_id"] for c in chunks],),
+            )
             removed_chunks = cur.rowcount
             cur.execute("delete from public.model_scout_datasets where not (dataset_id = any(%s))", (list(entities),))
             removed_datasets = cur.rowcount
         with conn.cursor() as cur:
             cur.execute("select count(*) from public.model_scout_dataset_chunks")
             total = cur.fetchone()[0]
-            cur.execute("select pg_size_pretty(pg_total_relation_size('public.model_scout_dataset_chunks')), "
-                        "pg_size_pretty(pg_database_size(current_database()))")
+            cur.execute(
+                "select pg_size_pretty(pg_total_relation_size('public.model_scout_dataset_chunks')), "
+                "pg_size_pretty(pg_database_size(current_database()))"
+            )
             table_size, db_size = cur.fetchone()
     finally:
         conn.close()
-    return {"projected_mb": projected_mb, "datasets": len(dataset_rows), "removed_datasets": removed_datasets,
-            "uploaded_chunks": len(changed), "removed_chunks": removed_chunks, "chunks_in_db": total,
-            "chunks_table": table_size, "database": db_size}
+    return {
+        "projected_mb": projected_mb,
+        "datasets": len(dataset_rows),
+        "removed_datasets": removed_datasets,
+        "uploaded_chunks": len(changed),
+        "removed_chunks": removed_chunks,
+        "chunks_in_db": total,
+        "chunks_table": table_size,
+        "database": db_size,
+    }
 
 
 def main():
@@ -174,8 +216,11 @@ def main():
         return self_check()
     manifest, chunks, vectors, entities, concepts = load_index()
     validate(manifest, chunks, vectors, entities)
-    summary = {"datasets": len(entities), "chunks": len(chunks),
-               "estimated_write_mb": round(estimated_bytes(chunks, entities) / 1e6)}
+    summary = {
+        "datasets": len(entities),
+        "chunks": len(chunks),
+        "estimated_write_mb": round(estimated_bytes(chunks, entities) / 1e6),
+    }
     if args.apply:
         summary.update(apply(manifest, chunks, vectors, entities, concepts, args.batch_size))
     print(json.dumps(summary, ensure_ascii=False))

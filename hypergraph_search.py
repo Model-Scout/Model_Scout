@@ -15,6 +15,7 @@ Dense similarity (same text-embedding-3-small space as the model documents) brea
 ties that coarse metadata leaves and lets datasets without task metadata in when their
 README is clearly on topic. A small quality prior prefers used, documented, Korean data.
 """
+
 from __future__ import annotations
 
 import functools
@@ -44,6 +45,8 @@ DENSE_ONLY_MIN = 0.45
 # ponytail: relevance floor for every candidate when a query vector exists; off-topic data with
 # right-looking tags sits ~0.35-0.39, real matches >= 0.42. Re-tune on the golden set.
 DENSE_MIN = 0.40
+# Relative floors: keep candidates within these margins of the query's best similarity.
+DENSE_MARGIN, DENSE_ONLY_MARGIN = 0.15, 0.08
 README_PENALTY = {"template": -2.0, "thin": -2.0, "missing": -2.0}
 CONFIDENCE_WEIGHT = {"high": 1.0, "medium": 0.8, "low": 0.3}
 # Data built for a neighbouring task still trains or evaluates the model: embedding models are
@@ -66,10 +69,39 @@ SCORED_LANGUAGES = {"language/ko"}
 # and region fit matter for public data, where one schema exists per city or province.
 KEYWORD_BONUS, KEYWORD_BONUS_CAP = 1.0, 2.0
 REGION_MATCH_BONUS, REGION_MISMATCH_PENALTY = 1.5, -3.0
-REGIONS = ("서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충청북도", "충남",
-           "충청남도", "전북", "전라북도", "전남", "전라남도", "경북", "경상북도", "경남", "경상남도", "제주")
-REGION_CANON = {"충청북도": "충북", "충청남도": "충남", "전라북도": "전북", "전라남도": "전남", "경상북도": "경북",
-                "경상남도": "경남"}
+REGIONS = (
+    "서울",
+    "부산",
+    "대구",
+    "인천",
+    "광주",
+    "대전",
+    "울산",
+    "세종",
+    "경기",
+    "강원",
+    "충북",
+    "충청북도",
+    "충남",
+    "충청남도",
+    "전북",
+    "전라북도",
+    "전남",
+    "전라남도",
+    "경북",
+    "경상북도",
+    "경남",
+    "경상남도",
+    "제주",
+)
+REGION_CANON = {
+    "충청북도": "충북",
+    "충청남도": "충남",
+    "전라북도": "전북",
+    "전라남도": "전남",
+    "경상북도": "경북",
+    "경상남도": "경남",
+}
 KOREAN_FOCUS_BONUS = {"ko_only": 1.5, "ko_with_others": 1.0, "wide_multilingual": 0.0, "not_ko": -1.0}
 
 
@@ -94,6 +126,46 @@ def load_graph():
 
 
 @functools.lru_cache(maxsize=1)
+def load_link_evidence():
+    """(dataset entity, concept) -> (method, source fields, raw value or README quote)."""
+    return {
+        (link["entity_id"], link["concept_id"]): (link["method"], link["fields"], link["raw"])
+        for link in _read("links.jsonl")
+        if link["entity_id"].startswith("dataset:")
+    }
+
+
+@functools.lru_cache(maxsize=1)
+def load_ner_quotes():
+    """(dataset id, concept id) -> README quote verified by NER (16)."""
+    path = DATA_DIR / "hf_datasets_ner.jsonl"
+    quotes: dict[tuple[str, str], str] = {}
+    if path.exists():
+        with open(path, encoding="utf-8") as f:
+            for row in map(json.loads, f):
+                for facet, items in row.get("concepts", {}).items():
+                    for item in items:
+                        quotes.setdefault((row["dataset_id"], f"{facet}/{item['value']}"), item["quote"])
+    return quotes
+
+
+def evidence_item(entity_id, concept_id, label):
+    """Why a dataset joined a hub: a verified README quote when NER confirmed it, else the
+    metadata field and value it came from."""
+    method, fields, raw = load_link_evidence().get((entity_id, concept_id), (None, [], None))
+    if method is None:
+        return None
+    quote = load_ner_quotes().get((entity_id.split(":", 1)[1], concept_id))
+    if quote:
+        return {"concept": label, "source": "README 인용", "text": quote[:200]}
+    return {
+        "concept": label,
+        "source": f"메타데이터 ({', '.join(f for f in fields if f != 'readme')})",
+        "text": str(raw)[:200] if raw is not None else None,
+    }
+
+
+@functools.lru_cache(maxsize=1)
 def load_dataset_vectors():
     """Unit-normalised chunk vectors plus, per row, the index of its dataset."""
     manifest = json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))
@@ -111,8 +183,10 @@ def _supabase_dense_scores(query_vector):
     conn = db_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute("select dataset_id, similarity from public.match_model_scout_datasets(%s::halfvec)",
-                        (vector_literal(query_vector),))
+            cur.execute(
+                "select dataset_id, similarity from public.match_model_scout_datasets(%s::halfvec)",
+                (vector_literal(query_vector),),
+            )
             return dict(cur.fetchall())
     finally:
         conn.close()
@@ -129,7 +203,9 @@ def model_vector(model_id):
     conn = db_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute("select embedding::text from public.model_scout_models where model_id = %s and active", (model_id,))
+            cur.execute(
+                "select embedding::text from public.model_scout_models where model_id = %s and active", (model_id,)
+            )
             row = cur.fetchone()
     finally:
         conn.close()
@@ -161,7 +237,7 @@ def dense_scores(query_vector):
     sims = matrix @ (query / (np.linalg.norm(query) + 1e-12))
     best = np.full(len(names), -1.0, dtype=np.float32)
     np.maximum.at(best, owner, sims)
-    return dict(zip(names, best.tolist()))
+    return dict(zip(names, best.tolist(), strict=False))
 
 
 @functools.lru_cache(maxsize=1024)
@@ -218,15 +294,21 @@ def keyword_score(entity, keywords):
     return score, reasons
 
 
-def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10,
-                  keywords=()):
+def rank_datasets(
+    target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10, keywords=()
+):
     entities, concepts, by_entity, members, _, confidence = load_graph()
     dense = dense_scores(query_vector) if query_vector is not None else {}
+    # Cosine scale shifts with query length ("따릉이 대여소" peaks near 0.35, a full sentence near
+    # 0.6), so the floors follow the best match of this query instead of fixed values alone.
+    best_dense = max(dense.values(), default=0.0)
+    dense_min = min(DENSE_MIN, best_dense - DENSE_MARGIN)
+    dense_only_min = min(DENSE_ONLY_MIN, best_dense - DENSE_ONLY_MARGIN)
     n = len(entities)
     # Dataset task -> (affinity, the target task it serves). A neighbour match is scored as a
     # fraction of a direct match on the *target* hub, so a rare neighbour (요약) cannot outrank
     # the model's own crowded task (생성) on idf alone.
-    task_affinity = {}
+    task_affinity: dict[str, tuple[float, str]] = {}
     for concept_id in (c for c in target_concepts if c.startswith("task/")):
         task = concept_id.split("/", 1)[1]
         for other, affinity in {task: 1.0, **TASK_AFFINITY.get(task, {})}.items():
@@ -242,10 +324,10 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
         linked = entity_id in trained_with
         similarity = dense.get(entity["name"])
         trusted_tasks = {c for c in dataset_concepts if c.startswith("task/") and confidence[entity_id, c] >= 0.8}
-        topical = similarity is not None and similarity >= DENSE_ONLY_MIN
+        topical = similarity is not None and similarity >= dense_only_min
         if not (task_affinity.keys() & trusted_tasks or linked or (topical and not trusted_tasks)):
             continue
-        if similarity is not None and similarity < DENSE_MIN and not linked:
+        if similarity is not None and similarity < dense_min and not linked:
             continue
         # A model cannot consume a modality it has no input for: a text reranker gains nothing from
         # visual-document retrieval sets even though their queries are text.
@@ -261,7 +343,7 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
             reasons.append("학습 데이터로 인용됨")
         # One contribution per facet (its best match): a dataset tagged with ten languages or
         # tasks should not outscore one that matches the model's single language or task.
-        best = {}
+        best: dict[str, tuple[float, str]] = {}
         matched = (target_concepts | task_affinity.keys()) & dataset_concepts
         for concept_id in sorted(matched):
             facet = concept_id.split("/", 1)[0]
@@ -274,10 +356,15 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
             value = weight * FACET_WEIGHTS[facet] * math.log(n / len(members[hub]))
             if value > best.get(facet, (0.0, None))[0]:
                 best[facet] = (value, concept_id)
+        evidence = []
         for facet, (value, concept_id) in best.items():
             score += value
             weight = confidence[entity_id, concept_id]
             reasons.append(concepts[concept_id]["label"] + ("?" if weight < 0.8 else ""))
+            if facet in ("task", "domain") and (
+                item := evidence_item(entity_id, concept_id, concepts[concept_id]["label"])
+            ):
+                evidence.append(item)
         dataset_length = _length_rank(dataset_concepts)
         if target_length is not None and dataset_length is not None:
             if dataset_length > target_length:
@@ -297,12 +384,24 @@ def rank_datasets(target_concepts, *, trained_with=(), query_vector=None, commer
             score += 0.5 * math.log10(1 + (entity.get("downloads") or 0))
         score += README_PENALTY.get(entity.get("readme_status"), 0.0)
         score += 0.0 if linked else KOREAN_FOCUS_BONUS.get(entity.get("korean_focus"), 0.0)
-        results.append({"dataset": entity["name"], "title": entity.get("title"), "source": entity.get("source"),
-                        "score": round(score, 3), "graph_score": round(graph_score, 3),
-                        "dense": None if similarity is None else round(similarity, 3), "reasons": reasons,
-                        "downloads": entity.get("downloads"), "url": entity["url"],
-                        "readme_status": entity.get("readme_status"), "korean_focus": entity.get("korean_focus"),
-                        "summary_ko": entity.get("summary_ko")})
+        results.append(
+            {
+                "dataset": entity["name"],
+                "title": entity.get("title"),
+                "source": entity.get("source"),
+                "score": round(score, 3),
+                "graph_score": round(graph_score, 3),
+                "dense": None if similarity is None else round(similarity, 3),
+                "reasons": reasons,
+                "downloads": entity.get("downloads"),
+                "url": entity["url"],
+                "readme_status": entity.get("readme_status"),
+                "korean_focus": entity.get("korean_focus"),
+                "summary_ko": entity.get("summary_ko"),
+                "licenses": entity.get("licenses") or [],
+                "evidence": evidence,
+            }
+        )
     results.sort(key=lambda r: (-r["score"], -(r["downloads"] or 0)))
     return results[:limit]
 
@@ -312,8 +411,9 @@ def datasets_for_model(model_id, **filters):
     entity_id = f"model:{model_id}"
     if entity_id not in entities:
         raise KeyError(f"{model_id} is not in the model corpus")
-    return rank_datasets(by_entity[entity_id], trained_with=trained_with[entity_id],
-                         query_vector=model_vector(model_id), **filters)
+    return rank_datasets(
+        by_entity[entity_id], trained_with=trained_with[entity_id], query_vector=model_vector(model_id), **filters
+    )
 
 
 if __name__ == "__main__":
@@ -334,5 +434,7 @@ if __name__ == "__main__":
         vector = embed_query(args.query) if args.query else None
         rows = rank_datasets(concepts_from_terms(args.terms), query_vector=vector, keywords=args.terms, **filters)
     for row in rows:
-        print(f"{row['score']:7.2f}  graph {row['graph_score']:5.1f}  dense {row['dense'] or 0:.2f}  "
-              f"{row['dataset']:<50} {' · '.join(row['reasons'])}" + (f"  [{row['title']}]" if row.get("title") else ""))
+        print(
+            f"{row['score']:7.2f}  graph {row['graph_score']:5.1f}  dense {row['dense'] or 0:.2f}  "
+            f"{row['dataset']:<50} {' · '.join(row['reasons'])}" + (f"  [{row['title']}]" if row.get("title") else "")
+        )

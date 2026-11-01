@@ -3,7 +3,7 @@ type: "model"
 id: "oroboros-labs/gpt-astra-7-undecillion-7u5go5"
 source: "huggingface"
 url: "https://huggingface.co/oroboros-labs/gpt-astra-7-undecillion-7u5go5"
-downloads: 1585
+downloads: 1879
 task:
   - "[[이미지 이해]]"
 input_modality:

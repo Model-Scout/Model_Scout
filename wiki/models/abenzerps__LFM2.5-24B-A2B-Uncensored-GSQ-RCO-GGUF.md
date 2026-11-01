@@ -3,7 +3,7 @@ type: "model"
 id: "abenzerps/LFM2.5-24B-A2B-Uncensored-GSQ-RCO-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/abenzerps/LFM2.5-24B-A2B-Uncensored-GSQ-RCO-GGUF"
-downloads: 1047
+downloads: 2942
 task:
   - "[[텍스트 생성]]"
 input_modality:

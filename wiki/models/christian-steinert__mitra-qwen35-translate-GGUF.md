@@ -3,7 +3,7 @@ type: "model"
 id: "christian-steinert/mitra-qwen35-translate-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/christian-steinert/mitra-qwen35-translate-GGUF"
-downloads: 102
+downloads: 724
 task:
   - "[[번역]]"
 input_modality:

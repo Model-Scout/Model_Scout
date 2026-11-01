@@ -18,6 +18,7 @@ per group and records the rest as its duplicates.
                 then the longer card.
   same owner    one author on both sites with README overlap >= 25% (podongchip's KOSPI features).
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -31,12 +32,12 @@ NAME_JACCARD = 0.8
 CROSS_SITE_JACCARD = 0.5
 WORD_RE = re.compile(r"[a-z가-힣0-9]{3,}")
 TITLE_NOISE = [
-    re.compile(r"_?\d{8}$"),                    # 기본수준점_20260209
-    re.compile(r"\(\s*\d{4}[^)]*\)"),           # (2009~2013년), (2017년)
-    re.compile(r"\d{4}\s*년"),                  # 상수도 사용량 2005년
+    re.compile(r"_?\d{8}$"),  # 기본수준점_20260209
+    re.compile(r"\(\s*\d{4}[^)]*\)"),  # (2009~2013년), (2017년)
+    re.compile(r"\d{4}\s*년"),  # 상수도 사용량 2005년
     re.compile(r"^(?:서울특별시|서울시|서울교통공사)[_\s]+"),
-    re.compile(r"(?:^|\s)[가-힣]{1,3}구(?=\s|_|$)"),                         # 강서구 ... : one series per district
-    re.compile(r"\((?:영문|일문|중문|영어|일본어|중국어)[^)]*\)"),            # translated editions
+    re.compile(r"(?:^|\s)[가-힣]{1,3}구(?=\s|_|$)"),  # 강서구 ... : one series per district
+    re.compile(r"\((?:영문|일문|중문|영어|일본어|중국어)[^)]*\)"),  # translated editions
 ]
 DISTRICT_RE = re.compile(r"(?:^|\s)[가-힣]{1,3}구(?:\s|_|$)")
 SAME_OWNER_JACCARD = 0.25
@@ -89,7 +90,7 @@ def _hf_groups(rows, groups, reasons):
             reasons[other] = "identical README"
     for ids in by_name.values():
         for i, a in enumerate(ids):
-            for b in ids[i + 1:]:
+            for b in ids[i + 1 :]:
                 if groups.find(a) != groups.find(b) and _jaccard(bodies[a], bodies[b]) >= NAME_JACCARD:
                     groups.union(a, b)
                     reasons.setdefault(b, "same name, near-identical README")
@@ -132,7 +133,7 @@ PORTAL_SOURCES = {"seoul_open_data", "data_go_kr"}
 
 def duplicate_map(hf_rows, public_rows):
     """dataset_id -> {"canonical": id, "reason": str} for every non-canonical member."""
-    groups, reasons = _Groups(), {}
+    groups, reasons = _Groups(), dict[str, str]()
     _hf_groups(hf_rows, groups, reasons)
     _public_groups(public_rows, groups, reasons)
     rows = {r["dataset_id"]: r for r in [*hf_rows, *public_rows]}
@@ -145,8 +146,11 @@ def duplicate_map(hf_rows, public_rows):
         if row.get("source") in PORTAL_SOURCES:
             title = (row.get("card_data") or {}).get("pretty_name") or ""
             return (bool(row.get("licenses")), not DISTRICT_RE.search(title), row.get("readme_chars") or 0)
-        return (bool(row.get("referenced_by_models")), row.get("source", "huggingface") == "huggingface",
-                row.get("downloads") or 0)
+        return (
+            bool(row.get("referenced_by_models")),
+            row.get("source", "huggingface") == "huggingface",
+            row.get("downloads") or 0,
+        )
 
     duplicates = {}
     for ids in members.values():
@@ -164,20 +168,43 @@ def duplicate_map(hf_rows, public_rows):
 if __name__ == "__main__":
     assert title_key("서울교통공사_지하철혼잡도정보") == title_key("서울교통공사_지하철혼잡도정보 ")
     assert title_key("서울특별시_공공서비스예약 정보") == title_key("서울시 공공서비스예약 정보")
-    assert title_key("해양수산부 국립해양조사원_기본수준점_20260209") == title_key("해양수산부 국립해양조사원_기본수준점")
+    assert title_key("해양수산부 국립해양조사원_기본수준점_20260209") == title_key(
+        "해양수산부 국립해양조사원_기본수준점"
+    )
     assert title_key("서울시 한강공원 이용객 현황 (2009~2013년)") == title_key("서울시 한강공원 이용객 현황(2017년)")
     assert title_key("서울시 강우량 정보") != title_key("서울시 강설량 정보")
     assert title_key("서울시 강서구 모범음식점 현황") == title_key("서울시 마포구 모범음식점 현황")
     assert title_key("서울시 한양도성 스탬프 투어 정보(일문)") == title_key("서울시 한양도성 스탬프 투어 정보")
-    hf = [{"dataset_id": "wikimedia/wikipedia", "downloads": 9}, {"dataset_id": "copy/wikipedia", "downloads": 1},
-          {"dataset_id": "a/data", "downloads": 5}, {"dataset_id": "b/data", "downloads": 3}]
-    bodies = {"wikimedia/wikipedia": "w " * 400, "copy/wikipedia": "w " * 400, "a/data": "apple " * 200, "b/data": "pear " * 200}
+    hf = [
+        {"dataset_id": "wikimedia/wikipedia", "downloads": 9},
+        {"dataset_id": "copy/wikipedia", "downloads": 1},
+        {"dataset_id": "a/data", "downloads": 5},
+        {"dataset_id": "b/data", "downloads": 3},
+    ]
+    bodies = {
+        "wikimedia/wikipedia": "w " * 400,
+        "copy/wikipedia": "w " * 400,
+        "a/data": "apple " * 200,
+        "b/data": "pear " * 200,
+    }
     readme_body = lambda row: bodies[row["dataset_id"]]  # noqa: E731  (self-check stub)
     globals()["readme_body"] = readme_body
-    pub = [{"dataset_id": "seoul_open_data/OA-1", "source": "seoul_open_data", "licenses": [], "readme_chars": 900,
-            "card_data": {"pretty_name": "서울교통공사_지하철혼잡도정보"}},
-           {"dataset_id": "data_go_kr/2", "source": "data_go_kr", "licenses": ["공공누리 제1유형"], "readme_chars": 300,
-            "card_data": {"pretty_name": "서울교통공사_지하철혼잡도정보"}}]
+    pub = [
+        {
+            "dataset_id": "seoul_open_data/OA-1",
+            "source": "seoul_open_data",
+            "licenses": [],
+            "readme_chars": 900,
+            "card_data": {"pretty_name": "서울교통공사_지하철혼잡도정보"},
+        },
+        {
+            "dataset_id": "data_go_kr/2",
+            "source": "data_go_kr",
+            "licenses": ["공공누리 제1유형"],
+            "readme_chars": 300,
+            "card_data": {"pretty_name": "서울교통공사_지하철혼잡도정보"},
+        },
+    ]
     dup = duplicate_map(hf, pub)
     assert dup["copy/wikipedia"]["canonical"] == "wikimedia/wikipedia"
     assert "a/data" not in dup and "b/data" not in dup  # same generic name, different content

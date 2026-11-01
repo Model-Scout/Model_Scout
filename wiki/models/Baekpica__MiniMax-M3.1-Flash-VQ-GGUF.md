@@ -3,7 +3,7 @@ type: "model"
 id: "Baekpica/MiniMax-M3.1-Flash-VQ-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/Baekpica/MiniMax-M3.1-Flash-VQ-GGUF"
-downloads: 4329
+downloads: 5077
 context_length: 1048576
 task:
   - "[[이미지 이해]]"

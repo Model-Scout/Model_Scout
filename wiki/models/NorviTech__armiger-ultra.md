@@ -3,7 +3,7 @@ type: "model"
 id: "NorviTech/armiger-ultra"
 source: "huggingface"
 url: "https://huggingface.co/NorviTech/armiger-ultra"
-downloads: 517
+downloads: 673
 task:
   - "[[텍스트 분류]]"
 input_modality:

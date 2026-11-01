@@ -3,7 +3,7 @@ type: "model"
 id: "CMSManhattan/JiRackDeltaNet_180b"
 source: "huggingface"
 url: "https://huggingface.co/CMSManhattan/JiRackDeltaNet_180b"
-downloads: 6694
+downloads: 6649
 context_length: 262144
 task:
   - "[[텍스트 생성]]"

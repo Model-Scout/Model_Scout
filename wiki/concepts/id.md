@@ -40,16 +40,16 @@ facet: [[언어]] · 개념 id `language/id`
 - [[neuralfoundry-coder__multilingual-translation-fast|neuralfoundry-coder/multilingual-translation-fast]]
 - [[rokokot__question-type-and-complexity|rokokot/question-type-and-complexity]]
 - [[neulab__PangeaBench-xchat|neulab/PangeaBench-xchat]]
-- [[SirJohnBasu__syntava-cube-publication|SirJohnBasu/syntava-cube-publication]]
 - [[Nexdata-kr__500000-Images-Multilingual-OCR-Dataset-in-21-Languages|Nexdata-kr/500000-Images-Multilingual-OCR-Dataset-in-21-Languages]]
+- [[SirJohnBasu__syntava-cube-publication|SirJohnBasu/syntava-cube-publication]]
 - [[datalama__STELLA|datalama/STELLA]]
 - [[neuralfoundry-coder__finance-instructions-ko-sample|neuralfoundry-coder/finance-instructions-ko-sample]]
 - [[rileykim__multilingual-image-text-translation|rileykim/multilingual-image-text-translation]]
 - [[datasetsANDmodels__99sentences-translate2-10languages|datasetsANDmodels/99sentences-translate2-10languages]]
 - [[lattice-nlp__GOLEMcoref-PER|lattice-nlp/GOLEMcoref-PER]]
 - [[Heng666__TED2020-TW-Corpus|Heng666/TED2020-TW-Corpus]]
-- [[Heng666__MultiCCAligned-TW-Corpus|Heng666/MultiCCAligned-TW-Corpus]]
 - [[akahana__mini-multilanguage|akahana/mini-multilanguage]]
+- [[Heng666__MultiCCAligned-TW-Corpus|Heng666/MultiCCAligned-TW-Corpus]]
 - [[lattice-nlp__GOLEMcoref|lattice-nlp/GOLEMcoref]]
 - [[lxyuan__nemo-codeswitch-reasoning-debate|lxyuan/nemo-codeswitch-reasoning-debate]]
 - [[piyushsinghpasi__mscoco-multilingual-30k|piyushsinghpasi/mscoco-multilingual-30k]]
@@ -61,8 +61,8 @@ facet: [[언어]] · 개념 id `language/id`
 - [[arvestcv__zwds-numerology-knowledge|arvestcv/zwds-numerology-knowledge]]
 - [[datasetsANDmodels__8-different-languages|datasetsANDmodels/8-different-languages]]
 - [[Menoviar28__menov48|Menoviar28/menov48]]
-- [[jp1924__MultilingualCorpusInFinancialSector|jp1924/MultilingualCorpusInFinancialSector]]
 - [[ziozzang__deepl-trans-ID-KO|ziozzang/deepl-trans-ID-KO]]
+- [[jp1924__MultilingualCorpusInFinancialSector|jp1924/MultilingualCorpusInFinancialSector]]
 
 ## 함께 연결된 개념
 

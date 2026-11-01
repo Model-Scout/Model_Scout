@@ -3,7 +3,7 @@ type: "model"
 id: "CMSManhattan/JiRackUltra_14b"
 source: "huggingface"
 url: "https://huggingface.co/CMSManhattan/JiRackUltra_14b"
-downloads: 11773
+downloads: 10296
 context_length: 131072
 parameters_b: 14.77
 task:

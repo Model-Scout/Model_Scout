@@ -3,7 +3,7 @@ type: "model"
 id: "oroboros-labs/claude-opus-9-undecillion-v"
 source: "huggingface"
 url: "https://huggingface.co/oroboros-labs/claude-opus-9-undecillion-v"
-downloads: 106
+downloads: 421
 task:
   - "[[텍스트 생성]]"
 input_modality:

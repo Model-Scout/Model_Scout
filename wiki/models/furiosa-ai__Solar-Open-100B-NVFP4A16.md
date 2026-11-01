@@ -3,7 +3,7 @@ type: "model"
 id: "furiosa-ai/Solar-Open-100B-NVFP4A16"
 source: "huggingface"
 url: "https://huggingface.co/furiosa-ai/Solar-Open-100B-NVFP4A16"
-downloads: 2320
+downloads: 1937
 context_length: 131072
 parameters_b: 102.652
 task:

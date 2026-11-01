@@ -3,7 +3,7 @@ type: "model"
 id: "FINAL-Bench/Darwin-180B-RSI-R3"
 source: "huggingface"
 url: "https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3"
-downloads: 218
+downloads: 721
 context_length: 262144
 parameters_b: 180.0
 task:
