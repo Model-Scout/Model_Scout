@@ -5,12 +5,22 @@ judged by numbers before it ships. Each scenario lists datasets a reviewer would
 top 10; ids missing from the current corpus are reported and skipped, not counted as misses.
 
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
+    python 22_eval_recommendations.py --public  # also score test/public_data/labels/public_data_golden.jsonl
+
+Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
+the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
+also matches its cross-listed copies (entity `duplicates`). nDCG@10 uses the 0/1/2 grades.
+Abstention queries are reported separately: how many judged-relevant or must_exclude datasets
+appear in the top 10, since the ranker has no empty-result path yet.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
+import math
 import sys
+from pathlib import Path
 from typing import Any
 
 import hypergraph_search as hs
@@ -135,6 +145,7 @@ EXPECTED = {
     },
 }
 K = 10
+PUBLIC_GOLDEN = Path(__file__).resolve().parent / "test" / "public_data" / "labels" / "public_data_golden.jsonl"
 
 
 def run(scenario):
@@ -174,9 +185,85 @@ def evaluate():
     return rows
 
 
+def _aliases(entities):
+    """dataset name -> every name that counts as the same dataset (itself + cross-listed copies)."""
+    out = {}
+    for e in entities.values():
+        if e["kind"] == "dataset":
+            names = {e["name"], *(e.get("duplicates") or [])}
+            for name in names:
+                out[name] = names
+    return out
+
+
+def _public_top(label):
+    terms = list(label["dataset_terms"])
+    if region := label["conditions"].get("region"):
+        terms.append(region)
+    rows = hs.rank_datasets(
+        hs.concepts_from_terms(terms),
+        query_vector=hs.embed_query(label["query"]),
+        commercial_only=bool(label["conditions"].get("commercial")),
+        roles=["service"],
+        limit=K,
+        keywords=terms,
+    )
+    return [r["dataset"] for r in rows]
+
+
+def evaluate_public(path):
+    entities = hs.load_graph()[0]
+    alias = _aliases(entities)
+    labels = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    scored, abstain = [], []
+    for label in labels:
+        if not label["evaluable"]:
+            continue
+        grades: dict[str, int] = {}
+        for dataset, grade in label["relevant"].items():
+            for name in alias.get(dataset, {dataset}):
+                grades[name] = max(grade, grades.get(name, 0))
+        excluded = {n for d in label["must_exclude"] for n in alias.get(d, {d})}
+        top = _public_top(label)
+        if label["expected_behavior"] == "abstain":
+            abstain.append((label["query_id"], sum(d in excluded or d in grades for d in top), len(top)))
+            continue
+        gains = [grades.get(d, 0) for d in top]
+        ideal = sorted(label["relevant"].values(), reverse=True)[:K]
+        dcg = sum(g / math.log2(i + 2) for i, g in enumerate(gains))
+        idcg = sum(g / math.log2(i + 2) for i, g in enumerate(ideal))
+        first = next((i for i, g in enumerate(gains, 1) if g), None)
+        hits = sum(1 for g in gains if g)
+        scored.append(
+            (
+                f"{label['query_id']} {label['query_type']}",
+                hits / K,
+                hits / min(K, len(label["relevant"])),
+                1 / first if first else 0.0,
+                dcg / idcg if idcg else 0.0,
+                sum(d in excluded for d in top),
+            )
+        )
+    return scored, abstain
+
+
+def print_public(path):
+    scored, abstain = evaluate_public(path)
+    print(f"\npublic data ({path.name})")
+    print(f"{'query':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}  must_exclude in top")
+    for name, p, r, mrr, ndcg, bad in scored:
+        print(f"{name:<34} {p:5.2f} {r:5.2f} {mrr:5.2f} {ndcg:5.2f}  {bad}")
+    if scored:
+        mean = lambda i: sum(row[i] for row in scored) / len(scored)  # noqa: E731
+        print(f"{'mean (' + str(len(scored)) + ')':<34} {mean(1):5.2f} {mean(2):5.2f} {mean(3):5.2f} {mean(4):5.2f}")
+    for query_id, wrong, returned in abstain:
+        print(f"abstain {query_id}: {returned} returned, {wrong} judged relevant/excluded in top {K}")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--min-p10", type=float, default=0.0, help="fail (exit 1) below this mean P@10")
+    parser.add_argument("--public", nargs="?", type=Path, const=PUBLIC_GOLDEN, help="also score a public golden set")
     args = parser.parse_args()
     rows = evaluate()
     print(f"{'scenario':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5}  note")
@@ -186,6 +273,8 @@ def main():
     scored = [row for row in rows if row[1] is not None]
     mean = lambda i: sum(row[i] for row in scored) / len(scored)  # noqa: E731
     print(f"{'mean':<34} {mean(1):5.2f} {mean(2):5.2f} {mean(3):5.2f}")
+    if args.public:
+        print_public(args.public)
     if mean(1) < args.min_p10:
         sys.exit(1)
 
