@@ -1,2 +1,2 @@
-data/hf_models_stage4_core.jsonl filter=lfs diff=lfs merge=lfs -text
-data/hf_models_stage4_low_popularity.jsonl filter=lfs diff=lfs merge=lfs -text
+backend/data/hf_models_stage4_core.jsonl filter=lfs diff=lfs merge=lfs -text
+backend/data/hf_models_stage4_low_popularity.jsonl filter=lfs diff=lfs merge=lfs -text

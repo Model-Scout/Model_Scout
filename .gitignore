@@ -16,40 +16,40 @@ env/
 Thumbs.db
 
 # Supabase sync runtime log
-data/supabase_sync.log
+backend/data/supabase_sync.log
 
 # Stage 4 vectors are canonical in Supabase pgvector.
-data/hf_models_stage4_core.jsonl
-data/hf_models_stage4_low_popularity.jsonl
-data/hf_models_stage4_*_errors.jsonl
+backend/data/hf_models_stage4_core.jsonl
+backend/data/hf_models_stage4_low_popularity.jsonl
+backend/data/hf_models_stage4_*_errors.jsonl
 
 # Reproducible benchmark intermediates and incremental queues.
-data/hf_models_benchmark_*.jsonl
-data/.stage4_delta_*.jsonl
-data/.stage4_*_delta_checkpoint.jsonl
-data/.hf_models_benchmark_delta_*.jsonl
-data/.incremental_model_ids.json
-data/.benchmark_changed_model_ids.json
-data/.hf_models_benchmark_state_*.json
-data/.hf_models_benchmark_state_candidate.json
-data/.hf_models_benchmark_changed_ids_*.json
+backend/data/hf_models_benchmark_*.jsonl
+backend/data/.stage4_delta_*.jsonl
+backend/data/.stage4_*_delta_checkpoint.jsonl
+backend/data/.hf_models_benchmark_delta_*.jsonl
+backend/data/.incremental_model_ids.json
+backend/data/.benchmark_changed_model_ids.json
+backend/data/.hf_models_benchmark_state_*.json
+backend/data/.hf_models_benchmark_state_candidate.json
+backend/data/.hf_models_benchmark_changed_ids_*.json
 
 # Stage 1 resume checkpoints are transient and are not corpus snapshots.
-data/.stage1_v*_checkpoint/
+backend/data/.stage1_v*_checkpoint/
 
 # Local analysis and editor metadata.
 graphify-out/
 .serena/
 
 # Retrieval lab: BGE-M3 index build checkpoints (resumable, removed after a full build).
-data/retrieval_lab/.bge_m3_build/
+backend/data/retrieval_lab/.bge_m3_build/
 
 # Planning doc page renders (local only).
 png/
 
 # Public-portal raw catalog cache (data.go.kr list is 160MB+); re-downloaded by 18_collect_public_datasets.py --refresh.
-data/public_catalog/
+backend/data/public_catalog/
 
 # Dataset vectors live in Supabase (20_sync_dataset_index.py); 14 --embed rebuilds this file from there.
-data/dataset_index/embeddings.npy
-data/dataset_index/embeddings.npy
+backend/data/dataset_index/embeddings.npy
+backend/data/dataset_index/embeddings.npy

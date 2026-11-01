@@ -5,34 +5,34 @@ name: Dataset and recommendation quality
 on:
   pull_request:
     paths:
-      - "1[1-9]_*.py"
-      - "2[0-2]_*.py"
-      - "hypergraph_search.py"
-      - "dataset_dedup.py"
-      - "taxonomy.py"
-      - "taxonomy.yaml"
-      - "supabase_db.py"
-      - "project_checks.py"
-      - "pyproject.toml"
-      - "requirements*.txt"
-      - "data/hypergraph/**"
-      - "wiki/**"
+      - "ai/1[1-9]_*.py"
+      - "ai/2[0-2]_*.py"
+      - "ai/hypergraph_search.py"
+      - "ai/dataset_dedup.py"
+      - "ai/taxonomy.py"
+      - "ai/taxonomy.yaml"
+      - "ai/supabase_db.py"
+      - "ai/project_checks.py"
+      - "ai/pyproject.toml"
+      - "ai/requirements*.txt"
+      - "backend/data/hypergraph/**"
+      - "ai/wiki/**"
       - ".github/workflows/dataset-*.yml"
   push:
     branches: [main, dk]
     paths:
-      - "1[1-9]_*.py"
-      - "2[0-2]_*.py"
-      - "hypergraph_search.py"
-      - "dataset_dedup.py"
-      - "taxonomy.py"
-      - "taxonomy.yaml"
-      - "supabase_db.py"
-      - "project_checks.py"
-      - "pyproject.toml"
-      - "requirements*.txt"
-      - "data/hypergraph/**"
-      - "wiki/**"
+      - "ai/1[1-9]_*.py"
+      - "ai/2[0-2]_*.py"
+      - "ai/hypergraph_search.py"
+      - "ai/dataset_dedup.py"
+      - "ai/taxonomy.py"
+      - "ai/taxonomy.yaml"
+      - "ai/supabase_db.py"
+      - "ai/project_checks.py"
+      - "ai/pyproject.toml"
+      - "ai/requirements*.txt"
+      - "backend/data/hypergraph/**"
+      - "ai/wiki/**"
       - ".github/workflows/dataset-*.yml"
   workflow_dispatch:
 
@@ -42,6 +42,9 @@ permissions:
 jobs:
   quality:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai
     timeout-minutes: 30
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -58,8 +61,8 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: |
-            requirements.txt
-            requirements_mcp.txt
+            ai/requirements.txt
+            ai/requirements_mcp.txt
 
       - name: Install
         run: |
