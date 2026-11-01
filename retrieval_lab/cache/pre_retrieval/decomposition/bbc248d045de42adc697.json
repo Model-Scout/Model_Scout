@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어.",
+ "outputs": [
+  "Find Korean speech recognition models that are commercially usable.",
+  "Find Korean speech recognition models with less than 1 billion parameters.",
+  "Sort the results by the number of downloads."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find Korean speech recognition models that are commercially usable.",
+   "Find Korean speech recognition models with less than 1 billion parameters.",
+   "Sort the results by the number of downloads."
+  ]
+ },
+ "latency_ms": 1100.2
+}

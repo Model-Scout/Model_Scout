@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하).",
+ "outputs": [
+  "The model is designed for the task of translating English news headlines into natural Korean. It supports both English and Korean languages, making it ideal for bilingual applications. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource efficiency, requiring only 3GB of GPU memory. It is optimized for short sentences, handling up to 512 tokens effectively. Intended use cases include news aggregation platforms, content localization, and real-time translation services. The model's strengths lie in its ability to produce fluent and contextually relevant translations, ensuring that the essence of the original headlines is preserved."
+ ],
+ "response": {
+  "document": "The model is designed for the task of translating English news headlines into natural Korean. It supports both English and Korean languages, making it ideal for bilingual applications. With a parameter count of 1.5 billion, this model strikes a balance between performance and resource efficiency, requiring only 3GB of GPU memory. It is optimized for short sentences, handling up to 512 tokens effectively. Intended use cases include news aggregation platforms, content localization, and real-time translation services. The model's strengths lie in its ability to produce fluent and contextually relevant translations, ensuring that the essence of the original headlines is preserved."
+ },
+ "latency_ms": 1880.6
+}

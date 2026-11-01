@@ -50,7 +50,7 @@ own farm decisions (see [How it differs](#how-it-differs-from-the-original-laya-
 
 Base: [`convaiinnovations/laya-multilingual`](https://huggingface.co/convaiinnovations/laya-multilingual) (mmBERT-base encoder +
 decision head, 322 M parameters, 1024-token context, Apache-2.0). Live AIMTAS server: the Hugging Face Space
-[`letrthang/aimtas-system-one-laya-slm`](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm) — **try it there without a key** (see below).
+[`letrthang/aimtas-system-one-decision-model-laya`](https://huggingface.co/spaces/letrthang/aimtas-system-one-decision-model-laya) — **try it there without a key** (see below).
 
 > ### 🧪 Reference project — Laya in a full RAG app
 > **[spring-ai-with-hybrid-search-and-system-one-typesafe-jev](https://github.com/letrthang/spring-ai-with-hybrid-search-and-system-one-typesafe-jev)**
@@ -86,11 +86,11 @@ numbers in this card.
 | `laya-multilingual-Q8_0.gguf` | 342 MiB | `ff4f8a23afd63506dcea51b83c9dd37be66d066a2e8f4b2f114737abdd449c89` |
 
 ## Try it — public demo, no key
-Open the [Space](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm) and use the **Try it** box, or call
+Open the [Space](https://huggingface.co/spaces/letrthang/aimtas-system-one-decision-model-laya) and use the **Try it** box, or call
 `POST /demo/systemone` (same request and response as `/v1/systemone`):
 
 ```sh
-curl -s https://letrthang-aimtas-system-one-laya-slm.hf.space/demo/systemone -H 'Content-Type: application/json' \
+curl -s https://letrthang-aimtas-system-one-decision-model-laya.hf.space/demo/systemone -H 'Content-Type: application/json' \
   -d '{"state":"Pond 1: dissolved oxygen 2.1 mg/L, normal 5-9, falling.",
        "questions":{"problem":{"type":"choice","instructions":"What is wrong with the water?",
          "criteria":{"OXYGEN":"oxygen too low","PH":"pH out of range","TEMPERATURE":"too hot or cold","NONE":"nothing is wrong"}}}}'
@@ -127,6 +127,6 @@ the model was trained on 1024 tokens.
   model. Zero-shot Laya does not judge numeric urgency reliably; fine-tune on your own decisions for production accuracy.
 
 Used by the AIMTAS smart-farm platform's System 1 server (Hugging Face Space
-[`letrthang/aimtas-system-one-laya-slm`](https://huggingface.co/spaces/letrthang/aimtas-system-one-laya-slm)) and by the
+[`letrthang/aimtas-system-one-decision-model-laya`](https://huggingface.co/spaces/letrthang/aimtas-system-one-decision-model-laya)) and by the
 RAG demo project [spring-ai-with-hybrid-search-and-system-one-typesafe-jev](https://github.com/letrthang/spring-ai-with-hybrid-search-and-system-one-typesafe-jev). It never actuates:
 callers keep their deterministic safety checks.

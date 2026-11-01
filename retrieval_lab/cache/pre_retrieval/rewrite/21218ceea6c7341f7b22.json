@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해.",
+ "outputs": [
+  "Extractive QA model for Korean FAQ document, parameter count under 500M, capable of running on CPU server."
+ ],
+ "response": {
+  "query": "Extractive QA model for Korean FAQ document, parameter count under 500M, capable of running on CPU server."
+ },
+ "latency_ms": 978.1
+}

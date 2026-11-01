@@ -1,0 +1,166 @@
+{"concept_id": "task/retrieval", "facet": "task", "facet_label": "작업", "key": "retrieval", "label": "문서 검색", "aliases": ["text-retrieval", "visual-document-retrieval", "document retrieval", "semantic search", "dense retrieval", "sparse retrieval", "rag", "검색", "의미 검색"], "members": 308}
+{"concept_id": "task/embedding", "facet": "task", "facet_label": "작업", "key": "embedding", "label": "임베딩", "aliases": ["feature-extraction", "sentence-similarity", "semantic-similarity-scoring", "embeddings", "sentence embedding", "semantic textual similarity", "sts", "triplet", "문장 임베딩", "문장 유사도"], "members": 700}
+{"concept_id": "task/reranking", "facet": "task", "facet_label": "작업", "key": "reranking", "label": "리랭킹", "aliases": ["text-ranking", "re-ranking", "reranker", "cross-encoder", "재정렬", "재순위화"], "members": 84}
+{"concept_id": "task/generation", "facet": "task", "facet_label": "작업", "key": "generation", "label": "텍스트 생성", "aliases": ["text-generation", "text2text-generation", "chat", "conversational", "instruction following", "llm", "대화", "챗봇"], "members": 2886}
+{"concept_id": "task/summarization", "facet": "task", "facet_label": "작업", "key": "summarization", "label": "요약", "aliases": ["summary", "문서 요약"], "members": 66}
+{"concept_id": "task/translation", "facet": "task", "facet_label": "작업", "key": "translation", "label": "번역", "aliases": ["machine translation", "기계 번역"], "members": 417}
+{"concept_id": "task/question_answering", "facet": "task", "facet_label": "작업", "key": "question_answering", "label": "질의응답", "aliases": ["question-answering", "extractive qa", "open-domain-qa", "closed-domain-qa", "multiple-choice", "multiple-choice-qa", "qa", "mrc", "질문 답변", "기계독해"], "members": 395}
+{"concept_id": "task/classification", "facet": "task", "facet_label": "작업", "key": "classification", "label": "텍스트 분류", "aliases": ["text-classification", "zero-shot-classification", "natural-language-inference", "multi-class-classification", "multi-label-classification", "multi-input-text-classification", "intent-classification", "topic-classification", "sentiment-classification", "semantic-similarity-classification", "hate-speech-detection", "text-scoring", "sentiment analysis", "nli", "분류", "감성 분석", "자연어 추론"], "members": 607}
+{"concept_id": "task/information_extraction", "facet": "task", "facet_label": "작업", "key": "information_extraction", "label": "정보 추출", "aliases": ["token-classification", "ner", "named entity recognition", "개체명 인식", "텍스트 추출"], "members": 168}
+{"concept_id": "task/speech_recognition", "facet": "task", "facet_label": "작업", "key": "speech_recognition", "label": "음성 인식", "aliases": ["automatic-speech-recognition", "audio-text-to-text", "asr", "speech-to-text", "stt", "받아쓰기"], "members": 361}
+{"concept_id": "task/text_to_speech", "facet": "task", "facet_label": "작업", "key": "text_to_speech", "label": "음성 합성", "aliases": ["text-to-speech", "text-to-audio", "tts"], "members": 57}
+{"concept_id": "task/visual_qa", "facet": "task", "facet_label": "작업", "key": "visual_qa", "label": "이미지 이해", "aliases": ["image-text-to-text", "video-text-to-text", "visual-question-answering", "vqa", "image-to-text", "image captioning", "이미지 질의응답", "이미지 캡션"], "members": 515}
+{"concept_id": "task/ocr", "facet": "task", "facet_label": "작업", "key": "ocr", "label": "문서 인식(OCR)", "aliases": ["document-question-answering", "document understanding", "문서 인식", "광학 문자 인식"], "members": 58}
+{"concept_id": "task/chart_understanding", "facet": "task", "facet_label": "작업", "key": "chart_understanding", "label": "차트 이해", "aliases": ["chartqa", "chart qa", "chart understanding", "차트 질의응답", "도표 이해"], "members": 0}
+{"concept_id": "task/table_qa", "facet": "task", "facet_label": "작업", "key": "table_qa", "label": "표 질의응답", "aliases": ["table-question-answering", "tabular qa"], "members": 27}
+{"concept_id": "task/tool_use", "facet": "task", "facet_label": "작업", "key": "tool_use", "label": "도구 호출", "aliases": ["function calling", "tool calling", "함수 호출"], "members": 35}
+{"concept_id": "task/forecasting", "facet": "task", "facet_label": "작업", "key": "forecasting", "label": "시계열 예측", "aliases": ["time-series-forecasting", "time series forecasting", "수요 예측"], "members": 15}
+{"concept_id": "task/language_modeling", "facet": "task", "facet_label": "작업", "key": "language_modeling", "label": "언어 모델링", "aliases": ["fill-mask", "language-modeling", "masked-language-modeling", "pretraining corpus", "사전학습 말뭉치"], "members": 170}
+{"concept_id": "task/audio_classification", "facet": "task", "facet_label": "작업", "key": "audio_classification", "label": "음성 분류", "aliases": ["audio-classification", "keyword-spotting", "audio-emotion-recognition", "voice-activity-detection", "감정 인식"], "members": 50}
+{"concept_id": "task/vision", "facet": "task", "facet_label": "작업", "key": "vision", "label": "이미지 인식", "aliases": ["image-classification", "zero-shot-image-classification", "object-detection", "image-segmentation", "객체 탐지"], "members": 36}
+{"concept_id": "task/image_generation", "facet": "task", "facet_label": "작업", "key": "image_generation", "label": "이미지 생성", "aliases": ["text-to-image", "image-to-image"], "members": 18}
+{"concept_id": "task/tabular_prediction", "facet": "task", "facet_label": "작업", "key": "tabular_prediction", "label": "표 데이터 예측", "aliases": ["tabular-classification", "tabular-regression"], "members": 13}
+{"concept_id": "input_modality/text", "facet": "input_modality", "facet_label": "입력 형식", "key": "text", "label": "텍스트", "aliases": ["txt", "문장"], "members": 5096}
+{"concept_id": "input_modality/image", "facet": "input_modality", "facet_label": "입력 형식", "key": "image", "label": "이미지", "aliases": ["images", "사진", "그림"], "members": 663}
+{"concept_id": "input_modality/audio", "facet": "input_modality", "facet_label": "입력 형식", "key": "audio", "label": "음성", "aliases": ["speech", "오디오", "소리"], "members": 421}
+{"concept_id": "input_modality/video", "facet": "input_modality", "facet_label": "입력 형식", "key": "video", "label": "영상", "aliases": ["동영상"], "members": 32}
+{"concept_id": "input_modality/table", "facet": "input_modality", "facet_label": "입력 형식", "key": "table", "label": "표", "aliases": ["tabular", "표 데이터", "정형 데이터"], "members": 317}
+{"concept_id": "input_modality/time_series", "facet": "input_modality", "facet_label": "입력 형식", "key": "time_series", "label": "시계열", "aliases": ["time series", "timeseries", "시계열 데이터"], "members": 24}
+{"concept_id": "input_modality/geospatial", "facet": "input_modality", "facet_label": "입력 형식", "key": "geospatial", "label": "위치·좌표", "aliases": ["gis", "geojson", "shp", "좌표", "위경도", "위도", "경도", "latitude", "longitude"], "members": 4}
+{"concept_id": "input_modality/document", "facet": "input_modality", "facet_label": "입력 형식", "key": "document", "label": "문서 파일", "aliases": ["pdf", "docx", "hwp", "문서"], "members": 83}
+{"concept_id": "input_modality/code", "facet": "input_modality", "facet_label": "입력 형식", "key": "code", "label": "코드", "aliases": ["source code", "소스 코드"], "members": 5}
+{"concept_id": "output_modality/text", "facet": "output_modality", "facet_label": "출력 형식", "key": "text", "label": "텍스트", "aliases": ["txt", "문장"], "members": 4611}
+{"concept_id": "output_modality/image", "facet": "output_modality", "facet_label": "출력 형식", "key": "image", "label": "이미지", "aliases": ["images", "사진", "그림"], "members": 39}
+{"concept_id": "output_modality/audio", "facet": "output_modality", "facet_label": "출력 형식", "key": "audio", "label": "음성", "aliases": ["speech", "오디오", "소리"], "members": 64}
+{"concept_id": "output_modality/video", "facet": "output_modality", "facet_label": "출력 형식", "key": "video", "label": "영상", "aliases": ["동영상"], "members": 11}
+{"concept_id": "output_modality/table", "facet": "output_modality", "facet_label": "출력 형식", "key": "table", "label": "표", "aliases": ["tabular", "표 데이터", "정형 데이터"], "members": 26}
+{"concept_id": "output_modality/time_series", "facet": "output_modality", "facet_label": "출력 형식", "key": "time_series", "label": "시계열", "aliases": ["time series", "timeseries", "시계열 데이터"], "members": 17}
+{"concept_id": "output_modality/geospatial", "facet": "output_modality", "facet_label": "출력 형식", "key": "geospatial", "label": "위치·좌표", "aliases": ["gis", "geojson", "shp", "좌표", "위경도", "위도", "경도", "latitude", "longitude"], "members": 2}
+{"concept_id": "output_modality/document", "facet": "output_modality", "facet_label": "출력 형식", "key": "document", "label": "문서 파일", "aliases": ["pdf", "docx", "hwp", "문서"], "members": 5}
+{"concept_id": "output_modality/code", "facet": "output_modality", "facet_label": "출력 형식", "key": "code", "label": "코드", "aliases": ["source code", "소스 코드"], "members": 7}
+{"concept_id": "language/ko", "facet": "language", "facet_label": "언어", "key": "ko", "label": "한국어", "aliases": [], "members": 4917}
+{"concept_id": "language/en", "facet": "language", "facet_label": "언어", "key": "en", "label": "영어", "aliases": [], "members": 4080}
+{"concept_id": "language/ja", "facet": "language", "facet_label": "언어", "key": "ja", "label": "일본어", "aliases": ["jp"], "members": 1048}
+{"concept_id": "language/zh", "facet": "language", "facet_label": "언어", "key": "zh", "label": "중국어", "aliases": ["cn", "zh-cn", "zh-tw"], "members": 1162}
+{"concept_id": "language/multilingual", "facet": "language", "facet_label": "언어", "key": "multilingual", "label": "다국어", "aliases": ["multi-lingual", "multilingual"], "members": 3624}
+{"concept_id": "language/aa", "facet": "language", "facet_label": "언어", "key": "aa", "label": "aa", "aliases": [], "members": 2}
+{"concept_id": "language/af", "facet": "language", "facet_label": "언어", "key": "af", "label": "af", "aliases": [], "members": 2}
+{"concept_id": "language/ar", "facet": "language", "facet_label": "언어", "key": "ar", "label": "ar", "aliases": [], "members": 484}
+{"concept_id": "language/bg", "facet": "language", "facet_label": "언어", "key": "bg", "label": "bg", "aliases": [], "members": 2}
+{"concept_id": "language/bn", "facet": "language", "facet_label": "언어", "key": "bn", "label": "bn", "aliases": [], "members": 20}
+{"concept_id": "language/bo", "facet": "language", "facet_label": "언어", "key": "bo", "label": "bo", "aliases": [], "members": 1}
+{"concept_id": "language/ca", "facet": "language", "facet_label": "언어", "key": "ca", "label": "ca", "aliases": [], "members": 2}
+{"concept_id": "language/code", "facet": "language", "facet_label": "언어", "key": "code", "label": "code", "aliases": [], "members": 5}
+{"concept_id": "language/cs", "facet": "language", "facet_label": "언어", "key": "cs", "label": "cs", "aliases": [], "members": 3}
+{"concept_id": "language/da", "facet": "language", "facet_label": "언어", "key": "da", "label": "da", "aliases": [], "members": 2}
+{"concept_id": "language/de", "facet": "language", "facet_label": "언어", "key": "de", "label": "de", "aliases": [], "members": 768}
+{"concept_id": "language/el", "facet": "language", "facet_label": "언어", "key": "el", "label": "el", "aliases": [], "members": 4}
+{"concept_id": "language/emj", "facet": "language", "facet_label": "언어", "key": "emj", "label": "emj", "aliases": [], "members": 1}
+{"concept_id": "language/es", "facet": "language", "facet_label": "언어", "key": "es", "label": "es", "aliases": [], "members": 769}
+{"concept_id": "language/et", "facet": "language", "facet_label": "언어", "key": "et", "label": "et", "aliases": [], "members": 1}
+{"concept_id": "language/eu", "facet": "language", "facet_label": "언어", "key": "eu", "label": "eu", "aliases": [], "members": 1}
+{"concept_id": "language/fa", "facet": "language", "facet_label": "언어", "key": "fa", "label": "fa", "aliases": [], "members": 6}
+{"concept_id": "language/fi", "facet": "language", "facet_label": "언어", "key": "fi", "label": "fi", "aliases": [], "members": 46}
+{"concept_id": "language/fr", "facet": "language", "facet_label": "언어", "key": "fr", "label": "fr", "aliases": [], "members": 807}
+{"concept_id": "language/gl", "facet": "language", "facet_label": "언어", "key": "gl", "label": "gl", "aliases": [], "members": 2}
+{"concept_id": "language/gv", "facet": "language", "facet_label": "언어", "key": "gv", "label": "gv", "aliases": [], "members": 1}
+{"concept_id": "language/he", "facet": "language", "facet_label": "언어", "key": "he", "label": "he", "aliases": [], "members": 3}
+{"concept_id": "language/hi", "facet": "language", "facet_label": "언어", "key": "hi", "label": "hi", "aliases": [], "members": 62}
+{"concept_id": "language/hr", "facet": "language", "facet_label": "언어", "key": "hr", "label": "hr", "aliases": [], "members": 3}
+{"concept_id": "language/hu", "facet": "language", "facet_label": "언어", "key": "hu", "label": "hu", "aliases": [], "members": 5}
+{"concept_id": "language/id", "facet": "language", "facet_label": "언어", "key": "id", "label": "id", "aliases": [], "members": 25}
+{"concept_id": "language/it", "facet": "language", "facet_label": "언어", "key": "it", "label": "it", "aliases": [], "members": 340}
+{"concept_id": "language/jje", "facet": "language", "facet_label": "언어", "key": "jje", "label": "jje", "aliases": [], "members": 1}
+{"concept_id": "language/jv", "facet": "language", "facet_label": "언어", "key": "jv", "label": "jv", "aliases": [], "members": 5}
+{"concept_id": "language/kk", "facet": "language", "facet_label": "언어", "key": "kk", "label": "kk", "aliases": [], "members": 1}
+{"concept_id": "language/la", "facet": "language", "facet_label": "언어", "key": "la", "label": "la", "aliases": [], "members": 1}
+{"concept_id": "language/lg", "facet": "language", "facet_label": "언어", "key": "lg", "label": "lg", "aliases": [], "members": 91}
+{"concept_id": "language/lss", "facet": "language", "facet_label": "언어", "key": "lss", "label": "lss", "aliases": [], "members": 1}
+{"concept_id": "language/lt", "facet": "language", "facet_label": "언어", "key": "lt", "label": "lt", "aliases": [], "members": 1}
+{"concept_id": "language/lv", "facet": "language", "facet_label": "언어", "key": "lv", "label": "lv", "aliases": [], "members": 1}
+{"concept_id": "language/lzh", "facet": "language", "facet_label": "언어", "key": "lzh", "label": "lzh", "aliases": [], "members": 1}
+{"concept_id": "language/mdh", "facet": "language", "facet_label": "언어", "key": "mdh", "label": "mdh", "aliases": [], "members": 1}
+{"concept_id": "language/mn", "facet": "language", "facet_label": "언어", "key": "mn", "label": "mn", "aliases": [], "members": 2}
+{"concept_id": "language/mr", "facet": "language", "facet_label": "언어", "key": "mr", "label": "mr", "aliases": [], "members": 2}
+{"concept_id": "language/ms", "facet": "language", "facet_label": "언어", "key": "ms", "label": "ms", "aliases": [], "members": 6}
+{"concept_id": "language/my", "facet": "language", "facet_label": "언어", "key": "my", "label": "my", "aliases": [], "members": 1}
+{"concept_id": "language/ne", "facet": "language", "facet_label": "언어", "key": "ne", "label": "ne", "aliases": [], "members": 1}
+{"concept_id": "language/nl", "facet": "language", "facet_label": "언어", "key": "nl", "label": "nl", "aliases": [], "members": 48}
+{"concept_id": "language/pi", "facet": "language", "facet_label": "언어", "key": "pi", "label": "pi", "aliases": [], "members": 1}
+{"concept_id": "language/pl", "facet": "language", "facet_label": "언어", "key": "pl", "label": "pl", "aliases": [], "members": 3}
+{"concept_id": "language/ps", "facet": "language", "facet_label": "언어", "key": "ps", "label": "ps", "aliases": [], "members": 1}
+{"concept_id": "language/pt", "facet": "language", "facet_label": "언어", "key": "pt", "label": "pt", "aliases": [], "members": 413}
+{"concept_id": "language/ro", "facet": "language", "facet_label": "언어", "key": "ro", "label": "ro", "aliases": [], "members": 2}
+{"concept_id": "language/ron", "facet": "language", "facet_label": "언어", "key": "ron", "label": "ron", "aliases": [], "members": 1}
+{"concept_id": "language/ru", "facet": "language", "facet_label": "언어", "key": "ru", "label": "ru", "aliases": [], "members": 384}
+{"concept_id": "language/rw", "facet": "language", "facet_label": "언어", "key": "rw", "label": "rw", "aliases": [], "members": 1}
+{"concept_id": "language/sa", "facet": "language", "facet_label": "언어", "key": "sa", "label": "sa", "aliases": [], "members": 1}
+{"concept_id": "language/si", "facet": "language", "facet_label": "언어", "key": "si", "label": "si", "aliases": [], "members": 1}
+{"concept_id": "language/sk", "facet": "language", "facet_label": "언어", "key": "sk", "label": "sk", "aliases": [], "members": 1}
+{"concept_id": "language/sl", "facet": "language", "facet_label": "언어", "key": "sl", "label": "sl", "aliases": [], "members": 1}
+{"concept_id": "language/sr", "facet": "language", "facet_label": "언어", "key": "sr", "label": "sr", "aliases": [], "members": 7}
+{"concept_id": "language/sul", "facet": "language", "facet_label": "언어", "key": "sul", "label": "sul", "aliases": [], "members": 1}
+{"concept_id": "language/sw", "facet": "language", "facet_label": "언어", "key": "sw", "label": "sw", "aliases": [], "members": 15}
+{"concept_id": "language/ta", "facet": "language", "facet_label": "언어", "key": "ta", "label": "ta", "aliases": [], "members": 7}
+{"concept_id": "language/te", "facet": "language", "facet_label": "언어", "key": "te", "label": "te", "aliases": [], "members": 9}
+{"concept_id": "language/th", "facet": "language", "facet_label": "언어", "key": "th", "label": "th", "aliases": [], "members": 38}
+{"concept_id": "language/tl", "facet": "language", "facet_label": "언어", "key": "tl", "label": "tl", "aliases": [], "members": 3}
+{"concept_id": "language/tr", "facet": "language", "facet_label": "언어", "key": "tr", "label": "tr", "aliases": [], "members": 37}
+{"concept_id": "language/tw", "facet": "language", "facet_label": "언어", "key": "tw", "label": "tw", "aliases": [], "members": 1}
+{"concept_id": "language/tzh", "facet": "language", "facet_label": "언어", "key": "tzh", "label": "tzh", "aliases": [], "members": 1}
+{"concept_id": "language/uk", "facet": "language", "facet_label": "언어", "key": "uk", "label": "uk", "aliases": [], "members": 7}
+{"concept_id": "language/ur", "facet": "language", "facet_label": "언어", "key": "ur", "label": "ur", "aliases": [], "members": 2}
+{"concept_id": "language/uz", "facet": "language", "facet_label": "언어", "key": "uz", "label": "uz", "aliases": [], "members": 1}
+{"concept_id": "language/vi", "facet": "language", "facet_label": "언어", "key": "vi", "label": "vi", "aliases": [], "members": 56}
+{"concept_id": "language/wo", "facet": "language", "facet_label": "언어", "key": "wo", "label": "wo", "aliases": [], "members": 1}
+{"concept_id": "language/yi", "facet": "language", "facet_label": "언어", "key": "yi", "label": "yi", "aliases": [], "members": 4}
+{"concept_id": "language/yo", "facet": "language", "facet_label": "언어", "key": "yo", "label": "yo", "aliases": [], "members": 3}
+{"concept_id": "language/yue", "facet": "language", "facet_label": "언어", "key": "yue", "label": "yue", "aliases": [], "members": 11}
+{"concept_id": "language/zu", "facet": "language", "facet_label": "언어", "key": "zu", "label": "zu", "aliases": [], "members": 2}
+{"concept_id": "input_length/short", "facet": "input_length", "facet_label": "입력 길이", "key": "short", "label": "단문", "aliases": ["sentence", "짧은 문장"], "members": 832}
+{"concept_id": "input_length/medium", "facet": "input_length", "facet_label": "입력 길이", "key": "medium", "label": "중문", "aliases": ["paragraph", "단락"], "members": 606}
+{"concept_id": "input_length/long", "facet": "input_length", "facet_label": "입력 길이", "key": "long", "label": "장문", "aliases": ["long document", "long context", "긴 문서"], "members": 219}
+{"concept_id": "input_length/very_long", "facet": "input_length", "facet_label": "입력 길이", "key": "very_long", "label": "초장문", "aliases": ["very long context", "128k"], "members": 1088}
+{"concept_id": "input_length/ultra_long", "facet": "input_length", "facet_label": "입력 길이", "key": "ultra_long", "label": "극장문", "aliases": ["ultra long context", "1m context"], "members": 459}
+{"concept_id": "commercial_use/commercial", "facet": "commercial_use", "facet_label": "상업 이용", "key": "commercial", "label": "상업 이용 가능", "aliases": ["apache-2.0", "mit", "bsd-2-clause", "bsd-3-clause", "cc0-1.0", "cc-by-3.0", "cc-by-4.0", "cc-by-sa-3.0", "cc-by-sa-4.0", "unlicense", "wtfpl", "openmdw-1.1", "cc-by-2.0", "cc-by-2.5", "mpl-2.0", "ms-pl", "cdla-permissive-2.0", "odbl", "cdla-sharing-1.0", "odc-by", "pddl", "CC0: Public Domain", "공공누리 제1유형", "공공누리 1유형", "kogl type 1", "공공누리 제3유형", "공공누리 3유형", "kogl type 3"], "members": 3137}
+{"concept_id": "commercial_use/non_commercial", "facet": "commercial_use", "facet_label": "상업 이용", "key": "non_commercial", "label": "비상업 전용", "aliases": ["cc-by-nc-2.0", "cc-by-nc-3.0", "cc-by-nc-4.0", "cc-by-nc-sa-2.0", "cc-by-nc-sa-3.0", "cc-by-nc-sa-4.0", "cc-by-nc-nd-4.0", "공공누리 제2유형", "공공누리 2유형", "kogl type 2", "공공누리 제4유형", "공공누리 4유형", "kogl type 4"], "members": 449}
+{"concept_id": "commercial_use/conditional", "facet": "commercial_use", "facet_label": "상업 이용", "key": "conditional", "label": "조건부 이용", "aliases": ["other", "gpl", "gfdl", "cc-by-nd-4.0", "gpl-2.0", "gpl-3.0", "lgpl-3.0", "agpl-3.0", "llama2", "llama3", "llama3.1", "llama3.2", "llama3.3", "llama4", "gemma", "openrail", "openrail++", "creativeml-openrail-m", "bigscience-openrail-m", "bigscience-bloom-rail-1.0", "exaone", "qwen", "tongyi-qianwen"], "members": 1235}
+{"concept_id": "commercial_use/unknown", "facet": "commercial_use", "facet_label": "상업 이용", "key": "unknown", "label": "이용 조건 미확인", "aliases": ["none", "unknown", "null", "cc"], "members": 594}
+{"concept_id": "domain/transport", "facet": "domain", "facet_label": "도메인", "key": "transport", "label": "교통·모빌리티", "aliases": ["traffic", "transportation", "mobility", "교통", "자전거", "따릉이", "주차", "주차장", "버스", "지하철", "도로"], "members": 11}
+{"concept_id": "domain/location", "facet": "domain", "facet_label": "도메인", "key": "location", "label": "지리·위치", "aliases": ["geographic", "poi", "map", "지도", "주소", "위치"], "members": 4}
+{"concept_id": "domain/environment", "facet": "domain", "facet_label": "도메인", "key": "environment", "label": "환경·기상", "aliases": ["weather", "climate", "날씨", "기상", "대기", "미세먼지"], "members": 9}
+{"concept_id": "domain/health", "facet": "domain", "facet_label": "도메인", "key": "health", "label": "의료·보건", "aliases": ["medical", "clinical", "healthcare", "의료", "보건", "병원"], "members": 50}
+{"concept_id": "domain/legal", "facet": "domain", "facet_label": "도메인", "key": "legal", "label": "법률", "aliases": ["law", "법령", "판결문", "판례"], "members": 52}
+{"concept_id": "domain/finance", "facet": "domain", "facet_label": "도메인", "key": "finance", "label": "금융·경제", "aliases": ["financial", "economy", "금융", "경제", "주식"], "members": 53}
+{"concept_id": "domain/education", "facet": "domain", "facet_label": "도메인", "key": "education", "label": "교육", "aliases": ["교육", "학교", "수능"], "members": 80}
+{"concept_id": "domain/public_admin", "facet": "domain", "facet_label": "도메인", "key": "public_admin", "label": "행정·민원", "aliases": ["government", "civil complaint", "행정", "민원", "정책", "다산콜"], "members": 29}
+{"concept_id": "domain/culture_tourism", "facet": "domain", "facet_label": "도메인", "key": "culture_tourism", "label": "문화·관광", "aliases": ["tourism", "culture", "관광", "문화", "축제"], "members": 23}
+{"concept_id": "domain/commerce", "facet": "domain", "facet_label": "도메인", "key": "commerce", "label": "상거래·상품", "aliases": ["e-commerce", "shopping", "product review", "쇼핑", "상품", "리뷰"], "members": 35}
+{"concept_id": "domain/news_media", "facet": "domain", "facet_label": "도메인", "key": "news_media", "label": "뉴스·미디어", "aliases": ["news", "뉴스", "기사", "방송"], "members": 42}
+{"concept_id": "domain/academic", "facet": "domain", "facet_label": "도메인", "key": "academic", "label": "학술·논문", "aliases": ["scientific", "paper", "arxiv", "논문", "학술"], "members": 41}
+{"concept_id": "domain/general", "facet": "domain", "facet_label": "도메인", "key": "general", "label": "일반", "aliases": ["general domain", "wikipedia", "web", "위키백과"], "members": 1064}
+{"concept_id": "dataset_role/train", "facet": "dataset_role", "facet_label": "데이터 용도", "key": "train", "label": "학습용", "aliases": ["training", "pretraining", "fine-tuning", "fine-tune", "instruction tuning", "sft", "trained", "train split", "학습", "파인튜닝", "훈련"], "members": 1318}
+{"concept_id": "dataset_role/evaluation", "facet": "dataset_role", "facet_label": "데이터 용도", "key": "evaluation", "label": "평가용", "aliases": ["benchmark", "eval", "evaluate", "evaluates", "evaluation suite", "test set", "test split", "벤치마크", "평가"], "members": 399}
+{"concept_id": "dataset_role/service", "facet": "dataset_role", "facet_label": "데이터 용도", "key": "service", "label": "서비스 데이터", "aliases": ["open api", "오픈 api", "파일데이터", "공공데이터"], "members": 19}
+{"concept_id": "data_format/csv", "facet": "data_format", "facet_label": "데이터 형식", "key": "csv", "label": "CSV", "aliases": ["tsv", "xlsx", "xls", "엑셀"], "members": 110}
+{"concept_id": "data_format/json", "facet": "data_format", "facet_label": "데이터 형식", "key": "json", "label": "JSON", "aliases": ["jsonl", "json lines"], "members": 399}
+{"concept_id": "data_format/xml", "facet": "data_format", "facet_label": "데이터 형식", "key": "xml", "label": "XML", "aliases": [], "members": 0}
+{"concept_id": "data_format/text_file", "facet": "data_format", "facet_label": "데이터 형식", "key": "text_file", "label": "텍스트 파일", "aliases": ["text", "txt"], "members": 20}
+{"concept_id": "data_format/parquet", "facet": "data_format", "facet_label": "데이터 형식", "key": "parquet", "label": "Parquet", "aliases": ["arrow", "optimized-parquet"], "members": 726}
+{"concept_id": "data_format/api", "facet": "data_format", "facet_label": "데이터 형식", "key": "api", "label": "API", "aliases": ["rest api", "openapi", "오픈 api 제공"], "members": 0}
+{"concept_id": "data_format/geo_file", "facet": "data_format", "facet_label": "데이터 형식", "key": "geo_file", "label": "공간 파일", "aliases": ["shapefile", "kml", "geojson 파일"], "members": 0}
+{"concept_id": "data_format/media_files", "facet": "data_format", "facet_label": "데이터 형식", "key": "media_files", "label": "미디어 파일", "aliases": ["jpg", "png", "wav", "mp3", "mp4", "imagefolder", "audiofolder", "webdataset"], "members": 70}
+{"concept_id": "update_frequency/realtime", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "realtime", "label": "실시간", "aliases": ["real-time", "실시간 제공"], "members": 0}
+{"concept_id": "update_frequency/daily", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "daily", "label": "일간", "aliases": ["매일", "일 단위"], "members": 0}
+{"concept_id": "update_frequency/monthly", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "monthly", "label": "월간", "aliases": ["매월", "월 단위"], "members": 0}
+{"concept_id": "update_frequency/yearly", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "yearly", "label": "연간", "aliases": ["매년", "연 단위"], "members": 0}
+{"concept_id": "update_frequency/irregular", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "irregular", "label": "비정기", "aliases": ["수시", "비정기적"], "members": 0}
+{"concept_id": "update_frequency/static", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "static", "label": "고정", "aliases": ["갱신 없음", "one-time"], "members": 0}
+{"concept_id": "dataset_size/small_data", "facet": "dataset_size", "facet_label": "데이터 규모", "key": "small_data", "label": "소규모 데이터", "aliases": [], "members": 462}
+{"concept_id": "dataset_size/medium_data", "facet": "dataset_size", "facet_label": "데이터 규모", "key": "medium_data", "label": "중규모 데이터", "aliases": [], "members": 722}
+{"concept_id": "dataset_size/large_data", "facet": "dataset_size", "facet_label": "데이터 규모", "key": "large_data", "label": "대규모 데이터", "aliases": [], "members": 375}
+{"concept_id": "dataset_size/huge_data", "facet": "dataset_size", "facet_label": "데이터 규모", "key": "huge_data", "label": "초대규모 데이터", "aliases": [], "members": 89}
+{"concept_id": "model_size/tiny", "facet": "model_size", "facet_label": "모델 크기", "key": "tiny", "label": "초경량 모델", "aliases": [], "members": 688}
+{"concept_id": "model_size/small", "facet": "model_size", "facet_label": "모델 크기", "key": "small", "label": "소형 모델", "aliases": [], "members": 668}
+{"concept_id": "model_size/medium", "facet": "model_size", "facet_label": "모델 크기", "key": "medium", "label": "중형 모델", "aliases": [], "members": 591}
+{"concept_id": "model_size/large", "facet": "model_size", "facet_label": "모델 크기", "key": "large", "label": "대형 모델", "aliases": [], "members": 244}

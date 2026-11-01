@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥에서 MLX로 바로 돌릴 수 있는 한국어 LLM이 필요해. MLX 형식으로 변환된 모델만 원해.",
+ "outputs": [
+  "한국어 LLM",
+  "MLX 형식으로 변환된 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "한국어 LLM",
+   "MLX 형식으로 변환된 모델"
+  ]
+ },
+ "latency_ms": 830.1
+}

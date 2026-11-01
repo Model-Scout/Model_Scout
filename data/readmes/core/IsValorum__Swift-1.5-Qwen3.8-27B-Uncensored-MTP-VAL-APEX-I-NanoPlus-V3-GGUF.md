@@ -45,7 +45,7 @@ If you consider these releases to be of high quality and they help you in your d
 
 ### *Uncensored Frontier 27B Dense Hybrid Reasoning Model with Intact Vision, Multilingual Syntax Preservation, and Native MTP Self-Speculation*
 
-Official **VAL-APEX-I NanoPlus V3** quantization of **[ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP](https://huggingface.co/ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP)**. This edition quantizes the uncensored foundation model built on UkisAI's Swift-1.5 reasoning fine-tune of Qwen3.8-27B with the official canonical V3 recipe (strictly enforcing `IQ4_XS` and protecting attention/recurrent matrices).
+Official **VAL-APEX-I NanoPlus V3** quantization of **[ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP](https://huggingface.co/ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP)**. This edition quantizes the uncensored foundation model built on UkisAI's Swift-1.5 reasoning fine-tune of Qwen3.8-27B with the V3 NanoPlus allocation (`IQ3_XXS` in the core MLP blocks, `IQ4_XS` on the outer layers 0-7 and 56-63, attention and recurrent matrices protected).
 
 - **Multilingual Source Model:** Preserves the source model's multilingual tokenizer and native chat template.
 - **Native MTP Speculative Head Included:** Features the built-in Multi-Token Prediction auxiliary head (`blk.64.*`, 15 tensors), for MTP speculative decoding in compatible backends without an external draft model.
@@ -105,7 +105,7 @@ Independent multi-harness empirical evaluation conducted by community member **[
 | **DeepSeek Harness (0.2.0-rc.2)** | **90.4 / 100** | 9 / 12 | **100 / 100** | 97.0 / 100 | 66.7 / 100 | aprox. 1h 47m |
 
 **Key Architectural Insights:**
-- **Zero Tool-Calling Degradation:** Achieved a unanimous **100/100 in Agentic tasks** across all three harnesses, confirming that protecting `output.weight` in `Q6_K` and DeltaNet recurrent memory states (`ssm_a` in `F32`, `ssm_beta` in `Q8_0`) prevents JSON schema rejections and state drift over multi-step workflows.
+- **Zero Tool-Calling Degradation:** Achieved a unanimous **100/100 in Agentic tasks** across all three harnesses, confirming that protecting `output.weight` in `Q5_K` and DeltaNet recurrent memory states (`ssm_a` in `F32`, `ssm_beta` in `Q8_0`) prevents JSON schema rejections and state drift over multi-step workflows.
 - **Universal Harness Compatibility:** Surpassed the 90+ score barrier across all three test harnesses without entering infinite retry loops or syntax divergence.
 
 ### Tensor Precision Map

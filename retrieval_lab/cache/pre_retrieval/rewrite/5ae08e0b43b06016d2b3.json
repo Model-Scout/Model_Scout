@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해.",
+ "outputs": [
+  "Korean speech recognition model with balanced speed and accuracy for demo app on PC with RAM 4GB or more"
+ ],
+ "response": {
+  "query": "Korean speech recognition model with balanced speed and accuracy for demo app on PC with RAM 4GB or more"
+ },
+ "latency_ms": 1467.8
+}

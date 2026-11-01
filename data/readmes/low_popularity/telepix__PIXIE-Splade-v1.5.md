@@ -33,6 +33,12 @@ compatible with inverted indexing (e.g., Lucene/Elasticsearch).
 Because each non-zero weight corresponds to a Ko-En subword/token, 
 interpretability is built-in: you can inspect which tokens drive retrieval.
 
+## 🏆 MTEB Korean v2
+**PIXIE-Splade-v1.5 ranks #1 on the [MTEB Korean (v2) leaderboard](https://huggingface.co/spaces/mteb/leaderboard) among evaluated sparse embedding models.**
+<p align="left">
+<img src="https://cdn-uploads.huggingface.co/production/uploads/61d6f4a4d49065ee28a1ee7e/EDbLu5fbrLkXSPhEL0HKE.png" width="800"/>
+<p>
+  
 ## Why SPLADE for Search?
 - **Inverted Index Ready**: Directly index weighted tokens in standard IR stacks (Lucene/Elasticsearch).
 - **Interpretable by Design**: Top-k contributing tokens per query/document explain *why* a hit matched.

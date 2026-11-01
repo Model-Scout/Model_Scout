@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하.",
+ "outputs": [
+  "The model is a compact and efficient Korean embedding model designed for tasks requiring fast inference and low resource consumption. With a parameter count of 75 million, it strikes a balance between performance and efficiency, making it ideal for applications in natural language processing, such as semantic search and text classification. The model supports Korean as its primary language and is optimized for quick retrieval in vector databases, reducing operational costs. Its strengths lie in its ability to generate high-quality embeddings while maintaining a lightweight architecture, making it suitable for deployment in resource-constrained environments."
+ ],
+ "response": {
+  "document": "The model is a compact and efficient Korean embedding model designed for tasks requiring fast inference and low resource consumption. With a parameter count of 75 million, it strikes a balance between performance and efficiency, making it ideal for applications in natural language processing, such as semantic search and text classification. The model supports Korean as its primary language and is optimized for quick retrieval in vector databases, reducing operational costs. Its strengths lie in its ability to generate high-quality embeddings while maintaining a lightweight architecture, making it suitable for deployment in resource-constrained environments."
+ },
+ "latency_ms": 1707.5
+}

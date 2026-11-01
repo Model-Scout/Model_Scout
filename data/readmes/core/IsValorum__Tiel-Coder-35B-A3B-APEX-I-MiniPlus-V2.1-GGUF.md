@@ -1,5 +1,5 @@
 ---
-base_model: ornith-ai/Ornith-1.5-35B-A3B
+base_model: peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF
 base_model_relation: quantized
 quantized_by: IsValorum
 library_name: gguf
@@ -128,7 +128,7 @@ We maintain our previous releases publicly as a transparent engineering record o
 > - **System RAM Streaming Specialist (DDR4/DDR5 & Massive Context):** **Specially engineered to run either partially or entirely out of system RAM across large or full (+160k to 256k) context windows.** By replacing non-linear codebooks with linear SIMD-optimized `Q3_K` edge experts and upgrading shared foundation experts to `Q5_K` across all 40 layers, AVX2 CPU dequantization stalls are completely eliminated. Depending on your processor architecture and memory bandwidth (dual-channel DDR4 or high-speed DDR5 6000+ MT/s), **streaming generation in system RAM can approach speeds remarkably close to full VRAM execution**, allowing both the dedicated `Q8_0` multimodal vision projector (`mmproj`) and the integrated Multi-Token Prediction tensors to be used by compatible runtimes for speculative decoding and the Q8_0 multimodal projector (`mmproj`) to be loaded in GPU VRAM for OCR while the main model weights stream effortlessly from system RAM.
 > 
 > Explore the complete family of APEX-I-MiniPlus models in our official collection:
-> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-current-6aac8d4766a28a024e8bb104)**.
+> **[APEX-I-MiniPlus V2.1 Hub Collection](https://huggingface.co/collections/IsValorum/apex-i-miniplus-v21-standard-moe-6acfee77961c8c0cf5a083b5)**.
 
 ---
 
@@ -203,7 +203,7 @@ How the handcrafted **APEX-I-MiniPlus V2.1** architecture compares against stand
 | **`mmproj-Q8_0.gguf`** | **`610.66 MB (582.37 MiB)`** | `582.37 MiB` | **8.50 BPW** | Dedicated Q8_0 multimodal vision projector for document & image reasoning |
 | **Complete download** | **`15.84 GB (14.75 GiB)`** | `14.75 GiB` | — | Main GGUF with integrated MTP plus bundled Q8_0 vision projector |
 
-- **Base Model:** [Tiel-Coder-35B-A3B-GGUF-MTP](https://huggingface.co/peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF-MTP)
+- **Base Model:** [Tiel-Coder-35B-A3B-GGUF](https://huggingface.co/peculiar-ragdoll/Tiel-Coder-35B-A3B-GGUF)
 - **Parameters:** 35.2B total (approx. 2.6B to 3.2B active per token)
 - **Architecture:** 40 main layers, 256 micro-experts (8 active per token) + hybrid linear attention / DeltaNet recurrent layers + integrated `blk.40` MTP block
 - **Context Length:** 262,144 tokens (native 256K)

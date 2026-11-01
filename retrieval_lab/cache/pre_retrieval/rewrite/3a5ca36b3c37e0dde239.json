@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 질의응답 모델을 상업 서비스에 넣으려고 해. 라이선스가 확실한 모델만 원해.",
+ "outputs": [
+  "Korean question answering model commercial service license"
+ ],
+ "response": {
+  "query": "Korean question answering model commercial service license"
+ },
+ "latency_ms": 1051.8
+}

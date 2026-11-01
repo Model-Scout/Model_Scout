@@ -317,14 +317,30 @@ def iter_models_for_task(task):
             time.sleep(delay)
 
 
+# ISO 639-3 spellings of major languages. Without them a card tagged
+# "zho, eng, jpn, kor, vie, ..." (copied from a Qwen2.5 base) parsed as Korean-only.
+# Unlisted 3-letter tags stay ignored: many are not languages (mlx, moe, sft, llm).
+ISO_639_3_TO_1 = {
+    "ara": "ar", "ben": "bn", "ces": "cs", "dan": "da", "deu": "de", "ell": "el", "eng": "en",
+    "spa": "es", "fas": "fa", "fin": "fi", "fil": "tl", "fra": "fr", "heb": "he", "hin": "hi",
+    "hun": "hu", "ind": "id", "ita": "it", "jpn": "ja", "kaz": "kk", "khm": "km", "kor": "ko",
+    "lao": "lo", "mar": "mr", "mon": "mn", "msa": "ms", "zsm": "ms", "mya": "my", "nld": "nl",
+    "nor": "no", "pol": "pl", "por": "pt", "ron": "ro", "rus": "ru", "swe": "sv", "swa": "sw",
+    "tam": "ta", "tel": "te", "tha": "th", "tur": "tr", "ukr": "uk", "urd": "ur", "uzb": "uz",
+    "vie": "vi", "zho": "zh", "yue": "zh",
+}
+
+
 def normalize_language(value):
     value = normalize_tag(value)
     if value.startswith("language:"):
         value = value.split(":", 1)[1].strip()
     if value in MULTILINGUAL_MARKERS:
         return "multilingual"
-    if value in {"kor", "korean"}:
+    if value == "korean":
         return "ko"
+    if value in ISO_639_3_TO_1:
+        return ISO_639_3_TO_1[value]
     # Accept language codes and region variants, not arbitrary ko-* Hub tags.
     match = re.fullmatch(r"([a-z]{2})(?:[-_](?:[a-z]{2}|[0-9]{3}))?", value)
     base = match.group(1) if match else None

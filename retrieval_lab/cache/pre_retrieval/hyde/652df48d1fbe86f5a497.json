@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해.",
+ "outputs": [
+  "This model is designed for Korean text classification tasks and is optimized for commercial use. With a parameter count of 150 million or fewer, it strikes a balance between performance and efficiency, making it suitable for deployment on CPU environments. The model supports Korean as its primary language, ensuring high accuracy in understanding and categorizing Korean text. Its intended use cases include sentiment analysis, topic categorization, and spam detection. The model's strengths lie in its lightweight architecture, which allows for fast inference times while maintaining competitive accuracy on benchmark datasets."
+ ],
+ "response": {
+  "document": "This model is designed for Korean text classification tasks and is optimized for commercial use. With a parameter count of 150 million or fewer, it strikes a balance between performance and efficiency, making it suitable for deployment on CPU environments. The model supports Korean as its primary language, ensuring high accuracy in understanding and categorizing Korean text. Its intended use cases include sentiment analysis, topic categorization, and spam detection. The model's strengths lie in its lightweight architecture, which allows for fast inference times while maintaining competitive accuracy on benchmark datasets."
+ },
+ "latency_ms": 1664.9
+}

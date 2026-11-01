@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능하고 1B 이하인 한국어 음성인식 모델 중 다운로드가 많은 순으로 보고 싶어.",
+ "outputs": [
+  "The model is a Korean speech recognition system designed for commercial use, featuring a parameter count of under 1 billion. It excels in transcribing spoken Korean into text, making it ideal for applications in customer service automation, voice-controlled devices, and transcription services. The model supports various dialects of Korean, ensuring high accuracy across different speakers. Its lightweight architecture allows for efficient deployment on edge devices, making it suitable for real-time applications. With a focus on user-friendly integration, this model is popular among developers looking to implement speech recognition in their products."
+ ],
+ "response": {
+  "document": "The model is a Korean speech recognition system designed for commercial use, featuring a parameter count of under 1 billion. It excels in transcribing spoken Korean into text, making it ideal for applications in customer service automation, voice-controlled devices, and transcription services. The model supports various dialects of Korean, ensuring high accuracy across different speakers. Its lightweight architecture allows for efficient deployment on edge devices, making it suitable for real-time applications. With a focus on user-friendly integration, this model is popular among developers looking to implement speech recognition in their products."
+ },
+ "latency_ms": 1619.6
+}

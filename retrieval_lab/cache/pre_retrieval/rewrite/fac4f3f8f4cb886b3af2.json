@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해.",
+ "outputs": [
+  "lightweight Korean embedding model for API with low memory usage, suitable for 2GB cloud server without GPU, CPU-based"
+ ],
+ "response": {
+  "query": "lightweight Korean embedding model for API with low memory usage, suitable for 2GB cloud server without GPU, CPU-based"
+ },
+ "latency_ms": 4342.4
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "회의 녹음에서 할 일과 기여도를 뽑아내는 웹 플랫폼에 쓸 한국어 LLM을 자체 GPU 서버(10~16GB)에서 서빙하려고 해. 외부 AI API는 안 쓰고, 나중에 유료화할 수 있게 상업 라이선스여야 해.",
+ "outputs": [
+  "Find Korean LLMs suitable for extracting tasks and contributions from meeting recordings.",
+  "Look for models that can be deployed on a self-hosted GPU server with 10-16GB of memory.",
+  "Search for Korean-capable models that have a commercial license for potential monetization."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find Korean LLMs suitable for extracting tasks and contributions from meeting recordings.",
+   "Look for models that can be deployed on a self-hosted GPU server with 10-16GB of memory.",
+   "Search for Korean-capable models that have a commercial license for potential monetization."
+  ]
+ },
+ "latency_ms": 1224.7
+}

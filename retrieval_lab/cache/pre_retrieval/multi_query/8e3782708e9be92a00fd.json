@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아.",
+ "outputs": [
+  "영어 기술 문서를 한국어로 번역할 수 있는 모델을 찾고 있어요. 문장이 길고 전문 용어가 많은 경우에 적합한 모델이 필요합니다.",
+  "I need a model that can translate technical documents from English to Korean. It should handle long sentences and many technical terms.",
+  "모델 이름: 영어-한국어 번역, 작업: 번역, 언어: 영어, 한국어, 문장 길이: 긴, 전문 용어: 많음"
+ ],
+ "response": {
+  "queries": [
+   "영어 기술 문서를 한국어로 번역할 수 있는 모델을 찾고 있어요. 문장이 길고 전문 용어가 많은 경우에 적합한 모델이 필요합니다.",
+   "I need a model that can translate technical documents from English to Korean. It should handle long sentences and many technical terms.",
+   "모델 이름: 영어-한국어 번역, 작업: 번역, 언어: 영어, 한국어, 문장 길이: 긴, 전문 용어: 많음"
+  ]
+ },
+ "latency_ms": 1819.2
+}

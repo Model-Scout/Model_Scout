@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 150M 파라미터 이하, CPU에서 돌아가는 한국어 텍스트 분류 모델이 필요해.",
+ "outputs": [
+  "Find models for the task of text classification that are commercially usable.",
+  "Find models with a parameter count of 150M or fewer.",
+  "Find models that can run on CPU.",
+  "Find models that support the Korean language."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models for the task of text classification that are commercially usable.",
+   "Find models with a parameter count of 150M or fewer.",
+   "Find models that can run on CPU.",
+   "Find models that support the Korean language."
+  ]
+ },
+ "latency_ms": 1232.9
+}

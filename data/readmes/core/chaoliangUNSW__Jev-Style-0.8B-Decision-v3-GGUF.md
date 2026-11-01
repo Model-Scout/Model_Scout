@@ -39,6 +39,31 @@ tags:
 
 # Jev-Style-0.8B-Decision-v3-GGUF
 
+<!-- jevstyle:project-links:start -->
+**Local text classification, workflow routing, and fixed-choice scoring with JevStyle.** This 0.8B v3 release is the package’s default text decision model. It accepts text and JSON, not images; its PyTorch, MLX, and GGUF distributions require the matching decision runtime.
+
+Maintained by **Chaoliang Yan** (GitHub: [`lawrence3699`](https://github.com/lawrence3699)), as an independent project, not affiliated with TypeSafe AI. Training provenance is specific to each release; see this card’s training section. The separate 2B v4 release discloses soft-label distillation from TypeSafe Jev 1.14 through its public API.
+
+Choose a workflow: [local text classification in Python](https://jevstyle.com/guides/local-text-classification/?utm_source=huggingface&utm_medium=model_card&utm_campaign=local_decisions) · [choosing a local decision model](https://jevstyle.com/guides/local-decision-models/?utm_source=huggingface&utm_medium=model_card&utm_campaign=local_decisions) · [this model’s setup and limits](https://jevstyle.com/models/0-8b-v3/?utm_source=huggingface&utm_medium=model_card&utm_campaign=local_decisions) · [evaluation evidence](https://jevstyle.com/benchmarks/?utm_source=huggingface&utm_medium=model_card&utm_campaign=local_decisions).
+
+Local inference does not use the hosted JevStyle API. Check [current hosted-service status](https://jevstyle.com/api/) before using that separate endpoint.
+<!-- jevstyle:project-links:end -->
+
+
+<!-- CURRENT_ENTRY_POINTS -->
+**Choose your starting point**
+
+| What you need | Start here |
+|---|---|
+| Try a decision without installing anything | [Live text + image demo](https://huggingface.co/spaces/chaoliangUNSW/jev-style-2b) |
+| Latest model, text + images | [2B v4](https://huggingface.co/chaoliangUNSW/Jev-Style-2B-Decision-v4) · images require the PyTorch build |
+| Small text model on your own machine | [0.8B v3](https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3) · 0.53 GB GGUF |
+| This version or its existing integration | Continue with the version-specific instructions below |
+
+> **Hosted API status · 2026-10-28:** The hosted API is temporarily unavailable for maintenance. For a working first try, [open the browser demo](https://huggingface.co/spaces/chaoliangUNSW/jev-style-2b) (2B v4), or run the open weights locally. [Service information](https://jevstyle.com/api/).
+
+<!-- /CURRENT_ENTRY_POINTS -->
+
 **Jev-Style decision series:** [v1 · 2B](https://huggingface.co/chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-GGUF) → [v2 · 2B](https://huggingface.co/chaoliangUNSW/Jev-Style-Qwen3.5-2B-Decision-v2-GGUF) → **v3 · 0.8B** · **GitHub:** [jev-style](https://github.com/lawrence3699/jev-style) · **Website:** [jevstyle.com](https://jevstyle.com/#v3) · **Collection:** [all v3 builds and demos](https://huggingface.co/collections/chaoliangUNSW/jev-style-08b-decision-v3-6ab58abb90ae4b7b55578b3e)
 
 > **Run it locally, inside your agents:** [github.com/lawrence3699/jev-style](https://github.com/lawrence3699/jev-style) serves this model behind a systemone-compatible API with a Playground, and adds six agent skills (`npx skills add lawrence3699/jev-style`), a Claude Code guard hook and MCP tools.

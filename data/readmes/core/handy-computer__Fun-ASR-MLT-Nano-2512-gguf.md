@@ -120,6 +120,9 @@ transcribe_cpp:
     q6_k: 1.66
     q5_k_m: 1.74
     q4_k_m: 1.8
+  rtf_m4:
+    cpu: 11.33
+    metal: 25.82
   rtf_m4_max:
     cpu: 19.54
     metal: 70.03
@@ -128,7 +131,8 @@ transcribe_cpp:
     vulkan: 8.84
   streaming: false
   translate: false
-  lang_detect: false
+  lang_detect: true
+  explicit_language_selection: true
   timestamps: none
 ---
 

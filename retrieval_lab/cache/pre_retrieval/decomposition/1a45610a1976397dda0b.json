@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "상업 이용 가능, 파라미터 3B 이하, 컨텍스트 32K 토큰 이상인 한국어 LLM 목록이 필요해.",
+ "outputs": [
+  "commercial use, parameter count <= 3B",
+  "context length >= 32K tokens",
+  "Korean language models"
+ ],
+ "response": {
+  "sub_queries": [
+   "commercial use, parameter count <= 3B",
+   "context length >= 32K tokens",
+   "Korean language models"
+  ]
+ },
+ "latency_ms": 1098.7
+}

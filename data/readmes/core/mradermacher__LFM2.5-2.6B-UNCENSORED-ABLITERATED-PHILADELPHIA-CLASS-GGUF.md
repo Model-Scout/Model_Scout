@@ -1,5 +1,5 @@
 ---
-base_model: KridgeDookie/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
+base_model: PhillyLabs/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
 language:
 - ar
 - zh
@@ -49,7 +49,7 @@ tags:
 <!-- ### quants:  x-f16 Q4_K_S Q2_K Q8_0 Q6_K Q3_K_M Q3_K_S Q3_K_L Q4_K_M Q5_K_S Q5_K_M IQ4_XS -->
 <!-- ### quants_skip:  -->
 <!-- ### skip_mmproj:  -->
-static quants of https://huggingface.co/KridgeDookie/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
+static quants of https://huggingface.co/PhillyLabs/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS
 
 <!-- provided-files -->
 

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KorSTS 점수(스피어만 상관계수)가 공개된 한국어 문장 임베딩 모델이 필요해.",
+ "outputs": [
+  "Korean sentence embedding model with KorSTS score (Spearman correlation)"
+ ],
+ "response": {
+  "query": "Korean sentence embedding model with KorSTS score (Spearman correlation)"
+ },
+ "latency_ms": 1566.5
+}

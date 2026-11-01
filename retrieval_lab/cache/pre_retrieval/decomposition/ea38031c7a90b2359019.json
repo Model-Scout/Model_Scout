@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하.",
+ "outputs": [
+  "작고 빠른 한국어 임베딩 모델",
+  "100M 파라미터 이하"
+ ],
+ "response": {
+  "sub_queries": [
+   "작고 빠른 한국어 임베딩 모델",
+   "100M 파라미터 이하"
+  ]
+ },
+ "latency_ms": 1015.4
+}

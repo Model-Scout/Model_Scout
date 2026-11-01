@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해.",
+ "outputs": [
+  "상업 서비스에 사용할 수 있는 한국어 특화 임베딩 모델을 찾고 싶습니다. 라이선스 정보가 필요합니다.",
+  "I'm looking for a Korean-specific embedding model to integrate into a commercial service. The license must be clear.",
+  "Korean embedding model, commercial use, clear license"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에 사용할 수 있는 한국어 특화 임베딩 모델을 찾고 싶습니다. 라이선스 정보가 필요합니다.",
+   "I'm looking for a Korean-specific embedding model to integrate into a commercial service. The license must be clear.",
+   "Korean embedding model, commercial use, clear license"
+  ]
+ },
+ "latency_ms": 1308.4
+}

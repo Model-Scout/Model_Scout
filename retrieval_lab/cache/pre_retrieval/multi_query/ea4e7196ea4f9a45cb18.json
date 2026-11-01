@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 근거로 답하는 RAG를 개인 PC의 Docker에서만 돌리려고 해. 7.8B 모델은 답변에 2분 넘게 걸려서 더 작고 빠른 한국어 모델이 필요해. 학습용 프로젝트라 라이선스는 상관없어.",
+ "outputs": [
+  "작은 한국어 모델을 찾고 있어요. 개인 PC의 Docker에서 사용할 수 있는 RAG 모델이 필요하고, 7.8B 모델보다 빠른 모델을 원해요. 라이선스는 상관없어요.",
+  "I'm looking for a smaller and faster Korean model for RAG that can run on my personal PC's Docker. The 7.8B model takes over 2 minutes to respond, so I need something more efficient. License doesn't matter since it's for a learning project.",
+  "Korean model, RAG, personal PC, Docker, smaller than 7.8B, fast response, no license restrictions, learning project"
+ ],
+ "response": {
+  "queries": [
+   "작은 한국어 모델을 찾고 있어요. 개인 PC의 Docker에서 사용할 수 있는 RAG 모델이 필요하고, 7.8B 모델보다 빠른 모델을 원해요. 라이선스는 상관없어요.",
+   "I'm looking for a smaller and faster Korean model for RAG that can run on my personal PC's Docker. The 7.8B model takes over 2 minutes to respond, so I need something more efficient. License doesn't matter since it's for a learning project.",
+   "Korean model, RAG, personal PC, Docker, smaller than 7.8B, fast response, no license restrictions, learning project"
+  ]
+ },
+ "latency_ms": 1855.5
+}

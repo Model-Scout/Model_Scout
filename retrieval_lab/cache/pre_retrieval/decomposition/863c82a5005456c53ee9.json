@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어.",
+ "outputs": [
+  "task: 한국어 요약",
+  "domain: 뉴스, 문서 요약",
+  "model family: KoBART"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: 한국어 요약",
+   "domain: 뉴스, 문서 요약",
+   "model family: KoBART"
+  ]
+ },
+ "latency_ms": 924.6
+}

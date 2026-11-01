@@ -33,12 +33,16 @@ from retrieval_lab.planner import (
     ELEMENTS,
     PLAN_QUERY_TYPES,
     RetrievalPlan,
-    hard_filters,
+    hard_filter_plan,
     save_type_plan,
     with_dense_weight,
     with_strategies,
 )
 from retrieval_lab.pre_retrieval import STRATEGIES, LLMUnavailable, llm_model
+
+# 조건 값이 없는 모델을 거르는 하드 필터. 코퍼스의 parameter_count 39%,
+# context_length 38%가 비어 있어 수치 조건이 붙은 유형에서 결과가 갈린다.
+KNOWN_ONLY_FILTERS = {"require_known_parameters": True, "require_known_context": True}
 
 REPORT_DIR = Path(__file__).resolve().parent / "reports"
 TABLE_COLUMNS = (
@@ -54,7 +58,10 @@ DETAIL_COLUMNS = (
 def evaluate(retriever: Retriever, queries: Sequence[golden.GoldenQuery], plan: RetrievalPlan, min_grade: int) -> Dict[str, Any]:
     per_query: List[Dict[str, Any]] = []
     for query in queries:
-        query_plan = replace(plan, query_type=query.plan_query_type, hard_filters=hard_filters(query.query))
+        # 서비스(planner.plan_for)와 같은 함수로 필터를 만든다. 측정한 설정과
+        # 서비스하는 설정이 갈라지지 않게 하는 유일한 방법이다.
+        query_plan = replace(plan, query_type=query.plan_query_type,
+                             hard_filters=hard_filter_plan(plan.hard_filters, query.query))
         result = retriever.run(query.text, query_plan)
         top10 = result.ranked[:10]
         per_query.append({
@@ -250,6 +257,18 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
         return result
 
     base_score = result["baseline"]["summary"].get(args.metric) or 0.0
+
+    # 수치 조건을 아는 모델만 남기는 하드 필터. LLM 변환과 달리 질의를 건드리지 않고
+    # 후보를 줄이는 쪽이라 Pre-Retrieval 요소와 같은 자리에서 비교한다.
+    known_only = replace(baseline, hard_filters=KNOWN_ONLY_FILTERS)
+    known_run = try_evaluate(retriever, queries, known_only, args.min_grade, log, "Known values only")
+    if known_run:
+        known_run["label"] = "Known values only"
+        known_run["hard_filter_defaults"] = dict(KNOWN_ONLY_FILTERS)
+        result["single"].append(known_run)
+        if (known_run["summary"].get(args.metric) or 0.0) > base_score + args.min_delta:
+            result["improved_filters"] = dict(KNOWN_ONLY_FILTERS)
+
     for strategy in ELEMENTS:
         run = try_evaluate(retriever, queries, with_strategies(baseline, (strategy,)), args.min_grade, log)
         if run:
@@ -266,12 +285,19 @@ def run_type(retriever, queries, query_type, args, log) -> Dict[str, Any]:
                 result["combos"].append(run)
     # Only strategies that beat the baseline on the metric may win (plan rule).
     improved_singles = [run for run in result["single"] if any(run["plan"][f"use_{s}"] for s in result["improved"])]
-    candidates = [result["baseline"]] + improved_singles + result["combos"]
+    # 하드 필터로 이긴 실험은 use_* 플래그가 없어 improved_singles에 잡히지 않는다.
+    improved_filters = [run for run in result["single"]
+                        if run.get("hard_filter_defaults") and result.get("improved_filters")]
+    candidates = [result["baseline"]] + improved_singles + improved_filters + result["combos"]
     best = max(candidates, key=lambda run: score_of(run, args.metric))
     result["best"] = best
 
     if args.weight_search != "none":
         base_plan = with_strategies(baseline, tuple(s for s in ELEMENTS if best["plan"].get(f"use_{s}")))
+        # 하드 필터로 이긴 설정은 use_* 플래그가 없어서 with_strategies로는 안 따라온다.
+        # 이걸 빼먹으면 weight_base 라벨만 붙고 실제로는 Baseline 가중치를 재게 된다.
+        if best.get("hard_filter_defaults"):
+            base_plan = replace(base_plan, hard_filters=dict(best["hard_filter_defaults"]))
         result["weight_base"] = best["label"]
         result["weight_method"] = args.weight_search
         result["weights"] = weight_search(retriever, queries, base_plan, args.min_grade, args.metric, args.weight_search, args.trials, log)
@@ -318,6 +344,9 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=20, help="Optuna 시행 수 (앞의 9회는 0.1~0.9 grid)")
     parser.add_argument("--no-supplement", action="store_true",
                         help="supplemental_judgments.jsonl(추가 판정)을 빼고 기존 라벨만으로 채점")
+    parser.add_argument("--supplement", type=Path, default=None,
+                        help="추가 판정 파일을 직접 지정한다. 공유 파일 대신 자기 유형의 "
+                             "판정만 담은 파일을 쓸 때 사용한다 (--no-supplement가 우선)")
     parser.add_argument("--write-planner", action="store_true", help="유형별 최적 설정을 planner_config.json에 저장")
     args = parser.parse_args()
 
@@ -331,7 +360,7 @@ def main() -> None:
     unknown = sorted(set(wanted) - set(PLAN_QUERY_TYPES))
     if unknown:
         parser.error(f"알 수 없는 유형: {unknown}")
-    supplement_path = None if args.no_supplement else golden.SUPPLEMENT_PATH
+    supplement_path = None if args.no_supplement else (args.supplement or golden.SUPPLEMENT_PATH)
     all_queries = golden.load(args.query_files, corpus_ids, wanted, supplement_path)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     summary_rows = []
@@ -341,7 +370,7 @@ def main() -> None:
             print(f"\n[{query_type}] 라벨된 질의 없음, 건너뜀")
             continue
         result = run_type(retriever, queries, query_type, args, print)
-        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({golden.SUPPLEMENT_PATH.name})"
+        result["labels"] = "기존 라벨" if supplement_path is None else f"기존 라벨 + 추가 판정({supplement_path.name})"
         result["unjudged_pool"] = unjudged_pool(result)
         (REPORT_DIR / f"{query_type}.json").write_text(json.dumps(compact(result), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         (REPORT_DIR / f"{query_type}.md").write_text(render(query_type, result), encoding="utf-8")
@@ -356,7 +385,7 @@ def main() -> None:
                     "baseline": result["baseline"]["summary"].get(args.metric),
                     "queries": result["queries"],
                     "ran_at": result["ran_at"],
-                })
+                }, hard_filter_defaults=best.get("hard_filter_defaults"))
     if summary_rows:
         lines = ["| 유형 | 최적 설정 | dense | " + " | ".join(name for name, _ in TABLE_COLUMNS) + " |", "|---" * (len(TABLE_COLUMNS) + 3) + "|"]
         for query_type, result in summary_rows:

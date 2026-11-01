@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "게임 대사를 영어에서 한국어로 번역하려고 해.",
+ "outputs": [
+  "Translate game dialogues from English to Korean."
+ ],
+ "response": {
+  "query": "Translate game dialogues from English to Korean."
+ },
+ "latency_ms": 985.4
+}

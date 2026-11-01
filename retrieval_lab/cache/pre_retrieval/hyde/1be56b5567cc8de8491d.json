@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
+ "outputs": [
+  "The Lightweight Korean Summarization Model is designed for efficient document summarization in Korean. With a parameter count of under 1 billion, this model strikes a balance between performance and resource efficiency, making it ideal for commercial applications. It supports Korean as its primary language and is optimized for generating concise and coherent summaries from longer texts. The model excels in maintaining the original context while reducing the length of the content, making it suitable for news articles, academic papers, and business reports. Its lightweight architecture ensures quick inference times, allowing for seamless integration into commercial services."
+ ],
+ "response": {
+  "document": "The Lightweight Korean Summarization Model is designed for efficient document summarization in Korean. With a parameter count of under 1 billion, this model strikes a balance between performance and resource efficiency, making it ideal for commercial applications. It supports Korean as its primary language and is optimized for generating concise and coherent summaries from longer texts. The model excels in maintaining the original context while reducing the length of the content, making it suitable for news articles, academic papers, and business reports. Its lightweight architecture ensures quick inference times, allowing for seamless integration into commercial services."
+ },
+ "latency_ms": 1553.9
+}

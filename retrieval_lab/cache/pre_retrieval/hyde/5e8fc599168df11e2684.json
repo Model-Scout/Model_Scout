@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "aya-vision-8b가 비상업 라이선스야. 비슷한 크기에 상업적으로 쓸 수 있는 한국어 비전 언어 모델이 필요해.",
+ "outputs": [
+  "The VisionLang-8B is a commercial-use vision-language model designed for tasks involving image and text understanding. It supports multiple languages, including Korean, making it suitable for applications in diverse markets. With 8 billion parameters, this model excels in generating descriptive captions for images, performing visual question answering, and enhancing image retrieval systems. Its strengths lie in its ability to understand context and nuances in both visual and textual data, providing accurate and relevant outputs. The model is optimized for performance, ensuring fast inference times while maintaining high-quality results, making it an ideal choice for businesses looking to integrate advanced vision-language capabilities into their products."
+ ],
+ "response": {
+  "document": "The VisionLang-8B is a commercial-use vision-language model designed for tasks involving image and text understanding. It supports multiple languages, including Korean, making it suitable for applications in diverse markets. With 8 billion parameters, this model excels in generating descriptive captions for images, performing visual question answering, and enhancing image retrieval systems. Its strengths lie in its ability to understand context and nuances in both visual and textual data, providing accurate and relevant outputs. The model is optimized for performance, ensuring fast inference times while maintaining high-quality results, making it an ideal choice for businesses looking to integrate advanced vision-language capabilities into their products."
+ },
+ "latency_ms": 1555.6
+}

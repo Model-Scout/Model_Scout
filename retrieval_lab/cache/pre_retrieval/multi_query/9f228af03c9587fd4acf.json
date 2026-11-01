@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DeepSeek-V3를 24GB GPU 한 장에서 한국어 상담용으로 돌리려고 해. 가능할까?",
+ "outputs": [
+  "DeepSeek-V3를 24GB GPU에서 한국어 상담용으로 사용할 수 있을까요?",
+  "Can I run DeepSeek-V3 for Korean counseling on a single 24GB GPU?",
+  "DeepSeek-V3, 24GB GPU, Korean, counseling, feasibility"
+ ],
+ "response": {
+  "queries": [
+   "DeepSeek-V3를 24GB GPU에서 한국어 상담용으로 사용할 수 있을까요?",
+   "Can I run DeepSeek-V3 for Korean counseling on a single 24GB GPU?",
+   "DeepSeek-V3, 24GB GPU, Korean, counseling, feasibility"
+  ]
+ },
+ "latency_ms": 1743.3
+}

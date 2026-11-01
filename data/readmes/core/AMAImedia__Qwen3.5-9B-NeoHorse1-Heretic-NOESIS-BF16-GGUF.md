@@ -31,7 +31,6 @@ tags:
 - uncensored
 - decensored
 - abliterated
-
 license: apache-2.0
 language:
 - en
@@ -473,3 +472,4 @@ Modification notices are included in this model card and the released configurat
 ```
 
 For questions or issue reports, use the [NeoHorse project repository](https://github.com/TokenRhythm/NeoHorse).
+ 

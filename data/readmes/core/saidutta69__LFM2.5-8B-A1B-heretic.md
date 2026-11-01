@@ -203,3 +203,15 @@ Inherits the [LFM License 1.0](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B/blo
 - [LiquidAI/LFM2.5-8B-A1B](https://huggingface.co/LiquidAI/LFM2.5-8B-A1B) — the base model
 - [LFM2.5 technical report](https://www.liquid.ai/blog/lfm2-5-8b-a1b) — architecture and benchmarks
 - [RACER IS OP — Heretic Models — full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models)
+
+## Abliteration hardware
+
+Recorded in `reproduce/reproduce.json`:
+
+- **GPU:** NVIDIA GeForce RTX 5090 (31.36 GB VRAM)
+- **CPU:** AMD Ryzen 7 9700X 8-Core Processor
+- **OS:** `Linux-6.8.0-142-generic-x86_64-with-glibc2.35`
+- **CUDA / driver:** CUDA 13.0, driver 595.84
+- **Software:** PyTorch 2.14.1+cu130, Heretic 1.4.0
+
+Heretic notes that KL-divergence and refusal numbers can vary slightly with hardware and library versions.

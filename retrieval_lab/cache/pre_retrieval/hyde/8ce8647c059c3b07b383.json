@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "메모리 2GB짜리 클라우드 서버에서 GPU 없이 CPU로 돌릴 한국어 임베딩 API를 만들려고 해. 메모리를 적게 먹는 가벼운 모델이 필요해.",
+ "outputs": [
+  "The model is a lightweight Korean embedding model designed for efficient CPU usage, making it ideal for deployment on low-memory cloud servers with only 2GB of RAM. It supports Korean as its primary language and is optimized for tasks such as semantic similarity, text classification, and information retrieval. With a parameter count of just 50 million, it strikes a balance between performance and resource consumption. The model is particularly suited for applications requiring fast inference times and minimal memory overhead, making it perfect for real-time applications and services. Its strengths lie in its ability to generate high-quality embeddings while maintaining a small footprint, ensuring accessibility for various use cases."
+ ],
+ "response": {
+  "document": "The model is a lightweight Korean embedding model designed for efficient CPU usage, making it ideal for deployment on low-memory cloud servers with only 2GB of RAM. It supports Korean as its primary language and is optimized for tasks such as semantic similarity, text classification, and information retrieval. With a parameter count of just 50 million, it strikes a balance between performance and resource consumption. The model is particularly suited for applications requiring fast inference times and minimal memory overhead, making it perfect for real-time applications and services. Its strengths lie in its ability to generate high-quality embeddings while maintaining a small footprint, ensuring accessibility for various use cases."
+ },
+ "latency_ms": 2192.1
+}

@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서를 프랑스어나 독일어로 번역해야 해. ko→fr, ko→de 방향을 지원하는 모델이 필요해.",
+ "outputs": [
+  "translation task for Korean to French",
+  "translation task for Korean to German"
+ ],
+ "response": {
+  "sub_queries": [
+   "translation task for Korean to French",
+   "translation task for Korean to German"
+  ]
+ },
+ "latency_ms": 987.4
+}

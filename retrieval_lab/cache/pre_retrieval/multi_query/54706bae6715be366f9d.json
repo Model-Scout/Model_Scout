@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLEURS나 Common Voice 한국어 WER가 README에 나온 음성인식 모델을 비교하고 싶어.",
+ "outputs": [
+  "FLEURS와 Common Voice의 한국어 WER을 포함한 음성 인식 모델 비교",
+  "I want to compare speech recognition models that mention Korean WER from FLEURS or Common Voice in their README.",
+  "FLEURS, Common Voice, 한국어, WER, 음성 인식 모델, README"
+ ],
+ "response": {
+  "queries": [
+   "FLEURS와 Common Voice의 한국어 WER을 포함한 음성 인식 모델 비교",
+   "I want to compare speech recognition models that mention Korean WER from FLEURS or Common Voice in their README.",
+   "FLEURS, Common Voice, 한국어, WER, 음성 인식 모델, README"
+  ]
+ },
+ "latency_ms": 1906.2
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "유저 계정과 미출시 콘텐츠가 담긴 한국어 게임 버그 리포트를 QA 담당자 노트북에서 분류·정리할 로컬 LLM이 필요해. 외부 API로 보낼 수 없고, Q4 양자화 기준 7~8B급이 상한이야. 회사 업무라 상업적으로 쓸 수 있어야 해.",
+ "outputs": [
+  "QA 담당자 노트북에서 사용할 수 있는 7~8B급 로컬 LLM을 찾고 있습니다. 유저 계정과 미출시 콘텐츠가 포함된 한국어 게임 버그 리포트를 분류하고 정리할 수 있어야 하며, 외부 API로 전송할 수 없습니다. Q4 양자화 기준을 충족하고 상업적 사용이 가능해야 합니다.",
+  "I need a local LLM for classifying and organizing Korean game bug reports containing user accounts and unreleased content on a QA manager's laptop. It cannot send data to external APIs and should be in the 7-8B parameter range according to Q4 quantization standards. It must be suitable for commercial use.",
+  "로컬 LLM, 한국어 게임 버그 리포트, 유저 계정, 미출시 콘텐츠, Q4 양자화, 7~8B, 상업적 사용 가능, 외부 API 불가"
+ ],
+ "response": {
+  "queries": [
+   "QA 담당자 노트북에서 사용할 수 있는 7~8B급 로컬 LLM을 찾고 있습니다. 유저 계정과 미출시 콘텐츠가 포함된 한국어 게임 버그 리포트를 분류하고 정리할 수 있어야 하며, 외부 API로 전송할 수 없습니다. Q4 양자화 기준을 충족하고 상업적 사용이 가능해야 합니다.",
+   "I need a local LLM for classifying and organizing Korean game bug reports containing user accounts and unreleased content on a QA manager's laptop. It cannot send data to external APIs and should be in the 7-8B parameter range according to Q4 quantization standards. It must be suitable for commercial use.",
+   "로컬 LLM, 한국어 게임 버그 리포트, 유저 계정, 미출시 콘텐츠, Q4 양자화, 7~8B, 상업적 사용 가능, 외부 API 불가"
+  ]
+ },
+ "latency_ms": 2386.6
+}

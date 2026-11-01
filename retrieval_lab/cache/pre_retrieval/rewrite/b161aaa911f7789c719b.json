@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해.",
+ "outputs": [
+  "EXAONE 3.5 Korean LLM llama.cpp GGUF conversion"
+ ],
+ "response": {
+  "query": "EXAONE 3.5 Korean LLM llama.cpp GGUF conversion"
+ },
+ "latency_ms": 1086.5
+}

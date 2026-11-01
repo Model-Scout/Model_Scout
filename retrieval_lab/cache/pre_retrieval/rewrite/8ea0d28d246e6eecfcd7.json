@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "faster-whisper(CTranslate2) 형식으로 변환된 한국어 음성인식 모델이 필요해. 기존 파이프라인이 faster-whisper 기반이야.",
+ "outputs": [
+  "faster-whisper(CTranslate2) 한국어 음성 인식 모델"
+ ],
+ "response": {
+  "query": "faster-whisper(CTranslate2) 한국어 음성 인식 모델"
+ },
+ "latency_ms": 1011.0
+}

@@ -262,6 +262,16 @@ Two public benchmarks released after this model was trained, never used for trai
   text stays under 6%. If your traffic contains many such instructions from trusted users, raise the threshold (for example to 0.9) or
   route them separately.
 
+### Benign imperative commands and long inputs (checked October 2026)
+
+- **Benign commands with trigger words** (out-of-distribution for this model): 7,880 short, harmless commands and questions in 31 languages that
+  contain words like "ignore", "instructions" or "disable the rules" (LLM-written; never used to train v2.2). Flagged: 12.2% at 0.5, 3.6% at 0.9
+  (Portuguese: 10.0% / 2.8% of 180). On in-distribution hard-benign documents (`synthetic_docs_test`) the rate is 0.4% (4 of 1,119), so expect
+  more false alarms on short imperative text than on documents; raise the threshold for trusted user turns.
+- **int8 ONNX at long context**: with a windowed scan at 2,048 tokens (256-token overlap, max over windows) on CPU, `onnx/model_quantized.onnx`
+  makes the same decision as `onnx/model.onnx` at 0.5 for all 400 long documents tested (median 2,369 tokens, max 19,110; 852 windows); at 0.9,
+  399 of 400 agree; mean probability difference 0.0024. Most of these documents are injections (375 of 400). Script: `code/inj/onnx_long_check.py`.
+
 ## Built-in obfuscation normalizer
 
 The tokenizer runs a normalizer before the model sees the text. It works in `transformers` (4.x and 5.x),

@@ -35,7 +35,7 @@ tags:
 license: mit
 ---
 
-# Qwen 3.8 27b migrated to Ternary Architedure 
+# JiRack Ternary Architedure 
 - Benefits high quality CPU inference TQ_2 on Llama.cpp and Ollama via QAT
 - Robotcs, Routing, Coding,  Multimedia, Advanced tool calling via JiRackDeltaNetTokenizer
 - JiRack DeltaNet understand video and images that best for Robotics also
@@ -58,8 +58,10 @@ A fast and efficient 27B model optimized for CPU inference. Built on a Qwen3.8-s
 - Deployment and scale
 
 # Live chat on HF Space
-https://huggingface.co/spaces/CMSManhattan/JiRackDeltaNet_27b
-
+- https://huggingface.co/spaces/CMSManhattan/JiRackDeltaNet_27b
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 ---
 
 ## JiRack Codding Agent IDE
@@ -377,3 +379,5 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

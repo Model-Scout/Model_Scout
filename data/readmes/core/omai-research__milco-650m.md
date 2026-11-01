@@ -1,11 +1,15 @@
 ---
 library_name: transformers
 tags:
+- sparse
+- sparse-encoder
+- sentence-transformers
 - sparse-retrieval
 - multilingual
 - learned-sparse
 - cross-lingual
 license: apache-2.0
+pipeline_tag: sentence-similarity
 language:
 - aa
 - en
@@ -80,21 +84,23 @@ We also introduce **LexEcho head**, which addresses the observation that uncommo
 
 ## Usage
 
-### Loading the model
+### Using Transformers
+
+#### Loading the model
 
 ```python
 from transformers import AutoModel
 model = AutoModel.from_pretrained("omai-research/milco-650m", trust_remote_code=True)
 ```
 
-### Encoding text (sparse tensor)
+#### Encoding text (sparse tensor)
 
 ```python
 # Returns a sparse COO tensor of shape [N, vocab_size]
 sparse_reps = model.encode_text(["Baltimore: The Greatest City in America", "巴尔的摩：美国最伟大的城市", "Baltimore : La plus grande ville d'Amérique"])
 ```
 
-### Encoding text (token-weight dictionary)
+#### Encoding text (token-weight dictionary)
 
 ```python
 # Returns a list of {token: weight} dicts, sorted by weight descending
@@ -104,7 +110,7 @@ print(results[0])
 print(results[1])
 # {'e_baltimore': 1.6522579193115234, 'e_city': 1.3217558860778809, 'e_greatest': 1.1192315816879272, 'e_usa': 0.9287132620811462, 'e_maryland': 0.8281423449516296, 'e_best': 0.817850649356842, 'e_biggest': 0.8074519634246826, 'e_us': 0.6793810129165649, 'e_great': 0.630689799785614, 'e_america': 0.5255602598190308 ...}
 ```
-### LexEcho: Dual-view encoding (pivot + source)
+#### LexEcho: Dual-view encoding (pivot + source)
 
 When `source_view=True`, the LexEcho head augments the pivot representation with source-language token weights. This preserves entities and terms that may not have English equivalents:
 
@@ -117,7 +123,7 @@ print(results[0])
 # {'m_</s>': 2.09375, 'e_baltimore': 1.6522579193115234, 'e_city': 1.3217558860778809, 'e_greatest': 1.12432062625885, 'e_usa': 0.9225212931632996, 'e_maryland': 0.8247235417366028, 'e_best': 0.8143964409828186, 'e_biggest': 0.8039615750312805, 'm_伟大的': 0.77734375, 'm_:': 0.6875, 'm_美国': 0.68359375, 'e_us': 0.6734226942062378, 'e_great': 0.6265231370925903}
 ```
 
-### Query and document encoding
+#### Query and document encoding
 
 `encode_query` and `encode_document` are aliases for `encode_text`:
 
@@ -127,13 +133,86 @@ d_reps = model.encode_document(documents)
 scores = torch.sparse.mm(q_reps, d_reps.t())
 ```
 
-### Getting the vocabulary mapping
+#### Getting the vocabulary mapping
 
 ```python
 id2term = model.get_vocab()
 # {0: "e_[PAD]", 1: "e_[UNK]", ..., 30522: "m_[PAD]", ...}
 # "e_" prefix = English (pivot) vocabulary
 # "m_" prefix = multilingual (source) vocabulary
+```
+
+### Using Sentence Transformers
+
+Install Sentence Transformers and PyTorch 2.6 or newer, which Transformers requires to load this `.bin` checkpoint:
+
+```bash
+pip install "sentence-transformers>=5.4.0" "torch>=2.6"
+```
+
+Each example below can be run independently.
+
+#### Loading the model
+
+```python
+from sentence_transformers import SparseEncoder
+
+model = SparseEncoder("omai-research/milco-650m", trust_remote_code=True)
+```
+
+#### Encoding text (sparse tensor)
+
+```python
+from sentence_transformers import SparseEncoder
+
+model = SparseEncoder("omai-research/milco-650m", trust_remote_code=True)
+
+texts = [
+    "Baltimore: The Greatest City in America",
+    "巴尔的摩：美国最伟大的城市",
+    "Baltimore : La plus grande ville d'Amérique",
+]
+sparse_reps = model.encode(texts)
+print(sparse_reps.shape, sparse_reps.layout)
+# torch.Size([3, 30522]) torch.sparse_coo
+```
+
+#### Encoding text (token-weight dictionary)
+
+Use MILCO's `_sparse_to_dicts` helper to get token weights sorted in descending order. `SparseEncoder.decode()` uses the multilingual input tokenizer, which does not describe the English output vocabulary.
+
+```python
+from sentence_transformers import SparseEncoder
+
+model = SparseEncoder("omai-research/milco-650m", trust_remote_code=True)
+
+texts = [
+    "Baltimore : La plus grande ville d'Amérique",
+    "巴尔的摩：美国最伟大的城市",
+]
+sparse_reps = model.encode(texts)
+results = model.transformers_model._sparse_to_dicts(sparse_reps)
+print(dict(list(results[0].items())[:5]))
+# {'e_baltimore': 1.8038008213043213, 'e_maryland': 1.2524265050888062, 'e_city': 1.1995835304260254, 'e_largest': 0.9366427659988403, 'e_biggest': 0.9186832904815674}
+print(dict(list(results[1].items())[:5]))
+# {'e_baltimore': 1.6520189046859741, 'e_city': 1.3212192058563232, 'e_greatest': 1.1182334423065186, 'e_usa': 0.9234126210212708, 'e_best': 0.8151688575744629}
+```
+
+#### LexEcho: Dual-view encoding (pivot + source)
+
+Pass `source_view=True` to include source-language token weights alongside the English pivot vocabulary. The first 30522 dimensions are pivot terms, followed by 250002 source dimensions.
+
+```python
+from sentence_transformers import SparseEncoder
+
+model = SparseEncoder("omai-research/milco-650m", trust_remote_code=True)
+
+sparse_reps = model.encode(["巴尔的摩：美国最伟大的城市"], source_view=True)
+print(sparse_reps.shape)
+# torch.Size([1, 280524])
+results = model.transformers_model._sparse_to_dicts(sparse_reps)
+print(dict(list(results[0].items())[:10]))
+# {'m_</s>': 2.0875837802886963, 'e_baltimore': 1.6520189046859741, 'e_city': 1.3212192058563232, 'e_greatest': 1.1182334423065186, 'e_usa': 0.9234126210212708, 'e_best': 0.8151688575744629, 'e_maryland': 0.8147269487380981, 'e_biggest': 0.8038767576217651, 'm_伟大的': 0.7776944637298584, 'm_:': 0.6851922869682312}
 ```
 
 ## Results

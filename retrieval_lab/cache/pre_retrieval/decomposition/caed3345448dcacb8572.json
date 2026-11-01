@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "어르신 대상 서비스에서 사진을 보고 한국어로 대화를 이어 가는 모델이 필요해. GPU 16GB 서버 하나로 돌릴 거야.",
+ "outputs": [
+  "Find models that can engage in conversation based on images in Korean.",
+  "Search for models suitable for deployment on a single GPU with 16GB memory."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that can engage in conversation based on images in Korean.",
+   "Search for models suitable for deployment on a single GPU with 16GB memory."
+  ]
+ },
+ "latency_ms": 1143.4
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야.",
+ "outputs": [
+  "KLUE-RoBERTa 기반 한국어 문장 임베딩 모델 찾고 있어요. 유사 문장 검색 용도로 사용할 예정입니다.",
+  "I need a Korean sentence embedding model based on KLUE-RoBERTa for similar sentence search.",
+  "KLUE-RoBERTa, 한국어 문장 임베딩, 유사 문장 검색"
+ ],
+ "response": {
+  "queries": [
+   "KLUE-RoBERTa 기반 한국어 문장 임베딩 모델 찾고 있어요. 유사 문장 검색 용도로 사용할 예정입니다.",
+   "I need a Korean sentence embedding model based on KLUE-RoBERTa for similar sentence search.",
+   "KLUE-RoBERTa, 한국어 문장 임베딩, 유사 문장 검색"
+  ]
+ },
+ "latency_ms": 1400.9
+}

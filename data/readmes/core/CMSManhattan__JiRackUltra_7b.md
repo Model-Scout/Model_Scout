@@ -20,7 +20,6 @@ tags:
 - 1.58bit
 - cpu
 - gguf
-- qwen2.5
 - deepseek
 - efficient
 - low-memory
@@ -34,7 +33,7 @@ license: mit
 
 # JiRack Ultra 7B (CPU)
 
-A fast and efficient 7B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Media**, **Vision** , **Sound** ,**Tool call**, and **Robotics** tags. Built on a DeepSeek R1 -7B architecture with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
+A fast and efficient 7B model optimized for CPU inference. The model was refactored with BitNet features and an updated tokenizer that includes new **Routing**, **Media**, **Vision** , **Sound** ,**Tool call**, and **Robotics** tags. Built on a DeepSeek model redesigned by CMSManhattan with native ternary (BitNet-style) support and ready-to-run GGUF quantizations.
 - JiRack is a cloud-ready model that helps save money on cloud infrastructure. It can be used as an expert model in RAG deployments, with the ONNX JiRack Java server as an alternative.
 
 
@@ -59,6 +58,7 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 - QAT for TQ_2 Llama.cpp Ternarization docs https://huggingface.co/CMSManhattan/JiRackUltra_7b/blob/main/QAT_to_Llama.cpp_GGUF_TQ2_0.md 
 - Adapts to agentic or instruct models for tool calling, using the JiRak tokenizer to enable high-quality tool calling on small models — built as a domain-specific tool expert.
 - Deployment and scale
+- JiRack Ternary production demo: https://huggingface.co/CMSManhattan/JiRackTernaryPrecision-8B-chat
 
 
 # Ollama production support 
@@ -69,7 +69,12 @@ A fast and efficient 7B model optimized for CPU inference. The model was refacto
 
 ## Live chat 
 
-https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+- https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
+## Live chat  TQ2_O quants  
+- https://huggingface.co/spaces/CMSManhattan/JiRack-36B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-16B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-8B-Chat
+- https://huggingface.co/spaces/CMSManhattan/JiRack-2B-Chat
 
 
 ---
@@ -117,10 +122,10 @@ https://huggingface.co/spaces/CMSManhattan/JiRackUltra_7b
 
 | Tag | Quant | Size | Approx. RAM | Description |
 |-----|-------|------|-------------|-------------|
-| `cmsmanhattan/jirack-ultra-7b-cpu:latest` | Full | 28.1 GB | ~12.2 GB | Full precision reference |
-| `cmsmanhattan/jirack-ultra-7b-cpu-q4:latest` | Q4_K_M | 10.1 GB | ~4.8 GB | Recommended balance |
-| `cmsmanhattan/jirack-ultra-7b-cpu-q3:latest` | Q3_K_M | 8.42 GB | ~4.0 GB | Good quality / size trade-off |
-| `cmsmanhattan/jirack-ultra-7b-cpu-q2:latest` | Q2_K | 6.81 GB | ~3.2 GB | Maximum compression |
+| `cmsmanhattan/jirack-ultra-7b-cpu:latest` | Full | 15.24 GB | ~16.7 GB | Full precision reference |
+| `cmsmanhattan/jirack-ultra-7b-cpu-q4:latest` | Q4_K_M | 4.68 GB | ~6.2 GB | Recommended balance |
+| `cmsmanhattan/jirack-ultra-7b-cpu-q3:latest` | Q3_K_M | 3.81 GB | ~5.3 GB | Good quality / size trade-off |
+| `cmsmanhattan/jirack-ultra-7b-cpu-q2:latest` | Q2_K | 3.02 GB | ~4.5 GB | Maximum compression |
 
 ## Quick Start
 
@@ -270,7 +275,7 @@ I added the default model in full precision. This serves as the base for quantiz
 
 - **Refactored with BitNet features**: Native BitLinear ternary path (b1.58-style) with λ-warmup STE
 - **Updated tokenizer**: Extended with new special tags for **Routing**, **Tool call**, and **Robotics**
-- Base: Qwen2.5-7B style (Hidden 3584, 28 layers, GQA 28/4, vocab 152064)
+- Architecture: Qwen2 layout (hidden 3,584, intermediate 18,944, 28 layers, GQA 28/4, vocabulary 152,064, untied embeddings, RoPE theta 10,000)
 - RoPE θ = 10000, RMSNorm ε = 1e-6
 - Ready-to-run GGUF quantizations (Q2_K, Q3_K_M, Q4_K_M)
 
@@ -292,3 +297,7 @@ For joint venture opportunities, hardware integration, or licensing inquiries:
 
 ## License
 MIT License
+
+Base models: a DeepSeek model (MIT License, `LICENSE-DEEPSEEK`), itself derived from a Qwen model (Apache License 2.0, `LICENSE-APACHE`); see `NOTICE.md`.
+
+![NVIDIA Inception Program Member](https://huggingface.co/spaces/CMSManhattan/README/resolve/main/badge.jpg)

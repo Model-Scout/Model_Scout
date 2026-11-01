@@ -210,3 +210,15 @@ Inherits the [`apache-2.0`](https://www.apache.org/licenses/LICENSE-2.0) license
 - [saidutta69/granite-4.2-3b-heretic](https://huggingface.co/saidutta69/granite-4.2-3b-heretic) — the 3B sibling, tighter KL
 - [Granite 4.2 technical blog](https://huggingface.co/blog/ibm-granite/granite-4-2) — architecture and benchmarks
 - [RACER IS OP — Heretic Models — full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models)
+
+## Abliteration hardware
+
+Recorded in `reproduce/reproduce.json`:
+
+- **GPU:** NVIDIA GeForce RTX 5090 (31.36 GB VRAM)
+- **CPU:** AMD Ryzen 9 9950X 16-Core Processor
+- **OS:** `Linux-6.6.0-hiveos-x86_64-with-glibc2.35`
+- **CUDA / driver:** CUDA 13.0, driver 580.173.02
+- **Software:** PyTorch 2.14.1+cu130, Heretic 1.4.0
+
+Heretic notes that KL-divergence and refusal numbers can vary slightly with hardware and library versions.

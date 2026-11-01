@@ -165,7 +165,7 @@ The model contains **866 audited tensors**: **851 main-model tensors** plus **15
 | File Name | File Size | Weight file size | BPW | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **`Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated.VAL-APEX-I-NanoPlus-V3.gguf`** | **12.18 GB (11.35 GiB)** | 11.35 GiB | **3.57 BPW** | Uncensored Coder390 frontier reasoning, compact 3-bit floor, and dense hybrid architecture |
-| **`mmproj-model-Q8_0.gguf`** | **0.63 GB (605 MiB)** | 605 MiB | **8.00 BPW** | Companion multimodal vision projection adapter in Q8_0 precision |
+| **`mmproj-model-Q8_0.gguf`** | **0.63 GB (600 MiB)** | 600 MiB | **10.93 BPW** | Companion multimodal vision projection adapter in Q8_0 precision |
 
 - **Base Model:** [huihui-ai/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated](https://huggingface.co/huihui-ai/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated) (Abliterated fine-tune of nerkyor's Coder390 SFT + RLOO + EfficientThink checkpoint)
 - **Parameters:** 27B total dense hybrid

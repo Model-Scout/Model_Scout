@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해.",
+ "outputs": [
+  "한국어 FAQ 문서에서 질문에 대한 답변을 추출하는 모델을 찾고 있습니다. CPU 서버에서 실행할 수 있도록 500M 파라미터 이하의 가벼운 모델이 필요합니다.",
+  "I need an extractive QA model that can pull answer spans from Korean FAQ documents. It should be lightweight with less than 500M parameters to run on a CPU server.",
+  "extractive QA model, Korean FAQ, answer span extraction, lightweight, 500M parameters, CPU server"
+ ],
+ "response": {
+  "queries": [
+   "한국어 FAQ 문서에서 질문에 대한 답변을 추출하는 모델을 찾고 있습니다. CPU 서버에서 실행할 수 있도록 500M 파라미터 이하의 가벼운 모델이 필요합니다.",
+   "I need an extractive QA model that can pull answer spans from Korean FAQ documents. It should be lightweight with less than 500M parameters to run on a CPU server.",
+   "extractive QA model, Korean FAQ, answer span extraction, lightweight, 500M parameters, CPU server"
+  ]
+ },
+ "latency_ms": 1842.8
+}

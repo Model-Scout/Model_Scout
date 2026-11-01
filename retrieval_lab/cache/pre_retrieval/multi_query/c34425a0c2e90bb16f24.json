@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해.",
+ "outputs": [
+  "일본어를 한국어로 번역하는 모델을 찾고 있어요. RTX 4060 GPU에서 사용할 수 있는 로컬 모델이 필요해요.",
+  "I'm looking for a model that translates Japanese documents to Korean. It needs to run locally on an RTX 4060 GPU.",
+  "Japanese to Korean translation, local model, RTX 4060 GPU, paid service"
+ ],
+ "response": {
+  "queries": [
+   "일본어를 한국어로 번역하는 모델을 찾고 있어요. RTX 4060 GPU에서 사용할 수 있는 로컬 모델이 필요해요.",
+   "I'm looking for a model that translates Japanese documents to Korean. It needs to run locally on an RTX 4060 GPU.",
+   "Japanese to Korean translation, local model, RTX 4060 GPU, paid service"
+  ]
+ },
+ "latency_ms": 1338.3
+}

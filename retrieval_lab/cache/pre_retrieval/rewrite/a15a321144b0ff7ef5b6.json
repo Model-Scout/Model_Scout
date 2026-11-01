@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없는 사내 서버에서 돌릴 한국어 챗봇이 필요해. 상업 이용이 가능하고 4B 이하여야 해.",
+ "outputs": [
+  "Korean chatbot, commercial use, parameter count <= 4B, no GPU, server deployment"
+ ],
+ "response": {
+  "query": "Korean chatbot, commercial use, parameter count <= 4B, no GPU, server deployment"
+ },
+ "latency_ms": 1299.0
+}

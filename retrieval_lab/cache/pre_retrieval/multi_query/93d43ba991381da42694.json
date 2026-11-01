@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "쇼핑몰 상품 이미지를 보고 한국어 상품 설명 문구를 써 주는 비전 언어 모델이 필요해. 상업 서비스야.",
+ "outputs": [
+  "쇼핑몰 상품 이미지를 분석하여 한국어 설명을 생성하는 비전 언어 모델을 찾고 있습니다.",
+  "I need a vision-language model that can generate Korean product descriptions based on shopping mall product images for commercial services.",
+  "비전 언어 모델, 한국어 상품 설명, 쇼핑몰 이미지, 상업 서비스"
+ ],
+ "response": {
+  "queries": [
+   "쇼핑몰 상품 이미지를 분석하여 한국어 설명을 생성하는 비전 언어 모델을 찾고 있습니다.",
+   "I need a vision-language model that can generate Korean product descriptions based on shopping mall product images for commercial services.",
+   "비전 언어 모델, 한국어 상품 설명, 쇼핑몰 이미지, 상업 서비스"
+  ]
+ },
+ "latency_ms": 1124.4
+}

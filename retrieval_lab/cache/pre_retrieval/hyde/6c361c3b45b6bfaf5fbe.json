@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "카카오 Kanana 계열의 한국어 비전 언어 모델이 필요해. 이미지 질의응답에 쓸 거야.",
+ "outputs": [
+  "The Kakao Kanana series is a cutting-edge vision-language model designed specifically for Korean language tasks. With a parameter count of 1.2 billion, it excels in image question-answering applications, making it ideal for interactive AI systems that require understanding and generating responses based on visual content. The model supports Korean as its primary language, ensuring high accuracy and relevance in responses. Its strengths lie in its ability to comprehend complex visual inputs and provide contextually appropriate answers, making it suitable for use cases in customer support, educational tools, and content creation. The model is available in GGUF format and is optimized for performance with a context length of 512 tokens."
+ ],
+ "response": {
+  "document": "The Kakao Kanana series is a cutting-edge vision-language model designed specifically for Korean language tasks. With a parameter count of 1.2 billion, it excels in image question-answering applications, making it ideal for interactive AI systems that require understanding and generating responses based on visual content. The model supports Korean as its primary language, ensuring high accuracy and relevance in responses. Its strengths lie in its ability to comprehend complex visual inputs and provide contextually appropriate answers, making it suitable for use cases in customer support, educational tools, and content creation. The model is available in GGUF format and is optimized for performance with a context length of 512 tokens."
+ },
+ "latency_ms": 2346.2
+}

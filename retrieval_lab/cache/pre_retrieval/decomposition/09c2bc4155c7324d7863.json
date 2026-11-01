@@ -1,0 +1,21 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 LLM을 GPU 서버 여러 대에 올려 서빙하려고 해. 상업 이용이 가능해야 하고 성능이 최우선이야.",
+ "outputs": [
+  "task: LLM",
+  "license: commercial use",
+  "deployment: GPU server",
+  "benchmark: performance"
+ ],
+ "response": {
+  "sub_queries": [
+   "task: LLM",
+   "license: commercial use",
+   "deployment: GPU server",
+   "benchmark: performance"
+  ]
+ },
+ "latency_ms": 1100.5
+}

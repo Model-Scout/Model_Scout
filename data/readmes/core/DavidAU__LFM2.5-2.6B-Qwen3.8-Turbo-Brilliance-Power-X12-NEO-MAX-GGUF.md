@@ -35,9 +35,6 @@ base_model:
 Please read this model card carefully to get the most from it - including all the reasoning and instruct modes (12+12) that feature model suggestions ("context help") for all use cases. 
 The Turbo Brilliance system will begin appearing in other model sizes/types shortly (IE: Qwen, Gemma, Mistral, GLM, Llama, etc etc). NOTE: BF16 gguf now avail.
 
-<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
-https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
-
 The NEXT STEP, (and evolution of Turbo Brilliance) is here (including 15 AI CONSTRUCTS):
 https://huggingface.co/DavidAU/Qwen3.8-27B-Turbo-Brilliance-50X-Reasoning-Instruct-NEO-MAX-MTP-GGUF
 </small>
@@ -922,6 +919,12 @@ Companies that successfully transition to hybrid models capture the benefits of 
 
 Would you like to try a live demonstration with any of these modes? I can walk through a real-time interaction with a specific prompt and tag.
 
+---
+
+NEW!:
+
+<B>TURBO BRILLIANCE 50x: Reduce tokens, increase quality and IQ:</b> The new tech from DavidAU to change and improve all models see the collection (3B to 120B; and growing fast):
+https://huggingface.co/collections/DavidAU/turbo-brilliance-ai-constructs-50x-reasoning-instruct
 
 ---
 

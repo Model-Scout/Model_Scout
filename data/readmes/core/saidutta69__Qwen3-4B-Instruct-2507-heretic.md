@@ -197,3 +197,15 @@ Inherits the [`apache-2.0`](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507/b
 - [Qwen/Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507) — the base model
 - [saidutta69/Qwen3-VL-2B-Instruct-heretic](https://huggingface.co/saidutta69/Qwen3-VL-2B-Instruct-heretic) — the multimodal sibling at 2B
 - [RACER IS OP — Heretic Models — full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models)
+
+## Abliteration hardware
+
+Recorded in `reproduce/reproduce.json`:
+
+- **GPU:** NVIDIA GeForce RTX 5090 (31.36 GB VRAM)
+- **CPU:** AMD Ryzen 7 9700X 8-Core Processor
+- **OS:** `Linux-6.8.0-142-generic-x86_64-with-glibc2.35`
+- **CUDA / driver:** CUDA 13.0, driver 595.84
+- **Software:** PyTorch 2.14.1+cu130, Heretic 1.4.0
+
+Heretic notes that KL-divergence and refusal numbers can vary slightly with hardware and library versions.

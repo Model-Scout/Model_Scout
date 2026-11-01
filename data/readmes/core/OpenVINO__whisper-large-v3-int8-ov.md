@@ -243,7 +243,7 @@ data, rate = sf.read(io.BytesIO(audio_bytes))
 buffer = io.BytesIO()
 sf.write(buffer, data, rate, format="WAV")
 
-client = OpenAI(base_url="http://localhost:8002/v1", api_key="not_used")
+client = OpenAI(base_url="http://localhost:8000/v1", api_key="not_used")
 for event in client.audio.transcriptions.create(
     model="OpenVINO/whisper-large-v3-int8-ov",
     file=("sample.wav", buffer.getvalue()),

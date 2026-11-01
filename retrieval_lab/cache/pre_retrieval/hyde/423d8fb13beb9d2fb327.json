@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Zeroth나 KsponSpeech 같은 한국어 음성 데이터셋에서 CER이 공개된 음성인식 모델이 필요해.",
+ "outputs": [
+  "The model is designed for automatic speech recognition (ASR) tasks, specifically optimized for the Korean language. It has been trained on extensive datasets, including Zeroth and KsponSpeech, ensuring high accuracy in recognizing spoken Korean. With a parameter count of 150 million and a context length of 512 tokens, this model excels in real-time transcription applications. It is particularly useful for developers looking to integrate speech recognition into applications such as virtual assistants, transcription services, and accessibility tools. The model has demonstrated a competitive Character Error Rate (CER) in benchmarks, making it a reliable choice for high-performance speech recognition in Korean."
+ ],
+ "response": {
+  "document": "The model is designed for automatic speech recognition (ASR) tasks, specifically optimized for the Korean language. It has been trained on extensive datasets, including Zeroth and KsponSpeech, ensuring high accuracy in recognizing spoken Korean. With a parameter count of 150 million and a context length of 512 tokens, this model excels in real-time transcription applications. It is particularly useful for developers looking to integrate speech recognition into applications such as virtual assistants, transcription services, and accessibility tools. The model has demonstrated a competitive Character Error Rate (CER) in benchmarks, making it a reliable choice for high-performance speech recognition in Korean."
+ },
+ "latency_ms": 2929.9
+}

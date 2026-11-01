@@ -53,7 +53,6 @@ tags:
 ### Model Description
 
 - **Developed by:** [Liang Hsun Huang](https://www.linkedin.com/in/lianghsunhuang/?locale=en_US)
-- **Funded by:** [APMIC](https://www.apmic.ai/)
 - **Base model:** [lianghsun/Llama-3.2-Taiwan-3B-Instruct](https://huggingface.co/lianghsun/Llama-3.2-Taiwan-3B-Instruct)
 - **Model type:** LlamaForCausalLM (GGUF)
 - **Language(s) (NLP):** Traditional Chinese, English（含其他多語）
@@ -80,10 +79,6 @@ tags:
   howpublished = {\url{https://huggingface.co/lianghsun/Llama-3.2-Taiwan-3B-Instruct-GGUF}}
 }
 ```
-
-## Acknowledge
-
-- 特此感謝 [APMIC](https://www.apmic.ai/) 的算力支援。
 
 ## Model Card Authors
 

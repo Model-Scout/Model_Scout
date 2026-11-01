@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+ "outputs": [
+  "The model is designed for high-accuracy transcription of Korean audio, specifically optimized for meeting recordings. It supports Korean as its primary language and is capable of processing audio files efficiently on local GPUs with 12GB of memory. With a parameter count of 1.5 billion, it strikes a balance between performance and resource usage. The model excels in capturing nuances in spoken Korean, making it ideal for professional settings where accuracy is paramount. Use cases include transcription for business meetings, academic lectures, and interviews. It is available in GGUF format and has been benchmarked against leading transcription models, achieving top scores in the WER (Word Error Rate) metric."
+ ],
+ "response": {
+  "document": "The model is designed for high-accuracy transcription of Korean audio, specifically optimized for meeting recordings. It supports Korean as its primary language and is capable of processing audio files efficiently on local GPUs with 12GB of memory. With a parameter count of 1.5 billion, it strikes a balance between performance and resource usage. The model excels in capturing nuances in spoken Korean, making it ideal for professional settings where accuracy is paramount. Use cases include transcription for business meetings, academic lectures, and interviews. It is available in GGUF format and has been benchmarked against leading transcription models, achieving top scores in the WER (Word Error Rate) metric."
+ },
+ "latency_ms": 1654.1
+}

@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE NLI 정확도가 README에 나와 있는 한국어 분류 모델이 필요해.",
+ "outputs": [
+  "Find models for the task of NLI (Natural Language Inference) with a focus on Korean language.",
+  "Search for Korean classification models that mention KLUE NLI accuracy in their README."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models for the task of NLI (Natural Language Inference) with a focus on Korean language.",
+   "Search for Korean classification models that mention KLUE NLI accuracy in their README."
+  ]
+ },
+ "latency_ms": 1393.5
+}

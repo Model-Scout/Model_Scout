@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼.",
+ "outputs": [
+  "Korean sentence classification model based on KoELECTRA, task: sentence classification, capability: sentiment analysis or style classification, model family: KoELECTRA"
+ ],
+ "response": {
+  "query": "Korean sentence classification model based on KoELECTRA, task: sentence classification, capability: sentiment analysis or style classification, model family: KoELECTRA"
+ },
+ "latency_ms": 1401.3
+}

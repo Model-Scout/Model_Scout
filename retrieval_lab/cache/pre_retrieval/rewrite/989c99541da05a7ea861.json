@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+ "outputs": [
+  "lightweight model for Chinese to Korean translation running on CPU"
+ ],
+ "response": {
+  "query": "lightweight model for Chinese to Korean translation running on CPU"
+ },
+ "latency_ms": 1056.1
+}

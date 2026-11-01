@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+ "outputs": [
+  "모델 이름: Midm 2.0",
+  "파일 형식: GGUF",
+  "언어: 한국어"
+ ],
+ "response": {
+  "sub_queries": [
+   "모델 이름: Midm 2.0",
+   "파일 형식: GGUF",
+   "언어: 한국어"
+  ]
+ },
+ "latency_ms": 1220.8
+}

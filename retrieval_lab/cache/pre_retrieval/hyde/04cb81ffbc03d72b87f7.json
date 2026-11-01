@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "EXAONE 3.5 계열 한국어 LLM을 llama.cpp로 돌리려고 해. GGUF로 변환된 버전이 필요해.",
+ "outputs": [
+  "EXAONE 3.5 is a state-of-the-art Korean language model designed for various natural language processing tasks, including text generation, translation, and sentiment analysis. With 7 billion parameters, it excels in understanding and generating fluent Korean text. The model supports a context length of up to 2048 tokens, making it suitable for applications requiring extensive context. It is optimized for deployment using llama.cpp, ensuring efficient performance on various hardware setups. The GGUF format allows for easy integration and scalability in production environments. Intended use cases include chatbots, content creation, and educational tools, leveraging its strengths in nuanced language understanding and generation."
+ ],
+ "response": {
+  "document": "EXAONE 3.5 is a state-of-the-art Korean language model designed for various natural language processing tasks, including text generation, translation, and sentiment analysis. With 7 billion parameters, it excels in understanding and generating fluent Korean text. The model supports a context length of up to 2048 tokens, making it suitable for applications requiring extensive context. It is optimized for deployment using llama.cpp, ensuring efficient performance on various hardware setups. The GGUF format allows for easy integration and scalability in production environments. Intended use cases include chatbots, content creation, and educational tools, leveraging its strengths in nuanced language understanding and generation."
+ },
+ "latency_ms": 1838.6
+}

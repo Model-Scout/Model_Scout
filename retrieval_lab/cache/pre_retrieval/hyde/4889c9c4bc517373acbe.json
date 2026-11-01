@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "VARCO-VISION-14B가 우리 서버엔 커. 이것보다 작은 한국어 비전 언어 모델이 필요해.",
+ "outputs": [
+  "The Mini-Vision-Language-7B model is designed for efficient vision-language tasks, particularly in Korean. With 7 billion parameters, it strikes a balance between performance and resource efficiency, making it suitable for deployment on smaller servers. This model excels in tasks such as image captioning, visual question answering, and cross-modal retrieval, specifically tailored for Korean language users. Its compact size allows for faster inference times while maintaining high accuracy in understanding and generating Korean text in relation to visual inputs. Ideal for applications in education, content creation, and accessibility, Mini-Vision-Language-7B is a powerful tool for developers looking to integrate vision-language capabilities into their projects."
+ ],
+ "response": {
+  "document": "The Mini-Vision-Language-7B model is designed for efficient vision-language tasks, particularly in Korean. With 7 billion parameters, it strikes a balance between performance and resource efficiency, making it suitable for deployment on smaller servers. This model excels in tasks such as image captioning, visual question answering, and cross-modal retrieval, specifically tailored for Korean language users. Its compact size allows for faster inference times while maintaining high accuracy in understanding and generating Korean text in relation to visual inputs. Ideal for applications in education, content creation, and accessibility, Mini-Vision-Language-7B is a powerful tool for developers looking to integrate vision-language capabilities into their projects."
+ },
+ "latency_ms": 1659.6
+}

@@ -89,7 +89,36 @@ def with_dense_weight(plan: RetrievalPlan, dense_weight: float) -> RetrievalPlan
 
 
 def hard_filters(query: Mapping[str, Any]) -> Dict[str, Any]:
-    return {key: query[key] for key in HARD_FILTER_KEYS if query.get(key) not in (None, [], False)}
+    # bool은 False도 살린다. 유형 기본값을 끌 수 있는 유일한 수단이다.
+    return {key: query[key] for key in HARD_FILTER_KEYS
+            if isinstance(query.get(key), bool) or query.get(key) not in (None, [], False)}
+
+
+# require_known_* 플래그와 짝이 되는 수치 조건. 05_validate_retrieval.hard_filter가
+# parameter_count_billion에는 상한만, context_length에는 상·하한을 본다.
+_KNOWN_FLAG_PAIRS = {
+    "require_known_parameters": ("max_parameters_billion",),
+    "require_known_context": ("min_context_length", "max_context_length"),
+}
+
+
+def hard_filter_plan(defaults: Mapping[str, Any], query: Mapping[str, Any]) -> Dict[str, Any]:
+    """유형 기본값 위에 질의 값을 얹는다. 질의가 직접 말한 값이 언제나 이긴다.
+
+    유형 기본값으로 켜진 require_known_*는 짝이 되는 수치 조건이 있을 때만 남긴다.
+    상한도 하한도 없는 질의에서 "값을 안다"는 이유로 후보를 거르면 멀쩡한 모델만
+    잃는다(코퍼스의 parameter_count 39%가 비어 있다). 질의가 직접 지정한 플래그는
+    수치 조건과 무관하게 그대로 둔다.
+
+    실험(experiment.evaluate)과 서비스(plan_for)가 같은 함수를 쓴다. 한쪽에만
+    이 처리가 있으면 측정한 설정과 서비스하는 설정이 달라진다.
+    """
+    asked = hard_filters(query)
+    filters = {**defaults, **asked}
+    for flag, pair in _KNOWN_FLAG_PAIRS.items():
+        if flag not in asked and not any(filters.get(key) for key in pair):
+            filters.pop(flag, None)
+    return filters
 
 
 def load_config(path: Path = CONFIG_PATH) -> Dict[str, Any]:
@@ -102,17 +131,24 @@ def plan_for(query_type: str, query: Mapping[str, Any], config: Optional[Mapping
     """Build the plan for one query. Unknown types fall back to the baseline."""
     config = config if config is not None else load_config()
     values = dict((config.get("types") or {}).get(query_type) or {})
-    plan = replace(BASELINE, query_type=query_type, hard_filters=hard_filters(query))
+    # 유형별 hard filter 기본값. 계획서가 Planner의 역할로 Hard Filter 선택을 꼽지만
+    # 지금까지는 질의에 적힌 값만 썼다.
+    filters = hard_filter_plan(values.get("hard_filter_defaults") or {}, query)
+    plan = replace(BASELINE, query_type=query_type, hard_filters=filters)
     plan = replace(plan, **{key: values[key] for key in _TUNABLE if key in values and key != "dense_weight"})
     if "dense_weight" in values:
         plan = with_dense_weight(plan, values["dense_weight"])
     return plan
 
 
-def save_type_plan(query_type: str, plan: RetrievalPlan, evidence: Mapping[str, Any], path: Path = CONFIG_PATH) -> None:
+def save_type_plan(query_type: str, plan: RetrievalPlan, evidence: Mapping[str, Any],
+                   path: Path = CONFIG_PATH,
+                   hard_filter_defaults: Optional[Mapping[str, Any]] = None) -> None:
     config = load_config(path)
     entry = {key: getattr(plan, key) for key in _TUNABLE}
     entry["sparse_weight"] = plan.sparse_weight
+    if hard_filter_defaults:
+        entry["hard_filter_defaults"] = dict(hard_filter_defaults)
     entry["evidence"] = dict(evidence)
     config.setdefault("types", {})[query_type] = entry
     path.write_text(json.dumps(config, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

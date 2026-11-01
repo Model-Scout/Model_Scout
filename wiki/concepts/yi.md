@@ -1,0 +1,27 @@
+---
+type: "concept"
+facet: "language"
+key: "yi"
+members: 4
+---
+# yi
+
+facet: [[언어]] · 개념 id `language/yi`
+
+## 모델 (4)
+
+- [[beomi__Yi-Ko-6B|beomi/Yi-Ko-6B]]
+- [[tensorblock__Yi-Ko-6B-GGUF|tensorblock/Yi-Ko-6B-GGUF]]
+- [[beomi__Yi-Ko-DUS-9B|beomi/Yi-Ko-DUS-9B]]
+- [[tensorblock__Yi-6b-dpo-v0.2-GGUF|tensorblock/Yi-6b-dpo-v0.2-GGUF]]
+
+## 함께 연결된 개념
+
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 4
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 4
+- [[텍스트 생성]] (작업) · 공유 4
+- [[상업 이용 가능]] (상업 이용) · 공유 3
+- [[중문]] (입력 길이) · 공유 2
+- [[소형 모델]] (모델 크기) · 공유 1
+- [[중형 모델]] (모델 크기) · 공유 1
+- [[이용 조건 미확인]] (상업 이용) · 공유 1

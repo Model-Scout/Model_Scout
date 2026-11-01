@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델이 필요해. nDCG 수치를 보고 비교할 거야.",
+ "outputs": [
+  "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델",
+  "nDCG 수치를 보고 비교할 수 있는 모델"
+ ],
+ "response": {
+  "sub_queries": [
+   "MIRACL 한국어 검색 벤치마크에서 성능이 확인된 임베딩 모델",
+   "nDCG 수치를 보고 비교할 수 있는 모델"
+  ]
+ },
+ "latency_ms": 1621.1
+}

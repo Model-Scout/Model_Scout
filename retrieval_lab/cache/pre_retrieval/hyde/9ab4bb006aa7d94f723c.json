@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문장을 중국어로 번역하는 모델이 필요해. 방향은 한국어→중국어(ko→zh)야.",
+ "outputs": [
+  "The model is designed for the task of machine translation, specifically translating Korean sentences into Chinese (ko→zh). It supports both Korean and Chinese languages, making it ideal for users looking to bridge communication between these two languages. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, allowing for quick translations without sacrificing quality. Intended use cases include real-time translation applications, educational tools for language learners, and content localization. Its strengths lie in its ability to handle idiomatic expressions and contextually rich sentences, ensuring accurate and natural translations."
+ ],
+ "response": {
+  "document": "The model is designed for the task of machine translation, specifically translating Korean sentences into Chinese (ko→zh). It supports both Korean and Chinese languages, making it ideal for users looking to bridge communication between these two languages. With a parameter count of 1.5 billion, this model strikes a balance between performance and efficiency, allowing for quick translations without sacrificing quality. Intended use cases include real-time translation applications, educational tools for language learners, and content localization. Its strengths lie in its ability to handle idiomatic expressions and contextually rich sentences, ensuring accurate and natural translations."
+ },
+ "latency_ms": 1813.8
+}

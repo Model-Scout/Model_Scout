@@ -211,3 +211,15 @@ Inherits the [`apache-2.0`](https://www.apache.org/licenses/LICENSE-2.0) license
 - [Qwen/Qwen3-VL-2B-Instruct](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct) — the base model
 - [saidutta69/gemma-4-E4B-it-heretic](https://huggingface.co/saidutta69/gemma-4-E4B-it-heretic) — the larger multimodal sibling in this collection
 - [RACER IS OP — Heretic Models — full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models)
+
+## Abliteration hardware
+
+Recorded in `reproduce/reproduce.json`:
+
+- **GPU:** NVIDIA GeForce RTX 4090 (23.51 GB VRAM)
+- **CPU:** AMD Ryzen 9 5950X 16-Core Processor
+- **OS:** `Linux-7.0.0-31-generic-x86_64-with-glibc2.35`
+- **CUDA / driver:** CUDA 13.0, driver 595.84
+- **Software:** PyTorch 2.14.1+cu130, Heretic 1.4.0
+
+Heretic notes that KL-divergence and refusal numbers can vary slightly with hardware and library versions.

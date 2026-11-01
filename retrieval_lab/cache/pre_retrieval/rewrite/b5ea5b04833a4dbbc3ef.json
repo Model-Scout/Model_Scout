@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "Korean question answering for internal regulation documents, document-based answers, commercial service, no license restrictions"
+ ],
+ "response": {
+  "query": "Korean question answering for internal regulation documents, document-based answers, commercial service, no license restrictions"
+ },
+ "latency_ms": 1277.2
+}

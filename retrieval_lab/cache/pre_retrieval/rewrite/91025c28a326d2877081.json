@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어.",
+ "outputs": [
+  "Korean transcription local GPU 12GB accuracy"
+ ],
+ "response": {
+  "query": "Korean transcription local GPU 12GB accuracy"
+ },
+ "latency_ms": 1154.8
+}

@@ -414,4 +414,3 @@ and quantized with llama.cpp b11571 (097cf33d9); needs llama.cpp with
 MIT, as the original. Base model **Ling 3.1 flash** by
 [inclusionAI](https://huggingface.co/inclusionAI). Quantization and evaluation
 by **AtomicChat**.
-

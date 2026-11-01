@@ -1,0 +1,17 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "MTEB 검색(Retrieval) 점수가 공개된 다국어 임베딩 중 한국어도 지원하는 모델을 고르고 싶어.",
+ "outputs": [
+  "Find models that support Korean and have MTEB scores for Retrieval tasks.",
+  "Identify multilingual embedding models that include Korean support."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find models that support Korean and have MTEB scores for Retrieval tasks.",
+   "Identify multilingual embedding models that include Korean support."
+  ]
+ },
+ "latency_ms": 1347.1
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "nllb-200-distilled-600M이 비상업 라이선스라 못 써. 상업적으로 쓸 수 있는 한국어 번역 대안이 필요해.",
+ "outputs": [
+  "The model 'Korean-Trans-Base' is a commercial-use translation model designed specifically for Korean language tasks. It supports a wide range of languages, including Korean, and boasts a parameter count of 600 million. With a context length of 512 tokens, this model excels in providing accurate and fluent translations, making it ideal for businesses looking to localize content or communicate effectively with Korean-speaking audiences. Its strengths lie in its ability to handle idiomatic expressions and maintain contextual relevance, ensuring high-quality translations. The model is available in GGUF format and is licensed for commercial use, making it a suitable alternative for users seeking a reliable Korean translation solution."
+ ],
+ "response": {
+  "document": "The model 'Korean-Trans-Base' is a commercial-use translation model designed specifically for Korean language tasks. It supports a wide range of languages, including Korean, and boasts a parameter count of 600 million. With a context length of 512 tokens, this model excels in providing accurate and fluent translations, making it ideal for businesses looking to localize content or communicate effectively with Korean-speaking audiences. Its strengths lie in its ability to handle idiomatic expressions and maintain contextual relevance, ensuring high-quality translations. The model is available in GGUF format and is licensed for commercial use, making it a suitable alternative for users seeking a reliable Korean translation solution."
+ },
+ "latency_ms": 1564.0
+}

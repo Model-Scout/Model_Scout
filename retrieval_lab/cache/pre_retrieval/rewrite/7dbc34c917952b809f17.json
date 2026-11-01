@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야.",
+ "outputs": [
+  "Korean speech recognition local fallback t3.medium server CER accuracy"
+ ],
+ "response": {
+  "query": "Korean speech recognition local fallback t3.medium server CER accuracy"
+ },
+ "latency_ms": 4345.4
+}

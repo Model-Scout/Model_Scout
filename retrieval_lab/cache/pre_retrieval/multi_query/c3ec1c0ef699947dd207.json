@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "사내 규정 문서에 대한 한국어 질의응답 기능을 넣으려고 해. 답은 문서 안에서 찾으면 되고, 상업 서비스라 라이선스 제약이 없어야 해.",
+ "outputs": [
+  "사내 규정 문서에 대한 한국어 질의응답 기능을 찾고 있습니다. 상업적 사용이 가능하고 라이선스 제약이 없는 모델이 필요합니다.",
+  "I am looking for a Korean Q&A feature for internal regulation documents. The answers should be found within the documents, and there should be no licensing restrictions for commercial use.",
+  "Korean Q&A, internal regulation documents, commercial use, no license restrictions"
+ ],
+ "response": {
+  "queries": [
+   "사내 규정 문서에 대한 한국어 질의응답 기능을 찾고 있습니다. 상업적 사용이 가능하고 라이선스 제약이 없는 모델이 필요합니다.",
+   "I am looking for a Korean Q&A feature for internal regulation documents. The answers should be found within the documents, and there should be no licensing restrictions for commercial use.",
+   "Korean Q&A, internal regulation documents, commercial use, no license restrictions"
+  ]
+ },
+ "latency_ms": 2117.6
+}

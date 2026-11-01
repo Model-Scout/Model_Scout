@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Zeroth나 KsponSpeech 같은 한국어 음성 데이터셋에서 CER이 공개된 음성인식 모델이 필요해.",
+ "outputs": [
+  "Zeroth와 KsponSpeech와 같은 한국어 음성 데이터셋에서 CER이 공개된 음성 인식 모델을 찾고 있어요.",
+  "I need speech recognition models with publicly available CER from Korean speech datasets like Zeroth or KsponSpeech.",
+  "Korean speech recognition models, CER, Zeroth, KsponSpeech, public datasets"
+ ],
+ "response": {
+  "queries": [
+   "Zeroth와 KsponSpeech와 같은 한국어 음성 데이터셋에서 CER이 공개된 음성 인식 모델을 찾고 있어요.",
+   "I need speech recognition models with publicly available CER from Korean speech datasets like Zeroth or KsponSpeech.",
+   "Korean speech recognition models, CER, Zeroth, KsponSpeech, public datasets"
+  ]
+ },
+ "latency_ms": 1765.1
+}

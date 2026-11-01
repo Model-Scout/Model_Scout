@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+ "outputs": [
+  "Midm 2.0 is a state-of-the-art Korean language model designed for a variety of natural language processing tasks, including text generation, translation, and sentiment analysis. It supports Korean as its primary language and is optimized for high performance with a parameter count of 1.5 billion. The model is available in GGUF format, making it easy to integrate into various applications. Intended use cases include chatbots, content creation, and language understanding tasks. Midm 2.0 excels in generating coherent and contextually relevant text, making it a strong choice for developers looking to enhance their Korean language applications."
+ ],
+ "response": {
+  "document": "Midm 2.0 is a state-of-the-art Korean language model designed for a variety of natural language processing tasks, including text generation, translation, and sentiment analysis. It supports Korean as its primary language and is optimized for high performance with a parameter count of 1.5 billion. The model is available in GGUF format, making it easy to integrate into various applications. Intended use cases include chatbots, content creation, and language understanding tasks. Midm 2.0 excels in generating coherent and contextually relevant text, making it a strong choice for developers looking to enhance their Korean language applications."
+ },
+ "latency_ms": 2478.3
+}

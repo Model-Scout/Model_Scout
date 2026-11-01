@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야.",
+ "outputs": [
+  "KLUE-RoBERTa 기반 한국어 문장 임베딩 모델 유사 문장 검색 task"
+ ],
+ "response": {
+  "query": "KLUE-RoBERTa 기반 한국어 문장 임베딩 모델 유사 문장 검색 task"
+ },
+ "latency_ms": 1306.3
+}

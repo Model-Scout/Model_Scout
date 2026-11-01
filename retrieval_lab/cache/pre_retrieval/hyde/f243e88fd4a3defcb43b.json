@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DocVQA나 OCRBench 점수가 공개된 비전 언어 모델로 한국어 문서를 읽으려고 해.",
+ "outputs": [
+  "The Vision-Language Model (VLM) is designed for tasks involving document understanding and visual question answering. It supports multiple languages, including Korean, making it ideal for reading and interpreting Korean documents. With a parameter count of 1.2 billion and a context length of 512 tokens, this model excels in extracting information from complex layouts and images. It has been benchmarked on DocVQA and OCRBench, achieving impressive scores that demonstrate its capability in understanding visual content and answering questions accurately. The model is particularly useful for applications in document analysis, automated customer support, and educational tools, leveraging its strengths in both visual and textual comprehension."
+ ],
+ "response": {
+  "document": "The Vision-Language Model (VLM) is designed for tasks involving document understanding and visual question answering. It supports multiple languages, including Korean, making it ideal for reading and interpreting Korean documents. With a parameter count of 1.2 billion and a context length of 512 tokens, this model excels in extracting information from complex layouts and images. It has been benchmarked on DocVQA and OCRBench, achieving impressive scores that demonstrate its capability in understanding visual content and answering questions accurately. The model is particularly useful for applications in document analysis, automated customer support, and educational tools, leveraging its strengths in both visual and textual comprehension."
+ },
+ "latency_ms": 3943.2
+}

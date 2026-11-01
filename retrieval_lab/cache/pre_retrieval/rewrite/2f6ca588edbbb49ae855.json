@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Ollama나 llama.cpp로 돌릴 수 있는 GGUF 한국어 임베딩 모델이 필요해.",
+ "outputs": [
+  "GGUF Korean embedding model for Ollama or llama.cpp"
+ ],
+ "response": {
+  "query": "GGUF Korean embedding model for Ollama or llama.cpp"
+ },
+ "latency_ms": 973.3
+}

@@ -1,0 +1,15 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "KMMLU 점수가 공개된 한국어 LLM을 비교하고 싶어.",
+ "outputs": [
+  "KMMLU 점수가 공개된 한국어 LLM을 찾고 싶습니다."
+ ],
+ "response": {
+  "sub_queries": [
+   "KMMLU 점수가 공개된 한국어 LLM을 찾고 싶습니다."
+  ]
+ },
+ "latency_ms": 1324.1
+}

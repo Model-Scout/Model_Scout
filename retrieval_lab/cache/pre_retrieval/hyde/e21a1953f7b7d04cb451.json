@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 법률 문서 검색용 임베딩 모델이 필요해. 긴 조문도 넣어야 해서 입력 길이가 2048 토큰 이상이면 좋겠어.",
+ "outputs": [
+  "The LegalEmbed model is designed specifically for searching and retrieving information from Korean legal documents. It supports the Korean language and is optimized for handling long texts, with a maximum input length of 4096 tokens, making it ideal for processing lengthy legal provisions. This model is built on a transformer architecture with 1.5 billion parameters, ensuring high accuracy and relevance in search results. Intended use cases include legal research, document analysis, and case law retrieval. Its strengths lie in its ability to understand complex legal terminology and context, providing users with precise embeddings for effective document search."
+ ],
+ "response": {
+  "document": "The LegalEmbed model is designed specifically for searching and retrieving information from Korean legal documents. It supports the Korean language and is optimized for handling long texts, with a maximum input length of 4096 tokens, making it ideal for processing lengthy legal provisions. This model is built on a transformer architecture with 1.5 billion parameters, ensuring high accuracy and relevance in search results. Intended use cases include legal research, document analysis, and case law retrieval. Its strengths lie in its ability to understand complex legal terminology and context, providing users with precise embeddings for effective document search."
+ },
+ "latency_ms": 1831.2
+}

@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "FLEURS나 Common Voice 한국어 WER가 README에 나온 음성인식 모델을 비교하고 싶어.",
+ "outputs": [
+  "Find speech recognition models that mention FLEURS in their README.",
+  "Find speech recognition models that mention Common Voice in their README.",
+  "Compare the WER benchmarks of the identified models."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find speech recognition models that mention FLEURS in their README.",
+   "Find speech recognition models that mention Common Voice in their README.",
+   "Compare the WER benchmarks of the identified models."
+  ]
+ },
+ "latency_ms": 1472.5
+}

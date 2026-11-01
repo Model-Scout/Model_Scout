@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Dongjin-kr/ko-reranker가 CPU에서 너무 느려. 더 가벼운 한국어 리랭커가 필요해.",
+ "outputs": [
+  "더 가벼운 한국어 리랭커를 찾고 있어요.",
+  "I'm looking for a lighter Korean reranker.",
+  "lightweight Korean reranker, model name, CPU performance, task, parameter count"
+ ],
+ "response": {
+  "queries": [
+   "더 가벼운 한국어 리랭커를 찾고 있어요.",
+   "I'm looking for a lighter Korean reranker.",
+   "lightweight Korean reranker, model name, CPU performance, task, parameter count"
+  ]
+ },
+ "latency_ms": 1153.2
+}

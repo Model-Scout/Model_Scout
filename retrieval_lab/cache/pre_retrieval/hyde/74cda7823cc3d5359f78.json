@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어.",
+ "outputs": [
+  "The model is designed for high-quality Japanese to Korean translation, making it ideal for personal use in local translation applications. It supports both Japanese and Korean languages, ensuring accurate and context-aware translations. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on a single RTX 4060 GPU. The model is optimized for speed and accuracy, providing quick translations without sacrificing quality. Use cases include translating documents, emails, and other text formats, making it a versatile tool for individuals needing reliable translation services. Its strengths lie in its ability to handle nuanced language and idiomatic expressions, ensuring that translations are not only correct but also culturally relevant."
+ ],
+ "response": {
+  "document": "The model is designed for high-quality Japanese to Korean translation, making it ideal for personal use in local translation applications. It supports both Japanese and Korean languages, ensuring accurate and context-aware translations. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency, making it suitable for deployment on a single RTX 4060 GPU. The model is optimized for speed and accuracy, providing quick translations without sacrificing quality. Use cases include translating documents, emails, and other text formats, making it a versatile tool for individuals needing reliable translation services. Its strengths lie in its ability to handle nuanced language and idiomatic expressions, ensuring that translations are not only correct but also culturally relevant."
+ },
+ "latency_ms": 1828.5
+}

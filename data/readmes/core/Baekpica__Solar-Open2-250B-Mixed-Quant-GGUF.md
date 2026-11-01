@@ -21,6 +21,22 @@ tags:
 
 **Built with Solar.**
 
+> <span style="color:red">**The download statistics on this page are not real.**</span>
+>
+> <span style="color:red">After I reported the anomaly, Hugging Face staff
+> confirmed by email (2026-10-17) that almost all of last month's downloads
+> came from a single automated, unauthenticated client re-fetching this
+> repository's 11 shards about every 45 seconds from 2026-09-28 to
+> 2026-10-11. Gating blocks it, which is why the count stopped growing. The
+> count is not multiplied by the split shards (only shard 1 counts) and is
+> not delayed statistics.</span>
+>
+> <span style="color:red">At least until that period leaves the 30-day
+> window, around 2026-11-11, the count does not reflect real use.</span>
+>
+> <span style="color:red">I do not want the statistics inflated by abuse,
+> intended or not, so this repository stays gated.</span>
+
 This repository contains the locked `MXQ-v1` candidate derived from
 [`upstage/Solar-Open2-250B`](https://huggingface.co/upstage/Solar-Open2-250B).
 It preserves the complete topology: 48 layers, all 320 routed experts per

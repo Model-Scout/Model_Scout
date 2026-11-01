@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "K-DTCBench 같은 한국어 문서·표·차트 벤치마크 점수가 있는 비전 언어 모델이 필요해.",
+ "outputs": [
+  "K-DTCBench와 유사한 한국어 문서, 표, 차트 벤치마크 점수를 가진 비전 언어 모델을 찾고 있어요.",
+  "I need a vision-language model with benchmark scores in Korean documents, tables, and charts similar to K-DTCBench.",
+  "비전 언어 모델, 한국어, K-DTCBench, 벤치마크 점수, 문서, 표, 차트"
+ ],
+ "response": {
+  "queries": [
+   "K-DTCBench와 유사한 한국어 문서, 표, 차트 벤치마크 점수를 가진 비전 언어 모델을 찾고 있어요.",
+   "I need a vision-language model with benchmark scores in Korean documents, tables, and charts similar to K-DTCBench.",
+   "비전 언어 모델, 한국어, K-DTCBench, 벤치마크 점수, 문서, 표, 차트"
+  ]
+ },
+ "latency_ms": 2764.9
+}

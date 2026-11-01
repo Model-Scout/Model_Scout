@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아.",
+ "outputs": [
+  "AWQ 4-bit quantized Korean LLM for vLLM with official AWQ version"
+ ],
+ "response": {
+  "query": "AWQ 4-bit quantized Korean LLM for vLLM with official AWQ version"
+ },
+ "latency_ms": 1596.5
+}

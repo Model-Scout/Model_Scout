@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 RAG에서 검색된 문서 후보를 다시 정렬할 리랭커가 필요해. 상업 서비스에 넣을 거야.",
+ "outputs": [
+  "상업 서비스에 사용할 한국어 RAG 리랭커를 찾고 있어요.",
+  "I need a reranker for documents retrieved in Korean RAG for commercial services.",
+  "리랭커, 한국어, RAG, 상업 서비스, 모델"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에 사용할 한국어 RAG 리랭커를 찾고 있어요.",
+   "I need a reranker for documents retrieved in Korean RAG for commercial services.",
+   "리랭커, 한국어, RAG, 상업 서비스, 모델"
+  ]
+ },
+ "latency_ms": 1093.8
+}

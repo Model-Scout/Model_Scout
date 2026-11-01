@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Qwen2.5-72B-Instruct를 RTX 4060(8GB) 한 장에서 한국어 챗봇으로 돌리고 싶어. 이걸로 가능할까?",
+ "outputs": [
+  "Qwen2.5-72B-Instruct RTX 4060(8GB) Korean chatbot capability"
+ ],
+ "response": {
+  "query": "Qwen2.5-72B-Instruct RTX 4060(8GB) Korean chatbot capability"
+ },
+ "latency_ms": 866.7
+}

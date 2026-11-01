@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "브라우저에서 transformers.js로 돌릴 한국어 문장 임베딩 모델이 필요해. ONNX 가중치가 있어야 해.",
+ "outputs": [
+  "The Korean Sentence Embedding Model is designed for generating high-quality embeddings for Korean sentences. It supports the Korean language and is optimized for use in web applications, particularly with transformers.js. The model has a parameter count of 110 million, making it lightweight yet effective for various natural language processing tasks. It is available in ONNX format, ensuring compatibility with different platforms and ease of integration into browser-based applications. Intended use cases include semantic search, text classification, and sentiment analysis. Its strengths lie in its ability to capture nuanced meanings in Korean text, providing robust embeddings that enhance downstream tasks."
+ ],
+ "response": {
+  "document": "The Korean Sentence Embedding Model is designed for generating high-quality embeddings for Korean sentences. It supports the Korean language and is optimized for use in web applications, particularly with transformers.js. The model has a parameter count of 110 million, making it lightweight yet effective for various natural language processing tasks. It is available in ONNX format, ensuring compatibility with different platforms and ease of integration into browser-based applications. Intended use cases include semantic search, text classification, and sentiment analysis. Its strengths lie in its ability to capture nuanced meanings in Korean text, providing robust embeddings that enhance downstream tasks."
+ },
+ "latency_ms": 1702.8
+}

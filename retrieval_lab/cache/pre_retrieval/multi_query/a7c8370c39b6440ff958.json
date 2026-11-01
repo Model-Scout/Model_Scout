@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "벡터 DB 비용 때문에 작고 빠른 한국어 임베딩 모델이 필요해. 100M 파라미터 이하.",
+ "outputs": [
+  "작고 빠른 한국어 임베딩 모델을 찾고 있어요. 파라미터 수는 100M 이하로 해주세요.",
+  "I need a small and fast Korean embedding model with less than 100M parameters due to vector DB costs.",
+  "Korean embedding model, small, fast, under 100M parameters"
+ ],
+ "response": {
+  "queries": [
+   "작고 빠른 한국어 임베딩 모델을 찾고 있어요. 파라미터 수는 100M 이하로 해주세요.",
+   "I need a small and fast Korean embedding model with less than 100M parameters due to vector DB costs.",
+   "Korean embedding model, small, fast, under 100M parameters"
+  ]
+ },
+ "latency_ms": 1416.2
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "LogicKor 점수가 높은 한국어 LLM이 필요해. 추론·글쓰기 점수를 보고 고를 거야.",
+ "outputs": [
+  "Korean LLM with high LogicKor score, inference, writing scores"
+ ],
+ "response": {
+  "query": "Korean LLM with high LogicKor score, inference, writing scores"
+ },
+ "latency_ms": 1268.7
+}

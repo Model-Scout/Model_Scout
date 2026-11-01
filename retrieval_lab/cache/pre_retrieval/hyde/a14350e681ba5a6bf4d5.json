@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해.",
+ "outputs": [
+  "The Korean Specialized Embedding Model is designed for tasks requiring high-quality embeddings specifically for the Korean language. With 300 million parameters, this model excels in semantic understanding and contextual representation, making it ideal for commercial applications such as chatbots, recommendation systems, and sentiment analysis. It supports Korean as its primary language and is optimized for performance with a context length of 512 tokens. The model is available in GGUF format and is licensed under the MIT License, ensuring clear usage rights for commercial services. Its strengths lie in its ability to capture nuanced meanings and relationships in Korean text, providing businesses with a robust tool for enhancing user interactions."
+ ],
+ "response": {
+  "document": "The Korean Specialized Embedding Model is designed for tasks requiring high-quality embeddings specifically for the Korean language. With 300 million parameters, this model excels in semantic understanding and contextual representation, making it ideal for commercial applications such as chatbots, recommendation systems, and sentiment analysis. It supports Korean as its primary language and is optimized for performance with a context length of 512 tokens. The model is available in GGUF format and is licensed under the MIT License, ensuring clear usage rights for commercial services. Its strengths lie in its ability to capture nuanced meanings and relationships in Korean text, providing businesses with a robust tool for enhancing user interactions."
+ },
+ "latency_ms": 1898.0
+}

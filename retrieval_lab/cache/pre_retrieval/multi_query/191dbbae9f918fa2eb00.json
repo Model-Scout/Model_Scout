@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 문서 요약 모델을 상업 서비스에 넣으려고 해. 1B 이하의 가벼운 요약 모델이면 좋겠어.",
+ "outputs": [
+  "상업 서비스에 사용할 수 있는 1B 이하의 한국어 문서 요약 모델을 찾고 있어요.",
+  "I'm looking for a lightweight Korean document summarization model under 1B for commercial services.",
+  "Korean document summarization model, under 1B parameters, commercial use, lightweight"
+ ],
+ "response": {
+  "queries": [
+   "상업 서비스에 사용할 수 있는 1B 이하의 한국어 문서 요약 모델을 찾고 있어요.",
+   "I'm looking for a lightweight Korean document summarization model under 1B for commercial services.",
+   "Korean document summarization model, under 1B parameters, commercial use, lightweight"
+  ]
+ },
+ "latency_ms": 1469.6
+}

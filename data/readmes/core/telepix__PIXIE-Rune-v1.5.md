@@ -102,6 +102,11 @@ developed by [TelePIX Co., Ltd](https://telepix.net/).
 This model is specifically optimized for semantic retrieval tasks in Korean and English, and demonstrates strong performance in aerospace domain. Through extensive fine-tuning and domain-specific evaluation, PIXIE shows robust retrieval quality for real-world use cases such as document understanding, technical QA, and semantic search in aerospace and related high-precision fields.
 It also performs competitively across a wide range of open-domain Korean and English retrieval benchmarks, making it a versatile foundation for multilingual semantic search systems.
 
+## 🏆 MTEB Korean v2
+**PIXIE-Rune-v1.5 ranks #1 among dense embedding models under 600M parameters on the [MTEB Korean (v2) leaderboard](https://huggingface.co/spaces/mteb/leaderboard).**
+<p align="left">
+<img src="https://cdn-uploads.huggingface.co/production/uploads/61d6f4a4d49065ee28a1ee7e/TNJ9WKA_9cmMHCR5Zn7xp.png" width="800"/>
+<p>
 
 ## Model Description
 - **Model Type:** Sentence Transformer

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어.",
+ "outputs": [
+  "Japanese to Korean translation local translator RTX 4060 GPU personal use"
+ ],
+ "response": {
+  "query": "Japanese to Korean translation local translator RTX 4060 GPU personal use"
+ },
+ "latency_ms": 4119.4
+}

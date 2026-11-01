@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 돌릴 수 있어?",
+ "outputs": [
+  "Midm-2.0-Base-Instruct is a versatile instruction-tuned model designed for natural language understanding and generation tasks. It supports multiple languages, including Korean, making it suitable for a wide range of applications such as chatbots, content creation, and language translation. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model is optimized for deployment on consumer-grade GPUs, including the RTX 3060 with 12GB of VRAM, allowing for smooth inference and interaction. Its strengths lie in its ability to understand context and generate coherent responses, making it an excellent choice for developers looking to integrate advanced language capabilities into their applications."
+ ],
+ "response": {
+  "document": "Midm-2.0-Base-Instruct is a versatile instruction-tuned model designed for natural language understanding and generation tasks. It supports multiple languages, including Korean, making it suitable for a wide range of applications such as chatbots, content creation, and language translation. With a parameter count of 1.5 billion, it strikes a balance between performance and resource efficiency. The model is optimized for deployment on consumer-grade GPUs, including the RTX 3060 with 12GB of VRAM, allowing for smooth inference and interaction. Its strengths lie in its ability to understand context and generate coherent responses, making it an excellent choice for developers looking to integrate advanced language capabilities into their applications."
+ },
+ "latency_ms": 1922.9
+}

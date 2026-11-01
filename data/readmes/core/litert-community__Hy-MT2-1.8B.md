@@ -115,6 +115,8 @@ Mac Studio M4 Max, `litert-lm` 0.17.1 CLI, `benchmark --cache no`, 256 prompt an
 | GPU (WebGPU on Metal) | 2332 tok/s | 150.7 tok/s | 0.12 s | 0.031 s | 1.5 s |
 | CPU (XNNPACK) | 207 tok/s | 31.9 tok/s | 1.27 s | 0.884 s | 5.3 s |
 
+Init is the `Init time` the CLI prints; that value includes both `Init Total` and the phases inside it, so it counts engine creation twice ([LiteRT-LM #4057](https://github.com/google-ai-edge/LiteRT-LM/issues/4057)).
+
 Without the XNNPACK weight cache (`--cache no`, as in this table), the new file repacks the weights for the extra signature on the CPU. At a 16-token prompt, init goes from 3.75 s to 5.3 s and peak footprint from 4.17 GB to 5.57 GB (file without `prefill_16` → new file). With the disk weight cache (the app default), init goes from 0.24 s to 0.32 s, footprint from 0.82 GB to 0.87 GB, and TTFT at 16 tokens from 0.33 s to 0.12 s.
 
 ### Galaxy S26 (Android)
@@ -164,3 +166,9 @@ Measured on a Raspberry Pi 5 Model B Rev 1.1 (8 GB, Raspberry Pi OS 64-bit) with
 | File | Prefill (tok/s) | Decode (tok/s) | TTFT | Peak RSS |
 |---|---:|---:|---:|---:|
 | `Hy-MT2-1.8B_int8.litertlm` | 25.0 (24.9–25.8) | 2.7 (2.6–2.7) | 10.6 s | 2.9 GB |
+
+## Known runtime issues
+
+**External weights (since 2026-10-30).** In `Hy-MT2-1.8B_int8.litertlm`, the weights sit in a TFLiteWeights section at the end of the file (LiteRT's external weights) instead of inside the model graph. On Android, the GPU path needs LiteRT-LM 0.19.0 or later: the GPU engine of the v0.18.0 and v0.18.1 Android builds crashes (SIGSEGV) on such a file ([LiteRT-LM#3986](https://github.com/google-ai-edge/LiteRT-LM/issues/3986)). The earlier file with the weights inside the graph stays at revision [`f61d275`](https://huggingface.co/litert-community/Hy-MT2-1.8B/tree/f61d275c76d097fa9b3728bd51ff8ade4c3328b6).
+
+From a conversation preface (the system message, initial messages, tools and extra context a conversation is created with) that has tools and no messages, LiteRT-LM renders this file's chat template with an empty message list, and the template reads `messages[0]` without checking that the list is non-empty, so the render fails with `Failed to apply template: undefined value`. This happens in two places: when the preface is prefilled at creation (`prefillPrefaceOnInit = true` in Kotlin, `prefillPrefaceOnInit: true` on the web, `SetPrefillPrefaceOnInit(true)` in C++; the default is false), where creating the conversation fails with that error, and in the preface render (`renderPrefaceIntoString()` in Kotlin and Swift, `RenderPrefaceIntoString()` in C++, `litert_lm_conversation_render_preface_to_string` in the C API). The same happens with extra context (such as `enable_thinking`) and no messages, and in the preface render with an empty preface (run in the runtime on one Qwen3 template; the other templates rendered with minijinja 2.14 and jinja2). Read in the source of LiteRT-LM 0.17.0, 0.18.1 and main; measured with LiteRT-LM 0.18.1 (the litert-lm package from PyPI) through its C API on this file's template text. The default path, where the first message is rendered together with the preface, is not affected: the Python API and the CLI of 0.18.1 expose neither the flag nor the preface render, and Google AI Edge Gallery sets neither (its source as read on 2026-10-25). A system message or any initial message in the conversation config avoids it.

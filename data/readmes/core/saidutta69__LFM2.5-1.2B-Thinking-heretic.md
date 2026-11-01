@@ -229,3 +229,15 @@ Inherits the [LFM License 1.0](https://huggingface.co/LiquidAI/LFM2.5-1.2B-Think
 - [saidutta69/LFM2.5-1.2B-Instruct-heretic](https://huggingface.co/saidutta69/LFM2.5-1.2B-Instruct-heretic) — the non-reasoning sibling
 - [LFM2.5 technical report](https://arxiv.org/abs/2511.23404) — architecture and benchmarks
 - [RACER IS OP — Heretic Models — full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models)
+
+## Abliteration hardware
+
+Recorded in `reproduce/reproduce.json`:
+
+- **GPU:** NVIDIA GeForce RTX 4090 (23.52 GB VRAM)
+- **CPU:** AMD EPYC 7402 24-Core Processor
+- **OS:** `Linux-6.8.0-146-generic-x86_64-with-glibc2.35`
+- **CUDA / driver:** CUDA 13.0, driver 595.99.02
+- **Software:** PyTorch 2.14.1+cu130, Heretic 1.4.0
+
+Heretic notes that KL-divergence and refusal numbers can vary slightly with hardware and library versions.

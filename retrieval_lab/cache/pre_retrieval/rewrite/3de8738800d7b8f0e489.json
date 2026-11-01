@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DocVQA나 OCRBench 점수가 공개된 비전 언어 모델로 한국어 문서를 읽으려고 해.",
+ "outputs": [
+  "Vision-language model with DocVQA or OCRBench scores for reading Korean documents."
+ ],
+ "response": {
+  "query": "Vision-language model with DocVQA or OCRBench scores for reading Korean documents."
+ },
+ "latency_ms": 1413.3
+}

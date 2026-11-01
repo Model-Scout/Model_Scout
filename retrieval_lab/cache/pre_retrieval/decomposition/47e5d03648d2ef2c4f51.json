@@ -1,0 +1,19 @@
+{
+ "strategy": "decomposition",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "DocVQA나 OCRBench 점수가 공개된 비전 언어 모델로 한국어 문서를 읽으려고 해.",
+ "outputs": [
+  "Find vision-language models with DocVQA scores.",
+  "Find vision-language models with OCRBench scores.",
+  "Find vision-language models that support Korean language."
+ ],
+ "response": {
+  "sub_queries": [
+   "Find vision-language models with DocVQA scores.",
+   "Find vision-language models with OCRBench scores.",
+   "Find vision-language models that support Korean language."
+  ]
+ },
+ "latency_ms": 1376.6
+}

@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+ "outputs": [
+  "The Whisper-large-v3 model is designed for automatic speech recognition (ASR) tasks and supports multiple languages, including Korean. With a parameter count of 1.5 billion, it is optimized for high accuracy in transcribing spoken language into text. However, running this model on a board with only 1GB of RAM may pose significant challenges, as the model's memory requirements typically exceed this limit. Intended use cases include real-time transcription, voice command recognition, and accessibility applications. The strengths of Whisper-large-v3 lie in its robust performance across diverse accents and its ability to handle noisy environments, making it a powerful tool for developers looking to implement ASR solutions."
+ ],
+ "response": {
+  "document": "The Whisper-large-v3 model is designed for automatic speech recognition (ASR) tasks and supports multiple languages, including Korean. With a parameter count of 1.5 billion, it is optimized for high accuracy in transcribing spoken language into text. However, running this model on a board with only 1GB of RAM may pose significant challenges, as the model's memory requirements typically exceed this limit. Intended use cases include real-time transcription, voice command recognition, and accessibility applications. The strengths of Whisper-large-v3 lie in its robust performance across diverse accents and its ability to handle noisy environments, making it a powerful tool for developers looking to implement ASR solutions."
+ },
+ "latency_ms": 1817.3
+}

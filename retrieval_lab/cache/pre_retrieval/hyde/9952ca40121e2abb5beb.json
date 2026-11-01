@@ -1,0 +1,13 @@
+{
+ "strategy": "hyde",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "한국어 FAQ 문서에서 질문에 해당하는 답 구간을 뽑아주는 추출형 QA 모델이 필요해. CPU 서버에서 돌릴 거라 500M 파라미터 이하로 가벼워야 해.",
+ "outputs": [
+  "The model is designed for extractive question answering (QA) tasks, specifically tailored for Korean language documents. With a parameter count of 300M, it is lightweight and optimized for deployment on CPU servers, making it suitable for environments with limited computational resources. The model excels in identifying and extracting relevant answer spans from Korean FAQ documents, ensuring high accuracy and relevance in responses. Its intended use cases include customer support automation, knowledge base enhancement, and interactive FAQ systems. The model's strengths lie in its ability to understand context and nuances in the Korean language, providing precise answers to user queries."
+ ],
+ "response": {
+  "document": "The model is designed for extractive question answering (QA) tasks, specifically tailored for Korean language documents. With a parameter count of 300M, it is lightweight and optimized for deployment on CPU servers, making it suitable for environments with limited computational resources. The model excels in identifying and extracting relevant answer spans from Korean FAQ documents, ensuring high accuracy and relevance in responses. Its intended use cases include customer support automation, knowledge base enhancement, and interactive FAQ systems. The model's strengths lie in its ability to understand context and nuances in the Korean language, providing precise answers to user queries."
+ },
+ "latency_ms": 2276.6
+}

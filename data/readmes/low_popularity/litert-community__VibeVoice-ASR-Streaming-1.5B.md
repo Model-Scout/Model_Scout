@@ -121,6 +121,8 @@ Notes:
 | int8 | GPU (Metal) | 1977 tok/s | 139.6 tok/s | 0.14 s | 1.6 s |
 | int8 | CPU | 251 tok/s | 46.8 tok/s | 1.04 s | 6.1 s |
 
+Init is the `Init time` the CLI prints; that value includes both `Init Total` and the phases inside it, so it counts engine creation twice ([LiteRT-LM #4057](https://github.com/google-ai-edge/LiteRT-LM/issues/4057)).
+
 End-to-end streaming on the fixture set (engine loaded, one conversation per clip, 73 turns): time per 2.93 s turn (encoder + prefill of 28 tokens + ~10 decoded tokens) — int4: **0.33 s with the LM on Metal** (real-time factor 0.13), 0.51 s on CPU (0.20); int8: 0.29 s / 0.48 s. The audio encoder is ~0.15–0.19 s of that (8 threads).
 
 Galaxy S26 (SM-S942Q, Snapdragon SM8850, Adreno), `litert_lm_advanced_main` built from the litert-lm v0.16.1 tag, `--benchmark --benchmark_prefill_tokens=256 --benchmark_decode_tokens=256`, one reading per cell, CPU uncapped and SKIN < 40 °C before each leg (LM only):
@@ -152,6 +154,10 @@ Converted with `litert-torch` 0.9.3/0.9.4, ai-edge-quantizer 0.9.0, litert-lm-bu
 - **LM**: dense bf16 Qwen2.5-1.5B-shaped weights (no BitNet ternary here), tied head, exported through the same driver as every dense LLM in the collection: int4 blockwise-128 for the phone file, int8 dynamic for the desktop file.
 - **Tokenizer**: the upstream `tokenizer.json` already has strings for every marker (`<|object_ref_start|>`, `<|object_ref_end|>`, `<|box_start|>`, `<|text_chunk_end|>` = 151646/151647/151648/151665), so it ships unmodified.
 - **GPU**: the LM runs on Metal (macOS) and the Android OpenCL delegate (Adreno; on Mali the GPU LM is correct but slower than the CPU); the audio encoder returns an empty transcript on both GPU delegates (also with fp32 activations — a conv-stack issue, not the fp16 range), so keep `audio_backend` on CPU.
+
+## Known runtime issues
+
+From a conversation preface (the system message, initial messages, tools and extra context a conversation is created with) that has tools and no messages, LiteRT-LM renders these files' chat template with an empty message list, and the template reads `messages[0]` without checking that the list is non-empty, so the render fails with `Failed to apply template: undefined value`. This happens in two places: when the preface is prefilled at creation (`prefillPrefaceOnInit = true` in Kotlin, `prefillPrefaceOnInit: true` on the web, `SetPrefillPrefaceOnInit(true)` in C++; the default is false), where creating the conversation fails with that error, and in the preface render (`renderPrefaceIntoString()` in Kotlin and Swift, `RenderPrefaceIntoString()` in C++, `litert_lm_conversation_render_preface_to_string` in the C API). The same happens with extra context (such as `enable_thinking`) and no messages, and in the preface render with an empty preface (run in the runtime on one Qwen3 template; the other templates rendered with minijinja 2.14 and jinja2). Read in the source of LiteRT-LM 0.17.0, 0.18.1 and main; measured with LiteRT-LM 0.18.1 (the litert-lm package from PyPI) through its C API on these files' template text. The default path, where the first message is rendered together with the preface, is not affected: the Python API and the CLI of 0.18.1 expose neither the flag nor the preface render, and Google AI Edge Gallery sets neither (its source as read on 2026-10-25). A system message or any initial message in the conversation config avoids it.
 
 ## License and changes
 

@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "128K 토큰 이상 긴 문맥을 다루는 한국어 LLM이 필요해. 긴 보고서를 통째로 넣고 질문할 거야.",
+ "outputs": [
+  "Korean LLM handling long context over 128K tokens for document question answering"
+ ],
+ "response": {
+  "query": "Korean LLM handling long context over 128K tokens for document question answering"
+ },
+ "latency_ms": 941.5
+}

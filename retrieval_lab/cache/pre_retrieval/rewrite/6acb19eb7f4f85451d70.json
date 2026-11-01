@@ -1,0 +1,13 @@
+{
+ "strategy": "rewrite",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "multilingual-e5-large가 서버에 무거워. 한국어 검색 성능은 비슷하고 더 작은 임베딩 모델이 필요해.",
+ "outputs": [
+  "multilingual-e5-large smaller embedding model Korean search performance"
+ ],
+ "response": {
+  "query": "multilingual-e5-large smaller embedding model Korean search performance"
+ },
+ "latency_ms": 867.9
+}

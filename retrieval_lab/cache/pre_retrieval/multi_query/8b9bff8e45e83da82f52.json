@@ -1,0 +1,19 @@
+{
+ "strategy": "multi_query",
+ "prompt_version": 1,
+ "model": "gpt-4o-mini",
+ "input": "맥북(M1 Pro 이상)에서 한국어 회의 녹음을 로컬로 전사해 회의록을 만들려고 해. 음성이 외부로 나가면 안 되고 상업적으로 써야 해. 전문 용어·고유명사 인식이 중요해.",
+ "outputs": [
+  "M1 Pro 이상의 맥북에서 한국어 회의 녹음을 로컬로 전사하여 회의록을 작성하고 싶습니다. 음성이 외부로 나가지 않아야 하며 상업적 용도로 사용해야 합니다. 전문 용어와 고유명사 인식이 중요합니다.",
+  "I want to transcribe Korean meeting recordings locally on a MacBook (M1 Pro or higher) to create meeting minutes. The audio must not go outside, and it should be used commercially. Recognizing technical terms and proper nouns is important.",
+  "Korean transcription, local processing, MacBook M1 Pro, commercial use, technical terms recognition, proper nouns recognition"
+ ],
+ "response": {
+  "queries": [
+   "M1 Pro 이상의 맥북에서 한국어 회의 녹음을 로컬로 전사하여 회의록을 작성하고 싶습니다. 음성이 외부로 나가지 않아야 하며 상업적 용도로 사용해야 합니다. 전문 용어와 고유명사 인식이 중요합니다.",
+   "I want to transcribe Korean meeting recordings locally on a MacBook (M1 Pro or higher) to create meeting minutes. The audio must not go outside, and it should be used commercially. Recognizing technical terms and proper nouns is important.",
+   "Korean transcription, local processing, MacBook M1 Pro, commercial use, technical terms recognition, proper nouns recognition"
+  ]
+ },
+ "latency_ms": 1940.7
+}

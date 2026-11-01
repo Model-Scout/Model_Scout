@@ -38,9 +38,11 @@ tags:
   <a href="https://atomic.chat/?utm_source=huggingface&utm_medium=referral&utm_campaign=hf_lfm2_5_24b_a2b&utm_content=btn_atomic"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-GGUF/resolve/main/btn_atomic.png" width="162" alt="Atomic Chat"></a>
   <a href="https://discord.gg/8wGSsvmg4V"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-GGUF/resolve/main/btn_discord.png" width="119" alt="Discord"></a>
   <a href="https://github.com/AtomicBot-ai/Atomic-Chat"><img src="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-GGUF/resolve/main/btn_github.png" width="115" alt="GitHub"></a>
+  <a href="https://x.com/atomic_chat_hq"><img src="https://huggingface.co/AtomicChat/Qwen3.8-27B-GGUF/resolve/main/btn_x.png" width="108" alt="X"></a>
 </div>
 <ul style="margin: 0 0 12px 0;">
   <li>24B mixture of experts with 2B active per token: the 15.4 GB build fits a 24 GB machine with room for context.</li>
+  <li>You can now run LFM2.5-24B-A2B in <a href="https://atomic.chat/?utm_source=huggingface&utm_medium=referral&utm_campaign=hf_lfm2_5_24b_a2b&utm_content=bullet_app">Atomic Chat</a>: 24B total parameters, 2B active per token.</li>
   <li>We checked llama.cpp against Liquid's PyTorch code on the preview's first revision: llama.cpp's BF16 is closer to the exact fp32 model than PyTorch's own bf16 is.</li>
   <li>This model is unusually sensitive to numerical precision. Read the KLD below against its floor, not against other models'.</li>
   <li>Need it without refusals? <a href="https://huggingface.co/AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF">LFM2.5-24B-A2B-Uncensored-GGUF</a> has baked builds and a LoRA adapter for the quants here.</li>
