@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/OpenCodeInstruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/OpenCodeInstruct"
-downloads: 43690
+downloads: 45293
 summary: "OpenCodeInstruct는 코드 생성 특화 LLM 학습용 500만 샘플 규모의 명령어 튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ OpenCodeInstruct는 코드 생성 특화 LLM 학습용 500만 샘플 규모의 �
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 1695자 ≈ 424 토큰 (viewer statistics, train/train)
+
+## 이 데이터로 학습한 모델
+
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]

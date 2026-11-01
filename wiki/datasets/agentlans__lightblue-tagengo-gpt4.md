@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/lightblue-tagengo-gpt4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/lightblue-tagengo-gpt4"
-downloads: 680
+downloads: 632
 summary: "74개 언어로 된 75,000개 이상의 GPT-4 대화 데이터셋으로 다국어 챗봇 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

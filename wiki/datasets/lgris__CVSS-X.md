@@ -3,7 +3,7 @@ type: "dataset"
 id: "lgris/CVSS-X"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lgris/CVSS-X"
-downloads: 1451
+downloads: 1446
 summary: "CVSS-X는 영어에서 28개 언어로 음성-음성 번역을 위한 대규모 다국어 합성 음성 번역 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"

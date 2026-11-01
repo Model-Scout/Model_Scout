@@ -3,7 +3,7 @@ type: "dataset"
 id: "chimbiwide/RolePlay-NPCv2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/chimbiwide/RolePlay-NPCv2"
-downloads: 93
+downloads: 109
 summary: "Gemma3NPC용 고품질 롤플레잉 대화 데이터셋으로 NSFW 대화 포함 가능."
 readme_status: "ok"
 readme_language: "en"

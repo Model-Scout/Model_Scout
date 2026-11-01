@@ -3,7 +3,7 @@ type: "dataset"
 id: "nyuuzyou/fandom"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nyuuzyou/fandom"
-downloads: 940
+downloads: 866
 summary: "Fandom.com 커뮤니티 위키 덤프에서 7백만 개 이상의 최신 문서와 메타데이터를 포함한 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

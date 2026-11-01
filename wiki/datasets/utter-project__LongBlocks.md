@@ -3,7 +3,7 @@ type: "dataset"
 id: "utter-project/LongBlocks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/utter-project/LongBlocks"
-downloads: 658
+downloads: 597
 summary: "LongBlocks는 장문 문서 기반 다국어 합성 QA 데이터로 장문 언어 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -54,3 +54,7 @@ LongBlocks는 장문 문서 기반 다국어 합성 QA 데이터로 장문 언�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `document` 열 p90 267418자 ≈ 66854 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Theafricatechguy/LongBlocks`

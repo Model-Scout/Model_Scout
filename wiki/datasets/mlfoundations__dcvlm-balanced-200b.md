@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm-balanced-200b"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm-balanced-200b"
-downloads: 34804
+downloads: 42144
 summary: "DCVLM-Balanced는 2000억 토큰 규모의 멀티모달 사전학습용 균형 혼합 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

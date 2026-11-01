@@ -3,7 +3,7 @@ type: "dataset"
 id: "shaw/scambench-training"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shaw/scambench-training"
-downloads: 164
+downloads: 181
 summary: "ScamBench는 다국어 다중 대화형 사기 방지 AI 에이전트 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

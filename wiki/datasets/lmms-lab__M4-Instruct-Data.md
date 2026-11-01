@@ -3,7 +3,7 @@ type: "dataset"
 id: "lmms-lab/M4-Instruct-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lmms-lab/M4-Instruct-Data"
-downloads: 3152
+downloads: 3127
 summary: "M4-Instruct는 GPT-4V API로 생성된 다중 이미지 데이터셋으로 LMM 훈련용입니다."
 readme_status: "ok"
 readme_language: "en"

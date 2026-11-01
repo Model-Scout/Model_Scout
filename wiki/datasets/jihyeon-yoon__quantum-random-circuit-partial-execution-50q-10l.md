@@ -3,7 +3,7 @@ type: "dataset"
 id: "jihyeon-yoon/quantum-random-circuit-partial-execution-50q-10l"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jihyeon-yoon/quantum-random-circuit-partial-execution-50q-10l"
-downloads: 113
+downloads: 95
 summary: "50큐빗, 10레이어 양자 회로의 로그 진폭 데이터를 포함한 시뮬레이션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -43,3 +43,7 @@ dataset_size:
 - **도메인**: [[학술·논문]] — ner · readme = `Symbolicinfo Q log amplitude dataset` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `This directory contains log-encoded circuit amplitudes, the original circuit, and a Python reader.` · 신뢰도 low
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `jihyeon-yoon/quantum-random-circuit-partial-execution-1500q-6l`

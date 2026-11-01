@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/multilingual-sentences"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/multilingual-sentences"
-downloads: 138
+downloads: 126
 summary: "50개 언어의 고품질 문장 모음으로 언어 모델링, 기계 번역 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

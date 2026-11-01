@@ -3,7 +3,7 @@ type: "dataset"
 id: "nampdn-ai/tiny-codes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nampdn-ai/tiny-codes"
-downloads: 732
+downloads: 726
 summary: "1.6백만 개의 명확한 코드 스니펫으로 LLM 모델의 언어 및 코드 추론 능력 향상용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

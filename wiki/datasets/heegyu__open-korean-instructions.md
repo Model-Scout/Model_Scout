@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/open-korean-instructions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/open-korean-instructions"
-downloads: 376
+downloads: 364
 summary: "4가지 한국어 챗봇 학습용 데이터셋을 합쳐 멀티턴 및 싱글턴 대화 학습에 활용하는 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"
@@ -49,4 +49,5 @@ dataset_size:
 
 ## 이 데이터로 학습한 모델
 
+- [[prismdata__Perdix-1.1B-Instruct|prismdata/Perdix-1.1B-Instruct]]
 - [[tensorblock__ft-solar-10.7b-v2.1-dpo-GGUF|tensorblock/ft-solar-10.7b-v2.1-dpo-GGUF]]

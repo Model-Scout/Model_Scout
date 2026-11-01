@@ -3,7 +3,7 @@ type: "dataset"
 id: "zouhar/last-translation-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zouhar/last-translation-benchmark"
-downloads: 417
+downloads: 401
 summary: "최신 기계 번역 모델의 한계를 평가하는 인간 검증 규칙 포함 번역 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

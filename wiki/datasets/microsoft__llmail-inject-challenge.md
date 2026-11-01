@@ -3,7 +3,7 @@ type: "dataset"
 id: "microsoft/llmail-inject-challenge"
 source: "huggingface"
 url: "https://huggingface.co/datasets/microsoft/llmail-inject-challenge"
-downloads: 6758
+downloads: 6816
 summary: "LLMail-Inject 챌린지에서 수집한 적응형 프롬프트 인젝션 공격 이메일 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,4 +52,6 @@ LLMail-Inject 챌린지에서 수집한 적응형 프롬프트 인젝션 공격 
 ## 이 데이터로 학습한 모델
 
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

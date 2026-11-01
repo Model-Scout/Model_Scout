@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Pretraining-SFT-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Pretraining-SFT-v1"
-downloads: 2743
+downloads: 3178
 summary: "Nemotron-Pretraining-SFT-v1은 수학, 코드, 다국어 QA를 포함한 대규모 생성형 AI 사전학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

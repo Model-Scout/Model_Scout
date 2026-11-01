@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nishant2414/OCR-Synthetic-Multilingual-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nishant2414/OCR-Synthetic-Multilingual-v1"
-downloads: 9859
+downloads: 10018
 summary: "다국어 텍스트 검출 및 인식을 위한 대규모 합성 OCR 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -61,3 +61,14 @@ dataset_size:
 - **도메인**: [[일반]] — ner · readme = `Large-scale synthetically generated OCR training dataset for multilingual text detection and recognition.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `This dataset was used to train Nemotron OCR v2, a state-of-the-art multilingual OCR model` · 신뢰도 medium
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Aaqqid/OCR-Synthetic-Multilingual-v1`
+- `Arturito1/OCR-Synthetic-Multilingual-v1`
+- `AtharvBhujade/OCR-Synthetic-Multilingual-v1`
+- `AtharvImmverse/NemoTron-OCR-Synthetic-Multilingual-v1`
+- `Felix92/OCR-Synthetic-Multilingual-v1`
+- `JinghIzKing/OCR-Synthetic-Multilingual-v1`
+- `YuanHo/OCR-Synthetic-Multilingual-v1`
+- `nvidia/OCR-Synthetic-Multilingual-v1`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "MasahiroKaneko/eagle"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MasahiroKaneko/eagle"
-downloads: 91
+downloads: 103
 summary: "Eagle 데이터셋은 인간과 ChatGPT 간 실제 상호작용에서 사회적 편향, 의견 편향, 독성 언어, 도덕성을 평가하기 위한 윤리적 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

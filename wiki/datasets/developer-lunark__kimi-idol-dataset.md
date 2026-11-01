@@ -3,7 +3,7 @@ type: "dataset"
 id: "developer-lunark/kimi-idol-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/developer-lunark/kimi-idol-dataset"
-downloads: 158
+downloads: 169
 summary: "한국어 아이돌 캐릭터 대화 데이터셋으로 밀당 대화 생성 및 Teacher-Student 증류용입니다."
 readme_status: "ok"
 readme_language: "mixed"

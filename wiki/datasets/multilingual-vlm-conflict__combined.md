@@ -3,7 +3,7 @@ type: "dataset"
 id: "multilingual-vlm-conflict/combined"
 source: "huggingface"
 url: "https://huggingface.co/datasets/multilingual-vlm-conflict/combined"
-downloads: 215
+downloads: 235
 summary: "이미지와 충돌하는 캡션을 포함한 23개 언어 다국어 이미지-텍스트 충돌 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

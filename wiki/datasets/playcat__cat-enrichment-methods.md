@@ -3,7 +3,7 @@ type: "dataset"
 id: "playcat/cat-enrichment-methods"
 source: "huggingface"
 url: "https://huggingface.co/datasets/playcat/cat-enrichment-methods"
-downloads: 103
+downloads: 102
 summary: "고양이 환경 풍부화 방법 50가지를 분류하여 고양이 복지 향상을 위한 참고 자료로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

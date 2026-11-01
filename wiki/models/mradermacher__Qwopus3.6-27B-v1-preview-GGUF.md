@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/Qwopus3.6-27B-v1-preview-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/Qwopus3.6-27B-v1-preview-GGUF"
-downloads: 696
+downloads: 440
 task:
   - "[[이미지 이해]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Westing/LLM-Misalign-Climate-Change"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Westing/LLM-Misalign-Climate-Change"
-downloads: 130
+downloads: 149
 summary: "기후변화 관련 지식 상호작용을 통합한 데이터셋으로, 사용자 요구 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

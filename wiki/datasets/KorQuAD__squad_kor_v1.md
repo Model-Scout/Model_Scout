@@ -3,7 +3,7 @@ type: "dataset"
 id: "KorQuAD/squad_kor_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KorQuAD/squad_kor_v1"
-downloads: 1454
+downloads: 1643
 summary: "KorQuAD 1.0은 한국어 기계 독해를 위한 대규모 질의응답 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

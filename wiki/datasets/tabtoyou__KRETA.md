@@ -3,7 +3,7 @@ type: "dataset"
 id: "tabtoyou/KRETA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tabtoyou/KRETA"
-downloads: 189
+downloads: 220
 summary: "KRETA는 다양한 시각적 맥락에서 한국어 텍스트 이해 및 추론을 위한 텍스트 풍부 VQA 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

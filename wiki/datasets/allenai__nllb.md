@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/nllb"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/nllb"
-downloads: 842
+downloads: 987
 summary: "Meta AI가 공개한 병렬문장 데이터로 다국어 기계번역 학습에 활용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

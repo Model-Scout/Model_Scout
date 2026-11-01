@@ -3,7 +3,7 @@ type: "dataset"
 id: "kms7530/ko-coco-bal"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kms7530/ko-coco-bal"
-downloads: 143
+downloads: 144
 summary: "MS COCO 영어 캡션을 한국어로 번역하고 통합해 하나의 문장으로 생성한 이미지 설명 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

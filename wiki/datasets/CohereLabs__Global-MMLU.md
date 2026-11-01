@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/Global-MMLU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/Global-MMLU"
-downloads: 31934
+downloads: 30362
 summary: "42개 언어로 번역된 MMLU 질문과 문화 민감도 주석을 포함한 다국어 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

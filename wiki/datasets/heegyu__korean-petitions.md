@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/korean-petitions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/korean-petitions"
-downloads: 338
+downloads: 340
 summary: "청와대 국민청원 데이터를 모은 것으로, 청원 내용 분석에 활용 가능하다."
 readme_status: "ok"
 readme_language: "ko"

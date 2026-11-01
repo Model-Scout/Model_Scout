@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Mathmaxx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Mathmaxx"
-downloads: 22
+downloads: 24
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

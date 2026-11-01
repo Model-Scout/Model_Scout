@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-Synthia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-Synthia"
-downloads: 7
+downloads: 8
 summary: "Synthia 데이터셋으로, PocketDoc/Dans-Assistantmaxx 관련 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

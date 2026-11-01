@@ -3,7 +3,7 @@ type: "dataset"
 id: "TigreGotico/yes-no-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TigreGotico/yes-no-multilingual"
-downloads: 90
+downloads: 87
 summary: "43개 언어로 된 8600개 대화 발화문으로 예/아니오/모호 응답 분류용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

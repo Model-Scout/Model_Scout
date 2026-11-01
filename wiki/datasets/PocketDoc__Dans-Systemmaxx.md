@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Systemmaxx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Systemmaxx"
-downloads: 74
+downloads: 67
 summary: "PocketDoc/Dans-Systemmaxx 데이터셋은 Gryphe와 Caitlyn의 작업을 기반으로 만들어진 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

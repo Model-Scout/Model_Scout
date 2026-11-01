@@ -3,7 +3,7 @@ type: "dataset"
 id: "RobZamp/sick"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RobZamp/sick"
-downloads: 1961
+downloads: 1974
 summary: "SICK는 합성 의미론 모델 연구를 위한 약 1만 쌍의 영어 문장 유사도 및 함의 관계 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

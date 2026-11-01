@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlp-kmu/kor_ner"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlp-kmu/kor_ner"
-downloads: 151
+downloads: 178
 readme_status: "template"
 readme_language: "en"
 korean_focus: "ko_only"

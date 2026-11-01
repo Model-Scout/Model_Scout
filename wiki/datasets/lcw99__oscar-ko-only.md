@@ -3,7 +3,7 @@ type: "dataset"
 id: "lcw99/oscar-ko-only"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lcw99/oscar-ko-only"
-downloads: 110
+downloads: 101
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

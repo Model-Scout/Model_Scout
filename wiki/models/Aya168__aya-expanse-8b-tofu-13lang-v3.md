@@ -3,7 +3,7 @@ type: "model"
 id: "Aya168/aya-expanse-8b-tofu-13lang-v3"
 source: "huggingface"
 url: "https://huggingface.co/Aya168/aya-expanse-8b-tofu-13lang-v3"
-downloads: 315
+downloads: 738
 context_length: 8192
 parameters_b: 8.028
 task:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "judicialmind/legal-training-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/judicialmind/legal-training-dataset"
-downloads: 596
+downloads: 598
 summary: "법률 정보 검색 및 질의응답 시스템 학습용 다국어 쿼리-본문 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

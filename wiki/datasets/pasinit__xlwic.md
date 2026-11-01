@@ -3,7 +3,7 @@ type: "dataset"
 id: "pasinit/xlwic"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pasinit/xlwic"
-downloads: 476
+downloads: 511
 summary: "XL-WiC는 여러 언어에서 단어의 의미 일치 여부를 판별하는 이진 분류 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

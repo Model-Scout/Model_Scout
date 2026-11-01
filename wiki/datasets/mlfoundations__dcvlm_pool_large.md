@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm_pool_large"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm_pool_large"
-downloads: 81720
+downloads: 108070
 summary: "DataComp-VLM 벤치마크용 대규모 원시 후보 풀 데이터셋으로, 데이터 큐레이션 실험에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Babelscape/SREDFM"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Babelscape/SREDFM"
-downloads: 550
+downloads: 578
 summary: "18개 언어, 400개 관계 유형을 포함한 다국어 관계 추출 데이터셋으로 다국어 RE 시스템 학습 및 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

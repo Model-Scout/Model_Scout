@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-CFBench-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-CFBench-v1"
-downloads: 355
+downloads: 345
 summary: "Nemotron-RL-CFBench-v1은 복잡한 제약 조건을 따르는 명령어 학습용 강화학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

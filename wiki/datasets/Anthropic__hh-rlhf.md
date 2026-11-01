@@ -3,7 +3,7 @@ type: "dataset"
 id: "Anthropic/hh-rlhf"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Anthropic/hh-rlhf"
-downloads: 34962
+downloads: 36165
 summary: "인간 피드백 기반 강화학습(RLHF)을 위한 도움과 무해성 선호 데이터 및 레드팀 대화 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

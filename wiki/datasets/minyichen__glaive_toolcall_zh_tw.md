@@ -3,7 +3,7 @@ type: "dataset"
 id: "minyichen/glaive_toolcall_zh_tw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/minyichen/glaive_toolcall_zh_tw"
-downloads: 9
+downloads: 11
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

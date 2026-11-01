@@ -3,7 +3,7 @@ type: "dataset"
 id: "Ceva-IP/DPDFNet_EvalSet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Ceva-IP/DPDFNet_EvalSet"
-downloads: 902
+downloads: 848
 summary: "DPDFNet 논문에서 소개한 다국어, 장시간, 저신호대잡음비 평가용 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

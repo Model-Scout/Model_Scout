@@ -3,7 +3,7 @@ type: "dataset"
 id: "HasanOJ/ppqa-multilingual-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HasanOJ/ppqa-multilingual-qa"
-downloads: 255
+downloads: 267
 summary: "20개 언어, 9개 문자 체계의 단답형 다국어 질문응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mozilla-foundation/common_voice_17_0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mozilla-foundation/common_voice_17_0"
-downloads: 2975
+downloads: 2942
 summary: "Mozilla Common Voice 음성 데이터셋은 2025년 10월부터 Mozilla Data Collective에서만 제공됩니다."
 readme_status: "ok"
 readme_language: "en"

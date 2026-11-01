@@ -3,7 +3,7 @@ type: "dataset"
 id: "Cognitive-Lab/NayanaOCRBench_Natural"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Cognitive-Lab/NayanaOCRBench_Natural"
-downloads: 198
+downloads: 220
 summary: "22개 언어의 실제 문서에서 사람 검증을 거친 OCR 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

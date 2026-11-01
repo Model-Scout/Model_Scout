@@ -3,7 +3,7 @@ type: "dataset"
 id: "iNLP-Lab/multilingual-safety"
 source: "huggingface"
 url: "https://huggingface.co/datasets/iNLP-Lab/multilingual-safety"
-downloads: 118
+downloads: 127
 summary: "다국어 안전 지침 데이터셋으로, 유해한 명령어에 대한 거부 응답 학습 및 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

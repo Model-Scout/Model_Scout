@@ -3,7 +3,7 @@ type: "dataset"
 id: "MihaiPopa-1/OmniSurgical-1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MihaiPopa-1/OmniSurgical-1.0"
-downloads: 120
+downloads: 123
 summary: "OmniSurgical 1.0은 다국어 기계 번역 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

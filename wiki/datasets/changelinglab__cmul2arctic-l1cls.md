@@ -3,7 +3,7 @@ type: "dataset"
 id: "changelinglab/cmul2arctic-l1cls"
 source: "huggingface"
 url: "https://huggingface.co/datasets/changelinglab/cmul2arctic-l1cls"
-downloads: 677
+downloads: 693
 summary: "CMU Arctic와 L2-ARCTIC 음성 데이터를 결합한 L1(모국어) 분류 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

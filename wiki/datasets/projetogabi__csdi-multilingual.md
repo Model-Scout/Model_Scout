@@ -3,7 +3,7 @@ type: "dataset"
 id: "projetogabi/csdi-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/projetogabi/csdi-multilingual"
-downloads: 82
+downloads: 145
 summary: "백내장 중증도와 진단 이미지를 포함한 다국어 안저 이미지 데이터셋으로 자동 백내장 선별 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

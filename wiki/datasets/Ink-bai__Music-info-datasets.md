@@ -3,7 +3,7 @@ type: "dataset"
 id: "Ink-bai/Music-info-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Ink-bai/Music-info-datasets"
-downloads: 97
+downloads: 99
 summary: "노래 메타데이터, 가사, 댓글 의미, 오디오 특징 등을 포함한 음악 정보 데이터셋으로 음악 분석과 추천에 활용됨."
 readme_status: "ok"
 readme_language: "en"

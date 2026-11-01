@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB"
-downloads: 135
+downloads: 153
 summary: "ArXiv 논문 클러스터링 데이터셋의 다국어 코드스위칭 버전으로 임베딩 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

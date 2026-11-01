@@ -3,7 +3,7 @@ type: "dataset"
 id: "maximoss/lingnli-multi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maximoss/lingnli-multi"
-downloads: 239
+downloads: 238
 summary: "LingNLI 데이터셋을 9개 언어로 기계 번역한 자연어 추론(NLI) 분류용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

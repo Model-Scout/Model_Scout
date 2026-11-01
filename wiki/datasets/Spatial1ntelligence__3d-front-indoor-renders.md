@@ -3,7 +3,7 @@ type: "dataset"
 id: "Spatial1ntelligence/3d-front-indoor-renders"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Spatial1ntelligence/3d-front-indoor-renders"
-downloads: 1570
+downloads: 1553
 summary: "3D-FRONT과 3D-FUTURE 기반 20,240개 실내 장면 렌더링 데이터셋으로 인스턴스 분할, 6DoF 객체 위치 포함"
 readme_status: "ok"
 readme_language: "en"

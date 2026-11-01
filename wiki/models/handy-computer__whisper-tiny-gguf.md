@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/whisper-tiny-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/whisper-tiny-gguf"
-downloads: 4991
+downloads: 6422
 task:
   - "[[음성 인식]]"
 input_modality:

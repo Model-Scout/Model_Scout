@@ -3,7 +3,7 @@ type: "dataset"
 id: "SehwanMoon/MultiMed-TSS"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SehwanMoon/MultiMed-TSS"
-downloads: 21957
+downloads: 24800
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

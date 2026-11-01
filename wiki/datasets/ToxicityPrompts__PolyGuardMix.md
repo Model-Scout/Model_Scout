@@ -3,7 +3,7 @@ type: "dataset"
 id: "ToxicityPrompts/PolyGuardMix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ToxicityPrompts/PolyGuardMix"
-downloads: 999
+downloads: 1043
 summary: "17개 언어로 된 LLM 안전성 검증 및 조정용 다국어 안전성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,6 +51,12 @@ dataset_size:
 
 샘플 길이: `prompt` 열 p90 36796자 ≈ 9199 토큰 (viewer statistics, default/train)
 
+## 같은 데이터의 사본·중복 등록
+
+- `ToxicityPrompts/PolyGuardPrompts`
+
 ## 이 데이터로 학습한 모델
 
 - [[Verm1ion__injection-sentry-xlmr|Verm1ion/injection-sentry-xlmr]]
+- [[musubilabs__policylm-1.7b|musubilabs/policylm-1.7b]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

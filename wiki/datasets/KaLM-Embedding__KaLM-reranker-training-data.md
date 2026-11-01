@@ -3,7 +3,7 @@ type: "dataset"
 id: "KaLM-Embedding/KaLM-reranker-training-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KaLM-Embedding/KaLM-reranker-training-data"
-downloads: 2001
+downloads: 2106
 summary: "영어, 중국어, 다국어 검색 작업용 리랭킹 모델 미세조정 대규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

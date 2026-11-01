@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/SuperQwen3.8-abliterated-Venice-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/SuperQwen3.8-abliterated-Venice-GGUF"
-downloads: 1725
+downloads: 1309
 task:
   - "[[이미지 이해]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "MC7ever/all-in-one-llm-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MC7ever/all-in-one-llm-corpus"
-downloads: 372
+downloads: 394
 summary: "대화형 언어 모델 학습을 위한 SFT, DPO, RL, 페르소나 스타일 데이터 포함 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"

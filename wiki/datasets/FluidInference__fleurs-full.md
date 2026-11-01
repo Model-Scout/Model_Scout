@@ -3,7 +3,7 @@ type: "dataset"
 id: "FluidInference/fleurs-full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FluidInference/fleurs-full"
-downloads: 1726
+downloads: 1706
 summary: "Google FLEURS의 30개 언어 음성 인식 테스트셋으로 ASR 벤치마킹용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

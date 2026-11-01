@@ -3,7 +3,7 @@ type: "dataset"
 id: "ChristophSchuhmann/MS_COCO_2017_URL_TEXT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ChristophSchuhmann/MS_COCO_2017_URL_TEXT"
-downloads: 273
+downloads: 265
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "rubricreward/llm-metric-mrewardbench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rubricreward/llm-metric-mrewardbench"
-downloads: 95
+downloads: 98
 summary: "다국어 LLM 평가용 M-RewardBench 데이터셋으로 모델 간 응답 품질 비교에 사용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ dtype: string` · 신뢰도 low
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `prompt` 열 p90 2516자 ≈ 629 토큰 (viewer statistics, kor_Hang/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `rifqifarhansyah/llm-metric-mrewardbench`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Aegis-AI-Content-Safety-Dataset-2.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-2.0"
-downloads: 16014
+downloads: 15291
 summary: "인간과 LLM 간 상호작용의 안전성 평가를 위한 AI 콘텐츠 안전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -50,3 +50,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `response` 열 p90 896자 ≈ 224 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

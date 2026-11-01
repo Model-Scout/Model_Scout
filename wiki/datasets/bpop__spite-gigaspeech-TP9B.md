@@ -3,7 +3,7 @@ type: "dataset"
 id: "bpop/spite-gigaspeech-TP9B"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bpop/spite-gigaspeech-TP9B"
-downloads: 202
+downloads: 267
 summary: "GigaSpeech 음성 번역 데이터와 Tower-Plus-9B 번역을 활용한 품질 주석 포함 음성 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-PersonaLLM-Opus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-PersonaLLM-Opus"
-downloads: 11
+downloads: 12
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

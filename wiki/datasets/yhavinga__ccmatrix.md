@@ -3,7 +3,7 @@ type: "dataset"
 id: "yhavinga/ccmatrix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yhavinga/ccmatrix"
-downloads: 4294
+downloads: 4587
 summary: "CCMatrix는 웹에서 80개 언어의 고품질 병렬 문장 108억 개를 추출한 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -41,3 +41,7 @@ CCMatrix는 웹에서 80개 언어의 고품질 병렬 문장 108억 개를 추�
 - **언어**: [[다국어]] — metadata · languages = `91 languages` · 신뢰도 high
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license = `unknown` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — ner · readme = `We were able to mine 10.8 billion parallel sentences` · 신뢰도 low
+
+## 같은 데이터의 사본·중복 등록
+
+- `xezpeleta/ccmatrix`

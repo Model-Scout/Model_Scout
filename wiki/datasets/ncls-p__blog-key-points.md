@@ -3,7 +3,7 @@ type: "dataset"
 id: "ncls-p/blog-key-points"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ncls-p/blog-key-points"
-downloads: 27
+downloads: 26
 summary: "AI가 추출한 기사 전문과 핵심 요약문으로 구성된 요약 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

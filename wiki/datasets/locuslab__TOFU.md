@@ -3,7 +3,7 @@ type: "dataset"
 id: "locuslab/TOFU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/locuslab/TOFU"
-downloads: 53835
+downloads: 57110
 summary: "TOFU 데이터셋은 허구의 자서전을 기반으로 한 질의응답 데이터로, 대형 언어 모델의 언러닝 성능 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

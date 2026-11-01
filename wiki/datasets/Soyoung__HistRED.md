@@ -3,7 +3,7 @@ type: "dataset"
 id: "Soyoung/HistRED"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Soyoung/HistRED"
-downloads: 301
+downloads: 358
 summary: "조선시대 역사 문서 기반 관계 추출 데이터셋으로, 한국어와 한자로 된 문서에서 명명된 개체와 관계를 추출하는 데 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2-GGUF"
-downloads: 7868
+downloads: 1635
 task:
   - "[[이미지 이해]]"
 input_modality:

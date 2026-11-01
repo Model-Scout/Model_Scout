@@ -3,7 +3,7 @@ type: "dataset"
 id: "minpeter/fineweb-2-edu-korean-raw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/minpeter/fineweb-2-edu-korean-raw"
-downloads: 4049
+downloads: 3849
 summary: "fineweb-2-edu-korean-raw는 HuggingFaceFW/fineweb-2 데이터셋의 한국어 원시 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

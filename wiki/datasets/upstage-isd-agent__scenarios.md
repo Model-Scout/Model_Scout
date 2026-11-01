@@ -3,7 +3,7 @@ type: "dataset"
 id: "upstage-isd-agent/scenarios"
 source: "huggingface"
 url: "https://huggingface.co/datasets/upstage-isd-agent/scenarios"
-downloads: 473
+downloads: 1512
 summary: "교수설계 AI 에이전트 평가용 한국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

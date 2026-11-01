@@ -3,7 +3,7 @@ type: "dataset"
 id: "mamahealth/mama-deid-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mamahealth/mama-deid-dataset"
-downloads: 126
+downloads: 158
 summary: "22개 언어로 된 의료 문서 및 대화에서 개인정보를 익명화한 다국어 의료 비식별 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

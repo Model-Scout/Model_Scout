@@ -3,7 +3,7 @@ type: "dataset"
 id: "csebuetnlp/CrossSum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/csebuetnlp/CrossSum"
-downloads: 1388
+downloads: 1426
 summary: "CrossSum은 45개 언어, 1500개 이상의 언어쌍으로 구성된 170만 개 크로스링구얼 기사 요약 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

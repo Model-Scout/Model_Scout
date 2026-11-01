@@ -3,7 +3,7 @@ type: "dataset"
 id: "maxidl/FineNews-unfiltered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maxidl/FineNews-unfiltered"
-downloads: 1508
+downloads: 1502
 summary: "Common Crawl News에서 수집한 2024년 3~5월 뉴스 문서 3500만 건의 비필터링 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

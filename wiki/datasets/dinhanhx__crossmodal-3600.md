@@ -3,7 +3,7 @@ type: "dataset"
 id: "dinhanhx/crossmodal-3600"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dinhanhx/crossmodal-3600"
-downloads: 434
+downloads: 458
 summary: "36개 언어로 주석된 3600개 이미지로 구성된 다국어 이미지 캡션 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

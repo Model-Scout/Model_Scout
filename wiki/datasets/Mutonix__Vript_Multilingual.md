@@ -3,7 +3,7 @@ type: "dataset"
 id: "Mutonix/Vript_Multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Mutonix/Vript_Multilingual"
-downloads: 4608
+downloads: 4520
 summary: "다국어로 주석된 1만 9천 개 고해상도 UGC 영상과 67만 7천 클립의 세밀한 비디오-텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

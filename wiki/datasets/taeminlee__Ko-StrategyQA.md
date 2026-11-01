@@ -3,7 +3,7 @@ type: "dataset"
 id: "taeminlee/Ko-StrategyQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taeminlee/Ko-StrategyQA"
-downloads: 1490
+downloads: 1540
 summary: "Ko-StrategyQA 데이터셋을 다중 홉 질의응답용으로 가공해 BeIR 포맷으로 변환한 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -48,3 +48,7 @@ Ko-StrategyQA 데이터셋을 다중 홉 질의응답용으로 가공해 BeIR �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `query-id` 열 p90 22자 ≈ 15 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `whooray/Ko-StrategyQA`

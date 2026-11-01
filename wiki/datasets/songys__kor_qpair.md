@@ -3,7 +3,7 @@ type: "dataset"
 id: "songys/kor_qpair"
 source: "huggingface"
 url: "https://huggingface.co/datasets/songys/kor_qpair"
-downloads: 150
+downloads: 210
 summary: "두 질문의 의미적 동일성을 판단하는 한국어 질문 쌍 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -38,3 +38,7 @@ dataset_size:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "AquaV/Chemical-Biological-Safety-Applications-Sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AquaV/Chemical-Biological-Safety-Applications-Sharegpt"
-downloads: 88
+downloads: 89
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

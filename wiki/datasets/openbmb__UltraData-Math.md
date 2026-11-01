@@ -3,7 +3,7 @@ type: "dataset"
 id: "openbmb/UltraData-Math"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openbmb/UltraData-Math"
-downloads: 25925
+downloads: 24908
 summary: "UltraData-Math는 수학적 추론 능력 향상을 위한 대규모 고품질 수학 사전학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

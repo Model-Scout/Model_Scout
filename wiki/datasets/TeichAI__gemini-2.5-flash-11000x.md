@@ -3,7 +3,7 @@ type: "dataset"
 id: "TeichAI/gemini-2.5-flash-11000x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TeichAI/gemini-2.5-flash-11000x"
-downloads: 114
+downloads: 117
 summary: "Gemini 2.5 Flash 모델을 11,000회 이상 질의해 생성한 다양한 도메인 지식 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

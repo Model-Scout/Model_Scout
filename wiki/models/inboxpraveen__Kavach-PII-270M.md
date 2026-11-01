@@ -3,7 +3,7 @@ type: "model"
 id: "inboxpraveen/Kavach-PII-270M"
 source: "huggingface"
 url: "https://huggingface.co/inboxpraveen/Kavach-PII-270M"
-downloads: 545
+downloads: 896
 context_length: 32768
 parameters_b: 0.268
 task:

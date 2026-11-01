@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/KcBERT_Pre-Training_Corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/KcBERT_Pre-Training_Corpus"
-downloads: 349
+downloads: 320
 summary: "한국 뉴스 댓글로 구성된 KcBERT 사전학습용 코퍼스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,3 +51,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 127자 ≈ 84 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/junbumlee/kcbert-pretraining-corpus-korean-news-comments`

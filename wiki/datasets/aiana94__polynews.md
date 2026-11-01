@@ -3,7 +3,7 @@ type: "dataset"
 id: "aiana94/polynews"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aiana94/polynews"
-downloads: 537
+downloads: 527
 summary: "PolyNews는 77개 언어 뉴스 제목을 포함한 다국어 뉴스 데이터셋으로, 언어 모델 적응과 생성에 활용됨."
 readme_status: "ok"
 readme_language: "en"

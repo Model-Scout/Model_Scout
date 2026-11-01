@@ -3,7 +3,7 @@ type: "dataset"
 id: "ProCreations/auto"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ProCreations/auto"
-downloads: 152
+downloads: 150
 summary: "AI 에이전트의 도구 호출 승인/거부를 판단하는 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

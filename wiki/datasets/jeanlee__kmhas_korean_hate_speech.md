@@ -3,7 +3,7 @@ type: "dataset"
 id: "jeanlee/kmhas_korean_hate_speech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jeanlee/kmhas_korean_hate_speech"
-downloads: 340
+downloads: 374
 summary: "K-MHaS는 한국 온라인 뉴스 댓글의 혐오 표현을 8개 세부 범주로 다중 라벨 분류한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,12 @@ K-MHaS는 한국 온라인 뉴스 댓글의 혐오 표현을 8개 세부 범주�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 60자 ≈ 40 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `sayafadhil43/kmhas_korean_hate_speech`
+- `trueorfalse441/korean_hate_speech_copy`
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

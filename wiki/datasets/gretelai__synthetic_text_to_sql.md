@@ -3,7 +3,7 @@ type: "dataset"
 id: "gretelai/synthetic_text_to_sql"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gretelai/synthetic_text_to_sql"
-downloads: 4262
+downloads: 4387
 summary: "Gretel Navigator로 생성한 고품질 합성 Text-to-SQL 데이터셋으로 SQL 생성 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

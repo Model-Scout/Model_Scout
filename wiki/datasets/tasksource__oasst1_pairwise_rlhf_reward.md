@@ -3,7 +3,7 @@ type: "dataset"
 id: "tasksource/oasst1_pairwise_rlhf_reward"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tasksource/oasst1_pairwise_rlhf_reward"
-downloads: 219
+downloads: 229
 summary: "OASST1 데이터셋을 보상 모델링용으로 전처리한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

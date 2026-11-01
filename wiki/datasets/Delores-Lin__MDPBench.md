@@ -3,7 +3,7 @@ type: "dataset"
 id: "Delores-Lin/MDPBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Delores-Lin/MDPBench"
-downloads: 1736
+downloads: 1962
 summary: "MDPBench는 17개 언어의 디지털 및 사진 문서 파싱 성능 평가용 다국어 문서 파싱 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

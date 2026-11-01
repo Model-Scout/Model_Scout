@@ -3,7 +3,7 @@ type: "dataset"
 id: "Dxniz/Novelist-CoT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Dxniz/Novelist-CoT"
-downloads: 142
+downloads: 140
 summary: "Novelist-CoT는 장편 창작 글쓰기 데이터셋으로, 스타일 중심 내러티브 생성과 감독 학습에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

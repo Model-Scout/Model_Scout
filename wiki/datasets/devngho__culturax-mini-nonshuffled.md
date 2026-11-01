@@ -3,7 +3,7 @@ type: "dataset"
 id: "devngho/culturax-mini-nonshuffled"
 source: "huggingface"
 url: "https://huggingface.co/datasets/devngho/culturax-mini-nonshuffled"
-downloads: 2812
+downloads: 2877
 summary: "uonlp/CulturaX의 각 언어별 1% 샘플을 포함한 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

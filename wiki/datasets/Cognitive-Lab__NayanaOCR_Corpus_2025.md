@@ -3,7 +3,7 @@ type: "dataset"
 id: "Cognitive-Lab/NayanaOCR_Corpus_2025"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Cognitive-Lab/NayanaOCR_Corpus_2025"
-downloads: 8752
+downloads: 8864
 summary: "22개 언어로 된 100만 페이지 문서 OCR, 레이아웃 감지, VQA용 병렬 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `image_id.txt` 열 p90 23자 ≈ 6 토큰 (viewer statistics, ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `1DuBu1/NayanaOCR_Corpus_2025`

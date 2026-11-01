@@ -3,7 +3,7 @@ type: "dataset"
 id: "CAMUS-LAB/data-road_network_eta"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CAMUS-LAB/data-road_network_eta"
-downloads: 917
+downloads: 932
 summary: "16개 광역지자체 도로망 그래프와 시간대별 평균 통행속도 데이터로 ETA 산정에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

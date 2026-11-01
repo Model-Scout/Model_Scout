@@ -3,7 +3,7 @@ type: "dataset"
 id: "Vemloir/Qwen3.8-Flash-Next-traces"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Vemloir/Qwen3.8-Flash-Next-traces"
-downloads: 123
+downloads: 129
 summary: "Qwen3.8-Flash-Next 모델이 자체 생성한 대화 및 이미지 프롬프트 데이터로, 모델 보정과 SFT에 활용됨."
 readme_status: "ok"
 readme_language: "en"

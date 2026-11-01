@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/aya_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/aya_dataset"
-downloads: 21476
+downloads: 22495
 summary: "Aya Dataset는 65개 언어로 구성된 다국어 지침 파인튜닝용 데이터셋으로, 다국어 LLM 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -58,5 +58,10 @@ Aya Dataset는 65개 언어로 구성된 다국어 지침 파인튜닝용 데이
 
 ## 이 데이터로 학습한 모델
 
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai4privacy/openpii-masking-nano-1k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai4privacy/openpii-masking-nano-1k"
-downloads: 112
+downloads: 119
 summary: "OpenPII Nano는 다국어 개인 식별 정보(PII) 마스킹을 위한 1,000개 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

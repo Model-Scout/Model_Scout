@@ -3,7 +3,7 @@ type: "dataset"
 id: "Missing-texter/Rain-vidioandimeage"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Missing-texter/Rain-vidioandimeage"
-downloads: 118
+downloads: 122
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

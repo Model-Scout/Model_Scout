@@ -1,0 +1,141 @@
+---
+license: cc-by-4.0
+language:
+- tl
+- sm
+- mk
+- gu
+- fi
+- mn
+- bm
+- ta
+- ur
+- hy
+- nl
+- tk
+- en
+- bg
+- gd
+- pt
+- ko
+- ga
+- eu
+- sv
+- bs
+- co
+- fr
+- gn
+- ro
+- it
+- dv
+- ku
+- ak
+- eo
+- zu
+- id
+- te
+- sl
+- lv
+- pa
+- ru
+- si
+- ee
+- yi
+- ny
+- az
+- sw
+- hi
+- mt
+- sr
+- hr
+- ka
+- ug
+- tt
+- lg
+- kn
+- fy
+- kk
+- ca
+- lb
+- jv
+- et
+- la
+- tr
+- ps
+- km
+- zh
+- uk
+- as
+- he
+- yo
+- sq
+- da
+- gl
+- vi
+- ay
+- is
+- ln
+- mr
+- st
+- xh
+- cs
+- ky
+- ml
+- ht
+- mi
+- so
+- uz
+- el
+- ti
+- be
+- cy
+- am
+- ig
+- or
+- fa
+- ms
+- su
+- de
+- lo
+- ha
+- ts
+- om
+- ar
+- my
+- es
+- qu
+- 'no'
+- th
+- sa
+- mg
+- pl
+- sd
+- sk
+- bn
+- rw
+- af
+- ne
+- lt
+- tg
+- ja
+- sn
+- hu
+size_categories:
+- 10K<n<100K
+task_categories:
+- question-answering
+---
+# Dataset Card for MultiQ
+
+This is the dataset corresponding to the paper "Evaluating the Elementary Multilingual Capabilities of Large Language Models with MultiQ". 
+It is a silver standard benchmark that can be used to evaluate the basic multilingual capabilities of LLMs. It contains 200 open ended questions automatically 
+translated into 137 typologically diverse languages. 
+
+- **Curated by:** Carolin Holtermann, Paul Röttger, Timm Dill, Anne Lauscher
+- **Language(s) (NLP):** 137 diverse languages described in detail in our paper
+- **License:** CC-BY-4.0 License
+
+### Dataset Sources
+
+- **Repository:** [Github](https://github.com/paul-rottger/multiq)
+- **Paper:** TBD

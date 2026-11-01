@@ -3,7 +3,7 @@ type: "dataset"
 id: "davidkim205/ko_arc_challenge"
 source: "huggingface"
 url: "https://huggingface.co/datasets/davidkim205/ko_arc_challenge"
-downloads: 94
+downloads: 88
 summary: "ai2_arc 영어 과학 문제를 한국어로 번역한 한국어 ARC 챌린지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

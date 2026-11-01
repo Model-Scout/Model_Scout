@@ -3,7 +3,7 @@ type: "dataset"
 id: "Thomcles/YodaLingua-preview"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Thomcles/YodaLingua-preview"
-downloads: 128
+downloads: 137
 summary: "YodaLingua는 고품질 음성-텍스트 쌍 데이터로 TTS와 ASR 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

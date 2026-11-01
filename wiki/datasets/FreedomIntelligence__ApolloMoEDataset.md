@@ -3,7 +3,7 @@ type: "dataset"
 id: "FreedomIntelligence/ApolloMoEDataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FreedomIntelligence/ApolloMoEDataset"
-downloads: 519
+downloads: 556
 summary: "12개 주요 언어와 38개 소수 언어를 포함한 의료 분야 다국어 LLM 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

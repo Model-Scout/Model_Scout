@@ -3,7 +3,7 @@ type: "dataset"
 id: "e9t/nsmc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/e9t/nsmc"
-downloads: 671
+downloads: 688
 summary: "네이버 영화 리뷰로 구성된 한국어 영화 감성 분석 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

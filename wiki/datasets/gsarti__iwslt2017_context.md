@@ -3,7 +3,7 @@ type: "dataset"
 id: "gsarti/iwslt2017_context"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gsarti/iwslt2017_context"
-downloads: 170
+downloads: 172
 summary: "IWSLT 2017 데이터셋으로 다국어 문서 및 문맥 기반 기계 번역에 사용됨"
 readme_status: "ok"
 readme_language: "en"

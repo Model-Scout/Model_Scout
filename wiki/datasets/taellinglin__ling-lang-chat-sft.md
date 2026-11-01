@@ -3,7 +3,7 @@ type: "dataset"
 id: "taellinglin/ling-lang-chat-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taellinglin/ling-lang-chat-sft"
-downloads: 90
+downloads: 95
 summary: "Ling 프로그래밍 언어 관련 LLM 파인튜닝용 챗 메시지 지침 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

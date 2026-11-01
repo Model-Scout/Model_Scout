@@ -3,7 +3,7 @@ type: "dataset"
 id: "bravesoftware/long-context-multimodal-conversations-5k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bravesoftware/long-context-multimodal-conversations-5k"
-downloads: 327
+downloads: 350
 summary: "long-context-multimodal-conversations-5k는 긴 멀티턴 대화를 구조화된 요약으로 압축하는 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

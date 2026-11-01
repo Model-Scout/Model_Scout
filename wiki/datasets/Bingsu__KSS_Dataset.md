@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/KSS_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/KSS_Dataset"
-downloads: 991
+downloads: 787
 summary: "한국어 단일 화자 음성 데이터셋으로, 한국어 TTS 학습용 음성 및 텍스트 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `decomposed_script` 열 p90 57자 ≈ 38 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/bryanpark/korean-single-speaker-speech-dataset`

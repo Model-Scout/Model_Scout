@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Toolmaxx-ShellCommands"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Toolmaxx-ShellCommands"
-downloads: 59
+downloads: 66
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

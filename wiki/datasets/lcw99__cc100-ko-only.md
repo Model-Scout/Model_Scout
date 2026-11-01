@@ -3,7 +3,7 @@ type: "dataset"
 id: "lcw99/cc100-ko-only"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lcw99/cc100-ko-only"
-downloads: 1217
+downloads: 1091
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

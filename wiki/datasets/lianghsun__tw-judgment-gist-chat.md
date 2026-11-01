@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-judgment-gist-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-judgment-gist-chat"
-downloads: 9
+downloads: 11
 summary: "판결서 전문을 입력으로 하여 핵심 법률 견해를 요약하는 법률 요약 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

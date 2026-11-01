@@ -3,7 +3,7 @@ type: "dataset"
 id: "kimchunsik03/KoreanGuardrail"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kimchunsik03/KoreanGuardrail"
-downloads: 81
+downloads: 87
 summary: "한글 자모 단위 난독화에 대한 한국어 프롬프트 가드레일 강건성 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "mixed"

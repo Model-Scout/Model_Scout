@@ -3,7 +3,7 @@ type: "dataset"
 id: "betterdataai/gliner-multilingual-ner-silver-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/betterdataai/gliner-multilingual-ner-silver-v1"
-downloads: 141
+downloads: 152
 summary: "13개 언어의 개인정보 및 일반 개체명 인식(NER) 주석 데이터로, 프라이버시 보호 NER 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

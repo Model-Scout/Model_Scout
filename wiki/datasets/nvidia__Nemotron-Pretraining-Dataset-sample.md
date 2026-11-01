@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Pretraining-Dataset-sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Pretraining-Dataset-sample"
-downloads: 942
+downloads: 921
 summary: "Nemotron-Pretraining-Dataset는 수학, 코드, 다국어 Q&A를 포함한 생성형 AI 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

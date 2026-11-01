@@ -3,7 +3,7 @@ type: "dataset"
 id: "StyleDistance/synthstel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/StyleDistance/synthstel"
-downloads: 198
+downloads: 211
 summary: "GPT-4로 합성 생성된 40개 스타일 특징 확장 STEL 태스크 데이터로 임베딩 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

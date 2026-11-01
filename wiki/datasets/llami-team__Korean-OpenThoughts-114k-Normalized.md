@@ -3,7 +3,7 @@ type: "dataset"
 id: "llami-team/Korean-OpenThoughts-114k-Normalized"
 source: "huggingface"
 url: "https://huggingface.co/datasets/llami-team/Korean-OpenThoughts-114k-Normalized"
-downloads: 158
+downloads: 159
 summary: "OpenThoughts-114k-Normalized의 한국어 번역본으로, 한국어 추론 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

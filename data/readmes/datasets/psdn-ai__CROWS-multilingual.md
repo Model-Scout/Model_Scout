@@ -17,11 +17,22 @@ language:
 - ur
 - vi
 - zh
-pretty_name: CROWS Multilingual
+pretty_name: "CROWS Multilingual: CRowdsourced Open World Speech in 16 Languages"
+task_categories:
+- automatic-speech-recognition
+- audio-classification
+size_categories:
+- 100K<n<1M
 tags:
 - audio
+- speech
 - multilingual
+- read-speech
+- crowdsourced
 - deepfake-audio-detection
+- synthetic-speech-detection
+- anti-spoofing
+- asr
 configs:
 - config_name: all
   default: true
@@ -238,17 +249,35 @@ configs:
     path: synthetic_risk/data_from_users_with_pred_synthetic_proportion_gt_0_3/zh/*.parquet
 ---
 
-# CROWS Multilingual
+# CROWS Multilingual: CRowdsourced Open World Speech in 16 Languages
 
-CROWS Multilingual contains 821,361 WAV recordings across 16 languages:
-812,464 in main data, 2,260 in the breadth risk partition, and 6,637 in the predicted proportion risk partition. The original
-release was selected by the `passing_files.csv` inclusion list. The publisher is
-[psdn-ai](https://huggingface.co/psdn-ai).
+Crowdsourced Open World Speech (CROWS) Multilingual is a speech corpus collected by Poseidon AI, Inc.
+It contains **821,361 scripted read-speech recordings** from **46,298 speaker
+profiles** across **16 languages**. Every recording comes with its reading
+prompt, an automatic transcript, an English translation, and per-recording
+quality and speaker-consistency scores. Recordings from contributors flagged
+as likely synthetic-speech submitters are separated into their own partitions,
+so you can use the data for multilingual ASR and for synthetic-speech
+(deepfake) detection research.
 
-**Upload status:** Complete. All 821,361 recordings have been packaged,
-decode-checked, and uploaded. See `release_manifest.json` for artifact checksums.
+[**Need a custom speech dataset? Talk to Poseidon →**](https://www.psdn.ai/contact?utm_source=huggingface&utm_medium=dataset_card&utm_campaign=crows-multilingual&utm_content=custom_datasets_top)
 
-## Main and synthetic risk partitions
+<table>
+  <tbody>
+    <tr><td>Corpus</td><td><strong>821,361 recordings</strong> · <strong>~939 GB</strong> of original WAV audio</td></tr>
+    <tr><td>Languages</td><td>16: Arabic, German, English, Spanish, French, Hindi, Indonesian, Japanese, Korean, Marathi, Portuguese, Russian, Turkish, Urdu, Vietnamese, Mandarin Chinese</td></tr>
+    <tr><td>Speakers</td><td>46,298 pseudonymous speaker profiles. 12,719 profiles recorded in more than one language.</td></tr>
+    <tr><td>Speech type</td><td>Scripted, single-speaker read speech</td></tr>
+    <tr><td>Prompts</td><td>51,885 unique reading prompts. Each non-English prompt includes an English back-translation and a link to its English source prompt.</td></tr>
+    <tr><td>Transcripts</td><td>Automatic Whisper-large transcript plus an English translation for every recording</td></tr>
+    <tr><td>Quality signals</td><td>Per-recording WER, CER, semantic similarity to the prompt, and speaker-consistency score</td></tr>
+    <tr><td>Synthetic-risk partitions</td><td>8,897 recordings from contributors flagged as higher risk, kept separate from the main data</td></tr>
+    <tr><td>Audio</td><td>Original WAV files, byte-for-byte (no resampling, normalization, or transcoding), available embedded in Parquet or as TAR archives</td></tr>
+    <tr><td>Integrity</td><td>Every recording decode-checked; SHA-256 checksum for every WAV file and every published artifact (see <code>release_manifest.json</code>)</td></tr>
+  </tbody>
+</table>
+
+## Main and Synthetic Risk Partitions
 
 Main `data`, `archives`, `checksums`, and root `metadata.csv` contain **812,464 recordings**. The two disjoint risk partitions are in [synthetic_risk](synthetic_risk/README.md):
 
@@ -407,6 +436,15 @@ experimental train/validation/test splits or add authenticity labels. Users
 should account for shared users, scripts, and related recordings when designing
 and reporting evaluation splits.
 
+### About Poseidon
+
+Poseidon builds the training data for physical AI. Machines learn physical
+skill the way apprentices always have, by watching skilled people work, and
+that footage has to be created on purpose and to specification. Poseidon runs
+that supply chain: it recruits skilled people and real workplaces around the
+world, records their work to exact lab specifications, and refines the footage
+into model-ready datasets.
+
 ## Research context and limitations
 
 This release supports the publisher's multilingual audio research release.
@@ -415,7 +453,7 @@ information, detailed collection methodology, transcripts, authenticity labels,
 or numerical quality/spam scores. Consult the associated research documentation
 for those details; they are not inferred from filenames.
 
-## License and attribution
+## License, Access and Attribution
 
 The dataset is licensed under **Creative Commons Attribution-NonCommercial
 4.0 International (CC BY-NC 4.0)**. See `LICENSE` and the
@@ -424,7 +462,24 @@ The dataset is licensed under **Creative Commons Attribution-NonCommercial
 When using this release, credit psdn-ai and link to
 [CROWS Multilingual](https://huggingface.co/datasets/psdn-ai/CROWS-multilingual),
 identify the revision used, and indicate changes as required by the license.
-Paper citation details can be added when available.
+
+[**Not what you're looking for? Request a custom dataset**](https://www.psdn.ai/contact?utm_source=huggingface&utm_medium=dataset_card&utm_campaign=crows-multilingual&utm_content=custom_datasets)
+
+## Citation
+
+If you use this dataset, please cite:
+
+```bibtex
+@misc{poseidonai2026crowsmultilingual,
+  title        = {{CROWS Multilingual}},
+  author       = {{Poseidon AI, Inc.}},
+  year         = {2026},
+  version      = {1.8},
+  publisher    = {Hugging Face},
+  url          = {https://huggingface.co/datasets/psdn-ai/CROWS-multilingual},
+  howpublished = {\url{https://huggingface.co/datasets/psdn-ai/CROWS-multilingual}}
+}
+```
 
 ## Profiles
 

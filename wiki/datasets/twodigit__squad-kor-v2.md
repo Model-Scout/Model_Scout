@@ -3,7 +3,7 @@ type: "dataset"
 id: "twodigit/squad-kor-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/twodigit/squad-kor-v2"
-downloads: 215
+downloads: 231
 summary: "KorQuAD 2.1은 한국어 위키피디아 기반 MRC 데이터셋으로 QA 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

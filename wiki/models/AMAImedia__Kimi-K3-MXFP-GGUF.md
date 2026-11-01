@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Kimi-K3-MXFP-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Kimi-K3-MXFP-GGUF"
-downloads: 692
+downloads: 2883
 context_length: 1048576
 parameters_b: 2779.932
 task:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "community-datasets/udhr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/community-datasets/udhr"
-downloads: 160
+downloads: 194
 summary: "세계 인권 선언문(UDHR)의 464개 이상 언어 번역문 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

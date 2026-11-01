@@ -3,7 +3,7 @@ type: "dataset"
 id: "walledai/MultiJail"
 source: "huggingface"
 url: "https://huggingface.co/datasets/walledai/MultiJail"
-downloads: 87
+downloads: 100
 summary: "다국어 감옥 탈출 챌린지를 위한 LLM 안전성 연구 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -23,6 +23,7 @@ domain:
 dataset_role:
   - "[[학습용]]"
 data_format:
+  - "[[CSV]]"
   - "[[Parquet]]"
 dataset_size:
   - "[[소규모 데이터]]"
@@ -42,10 +43,15 @@ dataset_size:
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `Our research investigates the safety challenges of LLMs in multilingual settings.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `To address the identified risks and vulnerabilities, we commit to open-sourcing the data used in our study.` · 신뢰도 medium
+- **데이터 형식**: [[CSV]] — metadata · format = `csv` · 신뢰도 high
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `prompt` 열 p90 122자 ≈ 31 토큰 (viewer statistics, default/ar)
+
+## 같은 데이터의 사본·중복 등록
+
+- `DAMO-NLP-SG/MultiJail`
 
 ## 이 데이터로 학습한 모델
 

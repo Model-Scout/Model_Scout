@@ -3,7 +3,7 @@ type: "dataset"
 id: "ali-thowfeek/text-to-mermaid"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ali-thowfeek/text-to-mermaid"
-downloads: 28
+downloads: 29
 summary: "Mermaid 문법 기반 다이어그램 생성용 소형 언어모델 파인튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bigscience/xP3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bigscience/xP3"
-downloads: 48685
+downloads: 47317
 summary: "xP3는 46개 언어와 16개 NLP 작업의 프롬프트 및 데이터셋 모음으로 다국어 언어 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bsmu/MLC-SLM-Eval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bsmu/MLC-SLM-Eval"
-downloads: 410
+downloads: 419
 summary: "MLC-SLM 평가용 다국어 대화 음성 언어 모델 데이터셋의 오라클 분할, 화자 라벨, 전사 제공"
 readme_status: "ok"
 readme_language: "en"

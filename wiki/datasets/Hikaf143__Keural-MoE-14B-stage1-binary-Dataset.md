@@ -3,7 +3,7 @@ type: "dataset"
 id: "Hikaf143/Keural-MoE-14B-stage1-binary-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Hikaf143/Keural-MoE-14B-stage1-binary-Dataset"
-downloads: 88
+downloads: 91
 summary: "Keural MoE Foundation Model 학습용으로 695억 토큰의 이진 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

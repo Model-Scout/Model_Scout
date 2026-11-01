@@ -3,7 +3,7 @@ type: "dataset"
 id: "eaglewatch/Korean_Wikipedia_Dataset_for_GPT2_August_2022"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eaglewatch/Korean_Wikipedia_Dataset_for_GPT2_August_2022"
-downloads: 379
+downloads: 181
 summary: "2022년 8월 기준 한국어 위키피디아 전체 데이터를 GPT-2 학습용으로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

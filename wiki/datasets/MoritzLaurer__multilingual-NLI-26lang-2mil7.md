@@ -3,7 +3,7 @@ type: "dataset"
 id: "MoritzLaurer/multilingual-NLI-26lang-2mil7"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MoritzLaurer/multilingual-NLI-26lang-2mil7"
-downloads: 2926
+downloads: 2936
 summary: "26개 언어로 된 273만 개의 NLI 텍스트 쌍 데이터셋으로 다국어 자연어 추론 및 제로샷 분류에 활용 가능하다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,6 +51,10 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `premise_original` 열 p90 438자 ≈ 110 토큰 (viewer statistics, default/ar_anli)
+
+## 같은 데이터의 사본·중복 등록
+
+- `JordanWu26/multilingual-NLI-26lang-2mil7`
 
 ## 이 데이터로 학습한 모델
 

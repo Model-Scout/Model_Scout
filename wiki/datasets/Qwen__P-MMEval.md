@@ -3,7 +3,7 @@ type: "dataset"
 id: "Qwen/P-MMEval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Qwen/P-MMEval"
-downloads: 929
+downloads: 1233
 summary: "P-MMEval은 10개 언어의 병렬 샘플을 포함한 다국어 멀티태스크 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -73,3 +73,7 @@ P-MMEval은 10개 언어의 병렬 샘플을 포함한 다국어 멀티태스크
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `src` 열 p90 190자 ≈ 48 토큰 (viewer statistics, flores/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `PiTtawat9/P-MMEval`

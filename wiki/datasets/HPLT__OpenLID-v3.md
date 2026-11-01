@@ -3,7 +3,7 @@ type: "dataset"
 id: "HPLT/OpenLID-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HPLT/OpenLID-v3"
-downloads: 311
+downloads: 284
 summary: "OpenLID-v3는 194개 언어 변종의 언어 식별 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

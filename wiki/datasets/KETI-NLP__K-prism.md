@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/K-prism"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/K-prism"
-downloads: 110
+downloads: 108
 summary: "K-Prism은 시각-언어 모델의 환각 현상 평가를 위한 한국어 진단 벤치마크 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

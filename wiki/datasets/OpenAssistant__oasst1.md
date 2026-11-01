@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenAssistant/oasst1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenAssistant/oasst1"
-downloads: 32998
+downloads: 33035
 summary: "OpenAssistant Conversations는 35개 언어로 된 어시스턴트 대화 데이터셋으로, 대규모 정렬 연구를 위한 품질 평가가 포함됨."
 readme_status: "ok"
 readme_language: "en"
@@ -57,3 +57,21 @@ OpenAssistant Conversations는 35개 언어로 된 어시스턴트 대화 데이
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 1499자 ≈ 375 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `02dastan/oasst1`
+- `AlexKitipov/oasst1`
+- `BrunoN-Dev/oasst1`
+- `CodNikhil/oasst1`
+- `Harristpf/oasst1`
+- `Nadzzz2050/oasst1`
+- `RajChat/Chatgpt`
+- `Sellopale/Assistantsellopale53oi`
+- `Sellopale/Assistantz8`
+- `Theafricatechguy/oasst1`
+- `Tylener/oasst1`
+- `Zyrexz/dataset`
+- `gijl/oasst1`
+- `spazziep456/oasst1`
+- `ustasulayman/oasst1`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Roman1111111/claude-opus-4.6-10000x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Roman1111111/claude-opus-4.6-10000x"
-downloads: 3977
+downloads: 3991
 summary: "Claude Opus 4.6 모델의 수학적 정확성과 논리 추론을 학습하는 고품질 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

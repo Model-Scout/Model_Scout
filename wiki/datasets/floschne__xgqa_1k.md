@@ -3,7 +3,7 @@ type: "dataset"
 id: "floschne/xgqa_1k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/floschne/xgqa_1k"
-downloads: 134
+downloads: 146
 summary: "xGQA 1K는 다국어 시각 질문응답 데이터셋 xGQA의 1천개 샘플 하위셋입니다."
 readme_status: "ok"
 readme_language: "en"

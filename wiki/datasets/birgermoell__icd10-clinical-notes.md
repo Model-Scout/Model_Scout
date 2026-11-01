@@ -3,7 +3,7 @@ type: "dataset"
 id: "birgermoell/icd10-clinical-notes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/birgermoell/icd10-clinical-notes"
-downloads: 188
+downloads: 198
 summary: "34개 언어로 된 ICD-10 진단 코드와 임상 기록 노트 데이터셋으로 분류기 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `name` 열 p90 35자 ≈ 9 토큰 (viewer statistics, default/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Danishaqil/icd10-clinical-notes`

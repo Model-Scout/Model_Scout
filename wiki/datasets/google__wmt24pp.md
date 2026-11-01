@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/wmt24pp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/wmt24pp"
-downloads: 9462
+downloads: 9741
 summary: "WMT24++는 55개 언어 쌍의 영어-다국어 번역 및 후편집 데이터를 제공하는 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,6 +53,11 @@ WMT24++는 55개 언어 쌍의 영어-다국어 번역 및 후편집 데이터�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `source` 열 p90 447자 ≈ 112 토큰 (viewer statistics, en-ko_KR/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Lulu19971017/wmt24pp`
+- `synquid/wmt24pp`
 
 ## 이 데이터로 학습한 모델
 

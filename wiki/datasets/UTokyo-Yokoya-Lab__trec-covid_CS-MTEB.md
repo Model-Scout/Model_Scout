@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/trec-covid_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/trec-covid_CS-MTEB"
-downloads: 326
+downloads: 335
 summary: "코드스위칭 쿼리를 포함한 TREC-COVID 데이터셋으로 텍스트 임베딩 벤치마크용입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "vincentkoc/tiny_qa_benchmark_pp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vincentkoc/tiny_qa_benchmark_pp"
-downloads: 702
+downloads: 903
 summary: "Tiny QA Benchmark++는 LLM 시스템의 오류를 빠르게 평가하는 초경량 QA 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

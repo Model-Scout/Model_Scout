@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/KMME"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/KMME"
-downloads: 166
+downloads: 186
 summary: "KMME는 시각 증거 기반 한국어 멀티모달 평가 데이터셋으로 모델의 증거 제한 능력을 평가합니다."
 readme_status: "ok"
 readme_language: "mixed"

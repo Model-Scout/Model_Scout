@@ -3,7 +3,7 @@ type: "dataset"
 id: "esdurmus/wiki_lingua"
 source: "huggingface"
 url: "https://huggingface.co/datasets/esdurmus/wiki_lingua"
-downloads: 825
+downloads: 1057
 summary: "WikiLingua는 18개 언어로 된 위키하우 가이드 문서와 요약문 쌍을 제공하는 다국어 요약 평가 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

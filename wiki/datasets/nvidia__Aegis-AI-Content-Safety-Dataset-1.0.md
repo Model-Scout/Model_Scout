@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Aegis-AI-Content-Safety-Dataset-1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Aegis-AI-Content-Safety-Dataset-1.0"
-downloads: 1795
+downloads: 1749
 summary: "Nemotron Content Safety Dataset V1은 LLM과 인간 간 상호작용을 수집한 콘텐츠 안전성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ Nemotron Content Safety Dataset V1은 LLM과 인간 간 상호작용을 수집�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 1445자 ≈ 361 토큰 (viewer statistics, default/test)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-legal-synthetic-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-legal-synthetic-qa"
-downloads: 102
+downloads: 107
 summary: "THUDM/chatglm3-6b-32k 모델과 판결문 데이터를 활용해 생성한 대만 법률 질의응답 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

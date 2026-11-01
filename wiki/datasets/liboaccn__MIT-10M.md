@@ -3,7 +3,7 @@ type: "dataset"
 id: "liboaccn/MIT-10M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/liboaccn/MIT-10M"
-downloads: 138
+downloads: 150
 summary: "MIT-10M은 14개 언어 이미지-텍스트 병렬 데이터를 포함한 대규모 다국어 이미지 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

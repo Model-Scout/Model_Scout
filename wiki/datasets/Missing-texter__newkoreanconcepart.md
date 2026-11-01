@@ -3,7 +3,7 @@ type: "dataset"
 id: "Missing-texter/newkoreanconcepart"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Missing-texter/newkoreanconcepart"
-downloads: 84
+downloads: 88
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

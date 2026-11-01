@@ -3,7 +3,7 @@ type: "dataset"
 id: "r-three-moto/multilingual-addition"
 source: "huggingface"
 url: "https://huggingface.co/datasets/r-three-moto/multilingual-addition"
-downloads: 457
+downloads: 514
 summary: "25개 언어와 숫자 문자열로 된 덧셈 문제 데이터셋으로 토크나이제이션 영향 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

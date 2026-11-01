@@ -3,7 +3,7 @@ type: "dataset"
 id: "DataDrivenConstruction/cwicr-vector-db-bgem3-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DataDrivenConstruction/cwicr-vector-db-bgem3-v3"
-downloads: 296
+downloads: 318
 summary: "30개국 건설 공사 항목, 비용, 자원 다국어 카탈로그의 임베딩 벡터 DB로 건설비용 검색에 활용됨."
 readme_status: "ok"
 readme_language: "en"

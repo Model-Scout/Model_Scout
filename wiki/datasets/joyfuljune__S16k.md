@@ -3,7 +3,7 @@ type: "dataset"
 id: "joyfuljune/S16k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/joyfuljune/S16k"
-downloads: 109
+downloads: 117
 summary: "NetEase Cloud Music에서 수집한 169,148곡의 다중 감정 라벨 음악 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

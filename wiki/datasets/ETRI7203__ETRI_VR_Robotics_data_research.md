@@ -3,7 +3,7 @@ type: "dataset"
 id: "ETRI7203/ETRI_VR_Robotics_data_research"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ETRI7203/ETRI_VR_Robotics_data_research"
-downloads: 237
+downloads: 236
 summary: "Apple Vision Pro 텔레오퍼레이션으로 로봇 행동 변화 연구를 위한 VR 로봇 시연 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -46,3 +46,7 @@ Apple Vision Pro 텔레오퍼레이션으로 로봇 행동 변화 연구를 위�
 - **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `ETRI VR Robotics Data Research — 데이터 · 가중치 저장소` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `실물 회차(10회 단위, 사람 육안 판정) · 결과는 `result` 브랜치` · 신뢰도 low
+
+## 같은 데이터의 사본·중복 등록
+
+- `logan098/ETRI_VR_Robotics_data_research`

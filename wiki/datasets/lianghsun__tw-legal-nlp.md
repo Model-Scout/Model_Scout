@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-legal-nlp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-legal-nlp"
-downloads: 75
+downloads: 81
 summary: "tw-legal-nlp는 대만 법률 분야의 명명 개체 인식, 법률 텍스트 이해, 구조화, 조문 표기 변환을 위한 소규모 다중 작업 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

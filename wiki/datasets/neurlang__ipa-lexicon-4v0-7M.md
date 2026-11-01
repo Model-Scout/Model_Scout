@@ -3,7 +3,7 @@ type: "dataset"
 id: "neurlang/ipa-lexicon-4v0-7M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neurlang/ipa-lexicon-4v0-7M"
-downloads: 185
+downloads: 174
 summary: "350개 이상의 언어로 된 690만 단어 IPA 음성 사전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

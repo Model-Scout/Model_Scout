@@ -3,7 +3,7 @@ type: "dataset"
 id: "Calandracas/calibration-blend"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Calandracas/calibration-blend"
-downloads: 89
+downloads: 98
 summary: "LLM-Compressor를 이용한 LLM 양자화 보정을 위한 32107개 예제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

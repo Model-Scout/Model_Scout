@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/ko_government_qa_total_linkbricks_single_dataset_with_prompt_text_huggingface_sampled"
-downloads: 20
+downloads: 25
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

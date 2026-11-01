@@ -3,7 +3,7 @@ type: "dataset"
 id: "BCCard/BCAI-Finance-Kor-Embedding-Triplet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BCCard/BCAI-Finance-Kor-Embedding-Triplet"
-downloads: 82
+downloads: 81
 summary: "한국 금융 도메인 문장 임베딩 모델 미세조정용 삼중항 데이터셋으로, 검증 및 테스트에 등급화된 관련성 레이블 포함."
 readme_status: "ok"
 readme_language: "en"

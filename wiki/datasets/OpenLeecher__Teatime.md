@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenLeecher/Teatime"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenLeecher/Teatime"
-downloads: 363
+downloads: 360
 summary: "OpenLeecher/Teatime는 대화 로그를 파싱한 데이터로 대화 분석에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

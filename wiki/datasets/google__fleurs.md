@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/fleurs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/fleurs"
-downloads: 176323
+downloads: 179398
 summary: "102개 언어의 음성 인식, 번역, 분류, 검색 평가용 다국어 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

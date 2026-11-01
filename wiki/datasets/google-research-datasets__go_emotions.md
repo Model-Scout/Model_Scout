@@ -3,8 +3,8 @@ type: "dataset"
 id: "google-research-datasets/go_emotions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/go_emotions"
-downloads: 29084
-summary: "GoEmotions는 27가지 감정 범주로 라벨링된 58k 개의 Reddit 댓글 데이터셋으로 감정 분류에 사용됩니다."
+downloads: 29136
+summary: "GoEmotions는 27가지 감정 범주로 라벨링된 58k개의 Reddit 댓글 데이터셋으로 감정 분류에 사용됨."
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -34,7 +34,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/google-research-datasets/go_emotions)
 
-GoEmotions는 27가지 감정 범주로 라벨링된 58k 개의 Reddit 댓글 데이터셋으로 감정 분류에 사용됩니다.
+GoEmotions는 27가지 감정 범주로 라벨링된 58k개의 Reddit 댓글 데이터셋으로 감정 분류에 사용됨.
 
 ## 분류
 
@@ -54,4 +54,6 @@ GoEmotions는 27가지 감정 범주로 라벨링된 58k 개의 Reddit 댓글 �
 
 ## 이 데이터로 학습한 모델
 
+- [[Horizon-Labs__multilingual-emotions-base|Horizon-Labs/multilingual-emotions-base]]
+- [[Horizon-Labs__multilingual-emotions-small|Horizon-Labs/multilingual-emotions-small]]
 - [[Zeolit__lettuce-thymos-26m-v1|Zeolit/lettuce-thymos-26m-v1]]

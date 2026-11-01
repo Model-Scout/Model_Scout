@@ -3,7 +3,7 @@ type: "dataset"
 id: "MasahiroKaneko/JailNewsBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MasahiroKaneko/JailNewsBench"
-downloads: 129
+downloads: 137
 summary: "JailNewsBench는 다국어 뉴스 기사와 악의적 지시문으로 LLM의 가짜 뉴스 생성 방어력을 평가하는 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

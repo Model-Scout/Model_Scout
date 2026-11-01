@@ -3,7 +3,7 @@ type: "dataset"
 id: "taeshahn/ko-lima"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taeshahn/ko-lima"
-downloads: 122
+downloads: 138
 summary: "Meta의 LIMA 학습 데이터를 한국어로 번역한 데이터셋으로, 학습과 평가에 사용됩니다."
 readme_status: "ok"
 readme_language: "mixed"

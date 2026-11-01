@@ -3,7 +3,7 @@ type: "dataset"
 id: "MrBananaHuman/kor_ethical_question_answer"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MrBananaHuman/kor_ethical_question_answer"
-downloads: 60
+downloads: 61
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

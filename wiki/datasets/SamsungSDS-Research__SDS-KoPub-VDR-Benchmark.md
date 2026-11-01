@@ -3,7 +3,7 @@ type: "dataset"
 id: "SamsungSDS-Research/SDS-KoPub-VDR-Benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SamsungSDS-Research/SDS-KoPub-VDR-Benchmark"
-downloads: 429
+downloads: 449
 summary: "한국 공공 문서의 시각 문서 검색을 위한 멀티모달 QA 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

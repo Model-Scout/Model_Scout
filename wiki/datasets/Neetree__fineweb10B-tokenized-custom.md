@@ -3,7 +3,7 @@ type: "dataset"
 id: "Neetree/fineweb10B-tokenized-custom"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Neetree/fineweb10B-tokenized-custom"
-downloads: 363
+downloads: 401
 summary: "FineWeb-Edu 원본을 토크나이즈한 데이터셋으로, 대규모 언어 모델 사전학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

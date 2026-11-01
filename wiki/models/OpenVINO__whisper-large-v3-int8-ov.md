@@ -3,7 +3,7 @@ type: "model"
 id: "OpenVINO/whisper-large-v3-int8-ov"
 source: "huggingface"
 url: "https://huggingface.co/OpenVINO/whisper-large-v3-int8-ov"
-downloads: 13281
+downloads: 1344
 task:
   - "[[음성 인식]]"
 input_modality:

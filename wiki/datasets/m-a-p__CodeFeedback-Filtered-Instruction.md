@@ -3,7 +3,7 @@ type: "dataset"
 id: "m-a-p/CodeFeedback-Filtered-Instruction"
 source: "huggingface"
 url: "https://huggingface.co/datasets/m-a-p/CodeFeedback-Filtered-Instruction"
-downloads: 22241
+downloads: 21810
 summary: "OpenCodeInterpreter의 코드 생성 및 실행 기능을 위한 고품질 코드 명령어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

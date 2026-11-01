@@ -3,7 +3,7 @@ type: "dataset"
 id: "clapAI/MultiLingualSentiment"
 source: "huggingface"
 url: "https://huggingface.co/datasets/clapAI/MultiLingualSentiment"
-downloads: 319
+downloads: 308
 summary: "MultilingualSentiment은 다국어 감정 분류 데이터셋으로 긍정, 중립, 부정 레이블을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

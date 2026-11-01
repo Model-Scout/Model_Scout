@@ -3,7 +3,7 @@ type: "dataset"
 id: "hotchpotch/wikipedia-multilingual-synthetic-ir-query"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hotchpotch/wikipedia-multilingual-synthetic-ir-query"
-downloads: 1909
+downloads: 2313
 summary: "위키피디아 기반 다국어 합성 질의-문서 쌍 데이터로 정보 검색 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nyu-mll/multi_nli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nyu-mll/multi_nli"
-downloads: 42039
+downloads: 42060
 summary: "MultiNLI는 다양한 장르의 문장 쌍에 대한 자연어 추론 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

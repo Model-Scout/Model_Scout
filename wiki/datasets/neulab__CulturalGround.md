@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/CulturalGround"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/CulturalGround"
-downloads: 6200
+downloads: 6084
 summary: "CulturalGround은 42개국 39개 언어의 문화 지식을 기반으로 한 대규모 다국어 멀티모달 VQA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

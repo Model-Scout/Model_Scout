@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/OpenAssistant-oasst"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/OpenAssistant-oasst"
-downloads: 182
+downloads: 190
 summary: "OpenAssistant 대화 데이터셋으로, 전 세계 자원봉사자가 생성하고 주석한 어시스턴트 스타일 대화 모음입니다."
 readme_status: "ok"
 readme_language: "en"

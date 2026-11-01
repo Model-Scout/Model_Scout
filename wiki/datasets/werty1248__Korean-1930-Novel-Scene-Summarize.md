@@ -3,7 +3,7 @@ type: "dataset"
 id: "werty1248/Korean-1930-Novel-Scene-Summarize"
 source: "huggingface"
 url: "https://huggingface.co/datasets/werty1248/Korean-1930-Novel-Scene-Summarize"
-downloads: 82
+downloads: 74
 summary: "한국 저작권 만료 소설을 씬 단위로 분리하고 요약한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

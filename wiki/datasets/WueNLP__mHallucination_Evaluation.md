@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/mHallucination_Evaluation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/mHallucination_Evaluation"
-downloads: 129
+downloads: 141
 summary: "30개 언어 위키피디아 기반 LLM 환각 평가용 합성 쿼리-참조 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

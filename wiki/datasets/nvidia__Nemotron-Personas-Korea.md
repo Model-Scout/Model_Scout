@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Personas-Korea"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea"
-downloads: 6298
+downloads: 6483
 summary: "대한민국 인구통계 기반 합성 페르소나 데이터셋으로 소버린 AI 개발에 활용됨"
 readme_status: "ok"
 readme_language: "mixed"
@@ -51,6 +51,54 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `professional_persona` 열 p90 200자 ≈ 134 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `AliciaKang/Nemotron-Personas-Korea`
+- `ChaNation/Nemotron-Personas-Korea`
+- `ChloeLynn/Nemotron-Personas-Korea`
+- `Daniel10004/Nemotron-Personas-Korea`
+- `DannyWoogagongtayafull/Nemotron-Personas-Korea`
+- `Dev-Jahn/Nemotron-Personas-Korea`
+- `Erling09/Nemotron-Personas-Korea`
+- `Gerutrute/Nemotron-Personas-Korea`
+- `JayElise/Nemotron-Personas-Korea`
+- `John-is-tech-guru/Nemotron-Personas-Korea`
+- `Lawmanmatt0786/Nemotron-Personas-Korea`
+- `Mage1tom/Nemotron-Personas-Korea`
+- `Nakhoon/Nemotron-Personas-Korea`
+- `ReginG/Nemotron-Personas-Korea`
+- `Subrat-369/Big-data`
+- `Sunphil/Nemotron-Personas-Korea`
+- `Tahn/Nemotron-Personas-Korea`
+- `Wowso/Nemotron-Personas-Korea`
+- `Xalitobeirut/Nemotron-Personas-Korea`
+- `ZZUNZZUN/Nemotron-Personas-Korea`
+- `an2zzang/Nemotron-Personas-Korea`
+- `bekkos/Nemotron-Personas-Korea`
+- `codecainecowboy/Nemotron-Personas-Korea`
+- `dakafrio/Nemotron-Personas-Korea`
+- `dataj12/Nemotron-Personas-Korea`
+- `dori59with/Nemotron-Personas-Korea`
+- `ericdong7673/Nemotron-Personas-Korea`
+- `eungone1/Nemotron-Personas-Korea`
+- `harinyoon/Nemotron-Personas-Korea`
+- `ilikesleep/Nemotron-Personas-Korea`
+- `jemajema/Nemotron-Personas-Korea`
+- `kiiop1/Nemotron-Personas-Korea`
+- `liyah1616/Nemotron-Personas-Korea`
+- `mktpromanager/Nemotron-Personas-Korea`
+- `neomoon50/Nemotron-Personas-Korea`
+- `neuralnetworker/Nemotron-Personas-Korea`
+- `new260709/Nemotron-Personas-Korea`
+- `nguyenthuyan/Nemotron-Personas-Korea`
+- `nmlab2025/Nemotron-Personas-Korea`
+- `overmj/Nemotron-Personas-Korea`
+- `peter1748/Nemotron-Personas-Korea`
+- `space-mind/Nemotron-Personas-Korea`
+- `takeused/Nemotron-Personas-Korea`
+- `untitled84/Nemotron-Personas-Korea`
+- `yeon-woo/Nemotron-Personas-Korea`
 
 ## 이 데이터로 학습한 모델
 

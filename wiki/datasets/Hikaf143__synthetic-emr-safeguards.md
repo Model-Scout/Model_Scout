@@ -3,7 +3,7 @@ type: "dataset"
 id: "Hikaf143/synthetic-emr-safeguards"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Hikaf143/synthetic-emr-safeguards"
-downloads: 87
+downloads: 89
 summary: "48개의 완전 합성 한국어/영어 EMR 기록으로 소프트웨어 보호장치 테스트용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

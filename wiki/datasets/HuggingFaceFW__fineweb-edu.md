@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb-edu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu"
-downloads: 436721
+downloads: 436681
 summary: "FineWeb-Edu는 1.3조 토큰 규모의 교육용 웹 페이지 데이터셋으로, 교육 품질 분류기를 활용해 고품질 교육 데이터를 선별한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,12 +55,16 @@ FineWeb-Edu는 1.3조 토큰 규모의 교육용 웹 페이지 데이터셋으�
 
 ## 이 데이터로 학습한 모델
 
+- [[AneekC__quipu-moe-1B-A149M|AneekC/quipu-moe-1B-A149M]]
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
 - [[BlinkDL__rwkv-7-world|BlinkDL/rwkv-7-world]]
 - [[BlinkDL__rwkv7-g1|BlinkDL/rwkv7-g1]]
 - [[FINAL-Bench__Aether-7B-5Attn|FINAL-Bench/Aether-7B-5Attn]]
 - [[FINAL-Bench__Aether-7B-5Attn-it|FINAL-Bench/Aether-7B-5Attn-it]]
 - [[GuminiResearch__Gumini-1B-Base|GuminiResearch/Gumini-1B-Base]]
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]
 - [[RWKV__RWKV7-1.5B-20260805|RWKV/RWKV7-1.5B-20260805]]
 - [[RWKV__RWKV7-13.3B-20260805|RWKV/RWKV7-13.3B-20260805]]
@@ -82,3 +86,4 @@ FineWeb-Edu는 1.3조 토큰 규모의 교육용 웹 페이지 데이터셋으�
 - [[palette-lab__songgot-12l|palette-lab/songgot-12l]]
 - [[palette-lab__songgot-l|palette-lab/songgot-l]]
 - [[palette-lab__songgot-m|palette-lab/songgot-m]]
+- [[shopkeeper__kor-finewiki-1b-base|shopkeeper/kor-finewiki-1b-base]]

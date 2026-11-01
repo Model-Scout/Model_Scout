@@ -3,7 +3,7 @@ type: "dataset"
 id: "Sauers/Qwen3-8B-tawny-owl-128-neurons-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Sauers/Qwen3-8B-tawny-owl-128-neurons-data"
-downloads: 94
+downloads: 101
 summary: "Qwen3-8B 모델의 128 뉴런을 훈련시키기 위한 부엉이 캐릭터 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

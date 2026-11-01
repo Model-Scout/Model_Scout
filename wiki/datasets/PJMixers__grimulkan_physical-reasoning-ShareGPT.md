@@ -3,7 +3,7 @@ type: "dataset"
 id: "PJMixers/grimulkan_physical-reasoning-ShareGPT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PJMixers/grimulkan_physical-reasoning-ShareGPT"
-downloads: 28
+downloads: 30
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

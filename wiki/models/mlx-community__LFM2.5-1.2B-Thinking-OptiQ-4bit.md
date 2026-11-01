@@ -3,7 +3,7 @@ type: "model"
 id: "mlx-community/LFM2.5-1.2B-Thinking-OptiQ-4bit"
 source: "huggingface"
 url: "https://huggingface.co/mlx-community/LFM2.5-1.2B-Thinking-OptiQ-4bit"
-downloads: 119
+downloads: 138
 context_length: 128000
 parameters_b: 1.17
 task:

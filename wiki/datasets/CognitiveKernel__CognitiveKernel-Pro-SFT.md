@@ -3,7 +3,7 @@ type: "dataset"
 id: "CognitiveKernel/CognitiveKernel-Pro-SFT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CognitiveKernel/CognitiveKernel-Pro-SFT"
-downloads: 180
+downloads: 174
 summary: "GPT-4.1 기반 심층 연구 에이전트 학습용 SFT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

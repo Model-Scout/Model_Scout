@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/databricks-dolly-15k-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/databricks-dolly-15k-ko"
-downloads: 36
+downloads: 43
 summary: "Databricks 직원들이 생성한 명령어-응답 쌍 15,000개로 LLM 학습에 활용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

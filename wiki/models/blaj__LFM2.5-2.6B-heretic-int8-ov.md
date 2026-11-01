@@ -3,7 +3,7 @@ type: "model"
 id: "blaj/LFM2.5-2.6B-heretic-int8-ov"
 source: "huggingface"
 url: "https://huggingface.co/blaj/LFM2.5-2.6B-heretic-int8-ov"
-downloads: 86
+downloads: 135
 context_length: 131072
 task:
   - "[[텍스트 생성]]"

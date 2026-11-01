@@ -3,7 +3,7 @@ type: "dataset"
 id: "blueapple8259/c4-ko-cleaned-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/blueapple8259/c4-ko-cleaned-2"
-downloads: 63
+downloads: 101
 readme_status: "thin"
 readme_language: "mixed"
 korean_focus: "ko_only"

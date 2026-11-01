@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/tiny-aya-water"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/tiny-aya-water"
-downloads: 312
+downloads: 277
 parameters_b: 3.349
 task:
   - "[[텍스트 생성]]"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "SabaPivot/KMMLU-Summarized-Chain_of_Thought"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SabaPivot/KMMLU-Summarized-Chain_of_Thought"
-downloads: 650
+downloads: 867
 summary: "KMMLU 원본 데이터를 요약하고 추론 체인 추가한 한국어 다중선택 문제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

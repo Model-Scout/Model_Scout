@@ -3,7 +3,7 @@ type: "dataset"
 id: "ChuGyouk/AI-MO-NuminaMath-CoT-Ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ChuGyouk/AI-MO-NuminaMath-CoT-Ko"
-downloads: 83
+downloads: 93
 summary: "수학 문제 풀이를 위한 한국어 번역 데이터셋으로, AI 모델 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

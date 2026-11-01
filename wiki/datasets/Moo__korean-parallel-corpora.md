@@ -3,7 +3,7 @@ type: "dataset"
 id: "Moo/korean-parallel-corpora"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Moo/korean-parallel-corpora"
-downloads: 207
+downloads: 235
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

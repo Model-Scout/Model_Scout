@@ -3,7 +3,7 @@ type: "dataset"
 id: "sarulab-speech/commonvoice22_sidon"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sarulab-speech/commonvoice22_sidon"
-downloads: 3440
+downloads: 3436
 summary: "Mozilla Common Voice 22 데이터를 Sidon 음성 복원 모델로 복원한 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

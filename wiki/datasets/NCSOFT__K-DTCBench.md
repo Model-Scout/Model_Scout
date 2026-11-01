@@ -3,7 +3,7 @@ type: "dataset"
 id: "NCSOFT/K-DTCBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NCSOFT/K-DTCBench"
-downloads: 241
+downloads: 248
 summary: "K-DTCBench는 컴퓨터 생성 및 손글씨 문서, 표, 차트 이미지에 대한 한국어 시각-언어 모델 평가용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

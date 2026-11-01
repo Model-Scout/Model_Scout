@@ -3,7 +3,7 @@ type: "dataset"
 id: "humane-lab/PetQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/humane-lab/PetQA"
-downloads: 169
+downloads: 190
 summary: "PetQA는 반려동물 수의학 지식과 임상 추론을 평가하는 장문 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

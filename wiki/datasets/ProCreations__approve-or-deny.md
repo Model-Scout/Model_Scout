@@ -3,7 +3,7 @@ type: "dataset"
 id: "ProCreations/approve-or-deny"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ProCreations/approve-or-deny"
-downloads: 173
+downloads: 175
 summary: "사용자 요청과 에이전트 행동을 바탕으로 위험한 도구 호출을 승인 또는 거부하는 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

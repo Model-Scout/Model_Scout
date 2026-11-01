@@ -3,7 +3,7 @@ type: "dataset"
 id: "jukofyork/slop-fiction-paragraphs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jukofyork/slop-fiction-paragraphs"
-downloads: 24
+downloads: 26
 summary: "내러티브 소설의 중간 단락을 모은 데이터셋으로 텍스트 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

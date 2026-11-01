@@ -3,7 +3,7 @@ type: "dataset"
 id: "dynohyuck/K-FinancialSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dynohyuck/K-FinancialSpeech"
-downloads: 137
+downloads: 149
 summary: "금융 서비스 상황에서 감정 발화를 수집한 한국어 금융 도메인 감정 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "FINAL-Bench/Aether-7B-5Attn-checkpoints"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FINAL-Bench/Aether-7B-5Attn-checkpoints"
-downloads: 94
+downloads: 101
 summary: "Aether-7B-5Attn 중간 사전학습 체크포인트로 재현성과 학습 동역학 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

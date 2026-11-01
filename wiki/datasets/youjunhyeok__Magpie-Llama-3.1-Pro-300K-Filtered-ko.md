@@ -3,7 +3,7 @@ type: "dataset"
 id: "youjunhyeok/Magpie-Llama-3.1-Pro-300K-Filtered-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/youjunhyeok/Magpie-Llama-3.1-Pro-300K-Filtered-ko"
-downloads: 88
+downloads: 91
 summary: "Magpie-Align 데이터셋을 영어에서 한국어로 번역한 5천자 이하 정제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

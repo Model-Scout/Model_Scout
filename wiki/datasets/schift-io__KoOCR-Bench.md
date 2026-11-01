@@ -3,7 +3,7 @@ type: "dataset"
 id: "schift-io/KoOCR-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/schift-io/KoOCR-Bench"
-downloads: 446
+downloads: 482
 summary: "한국어 문서 OCR 및 문서 파싱 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

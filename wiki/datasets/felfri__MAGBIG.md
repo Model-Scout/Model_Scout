@@ -3,7 +3,7 @@ type: "dataset"
 id: "felfri/MAGBIG"
 source: "huggingface"
 url: "https://huggingface.co/datasets/felfri/MAGBIG"
-downloads: 82
+downloads: 109
 summary: "10개 언어로 편향 평가 및 이미지 생성을 위한 다국어 텍스트-이미지 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "swmin/ani-guide-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/swmin/ani-guide-data"
-downloads: 107
+downloads: 109
 readme_status: "thin"
 readme_language: "mixed"
 korean_focus: "ko_with_others"

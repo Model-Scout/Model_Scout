@@ -3,7 +3,7 @@ type: "dataset"
 id: "MMTR-Bench/MMTR-Bench-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MMTR-Bench/MMTR-Bench-Dataset"
-downloads: 510
+downloads: 481
 summary: "MMTR-Bench는 복잡한 멀티모달 입력에서 시각적 문맥 복원을 평가하는 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -1,0 +1,197 @@
+---
+language:
+- en
+- de
+- fr
+- es
+- it
+- pt
+- ru
+- uk
+- pl
+- nl
+- sv
+- da
+- fi
+- nb
+- nn
+- cs
+- sk
+- ro
+- hr
+- sl
+- hu
+- bg
+- el
+- ca
+- lt
+- lv
+- et
+- eu
+- gl
+- is
+- an
+- ja
+- ko
+- zh
+- ar
+- he
+- fa
+- tr
+- id
+- ms
+- fil
+- vi
+- th
+license: apache-2.0
+task_categories:
+- text-classification
+task_ids:
+- intent-classification
+tags:
+- yes-no
+- dialogue
+- multilingual
+- agreement
+- intent
+size_categories:
+- 10K<n<100K
+---
+
+# Yes/No Multilingual Answers Dataset
+
+A dataset of **10,709** conversational utterances for classifying yes/no/ambiguous responses across **43 languages**.
+
+## Dataset Description
+
+Each sample is a natural language utterance a person might say in response to a yes/no question. The dataset covers three classes:
+
+| Label | Description |
+|-------|-------------|
+| `yes` | Affirmation, agreement, or confirmation |
+| `no` | Negation, refusal, or disagreement |
+| `None` | Genuinely ambiguous — cannot be resolved without context |
+
+### Schema
+
+```
+utterance,agreement,subtype,language
+"ja","yes","Y1","de"
+"absolument pas","no","N2","fr"
+"peut-être","None","C1","fr"
+```
+
+## Statistics
+
+| Metric | Value |
+|--------|-------|
+| Total samples | 10,709 |
+| Languages | 43 |
+| Samples per language | 224–290 (avg 249) |
+| Label: yes | 3,873 (36.2%) |
+| Label: no | 3,826 (35.7%) |
+| Label: None | 3,010 (28.1%) |
+| Semantic subtypes | 28 |
+| Min samples per subtype per language | 8 |
+
+## Languages
+
+**European:** English · German · French · Spanish · Italian · Portuguese · Russian · Ukrainian · Polish · Dutch · Swedish · Danish · Finnish · Norwegian Bokmål · Norwegian Nynorsk · Czech · Slovak · Romanian · Croatian · Slovenian · Hungarian · Bulgarian · Greek · Catalan · Lithuanian · Latvian · Estonian · Basque · Galician · Icelandic · Aragonese
+
+**Asian & Middle Eastern:** Japanese · Korean · Chinese · Arabic · Hebrew · Persian · Turkish · Indonesian · Malay · Filipino · Vietnamese · Thai
+
+## Semantic Subtypes
+
+### YES (Y1–Y10)
+| ID | Description | English Examples |
+|----|-------------|-----------------|
+| Y1 | Direct affirmation | yes, yeah, yep, aye |
+| Y2 | Emphatic affirmation | absolutely, definitely, without a doubt |
+| Y3 | Polite/soft affirmation | of course, gladly, with pleasure |
+| Y4 | Colloquial/slang affirmation | you bet, totally, hell yeah |
+| Y5 | Agreement with proposition | I agree, exactly, spot on |
+| Y6 | Preference/willingness | I'd love to, I'm in, sounds good |
+| Y7 | Paradox resolving to yes | I can't say no, I don't disagree |
+| Y8 | Rhetorical confirmation | is the sky blue?, does a bear live in the woods? |
+| Y9 | Non-verbal/gestural description | *nods*, *thumbs up* |
+| Y10 | Contextual indirect yes | let's do it, that works for me |
+
+### NO (N1–N10)
+| ID | Description | English Examples |
+|----|-------------|-----------------|
+| N1 | Direct negation | no, nope, nay, nah |
+| N2 | Emphatic negation | absolutely not, never, no way |
+| N3 | Polite/soft negation | I'd rather not, I'm afraid not |
+| N4 | Colloquial/slang negation | hard pass, not happening, fat chance |
+| N5 | Disagreement with proposition | I disagree, you're wrong, that's incorrect |
+| N6 | Refusal/aversion | I refuse, count me out, I won't |
+| N7 | Paradox resolving to no | yes but actually no, yes yes yes but no |
+| N8 | Rhetorical denial | when pigs fly, not in a million years |
+| N9 | Non-verbal/gestural description | *shakes head*, *thumbs down* |
+| N10 | Contextual indirect no | I'll pass, no thank you, I'm good |
+
+### NONE / Ambiguous (C1–C8)
+| ID | Description | English Examples |
+|----|-------------|-----------------|
+| C1 | Pure uncertainty | maybe, perhaps, I'm not sure |
+| C2 | Conditional yes | only if, depends on the price |
+| C3 | Conditional no | unless you can prove it, not if it costs money |
+| C4 | Deferral / time-based | later, not now, ask me again |
+| C5 | Processing / thinking | let me think, I'm considering it |
+| C6 | Ambiguous both-sides | it depends, I have mixed feelings |
+| C7 | Redirection / clarification | why do you ask?, what do you mean? |
+| C8 | Partial agreement | sort of, kind of, more or less |
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `yesno_multilingual.csv` | Main dataset (10,709 rows) |
+| `taxonomy.md` | Full taxonomy, subtype definitions, and golden rules |
+
+## Usage
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("Jarbas/yes-no-multilingual")
+```
+
+### Filter by language
+
+```python
+en = ds["train"].filter(lambda x: x["language"] == "en")
+```
+
+### Filter by label
+
+```python
+yes_only = ds["train"].filter(lambda x: x["agreement"] == "yes")
+```
+
+## How the Data Was Generated
+
+All utterances were generated directly by a large language model (Claude) acting as a multilingual conversational AI. No machine translation was used — each utterance was composed idiomatically in its target language from scratch.
+
+The generation process followed a strict per-language protocol:
+
+1. **Taxonomy-first**: Each language block was generated by iterating over all 28 semantic subtypes (Y1–Y10, N1–N10, C1–C8) and producing multiple idiomatic examples per subtype.
+2. **Register coverage**: Examples span formal, neutral, and casual registers. Languages with formal/informal T–V distinction (German du/Sie, French tu/vous, Spanish tú/usted, Japanese plain/polite forms, Korean formal/informal, etc.) include both.
+3. **Golden rules enforcement**: Each utterance was checked against validation rules covering label integrity, no label leaking, length ≤ 75 characters, naturalism, and uniqueness.
+4. **Cultural authenticity**: Rhetorical forms (Y8, N8) use idioms native to each language's culture rather than translated English expressions.
+5. **Deduplication**: A global deduplication pass ensures no utterance appears twice across the entire dataset.
+
+The language set aligns with the [OVOS localize](https://github.com/OpenVoiceOS/ovos-localize) classification dataset, covering European, Middle Eastern, and Asian languages including minority and regional languages (Basque, Catalan, Galician, Aragonese, Norwegian Nynorsk, Icelandic).
+
+## Quality Guarantees
+
+- **No machine translation** — all utterances are idiomatically authentic per language
+- **≥ 8 samples per subtype per language** — every (language × subtype) cell is covered
+- **Zero duplicates** — global case-insensitive deduplication across all 43 languages
+- **Zero overlength entries** — all utterances ≤ 75 characters
+- **Register diversity** — formal, neutral, and casual speech per language
+- **Paradox handling** — utterances like "yes but actually no" are labeled by final resolution
+
+## License
+
+Apache 2.0

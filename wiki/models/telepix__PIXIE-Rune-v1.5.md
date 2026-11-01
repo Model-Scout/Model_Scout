@@ -3,7 +3,7 @@ type: "model"
 id: "telepix/PIXIE-Rune-v1.5"
 source: "huggingface"
 url: "https://huggingface.co/telepix/PIXIE-Rune-v1.5"
-downloads: 1836
+downloads: 2120
 context_length: 8194
 parameters_b: 0.568
 task:

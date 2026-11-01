@@ -3,7 +3,7 @@ type: "dataset"
 id: "liveplex/robogate-failure-dictionary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/liveplex/robogate-failure-dictionary"
-downloads: 143
+downloads: 137
 summary: "NVIDIA Isaac Sim 시뮬레이션 기반 4개 로봇 픽앤플레이스 실패 패턴 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"

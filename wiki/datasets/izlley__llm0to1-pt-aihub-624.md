@@ -3,7 +3,7 @@ type: "dataset"
 id: "izlley/llm0to1-pt-aihub-624"
 source: "huggingface"
 url: "https://huggingface.co/datasets/izlley/llm0to1-pt-aihub-624"
-downloads: 238
+downloads: 242
 summary: "AI-Hub 웹데이터 기반 한국어 말뭉치로 LLM 사전학습에 사용되는 전처리 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"

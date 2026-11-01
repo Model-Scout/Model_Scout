@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/finepdfs-edu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/finepdfs-edu"
-downloads: 12548
+downloads: 15393
 summary: "3500억 개 이상의 교육용 PDF 토큰으로 구성된 다국어 교육 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,8 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `We fine-tuned a BERT-like regression model using these annotations` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Rafi757/Hugs`
+- `Web3Survivor/Survivor`

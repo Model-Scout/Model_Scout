@@ -3,7 +3,7 @@ type: "dataset"
 id: "md-nishat-008/mHumanEval-Benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/md-nishat-008/mHumanEval-Benchmark"
-downloads: 3195
+downloads: 3444
 summary: "mHumanEval은 200개 이상의 자연어와 24개 프로그래밍 언어로 구성된 코드 생성 평가용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

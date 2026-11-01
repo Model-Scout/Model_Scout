@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-chanwoo/keural-SFT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-chanwoo/keural-SFT"
-downloads: 187
+downloads: 259
 summary: "한국어와 영어로 된 Keural LLM 프로젝트용 지시문 튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

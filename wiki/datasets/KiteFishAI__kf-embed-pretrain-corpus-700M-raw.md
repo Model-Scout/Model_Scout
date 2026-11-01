@@ -3,7 +3,7 @@ type: "dataset"
 id: "KiteFishAI/kf-embed-pretrain-corpus-700M-raw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KiteFishAI/kf-embed-pretrain-corpus-700M-raw"
-downloads: 456
+downloads: 513
 summary: "다국어 임베딩 모델 Minnow-Em-v1 사전학습용 7억 쌍 쿼리-긍정 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

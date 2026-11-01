@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-NanoPlus-GGUF"
-downloads: 791
+downloads: 3481
 task:
   - "[[이미지 이해]]"
 input_modality:

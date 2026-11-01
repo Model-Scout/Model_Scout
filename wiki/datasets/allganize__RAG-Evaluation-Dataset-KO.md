@@ -3,7 +3,7 @@ type: "dataset"
 id: "allganize/RAG-Evaluation-Dataset-KO"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allganize/RAG-Evaluation-Dataset-KO"
-downloads: 576
+downloads: 620
 summary: "금융, 공공, 의료, 법률, 커머스 5개 도메인 한국어 RAG 성능 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

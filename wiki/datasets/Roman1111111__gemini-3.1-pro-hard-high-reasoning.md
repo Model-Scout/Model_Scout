@@ -3,7 +3,7 @@ type: "dataset"
 id: "Roman1111111/gemini-3.1-pro-hard-high-reasoning"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Roman1111111/gemini-3.1-pro-hard-high-reasoning"
-downloads: 3871
+downloads: 3874
 summary: "Gemini 3.1 Pro가 생성한 고난도 논리 추론 데이터셋으로, 복잡한 다단계 검증 문제 해결에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/korean-heritage-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/korean-heritage-qa"
-downloads: 122
+downloads: 140
 summary: "문화재 사진과 한국어 QA 문항으로 구성된 비상업적 한국어 문화재 QA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

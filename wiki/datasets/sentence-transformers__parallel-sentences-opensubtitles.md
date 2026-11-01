@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-opensubtitles"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-opensubtitles"
-downloads: 1227
+downloads: 1223
 summary: "OpenSubtitles 병렬 문장 데이터셋으로 다국어 문장 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

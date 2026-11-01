@@ -3,7 +3,7 @@ type: "dataset"
 id: "pufanyi/MIMICIT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pufanyi/MIMICIT"
-downloads: 675
+downloads: 667
 summary: "MIMIC-IT는 280만 멀티모달 지시-응답 쌍으로 VLM 성능 향상을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

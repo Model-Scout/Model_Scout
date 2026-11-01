@@ -3,7 +3,7 @@ type: "dataset"
 id: "Emulated-Inc/tool-decision-training-pool"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Emulated-Inc/tool-decision-training-pool"
-downloads: 434
+downloads: 421
 summary: "다섯 개 데이터셋에서 수집한 도구 호출 결정 학습용 데이터셋으로, 언제 도구를 호출할지 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/CodeFeedback-Filtered-Instruction-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/CodeFeedback-Filtered-Instruction-ko"
-downloads: 92
+downloads: 97
 summary: "m-a-p/CodeFeedback-Filtered-Instruction 데이터셋을 한국어로 번역한 코드 피드백용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

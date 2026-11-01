@@ -3,7 +3,7 @@ type: "dataset"
 id: "DeliberatorArchiver/gi_cutscn_new"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DeliberatorArchiver/gi_cutscn_new"
-downloads: 1304
+downloads: 1288
 summary: "애니메이션 게임 GI의 컷신 영상 파일 모음으로 연구 및 교육용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

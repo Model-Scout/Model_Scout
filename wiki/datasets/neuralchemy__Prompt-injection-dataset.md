@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralchemy/Prompt-injection-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralchemy/Prompt-injection-dataset"
-downloads: 3095
+downloads: 2894
 summary: "대형 언어 모델의 프롬프트 인젝션 및 탈옥 공격 탐지를 위한 이진 분류 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -45,4 +45,5 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]

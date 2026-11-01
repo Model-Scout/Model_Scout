@@ -3,7 +3,7 @@ type: "dataset"
 id: "Dxniz/TinyStories-Multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Dxniz/TinyStories-Multilingual"
-downloads: 172
+downloads: 191
 summary: "어린이용 단편 소설 15,688편을 28개 언어로 수록한 다국어 문학 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

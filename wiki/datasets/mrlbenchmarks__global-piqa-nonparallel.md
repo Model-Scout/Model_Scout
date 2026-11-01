@@ -3,7 +3,7 @@ type: "dataset"
 id: "mrlbenchmarks/global-piqa-nonparallel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mrlbenchmarks/global-piqa-nonparallel"
-downloads: 7517
+downloads: 7670
 summary: "100개 이상의 언어와 문화에 걸친 상식 추론 평가용 다국어 비병렬 PIQA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

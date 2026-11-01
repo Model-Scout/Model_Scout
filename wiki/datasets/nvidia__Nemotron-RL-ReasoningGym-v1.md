@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-ReasoningGym-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-ReasoningGym-v1"
-downloads: 1189
+downloads: 1187
 summary: "Nemotron-RL-ReasoningGym-v1은 다양한 추론 능력 향상을 위한 15,000개 샘플의 강화학습 환경 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -45,3 +45,4 @@ Nemotron-RL-ReasoningGym-v1은 다양한 추론 능력 향상을 위한 15,000�
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]

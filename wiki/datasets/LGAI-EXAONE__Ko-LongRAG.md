@@ -3,7 +3,7 @@ type: "dataset"
 id: "LGAI-EXAONE/Ko-LongRAG"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LGAI-EXAONE/Ko-LongRAG"
-downloads: 133
+downloads: 149
 summary: "한국어 장문 Retrieval-Augmented Generation(RAG) 평가를 위한 Ko-LongRAG 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

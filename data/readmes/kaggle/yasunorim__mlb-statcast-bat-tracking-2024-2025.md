@@ -1,0 +1,72 @@
+# MLB Statcast + Bat Tracking (2024-2026)
+
+Every regular-season MLB pitch 2024-2026 with bat speed and swing length
+
+# MLB Statcast + Bat Tracking (2024-2026)
+
+Every pitch of the **2024, 2025 and 2026 MLB regular seasons** from Baseball Savant, one row per pitch, with Statcast bat tracking (bat speed, swing length, attack angle, attack direction, swing path tilt, intercept point) on every tracked swing. The 2026 regular season ended on 2026-09-27 and is complete here. Batter and pitcher season tables and a player table are included.
+
+## Files
+
+| File | Rows | Description |
+|---|---|---|
+| `statcast_2024.parquet` | 711,899 | Every 2024 regular-season pitch (Seoul opener 2024-03-20 through 2024-09-30) |
+| `statcast_2025.parquet` | 712,528 | Every 2025 regular-season pitch (Tokyo opener 2025-03-18 through 2025-09-28) |
+| `statcast_2026.parquet` | 716,792 | Every 2026 regular-season pitch (2026-03-25 through 2026-09-27) |
+| `batter_season.csv` | 651 / 673 / 662 (2024 / 2025 / 2026) | Per batter and season: swings, whiff / zone-swing / chase rates, average bat speed (all tracked swings and Savant's competitive-swing definition), swing length, attack angle, exit velocity, hard-hit rate, xwOBA on contact, wOBA |
+| `pitcher_season.csv` | 855 / 873 / 868 (2024 / 2025 / 2026) | Per pitcher and season: whiff rate, CSW rate, zone and chase rates, four-seam velocity, bat speed against, exit velocity, hard-hit rate and xwOBA on contact allowed, wOBA allowed |
+| `players.csv` | 2,074 | Every batter and pitcher id in the pitch data: name, bats, throws, position, birth and debut dates (MLB StatsAPI) |
+| `tracking_gaps.csv` | 104 | Games whose tracking columns are permanently empty or thin in Baseball Savant (for example no bat tracking in the 2024 opening week): which game, which columns |
+
+The pitch files are Parquet (zstd) rather than CSV: the three seasons are about 2.1 million rows x 115 columns, which as CSV would be well over a gigabyte to download and parse, while Parquet keeps the column types (dates, integers with missing values, booleans) and lets you read only the columns you need:
+
+```python
+import pandas as pd
+cols = ['game_date', 'batter', 'pitcher', 'pitch_type', 'description', 'bat_speed', 'swing_length', 'attack_angle', 'launch_speed']
+df = pd.concat([pd.read_parquet(f'/kaggle/input/mlb-statcast-bat-tracking-2024-2025/statcast_{y}.parquet', columns=cols) for y in (2024, 2025, 2026)])
+```
+
+In the pitch files `player_name` is the **pitcher** (Savant's pitch search is by pitcher); batter names are in `players.csv` (`batter` = `player_id`).
+
+## Columns
+
+The pitch files carry Baseball Savant's Statcast search columns plus four added here:
+
+- `pitch_uid`: `game_pk-at_bat_number-pitch_number`, unique across all three seasons
+- `is_swing`: the batter swung (any swinging strike, foul, foul tip, bunt attempt or ball in play)
+- `is_whiff`: a whiff as Savant counts it (`swinging_strike`, `swinging_strike_blocked`, `missed_bunt`, `foul_tip`, `bunt_foul_tip`, `swinging_pitchout`); daily totals equal Savant's own whiff counts
+- `in_zone`: `zone` 1-9 (True) or 11-14 (False)
+
+Note from Savant's documentation: from 2026 `plate_x` / `plate_z` are measured at the middle of the plate (front of the plate through 2025) and `sz_top` / `sz_bot` are the batter's ABS-defined strike zone, so zone locations are not strictly comparable between 2026 and earlier seasons.
+
+Games at neutral sites without Hawk-Eye bat tracking have the bat tracking columns empty for the whole game: Seoul, Mexico City, London, Rickwood Field and Williamsport in 2024, Williamsport in 2025, and Mexico City, Las Vegas Ballpark (6 games), Field of Dreams and Williamsport in 2026 (dates in the column descriptions). The Tokyo and Bristol games have bat tracking.
+
+## What changed from the first version (2024-2025, February 2026)
+
+- **Regular season only.** The first version was made with pybaseball's `statcast()`, which asks Savant for game types R, PO and S: it carried 20,547 spring-training pitches (2024-03-20 to 03-26, as Savant counts them today). Every row now has `game_type` R.
+- **Complete seasons.** The 2025 Tokyo opener (2025-03-18/19, 625 pitches) and the 2024-09-30 make-up games (577 pitches) were missing; the season dates now come from MLB StatsAPI.
+- **2026 added** (complete regular season).
+- **One Parquet file per season** instead of one 846 MB CSV (`statcast_bat_tracking_2024_2025.csv`).
+- **Dropped columns**: `spin_dir`, `spin_rate_deprecated`, `break_angle_deprecated`, `break_length_deprecated`, `tfs_deprecated`, `tfs_zulu_deprecated`, `umpire`, `sv_id`, deprecated fields of the old tracking system that are empty on every pitch of 2024-2026. `miss_distance` (new in Savant's export) is added.
+- **New tables**: `batter_season.csv`, `pitcher_season.csv`, `players.csv`.
+- **Source**: Baseball Savant's Statcast search CSV directly (one request per day), not pybaseball.
+
+## How it is built and checked
+
+Built on GitHub Actions by `build.py` in [yasumorishima/kaggle-datasets](https://github.com/yasumorishima/kaggle-datasets) (`dataset4_statcast_bat_tracking/`). A new version is published only if every check passes:
+
+- every daily response has the requested date, regular-season games only and the right season
+- each season has at least 700,000 pitches, and its pitches other than the pitch-clock automatic balls and strikes equal Savant's own count of regular-season pitches for that season (automatic balls and strikes are rows here with an empty `pitch_type`; a few hundred real pitches a season also have no `pitch_type` because tracking failed for them)
+- the first and last day of each regular season have pitches, and every regular-season game MLB StatsAPI lists as final is present
+- no duplicate `pitch_uid`, and no day or game on which a normally filled column is empty or bat speed, xwOBA or run expectancy is unusually sparse (a day Savant has not finished processing), except gaps in tracking columns of games more than 30 days old, which Savant will not fill: those are listed game by game in `tracking_gaps.csv` (a season with more than 5% of games gapped still fails); the build also waits until three days after the end of the regular season
+- the dropped columns are empty in every row and every other column of the first version is still present
+- every batter and pitcher id resolves to a name in `players.csv`
+
+## Source and license
+
+Data: [Baseball Savant](https://baseballsavant.mlb.com/) (MLB Advanced Media) and [MLB StatsAPI](https://statsapi.mlb.com/). Use of MLB data is subject to MLB's terms. Aggregations and packaging released under CC0.
+
+출처: Kaggle (yasunorim/mlb-statcast-bat-tracking-2024-2025)
+태그: baseball, sports
+라이선스: CC0: Public Domain
+수정일: 2026-10-09T20:18:06.357Z

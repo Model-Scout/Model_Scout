@@ -3,8 +3,8 @@ type: "dataset"
 id: "psymon/Tiny-Ko-Stories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/psymon/Tiny-Ko-Stories"
-downloads: 117
-summary: "Tiny-Ko-Stories는 어린이용 한국어 짧은 이야기 데이터셋으로, 소형 언어 모델 학습에 적합합니다."
+downloads: 101
+summary: "Tiny-Ko-Stories는 한국어 어린이 이야기 데이터셋으로, 소형 모델 학습과 이야기 생성 연구에 활용됩니다."
 readme_status: "ok"
 readme_language: "mixed"
 korean_focus: "ko_only"
@@ -21,6 +21,8 @@ input_length:
   - "[[단문]]"
 commercial_use:
   - "[[상업 이용 가능]]"
+domain:
+  - "[[일반]]"
 dataset_role:
   - "[[학습용]]"
 data_format:
@@ -32,7 +34,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/psymon/Tiny-Ko-Stories)
 
-Tiny-Ko-Stories는 어린이용 한국어 짧은 이야기 데이터셋으로, 소형 언어 모델 학습에 적합합니다.
+Tiny-Ko-Stories는 한국어 어린이 이야기 데이터셋으로, 소형 모델 학습과 이야기 생성 연구에 활용됩니다.
 
 ## 분류
 
@@ -43,6 +45,7 @@ Tiny-Ko-Stories는 어린이용 한국어 짧은 이야기 데이터셋으로, �
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `285` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
+- **도메인**: [[일반]] — ner · readme = `Tiny-Ko-Stories는 TinyStories에서 영감을 받은 한국어 이야기 데이터셋입니다.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `- 소형 한국어 causal language model 학습
 - 한국어 이야기 생성 연구
 - 교육용 NLP 실험

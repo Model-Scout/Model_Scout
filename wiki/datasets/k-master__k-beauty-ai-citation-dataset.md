@@ -3,7 +3,7 @@ type: "dataset"
 id: "k-master/k-beauty-ai-citation-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/k-master/k-beauty-ai-citation-dataset"
-downloads: 145
+downloads: 148
 summary: "한국 K-뷰티 성분, 피부 고민, 사용 사례, 브랜드와 인용 가이드를 제공하는 AI 참고 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "LiquidAI/LFM2.5-VL-3B-ONNX"
 source: "huggingface"
 url: "https://huggingface.co/LiquidAI/LFM2.5-VL-3B-ONNX"
-downloads: 868
+downloads: 748
 context_length: 128000
 task:
   - "[[이미지 이해]]"

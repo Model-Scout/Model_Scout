@@ -3,7 +3,7 @@ type: "dataset"
 id: "aikstockdata/korea-equity-daily-2026-08"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aikstockdata/korea-equity-daily-2026-08"
-downloads: 93
+downloads: 78
 summary: "한국 상장기업 일별 주가와 DART 공시 영향 데이터를 제공하는 금융 시계열 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

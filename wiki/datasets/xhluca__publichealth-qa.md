@@ -3,7 +3,7 @@ type: "dataset"
 id: "xhluca/publichealth-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xhluca/publichealth-qa"
-downloads: 2152
+downloads: 2098
 summary: "CDC와 WHO의 COVID-19 관련 Q&A 쌍 데이터셋으로 질의응답 모델에 활용됨."
 readme_status: "ok"
 readme_language: "en"

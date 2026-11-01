@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/multiloko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/multiloko"
-downloads: 617
+downloads: 598
 summary: "MultiLoKo는 31개 언어의 지역 지식 질문과 번역 데이터를 포함한 다국어 지식 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

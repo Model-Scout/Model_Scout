@@ -3,7 +3,7 @@ type: "dataset"
 id: "mbasoz/xllora-datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mbasoz/xllora-datasets"
-downloads: 117
+downloads: 127
 summary: "XL-LoRA 방법으로 생성된 다국어 문장 삼중항 데이터셋으로 문장 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

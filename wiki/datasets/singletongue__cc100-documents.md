@@ -3,7 +3,7 @@ type: "dataset"
 id: "singletongue/cc100-documents"
 source: "huggingface"
 url: "https://huggingface.co/datasets/singletongue/cc100-documents"
-downloads: 1258
+downloads: 1276
 summary: "CC-100 데이터셋을 문서 단위로 재구성한 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

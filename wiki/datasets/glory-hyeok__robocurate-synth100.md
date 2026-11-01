@@ -3,7 +3,7 @@ type: "dataset"
 id: "glory-hyeok/robocurate-synth100"
 source: "huggingface"
 url: "https://huggingface.co/datasets/glory-hyeok/robocurate-synth100"
-downloads: 1009
+downloads: 1034
 summary: "Pre-Contact Level Filtering 검증용으로 생성된 100개의 로봇 조작 클립 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

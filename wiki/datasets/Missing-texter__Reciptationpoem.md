@@ -3,7 +3,7 @@ type: "dataset"
 id: "Missing-texter/Reciptationpoem"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Missing-texter/Reciptationpoem"
-downloads: 128
+downloads: 132
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

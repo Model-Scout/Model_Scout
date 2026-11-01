@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/total_ko_train_set_1_without_wiki_with_orca"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/total_ko_train_set_1_without_wiki_with_orca"
-downloads: 8
+downloads: 11
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

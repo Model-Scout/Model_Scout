@@ -3,7 +3,7 @@ type: "dataset"
 id: "jhu-clsp/bernice-pretrain-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jhu-clsp/bernice-pretrain-data"
-downloads: 91
+downloads: 106
 summary: "다국어 트윗 ID 25억 건으로 구성된 Bernice 트위터 인코더 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

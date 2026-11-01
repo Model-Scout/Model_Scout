@@ -3,7 +3,7 @@ type: "dataset"
 id: "telepix/STELLA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/telepix/STELLA"
-downloads: 128
+downloads: 163
 summary: "NASA 기술보고서 기반 항공우주 정보 검색 평가용 STELLA 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

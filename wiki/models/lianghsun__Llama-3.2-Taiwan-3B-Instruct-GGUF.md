@@ -3,7 +3,7 @@ type: "model"
 id: "lianghsun/Llama-3.2-Taiwan-3B-Instruct-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/lianghsun/Llama-3.2-Taiwan-3B-Instruct-GGUF"
-downloads: 732
+downloads: 1962
 task:
   - "[[텍스트 생성]]"
 input_modality:

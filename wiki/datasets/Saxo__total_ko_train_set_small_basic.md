@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/total_ko_train_set_small_basic"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/total_ko_train_set_small_basic"
-downloads: 10
+downloads: 13
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "tner/wikiann"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tner/wikiann"
-downloads: 1382
+downloads: 1397
 summary: "WikiAnn은 LOC, ORG, PER 3개 개체명 인식 태그를 가진 위키피디아 기반 다국어 NER 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

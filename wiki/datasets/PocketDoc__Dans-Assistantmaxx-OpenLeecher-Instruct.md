@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-OpenLeecher-Instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-OpenLeecher-Instruct"
-downloads: 9
+downloads: 10
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

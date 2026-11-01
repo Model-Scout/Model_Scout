@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Taskmaxx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Taskmaxx"
-downloads: 50
+downloads: 51
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

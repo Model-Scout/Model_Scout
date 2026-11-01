@@ -3,7 +3,7 @@ type: "dataset"
 id: "coastral/korean-writing-style-instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/coastral/korean-writing-style-instruct"
-downloads: 102
+downloads: 103
 summary: "여러 분야 문체를 포함한 한국어 문체 인스트럭스 튜닝 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

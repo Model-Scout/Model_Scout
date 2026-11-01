@@ -3,7 +3,7 @@ type: "dataset"
 id: "retowyss/Persona-Fluxed-10k-2608"
 source: "huggingface"
 url: "https://huggingface.co/datasets/retowyss/Persona-Fluxed-10k-2608"
-downloads: 843
+downloads: 870
 summary: "FLUX.2-klein-4b로 생성한 10개국 인구통계 기반 합성 인물 초상 이미지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

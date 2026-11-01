@@ -3,7 +3,7 @@ type: "dataset"
 id: "08swap08/korea-pipc-enforcement"
 source: "huggingface"
 url: "https://huggingface.co/datasets/08swap08/korea-pipc-enforcement"
-downloads: 154
+downloads: 152
 summary: "한국 개인정보 규제 관련 제재, 조정, 판결 등 자료를 담은 연구 및 분석용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

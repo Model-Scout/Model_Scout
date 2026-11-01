@@ -3,7 +3,7 @@ type: "dataset"
 id: "Lakera/mosscap_prompt_injection"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Lakera/mosscap_prompt_injection"
-downloads: 1551
+downloads: 1501
 summary: "Lakera의 Mosscap 게임에서 수집한 프롬프트 인젝션 데이터셋으로, LLM 보안 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

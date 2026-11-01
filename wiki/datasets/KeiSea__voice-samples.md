@@ -3,7 +3,7 @@ type: "dataset"
 id: "KeiSea/voice-samples"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KeiSea/voice-samples"
-downloads: 214
+downloads: 167
 summary: "KeiSea의 Studio AI 음성 합성용 음성 샘플 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"
@@ -48,3 +48,7 @@ KeiSea의 Studio AI 음성 합성용 음성 샘플 데이터셋입니다.
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `audiofolder` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `TweakSea/voice-samples`

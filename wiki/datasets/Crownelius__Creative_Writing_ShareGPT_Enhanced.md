@@ -3,7 +3,7 @@ type: "dataset"
 id: "Crownelius/Creative_Writing_ShareGPT_Enhanced"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Crownelius/Creative_Writing_ShareGPT_Enhanced"
-downloads: 278
+downloads: 266
 summary: "StepFun의 Step-3.5-Flash 모델로 재생성한 고품질 창작 글쓰기 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

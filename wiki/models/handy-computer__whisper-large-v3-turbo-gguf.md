@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/whisper-large-v3-turbo-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/whisper-large-v3-turbo-gguf"
-downloads: 327408
+downloads: 443956
 task:
   - "[[음성 인식]]"
 input_modality:
@@ -29,4 +29,4 @@ commercial_use:
 - **언어**: [[영어]] — metadata · language_codes = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · language_codes = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · language_codes = `100 languages` · 신뢰도 high
-- **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
+- **상업 이용**: [[상업 이용 가능]] — metadata · license = `mit` · 신뢰도 high

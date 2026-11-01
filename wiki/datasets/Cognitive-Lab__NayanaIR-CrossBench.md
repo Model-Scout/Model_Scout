@@ -3,7 +3,7 @@ type: "dataset"
 id: "Cognitive-Lab/NayanaIR-CrossBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Cognitive-Lab/NayanaIR-CrossBench"
-downloads: 115
+downloads: 121
 summary: "NayanaIR-CrossBench는 다국어 다중모달 문서 검색 벤치마크로, 교차언어 시각 검색 성능 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

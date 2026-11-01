@@ -3,7 +3,7 @@ type: "dataset"
 id: "legesher/language-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/legesher/language-corpus"
-downloads: 101
+downloads: 100
 summary: "프로그래밍 언어 개념의 예약어 번역을 다양한 언어로 제공하는 확장 가능한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

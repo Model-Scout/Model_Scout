@@ -3,7 +3,7 @@ type: "dataset"
 id: "maywell/ko_Ultrafeedback_binarized"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/ko_Ultrafeedback_binarized"
-downloads: 235
+downloads: 245
 summary: "Synatra-7B-Translation 모델로 번역·정제한 Ultrafeedback_binarized 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "danish-foundation-models/multi-ifeval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/danish-foundation-models/multi-ifeval"
-downloads: 1095
+downloads: 1192
 summary: "300개 이상의 언어로 번역·현지화된 영어 IFEval 기반 명령어 수행 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

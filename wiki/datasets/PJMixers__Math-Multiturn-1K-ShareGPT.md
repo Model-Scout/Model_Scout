@@ -3,7 +3,7 @@ type: "dataset"
 id: "PJMixers/Math-Multiturn-1K-ShareGPT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PJMixers/Math-Multiturn-1K-ShareGPT"
-downloads: 30
+downloads: 31
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

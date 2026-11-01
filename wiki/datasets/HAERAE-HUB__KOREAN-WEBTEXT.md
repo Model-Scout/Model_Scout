@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/KOREAN-WEBTEXT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/KOREAN-WEBTEXT"
-downloads: 431
+downloads: 407
 summary: "2.2억 토큰의 고품질 한국어 웹텍스트 말뭉치로, 텍스트 필터링과 중복 제거를 거쳐 연구용으로 제공됨."
 readme_status: "ok"
 readme_language: "en"

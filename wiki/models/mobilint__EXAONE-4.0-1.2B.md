@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/EXAONE-4.0-1.2B"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/EXAONE-4.0-1.2B"
-downloads: 274
+downloads: 762
 context_length: 16384
 parameters_b: 0.21
 task:

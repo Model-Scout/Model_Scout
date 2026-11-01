@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-instruction_following"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-instruction_following"
-downloads: 1596
+downloads: 1586
 summary: "Nemotron-RL-instruction_following은 명확한 지시 이행 평가 및 학습용 LLM 강화학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -37,3 +37,4 @@ Nemotron-RL-instruction_following은 명확한 지시 이행 평가 및 학습�
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]

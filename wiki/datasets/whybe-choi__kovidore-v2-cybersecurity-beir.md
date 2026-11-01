@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/kovidore-v2-cybersecurity-beir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/kovidore-v2-cybersecurity-beir"
-downloads: 181
+downloads: 242
 summary: "한국의 사이버 위협 동향과 보안 사고 대응에 관한 기술 보고서 코퍼스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "LGAI-EXAONE/KoMT-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LGAI-EXAONE/KoMT-Bench"
-downloads: 127
+downloads: 144
 summary: "KoMT-Bench는 한국어 지침 수행 능력을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

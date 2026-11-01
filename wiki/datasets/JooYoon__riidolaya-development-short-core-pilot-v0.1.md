@@ -3,7 +3,7 @@ type: "dataset"
 id: "JooYoon/riidolaya-development-short-core-pilot-v0.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JooYoon/riidolaya-development-short-core-pilot-v0.1"
-downloads: 274
+downloads: 279
 summary: "가상 개발 상황에서 한영 쌍 문장 의미 보존 검토를 위한 짧은 개발 댓글 작성 방식 시험 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"

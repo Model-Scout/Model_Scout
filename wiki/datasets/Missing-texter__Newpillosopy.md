@@ -3,7 +3,7 @@ type: "dataset"
 id: "Missing-texter/Newpillosopy"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Missing-texter/Newpillosopy"
-downloads: 95
+downloads: 99
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

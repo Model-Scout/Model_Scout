@@ -3,7 +3,7 @@ type: "dataset"
 id: "TiWu-Lab/f2llmv2-backup"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TiWu-Lab/f2llmv2-backup"
-downloads: 237
+downloads: 274
 summary: "다국어 임베딩을 위한 포괄적이고 효율적인 F2LLM-v2 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

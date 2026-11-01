@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/DarkIdol-Qwen3.8-27B-v1.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/DarkIdol-Qwen3.8-27B-v1.1-GGUF"
-downloads: 3975
+downloads: 2906
 task:
   - "[[텍스트 생성]]"
 input_modality:

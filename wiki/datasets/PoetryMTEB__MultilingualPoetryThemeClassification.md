@@ -3,7 +3,7 @@ type: "dataset"
 id: "PoetryMTEB/MultilingualPoetryThemeClassification"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PoetryMTEB/MultilingualPoetryThemeClassification"
-downloads: 142
+downloads: 156
 summary: "PoetryMTEB의 다국어 시 주제 분류 데이터셋으로, 6개 주제 분류를 위한 학습 및 평가용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "BytedTsinghua-SIA/DAPO-Math-17k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BytedTsinghua-SIA/DAPO-Math-17k"
-downloads: 17316
+downloads: 17684
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -43,4 +43,5 @@ dataset_size:
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]
 - [[BytedTsinghua-SIA__DAPO-Qwen-32B|BytedTsinghua-SIA/DAPO-Qwen-32B]]

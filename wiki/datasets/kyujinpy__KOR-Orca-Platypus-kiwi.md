@@ -3,7 +3,7 @@ type: "dataset"
 id: "kyujinpy/KOR-Orca-Platypus-kiwi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kyujinpy/KOR-Orca-Platypus-kiwi"
-downloads: 31
+downloads: 33
 summary: "ko-kiwi 데이터셋으로 HumanF-MarkrAI/WIKI_QA_Near_dedup와 kyujinpy/KOR-OpenOrca-Platypus를 병합한 한국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

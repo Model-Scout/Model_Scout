@@ -3,7 +3,7 @@ type: "dataset"
 id: "Baekpica/DeepSeek-V4-Flash-0731-REAM-Healing-Mix-2048"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Baekpica/DeepSeek-V4-Flash-0731-REAM-Healing-Mix-2048"
-downloads: 112
+downloads: 107
 summary: "DeepSeek-V4 Flash REAM Healing Mix 2048은 104-expert REAM-pruned 체크포인트의 성능 저하를 개선하기 위한 치유 혼합 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

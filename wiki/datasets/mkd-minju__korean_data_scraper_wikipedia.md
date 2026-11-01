@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-minju/korean_data_scraper_wikipedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-minju/korean_data_scraper_wikipedia"
-downloads: 273
+downloads: 267
 summary: "한국어 위키백과 문서 본문 텍스트를 추출한 코퍼스입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -23,6 +23,8 @@ domain:
   - "[[일반]]"
 dataset_role:
   - "[[학습용]]"
+data_format:
+  - "[[JSON]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -42,4 +44,9 @@ dataset_size:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — tag_match · readme, tags = `wikipedia` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `Korean_data_scraper 프로젝트의 wikipedia_dump 소스가 생성한 코퍼스입니다.` · 신뢰도 low
+- **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Hikaf143/korean_data_scraper_wikipedia`

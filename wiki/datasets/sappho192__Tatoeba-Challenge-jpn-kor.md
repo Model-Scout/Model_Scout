@@ -3,7 +3,7 @@ type: "dataset"
 id: "sappho192/Tatoeba-Challenge-jpn-kor"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sappho192/Tatoeba-Challenge-jpn-kor"
-downloads: 95
+downloads: 104
 summary: "일본어-한국어 문장 쌍 데이터로 일본어 문장을 한국어로 번역하는 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

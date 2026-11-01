@@ -3,7 +3,7 @@ type: "dataset"
 id: "RidheshBhati/STT_MODEL"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RidheshBhati/STT_MODEL"
-downloads: 4112
+downloads: 5354
 summary: "50개 언어의 음성-텍스트 쌍으로 구성된 다국어 음성 인식(STT) 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

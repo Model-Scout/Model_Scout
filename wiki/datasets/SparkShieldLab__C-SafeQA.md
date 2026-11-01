@@ -3,7 +3,7 @@ type: "dataset"
 id: "SparkShieldLab/C-SafeQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SparkShieldLab/C-SafeQA"
-downloads: 98
+downloads: 103
 summary: "C-SafeQA는 중국어 대형 언어 모델의 안전성 평가를 위한 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2.1-Abliterated-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Occamy-1.0-APEX-I-MiniPlus-V2.1-Abliterated-GGUF"
-downloads: 3963
+downloads: 8749
 task:
   - "[[텍스트 생성]]"
 input_modality:

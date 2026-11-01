@@ -3,7 +3,7 @@ type: "dataset"
 id: "townboy/korean-pii-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/townboy/korean-pii-dataset"
-downloads: 147
+downloads: 164
 summary: "한국어 개인정보(PII) 탐색 및 토큰 분류 모델 학습용 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

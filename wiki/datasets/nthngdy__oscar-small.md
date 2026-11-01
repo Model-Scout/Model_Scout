@@ -3,7 +3,7 @@ type: "dataset"
 id: "nthngdy/oscar-small"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nthngdy/oscar-small"
-downloads: 4394
+downloads: 4956
 summary: "OSCAR는 Common Crawl 데이터를 언어별로 분류·필터링한 대규모 다국어 말뭉치로, 언어 모델 사전학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ OSCAR는 Common Crawl 데이터를 언어별로 분류·필터링한 대규모 �
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 8064자 ≈ 2016 토큰 (viewer statistics, unshuffled_deduplicated_ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `djstrong/oscar-small`

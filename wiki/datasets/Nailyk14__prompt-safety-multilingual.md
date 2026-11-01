@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nailyk14/prompt-safety-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nailyk14/prompt-safety-multilingual"
-downloads: 315
+downloads: 308
 summary: "50개국어 이상 121만여 개 LLM 프롬프트 안전성 분류 데이터셋으로, WildGuard 체계 기반이다."
 readme_status: "ok"
 readme_language: "en"

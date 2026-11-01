@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/JiRackDeltaNet_27b-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/JiRackDeltaNet_27b-GGUF"
-downloads: 623
+downloads: 117
 task:
   - "[[텍스트 생성]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "chaannwooff/korean-web2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/chaannwooff/korean-web2"
-downloads: 130
+downloads: 134
 summary: "네이버 검색 API로 수집한 한국어 웹 문서 데이터셋으로 연구용입니다."
 readme_status: "ok"
 readme_language: "ko"

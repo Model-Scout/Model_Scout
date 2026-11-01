@@ -3,7 +3,7 @@ type: "dataset"
 id: "robvanderg/MultiLexNorm"
 source: "huggingface"
 url: "https://huggingface.co/datasets/robvanderg/MultiLexNorm"
-downloads: 226
+downloads: 263
 summary: "다국어 어휘 정규화 데이터셋으로, 여러 언어의 단어 정규화 작업에 사용됨."
 readme_status: "ok"
 readme_language: "en"

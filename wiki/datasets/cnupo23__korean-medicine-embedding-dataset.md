@@ -3,7 +3,7 @@ type: "dataset"
 id: "cnupo23/korean-medicine-embedding-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cnupo23/korean-medicine-embedding-dataset"
-downloads: 101
+downloads: 103
 summary: "한의학 용어와 온톨로지를 활용한 임베딩 학습용 대조학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

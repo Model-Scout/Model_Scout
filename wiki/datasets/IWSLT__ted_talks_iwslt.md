@@ -3,7 +3,7 @@ type: "dataset"
 id: "IWSLT/ted_talks_iwslt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IWSLT/ted_talks_iwslt"
-downloads: 618
+downloads: 657
 summary: "TED 강연의 원문과 109개 이상의 언어 번역을 포함한 기계 번역 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

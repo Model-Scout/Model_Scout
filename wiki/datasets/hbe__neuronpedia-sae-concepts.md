@@ -3,7 +3,7 @@ type: "dataset"
 id: "hbe/neuronpedia-sae-concepts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hbe/neuronpedia-sae-concepts"
-downloads: 502
+downloads: 548
 summary: "Neuronpedia의 Sparse Autoencoder 개념과 Anthropic 논문 공개 특징을 포함한 개념 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

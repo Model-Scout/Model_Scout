@@ -3,7 +3,7 @@ type: "dataset"
 id: "community-datasets/tapaco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/community-datasets/tapaco"
-downloads: 962
+downloads: 1057
 summary: "73개 언어의 문장 유의어 코퍼스로 언어 학습용 예문과 번역 제공 데이터입니다."
 readme_status: "template"
 readme_language: "en"

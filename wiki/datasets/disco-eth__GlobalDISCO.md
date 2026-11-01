@@ -3,7 +3,7 @@ type: "dataset"
 id: "disco-eth/GlobalDISCO"
 source: "huggingface"
 url: "https://huggingface.co/datasets/disco-eth/GlobalDISCO"
-downloads: 998
+downloads: 763
 summary: "GlobalDISCO는 73k 음악 트랙과 93k 참조 트랙 링크를 포함한 대규모 음악 생성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -1,0 +1,198 @@
+---
+license: apache-2.0
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: ssr-rcot-16k.jsonl
+task_categories:
+- text-generation
+language:
+- en
+- zh
+- fr
+- it
+- es
+- pt
+- ja
+- ko
+- ru
+tags:
+- synthetic
+- reasoning
+- reverse-cot
+- post-hoc-rationalization
+- distillation
+pretty_name: SSR-RCoT-16K
+---
+
+## SSR-RCoT-16K: Turning answer-only data into high-quality reasoning-supervision data
+
+* **SSR-RCoT-16K** is a public 16k subset derived from the data construction pipeline introduced in
+  [*Measuring and Mitigating Post-hoc Rationalization in Reverse Chain-of-Thought Generation*](https://arxiv.org/abs/2602.14469).
+* This dataset is designed for **powerful reasoning on general tasks**, especially for the realistic setting where **high-quality responses are available but chain-of-thought annotations are missing**.
+* In such answer-rich but CoT-scarce scenarios, **SSR-D (Distilled Structural Skeleton-guided Reasoning)** provides a practical way to convert high-quality `(query, response)` pairs into structured reverse-CoT training samples, making existing response data usable for reasoning supervision.
+* In our release setting, the released traces raise **Qwen3-8B** on [**ArenaHard-v2.0**](https://github.com/lmarena/arena-hard-auto) from **25** to **55**, highlighting the strength of the dataset as a practical supervision source for open-weight reasoning models.
+* Each example is built around a `(query, response)` pair and additionally includes:
+  * iterative response-improvement records constructed via a self-improvement pipeline,
+  * SSR structural skeletons,
+  * functional tags,
+  * and reverse CoT traces constructed by **SSR-D**.
+
+This release is intended as a **training and analysis subset** for open research and reproduction, emphasizing strong **general-purpose reasoning distillation** in settings where final answers are available but explicit reasoning traces are not.
+
+<div align="center">
+<img src="figures/intro.png">
+</div>
+
+
+## Data Construction
+
+### 1. Query Source
+
+* Queries are derived from the [**LMArena human preference corpus**](`lmarena-ai/arena-human-preference-140k`), which contains real user-facing prompts and conversations.
+* This release exposes a 16k subset sampled from the same overall construction pipeline used in the paper.
+
+### 2. Iterative Improvement of the Response
+
+For each sampled query, we first construct a high-quality reference response through a multi-stage iterative refinement process based on **Qwen3-Max-Preview**.
+
+* **Candidate generation.** The strong teacher model generates multiple independent response candidates for the same query.
+* **Candidate evaluation.** The candidates are scored for quality, with emphasis on **accuracy**, **coherence**, and **completeness**.
+* **Candidate aggregation.** High-quality components from multiple candidates are synthesized into improved answers.
+* **Improvement loop.** The newly synthesized candidates are re-evaluated and re-aggregated for multiple rounds until convergence.
+
+This procedure is designed to produce a polished final answer while keeping intermediate reasoning implicit, matching realistic settings where high-quality outputs are available but gold reasoning traces are not.
+
+### 3. Reverse CoT Generation
+
+Given a query `Q` and a pre-committed response `A`, reverse chain-of-thought generation constructs a reasoning trace `R`
+that connects the query to the known response.
+
+The paper studies the following trace styles:
+
+* **NEU**: neutral reverse CoT generation without additional constraints.
+* **SUP/AUG-SUP**: semantic suppression prompting, which attempts to hide or delay the answer during reasoning.
+* **SSR**: **Structural Skeleton-guided Reasoning**, a two-phase process:
+  1. generate an abstract structural skeleton from `(Q, A)`;
+  2. generate the full reasoning trace conditioned on the skeleton.
+* **SSR-D**: distilled SSR traces produced by teacher models trained to better follow the structural format.
+
+The reverse CoT generation pipeline for both baseline methods and our structured methods is based on **Qwen3-235B-Instruct-2507**.
+
+* We also compare against distillation outputs from both open-source and proprietary models, including original responses from **GLM-4.7**, **kimi2.5**, and **Qwen3-Max-Preview** in the same context.
+
+### 4. Structural Skeletons
+
+In SSR, each reasoning process is decomposed into answer-invariant abstract steps. Each step contains:
+
+* a **functional tag**, and
+* a **content summary** describing the intent of the step without revealing result values.
+
+The functional tag vocabulary is:
+
+* `[PLAN]` — planning and understanding
+* `[RETR]` — retrieval
+* `[INFR]` — inference and deduction
+* `[EVAL]` — evaluation and verification
+* `[SUMM]` — summary and refinement
+* `[BTRK]` — backtrack
+* `[RFLX]` — reflection
+* `[BRCH]` — branch
+
+This design reduces direct answer-copying pressure and encourages reasoning traces to follow structural plans instead of post-hoc rationalization.
+
+### 5. Distilled SSR (SSR-D)
+
+For distilled traces, teacher models are trained on two complementary objectives:
+
+* **Skeleton generation**: learn to generate the abstract structural skeleton from `(Q, A)`.
+* **Reasoning reconstruction**: learn to reconstruct the full reasoning trace from `(Q, A, skeleton)`.
+
+The goal of SSR-D is to improve structural adherence and produce more faithful reasoning traces for downstream student training.
+
+## Data Fields
+
+Depending on the released configuration, each record includes the following fields:
+
+| Field | Type | Description |
+|------|------|-------------|
+| `id` | string | Unique example identifier |
+| `conversations` | list[dict] | Ordered conversation turns. Each item contains `role` and `content` |
+| `structural_skeleton` | list[dict] | SSR skeleton with functional tags and step summaries |
+| `functional_tags` | list[string] | Ordered functional tags used in the skeleton |
+| `reasoning_trace` | string | Reverse chain-of-thought text constructed by SSR-D |
+
+## Example Record
+
+```json
+{
+  "id": "rcg_000001",
+  "conversations": [
+    {
+      "role": "user",
+      "content": "Why does the Moon appear larger near the horizon?"
+    },
+    {
+      "role": "assistant",
+      "content": "The Moon does not significantly change physical size near the horizon; the effect is a perceptual illusion caused by human visual interpretation."
+    }
+  ],
+  "structural_skeleton": [
+    {"tag": "PLAN", "summary": "Clarify the observed phenomenon and target explanation"},
+    {"tag": "INFR", "summary": "Separate physical-size change from perceptual interpretation"},
+    {"tag": "EVAL", "summary": "Check whether the explanation matches known visual-illusion framing"},
+    {"tag": "SUMM", "summary": "State the conclusion concisely"}
+  ],
+  "functional_tags": ["PLAN", "INFR", "EVAL", "SUMM"],
+  "reasoning_trace": "First, distinguish apparent visual size from actual angular size. ..."
+}
+````
+
+## Benchmark Results
+
+The following numbers correspond to the **public 16k release setting** for **Qwen3-8B**:
+
+(Test Setting for [**ArenaHard-v2.0**](https://github.com/lmarena/arena-hard-auto): Hard Prompt, Style Control, and **GPT-4.1** as Judge)
+
+| Method           | Scores (%)    |     CI (%)|
+| ---------------- | ---: |----: |
+| **Qwen3-8B (Baseline)**     | 26.3 |(-1.2/+1.4)  |  
+| **GLM-4.7**     | 30.4 |(-1.1/+1.0) |
+| **kimi2.5**    | 36.3 |(-1.4/+1.2) |
+| **Qwen3-Max-Preview**    | 45.2 |(-1.2/+1.3) |
+| **NEU**          | 44.0 |(-1.5/+1.1) |
+| **SUP**          | 45.5 |(-1.4/+1.3) |
+| **AUG-SUP**          | 45.8 |(-1.6/+1.7) |
+| **SSR (Ours)**   | 48.2 |(-1.3/+1.6) |
+| **SSR-D (Ours, released)** | **55.1** |(-1.7/+1.5) |
+
+These results highlight the practical value of structure-guided reverse CoT generation: **SSR-D** achieves the best performance among all compared supervision sources, making it the foundation of this release.
+
+## Intended Uses
+
+* Training and distillation of reasoning models
+* Studying post-hoc rationalization in reverse CoT generation
+* Comparing neutral, suppression-based, and structure-guided trace generation
+* Analyzing structural planning in synthetic reasoning traces
+* Evaluating the effect of reasoning-trace quality on downstream performance
+
+## Limitations
+
+* The dataset is **synthetic** and generated by models; it should not be interpreted as direct evidence of true internal reasoning.
+* Reverse CoT is inherently vulnerable to **post-hoc rationalization** because the final answer is already visible during trace generation.
+* SSR and SSR-D mitigate anchoring, but they do not eliminate all possible artifacts or failure modes.
+* As this is a **16k public subset**, it does not reproduce the full scale of the internal training corpus used in the paper.
+
+## Citation
+
+If you use this dataset, please cite the accompanying paper:
+
+```bibtex
+@misc{peng2026rcganchoring,
+  title={Measuring and Mitigating Post-hoc Rationalization in Reverse Chain-of-Thought Generation},
+  author={Guangyue Peng and Zongchao Chen and Wen Luo and Yuntao Wen and Wei Li and Ruixiang Feng and Ran Le and Chen Yang and Zhenwei An and Yang Song and Tao Zhang and Houfeng Wang},
+  year={2026},
+  note={Preprint}
+}
+```

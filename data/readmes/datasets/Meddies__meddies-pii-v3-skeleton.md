@@ -109,7 +109,7 @@ configs:
   - split: train
     path: ru/train-*
 size_categories:
-- 1K<n<10K
+- 10K<n<100K
 ---
 
 # Meddies PII v3 — Skeleton Corpus
@@ -119,7 +119,7 @@ training data. Every PII-shaped slot is a `⟦label.subtype#id⟧` placeholder �
 no real values exist in this corpus by construction. A deterministic filler
 substitutes values downstream.
 
-- **350,174 documents · 20 languages** (incl. Khmer, Javanese, Sundanese)
+- **91,553 documents · 20 languages** (incl. Khmer, Javanese, Sundanese)
 - 9 coarse labels: address, company_name, date, email_address, human_name,
   id_number, phone_number, private_url, secret — plus `op:`/`neg:`/`trap:`/
   `link:`/`frag`/`mod` annotations for contextual judgments
@@ -127,5 +127,31 @@ substitutes values downstream.
 - `accepted`/`violations` flag contract quality; `provenance` marks
   corpus/pilot/matrix/smoke; `content_sha256` dedupes
 
+Every published row passed the current gate and carries ownership contract v2
+(`contract_version`), which says whose value each slot holds. Rows made under
+earlier contracts are withheld.
+
+## Known limitations
+
+Organisation names are meant to be `⟦company_name.<kind>⟧` slots, but some rows
+still write one as plain text in the letterhead, sender, signature or stamp
+block. A blinded audit (2026-10-30, 300 rows, 75 per layout, two AI judges from
+different model families, agreed verdicts only, 296/300 agreement) measured
+these rates of rows with at least one plain organisation name there:
+
+| Layout | Leak rate | 95% Wilson interval |
+|---|---|---|
+| header_only | 4.0% (3/75) | 1.4–11.1% |
+| letterhead_signature | 15.3% (11/72) | 8.8–25.3% |
+| stamped_sealed | 11.0% (8/73) | 5.7–20.2% |
+| state_letterhead | 10.8% (8/74) | 5.6–19.9% |
+
+Weighted by layout size, about 9% of the rows in these four layouts (roughly
+2.8% of the corpus) are affected. The rates are lower bounds from AI
+annotators: counting a row when either judge flags it gives 32/300. Most
+leaked names are invented; some name real public bodies or companies. Body
+text outside the header and closing blocks was not audited. Filter or relabel
+these blocks before training a model that must tag organisation names.
+
 Sister dataset to Meddies/meddies-pii (filled/labelled corpus). Generated
-2026-09 by the meddies-pii v3 pipeline.
+2026-09 to 2026-10 by the meddies-pii v3 pipeline.

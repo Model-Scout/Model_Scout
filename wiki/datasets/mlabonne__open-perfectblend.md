@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlabonne/open-perfectblend"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/open-perfectblend"
-downloads: 5577
+downloads: 5908
 summary: "Open-PerfectBlend는 수학, 코드, 대화 등 다양한 명령어 데이터를 포함한 범용 인스트럭션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

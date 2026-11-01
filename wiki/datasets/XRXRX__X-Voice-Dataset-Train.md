@@ -3,7 +3,7 @@ type: "dataset"
 id: "XRXRX/X-Voice-Dataset-Train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/XRXRX/X-Voice-Dataset-Train"
-downloads: 676
+downloads: 699
 summary: "X-Voice 모델 학습용 다국어 음성 데이터셋으로 30개 언어, 42만 시간 분량 음성 포함"
 readme_status: "ok"
 readme_language: "en"

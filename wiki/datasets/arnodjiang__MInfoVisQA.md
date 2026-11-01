@@ -3,7 +3,7 @@ type: "dataset"
 id: "arnodjiang/MInfoVisQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/arnodjiang/MInfoVisQA"
-downloads: 269
+downloads: 274
 summary: "MInfoVisQA는 24개 언어로 된 시각 정보 질의응답 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

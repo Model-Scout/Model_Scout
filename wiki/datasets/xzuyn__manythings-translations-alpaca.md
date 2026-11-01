@@ -3,7 +3,7 @@ type: "dataset"
 id: "xzuyn/manythings-translations-alpaca"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xzuyn/manythings-translations-alpaca"
-downloads: 25
+downloads: 37
 summary: "영어와 84개 언어 간 번역 데이터 630만 건을 포함한 다국어 번역 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"

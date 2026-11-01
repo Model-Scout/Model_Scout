@@ -3,7 +3,7 @@ type: "dataset"
 id: "nwirandx/Korean-OSCE-history-taking-dialogues"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nwirandx/Korean-OSCE-history-taking-dialogues"
-downloads: 132
+downloads: 135
 summary: "GPT-4o 가상 표준 환자와의 한국어 OSCE 병력 청취 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

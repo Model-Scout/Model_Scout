@@ -3,7 +3,7 @@ type: "dataset"
 id: "microsoft/ms_marco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/microsoft/ms_marco"
-downloads: 18770
+downloads: 18710
 summary: "MS MARCO는 Bing 질문과 답변을 포함한 검색 딥러닝용 데이터셋 모음입니다."
 readme_status: "template"
 readme_language: "en"

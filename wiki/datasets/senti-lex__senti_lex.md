@@ -3,7 +3,7 @@ type: "dataset"
 id: "senti-lex/senti_lex"
 source: "huggingface"
 url: "https://huggingface.co/datasets/senti-lex/senti_lex"
-downloads: 350
+downloads: 395
 summary: "81개 언어의 감성 사전을 그래프 전파 기반 지식 그래프로 생성한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -43,3 +43,7 @@ dataset_size:
 - **도메인**: [[일반]] — ner · readme = `a knowledge graph--a graphical representation of real-world entities and the links between them` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `This dataset add sentiment lexicons for 81 languages generated via graph propagation` · 신뢰도 low
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/rtatman/sentiment-lexicons-for-81-languages`

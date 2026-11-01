@@ -3,7 +3,7 @@ type: "dataset"
 id: "Solstice-AI/Solace-1.0-Omni"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Solstice-AI/Solace-1.0-Omni"
-downloads: 118
+downloads: 136
 summary: "2026년 최첨단 모델 7종의 대화 데이터를 통합한 합성 학습용 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `Load it, train it, done.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[Solstice-AI__Qwen3.8-27B-Jumbo-Fusion-IQ-747-900-Turbo-Brilliance-50X-Reasoning-Instruct-GGUF-UltraOptimised|Solstice-AI/Qwen3.8-27B-Jumbo-Fusion-IQ-747-900-Turbo-Brilliance-50X-Reasoning-Instruct-GGUF-UltraOptimised]]

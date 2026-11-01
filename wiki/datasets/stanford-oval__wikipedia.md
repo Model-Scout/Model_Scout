@@ -3,7 +3,7 @@ type: "dataset"
 id: "stanford-oval/wikipedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/stanford-oval/wikipedia"
-downloads: 1206
+downloads: 1207
 summary: "25개 언어의 위키피디아 HTML 덤프를 전처리 및 청크화한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

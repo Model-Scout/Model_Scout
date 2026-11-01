@@ -3,7 +3,7 @@ type: "dataset"
 id: "sinabis-group/sinabis-1m-synthetic-docx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sinabis-group/sinabis-1m-synthetic-docx"
-downloads: 510
+downloads: 529
 summary: "Sinabis Green Energy의 가상 재생에너지 관련 100만 개 이상의 비즈니스 문서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

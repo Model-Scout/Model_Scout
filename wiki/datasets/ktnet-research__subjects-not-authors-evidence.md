@@ -3,7 +3,7 @@ type: "dataset"
 id: "ktnet-research/subjects-not-authors-evidence"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ktnet-research/subjects-not-authors-evidence"
-downloads: 323
+downloads: 329
 summary: "KTNET 연구진이 발표한 논문 'Subjects, Not Authors'의 증거 패키지로, 실험 기록과 분석 스크립트를 포함함."
 readme_status: "ok"
 readme_language: "en"

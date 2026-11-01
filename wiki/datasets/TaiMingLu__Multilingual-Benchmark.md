@@ -3,7 +3,7 @@ type: "dataset"
 id: "TaiMingLu/Multilingual-Benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TaiMingLu/Multilingual-Benchmark"
-downloads: 144
+downloads: 189
 summary: "GSM8K와 ARC 데이터셋을 구글 번역으로 다국어로 번역한 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

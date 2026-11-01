@@ -3,7 +3,7 @@ type: "dataset"
 id: "legacy-datasets/mc4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/legacy-datasets/mc4"
-downloads: 2042
+downloads: 2183
 summary: "Common Crawl 웹 크롤링 코퍼스를 정제한 대규모 텍스트 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

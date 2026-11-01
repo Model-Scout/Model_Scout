@@ -3,7 +3,7 @@ type: "dataset"
 id: "JooYoon/riidolaya-statehint-v4-preparation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JooYoon/riidolaya-statehint-v4-preparation"
-downloads: 197
+downloads: 204
 summary: "가상 개발 상황 840개와 한영 학습 문장 1,680행으로 구성된 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

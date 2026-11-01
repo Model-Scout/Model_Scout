@@ -78,13 +78,26 @@ Research log, pipeline code and evaluation logs:
 
 `allganize/IFEval-Ko` (revision `54199e3`) has 342 items. In 27 of them
 (7.9%), the Korean prompt and the checker disagree. Examples:
-- "more than 2 times" is translated "2번 이상" while the checker counts ≥ 3;
-- forbidden words appear in the arguments but not in the prompt;
-- repeat items lost "say nothing before the repetition".
+- "more than 2 times" is translated "2회 이상" while the checker counts ≥ 3
+  (3109);
+- a keyword argument stays in English while the prompt asks for the Korean
+  word: `peace` against 평화 (1203);
+- repeat items lost "say nothing before the repetition" (1627).
 
-The cause is the translation procedure, not translation quality. On 120
-WMT24++ en→ko segments, MetricX-24 did not separate GPT-4o from Gemini
-3.1 Pro, Gemini 3.8 Flash or Claude Opus 5.5.
+Outside those 27, 1691 states its forbidden words only in Latin script, so
+an answer that writes them in Hangul ("모저") passes.
+
+These mismatches point to the procedure: the checker arguments were not
+translated together with the prompt and checked against it. The translator's
+share is not established, because HanIFEval changed the translator and the
+procedure together. On 120 WMT24++ en→ko segments, MetricX-24 (hybrid-large,
+reference-based) did not separate GPT-4o, Gemini 3.1 Pro, Gemini 3.8 Flash
+and Claude Opus 5.5. The smallest difference that sample can detect is
+0.28–0.43 points, depending on the pair (80% power, Bonferroni over 6 pairs).
+The observed differences are 0.01–0.14, so this does not show they are equal.
+
+`thunder-research-group/SNU_Ko-IFEval` (841 items, gated) has not been
+audited, so this card makes no claim about it.
 
 ## Verification (v1.1)
 
@@ -110,8 +123,8 @@ on 60 items. v1.1 adds two external reviews:
 checker scored it: strict 426 of 429, loose 429 of 429. The 3 strict
 failures are the items tagged `source_unsatisfiable_strict`.
 
-**Checker regression tests.** `tests/` in the research repo holds 37
-tests. They cover N−1/N/N+1 boundaries for each count type, the reviewers'
+**Checker regression tests.** `tests/test_checker.py` in the research repo
+holds 37 tests. They cover N−1/N/N+1 boundaries for each count type, the reviewers'
 counterexamples, and the policies kept on purpose.
 
 ## Data
@@ -286,6 +299,20 @@ reviewers shaped the edits; they did not write the items.
 - The `adaptation` field marks the items whose task changed.
 
 ## Changelog
+
+**Card correction (2026-10-31).** Data, checker and scores are unchanged. A
+model-based audit, run by the dataset author with Claude Opus 5.5 (also the
+item reviewer, and one of the four models in the MetricX-24 comparison),
+found errors in "Why another Korean IFEval". Details are in the research log,
+NOTES.md §11.
+- 3109 reads "2회 이상", not "2번 이상". The defect itself stands.
+- 1691 and 2395 do state their forbidden words. The earlier claim ("in the
+  arguments but not in the prompt") came from a case-sensitive comparison in
+  `validate.py`, while the checker is case-insensitive. Neither item is among
+  the 27, so that count stands. `validate.py` still flags the same 14
+  HanIFEval items.
+- "The cause is the translation procedure, not translation quality" was
+  removed. The MetricX-24 result cannot show that translators are equal.
 
 **v1.1 (2026-10-03).** Prompted by two external model-based reviews, run by
 the dataset author with OpenAI GPT-6 Pro and with GPT-6 Astra at the Ultra

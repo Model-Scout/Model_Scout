@@ -3,7 +3,7 @@ type: "dataset"
 id: "vpermilp/nllb-200-distilled-600M-rust"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vpermilp/nllb-200-distilled-600M-rust"
-downloads: 157
+downloads: 179
 summary: "NLLB-200의 600M 증류 모델로 200개 언어 간 기계 번역 연구용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

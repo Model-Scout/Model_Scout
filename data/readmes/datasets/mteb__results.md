@@ -34,10 +34,10 @@ dataset_info:
     dtype: bool
   splits:
   - name: train
-    num_bytes: 1907586597
-    num_examples: 8921129
-  download_size: 114122958
-  dataset_size: 1907586597
+    num_bytes: 1907713077
+    num_examples: 8921705
+  download_size: 114118025
+  dataset_size: 1907713077
 license: cc0-1.0
 pretty_name: MTEB Results
 ---

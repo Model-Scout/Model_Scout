@@ -3,7 +3,7 @@ type: "dataset"
 id: "superdoc-dev/docx-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/superdoc-dev/docx-corpus"
-downloads: 267
+downloads: 280
 summary: "웹에서 수집한 736K개 이상의 .docx 문서를 10개 유형과 9개 주제로 분류한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

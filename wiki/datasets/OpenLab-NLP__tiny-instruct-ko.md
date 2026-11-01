@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenLab-NLP/tiny-instruct-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenLab-NLP/tiny-instruct-ko"
-downloads: 110
+downloads: 109
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

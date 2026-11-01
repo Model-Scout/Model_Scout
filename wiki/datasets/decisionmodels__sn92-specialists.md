@@ -3,7 +3,7 @@ type: "dataset"
 id: "decisionmodels/sn92-specialists"
 source: "huggingface"
 url: "https://huggingface.co/datasets/decisionmodels/sn92-specialists"
-downloads: 787
+downloads: 808
 summary: "20개 비즈니스 사례에 대한 의사결정 작업용 합성 데이터로 Jev 호환 전문가 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

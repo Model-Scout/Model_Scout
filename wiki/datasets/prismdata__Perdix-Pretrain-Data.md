@@ -3,7 +3,7 @@ type: "dataset"
 id: "prismdata/Perdix-Pretrain-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prismdata/Perdix-Pretrain-Data"
-downloads: 183
+downloads: 290
 summary: "Perdix-1.1B-Base 사전학습에 쓴 공개 데이터셋의 parquet 파일 모음 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -55,3 +55,7 @@ Perdix-1.1B-Base 사전학습에 쓴 공개 데이터셋의 parquet 파일 모�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 29227자 ≈ 19485 토큰 (viewer statistics, korean/train)
+
+## 이 데이터로 학습한 모델
+
+- [[prismdata__Perdix-1.1B-Base|prismdata/Perdix-1.1B-Base]]

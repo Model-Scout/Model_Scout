@@ -3,7 +3,7 @@ type: "dataset"
 id: "rmyeid/polyglot_ner"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rmyeid/polyglot_ner"
-downloads: 345
+downloads: 360
 summary: "위키피디아와 Freebase에서 자동 생성된 40개 언어의 개체명 인식 학습 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

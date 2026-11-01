@@ -3,7 +3,7 @@ type: "dataset"
 id: "microsoft/ms_terms"
 source: "huggingface"
 url: "https://huggingface.co/datasets/microsoft/ms_terms"
-downloads: 198
+downloads: 241
 summary: "Microsoft 제품과 연동되는 애플리케이션 현지화 및 IT 용어집 개발용 용어집 데이터입니다."
 readme_status: "template"
 readme_language: "en"

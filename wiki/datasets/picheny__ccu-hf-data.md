@@ -3,7 +3,7 @@ type: "dataset"
 id: "picheny/ccu-hf-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/picheny/ccu-hf-data"
-downloads: 578
+downloads: 616
 summary: "한국어, 중국어, 히브리어, 터키어 음성 및 전사 데이터로 다국어 음성 인식 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

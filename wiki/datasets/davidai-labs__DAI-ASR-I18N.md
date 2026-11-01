@@ -3,7 +3,7 @@ type: "dataset"
 id: "davidai-labs/DAI-ASR-I18N"
 source: "huggingface"
 url: "https://huggingface.co/datasets/davidai-labs/DAI-ASR-I18N"
-downloads: 736
+downloads: 654
 summary: "DAI-ASR-I18N은 21개 언어의 2인 대화 음성 인식 및 화자 분리 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "jizerro/vlm2-orderless-balanced-5000"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jizerro/vlm2-orderless-balanced-5000"
-downloads: 169
+downloads: 181
 summary: "교통사고 조작 쌍에 대한 VLM-2 미세조정을 위한 5,000개 균형 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

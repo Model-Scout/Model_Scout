@@ -3,7 +3,7 @@ type: "dataset"
 id: "IWSLT/iwslt2017"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IWSLT/iwslt2017"
-downloads: 1845
+downloads: 2022
 summary: "IWSLT 2017 다국어 기계 번역 데이터로 여러 언어 간 번역에 사용됨."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "google-research-datasets/paws-x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google-research-datasets/paws-x"
-downloads: 9435
+downloads: 9383
 summary: "PAWS-X는 6개 언어로 된 문장 유사도 판별용 교차언어 역대결 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ PAWS-X는 6개 언어로 된 문장 유사도 판별용 교차언어 역대결 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `sentence1` 열 p90 95자 ≈ 24 토큰 (viewer statistics, ko/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

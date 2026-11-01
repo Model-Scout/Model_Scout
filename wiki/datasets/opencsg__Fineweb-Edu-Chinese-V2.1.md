@@ -3,7 +3,7 @@ type: "dataset"
 id: "opencsg/Fineweb-Edu-Chinese-V2.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/opencsg/Fineweb-Edu-Chinese-V2.1"
-downloads: 39195
+downloads: 40964
 summary: "교육 분야 자연어처리용 중국어 데이터셋으로, 점수별 데이터 선택 학습 가능"
 readme_status: "ok"
 readme_language: "en"

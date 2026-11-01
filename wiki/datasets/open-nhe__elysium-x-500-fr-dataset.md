@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-nhe/elysium-x-500-fr-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-nhe/elysium-x-500-fr-dataset"
-downloads: 91
+downloads: 100
 summary: "12,000개의 대화에서 감정 좌표를 라벨링한 감정 인식 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

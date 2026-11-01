@@ -3,7 +3,7 @@ type: "dataset"
 id: "jaeyong2/jev-decision-claude-distill"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jaeyong2/jev-decision-claude-distill"
-downloads: 291
+downloads: 302
 summary: "Claude가 라벨링한 다양한 유형의 의사결정 상태 데이터로, 모델 미세조정용 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

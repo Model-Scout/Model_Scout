@@ -3,7 +3,7 @@ type: "dataset"
 id: "stanfordnlp/snli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/stanfordnlp/snli"
-downloads: 48183
+downloads: 48095
 summary: "SNLI는 영어 문장 쌍에 대해 자연어 추론(NLI) 태스크를 위한 라벨링된 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

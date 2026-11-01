@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/KoEVD-Compact"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/KoEVD-Compact"
-downloads: 312
+downloads: 337
 summary: "KoEVD-Compact는 난이도별 평가용으로 기존 KoEVD에서 선정한 서브셋 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"

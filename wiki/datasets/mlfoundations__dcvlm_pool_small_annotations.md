@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm_pool_small_annotations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm_pool_small_annotations"
-downloads: 4068
+downloads: 4188
 summary: "DataComp-VLM 논문의 소규모 데이터 풀에 대한 이미지-텍스트 정렬 등 167개 주석을 포함한 원시 주석 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

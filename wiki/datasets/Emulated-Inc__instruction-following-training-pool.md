@@ -3,7 +3,7 @@ type: "dataset"
 id: "Emulated-Inc/instruction-following-training-pool"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Emulated-Inc/instruction-following-training-pool"
-downloads: 137
+downloads: 121
 summary: "여러 데이터셋에서 수집한 제약 조건이 포함된 공개 지시문으로 구성된 텍스트 생성 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

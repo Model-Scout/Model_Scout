@@ -3,7 +3,7 @@ type: "dataset"
 id: "opencompass/mmmlu_lite"
 source: "huggingface"
 url: "https://huggingface.co/datasets/opencompass/mmmlu_lite"
-downloads: 263
+downloads: 294
 summary: "MMMLU 데이터셋의 경량 버전으로, 다국어 AI 모델 평가용 1만 9950개 문항 포함"
 readme_status: "ok"
 readme_language: "en"

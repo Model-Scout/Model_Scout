@@ -3,7 +3,7 @@ type: "dataset"
 id: "nutrientdocs/grounding-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nutrientdocs/grounding-benchmark"
-downloads: 269
+downloads: 286
 summary: "문서 내 숫자, 날짜, 사실 근거 여부를 평가하는 이진 NLI 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -62,6 +62,13 @@ Claude 4.6 모델의 압축된 추론 과정을 역설계해 고품질 단계별
 
 샘플 길이: `inverted_reasoning` 열 p90 7859자 ≈ 1965 토큰 (viewer statistics, default/train)
 
+## 같은 데이터의 사본·중복 등록
+
+- `Scratper/Claude-opus-4.6-TraceInversion-9000x`
+- `Sstoryloop725/Claude-opus-4.6-TraceInversion-9000x`
+- `Supbatomic/Claude-opus-4.6-TraceInversion-9000x`
+- `ansulev/claude-opus-4.6-traceinversion-9k`
+
 ## 이 데이터로 학습한 모델
 
 - [[Jackrong__Qwopus3.5-9B-Coder-MTP-GGUF|Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF]]

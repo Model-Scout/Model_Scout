@@ -3,9 +3,8 @@ type: "model"
 id: "onnx-community/LFM2-350M-ONNX"
 source: "huggingface"
 url: "https://huggingface.co/onnx-community/LFM2-350M-ONNX"
-downloads: 871
+downloads: 714
 context_length: 128000
-parameters_b: 0.268
 task:
   - "[[텍스트 생성]]"
 input_modality:
@@ -26,8 +25,6 @@ input_length:
   - "[[초장문]]"
 commercial_use:
   - "[[조건부 이용]]"
-model_size:
-  - "[[초경량 모델]]"
 ---
 # onnx-community/LFM2-350M-ONNX
 
@@ -49,6 +46,5 @@ model_size:
 - **언어**: [[중국어]] — metadata · language_codes = `zh` · 신뢰도 high
 - **입력 길이**: [[초장문]] — metadata · context_length = `128000` · 신뢰도 high
 - **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high
-- **모델 크기**: [[초경량 모델]] — metadata · parameter_count_billion = `0.268` · 신뢰도 high
 
 처리 가능한 데이터 길이: [[단문]] · [[중문]] · [[장문]] · [[초장문]]

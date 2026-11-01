@@ -3,7 +3,7 @@ type: "dataset"
 id: "yahma/alpaca-cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yahma/alpaca-cleaned"
-downloads: 20629
+downloads: 20494
 summary: "Stanford Alpaca 데이터셋의 오류를 수정한 정제된 버전으로, 텍스트 생성에 활용됨."
 readme_status: "template"
 readme_language: "en"

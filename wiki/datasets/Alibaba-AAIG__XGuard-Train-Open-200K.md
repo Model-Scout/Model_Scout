@@ -3,7 +3,7 @@ type: "dataset"
 id: "Alibaba-AAIG/XGuard-Train-Open-200K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Alibaba-AAIG/XGuard-Train-Open-200K"
-downloads: 305
+downloads: 295
 summary: "XGuard-Train-Open-200K은 대형 언어 모델 안전 가드레일 학습용 20만 개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -37,3 +37,7 @@ XGuard-Train-Open-200K은 대형 언어 모델 안전 가드레일 학습용 20�
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `apache-2.0` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[musubilabs__policylm-1.7b|musubilabs/policylm-1.7b]]

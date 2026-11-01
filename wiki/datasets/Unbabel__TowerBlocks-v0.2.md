@@ -3,7 +3,7 @@ type: "dataset"
 id: "Unbabel/TowerBlocks-v0.2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Unbabel/TowerBlocks-v0.2"
-downloads: 350
+downloads: 480
 summary: "기계 번역, 자동 후처리, 개체명 인식 등 번역 관련 작업용 대화형 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

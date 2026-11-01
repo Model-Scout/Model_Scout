@@ -3,7 +3,7 @@ type: "dataset"
 id: "imvladikon/QAmeleon"
 source: "huggingface"
 url: "https://huggingface.co/datasets/imvladikon/QAmeleon"
-downloads: 108
+downloads: 155
 summary: "QAmeleon은 PaLM-540B로 생성한 8개 언어의 합성 다국어 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

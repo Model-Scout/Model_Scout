@@ -3,7 +3,7 @@ type: "dataset"
 id: "JooYoon/riidolaya-shortclaim-next60-development"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JooYoon/riidolaya-shortclaim-next60-development"
-downloads: 2413
+downloads: 2439
 summary: "37개의 개발 요청과 108개의 후보 라벨로 검증 순서 제안을 위한 소규모 클레임/힌트 모델 개발 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

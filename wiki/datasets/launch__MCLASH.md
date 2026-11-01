@@ -3,7 +3,7 @@ type: "dataset"
 id: "launch/MCLASH"
 source: "huggingface"
 url: "https://huggingface.co/datasets/launch/MCLASH"
-downloads: 183
+downloads: 223
 summary: "MCLASH는 다국어 고위험 딜레마 평가 데이터셋으로 5개 언어로 확장된 CLASH입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mikaberidze/belebele-ftp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mikaberidze/belebele-ftp"
-downloads: 164
+downloads: 170
 summary: "Belebele-FTP는 facebook/belebele 데이터를 첫 토큰 예측 형식으로 재구성한 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

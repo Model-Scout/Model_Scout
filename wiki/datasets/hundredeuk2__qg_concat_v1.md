@@ -3,7 +3,7 @@ type: "dataset"
 id: "hundredeuk2/qg_concat_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hundredeuk2/qg_concat_v1"
-downloads: 84
+downloads: 86
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

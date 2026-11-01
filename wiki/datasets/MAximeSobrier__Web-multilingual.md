@@ -3,7 +3,7 @@ type: "dataset"
 id: "MAximeSobrier/Web-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MAximeSobrier/Web-multilingual"
-downloads: 211
+downloads: 210
 summary: "다국어 웹페이지 1,141개로 2개 이상의 주요 언어 텍스트 포함 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

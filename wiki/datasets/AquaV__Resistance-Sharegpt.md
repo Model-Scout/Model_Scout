@@ -3,7 +3,7 @@ type: "dataset"
 id: "AquaV/Resistance-Sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AquaV/Resistance-Sharegpt"
-downloads: 16
+downloads: 17
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

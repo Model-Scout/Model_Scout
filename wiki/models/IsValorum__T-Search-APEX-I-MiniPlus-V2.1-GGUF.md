@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/T-Search-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/T-Search-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 847
+downloads: 3079
 task:
   - "[[텍스트 생성]]"
 input_modality:

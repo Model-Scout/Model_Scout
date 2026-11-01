@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenLab-NLP/ko2en-corpus-9.3m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenLab-NLP/ko2en-corpus-9.3m"
-downloads: 90
+downloads: 96
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

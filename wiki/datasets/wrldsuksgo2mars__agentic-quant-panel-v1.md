@@ -3,7 +3,7 @@ type: "dataset"
 id: "wrldsuksgo2mars/agentic-quant-panel-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wrldsuksgo2mars/agentic-quant-panel-v1"
-downloads: 286
+downloads: 299
 summary: "Agentic Quant Panel v1은 언어 모델 후처리 양자화용 코드, 다국어, 수학, 함수 호출 데이터 패널입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "BSC-LT/ALIA_mixed_authentic_synthetic_MT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BSC-LT/ALIA_mixed_authentic_synthetic_MT"
-downloads: 690
+downloads: 583
 summary: "영어·스페인어와 아랍어, 힌디어, 중국어, 일본어, 한국어 간 기계번역 학습용 대규모 다국어 병렬 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/tiny-aya-l2-thinker-multilingual-reasoning"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/tiny-aya-l2-thinker-multilingual-reasoning"
-downloads: 1277
+downloads: 1605
 summary: "44개 언어로 된 추론 데이터로 Tiny Aya L2-Thinker 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

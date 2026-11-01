@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-InstructWriter-Continue-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-InstructWriter-Continue-2"
-downloads: 4
+downloads: 5
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

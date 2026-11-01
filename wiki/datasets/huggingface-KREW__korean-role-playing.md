@@ -3,7 +3,7 @@ type: "dataset"
 id: "huggingface-KREW/korean-role-playing"
 source: "huggingface"
 url: "https://huggingface.co/datasets/huggingface-KREW/korean-role-playing"
-downloads: 239
+downloads: 268
 summary: "한국어 기반 다양한 상황과 관계를 반영한 롤플레잉 대화 데이터셋으로 캐릭터 AI 등에 활용 가능"
 readme_status: "ok"
 readme_language: "mixed"
@@ -44,6 +44,10 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `모든 서브셋은 현재 `train` split만 제공됩니다.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `namjanghee/korean-role-playing`
 
 ## 이 데이터로 학습한 모델
 

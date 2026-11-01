@@ -3,7 +3,7 @@ type: "dataset"
 id: "mondk/claude-v2-super.jsonl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mondk/claude-v2-super.jsonl"
-downloads: 80
+downloads: 81
 summary: "Claude Sonnet 5/Fable 5와의 채팅에서 수집한 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

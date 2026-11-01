@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nexdata-kr/214-Hours-Korean-Full-Duplex-Multi-Channel-Speech-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nexdata-kr/214-Hours-Korean-Full-Duplex-Multi-Channel-Speech-Dataset"
-downloads: 95
+downloads: 89
 summary: "한국어 자연 발화 스마트폰 음성 데이터셋으로 음성 인식 모델 성능 향상에 활용 가능"
 readme_status: "ok"
 readme_language: "mixed"

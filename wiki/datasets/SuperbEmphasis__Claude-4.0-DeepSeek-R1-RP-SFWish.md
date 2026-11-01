@@ -3,7 +3,7 @@ type: "dataset"
 id: "SuperbEmphasis/Claude-4.0-DeepSeek-R1-RP-SFWish"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SuperbEmphasis/Claude-4.0-DeepSeek-R1-RP-SFWish"
-downloads: 74
+downloads: 80
 summary: "랜덤 플롯과 다양한 길이의 응답을 생성해 PG-13 수준의 대화형 데이터셋을 만든다."
 readme_status: "ok"
 readme_language: "en"

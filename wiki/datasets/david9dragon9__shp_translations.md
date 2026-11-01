@@ -3,7 +3,7 @@ type: "dataset"
 id: "david9dragon9/shp_translations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/david9dragon9/shp_translations"
-downloads: 414
+downloads: 422
 summary: "Stanford Human Preference 데이터셋 세 가지 분할본을 번역한 데이터로 도메인 불변 보상 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

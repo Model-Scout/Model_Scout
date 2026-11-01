@@ -3,7 +3,7 @@ type: "dataset"
 id: "HelpingAI/Dhanishtha-2.0-SUPERTHINKER"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HelpingAI/Dhanishtha-2.0-SUPERTHINKER"
-downloads: 51
+downloads: 54
 summary: "다국어 11.7K 샘플로 구성된 중간 사고 및 감정 인지 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -32,6 +32,7 @@ dataset_role:
   - "[[학습용]]"
 data_format:
   - "[[JSON]]"
+  - "[[Parquet]]"
 dataset_size:
   - "[[중규모 데이터]]"
 ---
@@ -58,9 +59,15 @@ dataset_size:
 - **데이터 용도**: [[평가용]] — ner · readme = `Evaluating alignment under ethical and moral uncertainty` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `ideal for supervised fine-tuning` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
+- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 4595자 ≈ 1149 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `FALLACARA/Gpt4`
+- `mlx-community/dhanishtha-2.0-superthinker`
 
 ## 이 데이터로 학습한 모델
 

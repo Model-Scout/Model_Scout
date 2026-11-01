@@ -3,7 +3,7 @@ type: "dataset"
 id: "lightblue/text_ratings"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lightblue/text_ratings"
-downloads: 555
+downloads: 563
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

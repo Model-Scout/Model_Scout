@@ -3,7 +3,7 @@ type: "dataset"
 id: "ayymen/Weblate-Translations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ayymen/Weblate-Translations"
-downloads: 921
+downloads: 816
 summary: "Weblate에 호스팅된 프로젝트 문자열과 다국어 번역을 포함한 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -25,6 +25,8 @@ commercial_use:
   - "[[조건부 이용]]"
 dataset_role:
   - "[[학습용]]"
+data_format:
+  - "[[Parquet]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -46,6 +48,12 @@ Weblate에 호스팅된 프로젝트 문자열과 다국어 번역을 포함한 
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `15` · 신뢰도 medium
 - **상업 이용**: [[조건부 이용]] — metadata · license = `other` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — ner · readme = `A dataset containing strings from projects hosted on Weblate and their translations into other languages.` · 신뢰도 low
+- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `source_string` 열 p90 58자 ≈ 15 토큰 (viewer statistics, dev-ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Himanshu9636/Weblate-Translations`
+- `Tamazight-NLP/Weblate-Translations`

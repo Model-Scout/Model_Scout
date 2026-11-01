@@ -3,7 +3,7 @@ type: "dataset"
 id: "GGUFGuy/wikipedia-viewer"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GGUFGuy/wikipedia-viewer"
-downloads: 810
+downloads: 884
 summary: "위키피디아 덤프에서 언어별로 정제된 문서 전체를 담은 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

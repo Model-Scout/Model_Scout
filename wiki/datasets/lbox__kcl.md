@@ -3,7 +3,7 @@ type: "dataset"
 id: "lbox/kcl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lbox/kcl"
-downloads: 163
+downloads: 154
 summary: "한국 변호사 시험 문제와 판례를 활용한 법률 지식 및 추론 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

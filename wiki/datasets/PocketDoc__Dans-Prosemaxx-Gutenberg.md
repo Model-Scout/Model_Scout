@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-Gutenberg"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-Gutenberg"
-downloads: 64
+downloads: 69
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

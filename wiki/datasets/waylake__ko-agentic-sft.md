@@ -3,7 +3,7 @@ type: "dataset"
 id: "waylake/ko-agentic-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/waylake/ko-agentic-sft"
-downloads: 63
+downloads: 61
 summary: "한국어 에이전트 훈련용 합성 대화 데이터셋으로, 도구 호출 시점 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

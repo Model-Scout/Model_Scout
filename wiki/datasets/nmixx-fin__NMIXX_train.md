@@ -3,7 +3,7 @@ type: "dataset"
 id: "nmixx-fin/NMIXX_train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nmixx-fin/NMIXX_train"
-downloads: 8
+downloads: 9
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

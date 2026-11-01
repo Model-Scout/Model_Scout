@@ -3,7 +3,7 @@ type: "dataset"
 id: "fdemelo/vox-communis-parallel-g2p"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fdemelo/vox-communis-parallel-g2p"
-downloads: 223
+downloads: 400
 summary: "VoxCommunis 코퍼스에서 파생된 음성-음소 병렬 데이터로 G2P 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

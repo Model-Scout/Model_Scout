@@ -3,7 +3,7 @@ type: "dataset"
 id: "samanjoy2/multiconer_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/samanjoy2/multiconer_v1"
-downloads: 232
+downloads: 273
 summary: "MultiCoNER v1은 복잡한 개체명 인식을 위한 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

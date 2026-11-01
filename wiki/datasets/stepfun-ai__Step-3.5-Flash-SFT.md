@@ -3,7 +3,7 @@ type: "dataset"
 id: "stepfun-ai/Step-3.5-Flash-SFT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/stepfun-ai/Step-3.5-Flash-SFT"
-downloads: 2457
+downloads: 2396
 summary: "Step-3.5-Flash-SFT는 챗 모델 학습용 일반 도메인 감독 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Model-based"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Model-based"
-downloads: 142
+downloads: 132
 summary: "BenchMAX_Model-based는 다국어 대형 언어 모델의 지시 수행 능력을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

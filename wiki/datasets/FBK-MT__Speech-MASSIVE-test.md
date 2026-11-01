@@ -3,7 +3,7 @@ type: "dataset"
 id: "FBK-MT/Speech-MASSIVE-test"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FBK-MT/Speech-MASSIVE-test"
-downloads: 159
+downloads: 151
 summary: "12개 언어의 음성 기반 다국어 음성언어이해(SLU) 테스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

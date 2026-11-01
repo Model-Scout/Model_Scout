@@ -3,7 +3,7 @@ type: "dataset"
 id: "lewoniewski/wikipedia-citation-index"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lewoniewski/wikipedia-citation-index"
-downloads: 81
+downloads: 85
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

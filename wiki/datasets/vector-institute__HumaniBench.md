@@ -3,7 +3,7 @@ type: "dataset"
 id: "vector-institute/HumaniBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vector-institute/HumaniBench"
-downloads: 155
+downloads: 167
 summary: "HumaniBench는 대규모 멀티모달 모델 평가를 위한 인간 중심 벤치마크로, 이미지-질문 쌍 32,000개 이상을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

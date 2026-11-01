@@ -3,7 +3,7 @@ type: "dataset"
 id: "remiai3/synthetic-captchas-library"
 source: "huggingface"
 url: "https://huggingface.co/datasets/remiai3/synthetic-captchas-library"
-downloads: 2455
+downloads: 2510
 summary: "44개 세계 문자 체계의 4글자 합성 CAPTCHA 이미지로 OCR 및 문자 인식 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

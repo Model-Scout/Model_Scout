@@ -3,7 +3,7 @@ type: "dataset"
 id: "Sbaiiiiii/looked-up"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Sbaiiiiii/looked-up"
-downloads: 44691
+downloads: 52353
 summary: "30개 언어별 위키피디아 시간별 페이지뷰 데이터로 관심도 분석에 활용"
 readme_status: "ok"
 readme_language: "en"

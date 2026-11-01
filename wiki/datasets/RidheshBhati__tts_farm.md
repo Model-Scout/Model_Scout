@@ -3,7 +3,7 @@ type: "dataset"
 id: "RidheshBhati/tts_farm"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RidheshBhati/tts_farm"
-downloads: 1204
+downloads: 1301
 summary: "아랍어, 일본어, 한국어, 터키어, 베트남어 음성 데이터로 다국어 TTS/ASR 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

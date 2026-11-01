@@ -3,7 +3,7 @@ type: "dataset"
 id: "ispras-crawlers/newsxlm-mhtml"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ispras-crawlers/newsxlm-mhtml"
-downloads: 163
+downloads: 165
 summary: "NewsXLM 데이터셋을 위한 MHTML 웹페이지 스냅샷 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

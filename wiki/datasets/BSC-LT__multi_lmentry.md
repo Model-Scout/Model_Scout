@@ -3,7 +3,7 @@ type: "dataset"
 id: "BSC-LT/multi_lmentry"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BSC-LT/multi_lmentry"
-downloads: 757
+downloads: 742
 summary: "Multi-LMentry는 9개 언어의 초등 수준 기본 과제를 평가하는 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

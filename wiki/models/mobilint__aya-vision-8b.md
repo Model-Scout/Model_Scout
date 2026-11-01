@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/aya-vision-8b"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/aya-vision-8b"
-downloads: 220
+downloads: 366
 context_length: 16384
 parameters_b: 1.049
 task:

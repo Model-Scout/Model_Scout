@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/Tower-7B-d2d-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/Tower-7B-d2d-GGUF"
-downloads: 346
+downloads: 373
 task:
   - "[[번역]]"
 input_modality:

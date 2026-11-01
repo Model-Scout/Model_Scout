@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-travel/japan-travel-mcp-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-travel/japan-travel-mcp-data"
-downloads: 3670
+downloads: 3691
 summary: "일본 47개 현과 1,938개 지방자치단체의 공공 관광 데이터를 AI 에이전트용으로 구축한 종합 여행 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/opus_paracrawl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/opus_paracrawl"
-downloads: 485
+downloads: 589
 summary: "웹 크롤링으로 수집한 42개 언어 병렬 말뭉치 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -48,3 +48,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `Parallel corpora from Web Crawls collected in the ParaCrawl project.` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `hfxunlp/opus_paracrawl`

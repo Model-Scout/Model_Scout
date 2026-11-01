@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Iris-mini-APEX-I-MiniPlus-V1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Iris-mini-APEX-I-MiniPlus-V1-GGUF"
-downloads: 3327
+downloads: 4080
 task:
   - "[[텍스트 생성]]"
 input_modality:

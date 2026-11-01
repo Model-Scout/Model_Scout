@@ -3,7 +3,7 @@ type: "dataset"
 id: "kev-KOH/time-embed-korean-temporal-inventory-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kev-KOH/time-embed-korean-temporal-inventory-v2"
-downloads: 131
+downloads: 133
 summary: "한국어 시간 표현 임베딩 학습 및 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

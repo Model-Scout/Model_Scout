@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-Agentic-Indirect-Prompt-Injection-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-Agentic-Indirect-Prompt-Injection-v1"
-downloads: 2301
+downloads: 2361
 summary: "도구 사용 에이전트의 간접 프롬프트 인젝션 공격 저항 능력 학습용 강화학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -58,4 +58,5 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]

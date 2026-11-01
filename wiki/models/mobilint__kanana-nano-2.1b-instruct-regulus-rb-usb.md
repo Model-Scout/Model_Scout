@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/kanana-nano-2.1b-instruct-regulus-rb-usb"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/kanana-nano-2.1b-instruct-regulus-rb-usb"
-downloads: 327
+downloads: 382
 context_length: 4096
 parameters_b: 0.23
 task:

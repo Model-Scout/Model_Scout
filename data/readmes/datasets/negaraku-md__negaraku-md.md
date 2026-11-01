@@ -108,7 +108,7 @@ configs:
 
 # NegaraKu.md — an open, AI-friendly knowledge base about Malaysia
 
-**15,054 rows** — **1,158 articles in each of 13 languages** (`ms`: 1158 · `en`: 1158 · `zh`: 1158 · `ta`: 1158 · `ja`: 1158 · `ko`: 1158 · `th`: 1158 · `vi`: 1158 · `id`: 1158 · `ar`: 1158 · `hi`: 1158 · `es`: 1158 · `fr`: 1158) — covering
+**15,028 rows** — **1,156 articles in each of 13 languages** (`ms`: 1156 · `en`: 1156 · `zh`: 1156 · `ta`: 1156 · `ja`: 1156 · `ko`: 1156 · `th`: 1156 · `vi`: 1156 · `id`: 1156 · `ar`: 1156 · `hi`: 1156 · `es`: 1156 · `fr`: 1156) — covering
 government, law, taxation, business, companies, culture, geography, history,
 healthcare, education, and daily life in Malaysia. Every article is
 human-reviewable, cited, and released under a permissive licence so it can be
@@ -119,7 +119,7 @@ This dataset is the open-data mirror of the website
 about Malaysia**, from primary and authoritative sources.
 
 > **Parallel corpus.** The 13 languages are fully aligned: each of the
-> 1,158 articles exists in every language and the versions share a
+> 1,156 articles exists in every language and the versions share a
 > `topic_id`. That makes this a ready-made **cross-lingual / machine-translation**
 > resource for Malay, Chinese, Tamil and nine other languages — not just a
 > monolingual knowledge base. See [Cross-lingual use](#cross-lingual-use).
@@ -128,7 +128,7 @@ about Malaysia**, from primary and authoritative sources.
 
 - **Splits:** one `train` split. Load all languages with the `default` config, or
   one language via its config name (`en`, `zh`, …).
-- **Rows:** 15,054 total, 1,158 per language.
+- **Rows:** 15,028 total, 1,156 per language.
 - **Alignment:** rows with the same `topic_id` are the same article in different
   languages.
 
@@ -148,7 +148,7 @@ about Malaysia**, from primary and authoritative sources.
 | `language` | `ms` · `en` · `zh` · `ta` · `ja` · `ko` · `th` · `vi` · `id` · `ar` · `hi` · `es` · `fr` |
 | `url` | canonical URL on negaraku.md |
 | `entity` | the primary entity the article is about |
-| `wikidata` | the entity's Wikidata QID, when known (5,330 rows) — links each article to the global knowledge graph |
+| `wikidata` | the entity's Wikidata QID, when known (5,265 rows) — links each article to the global knowledge graph |
 | `sources` | list of `{title, url, publisher, date}` citations |
 | `updated` | last-updated date (`YYYY-MM-DD`) |
 | `content` | the full article body in Markdown |
@@ -237,7 +237,7 @@ print(pairs[["title_en", "title_ms"]].head())
 `ms` · `en` · `zh` · `ta` · `ja` · `ko` · `th` · `vi` · `id` · `ar` · `hi` · `es` · `fr` — Bahasa Melayu (`ms`) is the default and serves at the site root.
 It spans high- and lower-resource languages (e.g. Tamil `ta`, Thai `th`,
 Vietnamese `vi`, Arabic `ar` — right-to-left), each a full translation of the
-same 1,158 articles.
+same 1,156 articles.
 
 ## Uses
 

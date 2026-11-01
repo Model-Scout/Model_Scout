@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/namuwiki"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/namuwiki"
-downloads: 250
+downloads: 257
 summary: "2022년 3월 1일 기준 나무위키 데이터베이스 덤프로, 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

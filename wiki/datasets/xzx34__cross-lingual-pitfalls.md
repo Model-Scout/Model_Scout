@@ -3,7 +3,7 @@ type: "dataset"
 id: "xzx34/cross-lingual-pitfalls"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xzx34/cross-lingual-pitfalls"
-downloads: 105
+downloads: 119
 summary: "16개 언어의 영어-목표언어 질문 쌍으로 다국어 LLM의 크로스링구얼 오류를 탐지하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

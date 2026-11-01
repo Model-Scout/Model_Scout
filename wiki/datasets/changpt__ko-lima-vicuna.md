@@ -3,7 +3,7 @@ type: "dataset"
 id: "changpt/ko-lima-vicuna"
 source: "huggingface"
 url: "https://huggingface.co/datasets/changpt/ko-lima-vicuna"
-downloads: 73
+downloads: 72
 summary: "GPT4 API로 lima_vicuna_format 데이터를 한국어로 재생성한 대화형 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

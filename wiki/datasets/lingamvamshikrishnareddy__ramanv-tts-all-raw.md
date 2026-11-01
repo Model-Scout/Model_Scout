@@ -3,7 +3,7 @@ type: "dataset"
 id: "lingamvamshikrishnareddy/ramanv-tts-all-raw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lingamvamshikrishnareddy/ramanv-tts-all-raw"
-downloads: 279
+downloads: 283
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

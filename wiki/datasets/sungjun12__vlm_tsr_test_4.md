@@ -3,7 +3,7 @@ type: "dataset"
 id: "sungjun12/vlm_tsr_test_4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sungjun12/vlm_tsr_test_4"
-downloads: 223
+downloads: 225
 summary: "테이블 이미지와 HTML 정답으로 구성된 VLM TSR 테스트 데이터셋 4/4 파트입니다."
 readme_status: "ok"
 readme_language: "en"

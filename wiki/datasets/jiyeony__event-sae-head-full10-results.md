@@ -3,7 +3,7 @@ type: "dataset"
 id: "jiyeony/event-sae-head-full10-results"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jiyeony/event-sae-head-full10-results"
-downloads: 167
+downloads: 171
 summary: "LIBERO-Spatial 실험의 Event-SAE Head 완료 결과 데이터로, 3600회 실험 롤아웃과 평가 케이스를 포함함."
 readme_status: "ok"
 readme_language: "en"

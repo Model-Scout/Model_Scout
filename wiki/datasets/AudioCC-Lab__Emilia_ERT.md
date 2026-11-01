@@ -3,7 +3,7 @@ type: "dataset"
 id: "AudioCC-Lab/Emilia_ERT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AudioCC-Lab/Emilia_ERT"
-downloads: 219
+downloads: 205
 summary: "Emilia ERT는 6개 언어의 9,310,186개 음성 구간과 메타데이터를 포함한 음성 품질 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

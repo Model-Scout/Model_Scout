@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/ko-news-corpus-9"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/ko-news-corpus-9"
-downloads: 14
+downloads: 17
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

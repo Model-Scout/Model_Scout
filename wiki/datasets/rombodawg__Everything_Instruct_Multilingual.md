@@ -3,7 +3,7 @@ type: "dataset"
 id: "rombodawg/Everything_Instruct_Multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rombodawg/Everything_Instruct_Multilingual"
-downloads: 53
+downloads: 67
 summary: "다양한 주제와 다국어를 포함한 대규모 alpaca instruct 형식 데이터셋으로 LLM 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,6 +53,10 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 11208자 ≈ 2802 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Quarted/Everything_Instruct_Multilingual`
 
 ## 이 데이터로 학습한 모델
 

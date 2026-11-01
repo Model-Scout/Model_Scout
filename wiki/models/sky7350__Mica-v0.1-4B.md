@@ -3,7 +3,7 @@ type: "model"
 id: "sky7350/Mica-v0.1-4B"
 source: "huggingface"
 url: "https://huggingface.co/sky7350/Mica-v0.1-4B"
-downloads: 2156
+downloads: 4076
 context_length: 262144
 parameters_b: 4.841
 task:

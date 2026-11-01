@@ -3,7 +3,7 @@ type: "dataset"
 id: "mastersubhajit/OmniGraph-Temporal-Character-Corpus-OTCC"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mastersubhajit/OmniGraph-Temporal-Character-Corpus-OTCC"
-downloads: 181
+downloads: 154
 summary: "OmniGraph Temporal Character Corpus는 만화 페이지의 패널, 캐릭터, 대화 등을 시계열 그래프로 주석한 학술 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "m-a-p/MSQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/m-a-p/MSQA"
-downloads: 120
+downloads: 123
 summary: "MSQA는 11개 언어로 된 1,064개의 문화 지식 기반 질문으로 구성된 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

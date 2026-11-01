@@ -3,7 +3,7 @@ type: "dataset"
 id: "tungvu3196/vlm-projects-multi-lang-final-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tungvu3196/vlm-projects-multi-lang-final-v2"
-downloads: 90
+downloads: 89
 summary: "다국어 의료 시각 질의응답 데이터셋으로 의료 이미지와 질문-답변 쌍을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

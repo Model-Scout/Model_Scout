@@ -3,7 +3,7 @@ type: "dataset"
 id: "Baekpica/K-EXAONE-236B-REAP-calibration-mix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Baekpica/K-EXAONE-236B-REAP-calibration-mix"
-downloads: 29
+downloads: 28
 summary: "K-EXAONE-236B 모델의 expert pruning과 양자화 calibration을 위한 한국어 포함 혼합 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

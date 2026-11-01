@@ -3,7 +3,7 @@ type: "dataset"
 id: "Somnia/depesche-wd-index"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Somnia/depesche-wd-index"
-downloads: 288
+downloads: 293
 summary: "Wikidata 기반 엔티티 링크 및 다국어 의미 유사도 검색용 인덱스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

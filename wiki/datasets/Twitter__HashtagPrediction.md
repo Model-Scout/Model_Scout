@@ -3,7 +3,7 @@ type: "dataset"
 id: "Twitter/HashtagPrediction"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Twitter/HashtagPrediction"
-downloads: 87
+downloads: 77
 summary: "다국어 트윗에서 해시태그를 예측하는 다중 클래스 분류용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

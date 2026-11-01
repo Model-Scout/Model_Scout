@@ -3,7 +3,7 @@ type: "dataset"
 id: "Viet-Mistral/CulturaY"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Viet-Mistral/CulturaY"
-downloads: 4718
+downloads: 4990
 summary: "75개 언어의 대규모 정제된 다국어 텍스트 데이터셋으로, 머신러닝 연구용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,7 @@ dataset_size:
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `9999999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 17238자 ≈ 4310 토큰 (viewer statistics, ko/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `40u1d10t/to-train-my-model`

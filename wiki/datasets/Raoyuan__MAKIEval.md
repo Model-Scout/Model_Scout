@@ -3,7 +3,7 @@ type: "dataset"
 id: "Raoyuan/MAKIEval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Raoyuan/MAKIEval"
-downloads: 428
+downloads: 450
 summary: "MAKIEVAL은 다국어 문화 인식 평가를 위한 대규모 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "uilab/JuICE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/uilab/JuICE"
-downloads: 161
+downloads: 176
 summary: "JuICE는 문화적 오류 식별을 위한 다국어 LLM 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

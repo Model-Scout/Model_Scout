@@ -3,7 +3,7 @@ type: "dataset"
 id: "olob0/fineweb-2-trimming-15-languages"
 source: "huggingface"
 url: "https://huggingface.co/datasets/olob0/fineweb-2-trimming-15-languages"
-downloads: 272
+downloads: 314
 summary: "Fineweb-2의 15개 언어 필터링 데이터셋으로 모델 트리밍에 사용됨."
 readme_status: "ok"
 readme_language: "en"

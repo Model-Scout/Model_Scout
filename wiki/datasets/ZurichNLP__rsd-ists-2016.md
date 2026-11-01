@@ -3,7 +3,7 @@ type: "dataset"
 id: "ZurichNLP/rsd-ists-2016"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ZurichNLP/rsd-ists-2016"
-downloads: 289
+downloads: 315
 summary: "SemEval-2016 Task 2 기반 의미 차이 인식(RSD) 학습 및 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

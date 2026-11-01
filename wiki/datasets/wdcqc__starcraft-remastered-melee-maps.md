@@ -3,7 +3,7 @@ type: "dataset"
 id: "wdcqc/starcraft-remastered-melee-maps"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wdcqc/starcraft-remastered-melee-maps"
-downloads: 5250
+downloads: 4530
 summary: "스타크래프트 리마스터의 1,815개 근접전 맵을 타일셋별로 분류한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

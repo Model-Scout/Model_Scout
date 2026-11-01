@@ -3,7 +3,7 @@ type: "model"
 id: "inboxpraveen/Kavach-PII-270M-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/inboxpraveen/Kavach-PII-270M-GGUF"
-downloads: 495
+downloads: 955
 task:
   - "[[텍스트 생성]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "li-lab/MentalHealthBenchX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/li-lab/MentalHealthBenchX"
-downloads: 86
+downloads: 82
 summary: "MentalHealthBench 대화를 9개 언어로 기계 번역한 정신건강 대화 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

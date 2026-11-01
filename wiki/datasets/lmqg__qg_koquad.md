@@ -3,7 +3,7 @@ type: "dataset"
 id: "lmqg/qg_koquad"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lmqg/qg_koquad"
-downloads: 364
+downloads: 382
 summary: "KorQuAD 데이터셋을 기반으로 한 질문 생성(QG)용 한국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

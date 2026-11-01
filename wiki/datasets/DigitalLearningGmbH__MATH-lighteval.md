@@ -3,7 +3,7 @@ type: "dataset"
 id: "DigitalLearningGmbH/MATH-lighteval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DigitalLearningGmbH/MATH-lighteval"
-downloads: 29643
+downloads: 29097
 summary: "수학 경시대회 문제와 단계별 해답으로 답안 유도 및 설명 생성 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

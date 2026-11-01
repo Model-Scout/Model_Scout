@@ -3,7 +3,7 @@ type: "model"
 id: "sttempler/KORPatent-BGE"
 source: "huggingface"
 url: "https://huggingface.co/sttempler/KORPatent-BGE"
-downloads: 92
+downloads: 108
 context_length: 8194
 parameters_b: 0.568
 task:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "posicube/KolmOCR-traindataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/posicube/KolmOCR-traindataset"
-downloads: 753
+downloads: 786
 summary: "KolmOCR Training Dataset은 한국어 번역된 문서 OCR 및 문서 이해 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

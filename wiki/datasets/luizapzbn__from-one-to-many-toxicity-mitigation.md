@@ -3,7 +3,7 @@ type: "dataset"
 id: "luizapzbn/from-one-to-many-toxicity-mitigation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/luizapzbn/from-one-to-many-toxicity-mitigation"
-downloads: 130
+downloads: 133
 summary: "다국어 독성 완화 연구를 위한 번역된 독성 데이터셋으로, 언어 모델의 안전성 향상에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "ibm-granite/granite-4.2-3b"
 source: "huggingface"
 url: "https://huggingface.co/ibm-granite/granite-4.2-3b"
-downloads: 45488
+downloads: 40898
 context_length: 131072
 parameters_b: 3.66
 task:

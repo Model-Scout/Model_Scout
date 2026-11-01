@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/preference-collection-ko-full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/preference-collection-ko-full"
-downloads: 33
+downloads: 34
 summary: "prometheus-eval/Preference-Collection 데이터를 nayohan/llama3-instrucTrans-enko-8b 모델로 번역한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

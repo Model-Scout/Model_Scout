@@ -3,7 +3,7 @@ type: "dataset"
 id: "Lego-MT/Parallel_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Lego-MT/Parallel_Dataset"
-downloads: 298
+downloads: 291
 summary: "Lego-MT/Parallel_Dataset는 대규모 신경망 기계 번역을 위한 병렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "o0dimplz0o/Zeroth-STT-Korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/o0dimplz0o/Zeroth-STT-Korean"
-downloads: 60
+downloads: 61
 summary: "Zeroth-STT-Korean은 한국어 음성 인식 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

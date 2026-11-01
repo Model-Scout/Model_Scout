@@ -3,7 +3,7 @@ type: "dataset"
 id: "DGME/FLORES-200"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DGME/FLORES-200"
-downloads: 438
+downloads: 485
 summary: "DGME/FLORES-200은 다국어 기계 번역을 위한 다중 언어 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

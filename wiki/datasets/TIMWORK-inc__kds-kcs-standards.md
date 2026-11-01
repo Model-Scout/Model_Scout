@@ -3,7 +3,7 @@ type: "dataset"
 id: "TIMWORK-inc/kds-kcs-standards"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TIMWORK-inc/kds-kcs-standards"
-downloads: 121
+downloads: 128
 summary: "국가건설기준센터 제공 KDS(설계기준)와 KCS(표준시방서) 한국 건설기준 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

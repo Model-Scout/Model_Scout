@@ -78,8 +78,8 @@ Complete digital collectible photocards (Objekts) dataset for the K-Pop girl gro
 
 ## Dataset Summary
 
-- **Total Objekts**: 11,566 unique digital collectibles
-- **Total Images**: 21,881 high-resolution card scans (Front & Back)
+- **Total Objekts**: 11,570 unique digital collectibles
+- **Total Images**: 21,885 high-resolution card scans (Front & Back)
 - **Total Motion & Voice Videos**: 177 animated card loops & voice message MP4 clips
 - **Members**: All 24 members (S1–S24) + Sub-units (AAA, KRE, Assemble24, etc.)
 - **Seasons Included**: Atom01, Atom02, Binary01, Binary02, Cream01, Cream02, Divine01, Ever01
@@ -89,7 +89,7 @@ Complete digital collectible photocards (Objekts) dataset for the K-Pop girl gro
 
 ```text
 ├── metadata.jsonl          # Hugging Face Dataset format linking all images, media & attributes
-├── all_objekts.json        # Master raw JSON containing all 11,566 objekt items
+├── all_objekts.json        # Master raw JSON containing all 11,570 objekt items
 ├── summary.json            # Statistical counts by member, season, and class
 ├── sync_checkpoint.json    # Incremental update state tracker
 ├── by_member/              # Subdivided JSON files per member

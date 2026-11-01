@@ -3,7 +3,7 @@ type: "dataset"
 id: "ZeppelinCorp/Eclipse_Corpuz"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ZeppelinCorp/Eclipse_Corpuz"
-downloads: 24
+downloads: 23
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

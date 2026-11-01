@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/svq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/svq"
-downloads: 22910
+downloads: 22881
 summary: "26개 지역, 17개 언어의 다양한 환경에서 녹음된 짧은 음성 질문 데이터셋으로 음성 임베딩 평가용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -60,3 +60,7 @@ dataset_size:
 - **데이터 용도**: [[평가용]] — ner · readme = `the data is released in its entirety as an undivided evaluation set.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `mteb/svq`

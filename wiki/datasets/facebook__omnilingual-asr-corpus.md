@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/omnilingual-asr-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/omnilingual-asr-corpus"
-downloads: 5502
+downloads: 6117
 summary: "348개 소수 언어의 자발적 음성 녹음과 전사 데이터로 음성 인식 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,8 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `raw_text` 열 p90 1013자 ≈ 253 토큰 (viewer statistics, default/test)
+
+## 이 데이터로 학습한 모델
+
+- [[bezzam__omniasr-ctc-300m-v2|bezzam/omniasr-ctc-300m-v2]]
+- [[bezzam__omniasr-llm-300m-v2|bezzam/omniasr-llm-300m-v2]]

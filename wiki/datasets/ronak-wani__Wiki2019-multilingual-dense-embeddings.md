@@ -3,7 +3,7 @@ type: "dataset"
 id: "ronak-wani/Wiki2019-multilingual-dense-embeddings"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ronak-wani/Wiki2019-multilingual-dense-embeddings"
-downloads: 396
+downloads: 398
 summary: "2019년 위키피디아 8개 언어 덤프에서 생성한 다국어 밀집 임베딩 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"

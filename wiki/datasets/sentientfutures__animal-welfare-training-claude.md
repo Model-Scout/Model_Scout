@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentientfutures/animal-welfare-training-claude"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentientfutures/animal-welfare-training-claude"
-downloads: 107
+downloads: 108
 summary: "동물 복지와 감각 있는 존재의 복지에 대해 신중히 추론하도록 모델을 훈련하는 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "guneeshv/REDACT-PII-Benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/guneeshv/REDACT-PII-Benchmark"
-downloads: 123
+downloads: 138
 summary: "REDACT는 개인 정보 탐지를 위한 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

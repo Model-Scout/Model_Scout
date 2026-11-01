@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Failuremaxx-Adventure-3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Failuremaxx-Adventure-3"
-downloads: 16
+downloads: 17
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

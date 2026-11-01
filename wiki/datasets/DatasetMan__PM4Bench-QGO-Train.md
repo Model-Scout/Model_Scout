@@ -3,7 +3,7 @@ type: "dataset"
 id: "DatasetMan/PM4Bench-QGO-Train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DatasetMan/PM4Bench-QGO-Train"
-downloads: 100
+downloads: 136
 summary: "다국어 OCR 합성 데이터로 QGO 강화학습에 사용하는 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "twodigit/nikl-news-2024"
 source: "huggingface"
 url: "https://huggingface.co/datasets/twodigit/nikl-news-2024"
-downloads: 304
+downloads: 334
 summary: "2023년 생산된 신문 기사 1,119,753건으로 구성된 모두의말뭉치 신문 말뭉치 2024 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

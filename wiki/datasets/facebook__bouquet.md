@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/bouquet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/bouquet"
-downloads: 1082
+downloads: 1183
 summary: "다국어 기계번역 품질 평가를 위한 다중언어 병렬 데이터셋 및 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

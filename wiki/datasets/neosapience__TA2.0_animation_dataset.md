@@ -3,7 +3,7 @@ type: "dataset"
 id: "neosapience/TA2.0_animation_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neosapience/TA2.0_animation_dataset"
-downloads: 10029
+downloads: 10088
 summary: "TA2.0 애니메이션 데이터셋은 9개 언어 음성 기반 AI 생성 애니메이션 영상 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

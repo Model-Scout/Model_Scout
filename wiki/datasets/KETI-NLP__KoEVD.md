@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/KoEVD"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/KoEVD"
-downloads: 156
+downloads: 158
 summary: "KoEVD는 한국어 발화에 대한 위험 판단과 응답 안전성 평가를 위한 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenVoiceOS/hass-intent-templates"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenVoiceOS/hass-intent-templates"
-downloads: 129
+downloads: 142
 summary: "Home Assistant 음성 명령 의도 템플릿으로 OVOS 의도 파서 벤치마크용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

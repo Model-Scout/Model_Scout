@@ -3,7 +3,7 @@ type: "model"
 id: "skt/A.X-K2"
 source: "huggingface"
 url: "https://huggingface.co/skt/A.X-K2"
-downloads: 135396
+downloads: 14625
 context_length: 262144
 parameters_b: 691.69
 task:
@@ -51,4 +51,3 @@ model_size:
 
 - [[HuggingFaceFW__fineweb-2|HuggingFaceFW/fineweb-2]]
 - [[nvidia__Nemotron-CC-v2.1|nvidia/Nemotron-CC-v2.1]]
-- [[nvidia__Nemotron-Pretraining-Code-v2|nvidia/Nemotron-Pretraining-Code-v2]]

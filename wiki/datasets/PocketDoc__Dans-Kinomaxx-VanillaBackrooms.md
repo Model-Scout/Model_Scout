@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Kinomaxx-VanillaBackrooms"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Kinomaxx-VanillaBackrooms"
-downloads: 15
+downloads: 16
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

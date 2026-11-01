@@ -3,7 +3,7 @@ type: "dataset"
 id: "miracl/miracl-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/miracl/miracl-corpus"
-downloads: 16778
+downloads: 17134
 summary: "MIRACL는 18개 언어 위키피디아 문서 기반 다국어 검색 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "gyung/ko-law-retriever-artifacts-20260622"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gyung/ko-law-retriever-artifacts-20260622"
-downloads: 372
+downloads: 409
 summary: "한국 법률 문서 검색 연구를 위한 대규모 리트리버 아티팩트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "BSC-LT/m-personas"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BSC-LT/m-personas"
-downloads: 195
+downloads: 192
 summary: "mPersonas는 15개 언어의 페르소나 기반 대화 데이터셋으로 다양한 합성 대화 생성을 지원합니다."
 readme_status: "ok"
 readme_language: "en"

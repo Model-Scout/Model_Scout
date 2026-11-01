@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlinmg/translation_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlinmg/translation_dataset"
-downloads: 3704
+downloads: 3055
 summary: "영어 참조 음성을 복제하는 다국어 합성 음성 데이터셋으로 크로스링구얼 더빙 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

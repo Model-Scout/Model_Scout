@@ -3,7 +3,7 @@ type: "dataset"
 id: "4pplet/kotobase-dict"
 source: "huggingface"
 url: "https://huggingface.co/datasets/4pplet/kotobase-dict"
-downloads: 622
+downloads: 608
 summary: "한국어, 일본어, 중국어 사전 데이터와 예문, TOPIK 수준 태그를 포함한 오프라인 사전용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

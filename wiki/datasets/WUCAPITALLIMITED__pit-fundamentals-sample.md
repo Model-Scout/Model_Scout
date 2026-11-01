@@ -3,7 +3,7 @@ type: "dataset"
 id: "WUCAPITALLIMITED/pit-fundamentals-sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WUCAPITALLIMITED/pit-fundamentals-sample"
-downloads: 113
+downloads: 123
 summary: "뉴질랜드 등록 자선단체 포함 84개 기업의 공식 재무제표 데이터를 시장별로 제공하는 공개 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

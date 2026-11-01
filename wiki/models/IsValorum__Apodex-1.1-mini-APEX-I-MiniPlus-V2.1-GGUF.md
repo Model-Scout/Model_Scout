@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Apodex-1.1-mini-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Apodex-1.1-mini-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 2034
+downloads: 4621
 task:
   - "[[텍스트 생성]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "BCCard/privacy-filter-openpii-masking"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BCCard/privacy-filter-openpii-masking"
-downloads: 478
+downloads: 485
 summary: "한국어와 영어 개인정보 식별자 엔티티 검출용 토큰 분류 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

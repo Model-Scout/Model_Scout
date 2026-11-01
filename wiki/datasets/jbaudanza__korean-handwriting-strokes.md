@@ -3,7 +3,7 @@ type: "dataset"
 id: "jbaudanza/korean-handwriting-strokes"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jbaudanza/korean-handwriting-strokes"
-downloads: 112
+downloads: 121
 summary: "Neo Smartpen으로 수집한 한글 필기 획 데이터로, hangul.ink 손글씨 생성 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

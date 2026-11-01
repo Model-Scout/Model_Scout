@@ -3,7 +3,7 @@ type: "dataset"
 id: "prometheus-eval/k-browsecomp"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prometheus-eval/k-browsecomp"
-downloads: 601
+downloads: 621
 summary: "K-BrowseComp는 한국어 웹 브라우징 에이전트 벤치마크로, 한국어 웹사이트에서 정보를 검색하는 문제로 구성됨."
 readme_status: "ok"
 readme_language: "en"

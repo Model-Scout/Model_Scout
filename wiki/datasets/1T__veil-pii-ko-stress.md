@@ -3,7 +3,7 @@ type: "dataset"
 id: "1T/veil-pii-ko-stress"
 source: "huggingface"
 url: "https://huggingface.co/datasets/1T/veil-pii-ko-stress"
-downloads: 122
+downloads: 127
 summary: "한국어 PII 탐지 모델의 약점을 평가하기 위한 표기 변형 및 문서 길이별 평가셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

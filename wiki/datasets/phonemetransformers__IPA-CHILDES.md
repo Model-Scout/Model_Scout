@@ -3,7 +3,7 @@ type: "dataset"
 id: "phonemetransformers/IPA-CHILDES"
 source: "huggingface"
 url: "https://huggingface.co/datasets/phonemetransformers/IPA-CHILDES"
-downloads: 845
+downloads: 890
 summary: "CHILDES에서 수집한 아동 대상 발화를 음소 표기로 변환한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -57,3 +57,7 @@ CHILDES에서 수집한 아동 대상 발화를 음소 표기로 변환한 데�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `character_split_utterance` 열 p90 121자 ≈ 30 토큰 (viewer statistics, Korean/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `superBigPigeon/IPA-CHILDES`

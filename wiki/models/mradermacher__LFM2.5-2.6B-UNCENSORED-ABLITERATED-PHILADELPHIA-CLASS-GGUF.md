@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/LFM2.5-2.6B-UNCENSORED-ABLITERATED-PHILADELPHIA-CLASS-GGUF"
-downloads: 6138
+downloads: 1608
 task:
   - "[[텍스트 생성]]"
 input_modality:

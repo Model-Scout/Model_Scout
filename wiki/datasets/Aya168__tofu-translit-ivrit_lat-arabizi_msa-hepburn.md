@@ -3,7 +3,7 @@ type: "dataset"
 id: "Aya168/tofu-translit-ivrit_lat-arabizi_msa-hepburn"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Aya168/tofu-translit-ivrit_lat-arabizi_msa-hepburn"
-downloads: 19
+downloads: 18
 summary: "TOFU 데이터셋은 히브리어, 아랍어, 일본어의 라틴 문자 음역 데이터를 포함하며 다국어 언어 모델의 음역 영향 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

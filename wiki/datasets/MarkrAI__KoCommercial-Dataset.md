@@ -3,7 +3,7 @@ type: "dataset"
 id: "MarkrAI/KoCommercial-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MarkrAI/KoCommercial-Dataset"
-downloads: 151
+downloads: 203
 summary: "KoCommercial-Dataset은 약 1.44M 개의 상업적 용도 가능한 한국어 데이터셋으로, SSL 데이터 생성 및 다양한 과제에 활용 가능하다."
 readme_status: "ok"
 readme_language: "mixed"

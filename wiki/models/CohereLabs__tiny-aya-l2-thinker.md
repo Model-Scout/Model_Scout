@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/tiny-aya-l2-thinker"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/tiny-aya-l2-thinker"
-downloads: 1194
+downloads: 270
 parameters_b: 3.35
 task:
   - "[[텍스트 생성]]"

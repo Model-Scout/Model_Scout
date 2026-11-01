@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-minju/korean_data_scraper_aihub"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-minju/korean_data_scraper_aihub"
-downloads: 443
+downloads: 454
 summary: "AI-Hub에서 수집한 여러 한국어 데이터셋의 본문 텍스트를 추출한 코퍼스입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -51,3 +51,7 @@ AI-Hub에서 수집한 여러 한국어 데이터셋의 본문 텍스트를 추�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 219705자 ≈ 146470 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Hikaf143/korean_data_scraper_aihub`

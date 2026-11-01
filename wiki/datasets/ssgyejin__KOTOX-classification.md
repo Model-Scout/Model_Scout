@@ -3,7 +3,7 @@ type: "dataset"
 id: "ssgyejin/KOTOX-classification"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ssgyejin/KOTOX-classification"
-downloads: 124
+downloads: 116
 summary: "한국어 독성 문장 해독 및 중화 연구용으로 고안된 KOTOX 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

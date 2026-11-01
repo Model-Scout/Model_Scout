@@ -3,7 +3,7 @@ type: "dataset"
 id: "quickium/prompt-security-v0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/quickium/prompt-security-v0"
-downloads: 109
+downloads: 112
 summary: "Quickium Prompt Security v0은 다국어 프롬프트 보안 분류용 데이터셋으로, 프롬프트 인젝션, 탈옥, PII 노출 탐지에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

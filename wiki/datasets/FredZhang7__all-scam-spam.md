@@ -3,7 +3,7 @@ type: "dataset"
 id: "FredZhang7/all-scam-spam"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FredZhang7/all-scam-spam"
-downloads: 389
+downloads: 431
 summary: "43개 언어로 된 42,619개의 스팸 및 정상 문자와 이메일 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

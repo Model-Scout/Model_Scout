@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/reasoning-base-20k-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/reasoning-base-20k-chat"
-downloads: 9
+downloads: 12
 summary: "reasoning-base-20k-chat은 수학, 논리 추론 중심의 번체중문 추론 QA 데이터셋으로 언어모델 미세조정에 적합하다."
 readme_status: "ok"
 readme_language: "en"

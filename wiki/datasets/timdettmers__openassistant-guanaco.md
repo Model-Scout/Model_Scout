@@ -3,7 +3,7 @@ type: "dataset"
 id: "timdettmers/openassistant-guanaco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/timdettmers/openassistant-guanaco"
-downloads: 11055
+downloads: 11059
 summary: "Open Assistant 데이터셋의 최고 평점 대화 경로만 포함한 서브셋으로, Guanaco 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

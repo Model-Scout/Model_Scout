@@ -3,7 +3,7 @@ type: "dataset"
 id: "quickmt/quickmt-train.ko-en"
 source: "huggingface"
 url: "https://huggingface.co/datasets/quickmt/quickmt-train.ko-en"
-downloads: 40
+downloads: 60
 summary: "quickmt ko-en 학습 코퍼스로 다양한 OPUS 데이터셋을 중복 제거 후 필터링하여 번역 모델 학습에 사용."
 readme_status: "ok"
 readme_language: "en"

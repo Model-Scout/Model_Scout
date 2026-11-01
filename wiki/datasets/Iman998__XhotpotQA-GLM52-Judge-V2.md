@@ -3,7 +3,7 @@ type: "dataset"
 id: "Iman998/XhotpotQA-GLM52-Judge-V2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Iman998/XhotpotQA-GLM52-Judge-V2"
-downloads: 99
+downloads: 108
 summary: "XHotpotQA V2 RC1 번역 평가 데이터셋으로 23개 언어의 문단, 질문, 답변 품질 점수를 제공함."
 readme_status: "ok"
 readme_language: "en"

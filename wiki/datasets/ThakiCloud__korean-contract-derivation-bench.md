@@ -3,7 +3,7 @@ type: "dataset"
 id: "ThakiCloud/korean-contract-derivation-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ThakiCloud/korean-contract-derivation-bench"
-downloads: 97
+downloads: 99
 summary: "한국어 계약서 요약에서 계약금액 도출 정확도를 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

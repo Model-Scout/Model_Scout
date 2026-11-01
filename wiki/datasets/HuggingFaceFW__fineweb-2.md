@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceFW/fineweb-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2"
-downloads: 133446
+downloads: 135765
 summary: "1000개 이상의 언어에 대해 고품질 사전학습 데이터를 제공하는 FineWeb2 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -58,11 +58,21 @@ dataset_size:
 - [[ATH-MaaS__Marco-Mini-Base|ATH-MaaS/Marco-Mini-Base]]
 - [[ATH-MaaS__Marco-Mini-Global-Base|ATH-MaaS/Marco-Mini-Global-Base]]
 - [[ATH-MaaS__Marco-Nano-Base|ATH-MaaS/Marco-Nano-Base]]
+- [[AneekC__quipu-moe-1B-A149M|AneekC/quipu-moe-1B-A149M]]
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
+- [[Horizon-Labs__multilingual-embedding-base|Horizon-Labs/multilingual-embedding-base]]
+- [[Horizon-Labs__multilingual-embedding-small|Horizon-Labs/multilingual-embedding-small]]
+- [[Horizon-Labs__multilingual-sentiment-base|Horizon-Labs/multilingual-sentiment-base]]
+- [[Horizon-Labs__multilingual-sentiment-small|Horizon-Labs/multilingual-sentiment-small]]
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]
 - [[PsycheFoundation__consilience-40b-7Y9v38s5|PsycheFoundation/consilience-40b-7Y9v38s5]]
 - [[WaveCut__Qwen3.5-2B-MLX-DWQ-4bit|WaveCut/Qwen3.5-2B-MLX-DWQ-4bit]]
 - [[cooler8__ZeliDesk-sLM-1B|cooler8/ZeliDesk-sLM-1B]]
 - [[ikhou__dict-xs|ikhou/dict-xs]]
+- [[prismdata__Perdix-1.1B-Base|prismdata/Perdix-1.1B-Base]]
+- [[shopkeeper__kor-finewiki-1b-base|shopkeeper/kor-finewiki-1b-base]]
 - [[skt__A.X-K2|skt/A.X-K2]]
 - [[skt__A.X-K2-NVFP4|skt/A.X-K2-NVFP4]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "transitgrid/kr_region_route_ridership_annual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/transitgrid/kr_region_route_ridership_annual"
-downloads: 811
+downloads: 726
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

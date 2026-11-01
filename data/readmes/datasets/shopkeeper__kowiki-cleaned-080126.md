@@ -1,0 +1,77 @@
+---
+language:
+- ko
+license: cc-by-sa-4.0
+task_categories:
+- text-generation
+pretty_name: Korean Wikipedia (cleaned) 2026-08-01
+size_categories:
+- 100K<n<1M
+dataset_info:
+  features:
+  - name: id
+    dtype: string
+  - name: url
+    dtype: string
+  - name: title
+    dtype: string
+  - name: text
+    dtype: string
+  splits:
+  - name: train
+    num_examples: 597510
+configs:
+- config_name: default
+  data_files:
+  - split: train
+    path: data/train-*
+---
+
+# Korean Wikipedia, cleaned (2026-08-01 dump)
+
+Plain-text articles from the Korean Wikipedia dump
+[`kowiki-20260801-pages-articles.xml.bz2`](https://dumps.wikimedia.org/kowiki/20260801/).
+
+| | |
+|---|---|
+| Articles | 597,510 |
+| Characters | 781,225,947 |
+| Source pages scanned | 2,223,994 |
+
+## Fields
+
+- `id`: Wikipedia page id
+- `url`: article URL on ko.wikipedia.org
+- `title`: article title
+- `text`: cleaned plain text. Section headings appear on their own line;
+  paragraphs are separated by a blank line.
+
+## Cleaning
+
+- Main namespace (ns 0) articles only; redirects and disambiguation pages removed.
+- Wiki markup converted to plain text. Templates are removed, except inline ones whose
+  text is part of the sentence (e.g. `{{lang}}`, `{{llang}}`, `{{임시링크}}`,
+  `{{국기나라}}`, `{{convert}}`), which keep their visible text.
+- Removed: references/footnotes, tables, infoboxes, navboxes, images and their captions,
+  galleries, categories, interlanguage links, HTML comments and tags.
+- Removed sections: 각주, 참고 문헌, 외부 링크, 같이 보기 and similar, plus headings left
+  with no content.
+- Leftovers from removed templates are repaired (e.g. empty `( , )` parentheses).
+- Unicode NFC normalisation; zero-width/control characters removed; whitespace normalised.
+- Articles shorter than 100 characters after cleaning and exact-duplicate texts dropped.
+
+Drop counts for this dump:
+
+```
+disambiguation: 79,018
+duplicate_text: 77
+kept: 597,510
+not_article_namespace: 573,341
+redirect: 893,096
+too_short: 81,029
+```
+
+## License
+
+Text is from Wikipedia and is available under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (and GFDL).

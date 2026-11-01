@@ -3,7 +3,7 @@ type: "dataset"
 id: "Yeongkwon/pcb-defect-coco"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Yeongkwon/pcb-defect-coco"
-downloads: 673
+downloads: 906
 summary: "PCB 결함 탐지를 위한 COCO 형식의 어노테이션 데이터셋으로, train/val로 분할되어 있음."
 readme_status: "ok"
 readme_language: "mixed"

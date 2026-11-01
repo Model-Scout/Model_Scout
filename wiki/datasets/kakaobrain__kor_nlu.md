@@ -3,7 +3,7 @@ type: "dataset"
 id: "kakaobrain/kor_nlu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kakaobrain/kor_nlu"
-downloads: 189
+downloads: 182
 readme_status: "template"
 readme_language: "en"
 korean_focus: "ko_only"

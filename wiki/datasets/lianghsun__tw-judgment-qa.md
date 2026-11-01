@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-judgment-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-judgment-qa"
-downloads: 19
+downloads: 21
 summary: "중화민국(대만) 판결서를 기반으로 한 법률 상황별 질의응답 데이터셋으로, 법률 LLM 미세조정에 적합함."
 readme_status: "ok"
 readme_language: "en"

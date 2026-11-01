@@ -3,7 +3,7 @@ type: "dataset"
 id: "laion/moss-character-voices-top3-captioned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/laion/moss-character-voices-top3-captioned"
-downloads: 2996
+downloads: 3085
 summary: "MOSS Character Voices 데이터셋은 음성 연기 캡션과 점수가 포함된 음성 샘플로 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

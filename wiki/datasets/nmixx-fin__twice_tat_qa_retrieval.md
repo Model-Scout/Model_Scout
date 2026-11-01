@@ -3,7 +3,7 @@ type: "dataset"
 id: "nmixx-fin/twice_tat_qa_retrieval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nmixx-fin/twice_tat_qa_retrieval"
-downloads: 199
+downloads: 201
 summary: "한국 금융 보고서에서 수집한 정보를 기반으로 한 TAT QA 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"

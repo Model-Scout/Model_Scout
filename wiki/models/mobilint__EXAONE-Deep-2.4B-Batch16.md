@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/EXAONE-Deep-2.4B-Batch16"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/EXAONE-Deep-2.4B-Batch16"
-downloads: 204
+downloads: 473
 context_length: 4096
 parameters_b: 0.262
 task:

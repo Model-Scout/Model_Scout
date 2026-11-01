@@ -3,7 +3,7 @@ type: "dataset"
 id: "pankajmathur/orca_mini_v8_sharegpt_format"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pankajmathur/orca_mini_v8_sharegpt_format"
-downloads: 28
+downloads: 29
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

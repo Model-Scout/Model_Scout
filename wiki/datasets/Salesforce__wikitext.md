@@ -3,7 +3,7 @@ type: "dataset"
 id: "Salesforce/wikitext"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Salesforce/wikitext"
-downloads: 2013985
+downloads: 2025231
 summary: "위키피디아의 검증된 문서에서 추출한 1억 개 이상의 토큰으로 구성된 언어 모델링 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

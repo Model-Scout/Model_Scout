@@ -3,7 +3,7 @@ type: "dataset"
 id: "QuixiAI/open-instruct-uncensored"
 source: "huggingface"
 url: "https://huggingface.co/datasets/QuixiAI/open-instruct-uncensored"
-downloads: 134
+downloads: 159
 summary: "Allen AI의 open-instruct 데이터셋으로 Tulu 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

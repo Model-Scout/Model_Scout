@@ -3,7 +3,7 @@ type: "dataset"
 id: "PrompTartLAB/PTT_en_ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PrompTartLAB/PTT_en_ko"
-downloads: 93
+downloads: 66
 summary: "기술 용어의 정확한 번역을 위한 영어-한국어 문장 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

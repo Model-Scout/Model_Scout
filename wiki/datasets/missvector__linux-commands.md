@@ -3,7 +3,7 @@ type: "dataset"
 id: "missvector/linux-commands"
 source: "huggingface"
 url: "https://huggingface.co/datasets/missvector/linux-commands"
-downloads: 232
+downloads: 296
 summary: "Linux 명령어 추론을 위한 10개 언어 지원 합성 데이터셋으로 LLM 미세조정에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -71,3 +71,11 @@ Linux 명령어 추론을 위한 10개 언어 지원 합성 데이터셋으로 L
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `completion` 열 p90 51자 ≈ 13 토큰 (viewer statistics, ko/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Rendra8631/linux-commands`
+- `amechanicus/linux-commands`
+- `chowmean/linux-commands`
+- `jasmar2/linux-commands`
+- `shanthropic/linux-commands`

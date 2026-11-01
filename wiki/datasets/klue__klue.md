@@ -3,7 +3,7 @@ type: "dataset"
 id: "klue/klue"
 source: "huggingface"
 url: "https://huggingface.co/datasets/klue/klue"
-downloads: 5518
+downloads: 5772
 summary: "KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터셋 모음입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -54,7 +54,7 @@ KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `59` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-4.0` · 신뢰도 high
-- **도메인**: [[일반]] — ner · readme = `KLUE is a collection of 8 tasks to evaluate natural language understanding capability of Korean language models.` · 신뢰도 low
+- **도메인**: [[일반]] — ner · readme = `natural language understanding capability of Korean language models` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `validation: 9,107` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `train: 45,678` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
@@ -68,6 +68,7 @@ KLUE는 한국어 자연어 이해 능력 평가를 위한 8개 작업 데이터
 - [[SECUFIBRE__klue-roberta-base-klue-sts|SECUFIBRE/klue-roberta-base-klue-sts]]
 - [[bespin-global__klue-sentence-roberta-base|bespin-global/klue-sentence-roberta-base]]
 - [[bespin-global__klue-sroberta-base-continue-learning-by-mnr|bespin-global/klue-sroberta-base-continue-learning-by-mnr]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[blueapple8259__TinyKo|blueapple8259/TinyKo]]
 - [[jhgan__ko-sroberta-nli-mrl|jhgan/ko-sroberta-nli-mrl]]
 - [[snumin44__simcse-ko-bert-supervised|snumin44/simcse-ko-bert-supervised]]

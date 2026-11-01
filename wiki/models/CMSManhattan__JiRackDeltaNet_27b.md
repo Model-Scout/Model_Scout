@@ -3,7 +3,7 @@ type: "model"
 id: "CMSManhattan/JiRackDeltaNet_27b"
 source: "huggingface"
 url: "https://huggingface.co/CMSManhattan/JiRackDeltaNet_27b"
-downloads: 551790
+downloads: 8283
 context_length: 262144
 parameters_b: 27.321
 task:

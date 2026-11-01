@@ -3,7 +3,7 @@ type: "dataset"
 id: "nowsika/Eastern-Philosophy-Safety-Prompt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nowsika/Eastern-Philosophy-Safety-Prompt"
-downloads: 80
+downloads: 75
 summary: "동양철학(음양)을 기반으로 한 자기조절 안전 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

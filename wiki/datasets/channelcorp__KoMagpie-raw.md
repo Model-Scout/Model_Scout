@@ -3,7 +3,7 @@ type: "dataset"
 id: "channelcorp/KoMagpie-raw"
 source: "huggingface"
 url: "https://huggingface.co/datasets/channelcorp/KoMagpie-raw"
-downloads: 127
+downloads: 141
 summary: "KoMagpie-raw는 한국어 지침-응답 데이터셋으로, 마케팅 등 다양한 분야의 질의응답에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

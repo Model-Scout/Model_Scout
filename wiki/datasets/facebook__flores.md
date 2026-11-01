@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/flores"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/flores"
-downloads: 5286
+downloads: 5252
 summary: "FLORES-200은 영어와 저자원 언어 간 기계 번역 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,6 +52,11 @@ FLORES-200은 영어와 저자원 언어 간 기계 번역 벤치마크 데이�
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `FLORES-200 consists of translations from 842 distinct web articles, totaling 3001 sentences.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `meer3305/flores`
+- `neulab/PangeaBench-flores`
 
 ## 이 데이터로 학습한 모델
 

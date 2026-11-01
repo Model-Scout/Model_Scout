@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/KMMMU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/KMMMU"
-downloads: 892
+downloads: 894
 summary: "한국어 텍스트와 이미지를 결합한 대학 및 시험 수준 추론 평가용 멀티모달 문제 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

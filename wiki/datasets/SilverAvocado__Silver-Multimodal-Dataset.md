@@ -3,7 +3,7 @@ type: "dataset"
 id: "SilverAvocado/Silver-Multimodal-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SilverAvocado/Silver-Multimodal-Dataset"
-downloads: 179
+downloads: 185
 summary: "일상 활동, 폭력, 낙상 상황을 오디오와 비디오로 감지하는 멀티모달 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

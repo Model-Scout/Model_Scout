@@ -3,7 +3,7 @@ type: "model"
 id: "litert-community/VibeVoice-ASR-BitNet"
 source: "huggingface"
 url: "https://huggingface.co/litert-community/VibeVoice-ASR-BitNet"
-downloads: 121
+downloads: 216
 task:
   - "[[음성 인식]]"
 input_modality:

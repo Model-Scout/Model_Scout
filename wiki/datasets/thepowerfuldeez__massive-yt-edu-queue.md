@@ -3,7 +3,7 @@ type: "dataset"
 id: "thepowerfuldeez/massive-yt-edu-queue"
 source: "huggingface"
 url: "https://huggingface.co/datasets/thepowerfuldeez/massive-yt-edu-queue"
-downloads: 146
+downloads: 147
 summary: "약 450만 개 유튜브 교육 영상의 메타데이터와 분류, 라이선스 위험 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

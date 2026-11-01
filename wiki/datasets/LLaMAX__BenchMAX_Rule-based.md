@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Rule-based"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Rule-based"
-downloads: 535
+downloads: 500
 summary: "BenchMAX_Rule-based는 다국어 지침 수행 능력 평가용 규칙 기반 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

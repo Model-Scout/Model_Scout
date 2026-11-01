@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Apodex-1.1-mini-APEX-I-MiniPlus-V2-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Apodex-1.1-mini-APEX-I-MiniPlus-V2-GGUF"
-downloads: 2895
+downloads: 3619
 task:
   - "[[이미지 이해]]"
 input_modality:

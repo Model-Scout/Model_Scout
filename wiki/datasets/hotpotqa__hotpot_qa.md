@@ -3,7 +3,7 @@ type: "dataset"
 id: "hotpotqa/hotpot_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hotpotqa/hotpot_qa"
-downloads: 83373
+downloads: 82259
 summary: "HotpotQA는 위키피디아 기반 다중 문서 추론 질문-답변 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -51,3 +51,7 @@ HotpotQA는 위키피디아 기반 다중 문서 추론 질문-답변 데이터�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `question` 열 p90 137자 ≈ 34 토큰 (viewer statistics, distractor/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

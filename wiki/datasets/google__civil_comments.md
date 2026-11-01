@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/civil_comments"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/civil_comments"
-downloads: 11079
+downloads: 10987
 summary: "2015~2017년 영어 뉴스 사이트 댓글 데이터로, 연구용 공개 아카이브입니다."
 readme_status: "template"
 readme_language: "en"
@@ -51,3 +51,11 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 758자 ≈ 190 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
+- [[Horizon-Labs__multilingual-toxicity-base|Horizon-Labs/multilingual-toxicity-base]]
+- [[Horizon-Labs__multilingual-toxicity-small|Horizon-Labs/multilingual-toxicity-small]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

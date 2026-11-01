@@ -3,7 +3,7 @@ type: "model"
 id: "unsloth/LFM2.5-230M"
 source: "huggingface"
 url: "https://huggingface.co/unsloth/LFM2.5-230M"
-downloads: 7282
+downloads: 1780
 context_length: 128000
 parameters_b: 0.23
 task:

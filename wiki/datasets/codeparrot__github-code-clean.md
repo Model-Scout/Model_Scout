@@ -3,7 +3,7 @@ type: "dataset"
 id: "codeparrot/github-code-clean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/codeparrot/github-code-clean"
-downloads: 40750
+downloads: 40882
 summary: "GitHub에서 수집한 32개 프로그래밍 언어의 1TB 코드 파일 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -38,3 +38,9 @@ GitHub에서 수집한 32개 프로그래밍 언어의 1TB 코드 파일 데이�
 - **도메인**: [[일반]] — ner · readme = `The GitHub Code clean dataset in a more filtered version of codeparrot/github-code dataset` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `The GitHub Code clean dataset in a more filtered version of codeparrot/github-code dataset` · 신뢰도 medium
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[AneekC__quipu-moe-1B-A149M|AneekC/quipu-moe-1B-A149M]]
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]

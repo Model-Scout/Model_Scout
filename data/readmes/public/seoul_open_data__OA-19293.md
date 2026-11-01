@@ -1,0 +1,43 @@
+# 서울시 구로구 건물위생관리업 인허가 정보
+
+서울시 구로구 건물위생관리업 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_093004_GR/1/5/ 제공 필드: 건물지상층수, 건물소유구분명, 건물지하층수, 사업장명, 업태구분명, 폐업일자, 데이터갱신구분, 데이터갱신일자, 상세영업상태코드, 상세영업상태명, 여성종사자수, 위생업태명, 최종수정일자, 인허가일자, 소재지면적, 소재지우편번호, 지번주소, 다중이용업소여부, 남성종사자수, 관리번호, 개방자치단체코드, 조건부허가시작일자, 조건부허가신고사유, 조건부허가종료일자, 도로명주소, 도로명우편번호, 영업상태코드, 영업상태명, 전화번호, 사용시작지상층, 사용시작지하층, 사용끝지상층, 사용끝지하층, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_093004_GR
+
+## 제공 필드
+
+- 건물지상층수 (BLDG_GRND_NOFL)
+- 건물소유구분명 (BLDG_PSN_SE_NM)
+- 건물지하층수 (BLDG_UGWTR_NOFL)
+- 사업장명 (BPLC_NM)
+- 업태구분명 (BZSTAT_SE_NM)
+- 폐업일자 (CLSBIZ_YMD)
+- 데이터갱신구분 (DATA_UPDT_SE)
+- 데이터갱신일자 (DATA_UPDT_YMD)
+- 상세영업상태코드 (DTL_SALS_STTS_CD)
+- 상세영업상태명 (DTL_SALS_STTS_NM)
+- 여성종사자수 (FML_PRCTR_CNT)
+- 위생업태명 (HYGN_BZSTAT_NM)
+- 최종수정일자 (LAST_MDFCN_YMD)
+- 인허가일자 (LCPMT_YMD)
+- 소재지면적 (LCTN_AREA)
+- 소재지우편번호 (LCTN_ZIP)
+- 지번주소 (LOTNO_ADDR)
+- 다중이용업소여부 (MLT_UTZTN_YN)
+- 남성종사자수 (ML_PRCTR_CNT)
+- 관리번호 (MNG_NO)
+- 개방자치단체코드 (OGDP_INST_CD)
+- 조건부허가시작일자 (PRMSN_BGNG_YMD)
+- 조건부허가신고사유 (PRMSN_DCLR_RSN)
+- 조건부허가종료일자 (PRMSN_END_YMD)
+- 도로명주소 (ROAD_NM_ADDR)
+- 도로명우편번호 (ROAD_NM_ZIP)
+- 영업상태코드 (SALS_STTS_CD)
+- 영업상태명 (SALS_STTS_NM)
+- 전화번호 (TELNO)
+- 사용시작지상층 (USE_BGNG_GRND_FLR)
+- 사용시작지하층 (USE_BGNG_UDGD_FLR)
+- 사용끝지상층 (USE_END_GRND_FLR)
+- 사용끝지하층 (USE_END_UDGD_FLR)
+- 좌표정보(X) (XCRD)
+- 좌표정보(Y) (YCRD)

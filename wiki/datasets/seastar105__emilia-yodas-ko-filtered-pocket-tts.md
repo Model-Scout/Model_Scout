@@ -3,7 +3,7 @@ type: "dataset"
 id: "seastar105/emilia-yodas-ko-filtered-pocket-tts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/seastar105/emilia-yodas-ko-filtered-pocket-tts"
-downloads: 389
+downloads: 388
 summary: "Emilia-YODAS 한국어 음성 데이터로 음성 합성 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

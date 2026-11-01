@@ -3,7 +3,7 @@ type: "dataset"
 id: "deepghs/AnimeText"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deepghs/AnimeText"
-downloads: 697
+downloads: 501
 summary: "Anime 장면 내 다양한 스타일의 텍스트 검출을 위한 대규모 데이터셋으로 735K 이미지와 420만 텍스트 블록을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

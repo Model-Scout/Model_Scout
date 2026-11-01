@@ -3,7 +3,7 @@ type: "dataset"
 id: "Meddies/meddies-pii-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Meddies/meddies-pii-v2"
-downloads: 191
+downloads: 155
 summary: "17개 언어와 9개 엔티티 유형의 다국어 임상 개인정보(PII) 식별 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

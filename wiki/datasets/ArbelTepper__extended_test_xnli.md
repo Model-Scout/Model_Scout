@@ -3,7 +3,7 @@ type: "dataset"
 id: "ArbelTepper/extended_test_xnli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ArbelTepper/extended_test_xnli"
-downloads: 142
+downloads: 150
 summary: "XNLI 테스트셋을 14개에서 48개 언어로 확장한 다국어 자연어 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

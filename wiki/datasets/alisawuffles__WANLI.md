@@ -3,7 +3,7 @@ type: "dataset"
 id: "alisawuffles/WANLI"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alisawuffles/WANLI"
-downloads: 15110
+downloads: 15197
 summary: "WANLI는 자연어 추론(NLI) 작업을 위한 108K 영어 문장 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,5 @@ WANLI는 자연어 추론(NLI) 작업을 위한 108K 영어 문장 쌍 데이터
 ## 이 데이터로 학습한 모델
 
 - [[BalaRajesh1__mmbert-small-nli|BalaRajesh1/mmbert-small-nli]]
+- [[Horizon-Labs__hallucination-guard-base|Horizon-Labs/hallucination-guard-base]]
+- [[Horizon-Labs__hallucination-guard-small|Horizon-Labs/hallucination-guard-small]]

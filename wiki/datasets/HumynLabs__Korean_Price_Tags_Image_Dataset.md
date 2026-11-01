@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumynLabs/Korean_Price_Tags_Image_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumynLabs/Korean_Price_Tags_Image_Dataset"
-downloads: 95
+downloads: 90
 summary: "한국 소매점 가격표 이미지로 OCR, 가격 인식, 상품 탐지 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

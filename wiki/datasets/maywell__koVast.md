@@ -3,7 +3,7 @@ type: "dataset"
 id: "maywell/koVast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/koVast"
-downloads: 181
+downloads: 163
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -29,3 +29,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[shopkeeper__kor-finewiki-1b-chat|shopkeeper/kor-finewiki-1b-chat]]

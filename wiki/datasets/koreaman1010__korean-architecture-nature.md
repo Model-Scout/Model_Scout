@@ -3,7 +3,7 @@ type: "dataset"
 id: "koreaman1010/korean-architecture-nature"
 source: "huggingface"
 url: "https://huggingface.co/datasets/koreaman1010/korean-architecture-nature"
-downloads: 112
+downloads: 123
 summary: "대한민국 전통 및 현대 건축물과 자연 풍경 사진으로 구성된 연구 및 AI 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

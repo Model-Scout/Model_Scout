@@ -3,7 +3,7 @@ type: "dataset"
 id: "JacobLinCool/AuraBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JacobLinCool/AuraBench"
-downloads: 2984
+downloads: 2994
 summary: "AuraBench는 48개 오디오 질문과 16가지 신호처리 이미지 조건으로 구성된 음성 인식 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

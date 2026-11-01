@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/ko-triplet-v1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/ko-triplet-v1.0"
-downloads: 65
+downloads: 69
 summary: "한국어 삼중항 데이터셋으로 문서 검색 및 임베딩 학습에 활용됨."
 readme_status: "ok"
 readme_language: "ko"
@@ -43,6 +43,10 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `hard_negative` 열 p90 911자 ≈ 607 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `whooray/ko-triplet-v1.0`
 
 ## 이 데이터로 학습한 모델
 

@@ -1,0 +1,134 @@
+---
+type: "concept"
+facet: "data_format"
+key: "api"
+aliases:
+  - "rest api"
+  - "openapi"
+  - "오픈 api 제공"
+members: 7620
+---
+# API
+
+facet: [[데이터 형식]] · 개념 id `data_format/api`
+
+별칭: rest api, openapi, 오픈 api 제공
+
+## 데이터셋 (7620)
+
+- [[data_go_kr__15012896|data_go_kr/15012896]]
+- [[data_go_kr__15013110|data_go_kr/15013110]]
+- [[data_go_kr__15028204|data_go_kr/15028204]]
+- [[data_go_kr__15025538|data_go_kr/15025538]]
+- [[data_go_kr__15012890|data_go_kr/15012890]]
+- [[data_go_kr__15013117|data_go_kr/15013117]]
+- [[data_go_kr__15012891|data_go_kr/15012891]]
+- [[data_go_kr__15013104|data_go_kr/15013104]]
+- [[data_go_kr__15013106|data_go_kr/15013106]]
+- [[data_go_kr__15013109|data_go_kr/15013109]]
+- [[data_go_kr__15017320|data_go_kr/15017320]]
+- [[data_go_kr__15021141|data_go_kr/15021141]]
+- [[data_go_kr__15028200|data_go_kr/15028200]]
+- [[data_go_kr__15025689|data_go_kr/15025689]]
+- [[data_go_kr__15017323|data_go_kr/15017323]]
+- [[data_go_kr__15034530|data_go_kr/15034530]]
+- [[data_go_kr__15034533|data_go_kr/15034533]]
+- [[data_go_kr__15034532|data_go_kr/15034532]]
+- [[data_go_kr__15021107|data_go_kr/15021107]]
+- [[data_go_kr__15028198|data_go_kr/15028198]]
+- [[data_go_kr__15034542|data_go_kr/15034542]]
+- [[data_go_kr__15028208|data_go_kr/15028208]]
+- [[data_go_kr__15013192|data_go_kr/15013192]]
+- [[data_go_kr__15017319|data_go_kr/15017319]]
+- [[data_go_kr__15021105|data_go_kr/15021105]]
+- [[data_go_kr__15021137|data_go_kr/15021137]]
+- [[data_go_kr__15021138|data_go_kr/15021138]]
+- [[data_go_kr__15017321|data_go_kr/15017321]]
+- [[data_go_kr__15100062|data_go_kr/15100062]]
+- [[data_go_kr__15025451|data_go_kr/15025451]]
+- [[data_go_kr__15012894|data_go_kr/15012894]]
+- [[data_go_kr__15017326|data_go_kr/15017326]]
+- [[data_go_kr__15017325|data_go_kr/15017325]]
+- [[data_go_kr__15025444|data_go_kr/15025444]]
+- [[data_go_kr__15017322|data_go_kr/15017322]]
+- [[data_go_kr__15114137|data_go_kr/15114137]]
+- [[data_go_kr__15013112|data_go_kr/15013112]]
+- [[data_go_kr__15013107|data_go_kr/15013107]]
+- [[data_go_kr__15013111|data_go_kr/15013111]]
+- [[data_go_kr__15107745|data_go_kr/15107745]]
+- [[data_go_kr__15107742|data_go_kr/15107742]]
+- [[data_go_kr__15028207|data_go_kr/15028207]]
+- [[data_go_kr__15028201|data_go_kr/15028201]]
+- [[data_go_kr__15025456|data_go_kr/15025456]]
+- [[data_go_kr__15034534|data_go_kr/15034534]]
+- [[data_go_kr__15021147|data_go_kr/15021147]]
+- [[data_go_kr__15013094|data_go_kr/15013094]]
+- [[data_go_kr__15021148|data_go_kr/15021148]]
+- [[data_go_kr__15021145|data_go_kr/15021145]]
+- [[data_go_kr__15107746|data_go_kr/15107746]]
+- [[data_go_kr__15114136|data_go_kr/15114136]]
+- [[data_go_kr__15114142|data_go_kr/15114142]]
+- [[data_go_kr__15028202|data_go_kr/15028202]]
+- [[data_go_kr__15021108|data_go_kr/15021108]]
+- [[data_go_kr__15028194|data_go_kr/15028194]]
+- [[data_go_kr__15021106|data_go_kr/15021106]]
+- [[data_go_kr__15028199|data_go_kr/15028199]]
+- [[data_go_kr__15107744|data_go_kr/15107744]]
+- [[data_go_kr__15034544|data_go_kr/15034544]]
+- [[data_go_kr__15034535|data_go_kr/15034535]]
+- [[data_go_kr__15114125|data_go_kr/15114125]]
+- [[data_go_kr__15025446|data_go_kr/15025446]]
+- [[data_go_kr__15013113|data_go_kr/15013113]]
+- [[data_go_kr__15100066|data_go_kr/15100066]]
+- [[data_go_kr__15107727|data_go_kr/15107727]]
+- [[data_go_kr__15028203|data_go_kr/15028203]]
+- [[data_go_kr__15114147|data_go_kr/15114147]]
+- [[data_go_kr__15114144|data_go_kr/15114144]]
+- [[data_go_kr__15100059|data_go_kr/15100059]]
+- [[data_go_kr__15114135|data_go_kr/15114135]]
+- [[data_go_kr__15025455|data_go_kr/15025455]]
+- [[data_go_kr__15025450|data_go_kr/15025450]]
+- [[data_go_kr__15100063|data_go_kr/15100063]]
+- [[data_go_kr__15013115|data_go_kr/15013115]]
+- [[data_go_kr__15107729|data_go_kr/15107729]]
+- [[data_go_kr__15034531|data_go_kr/15034531]]
+- [[data_go_kr__15021104|data_go_kr/15021104]]
+- [[data_go_kr__15100064|data_go_kr/15100064]]
+- [[data_go_kr__15114146|data_go_kr/15114146]]
+- [[data_go_kr__15025453|data_go_kr/15025453]]
+- [[data_go_kr__15139214|data_go_kr/15139214]]
+- [[data_go_kr__15025443|data_go_kr/15025443]]
+- [[data_go_kr__15013116|data_go_kr/15013116]]
+- [[data_go_kr__15013194|data_go_kr/15013194]]
+- [[data_go_kr__15129445|data_go_kr/15129445]]
+- [[data_go_kr__15129433|data_go_kr/15129433]]
+- [[data_go_kr__15129438|data_go_kr/15129438]]
+- [[data_go_kr__15129446|data_go_kr/15129446]]
+- [[data_go_kr__15129441|data_go_kr/15129441]]
+- [[data_go_kr__15100070|data_go_kr/15100070]]
+- [[data_go_kr__15028197|data_go_kr/15028197]]
+- [[data_go_kr__15129439|data_go_kr/15129439]]
+- [[data_go_kr__15012892|data_go_kr/15012892]]
+- [[data_go_kr__15129436|data_go_kr/15129436]]
+- [[data_go_kr__15129447|data_go_kr/15129447]]
+- [[data_go_kr__15034538|data_go_kr/15034538]]
+- [[data_go_kr__15129434|data_go_kr/15129434]]
+- [[data_go_kr__15129449|data_go_kr/15129449]]
+- [[data_go_kr__15139235|data_go_kr/15139235]]
+- [[data_go_kr__15013105|data_go_kr/15013105]]
+- … 외 7520개 (다운로드 순 상위 100개만 표시)
+
+## 함께 연결된 개념
+
+- [[서비스 데이터]] (데이터 용도) · 공유 7620
+- [[표 (입력 형식)|표]] (입력 형식) · 공유 7620
+- [[한국어]] (언어) · 공유 7620
+- [[상업 이용 가능]] (상업 이용) · 공유 6910
+- [[행정·민원]] (도메인) · 공유 2642
+- [[교통·모빌리티]] (도메인) · 공유 1066
+- [[의료·보건]] (도메인) · 공유 834
+- [[지리·위치]] (도메인) · 공유 821
+- [[금융·경제]] (도메인) · 공유 786
+- [[문화·관광]] (도메인) · 공유 741
+- [[환경·기상]] (도메인) · 공유 511
+- [[교육]] (도메인) · 공유 493

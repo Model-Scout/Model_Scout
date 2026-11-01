@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/mHallucination_Detection"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/mHallucination_Detection"
-downloads: 122
+downloads: 123
 summary: "다국어 환각 탐지용 mFAVA 데이터셋으로, LLM 환각 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/North-Small-Translate-1.0"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/North-Small-Translate-1.0"
-downloads: 115
+downloads: 144
 parameters_b: 218.255
 task:
   - "[[번역]]"

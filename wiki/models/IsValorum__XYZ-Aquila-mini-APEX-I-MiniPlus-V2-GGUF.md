@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/XYZ-Aquila-mini-APEX-I-MiniPlus-V2-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/XYZ-Aquila-mini-APEX-I-MiniPlus-V2-GGUF"
-downloads: 2417
+downloads: 2944
 task:
   - "[[이미지 이해]]"
 input_modality:

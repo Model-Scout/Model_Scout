@@ -3,7 +3,7 @@ type: "dataset"
 id: "lbourdois/fineweb-2-trimming"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lbourdois/fineweb-2-trimming"
-downloads: 1245
+downloads: 1265
 summary: "124개 언어별 최대 20만 텍스트로 경량화한 FineWeb2 데이터셋, 모델 트리밍용"
 readme_status: "ok"
 readme_language: "en"

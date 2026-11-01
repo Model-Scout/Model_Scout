@@ -3,7 +3,7 @@ type: "dataset"
 id: "Qrzysztof/functiongemma-prepaid-cards-tool-calling-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Qrzysztof/functiongemma-prepaid-cards-tool-calling-v2"
-downloads: 52
+downloads: 53
 summary: "FunctionGemma Prepaid-Cards Tool-Calling 데이터셋은 선불카드 구매, 잔액 조회, 거래 내역 확인용 도구 호출 인식 학습용 합성 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

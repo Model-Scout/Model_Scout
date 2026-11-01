@@ -3,7 +3,7 @@ type: "dataset"
 id: "inclusionAI/NSFA_Benchmarks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/inclusionAI/NSFA_Benchmarks"
-downloads: 206
+downloads: 211
 summary: "NSFA Benchmarks는 에이전트 AI 시스템의 보안 위협 평가를 위한 다국어 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

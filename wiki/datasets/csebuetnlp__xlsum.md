@@ -3,7 +3,7 @@ type: "dataset"
 id: "csebuetnlp/xlsum"
 source: "huggingface"
 url: "https://huggingface.co/datasets/csebuetnlp/xlsum"
-downloads: 5628
+downloads: 6270
 summary: "BBC 기사와 요약문 135만 쌍으로 구성된 45개 언어 다국어 요약 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -25,6 +25,8 @@ domain:
   - "[[일반]]"
 dataset_role:
   - "[[학습용]]"
+data_format:
+  - "[[미디어 파일]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -46,7 +48,15 @@ BBC 기사와 요약문 135만 쌍으로 구성된 45개 언어 다국어 요약
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-sa-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `The dataset covers 45 languages ranging from low to high-resource` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `We used a 80%-10%-10% split for all languages with a few exceptions.` · 신뢰도 medium
+- **데이터 형식**: [[미디어 파일]] — metadata · format = `webdataset` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `1-800-SHARED-TASKS/xlsum-subset`
+- `darshijain/xlsum`
+- `meer3305/xlsum`
+- `pipantonio/xlsum`
 
 ## 이 데이터로 학습한 모델
 

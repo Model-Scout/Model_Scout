@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/IoGPT-A1-Instruct-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/IoGPT-A1-Instruct-GGUF"
-downloads: 475
+downloads: 364
 task:
   - "[[질의응답]]"
 input_modality:

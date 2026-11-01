@@ -3,7 +3,7 @@ type: "model"
 id: "telepix/PIXIE-Splade-v1.5"
 source: "huggingface"
 url: "https://huggingface.co/telepix/PIXIE-Splade-v1.5"
-downloads: 300
+downloads: 240
 context_length: 16384
 parameters_b: 0.149
 task:

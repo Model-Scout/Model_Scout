@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gunulhona/llm_datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gunulhona/llm_datasets"
-downloads: 379
+downloads: 350
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "arsaporta/symile-m3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/arsaporta/symile-m3"
-downloads: 3065
+downloads: 3115
 summary: "Symile-M3는 다국어 오디오, 이미지, 텍스트 샘플로 이미지 검색을 위한 다중 모달 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -79,3 +79,7 @@ Symile-M3는 다국어 오디오, 이미지, 텍스트 샘플로 이미지 검�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 114자 ≈ 29 토큰 (viewer statistics, symile-m3-10-l/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `suneetha24/symile-m3`

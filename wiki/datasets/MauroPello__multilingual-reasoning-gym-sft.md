@@ -3,7 +3,7 @@ type: "dataset"
 id: "MauroPello/multilingual-reasoning-gym-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MauroPello/multilingual-reasoning-gym-sft"
-downloads: 133
+downloads: 159
 summary: "Reasoning Gym 환경에서 생성된 다국어 추론 SFT 데이터로 추론 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

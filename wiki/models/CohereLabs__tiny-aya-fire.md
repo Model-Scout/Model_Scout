@@ -3,7 +3,7 @@ type: "model"
 id: "CohereLabs/tiny-aya-fire"
 source: "huggingface"
 url: "https://huggingface.co/CohereLabs/tiny-aya-fire"
-downloads: 886
+downloads: 583
 parameters_b: 3.349
 task:
   - "[[텍스트 생성]]"

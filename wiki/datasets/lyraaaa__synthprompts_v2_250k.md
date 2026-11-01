@@ -3,7 +3,7 @@ type: "dataset"
 id: "lyraaaa/synthprompts_v2_250k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lyraaaa/synthprompts_v2_250k"
-downloads: 90
+downloads: 82
 summary: "217개 주제, 64개 문체, 16개 언어로 구성된 25만 개의 합성 사용자 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

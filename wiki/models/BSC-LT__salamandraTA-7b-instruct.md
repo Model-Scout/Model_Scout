@@ -3,7 +3,7 @@ type: "model"
 id: "BSC-LT/salamandraTA-7b-instruct"
 source: "huggingface"
 url: "https://huggingface.co/BSC-LT/salamandraTA-7b-instruct"
-downloads: 1118
+downloads: 1609
 context_length: 8192
 parameters_b: 7.768
 task:

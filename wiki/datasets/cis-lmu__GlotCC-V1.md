@@ -3,7 +3,7 @@ type: "dataset"
 id: "cis-lmu/GlotCC-V1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cis-lmu/GlotCC-V1"
-downloads: 2782
+downloads: 3051
 summary: "GlotCC-V1은 CommonCrawl에서 추출한 1000개 이상의 언어 문서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ GlotCC-V1은 CommonCrawl에서 추출한 1000개 이상의 언어 문서 데이�
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `9999999999.0` · 신뢰도 high
 
 샘플 길이: `content` 열 p90 41844자 ≈ 10461 토큰 (viewer statistics, kor-Hang/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `innadark/GlotCC-V1`

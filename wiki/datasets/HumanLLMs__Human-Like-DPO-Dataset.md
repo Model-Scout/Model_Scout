@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumanLLMs/Human-Like-DPO-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumanLLMs/Human-Like-DPO-Dataset"
-downloads: 676
+downloads: 822
 summary: "대화형 대규모 언어 모델의 인간 같은 응답 생성을 위한 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

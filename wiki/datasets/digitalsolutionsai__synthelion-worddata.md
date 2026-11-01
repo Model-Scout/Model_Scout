@@ -3,7 +3,7 @@ type: "dataset"
 id: "digitalsolutionsai/synthelion-worddata"
 source: "huggingface"
 url: "https://huggingface.co/datasets/digitalsolutionsai/synthelion-worddata"
-downloads: 315
+downloads: 274
 summary: "Synthelion의 규칙 기반 프롬프트 압축에 쓰이는 56개 이상 언어별 언어학 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

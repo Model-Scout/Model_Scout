@@ -3,7 +3,7 @@ type: "dataset"
 id: "Juunuary/fly-language-study-main-runs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Juunuary/fly-language-study-main-runs"
-downloads: 85
+downloads: 107
 summary: "파리 뇌 연결망 기반 순환 분류기 학습 기록 데이터로 언어 학습 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

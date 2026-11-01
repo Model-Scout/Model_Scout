@@ -3,7 +3,7 @@ type: "dataset"
 id: "3ae3ae3ae/mmlu-prox-lite-evals"
 source: "huggingface"
 url: "https://huggingface.co/datasets/3ae3ae3ae/mmlu-prox-lite-evals"
-downloads: 1733
+downloads: 1866
 summary: "MMLU-ProX-Lite 데이터셋을 활용한 다국어 LLM 평가 결과 데이터로, 모델 내 언어 및 주제별 약점 진단용입니다."
 readme_status: "ok"
 readme_language: "en"

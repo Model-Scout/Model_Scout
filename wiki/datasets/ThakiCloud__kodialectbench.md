@@ -3,7 +3,7 @@ type: "dataset"
 id: "ThakiCloud/kodialectbench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ThakiCloud/kodialectbench"
-downloads: 242
+downloads: 245
 summary: "한국 5개 지역 방언 문장 1,000개로 방언 이해, 지역 식별, 방언 생성 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

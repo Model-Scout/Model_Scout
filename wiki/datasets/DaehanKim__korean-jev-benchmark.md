@@ -3,7 +3,7 @@ type: "dataset"
 id: "DaehanKim/korean-jev-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DaehanKim/korean-jev-benchmark"
-downloads: 1071
+downloads: 1182
 summary: "9개 공개 데이터셋에서 추출한 25,418개 한국어 평가 문항으로 선택지 기반 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

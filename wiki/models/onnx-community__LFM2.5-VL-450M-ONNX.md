@@ -3,7 +3,7 @@ type: "model"
 id: "onnx-community/LFM2.5-VL-450M-ONNX"
 source: "huggingface"
 url: "https://huggingface.co/onnx-community/LFM2.5-VL-450M-ONNX"
-downloads: 799
+downloads: 1166
 context_length: 128000
 task:
   - "[[이미지 이해]]"

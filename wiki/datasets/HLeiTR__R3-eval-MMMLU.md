@@ -3,7 +3,7 @@ type: "dataset"
 id: "HLeiTR/R3-eval-MMMLU"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HLeiTR/R3-eval-MMMLU"
-downloads: 140
+downloads: 169
 summary: "다국어 MMMLU 평가용 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

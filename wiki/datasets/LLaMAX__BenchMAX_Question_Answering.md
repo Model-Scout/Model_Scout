@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Question_Answering"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Question_Answering"
-downloads: 271
+downloads: 275
 summary: "BenchMAX_Question_Answering은 다국어 환경에서 LLM의 장문 문맥 이해 능력을 평가하는 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

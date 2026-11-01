@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/msmarco-hard-negatives"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/msmarco-hard-negatives"
-downloads: 728
+downloads: 718
 summary: "MS MARCO 실제 검색 쿼리 기반 정보 검색용 하드 네거티브 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

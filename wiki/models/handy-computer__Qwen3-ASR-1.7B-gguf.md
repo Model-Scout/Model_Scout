@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/Qwen3-ASR-1.7B-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/Qwen3-ASR-1.7B-gguf"
-downloads: 190465
+downloads: 217568
 task:
   - "[[음성 인식]]"
 input_modality:

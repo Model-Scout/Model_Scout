@@ -3,7 +3,7 @@ type: "dataset"
 id: "trillionlabs/MWMBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/trillionlabs/MWMBench"
-downloads: 154
+downloads: 138
 summary: "MWMBench는 모바일 앱 GUI 세계 모델의 다음 화면 예측 성능을 평가하는 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

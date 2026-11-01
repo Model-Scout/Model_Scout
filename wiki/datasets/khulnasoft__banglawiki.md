@@ -3,7 +3,7 @@ type: "dataset"
 id: "khulnasoft/banglawiki"
 source: "huggingface"
 url: "https://huggingface.co/datasets/khulnasoft/banglawiki"
-downloads: 142
+downloads: 207
 summary: "위키피디아 덤프에서 정제한 다국어 위키피디아 문서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

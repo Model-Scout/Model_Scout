@@ -3,7 +3,7 @@ type: "dataset"
 id: "TrustAIRLab/in-the-wild-jailbreak-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TrustAIRLab/in-the-wild-jailbreak-prompts"
-downloads: 4886
+downloads: 4685
 summary: "대규모 언어 모델의 탈옥 프롬프트를 수집·분석한 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -56,4 +56,5 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]

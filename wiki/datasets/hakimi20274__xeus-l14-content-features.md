@@ -3,7 +3,7 @@ type: "dataset"
 id: "hakimi20274/xeus-l14-content-features"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hakimi20274/xeus-l14-content-features"
-downloads: 101
+downloads: 105
 summary: "XEUS L14 음성/노래 특징과 실험적 콘텐츠 투영 데이터셋으로 음성 인식 및 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

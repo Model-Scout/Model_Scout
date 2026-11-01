@@ -3,7 +3,7 @@ type: "dataset"
 id: "ggh5454/legal-provence-ko-with-teacher-scores"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ggh5454/legal-provence-ko-with-teacher-scores"
-downloads: 275
+downloads: 153
 summary: "법률 분야 문서 검색을 위한 teacher 모델 점수 포함 최종 훈련 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

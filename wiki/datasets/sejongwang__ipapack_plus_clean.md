@@ -3,7 +3,7 @@ type: "dataset"
 id: "sejongwang/ipapack_plus_clean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sejongwang/ipapack_plus_clean"
-downloads: 288
+downloads: 263
 summary: "IPAPACK++ 음성 데이터의 정제된 음소 라벨 오버레이로, 라벨 품질 개선용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/allenai-WildChat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/allenai-WildChat"
-downloads: 645
+downloads: 659
 summary: "AllenAI WildChat Combined Dataset는 인간과 ChatGPT 간 대화 데이터를 합친 비독성 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

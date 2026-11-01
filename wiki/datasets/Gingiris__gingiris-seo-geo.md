@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-seo-geo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-seo-geo"
-downloads: 243
+downloads: 254
 summary: "SEO와 GEO 전략을 결합한 성장 가이드로, 구글과 AI 검색 엔진 최적화를 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

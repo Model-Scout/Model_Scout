@@ -3,7 +3,7 @@ type: "dataset"
 id: "copenlu/answerable_tydiqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/copenlu/answerable_tydiqa"
-downloads: 188
+downloads: 205
 summary: "11개 언어의 질문에 답하거나 답할 수 없는 질문을 포함한 TyDi QA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

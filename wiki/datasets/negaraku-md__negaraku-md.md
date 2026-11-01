@@ -3,8 +3,8 @@ type: "dataset"
 id: "negaraku-md/negaraku-md"
 source: "huggingface"
 url: "https://huggingface.co/datasets/negaraku-md/negaraku-md"
-downloads: 1252
-summary: "말레이시아에 관한 13개 언어의 병렬 지식 베이스로, 정부, 법률, 문화 등 다양한 주제를 다룸."
+downloads: 1436
+summary: "말레이시아에 관한 13개 언어의 병렬 지식 기반 데이터셋으로, 검색과 질의응답 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "wide_multilingual"
@@ -42,7 +42,7 @@ dataset_size:
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/negaraku-md/negaraku-md)
 
-말레이시아에 관한 13개 언어의 병렬 지식 베이스로, 정부, 법률, 문화 등 다양한 주제를 다룸.
+말레이시아에 관한 13개 언어의 병렬 지식 기반 데이터셋으로, 검색과 질의응답 등에 활용 가능
 
 ## 분류
 
@@ -51,12 +51,12 @@ dataset_size:
 - **작업**: [[문서 검색]] — metadata · tags, task_categories = `text-retrieval` · 신뢰도 low
 - **작업**: [[요약]] — metadata · task_categories = `summarization` · 신뢰도 low
 - **작업**: [[번역]] — metadata · task_categories = `translation` · 신뢰도 low
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:question_answering, task:retrieval, task:summarization, task:translation = `15,054 rows — 1,158 articles in each of 13 languages` · 신뢰도 high
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:generation, task:question_answering, task:retrieval, task:summarization, task:translation = `15,028 rows — 1,156 articles in each of 13 languages` · 신뢰도 high
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation, task:question_answering, task:summarization, task:translation = ``answer` and `key_takeaways` are written to be liftable` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **언어**: [[다국어]] — metadata · languages = `13 languages` · 신뢰도 high
-- **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `1710` · 신뢰도 medium
+- **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `1717` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-sa-4.0` · 신뢰도 high
 - **도메인**: [[문화·관광]] — tag_match · tags = `culture` · 신뢰도 medium
 - **도메인**: [[금융·경제]] — tag_match · tags = `finance` · 신뢰도 medium
@@ -66,4 +66,4 @@ dataset_size:
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
-샘플 길이: `content` 열 p90 6841자 ≈ 1710 토큰 (viewer statistics, ko/train)
+샘플 길이: `content` 열 p90 6870자 ≈ 1717 토큰 (viewer statistics, ko/train)

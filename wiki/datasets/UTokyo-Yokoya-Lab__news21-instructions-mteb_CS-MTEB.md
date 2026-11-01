@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/news21-instructions-mteb_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/news21-instructions-mteb_CS-MTEB"
-downloads: 104
+downloads: 124
 summary: "다국어 코드스위칭 쿼리와 지침을 포함한 뉴스21 Instructions MTEB 임베딩 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

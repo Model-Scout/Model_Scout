@@ -3,7 +3,7 @@ type: "dataset"
 id: "60base/korea-household-egocentric-samples"
 source: "huggingface"
 url: "https://huggingface.co/datasets/60base/korea-household-egocentric-samples"
-downloads: 262
+downloads: 253
 summary: "60BASE의 한국 가정 내 일상 작업을 촬영한 에고센트릭 비디오 샘플 20개 모음입니다."
 readme_status: "ok"
 readme_language: "en"

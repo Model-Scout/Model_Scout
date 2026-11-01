@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/alpaca_function_calling_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/alpaca_function_calling_dataset"
-downloads: 206
+downloads: 209
 summary: "llm RAG의 function calling 학습을 위한 Alpaca 포맷 변환 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

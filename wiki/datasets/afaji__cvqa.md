@@ -3,7 +3,7 @@ type: "dataset"
 id: "afaji/cvqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/afaji/cvqa"
-downloads: 1970
+downloads: 1941
 summary: "CVQA는 39개국 언어로 된 10,000개 이상의 질문을 포함한 다문화 다국어 VQA 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

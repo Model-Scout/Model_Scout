@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/nemotron-3.5-asr-streaming-0.6b-gguf"
-downloads: 1807370
+downloads: 1944876
 task:
   - "[[음성 인식]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-ASL"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-ASL"
-downloads: 8
+downloads: 9
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

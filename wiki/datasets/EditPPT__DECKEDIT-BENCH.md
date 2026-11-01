@@ -3,7 +3,7 @@ type: "dataset"
 id: "EditPPT/DECKEDIT-BENCH"
 source: "huggingface"
 url: "https://huggingface.co/datasets/EditPPT/DECKEDIT-BENCH"
-downloads: 226
+downloads: 212
 summary: "PowerPoint 편집 지침에 따른 실제 프레젠테이션 덱과 편집 명령 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

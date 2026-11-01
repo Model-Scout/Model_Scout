@@ -3,7 +3,7 @@ type: "dataset"
 id: "wikimedia/wikipedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wikimedia/wikipedia"
-downloads: 293275
+downloads: 296352
 summary: "위키미디어 위키백과 덤프에서 정제한 다국어 위키백과 문서 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -58,6 +58,35 @@ dataset_size:
 
 샘플 길이: `text` 열 p90 15653자 ≈ 3913 토큰 (viewer statistics, 20231101.ko/train)
 
+## 같은 데이터의 사본·중복 등록
+
+- `1xCodeteam/wikipedia`
+- `AiHazz/wikipedia`
+- `AspectRS/wikipedia`
+- `Dragnoz/wikipedia`
+- `Edytas/wikipedia`
+- `Gockph/wikipedia`
+- `KoryD207/wikipedia`
+- `Monarch700/wikipedia`
+- `PrinceZaman/wikipedia`
+- `Sadatsami/wikipedia`
+- `Tilya203/Tilya`
+- `akahana/wikipedia-full`
+- `aloginfile/wikipedia`
+- `anisafifi/wikipedia`
+- `biggraph-ai/wikipedia`
+- `chris951027/wikipedia`
+- `erenyeager-1/wikipedia`
+- `jessteru/wikipedia`
+- `knightcy/wikipedia`
+- `krist67/wikipedia`
+- `leonflux/wikipedia`
+- `mq3/wikipedia`
+- `mrdavidalv/wikipedia`
+- `rancper/wikipedia`
+- `sssOrganization/wikipedia`
+- `zabr946/Chatbot-Url`
+
 ## 이 데이터로 학습한 모델
 
 - [[GuminiResearch__Gumini-1B-Base|GuminiResearch/Gumini-1B-Base]]
@@ -70,3 +99,4 @@ dataset_size:
 - [[palette-lab__songgot-l|palette-lab/songgot-l]]
 - [[palette-lab__songgot-m|palette-lab/songgot-m]]
 - [[pathcosmos__frankenstallm|pathcosmos/frankenstallm]]
+- [[shopkeeper__kor-finewiki-1b-base|shopkeeper/kor-finewiki-1b-base]]

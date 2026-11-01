@@ -3,7 +3,7 @@ type: "dataset"
 id: "Saxo/en_ko_translation_social_science_linkbricks_single_dataset_with_prompt_text_huggingface"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Saxo/en_ko_translation_social_science_linkbricks_single_dataset_with_prompt_text_huggingface"
-downloads: 22
+downloads: 29
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-RP"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-RP"
-downloads: 9
+downloads: 11
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

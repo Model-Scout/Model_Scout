@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm_pool_small"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm_pool_small"
-downloads: 35490
+downloads: 34712
 summary: "DataComp-VLM 벤치마크용 166개 출처 데이터 120M 샘플 원시 풀 데이터셋"
 readme_status: "ok"
 readme_language: "en"

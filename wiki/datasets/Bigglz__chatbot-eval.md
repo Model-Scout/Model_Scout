@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bigglz/chatbot-eval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bigglz/chatbot-eval"
-downloads: 771
+downloads: 778
 summary: "chatbot-ft 평가 기록과 LLM-as-a-judge 판정 데이터를 포함한 벤치마크 결과 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

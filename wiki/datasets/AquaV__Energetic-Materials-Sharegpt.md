@@ -3,7 +3,7 @@ type: "dataset"
 id: "AquaV/Energetic-Materials-Sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AquaV/Energetic-Materials-Sharegpt"
-downloads: 33
+downloads: 34
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

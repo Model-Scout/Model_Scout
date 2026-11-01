@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlabonne/FineTome-100k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/FineTome-100k"
-downloads: 18421
+downloads: 17621
 summary: "FineTome-100k는 Llama 3.1 초효율 미세조정을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

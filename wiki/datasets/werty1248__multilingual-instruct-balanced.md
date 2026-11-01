@@ -3,7 +3,7 @@ type: "dataset"
 id: "werty1248/multilingual-instruct-balanced"
 source: "huggingface"
 url: "https://huggingface.co/datasets/werty1248/multilingual-instruct-balanced"
-downloads: 95
+downloads: 102
 summary: "영어, 한국어, 중국어, 일본어 데이터셋을 통합하여 언어별 균형을 맞춘 다국어 명령어 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

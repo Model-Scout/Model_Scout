@@ -3,7 +3,7 @@ type: "dataset"
 id: "ONTHEIT/KDoc-OCRBench-V2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ONTHEIT/KDoc-OCRBench-V2"
-downloads: 474
+downloads: 547
 summary: "한국 공공기관 문서 849건의 단일 페이지 PDF를 대상으로 한 OCR 성능 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

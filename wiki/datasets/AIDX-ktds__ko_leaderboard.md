@@ -3,7 +3,7 @@ type: "dataset"
 id: "AIDX-ktds/ko_leaderboard"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AIDX-ktds/ko_leaderboard"
-downloads: 26
+downloads: 30
 readme_status: "thin"
 readme_language: "mixed"
 korean_focus: "ko_only"

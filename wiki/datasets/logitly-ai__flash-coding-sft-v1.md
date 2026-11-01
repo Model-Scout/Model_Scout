@@ -3,7 +3,7 @@ type: "dataset"
 id: "logitly-ai/flash-coding-sft-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/logitly-ai/flash-coding-sft-v1"
-downloads: 115
+downloads: 148
 summary: "Flash Coding은 실제 소스 저장소에서 AI 코딩 에이전트의 작업 기록을 담은 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -67,3 +67,7 @@ Flash Coding은 실제 소스 저장소에서 AI 코딩 에이전트의 작업 �
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `init_md` 열 p90 8862자 ≈ 2216 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `logitly-ai/flash-coding-dpo-v1`
