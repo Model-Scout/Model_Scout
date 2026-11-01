@@ -3,7 +3,7 @@ type: "dataset"
 id: "bertin-project/mc4-sampling"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bertin-project/mc4-sampling"
-downloads: 140
+downloads: 150
 summary: "mC4-sampling은 Common Crawl 기반 mC4 데이터셋에 샘플링 기능을 추가한 언어 모델 사전학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

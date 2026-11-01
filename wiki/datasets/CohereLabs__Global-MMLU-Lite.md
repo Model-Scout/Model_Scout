@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/Global-MMLU-Lite"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/Global-MMLU-Lite"
-downloads: 14334
+downloads: 13899
 summary: "23개 언어로 번역된 다국어 평가용 MMLU Lite 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

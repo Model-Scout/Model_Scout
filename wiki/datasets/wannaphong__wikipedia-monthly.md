@@ -3,7 +3,7 @@ type: "dataset"
 id: "wannaphong/wikipedia-monthly"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wannaphong/wikipedia-monthly"
-downloads: 511
+downloads: 514
 summary: "매월 최신 위키피디아 다국어 덤프를 제공하여 NLP 프로젝트에 활용하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -51,3 +51,7 @@ dataset_size:
 - **도메인**: [[일반]] — tag_match · readme, tags = `wikipedia` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `processed and prepared for easy use in NLP projects` · 신뢰도 low
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `PRACHI-MUNDA/wikipedia-monthly`

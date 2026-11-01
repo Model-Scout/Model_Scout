@@ -3,7 +3,7 @@ type: "dataset"
 id: "universe-team/universebench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/universe-team/universebench"
-downloads: 103
+downloads: 98
 summary: "UniVerseBench는 다국어 민속 음악 이해를 위한 대규모 오디오-언어 모델 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "NCDTech/human-gated-qaqc-knowledge-example"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NCDTech/human-gated-qaqc-knowledge-example"
-downloads: 144
+downloads: 139
 summary: "노후 기계식 설비 예지보전을 위한 셀프 QA/QC 및 온프레미스 LLM 리포팅 기록 형식 시연용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

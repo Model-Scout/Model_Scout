@@ -3,7 +3,7 @@ type: "dataset"
 id: "jiyounglee0523/KorNAT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jiyounglee0523/KorNAT"
-downloads: 116
+downloads: 131
 summary: "KorNAT는 한국 사회 가치와 상식을 측정하는 국가 정렬 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

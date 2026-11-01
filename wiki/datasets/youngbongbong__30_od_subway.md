@@ -3,7 +3,7 @@ type: "dataset"
 id: "youngbongbong/30_od_subway"
 source: "huggingface"
 url: "https://huggingface.co/datasets/youngbongbong/30_od_subway"
-downloads: 203
+downloads: 178
 summary: "서울 수도권 지하철역 30분 단위 승하차 통계로 모빌리티 수요 분석에 활용."
 readme_status: "ok"
 readme_language: "en"

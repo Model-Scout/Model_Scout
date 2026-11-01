@@ -3,7 +3,7 @@ type: "model"
 id: "Horizon-Labs/prompt-injection-guard-base"
 source: "huggingface"
 url: "https://huggingface.co/Horizon-Labs/prompt-injection-guard-base"
-downloads: 152
+downloads: 3737
 context_length: 8192
 parameters_b: 0.308
 task:

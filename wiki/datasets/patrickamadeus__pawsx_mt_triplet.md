@@ -3,7 +3,7 @@ type: "dataset"
 id: "patrickamadeus/pawsx_mt_triplet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/patrickamadeus/pawsx_mt_triplet"
-downloads: 153
+downloads: 159
 summary: "PAWS-X 다국어 삼중항 데이터셋으로, 번역 모델별 문장 유사도 및 패러프레이즈 탐지에 사용됨."
 readme_status: "ok"
 readme_language: "en"

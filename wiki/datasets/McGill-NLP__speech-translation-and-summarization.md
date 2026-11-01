@@ -3,7 +3,7 @@ type: "dataset"
 id: "McGill-NLP/speech-translation-and-summarization"
 source: "huggingface"
 url: "https://huggingface.co/datasets/McGill-NLP/speech-translation-and-summarization"
-downloads: 216
+downloads: 221
 summary: "영어 중심 다국어 음성 데이터셋으로 음성 번역과 요약에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-Safety-Guard-Dataset-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-Safety-Guard-Dataset-v3"
-downloads: 2258
+downloads: 2292
 summary: "12개 언어로 된 다국어 LLM 안전 가드 모델 학습용 고품질 안전 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,10 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `response` 열 p90 2359자 ≈ 590 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
+- [[musubilabs__policylm-1.7b|musubilabs/policylm-1.7b]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

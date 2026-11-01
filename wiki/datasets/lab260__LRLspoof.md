@@ -3,7 +3,7 @@ type: "dataset"
 id: "lab260/LRLspoof"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lab260/LRLspoof"
-downloads: 2263
+downloads: 2768
 summary: "66개 언어의 저자원 음성 합성 스푸핑 탐지 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "jp1924-audio-1/GanwonSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jp1924-audio-1/GanwonSpeech"
-downloads: 98
+downloads: 99
 summary: "강원도 방언 음성 데이터로 음성 인식 모델 학습에 사용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

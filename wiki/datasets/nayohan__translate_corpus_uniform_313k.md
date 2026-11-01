@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/translate_corpus_uniform_313k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/translate_corpus_uniform_313k"
-downloads: 23
+downloads: 28
 summary: "10개의 영어-한국어 명령어 병렬 데이터셋을 통합하고 전처리한 313k 문장 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

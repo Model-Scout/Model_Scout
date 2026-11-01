@@ -3,7 +3,7 @@ type: "dataset"
 id: "kyujinpy/KOR-OpenOrca-Platypus-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kyujinpy/KOR-OpenOrca-Platypus-v3"
-downloads: 140
+downloads: 139
 summary: "KOR-OpenOrca-Platypus-v3는 수작업으로 번역 오류를 수정한 고품질 한국어 자연어처리 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

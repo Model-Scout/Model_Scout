@@ -3,7 +3,7 @@ type: "dataset"
 id: "qwer90qwer/health"
 source: "huggingface"
 url: "https://huggingface.co/datasets/qwer90qwer/health"
-downloads: 265
+downloads: 263
 summary: "보건·공중보건 자료를 수집한 한국어 공공 보건 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/belebele"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/belebele"
-downloads: 63688
+downloads: 63901
 summary: "Belebele는 122개 언어 변종의 다중 선택형 기계 독해 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,8 @@ Belebele는 122개 언어 변종의 다중 선택형 기계 독해 평가 데이
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `flores_passage` 열 p90 354자 ≈ 88 토큰 (viewer statistics, kor_Hang/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `mteb/belebele`
+- `whooray/belebele`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "BramVanroy/xlwic_wn"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BramVanroy/xlwic_wn"
-downloads: 392
+downloads: 394
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

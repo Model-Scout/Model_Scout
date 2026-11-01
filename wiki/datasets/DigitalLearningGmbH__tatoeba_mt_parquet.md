@@ -3,7 +3,7 @@ type: "dataset"
 id: "DigitalLearningGmbH/tatoeba_mt_parquet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DigitalLearningGmbH/tatoeba_mt_parquet"
-downloads: 219
+downloads: 222
 summary: "Tatoeba Translation Challenge는 다국어 기계 번역 벤치마크 데이터셋으로, 다양한 언어 쌍의 테스트 및 개발 데이터를 포함합니다."
 readme_status: "ok"
 readme_language: "en"

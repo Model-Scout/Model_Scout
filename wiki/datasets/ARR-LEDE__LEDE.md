@@ -3,7 +3,7 @@ type: "dataset"
 id: "ARR-LEDE/LEDE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ARR-LEDE/LEDE"
-downloads: 196
+downloads: 207
 summary: "LEDE는 21개 LLM과 17개 뉴스 카테고리로 구성된 AI 생성 뉴스 탐지 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

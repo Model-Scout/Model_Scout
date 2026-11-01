@@ -3,7 +3,7 @@ type: "dataset"
 id: "fdemelo/ipa-childes-split"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fdemelo/ipa-childes-split"
-downloads: 80
+downloads: 265
 summary: "IPA-CHILDES 데이터셋을 후처리하여 언어 태그와 IPA 전사 정보를 포함한 학습용 분할 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

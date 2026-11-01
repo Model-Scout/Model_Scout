@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/ko_commongen_v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/ko_commongen_v2"
-downloads: 227
+downloads: 232
 summary: "KoCommonGEN v2는 한국어 상식 추론 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

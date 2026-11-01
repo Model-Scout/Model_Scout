@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-instruct"
-downloads: 19
+downloads: 21
 summary: "臺灣語境의 대규모 합성 번체중문 지시문 대화 데이터셋으로, 다양한 작업 분류 포함."
 readme_status: "ok"
 readme_language: "en"

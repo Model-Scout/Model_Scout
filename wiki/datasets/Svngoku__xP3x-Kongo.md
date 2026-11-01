@@ -3,7 +3,7 @@ type: "dataset"
 id: "Svngoku/xP3x-Kongo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Svngoku/xP3x-Kongo"
-downloads: 99
+downloads: 107
 summary: "xP3x-Kongo는 277개 언어와 16개 NLP 작업을 포함한 다국어 프롬프트 및 데이터셋 모음으로, mT0와 BLOOMZ 모델 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

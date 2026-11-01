@@ -3,7 +3,7 @@ type: "dataset"
 id: "jp1924/KsponSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jp1924/KsponSpeech"
-downloads: 88
+downloads: 89
 summary: "한국어 음성 데이터와 텍스트 문장으로 구성된 자동 음성 인식 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

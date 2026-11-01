@@ -3,7 +3,7 @@ type: "dataset"
 id: "schift-io/korean-pii-benchmark-v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/schift-io/korean-pii-benchmark-v3"
-downloads: 96
+downloads: 107
 summary: "한국어 개인정보(사람, 기관, 주소) 탐지 모델 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

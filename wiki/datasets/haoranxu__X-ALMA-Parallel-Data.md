@@ -3,7 +3,7 @@ type: "dataset"
 id: "haoranxu/X-ALMA-Parallel-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/haoranxu/X-ALMA-Parallel-Data"
-downloads: 755
+downloads: 1275
 summary: "X-ALMA에서 사용한 번역 병렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

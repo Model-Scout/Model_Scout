@@ -3,7 +3,7 @@ type: "dataset"
 id: "MindCastSogang/Youtube_news_comments_analysis_ver2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MindCastSogang/Youtube_news_comments_analysis_ver2"
-downloads: 561
+downloads: 612
 summary: "2014~2026년 유튜브 뉴스 댓글 7천4백만 개의 감정 분석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "lordx64/reasoning-distill-opus-4-7-max-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lordx64/reasoning-distill-opus-4-7-max-sft"
-downloads: 95
+downloads: 87
 summary: "Claude Opus 4.7의 추론 대화 데이터를 SFT 학습용으로 재구성한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

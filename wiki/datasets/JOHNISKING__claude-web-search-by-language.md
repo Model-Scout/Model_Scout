@@ -3,7 +3,7 @@ type: "dataset"
 id: "JOHNISKING/claude-web-search-by-language"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JOHNISKING/claude-web-search-by-language"
-downloads: 129
+downloads: 136
 summary: "Claude Code와 Codex가 5개 언어로 웹 검색하며 질문에 답하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

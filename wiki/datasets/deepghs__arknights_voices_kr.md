@@ -3,7 +3,7 @@ type: "dataset"
 id: "deepghs/arknights_voices_kr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deepghs/arknights_voices_kr"
-downloads: 102
+downloads: 114
 summary: "Arknights 게임 캐릭터 음성-텍스트 한국어 데이터셋으로 ASR/ASV 모델 학습에 활용됨."
 readme_status: "ok"
 readme_language: "mixed"

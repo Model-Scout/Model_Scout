@@ -2,23 +2,25 @@
 type: "concept"
 facet: "language"
 key: "it"
-members: 340
+members: 412
 ---
 # it
 
 facet: [[언어]] · 개념 id `language/it`
 
-## 모델 (294)
+## 모델 (326)
 
 - [[LiquidAI__LFM2.5-230M-GGUF|LiquidAI/LFM2.5-230M-GGUF]]
 - [[stelterlab__Mistral-Small-24B-Instruct-2501-AWQ|stelterlab/Mistral-Small-24B-Instruct-2501-AWQ]]
 - [[CohereLabs__c4ai-command-r-v01|CohereLabs/c4ai-command-r-v01]]
+- [[AtomicChat__LFM2.5-24B-A2B-Uncensored-GGUF|AtomicChat/LFM2.5-24B-A2B-Uncensored-GGUF]]
 - [[nvidia__Nemotron-H-8B-Base-8K|nvidia/Nemotron-H-8B-Base-8K]]
 - [[LiquidAI__LFM2.5-8B-A1B|LiquidAI/LFM2.5-8B-A1B]]
 - [[LiquidAI__LFM2.5-230M|LiquidAI/LFM2.5-230M]]
 - [[LiquidAI__LFM2.5-VL-1.6B-GGUF|LiquidAI/LFM2.5-VL-1.6B-GGUF]]
 - [[microsoft__VibeVoice-ASR-BitNet|microsoft/VibeVoice-ASR-BitNet]]
 - [[audio-cpp__VibeVoice-ASR-Streaming-7B-GGUF|audio-cpp/VibeVoice-ASR-Streaming-7B-GGUF]]
+- [[LiquidAI__LFM2.5-24B-A2B-GGUF|LiquidAI/LFM2.5-24B-A2B-GGUF]]
 - [[microsoft__VibeVoice-ASR-Streaming-1.5B|microsoft/VibeVoice-ASR-Streaming-1.5B]]
 - [[CohereLabs__c4ai-command-r-plus|CohereLabs/c4ai-command-r-plus]]
 - [[nvidia__Nemotron-H-56B-Base-8K|nvidia/Nemotron-H-56B-Base-8K]]
@@ -33,7 +35,6 @@ facet: [[언어]] · 개념 id `language/it`
 - [[OpenBuddy__openbuddy-yi1.5-34b-v21.6-32k-fp16|OpenBuddy/openbuddy-yi1.5-34b-v21.6-32k-fp16]]
 - [[OpenBuddy__openbuddy-llama3-70b-v21.2-32k|OpenBuddy/openbuddy-llama3-70b-v21.2-32k]]
 - [[bartowski__huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF|bartowski/huihui-ai_Mistral-Small-24B-Instruct-2501-abliterated-GGUF]]
-- [[unsloth__LFM2.5-230M|unsloth/LFM2.5-230M]]
 - [[alpindale__c4ai-command-r-plus-GPTQ|alpindale/c4ai-command-r-plus-GPTQ]]
 - [[bartowski__c4ai-command-r-v01-GGUF|bartowski/c4ai-command-r-v01-GGUF]]
 - [[cstr__qwen3-asr-1.7b-GGUF|cstr/qwen3-asr-1.7b-GGUF]]
@@ -48,6 +49,8 @@ facet: [[언어]] · 개념 id `language/it`
 - [[gaston-parravicini__Ternary-Bonsai-2-27B-Uncensored-Gaston-GGUF|gaston-parravicini/Ternary-Bonsai-2-27B-Uncensored-Gaston-GGUF]]
 - [[RedHatAI__Mistral-Small-24B-Instruct-2501-quantized.w8a8|RedHatAI/Mistral-Small-24B-Instruct-2501-quantized.w8a8]]
 - [[mlx-community__bge-m3-mlx-fp16|mlx-community/bge-m3-mlx-fp16]]
+- [[IsValorum__MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF|IsValorum/MiniCPM-V-4.7-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF]]
+- [[AtomicChat__LFM2.5-24B-A2B-GGUF|AtomicChat/LFM2.5-24B-A2B-GGUF]]
 - [[DavidAU__Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-3B-Instruct-NEO-SI-FI-GGUF]]
 - [[cstr__vibevoice-asr-bitnet-GGUF|cstr/vibevoice-asr-bitnet-GGUF]]
 - [[DavidAU__Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF|DavidAU/Llama-3.2-1B-Instruct-NEO-SI-FI-GGUF]]
@@ -57,18 +60,24 @@ facet: [[언어]] · 개념 id `language/it`
 - [[bartowski__mistralai_Mistral-Small-24B-Base-2501-GGUF|bartowski/mistralai_Mistral-Small-24B-Base-2501-GGUF]]
 - [[legraphista__c4ai-command-r-plus-08-2024-IMat-GGUF|legraphista/c4ai-command-r-plus-08-2024-IMat-GGUF]]
 - [[DavidAU__Llama-3.2-1B-Instruct-NEO-WEE-HORROR-GGUF|DavidAU/Llama-3.2-1B-Instruct-NEO-WEE-HORROR-GGUF]]
+- [[saidutta69__LFM2.5-8B-A1B-heretic|saidutta69/LFM2.5-8B-A1B-heretic]]
 - [[coderavi__Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit|coderavi/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning-mlx-8Bit]]
 - [[LiquidAI__LFM2-VL-3B-GGUF|LiquidAI/LFM2-VL-3B-GGUF]]
 - [[bartowski__Mistral-Large-Instruct-2407-GGUF|bartowski/Mistral-Large-Instruct-2407-GGUF]]
 - [[LiquidAI__LFM2.5-1.2B-Instruct-MLX-4bit|LiquidAI/LFM2.5-1.2B-Instruct-MLX-4bit]]
 - [[bartowski__c4ai-command-r-08-2024-GGUF|bartowski/c4ai-command-r-08-2024-GGUF]]
 - [[TheBloke__openbuddy-openllama-7B-v12-bf16-GGUF|TheBloke/openbuddy-openllama-7B-v12-bf16-GGUF]]
+- [[IsValorum__Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated-VAL-APEX-I-NanoPlus-V3-GGUF|IsValorum/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated-VAL-APEX-I-NanoPlus-V3-GGUF]]
 - [[LoneStriker__openbuddy-mixtral-7bx8-v18.1-32k-GGUF|LoneStriker/openbuddy-mixtral-7bx8-v18.1-32k-GGUF]]
+- [[oroboros-labs__gpt-5.6-sol-undecillion-6u5go5|oroboros-labs/gpt-5.6-sol-undecillion-6u5go5]]
 - [[TheBloke__TowerInstruct-7B-v0.1-GGUF|TheBloke/TowerInstruct-7B-v0.1-GGUF]]
+- [[lianghsun__Llama-3.2-Taiwan-3B-Instruct-GGUF|lianghsun/Llama-3.2-Taiwan-3B-Instruct-GGUF]]
 - [[TheBloke__openbuddy-llama2-34b-v11.1-bf16-GGUF|TheBloke/openbuddy-llama2-34b-v11.1-bf16-GGUF]]
+- [[oroboros-labs__gpt-astra-7-undecillion-7u5go5|oroboros-labs/gpt-astra-7-undecillion-7u5go5]]
 - [[lmstudio-community__Mistral-Large-Instruct-2407-GGUF|lmstudio-community/Mistral-Large-Instruct-2407-GGUF]]
 - [[LiquidAI__LFM2.5-230M-MLX-4bit|LiquidAI/LFM2.5-230M-MLX-4bit]]
 - [[Mungert__Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-GGUF|Mungert/Llama3.3-8B-Instruct-Thinking-Claude-4.5-Opus-High-Reasoning-GGUF]]
+- [[unsloth__LFM2.5-230M|unsloth/LFM2.5-230M]]
 - [[lmstudio-community__c4ai-command-r-v01-GGUF|lmstudio-community/c4ai-command-r-v01-GGUF]]
 - [[timteh673__Mistral-Small-4-119B-Uncensored-GGUF|timteh673/Mistral-Small-4-119B-Uncensored-GGUF]]
 - [[LiquidAI__LFM2-VL-3B|LiquidAI/LFM2-VL-3B]]
@@ -83,6 +92,7 @@ facet: [[언어]] · 개념 id `language/it`
 - [[TheBloke__openbuddy-deepseek-67b-v15-base-GGUF|TheBloke/openbuddy-deepseek-67b-v15-base-GGUF]]
 - [[DavidAU__Mistral-Small-Instruct-2409-22B-NEO-Imatrix-GGUF|DavidAU/Mistral-Small-Instruct-2409-22B-NEO-Imatrix-GGUF]]
 - [[LiquidAI__LFM2.5-1.2B-Instruct-MLX-8bit|LiquidAI/LFM2.5-1.2B-Instruct-MLX-8bit]]
+- [[IsValorum__MiniCPM-V-4.7-35B-A3B-APEX-I-NanoPlus-GGUF|IsValorum/MiniCPM-V-4.7-35B-A3B-APEX-I-NanoPlus-GGUF]]
 - [[second-state__Mistral-Large-Instruct-2407-GGUF|second-state/Mistral-Large-Instruct-2407-GGUF]]
 - [[bartowski__Mistral-Large-Instruct-2411-GGUF|bartowski/Mistral-Large-Instruct-2411-GGUF]]
 - [[bartowski__c4ai-command-r-plus-GGUF|bartowski/c4ai-command-r-plus-GGUF]]
@@ -94,84 +104,114 @@ facet: [[언어]] · 개념 id `language/it`
 - [[bartowski__openbuddy-nemotron-70b-v23.2q-131k-GGUF|bartowski/openbuddy-nemotron-70b-v23.2q-131k-GGUF]]
 - [[second-state__C4AI-Command-R-v01-GGUF|second-state/C4AI-Command-R-v01-GGUF]]
 - [[second-state__c4ai-command-r-plus-08-2024-GGUF|second-state/c4ai-command-r-plus-08-2024-GGUF]]
+- [[saidutta69__LFM2.5-230M-heretic|saidutta69/LFM2.5-230M-heretic]]
 - [[mondk__claude-llama-8B-think-mlx-4Bit|mondk/claude-llama-8B-think-mlx-4Bit]]
+- [[IsValorum__Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated-VAL-APEX-I-MiniPlus-V3-GGUF|IsValorum/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated-VAL-APEX-I-MiniPlus-V3-GGUF]]
 - [[TheBloke__openbuddy-mistral-7B-v13-GGUF|TheBloke/openbuddy-mistral-7B-v13-GGUF]]
 - [[MaziyarPanahi__openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF|MaziyarPanahi/openbuddy-zephyr-7b-v14.1-Mistral-7B-Instruct-v0.1-GGUF]]
 - [[legraphista__Mistral-Large-Instruct-2407-IMat-GGUF|legraphista/Mistral-Large-Instruct-2407-IMat-GGUF]]
-- [[tinyopsec__granite-4.2-3b-Heretic|tinyopsec/granite-4.2-3b-Heretic]]
-- [[LiquidAI__LFM2.5-1.2B-Thinking-MLX-4bit|LiquidAI/LFM2.5-1.2B-Thinking-MLX-4bit]]
-- [[lmstudio-community__Mistral-Small-24B-Instruct-2501-GGUF|lmstudio-community/Mistral-Small-24B-Instruct-2501-GGUF]]
-- [[DavidAU__Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning|DavidAU/Llama3.3-8B-Instruct-Thinking-Heretic-Uncensored-Claude-4.5-Opus-High-Reasoning]]
-- [[LoneStriker__openbuddy-deepseek-10b-v17.1-4k-GGUF|LoneStriker/openbuddy-deepseek-10b-v17.1-4k-GGUF]]
-- [[lmstudio-community__c4ai-command-r-plus-08-2024-GGUF|lmstudio-community/c4ai-command-r-plus-08-2024-GGUF]]
-- [[LiquidAI__LFM2.5-350M-ONNX|LiquidAI/LFM2.5-350M-ONNX]]
-- [[TheBloke__OpenBuddy-Llama2-70b-v10.1-GGUF|TheBloke/OpenBuddy-Llama2-70b-v10.1-GGUF]]
-- [[lianghsun__Llama-3.2-Taiwan-3B-Instruct-GGUF|lianghsun/Llama-3.2-Taiwan-3B-Instruct-GGUF]]
-- [[Unbabel__TowerInstruct-7B-v0.2|Unbabel/TowerInstruct-7B-v0.2]]
-- [[darkc0de__XORTRON.CriminalComputing.LARGE.2026.3|darkc0de/XORTRON.CriminalComputing.LARGE.2026.3]]
-- [[gabriellarson__OpenBuddy-R1-0528-Distill-Qwen3-32B-Preview4-QAT-GGUF|gabriellarson/OpenBuddy-R1-0528-Distill-Qwen3-32B-Preview4-QAT-GGUF]]
-- … 외 194개 (다운로드 순 상위 100개만 표시)
+- … 외 226개 (다운로드 순 상위 100개만 표시)
 
-## 데이터셋 (46)
+## 데이터셋 (86)
 
 - [[AaronZ345__GTSinger|AaronZ345/GTSinger]]
 - [[togethercomputer__RedPajama-Data-V2|togethercomputer/RedPajama-Data-V2]]
 - [[neosapience__TA2.0_animation_dataset|neosapience/TA2.0_animation_dataset]]
 - [[nvidia__Nemotron-SFT-Multilingual-v1|nvidia/Nemotron-SFT-Multilingual-v1]]
 - [[IWSLT__iwslt2017|IWSLT/iwslt2017]]
-- [[DAMO-NLP-SG__MultiJail|DAMO-NLP-SG/MultiJail]]
 - [[ByteDance__MTVQA|ByteDance/MTVQA]]
 - [[heretic-org__Multilingual-Harmless-Harmful|heretic-org/Multilingual-Harmless-Harmful]]
-- [[YGGYY__GTSinger|YGGYY/GTSinger]]
-- [[SciDrawAI__SciDraw-6K|SciDrawAI/SciDraw-6K]]
-- [[BSC-LT__multi_lmentry|BSC-LT/multi_lmentry]]
-- [[almanach__Biomed-Enriched|almanach/Biomed-Enriched]]
-- [[safety-irt__safety-data|safety-irt/safety-data]]
 - [[aims-foundations__safety-irt|aims-foundations/safety-irt]]
-- [[Neetree__fineweb10B-tokenized-custom|Neetree/fineweb10B-tokenized-custom]]
-- [[Pixel-Linguist__rendered-sts17|Pixel-Linguist/rendered-sts17]]
+- [[safety-irt__safety-data|safety-irt/safety-data]]
+- [[SciDrawAI__SciDraw-6K|SciDrawAI/SciDraw-6K]]
+- [[almanach__Biomed-Enriched|almanach/Biomed-Enriched]]
+- [[BSC-LT__multi_lmentry|BSC-LT/multi_lmentry]]
 - [[Unbabel__TowerBlocks-v0.2|Unbabel/TowerBlocks-v0.2]]
-- [[UTokyo-Yokoya-Lab__trec-covid_CS-MTEB|UTokyo-Yokoya-Lab/trec-covid_CS-MTEB]]
+- [[Neetree__fineweb10B-tokenized-custom|Neetree/fineweb10B-tokenized-custom]]
 - [[Nanbeige__SSR-RCoT-16K|Nanbeige/SSR-RCoT-16K]]
-- [[alvations__c4p0|alvations/c4p0]]
+- [[Pixel-Linguist__rendered-sts17|Pixel-Linguist/rendered-sts17]]
+- [[UTokyo-Yokoya-Lab__trec-covid_CS-MTEB|UTokyo-Yokoya-Lab/trec-covid_CS-MTEB]]
 - [[ZurichNLP__rsd-ists-2016|ZurichNLP/rsd-ists-2016]]
+- [[alvations__c4p0|alvations/c4p0]]
 - [[urgent-challenge__urgent2026-sqa|urgent-challenge/urgent2026-sqa]]
+- [[legacy-datasets__multilingual_librispeech|legacy-datasets/multilingual_librispeech]]
+- [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
+- [[Egor-3926__CoT-XLang|Egor-3926/CoT-XLang]]
 - [[sardinelab__DocBlocks|sardinelab/DocBlocks]]
 - [[maximoss__lingnli-multi|maximoss/lingnli-multi]]
-- [[Egor-3926__CoT-XLang|Egor-3926/CoT-XLang]]
-- [[bpop__spite-gigaspeech-Euro9B|bpop/spite-gigaspeech-Euro9B]]
-- [[bpop__spite-gigaspeech-TP9B|bpop/spite-gigaspeech-TP9B]]
-- [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
-- [[legacy-datasets__multilingual_librispeech|legacy-datasets/multilingual_librispeech]]
-- [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
 - [[longhp1618__multilingual-lima|longhp1618/multilingual-lima]]
-- [[Heyjab__Multilingual-Harmless-Harmful|Heyjab/Multilingual-Harmless-Harmful]]
+- [[bpop__spite-gigaspeech-Euro9B|bpop/spite-gigaspeech-Euro9B]]
+- [[gsarti__iwslt2017_context|gsarti/iwslt2017_context]]
+- [[CohereLabs__fusion-synth-data-ufb|CohereLabs/fusion-synth-data-ufb]]
 - [[lamhieu__xllms_dialogue_pubs|lamhieu/xllms_dialogue_pubs]]
 - [[UTokyo-Yokoya-Lab__arxiv-clustering-p2p_CS-MTEB|UTokyo-Yokoya-Lab/arxiv-clustering-p2p_CS-MTEB]]
+- [[logitly-ai__flash-coding-sft-v1|logitly-ai/flash-coding-sft-v1]]
 - [[luizapzbn__from-one-to-many-toxicity-mitigation|luizapzbn/from-one-to-many-toxicity-mitigation]]
 - [[UTokyo-Yokoya-Lab__arguana_CS-MTEB|UTokyo-Yokoya-Lab/arguana_CS-MTEB]]
-- [[logitly-ai__flash-coding-sft-v1|logitly-ai/flash-coding-sft-v1]]
-- [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[UTokyo-Yokoya-Lab__news21-instructions-mteb_CS-MTEB|UTokyo-Yokoya-Lab/news21-instructions-mteb_CS-MTEB]]
+- [[felfri__MAGBIG|felfri/MAGBIG]]
+- [[UTokyo-Yokoya-Lab__twittersemeval2015-pairclassification_CS-MTEB|UTokyo-Yokoya-Lab/twittersemeval2015-pairclassification_CS-MTEB]]
+- [[ismaelfi__melolingua-cefr-graded-multilingual-stories|ismaelfi/melolingua-cefr-graded-multilingual-stories]]
 - [[Unbabel__TowerBlocks-v0.1|Unbabel/TowerBlocks-v0.1]]
 - [[UTokyo-Yokoya-Lab__ClimateFEVER_hardnegatives_CS-MTEB|UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB]]
-- [[ismaelfi__melolingua-cefr-graded-multilingual-stories|ismaelfi/melolingua-cefr-graded-multilingual-stories]]
-- [[UTokyo-Yokoya-Lab__twittersemeval2015-pairclassification_CS-MTEB|UTokyo-Yokoya-Lab/twittersemeval2015-pairclassification_CS-MTEB]]
+- [[usail-hkust__JailJudge|usail-hkust/JailJudge]]
 - [[Calandracas__calibration-blend|Calandracas/calibration-blend]]
 - [[NagaYu__signpost-label-quality|NagaYu/signpost-label-quality]]
-- [[felfri__MAGBIG|felfri/MAGBIG]]
+- [[double7__TowerBlocks-MT|double7/TowerBlocks-MT]]
+- [[MichiganNLP__MAiDE-up|MichiganNLP/MAiDE-up]]
+- [[Nexdata-kr__500000-Images-Multilingual-OCR-Dataset-in-21-Languages|Nexdata-kr/500000-Images-Multilingual-OCR-Dataset-in-21-Languages]]
+- [[camel-ai__ai_society_translated|camel-ai/ai_society_translated]]
+- [[fluently-sets__ultraset|fluently-sets/ultraset]]
+- [[bpop__spite-CV16-Euro9B|bpop/spite-CV16-Euro9B]]
+- [[UTokyo-Yokoya-Lab__robust04-instructions-mteb_CS-MTEB|UTokyo-Yokoya-Lab/robust04-instructions-mteb_CS-MTEB]]
+- [[UTokyo-Yokoya-Lab__AskUbuntuDupQuestions_CS-MTEB|UTokyo-Yokoya-Lab/AskUbuntuDupQuestions_CS-MTEB]]
+- [[zhihz0535__X-AlpacaEval|zhihz0535/X-AlpacaEval]]
+- [[bpop__spite-CV16-TP9B|bpop/spite-CV16-TP9B]]
+- [[agentlans__public-announcements|agentlans/public-announcements]]
+- [[UTokyo-Yokoya-Lab__stsbenchmark-sts_CS-MTEB|UTokyo-Yokoya-Lab/stsbenchmark-sts_CS-MTEB]]
+- [[UTokyo-Yokoya-Lab__tweet_sentiment_extraction_CS-MTEB|UTokyo-Yokoya-Lab/tweet_sentiment_extraction_CS-MTEB]]
+- [[iNLP-Lab__multilingual-lima|iNLP-Lab/multilingual-lima]]
+- [[JakeTurner616__mtg-cards-SIFT-Features|JakeTurner616/mtg-cards-SIFT-Features]]
+- [[iNLP-Lab__multilingual-s1|iNLP-Lab/multilingual-s1]]
+- [[agentlans__public-announcements-clean-audio|agentlans/public-announcements-clean-audio]]
+- [[UTokyo-Yokoya-Lab__core17-instructions-mteb_CS-MTEB|UTokyo-Yokoya-Lab/core17-instructions-mteb_CS-MTEB]]
+- [[EtMmohammedHafsati__datagen-thor-samples|EtMmohammedHafsati/datagen-thor-samples]]
+- [[Franreno__MultilingualReferringExpression|Franreno/MultilingualReferringExpression]]
+- [[UTokyo-Yokoya-Lab__webis-touche2020-v3_CS-MTEB|UTokyo-Yokoya-Lab/webis-touche2020-v3_CS-MTEB]]
+- [[UsergyAI__Global-Conversational-Speech|UsergyAI/Global-Conversational-Speech]]
+- [[None1145__Lappland|None1145/Lappland]]
+- [[datasetsANDmodels__99sentences-translate2-10languages|datasetsANDmodels/99sentences-translate2-10languages]]
+- [[jacekduszenko__coedit-multilingual|jacekduszenko/coedit-multilingual]]
+- [[zhihz0535__X-TruthfulQA_en_zh_ko_it_es|zhihz0535/X-TruthfulQA_en_zh_ko_it_es]]
+- [[debugdll__TextSynth-100k|debugdll/TextSynth-100k]]
+- [[davanstrien__ml-kge|davanstrien/ml-kge]]
+- [[UTokyo-Yokoya-Lab__HumanEvalRetrieval_CS-MTEB|UTokyo-Yokoya-Lab/HumanEvalRetrieval_CS-MTEB]]
+- [[Unbabel__TowerEval-Data-v0.1|Unbabel/TowerEval-Data-v0.1]]
+- [[lattice-nlp__GOLEMcoref-PER|lattice-nlp/GOLEMcoref-PER]]
+- [[marcelone__text-correction_collection|marcelone/text-correction_collection]]
+- [[locailabs__self_cognition_nemotron_120b|locailabs/self_cognition_nemotron_120b]]
+- [[impresso-project__wiki_comparable_corpus_en_de_hi_it_ko_zh|impresso-project/wiki_comparable_corpus_en_de_hi_it_ko_zh]]
+- [[lattice-nlp__GOLEMcoref|lattice-nlp/GOLEMcoref]]
+- [[ggfox00000__dia-Notsofar-test|ggfox00000/dia-Notsofar-test]]
+- [[blcuicall__omgeval|blcuicall/omgeval]]
+- [[zhihz0535__X-SVAMP_en_zh_ko_it_es|zhihz0535/X-SVAMP_en_zh_ko_it_es]]
+- [[azminetoushikwasi__global-festivals-translated|azminetoushikwasi/global-festivals-translated]]
+- [[viniferagy__SSR-CoT-16k|viniferagy/SSR-CoT-16k]]
+- [[ucrelnlp__wikipedia-ga-fa-ids|ucrelnlp/wikipedia-ga-fa-ids]]
+- [[datasetsANDmodels__8-different-languages|datasetsANDmodels/8-different-languages]]
+- [[ziozzang__deepl-trans-IT-KO|ziozzang/deepl-trans-IT-KO]]
 
 ## 함께 연결된 개념
 
-- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 333
-- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 323
-- [[텍스트 생성]] (작업) · 공유 261
-- [[상업 이용 가능]] (상업 이용) · 공유 163
-- [[초장문]] (입력 길이) · 공유 138
-- [[조건부 이용]] (상업 이용) · 공유 108
-- [[비상업 전용]] (상업 이용) · 공유 50
+- [[텍스트 (출력 형식)|텍스트]] (출력 형식) · 공유 398
+- [[텍스트 (입력 형식)|텍스트]] (입력 형식) · 공유 390
+- [[텍스트 생성]] (작업) · 공유 302
+- [[상업 이용 가능]] (상업 이용) · 공유 193
+- [[초장문]] (입력 길이) · 공유 154
+- [[조건부 이용]] (상업 이용) · 공유 134
+- [[중형 모델]] (모델 크기) · 공유 63
+- [[일반]] (도메인) · 공유 62
+- [[비상업 전용]] (상업 이용) · 공유 52
 - [[소형 모델]] (모델 크기) · 공유 50
-- [[중형 모델]] (모델 크기) · 공유 49
-- [[대형 모델]] (모델 크기) · 공유 46
-- [[일반]] (도메인) · 공유 35
-- [[학습용]] (데이터 용도) · 공유 30
+- [[학습용]] (데이터 용도) · 공유 47
+- [[대형 모델]] (모델 크기) · 공유 47

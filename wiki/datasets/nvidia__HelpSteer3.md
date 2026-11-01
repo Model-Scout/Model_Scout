@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/HelpSteer3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/HelpSteer3"
-downloads: 18956
+downloads: 19063
 summary: "HelpSteer3는 사용자 프롬프트에 더 도움이 되는 모델 정렬을 지원하는 오픈소스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,6 +53,12 @@ HelpSteer3는 사용자 프롬프트에 더 도움이 되는 모델 정렬을 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `response2` 열 p90 3149자 ≈ 787 토큰 (viewer statistics, preference/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `chilomax/HelpSteer3`
+- `slaveyard/HelpSteer3`
+- `sunorme/HelpSteer3`
 
 ## 이 데이터로 학습한 모델
 

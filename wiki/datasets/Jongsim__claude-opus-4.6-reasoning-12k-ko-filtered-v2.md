@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jongsim/claude-opus-4.6-reasoning-12k-ko-filtered-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jongsim/claude-opus-4.6-reasoning-12k-ko-filtered-v2"
-downloads: 138
+downloads: 122
 summary: "Claude Opus가 생성한 12,126개 한국어 추론 데이터셋으로, 비-Claude 데이터를 제거한 엄격 필터링 버전입니다."
 readme_status: "ok"
 readme_language: "en"

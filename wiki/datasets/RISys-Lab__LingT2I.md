@@ -3,7 +3,7 @@ type: "dataset"
 id: "RISys-Lab/LingT2I"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RISys-Lab/LingT2I"
-downloads: 80
+downloads: 84
 summary: "LingT2I는 다국어 이미지 생성 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "doanhlt/cabin-asr-distill-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/doanhlt/cabin-asr-distill-data"
-downloads: 171
+downloads: 180
 summary: "21개 언어의 음성 인식용 다국어 ASR 증류 데이터셋으로 1,382시간 분량의 정제된 음성 클립을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

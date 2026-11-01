@@ -3,7 +3,7 @@ type: "dataset"
 id: "sinabis-group/sinabis-1k-synthetic-xlsx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sinabis-group/sinabis-1k-synthetic-xlsx"
-downloads: 379
+downloads: 387
 summary: "Sinabis 그룹의 1,010개 가상 기업 업무용 비즈니스 스프레드시트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

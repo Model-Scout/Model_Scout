@@ -3,7 +3,7 @@ type: "dataset"
 id: "respanai/behavior-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/respanai/behavior-benchmark"
-downloads: 338
+downloads: 273
 summary: "다국어 LLM 대화 및 에이전트 추적에서 행동 여부를 판별하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

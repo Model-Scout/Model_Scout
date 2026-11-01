@@ -3,7 +3,7 @@ type: "dataset"
 id: "mippia/HAIM"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mippia/HAIM"
-downloads: 775
+downloads: 863
 summary: "음악 제작 과정에서 AI 개입 단계를 세분화하여 추적하는 인간-AI 음악 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

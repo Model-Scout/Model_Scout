@@ -3,7 +3,7 @@ type: "model"
 id: "TeamUNIVA/qwen3_asr_1.7b_ko_beta"
 source: "huggingface"
 url: "https://huggingface.co/TeamUNIVA/qwen3_asr_1.7b_ko_beta"
-downloads: 208
+downloads: 571
 context_length: 131072
 parameters_b: 2.349
 task:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "AquaV/Interrogation-Sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AquaV/Interrogation-Sharegpt"
-downloads: 29
+downloads: 30
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

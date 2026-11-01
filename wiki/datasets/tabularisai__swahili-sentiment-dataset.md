@@ -3,7 +3,7 @@ type: "dataset"
 id: "tabularisai/swahili-sentiment-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tabularisai/swahili-sentiment-dataset"
-downloads: 191
+downloads: 197
 summary: "저자들이 발표한 스와힐리어 감성 분석을 위한 합성 데이터 생성 파이프라인 연구 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

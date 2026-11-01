@@ -3,7 +3,7 @@ type: "dataset"
 id: "Chunsam0916/sweepick-robotwin"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Chunsam0916/sweepick-robotwin"
-downloads: 214
+downloads: 221
 summary: "SWEEPICK RoboTwin 시뮬레이션 로봇 동작 영상 및 센서 데이터셋으로 로봇 제어 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

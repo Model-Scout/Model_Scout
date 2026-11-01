@@ -3,7 +3,7 @@ type: "dataset"
 id: "Kasher13/prospire-synth-global-personas"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Kasher13/prospire-synth-global-personas"
-downloads: 261
+downloads: 274
 summary: "Prospire Synth Global Personas는 AI 시뮬레이션, 시장 조사, 문화 분석용 합성 인물 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"

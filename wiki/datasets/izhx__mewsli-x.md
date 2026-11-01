@@ -3,7 +3,7 @@ type: "dataset"
 id: "izhx/mewsli-x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/izhx/mewsli-x"
-downloads: 625
+downloads: 656
 summary: "Mewsli-X는 위키뉴스와 위키피디아에서 추출한 다국어 개체명 인식 및 검색 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

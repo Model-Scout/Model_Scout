@@ -3,7 +3,7 @@ type: "dataset"
 id: "OLAIR/Open-R1-Ko-SFT-v2.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OLAIR/Open-R1-Ko-SFT-v2.0"
-downloads: 70
+downloads: 71
 summary: "DeepSeek R1에서 생성된 프롬프트-응답 쌍을 GPT-4o로 한국어 번역한 언어모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

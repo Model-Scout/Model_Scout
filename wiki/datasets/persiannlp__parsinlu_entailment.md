@@ -3,7 +3,7 @@ type: "dataset"
 id: "persiannlp/parsinlu_entailment"
 source: "huggingface"
 url: "https://huggingface.co/datasets/persiannlp/parsinlu_entailment"
-downloads: 69
+downloads: 93
 readme_status: "template"
 readme_language: "en"
 korean_focus: "not_ko"

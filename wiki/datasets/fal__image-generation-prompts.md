@@ -3,7 +3,7 @@ type: "dataset"
 id: "fal/image-generation-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fal/image-generation-prompts"
-downloads: 183
+downloads: 167
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"
@@ -38,3 +38,4 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

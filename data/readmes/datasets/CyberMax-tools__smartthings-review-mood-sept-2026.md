@@ -1,7 +1,7 @@
 ---
 # LATEST: https://huggingface.co/datasets/CyberMax-tools/smartthings-review-mood-sept-2026/blob/main/latest.json (data date, refresh cadence, fresh API, licence links; also LATEST.md)
 # API (fresh data): https://apify.com/cybermax/app-reviews?utm_source=huggingface&utm_medium=free-asset&utm_campaign=file-smartthings-review-mood-sept-2026&utm_content=gripeline
-# Licence: cc-by-4.0 (open, unchanged); commercial licence + support: https://cybermaxtools.com/store/dataset-license/?utm_source=huggingface&utm_medium=free-asset&utm_campaign=file-smartthings-review-mood-sept-2026&utm_content=dataset-license
+# Licence: cc-by-4.0 (open, unchanged); commercial licence + support: https://buy.stripe.com/5kQ9AT4A40oVfF7dlNbV61L?utm_source=huggingface&utm_medium=free-asset&utm_campaign=file-smartthings-review-mood-sept-2026&utm_content=st-dataset-license-small&client_reference_id=data_hf-file-smartthings-review-mood-sept-2026
 license: cc-by-4.0
 pretty_name: 'Gripeline: SmartThings App Review Mood Around the Sept 2026 Fridge Firmware Incident'
 language:
@@ -35,7 +35,7 @@ configs:
 > **Get the same review mood for your own app, fresh: $0.10 per 1,000 reviews.** **[Try it on your own list →](https://apify.com/cybermax/app-reviews?utm_source=huggingface&utm_medium=free-asset&utm_campaign=smartthings-review-mood-sept-2026-top&utm_content=gripeline)** · Runs on your own Apify account, pay only per result
 > 
 > **Need it fresh, filtered or via API?** This free file is a snapshot (app reviews around one September 2026 incident), last updated **2026-09-24**.
-> - Using it at work? **[Commercial license + support](https://cybermaxtools.com/store/dataset-license/?utm_source=huggingface&utm_medium=free-asset&utm_campaign=smartthings-review-mood-sept-2026&utm_content=dataset-license)** (from $49/year): invoice, PDF licence certificate, named support, freshness and availability commitments and an SLA; the data stays free and open for everyone.
+> - Using it at work? **[CyberMax Dataset Commercial License: Small (up to 10 people)](https://buy.stripe.com/5kQ9AT4A40oVfF7dlNbV61L?utm_source=huggingface&utm_medium=free-asset&utm_campaign=smartthings-review-mood-sept-2026&utm_content=st-dataset-license-small&client_reference_id=data_hf-smartthings-review-mood-sept-2026)** ($49/year, direct checkout; bigger teams: [Business and Enterprise](https://cybermaxtools.com/store/dataset-license/)): Commercial licence and support for one company or organisation with up to 10 people, for one year; first support reply within 2 business days.
 > - **[Get an email when this dataset updates](https://data.cybermaxtools.com/notify?ds=smartthings-review-mood-sept-2026&s=hf-smartthings-review-mood-sept-2026)**: free, double opt-in, unsubscribe any time.
 > - **[CyberMax Store](https://cybermaxtools.com/store/?utm_source=huggingface&utm_medium=dataset&utm_campaign=smartthings-review-mood-sept-2026)**: every CyberMax data product, API plan and weekly brief in one place.
 <!-- cybermax-bridge:end -->

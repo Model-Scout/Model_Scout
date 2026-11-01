@@ -3,7 +3,7 @@ type: "dataset"
 id: "amphora/korfin-asc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/amphora/korfin-asc"
-downloads: 102
+downloads: 104
 summary: "KorFin-ASC는 금융 분야 문장의 측면 기반 감성 분류를 위한 (aspect, polarity) 쌍이 주석된 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

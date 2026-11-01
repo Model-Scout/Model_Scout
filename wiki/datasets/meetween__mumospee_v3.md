@@ -3,7 +3,7 @@ type: "dataset"
 id: "meetween/mumospee_v3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meetween/mumospee_v3"
-downloads: 208
+downloads: 230
 summary: "Mumospee V3는 43개 언어의 유튜브 영상에서 추출한 6백만 개 이상의 문장 단위 음성 데이터셋으로, 자동 음성 인식 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

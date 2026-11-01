@@ -3,7 +3,7 @@ type: "dataset"
 id: "youjunhyeok/PersonaHub-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/youjunhyeok/PersonaHub-ko"
-downloads: 85
+downloads: 93
 summary: "1억 개 페르소나를 활용한 합성 데이터 생성용 한국어 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

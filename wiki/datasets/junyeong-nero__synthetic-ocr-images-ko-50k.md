@@ -3,7 +3,7 @@ type: "dataset"
 id: "junyeong-nero/synthetic-ocr-images-ko-50k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/junyeong-nero/synthetic-ocr-images-ko-50k"
-downloads: 96
+downloads: 101
 summary: "마크다운 문서 인식용 합성 OCR 이미지 데이터셋으로 OCR 및 VLM 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

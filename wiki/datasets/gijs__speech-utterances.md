@@ -3,7 +3,7 @@ type: "dataset"
 id: "gijs/speech-utterances"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gijs/speech-utterances"
-downloads: 408
+downloads: 420
 summary: "음성 비언어적 발화 데이터셋 모음으로 음성 분류 작업에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -51,3 +51,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme = `Samples: 7,014 (train: 6,289, test: 725)` · 신뢰도 medium
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `webdataset` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `zuhri025/speech-utterances`

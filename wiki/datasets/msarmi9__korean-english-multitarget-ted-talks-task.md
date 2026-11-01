@@ -3,7 +3,7 @@ type: "dataset"
 id: "msarmi9/korean-english-multitarget-ted-talks-task"
 source: "huggingface"
 url: "https://huggingface.co/datasets/msarmi9/korean-english-multitarget-ted-talks-task"
-downloads: 119
+downloads: 124
 summary: "TED 강연의 영어-한국어 병렬 문장 쌍으로 기계 번역 연구에 활용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

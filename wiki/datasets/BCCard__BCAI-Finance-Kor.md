@@ -3,7 +3,7 @@ type: "dataset"
 id: "BCCard/BCAI-Finance-Kor"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BCCard/BCAI-Finance-Kor"
-downloads: 96
+downloads: 102
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

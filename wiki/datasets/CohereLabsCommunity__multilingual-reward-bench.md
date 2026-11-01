@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabsCommunity/multilingual-reward-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabsCommunity/multilingual-reward-bench"
-downloads: 1840
+downloads: 1838
 summary: "23개 언어로 번역된 보상 모델 평가용 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

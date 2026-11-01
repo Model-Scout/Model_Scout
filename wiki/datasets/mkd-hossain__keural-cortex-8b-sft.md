@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-hossain/keural-cortex-8b-sft"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-hossain/keural-cortex-8b-sft"
-downloads: 165
+downloads: 172
 summary: "한국어 중심의 64K 컨텍스트 윈도우와 도구 호출 기능을 갖춘 Keural-Cortex-8B 모델 학습용 감독 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

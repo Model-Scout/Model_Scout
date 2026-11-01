@@ -3,7 +3,7 @@ type: "dataset"
 id: "pietrolesci/nli_fever"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pietrolesci/nli_fever"
-downloads: 8490
+downloads: 8609
 summary: "FEVER 데이터셋을 변형해 주장과 증거 문장 쌍에 라벨을 부여한 NLI 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

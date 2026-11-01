@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/xnli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/xnli"
-downloads: 39038
+downloads: 38962
 summary: "XNLI는 14개 언어로 번역된 MNLI 예제로 문장 간 추론을 위한 분류 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

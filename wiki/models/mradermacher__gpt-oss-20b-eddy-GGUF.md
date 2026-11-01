@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/gpt-oss-20b-eddy-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/gpt-oss-20b-eddy-GGUF"
-downloads: 367
+downloads: 383
 task:
   - "[[텍스트 생성]]"
 input_modality:

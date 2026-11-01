@@ -3,7 +3,7 @@ type: "dataset"
 id: "jaymunshi/open-swara"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jaymunshi/open-swara"
-downloads: 300
+downloads: 320
 summary: "44개 언어의 4,065개 인간화 음성 샘플로 TTS 및 음성 변환에 활용 가능한 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

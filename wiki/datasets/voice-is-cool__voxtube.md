@@ -3,7 +3,7 @@ type: "dataset"
 id: "voice-is-cool/voxtube"
 source: "huggingface"
 url: "https://huggingface.co/datasets/voice-is-cool/voxtube"
-downloads: 1060
+downloads: 1197
 summary: "VoxTube는 10개 이상 언어로 5,040명 화자의 음성 데이터를 포함한 다국어 화자 인식용 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

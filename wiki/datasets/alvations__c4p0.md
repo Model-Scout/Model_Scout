@@ -3,7 +3,7 @@ type: "dataset"
 id: "alvations/c4p0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/alvations/c4p0"
-downloads: 292
+downloads: 289
 summary: "LLM 기반 기계번역 프롬프트로 생성된 역번역 데이터로 번역 견고성 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

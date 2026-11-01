@@ -3,7 +3,7 @@ type: "dataset"
 id: "samuki-hf/meco-char"
 source: "huggingface"
 url: "https://huggingface.co/datasets/samuki-hf/meco-char"
-downloads: 193
+downloads: 228
 summary: "MECO 다국어 문자 단위 시선추적 데이터로 읽기 시간 분석에 활용됨."
 readme_status: "ok"
 readme_language: "en"

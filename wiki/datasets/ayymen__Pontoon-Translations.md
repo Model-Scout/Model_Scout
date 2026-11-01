@@ -3,7 +3,7 @@ type: "dataset"
 id: "ayymen/Pontoon-Translations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ayymen/Pontoon-Translations"
-downloads: 1141
+downloads: 1176
 summary: "Mozilla Pontoon 플랫폼에서 수집한 200개 이상의 언어 번역 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "transitgrid/kr_region_station_ridership_daily"
 source: "huggingface"
 url: "https://huggingface.co/datasets/transitgrid/kr_region_station_ridership_daily"
-downloads: 181
+downloads: 183
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

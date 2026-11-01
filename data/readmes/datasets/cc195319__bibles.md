@@ -1,0 +1,35 @@
+---
+language:
+- sq
+- ar
+- az
+- be
+- bg
+- ceb
+- zh
+- cs
+- da
+- en
+- es
+- fi
+- fr
+- de
+- el
+- ht
+- he
+- hi
+- hu
+- it
+- ko
+- la
+- nl
+- no
+- pt
+- rm
+- ru
+- sw
+- ta
+- th
+- tr
+- vi
+---

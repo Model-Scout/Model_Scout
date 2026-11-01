@@ -3,7 +3,7 @@ type: "dataset"
 id: "NetherQuartz/minecraft-translations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NetherQuartz/minecraft-translations"
-downloads: 52
+downloads: 59
 summary: "Minecraft 게임 자산에서 추출한 113개 언어 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

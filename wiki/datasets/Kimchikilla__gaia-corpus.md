@@ -3,7 +3,7 @@ type: "dataset"
 id: "Kimchikilla/gaia-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Kimchikilla/gaia-corpus"
-downloads: 159
+downloads: 164
 summary: "Gaia 공개 토양 미생물 데이터셋으로, 공개 가공본과 메타데이터를 포함한다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "urgent-challenge/urgent2026-sqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/urgent-challenge/urgent2026-sqa"
-downloads: 259
+downloads: 285
 summary: "ICASSP 2026 URGENT Track 1 음성 품질 평가를 위한 주관적 청취 테스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

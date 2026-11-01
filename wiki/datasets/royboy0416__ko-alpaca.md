@@ -3,7 +3,7 @@ type: "dataset"
 id: "royboy0416/ko-alpaca"
 source: "huggingface"
 url: "https://huggingface.co/datasets/royboy0416/ko-alpaca"
-downloads: 32
+downloads: 34
 summary: "Ko-alpaca 데이터셋으로, 테스트 용도로 사용되는 한국어 Alpaca 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

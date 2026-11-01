@@ -3,7 +3,7 @@ type: "dataset"
 id: "piyushsinghpasi/clotho-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/piyushsinghpasi/clotho-multilingual"
-downloads: 319
+downloads: 300
 summary: "CLOTHO 오디오 캡션을 33개 언어로 번역한 다국어 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

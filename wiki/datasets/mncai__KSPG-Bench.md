@@ -3,7 +3,7 @@ type: "dataset"
 id: "mncai/KSPG-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mncai/KSPG-Bench"
-downloads: 179
+downloads: 197
 summary: "한국어 서비스 정책 준수 평가 벤치마크로, 가드레일 모델의 정책별 허용·차단 판정을 평가합니다."
 readme_status: "ok"
 readme_language: "mixed"

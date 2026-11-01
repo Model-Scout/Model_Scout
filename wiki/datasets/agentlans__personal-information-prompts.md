@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/personal-information-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/personal-information-prompts"
-downloads: 180
+downloads: 182
 summary: "다국어 인공 개인 식별 정보가 포함된 프롬프트 데이터셋으로 분류 학습에 활용됨"
 readme_status: "ok"
 readme_language: "en"

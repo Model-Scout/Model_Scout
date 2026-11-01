@@ -37,7 +37,7 @@ jobs:
 
       - name: Validate pipeline before paid stages
         run: |
-          python -m py_compile 04_build_embeddings.py 08_sync_supabase.py
+          python -m py_compile 01_collect_models.py 02_enrich_metadata.py 03_generate_semantic_metadata.py 04_build_embeddings.py 08_sync_supabase.py
           python 04_build_embeddings.py --help | grep -q -- "--backfill-search-metadata"
           python 04_build_embeddings.py --pool all
 
@@ -71,6 +71,8 @@ jobs:
           data/readmes/core \
           data/readmes/low_popularity
           if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
+          # Stage 2 language-gate exclusions; persisted so excluded models are not re-enriched each run.
+          for f in data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
           if git diff --cached --quiet; then
             echo "No snapshot changes to commit"
             exit 0

@@ -3,7 +3,7 @@ type: "dataset"
 id: "sinabis-group/sinabis-10m-synthetic-emails"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sinabis-group/sinabis-10m-synthetic-emails"
-downloads: 224
+downloads: 238
 summary: "가상의 친환경 에너지 그룹의 10년간 1천만 건 이상의 합성 이메일과 일정 데이터를 포함한 대규모 비즈니스 통신 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

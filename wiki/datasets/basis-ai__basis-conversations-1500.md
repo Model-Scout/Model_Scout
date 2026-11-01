@@ -3,7 +3,7 @@ type: "dataset"
 id: "basis-ai/basis-conversations-1500"
 source: "huggingface"
 url: "https://huggingface.co/datasets/basis-ai/basis-conversations-1500"
-downloads: 3420
+downloads: 3418
 summary: "Basis Conversations 1500은 최대 4명 동시 참여 다국어 대화 음성 데이터셋으로, 대화 분석용입니다."
 readme_status: "ok"
 readme_language: "en"

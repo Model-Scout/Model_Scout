@@ -3,7 +3,7 @@ type: "dataset"
 id: "li-lab/HLE-BioMedX"
 source: "huggingface"
 url: "https://huggingface.co/datasets/li-lab/HLE-BioMedX"
-downloads: 222
+downloads: 214
 summary: "HLE-BioMedX는 HLE 생물학/의학 문제를 다국어로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

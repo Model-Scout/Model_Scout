@@ -3,7 +3,7 @@ type: "dataset"
 id: "atonlee/Prompt-Routing-Dataset-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/atonlee/Prompt-Routing-Dataset-ko"
-downloads: 49
+downloads: 44
 summary: "SupraLabs/Prompt-Routing-Dataset의 한국어 번역 데이터셋으로, 프롬프트 라우팅 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

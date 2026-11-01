@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/pixmo-cap-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/pixmo-cap-qa"
-downloads: 388
+downloads: 408
 summary: "PixMo-CapQA는 이미지에 관한 질문/답변 쌍을 생성한 합성 데이터셋으로 Molmo 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

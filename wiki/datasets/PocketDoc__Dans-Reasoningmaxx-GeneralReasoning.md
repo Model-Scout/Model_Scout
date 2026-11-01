@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Reasoningmaxx-GeneralReasoning"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Reasoningmaxx-GeneralReasoning"
-downloads: 4
+downloads: 6
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

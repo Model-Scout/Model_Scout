@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlabonne/lmsys-arena-human-sft-55k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/lmsys-arena-human-sft-55k"
-downloads: 29
+downloads: 35
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

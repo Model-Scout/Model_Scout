@@ -3,7 +3,7 @@ type: "dataset"
 id: "datalama/RAG-Evaluation-Dataset-KO"
 source: "huggingface"
 url: "https://huggingface.co/datasets/datalama/RAG-Evaluation-Dataset-KO"
-downloads: 212
+downloads: 214
 summary: "allganize/RAG-Evaluation-Dataset-KO 기반 PDF 포함 한국어 RAG 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

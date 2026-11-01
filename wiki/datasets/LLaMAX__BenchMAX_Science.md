@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Science"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Science"
-downloads: 710
+downloads: 662
 summary: "BenchMAX_Science는 다국어 자연과학 추론 능력 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

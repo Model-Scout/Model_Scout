@@ -3,7 +3,7 @@ type: "dataset"
 id: "nazimali/quran"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nazimali/quran"
-downloads: 212
+downloads: 214
 summary: "코란의 메타데이터, 번역, 아랍어 원문을 포함한 다국어 데이터셋으로 임베딩, 검색, 분류 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `translation-ru-kuliev-alsaadi` 열 p90 2848자 ≈ 712 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `bakir11999/quran`

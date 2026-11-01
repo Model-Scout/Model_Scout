@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nanbeige/SSR-RCoT-16K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nanbeige/SSR-RCoT-16K"
-downloads: 315
+downloads: 359
 summary: "SSR-RCoT-16K는 고품질 답변만 있는 데이터에서 추론 감독 데이터를 생성하는 일반 목적 추론 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -70,3 +70,7 @@ SSR-RCoT-16K는 고품질 답변만 있는 데이터에서 추론 감독 데이�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `reasoning_trace` 열 p90 8286자 ≈ 2072 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Noahway/SSR-RCoT-16K`

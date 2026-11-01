@@ -43,12 +43,9 @@ model_size:
 
 ## 학습 데이터
 
-- [[nvidia__Nemotron-CC-Code-v1|nvidia/Nemotron-CC-Code-v1]]
 - [[nvidia__Nemotron-CC-Math-v1|nvidia/Nemotron-CC-Math-v1]]
 - [[nvidia__Nemotron-CC-v2|nvidia/Nemotron-CC-v2]]
 - [[nvidia__Nemotron-CC-v2.1|nvidia/Nemotron-CC-v2.1]]
 - [[nvidia__Nemotron-Pretraining-Code-v1|nvidia/Nemotron-Pretraining-Code-v1]]
-- [[nvidia__Nemotron-Pretraining-Code-v2|nvidia/Nemotron-Pretraining-Code-v2]]
 - [[nvidia__Nemotron-Pretraining-Dataset-sample|nvidia/Nemotron-Pretraining-Dataset-sample]]
 - [[nvidia__Nemotron-Pretraining-SFT-v1|nvidia/Nemotron-Pretraining-SFT-v1]]
-- [[nvidia__Nemotron-Pretraining-Specialized-v1|nvidia/Nemotron-Pretraining-Specialized-v1]]

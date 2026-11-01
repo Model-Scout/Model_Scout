@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/mr-tydi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/mr-tydi"
-downloads: 622
+downloads: 666
 summary: "Mr. TyDi 데이터셋은 BGE-M3 모델 학습용으로 재구성된 다국어 문장 임베딩 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "cometadata/ror-matching-train-validation-test"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cometadata/ror-matching-train-validation-test"
-downloads: 113
+downloads: 132
 summary: "ROR 식별자와 매칭된 원시 저자 소속 문자열로 구성된 소속 매칭 학습 및 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

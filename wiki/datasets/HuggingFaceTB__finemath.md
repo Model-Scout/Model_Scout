@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceTB/finemath"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceTB/finemath"
-downloads: 49514
+downloads: 50472
 summary: "FineMath는 CommonCrawl에서 필터링한 수학 교육 콘텐츠로 수학 문제 해결 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -56,3 +56,4 @@ FineMath는 CommonCrawl에서 필터링한 수학 교육 콘텐츠로 수학 문
 - [[ATH-MaaS__Marco-Nano-Base|ATH-MaaS/Marco-Nano-Base]]
 - [[FINAL-Bench__Aether-7B-5Attn|FINAL-Bench/Aether-7B-5Attn]]
 - [[FINAL-Bench__Aether-7B-5Attn-it|FINAL-Bench/Aether-7B-5Attn-it]]
+- [[prismdata__Perdix-1.1B-Base|prismdata/Perdix-1.1B-Base]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "thetaone-ai/Korean-Japanese-Code-Switching-Speech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/thetaone-ai/Korean-Japanese-Code-Switching-Speech"
-downloads: 92
+downloads: 80
 summary: "한국어-일본어 코드스위칭 음성 데이터로 ASR 모델 평가용 소규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

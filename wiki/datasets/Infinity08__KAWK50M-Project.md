@@ -3,7 +3,7 @@ type: "dataset"
 id: "Infinity08/KAWK50M-Project"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Infinity08/KAWK50M-Project"
-downloads: 108
+downloads: 110
 readme_status: "thin"
 readme_language: "ko"
 korean_focus: "ko_only"

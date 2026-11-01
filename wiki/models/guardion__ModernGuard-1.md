@@ -3,7 +3,7 @@ type: "model"
 id: "guardion/ModernGuard-1"
 source: "huggingface"
 url: "https://huggingface.co/guardion/ModernGuard-1"
-downloads: 28908
+downloads: 25618
 context_length: 8192
 parameters_b: 0.308
 task:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "daekeun-ml/naver-news-summarization-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/daekeun-ml/naver-news-summarization-ko"
-downloads: 649
+downloads: 666
 summary: "네이버 뉴스에서 수집한 27,400개의 한국어 뉴스 기사와 요약문 쌍 데이터셋으로, 뉴스 요약 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

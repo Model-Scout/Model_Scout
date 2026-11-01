@@ -3,7 +3,7 @@ type: "dataset"
 id: "takuM23/multilingual_audio_alignments"
 source: "huggingface"
 url: "https://huggingface.co/datasets/takuM23/multilingual_audio_alignments"
-downloads: 3566
+downloads: 3446
 summary: "Montreal Forced Aligner로 단어 및 음소 정렬된 다국어 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -75,3 +75,9 @@ Montreal Forced Aligner로 단어 및 음소 정렬된 다국어 음성 데이�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `phoneme_sequence` 열 p90 95자 ≈ 24 토큰 (viewer statistics, korean/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `AAdonis/multilingual_audio_alignments`
+- `khursani8/maa`
+- `weilin2468/multilingual_audio_alignments`

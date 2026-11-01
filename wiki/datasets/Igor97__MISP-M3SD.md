@@ -3,7 +3,7 @@ type: "dataset"
 id: "Igor97/MISP-M3SD"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Igor97/MISP-M3SD"
-downloads: 111
+downloads: 114
 summary: "MISP-M3SD는 770시간 규모 다중언어·다중시나리오 음성-영상 화자 분리 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

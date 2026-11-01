@@ -3,7 +3,7 @@ type: "dataset"
 id: "moonscape-software/macro_prosody_sample_set"
 source: "huggingface"
 url: "https://huggingface.co/datasets/moonscape-software/macro_prosody_sample_set"
-downloads: 285
+downloads: 214
 summary: "7개 언어의 음향 특징 데이터로 다국어 음운학 및 음성 기술 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "utter-project/EuroBlocks-SFT-Synthetic-1124"
 source: "huggingface"
 url: "https://huggingface.co/datasets/utter-project/EuroBlocks-SFT-Synthetic-1124"
-downloads: 124
+downloads: 134
 summary: "EuroLLM 9B Instruct 학습용으로 제작된 다국어 합성 SFT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

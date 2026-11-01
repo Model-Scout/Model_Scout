@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-Opus-Merge-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-Opus-Merge-2"
-downloads: 8
+downloads: 10
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

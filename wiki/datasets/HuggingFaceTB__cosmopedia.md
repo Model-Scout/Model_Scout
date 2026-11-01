@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceTB/cosmopedia"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceTB/cosmopedia"
-downloads: 24123
+downloads: 24456
 summary: "Mixtral-8x7B-Instruct-v0.1 모델로 생성한 3천만 개 이상의 합성 교재, 블로그, 이야기 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

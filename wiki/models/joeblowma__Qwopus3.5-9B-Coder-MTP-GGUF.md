@@ -3,7 +3,7 @@ type: "model"
 id: "joeblowma/Qwopus3.5-9B-Coder-MTP-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/joeblowma/Qwopus3.5-9B-Coder-MTP-GGUF"
-downloads: 1349
+downloads: 952
 task:
   - "[[이미지 이해]]"
 input_modality:

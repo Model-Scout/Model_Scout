@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlabonne/natural_reasoning-formatted"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/natural_reasoning-formatted"
-downloads: 97
+downloads: 100
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

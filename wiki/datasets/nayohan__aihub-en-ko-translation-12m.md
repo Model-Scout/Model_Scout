@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/aihub-en-ko-translation-12m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/aihub-en-ko-translation-12m"
-downloads: 6
+downloads: 14
 summary: "10개의 AI허브 한영 번역 병렬 말뭉치를 통합한 1,189만 개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

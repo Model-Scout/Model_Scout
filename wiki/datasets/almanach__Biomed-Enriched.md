@@ -3,7 +3,7 @@ type: "dataset"
 id: "almanach/Biomed-Enriched"
 source: "huggingface"
 url: "https://huggingface.co/datasets/almanach/Biomed-Enriched"
-downloads: 751
+downloads: 766
 summary: "PubMed 기반 바이오메디컬 데이터셋으로, LLM 활용해 희귀·숨겨진 내용 추출 및 사전학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

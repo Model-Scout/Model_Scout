@@ -3,7 +3,7 @@ type: "dataset"
 id: "eliceai/korean-fineweb-edu-demo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eliceai/korean-fineweb-edu-demo"
-downloads: 97
+downloads: 99
 summary: "FineWeb-Edu 영문 교육용 웹 텍스트를 한국어로 번역한 고품질 교육용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HelightDev/nvt-voice-pack2-clips"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HelightDev/nvt-voice-pack2-clips"
-downloads: 340
+downloads: 351
 summary: "23개 언어의 음성 클립과 전사로 다국어 음성 인식 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

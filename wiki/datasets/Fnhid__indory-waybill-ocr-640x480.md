@@ -3,7 +3,7 @@ type: "dataset"
 id: "Fnhid/indory-waybill-ocr-640x480"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Fnhid/indory-waybill-ocr-640x480"
-downloads: 411
+downloads: 385
 summary: "배송지 라벨 인식을 위한 합성 운송장 OCR 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

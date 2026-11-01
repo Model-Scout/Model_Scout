@@ -3,7 +3,7 @@ type: "dataset"
 id: "subhash-holla/pii-anon"
 source: "huggingface"
 url: "https://huggingface.co/datasets/subhash-holla/pii-anon"
-downloads: 214
+downloads: 287
 summary: "60개 언어, 66개 엔티티 유형의 다국어 PII 벤치마크 코퍼스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

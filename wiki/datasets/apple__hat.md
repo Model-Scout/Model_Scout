@@ -3,7 +3,7 @@ type: "dataset"
 id: "apple/hat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/apple/hat"
-downloads: 625
+downloads: 628
 summary: "HAT는 기계번역에서 환각 현상 탐지를 위한 38개 언어쌍의 대규모 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

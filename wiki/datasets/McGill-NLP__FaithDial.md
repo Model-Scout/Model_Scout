@@ -3,7 +3,7 @@ type: "dataset"
 id: "McGill-NLP/FaithDial"
 source: "huggingface"
 url: "https://huggingface.co/datasets/McGill-NLP/FaithDial"
-downloads: 993
+downloads: 1058
 summary: "FaithDial은 정보 탐색 대화에서 환각 없는 응답을 위한 신뢰성 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ FaithDial은 정보 탐색 대화에서 환각 없는 응답을 위한 신뢰성
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `knowledge` 열 p90 240자 ≈ 60 토큰 (viewer statistics, plain_text/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

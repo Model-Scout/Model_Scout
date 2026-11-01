@@ -3,7 +3,7 @@ type: "dataset"
 id: "lightblue/reranker_continuous_filt_max7_train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lightblue/reranker_continuous_filt_max7_train"
-downloads: 185
+downloads: 178
 summary: "95개 언어 35개 데이터셋에서 쿼리-텍스트 쌍을 수집해 리랭커 학습용 점수 데이터를 생성한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

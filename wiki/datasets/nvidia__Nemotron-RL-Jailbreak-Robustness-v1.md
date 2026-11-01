@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-Jailbreak-Robustness-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-Jailbreak-Robustness-v1"
-downloads: 252
+downloads: 262
 summary: "Nemotron-RL-Jailbreak-Robustness-v1은 대형 언어 모델의 우회 공격 대응 및 정책 준수를 강화하기 위한 적대적 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,4 +52,5 @@ Nemotron-RL-Jailbreak-Robustness-v1은 대형 언어 모델의 우회 공격 대
 ## 이 데이터로 학습한 모델
 
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]

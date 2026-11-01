@@ -3,7 +3,7 @@ type: "dataset"
 id: "bigcode/the-stack-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bigcode/the-stack-v2"
-downloads: 10809
+downloads: 10822
 summary: "The Stack v2는 600개 이상의 프로그래밍 언어로 구성된 대규모 코드 데이터셋으로, 코드 생성 AI 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"

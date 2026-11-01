@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/PangeaBench-xgqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/PangeaBench-xgqa"
-downloads: 124
+downloads: 123
 summary: "xGQA 데이터셋의 few_shot-test 분할을 복제한 시각적 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

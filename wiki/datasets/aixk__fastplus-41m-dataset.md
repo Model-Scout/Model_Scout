@@ -3,7 +3,7 @@ type: "dataset"
 id: "aixk/fastplus-41m-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aixk/fastplus-41m-dataset"
-downloads: 121
+downloads: 122
 summary: "독립 개발자가 혼자서 AI 프로젝트 개발과 운영을 위해 만든 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

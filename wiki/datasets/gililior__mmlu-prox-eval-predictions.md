@@ -3,7 +3,7 @@ type: "dataset"
 id: "gililior/mmlu-prox-eval-predictions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gililior/mmlu-prox-eval-predictions"
-downloads: 5905
+downloads: 6224
 summary: "29개 언어와 25개 LLM의 MMLU-ProX 다국어 모델 예측 결과를 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

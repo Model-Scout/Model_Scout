@@ -1,0 +1,43 @@
+# 서울시 물류창고업체 인허가 정보
+
+서울시 물류창고업체 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_114502/1/5/ 제공 필드: 보관장소_면적, 보관요율, 사업장명, 업태_보관및창고업, 업태_운송및택배업, 업태_제조업, 업태_판매업, 폐업일자, 법인여부명, 데이터갱신구분, 데이터갱신일자, 상세영업상태코드, 상세영업상태명, 종업원수, 시설/장비현황, 냉동,냉장창고_면적, 냉동,냉장창고_동수, 일반창고_면적, 일반창고_동수, 최종수정일자, 인허가일자, 소재지우편번호, 지번주소, 관리번호, 개방자치단체코드, 도로명주소, 도로명우편번호, 재개업일자, 영업상태코드, 영업상태명, 휴업시작일자, 휴업종료일자, 전화번호, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_114502
+
+## 제공 필드
+
+- 보관장소_면적 (ARCH_AREA)
+- 보관요율 (ARCH_RT)
+- 사업장명 (BPLC_NM)
+- 업태_보관및창고업 (BZSTAT_ARCH)
+- 업태_운송및택배업 (BZSTAT_CR)
+- 업태_제조업 (BZSTAT_MFBIZ)
+- 업태_판매업 (BZSTAT_SALS)
+- 폐업일자 (CLSBIZ_YMD)
+- 법인여부명 (CORP_YN_NM)
+- 데이터갱신구분 (DATA_UPDT_SE)
+- 데이터갱신일자 (DATA_UPDT_YMD)
+- 상세영업상태코드 (DTL_SALS_STTS_CD)
+- 상세영업상태명 (DTL_SALS_STTS_NM)
+- 종업원수 (EMP_CNT)
+- 시설/장비현황 (FCLT_EQPMNT_STTS)
+- 냉동,냉장창고_면적 (FRZ_SPACE_AREA)
+- 냉동,냉장창고_동수 (FRZ_SPACE_CNT)
+- 일반창고_면적 (GNRL_SPACE_AREA)
+- 일반창고_동수 (GNRL_SPACE_CNT)
+- 최종수정일자 (LAST_MDFCN_YMD)
+- 인허가일자 (LCPMT_YMD)
+- 소재지우편번호 (LCTN_ZIP)
+- 지번주소 (LOTNO_ADDR)
+- 관리번호 (MNG_NO)
+- 개방자치단체코드 (OPN_LCLGV_CD)
+- 도로명주소 (ROAD_NM_ADDR)
+- 도로명우편번호 (ROAD_NM_ZIP)
+- 재개업일자 (ROPBIZ_DT)
+- 영업상태코드 (SALS_STTS_CD)
+- 영업상태명 (SALS_STTS_NM)
+- 휴업시작일자 (TCBIZ_BGNG_YMD)
+- 휴업종료일자 (TCBIZ_END_YMD)
+- 전화번호 (TELNO)
+- 좌표정보(X) (XCRD)
+- 좌표정보(Y) (YCRD)

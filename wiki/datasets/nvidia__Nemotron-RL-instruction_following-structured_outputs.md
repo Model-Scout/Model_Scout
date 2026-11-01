@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-RL-instruction_following-structured_outputs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-RL-instruction_following-structured_outputs"
-downloads: 529
+downloads: 568
 summary: "Nemotron-RL 데이터셋은 JSON 형식의 스키마 제약 하에 출력 포맷 지시를 따르는 능력을 평가하는 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -43,3 +43,4 @@ Nemotron-RL 데이터셋은 JSON 형식의 스키마 제약 하에 출력 포맷
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]

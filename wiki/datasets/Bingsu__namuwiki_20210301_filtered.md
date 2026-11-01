@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/namuwiki_20210301_filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/namuwiki_20210301_filtered"
-downloads: 172
+downloads: 195
 summary: "2021년 3월 1일 기준 나무위키 데이터베이스 덤프로, 텍스트 기반 한국어 위키 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"

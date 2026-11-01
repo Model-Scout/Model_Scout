@@ -3,7 +3,7 @@ type: "dataset"
 id: "IndexTeam/InstTrans-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/IndexTeam/InstTrans-Bench"
-downloads: 423
+downloads: 444
 summary: "InstTrans-Bench는 번역 시스템이 명시적 제약 조건을 준수하는지 평가하는 번역 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

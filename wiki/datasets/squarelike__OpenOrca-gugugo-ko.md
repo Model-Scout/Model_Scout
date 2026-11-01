@@ -3,7 +3,7 @@ type: "dataset"
 id: "squarelike/OpenOrca-gugugo-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/squarelike/OpenOrca-gugugo-ko"
-downloads: 103
+downloads: 95
 summary: "OpenOrca 데이터셋을 한국어로 번역한 자연어처리 학습 및 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

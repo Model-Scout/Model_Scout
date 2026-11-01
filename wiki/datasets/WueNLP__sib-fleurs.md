@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/sib-fleurs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/sib-fleurs"
-downloads: 817
+downloads: 964
 summary: "SIB-Fleurs는 다국어 음성 언어 이해 평가용 데이터셋으로, 발화의 주제를 분류하는 데 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

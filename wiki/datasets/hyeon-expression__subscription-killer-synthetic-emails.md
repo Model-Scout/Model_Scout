@@ -3,7 +3,7 @@ type: "dataset"
 id: "hyeon-expression/subscription-killer-synthetic-emails"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hyeon-expression/subscription-killer-synthetic-emails"
-downloads: 99
+downloads: 108
 summary: "subscription-killer MLOps 파이프라인용 구독 거래 및 광고 관련 합성 이메일 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

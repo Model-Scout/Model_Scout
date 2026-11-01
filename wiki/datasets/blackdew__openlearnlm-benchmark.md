@@ -3,7 +3,7 @@ type: "dataset"
 id: "blackdew/openlearnlm-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/blackdew/openlearnlm-benchmark"
-downloads: 201
+downloads: 203
 summary: "OpenLearnLM Benchmark은 교육용 대형 언어 모델(LLM)의 교육 역량을 평가하는 종합 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

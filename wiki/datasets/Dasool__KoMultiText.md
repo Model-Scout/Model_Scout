@@ -3,7 +3,7 @@ type: "dataset"
 id: "Dasool/KoMultiText"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Dasool/KoMultiText"
-downloads: 92
+downloads: 124
 summary: "KoMultiText는 온라인 플랫폼의 편향적 발언 분류를 위한 한국어 다중 작업 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

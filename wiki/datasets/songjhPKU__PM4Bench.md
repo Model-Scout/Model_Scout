@@ -3,7 +3,7 @@ type: "dataset"
 id: "songjhPKU/PM4Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/songjhPKU/PM4Bench"
-downloads: 2841
+downloads: 3031
 summary: "PM4Bench는 10개 언어로 엄격히 병렬된 대형 비전-언어 모델 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

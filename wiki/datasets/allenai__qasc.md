@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/qasc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/qasc"
-downloads: 41688
+downloads: 42149
 summary: "QASC는 초등 과학 8지선다형 질문과 1700만 문장 말뭉치로 구성된 질의응답 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -49,3 +49,7 @@ QASC는 초등 과학 8지선다형 질문과 1700만 문장 말뭉치로 구성
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `formatted_question` 열 p90 233자 ≈ 58 토큰 (viewer statistics, default/validation)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

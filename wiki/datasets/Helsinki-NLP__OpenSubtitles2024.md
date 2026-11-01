@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/OpenSubtitles2024"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/OpenSubtitles2024"
-downloads: 132
+downloads: 110
 summary: "OpenSubtitles2024 코퍼스에서 추출한 70개 언어의 영화·TV 자막 쌍으로 기계 번역 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

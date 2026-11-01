@@ -3,7 +3,7 @@ type: "dataset"
 id: "Infinity08/KAWK500M-Korean-SFT-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Infinity08/KAWK500M-Korean-SFT-v1"
-downloads: 15
+downloads: 16
 summary: "한국어 전용 500M급 causal LM 학습용 assistant-only SFT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

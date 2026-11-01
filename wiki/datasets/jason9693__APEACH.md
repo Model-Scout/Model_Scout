@@ -3,7 +3,7 @@ type: "dataset"
 id: "jason9693/APEACH"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jason9693/APEACH"
-downloads: 327
+downloads: 345
 summary: "한국어 혐오 표현 평가를 위한 APEACH 데이터셋으로 BEEP! 학습 후 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"

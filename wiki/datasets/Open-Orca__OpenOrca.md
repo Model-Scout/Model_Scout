@@ -3,7 +3,7 @@ type: "dataset"
 id: "Open-Orca/OpenOrca"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Open-Orca/OpenOrca"
-downloads: 12999
+downloads: 13325
 summary: "OpenOrca는 FLAN 데이터를 증강한 자연어처리 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "sjmoon21/SJ-ko"
 source: "huggingface"
 url: "https://huggingface.co/sjmoon21/SJ-ko"
-downloads: 92
+downloads: 111
 task:
   - "[[텍스트 생성]]"
 input_modality:

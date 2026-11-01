@@ -3,7 +3,7 @@ type: "model"
 id: "furiosa-ai/K-EXAONE-236B-A23B-NVFP4A16"
 source: "huggingface"
 url: "https://huggingface.co/furiosa-ai/K-EXAONE-236B-A23B-NVFP4A16"
-downloads: 2261
+downloads: 1669
 context_length: 262144
 parameters_b: 237.1
 task:

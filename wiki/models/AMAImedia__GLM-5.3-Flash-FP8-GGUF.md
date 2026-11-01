@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/GLM-5.3-Flash-FP8-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/GLM-5.3-Flash-FP8-GGUF"
-downloads: 5645
+downloads: 2600
 context_length: 1048576
 parameters_b: 321.323
 task:

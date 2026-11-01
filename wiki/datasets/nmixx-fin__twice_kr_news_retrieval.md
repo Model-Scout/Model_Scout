@@ -3,7 +3,7 @@ type: "dataset"
 id: "nmixx-fin/twice_kr_news_retrieval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nmixx-fin/twice_kr_news_retrieval"
-downloads: 206
+downloads: 215
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

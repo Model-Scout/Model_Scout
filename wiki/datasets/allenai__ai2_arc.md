@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/ai2_arc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/ai2_arc"
-downloads: 584397
+downloads: 576059
 summary: "초등학교 수준의 과학 객관식 문제 7,787개로 고급 질의응답 연구용 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

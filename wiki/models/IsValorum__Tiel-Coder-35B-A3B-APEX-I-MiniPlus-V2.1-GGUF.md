@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Tiel-Coder-35B-A3B-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 1637
+downloads: 7618
 task:
   - "[[이미지 이해]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Kicaulah/polyglot-bug-patterns"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Kicaulah/polyglot-bug-patterns"
-downloads: 186
+downloads: 198
 summary: "8개 버그 클래스의 43개 비파괴 공격 페이로드와 탐지기 출력 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -54,3 +54,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — metadata · referenced_by_models = `train` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[Kicaulah__polyglot-bughunter-x|Kicaulah/polyglot-bughunter-x]]

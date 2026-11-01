@@ -3,7 +3,7 @@ type: "dataset"
 id: "Horizon-Labs/multilingual-zeroshot-synthetic"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Horizon-Labs/multilingual-zeroshot-synthetic"
-downloads: 130
+downloads: 125
 summary: "33개 언어로 된 253,346개 텍스트의 다국어 제로샷 분류용 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

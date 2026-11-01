@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/rombodawg-Everything_Instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/rombodawg-Everything_Instruct"
-downloads: 200
+downloads: 172
 summary: "7백만 개 이상의 명령-응답 쌍으로 대형 언어 모델 지도학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

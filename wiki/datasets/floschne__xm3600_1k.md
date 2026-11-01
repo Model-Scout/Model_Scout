@@ -3,7 +3,7 @@ type: "dataset"
 id: "floschne/xm3600_1k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/floschne/xm3600_1k"
-downloads: 223
+downloads: 241
 summary: "XM3600 데이터셋의 1,000개 이미지와 36개 언어 캡션을 포함한 다국어 멀티모달 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

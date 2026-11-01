@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-talks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-talks"
-downloads: 2775
+downloads: 2770
 summary: "영어 문장과 다른 언어 문장의 병렬 문장 데이터셋으로 다국어 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

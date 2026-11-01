@@ -3,7 +3,7 @@ type: "dataset"
 id: "Meddies/meddies-pii"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Meddies/meddies-pii"
-downloads: 675
+downloads: 669
 summary: "다국어 임상 및 행정 문서에서 개인 식별 정보(PII)를 추출하기 위한 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

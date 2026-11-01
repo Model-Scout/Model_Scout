@@ -3,7 +3,7 @@ type: "dataset"
 id: "felixludos/babel-briefings"
 source: "huggingface"
 url: "https://huggingface.co/datasets/felixludos/babel-briefings"
-downloads: 393
+downloads: 457
 summary: "30개 언어 뉴스 헤드라인 470만 건으로 다국어 뉴스 분석에 활용되는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ dataset_size:
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `content` 열 p90 214자 ≈ 53 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Tribhuvand/babel-briefings`

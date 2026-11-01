@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/fusion-pairwise-evals-test-time-scaling"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/fusion-pairwise-evals-test-time-scaling"
-downloads: 151
+downloads: 141
 summary: "m-ArenaHard-v2.0 벤치마크에서 CommandA와 gemini-2.5-pro 모델의 자동 쌍별 선호도 평가 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

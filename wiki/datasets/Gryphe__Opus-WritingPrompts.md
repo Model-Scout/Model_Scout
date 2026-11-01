@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gryphe/Opus-WritingPrompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gryphe/Opus-WritingPrompts"
-downloads: 7916
+downloads: 7607
 summary: "Reddit Writing Prompts를 기반으로 생성된 3008개의 단편 소설 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

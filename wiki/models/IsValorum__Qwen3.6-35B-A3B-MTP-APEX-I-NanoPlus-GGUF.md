@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-NanoPlus-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-NanoPlus-GGUF"
-downloads: 1191
+downloads: 5558
 task:
   - "[[이미지 이해]]"
 input_modality:

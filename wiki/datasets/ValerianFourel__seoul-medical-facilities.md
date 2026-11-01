@@ -3,7 +3,7 @@ type: "dataset"
 id: "ValerianFourel/seoul-medical-facilities"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ValerianFourel/seoul-medical-facilities"
-downloads: 258
+downloads: 276
 summary: "서울 전역의 병원과 의원 등 의료 시설 정보를 담은 데이터셋으로, 의료 접근성 분석 등에 활용 가능하다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "deepghs/cc100_char_freq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deepghs/cc100_char_freq"
-downloads: 150
+downloads: 166
 summary: "CC-110 데이터셋 기반 116개 언어 문자 빈도 분석표로 언어 지원 확인에 활용됨."
 readme_status: "ok"
 readme_language: "en"

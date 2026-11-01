@@ -3,7 +3,7 @@ type: "dataset"
 id: "ymoslem/Tatoeba-Translations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ymoslem/Tatoeba-Translations"
-downloads: 155
+downloads: 170
 summary: "Tatoeba 번역 데이터셋으로 414개 언어, 약 5900개 언어쌍의 문장 번역 쌍을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

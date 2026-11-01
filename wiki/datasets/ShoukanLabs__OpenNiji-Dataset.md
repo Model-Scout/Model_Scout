@@ -3,7 +3,7 @@ type: "dataset"
 id: "ShoukanLabs/OpenNiji-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ShoukanLabs/OpenNiji-Dataset"
-downloads: 124
+downloads: 125
 summary: "OpenNiji-Dataset은 Discord API에서 수집한 데이터셋으로 URL 만료 문제에 대응하기 위해 분할 버전을 제공함."
 readme_status: "ok"
 readme_language: "en"

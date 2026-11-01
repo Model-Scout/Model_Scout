@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/PangeaBench-cvqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/PangeaBench-cvqa"
-downloads: 90
+downloads: 95
 summary: "CVQA는 33개국 언어별 9,000개 이상 질문으로 구성된 다문화 다국어 시각질의응답 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "khursanirevo/multiturn_ks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/khursanirevo/multiturn_ks"
-downloads: 374
+downloads: 453
 summary: "139개 유튜브 영상의 다중 언어 대화 및 스테레오 오디오 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

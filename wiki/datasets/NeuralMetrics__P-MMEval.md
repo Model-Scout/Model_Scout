@@ -3,7 +3,7 @@ type: "dataset"
 id: "NeuralMetrics/P-MMEval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NeuralMetrics/P-MMEval"
-downloads: 99
+downloads: 101
 summary: "P-MMEval은 다국어 문서 추출 품질 평가를 위한 멀티태스크 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

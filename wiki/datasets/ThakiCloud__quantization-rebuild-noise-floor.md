@@ -3,7 +3,7 @@ type: "dataset"
 id: "ThakiCloud/quantization-rebuild-noise-floor"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ThakiCloud/quantization-rebuild-noise-floor"
-downloads: 112
+downloads: 115
 summary: "Qwen3.8-27B 모델의 동일 양자화 레시피 반복 실행 시 발생하는 차이를 측정한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

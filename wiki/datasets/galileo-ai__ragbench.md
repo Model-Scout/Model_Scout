@@ -3,7 +3,7 @@ type: "dataset"
 id: "galileo-ai/ragbench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/galileo-ai/ragbench"
-downloads: 4144
+downloads: 4354
 summary: "RAGBench는 5개 산업 도메인과 다양한 RAG 작업 유형을 포함한 10만 예제 대규모 RAG 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

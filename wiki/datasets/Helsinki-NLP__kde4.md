@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/kde4"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/kde4"
-downloads: 335
+downloads: 339
 summary: "KDE4 지역화 파일 병렬 말뭉치로 92개 언어의 번역 학습에 사용됨."
 readme_status: "template"
 readme_language: "en"

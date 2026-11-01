@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/DSULT-Core-ShareGPT-X"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/DSULT-Core-ShareGPT-X"
-downloads: 1946
+downloads: 1461
 summary: "ShareGPT-X에서 수집한 인간과 ChatGPT 간 대화 데이터셋으로, 대화 분석 및 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

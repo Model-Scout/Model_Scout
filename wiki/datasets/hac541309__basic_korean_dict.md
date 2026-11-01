@@ -3,7 +3,7 @@ type: "dataset"
 id: "hac541309/basic_korean_dict"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hac541309/basic_korean_dict"
-downloads: 81
+downloads: 102
 summary: "한국어기초사전을 학습 가능한 형태로 처리한 병렬 말뭉치 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

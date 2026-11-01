@@ -3,7 +3,7 @@ type: "dataset"
 id: "JailbreakBench/JBB-Behaviors"
 source: "huggingface"
 url: "https://huggingface.co/datasets/JailbreakBench/JBB-Behaviors"
-downloads: 29043
+downloads: 29147
 summary: "JailbreakBench는 대형 언어 모델의 우회 공격 및 방어 성능을 평가하는 오픈 소스 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,8 @@ JailbreakBench는 대형 언어 모델의 우회 공격 및 방어 성능을 평
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
 
 샘플 길이: `Target` 열 p90 127자 ≈ 32 토큰 (viewer statistics, behaviors/harmful)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]

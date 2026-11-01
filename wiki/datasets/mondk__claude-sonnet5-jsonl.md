@@ -3,7 +3,7 @@ type: "dataset"
 id: "mondk/claude-sonnet5-jsonl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mondk/claude-sonnet5-jsonl"
-downloads: 195
+downloads: 197
 summary: "Claude Sonnet 5와의 채팅에서 수집한 대화 데이터셋으로, instruction과 output 형식으로 구성됨."
 readme_status: "ok"
 readme_language: "en"

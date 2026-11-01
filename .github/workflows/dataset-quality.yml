@@ -1,0 +1,86 @@
+name: Dataset and recommendation quality
+
+# Gate for every change to the dataset / hypergraph / recommendation code and its outputs:
+# lint, types, self-checks, wiki link integrity and the golden-set ranking floor.
+on:
+  pull_request:
+    paths:
+      - "1[1-9]_*.py"
+      - "2[0-2]_*.py"
+      - "hypergraph_search.py"
+      - "dataset_dedup.py"
+      - "taxonomy.py"
+      - "taxonomy.yaml"
+      - "supabase_db.py"
+      - "project_checks.py"
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - "data/hypergraph/**"
+      - "wiki/**"
+      - ".github/workflows/dataset-*.yml"
+  push:
+    branches: [main, dk]
+    paths:
+      - "1[1-9]_*.py"
+      - "2[0-2]_*.py"
+      - "hypergraph_search.py"
+      - "dataset_dedup.py"
+      - "taxonomy.py"
+      - "taxonomy.yaml"
+      - "supabase_db.py"
+      - "project_checks.py"
+      - "pyproject.toml"
+      - "requirements*.txt"
+      - "data/hypergraph/**"
+      - "wiki/**"
+      - ".github/workflows/dataset-*.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements_mcp.txt
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade -r requirements.txt -r requirements_mcp.txt
+          python -m pip install ruff mypy types-PyYAML types-requests types-psycopg2
+
+      - name: Lint and types
+        run: |
+          ruff check
+          ruff format --check
+          mypy 1[1-9]_*.py 2[0-2]_*.py hypergraph_search.py dataset_dedup.py taxonomy.py supabase_db.py project_checks.py
+
+      - name: Self-checks
+        run: |
+          for f in 1[1-9]_*.py 20_sync_dataset_index.py; do python "$f" --self-check; done
+          for f in taxonomy.py dataset_dedup.py supabase_db.py project_checks.py; do python "$f"; done
+
+      - name: Wiki links resolve
+        run: python 15_build_wiki.py --check
+
+      # Needs the OpenAI key (query embeddings) and Supabase (dataset vectors); skipped on forks.
+      - name: Ranking quality floor
+        if: env.OPENAI_API_KEY != '' && env.SUPABASE_DB_HOST != ''
+        run: python 22_eval_recommendations.py --min-p10 0.65

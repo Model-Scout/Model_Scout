@@ -3,7 +3,7 @@ type: "dataset"
 id: "humane-lab/K-HATERS"
 source: "huggingface"
 url: "https://huggingface.co/datasets/humane-lab/K-HATERS"
-downloads: 315
+downloads: 326
 summary: "한국어 혐오 표현 탐지 및 대상별 평가를 위한 대규모 코퍼스 K-HATERS 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

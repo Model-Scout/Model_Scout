@@ -3,7 +3,7 @@ type: "dataset"
 id: "lmms-lab/LLaVA-OneVision-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lmms-lab/LLaVA-OneVision-Data"
-downloads: 47904
+downloads: 50070
 summary: "LLaVA-OneVision 데이터셋은 이미지와 텍스트를 포함한 멀티모달 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

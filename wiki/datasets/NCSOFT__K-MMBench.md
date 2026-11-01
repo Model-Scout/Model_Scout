@@ -3,7 +3,7 @@ type: "dataset"
 id: "NCSOFT/K-MMBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NCSOFT/K-MMBench"
-downloads: 617
+downloads: 586
 summary: "K-MMBench는 한국어로 번역된 MMBench로, 한국어 시각-언어 모델 평가용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

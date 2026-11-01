@@ -3,7 +3,7 @@ type: "dataset"
 id: "cadazar/han2han-rl-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cadazar/han2han-rl-data"
-downloads: 86
+downloads: 88
 summary: "한자-한글 혼합 문장과 한국어 지시문 대화 데이터를 포함한 Han2Han RL 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -48,3 +48,7 @@ dataset_size:
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = ``pool/train.parquet` | 40,000 | training sentences` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[cadazar__han2han-rl|cadazar/han2han-rl]]

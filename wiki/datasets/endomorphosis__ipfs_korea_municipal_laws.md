@@ -3,7 +3,7 @@ type: "dataset"
 id: "endomorphosis/ipfs_korea_municipal_laws"
 source: "huggingface"
 url: "https://huggingface.co/datasets/endomorphosis/ipfs_korea_municipal_laws"
-downloads: 4520
+downloads: 4531
 summary: "한국 지방자치단체의 현행 조례, 규칙 등 자치법규 전문과 조문 데이터를 제공하는 법률 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

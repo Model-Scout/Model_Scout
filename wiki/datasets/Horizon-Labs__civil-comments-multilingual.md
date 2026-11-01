@@ -3,7 +3,7 @@ type: "dataset"
 id: "Horizon-Labs/civil-comments-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Horizon-Labs/civil-comments-multilingual"
-downloads: 171
+downloads: 185
 summary: "33개 언어로 기계 번역된 Civil Comments 데이터로, 혐오 표현 탐지 모델 학습용입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,8 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `source_text` 열 p90 746자 ≈ 187 토큰 (viewer statistics, default/train)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__multilingual-toxicity-base|Horizon-Labs/multilingual-toxicity-base]]
+- [[Horizon-Labs__multilingual-toxicity-small|Horizon-Labs/multilingual-toxicity-small]]

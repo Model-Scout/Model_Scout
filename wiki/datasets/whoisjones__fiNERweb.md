@@ -3,7 +3,7 @@ type: "dataset"
 id: "whoisjones/fiNERweb"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whoisjones/fiNERweb"
-downloads: 630
+downloads: 652
 summary: "fiNERweb는 다국어 개체명 인식 데이터셋으로 여러 언어의 텍스트와 개체명 위치 정보를 포함합니다."
 readme_status: "ok"
 readme_language: "en"

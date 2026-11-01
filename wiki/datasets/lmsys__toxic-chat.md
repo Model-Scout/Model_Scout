@@ -3,7 +3,7 @@ type: "dataset"
 id: "lmsys/toxic-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lmsys/toxic-chat"
-downloads: 10560
+downloads: 10428
 summary: "Vicuna 온라인 데모에서 수집한 10K 사용자 프롬프트의 독성 주석 데이터셋으로, 안전한 AI 상호작용 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

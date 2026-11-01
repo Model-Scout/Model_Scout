@@ -3,7 +3,7 @@ type: "dataset"
 id: "trentmkelly/asianfanfics"
 source: "huggingface"
 url: "https://huggingface.co/datasets/trentmkelly/asianfanfics"
-downloads: 124
+downloads: 221
 summary: "Asianfanfics의 메타데이터와 공개 챕터 텍스트를 포함한 소설 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

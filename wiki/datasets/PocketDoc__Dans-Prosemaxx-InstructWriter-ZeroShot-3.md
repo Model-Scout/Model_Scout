@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-InstructWriter-ZeroShot-3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-InstructWriter-ZeroShot-3"
-downloads: 5
+downloads: 7
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

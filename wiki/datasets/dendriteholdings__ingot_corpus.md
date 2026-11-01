@@ -3,7 +3,7 @@ type: "dataset"
 id: "dendriteholdings/ingot_corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dendriteholdings/ingot_corpus"
-downloads: 982
+downloads: 1124
 summary: "366개 공개 데이터셋에서 수집한 18개 도메인, 84개 언어의 1,061만 개 작업 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

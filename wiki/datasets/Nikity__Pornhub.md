@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nikity/Pornhub"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nikity/Pornhub"
-downloads: 180
+downloads: 175
 summary: "Pornhub.com에서 수집한 동영상 메타데이터로 연구 및 교육용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

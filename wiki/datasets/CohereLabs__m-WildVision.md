@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/m-WildVision"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/m-WildVision"
-downloads: 531
+downloads: 523
 summary: "23개 언어로 번역된 멀티모달 LLM 평가용 데이터셋으로, 시각-언어 모델의 다국어 일반화 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `instruction` 열 p90 193자 ≈ 48 토큰 (viewer statistics, kor_Hang/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/cohereforai/m-wildvision`

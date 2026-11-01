@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/LinguaNova"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/LinguaNova"
-downloads: 537
+downloads: 496
 summary: "다국어 텍스트 데이터로 구성된 LinguaNova 데이터셋으로 텍스트 생성, 분류, 검색에 활용됨"
 readme_status: "ok"
 readme_language: "en"

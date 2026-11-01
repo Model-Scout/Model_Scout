@@ -3,7 +3,7 @@ type: "dataset"
 id: "FINAL-Bench/World-Model"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FINAL-Bench/World-Model"
-downloads: 630
+downloads: 641
 summary: "WM Bench는 세계 최초의 월드 모델과 구현 AI의 인지 능력 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

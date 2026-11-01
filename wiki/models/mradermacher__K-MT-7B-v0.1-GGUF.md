@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/K-MT-7B-v0.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/K-MT-7B-v0.1-GGUF"
-downloads: 244
+downloads: 874
 task:
   - "[[번역]]"
 input_modality:

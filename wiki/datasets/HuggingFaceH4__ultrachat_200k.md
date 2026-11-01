@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceH4/ultrachat_200k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k"
-downloads: 90282
+downloads: 90171
 summary: "UltraChat 200k은 ChatGPT가 생성한 대화 데이터로, Zephyr-7B-β 챗 모델 학습용으로 필터링된 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

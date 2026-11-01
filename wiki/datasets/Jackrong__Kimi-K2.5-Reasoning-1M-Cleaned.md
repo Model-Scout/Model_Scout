@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/Kimi-K2.5-Reasoning-1M-Cleaned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/Kimi-K2.5-Reasoning-1M-Cleaned"
-downloads: 501
+downloads: 572
 summary: "Kimi-K2.5-Reasoning-1M-Cleaned는 ianncity/KIMI-K2.5-1000000x를 정제해 추론 학습용으로 재구성한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

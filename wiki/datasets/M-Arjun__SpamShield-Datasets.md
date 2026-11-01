@@ -3,7 +3,7 @@ type: "dataset"
 id: "M-Arjun/SpamShield-Datasets"
 source: "huggingface"
 url: "https://huggingface.co/datasets/M-Arjun/SpamShield-Datasets"
-downloads: 123
+downloads: 122
 summary: "SpamShield-Datasets는 23개 언어의 스팸 탐지용 다국어 메시지 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

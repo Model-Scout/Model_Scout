@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/korean-hate-speech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/korean-hate-speech"
-downloads: 164
+downloads: 171
 summary: "온라인 뉴스 댓글에서 혐오 발언 탐지를 위한 한국어 말뭉치 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -46,3 +46,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `news_title` 열 p90 53자 ≈ 35 토큰 (viewer statistics, default/test)
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

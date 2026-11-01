@@ -3,7 +3,7 @@ type: "dataset"
 id: "Vemloir/Qwen3.8-Flash-Next-calib-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Vemloir/Qwen3.8-Flash-Next-calib-chat"
-downloads: 100
+downloads: 106
 summary: "Qwen3.8-Flash-Next 모델의 자체 생성된 과학 분야 다국어 대화 교정 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

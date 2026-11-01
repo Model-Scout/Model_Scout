@@ -3,7 +3,7 @@ type: "dataset"
 id: "neural-bridge/rag-dataset-12000"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neural-bridge/rag-dataset-12000"
-downloads: 1203
+downloads: 1233
 summary: "Retrieval-Augmented Generation(RAG) 최적화 모델 학습용 영어 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

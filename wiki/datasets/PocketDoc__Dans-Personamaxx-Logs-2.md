@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Personamaxx-Logs-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Personamaxx-Logs-2"
-downloads: 6
+downloads: 8
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

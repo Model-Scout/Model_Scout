@@ -3,7 +3,7 @@ type: "model"
 id: "CMSManhattan/JiRackTernaryGemma4_26b"
 source: "huggingface"
 url: "https://huggingface.co/CMSManhattan/JiRackTernaryGemma4_26b"
-downloads: 580
+downloads: 815
 context_length: 262144
 parameters_b: 25.971
 task:

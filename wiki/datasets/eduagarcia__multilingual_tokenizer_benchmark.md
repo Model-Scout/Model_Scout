@@ -3,7 +3,7 @@ type: "dataset"
 id: "eduagarcia/multilingual_tokenizer_benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eduagarcia/multilingual_tokenizer_benchmark"
-downloads: 399
+downloads: 404
 summary: "다국어 토크나이저 벤치마크 데이터셋으로 다양한 언어와 도메인의 텍스트 토큰화 성능 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

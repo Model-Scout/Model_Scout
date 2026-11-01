@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Personamaxx-VN"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Personamaxx-VN"
-downloads: 40
+downloads: 42
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

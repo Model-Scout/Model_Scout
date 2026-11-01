@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bryan35406/fable-novel-eightsday"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bryan35406/fable-novel-eightsday"
-downloads: 93
+downloads: 103
 summary: "한·영 병렬 연재소설로, 세상이 거대한 언어 모델임을 깨달은 남자의 이야기입니다."
 readme_status: "ok"
 readme_language: "en"

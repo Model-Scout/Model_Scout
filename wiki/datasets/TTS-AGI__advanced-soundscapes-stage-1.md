@@ -3,7 +3,7 @@ type: "dataset"
 id: "TTS-AGI/advanced-soundscapes-stage-1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TTS-AGI/advanced-soundscapes-stage-1"
-downloads: 3690
+downloads: 4517
 summary: "LAION UAAP 파이프라인의 5백만 사운드스케이프 레시피와 원시 오디오 구성요소 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

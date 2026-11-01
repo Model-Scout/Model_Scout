@@ -3,7 +3,7 @@ type: "dataset"
 id: "Yettiesoft/voice_medical"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Yettiesoft/voice_medical"
-downloads: 240
+downloads: 246
 summary: "음성 의료 데이터셋으로 의료 분야의 음성 인식에 사용된다."
 readme_status: "thin"
 readme_language: "en"

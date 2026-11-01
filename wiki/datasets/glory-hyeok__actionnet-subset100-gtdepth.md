@@ -3,7 +3,7 @@ type: "dataset"
 id: "glory-hyeok/actionnet-subset100-gtdepth"
 source: "huggingface"
 url: "https://huggingface.co/datasets/glory-hyeok/actionnet-subset100-gtdepth"
-downloads: 249
+downloads: 254
 summary: "ActionNet 데이터셋의 100개 에피소드 서브셋으로, 원본 RGB와 무손실 깊이 정보를 포함하여 로봇 행동 인식 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

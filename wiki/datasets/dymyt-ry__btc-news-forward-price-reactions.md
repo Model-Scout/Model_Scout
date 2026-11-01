@@ -3,7 +3,7 @@ type: "dataset"
 id: "dymyt-ry/btc-news-forward-price-reactions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/dymyt-ry/btc-news-forward-price-reactions"
-downloads: 103
+downloads: 122
 summary: "120,981개의 다국어 뉴스 이벤트와 비트코인 가격 반응 데이터를 포함한 시계열 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

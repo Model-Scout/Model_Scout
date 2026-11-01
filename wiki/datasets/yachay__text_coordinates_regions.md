@@ -3,7 +3,7 @@ type: "dataset"
 id: "yachay/text_coordinates_regions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yachay/text_coordinates_regions"
-downloads: 275
+downloads: 339
 summary: "123개 세계 주요 지역의 지리 좌표가 포함된 다국어 소셜 미디어 텍스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

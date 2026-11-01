@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-go-global"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-go-global"
-downloads: 127
+downloads: 128
 summary: "AI 제품 및 SaaS 기업의 글로벌 진출을 위한 전 주기 표준 운영 절차(SOP) 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

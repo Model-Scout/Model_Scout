@@ -3,7 +3,7 @@ type: "dataset"
 id: "Noename/MAVL"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Noename/MAVL"
-downloads: 172
+downloads: 180
 summary: "애니메이션 뮤지컬 노래의 다국어 가사와 타임스탬프를 포함한 멀티모달 데이터셋으로, 가사 번역 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

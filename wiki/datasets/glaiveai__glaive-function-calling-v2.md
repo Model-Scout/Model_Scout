@@ -3,7 +3,7 @@ type: "dataset"
 id: "glaiveai/glaive-function-calling-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/glaiveai/glaive-function-calling-v2"
-downloads: 25792
+downloads: 24490
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "data-is-better-together/fineweb-c"
 source: "huggingface"
 url: "https://huggingface.co/datasets/data-is-better-together/fineweb-c"
-downloads: 3008
+downloads: 3058
 summary: "FineWeb-C는 다국어 교육 콘텐츠에 대한 커뮤니티 기반 라벨링 데이터셋으로, 고품질 교육 콘텐츠 식별 및 다국어 LLM 개발에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

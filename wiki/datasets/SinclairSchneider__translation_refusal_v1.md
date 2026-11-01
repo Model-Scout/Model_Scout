@@ -3,7 +3,7 @@ type: "dataset"
 id: "SinclairSchneider/translation_refusal_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SinclairSchneider/translation_refusal_v1"
-downloads: 136
+downloads: 157
 summary: "영화 자막에서 번역 모델이 거부하는 공격적 언어를 포함한 문장 757개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

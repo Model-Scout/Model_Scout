@@ -3,7 +3,7 @@ type: "dataset"
 id: "Yeongkwon/crowdtrack-yolo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Yeongkwon/crowdtrack-yolo"
-downloads: 147
+downloads: 166
 summary: "Fudan University CrowdTrack 원본에서 5프레임마다 1장씩 추출한 사람 검출용 YOLO 라벨 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

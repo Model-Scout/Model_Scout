@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/wit"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/wit"
-downloads: 328
+downloads: 340
 summary: "WIT는 108개 언어의 1,150만 이미지와 텍스트 예제로 구성된 대규모 다중언어 멀티모달 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

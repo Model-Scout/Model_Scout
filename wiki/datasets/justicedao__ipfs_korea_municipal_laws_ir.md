@@ -3,7 +3,7 @@ type: "dataset"
 id: "justicedao/ipfs_korea_municipal_laws_ir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/justicedao/ipfs_korea_municipal_laws_ir"
-downloads: 270
+downloads: 276
 summary: "한국 지방자치법령 문서 검색을 위한 CID 기반 그래프 RAG 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

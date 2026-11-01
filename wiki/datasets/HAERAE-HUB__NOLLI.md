@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/NOLLI"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/NOLLI"
-downloads: 192
+downloads: 211
 summary: "NOLLI는 한국어와 영어로 된 난이도 조절 가능한 논리 퍼즐 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

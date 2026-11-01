@@ -3,7 +3,7 @@ type: "dataset"
 id: "Genius1237/TyDiP"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Genius1237/TyDiP"
-downloads: 586
+downloads: 615
 summary: "TyDiP는 9개 언어로 된 위키백과 편집자 대화의 공손성 분류 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

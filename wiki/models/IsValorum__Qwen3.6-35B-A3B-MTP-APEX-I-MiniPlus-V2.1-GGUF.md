@@ -3,7 +3,7 @@ type: "model"
 id: "IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/IsValorum/Qwen3.6-35B-A3B-MTP-APEX-I-MiniPlus-V2.1-GGUF"
-downloads: 1230
+downloads: 6817
 task:
   - "[[이미지 이해]]"
 input_modality:

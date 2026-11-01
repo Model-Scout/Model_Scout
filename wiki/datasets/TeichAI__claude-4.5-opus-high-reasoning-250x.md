@@ -3,7 +3,7 @@ type: "dataset"
 id: "TeichAI/claude-4.5-opus-high-reasoning-250x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TeichAI/claude-4.5-opus-high-reasoning-250x"
-downloads: 633
+downloads: 653
 summary: "Claude Opus 4.5 기반 고난이도 추론 질문 데이터셋으로 LLM 미세조정용입니다."
 readme_status: "ok"
 readme_language: "en"

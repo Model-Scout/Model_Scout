@@ -3,7 +3,7 @@ type: "dataset"
 id: "AMAImedia/NOESIS-1M-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AMAImedia/NOESIS-1M-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54"
-downloads: 271
+downloads: 274
 summary: "NOESIS 다국어 지도학습 데이터셋으로 다국어 더빙 자동화 플랫폼용 파인튜닝에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,7 @@ NOESIS 다국어 지도학습 데이터셋으로 다국어 더빙 자동화 플�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 1977자 ≈ 494 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `AMAImedia/NOESIS-50K-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54`

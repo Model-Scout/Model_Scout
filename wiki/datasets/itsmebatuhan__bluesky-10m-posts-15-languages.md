@@ -62,3 +62,7 @@ ds = load_dataset("itsmebatuhan/bluesky-10m-posts-15-languages", split="train")`
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 252자 ≈ 63 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/batudev/bluesky-10m-multilingual-posts-15-languages`

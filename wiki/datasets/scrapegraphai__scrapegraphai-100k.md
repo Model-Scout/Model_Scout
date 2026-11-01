@@ -3,7 +3,7 @@ type: "dataset"
 id: "scrapegraphai/scrapegraphai-100k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/scrapegraphai/scrapegraphai-100k"
-downloads: 179
+downloads: 166
 summary: "ScrapeGraphAI-100k는 웹 콘텐츠에서 JSON 스키마 기반 구조화 데이터 추출을 위한 LLM 추출 이벤트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

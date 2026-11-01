@@ -3,7 +3,7 @@ type: "dataset"
 id: "RobotHuman/PCB_defect"
 source: "huggingface"
 url: "https://huggingface.co/datasets/RobotHuman/PCB_defect"
-downloads: 3255
+downloads: 3315
 summary: "부품 실장 전 naked PCB 이미지로 6종 결함 위치 검출 및 유형 분류용 데이터셋"
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "psyche/korean_idioms"
 source: "huggingface"
 url: "https://huggingface.co/datasets/psyche/korean_idioms"
-downloads: 91
+downloads: 94
 summary: "한국어 속담 의미와 보기로 구성된 NLI용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "model"
 id: "chaoliangUNSW/Jev-Style-0.8B-Decision-v3"
 source: "huggingface"
 url: "https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3"
-downloads: 188
+downloads: 1167
 context_length: 262144
 parameters_b: 0.752
 task:

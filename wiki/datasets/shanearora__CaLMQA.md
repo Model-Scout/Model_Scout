@@ -3,7 +3,7 @@ type: "dataset"
 id: "shanearora/CaLMQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shanearora/CaLMQA"
-downloads: 125
+downloads: 126
 summary: "CaLMQA는 23개 언어의 문화 특화 장문 질의응답 데이터셋으로 다국어 모델 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

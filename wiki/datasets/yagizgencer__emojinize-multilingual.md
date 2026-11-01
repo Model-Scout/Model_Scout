@@ -3,7 +3,7 @@ type: "dataset"
 id: "yagizgencer/emojinize-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yagizgencer/emojinize-multilingual"
-downloads: 86
+downloads: 100
 summary: "14개 언어의 문장에 이모지 스팬 주석을 달아 이모지 기반 텍스트 증강에 활용하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "justicedao/ipfs_north_korea_laws_ir"
 source: "huggingface"
 url: "https://huggingface.co/datasets/justicedao/ipfs_north_korea_laws_ir"
-downloads: 240
+downloads: 244
 summary: "북한 법률 문서와 조항을 포함한 법률 정보 검색용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "zeroshot/twitter-financial-news-sentiment"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zeroshot/twitter-financial-news-sentiment"
-downloads: 6965
+downloads: 6989
 summary: "금융 관련 트윗의 감성 분류를 위한 영어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

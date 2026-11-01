@@ -3,7 +3,7 @@ type: "dataset"
 id: "ByteDance/MTVQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ByteDance/MTVQA"
-downloads: 1160
+downloads: 1141
 summary: "9개 언어의 다국어 텍스트 장면에 대한 시각적 질의응답 데이터셋으로, 다국어 이미지 이해 향상에 활용됨."
 readme_status: "ok"
 readme_language: "en"

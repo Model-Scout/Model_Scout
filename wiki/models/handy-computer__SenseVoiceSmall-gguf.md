@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/SenseVoiceSmall-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/SenseVoiceSmall-gguf"
-downloads: 17595
+downloads: 20336
 task:
   - "[[음성 인식]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/Voxtral-Mini-4B-Realtime-2602-gguf"
-downloads: 441589
+downloads: 426237
 task:
   - "[[음성 인식]]"
 input_modality:

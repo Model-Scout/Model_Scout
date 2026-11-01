@@ -3,7 +3,7 @@ type: "dataset"
 id: "KTH/hungarian-single-speaker-tts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KTH/hungarian-single-speaker-tts"
-downloads: 181
+downloads: 206
 summary: "CSS10 Hungarian 데이터셋은 단일 화자의 헝가리어 음성-텍스트 쌍으로 음성 합성에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

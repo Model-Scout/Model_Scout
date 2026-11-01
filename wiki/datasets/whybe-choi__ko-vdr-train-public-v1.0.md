@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/ko-vdr-train-public-v1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/ko-vdr-train-public-v1.0"
-downloads: 648
+downloads: 657
 summary: "한국 정부 및 공공기관 PDF 문서에서 생성된 시각 문서 검색용 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mrlbenchmarks/global-piqa-parallel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mrlbenchmarks/global-piqa-parallel"
-downloads: 2537
+downloads: 2497
 summary: "131개 언어로 번역 및 교정된 상식 추론 평가용 다국어 병렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

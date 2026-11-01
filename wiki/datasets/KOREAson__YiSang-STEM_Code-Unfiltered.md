@@ -3,7 +3,7 @@ type: "dataset"
 id: "KOREAson/YiSang-STEM_Code-Unfiltered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KOREAson/YiSang-STEM_Code-Unfiltered"
-downloads: 167
+downloads: 173
 summary: "YiSang-STEM_Code-Unfiltered는 STEM 및 코딩 주제의 한국어 프롬프트와 추론 데이터를 포함한 대규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Medint/Multi-Med-conversational"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Medint/Multi-Med-conversational"
-downloads: 43
+downloads: 40
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

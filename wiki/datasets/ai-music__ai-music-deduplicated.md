@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai-music/ai-music-deduplicated"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai-music/ai-music-deduplicated"
-downloads: 2694
+downloads: 2825
 summary: "Mureka, Riffusion, Sonauto, Suno, Udio 5개 플랫폼의 AI 생성 음악과 메타데이터 대규모 모음집입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "deokhk/multilingual_reasoning_gap_outputs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/deokhk/multilingual_reasoning_gap_outputs"
-downloads: 152
+downloads: 144
 summary: "Qwen3-4B 모델의 다국어 추론 격차 분석을 위한 실험 출력 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

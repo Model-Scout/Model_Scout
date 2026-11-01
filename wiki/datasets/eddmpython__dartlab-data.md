@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/dartlab-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/dartlab-data"
-downloads: 338481
+downloads: 347396
 summary: "한국 DART와 미국 SEC EDGAR 공시 데이터를 종목코드로 비교 가능한 표로 제공하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -53,3 +53,9 @@ dataset_size:
 - **도메인**: [[금융·경제]] — tag_match · readme, tags = `finance` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `DartLab의 데이터 층입니다. dartlab.Company("005930")을 호출하면 라이브러리가 필요한 parquet을 여기서 자동으로 내려받습니다.` · 신뢰도 low
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Fundmanager145/dartlab-data`
+- `idleengine/dartlab-data`
+- `withdev/dartlab-data`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PJMixers-Dev/Fundus-CC-2.5M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PJMixers-Dev/Fundus-CC-2.5M"
-downloads: 408
+downloads: 372
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "wide_multilingual"

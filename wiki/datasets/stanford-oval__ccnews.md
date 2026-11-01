@@ -3,7 +3,7 @@ type: "dataset"
 id: "stanford-oval/ccnews"
 source: "huggingface"
 url: "https://huggingface.co/datasets/stanford-oval/ccnews"
-downloads: 6781
+downloads: 6583
 summary: "2016년부터 2024년까지 전 세계 100개 이상 언어의 뉴스 6억 건을 정제한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -63,3 +63,7 @@ dataset_size:
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `999999999.0` · 신뢰도 high
 
 샘플 길이: `plain_text` 열 p90 4733자 ≈ 1183 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kareenamehta/ccnews`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "data-silence/sumnews"
 source: "huggingface"
 url: "https://huggingface.co/datasets/data-silence/sumnews"
-downloads: 53
+downloads: 50
 summary: "뉴스 기사 4만 건으로 요약 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

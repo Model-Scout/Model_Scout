@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gabrui/multilingual_TinyStories"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gabrui/multilingual_TinyStories"
-downloads: 931
+downloads: 913
 summary: "3~4세 아동용 짧은 이야기 다국어 번역 데이터로 다국어 소형 언어모델 학습에 적합합니다."
 readme_status: "ok"
 readme_language: "en"

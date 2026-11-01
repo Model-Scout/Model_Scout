@@ -3,7 +3,7 @@ type: "dataset"
 id: "ThakiCloud/kd-lawset-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ThakiCloud/kd-lawset-ko"
-downloads: 127
+downloads: 121
 summary: "한국 법령 텍스트 기반으로 생성된 질문과 모델의 기권 예측을 포함한 법률 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

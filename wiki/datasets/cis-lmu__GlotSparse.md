@@ -3,7 +3,7 @@ type: "dataset"
 id: "cis-lmu/GlotSparse"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cis-lmu/GlotSparse"
-downloads: 35
+downloads: 40
 summary: "저자원이용 언어 뉴스 웹사이트 모음 데이터셋으로 언어 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

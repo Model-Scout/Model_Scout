@@ -3,7 +3,7 @@ type: "dataset"
 id: "ahmedheakl/docatlas_instruct"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ahmedheakl/docatlas_instruct"
-downloads: 2124
+downloads: 2099
 summary: "DocAtlas는 82개 언어의 다국어 문서 OCR 데이터셋으로 문서 이해 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

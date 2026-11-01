@@ -3,7 +3,7 @@ type: "dataset"
 id: "xu-song/cc100-samples"
 source: "huggingface"
 url: "https://huggingface.co/datasets/xu-song/cc100-samples"
-downloads: 485
+downloads: 513
 summary: "cc100 데이터셋의 처음 10,000줄을 포함하는 텍스트 데이터 하위셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "remiai3/tiny-captcha-library"
 source: "huggingface"
 url: "https://huggingface.co/datasets/remiai3/tiny-captcha-library"
-downloads: 476
+downloads: 475
 summary: "44개 세계 문자 체계의 4글자 합성 CAPTCHA 이미지로 OCR 및 문자 인식 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -48,3 +48,7 @@ dataset_size:
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `A multilingual dataset of synthetic 4-character CAPTCHA images` · 신뢰도 low
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `AtharvImmverse/tiny-captcha-library`

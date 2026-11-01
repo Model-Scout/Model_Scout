@@ -3,7 +3,7 @@ type: "dataset"
 id: "KyungsuLee/WARD-Webtoon-SFX-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KyungsuLee/WARD-Webtoon-SFX-dataset"
-downloads: 273
+downloads: 279
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

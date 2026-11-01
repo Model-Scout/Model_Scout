@@ -3,7 +3,7 @@ type: "dataset"
 id: "NobodyExistsOnTheInternet/ToxicQAFinal"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NobodyExistsOnTheInternet/ToxicQAFinal"
-downloads: 58
+downloads: 57
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

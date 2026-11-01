@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLM-OS-Models/LFM2.5-8B-A1B-KO-CPT-DATA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLM-OS-Models/LFM2.5-8B-A1B-KO-CPT-DATA"
-downloads: 165
+downloads: 166
 summary: "한국어 LFM2.5-8B-A1B 모델의 지속적 사전학습용 한국어 CPT 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

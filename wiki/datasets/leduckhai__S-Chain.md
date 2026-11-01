@@ -3,7 +3,7 @@ type: "dataset"
 id: "leduckhai/S-Chain"
 source: "huggingface"
 url: "https://huggingface.co/datasets/leduckhai/S-Chain"
-downloads: 400
+downloads: 418
 summary: "S-Chain은 의료 분야에서 시각적 근거와 연결된 단계별 추론을 포함하는 대규모 의료 이미지 질문응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

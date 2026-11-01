@@ -3,7 +3,7 @@ type: "dataset"
 id: "m-ric/Open_Assistant_Conversation_Chains"
 source: "huggingface"
 url: "https://huggingface.co/datasets/m-ric/Open_Assistant_Conversation_Chains"
-downloads: 84
+downloads: 82
 summary: "OpenAssistant 대화 데이터를 재구성한 다국어 어시스턴트 대화 코퍼스입니다."
 readme_status: "ok"
 readme_language: "en"

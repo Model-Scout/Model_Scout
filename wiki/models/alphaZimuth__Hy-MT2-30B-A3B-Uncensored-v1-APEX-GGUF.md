@@ -3,7 +3,7 @@ type: "model"
 id: "alphaZimuth/Hy-MT2-30B-A3B-Uncensored-v1-APEX-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/alphaZimuth/Hy-MT2-30B-A3B-Uncensored-v1-APEX-GGUF"
-downloads: 1892
+downloads: 2847
 task:
   - "[[번역]]"
 input_modality:

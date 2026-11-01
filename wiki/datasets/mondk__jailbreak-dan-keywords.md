@@ -3,7 +3,7 @@ type: "dataset"
 id: "mondk/jailbreak-dan-keywords"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mondk/jailbreak-dan-keywords"
-downloads: 744
+downloads: 757
 summary: "LLM의 우회 공격 및 DAN 탐지를 위한 적대적 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

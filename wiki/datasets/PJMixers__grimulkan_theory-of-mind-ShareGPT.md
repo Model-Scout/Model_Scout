@@ -3,7 +3,7 @@ type: "dataset"
 id: "PJMixers/grimulkan_theory-of-mind-ShareGPT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PJMixers/grimulkan_theory-of-mind-ShareGPT"
-downloads: 42
+downloads: 37
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

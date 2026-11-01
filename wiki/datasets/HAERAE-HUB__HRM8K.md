@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/HRM8K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/HRM8K"
-downloads: 5898
+downloads: 5667
 summary: "한국어와 영어 이중언어 수학 추론 벤치마크 HRM8K, 평가용 8,011문제 포함"
 readme_status: "ok"
 readme_language: "en"
@@ -57,3 +57,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `9999.0` · 신뢰도 high
 
 샘플 길이: `original` 열 p90 373자 ≈ 249 토큰 (viewer statistics, GSM8K/test)
+
+## 같은 데이터의 사본·중복 등록
+
+- `hnwooo/HRM8K`

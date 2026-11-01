@@ -3,7 +3,7 @@ type: "dataset"
 id: "castorini/mr-tydi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/castorini/mr-tydi"
-downloads: 5683
+downloads: 5757
 summary: "Mr. TyDi는 11개 언어의 단일언어 검색 평가용 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

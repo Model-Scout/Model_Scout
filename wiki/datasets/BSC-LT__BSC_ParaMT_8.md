@@ -3,7 +3,7 @@ type: "dataset"
 id: "BSC-LT/BSC_ParaMT_8"
 source: "huggingface"
 url: "https://huggingface.co/datasets/BSC-LT/BSC_ParaMT_8"
-downloads: 881
+downloads: 923
 summary: "카탈루냐어, 스페인어, 영어와 아랍어, 힌디어, 중국어, 일본어, 한국어 병렬 문장 데이터로 기계번역 학습용."
 readme_status: "ok"
 readme_language: "en"

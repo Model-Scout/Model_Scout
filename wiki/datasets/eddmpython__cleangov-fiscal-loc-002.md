@@ -3,7 +3,7 @@ type: "dataset"
 id: "eddmpython/cleangov-fiscal-loc-002"
 source: "huggingface"
 url: "https://huggingface.co/datasets/eddmpython/cleangov-fiscal-loc-002"
-downloads: 103
+downloads: 113
 summary: "전국 지방자치단체 연도별 세부사업별 세출현황을 담은 지방재정 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"

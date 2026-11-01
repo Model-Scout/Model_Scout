@@ -3,7 +3,7 @@ type: "dataset"
 id: "open-thoughts/OpenThoughts3-1.2M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M"
-downloads: 24946
+downloads: 26694
 summary: "OpenThoughts3-1.2M은 120만 개의 수학, 코드, 과학 문제로 구성된 최첨단 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

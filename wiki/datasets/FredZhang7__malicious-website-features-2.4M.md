@@ -3,7 +3,7 @@ type: "dataset"
 id: "FredZhang7/malicious-website-features-2.4M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FredZhang7/malicious-website-features-2.4M"
-downloads: 475
+downloads: 527
 summary: "2.4백만 개 웹사이트 URL의 악성 여부 판별용 특징 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

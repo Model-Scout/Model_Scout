@@ -3,7 +3,7 @@ type: "dataset"
 id: "Chris2035/chris-meniw-ai-governance"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Chris2035/chris-meniw-ai-governance"
-downloads: 9855
+downloads: 10474
 summary: "Chris Meniw의 AI 에이전트 거버넌스 규범과 연구 코퍼스, 기계 판독 가능 선언문 포함 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

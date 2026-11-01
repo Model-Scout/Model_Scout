@@ -3,7 +3,7 @@ type: "dataset"
 id: "yfyeung/ksponspeech-eval"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yfyeung/ksponspeech-eval"
-downloads: 81
+downloads: 95
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

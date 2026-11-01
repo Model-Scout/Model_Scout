@@ -3,7 +3,7 @@ type: "dataset"
 id: "yuiseki/osm-tag-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yuiseki/osm-tag-corpus"
-downloads: 88
+downloads: 91
 summary: "OpenStreetMap 태그와 다국어 설명, 관련 용어, 사용 빈도를 담은 임베딩용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

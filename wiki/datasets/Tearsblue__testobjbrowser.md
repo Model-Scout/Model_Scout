@@ -3,7 +3,7 @@ type: "dataset"
 id: "Tearsblue/testobjbrowser"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Tearsblue/testobjbrowser"
-downloads: 124
+downloads: 166
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

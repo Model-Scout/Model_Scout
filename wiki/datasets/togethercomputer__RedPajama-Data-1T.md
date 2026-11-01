@@ -3,7 +3,7 @@ type: "dataset"
 id: "togethercomputer/RedPajama-Data-1T"
 source: "huggingface"
 url: "https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T"
-downloads: 3155
+downloads: 3138
 readme_status: "template"
 readme_language: "en"
 korean_focus: "not_ko"

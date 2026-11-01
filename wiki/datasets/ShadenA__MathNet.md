@@ -3,7 +3,7 @@ type: "dataset"
 id: "ShadenA/MathNet"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ShadenA/MathNet"
-downloads: 52842
+downloads: 48097
 summary: "MathNet은 47개국의 올림피아드 수학 문제와 해답을 포함한 대규모 다국어 멀티모달 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -63,3 +63,15 @@ MathNet은 47개국의 올림피아드 수학 문제와 해답을 포함한 대�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `problem_markdown` 열 p90 631자 ≈ 158 토큰 (viewer statistics, all/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Bacon935/MathNet`
+- `Luowei1428/MathNet`
+- `NP235/MathNet`
+- `anuragsbaghel/MathNet`
+- `archya/MathNet`
+- `introvoyz041/MathNet`
+- `knowurknottty/MathNet`
+- `musumecmtcd/MathNet`
+- `weylmann/MathNet`

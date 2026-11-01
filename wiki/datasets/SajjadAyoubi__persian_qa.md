@@ -3,7 +3,7 @@ type: "dataset"
 id: "SajjadAyoubi/persian_qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SajjadAyoubi/persian_qa"
-downloads: 191
+downloads: 189
 summary: "페르시아어 위키백과 기반의 질문응답 데이터셋으로, 읽기 이해 및 질문응답 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

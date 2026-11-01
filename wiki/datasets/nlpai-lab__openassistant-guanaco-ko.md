@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/openassistant-guanaco-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/openassistant-guanaco-ko"
-downloads: 105
+downloads: 98
 summary: "Open Assistant 데이터셋의 한국어 번역본으로, 대화 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "NomaDamas/ko-vdr-train-public"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NomaDamas/ko-vdr-train-public"
-downloads: 507
+downloads: 499
 summary: "한국 정부 및 공공기관 PDF 문서에서 생성된 한국어 시각 문서 검색 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -49,9 +49,13 @@ dataset_size:
 - **언어**: [[한국어]] — metadata · languages = `ko` · 신뢰도 high
 - **입력 길이**: [[중문]] — viewer_stats · viewer_statistics = `2995` · 신뢰도 medium
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
-- **도메인**: [[행정·민원]] — ner · readme = `generated from 49 Korean government and public institution PDF documents` · 신뢰도 medium
+- **도메인**: [[행정·민원]] — ner · readme = `generated from Korean government and public institution reports` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `This dataset is a training dataset for Korean Visual Document Retrieval.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `markdown` 열 p90 4493자 ≈ 2995 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `whybe-choi/ko-vdr-train-public`

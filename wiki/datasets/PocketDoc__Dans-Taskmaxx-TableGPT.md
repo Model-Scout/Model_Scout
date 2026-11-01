@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Taskmaxx-TableGPT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Taskmaxx-TableGPT"
-downloads: 25
+downloads: 26
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

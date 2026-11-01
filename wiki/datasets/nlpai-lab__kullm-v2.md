@@ -3,7 +3,7 @@ type: "dataset"
 id: "nlpai-lab/kullm-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nlpai-lab/kullm-v2"
-downloads: 482
+downloads: 457
 summary: "GPT4ALL, Dolly, Vicuna 데이터의 한국어 번역 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -47,6 +47,10 @@ GPT4ALL, Dolly, Vicuna 데이터의 한국어 번역 데이터셋입니다.
 
 샘플 길이: `output` 열 p90 1520자 ≈ 1013 토큰 (viewer statistics, default/train)
 
+## 같은 데이터의 사본·중복 등록
+
+- `csujeong/kullm-v2.1`
+
 ## 이 데이터로 학습한 모델
 
 - [[Edentns__DataVortexTL-1.1B-v0.1|Edentns/DataVortexTL-1.1B-v0.1]]
@@ -54,4 +58,6 @@ GPT4ALL, Dolly, Vicuna 데이터의 한국어 번역 데이터셋입니다.
 - [[mradermacher__DataVortexTL-1.1B-v0.1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-GGUF]]
 - [[mradermacher__DataVortexTL-1.1B-v0.1-i1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-i1-GGUF]]
 - [[nlpai-lab__kullm-polyglot-5.8b-v2|nlpai-lab/kullm-polyglot-5.8b-v2]]
+- [[prismdata__Perdix-1.1B-Instruct|prismdata/Perdix-1.1B-Instruct]]
+- [[shopkeeper__kor-finewiki-1b-chat|shopkeeper/kor-finewiki-1b-chat]]
 - [[tensorblock__DataVortexTL-1.1B-v0.1-GGUF|tensorblock/DataVortexTL-1.1B-v0.1-GGUF]]

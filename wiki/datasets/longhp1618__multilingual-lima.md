@@ -3,7 +3,7 @@ type: "dataset"
 id: "longhp1618/multilingual-lima"
 source: "huggingface"
 url: "https://huggingface.co/datasets/longhp1618/multilingual-lima"
-downloads: 167
+downloads: 215
 summary: "Multilingual LIMA 데이터셋으로 여러 언어별 Hugging Face config로 구성됨."
 readme_status: "ok"
 readme_language: "en"

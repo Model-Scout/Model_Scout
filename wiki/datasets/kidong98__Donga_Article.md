@@ -3,7 +3,7 @@ type: "dataset"
 id: "kidong98/Donga_Article"
 source: "huggingface"
 url: "https://huggingface.co/datasets/kidong98/Donga_Article"
-downloads: 101
+downloads: 111
 summary: "동아일보 2023~2024년 기사 제목, 본문, NER 포함 데이터셋으로 관련기사 검색·추천에 활용됨"
 readme_status: "ok"
 readme_language: "ko"

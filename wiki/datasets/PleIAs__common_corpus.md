@@ -3,7 +3,7 @@ type: "dataset"
 id: "PleIAs/common_corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PleIAs/common_corpus"
-downloads: 155317
+downloads: 171789
 summary: "2.27조 토큰 규모의 다양한 공개 라이선스 텍스트 데이터셋으로 AI 학습용이다."
 readme_status: "ok"
 readme_language: "en"
@@ -58,3 +58,7 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 379370자 ≈ 94842 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `oahegiaerhg/common_corpus`

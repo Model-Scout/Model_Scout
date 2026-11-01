@@ -3,7 +3,7 @@ type: "dataset"
 id: "snunlp/KoBALT-700"
 source: "huggingface"
 url: "https://huggingface.co/datasets/snunlp/KoBALT-700"
-downloads: 1188
+downloads: 1384
 summary: "한국어 대형 언어 모델 평가를 위한 700문항 다중선택형 언어학 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "heegyu/kowikitext"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heegyu/kowikitext"
-downloads: 66
+downloads: 65
 readme_status: "ok"
 readme_language: "ko"
 korean_focus: "not_ko"

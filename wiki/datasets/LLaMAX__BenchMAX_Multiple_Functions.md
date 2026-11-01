@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Multiple_Functions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Multiple_Functions"
-downloads: 179
+downloads: 185
 summary: "BenchMAX_Multiple_Functions는 다국어 환경에서 도구 호출 능력을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

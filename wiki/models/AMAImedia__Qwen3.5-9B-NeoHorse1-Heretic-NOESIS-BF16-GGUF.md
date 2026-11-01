@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Qwen3.5-9B-NeoHorse1-Heretic-NOESIS-BF16-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Qwen3.5-9B-NeoHorse1-Heretic-NOESIS-BF16-GGUF"
-downloads: 2088
+downloads: 782
 context_length: 262144
 parameters_b: 8.954
 task:

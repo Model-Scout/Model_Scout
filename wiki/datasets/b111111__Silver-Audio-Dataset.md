@@ -3,7 +3,7 @@ type: "dataset"
 id: "b111111/Silver-Audio-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/b111111/Silver-Audio-Dataset"
-downloads: 156
+downloads: 141
 summary: "긴급 상황 음성 인식용 MFCC 특징 추출 오디오 데이터셋으로, SilverAssistant 프로젝트에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -45,3 +45,7 @@ dataset_size:
 - **도메인**: [[의료·보건]] — ner · readme = `real-world emergency sound detection and classification tasks` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `specifically designed for training and evaluating machine learning models` · 신뢰도 medium
 - **데이터 규모**: [[초대규모 데이터]] — metadata · size_categories = `999999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `SilverAvocado/Silver-Audio-Dataset`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "jgeuter/OpenDecisions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jgeuter/OpenDecisions"
-downloads: 618
+downloads: 690
 summary: "OpenDecisions는 Jev 스타일 의사결정 검증용 데이터셋으로, 의사결정 모델 비교에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

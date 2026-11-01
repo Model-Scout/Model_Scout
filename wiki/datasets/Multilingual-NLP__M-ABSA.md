@@ -3,7 +3,7 @@ type: "dataset"
 id: "Multilingual-NLP/M-ABSA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Multilingual-NLP/M-ABSA"
-downloads: 26706
+downloads: 9820
 summary: "M-ABSA는 21개 언어, 7개 도메인에 대한 다국어 관점 기반 감성 분석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

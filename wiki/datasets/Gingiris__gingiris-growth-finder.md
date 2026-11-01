@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-growth-finder"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-growth-finder"
-downloads: 102
+downloads: 103
 summary: "제품 유형, 성장 단계, 채널 격차를 진단해 42가지 성장 전략으로 안내하는 메타 라우터 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

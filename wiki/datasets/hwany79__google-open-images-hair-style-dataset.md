@@ -3,7 +3,7 @@ type: "dataset"
 id: "hwany79/google-open-images-hair-style-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hwany79/google-open-images-hair-style-dataset"
-downloads: 96
+downloads: 99
 summary: "Google Open Images V7에서 다양한 헤어 스타일 사람 이미지를 필터링한 컴퓨터 비전용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

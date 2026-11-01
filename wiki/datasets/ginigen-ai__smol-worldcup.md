@@ -3,7 +3,7 @@ type: "dataset"
 id: "ginigen-ai/smol-worldcup"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ginigen-ai/smol-worldcup"
-downloads: 438
+downloads: 489
 summary: "소형 언어 모델의 지능, 정직성, 속도, 크기, 효율성을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "lianghsun/tw-contract-review-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lianghsun/tw-contract-review-chat"
-downloads: 11
+downloads: 14
 summary: "tw-contract-review-chat는 대만 계약 심사 실무 관련 전통 중국어 단일 질문-답변 데이터셋으로, 법률 분야 언어 모델 미세조정에 적합하다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "PolyAI/minds14"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PolyAI/minds14"
-downloads: 11371
+downloads: 11041
 summary: "MInDS-14은 전자은행 도메인의 14개 의도 인식용 음성 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -59,3 +59,8 @@ MInDS-14은 전자은행 도메인의 14개 의도 인식용 음성 데이터셋
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `english_transcription` 열 p90 109자 ≈ 27 토큰 (viewer statistics, ko-KR/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `abc-123-456/minds14`
+- `yxl10086/minds14`

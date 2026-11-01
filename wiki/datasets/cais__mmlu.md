@@ -3,7 +3,7 @@ type: "dataset"
 id: "cais/mmlu"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cais/mmlu"
-downloads: 554378
+downloads: 552244
 summary: "MMLU는 다양한 분야의 객관식 문제로 구성된 대규모 다중과제 언어 이해 평가 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"

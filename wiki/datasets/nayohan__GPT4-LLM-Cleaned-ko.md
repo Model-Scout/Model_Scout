@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/GPT4-LLM-Cleaned-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/GPT4-LLM-Cleaned-ko"
-downloads: 126
+downloads: 129
 summary: "nayohan/llama3-instrucTrans-enko-8b 모델로 번역한 teknium/GPT4-LLM-Cleaned 데이터셋의 한국어 번역본입니다."
 readme_status: "ok"
 readme_language: "en"

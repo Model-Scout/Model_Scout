@@ -3,7 +3,7 @@ type: "dataset"
 id: "laion/emolia-hq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/laion/emolia-hq"
-downloads: 1007
+downloads: 1012
 summary: "Emolia-HQ는 동일 화자의 발화 쌍을 포함한 고품질 음성 데이터셋으로 음성 변환, 표현적 TTS, 감정 인식에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"
@@ -30,6 +30,8 @@ commercial_use:
   - "[[상업 이용 가능]]"
 domain:
   - "[[일반]]"
+data_format:
+  - "[[미디어 파일]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -57,4 +59,9 @@ Emolia-HQ는 동일 화자의 발화 쌍을 포함한 고품질 음성 데이터
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `Emolia-HQ is a high-quality, speaker-paired subset of the LAION Emolia dataset` · 신뢰도 low
+- **데이터 형식**: [[미디어 파일]] — metadata · format = `webdataset` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `TTS-AGI/emolia-hq`

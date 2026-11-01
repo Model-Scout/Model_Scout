@@ -3,7 +3,7 @@ type: "dataset"
 id: "HPLT/DocHPLT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HPLT/DocHPLT"
-downloads: 9112
+downloads: 10460
 summary: "DocHPLT는 50개 언어와 영어 간 문서 단위 번역을 위한 대규모 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

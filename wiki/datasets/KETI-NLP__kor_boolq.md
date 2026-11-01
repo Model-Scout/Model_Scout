@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/kor_boolq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/kor_boolq"
-downloads: 198
+downloads: 209
 summary: "kor_boolq는 자연어 예/아니오 질문에 대한 한국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

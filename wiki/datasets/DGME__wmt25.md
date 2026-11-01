@@ -3,7 +3,7 @@ type: "dataset"
 id: "DGME/wmt25"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DGME/wmt25"
-downloads: 115
+downloads: 127
 summary: "다양한 언어 쌍의 번역 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

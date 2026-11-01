@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/Dolci-Instruct-SFT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/Dolci-Instruct-SFT"
-downloads: 4951
+downloads: 5012
 summary: "Dolci Instruct SFT는 다양한 프롬프트를 모아 Olmo 3 7B Instruct SFT 학습에 사용된 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,4 @@ Dolci Instruct SFT는 다양한 프롬프트를 모아 Olmo 3 7B Instruct SFT �
 
 - [[ATH-MaaS__Marco-Mini-Instruct|ATH-MaaS/Marco-Mini-Instruct]]
 - [[ATH-MaaS__Marco-Nano-Instruct|ATH-MaaS/Marco-Nano-Instruct]]
+- [[Abu-Dju__Marco-Mini-Instruct|Abu-Dju/Marco-Mini-Instruct]]

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ai-enthusiasm-community/CC3M-35L"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ai-enthusiasm-community/CC3M-35L"
-downloads: 895
+downloads: 901
 summary: "CC3M-35L은 이미지와 다국어 캡션을 포함한 데이터셋으로 이미지-텍스트 모델 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

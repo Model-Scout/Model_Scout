@@ -3,7 +3,7 @@ type: "dataset"
 id: "EleutherAI/pile"
 source: "huggingface"
 url: "https://huggingface.co/datasets/EleutherAI/pile"
-downloads: 6761
+downloads: 6602
 readme_status: "template"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlabonne/smoltalk-flat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlabonne/smoltalk-flat"
-downloads: 66
+downloads: 86
 summary: "smoltalk 데이터셋의 호환성 문제 해결을 위한 평탄화 버전입니다."
 readme_status: "ok"
 readme_language: "en"

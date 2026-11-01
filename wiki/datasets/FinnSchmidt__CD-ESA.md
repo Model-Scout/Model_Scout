@@ -3,7 +3,7 @@ type: "dataset"
 id: "FinnSchmidt/CD-ESA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FinnSchmidt/CD-ESA"
-downloads: 334
+downloads: 345
 summary: "CD-ESA는 기계번역 품질 평가를 위한 교차 도메인 오류 구간 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

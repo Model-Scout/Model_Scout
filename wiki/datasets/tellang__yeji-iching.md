@@ -3,7 +3,7 @@ type: "dataset"
 id: "tellang/yeji-iching"
 source: "huggingface"
 url: "https://huggingface.co/datasets/tellang/yeji-iching"
-downloads: 155
+downloads: 145
 summary: "주역 64괘의 괘상, 괘사, 효사 및 현대 해석을 담은 완전 해설 레퍼런스 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mistralai/MM-MT-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mistralai/MM-MT-Bench"
-downloads: 234
+downloads: 246
 summary: "MM-MT-Bench는 멀티모달 지침 튜닝 모델 평가를 위한 다중 대화형 LLM 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

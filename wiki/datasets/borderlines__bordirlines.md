@@ -3,7 +3,7 @@ type: "dataset"
 id: "borderlines/bordirlines"
 source: "huggingface"
 url: "https://huggingface.co/datasets/borderlines/bordirlines"
-downloads: 1279
+downloads: 1354
 summary: "BordIRlines는 다국어 정보 검색 데이터셋으로, 쿼리와 문서 랭킹 및 관련도 점수를 포함합니다."
 readme_status: "ok"
 readme_language: "en"

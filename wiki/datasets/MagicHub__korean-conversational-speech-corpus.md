@@ -3,7 +3,7 @@ type: "dataset"
 id: "MagicHub/korean-conversational-speech-corpus"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MagicHub/korean-conversational-speech-corpus"
-downloads: 288
+downloads: 302
 summary: "한국어 대화 음성 5.22시간 분량의 전사 데이터로 음성 인식 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

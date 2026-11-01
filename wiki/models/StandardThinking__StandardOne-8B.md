@@ -3,7 +3,7 @@ type: "model"
 id: "StandardThinking/StandardOne-8B"
 source: "huggingface"
 url: "https://huggingface.co/StandardThinking/StandardOne-8B"
-downloads: 1438
+downloads: 2216
 context_length: 262144
 parameters_b: 8.918
 task:

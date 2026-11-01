@@ -3,7 +3,7 @@ type: "model"
 id: "VitalyProtasov/Nemotron-3.5-Content-Safety-FP8-LLM-Compressor"
 source: "huggingface"
 url: "https://huggingface.co/VitalyProtasov/Nemotron-3.5-Content-Safety-FP8-LLM-Compressor"
-downloads: 317
+downloads: 230
 context_length: 131072
 parameters_b: 4.971
 task:

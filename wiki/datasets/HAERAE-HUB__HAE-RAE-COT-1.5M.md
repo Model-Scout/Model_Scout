@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/HAE-RAE-COT-1.5M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/HAE-RAE-COT-1.5M"
-downloads: 117
+downloads: 139
 summary: "HAE-RAE-COT-1.5M은 한국어 질문과 CoT 추론이 포함된 158만 개 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

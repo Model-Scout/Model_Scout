@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/open_subtitles"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/open_subtitles"
-downloads: 474
+downloads: 544
 summary: "62개 언어의 영화 자막 번역 데이터로 번역 모델 학습에 활용 가능"
 readme_status: "template"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "iamtalker/yourwiki-namumark-20260829"
 source: "huggingface"
 url: "https://huggingface.co/datasets/iamtalker/yourwiki-namumark-20260829"
-downloads: 322
+downloads: 325
 summary: "나무위키 문서 180만여 개를 나무마크 위키 문법으로 담은 비공식 덤프 데이터입니다."
 readme_status: "ok"
 readme_language: "ko"

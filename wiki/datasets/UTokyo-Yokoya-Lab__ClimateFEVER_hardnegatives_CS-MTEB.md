@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/ClimateFEVER_hardnegatives_CS-MTEB"
-downloads: 95
+downloads: 99
 summary: "기후 관련 문서 검색을 위한 다국어 코드스위칭 쿼리 포함 MTEB 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

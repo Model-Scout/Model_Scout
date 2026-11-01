@@ -3,7 +3,7 @@ type: "dataset"
 id: "niko0xdev/julia-1-swe-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/niko0xdev/julia-1-swe-data"
-downloads: 123
+downloads: 129
 summary: "julia-1-swe 모델 학습 및 평가용 베트남어·한국어 합성 티켓 제목 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

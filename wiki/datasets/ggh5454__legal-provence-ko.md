@@ -3,7 +3,7 @@ type: "dataset"
 id: "ggh5454/legal-provence-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ggh5454/legal-provence-ko"
-downloads: 88
+downloads: 62
 summary: "한국 법률 문서로 구성된 OpenProvence 형식의 쿼리-문서 관련성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

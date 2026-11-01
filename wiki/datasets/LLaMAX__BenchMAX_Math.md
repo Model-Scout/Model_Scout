@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Math"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Math"
-downloads: 196
+downloads: 165
 summary: "BenchMAX_Math는 다국어 수학 추론 능력을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

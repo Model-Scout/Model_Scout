@@ -3,7 +3,7 @@ type: "dataset"
 id: "Neurora/versta-glyphmatte"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Neurora/versta-glyphmatte"
-downloads: 160
+downloads: 169
 summary: "Android 기기에서 문서 처리용으로 합성된 글리프 매트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -1,0 +1,42 @@
+# 서울시 승강기제조및수입업체 인허가 정보
+
+서울시 승강기제조및수입업체 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_114802/1/5/ 제공 필드: 자산, 사업장명, 폐업일자, 자본금, 데이터갱신구분, 데이터갱신일자, 설계책임기술인력수, 상세영업상태코드, 상세영업상태명, 기술직직원수, 기타인원수, 임원수, 최종수정일자, 인허가일자, 소재지우편번호, 지번주소, 제조책임기술인력수, 관리번호, 관리업구분명, 사무직직원수, 개방자치단체코드, 재개업일자, 도로명주소, 도로명우편번호, 영업상태코드, 영업상태명, 휴업시작일자, 휴업종료일자, 기능직직원수, 전화번호, 총직원수, 업종구분명, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_114802
+
+## 제공 필드
+
+- 자산 (AST)
+- 사업장명 (BPLC_NM)
+- 폐업일자 (CLSBIZ_YMD)
+- 자본금 (CPTL)
+- 데이터갱신구분 (DATA_UPDT_SE)
+- 데이터갱신일자 (DATA_UPDT_YMD)
+- 설계책임기술인력수 (DESIGN_RSP_TECH_MNPW_CNT)
+- 상세영업상태코드 (DTL_SALS_STTS_CD)
+- 상세영업상태명 (DTL_SALS_STTS_NM)
+- 기술직직원수 (ENJB_EMP_CNT)
+- 기타인원수 (ETC_NOPE_CNT)
+- 임원수 (EXC_CNT)
+- 최종수정일자 (LAST_MDFCN_YMD)
+- 인허가일자 (LCPMT_YMD)
+- 소재지우편번호 (LCTN_ZIP)
+- 지번주소 (LOTNO_ADDR)
+- 제조책임기술인력수 (MNFTR_RSP_TECH_MNPW_CNT)
+- 관리번호 (MNG_NO)
+- 관리업구분명 (MNG_SE_NM_NM)
+- 사무직직원수 (OFJB_EMP_CNT)
+- 개방자치단체코드 (OGDP_INST_CD)
+- 재개업일자 (RE_OPBIZ_YMD)
+- 도로명주소 (ROAD_NM_ADDR)
+- 도로명우편번호 (ROAD_NM_ZIP)
+- 영업상태코드 (SALS_STTS_CD)
+- 영업상태명 (SALS_STTS_NM)
+- 휴업시작일자 (TCBIZ_BGNG_YMD)
+- 휴업종료일자 (TCBIZ_END_YMD)
+- 기능직직원수 (TCJB_EMP_CNT)
+- 전화번호 (TELNO)
+- 총직원수 (TNOEMP)
+- 업종구분명 (TPBIZ_SE_NM)
+- 좌표정보(X) (XCRD)
+- 좌표정보(Y) (YCRD)

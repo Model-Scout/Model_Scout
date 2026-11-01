@@ -3,7 +3,7 @@ type: "dataset"
 id: "jake-anto/wiktionary"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jake-anto/wiktionary"
-downloads: 443
+downloads: 442
 summary: "Wiktionary 데이터를 정규화된 테이블로 변환해 다양한 언어의 어휘 정보를 조회할 수 있는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

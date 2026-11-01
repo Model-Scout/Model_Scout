@@ -3,7 +3,7 @@ type: "model"
 id: "mradermacher/JiRackUltra_14b-i1-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/mradermacher/JiRackUltra_14b-i1-GGUF"
-downloads: 1418
+downloads: 1821
 task:
   - "[[텍스트 생성]]"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "transitgrid/kr_route_station_list"
 source: "huggingface"
 url: "https://huggingface.co/datasets/transitgrid/kr_route_station_list"
-downloads: 3014
+downloads: 4959
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

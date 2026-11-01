@@ -3,7 +3,7 @@ type: "dataset"
 id: "wicho/kor_3i4k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wicho/kor_3i4k"
-downloads: 326
+downloads: 334
 summary: "3i4K는 한국어 음성 발화의 화자 의도를 분류하기 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,4 @@ dataset_size:
 ## 이 데이터로 학습한 모델
 
 - [[bespin-global__klue-roberta-small-3i4k-intent-classification|bespin-global/klue-roberta-small-3i4k-intent-classification]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

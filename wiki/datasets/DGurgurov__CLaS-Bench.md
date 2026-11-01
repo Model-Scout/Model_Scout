@@ -3,7 +3,7 @@ type: "dataset"
 id: "DGurgurov/CLaS-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/DGurgurov/CLaS-Bench"
-downloads: 587
+downloads: 622
 summary: "CLaS-Bench는 32개 언어의 대형 언어 모델 언어 강제 및 정렬 평가용 병렬 질문 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

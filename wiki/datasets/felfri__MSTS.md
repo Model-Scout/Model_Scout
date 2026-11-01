@@ -3,7 +3,7 @@ type: "dataset"
 id: "felfri/MSTS"
 source: "huggingface"
 url: "https://huggingface.co/datasets/felfri/MSTS"
-downloads: 796
+downloads: 823
 summary: "MSTS 데이터셋은 차별적 언어와 폭력 등 유해 콘텐츠 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

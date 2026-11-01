@@ -3,7 +3,7 @@ type: "dataset"
 id: "taeminlee/Ko-mrtydi"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taeminlee/Ko-mrtydi"
-downloads: 93
+downloads: 87
 summary: "Ko-mrtydi는 Mr.TyDI 한국어 데이터를 BeIR 포맷으로 변환한 검색용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

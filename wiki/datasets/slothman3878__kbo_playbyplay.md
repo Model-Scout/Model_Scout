@@ -3,7 +3,7 @@ type: "dataset"
 id: "slothman3878/kbo_playbyplay"
 source: "huggingface"
 url: "https://huggingface.co/datasets/slothman3878/kbo_playbyplay"
-downloads: 355
+downloads: 366
 summary: "NAVER Sports 문자중계 기반 KBO 2023-2026 시즌 경기별 투구 및 플레이 기록 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

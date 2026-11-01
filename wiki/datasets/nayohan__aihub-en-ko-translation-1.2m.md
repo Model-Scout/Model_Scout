@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/aihub-en-ko-translation-1.2m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/aihub-en-ko-translation-1.2m"
-downloads: 5
+downloads: 9
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

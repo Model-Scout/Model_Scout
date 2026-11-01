@@ -3,7 +3,7 @@ type: "dataset"
 id: "maywell/ko_wikidata_QA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/maywell/ko_wikidata_QA"
-downloads: 183
+downloads: 181
 summary: "한국어 위키 데이터 QA셋으로 QA 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "mixed"

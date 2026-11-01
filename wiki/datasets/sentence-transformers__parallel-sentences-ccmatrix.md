@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-ccmatrix"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-ccmatrix"
-downloads: 2078
+downloads: 2209
 summary: "CCMatrix 데이터셋에서 추출한 다국어 병렬 문장 데이터로 다국어 임베딩 모델 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

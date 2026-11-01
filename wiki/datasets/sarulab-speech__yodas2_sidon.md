@@ -3,7 +3,7 @@ type: "dataset"
 id: "sarulab-speech/yodas2_sidon"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sarulab-speech/yodas2_sidon"
-downloads: 11255
+downloads: 11874
 summary: "YODAS2-Sidon은 YODAS-2의 음성 복원 버전으로 음성 합성과 음성 언어 모델링에 사용됨."
 readme_status: "ok"
 readme_language: "en"

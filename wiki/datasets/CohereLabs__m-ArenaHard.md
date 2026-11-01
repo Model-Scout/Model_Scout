@@ -3,7 +3,7 @@ type: "dataset"
 id: "CohereLabs/m-ArenaHard"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CohereLabs/m-ArenaHard"
-downloads: 993
+downloads: 1003
 summary: "m-ArenaHard는 23개 언어로 번역된 다국어 LLM 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

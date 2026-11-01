@@ -3,7 +3,7 @@ type: "dataset"
 id: "shreyanshu09/BD-EnKo"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shreyanshu09/BD-EnKo"
-downloads: 287
+downloads: 298
 summary: "BD-EnKo 데이터셋은 블록 다이어그램 이미지와 고품질 요약문을 포함하며 요약 연구에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

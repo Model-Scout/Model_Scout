@@ -3,7 +3,7 @@ type: "dataset"
 id: "beomi/KoAlpaca-v1.1a"
 source: "huggingface"
 url: "https://huggingface.co/datasets/beomi/KoAlpaca-v1.1a"
-downloads: 1015
+downloads: 997
 summary: "KoAlpaca-v1.1a는 한국어 지침-응답 데이터셋으로 텍스트 생성에 활용됩니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -23,6 +23,7 @@ commercial_use:
 dataset_role:
   - "[[학습용]]"
 data_format:
+  - "[[JSON]]"
   - "[[Parquet]]"
 dataset_size:
   - "[[중규모 데이터]]"
@@ -42,10 +43,17 @@ KoAlpaca-v1.1a는 한국어 지침-응답 데이터셋으로 텍스트 생성에
 - **입력 길이**: [[단문]] — viewer_stats · viewer_statistics = `399` · 신뢰도 medium
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `>>> ds = load_dataset("beomi/KoAlpaca-v1.1a", split="train")` · 신뢰도 medium
+- **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `output` 열 p90 599자 ≈ 399 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `Taegyuu/KoAlpaca-v1.1a`
+- `csujeong/KoAlpaca-v1.1a`
+- `yuivnj/KoAlpaca-v1.1a`
 
 ## 이 데이터로 학습한 모델
 
@@ -56,6 +64,7 @@ KoAlpaca-v1.1a는 한국어 지침-응답 데이터셋으로 텍스트 생성에
 - [[mradermacher__DataVortexM-7B-Instruct-v0.1-i1-GGUF|mradermacher/DataVortexM-7B-Instruct-v0.1-i1-GGUF]]
 - [[mradermacher__DataVortexTL-1.1B-v0.1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-GGUF]]
 - [[mradermacher__DataVortexTL-1.1B-v0.1-i1-GGUF|mradermacher/DataVortexTL-1.1B-v0.1-i1-GGUF]]
+- [[shopkeeper__kor-finewiki-1b-chat|shopkeeper/kor-finewiki-1b-chat]]
 - [[tensorblock__DataVortexTL-1.1B-v0.1-GGUF|tensorblock/DataVortexTL-1.1B-v0.1-GGUF]]
 - [[tensorblock__Mistral-instruct-Y24-DPO-GGUF|tensorblock/Mistral-instruct-Y24-DPO-GGUF]]
 - [[tensorblock__Mistral-instruct-Y24-v5-GGUF|tensorblock/Mistral-instruct-Y24-v5-GGUF]]

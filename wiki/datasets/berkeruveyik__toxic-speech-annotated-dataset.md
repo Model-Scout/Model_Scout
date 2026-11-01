@@ -3,7 +3,7 @@ type: "dataset"
 id: "berkeruveyik/toxic-speech-annotated-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/berkeruveyik/toxic-speech-annotated-dataset"
-downloads: 12
+downloads: 13
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

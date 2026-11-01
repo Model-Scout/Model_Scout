@@ -3,7 +3,7 @@ type: "dataset"
 id: "scailaboratory/KoALA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/scailaboratory/KoALA"
-downloads: 225
+downloads: 163
 summary: "KoALa-Bench는 한국어 음성 이해를 위한 대규모 음성 언어 모델 평가 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/OpenMathInstruct-2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/OpenMathInstruct-2"
-downloads: 105403
+downloads: 102525
 summary: "OpenMathInstruct-2는 Llama3.1-405B-Instruct 모델로 생성된 1400만 개 수학 문제-해결 쌍 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

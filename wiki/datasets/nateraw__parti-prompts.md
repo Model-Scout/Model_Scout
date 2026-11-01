@@ -3,7 +3,7 @@ type: "dataset"
 id: "nateraw/parti-prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nateraw/parti-prompts"
-downloads: 2483
+downloads: 2903
 summary: "PartiPrompts는 모델 능력 평가용 영어 프롬프트 1600개 이상 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -52,3 +52,4 @@ PartiPrompts는 모델 능력 평가용 영어 프롬프트 1600개 이상 데�
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

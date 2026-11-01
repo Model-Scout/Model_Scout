@@ -3,7 +3,7 @@ type: "dataset"
 id: "taejoon89/Ko-Agent-Trajectories-1.0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taejoon89/Ko-Agent-Trajectories-1.0"
-downloads: 519
+downloads: 485
 summary: "한국어 다중턴 에이전트-도구 상호작용 궤적 데이터셋으로, 한국어 LLM 도구 사용 학습에 활용됨."
 readme_status: "ok"
 readme_language: "en"

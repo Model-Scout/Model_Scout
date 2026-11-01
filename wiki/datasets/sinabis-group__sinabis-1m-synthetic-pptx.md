@@ -3,7 +3,7 @@ type: "dataset"
 id: "sinabis-group/sinabis-1m-synthetic-pptx"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sinabis-group/sinabis-1m-synthetic-pptx"
-downloads: 274
+downloads: 303
 summary: "Sinabis 그룹의 100만 개 이상의 가상 비즈니스 프레젠테이션 pptx 문서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

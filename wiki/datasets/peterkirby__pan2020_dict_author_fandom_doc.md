@@ -3,7 +3,7 @@ type: "dataset"
 id: "peterkirby/pan2020_dict_author_fandom_doc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/peterkirby/pan2020_dict_author_fandom_doc"
-downloads: 118
+downloads: 155
 summary: "팬픽션 작가-팬덤 분리 학습/검증 데이터로 저자 검증 연구에 활용됨"
 readme_status: "ok"
 readme_language: "en"

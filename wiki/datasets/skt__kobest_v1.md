@@ -3,7 +3,7 @@ type: "dataset"
 id: "skt/kobest_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/skt/kobest_v1"
-downloads: 2660
+downloads: 2697
 summary: "KoBEST는 한국어 고급 지식을 요구하는 5가지 자연어 이해 과제로 구성된 한국어 벤치마크 데이터셋입니다."
 readme_status: "template"
 readme_language: "en"
@@ -53,3 +53,11 @@ KoBEST는 한국어 고급 지식을 요구하는 5가지 자연어 이해 과�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `paragraph` 열 p90 281자 ≈ 187 토큰 (viewer statistics, boolq/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `youngwook-kim/kobest_v1`
+
+## 이 데이터로 학습한 모델
+
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]

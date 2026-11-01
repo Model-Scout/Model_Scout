@@ -3,7 +3,7 @@ type: "dataset"
 id: "Bingsu/calibration"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Bingsu/calibration"
-downloads: 90
+downloads: 89
 summary: "Bingsu/calibration은 skt/kobest_v1 데이터셋의 boolq 훈련 데이터를 포함한 평가용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

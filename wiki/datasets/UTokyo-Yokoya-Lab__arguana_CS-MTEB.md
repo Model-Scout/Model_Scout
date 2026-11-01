@@ -3,7 +3,7 @@ type: "dataset"
 id: "UTokyo-Yokoya-Lab/arguana_CS-MTEB"
 source: "huggingface"
 url: "https://huggingface.co/datasets/UTokyo-Yokoya-Lab/arguana_CS-MTEB"
-downloads: 124
+downloads: 131
 summary: "다국어 코드스위칭 쿼리를 포함한 MTEB 텍스트 임베딩 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

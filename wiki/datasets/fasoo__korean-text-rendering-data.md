@@ -3,7 +3,7 @@ type: "dataset"
 id: "fasoo/korean-text-rendering-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fasoo/korean-text-rendering-data"
-downloads: 2383
+downloads: 2392
 summary: "한글 텍스트를 정확히 렌더링하기 위한 합성 이미지-프롬프트 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

@@ -5179,15 +5179,193 @@ configs:
   - split: validation
     path:
     - packages/ao3/data/ao3_authorship__zh-HK/validation/00000.parquet
+- config_name: fanfiction_net_authorship__cs
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__cs/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__cs/validation/00000.parquet
+- config_name: fanfiction_net_authorship__de
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__de/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__de/validation/00000.parquet
+- config_name: fanfiction_net_authorship__en
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00001.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00002.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00003.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00004.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00005.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00006.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00007.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00008.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00009.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00010.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00011.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00012.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00013.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00014.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00015.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00016.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/train/00017.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/validation/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__en/validation/00001.parquet
+- config_name: fanfiction_net_authorship__es
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00001.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00002.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00003.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00004.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00005.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00006.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00007.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00008.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00009.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/train/00010.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/validation/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__es/validation/00001.parquet
+- config_name: fanfiction_net_authorship__fi
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fi/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fi/validation/00000.parquet
+- config_name: fanfiction_net_authorship__fr
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/train/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/train/00001.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/train/00002.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/train/00003.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/train/00004.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__fr/validation/00000.parquet
+- config_name: fanfiction_net_authorship__hu
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__hu/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__hu/validation/00000.parquet
+- config_name: fanfiction_net_authorship__id
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/train/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/train/00001.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/train/00002.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/train/00003.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/train/00004.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__id/validation/00000.parquet
+- config_name: fanfiction_net_authorship__it
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__it/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__it/validation/00000.parquet
+- config_name: fanfiction_net_authorship__ko
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__ko/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__ko/validation/00000.parquet
+- config_name: fanfiction_net_authorship__nl
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__nl/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__nl/validation/00000.parquet
+- config_name: fanfiction_net_authorship__pl
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__pl/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__pl/validation/00000.parquet
+- config_name: fanfiction_net_authorship__pt
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__pt/train/00000.parquet
+    - packages/fanfiction_net/data/fanfiction_net_authorship__pt/train/00001.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__pt/validation/00000.parquet
+- config_name: fanfiction_net_authorship__ru
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__ru/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__ru/validation/00000.parquet
+- config_name: fanfiction_net_authorship__sv
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__sv/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__sv/validation/00000.parquet
+- config_name: fanfiction_net_authorship__zh
+  data_files:
+  - split: train
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__zh/train/00000.parquet
+  - split: validation
+    path:
+    - packages/fanfiction_net/data/fanfiction_net_authorship__zh/validation/00000.parquet
+- config_name: arxiv_authorship__en
+  data_files:
+  - split: train
+    path:
+    - packages/arxiv/data/arxiv_authorship__en/train/00000.parquet
+    - packages/arxiv/data/arxiv_authorship__en/train/00001.parquet
+    - packages/arxiv/data/arxiv_authorship__en/train/00002.parquet
+    - packages/arxiv/data/arxiv_authorship__en/train/00003.parquet
+    - packages/arxiv/data/arxiv_authorship__en/train/00004.parquet
+  - split: validation
+    path:
+    - packages/arxiv/data/arxiv_authorship__en/validation/00000.parquet
 language_bcp47:
 - pt-BR
 - zh-HK
 ---
 
-# MIRM authorship datasets: MAC, Exorde, Bluesky, INFINI-NEWS, YouTube, OpenCulture, Babel Briefings and AO3
+# MIRM authorship datasets: MAC, Exorde, Bluesky, INFINI-NEWS, YouTube, OpenCulture, Babel Briefings, AO3, FanFiction.net and arXiv
 
-277 loadable configurations, 49 normalized language labels,
-and **38,715,557 physical documents**. Aggregate aliases are not additional data.
+294 loadable configurations, 49 normalized language labels,
+and **39,968,388 physical documents**. Aggregate aliases are not additional data.
 
 | Source | Language/platform views | Train | Validation | Documents |
 |---|---:|---:|---:|---:|
@@ -5199,12 +5377,16 @@ and **38,715,557 physical documents**. Aggregate aliases are not additional data
 | openculture | 16 | 498,626 | 55,505 | 554,131 |
 | babel_briefings | 28 | 1,321,735 | 146,977 | 1,468,712 |
 | ao3 | 21 | 938,713 | 104,321 | 1,043,034 |
+| fanfiction_net | 16 | 1,012,944 | 112,554 | 1,125,498 |
+| arxiv | 1 | 114,702 | 12,631 | 127,333 |
 
 ## Loading
 
 ```python
 from datasets import load_dataset
 repo = "peterkirby/mymirmdatasets"
+arxiv = load_dataset(repo, "arxiv_authorship__en", split="train", streaming=True)
+fanfiction = load_dataset(repo, "fanfiction_net_authorship__en", split="train", streaming=True)
 ao3 = load_dataset(repo, "ao3_authorship__en", split="train", streaming=True)
 babel = load_dataset(repo, "babel_briefings_authorship__en", split="train", streaming=True)
 news = load_dataset(repo, "infini_news_authorship__en", split="train", streaming=True)
@@ -5217,6 +5399,139 @@ There are exactly 46 INFINI-NEWS language configurations, named
 empty `no` configuration. MAC, Exorde, Bluesky and YouTube aggregate aliases
 reference their leaf shards; do not concatenate an aggregate with its leaves.
 See [all configuration membership and split counts](manifests/configurations.json).
+
+## arXiv authorship publication
+
+The text is the complete English abstract, with outer whitespace trimmed.
+Internal whitespace, LaTeX and punctuation are preserved. GlotLID v3 predicts
+English with confidence >= 0.8. Titles and metadata are provenance, not text.
+
+Kaggle Cornell-University/arxiv version 309 supplies the ordered author byline
+and abstract. Exact DOI links to frozen Crossref metadata supply checksum-valid
+deposited ORCIDs, with unique normalized full-name agreement. No OpenAlex is used.
+Crossref does not designate corresponding authors: the chosen person is the sole
+author, or the first-listed author outside excluded fields. Excluded cross-listed
+categories are math.*, econ.*, q-fin.*, hep-* and cs.CC/CG/DM/DS/FL/LO/GT;
+sole-author papers are exempt. Initials and fuzzy name matching do not establish
+identity. An ORCID assertion and this byline rule are proxies for abstract authorship.
+
+Versions and duplicate work representations count once. Repeated same-author
+normalized texts collapse; conflicting text/identity assignments are quarantined.
+All AuthBench train/dev/test documents at revision
+`375b3b1e341c129ba9fdb02266ca379229dff79c` are protected using full-string
+equality after Python casefolding and whitespace collapse.
+
+STEB release `da0858cae4c4e4db0f332b63a0aabea34f934cf26f9c4cdc20dd39e27e4fab29`
+protects every configuration's validation/test texts and complete canonical
+probing pools: 507 physical files / 2,406,625 individual text members, across
+languages and human/model labels. Training-only material, additional_original_test
+remainders and native-replay-only material are outside scope.
+
+An abstract is removed if its entire normalized text occurs contiguously within
+one protected member under either comparison channel: (1) Python casefold then
+whitespace collapse; (2) HTML-unescape once, NFKC, casefold, retain Unicode letters,
+marks and numbers. Comparison uses Python 3.12.3 / Unicode 15.0.0. Empty channels
+are ignored; there is no minimum length or word-boundary rule. Members are never
+concatenated. This is whole-abstract substring screening, not partial-passage or
+approximate screening, and it does not establish author separation.
+
+Expansion retained 127,487 qualifying abstracts for the baseline's 39,989 ORCIDs.
+STEB removed 111 abstracts (96 casefold-channel, 111 lexical-channel; overlapping
+counts). Another 43 authors and their one surviving abstract each were removed
+for falling below two works. The remaining **127,333 abstracts / 39,946 ORCIDs**
+retain every qualifying abstract: **2–69 per author**, with no imposed per-author
+maximum. The original author splits are preserved. Dense numeric labels follow
+canonical ORCID order; the old-to-new mapping and actual variable sampler counts
+are included. The original 250,000-author ceiling remains in force.
+
+The accepted preparation independently verified every exported snapshot row,
+cached identity assertion and language prediction, rescanned all AuthBench
+documents and raw protected STEB members, and loaded both splits. Publication
+reuses that sealed validation and preserves every prepared payload/manifest byte.
+No extraction, enrichment, language detection or screening is repeated here.
+
+See the [arXiv source card](packages/arxiv/README.md),
+[rights notice](packages/arxiv/LICENSE.md) and [publication map](manifests/arxiv-publication.json).
+
+
+## FanFiction.net authorship publication
+
+Adds **1,125,498 works** (1,012,944 train; 112,554 validation) from **374,888
+author-language identities**, in 16 configurations named
+`fanfiction_net_authorship__<language>`. There is no aggregate alias.
+
+The source `fanfiction_net` (origin `fanfiction.net`) combines FanficRepack_Redux,
+updateablefanfic, and all nine v0.75 category archives. Numeric FFN story/account
+IDs, not filenames or display names, establish identity. Repeated metadata rows,
+chapters, copies and revisions never count as additional works. Conflicting
+numeric account attribution is quarantined. The latest usable revision is chosen
+by story update/publication date, extracted chapter count, body length, source
+priority (v0.75, updateablefanfic, Redux), then stable archive/member order.
+Its language label determines the story's language. Packaging dates are not
+story-update dates. Full-body and excerpt duplicate components use NFC plus
+collapsed whitespace, without case-folding. Consistent repeats retain the lowest
+story ID; conflicting author/language assignments quarantine the component.
+
+Each unchanged prose excerpt has 500–21,000 Unicode code points. EPUB chapters
+follow spine order; TXT chapters follow source order. Generated metadata and
+navigation are removed while prose and embedded author notes remain. Longer
+bodies use a centered contiguous slice with both edges moved inward to pinned
+ICU 78.3 word/grapheme boundaries. Shorter bodies remain whole. Original case,
+punctuation and whitespace are preserved in the released text.
+
+Deduplication and STEB exclusions precede eligibility and seed-42 selection.
+Every author-language contributes 2–10 distinct surviving stories/excerpts;
+each language requires at least 143 eligible authors. Random admission allows
+at most 250,000 authors per language, reserves two works each, then fills random
+rounds 3–10 to at most 500,000 combined works. Whole author-language identities
+are assigned by the deterministic prefix closest to 10% validation works, with
+at least two authors in each split. Language-scoped author keys and dense integer
+labels are preserved. Multilingual accounts can have different splits across
+languages; platform accounts are not independently verified people.
+
+STEB protection covers frozen release
+`da0858cae4c4e4db0f332b63a0aabea34f934cf26f9c4cdc20dd39e27e4fab29`:
+current evaluation/validation pools, retrieval candidates, both verification
+members and canonical probing pools. Training-only data and unused additional
+original-test remainders, including the omitted Pile remainder, are outside scope.
+All 8,679,573 previously clean canonical candidates were screened before sampling.
+Supplied verified FFN account IDs are banned across all languages and splits;
+text matches remove stories under every revision/copy, not inferred accounts.
+41,389 stories were excluded by account reservation and 37,030 by text matching.
+English refilled to 500,000 works, including 1,080 replacement authors.
+
+Complete excerpt equality, existing NFC/whitespace excerpt/full-body hashes and
+reliable evaluation story IDs are checked. Near matching HTML-unescapes once,
+applies NFKC and case-folding, then retains Unicode letters, marks and numbers
+(Python 3.13.9 / Unicode 15.1.0). A contiguous 200-code-point comparison window
+from either text matching a contiguous 200–210-code-point span in the other with
+at most 10 insertions, deletions or substitutions excludes the story. Exhaustive,
+disk-backed positional fingerprint search and lossless candidate filters precede
+native character verification; no top-k posting truncation is used. All 1,125,498
+final payload rows passed a separate screening pass with zero prohibited matches
+and zero supplied-account overlap under this scope and rule.
+
+There was no full archived-story replay, semantic/paraphrase matching, separate
+AuthBench screening, or text-inferred author ban. Short partial overlaps below
+200 comparison code points and unresolved evaluation account identities are not
+cleared. Source-wide internal near-duplicates and cross-platform person identity
+are not resolved. These are bounded clearance claims, not universal separation.
+
+All available dates were eligible; there is no December-2022 cutoff. Selected
+story dates span **1998-11-21 through 2024-01-07**, with uneven source/language
+capture. v0.75 emphasizes completed works; older sources also supply in-progress
+works. This is not a complete census through the maximum date.
+
+Authors retain rights in their fiction. Archive availability grants **no blanket
+content license**. This publication asserts no new rights or blanket permission
+to redistribute the underlying stories. Repository licensing remains
+source-dependent. No training-loader code or training revision pin is changed.
+
+See the [FanFiction.net source card and per-language counts](packages/fanfiction_net/README.md),
+[rights notice](packages/fanfiction_net/LICENSE.md), [independent acceptance report](packages/fanfiction_net/manifests/preparation/release-acceptance.json),
+and [preparation-to-publication file map](manifests/fanfiction-publication.json).
+Existing configurations and source objects are preserved.
+
 
 ## AO3 authorship publication
 

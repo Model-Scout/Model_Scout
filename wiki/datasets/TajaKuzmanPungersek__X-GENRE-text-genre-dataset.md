@@ -3,7 +3,7 @@ type: "dataset"
 id: "TajaKuzmanPungersek/X-GENRE-text-genre-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TajaKuzmanPungersek/X-GENRE-text-genre-dataset"
-downloads: 219
+downloads: 238
 summary: "영어와 슬로베니아어로 된 수동 주석 다국어 X-GENRE 장르 데이터셋으로 장르 분류기 학습 및 평가용입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumynLabs/Korean_Receipts_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumynLabs/Korean_Receipts_Dataset"
-downloads: 433
+downloads: 430
 summary: "한국 소매 영수증 이미지로 OCR 및 금융 데이터 추출 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

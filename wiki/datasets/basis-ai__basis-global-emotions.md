@@ -3,7 +3,7 @@ type: "dataset"
 id: "basis-ai/basis-global-emotions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/basis-ai/basis-global-emotions"
-downloads: 2302
+downloads: 2431
 summary: "Basis Global Emotions는 다양한 언어와 감정 표현을 포함한 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

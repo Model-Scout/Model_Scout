@@ -3,7 +3,7 @@ type: "dataset"
 id: "uilab/BLEnD"
 source: "huggingface"
 url: "https://huggingface.co/datasets/uilab/BLEnD"
-downloads: 1828
+downloads: 1819
 summary: "BLEnD는 다양한 문화와 언어의 일상 지식을 평가하는 LLM 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Youseff1987/multilingual_translation_gpt4o_gen"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Youseff1987/multilingual_translation_gpt4o_gen"
-downloads: 103
+downloads: 119
 summary: "다국어 번역 데이터셋으로 다양한 언어 간 번역 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

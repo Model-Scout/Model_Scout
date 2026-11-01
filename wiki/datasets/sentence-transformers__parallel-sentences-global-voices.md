@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-global-voices"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-global-voices"
-downloads: 1712
+downloads: 1711
 summary: "Global Voices 병렬 문장 데이터셋으로 다국어 문장 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

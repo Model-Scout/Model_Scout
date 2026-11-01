@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLaMAX/BenchMAX_Problem_Solving"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLaMAX/BenchMAX_Problem_Solving"
-downloads: 376
+downloads: 372
 summary: "BenchMAX_Problem_Solving은 다국어 경쟁 프로그래밍 문제 해결을 위한 코드 생성 능력을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

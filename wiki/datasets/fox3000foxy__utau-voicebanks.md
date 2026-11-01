@@ -3,7 +3,7 @@ type: "dataset"
 id: "fox3000foxy/utau-voicebanks"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fox3000foxy/utau-voicebanks"
-downloads: 113
+downloads: 136
 summary: "주로 프랑스어 UTAU/OpenUTAU 보이스뱅크 모음집으로 음성 합성에 활용됨."
 readme_status: "ok"
 readme_language: "en"

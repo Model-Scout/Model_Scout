@@ -1,0 +1,41 @@
+# 서울시 강동구 공연장 인허가 정보
+
+서울시 강동구 공연장 인허가 정보. http://openapi.seoul.go.kr:8088/sample/xml/LOCALDATA_030601_GD/1/5/ 제공 필드: 인허가취소일자, 인허가일자, 건물용도명, 사업장명, 휴업종료일자, 휴업시작일자, 문화체육업종명, 문화사업자구분명, 폐업일자, 상세영업상태코드, 상세영업상태명, 시설면적, 시설규모, 지상층수, 최종수정일자, 관리번호, 제작취급품목내용, 주변환경명, 개방자치단체코드, 도로명우편번호, 도로명주소, 지역구분명, 소재지우편번호, 전화번호, 지번주소, 총층수, 영업상태코드, 영업상태명, 지하층수, 데이터갱신일자, 데이터갱신구분, 좌표정보(X), 좌표정보(Y)
+
+서비스명: LOCALDATA_030601_GD
+
+## 제공 필드
+
+- 인허가취소일자 (APVCANCELYMD)
+- 인허가일자 (APVPERMYMD)
+- 건물용도명 (BDNGSRVNM)
+- 사업장명 (BPLCNM)
+- 휴업종료일자 (CLGENDDT)
+- 휴업시작일자 (CLGSTDT)
+- 문화체육업종명 (CULPHYEDCOBNM)
+- 문화사업자구분명 (CULWRKRSENM)
+- 폐업일자 (DCBYMD)
+- 상세영업상태코드 (DTLSTATEGBN)
+- 상세영업상태명 (DTLSTATENM)
+- 시설면적 (FACILAR)
+- 시설규모 (FACILSCP)
+- 지상층수 (JISGNUMLAY)
+- 최종수정일자 (LASTMODTS)
+- 관리번호 (MGTNO)
+- 제작취급품목내용 (MNFACTREARTCLCN)
+- 주변환경명 (NEARENVNM)
+- 개방자치단체코드 (OPNSFTEAMCODE)
+- 도로명우편번호 (RDNPOSTNO)
+- 도로명주소 (RDNWHLADDR)
+- 지역구분명 (REGNSENM)
+- 소재지우편번호 (SITEPOSTNO)
+- 전화번호 (SITETEL)
+- 지번주소 (SITEWHLADDR)
+- 총층수 (TOTNUMLAY)
+- 영업상태코드 (TRDSTATEGBN)
+- 영업상태명 (TRDSTATENM)
+- 지하층수 (UNDERNUMLAY)
+- 데이터갱신일자 (UPDATEDT)
+- 데이터갱신구분 (UPDATEGBN)
+- 좌표정보(X) (X)
+- 좌표정보(Y) (Y)

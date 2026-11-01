@@ -3,7 +3,7 @@ type: "model"
 id: "ibm-granite/granite-4.2-8b"
 source: "huggingface"
 url: "https://huggingface.co/ibm-granite/granite-4.2-8b"
-downloads: 92032
+downloads: 90464
 context_length: 131072
 parameters_b: 8.792
 task:

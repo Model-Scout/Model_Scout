@@ -3,7 +3,7 @@ type: "dataset"
 id: "SpeechDataAI/korean-conversational-speech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SpeechDataAI/korean-conversational-speech"
-downloads: 92
+downloads: 94
 summary: "한국어 2인 대화 음성 500시간, 상업용 음성 인식·음성 합성 학습용 데이터셋"
 readme_status: "ok"
 readme_language: "en"

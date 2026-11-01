@@ -3,7 +3,7 @@ type: "dataset"
 id: "AmazonScience/massive"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AmazonScience/massive"
-downloads: 12226
+downloads: 11929
 summary: "MASSIVE는 52개 언어의 100만 개 이상 발화로 구성된 다국어 자연어 이해용 병렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -41,7 +41,12 @@ MASSIVE는 52개 언어의 100만 개 이상 발화로 구성된 다국어 자�
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `The dataset can be used to train a model for `natural-language-understanding` (NLU)` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
+## 같은 데이터의 사본·중복 등록
+
+- `qanastek/MASSIVE`
+
 ## 이 데이터로 학습한 모델
 
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[ethicalabs__Echo-DSRN-v0.1.3-Intent-CLF|ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF]]
 - [[palette-lab__songgot-x-0.8b|palette-lab/songgot-x-0.8b]]

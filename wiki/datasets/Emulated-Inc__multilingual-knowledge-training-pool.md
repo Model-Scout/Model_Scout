@@ -3,7 +3,7 @@ type: "dataset"
 id: "Emulated-Inc/multilingual-knowledge-training-pool"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Emulated-Inc/multilingual-knowledge-training-pool"
-downloads: 334
+downloads: 303
 summary: "다국어 7개 데이터셋의 객관식 질문을 통합한 다국어 지식 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

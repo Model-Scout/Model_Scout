@@ -3,7 +3,7 @@ type: "dataset"
 id: "laion/emolia-voicenet-gemini-annotations"
 source: "huggingface"
 url: "https://huggingface.co/datasets/laion/emolia-voicenet-gemini-annotations"
-downloads: 326
+downloads: 202
 summary: "Emolia 음성 클립 236,613개에 대해 Gemini 3.5가 57개 음성 특성별로 평가한 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "origindatalab/stereo-imu-egocentric-evaluation"
 source: "huggingface"
 url: "https://huggingface.co/datasets/origindatalab/stereo-imu-egocentric-evaluation"
-downloads: 221
+downloads: 250
 summary: "헤드마운트 스테레오 카메라와 IMU 센서의 기술 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "mkd-hossain/keural-nova-tooluse"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mkd-hossain/keural-nova-tooluse"
-downloads: 93
+downloads: 95
 summary: "Keural Nova v1.2용 도구 호출 데이터로, 단일 및 다중 턴 대화와 긴 문맥 포함"
 readme_status: "ok"
 readme_language: "en"

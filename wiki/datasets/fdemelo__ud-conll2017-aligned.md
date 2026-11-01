@@ -3,7 +3,7 @@ type: "dataset"
 id: "fdemelo/ud-conll2017-aligned"
 source: "huggingface"
 url: "https://huggingface.co/datasets/fdemelo/ud-conll2017-aligned"
-downloads: 112
+downloads: 119
 summary: "UD CoNLL Shared Task 2017 기반 다국어 품사 태깅 및 형태소 주석 정렬 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

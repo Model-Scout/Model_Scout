@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/whisper-small"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/whisper-small"
-downloads: 122
+downloads: 286
 context_length: 1024
 parameters_b: 0.04
 task:

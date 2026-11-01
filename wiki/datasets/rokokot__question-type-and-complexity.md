@@ -3,7 +3,7 @@ type: "dataset"
 id: "rokokot/question-type-and-complexity"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rokokot/question-type-and-complexity"
-downloads: 99
+downloads: 103
 summary: "다국어 질문 유형과 언어 복잡성 분석을 위한 질문 유형 및 복잡성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

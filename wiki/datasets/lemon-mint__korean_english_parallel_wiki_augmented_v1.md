@@ -3,7 +3,7 @@ type: "dataset"
 id: "lemon-mint/korean_english_parallel_wiki_augmented_v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lemon-mint/korean_english_parallel_wiki_augmented_v1"
-downloads: 111
+downloads: 116
 summary: "위키피디아에서 추출한 한국어-영어 병렬 문장으로 기계 번역 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

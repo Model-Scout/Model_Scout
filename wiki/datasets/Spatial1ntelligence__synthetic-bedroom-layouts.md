@@ -3,7 +3,7 @@ type: "dataset"
 id: "Spatial1ntelligence/synthetic-bedroom-layouts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Spatial1ntelligence/synthetic-bedroom-layouts"
-downloads: 433
+downloads: 455
 summary: "Amazon Berkeley Objects 기반 4,000개 침실 레이아웃과 가구 배치 데이터셋으로 실내 장면 합성에 활용됨."
 readme_status: "ok"
 readme_language: "en"

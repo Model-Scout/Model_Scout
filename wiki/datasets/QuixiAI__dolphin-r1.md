@@ -3,7 +3,7 @@ type: "dataset"
 id: "QuixiAI/dolphin-r1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/QuixiAI/dolphin-r1"
-downloads: 881
+downloads: 936
 summary: "Dolphin R1은 R1 스타일 추론 모델 학습용 80만 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

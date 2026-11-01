@@ -3,7 +3,7 @@ type: "dataset"
 id: "junkim100/KITE"
 source: "huggingface"
 url: "https://huggingface.co/datasets/junkim100/KITE"
-downloads: 84
+downloads: 85
 summary: "KITE는 한국어 대형 언어 모델의 지시 수행 능력을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

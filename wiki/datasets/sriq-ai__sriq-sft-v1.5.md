@@ -3,7 +3,7 @@ type: "dataset"
 id: "sriq-ai/sriq-sft-v1.5"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sriq-ai/sriq-sft-v1.5"
-downloads: 61
+downloads: 64
 summary: "다국어 질문과 중국어 추론을 포함한 ShareGPT 호환 감독 학습 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

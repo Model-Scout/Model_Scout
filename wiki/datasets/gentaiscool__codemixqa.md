@@ -3,7 +3,7 @@ type: "dataset"
 id: "gentaiscool/codemixqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gentaiscool/codemixqa"
-downloads: 124
+downloads: 140
 summary: "CodeMixQA는 다양한 코드스위칭 언어쌍과 패턴을 포함한 고품질 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

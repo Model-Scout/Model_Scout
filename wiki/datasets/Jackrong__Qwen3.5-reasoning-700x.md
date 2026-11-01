@@ -3,7 +3,7 @@ type: "dataset"
 id: "Jackrong/Qwen3.5-reasoning-700x"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Jackrong/Qwen3.5-reasoning-700x"
-downloads: 266
+downloads: 275
 summary: "Qwen3.5-27B 모델이 생성한 고품질 추론 데이터셋으로 수학, 코드, 논리, 과학 분야 포함."
 readme_status: "ok"
 readme_language: "en"

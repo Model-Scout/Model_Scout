@@ -3,7 +3,7 @@ type: "dataset"
 id: "HAERAE-HUB/csatqa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HAERAE-HUB/csatqa"
-downloads: 318
+downloads: 359
 summary: "CSAT-QA는 한국 대학수학능력시험 객관식 문제 936개로 구성된 평가용 QA 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

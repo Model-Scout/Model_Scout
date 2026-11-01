@@ -3,7 +3,7 @@ type: "dataset"
 id: "TTA01/AssurAI"
 source: "huggingface"
 url: "https://huggingface.co/datasets/TTA01/AssurAI"
-downloads: 573
+downloads: 594
 summary: "AssurAI는 생성형 AI 출력의 안전 위험 평가를 위한 다중모달 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,7 @@ AssurAI는 생성형 AI 출력의 안전 위험 평가를 위한 다중모달 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `candidate_4_answer` 열 p90 549자 ≈ 366 토큰 (viewer statistics, default/eval)
+
+## 같은 데이터의 사본·중복 등록
+
+- `sd1098/AssurAI`

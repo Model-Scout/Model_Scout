@@ -3,7 +3,7 @@ type: "dataset"
 id: "codefuse-ai/F2LLM-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/codefuse-ai/F2LLM-v2"
-downloads: 1895
+downloads: 1659
 summary: "다국어 임베딩 성능 향상을 위한 F2LLM-v2 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

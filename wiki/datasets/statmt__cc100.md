@@ -3,7 +3,7 @@ type: "dataset"
 id: "statmt/cc100"
 source: "huggingface"
 url: "https://huggingface.co/datasets/statmt/cc100"
-downloads: 1003
+downloads: 1008
 summary: "100개 이상의 언어와 로마자 언어 데이터를 포함한 XLM-R 학습용 단일언어 말뭉치입니다."
 readme_status: "template"
 readme_language: "en"

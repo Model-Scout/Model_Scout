@@ -3,7 +3,7 @@ type: "dataset"
 id: "openfoodfacts/product-database"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openfoodfacts/product-database"
-downloads: 50378
+downloads: 52651
 summary: "Open Food Facts는 전 세계 식품 제품의 성분, 알레르기 정보, 영양 성분 등을 담은 공개 식품 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -24,6 +24,8 @@ commercial_use:
   - "[[조건부 이용]]"
 domain:
   - "[[상거래·상품]]"
+data_format:
+  - "[[Parquet]]"
 dataset_size:
   - "[[대규모 데이터]]"
 ---
@@ -45,4 +47,15 @@ Open Food Facts는 전 세계 식품 제품의 성분, 알레르기 정보, 영�
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `odbl` · 신뢰도 high
 - **상업 이용**: [[조건부 이용]] — metadata · license = `agpl-3.0` · 신뢰도 high
 - **도메인**: [[상거래·상품]] — ner · readme = `Open Food Facts is a database of food products with ingredients, allergens, nutrition facts and all the tidbits of information we can find on product labels.` · 신뢰도 low
+- **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `AmieTorin/product-database`
+- `HashimAliii/openfoodfacts-database`
+- `RichardAlanLee/product-database`
+- `barendjl/product-database`
+- `dhyeye/product`
+- `kseonec/product-database`
+- `nithishvenkat4/product-database`

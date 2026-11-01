@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/xtreme"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/xtreme"
-downloads: 32849
+downloads: 34526
 summary: "다국어 자연어 추론(XNLI) 코퍼스로 14개 언어로 번역된 문장 쌍을 포함함."
 readme_status: "template"
 readme_language: "en"

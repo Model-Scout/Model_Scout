@@ -3,7 +3,7 @@ type: "dataset"
 id: "Lexmount/LexBench-WebMainBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Lexmount/LexBench-WebMainBench"
-downloads: 206
+downloads: 328
 summary: "웹 페이지에서 주요 콘텐츠 추출과 HTML-마크다운 변환 평가를 위한 545개 작업 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

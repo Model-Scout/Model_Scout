@@ -3,7 +3,7 @@ type: "dataset"
 id: "yoh/modular-sentence-encoders-sts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yoh/modular-sentence-encoders-sts"
-downloads: 132
+downloads: 135
 summary: "23개 언어의 의미 텍스트 유사도 및 관련성 평가 데이터로, 문장 임베딩 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

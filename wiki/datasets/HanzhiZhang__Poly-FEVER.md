@@ -3,7 +3,7 @@ type: "dataset"
 id: "HanzhiZhang/Poly-FEVER"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HanzhiZhang/Poly-FEVER"
-downloads: 130
+downloads: 137
 summary: "Poly-FEVER는 11개 언어로 된 77,973개의 사실성 판단 및 환각 탐지용 다국어 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,3 +55,7 @@ Poly-FEVER는 11개 언어로 된 77,973개의 사실성 판단 및 환각 탐�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `ta` 열 p90 328자 ≈ 82 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `navmxc/Poly-FEVER`

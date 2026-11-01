@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/2M-Belebele"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/2M-Belebele"
-downloads: 637
+downloads: 688
 summary: "74개 언어 음성 및 미국 수화 데이터로 다국어 음성 및 수화 이해 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

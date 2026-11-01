@@ -3,7 +3,7 @@ type: "dataset"
 id: "gsarti/flores_101"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gsarti/flores_101"
-downloads: 2077
+downloads: 2092
 summary: "FLORES-101은 101개 언어의 다국어 기계 번역 평가용 고품질 문장 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -54,3 +54,9 @@ FLORES-101은 101개 언어의 다국어 기계 번역 평가용 고품질 문�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `sentence` 열 p90 92자 ≈ 23 토큰 (viewer statistics, kor/dev)
+
+## 같은 데이터의 사본·중복 등록
+
+- `af5553g/flores_101`
+- `jeffbrian/flores_101`
+- `severo/flores_101`

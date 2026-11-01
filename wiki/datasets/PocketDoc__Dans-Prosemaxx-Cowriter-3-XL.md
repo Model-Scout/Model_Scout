@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Prosemaxx-Cowriter-3-XL"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Prosemaxx-Cowriter-3-XL"
-downloads: 7
+downloads: 8
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

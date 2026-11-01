@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenAssistant/oasst2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenAssistant/oasst2"
-downloads: 18504
+downloads: 18409
 summary: "OpenAssistant 대화 데이터셋으로, 대화형 AI 학습 및 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -56,8 +56,19 @@ OpenAssistant 대화 데이터셋으로, 대화형 AI 학습 및 평가에 사�
 
 샘플 길이: `text` 열 p90 1454자 ≈ 364 토큰 (viewer statistics, default/validation)
 
+## 같은 데이터의 사본·중복 등록
+
+- `liarrrrrrrr/oasst2`
+- `tian77hh/oasst2`
+
 ## 이 데이터로 학습한 모델
 
+- [[AneekC__quipu-moe-1B-A149M-chat|AneekC/quipu-moe-1B-A149M-chat]]
+- [[AneekC__quipu-moe-1B-A149M-chat-distill|AneekC/quipu-moe-1B-A149M-chat-distill]]
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
 - [[Horizon-Labs__prompt-injection-guard-base|Horizon-Labs/prompt-injection-guard-base]]
+- [[Horizon-Labs__prompt-injection-guard-large|Horizon-Labs/prompt-injection-guard-large]]
 - [[Horizon-Labs__prompt-injection-guard-small|Horizon-Labs/prompt-injection-guard-small]]
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

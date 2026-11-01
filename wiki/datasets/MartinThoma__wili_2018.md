@@ -3,7 +3,7 @@ type: "dataset"
 id: "MartinThoma/wili_2018"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MartinThoma/wili_2018"
-downloads: 718
+downloads: 821
 summary: "WiLI-2018은 235개 언어의 문단 235,000개로 구성된 위키피디아 언어 식별 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

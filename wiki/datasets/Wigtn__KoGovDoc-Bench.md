@@ -3,7 +3,7 @@ type: "dataset"
 id: "Wigtn/KoGovDoc-Bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Wigtn/KoGovDoc-Bench"
-downloads: 97
+downloads: 99
 summary: "KoGovDoc-Bench는 한국 정부 문서 파싱 평가용 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

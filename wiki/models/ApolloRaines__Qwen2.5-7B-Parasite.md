@@ -3,7 +3,7 @@ type: "model"
 id: "ApolloRaines/Qwen2.5-7B-Parasite"
 source: "huggingface"
 url: "https://huggingface.co/ApolloRaines/Qwen2.5-7B-Parasite"
-downloads: 882
+downloads: 391
 context_length: 131072
 parameters_b: 7.616
 task:

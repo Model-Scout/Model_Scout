@@ -3,7 +3,7 @@ type: "dataset"
 id: "Rootpye/korean-lawdata3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Rootpye/korean-lawdata3"
-downloads: 96
+downloads: 97
 summary: "한국 법률 관련 데이터셋으로 법률 연구 및 분석에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

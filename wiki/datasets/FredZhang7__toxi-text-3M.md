@@ -3,7 +3,7 @@ type: "dataset"
 id: "FredZhang7/toxi-text-3M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FredZhang7/toxi-text-3M"
-downloads: 497
+downloads: 548
 summary: "55개 언어로 된 300만 건의 다국어 독성 텍스트 데이터셋으로 독성 분류에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "simon3000/starrail-voice"
 source: "huggingface"
 url: "https://huggingface.co/datasets/simon3000/starrail-voice"
-downloads: 5937
+downloads: 6090
 summary: "Honkai: Star Rail 게임 캐릭터 음성 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -60,3 +60,7 @@ Honkai: Star Rail 게임 캐릭터 음성 데이터셋으로 음성 인식 등�
 - **데이터 용도**: [[학습용]] — ner · readme = `The dataset contains official annotations from the game, including language, speaker name, and transcription.` · 신뢰도 low
 - **데이터 형식**: [[Parquet]] — metadata · format = `optimized-parquet` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `augusttpe/starrail-voice`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "vocabradar/wordfreq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vocabradar/wordfreq"
-downloads: 660
+downloads: 651
 summary: "43개 언어의 정제된 단어 빈도 리스트로 오프라인 빈도 사전 및 단어 번역에 활용됨."
 readme_status: "ok"
 readme_language: "en"

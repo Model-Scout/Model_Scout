@@ -3,7 +3,7 @@ type: "dataset"
 id: "amsminn/smash-karts-multiplayer-trajectory"
 source: "huggingface"
 url: "https://huggingface.co/datasets/amsminn/smash-karts-multiplayer-trajectory"
-downloads: 131
+downloads: 128
 summary: "Smash Karts 멀티플레이 3D 카트 배틀 게임 구현 과정을 기록한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

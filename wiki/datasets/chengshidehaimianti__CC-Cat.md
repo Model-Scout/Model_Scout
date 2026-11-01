@@ -3,7 +3,7 @@ type: "dataset"
 id: "chengshidehaimianti/CC-Cat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/chengshidehaimianti/CC-Cat"
-downloads: 549
+downloads: 581
 summary: "CC-WARC 스냅샷에서 추출한 149개 언어 텍스트와 멀티미디어 원본 링크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

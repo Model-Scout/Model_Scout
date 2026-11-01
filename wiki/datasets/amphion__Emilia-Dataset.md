@@ -3,7 +3,7 @@ type: "dataset"
 id: "amphion/Emilia-Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/amphion/Emilia-Dataset"
-downloads: 49020
+downloads: 53414
 summary: "Emilia는 6개 언어의 21만 시간 이상 대규모 다국어 음성 데이터셋으로 음성 생성 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"
@@ -32,6 +32,7 @@ commercial_use:
 dataset_role:
   - "[[학습용]]"
 data_format:
+  - "[[JSON]]"
   - "[[미디어 파일]]"
 dataset_size:
   - "[[대규모 데이터]]"
@@ -61,5 +62,10 @@ Emilia는 6개 언어의 21만 시간 이상 대규모 다국어 음성 데이�
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[상업 이용 가능]] — metadata · license = `cc-by-4.0` · 신뢰도 high
 - **데이터 용도**: [[학습용]] — ner · readme = `high-quality training data with annotations for speech generation` · 신뢰도 medium
+- **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 형식**: [[미디어 파일]] — metadata · format = `webdataset` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `samson-ailabs/Emilia-Dataset`

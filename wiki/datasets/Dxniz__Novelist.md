@@ -3,7 +3,7 @@ type: "dataset"
 id: "Dxniz/Novelist"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Dxniz/Novelist"
-downloads: 225
+downloads: 202
 summary: "Novelist는 장편 픽션, 장면 계획, 다국어 문학 번역 등을 위한 합성 창작 및 내러티브 추론 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

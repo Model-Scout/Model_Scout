@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gustavosta/Stable-Diffusion-Prompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gustavosta/Stable-Diffusion-Prompts"
-downloads: 4160
+downloads: 4032
 summary: "Stable Diffusion 이미지 생성용 약 8만 개 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -50,3 +50,4 @@ Stable Diffusion 이미지 생성용 약 8만 개 프롬프트 데이터셋입�
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

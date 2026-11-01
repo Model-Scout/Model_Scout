@@ -3,7 +3,7 @@ type: "dataset"
 id: "ranjaykrishna/visual_genome"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ranjaykrishna/visual_genome"
-downloads: 2697
+downloads: 2418
 summary: "Visual Genome은 이미지 내 객체와 관계를 밀도 있게 주석한 시각 인지 및 관계 이해용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

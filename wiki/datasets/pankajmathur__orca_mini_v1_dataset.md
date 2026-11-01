@@ -3,7 +3,7 @@ type: "dataset"
 id: "pankajmathur/orca_mini_v1_dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/pankajmathur/orca_mini_v1_dataset"
-downloads: 110
+downloads: 172
 summary: "Orca 스타일 데이터셋으로, 기본 모델 미세조정에 사용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/MADLAD-400"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/MADLAD-400"
-downloads: 86405
+downloads: 120618
 summary: "MADLAD-400은 Common Crawl 기반 419개 언어의 문서 수준 다국어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

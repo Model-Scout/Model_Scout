@@ -3,7 +3,7 @@ type: "model"
 id: "desert-ant-labs/emo"
 source: "huggingface"
 url: "https://huggingface.co/desert-ant-labs/emo"
-downloads: 26980
+downloads: 24427
 task:
   - "[[텍스트 분류]]"
 input_modality:

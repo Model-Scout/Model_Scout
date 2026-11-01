@@ -3,7 +3,7 @@ type: "model"
 id: "mobilint/EXAONE-Deep-2.4B-regulus-rb-usb"
 source: "huggingface"
 url: "https://huggingface.co/mobilint/EXAONE-Deep-2.4B-regulus-rb-usb"
-downloads: 514
+downloads: 401
 context_length: 4096
 parameters_b: 0.262
 task:

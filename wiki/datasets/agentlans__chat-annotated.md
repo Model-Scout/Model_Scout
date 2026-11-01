@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/chat-annotated"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/chat-annotated"
-downloads: 155
+downloads: 171
 summary: "다국어 인간-AI 대화에 안전성, 품질, 난이도 평가와 거절 분류를 포함한 주석 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

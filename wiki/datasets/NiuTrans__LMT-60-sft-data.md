@@ -3,7 +3,7 @@ type: "dataset"
 id: "NiuTrans/LMT-60-sft-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NiuTrans/LMT-60-sft-data"
-downloads: 748
+downloads: 757
 summary: "LMT-60-sft-data는 60개 언어, 234개 번역 방향을 포함한 대규모 다국어 기계번역 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

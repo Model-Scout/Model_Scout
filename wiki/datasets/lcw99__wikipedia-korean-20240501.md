@@ -3,7 +3,7 @@ type: "dataset"
 id: "lcw99/wikipedia-korean-20240501"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lcw99/wikipedia-korean-20240501"
-downloads: 161
+downloads: 159
 summary: "2024년 5월 1일 기준 한국어 위키백과 데이터셋입니다."
 readme_status: "thin"
 readme_language: "en"

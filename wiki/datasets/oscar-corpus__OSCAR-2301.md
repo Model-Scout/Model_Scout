@@ -3,7 +3,7 @@ type: "dataset"
 id: "oscar-corpus/OSCAR-2301"
 source: "huggingface"
 url: "https://huggingface.co/datasets/oscar-corpus/OSCAR-2301"
-downloads: 393
+downloads: 351
 summary: "OSCAR 23.01은 Common Crawl 데이터를 언어별로 분류·필터링한 대규모 다국어 말뭉치로, 주로 언어 모델 사전학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

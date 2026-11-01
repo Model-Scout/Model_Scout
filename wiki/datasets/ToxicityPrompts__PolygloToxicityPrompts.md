@@ -3,7 +3,7 @@ type: "dataset"
 id: "ToxicityPrompts/PolygloToxicityPrompts"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ToxicityPrompts/PolygloToxicityPrompts"
-downloads: 512
+downloads: 533
 summary: "웹 텍스트에서 수집한 17개 언어의 다국어 독성 평가 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "sionic-ai/NanoBEIR-ko"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sionic-ai/NanoBEIR-ko"
-downloads: 146
+downloads: 150
 summary: "한국어 NanoBEIR 벤치마크 데이터셋으로 문서 검색 및 질의응답에 활용됨"
 readme_status: "ok"
 readme_language: "en"

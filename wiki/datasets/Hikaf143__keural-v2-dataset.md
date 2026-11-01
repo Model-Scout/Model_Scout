@@ -3,7 +3,7 @@ type: "dataset"
 id: "Hikaf143/keural-v2-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Hikaf143/keural-v2-dataset"
-downloads: 102
+downloads: 104
 summary: "Keural MoE Pro v2 모델 파인튜닝용 8개 카테고리 한국어·영어 SFT 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -43,3 +43,7 @@ Keural MoE Pro v2 모델 파인튜닝용 8개 카테고리 한국어·영어 SFT
 - **데이터 용도**: [[학습용]] — ner · readme = `Keural MoE Pro v2 모델 파인튜닝을 위해 8개 카테고리(A~H)로 구성된 SFT 학습 데이터셋입니다.` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `mkd-minju/keural-v2-dataset`

@@ -3,7 +3,7 @@ type: "dataset"
 id: "ken-jo/qev-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ken-jo/qev-data"
-downloads: 1340
+downloads: 1060
 summary: "QEV-2B와 QEV-0.8B 모델 학습용 2026년 10월 비전 믹스 및 역사적 스냅샷 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

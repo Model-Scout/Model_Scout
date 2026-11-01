@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/Qwen3.8-Flash-Next-BF16-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/Qwen3.8-Flash-Next-BF16-GGUF"
-downloads: 3236
+downloads: 631
 context_length: 262144
 parameters_b: 180.0
 task:

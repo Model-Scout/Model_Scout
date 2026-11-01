@@ -3,7 +3,7 @@ type: "dataset"
 id: "anon-researcher-ua/ua-codeforces-cots-open-r1-for-training"
 source: "huggingface"
 url: "https://huggingface.co/datasets/anon-researcher-ua/ua-codeforces-cots-open-r1-for-training"
-downloads: 9
+downloads: 13
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

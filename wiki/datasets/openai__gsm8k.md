@@ -3,7 +3,7 @@ type: "dataset"
 id: "openai/gsm8k"
 source: "huggingface"
 url: "https://huggingface.co/datasets/openai/gsm8k"
-downloads: 980999
+downloads: 979383
 summary: "GSM8K는 초등학교 수준의 다단계 수학 문제와 해답을 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -55,6 +55,7 @@ GSM8K는 초등학교 수준의 다단계 수학 문제와 해답을 포함한 �
 ## 이 데이터로 학습한 모델
 
 - [[PeterAM4__Qwen3-Embedding-0.6B-GGUF|PeterAM4/Qwen3-Embedding-0.6B-GGUF]]
+- [[blackmallangcow__nari-decision-4b|blackmallangcow/nari-decision-4b]]
 - [[mradermacher__Qwen-2.5-7B-Reasoning-GGUF|mradermacher/Qwen-2.5-7B-Reasoning-GGUF]]
 - [[mradermacher__next-70b-GGUF|mradermacher/next-70b-GGUF]]
 - [[mradermacher__next-70b-i1-GGUF|mradermacher/next-70b-i1-GGUF]]

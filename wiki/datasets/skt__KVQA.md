@@ -3,7 +3,7 @@ type: "dataset"
 id: "skt/KVQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/skt/KVQA"
-downloads: 130
+downloads: 141
 summary: "한국 시각장애인이 촬영한 이미지와 질문, 답변으로 구성된 한국형 시각적 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Reubencf/Adaption-low-resource-doc-qa"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Reubencf/Adaption-low-resource-doc-qa"
-downloads: 340
+downloads: 345
 summary: "45개 이상의 저자원 언어로 된 문서 기반 질문응답 데이터셋으로 문서 이해 및 다국어 QA에 활용됨."
 readme_status: "ok"
 readme_language: "en"

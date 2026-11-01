@@ -3,7 +3,7 @@ type: "dataset"
 id: "Pixel-Linguist/rendered-sts17"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Pixel-Linguist/rendered-sts17"
-downloads: 352
+downloads: 349
 summary: "STS-17 데이터셋의 텍스트를 이미지로 렌더링하여 비전 인코더의 텍스트 이해 능력을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

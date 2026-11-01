@@ -3,7 +3,7 @@ type: "dataset"
 id: "refine-ai/subscene"
 source: "huggingface"
 url: "https://huggingface.co/datasets/refine-ai/subscene"
-downloads: 2096
+downloads: 2171
 summary: "영화, 시리즈, 애니메이션 자막 65개 언어 410GB 규모 다국어 NLP 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

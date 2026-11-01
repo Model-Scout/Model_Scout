@@ -3,7 +3,7 @@ type: "dataset"
 id: "traintogpb/aihub-koen-translation-integrated-large-10m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/traintogpb/aihub-koen-translation-integrated-large-10m"
-downloads: 94
+downloads: 100
 summary: "AI Hub의 한-영 번역 데이터셋 8개를 병합한 1천만 건 규모 번역 데이터입니다."
 readme_status: "ok"
 readme_language: "mixed"
@@ -51,3 +51,8 @@ AI Hub의 한-영 번역 데이터셋 8개를 병합한 1천만 건 규모 번�
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `99999999.0` · 신뢰도 high
 
 샘플 길이: `en` 열 p90 388자 ≈ 258 토큰 (viewer statistics, default/validation)
+
+## 같은 데이터의 사본·중복 등록
+
+- `traintogpb/aihub-koen-translation-integrated-base-1m`
+- `traintogpb/aihub-koen-translation-integrated-small-100k`

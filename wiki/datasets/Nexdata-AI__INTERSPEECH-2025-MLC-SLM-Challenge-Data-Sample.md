@@ -3,7 +3,7 @@ type: "dataset"
 id: "Nexdata-AI/INTERSPEECH-2025-MLC-SLM-Challenge-Data-Sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Nexdata-AI/INTERSPEECH-2025-MLC-SLM-Challenge-Data-Sample"
-downloads: 91
+downloads: 99
 summary: "INTERSPEECH 2025 MLC-SLM 챌린지용 다국어 대화 음성 인식 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

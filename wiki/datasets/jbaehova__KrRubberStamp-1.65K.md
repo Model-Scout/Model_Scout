@@ -3,7 +3,7 @@ type: "dataset"
 id: "jbaehova/KrRubberStamp-1.65K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jbaehova/KrRubberStamp-1.65K"
-downloads: 88
+downloads: 277
 summary: "한국어 사무 업무 문서 이해 및 정확한 답변 평가용 1,650개 합성 업무 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

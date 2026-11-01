@@ -3,7 +3,7 @@ type: "dataset"
 id: "hyunwookjin/korean-prediction-market-sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hyunwookjin/korean-prediction-market-sample"
-downloads: 92
+downloads: 97
 summary: "민심인덱스는 한국 정치·경제 예측을 위한 상위 예측자들의 판단 신호 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -59,3 +59,7 @@ dataset_size:
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
 
 샘플 길이: `settlement_rule` 열 p90 294자 ≈ 196 토큰 (viewer statistics, cards/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/minsimmarket/korean-prediction-market-resolved-forecasts`

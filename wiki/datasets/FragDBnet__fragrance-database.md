@@ -3,7 +3,7 @@ type: "dataset"
 id: "FragDBnet/fragrance-database"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FragDBnet/fragrance-database"
-downloads: 542
+downloads: 552
 summary: "FragDB는 142,676개 향수와 23개 언어 정보를 포함한 종합 향수 데이터베이스입니다."
 readme_status: "ok"
 readme_language: "en"

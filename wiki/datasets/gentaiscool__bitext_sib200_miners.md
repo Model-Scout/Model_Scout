@@ -3,7 +3,7 @@ type: "dataset"
 id: "gentaiscool/bitext_sib200_miners"
 source: "huggingface"
 url: "https://huggingface.co/datasets/gentaiscool/bitext_sib200_miners"
-downloads: 5478
+downloads: 5503
 summary: "다양한 언어 쌍의 병렬 문장 데이터로 다국어 기계 번역 및 언어 모델 학습에 활용됨"
 readme_status: "ok"
 readme_language: "en"

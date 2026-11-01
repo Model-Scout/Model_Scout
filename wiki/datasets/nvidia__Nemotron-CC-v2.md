@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-CC-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-CC-v2"
-downloads: 80039
+downloads: 86364
 summary: "Nemotron-CC-v2는 수학, 코드, 다국어 Q&A를 포함한 대규모 AI 사전학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bigcode/starcoderdata"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bigcode/starcoderdata"
-downloads: 15460
+downloads: 15863
 summary: "StarCoder 모델 학습용으로 86개 프로그래밍 언어 코드와 GitHub 데이터 포함한 대규모 코드 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

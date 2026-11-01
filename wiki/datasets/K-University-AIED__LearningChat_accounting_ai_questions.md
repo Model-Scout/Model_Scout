@@ -3,7 +3,7 @@ type: "dataset"
 id: "K-University-AIED/LearningChat_accounting_ai_questions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/K-University-AIED/LearningChat_accounting_ai_questions"
-downloads: 100
+downloads: 82
 summary: "회계입문 수업 AI질문 1회 과제 제출 이미지 메타데이터 공개용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

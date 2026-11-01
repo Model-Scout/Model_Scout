@@ -3,7 +3,7 @@ type: "dataset"
 id: "vocabradar/VocabFreq"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vocabradar/VocabFreq"
-downloads: 206
+downloads: 338
 summary: "세 가지 출처로부터 구축된 43/347/1000개 언어의 삼단계 단어 빈도 리스트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

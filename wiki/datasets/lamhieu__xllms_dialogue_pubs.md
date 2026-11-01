@@ -3,7 +3,7 @@ type: "dataset"
 id: "lamhieu/xllms_dialogue_pubs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lamhieu/xllms_dialogue_pubs"
-downloads: 152
+downloads: 158
 summary: "xLLMs – Dialogue Pubs는 9개 언어로 된 대규모 다국어 대화 데이터셋으로, 대화형 LLM의 장문 추론, 사실 근거, 다국어 능력, 도구 사용 학습에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"

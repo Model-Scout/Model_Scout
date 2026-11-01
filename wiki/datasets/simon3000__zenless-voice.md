@@ -3,7 +3,7 @@ type: "dataset"
 id: "simon3000/zenless-voice"
 source: "huggingface"
 url: "https://huggingface.co/datasets/simon3000/zenless-voice"
-downloads: 9257
+downloads: 9549
 summary: "Zenless Zone Zero 게임 캐릭터 음성 데이터셋으로 음성 인식 및 분석에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
@@ -65,3 +65,7 @@ Zenless Zone Zero 게임 캐릭터 음성 데이터셋으로 음성 인식 및 �
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `ingame_filename` 열 p90 97자 ≈ 24 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `FubuAur/zenless-voice`

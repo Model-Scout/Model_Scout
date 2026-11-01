@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenSafetyLab/Salad-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenSafetyLab/Salad-Data"
-downloads: 1818
+downloads: 1779
 summary: "OpenSafetyLab/Salad-Data는 다양한 질문 유형의 공격 및 방어 강화 데이터를 포함한 다중 선택형 질문 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -49,3 +49,9 @@ OpenSafetyLab/Salad-Data는 다양한 질문 유형의 공격 및 방어 강화 
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `augq` 열 p90 4894자 ≈ 1223 토큰 (viewer statistics, attack_enhanced_set/train)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__content-safety-guard-base|Horizon-Labs/content-safety-guard-base]]
+- [[Horizon-Labs__content-safety-guard-small|Horizon-Labs/content-safety-guard-small]]
+- [[vllm-sr__Vela-1.0-Encoder-307M-Shield|vllm-sr/Vela-1.0-Encoder-307M-Shield]]

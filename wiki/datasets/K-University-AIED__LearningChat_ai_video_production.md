@@ -3,7 +3,7 @@ type: "dataset"
 id: "K-University-AIED/LearningChat_ai_video_production"
 source: "huggingface"
 url: "https://huggingface.co/datasets/K-University-AIED/LearningChat_ai_video_production"
-downloads: 141
+downloads: 148
 summary: "한림대학교 AI영상제작실습 2025-2 수업에서 조별 제작한 AI 기반 영상 결과물 공개 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

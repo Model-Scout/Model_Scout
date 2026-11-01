@@ -3,7 +3,7 @@ type: "dataset"
 id: "aikstockdata/korea-equity-daily"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aikstockdata/korea-equity-daily"
-downloads: 1307
+downloads: 1150
 summary: "한국 상장기업 2,787종목의 321거래일 확정 종가·거래량과 DART 공시 영향 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

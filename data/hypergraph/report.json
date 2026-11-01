@@ -1,62 +1,99 @@
 {
   "entities": {
-    "model": 3606,
-    "dataset": 1760
+    "model": 3872,
+    "dataset": 14951
   },
-  "links": 54803,
-  "relations": 2060,
+  "links": 146802,
+  "relations": 2192,
+  "dataset_duplicates_removed": {
+    "huggingface": 337,
+    "kaggle": 17,
+    "seoul_open_data": 4142,
+    "data_go_kr": 42
+  },
   "links_by_method": {
-    "metadata": 38712,
-    "ner": 7161,
-    "tag_match": 342,
-    "viewer_stats": 956,
-    "task_rule": 7564,
-    "name_rule": 68
+    "metadata": 95586,
+    "ner": 15658,
+    "viewer_stats": 1739,
+    "tag_match": 13703,
+    "name_rule": 175,
+    "task_rule": 8968,
+    "source_rule": 10973
   },
   "links_by_confidence": {
-    "high": 38259,
-    "low": 4086,
-    "medium": 12458
+    "high": 95112,
+    "low": 9331,
+    "medium": 42359
   },
   "coverage": {
     "model": {
-      "task": "3606/3606",
-      "input_modality": "3606/3606",
-      "output_modality": "3087/3606",
-      "language": "3511/3606",
-      "input_length": "2248/3606",
-      "commercial_use": "3606/3606",
-      "domain": "0/3606",
-      "model_size": "2191/3606"
+      "task": "3872/3872",
+      "input_modality": "3872/3872",
+      "output_modality": "3332/3872",
+      "language": "3777/3872",
+      "input_length": "2413/3872",
+      "commercial_use": "3872/3872",
+      "domain": "0/3872",
+      "model_size": "2345/3872"
     },
     "dataset": {
-      "task": "1613/1760",
-      "input_modality": "1748/1760",
-      "output_modality": "1559/1760",
-      "language": "1571/1760",
-      "input_length": "956/1760",
-      "commercial_use": "1760/1760",
-      "domain": "1391/1760",
-      "dataset_role": "1578/1760",
-      "data_format": "1325/1760",
-      "update_frequency": "0/1760",
-      "dataset_size": "1648/1760"
+      "task": "3614/14951",
+      "input_modality": "14904/14951",
+      "output_modality": "3468/14951",
+      "language": "14517/14951",
+      "input_length": "1739/14951",
+      "commercial_use": "14940/14951",
+      "domain": "12358/14951",
+      "dataset_role": "14256/14951",
+      "data_format": "13392/14951",
+      "update_frequency": "0/14951",
+      "dataset_size": "3125/14951"
     }
   },
   "dataset_readme_status": {
-    "template": 124,
-    "ok": 1470,
-    "thin": 117,
+    "template": 103,
+    "ok": 14185,
+    "thin": 614,
     "missing": 49
   },
   "dataset_korean_focus": {
-    "not_ko": 354,
-    "wide_multilingual": 660,
-    "ko_with_others": 389,
-    "ko_only": 357
+    "not_ko": 598,
+    "wide_multilingual": 829,
+    "ko_with_others": 887,
+    "ko_only": 12637
   },
   "unmapped_top": {
+    "dataset.commercial_use.license": [
+      [
+        "Community Data License Agreement - Sharing - Version 1.0",
+        2
+      ],
+      [
+        "GNU Affero General Public License 3.0",
+        2
+      ],
+      [
+        "U.S. Government Works",
+        2
+      ],
+      [
+        "Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0)",
+        2
+      ],
+      [
+        "GNU Lesser General Public License 3.0",
+        2
+      ],
+      [
+        "fair-noncommercial-research-license",
+        1
+      ]
+    ],
     "dataset.data_format.format": [
+      [
+        "json+xml",
+        213
+      ],
       [
         "agent-traces",
         1
@@ -71,51 +108,59 @@
     "dataset.task.task_categories": [
       [
         "other",
-        24
+        40
       ],
       [
         "reinforcement-learning",
-        9
-      ],
-      [
-        "robotics",
-        8
+        16
       ],
       [
         "audio-to-audio",
-        7
+        15
       ],
       [
-        "image-to-video",
-        2
-      ],
-      [
-        "text-to-video",
-        2
+        "robotics",
+        13
       ],
       [
         "video-classification",
-        2
-      ],
-      [
-        "image-feature-extraction",
-        2
+        10
       ],
       [
         "depth-estimation",
-        1
+        4
       ],
       [
         "table-to-text",
-        1
+        4
+      ],
+      [
+        "image-feature-extraction",
+        4
+      ],
+      [
+        "image-to-video",
+        3
+      ],
+      [
+        "text-to-video",
+        3
+      ],
+      [
+        "graph-ml",
+        3
       ],
       [
         "zero-shot-object-detection",
-        1
+        2
       ],
       [
         "image-to-3d",
-        1
+        2
+      ],
+      [
+        "tabular-to-text",
+        2
       ],
       [
         "any-to-any",
@@ -124,15 +169,27 @@
       [
         "image-text-to-image",
         1
+      ],
+      [
+        "mask-generation",
+        1
+      ],
+      [
+        "text-to-3d",
+        1
+      ],
+      [
+        "unconditional-image-generation",
+        1
       ]
     ],
     "dataset.task.task_ids": [
       [
-        "part-of-speech",
-        3
+        "parsing",
+        4
       ],
       [
-        "parsing",
+        "part-of-speech",
         3
       ],
       [
@@ -181,6 +238,14 @@
       ],
       [
         "abstractive-qa",
+        1
+      ],
+      [
+        "text-simplification",
+        1
+      ],
+      [
+        "language-identification",
         1
       ]
     ]

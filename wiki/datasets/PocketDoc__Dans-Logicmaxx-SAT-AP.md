@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Logicmaxx-SAT-AP"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Logicmaxx-SAT-AP"
-downloads: 88
+downloads: 74
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

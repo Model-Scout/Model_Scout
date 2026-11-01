@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-OpenAssistant2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-OpenAssistant2"
-downloads: 12
+downloads: 13
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

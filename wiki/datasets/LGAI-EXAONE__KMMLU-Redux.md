@@ -3,7 +3,7 @@ type: "dataset"
 id: "LGAI-EXAONE/KMMLU-Redux"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LGAI-EXAONE/KMMLU-Redux"
-downloads: 425
+downloads: 446
 summary: "KMMLU-Redux는 한국 국가기술자격 시험 문제 2,587개로 구성된 재구성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "WueNLP/SMPQA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/WueNLP/SMPQA"
-downloads: 107
+downloads: 108
 summary: "SMPQA는 다국어 막대그래프와 원형차트에 대한 질문으로 다국어 OCR 성능을 평가하는 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

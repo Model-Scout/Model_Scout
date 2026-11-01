@@ -3,7 +3,7 @@ type: "dataset"
 id: "SALT-NLP/SWE-chat"
 source: "huggingface"
 url: "https://huggingface.co/datasets/SALT-NLP/SWE-chat"
-downloads: 14732
+downloads: 14991
 summary: "SWE-chat은 실제 개발자들이 AI 코딩 어시스턴트와 주고받은 대화와 코드 변경 기록을 담은 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceM4/FineVision"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceM4/FineVision"
-downloads: 139509
+downloads: 139578
 summary: "FineVision은 1,730만 이미지와 9.5B 답변 토큰으로 구성된 비전-언어 모델 학습용 대규모 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "GreenerPastures/All-Your-Base-Full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/GreenerPastures/All-Your-Base-Full"
-downloads: 17
+downloads: 16
 summary: "다양한 출처의 롤플레잉 데이터를 포함한 지시 중심 데이터셋으로, 기본 모델을 완전한 RP 모델로 만듭니다."
 readme_status: "ok"
 readme_language: "en"

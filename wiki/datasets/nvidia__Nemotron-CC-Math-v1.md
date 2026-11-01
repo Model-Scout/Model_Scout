@@ -3,7 +3,7 @@ type: "dataset"
 id: "nvidia/Nemotron-CC-Math-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nvidia/Nemotron-CC-Math-v1"
-downloads: 8367
+downloads: 8103
 summary: "Nemotron-CC-Math는 고품질 수학 및 코드 데이터로 LLM 사전학습에 사용되는 대규모 수학 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"

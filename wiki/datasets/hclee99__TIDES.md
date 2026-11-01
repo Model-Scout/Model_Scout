@@ -3,7 +3,7 @@ type: "dataset"
 id: "hclee99/TIDES"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hclee99/TIDES"
-downloads: 217
+downloads: 220
 summary: "한국 대학생 팀의 협업 대화와 역할, 팀 발전을 추적한 장기 이중언어 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "usail-hkust/JailJudge"
 source: "huggingface"
 url: "https://huggingface.co/datasets/usail-hkust/JailJudge"
-downloads: 106
+downloads: 98
 summary: "JAILJUDGE는 LLM의 탈옥 공격 방어 평가를 위한 다국어·복잡 시나리오 기반 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -67,3 +67,8 @@ JAILJUDGE는 LLM의 탈옥 공격 방어 평가를 위한 다국어·복잡 시�
 - **데이터 용도**: [[평가용]] — ner · readme = `JAILJUDGETEST, a 4.5k+ labeled set of broad risk scenarios and a 6k+ labeled set of multilingual scenarios` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `training data of JAILJUDGE, with over 35k+ instruction-tune training data` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `Anonymous4open/JailJudge`
+- `zdxnlp/JailJudge`

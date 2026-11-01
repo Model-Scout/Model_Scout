@@ -3,7 +3,7 @@ type: "dataset"
 id: "prismdata/Perdix-SFT-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/prismdata/Perdix-SFT-Data"
-downloads: 116
+downloads: 121
 summary: "Perdix-1.1B-Instruct 모델 지시 미세조정을 위한 공개 대화 데이터셋과 토크나이즈 학습 데이터입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -50,3 +50,7 @@ Perdix-1.1B-Instruct 모델 지시 미세조정을 위한 공개 대화 데이�
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `text` 열 p90 330자 ≈ 220 토큰 (viewer statistics, OIG-smallchip2-ko/train)
+
+## 이 데이터로 학습한 모델
+
+- [[prismdata__Perdix-1.1B-Instruct|prismdata/Perdix-1.1B-Instruct]]

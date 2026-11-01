@@ -3,7 +3,7 @@ type: "dataset"
 id: "bigscience/xP3mt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bigscience/xP3mt"
-downloads: 9784
+downloads: 9025
 summary: "46개 언어와 16개 NLP 작업에 걸친 다국어 프롬프트 및 데이터셋 모음으로 BLOOMZ, mT0 학습용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "FreedomIntelligence/MMLU_Korean"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FreedomIntelligence/MMLU_Korean"
-downloads: 160
+downloads: 158
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

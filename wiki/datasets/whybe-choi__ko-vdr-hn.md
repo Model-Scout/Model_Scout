@@ -3,7 +3,7 @@ type: "dataset"
 id: "whybe-choi/ko-vdr-hn"
 source: "huggingface"
 url: "https://huggingface.co/datasets/whybe-choi/ko-vdr-hn"
-downloads: 57
+downloads: 61
 summary: "한국어 문서 페이지 이미지와 텍스트 쿼리를 활용한 시각 문서 검색 임베딩 모델 학습용 하드 네거티브 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

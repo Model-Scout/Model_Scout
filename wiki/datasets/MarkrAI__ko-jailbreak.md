@@ -3,7 +3,7 @@ type: "dataset"
 id: "MarkrAI/ko-jailbreak"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MarkrAI/ko-jailbreak"
-downloads: 132
+downloads: 145
 summary: "한국어 LLM 안전 가드의 탈옥 공격 방어력을 평가하는 한국어 jailbreak 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

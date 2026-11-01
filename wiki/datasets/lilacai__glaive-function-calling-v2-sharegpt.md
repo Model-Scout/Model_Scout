@@ -3,7 +3,7 @@ type: "dataset"
 id: "lilacai/glaive-function-calling-v2-sharegpt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/lilacai/glaive-function-calling-v2-sharegpt"
-downloads: 78
+downloads: 106
 summary: "glaive/glaive-function-calling-v2 데이터를 ShareGPT 형식으로 변환한 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

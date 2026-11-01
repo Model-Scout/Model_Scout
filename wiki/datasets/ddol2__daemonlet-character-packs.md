@@ -3,7 +3,7 @@ type: "dataset"
 id: "ddol2/daemonlet-character-packs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ddol2/daemonlet-character-packs"
-downloads: 670
+downloads: 604
 summary: "DAEMONLET용 외부 캐릭터팩 저장소로 다양한 캐릭터 모델과 포즈를 제공함"
 readme_status: "ok"
 readme_language: "mixed"

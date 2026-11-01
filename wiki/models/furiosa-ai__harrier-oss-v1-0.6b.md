@@ -3,7 +3,7 @@ type: "model"
 id: "furiosa-ai/harrier-oss-v1-0.6b"
 source: "huggingface"
 url: "https://huggingface.co/furiosa-ai/harrier-oss-v1-0.6b"
-downloads: 4079
+downloads: 899
 context_length: 131072
 parameters_b: 0.596
 task:

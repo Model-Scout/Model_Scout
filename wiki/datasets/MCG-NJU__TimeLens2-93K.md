@@ -3,7 +3,7 @@ type: "dataset"
 id: "MCG-NJU/TimeLens2-93K"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MCG-NJU/TimeLens2-93K"
-downloads: 13955
+downloads: 18060
 summary: "TimeLens2-93K는 다양한 도메인의 긴 영상과 텍스트-시간 구간 쌍을 포함한 대규모 시계열 영상 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

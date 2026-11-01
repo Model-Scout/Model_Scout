@@ -3,7 +3,7 @@ type: "dataset"
 id: "neulab/agent-data-collection"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neulab/agent-data-collection"
-downloads: 32347
+downloads: 31967
 summary: "다양한 환경에서 AI 에이전트 학습과 평가를 위한 에이전트 상호작용 데이터셋 모음입니다."
 readme_status: "ok"
 readme_language: "en"

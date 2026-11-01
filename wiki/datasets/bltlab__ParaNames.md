@@ -3,7 +3,7 @@ type: "dataset"
 id: "bltlab/ParaNames"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bltlab/ParaNames"
-downloads: 259
+downloads: 265
 summary: "ParaNames 데이터셋은 데이터셋 카드의 기본 템플릿으로 제공됩니다."
 readme_status: "template"
 readme_language: "en"

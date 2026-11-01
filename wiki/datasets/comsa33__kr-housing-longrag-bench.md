@@ -3,7 +3,7 @@ type: "dataset"
 id: "comsa33/kr-housing-longrag-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/comsa33/kr-housing-longrag-bench"
-downloads: 199
+downloads: 205
 summary: "KR-Housing-LongRAG-Bench는 한국 공공주택 관련 공식 공고, 표 데이터, 법률 증거를 활용한 장문 LLM 및 RAG 평가용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

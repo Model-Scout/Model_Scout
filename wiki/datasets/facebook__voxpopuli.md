@@ -3,7 +3,7 @@ type: "dataset"
 id: "facebook/voxpopuli"
 source: "huggingface"
 url: "https://huggingface.co/datasets/facebook/voxpopuli"
-downloads: 28632
+downloads: 29441
 summary: "VoxPopuli는 유럽 의회 연설 녹음 기반 다국어 음성 말뭉치로 음성 표현 학습용입니다."
 readme_status: "template"
 readme_language: "en"

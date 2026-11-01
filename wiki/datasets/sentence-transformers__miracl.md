@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/miracl"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/miracl"
-downloads: 3248
+downloads: 3443
 summary: "MIRACL 데이터셋은 BGE-M3 모델 학습용으로 문장 임베딩 학습에 사용됩니다."
 readme_status: "ok"
 readme_language: "en"

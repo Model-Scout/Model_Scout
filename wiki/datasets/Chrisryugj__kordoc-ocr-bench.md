@@ -3,7 +3,7 @@ type: "dataset"
 id: "Chrisryugj/kordoc-ocr-bench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Chrisryugj/kordoc-ocr-bench"
-downloads: 125
+downloads: 139
 summary: "한국 공공기관 PDF 문서의 쪽 이미지와 정답 텍스트로 구성된 OCR 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/multilingual-text"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/multilingual-text"
-downloads: 117
+downloads: 77
 summary: "다국어 텍스트 데이터로 언어별 정확한 텍스트 청크를 포함해 모델 학습에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

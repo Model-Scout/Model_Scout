@@ -3,7 +3,7 @@ type: "dataset"
 id: "batuhanaktas/kids-multilingual-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/batuhanaktas/kids-multilingual-benchmark"
-downloads: 251
+downloads: 358
 summary: "23개 언어 아동-인공지능 대화 프롬프트 2,312개로 아동 AI 동반자 성능 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

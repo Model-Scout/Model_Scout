@@ -3,7 +3,7 @@ type: "model"
 id: "handy-computer/whisper-base-gguf"
 source: "huggingface"
 url: "https://huggingface.co/handy-computer/whisper-base-gguf"
-downloads: 9803
+downloads: 10259
 task:
   - "[[음성 인식]]"
 input_modality:

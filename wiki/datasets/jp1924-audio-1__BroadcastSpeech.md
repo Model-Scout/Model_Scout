@@ -3,7 +3,7 @@ type: "dataset"
 id: "jp1924-audio-1/BroadcastSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jp1924-audio-1/BroadcastSpeech"
-downloads: 470
+downloads: 472
 summary: "한국어 방송 음성 데이터로 음성 인식 모델 학습에 사용됨"
 readme_status: "ok"
 readme_language: "en"

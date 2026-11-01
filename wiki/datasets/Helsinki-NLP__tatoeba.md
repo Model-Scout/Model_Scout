@@ -3,7 +3,7 @@ type: "dataset"
 id: "Helsinki-NLP/tatoeba"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Helsinki-NLP/tatoeba"
-downloads: 754
+downloads: 768
 summary: "Tatoeba의 359개 언어 번역 문장 모음으로 다국어 번역에 활용됨."
 readme_status: "template"
 readme_language: "en"

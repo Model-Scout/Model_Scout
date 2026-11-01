@@ -3,7 +3,7 @@ type: "dataset"
 id: "FreedomIntelligence/TalkVid"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FreedomIntelligence/TalkVid"
-downloads: 2324
+downloads: 3101
 summary: "TalkVid는 음성 기반 토킹헤드 합성을 위한 대규모 고품질 다국어 영상 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

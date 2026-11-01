@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-tatoeba"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-tatoeba"
-downloads: 1439
+downloads: 1452
 summary: "영어 문장과 다른 언어 문장의 병렬 데이터를 포함한 다국어 문장 임베딩 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

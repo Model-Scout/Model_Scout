@@ -3,7 +3,7 @@ type: "model"
 id: "AMAImedia/NOESIS-Qwen3-Forced-Aligner-0.6B-112LANG-BF16"
 source: "huggingface"
 url: "https://huggingface.co/AMAImedia/NOESIS-Qwen3-Forced-Aligner-0.6B-112LANG-BF16"
-downloads: 192
+downloads: 326
 context_length: 131072
 parameters_b: 0.918
 task:

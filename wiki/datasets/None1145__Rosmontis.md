@@ -3,7 +3,7 @@ type: "dataset"
 id: "None1145/Rosmontis"
 source: "huggingface"
 url: "https://huggingface.co/datasets/None1145/Rosmontis"
-downloads: 82
+downloads: 87
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_with_others"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "sentence-transformers/parallel-sentences-opus-100"
 source: "huggingface"
 url: "https://huggingface.co/datasets/sentence-transformers/parallel-sentences-opus-100"
-downloads: 1106
+downloads: 1137
 summary: "OPUS-100 병렬 문장 데이터셋으로 다국어 문장 임베딩 학습에 사용됨."
 readme_status: "ok"
 readme_language: "en"

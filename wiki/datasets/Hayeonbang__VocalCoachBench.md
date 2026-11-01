@@ -3,7 +3,7 @@ type: "dataset"
 id: "Hayeonbang/VocalCoachBench"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Hayeonbang/VocalCoachBench"
-downloads: 146
+downloads: 173
 summary: "VocalCoachBench는 515개 노래 녹음에 대한 전문가 보컬 코칭 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

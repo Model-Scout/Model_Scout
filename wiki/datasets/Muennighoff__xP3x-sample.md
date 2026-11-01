@@ -3,7 +3,7 @@ type: "dataset"
 id: "Muennighoff/xP3x-sample"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Muennighoff/xP3x-sample"
-downloads: 1280
+downloads: 1308
 summary: "6개 언어로 된 다국어 Winograd 스키마 모음으로 교차언어 상식 추론 평가용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

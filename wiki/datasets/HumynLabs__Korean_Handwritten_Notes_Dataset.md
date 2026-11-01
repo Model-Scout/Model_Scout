@@ -3,7 +3,7 @@ type: "dataset"
 id: "HumynLabs/Korean_Handwritten_Notes_Dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HumynLabs/Korean_Handwritten_Notes_Dataset"
-downloads: 159
+downloads: 173
 summary: "한국어 필기체 이미지 데이터셋으로 OCR 및 문서 이해 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

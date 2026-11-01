@@ -3,7 +3,7 @@ type: "dataset"
 id: "heymilka/exe"
 source: "huggingface"
 url: "https://huggingface.co/datasets/heymilka/exe"
-downloads: 175
+downloads: 178
 summary: "윈도우용 소설 집필 및 텍스트 편집 도구 모음으로 집필 지원에 활용됨."
 readme_status: "ok"
 readme_language: "mixed"

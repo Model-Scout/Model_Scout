@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenVoiceOS/massive-templates"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenVoiceOS/massive-templates"
-downloads: 194
+downloads: 237
 summary: "OVOS 의도 분류 벤치마크용으로 수집된 다국어 의도-파서 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

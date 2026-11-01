@@ -3,7 +3,7 @@ type: "dataset"
 id: "allenai/dolmino-mix-1124"
 source: "huggingface"
 url: "https://huggingface.co/datasets/allenai/dolmino-mix-1124"
-downloads: 16436
+downloads: 16768
 summary: "OLMo2 2단계 annealing 학습용 고품질 데이터 혼합 말뭉치입니다."
 readme_status: "ok"
 readme_language: "en"

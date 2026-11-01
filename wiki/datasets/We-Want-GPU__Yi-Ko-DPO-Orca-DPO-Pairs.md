@@ -3,7 +3,7 @@ type: "dataset"
 id: "We-Want-GPU/Yi-Ko-DPO-Orca-DPO-Pairs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/We-Want-GPU/Yi-Ko-DPO-Orca-DPO-Pairs"
-downloads: 27
+downloads: 25
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "podongchip/119-call-transcript-synthetic-labels"
 source: "huggingface"
 url: "https://huggingface.co/datasets/podongchip/119-call-transcript-synthetic-labels"
-downloads: 82
+downloads: 75
 summary: "한국 응급실과 119 구급대원 간 통화 전사문과 환자 정보 라벨 데이터셋입니다."
 readme_status: "ok"
 readme_language: "ko"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "NotoriousH2/countdown-rlvr"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NotoriousH2/countdown-rlvr"
-downloads: 31
+downloads: 32
 summary: "Qwen3-4B 검증용으로 숫자 4개와 사칙연산으로 목표값 만드는 수식 생성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

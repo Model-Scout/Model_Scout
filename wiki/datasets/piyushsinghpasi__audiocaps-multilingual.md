@@ -3,7 +3,7 @@ type: "dataset"
 id: "piyushsinghpasi/audiocaps-multilingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/piyushsinghpasi/audiocaps-multilingual"
-downloads: 97
+downloads: 133
 summary: "AudioCaps 오디오 클립에 33개 언어 다국어 캡션을 추가한 평가용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

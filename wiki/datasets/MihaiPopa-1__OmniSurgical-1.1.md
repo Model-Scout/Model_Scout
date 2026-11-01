@@ -3,7 +3,7 @@ type: "dataset"
 id: "MihaiPopa-1/OmniSurgical-1.1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/MihaiPopa-1/OmniSurgical-1.1"
-downloads: 34
+downloads: 38
 summary: "OmniSurgical 1.1은 영어-루마니아어, 영어-이모지, 영어-Sulfuristic Speak 번역 데이터셋 확장판입니다."
 readme_status: "ok"
 readme_language: "en"

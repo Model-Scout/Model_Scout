@@ -3,7 +3,7 @@ type: "dataset"
 id: "FINAL-Bench/AX-RAY"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FINAL-Bench/AX-RAY"
-downloads: 200
+downloads: 196
 summary: "AI 안전 진단 기준 117개를 정리한 AX-RAY 데이터셋으로, 모델 평가와 배포 준비에 활용됨."
 readme_status: "ok"
 readme_language: "en"

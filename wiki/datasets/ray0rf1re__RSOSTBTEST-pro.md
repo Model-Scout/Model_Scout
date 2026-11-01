@@ -3,7 +3,7 @@ type: "dataset"
 id: "ray0rf1re/RSOSTBTEST-pro"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ray0rf1re/RSOSTBTEST-pro"
-downloads: 257
+downloads: 230
 summary: "RSOSTBTEST-pro는 AI/LLM 시스템 평가용 대규모 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "Gingiris/gingiris-seo-geo-agent"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Gingiris/gingiris-seo-geo-agent"
-downloads: 90
+downloads: 87
 summary: "자율 AI 에이전트가 일일 SEO 및 GEO 작업을 자동화하여 월 3만2천 건 구글 노출을 달성하는 SOP 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -59,3 +59,7 @@ dataset_size:
 - **도메인**: [[일반]] — ner · readme = `AI agents can run 90% of SEO work autonomously — but only if the SOP tells them *exactly* what to do every day.` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `This is a **complete operational SOP (Standard Operating Procedure)** for running an autonomous AI agent that handles daily SEO and GEO (Generative Engine Optim` · 신뢰도 low
 - **데이터 규모**: [[소규모 데이터]] — metadata · size_categories = `999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `danielzw36/gingiris-seo-geo-agent`

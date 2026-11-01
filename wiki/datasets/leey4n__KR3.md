@@ -3,7 +3,7 @@ type: "dataset"
 id: "leey4n/KR3"
 source: "huggingface"
 url: "https://huggingface.co/datasets/leey4n/KR3"
-downloads: 139
+downloads: 142
 summary: "한국어 식당 리뷰 감성 분류용 데이터셋으로 긍정/부정 평가 포함"
 readme_status: "ok"
 readme_language: "en"
@@ -51,6 +51,10 @@ dataset_size:
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `999999.0` · 신뢰도 high
 
 샘플 길이: `Review` 열 p90 383자 ≈ 255 토큰 (viewer statistics, default/train)
+
+## 같은 데이터의 사본·중복 등록
+
+- `kaggle/ninetyninenewton/kr3-korean-restaurant-reviews-with-ratings`
 
 ## 이 데이터로 학습한 모델
 

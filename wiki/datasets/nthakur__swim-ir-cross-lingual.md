@@ -3,7 +3,7 @@ type: "dataset"
 id: "nthakur/swim-ir-cross-lingual"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nthakur/swim-ir-cross-lingual"
-downloads: 477
+downloads: 513
 summary: "SWIM-IR는 27개 언어의 위키피디아 문단과 다국어 질의 쌍으로 구성된 다국어 검색 학습 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

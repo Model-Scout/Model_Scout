@@ -3,7 +3,7 @@ type: "dataset"
 id: "Infinity08/KAWK50M-Training-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Infinity08/KAWK50M-Training-Data"
-downloads: 373
+downloads: 349
 summary: "KAWK50M 학습 데이터 아카이브로, 한국어 SFT 데이터와 원문, 정제 말뭉치를 포함합니다."
 readme_status: "ok"
 readme_language: "mixed"

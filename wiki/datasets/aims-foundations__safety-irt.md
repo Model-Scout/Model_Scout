@@ -3,7 +3,7 @@ type: "dataset"
 id: "aims-foundations/safety-irt"
 source: "huggingface"
 url: "https://huggingface.co/datasets/aims-foundations/safety-irt"
-downloads: 413
+downloads: 1082
 summary: "10개 언어로 61개 모델의 190만 안전성 평가 응답을 포함한 안전성 연구용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

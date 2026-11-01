@@ -4,12 +4,11 @@ id: "taisan11/oss-docs-collect"
 source: "huggingface"
 url: "https://huggingface.co/datasets/taisan11/oss-docs-collect"
 downloads: 345
-summary: "오픈소스 소프트웨어 문서 모음 데이터셋으로 문서 분석 등에 활용 가능"
+summary: "오픈소스 소프트웨어 문서 모음 데이터셋으로 문서 검색 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"
 korean_focus: "ko_with_others"
 task:
-  - "[[임베딩]]"
   - "[[텍스트 생성]]"
   - "[[문서 검색]]"
 input_modality:
@@ -31,20 +30,19 @@ commercial_use:
 domain:
   - "[[일반]]"
 dataset_role:
-  - "[[학습용]]"
+  - "[[서비스 데이터]]"
 ---
 # taisan11/oss-docs-collect
 
 > dataset · [Hugging Face](https://huggingface.co/datasets/taisan11/oss-docs-collect)
 
-오픈소스 소프트웨어 문서 모음 데이터셋으로 문서 분석 등에 활용 가능
+오픈소스 소프트웨어 문서 모음 데이터셋으로 문서 검색 등에 활용 가능
 
 ## 분류
 
-- **작업**: [[임베딩]] — ner · readme = `A daily snapshot of selected open-source software documentation collected by oss-docs-collect.` · 신뢰도 low
 - **작업**: [[텍스트 생성]] — metadata · task_categories = `text-generation` · 신뢰도 low
 - **작업**: [[문서 검색]] — metadata · readme, task_categories = `text-retrieval` · 신뢰도 medium
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:embedding, task:generation, task:retrieval = `content: Markdown/MDX source` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · readme, task:generation, task:retrieval = `content: Markdown/MDX source` · 신뢰도 medium
 - **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:generation = `content: Markdown/MDX source` · 신뢰도 medium
 - **언어**: [[de]] — metadata · languages = `de` · 신뢰도 high
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
@@ -57,4 +55,4 @@ dataset_role:
 - **언어**: [[중국어]] — metadata · languages = `cn` · 신뢰도 high
 - **상업 이용**: [[이용 조건 미확인]] — metadata · license · 신뢰도 high
 - **도메인**: [[일반]] — ner · readme = `A daily snapshot of selected open-source software documentation collected by oss-docs-collect.` · 신뢰도 low
-- **데이터 용도**: [[학습용]] — ner · readme = `A daily snapshot of selected open-source software documentation collected by oss-docs-collect.` · 신뢰도 low
+- **데이터 용도**: [[서비스 데이터]] — ner · readme = `A daily snapshot of selected open-source software documentation collected by oss-docs-collect.` · 신뢰도 low

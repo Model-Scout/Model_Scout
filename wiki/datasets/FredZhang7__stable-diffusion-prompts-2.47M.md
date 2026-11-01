@@ -3,7 +3,7 @@ type: "dataset"
 id: "FredZhang7/stable-diffusion-prompts-2.47M"
 source: "huggingface"
 url: "https://huggingface.co/datasets/FredZhang7/stable-diffusion-prompts-2.47M"
-downloads: 282
+downloads: 287
 summary: "Stable Diffusion 이미지 생성용 2.47M 텍스트 프롬프트 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -53,3 +53,4 @@ Stable Diffusion 이미지 생성용 2.47M 텍스트 프롬프트 데이터셋�
 ## 이 데이터로 학습한 모델
 
 - [[llm-semantic-router__mmbert32k-modality-router-merged|llm-semantic-router/mmbert32k-modality-router-merged]]
+- [[vllm-sr__mmbert32k-modality-router-merged|vllm-sr/mmbert32k-modality-router-merged]]

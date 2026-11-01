@@ -3,7 +3,7 @@ type: "dataset"
 id: "LLM-OS-Models/KoHRM-Text-1.4B-prepared-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/LLM-OS-Models/KoHRM-Text-1.4B-prepared-data"
-downloads: 690
+downloads: 712
 summary: "KoHRM-Text-1.4B는 한국어 및 영어, 코드, 법률 등 혼합 토크나이저로 전처리된 대규모 언어 모델 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

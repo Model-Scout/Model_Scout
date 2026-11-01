@@ -3,7 +3,7 @@ type: "dataset"
 id: "niko0xdev/zorch-triage-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/niko0xdev/zorch-triage-dataset"
-downloads: 103
+downloads: 106
 summary: "Zorch SDLC 환경에서 소프트웨어 티켓 분류를 위한 다국어 합성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

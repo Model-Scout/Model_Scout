@@ -3,7 +3,7 @@ type: "dataset"
 id: "drlee1/kotraj"
 source: "huggingface"
 url: "https://huggingface.co/datasets/drlee1/kotraj"
-downloads: 109
+downloads: 112
 summary: "상업, 여행, 일정 도메인에서 도구 호출을 포함한 한국어 대화 시뮬레이션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -1,0 +1,128 @@
+---
+license: cc-by-4.0
+task_categories:
+- text-classification
+language:
+- ko
+- en
+size_categories:
+- 10K<n<100K
+tags:
+- agent-safety
+- behavioral-safety
+- synthetic
+- benchmark
+configs:
+- config_name: default
+  data_files:
+  - split: test
+    path: data/test.jsonl
+---
+
+# DriftSentry Bench 50K v1
+
+This dataset is a 50,000-row evaluation benchmark for classifying AI-agent behavioral failures. It covers six risk tiers plus a normal class and is paired with [DriftSentry-4B-v1](https://huggingface.co/Tynapse/drift-sentry-4b-v1).
+
+Reproduction and evaluation code: [Tynapse/drift-sentry](https://github.com/Tynapse/drift-sentry).
+
+## Dataset summary
+
+| Split | Rows |
+|---|---:|
+| test | 50,000 |
+
+| Tier | Rows |
+|---|---:|
+| goal | 7,143 |
+| reasoning | 7,143 |
+| environment | 7,143 |
+| integration | 7,143 |
+| memory | 7,143 |
+| reward | 7,143 |
+| normal | 7,142 |
+
+The released file contains 50,000 unique IDs. Its SHA-256 is `ea70945477f37608df61b842321fc150eefa5a2f23bb582b43d3b43fc484f8b8`.
+
+## Schema
+
+Each JSONL row contains:
+
+- `id`: stable example identifier
+- `messages`: system and user messages followed by the gold assistant JSON label
+- `metadata`: archetype, domain, failure mechanism, deterministic seed, split, and teacher-label provenance
+
+The gold assistant message follows `judge6.label.v1`. This is the immutable v1 wire-format identifier retained for compatibility and reproduction; it does not denote the public model name.
+
+```json
+{
+  "schema_version": "judge6.label.v1",
+  "verdict": "PASS | BLOCK | ESCALATE",
+  "tier": "goal | reasoning | environment | integration | memory | reward | normal",
+  "secondary_tiers": [],
+  "severity": "none | low | medium | high",
+  "confidence": 0.0,
+  "rationale": "..."
+}
+```
+
+See `taxonomy.yaml` and `LABELING_GUIDE.md` for label definitions and decision guidance.
+
+## Construction and separation
+
+- Cases were synthetically generated under the DriftSentry taxonomy.
+- The teacher was `Qwen/Qwen3.6-27B` at revision `6a9e13bd6fc8f0983b9b99948120bc37f49c13e9` (Apache-2.0).
+- Teacher tier and target tier were required to match for the released benchmark.
+- Selection used deterministic SHA-256 ranking with fixed per-tier quotas.
+- Normalized exact and token-SimHash duplicate checks were applied against 149,974 existing semantic train/validation/test rows.
+- Automated filters reject AWS access-key, email, Korean phone-number, resident-registration-number, and `sk`/`hf` secret-token patterns. A corrected final pass replaced 324 credential-shaped synthetic strings across 123 rows with deterministic nonfunctional placeholders; all configured residual counts are zero.
+- The final DriftSentry training corpus did not include these 50,000 benchmark rows.
+
+The publication transform removes private metadata, uses the official teacher identity and revision, and replaces restricted credential-shaped strings with deterministic placeholders. It does not change IDs or gold tiers. The released `{id, messages}` stream SHA-256 is `c6dad57f6a2d19d87a4531b2408878bebcb4294d4643b397704b7b97aa174bf9`; exact counts and before/after file hashes are in `evaluation/public_content_safety_audit.json`.
+
+## Baseline result
+
+DriftSentry-4B-v1 produced:
+
+| Metric | Measured value |
+|---|---:|
+| Accuracy | 0.87346 |
+| 6-tier Macro-F1 | 0.8600247542914515 |
+| 7-way Macro-F1 | 0.8733699133625255 |
+| Memory recall | 0.9385412291754165 |
+| Reward recall | 0.9134817303653927 |
+| Combined high-risk recall | 0.9260114797704045 |
+| Parse-failure rate | 0.00122 |
+
+Evaluation used temperature 0, JSON response format, and `max_tokens=512`. Before publication, 324 credential-shaped synthetic strings in 123 prompts were replaced with deterministic nonfunctional placeholders. IDs and gold labels did not change, but those 123 prompts were not re-inferred; the table is exact for the pre-publication 50,000-row source and 49,877 public rows remain message-identical. The path-free evidence under `evaluation/` records both hashes and this limitation.
+
+## Label-quality audit
+
+Across the 149,974-row semantic train/validation/test corpus used to establish
+the taxonomy data quality, `149,515` rows retained both an independently
+assigned target tier and the teacher's original tier before any target-tier
+overwrite. They agreed on `146,769` rows and disagreed on `2,746` rows, yielding
+Cohen's kappa `0.9781300729494184` (observed agreement
+`0.981633949770926`). The remaining `459` rows lacked a valid raw teacher tier
+and were excluded, not imputed. The maximum absolute deviation from the planned
+class distribution was `0.009001560270448294` percentage points. Exact counts,
+the confusion matrix, and the method are in
+`evaluation/label_consistency_audit.json`.
+
+This is target-versus-teacher label consistency, not human inter-annotator
+agreement.
+
+## Limitations and content warning
+
+- Gold labels were generated by a teacher model and were not converted into a fully human-adjudicated gold standard; no human inter-annotator kappa is claimed.
+- Automated PII and secret-pattern filters report zero configured residual matches, but cannot guarantee detection of every possible identifier format.
+- The benchmark contains unsafe, deceptive, privacy-related, and policy-violating scenarios for research and evaluation. It should not be treated as operational advice.
+- Credential scenarios use explicit deterministic `<SYNTHETIC_...>` placeholders; they are not production credentials.
+- Results on this synthetic benchmark do not establish open-world safety or reliability.
+
+## License
+
+The dataset is released under Creative Commons Attribution 4.0 International (CC BY 4.0). Attribute Tynapse and link to this repository when sharing or adapting the dataset. Model weights and third-party software retain their own licenses.
+
+## Acknowledgement
+
+This work was supported by the NIPA Advanced GPU Utilization Support Program, project no. `04-26-03-0029`.

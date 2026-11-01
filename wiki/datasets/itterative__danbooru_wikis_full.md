@@ -3,7 +3,7 @@ type: "dataset"
 id: "itterative/danbooru_wikis_full"
 source: "huggingface"
 url: "https://huggingface.co/datasets/itterative/danbooru_wikis_full"
-downloads: 123
+downloads: 131
 summary: "danbooru.donmai.us의 위키 페이지, 태그, 태그 별칭, 태그 함의를 포함한 전체 위키 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

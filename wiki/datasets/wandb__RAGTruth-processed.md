@@ -3,7 +3,7 @@ type: "dataset"
 id: "wandb/RAGTruth-processed"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wandb/RAGTruth-processed"
-downloads: 2245
+downloads: 2243
 summary: "RAGTruth 데이터셋은 RAG 기반 텍스트 생성 모델의 환각 평가용으로 전문가 주석을 포함합니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,8 @@ Model output` · 신뢰도 high
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
 
 샘플 길이: `input_str` 열 p90 6066자 ≈ 1516 토큰 (viewer statistics, default/test)
+
+## 이 데이터로 학습한 모델
+
+- [[Horizon-Labs__hallucination-guard-base|Horizon-Labs/hallucination-guard-base]]
+- [[Horizon-Labs__hallucination-guard-small|Horizon-Labs/hallucination-guard-small]]

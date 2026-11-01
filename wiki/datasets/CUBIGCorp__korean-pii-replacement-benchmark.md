@@ -3,7 +3,7 @@ type: "dataset"
 id: "CUBIGCorp/korean-pii-replacement-benchmark"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CUBIGCorp/korean-pii-replacement-benchmark"
-downloads: 113
+downloads: 123
 summary: "한국어 개인정보 식별자(PII) 대체 방식이 LLM의 식별자 추출 능력에 미치는 영향을 평가하는 벤치마크 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

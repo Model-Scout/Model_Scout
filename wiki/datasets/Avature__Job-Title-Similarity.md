@@ -3,7 +3,7 @@ type: "dataset"
 id: "Avature/Job-Title-Similarity"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Avature/Job-Title-Similarity"
-downloads: 578
+downloads: 475
 summary: "11개 언어로 된 직무명 유사도 벤치마크 데이터셋으로 직무명 의미 유사도 평가에 사용됨."
 readme_status: "ok"
 readme_language: "en"

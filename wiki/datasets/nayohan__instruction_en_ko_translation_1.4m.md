@@ -3,7 +3,7 @@ type: "dataset"
 id: "nayohan/instruction_en_ko_translation_1.4m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nayohan/instruction_en_ko_translation_1.4m"
-downloads: 51
+downloads: 62
 summary: "9개의 영어-한국어 명령어 병렬 데이터셋을 통합하고 중복 및 긴 문장 제거한 1.4백만 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

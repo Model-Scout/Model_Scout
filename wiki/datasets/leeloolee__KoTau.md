@@ -3,7 +3,7 @@ type: "dataset"
 id: "leeloolee/KoTau"
 source: "huggingface"
 url: "https://huggingface.co/datasets/leeloolee/KoTau"
-downloads: 93
+downloads: 98
 summary: "한국 여행사 벤치마크 KoTAU 개발용 데이터로, 철도, 숙박, 버스, 관광지 정보 포함."
 readme_status: "ok"
 readme_language: "en"

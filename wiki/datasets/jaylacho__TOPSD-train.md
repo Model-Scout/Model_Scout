@@ -3,7 +3,7 @@ type: "dataset"
 id: "jaylacho/TOPSD-train"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jaylacho/TOPSD-train"
-downloads: 162
+downloads: 187
 summary: "TOPSD와 COPSD 다국어 수학 문제 데이터로, 언어별 500개 샘플 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

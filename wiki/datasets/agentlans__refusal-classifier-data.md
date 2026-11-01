@@ -3,7 +3,7 @@ type: "dataset"
 id: "agentlans/refusal-classifier-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/agentlans/refusal-classifier-data"
-downloads: 53
+downloads: 57
 summary: "agentlans/refusal-classifier-data는 거절 분류기 학습용 대화 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

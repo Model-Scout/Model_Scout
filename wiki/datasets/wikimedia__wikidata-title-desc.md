@@ -3,7 +3,7 @@ type: "dataset"
 id: "wikimedia/wikidata-title-desc"
 source: "huggingface"
 url: "https://huggingface.co/datasets/wikimedia/wikidata-title-desc"
-downloads: 335
+downloads: 348
 summary: "Wikidata QID와 324개 위키백과 언어판의 제목 및 설명을 연결한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

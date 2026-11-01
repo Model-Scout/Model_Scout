@@ -3,7 +3,7 @@ type: "dataset"
 id: "yvfu/common_voice_21_0"
 source: "huggingface"
 url: "https://huggingface.co/datasets/yvfu/common_voice_21_0"
-downloads: 219
+downloads: 232
 summary: "Mozilla Common Voice 21.0 음성 데이터셋으로 음성 인식 등에 활용 가능"
 readme_status: "ok"
 readme_language: "en"

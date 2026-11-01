@@ -3,7 +3,7 @@ type: "model"
 id: "DavidAU/LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/DavidAU/LFM2.5-2.6B-Qwen3.8-Turbo-Brilliance-Power-X12-NEO-MAX-GGUF"
-downloads: 4636
+downloads: 39410
 task:
   - "[[텍스트 생성]]"
 input_modality:

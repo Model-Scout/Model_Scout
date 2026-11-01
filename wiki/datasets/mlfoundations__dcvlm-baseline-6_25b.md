@@ -3,7 +3,7 @@ type: "dataset"
 id: "mlfoundations/dcvlm-baseline-6_25b"
 source: "huggingface"
 url: "https://huggingface.co/datasets/mlfoundations/dcvlm-baseline-6_25b"
-downloads: 1479
+downloads: 1719
 summary: "DCVLM-Baseline은 DataComp-VLM 논문의 멀티모달 사전학습용 6.25B 토큰 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

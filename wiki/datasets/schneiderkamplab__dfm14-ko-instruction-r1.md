@@ -3,7 +3,7 @@ type: "dataset"
 id: "schneiderkamplab/dfm14-ko-instruction-r1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/schneiderkamplab/dfm14-ko-instruction-r1"
-downloads: 129
+downloads: 133
 summary: "자동 검토된 한국어 DFM14 지침 데이터로, 챗봇 학습용으로 사용됨."
 readme_status: "ok"
 readme_language: "en"

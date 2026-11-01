@@ -3,7 +3,7 @@ type: "dataset"
 id: "ddokbaro/KCI_data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/ddokbaro/KCI_data"
-downloads: 130
+downloads: 124
 summary: "한국학술지인용색인(KCI) 국내 학술지 논문 메타데이터로 학술 연구 및 LLM 학습용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

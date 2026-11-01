@@ -3,7 +3,7 @@ type: "dataset"
 id: "snowman0919/qwen38-executor-train-v2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/snowman0919/qwen38-executor-train-v2"
-downloads: 98
+downloads: 89
 summary: "Qwen3.8 Executor Unified Training Dataset는 도구 사용 및 컴퓨터 작업을 위한 실행기 기록 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

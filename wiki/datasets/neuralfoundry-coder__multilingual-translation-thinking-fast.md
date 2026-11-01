@@ -3,7 +3,7 @@ type: "dataset"
 id: "neuralfoundry-coder/multilingual-translation-thinking-fast"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neuralfoundry-coder/multilingual-translation-thinking-fast"
-downloads: 160
+downloads: 171
 summary: "다국어 번역 모델의 Thinking Mode 학습을 위한 균형 잡힌 샘플 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"
@@ -44,8 +44,8 @@ dataset_size:
 ## 분류
 
 - **작업**: [[번역]] — metadata · readme, tags, task_categories = `translation` · 신뢰도 high
-- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — metadata · modality, task:translation = `text` · 신뢰도 high
-- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — task_rule · task:translation = `text` · 신뢰도 medium
+- **입력 형식**: [[텍스트 (입력 형식)|텍스트]] — ner · modality, readme, task:translation = `messages` · 신뢰도 high
+- **출력 형식**: [[텍스트 (출력 형식)|텍스트]] — ner · readme, task:translation = `Translation result` · 신뢰도 medium
 - **언어**: [[영어]] — metadata · languages = `en` · 신뢰도 high
 - **언어**: [[id]] — metadata · languages = `id` · 신뢰도 high
 - **언어**: [[일본어]] — metadata · languages = `ja` · 신뢰도 high
@@ -55,7 +55,7 @@ dataset_size:
 - **언어**: [[vi]] — metadata · languages = `vi` · 신뢰도 high
 - **언어**: [[중국어]] — metadata · languages = `zh` · 신뢰도 high
 - **상업 이용**: [[비상업 전용]] — metadata · license = `cc-by-nc-sa-4.0` · 신뢰도 high
-- **도메인**: [[일반]] — ner · readme = `다국어 번역 데이터셋` · 신뢰도 low
+- **도메인**: [[일반]] — ner · readme = `다국어 번역 모델의 Thinking Mode 학습을 위한 균형 잡힌 샘플 데이터셋입니다.` · 신뢰도 low
 - **데이터 용도**: [[평가용]] — ner · readme = `Test Split (언어쌍별 151,521건)` · 신뢰도 medium
 - **데이터 용도**: [[학습용]] — ner · readme = `Train Split (언어쌍별 606,083건)` · 신뢰도 medium
 - **데이터 형식**: [[JSON]] — metadata · format = `json` · 신뢰도 high

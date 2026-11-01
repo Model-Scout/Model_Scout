@@ -3,7 +3,7 @@ type: "dataset"
 id: "nebchi/koen-text"
 source: "huggingface"
 url: "https://huggingface.co/datasets/nebchi/koen-text"
-downloads: 86
+downloads: 107
 summary: "한국어와 영어 텍스트로 구성된 데이터셋으로, 다양한 자연어처리 작업에 활용 가능함."
 readme_status: "ok"
 readme_language: "en"

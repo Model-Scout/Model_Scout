@@ -3,7 +3,7 @@ type: "dataset"
 id: "KETI-NLP/kor_quarel"
 source: "huggingface"
 url: "https://huggingface.co/datasets/KETI-NLP/kor_quarel"
-downloads: 128
+downloads: 120
 summary: "Qualitative 관계에 관한 질문에 답하기 위한 Quarel 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "NecroMOnk/malicious-coding-intent-v6-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NecroMOnk/malicious-coding-intent-v6-data"
-downloads: 140
+downloads: 177
 summary: "악성 코드 의도 분류를 위한 코드 스니펫 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

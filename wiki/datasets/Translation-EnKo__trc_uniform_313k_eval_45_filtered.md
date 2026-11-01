@@ -3,7 +3,7 @@ type: "dataset"
 id: "Translation-EnKo/trc_uniform_313k_eval_45_filtered"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Translation-EnKo/trc_uniform_313k_eval_45_filtered"
-downloads: 23
+downloads: 28
 summary: "nayohan/translate_corpus_uniform_313k 데이터셋을 평가하기 위해 nayohan/llama3-8b-it-prometheus-ko 모델로 점수 4,5를 필터링한 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

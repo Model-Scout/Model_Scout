@@ -3,7 +3,7 @@ type: "dataset"
 id: "shreyanshu09/Block_Diagram"
 source: "huggingface"
 url: "https://huggingface.co/datasets/shreyanshu09/Block_Diagram"
-downloads: 294
+downloads: 307
 summary: "다양한 유형의 블록 다이어그램 이미지와 고품질 요약을 포함한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

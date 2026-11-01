@@ -3,7 +3,7 @@ type: "dataset"
 id: "datumo/KorNAT"
 source: "huggingface"
 url: "https://huggingface.co/datasets/datumo/KorNAT"
-downloads: 86
+downloads: 88
 summary: "KorNAT는 한국 사회 가치와 상식을 측정하는 한국 국가 정렬 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

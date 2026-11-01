@@ -3,7 +3,7 @@ type: "dataset"
 id: "PocketDoc/Dans-Assistantmaxx-Tulu3-IF"
 source: "huggingface"
 url: "https://huggingface.co/datasets/PocketDoc/Dans-Assistantmaxx-Tulu3-IF"
-downloads: 9
+downloads: 7
 readme_status: "missing"
 korean_focus: "not_ko"
 input_modality:

@@ -3,7 +3,7 @@ type: "dataset"
 id: "neogenesislab/cross-agent-review-queue-2026"
 source: "huggingface"
 url: "https://huggingface.co/datasets/neogenesislab/cross-agent-review-queue-2026"
-downloads: 80
+downloads: 82
 summary: "Codex와 Claude 간 다중 에이전트 코드 리뷰 대화록 데이터셋으로 에이전트 협업 연구용입니다."
 readme_status: "ok"
 readme_language: "en"

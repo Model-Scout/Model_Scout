@@ -3,7 +3,7 @@ type: "dataset"
 id: "philschmid/finanical-rag-embedding-dataset"
 source: "huggingface"
 url: "https://huggingface.co/datasets/philschmid/finanical-rag-embedding-dataset"
-downloads: 113
+downloads: 116
 summary: "NVIDIA 2023 SEC 보고서에서 추출한 질문-문맥 쌍으로 임베딩 모델 미세조정용 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

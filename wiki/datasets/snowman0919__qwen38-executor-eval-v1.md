@@ -3,7 +3,7 @@ type: "dataset"
 id: "snowman0919/qwen38-executor-eval-v1"
 source: "huggingface"
 url: "https://huggingface.co/datasets/snowman0919/qwen38-executor-eval-v1"
-downloads: 181
+downloads: 142
 summary: "Qwen3.8 Executor 평가용 데이터셋으로 도구 사용 및 컴퓨터 작업 평가에 활용됨."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "NCSOFT/K-SEED"
 source: "huggingface"
 url: "https://huggingface.co/datasets/NCSOFT/K-SEED"
-downloads: 216
+downloads: 242
 summary: "K-SEED는 한국어로 번역된 SEED-Bench로, 시각-언어 모델 평가용 벤치마크입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "AmazonScience/tydi-as2"
 source: "huggingface"
 url: "https://huggingface.co/datasets/AmazonScience/tydi-as2"
-downloads: 666
+downloads: 683
 summary: "TyDi-AS2는 8개 언어의 다국어 답변 문장 선택(AS2) 데이터셋으로, 저자들이 ACL 2023에서 발표한 논문 기반입니다."
 readme_status: "ok"
 readme_language: "en"

@@ -3,7 +3,7 @@ type: "dataset"
 id: "bluejude10/KR-Self-Driving-Legal-QA"
 source: "huggingface"
 url: "https://huggingface.co/datasets/bluejude10/KR-Self-Driving-Legal-QA"
-downloads: 599
+downloads: 605
 summary: "한국 자율주행자동차 법령 및 가이드라인 기반 고품질 질의응답 데이터셋입니다."
 readme_status: "ok"
 readme_language: "mixed"

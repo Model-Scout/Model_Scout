@@ -3,7 +3,7 @@ type: "dataset"
 id: "CausalNLP/entropy-ko-jp-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/CausalNLP/entropy-ko-jp-data"
-downloads: 127
+downloads: 126
 summary: "FineWeb2 다국어 CLT 엔트로피 평가를 위한 한국어·일본어 토큰 시퀀스 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

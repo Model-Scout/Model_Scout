@@ -3,7 +3,7 @@ type: "dataset"
 id: "HuggingFaceTB/smoltalk"
 source: "huggingface"
 url: "https://huggingface.co/datasets/HuggingFaceTB/smoltalk"
-downloads: 49686
+downloads: 49415
 summary: "SmolTalk은 LLM 지도학습용 합성 데이터셋으로 다양한 텍스트 편집, 요약, 추론 작업에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"
@@ -52,3 +52,7 @@ SmolTalk은 LLM 지도학습용 합성 데이터셋으로 다양한 텍스트 �
 - **데이터 용도**: [[학습용]] — ner · readme, referenced_by_models = `This is a synthetic dataset designed for supervised finetuning (SFT) of LLMs.` · 신뢰도 medium
 - **데이터 형식**: [[Parquet]] — metadata · format = `parquet` · 신뢰도 high
 - **데이터 규모**: [[대규모 데이터]] — metadata · size_categories = `9999999.0` · 신뢰도 high
+
+## 이 데이터로 학습한 모델
+
+- [[prismdata__Perdix-1.1B-Instruct|prismdata/Perdix-1.1B-Instruct]]

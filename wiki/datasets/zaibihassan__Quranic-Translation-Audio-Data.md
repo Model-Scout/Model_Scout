@@ -3,7 +3,7 @@ type: "dataset"
 id: "zaibihassan/Quranic-Translation-Audio-Data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/zaibihassan/Quranic-Translation-Audio-Data"
-downloads: 12886
+downloads: 12939
 summary: "51개 언어의 꾸란 번역 낭독 오디오와 타이밍 데이터를 포함한 다국어 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

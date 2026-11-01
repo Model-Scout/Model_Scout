@@ -1,16 +1,16 @@
 {
   "stage_version": 1,
-  "completed_at": "2026-10-29T15:51:46Z",
-  "elapsed_seconds": 29.7,
-  "min_downloads": 80,
+  "completed_at": "2026-10-31T16:10:33Z",
+  "elapsed_seconds": 144.3,
+  "min_downloads": 0,
   "limit": null,
-  "rows": 1760,
+  "rows": 3711,
   "seed_counts": {
-    "language:ko": 1366,
-    "model_reference": 486,
-    "both": 92
+    "language:ko": 3349,
+    "model_reference": 484,
+    "both": 122
   },
-  "model_references_cited": 555,
+  "model_references_cited": 553,
   "unresolved_model_references": {
     "flores-200": "RepositoryNotFoundError",
     "fleurs": "RepositoryNotFoundError",
@@ -73,9 +73,9 @@
     "data/stepbuild": "RepositoryNotFoundError"
   },
   "readme_languages": {
-    "en": 1563,
-    "mixed": 121,
+    "en": 3170,
+    "mixed": 388,
     "None": 49,
-    "ko": 27
+    "ko": 104
   }
 }

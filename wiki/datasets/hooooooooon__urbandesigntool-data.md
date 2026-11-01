@@ -3,7 +3,7 @@ type: "dataset"
 id: "hooooooooon/urbandesigntool-data"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hooooooooon/urbandesigntool-data"
-downloads: 811
+downloads: 900
 summary: "Gorani 플러그인용 지역 단위 SQLite 공간정보 데이터 팩으로, 한국 시군구 및 여러 국가 건물 정보를 포함합니다."
 readme_status: "ok"
 readme_language: "mixed"

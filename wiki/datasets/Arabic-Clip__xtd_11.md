@@ -3,7 +3,7 @@ type: "dataset"
 id: "Arabic-Clip/xtd_11"
 source: "huggingface"
 url: "https://huggingface.co/datasets/Arabic-Clip/xtd_11"
-downloads: 824
+downloads: 874
 summary: "11개 언어로 된 1,000개 이미지와 캡션으로 제로샷 이미지 및 텍스트 검색을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

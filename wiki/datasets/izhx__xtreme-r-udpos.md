@@ -3,7 +3,7 @@ type: "dataset"
 id: "izhx/xtreme-r-udpos"
 source: "huggingface"
 url: "https://huggingface.co/datasets/izhx/xtreme-r-udpos"
-downloads: 373
+downloads: 411
 summary: "XTREME-R 데이터셋의 UDPOS 태깅을 위한 다국어 평가용 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

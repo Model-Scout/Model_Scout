@@ -3,7 +3,7 @@ type: "dataset"
 id: "meta13sphere/meta13sphere_IRS_DCE_Topological_Dynamics__Boundary_Dissolution_Physics"
 source: "huggingface"
 url: "https://huggingface.co/datasets/meta13sphere/meta13sphere_IRS_DCE_Topological_Dynamics__Boundary_Dissolution_Physics"
-downloads: 6205
+downloads: 7363
 summary: "IRS-DCE 경계 해체 물리학 연구로, 수학적 공식화와 공학적 실행을 위한 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

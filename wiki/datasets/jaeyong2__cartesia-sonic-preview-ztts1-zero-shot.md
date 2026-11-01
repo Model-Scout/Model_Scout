@@ -3,7 +3,7 @@ type: "dataset"
 id: "jaeyong2/cartesia-sonic-preview-ztts1-zero-shot"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jaeyong2/cartesia-sonic-preview-ztts1-zero-shot"
-downloads: 372
+downloads: 336
 summary: "7개 언어 500문장씩 음성 클로닝 TTS 합성 및 평가 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

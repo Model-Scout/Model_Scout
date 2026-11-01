@@ -3,7 +3,7 @@ type: "dataset"
 id: "legesher/language-packs"
 source: "huggingface"
 url: "https://huggingface.co/datasets/legesher/language-packs"
-downloads: 119
+downloads: 124
 summary: "Legesher Language Packs는 프로그래밍 언어 예약어를 다양한 자연어로 번역한 코드 현지화 데이터입니다."
 readme_status: "ok"
 readme_language: "en"

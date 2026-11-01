@@ -3,7 +3,7 @@ type: "dataset"
 id: "vicenteor/sbu_captions"
 source: "huggingface"
 url: "https://huggingface.co/datasets/vicenteor/sbu_captions"
-downloads: 164
+downloads: 233
 summary: "SBU Captioned Photo Dataset는 Flickr에서 수집한 100만 개 이상의 이미지와 캡션 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

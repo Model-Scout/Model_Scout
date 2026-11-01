@@ -3,7 +3,7 @@ type: "dataset"
 id: "google/smol"
 source: "huggingface"
 url: "https://huggingface.co/datasets/google/smol"
-downloads: 7687
+downloads: 8305
 summary: "SMOL은 221개 저자원 언어의 전문 번역 데이터로 번역 모델 학습에 활용됩니다."
 readme_status: "ok"
 readme_language: "en"
@@ -45,3 +45,7 @@ SMOL은 221개 저자원 언어의 전문 번역 데이터로 번역 모델 학�
 - **도메인**: [[일반]] — ner · readme = `increasing the representations of said languages in NLP and technology` · 신뢰도 low
 - **데이터 용도**: [[학습용]] — ner · readme = `for the purpose of training translation models` · 신뢰도 medium
 - **데이터 규모**: [[중규모 데이터]] — metadata · size_categories = `99999.0` · 신뢰도 high
+
+## 같은 데이터의 사본·중복 등록
+
+- `mabsoutwassim/smol`

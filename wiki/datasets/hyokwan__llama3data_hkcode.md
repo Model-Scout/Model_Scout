@@ -3,7 +3,7 @@ type: "dataset"
 id: "hyokwan/llama3data_hkcode"
 source: "huggingface"
 url: "https://huggingface.co/datasets/hyokwan/llama3data_hkcode"
-downloads: 14
+downloads: 17
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "not_ko"

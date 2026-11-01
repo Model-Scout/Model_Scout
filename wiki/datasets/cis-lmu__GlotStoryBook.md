@@ -3,7 +3,7 @@ type: "dataset"
 id: "cis-lmu/GlotStoryBook"
 source: "huggingface"
 url: "https://huggingface.co/datasets/cis-lmu/GlotStoryBook"
-downloads: 169
+downloads: 196
 summary: "180개 언어의 동화책 병렬 데이터셋으로 다국어 문서 비교 및 연구에 활용됨."
 readme_status: "ok"
 readme_language: "en"

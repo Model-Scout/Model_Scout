@@ -3,7 +3,7 @@ type: "dataset"
 id: "rubricreward/mR3-Dataset-100K-EasyToHard"
 source: "huggingface"
 url: "https://huggingface.co/datasets/rubricreward/mR3-Dataset-100K-EasyToHard"
-downloads: 247
+downloads: 244
 summary: "mR3 데이터셋은 72개 언어의 추론 보상 모델 학습용 10만 샘플을 포함합니다."
 readme_status: "ok"
 readme_language: "en"

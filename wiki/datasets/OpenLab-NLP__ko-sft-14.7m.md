@@ -3,7 +3,7 @@ type: "dataset"
 id: "OpenLab-NLP/ko-sft-14.7m"
 source: "huggingface"
 url: "https://huggingface.co/datasets/OpenLab-NLP/ko-sft-14.7m"
-downloads: 127
+downloads: 131
 readme_status: "thin"
 readme_language: "en"
 korean_focus: "ko_only"

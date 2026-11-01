@@ -3,7 +3,7 @@ type: "dataset"
 id: "jp1924-audio-1/KconfSpeech"
 source: "huggingface"
 url: "https://huggingface.co/datasets/jp1924-audio-1/KconfSpeech"
-downloads: 170
+downloads: 177
 summary: "한국어 음성 인식(ASR) 학습용 대규모 음성 데이터셋입니다."
 readme_status: "ok"
 readme_language: "en"

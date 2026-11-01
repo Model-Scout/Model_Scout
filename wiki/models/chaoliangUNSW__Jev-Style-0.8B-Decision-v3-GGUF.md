@@ -3,7 +3,7 @@ type: "model"
 id: "chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF"
 source: "huggingface"
 url: "https://huggingface.co/chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF"
-downloads: 944
+downloads: 7723
 task:
   - "[[텍스트 분류]]"
 input_modality:
