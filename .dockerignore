@@ -1,0 +1,8 @@
+*
+!ai/*.py
+!ai/taxonomy.yaml
+!ai/requirements.txt
+!ai/requirements_mcp.txt
+!backend/requirements.txt
+!backend/app
+**/__pycache__
