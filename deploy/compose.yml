@@ -1,0 +1,36 @@
+# Runs on the VPS from /opt/model-scout; deploy/deploy.sh copies this file and the data there.
+services:
+  api:
+    image: model-scout-api:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+      ENABLE_DOCS: "0"
+      RATE_LIMIT_PER_MINUTE: "10"
+      DAILY_REQUEST_LIMIT: "300"
+    volumes:
+      - ./data:/app/ai/data:ro
+    mem_limit: 1300m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+
+  # Only Caddy publishes ports; the API stays on the compose network.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      API_DOMAIN: ${API_DOMAIN:-49-247-194-63.sslip.io}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+
+volumes:
+  caddy_data:

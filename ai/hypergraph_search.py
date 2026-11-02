@@ -170,7 +170,7 @@ def evidence_item(entity_id, concept_id, label):
 def load_dataset_vectors():
     """Unit-normalised chunk vectors plus, per row, the index of its dataset."""
     manifest = json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))
-    matrix = np.load(DATASET_INDEX_DIR / "embeddings.npy").astype(np.float32)
+    matrix = np.load(DATASET_INDEX_DIR / "embeddings.npy", mmap_mode="r").astype(np.float32)
     matrix /= np.linalg.norm(matrix, axis=1, keepdims=True) + 1e-12
     names = sorted({cid.rsplit("#", 1)[0] for cid in manifest["chunk_ids"]})
     position = {name: i for i, name in enumerate(names)}

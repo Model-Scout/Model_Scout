@@ -38,10 +38,12 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, cast
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
+
+from rate_limit import RateLimiter
 
 ROOT = Path(__file__).resolve().parents[2] / "ai"  # the recommendation graph and its helpers live there
 sys.path.insert(0, str(ROOT))
@@ -58,6 +60,7 @@ def _load_graph_module():
 
 
 rg = _load_graph_module()
+limiter = RateLimiter(int(os.getenv("RATE_LIMIT_PER_MINUTE", "10")), int(os.getenv("DAILY_REQUEST_LIMIT", "300")))
 
 
 class RecommendRequest(BaseModel):
@@ -99,6 +102,10 @@ async def lifespan(app: FastAPI):
     import hypergraph_search
 
     hypergraph_search.load_graph()
+    if (hypergraph_search.DATASET_INDEX_DIR / "embeddings.npy").exists():
+        hypergraph_search.load_dataset_vectors()
+    else:
+        logging.warning("embeddings.npy is missing: dataset search falls back to Supabase, about 10 s per query")
     rg._load_09()
     try:  # first query after a restart or DB rewrite reads cold pages; pay that here, not per user
         rg._load_09().search_models("한국어 임베딩 모델", match_count=1)
@@ -117,7 +124,11 @@ async def lifespan(app: FastAPI):
         pool.close()
 
 
-app = FastAPI(title="Model Scout API", lifespan=lifespan)
+app = FastAPI(
+    title="Model Scout API",
+    lifespan=lifespan,
+    openapi_url="/openapi.json" if os.getenv("ENABLE_DOCS", "1") == "1" else None,  # None also removes /docs and /redoc
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
@@ -138,7 +149,15 @@ NODE_EVENTS = {
 }
 
 
-def stream_recommendation(graph, payload, thread_id):
+def client_ip(request: Request) -> str:
+    # Caddy overwrites X-Forwarded-For and the API port is not published, so this cannot be spoofed in production.
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[-1].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def stream_recommendation(graph, payload, thread_id, ip="unknown"):
     config = {"configurable": {"thread_id": thread_id}}
     started = time.time()
     try:
@@ -159,14 +178,20 @@ def stream_recommendation(graph, payload, thread_id):
         if app.state.pool is not None:
             with app.state.pool.connection() as conn:
                 rg.prune_thread(conn, thread_id)
+        logging.info("recommend done ip=%s elapsed=%.1f", ip, time.time() - started)
         yield sse("done", {"thread_id": thread_id, "elapsed": round(time.time() - started, 2)})
     except Exception as error:  # surfaced to the client; the stream must end with an event
-        logging.exception("recommendation failed")
+        logging.exception("recommend failed ip=%s", ip)
         yield sse("error", {"message": f"{type(error).__name__}: {error}"[:500]})
 
 
 @app.post("/api/recommend")
-def recommend(body: RecommendRequest):
+def recommend(body: RecommendRequest, request: Request):
+    ip = client_ip(request)
+    wait = limiter.retry_after(ip)
+    if wait is not None:
+        logging.warning("recommend rate limited ip=%s retry_after=%s", ip, wait)
+        raise HTTPException(429, "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.", {"Retry-After": str(wait)})
     if body.answer is not None:
         if not body.thread_id or not rg.pending_questions(
             app.state.graph, {"configurable": {"thread_id": body.thread_id}}
@@ -178,7 +203,7 @@ def recommend(body: RecommendRequest):
     else:
         raise HTTPException(422, "message or answer is required")
     return StreamingResponse(
-        stream_recommendation(app.state.graph, payload, thread_id),
+        stream_recommendation(app.state.graph, payload, thread_id, ip),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
