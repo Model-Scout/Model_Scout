@@ -1,0 +1,142 @@
+#!/usr/bin/env python3
+"""골든셋 v2를 기계적으로 검증한다. 사람이 판단할 것과 분리하기 위한 도구다.
+
+사람이 볼 것은 "질의문이 자연스러운가", "조건이 질의문에서 나왔는가"뿐이다.
+숫자가 맞는지는 이 스크립트가 전부 확인한다.
+
+    python test/golden/v2/tools/verify.py            # 전체
+    python test/golden/v2/tools/verify.py abstention # 한 유형
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from typing import Any, Dict, List
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import corpus_v2  # noqa: E402
+
+V2 = Path(__file__).resolve().parents[1]
+
+# planner.HARD_FILTER_KEYS — 하드 필터가 실제로 읽는 조건만 conditions에 올 수 있다.
+HARD_FILTER_KEYS = {
+    "pools",
+    "tasks",
+    "korean_required",
+    "max_parameters_billion",
+    "min_context_length",
+    "max_context_length",
+    "require_known_parameters",
+    "require_known_context",
+    "popularity_tier",
+}
+
+
+def check_type(query_type: str) -> List[str]:
+    path = V2 / "judged" / f"{query_type}.jsonl"
+    if not path.exists():
+        return [f"{path.name} 없음"]
+    with path.open(encoding="utf-8") as handle:
+        records = [json.loads(line) for line in handle if line.strip()]
+
+    problems: List[str] = []
+    snapshot_meta = json.loads((V2 / "corpus_snapshot.meta.json").read_text(encoding="utf-8"))
+
+    print(f"\n{'=' * 78}")
+    print(f"{query_type} — 질의 {len(records)}개")
+    print("=" * 78)
+    print(f"{'id':7s} {'조건키':>6s} {'근거':>5s} {'eligible':>9s} {'기대':>5s} {'판정자':>8s}  결과")
+    print("-" * 78)
+
+    seen_ids = set()
+    for record in records:
+        qid = record["query_id"]
+        conditions: Dict[str, Any] = record["conditions"]
+        fidelity: Dict[str, Any] = record.get("conditions_fidelity") or {}
+        issues: List[str] = []
+
+        if qid in seen_ids:
+            issues.append("query_id 중복")
+        seen_ids.add(qid)
+
+        # ① conditions의 키가 하드 필터가 읽는 것인지
+        unknown = set(conditions) - HARD_FILTER_KEYS
+        if unknown:
+            issues.append(f"하드 필터가 모르는 조건 {sorted(unknown)}")
+
+        # ② 모든 조건에 질의문 근거가 적혀 있는지 — 1층(완전성)의 검증 수단
+        missing = set(conditions) - set(fidelity)
+        if missing:
+            issues.append(f"질의문 근거 없는 조건 {sorted(missing)}")
+
+        # ③ 기록된 eligible 수가 지금도 재현되는지
+        actual = corpus_v2.count(**conditions)
+        if actual != record["eligible_count"]:
+            issues.append(f"eligible 기록 {record['eligible_count']} ≠ 실측 {actual}")
+
+        # ④ 유형별 불변식
+        expected = record["expected_behavior"]
+        if query_type == "abstention":
+            if expected != "abstain":
+                issues.append(f"expected_behavior={expected}")
+            if actual != 0:
+                issues.append(f"abstention인데 후보 {actual}개")
+            if record["expected_any"] or record["acceptable"]:
+                issues.append("abstention인데 정답이 기록돼 있음")
+        else:
+            if not record["expected_any"] and not record["acceptable"]:
+                issues.append("정답이 비어 있음")
+            graded = set(record["expected_any"]) | set(record["acceptable"])
+            eligible_ids = {row["model_id"] for row in corpus_v2.eligible(conditions)}
+            outside = graded - eligible_ids
+            if outside:
+                issues.append(f"eligible 밖의 정답 {len(outside)}개 — 검색이 찾을 수 없음")
+
+        # ⑤ 코퍼스 기준이 스냅샷과 같은지
+        if record["corpus_snapshot"]["sync_run_id"] != snapshot_meta["last_sync_run_id"]:
+            issues.append("다른 코퍼스 스냅샷으로 판정됨")
+
+        judged = record.get("judged_by") or "미판정"
+        mark = "✅" if not issues else "❌ " + " / ".join(issues)
+        print(f"{qid:7s} {len(conditions):6d} {len(fidelity):5d} {actual:9d} "
+              f"{'0' if query_type == 'abstention' else '-':>5s} {judged:>8s}  {mark}")
+        problems.extend(f"{qid}: {issue}" for issue in issues)
+
+    return problems
+
+
+def main() -> None:
+    types = sys.argv[1:] or [
+        path.stem for path in sorted((V2 / "judged").glob("*.jsonl"))
+    ]
+    if not types:
+        raise SystemExit("judged/ 가 비어 있습니다")
+
+    meta = json.loads((V2 / "corpus_snapshot.meta.json").read_text(encoding="utf-8"))
+    rows = len(corpus_v2.load_rows())
+    print(f"판정 기준 코퍼스 {rows}행 (기록 {meta['rows']}행, "
+          f"sync_run_id {meta['last_sync_run_id'][:8]}, {meta['corpus_refreshed_at'][:10]})")
+    if rows != meta["rows"]:
+        raise SystemExit(f"❌ 스냅샷 행 수 불일치: 실제 {rows} ≠ 기록 {meta['rows']}")
+
+    problems: List[str] = []
+    for query_type in types:
+        problems.extend(check_type(query_type))
+
+    print()
+    if problems:
+        print(f"❌ 문제 {len(problems)}건")
+        for problem in problems:
+            print(f"  · {problem}")
+        raise SystemExit(1)
+    print("✅ 기계 검증 전부 통과")
+    print()
+    print("남은 것은 사람 판단입니다 — worksheets/<유형>.md 를 보세요.")
+    print("  · 질의문이 실제로 누가 물어볼 만한가")
+    print("  · 조건이 질의문의 요구를 넘지 않는가")
+
+
+if __name__ == "__main__":
+    main()

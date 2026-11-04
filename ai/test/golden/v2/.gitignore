@@ -4,9 +4,10 @@
 # 출처와 행 수는 corpus_snapshot.meta.json에 기록되어 커밋된다.
 corpus_snapshot.jsonl
 
-# v2 전용 BGE-M3 인덱스도 재생성 가능하다 (tools/build_index.py).
-# embedding_text는 Stage 3 스냅샷에서 다시 만들고 Supabase의 document_hash로
-# 검증한다(3,872/3,872 일치 확인). 15MB짜리 중간 산출물이고, 아직 나 혼자
-# 쓰는 실험용이라 커밋하지 않는다. 골든셋이 완성되고 전 유형 재측정을 할 때
-# 팀과 합의해 공유 인덱스(ai/data/retrieval_lab/)를 갱신한다.
-index/
+# v2 전용 BGE-M3 인덱스(index/bge_m3_*)는 커밋한다. 7MB이고 재생성에 11분이
+# 걸리므로, 받아서 바로 실험할 수 있는 편이 낫다. 공유 인덱스
+# (ai/data/retrieval_lab/)는 그대로 두고 v2 안에만 둔다.
+#
+# 중간 산출물만 제외한다.
+index/embedding_texts.jsonl
+index/.bge_m3_build/
