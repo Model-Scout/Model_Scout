@@ -1,2 +1,6 @@
--r ../ai/requirements.txt
--r ../ai/requirements_mcp.txt
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27
+psycopg[binary]>=3.2
+psycopg-pool>=3.2
+pydantic>=2

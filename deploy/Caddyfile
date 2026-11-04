@@ -1,6 +1,6 @@
 {$API_DOMAIN} {
-	# Flush every SSE event as soon as the API writes it.
-	reverse_proxy api:8000 {
+	# Flush every SSE event as soon as the backend writes it.
+	reverse_proxy backend:8000 {
 		flush_interval -1
 	}
 }

@@ -1,6 +1,6 @@
 """Per-IP and daily request limits for the endpoints that spend OpenAI credit.
 
-    python backend/app/rate_limit.py    # self-check
+python backend/app/rate_limit.py    # self-check
 """
 
 from __future__ import annotations

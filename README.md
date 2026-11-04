@@ -5,8 +5,8 @@
 | 폴더 | 역할 | 스택 |
 |---|---|---|
 | [`frontend/`](frontend/) | 웹 UI (추천 스트리밍, 추가 질문, 모델 비교) | Next.js 15, TypeScript, Tailwind, pnpm |
-| [`backend/`](backend/) | API 서버 `backend/app/main.py` | FastAPI (SSE) |
-| [`ai/`](ai/) | 수집·임베딩·검색 파이프라인, 추천 그래프, 데이터 `ai/data/` ([상세 README](ai/README.md)) | Python 3.11, LangGraph |
+| [`backend/`](backend/) | 공개 API `backend/app/main.py` (세션, 대화 이력, AI 호출) | FastAPI (SSE) |
+| [`ai/`](ai/) | 내부 추천 API `ai/api.py`, 수집·임베딩·검색 파이프라인, 추천 그래프, 데이터 `ai/data/` ([상세 README](ai/README.md)) | Python 3.11, LangGraph |
 | [`docs/`](docs/) | 기획 문서 | |
 
 DB는 Supabase(Postgres + pgvector)를 사용합니다.

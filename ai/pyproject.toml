@@ -5,7 +5,7 @@ line-length = 120
 target-version = "py311"
 include = [
     "1[1-9]_*.py", "2[0-2]_*.py", "hypergraph_search.py", "dataset_dedup.py", "taxonomy.py",
-    "supabase_db.py", "project_checks.py",
+    "supabase_db.py", "project_checks.py", "api.py",
 ]
 
 [tool.ruff.lint]
