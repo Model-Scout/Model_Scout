@@ -1,0 +1,81 @@
+판정 기준 코퍼스 3872행 (Supabase active 스냅샷)
+
+====================================================================================================
+A. task별 후보 수 (한국어 필수, 다른 조건 없음)
+====================================================================================================
+task                                  전체    core만     low만
+summarization                         14        3       11
+question-answering                    21        6       15
+text-classification                  105       49       56
+feature-extraction                   146       64       82
+translation                          245      117      128
+automatic-speech-recognition         251      136      115
+sentence-similarity                  292       71      221
+image-text-to-text                   444      226      218
+text-generation                     2357      926     1431
+
+====================================================================================================
+B. task × 파라미터 상한  (require_known_parameters=False — 미공개 모델도 통과)
+====================================================================================================
+task                                  0.3B      0.5B      1.0B      3.0B      8.0B
+summarization                           12        12        14        14        14
+question-answering                      16        16        17        17        19
+text-classification                     73        90       100       102       105
+feature-extraction                      74        79       134       137       142
+translation                            169       174       180       198       220
+automatic-speech-recognition           174       183       211       233       244
+sentence-similarity                    207       238       275       285       292
+image-text-to-text                     227       238       239       276       306
+text-generation                        981      1036      1082      1309      1636
+
+====================================================================================================
+C. task × context 하한  (require_known_context=False)
+====================================================================================================
+task                                  2048      8192     32768    131072
+summarization                            8         8         8         6
+question-answering                      17        16        15        15
+text-classification                     52        52        29        24
+feature-extraction                      98        97        68        56
+translation                            177       172       166       157
+automatic-speech-recognition           212       208       207       203
+sentence-similarity                    103       100        66        50
+image-text-to-text                     444       444       437       387
+text-generation                       2316      2153      2068      1623
+
+====================================================================================================
+D. require_known_* 플래그가 숨기는 후보 수  ⚠️ 정답 누락 경로
+====================================================================================================
+질의                                         known=F   known=T      숨은 탈락
+summarization ≤0.3B                             12         4          8
+summarization ≤1.0B                             14         6          8
+summarization ≤3.0B                             14         6          8
+question-answering ≤0.3B                        16         4         12
+question-answering ≤1.0B                        17         5         12
+question-answering ≤3.0B                        17         5         12
+text-classification ≤0.3B                       73        60         13
+text-classification ≤1.0B                      100        87         13
+text-classification ≤3.0B                      102        89         13
+feature-extraction ≤0.3B                        74        46         28
+feature-extraction ≤1.0B                       134       106         28
+feature-extraction ≤3.0B                       137       109         28
+translation ≤0.3B                              169         9        160
+translation ≤1.0B                              180        20        160
+translation ≤3.0B                              198        38        160
+automatic-speech-recognition ≤0.3B             174        26        148
+automatic-speech-recognition ≤1.0B             211        63        148
+automatic-speech-recognition ≤3.0B             233        85        148
+sentence-similarity ≤0.3B                      207       176         31
+sentence-similarity ≤1.0B                      275       244         31
+sentence-similarity ≤3.0B                      285       254         31
+image-text-to-text ≤0.3B                       227         0        227
+image-text-to-text ≤1.0B                       239        12        227
+image-text-to-text ≤3.0B                       276        49        227
+text-generation ≤0.3B                          981        79        902
+text-generation ≤1.0B                         1082       180        902
+text-generation ≤3.0B                         1309       407        902
+
+====================================================================================================
+E. 값 미공개 비율 — 위 D의 원인
+====================================================================================================
+  파라미터 수         미공개  1527 / 3872 =  39.4%
+  컨텍스트 길이        미공개  1459 / 3872 =  37.7%
