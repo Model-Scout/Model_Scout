@@ -13,7 +13,7 @@ python-dotenv>=1.0
 langgraph-checkpoint-postgres>=3.0,<4
 psycopg[binary]>=3.2
 pydantic>=2
-# SSE API server (backend/app/main.py)
+# Internal SSE API (api.py)
 fastapi>=0.110
 uvicorn>=0.29
 psycopg-pool>=3.2

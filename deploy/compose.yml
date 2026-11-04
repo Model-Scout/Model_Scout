@@ -1,28 +1,46 @@
 # Runs on the VPS from /opt/model-scout; deploy/deploy.sh copies this file and the data there.
 services:
-  api:
-    image: model-scout-api:latest
+  # Internal only: reachable from the backend, published nowhere.
+  ai:
+    image: model-scout-ai:latest
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.ai
     environment:
+      ENABLE_DOCS: "0"
+    volumes:
+      - ./data:/app/ai/data:ro
+    mem_limit: 1200m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/ai/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+
+  backend:
+    image: model-scout-backend:latest
+    restart: unless-stopped
+    depends_on: [ai]
+    env_file: .env.backend
+    environment:
+      AI_URL: http://ai:8000
       CORS_ORIGINS: ${CORS_ORIGINS:-*}
       ENABLE_DOCS: "0"
       RATE_LIMIT_PER_MINUTE: "10"
       DAILY_REQUEST_LIMIT: "300"
     volumes:
-      - ./data:/app/ai/data:ro
-    mem_limit: 1300m
+      - ./data/readmes:/app/readmes:ro
+    mem_limit: 300m
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/api/health')"]
       interval: 30s
       timeout: 5s
-      start_period: 60s
+      start_period: 20s
 
-  # Only Caddy publishes ports; the API stays on the compose network.
+  # Only Caddy publishes ports.
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
-    depends_on: [api]
+    depends_on: [backend]
     environment:
       API_DOMAIN: ${API_DOMAIN:-49-247-194-63.sslip.io}
     ports:
