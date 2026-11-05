@@ -1,0 +1,26 @@
+{
+  "source": "supabase.public.model_scout_models",
+  "filter": "active = true",
+  "rows": 3872,
+  "pool_counts": {
+    "core": 1596,
+    "low_popularity": 2276
+  },
+  "evidence_rows": 3872,
+  "models_without_evidence": [],
+  "last_sync_run_id": "edf6aa33-9598-4ae9-819b-d234926d8d24",
+  "last_sync_started_at": "2026-10-31 06:49:44.606671+00:00",
+  "last_sync_stage_versions": {
+    "stage1": 7,
+    "stage2": 6,
+    "stage3": 1,
+    "stage4": 1,
+    "sync_mode": "incremental",
+    "corpus_rows": 3886,
+    "source_watermark": "2026-10-31T06:44:44.365898+00:00"
+  },
+  "last_sync_row_count": 28,
+  "corpus_refreshed_at": "2026-10-31 06:49:43.471265+00:00",
+  "github_actions": "disabled (팀 결정). 이 스냅샷이 확정 후보 집합이다.",
+  "note": "OpenAI 임베딩 벡터는 제외. 판정은 메타데이터/claim/evidence로만 한다."
+}

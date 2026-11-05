@@ -1,0 +1,24 @@
+{
+  "backfill_version": 1,
+  "models_patched": 1724,
+  "moe_suspects": 120,
+  "by_field": {
+    "disk_size_gib": 1724,
+    "parameter_count": 1278,
+    "hardware.weights_only": 1278,
+    "context_length": 1152,
+    "architectures": 1259,
+    "model.type": 1217
+  },
+  "by_pool": {
+    "core": {
+      "rows": 1596,
+      "patched": 838
+    },
+    "low_popularity": {
+      "rows": 2276,
+      "patched": 886
+    }
+  },
+  "note": "stage2_version은 올리지 않았다. 교체 시점에 팀이 결정한다."
+}

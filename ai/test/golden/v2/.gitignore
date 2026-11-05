@@ -1,0 +1,13 @@
+# 판정 기준 코퍼스는 Supabase에서 결정론적으로 재생성된다 (tools/dump_corpus.py).
+# GitHub Actions가 멈춰 있어 Supabase가 변하지 않으므로 언제 떠도 같은 결과가 나온다.
+# 128MB (benchmark_metadata.results 33MB + evidence span 47MB)라 커밋하지 않는다.
+# 출처와 행 수는 corpus_snapshot.meta.json에 기록되어 커밋된다.
+corpus_snapshot.jsonl
+
+# v2 전용 BGE-M3 인덱스(index/bge_m3_*)는 커밋한다. 7MB이고 재생성에 11분이
+# 걸리므로, 받아서 바로 실험할 수 있는 편이 낫다. 공유 인덱스
+# (ai/data/retrieval_lab/)는 그대로 두고 v2 안에만 둔다.
+#
+# 중간 산출물만 제외한다.
+index/embedding_texts.jsonl
+index/.bge_m3_build/
