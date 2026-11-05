@@ -10,6 +10,8 @@ top 10; ids missing from the current corpus are reported and skipped, not counte
 Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
 the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
 also matches its cross-listed copies (entity `duplicates`). nDCG@10 uses the 0/1/2 grades.
+Each metric is shown raw and condensed (unjudged datasets dropped from the ranking), with
+judged@10 = share of the top 10 that was judged.
 Abstention queries are reported separately: how many judged-relevant or must_exclude datasets
 appear in the top 10, since the ranker has no empty-result path yet.
 """
@@ -196,7 +198,7 @@ def _aliases(entities):
     return out
 
 
-def _public_top(label):
+def _public_top(label, limit):
     terms = list(label["dataset_terms"])
     if region := label["conditions"].get("region"):
         terms.append(region)
@@ -205,17 +207,36 @@ def _public_top(label):
         query_vector=hs.embed_query(label["query"]),
         commercial_only=bool(label["conditions"].get("commercial")),
         roles=["service"],
-        limit=K,
+        limit=limit,
         keywords=terms,
     )
     return [r["dataset"] for r in rows]
 
 
-def evaluate_public(path):
+def _metrics(top, grades, relevant):
+    """P@10, R@10, MRR, nDCG@10 of one ranking against graded labels (0/1/2).
+    `grades` includes cross-listed copies for matching; the ideal ranking uses `relevant` (one
+    entry per judged dataset) so copies do not inflate IDCG."""
+    n_relevant = len(relevant)
+    gains = [grades.get(d, 0) for d in top[:K]]
+    ideal = sorted(relevant.values(), reverse=True)[:K]
+    dcg = sum(g / math.log2(i + 2) for i, g in enumerate(gains))
+    idcg = sum(g / math.log2(i + 2) for i, g in enumerate(ideal))
+    first = next((i for i, g in enumerate(gains, 1) if g), None)
+    hits = sum(1 for g in gains if g)
+    return hits / K, hits / min(K, n_relevant), 1 / first if first else 0.0, dcg / idcg if idcg else 0.0
+
+
+def evaluate_public(path, unjudged_out=None):
+    """Score the public golden set twice: as is, where an unjudged dataset in the top 10 counts as
+    a miss, and condensed (retrieval_lab/condensed_eval.py), where unjudged datasets are dropped
+    from the ranking first. The pool holds 12 candidates per query while topics like 어린이집 have
+    40+ datasets, so the raw numbers run low; read both, plus judged@10, and when they disagree
+    judge the unjudged datasets (--unjudged-out, then test/public_data/judging.py extend)."""
     entities = hs.load_graph()[0]
     alias = _aliases(entities)
     labels = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    scored, abstain = [], []
+    scored, abstain, unjudged = [], [], []
     for label in labels:
         if not label["evaluable"]:
             continue
@@ -224,46 +245,61 @@ def evaluate_public(path):
             for name in alias.get(dataset, {dataset}):
                 grades[name] = max(grade, grades.get(name, 0))
         excluded = {n for d in label["must_exclude"] for n in alias.get(d, {d})}
-        top = _public_top(label)
+        judged = set(grades) | excluded | {n for d in label["judged_irrelevant"] for n in alias.get(d, {d})}
+        deep = _public_top(label, 3 * K)
+        top = deep[:K]
+        unjudged += [{"query_id": label["query_id"], "dataset_id": d} for d in top if d not in judged]
         if label["expected_behavior"] == "abstain":
             abstain.append((label["query_id"], sum(d in excluded or d in grades for d in top), len(top)))
             continue
-        gains = [grades.get(d, 0) for d in top]
-        ideal = sorted(label["relevant"].values(), reverse=True)[:K]
-        dcg = sum(g / math.log2(i + 2) for i, g in enumerate(gains))
-        idcg = sum(g / math.log2(i + 2) for i, g in enumerate(ideal))
-        first = next((i for i, g in enumerate(gains, 1) if g), None)
-        hits = sum(1 for g in gains if g)
+        condensed = [d for d in deep if d in judged][:K]
         scored.append(
             (
                 f"{label['query_id']} {label['query_type']}",
-                hits / K,
-                hits / min(K, len(label["relevant"])),
-                1 / first if first else 0.0,
-                dcg / idcg if idcg else 0.0,
+                *_metrics(top, grades, label["relevant"]),
+                *_metrics(condensed, grades, label["relevant"]),
+                sum(d in judged for d in top) / K,
                 sum(d in excluded for d in top),
             )
         )
-    return scored, abstain
+    if unjudged_out:
+        unjudged_out.write_text("".join(json.dumps(u, ensure_ascii=False) + "\n" for u in unjudged), encoding="utf-8")
+    return scored, abstain, len(unjudged)
 
 
-def print_public(path):
-    scored, abstain = evaluate_public(path)
-    print(f"\npublic data ({path.name})")
-    print(f"{'query':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}  must_exclude in top")
-    for name, p, r, mrr, ndcg, bad in scored:
-        print(f"{name:<34} {p:5.2f} {r:5.2f} {mrr:5.2f} {ndcg:5.2f}  {bad}")
+def print_public(path, unjudged_out=None):
+    scored, abstain, n_unjudged = evaluate_public(path, unjudged_out)
+    print(f"\npublic data ({path.name}): raw | condensed (unjudged dropped)")
+    head = f"{'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}"
+    print(f"{'query':<30} {head} | {head}  judged@10 excluded")
+    for name, *v, judged, bad in scored:
+        print(
+            f"{name:<30} "
+            + " ".join(f"{x:5.2f}" for x in v[:4])
+            + " | "
+            + " ".join(f"{x:5.2f}" for x in v[4:])
+            + f"  {judged:9.2f} {bad:8d}"
+        )
     if scored:
-        mean = lambda i: sum(row[i] for row in scored) / len(scored)  # noqa: E731
-        print(f"{'mean (' + str(len(scored)) + ')':<34} {mean(1):5.2f} {mean(2):5.2f} {mean(3):5.2f} {mean(4):5.2f}")
+        mean = [sum(row[i] for row in scored) / len(scored) for i in range(1, 10)]
+        print(
+            f"{'mean (' + str(len(scored)) + ')':<30} "
+            + " ".join(f"{x:5.2f}" for x in mean[:4])
+            + " | "
+            + " ".join(f"{x:5.2f}" for x in mean[4:8])
+            + f"  {mean[8]:9.2f}"
+        )
     for query_id, wrong, returned in abstain:
         print(f"abstain {query_id}: {returned} returned, {wrong} judged relevant/excluded in top {K}")
+    if unjudged_out:
+        print(f"{n_unjudged} unjudged (query, dataset) pairs in top {K} -> {unjudged_out}")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--min-p10", type=float, default=0.0, help="fail (exit 1) below this mean P@10")
     parser.add_argument("--public", nargs="?", type=Path, const=PUBLIC_GOLDEN, help="also score a public golden set")
+    parser.add_argument("--unjudged-out", type=Path, help="with --public: write unjudged top-10 datasets (jsonl)")
     args = parser.parse_args()
     rows = evaluate()
     print(f"{'scenario':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5}  note")
@@ -274,7 +310,7 @@ def main():
     mean = lambda i: sum(row[i] for row in scored) / len(scored)  # noqa: E731
     print(f"{'mean':<34} {mean(1):5.2f} {mean(2):5.2f} {mean(3):5.2f}")
     if args.public:
-        print_public(args.public)
+        print_public(args.public, args.unjudged_out)
     if mean(1) < args.min_p10:
         sys.exit(1)
 
