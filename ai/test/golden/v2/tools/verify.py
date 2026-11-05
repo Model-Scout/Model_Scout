@@ -77,6 +77,7 @@ def check_type(query_type: str) -> List[str]:
             issues.append(f"eligible 기록 {record['eligible_count']} ≠ 실측 {actual}")
 
         # ④ 유형별 불변식
+        judged = record.get("judged_by")
         expected = record["expected_behavior"]
         if query_type == "abstention":
             if expected != "abstain":
@@ -86,8 +87,10 @@ def check_type(query_type: str) -> List[str]:
             if record["expected_any"] or record["acceptable"]:
                 issues.append("abstention인데 정답이 기록돼 있음")
         else:
-            if not record["expected_any"] and not record["acceptable"]:
-                issues.append("정답이 비어 있음")
+            # 사람 판정 전(judged_by=null)에는 정답이 비어 있는 것이 정상이다.
+            # 규칙 스캔이 후보를 전수 훑어 🚩/⚠️로 올려둔 상태다.
+            if judged and not record["expected_any"] and not record["acceptable"]:
+                issues.append("판정 완료인데 정답이 비어 있음")
             graded = set(record["expected_any"]) | set(record["acceptable"])
             eligible_ids = {row["model_id"] for row in corpus_v2.eligible(conditions)}
             outside = graded - eligible_ids
@@ -98,10 +101,10 @@ def check_type(query_type: str) -> List[str]:
         if record["corpus_snapshot"]["sync_run_id"] != snapshot_meta["last_sync_run_id"]:
             issues.append("다른 코퍼스 스냅샷으로 판정됨")
 
-        judged = record.get("judged_by") or "미판정"
         mark = "✅" if not issues else "❌ " + " / ".join(issues)
+        expect = "0" if query_type == "abstention" else "-"
         print(f"{qid:7s} {len(conditions):6d} {len(fidelity):5d} {actual:9d} "
-              f"{'0' if query_type == 'abstention' else '-':>5s} {judged:>8s}  {mark}")
+              f"{expect:>5s} {judged or '미판정':>8s}  {mark}")
         problems.extend(f"{qid}: {issue}" for issue in issues)
 
     return problems
