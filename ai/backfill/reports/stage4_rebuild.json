@@ -1,0 +1,20 @@
+{
+  "embedding_model": "text-embedding-3-small",
+  "documents_changed": 1321,
+  "documents_unchanged": 2551,
+  "vectors_new": 1321,
+  "vectors_reused": 2551,
+  "estimated_tokens": 890107,
+  "estimated_cost_usd": 0.0178,
+  "by_pool": {
+    "core": {
+      "rows": 1596,
+      "changed": 687
+    },
+    "low_popularity": {
+      "rows": 2276,
+      "changed": 634
+    }
+  },
+  "stage3": "기존 출력 승계. README 가 바뀌지 않아 claim 도 같다."
+}
