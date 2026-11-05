@@ -5,7 +5,7 @@
       "huggingface_api.gguf.total": 1278
     },
     "context_length": {
-      "huggingface_api.gguf.context_length": 1153
+      "huggingface_api.gguf.context_length": 1152
     },
     "architecture": {
       "huggingface_api.gguf.architecture": 1228,

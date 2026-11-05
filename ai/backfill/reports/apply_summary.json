@@ -6,7 +6,7 @@
     "disk_size_gib": 1724,
     "parameter_count": 1278,
     "hardware.weights_only": 1278,
-    "context_length": 1153,
+    "context_length": 1152,
     "architectures": 1259,
     "model.type": 1217
   },

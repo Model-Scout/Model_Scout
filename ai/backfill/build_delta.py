@@ -62,31 +62,42 @@ def load_raw(model_id: str) -> Optional[Dict[str, Any]]:
     return None if "__error__" in payload else payload
 
 
+# GGUF 헤더에 센티넬이 그대로 들어오는 경우가 있다. aya-23-8B-GGUF 의
+# context_length 가 4294967295(2**32-1)로 왔는데 실제로는 8K다. 범위를 벗어난
+# 값은 "모름"으로 두는 편이 틀린 값을 넣는 것보다 낫다.
+SENTINELS = {0, -1, 2**16 - 1, 2**31 - 1, 2**32 - 1, 2**63 - 1}
+CONTEXT_RANGE = (128, 16_777_216)            # 128 ~ 16M 토큰
+PARAM_RANGE = (1_000_000, 2_000_000_000_000)  # 1M ~ 2T
+
+
+def sane(value: Any, low: int, high: int) -> bool:
+    return isinstance(value, int) and value not in SENTINELS and low <= value <= high
+
+
 def pick_parameter_count(raw: Dict[str, Any]) -> Optional[Tuple[int, str, str]]:
     """(값, 출처, 신뢰도). 이름 파싱은 하지 않는다."""
     gguf = raw.get("gguf") or {}
-    if isinstance(gguf.get("total"), int) and gguf["total"] > 0:
+    if sane(gguf.get("total"), *PARAM_RANGE):
         return gguf["total"], "huggingface_api.gguf.total", "high"
     safetensors = raw.get("safetensors") or {}
-    if isinstance(safetensors.get("total"), int) and safetensors["total"] > 0:
+    if sane(safetensors.get("total"), *PARAM_RANGE):
         return safetensors["total"], "huggingface_api.safetensors.total", "high"
     parameters = safetensors.get("parameters")
     if isinstance(parameters, dict):
         total = sum(value for value in parameters.values() if isinstance(value, int))
-        if total > 0:
+        if sane(total, *PARAM_RANGE):
             return total, "huggingface_api.safetensors.parameters(sum)", "high"
     return None
 
 
 def pick_context_length(raw: Dict[str, Any]) -> Optional[Tuple[int, str, str]]:
     gguf = raw.get("gguf") or {}
-    if isinstance(gguf.get("context_length"), int) and gguf["context_length"] > 0:
+    if sane(gguf.get("context_length"), *CONTEXT_RANGE):
         return gguf["context_length"], "huggingface_api.gguf.context_length", "high"
     config = raw.get("config") or {}
     for key in ("max_position_embeddings", "n_positions", "max_sequence_length"):
-        value = config.get(key)
-        if isinstance(value, int) and value > 0:
-            return value, f"huggingface_api.config.{key}", "high"
+        if sane(config.get(key), *CONTEXT_RANGE):
+            return config[key], f"huggingface_api.config.{key}", "high"
     return None
 
 
