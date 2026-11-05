@@ -39,6 +39,27 @@ def _text(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def _flags(value: Any) -> str:
+    """불린 맵에서 참인 키만 남긴다.
+
+    ``artifacts``는 ``{"gguf": false, "onnx": false, "safetensors": true}`` 꼴이다.
+    JSON으로 그냥 덤프하면 값이 false인 키 이름까지 본문에 들어가서, "GGUF 형식"
+    질의가 GGUF를 안 가진 모델에도 걸린다(요약 후보 14개가 전부 걸렸다). 참인
+    키만 남겨 형식·양자화 질의가 실제 보유 여부를 보게 한다.
+    """
+    if not isinstance(value, dict):
+        return _text(value)
+    parts = []
+    for key, inner in value.items():
+        if inner is True:
+            parts.append(str(key))
+        elif isinstance(inner, dict):
+            parts.append(_flags(inner))
+        elif inner not in (False, None):
+            parts.append(f"{key} {_text(inner)}")
+    return " ".join(parts)
+
+
 def stage_haystacks(row: Dict[str, Any]) -> Dict[int, str]:
     """각 단계가 보는 텍스트. 단계를 섞지 않는다 — 난이도 판정에 쓰기 때문이다."""
     filter_metadata = row.get("filter_metadata") or {}
@@ -49,12 +70,15 @@ def stage_haystacks(row: Dict[str, Any]) -> Dict[int, str]:
     return {
         1: row.get("model_id", "").casefold(),
         2: " ".join(
-            _text(filter_metadata.get(key))
-            for key in (
-                "primary_task", "matched_tasks", "architecture", "model_type",
-                "license", "quantization", "artifacts", "hardware",
-                "runtime_compatibility", "canonical_model_id", "is_variant", "variant_types",
-            )
+            [
+                _text(filter_metadata.get(key))
+                for key in (
+                    "primary_task", "matched_tasks", "architecture", "model_type",
+                    "license", "hardware", "canonical_model_id", "variant_types",
+                )
+            ]
+            # 불린 맵은 참인 키만 — false인 키 이름이 걸리면 안 된다.
+            + [_flags(filter_metadata.get(key)) for key in ("artifacts", "quantization")]
         ).casefold(),
         3: " ".join(
             _text(semantic.get(key))
