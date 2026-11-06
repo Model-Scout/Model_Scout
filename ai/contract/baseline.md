@@ -3,7 +3,7 @@
 `python contract/coverage.py --compare --out contract/baseline.md`로 재생성한다.
 숫자를 손으로 적지 않는다. 재적재 후 같은 명령으로 before/after를 비교한다.
 
-측정 시점: 2026-11-06 · 대상 커밋: `d040340a`
+측정 시점: 2026-11-06 · 대상 커밋: `be74496d`
 
 ## 세 소스가 무엇인지
 
