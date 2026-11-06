@@ -129,39 +129,83 @@ processable_ids = set(scan["processable_ids"])   # 변경된 것만
 
 스키마가 바뀐 첫 적재에는 쓸 수 없다. **변경되지 않은 모델도 새 필드가
 비어 있기 때문이다.** `gated`·`sha`·`siblings[].size`는 기존 값이 있는 모델에도
-없다.
+없다. 변경 기준으로 고르면 그 셋을 영원히 못 채운다.
 
-그래서 `--reingest` 모드를 새로 만든다.
+그래서 `--reingest`를 만들었다.
 
 | 모드 | 대상 | HF 호출 | LLM | 임베딩 | DB |
 |---|---|---|---|---|---|
-| `--refresh` (기존) | watermark 이후 변경분 | 변경분 | 변경분 | 변경분 | upsert |
-| `--reingest` (신규) | **전체** | 전체 1회 | **재사용** | **document_hash 변경분만** | upsert |
+| `--refresh` | watermark 이후 변경분 | 변경분 | 변경분 | 변경분 | upsert |
+| `--reingest` | **전체** | 전체 1회 | README 변경분 | `document_hash` 변경분 | upsert |
 
-핵심은 **LLM과 임베딩을 다시 돌리지 않는 것**이다.
+### 전수로 도는 것은 무료 단계뿐이다 — 실측
 
-- Stage 3 결과(`semantic.*`)는 README가 안 바뀌면 그대로 유효하다.
-  README `sha256`으로 판정한다.
-- Stage 4 임베딩은 `document_hash`가 바뀐 문서만 재생성한다. 백필에서
-  3,872개 중 1,278개만 재생성하고 2,594개를 재사용했다. 같은 방식이다.
+| 단계 | 전수로 돌면 | 실제로 돌아가는 것 | 근거 |
+|---|---:|---:|---|
+| Stage 2 (HF API) | 3,872 | **3,872** | 무료. `?blobs=true` 1회씩, 약 8분 |
+| Stage 3 (LLM) | 3,872 | **151** | README 내용이 같은 3,721건(96.1%)을 재사용 |
+| Stage 4 (임베딩) | 3,872 | **약 1,340** | `document_hash`가 바뀐 문서만. 약 $0.02 |
 
-즉 `--reingest`의 추가 비용은 **HF API 호출 3,872회(약 8분, 무료)와
-새 필드로 `embedding_text`가 달라진 문서의 임베딩**뿐이다.
+Stage 2는 `STAGE2_VERSION`이 6→7로 올라가 `resume_matches`가 기존 행을 전부
+불일치로 보고 다시 수집한다. 추가 플래그가 필요 없다.
+
+Stage 1은 다시 스캔하지 않는다. 바꾸려는 것은 모델의 **사실**이고 모델
+**목록**이 아니다. 목록 갱신은 `--refresh`가 할 일이다.
+
+### Stage 3 재사용 판정을 고쳐야 했다
+
+처음에는 "README가 안 바뀌면 Stage 3를 재사용한다"고 계획만 적었다. 코드를
+보니 그렇게 동작하지 않았다.
+
+```python
+def source_stage2_hash(row):
+    payload = json.dumps(row, ...)     # Stage 2 행 전체를 해시한다
+    return digest(payload)
+```
+
+`stage2_version`이나 `enriched_at`만 바뀌어도 지문이 달라진다. 스키마가 바뀐
+재적재에서는 **3,872건 전부**가 그렇게 되고, 유료 LLM 호출이 전수로 다시 나간다.
+
+Stage 3의 입력은 둘뿐이다.
+
+```
+build_prompt()  →  row["model_id"] 와 README 에서 뽑은 스팬
+load_source()   →  source.readme.path 의 파일 내용
+```
+
+나머지 Stage 2 필드는 프롬프트에 들어가지 않는다. 그래서 지문도 그 둘만 담게
+좁혔다(`STAGE2_HASH_VERSION = 2`). **지름길이 아니라 실제 입력을 반영한 것이다.**
+
+구 데이터와의 전환은 Stage 3가 이미 남겨 둔 README 내용 해시로 한다.
+
+```
+evidence.readme.content_hash  ←  기존 행 3,862/3,872(99.7%)에 있다
+```
+
+구 지문은 행 전체 해시라 새 지문과 비교할 수 없지만, 저 값은 Stage 3의 실제
+입력이므로 지금 README와 바로 비교된다. 재사용한 행은 새 형식 지문으로 올려
+두므로 다음 실행부터는 파일을 다시 읽지 않는다.
 
 ### `--reingest`가 하는 순서
 
 ```
-① contract/validate.py --baseline 로 현재 상태를 기록          (게이트 기준점)
-② 01: list_models 전체 스캔. 신규·삭제 모델 반영
-③ 02: 전체 모델 api?blobs=true. provenance 전체 생성
-④ 2.5: contract/validate.py — 실패하면 중단
-⑤ 03: README sha256이 바뀐 모델만 LLM 재호출
-⑥ 3.5: 06 벤치마크 전체 재추출 (무료)
-⑦ 04: document_hash 변경분만 임베딩
-⑧ 05: dry-run diff 리포트 → 사람 확인 → apply
+① 02 --pool all                     전체 재수집 (무료, 약 8분)
+② contract/validate.py              계약 게이트 — 실패하면 여기서 중단
+③ 03 --pool all                     README 바뀐 151건만 LLM
+④ 03_repair / evidence_index
+⑤ 06 --apply                        벤치마크 (API 호출 없음)
+⑥ 04 --execute --db-cache           hash 바뀐 약 1,340건만 임베딩
+⑦ 적재 또는 dry-run 리포트
 ```
 
----
+②가 ③보다 앞에 있는 것이 핵심이다. 비용 순서가
+Stage 2(무료) → Stage 3(LLM) → Stage 4(임베딩) → DB 쓰기이므로, 게이트가
+유료 단계 앞에 있어야 돈이 나가지 않는다.
+
+`--apply`를 주지 않으면 DB를 건드리지 않고 `dry_run` 리포트만 낸다.
+**다만 dry-run도 ③과 ⑥을 실제로 돌린다.** diff를 만들려면 결과물이 있어야
+하기 때문이다. LLM 151건과 임베딩 약 $0.02가 dry-run에서도 나간다. 그 결과를
+커밋하지는 않으므로 뒤이은 apply 실행은 같은 일을 한 번 더 한다.
 
 ## 5. Supabase 변경
 
@@ -226,10 +270,60 @@ setweight(to_tsvector('simple', coalesce(filter_metadata::text, '')), 'C')
 
 ### 마이그레이션 방식
 
+[`supabase_migration_contract_filters.sql`](../supabase_migration_contract_filters.sql)에
+있다. **아직 적용하지 않았다.**
+
 함수 시그니처가 바뀌므로 `CREATE OR REPLACE`로는 안 된다 — PostgreSQL은
 파라미터가 추가되면 다른 함수로 보고 과부하(overload)를 만든다. 기본값이 있는
 파라미터를 **뒤에 추가**하고, `drop function if exists`로 구 시그니처를 명시적으로
 지운다. `supabase_schema.sql:141`이 이미 그 방식을 쓰고 있다.
+
+`commercial_status`와 `gated`에 부분 표현식 인덱스를 만든다. 조건이 걸릴 때마다
+전체를 훑지 않게 한다.
+
+SQL은 `pglast`로 외부 문장과 `$$` 본문을 모두 파싱 검증했다. 실행은 사람이 한다.
+
+### 로컬 하드 필터도 같은 조건을 구현한다
+
+`05_validate_retrieval.hard_filter`에 네 조건을 추가했고,
+`retrieval_lab/planner.HARD_FILTER_KEYS`와 `test/golden/v2/tools/verify.py`의
+허용 키 목록도 같이 늘렸다. 어긋나면 오프라인 평가와 운영 검색이 다른 후보
+집합을 쓴다.
+
+실제 레코드 1,788개(생성 과제 1,200개 기준)로 시험한 결과:
+
+| 질의 | 통과 |
+|---|---:|
+| 생성 과제만 (기준선) | 1,200 |
+| + 상업 이용 가능만 | 666 |
+| + GGUF 필수 | 1,033 |
+| + GGUF와 safetensors 둘 다 | 10 |
+| + 8GiB 이하로 돌아가는 | 778 |
+| + 4GiB 이하 | 581 |
+| + 바로 내려받을 수 있는 | 1,171 |
+| + 넷을 모두 | 368 |
+
+대조로, 기존 "8B 이하" 파라미터 필터는 같은 집합에서 **444개**만 통과한다.
+파라미터 수를 모르는 995개가 탈락하기 때문이다. "8GiB 이하 실측 용량"은
+**778개**가 통과한다 — 용량은 100% 알고 있다. 파라미터를 몰라 사라지던 모델이
+돌아온다.
+
+### 발견한 기존 divergence
+
+이 작업과 무관하게 이미 있던 것이다.
+
+```python
+# 05_validate_retrieval.task_match — tasks 가 비면 전부 탈락
+return bool(available & set(query.get("tasks") or []))
+```
+
+```sql
+-- SQL — task_filters 가 null 이면 전부 통과
+and (task_filters is null or cardinality(task_filters) = 0 or ...)
+```
+
+골든셋 질의가 항상 `tasks`를 지정하므로 지금 드러나지 않는다. 고치지 않고
+기록만 남긴다 — 어느 쪽으로 맞출지는 검색 설계 결정이다.
 
 이 RPC를 호출하는 코드는 `09_model_scout_mcp_readonly.py:692` 한 군데다.
 (`17_recommend_graph.py`는 하이퍼그래프 쪽이라 이 RPC를 쓰지 않는다.)
@@ -241,33 +335,46 @@ setweight(to_tsvector('simple', coalesce(filter_metadata::text, '')), 'C')
 
 ## 6. GitHub Actions
 
-현재 [`model-scout-incremental.yml`](../../.github/workflows/model-scout-incremental.yml)은
-`cron: "0 * * * *"`로 매시간 뜨고 TTL 24시간으로 실제 처리를 하루 한 번 한다.
-**팀 결정으로 자동화는 멈춘 상태다.**
+### 무엇을 했나
 
-새 구조에서는 처음부터 schedule이 없다.
+[`model-scout-reingest.yml`](../../.github/workflows/model-scout-reingest.yml)을
+새로 만들었다. **`schedule`이 없다.** 처음부터 수동 전용이다.
 
 ```yaml
 on:
   workflow_dispatch:
     inputs:
-      mode:
-        type: choice
-        options: [validate, dry-run, apply]
+      mode:    { type: choice, options: [validate, dry-run, apply] }
+      confirm: { type: string }   # apply 에서만 "APPLY" 를 요구한다
 ```
 
 | mode | HF 호출 | LLM·임베딩 | DB 쓰기 | 쓰임 |
 |---|---|---|---|---|
-| `validate` | 없음 | 없음 | 없음 | 스키마·기존 데이터만 검사. PR에서 돌린다 |
-| `dry-run` | 전체 | 변경분 | **없음** | 재적재 결과와 DB diff 리포트만 생성 |
-| `apply` | 전체 | 변경분 | upsert | 팀 확인 후 1회 |
+| `validate` | 없음 | 없음 | 없음 | 컴파일 + 계약 검증 + coverage + 골든셋. PR 에서 돌린다 |
+| `dry-run` | 전체 | **돈다** (151건 / 약 $0.02) | 없음 | 재적재 결과와 diff 리포트를 아티팩트로 올린다 |
+| `apply` | 전체 | 돈다 | upsert | 팀이 dry-run 리포트를 확인한 뒤 1회 |
 
-`apply`는 브랜치에서 돌리지 않는다. PR 검토 → main 병합 후 수동 1회다.
+`apply`에는 두 겹의 잠금을 걸었다.
+
+```
+confirm 입력이 정확히 "APPLY" 가 아니면 중단
+github.ref_name 이 main 이 아니면 중단
+```
+
+브랜치에서 실수로 `apply`를 고를 수 없다.
+
+`dry-run`은 아무것도 커밋하지 않는다. 재생성된 스냅샷은 `apply`가 확정된 뒤에만
+`data/`에 남는다.
+
+### 기존 워크플로
+
+[`model-scout-incremental.yml`](../../.github/workflows/model-scout-incremental.yml)의
+`cron: "0 * * * *"`을 **파일에서 지웠다.** UI 에서만 꺼 두면 다음 사람이 파일을
+보고 "매시간 돈다"고 읽는다. 되살릴 두 줄을 주석으로 남겨 뒀다.
 
 `dataset-refresh.yml`은 공공데이터·하이퍼그래프 쪽 자동화로 모델 재적재와
-분리돼 있다. 이 작업에서는 건드리지 않는다.
-
----
+분리돼 있다. **cron 이 아직 살아 있고, 이 작업에서는 건드리지 않았다.**
+중단 여부는 팀이 따로 정할 일이다.
 
 ## 7. 실행 순서
 

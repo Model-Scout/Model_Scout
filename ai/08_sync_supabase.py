@@ -1241,6 +1241,109 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
 
 
 
+def contract_gate(require: bool = False) -> Dict[str, Any]:
+    """적재 전 데이터 계약 검사. 유료 단계 앞의 게이트다.
+
+    비용 순서가 Stage 2(무료) → Stage 3(LLM) → Stage 4(임베딩) → DB 쓰기이므로
+    여기서 멈춰야 돈이 나가지 않는다.
+
+    백필 작업에서 실제로 났던 사고를 막는 것이 목적이다. Stage 4 문서를 직접
+    조립했더니 task·candidate·popularity·search_aliases 등 12개 키가 빠졌고,
+    형식은 유효한 JSON이라 임베딩까지 정상 생성됐다. 비교 결과가 전부 0으로
+    나온 뒤에야 알았다.
+    """
+    python = sys.executable
+    results: Dict[str, Any] = {}
+    for pool in POOLS:
+        path = DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"
+        if not path.exists():
+            if require:
+                # 재적재는 Stage 2를 전수로 돌리므로 이 파일이 반드시 생긴다.
+                # 없다면 Stage 2가 조용히 실패했거나 구 코드가 돈 것이다.
+                raise RuntimeError(
+                    f"[{pool}] {path.name} 이 없다. Stage 2 가 계약 레코드를 쓰지 않았다 — "
+                    "검증 없이 적재하지 않는다"
+                )
+            results[pool] = {"skipped": "계약 파일 없음 (구 Stage 2 데이터)"}
+            continue
+        completed = subprocess.run(
+            [python, str(ROOT / "contract" / "validate.py"), str(path)],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        results[pool] = {
+            "returncode": completed.returncode,
+            "report": completed.stdout.strip().splitlines()[-12:],
+        }
+        if completed.returncode != 0:
+            raise RuntimeError(
+                f"[{pool}] 데이터 계약 위반으로 적재를 중단한다:\n{completed.stdout}"
+            )
+    return results
+
+
+def full_reingest_pipeline() -> Dict[str, Any]:
+    """스키마가 바뀐 뒤의 전체 재적재.
+
+    ``--refresh``를 쓸 수 없는 이유
+    -----------------------------
+    ``--refresh``는 watermark 이후 **변경된 모델만** 처리한다. 스키마가 바뀐
+    첫 적재에는 쓸 수 없다. ``gated``·``sha``·``siblings[].size``는 Hub에서
+    모델이 바뀌지 않은 모델에도 없기 때문이다. 변경 기준으로 고르면 그 셋을
+    영원히 못 채운다.
+
+    그런데도 비싼 단계를 전수로 돌리지는 않는다
+    -----------------------------------------
+    - Stage 2는 STAGE2_VERSION이 올라가 ``resume_matches``가 전부 불일치로 보고
+      다시 수집한다. HF API만 쓰므로 무료다(약 8분).
+    - Stage 3는 README 내용이 같으면 재사용한다. 실측 3,872건 중 3,721건
+      (96.1%)이 재사용 가능이고 LLM 호출은 151건이다.
+    - Stage 4는 ``document_hash``가 바뀐 문서만 재임베딩한다. 실측 약 1,340건,
+      text-embedding-3-small 기준 약 $0.02다.
+
+    Stage 1은 다시 스캔하지 않는다. 바꾸려는 것은 모델의 **사실**이고 모델
+    **목록**이 아니다. 목록 갱신은 ``--refresh``가 할 일이다.
+    """
+    python = sys.executable
+    clear_incremental_artifacts()
+    started = datetime.now(timezone.utc)
+    steps: List[str] = []
+
+    # Stage 2 — 전체. model-ids-file을 주지 않으면 풀 전체를 본다.
+    run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
+    steps.append("stage2:full")
+
+    # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
+    gate = contract_gate(require=True)
+    steps.append("contract_gate")
+
+    # Stage 3 — README가 바뀐 모델만 LLM을 부른다.
+    run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
+    for pool in POOLS:
+        run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
+    run_command([python, str(ROOT / "evidence_index.py"), "--pool", "all"])
+    steps.append("stage3:readme-delta")
+
+    # Stage 3.5 — 벤치마크. API 호출이 없다.
+    run_command([python, str(ROOT / "06_extract_benchmark_metadata.py"), "--pool", "all", "--apply"])
+    steps.append("stage3.5:benchmark")
+
+    # Stage 4 — document_hash가 바뀐 문서만 재임베딩한다.
+    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
+    steps.append("stage4:hash-delta")
+
+    return {
+        "mode": "reingest",
+        "scan_started_at": started.isoformat(),
+        "steps": steps,
+        "contract_gate": gate,
+        "requires_sync": True,
+        "stage4_mode": "full",
+        "removed_ids": [],
+    }
+
+
 def apply_evidence_backfill(
     evidence_rows: Sequence[Tuple[Any, ...]],
     run_id: str,
@@ -1351,6 +1454,12 @@ def main() -> int:
         action="store_true",
         help="incrementally scan only Hugging Face models modified since the last sync",
     )
+    parser.add_argument(
+        "--reingest",
+        action="store_true",
+        help="전체 재적재. 스키마가 바뀐 첫 적재에 쓴다. --refresh는 변경된 모델만 "
+             "보므로 새 필드를 채울 수 없다",
+    )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
         "--ensure-schema",
@@ -1381,8 +1490,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if sum(bool(value) for value in (args.refresh, args.initial, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
-        parser.error("--refresh, --initial, --backfill-runtime, and --backfill-evidence are mutually exclusive")
+    if sum(bool(value) for value in (args.refresh, args.initial, args.reingest, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
+        parser.error("--refresh, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
@@ -1449,6 +1558,10 @@ def main() -> int:
         if not watermark:
             raise RuntimeError("Could not determine incremental source watermark")
         refresh_info = incremental_refresh_pipeline(watermark)
+    elif args.reingest:
+        # --apply 없이도 돈다. 그때는 DB를 건드리지 않고 dry-run 리포트만 낸다 —
+        # 팀이 diff를 보고 판단한 뒤에 한 번만 apply 한다.
+        refresh_info = full_reingest_pipeline()
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
@@ -1458,7 +1571,8 @@ def main() -> int:
     elif args.apply and latest is not None:
         raise RuntimeError(
             "A successful Supabase sync already exists. Refusing a full upload; use "
-            "--refresh --apply for incremental updates."
+            "--refresh --apply for incremental updates, or --reingest --apply after a "
+            "schema change."
         )
     elif not args.apply:
         # Offline validation remains available and never contacts Supabase.
@@ -1510,7 +1624,7 @@ def main() -> int:
         "run_id": run_id,
         "apply": args.apply,
         "selected_pools": list(POOLS),
-        "sync_mode": "incremental" if refresh_info else "initial",
+        "sync_mode": (refresh_info or {}).get("mode", "incremental") if refresh_info else "initial",
         "changed_rows": len(selected_stage4),
         "removed_rows": len(removed_ids),
     }

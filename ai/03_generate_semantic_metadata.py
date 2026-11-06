@@ -115,9 +115,43 @@ def digest(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
+# 2: Stage 3 출력에 실제로 영향을 주는 입력만 지문에 담는 버전.
+STAGE2_HASH_VERSION = 2
+
+
+def readme_digest(row: Dict[str, Any]) -> str:
+    """Stage 3이 실제로 읽는 README 내용의 해시. 없으면 빈 문자열."""
+    path = source_path(row)
+    if path is None or not path.exists():
+        return ""
+    return digest(path.read_text(encoding="utf-8", errors="replace")[:MAX_SOURCE_CHARS])
+
+
 def source_stage2_hash(row: Dict[str, Any]) -> str:
-    """Return a stable fingerprint for TTL-safe Stage 3 resume decisions."""
-    payload = json.dumps(row, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    """Stage 3 결과를 재사용해도 되는지 판정하는 지문.
+
+    전에는 Stage 2 행 전체를 해시했다. 그러면 ``stage2_version``이나
+    ``enriched_at``만 바뀌어도 지문이 달라져 LLM을 다시 부른다. 스키마가 바뀐
+    재적재에서는 **3,872건 전부**가 그렇게 된다 — 유료 호출이 전수로 다시 나간다.
+
+    Stage 3의 입력은 둘뿐이다.
+
+      · ``build_prompt()``가 쓰는 ``row["model_id"]``
+      · ``load_source()``가 읽는 README 파일의 내용
+
+    나머지 Stage 2 필드는 프롬프트에 들어가지 않는다. 프롬프트·청커·인덱스
+    버전은 호출부가 따로 비교한다. 그래서 지문도 이 둘만 담는다.
+    """
+    payload = json.dumps(
+        {
+            "version": STAGE2_HASH_VERSION,
+            "model_id": row.get("model_id"),
+            "readme": readme_digest(row),
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
     return digest(payload)
 
 
@@ -417,16 +451,40 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool, mode
         model_id = row["model_id"]
         old = existing.get(model_id)
         old_stage = old.get("stage3", {}) if old else {}
+        current_readme_digest = readme_digest(row)
         current_stage2_hash = source_stage2_hash(row)
-        previous_stage2_hash = old_stage.get("source_stage2_hash") if old else None
-        if previous_stage2_hash is None and old and old.get("source_stage2"):
-            previous_stage2_hash = source_stage2_hash(old["source_stage2"])
-        if old and old.get("status") == "completed" and old_stage.get("stage3_version") == STAGE3_VERSION and old_stage.get("prompt_version") in COMPATIBLE_PROMPT_VERSIONS and previous_stage2_hash == current_stage2_hash and (old.get("evidence") or {}).get("parent_child_schema_version") == INDEX_SCHEMA_VERSION:
-            results_by_id[model_id] = old
+        if old and old_stage.get("source_stage2_hash_version") == STAGE2_HASH_VERSION:
+            inputs_unchanged = old_stage.get("source_stage2_hash") == current_stage2_hash
+        elif old:
+            # 구 지문은 Stage 2 행 전체를 해시한 값이라 새 지문과 비교할 수 없다.
+            # Stage 3가 남겨 둔 README 내용 해시가 실제 입력이므로 그것으로 본다.
+            # 기존 행 3,862/3,872(99.7%)에 이 값이 있다. 없으면 다시 호출한다.
+            stored = ((old.get("evidence") or {}).get("readme") or {}).get("content_hash")
+            inputs_unchanged = bool(stored) and stored == current_readme_digest
+        else:
+            inputs_unchanged = False
+        if (
+            old
+            and old.get("status") == "completed"
+            and old_stage.get("stage3_version") == STAGE3_VERSION
+            and old_stage.get("prompt_version") in COMPATIBLE_PROMPT_VERSIONS
+            and inputs_unchanged
+            and (old.get("evidence") or {}).get("parent_child_schema_version") == INDEX_SCHEMA_VERSION
+        ):
+            # 재사용하되 지문은 새 형식으로 올려 둔다. 다음 실행부터는 README
+            # 파일을 다시 읽지 않고 지문만 비교하면 된다.
+            reused = dict(old)
+            reused["stage3"] = dict(old_stage, **{
+                "source_stage2_version": row.get("stage", {}).get("stage2_version"),
+                "source_stage2_hash": current_stage2_hash,
+                "source_stage2_hash_version": STAGE2_HASH_VERSION,
+            })
+            reused["source_stage2"] = row
+            results_by_id[model_id] = reused
             stats["skipped"] += 1
             continue
         text, readme = load_source(row)
-        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "parent_child_schema_version": INDEX_SCHEMA_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
+        stage = {"source_pool": pool, "source_stage2_version": row.get("stage", {}).get("stage2_version"), "source_stage2_hash": current_stage2_hash, "source_stage2_hash_version": STAGE2_HASH_VERSION, "stage3_version": STAGE3_VERSION, "prompt_version": PROMPT_VERSION, "chunker_version": CHUNKER_VERSION, "parent_child_schema_version": INDEX_SCHEMA_VERSION, "semantic_enriched": False, "enriched_at": utc_now()}
         if not text:
             result = {"model_id": model_id, "source_pool": pool, "status": "no_source", "source_stage2": row, "semantic": None, "evidence": materialize_parent_child_evidence(model_id, {"readme": readme, "spans": []}), "stage3": stage}
             if not dry_run:
