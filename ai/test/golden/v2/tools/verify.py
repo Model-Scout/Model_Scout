@@ -19,6 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import corpus_v2  # noqa: E402
 
 V2 = Path(__file__).resolve().parents[1]
+QUERY_COUNT_PER_TYPE = 10
+HUMAN_REVIEW_LIMIT = 25
 
 # planner.HARD_FILTER_KEYS — 하드 필터가 실제로 읽는 조건만 conditions에 올 수 있다.
 HARD_FILTER_KEYS = {
@@ -28,6 +30,8 @@ HARD_FILTER_KEYS = {
     "max_parameters_billion",
     "min_context_length",
     "max_context_length",
+    # 명시적으로 "스펙이 공개된 모델"만 찾는 질의를 지원하기 위해 남겨 둔다.
+    # 수치 상·하한 질의에서는 누락 값이 자동 탈락하므로 v2 사양은 이 키를 쓰지 않는다.
     "require_known_parameters",
     "require_known_context",
     "popularity_tier",
@@ -43,6 +47,9 @@ def check_type(query_type: str) -> List[str]:
 
     problems: List[str] = []
     snapshot_meta = json.loads((V2 / "corpus_snapshot.meta.json").read_text(encoding="utf-8"))
+
+    if len(records) != QUERY_COUNT_PER_TYPE:
+        problems.append(f"질의 수 {len(records)}개 (기대 {QUERY_COUNT_PER_TYPE}개)")
 
     print(f"\n{'=' * 78}")
     print(f"{query_type} — 질의 {len(records)}개")
@@ -87,15 +94,45 @@ def check_type(query_type: str) -> List[str]:
             if record["expected_any"] or record["acceptable"]:
                 issues.append("abstention인데 정답이 기록돼 있음")
         else:
+            if expected != "recommend":
+                issues.append(f"expected_behavior={expected}")
+            verification = record.get("verification") or {}
             # 사람 판정 전(judged_by=null)에는 정답이 비어 있는 것이 정상이다.
             # 규칙 스캔이 후보를 전수 훑어 🚩/⚠️로 올려둔 상태다.
             if judged and not record["expected_any"] and not record["acceptable"]:
                 issues.append("판정 완료인데 정답이 비어 있음")
+            if not judged:
+                human_candidates = (
+                    len(verification.get("flagged_for_human") or [])
+                    + len(verification.get("unsure_for_human") or [])
+                )
+                if human_candidates == 0:
+                    issues.append("추천 질의인데 규칙 스캔 후보가 0개")
+                elif human_candidates > HUMAN_REVIEW_LIMIT:
+                    issues.append(
+                        f"사람 검수 후보 {human_candidates}개 > {HUMAN_REVIEW_LIMIT}개"
+                    )
             graded = set(record["expected_any"]) | set(record["acceptable"])
             eligible_ids = {row["model_id"] for row in corpus_v2.eligible(conditions)}
             outside = graded - eligible_ids
             if outside:
                 issues.append(f"eligible 밖의 정답 {len(outside)}개 — 검색이 찾을 수 없음")
+
+            # 모델 비교는 각 이름의 계열을 모두 검색해야 답변이 실제 비교가 된다.
+            # 후보 생성 시점과 사람 확정 후 모두, 한쪽 계열이 비어 있지 않게 강제한다.
+            comparison_groups = record.get("comparison_groups") or {}
+            membership = verification.get("comparison_group_membership") or {}
+            if comparison_groups:
+                for group in comparison_groups:
+                    group_candidates = {
+                        model_id
+                        for model_id, groups in membership.items()
+                        if group in groups
+                    }
+                    if not group_candidates:
+                        issues.append(f"비교 대상 {group} 후보가 0개")
+                    if judged and not (graded & group_candidates):
+                        issues.append(f"판정 완료인데 비교 대상 {group} 정답이 없음")
 
         # ⑤ 코퍼스 기준이 스냅샷과 같은지
         if record["corpus_snapshot"]["sync_run_id"] != snapshot_meta["last_sync_run_id"]:

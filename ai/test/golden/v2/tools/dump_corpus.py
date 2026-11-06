@@ -91,7 +91,7 @@ def dump() -> None:
         cur.execute("select max(refreshed_at) from public.model_scout_models where active")
         refreshed_at = cur.fetchone()[0]
 
-    # evidence는 README 원문 span이다. 규칙 스캔 5단계의 최후 근거이므로 같이 담는다.
+    # evidence는 README 원문 span이다. 규칙 스캔 ⑤단계의 최후 근거이므로 같이 담는다.
     missing_evidence = []
     with SNAPSHOT.open("w", encoding="utf-8") as handle:
         for row in rows:

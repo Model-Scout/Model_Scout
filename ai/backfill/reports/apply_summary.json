@@ -1,11 +1,12 @@
 {
-  "backfill_version": 1,
+  "backfill_version": 2,
   "models_patched": 1724,
   "moe_suspects": 120,
+  "parameter_count_quarantined": 312,
   "by_field": {
     "disk_size_gib": 1724,
-    "parameter_count": 1278,
-    "hardware.weights_only": 1278,
+    "parameter_count": 966,
+    "hardware.weights_only": 966,
     "context_length": 1152,
     "architectures": 1259,
     "model.type": 1217
@@ -20,5 +21,5 @@
       "patched": 886
     }
   },
-  "note": "stage2_version은 올리지 않았다. 교체 시점에 팀이 결정한다."
+  "note": "stage2_version은 올리지 않았다. medium 파라미터는 delta에만 보존하고 검색/임베딩에는 쓰지 않는다."
 }

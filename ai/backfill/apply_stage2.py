@@ -5,11 +5,11 @@
 팀이 확인하고 승인하면 그때 교체한다.
 
 무엇을 바꾸나
-    model.parameter_count / parameter_count_billion
+    model.parameter_count / parameter_count_billion (검증 high만)
     model.context_length (+ context_evidence 에 출처 추가)
     model.architectures / model.type
     model.metadata_status.{parameter_count,context_length}  known/unknown 갱신
-    hardware.weights_only.*        파라미터가 생기면 VRAM 추정이 따라온다
+    hardware.weights_only.*        high 파라미터가 생기면 VRAM 추정이 따라온다
     license                        비어 있던 경우만
     model.disk_size_gib            ★ 새 필드 (별도 제안)
 
@@ -36,7 +36,7 @@ DELTA_PATH = HERE / "delta.jsonl"
 REPORT_PATH = HERE / "reports" / "apply_summary.json"
 
 POOLS = ("core", "low_popularity")
-BACKFILL_VERSION = 1
+BACKFILL_VERSION = 2
 
 # 02_enrich_metadata.estimate_hardware 와 같은 식. 가중치만 고려한 추정치다.
 BYTES_PER_PARAM = {"fp16_gib": 2.0, "int8_gib": 1.0, "int4_gib": 0.5}
@@ -66,7 +66,18 @@ def apply_record(row: Dict[str, Any], record: Dict[str, Any]) -> List[str]:
     patches = record.get("patches") or {}
 
     entry = patches.get("parameter_count")
-    if entry and model.get("parameter_count") in (None, ""):
+    quarantined: Dict[str, Any] = {}
+    # GGUF의 total은 파일 헤더가 주는 1차 정보지만, 멀티모달·MoE·부분 변환본에서는
+    # 전체 파라미터와 다를 수 있다. 검증이 medium인 값은 검색 필터/VRAM/임베딩에
+    # 넣지 않는다. delta.jsonl에는 후보값과 사유를 남겨 사람이 후속 확인할 수 있다.
+    if entry and entry.get("confidence") != "high" and model.get("parameter_count") in (None, ""):
+        quarantined["parameter_count"] = {
+            "proposed": entry.get("after"),
+            "source": entry.get("source"),
+            "confidence": entry.get("confidence"),
+            "validation_notes": entry.get("validation_notes", []),
+        }
+    elif entry and model.get("parameter_count") in (None, ""):
         count = entry["after"]
         model["parameter_count"] = count
         model["parameter_count_billion"] = round(count / 1e9, 3)
@@ -111,7 +122,7 @@ def apply_record(row: Dict[str, Any], record: Dict[str, Any]) -> List[str]:
         model["disk_size_gib"] = new_fields["disk_size_gib"]["after"]
         changed.append("disk_size_gib")
 
-    if changed:
+    if changed or quarantined:
         row["backfill"] = {
             "version": BACKFILL_VERSION,
             "fields": changed,
@@ -123,6 +134,8 @@ def apply_record(row: Dict[str, Any], record: Dict[str, Any]) -> List[str]:
             },
             "moe_suspect": record.get("moe_suspect"),
         }
+    if quarantined:
+        row["backfill_review"] = quarantined
     return changed
 
 
@@ -131,7 +144,7 @@ def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     totals: Dict[str, int] = {}
-    touched = moe = 0
+    touched = moe = quarantined_parameters = 0
     per_pool: Dict[str, Dict[str, int]] = {}
 
     for pool in POOLS:
@@ -147,13 +160,16 @@ def main() -> None:
                 record = delta.get(row["model_id"])
                 if record:
                     changed = apply_record(row, record)
-                    if changed:
+                    has_quarantine = bool(row.get("backfill_review"))
+                    if changed or has_quarantine:
                         pool_touched += 1
                         touched += 1
                         if record.get("moe_suspect"):
                             moe += 1
                         for field in changed:
                             totals[field] = totals.get(field, 0) + 1
+                    if has_quarantine and "parameter_count" in row["backfill_review"]:
+                        quarantined_parameters += 1
                 rows_out.append(json.dumps(row, ensure_ascii=False))
         target.write_text("\n".join(rows_out) + "\n", encoding="utf-8")
         per_pool[pool] = {"rows": len(rows_out), "patched": pool_touched}
@@ -164,16 +180,18 @@ def main() -> None:
     for field, count in sorted(totals.items(), key=lambda item: -item[1]):
         print(f"  {field:24s} {count:5d}")
     print()
-    print(f"패치된 모델 {touched}  (그중 MoE 의심 {moe})")
+    print(f"패치된/검토표시 모델 {touched}  (그중 MoE 의심 {moe})")
+    print(f"검색·임베딩에서 보류한 medium 파라미터 {quarantined_parameters}")
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.write_text(json.dumps({
         "backfill_version": BACKFILL_VERSION,
         "models_patched": touched,
         "moe_suspects": moe,
+        "parameter_count_quarantined": quarantined_parameters,
         "by_field": totals,
         "by_pool": per_pool,
-        "note": "stage2_version은 올리지 않았다. 교체 시점에 팀이 결정한다.",
+        "note": "stage2_version은 올리지 않았다. medium 파라미터는 delta에만 보존하고 검색/임베딩에는 쓰지 않는다.",
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"→ {OUT_DIR}")
 

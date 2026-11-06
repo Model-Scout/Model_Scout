@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """조건별 후보 수 지도. 질의 설계의 재료다.
 
-중요: ``require_known_parameters`` / ``require_known_context``는 기본 False다.
-이 플래그를 켜면 값을 공개하지 않은 모델이 탈락한다. 코퍼스의 39%가 파라미터
-수를 공개하지 않으므로, 후보를 줄이는 용도로 켜면 정답이 통째로 사라진다.
-질의가 "파라미터 수가 명시된"처럼 공개를 요구할 때만 켠다.
+수치 상·하한이 있는 질의는 실제 Supabase SQL과 동일하게 값이 없는 모델을
+자동으로 제외한다. 값이 없으면 "≤1B"나 "≥32K"를 만족한다고 검증할 수 없기
+때문이다. 이 지도에 나오는 수치는 곧 운영 검색이 보게 될 후보 수다.
 
     python test/golden/v2/tools/candidate_map.py
 """
@@ -50,7 +49,7 @@ def main() -> None:
 
     print()
     print("=" * 100)
-    print("B. task × 파라미터 상한  (require_known_parameters=False — 미공개 모델도 통과)")
+    print("B. task × 파라미터 상한  (운영 검색과 동일 — 값 없는 모델은 제외)")
     print("=" * 100)
     print(f"{'task':32s} " + " ".join(f"{cap:>8}B" for cap in CAPS))
     for task in TASKS:
@@ -62,7 +61,7 @@ def main() -> None:
 
     print()
     print("=" * 100)
-    print("C. task × context 하한  (require_known_context=False)")
+    print("C. task × context 하한  (운영 검색과 동일 — 값 없는 모델은 제외)")
     print("=" * 100)
     print(f"{'task':32s} " + " ".join(f"{floor:>9}" for floor in FLOORS))
     for task in TASKS:
@@ -74,24 +73,19 @@ def main() -> None:
 
     print()
     print("=" * 100)
-    print("D. require_known_* 플래그가 숨기는 후보 수  ⚠️ 정답 누락 경로")
+    print("D. 수치 조건을 제거했을 때의 후보 수  ⚠️ 조건 누락 시 유입 경로")
     print("=" * 100)
-    print(f"{'질의':40s} {'known=F':>9s} {'known=T':>9s} {'숨은 탈락':>10s}")
+    print(f"{'질의':40s} {'수치적용':>9s} {'수치제거':>9s} {'차이':>10s}")
     for task in TASKS:
         for cap in (0.3, 1.0, 3.0):
-            off = corpus_v2.count(tasks=[task], korean_required=True, max_parameters_billion=cap)
-            on = corpus_v2.count(
-                tasks=[task],
-                korean_required=True,
-                max_parameters_billion=cap,
-                require_known_parameters=True,
-            )
-            if off - on > 0:
-                print(f"{task + f' ≤{cap}B':40s} {off:9d} {on:9d} {off - on:10d}")
+            bounded = corpus_v2.count(tasks=[task], korean_required=True, max_parameters_billion=cap)
+            unbounded = corpus_v2.count(tasks=[task], korean_required=True)
+            if unbounded - bounded > 0:
+                print(f"{task + f' ≤{cap}B':40s} {bounded:9d} {unbounded:9d} {unbounded - bounded:10d}")
 
     print()
     print("=" * 100)
-    print("E. 값 미공개 비율 — 위 D의 원인")
+    print("E. 값 미공개 비율 — 백필의 남은 과제")
     print("=" * 100)
     for field, label in (("parameter_count_billion", "파라미터 수"), ("context_length", "컨텍스트 길이")):
         unknown = sum(

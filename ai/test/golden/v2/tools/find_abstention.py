@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 """abstention 질의 후보 탐색: 하드 필터 통과 후보가 0개가 되는 조건 조합.
 
-왜 require_known_* 가 필요한가
-------------------------------
-``numeric_ok``는 값이 없으면 ``not required``를 돌려준다. 즉 플래그를 끄면 파라미터
-수나 컨텍스트 길이를 공개하지 않은 모델(각 39.4% / 37.7%)이 모든 수치 조건을
-통과한다. 그래서 플래그를 끈 상태로는 수치 조건만으로 후보 0개를 만들 수 없다.
-
-이건 숨은 필터가 아니라 질의의 의미다. "컨텍스트 100만 토큰 이상인 모델"을
-추천하려면 그 길이가 문서로 확인돼야 한다. 미공개 모델은 조건을 만족한다고
-말할 수 없으므로 후보가 아니다. 따라서 abstention 질의문에는 "확인된",
-"명시된" 같은 말이 들어가야 하고, conditions의 require_known_*가 그 근거가 된다.
+수치값이 없는 모델의 처리
+------------------------
+``numeric_ok``는 Supabase SQL과 동일하다. 상한 또는 하한이 주어졌는데 값이 없으면
+그 모델은 조건을 만족한다고 검증할 수 없으므로 후보에서 제외한다. 따라서 이
+탐색기는 자연스러운 수치 질의 그대로 후보 0개 조합을 찾는다.
 
     python test/golden/v2/tools/find_abstention.py
 """
@@ -52,7 +47,7 @@ def main() -> None:
     found = []
 
     print("=" * 96)
-    print("A. 파라미터 상한 × task   (require_known_parameters=True)")
+    print("A. 파라미터 상한 × task   (값 없는 모델은 운영 검색과 같이 제외)")
     print("=" * 96)
     print(f"{'task':32s} " + " ".join(f"{cap:>8}B" for cap in CAPS))
     for task in TASKS:
@@ -62,7 +57,6 @@ def main() -> None:
                 tasks=[task],
                 korean_required=True,
                 max_parameters_billion=cap,
-                require_known_parameters=True,
             )
             n = probe(**query)
             cells.append(n)
@@ -72,7 +66,7 @@ def main() -> None:
 
     print()
     print("=" * 96)
-    print("B. context 하한 × task   (require_known_context=True)")
+    print("B. context 하한 × task   (값 없는 모델은 운영 검색과 같이 제외)")
     print("=" * 96)
     print(f"{'task':32s} " + " ".join(f"{f:>10}" for f in FLOORS))
     for task in TASKS:
@@ -82,7 +76,6 @@ def main() -> None:
                 tasks=[task],
                 korean_required=True,
                 min_context_length=floor,
-                require_known_context=True,
             )
             n = probe(**query)
             cells.append(n)
@@ -101,7 +94,6 @@ def main() -> None:
                 korean_required=True,
                 pools=["core"],
                 max_parameters_billion=cap,
-                require_known_parameters=True,
             )
             n = probe(**query)
             if n == 0:

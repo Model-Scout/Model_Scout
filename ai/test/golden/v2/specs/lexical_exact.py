@@ -11,7 +11,8 @@
 
 ★ 번역 방향은 model_id와 claim을 함께 본다
   ko→en과 en→ko는 다른 모델이다. 양방향 모델은 둘 다 2점, 단방향은 반대 방향
-  질의에 0점이다. `reject_any`로 반대 방향을 1점으로 내린다.
+  질의에 0점이다. 반대 방향만 가진 모델은 `must_any`를 만족하지 못하므로, 양방향
+  모델을 잘못 감점하지 않도록 `reject_any`를 쓰지 않는다.
 
 판정 기준
     2점 — 질의한 문자열이 model_id 또는 filter_metadata에서 확인된다
@@ -31,14 +32,12 @@ GEN_CORE_4B = {
     "korean_required": True,
     "pools": ["core"],
     "max_parameters_billion": 4.0,
-    "require_known_parameters": True,
 }
 GEN_CORE_4B_FIDELITY = {
     "tasks": "LLM → text-generation",
     "korean_required": "한국어",
     "pools": "많이 쓰이는 → core (다운로드 500 이상)",
     "max_parameters_billion": "4B 이하",
-    "require_known_parameters": "로 공개된",
 }
 GEN_CORE_2B = {**GEN_CORE_4B, "max_parameters_billion": 2.0}
 GEN_CORE_2B_FIDELITY = {**GEN_CORE_4B_FIDELITY, "max_parameters_billion": "2B 이하"}
@@ -46,13 +45,11 @@ TRANS_SMALL = {
     "tasks": ["translation"],
     "korean_required": True,
     "max_parameters_billion": 0.5,
-    "require_known_parameters": True,
 }
 TRANS_SMALL_FIDELITY = {
     "tasks": "번역",
     "korean_required": "한국어",
     "max_parameters_billion": "500M 이하",
-    "require_known_parameters": "로 공개된",
 }
 
 SPECS = [
@@ -72,18 +69,16 @@ SPECS = [
     },
     {
         "query_id": "le02",
-        "query": "GGUF로 제공되는 한국어 이미지-텍스트 모델 있어? 파라미터 1B 이하로 공개된 것으로.",
+        "query": "GGUF로 제공되는 한국어 이미지-텍스트 모델 있어? 파라미터 1B 이하인 것으로.",
         "conditions": {
             "tasks": ["image-text-to-text"],
             "korean_required": True,
             "max_parameters_billion": 1.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "이미지-텍스트",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 1B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["gguf"],
@@ -140,14 +135,13 @@ SPECS = [
     },
     {
         "query_id": "le05",
-        "query": "한국어를 영어로 번역하는 모델을 찾고 있어. 파라미터 500M 이하로 공개된 것으로.",
+        "query": "한국어를 영어로 번역하는 모델을 찾고 있어. 파라미터 500M 이하인 것으로.",
         "conditions": TRANS_SMALL,
         "fidelity": TRANS_SMALL_FIDELITY,
         "rule": Rule(
             must_any=["ko-en", "ko2en", "koen", "ko_en", "kor2eng", "한영"],
             grade_2_any=["ko-en", "ko2en", "한영"],
             weak_any=["m2m", "nllb", "mbart", "opus-mt-mul"],
-            reject_any=["en-ko", "en2ko", "영한"],
             must_label="ko→en 방향이 model_id 또는 claim에서 확인된다",
             grade_2_label="ko→en 방향이 명시돼 있다",
             grade_1_label="다국어 모델로 ko·en을 모두 지원하나 방향 명시가 없다",
@@ -155,14 +149,13 @@ SPECS = [
     },
     {
         "query_id": "le06",
-        "query": "영어를 한국어로 번역하는 모델이 필요해. 파라미터 500M 이하로 공개된 것으로.",
+        "query": "영어를 한국어로 번역하는 모델이 필요해. 파라미터 500M 이하인 것으로.",
         "conditions": TRANS_SMALL,
         "fidelity": TRANS_SMALL_FIDELITY,
         "rule": Rule(
             must_any=["en-ko", "en2ko", "enko", "en_ko", "eng2kor", "영한"],
             grade_2_any=["en-ko", "en2ko", "영한"],
             weak_any=["m2m", "nllb", "mbart", "opus-mt-mul"],
-            reject_any=["ko-en", "ko2en", "한영"],
             must_label="en→ko 방향이 model_id 또는 claim에서 확인된다",
             grade_2_label="en→ko 방향이 명시돼 있다",
             grade_1_label="다국어 모델로 ko·en을 모두 지원하나 방향 명시가 없다",
@@ -192,7 +185,7 @@ SPECS = [
     },
     {
         "query_id": "le08",
-        "query": "MLX 형식으로 제공되는 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 2B 이하로 공개된 모델로.",
+        "query": "MLX 형식으로 제공되는 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 2B 이하인 모델로.",
         "conditions": GEN_CORE_2B,
         "fidelity": GEN_CORE_2B_FIDELITY,
         "rule": Rule(
@@ -206,7 +199,7 @@ SPECS = [
     },
     {
         "query_id": "le09",
-        "query": "fp8로 양자화된 한국어 LLM 있어? 많이 쓰이는 것 중에 4B 이하로 공개된 모델로.",
+        "query": "fp8로 양자화된 한국어 LLM 있어? 많이 쓰이는 것 중에 4B 이하인 모델로.",
         "conditions": GEN_CORE_4B,
         "fidelity": GEN_CORE_4B_FIDELITY,
         "rule": Rule(

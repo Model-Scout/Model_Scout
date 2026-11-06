@@ -8,10 +8,9 @@
     1점 — 조건은 충족하나 범용 모델이고 그 task가 부가 기능이거나,
           도메인이 질의보다 좁거나 넓거나, 변환본·재업로드
 
-조건은 전부 질의문에 근거가 있다. require_known_*는 질의가 "스펙이 공개된",
-"파라미터 수가 명시된"처럼 값의 공개를 요구할 때만 켠다. 코퍼스의 파라미터
-39.4%, 컨텍스트 37.7%가 미공개이므로 이 플래그를 후보 축소에 쓰면 정답이
-통째로 사라진다.
+수치 조건이 있는 경우 값이 없는 모델은 실제 Supabase 검색과 동일하게 후보에서
+제외된다. 이것은 별도 "공개된 모델만" 조건이 아니라, 수치 조건을 만족한다고
+검증할 수 없기 때문이다. 조건은 전부 질의문에 근거가 있어야 한다.
 """
 
 from __future__ import annotations
@@ -38,7 +37,7 @@ SPECS = [
             "max_parameters_billion": "3B 이하",
         },
         "rule": Rule(
-            must_any=["summar", "요약", "xlsum", "crosssum", "sum"],
+            must_any=["summar", "요약", "xlsum", "crosssum"],
             grade_2_any=["kobart", "kot5", "korean summar", "한국어 요약",
                          "요약 모델", "summarization"],
             weak_any=["bart", "t5", "seq2seq", "text2text", "key-point", "key_point"],
@@ -146,18 +145,16 @@ SPECS = [
     },
     {
         "query_id": "sc06",
-        "query": "파라미터 수가 명시된 것 중에 100M 이하인 한국어 음성 인식 모델을 찾고 있어.",
+        "query": "파라미터 100M 이하인 한국어 음성 인식 모델을 찾고 있어.",
         "conditions": {
             "tasks": ["automatic-speech-recognition"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "음성 인식",
             "korean_required": "한국어",
             "max_parameters_billion": "100M 이하",
-            "require_known_parameters": "파라미터 수가 명시된 것",
         },
         "rule": Rule(
             must_any=["asr", "speech", "음성", "whisper", "wav2vec", "stt",
@@ -172,18 +169,16 @@ SPECS = [
     },
     {
         "query_id": "sc07",
-        "query": "파라미터 1B 이하로 공개된 한국어 이미지-텍스트 모델을 추천해줘.",
+        "query": "파라미터 1B 이하인 한국어 이미지-텍스트 모델을 추천해줘.",
         "conditions": {
             "tasks": ["image-text-to-text"],
             "korean_required": True,
             "max_parameters_billion": 1.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "이미지-텍스트",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 1B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["vl", "vision", "image", "이미지", "ocr", "multimodal",
@@ -198,18 +193,16 @@ SPECS = [
     },
     {
         "query_id": "sc08",
-        "query": "파라미터 수가 공개된 100M 이하 한국어 임베딩 모델이 필요해.",
+        "query": "파라미터 100M 이하인 한국어 임베딩 모델이 필요해.",
         "conditions": {
             "tasks": ["feature-extraction"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "임베딩 → feature-extraction",
             "korean_required": "한국어",
             "max_parameters_billion": "100M 이하",
-            "require_known_parameters": "파라미터 수가 공개된",
         },
         "rule": Rule(
             must_any=["embed", "임베딩", "feature", "vector", "sbert", "sroberta",
@@ -224,18 +217,16 @@ SPECS = [
     },
     {
         "query_id": "sc09",
-        "query": "파라미터 100M 이하로 명시된 한국어 문장 유사도 모델을 찾아줘.",
+        "query": "파라미터 100M 이하인 한국어 문장 유사도 모델을 찾아줘.",
         "conditions": {
             "tasks": ["sentence-similarity"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "문장 유사도",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 100M 이하",
-            "require_known_parameters": "로 명시된",
         },
         "rule": Rule(
             must_any=["sentence", "similar", "유사도", "sbert", "sroberta", "simcse",
@@ -262,7 +253,7 @@ SPECS = [
             "pools": "많이 쓰이는 → core (다운로드 500 이상)",
         },
         "rule": Rule(
-            must_any=["summar", "요약", "xlsum", "crosssum", "sum"],
+            must_any=["summar", "요약", "xlsum", "crosssum"],
             grade_2_any=["kobart", "kot5", "한국어 요약", "korean summar",
                          "summarization"],
             weak_any=["bart", "t5", "seq2seq", "text2text"],

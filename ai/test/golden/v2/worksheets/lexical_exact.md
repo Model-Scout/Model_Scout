@@ -25,7 +25,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 | **1** | 조건은 충족하나 도메인이 넓거나 좁음 / 근거 미확인 / 변환본·재업로드 |
 | **0** | 기록하지 않음 — 라벨에 없으면 오답 |
 
-코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **88개**
+코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **91개**
 
 ---
 
@@ -56,19 +56,18 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 11개 — `csebuetnlp/mT5_multilingual_XLSum`, `EbanLee/kobart-summary-v3`, `eenzeenee/t5-base-korean-summarization`, `ainize/kobart-news`, `csebuetnlp/mT5_m2m_crossSum`, `csebuetnlp/mT5_m2m_crossSum_enhanced` …
+- **용도 언급 없음** 11개 — `EbanLee/kobart-summary-v3`, `ainize/kobart-news`, `csebuetnlp/mT5_m2m_crossSum`, `csebuetnlp/mT5_m2m_crossSum_enhanced`, `csebuetnlp/mT5_m2o_english_crossSum`, `csebuetnlp/mT5_multilingual_XLSum` …
 
 
-### `le02` ≤1.0B · 값공개 · image-text-to-text · hard
+### `le02` ≤1.0B · image-text-to-text · hard
 
-> GGUF로 제공되는 한국어 이미지-텍스트 모델 있어? 파라미터 1B 이하로 공개된 것으로.
+> GGUF로 제공되는 한국어 이미지-텍스트 모델 있어? 파라미터 1B 이하인 것으로.
 
 조건 → 질의문 근거
 
 - `tasks=["image-text-to-text"]` ← 이미지-텍스트
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=1.0` ← 파라미터 1B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -76,7 +75,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 - **2점** GGUF 파일이 artifacts에서 확인된다
 - **1점** llama.cpp 호환만 언급된다
 
-후보 12개 전수 스캔 → 🚩 4 / ⚠️ 0 / ✅ 8
+후보 13개 전수 스캔 → 🚩 5 / ⚠️ 0 / ✅ 8
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -86,10 +85,11 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 | `coder3101/LFM2.5-VL-450M-heretic` | 2점 | semantic_metadata에서 gguf |  |
 | `localdeel/ko-hand-ocr-vl` | 2점 | semantic_metadata에서 gguf |  |
 | `saidutta69/LFM2.5-VL-450M-heretic` | 2점 | filter_metadata에서 gguf |  |
+| `cstr/internvl2-1b-crispembed-GGUF` | 2점 | model_id에서 gguf |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 8개 — `LiquidAI/LFM2.5-VL-450M-MLX-4bit`, `mlx-community/LFM2.5-VL-450M-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-5bit`, `LiquidAI/LFM2.5-VL-450M-MLX-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-8bit`, `LiquidAI/LFM2.5-VL-450M-MLX-bf16` …
+- **용도 언급 없음** 8개 — `LiquidAI/LFM2.5-VL-450M-MLX-4bit`, `LiquidAI/LFM2.5-VL-450M-MLX-5bit`, `LiquidAI/LFM2.5-VL-450M-MLX-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-8bit`, `LiquidAI/LFM2.5-VL-450M-MLX-bf16`, `Mattimax/DAC6.5` …
 
 
 ### `le03` core만 · feature-extraction · easy
@@ -131,7 +131,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 48개 — `amazon/Titan-text-embeddings-v2`, `BM-K/KoSimCSE-bert-multitask`, `BM-K/KoSimCSE-roberta`, `BM-K/KoSimCSE-roberta-multitask`, `CISCai/jina-embeddings-v3-separation-distilled`, `codefuse-ai/F2LLM-v2-1.7B` …
+- **용도 언급 없음** 48개 — `BM-K/KoSimCSE-bert-multitask`, `BM-K/KoSimCSE-roberta`, `BM-K/KoSimCSE-roberta-multitask`, `CISCai/jina-embeddings-v3-separation-distilled`, `ZurichNLP/unsup-simcse-xlm-roberta-base`, `amazon/Titan-text-embeddings-v2` …
 - **주 task가 sentence-similarity** 2개 — `omai-research/milco-300m`, `omai-research/milco-650m`
 
 
@@ -177,19 +177,18 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 54개 — `Alibaba-NLP/gte-multilingual-base`, `antoinelouis/colbert-xm`, `batiai/Qwen3-VL-Embedding-8B-GGUF`, `beademiguelperez/sentence-transformers-multilingual-e5-small`, `bespin-global/klue-sroberta-base-continue-learning-by-mnr`, `BidirLM/BidirLM-0.6B-Embedding` …
+- **용도 언급 없음** 54개 — `Alibaba-NLP/gte-multilingual-base`, `BidirLM/BidirLM-0.6B-Embedding`, `BidirLM/BidirLM-1B-Embedding`, `BidirLM/BidirLM-Omni-2.5B-Embedding`, `Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf`, `ChristianAzinn/labse-gguf` …
 
 
-### `le05` ≤500M · 값공개 · translation · hard
+### `le05` ≤500M · translation · hard
 
-> 한국어를 영어로 번역하는 모델을 찾고 있어. 파라미터 500M 이하로 공개된 것으로.
+> 한국어를 영어로 번역하는 모델을 찾고 있어. 파라미터 500M 이하인 것으로.
 
 조건 → 질의문 근거
 
 - `tasks=["translation"]` ← 번역
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.5` ← 500M 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -216,19 +215,18 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 9개 — `Helsinki-NLP/opus-mt-tc-big-en-ko`, `sappho192/aihub-ja-ko-translator`, `sappho192/ffxiv-ja-ko-translator`, `Darong/BlueT`, `Helsinki-NLP/opus-mt_tiny_kor-eng`, `kuotient/Hy-MT2-1.8B-1.25Bit-MLX` …
+- **용도 언급 없음** 9개 — `Darong/BlueT`, `Helsinki-NLP/opus-mt-tc-big-en-ko`, `Helsinki-NLP/opus-mt_tiny_kor-eng`, `Neurora/opus-hplt-en-ko-v2.0`, `Sube126/Hy-MT2-1.8B-1.25Bit-MLX`, `kuotient/Hy-MT2-1.8B-1.25Bit-MLX` …
 
 
-### `le06` ≤500M · 값공개 · translation · easy
+### `le06` ≤500M · translation · easy
 
-> 영어를 한국어로 번역하는 모델이 필요해. 파라미터 500M 이하로 공개된 것으로.
+> 영어를 한국어로 번역하는 모델이 필요해. 파라미터 500M 이하인 것으로.
 
 조건 → 질의문 근거
 
 - `tasks=["translation"]` ← 번역
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.5` ← 500M 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -255,7 +253,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 9개 — `Helsinki-NLP/opus-mt-tc-big-ko-en`, `sappho192/aihub-ja-ko-translator`, `sappho192/ffxiv-ja-ko-translator`, `Darong/BlueT`, `Helsinki-NLP/opus-mt_tiny_kor-eng`, `kuotient/Hy-MT2-1.8B-1.25Bit-MLX` …
+- **용도 언급 없음** 9개 — `Darong/BlueT`, `Helsinki-NLP/opus-mt-tc-big-ko-en`, `Helsinki-NLP/opus-mt_tiny_kor-eng`, `Sube126/Hy-MT2-1.8B-1.25Bit-MLX`, `kuotient/Hy-MT2-1.8B-1.25Bit-MLX`, `sappho192/aihub-ja-ko-translator` …
 
 
 ### `le07` core만 · translation · easy
@@ -287,12 +285,12 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 113개 — `42ailab/TranslateGemma-27B-GGUF`, `42ailab/TranslateGemma-4B-GGUF`, `alexwkleung/Hy-MT2-7B-Abliterated-GGUF`, `alirezamsh/small100`, `alphaZimuth/Hy-MT2-30B-A3B-APEX-GGUF`, `alphaZimuth/Hy-MT2-30B-A3B-Uncensored-Heretic-APEX-GGUF` …
+- **용도 언급 없음** 113개 — `42ailab/TranslateGemma-27B-GGUF`, `42ailab/TranslateGemma-4B-GGUF`, `BSC-LT/salamandraTA-7B-instruct-GGUF`, `BSC-LT/salamandraTA-7b-instruct`, `Babelscape/mrebel-large`, `ByteDance-Seed/Seed-X-Instruct-7B` …
 
 
-### `le08` ≤2.0B · core만 · 값공개 · text-generation · easy
+### `le08` ≤2.0B · core만 · text-generation · easy
 
-> MLX 형식으로 제공되는 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 2B 이하로 공개된 모델로.
+> MLX 형식으로 제공되는 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 2B 이하인 모델로.
 
 조건 → 질의문 근거
 
@@ -300,7 +298,6 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 - `korean_required=true` ← 한국어
 - `pools=["core"]` ← 많이 쓰이는 → core (다운로드 500 이상)
 - `max_parameters_billion=2.0` ← 2B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -308,7 +305,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 - **2점** MLX 변환본임이 model_id에서 확인된다
 - **1점** Apple Silicon 지원만 언급되고 MLX 변환본은 아니다
 
-후보 110개 전수 스캔 → 🚩 21 / ⚠️ 0 / ✅ 89
+후보 169개 전수 스캔 → 🚩 23 / ⚠️ 0 / ✅ 146
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -316,8 +313,10 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 |---|:--:|---|:--:|
 | `LiquidAI/LFM2.5-1.2B-Instruct` | 2점 | semantic_metadata에서 mlx |  |
 | `LiquidAI/LFM2.5-350M` | 2점 | semantic_metadata에서 mlx |  |
+| `ZuzeTt/LFM2.5-1.2B-Instruct-imatrix-GGUF` | 2점 | semantic_metadata에서 mlx |  |
 | `anudit/lfm25-strudel` | 2점 | semantic_metadata에서 mlx |  |
 | `unsloth/LFM2.5-1.2B-Instruct` | 2점 | semantic_metadata에서 mlx |  |
+| `unsloth/LFM2.5-1.2B-Instruct-GGUF` | 2점 | semantic_metadata에서 mlx |  |
 | `LiquidAI/LFM2.5-1.2B-Instruct-MLX-4bit` | 2점 | model_id에서 mlx |  |
 | `LiquidAI/LFM2.5-1.2B-Instruct-MLX-8bit` | 2점 | model_id에서 mlx |  |
 | `LiquidAI/LFM2.5-1.2B-Instruct-MLX-bf16` | 2점 | model_id에서 mlx |  |
@@ -338,12 +337,12 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 89개 — `0xzknw/LFM2.5-1.2B-Thinking-Heretic`, `42dot/42dot_LLM-PLM-1.3B`, `42dot/42dot_LLM-SFT-1.3B`, `aixk/BAAR2-150M`, `aixk/BAAR2-3M`, `aixk/BAAR3-19M` …
+- **용도 언급 없음** 146개 — `0xzknw/LFM2.5-1.2B-Thinking-Heretic`, `42dot/42dot_LLM-PLM-1.3B`, `42dot/42dot_LLM-SFT-1.3B`, `AtomicChat/LFM3-1.7B-GGUF`, `CMSManhattan/JiRackUltra_1b`, `Calandracas/minnow-pico-50M-base` …
 
 
-### `le09` ≤4.0B · core만 · 값공개 · text-generation · hard
+### `le09` ≤4.0B · core만 · text-generation · hard
 
-> fp8로 양자화된 한국어 LLM 있어? 많이 쓰이는 것 중에 4B 이하로 공개된 모델로.
+> fp8로 양자화된 한국어 LLM 있어? 많이 쓰이는 것 중에 4B 이하인 모델로.
 
 조건 → 질의문 근거
 
@@ -351,7 +350,6 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 - `korean_required=true` ← 한국어
 - `pools=["core"]` ← 많이 쓰이는 → core (다운로드 500 이상)
 - `max_parameters_billion=4.0` ← 4B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -359,7 +357,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 - **2점** fp8 양자화가 quantization에서 확인된다
 - **1점** 8비트 가중치 양자화이나 fp8 방식은 아니다
 
-후보 178개 전수 스캔 → 🚩 1 / ⚠️ 0 / ✅ 177
+후보 270개 전수 스캔 → 🚩 1 / ⚠️ 0 / ✅ 269
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -369,7 +367,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py lexical_exact
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 177개 — `0xzknw/LFM2.5-1.2B-Thinking-Heretic`, `0xzknw/LFM2.5-2.6B-Heretic-NX-PRIME`, `42dot/42dot_LLM-PLM-1.3B`, `42dot/42dot_LLM-SFT-1.3B`, `aixk/BAAR2-150M`, `aixk/BAAR2-3M` …
+- **용도 언급 없음** 269개 — `0xzknw/LFM2.5-1.2B-Thinking-Heretic`, `0xzknw/LFM2.5-2.6B-Heretic-NX-PRIME`, `42dot/42dot_LLM-PLM-1.3B`, `42dot/42dot_LLM-SFT-1.3B`, `AMAImedia/Tiny-Aya-3.3B-L2-Thinker-BF16-GGUF`, `AtomicChat/LFM3-1.7B-GGUF` …
 
 
 ### `le10` 조건 없음 · summarization · easy

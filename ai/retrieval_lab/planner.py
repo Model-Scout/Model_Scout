@@ -94,8 +94,9 @@ def hard_filters(query: Mapping[str, Any]) -> Dict[str, Any]:
             if isinstance(query.get(key), bool) or query.get(key) not in (None, [], False)}
 
 
-# require_known_* 플래그와 짝이 되는 수치 조건. 05_validate_retrieval.hard_filter가
-# parameter_count_billion에는 상한만, context_length에는 상·하한을 본다.
+# ``require_known_*``는 명시적으로 "값이 공개된 모델"을 요청한 경우에만 의미가
+# 있다. 수치 상·하한이 있으면 05_validate_retrieval.hard_filter는 Supabase SQL과
+# 동일하게 누락 값을 이미 제외한다.
 _KNOWN_FLAG_PAIRS = {
     "require_known_parameters": ("max_parameters_billion",),
     "require_known_context": ("min_context_length", "max_context_length"),
@@ -106,9 +107,10 @@ def hard_filter_plan(defaults: Mapping[str, Any], query: Mapping[str, Any]) -> D
     """유형 기본값 위에 질의 값을 얹는다. 질의가 직접 말한 값이 언제나 이긴다.
 
     유형 기본값으로 켜진 require_known_*는 짝이 되는 수치 조건이 있을 때만 남긴다.
-    상한도 하한도 없는 질의에서 "값을 안다"는 이유로 후보를 거르면 멀쩡한 모델만
-    잃는다(코퍼스의 parameter_count 39%가 비어 있다). 질의가 직접 지정한 플래그는
-    수치 조건과 무관하게 그대로 둔다.
+    수치 조건이 있으면 이 플래그는 중복이지만, 과거 Planner 설정과의 호환성을 위해
+    보존한다. 상한도 하한도 없는 질의에서 "값을 안다"는 이유로 후보를 거르면
+    멀쩡한 모델만 잃는다. 질의가 직접 지정한 플래그는 수치 조건과 무관하게 그대로
+    둔다.
 
     실험(experiment.evaluate)과 서비스(plan_for)가 같은 함수를 쓴다. 한쪽에만
     이 처리가 있으면 측정한 설정과 서비스하는 설정이 달라진다.

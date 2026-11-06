@@ -1,5 +1,5 @@
 {
-  "source": "supabase.public.model_scout_models",
+  "source": "frozen Supabase active snapshot + ai/backfill Stage 2/4",
   "filter": "active = true",
   "rows": 3872,
   "pool_counts": {
@@ -22,5 +22,16 @@
   "last_sync_row_count": 28,
   "corpus_refreshed_at": "2026-10-31 06:49:43.471265+00:00",
   "github_actions": "disabled (팀 결정). 이 스냅샷이 확정 후보 집합이다.",
-  "note": "OpenAI 임베딩 벡터는 제외. 판정은 메타데이터/claim/evidence로만 한다."
+  "note": "OpenAI 임베딩 벡터는 제외. 판정은 메타데이터/claim/evidence로만 한다.",
+  "metadata_variant": "backfill-v2-high-confidence-parameters",
+  "backfill_adopted_at": "2026-11-05T07:47:48.211337+00:00",
+  "backfill": {
+    "stage2_core_sha256": "26c81923acf393e4b573727562fe6dcc6ac96cd850cba60dda169d05230aba80",
+    "stage2_low_popularity_sha256": "cde31ffd261e72a498213ce861693451cbf53ee6d9c0af4305ad150d5fa49377",
+    "stage4_core_sha256": "f3411392334f4c55fb2450d528981148e5d5d51ffaef0efa0430fc76948efea3",
+    "stage4_low_popularity_sha256": "d6b59ae357d8d4daadebab322b8ffc46101deb4658da0a61e1ab8e99431b512d",
+    "stage4_rebuild": "1278 embeddings regenerated, 2594 reused",
+    "parameter_policy": "high-confidence 값만 filter_metadata/embedding에 반영; medium-confidence 값은 backfill_review에 격리",
+    "note": "Stage 3 semantic claims and atomic evidence remain from the frozen Supabase snapshot."
+  }
 }

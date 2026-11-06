@@ -25,7 +25,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 | **1** | 조건은 충족하나 도메인이 넓거나 좁음 / 근거 미확인 / 변환본·재업로드 |
 | **0** | 기록하지 않음 — 라벨에 없으면 오답 |
 
-코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **120개**
+코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **111개**
 
 ---
 
@@ -67,7 +67,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 5개 — `EbanLee/kobart-summary-v3`, `eenzeenee/t5-base-korean-summarization`, `eenzeenee/t5-small-korean-summarization`, `psyche/KoT5-summarization`, `QyrouNnet-AI/QNS-2-ReLearn-Preview`
+- **용도 언급 없음** 5개 — `EbanLee/kobart-summary-v3`, `QyrouNnet-AI/QNS-2-ReLearn-Preview`, `eenzeenee/t5-base-korean-summarization`, `eenzeenee/t5-small-korean-summarization`, `psyche/KoT5-summarization`
 
 
 ### `ca02` 조건 없음 · question-answering · hard
@@ -103,7 +103,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 17개 — `mradermacher/IoGPT-A1-Instruct-i1-GGUF`, `mradermacher/next-12b-i1-GGUF`, `mradermacher/next-1b-GGUF`, `cgus/Apollo2-7B-iMat-GGUF`, `FreedomIntelligence/Apollo-MoE-0.5B`, `FreedomIntelligence/Apollo-MoE-7B` …
+- **용도 언급 없음** 17개 — `FreedomIntelligence/Apollo-MoE-0.5B`, `FreedomIntelligence/Apollo-MoE-7B`, `FreedomIntelligence/Apollo2-3.8B`, `FreedomIntelligence/Apollo2-7B`, `FreedomIntelligence/Apollo2-9B`, `QuantFactory/Apollo2-2B-GGUF` …
 
 
 ### `ca03` core만 · text-classification · hard
@@ -141,18 +141,18 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
 | `Copycats/koelectra-base-v3-generalized-sentiment-analysis` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 customer |  |
-| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 category |  |
+| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 README 원문에만 category |  |
 | `NorviTech/armiger-ultra` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 category |  |
 | `chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 customer, category |  |
 | `knowledgator/opir-edge-multilang-v1.0` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 category |  |
 | `knowledgator/opir-multitask-multilang-v1.0` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 category |  |
 | `lokas/spam-usernames-classifier` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 category |  |
-| `quevirus/Xevn-4B-GGUF` | 믿을 수 있는 단계엔 없고 README 원문에만 customer |  |
+| `quevirus/Xevn-4B-GGUF` | 믿을 수 있는 단계엔 없고 README 원문에만 고객, customer |  |
 | `skt/A.X-Encoder-base` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 category |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 31개 — `agentlans/multilingual-e5-small-aligned-sentiment`, `amber-tech/bert-multilingual-passage-reranking-msmarco`, `amphora/KorFinASC-XLM-RoBERTa`, `autopilot-ai/EthicalEye`, `banjl4487/MODEL`, `cis-lmu/glotlid` …
+- **용도 언급 없음** 31개 — `DataWizardd/finbert-sentiment-ko`, `Dongjin-kr/ko-reranker`, `FISA-conclave/klue-roberta-news-sentiment`, `HPLT/OpenLID-v3`, `Horizon-Labs/hallucination-guard-base`, `Horizon-Labs/multilingual-toxicity-small` …
 - **claim 자체가 비어 있음** 2개 — `circulus/koelectra-polite-v1`, `circulus/koelectra-sentiment-v1`
 
 
@@ -172,7 +172,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 - **2점** NSMC 등 한국어 리뷰 감성 데이터로 학습됐다
 - **1점** 다국어 감성 분류이거나 도메인이 리뷰가 아닌 일반 감성 분류
 
-후보 49개 전수 스캔 → 🚩 13 / ⚠️ 8 / ✅ 28
+후보 49개 전수 스캔 → 🚩 13 / ⚠️ 7 / ✅ 29
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -197,17 +197,16 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
 | `HPLT/OpenLID-v3` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 positive |  |
-| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 positive |  |
 | `MelissaJ/koelectra-emotion-6-emotion-base` | 믿을 수 있는 단계엔 없고 model_id에만 emotion |  |
 | `Zeolit/lettuce-thymos-26m-v1` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 emotion |  |
-| `doofz/THX-01` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 emotion |  |
+| `doofz/THX-01` | 믿을 수 있는 단계엔 없고 출처 불명확 benchmark 결과에만 sentiment, emotion |  |
 | `guardion/ModernGuard-1` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 positive |  |
 | `knowledgator/opir-edge-multilang-v1.0` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 positive |  |
 | `tabularisai/multilingual-emotion-classification` | 믿을 수 있는 단계엔 없고 model_id에만 emotion |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 27개 — `amber-tech/bert-multilingual-passage-reranking-msmarco`, `amphora/KorFinASC-XLM-RoBERTa`, `autopilot-ai/EthicalEye`, `banjl4487/MODEL`, `chaoliangUNSW/Jev-Style-0.8B-Decision-v3`, `cis-lmu/glotlid` …
+- **용도 언급 없음** 28개 — `Dongjin-kr/ko-reranker`, `Horizon-Labs/content-safety-guard-small`, `Horizon-Labs/hallucination-guard-base`, `Horizon-Labs/multilingual-toxicity-small`, `Horizon-Labs/prompt-injection-guard-base`, `Horizon-Labs/prompt-injection-guard-small` …
 - **claim 자체가 비어 있음** 1개 — `circulus/koelectra-polite-v1`
 
 
@@ -239,14 +238,14 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
-| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 toxic |  |
+| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 README 원문에만 hate |  |
 | `Horizon-Labs/multilingual-toxicity-small` | 믿을 수 있는 단계엔 없고 model_id에만 toxic |  |
 | `knowledgator/opir-edge-multilang-v1.0` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 toxic |  |
 | `knowledgator/opir-multitask-multilang-v1.0` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 toxic |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 42개 — `agentlans/multilingual-e5-small-aligned-sentiment`, `amber-tech/bert-multilingual-passage-reranking-msmarco`, `amphora/KorFinASC-XLM-RoBERTa`, `banjl4487/MODEL`, `chaoliangUNSW/Jev-Style-0.8B-Decision-v3`, `chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF` …
+- **용도 언급 없음** 42개 — `Copycats/koelectra-base-v3-generalized-sentiment-analysis`, `DataWizardd/finbert-sentiment-ko`, `Dongjin-kr/ko-reranker`, `FISA-conclave/klue-roberta-news-sentiment`, `HPLT/OpenLID-v3`, `Horizon-Labs/hallucination-guard-base` …
 - **claim 자체가 비어 있음** 2개 — `circulus/koelectra-polite-v1`, `circulus/koelectra-sentiment-v1`
 
 
@@ -278,21 +277,21 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
-| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 moderation |  |
+| `Horizon-Labs/content-safety-guard-small` | 믿을 수 있는 단계엔 없고 출처 불명확 benchmark 결과에만 moderation |  |
 | `Horizon-Labs/multilingual-toxicity-small` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 moderation |  |
 | `Horizon-Labs/prompt-injection-guard-base` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 filter |  |
 | `Horizon-Labs/prompt-injection-guard-small` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 filter |  |
 | `Metabaron6/Shieldstral-1.0-3B-GGUF` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 moderation |  |
 | `NorviTech/armiger-ultra` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 filter |  |
 | `autopilot-ai/EthicalEye` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 moderation |  |
-| `doofz/THX-01` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 spam |  |
+| `doofz/THX-01` | 믿을 수 있는 단계엔 없고 출처 불명확 benchmark 결과에만 spam |  |
 | `knowledgator/opir-multitask-multilang-v1.0` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 moderation |  |
 | `llm-semantic-router/mmbert32k-modality-router-merged` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 moderation |  |
 | `vllm-sr/mmbert32k-modality-router-merged` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 moderation |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 35개 — `agentlans/multilingual-e5-small-aligned-sentiment`, `amber-tech/bert-multilingual-passage-reranking-msmarco`, `amphora/KorFinASC-XLM-RoBERTa`, `banjl4487/MODEL`, `chaoliangUNSW/Jev-Style-0.8B-Decision-v3`, `chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF` …
+- **용도 언급 없음** 35개 — `Copycats/koelectra-base-v3-generalized-sentiment-analysis`, `DataWizardd/finbert-sentiment-ko`, `Dongjin-kr/ko-reranker`, `FISA-conclave/klue-roberta-news-sentiment`, `HPLT/OpenLID-v3`, `Horizon-Labs/hallucination-guard-base` …
 - **claim 자체가 비어 있음** 2개 — `circulus/koelectra-polite-v1`, `circulus/koelectra-sentiment-v1`
 
 
@@ -336,12 +335,12 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 61개 — `antoinelouis/colbert-xm`, `batiai/Qwen3-VL-Embedding-8B-GGUF`, `bespin-global/klue-sroberta-base-continue-learning-by-mnr`, `BidirLM/BidirLM-0.6B-Embedding`, `BidirLM/BidirLM-1B-Embedding`, `BidirLM/BidirLM-Omni-2.5B-Embedding` …
+- **용도 언급 없음** 61개 — `BidirLM/BidirLM-0.6B-Embedding`, `BidirLM/BidirLM-1B-Embedding`, `BidirLM/BidirLM-Omni-2.5B-Embedding`, `Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf`, `ChristianAzinn/labse-gguf`, `LiquidAI/LFM2-ColBERT-350M` …
 
 
-### `ca08` ≤1.0B · core만 · 값공개 · automatic-speech-recognition · hard
+### `ca08` ≤1.0B · core만 · automatic-speech-recognition · hard
 
-> 회의 녹음을 글로 받아 적어주는 한국어 모델을 찾고 있어. 1B 이하로 공개된 것 중 많이 쓰이는 것으로.
+> 긴 회의 녹음을 전사할 한국어 모델을 찾고 있어. 일반 음성 인식이 아니라 회의·장문 전사 용도가 명시된 모델 중에서, 많이 쓰이는 1B 이하 모델로.
 
 조건 → 질의문 근거
 
@@ -349,7 +348,6 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 - `korean_required=true` ← 한국어
 - `pools=["core"]` ← 많이 쓰이는 → core
 - `max_parameters_billion=1.0` ← 1B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -357,12 +355,13 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 - **2점** 회의·장문 전사 용도가 명시돼 있다
 - **1점** 일반 한국어 전사 모델로 회의에도 쓸 수 있으나 도메인 명시가 없다
 
-후보 34개 전수 스캔 → 🚩 2 / ⚠️ 24 / ✅ 8
+후보 56개 전수 스캔 → 🚩 3 / ⚠️ 13 / ✅ 40
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
+| `cstr/qwen3-asr-0.6b-GGUF` | 2점 | semantic_metadata에서 long-form |  |
 | `seastar105/whisper-medium-komixv2` | 2점 | semantic_metadata에서 회의 |  |
 | `unsloth/whisper-large-v3-turbo` | 2점 | semantic_metadata에서 long-form |  |
 
@@ -370,46 +369,34 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
-| `Aliados/nemotron-3.5-asr-streaming-0.6b` | 믿을 수 있는 단계엔 없고 README 원문에만 transcri |  |
-| `Edge0/Audio8-ASR-0.1B` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `HeartMuLa/HeartTranscriptor-oss` | 믿을 수 있는 단계엔 없고 model_id에만 transcri |  |
-| `Kkonjeong/wav2vec2-base-korean` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `Qwen/Qwen3-ASR-0.6B-hf` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `aufklarer/Qwen3-ASR-1.7B-MLX-4bit` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `bezzam/omniasr-ctc-300m-v2` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `facebook/mms-1b-all` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `facebook/mms-1b-fl102` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `facebook/mms-1b-l1107` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `kresnik/wav2vec2-large-xlsr-korean` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `microsoft/paza-whisper-large-v3-turbo` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `mlx-community/nemotron-3.5-asr-streaming-0.6b` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `mlx-community/whisper-tiny-asr-fp16` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `moonshine-ai/moonshine-base-ko` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `moonshine-ai/moonshine-tiny-ko` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `nvidia/nemotron-3.5-asr-streaming-0.6b` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `onnx-community/cohere-transcribe-03-2026-ONNX` | 믿을 수 있는 단계엔 없고 model_id에만 transcri |  |
-| `openai/whisper-base` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `openai/whisper-large-v3-turbo` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `openai/whisper-medium` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `openai/whisper-small` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `openai/whisper-tiny` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
-| `unsloth/whisper-small` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 transcri |  |
+| `handy-computer/Fun-ASR-MLT-Nano-2512-gguf` | 믿을 수 있는 단계엔 없고 출처 불명확 benchmark 결과에만 meeting |  |
+| `handy-computer/SenseVoiceSmall-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `handy-computer/whisper-base-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `handy-computer/whisper-large-v3-turbo-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `handy-computer/whisper-medium-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `handy-computer/whisper-small-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `handy-computer/whisper-tiny-gguf` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `openai/whisper-base` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `openai/whisper-large-v3-turbo` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `openai/whisper-medium` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `openai/whisper-small` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `openai/whisper-tiny` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
+| `unsloth/whisper-small` | 믿을 수 있는 단계엔 없고 README 원문에만 long-form |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 8개 — `42MARU/ko-spelling-wav2vec2-conformer-del-1s`, `aufklarer/Qwen3-ASR-CoreML`, `ghost613/whisper-large-v3-turbo-korean`, `MahmoudAshraf/mms-300m-1130-forced-aligner`, `onnx-community/mms-300m-1130-forced-aligner-ONNX`, `slplab/wav2vec2-xls-r-300m_phone-mfa_korean` …
+- **용도 언급 없음** 40개 — `42MARU/ko-spelling-wav2vec2-conformer-del-1s`, `Aliados/nemotron-3.5-asr-streaming-0.6b`, `Edge0/Audio8-ASR-0.1B`, `FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp`, `HeartMuLa/HeartTranscriptor-oss`, `Kkonjeong/wav2vec2-base-korean` …
 
 
-### `ca09` ≤1.0B · 값공개 · image-text-to-text · hard
+### `ca09` ≤1.0B · image-text-to-text · hard
 
-> 사진 속 글자를 읽어서 한국어로 알려주는 모델이 필요해. 파라미터 1B 이하로 공개된 것으로.
+> 사진 속 글자를 읽어서 한국어로 알려주는 모델이 필요해. 파라미터 1B 이하인 것으로.
 
 조건 → 질의문 근거
 
 - `tasks=["image-text-to-text"]` ← 이미지-텍스트
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=1.0` ← 1B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -417,7 +404,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 - **2점** 한국어 OCR·문서 이해로 학습된 것이 명시돼 있다
 - **1점** 다국어 VLM으로 글자 인식이 가능하나 한국어 특화 명시가 없다
 
-후보 12개 전수 스캔 → 🚩 6 / ⚠️ 6 / ✅ 0
+후보 13개 전수 스캔 → 🚩 6 / ⚠️ 7 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -434,24 +421,24 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
-| `LiquidAI/LFM2.5-VL-450M` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 table |  |
+| `LiquidAI/LFM2.5-VL-450M` | 믿을 수 있는 단계엔 없고 README 원문에만 ocr, document, table |  |
 | `LiquidAI/LFM2.5-VL-450M-MLX-bf16` | 믿을 수 있는 단계엔 없고 README 원문에만 document |  |
 | `Mattimax/DAC6.5` | 믿을 수 있는 단계엔 없고 README 원문에만 document |  |
-| `coder3101/LFM2.5-VL-450M-heretic` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 table |  |
+| `coder3101/LFM2.5-VL-450M-heretic` | 믿을 수 있는 단계엔 없고 README 원문에만 ocr, document, table |  |
+| `cstr/internvl2-1b-crispembed-GGUF` | 믿을 수 있는 단계엔 없고 README 원문에만 document, table |  |
 | `mlx-community/LFM2.5-VL-450M-6bit` | 믿을 수 있는 단계엔 없고 README 원문에만 document |  |
 | `saidutta69/LFM2.5-VL-450M-heretic` | 믿을 수 있는 단계엔 없고 semantic_metadata에만 table |  |
 
 
-### `ca10` ≤1.0B · 값공개 · image-text-to-text · hard
+### `ca10` ≤1.0B · image-text-to-text · hard
 
-> 표나 그래프가 든 이미지를 읽고 설명해주는 한국어 모델 있어? 파라미터 1B 이하로 공개된 것으로.
+> 표나 그래프가 든 이미지를 읽고 설명해주는 한국어 모델 있어? 파라미터 1B 이하인 것으로.
 
 조건 → 질의문 근거
 
 - `tasks=["image-text-to-text"]` ← 이미지-텍스트
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=1.0` ← 1B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -459,7 +446,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 - **2점** 차트·표 이해로 학습된 것이 명시돼 있다
 - **1점** 일반 VLM으로 표를 읽을 수 있으나 차트 특화 명시가 없다
 
-후보 12개 전수 스캔 → 🚩 2 / ⚠️ 3 / ✅ 7
+후보 13개 전수 스캔 → 🚩 2 / ⚠️ 4 / ✅ 7
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -472,12 +459,13 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py semantic_capability
 
 | 모델 | 왜 애매한가 | 확정 |
 |---|---|:--:|
-| `LiquidAI/LFM2.5-VL-450M` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 table |  |
-| `coder3101/LFM2.5-VL-450M-heretic` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 table |  |
-| `localdeel/ko-hand-ocr-vl` | 믿을 수 있는 단계엔 없고 benchmark_metadata에만 table |  |
+| `LiquidAI/LFM2.5-VL-450M` | 믿을 수 있는 단계엔 없고 README 원문에만 table |  |
+| `coder3101/LFM2.5-VL-450M-heretic` | 믿을 수 있는 단계엔 없고 README 원문에만 table |  |
+| `cstr/internvl2-1b-crispembed-GGUF` | 믿을 수 있는 단계엔 없고 README 원문에만 table |  |
+| `localdeel/ko-hand-ocr-vl` | 믿을 수 있는 단계엔 없고 README 원문에만 chart |  |
 
 #### ✅ 명백한 오답 — 소분류만 보고 넘기세요
 
-- **용도 언급 없음** 7개 — `LiquidAI/LFM2.5-VL-450M-MLX-4bit`, `mlx-community/LFM2.5-VL-450M-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-5bit`, `LiquidAI/LFM2.5-VL-450M-MLX-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-bf16`, `Mattimax/DAC6.5` …
+- **용도 언급 없음** 7개 — `LiquidAI/LFM2.5-VL-450M-MLX-4bit`, `LiquidAI/LFM2.5-VL-450M-MLX-5bit`, `LiquidAI/LFM2.5-VL-450M-MLX-6bit`, `LiquidAI/LFM2.5-VL-450M-MLX-bf16`, `Mattimax/DAC6.5`, `mlx-community/LFM2.5-VL-450M-6bit` …
 
 
