@@ -51,16 +51,42 @@ GET https://huggingface.co/api/models/{model_id}?blobs=true
 | `usedStorage` | 1,796 | **안 쓴다** | `siblings` 합과 중앙값 1.000으로 일치 (교차 검증용) |
 | `gguf.{total, architecture, context_length}` | 1,292 | **안 쓴다** | 파라미터·컨텍스트·아키텍처 누락 1,527/1,459/1,425개 |
 | `safetensors.parameters` | 235 | 일부 | **dtype 맵이다.** `{"BF16": 4022468096}` |
-| `config.architectures` / `config.model_type` | 응답에 포함 | 파일을 따로 내려받는다 | `config.json` 다운로드를 줄일 수 있다 |
+| `config.architectures` / `config.model_type` | 568개 응답에 포함 | 파일을 따로 내려받는다 | 아래 주의 참고 |
 | `model-index` | 87 / 1,817 | 안 쓴다 | 구조화된 벤치마크 점수 |
 
 두 가지가 특히 중요하다.
 
 1. **`gated`는 지금도 응답에 들어오고 있다.** 수집하지 않은 것뿐이다.
    Q7이 0%인 것은 데이터가 없어서가 아니다.
-2. **`safetensors.parameters`는 dtype → 파라미터 수 맵이다.** `config.json`을
-   내려받지 않고도 `technical.dtype`을 알 수 있다. 지금 `02`는 `total`만 보고
-   있다.
+2. **`safetensors.parameters`는 dtype → 파라미터 수 맵이다.** safetensors 레포라면
+   `config.json`을 내려받지 않고도 `technical.dtype`을 알 수 있다. 지금 `02`는
+   `total`만 보고 있다.
+
+### 주의 — `api.config`는 `config.json` 전체가 아니다
+
+선별된 일부만 온다. 실측(응답 568건에 `config`가 있었다):
+
+| `config`의 키 | 등장 |
+|---|---:|
+| `model_type` | 477 |
+| `architectures` | 418 |
+| `tokenizer_config` | 400 |
+| `chat_template_jinja` | 113 |
+| `auto_map` | 38 |
+| `quantization_config` | 21 |
+| `num_experts_per_tok` / `num_experts` | 각 6 |
+| **`torch_dtype`** | **0** |
+| **`max_position_embeddings`** | **0** |
+
+따라서:
+
+- `architectures`·`model_type`·`tokenizer_config`는 API로 충분하다.
+- **`torch_dtype`과 `max_position_embeddings`는 `config.json`을 내려받아야 한다.**
+  최상위에만 있는 것도 아니다 — 멀티모달 모델은 `text_config`·`language_config`·
+  `decoder`·`llm_config` 하위에 둔다. `02_enrich_metadata.NESTED_CONFIG_KEYS`가
+  이미 그 목록을 갖고 있다.
+- MoE 전문가 수(`num_experts_per_tok`)는 API에 오는 경우가 있다. 활성 파라미터
+  유도에 필요한 값이다.
 
 ---
 

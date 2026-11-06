@@ -181,19 +181,43 @@ def check_record(record: Dict[str, Any], fields: List[str]) -> List[str]:
 def check_regression(
     record: Dict[str, Any], before: Dict[str, Any], fields: List[str]
 ) -> List[str]:
-    """기존 고신뢰 값이 저신뢰 값으로 덮이거나 사라졌는지. 재적재의 핵심 게이트다."""
+    """기존 값이 사라지거나 저신뢰로 덮였는지. 재적재의 핵심 게이트다.
+
+    두 가지를 따로 본다.
+
+    ① **값 손실** — 전에 값이 있었는데 지금 비었다. 출처 기록이 없는 구 데이터와도
+       비교할 수 있으므로 이것이 1차 방어선이다. resolver에 config.json을 넘기지
+       않아 dtype이 19.1%→13.1%로 떨어진 일이 실제로 있었다. 등급만 보면 양쪽이
+       모두 기록 없음이라 조용히 통과한다.
+
+    ② **등급 하락** — verified 였던 값이 inferred 가 됐다. 값은 있지만 근거가
+       약해진 경우다.
+    """
     rank = {"verified": 4, "documented": 3, "inferred": 2, "not_applicable": 1, "conflict": 0, "unknown": 0}
     problems: List[str] = []
     old_entries = (before.get("provenance") or {}).get("fields") or {}
     new_entries = (record.get("provenance") or {}).get("fields") or {}
+
     for field in fields:
-        old_status = (old_entries.get(field) or {}).get("status")
+        found_old, old_value = dig(before, field)
+        found_new, new_value = dig(record, field)
+
+        # ① 값 손실. conflict 로 바뀐 것은 손실이 아니라 의도된 보류다.
         new_status = (new_entries.get(field) or {}).get("status")
+        if found_old and not is_empty(old_value) and found_new and is_empty(new_value):
+            if new_status == "conflict":
+                problems.append(
+                    f"`{field}` 값이 conflict로 보류됨 ({old_value!r} → 없음). "
+                    f"의도된 것인지 확인이 필요하다"
+                )
+            else:
+                problems.append(f"`{field}` 값 손실: {old_value!r} → 없음")
+
+        # ② 등급 하락
+        old_status = (old_entries.get(field) or {}).get("status")
         if old_status is None or new_status is None:
             continue
         if rank.get(new_status, 0) < rank.get(old_status, 0):
-            _, old_value = dig(before, field)
-            _, new_value = dig(record, field)
             problems.append(
                 f"`{field}` {old_status} → {new_status} 로 하락 ({old_value!r} → {new_value!r})"
             )

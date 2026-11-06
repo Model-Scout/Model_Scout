@@ -157,7 +157,11 @@
           "detected_quantization_gib": null
         },
         "basis": "parameter_count",
-        "caveat": "가중치만 기준입니다. 실제 VRAM/RAM은 KV 캐시, 활성화, 프레임워크에 따라 더 필요합니다."
+        "caveat": "가중치만 기준입니다. 실제 VRAM/RAM은 KV 캐시, 활성화, 프레임워크에 따라 더 필요합니다.",
+        "artifact": {
+          "label": "safetensors",
+          "gib": 0.44
+        }
       }
     },
     "legal": {
@@ -539,7 +543,11 @@
           "detected_quantization_gib": 4.48
         },
         "basis": "artifact_bytes",
-        "caveat": "Q4_K_M 파일 크기(4.48GiB)를 측정한 값입니다. 컨텍스트 길이에 따라 KV 캐시가 추가로 필요합니다."
+        "caveat": "Q4_K_M 파일 크기(4.48GiB)를 측정한 값입니다. 컨텍스트 길이에 따라 KV 캐시가 추가로 필요합니다.",
+        "artifact": {
+          "label": "Q4_K_M",
+          "gib": 4.48
+        }
       }
     },
     "legal": {
@@ -923,18 +931,24 @@
           "fp16_gib": null,
           "int8_gib": null,
           "int4_gib": null,
-          "detected_quantization_gib": 13.5
+          "detected_quantization_gib": 8.31
         },
         "basis": "artifact_bytes",
-        "caveat": "Q4_K_M 파일 크기(13.5GiB) 측정값입니다. MoE 모델은 전체 가중치를 올려야 하므로 활성 파라미터보다 큰 메모리가 필요합니다."
+        "caveat": "Q2_K 양자화 파일 크기(8.31GiB)를 측정한 값입니다. MoE 모델은 전체 가중치를 올려야 하므로 활성 파라미터보다 큰 메모리가 필요합니다.",
+        "artifact": {
+          "label": "Q2_K",
+          "gib": 8.31
+        }
       }
     },
     "legal": {
       "license_raw": "apache-2.0",
       "license_file": {
         "path": "LICENSE",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "chars": 11357
+        "bytes": 11357,
+        "blob_id": "d24c9208b10e63d317589bc8d6fc34967c3068d3",
+        "sha256": null,
+        "chars": null
       },
       "commercial_status": "permitted",
       "base_model_constraint": {

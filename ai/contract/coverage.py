@@ -56,7 +56,10 @@ class View:
     def __init__(self, row: Dict[str, Any], kind: str) -> None:
         self.row = row
         self.kind = kind
-        if kind == "stage4":
+        if kind == "contract":
+            self.meta = row
+            self.model = row.get("technical") or {}
+        elif kind == "stage4":
             self.meta = row.get("filter_metadata") or {}
             self.model = self.meta
         else:
@@ -68,6 +71,23 @@ class View:
         return self.row.get("model_id") or ""
 
     def get(self, field: str) -> Any:
+        if self.kind == "contract":
+            technical = self.row.get("technical") or {}
+            capability = self.row.get("capability") or {}
+            table: Dict[str, Callable[[], Any]] = {
+                "parameter_count": lambda: technical.get("parameter_count_total"),
+                "context_length": lambda: technical.get("context_length"),
+                "architecture": lambda: technical.get("architecture"),
+                "model_type": lambda: technical.get("model_type"),
+                "dtype": lambda: technical.get("dtype"),
+                "license": lambda: (self.row.get("legal") or {}).get("license_raw"),
+                "primary_task": lambda: capability.get("primary_task"),
+                "languages": lambda: capability.get("languages"),
+                "korean_verified": lambda: capability.get("korean_verified"),
+                "downloads": lambda: (self.row.get("discovery") or {}).get("downloads"),
+            }
+            getter = table.get(field)
+            return getter() if getter else None
         if self.kind == "stage4":
             table: Dict[str, Callable[[], Any]] = {
                 "parameter_count": lambda: self.meta.get("parameter_count"),
@@ -100,13 +120,22 @@ class View:
     # --- 계약이 요구하지만 아직 어디에도 없는 필드 -------------------------
     # 이 메서드들이 전부 None/False를 돌려주는 것이 baseline의 핵심 결과다.
 
+    def _identity(self) -> Dict[str, Any]:
+        return self.row.get("identity") or {}
+
     def gated(self) -> Any:
+        if self.kind == "contract":
+            return self._identity().get("gated")
         return self.row.get("gated", (self.row.get("source") or {}).get("gated"))
 
     def revision(self) -> Any:
+        if self.kind == "contract":
+            return self._identity().get("revision")
         return self.row.get("revision") or self.row.get("sha")
 
     def last_modified(self) -> Any:
+        if self.kind == "contract":
+            return self._identity().get("last_modified")
         return self.row.get("last_modified")
 
     def artifact_bytes(self) -> Any:
@@ -116,10 +145,27 @@ class View:
         return self.model.get("parameter_count_active")
 
     def artifacts(self) -> Dict[str, Any]:
+        if self.kind == "contract":
+            raw = self.row.get("artifacts") or {}
+            # 계약은 포맷 플래그를 formats.<name>.present 로 둔다. 질문 체크가
+            # artifacts().get("gguf") 로 묻는 모양을 그대로 쓸 수 있게 눕힌다.
+            flat = {name: (spec or {}).get("present")
+                    for name, spec in (raw.get("formats") or {}).items()}
+            flat["total_bytes"] = raw.get("total_bytes")
+            flat["file_count"] = raw.get("file_count")
+            return flat
         source = self.meta if self.kind == "stage4" else self.row
         return source.get("artifacts") or {}
 
+    def measured_artifact_gib(self) -> Any:
+        if self.kind != "contract":
+            return None
+        estimate = (self.row.get("deployment") or {}).get("vram_estimate") or {}
+        return (estimate.get("artifact") or {}).get("gib")
+
     def hardware(self) -> Dict[str, Any]:
+        if self.kind == "contract":
+            return ((self.row.get("deployment") or {}).get("vram_estimate") or {}).get("weights_only") or {}
         source = self.meta if self.kind == "stage4" else self.row
         return ((source.get("hardware") or {}).get("weights_only") or {})
 
@@ -137,6 +183,8 @@ class View:
         return COMMERCIAL_STATUS.get(taxonomy.normalize("commercial_use", raw), "unknown")
 
     def benchmark(self) -> bool:
+        if self.kind == "contract":
+            return bool((self.row.get("quality") or {}).get("results"))
         """실제 점수가 있는지. ``benchmark_metadata`` 컨테이너는 점수가 없어도
         readme 경로·summary만 담고 거의 모든 레코드에 존재한다. 컨테이너를 세면
         99%가 나오지만 비교 가능한 점수는 11%뿐이다."""
@@ -189,7 +237,13 @@ def q_commercial_korean(v: View) -> bool:
 
 def q_fits_my_gpu(v: View) -> bool:
     # 16GB GPU에 들어가는지 답하려면 '크기'를 하나라도 알아야 한다.
-    return has_number(v.hardware().get("fp16_gib")) or has_int(v.artifact_bytes())
+    hardware = v.hardware()
+    return (
+        has_number(hardware.get("fp16_gib"))
+        or has_number(hardware.get("detected_quantization_gib"))
+        or has_number(v.measured_artifact_gib())
+        or has_int(v.artifact_bytes())
+    )
 
 
 def q_runs_on_ollama(v: View) -> bool:
@@ -245,7 +299,11 @@ QUESTIONS: Dict[str, Dict[str, Any]] = {
 }
 
 
-def load(source: str) -> List[View]:
+def load(source: str, path: Optional[Path] = None) -> List[View]:
+    if source == "contract":
+        if path is None:
+            raise SystemExit("--source contract 는 --path <records.jsonl> 가 필요합니다")
+        return [View(row, "contract") for row in read_jsonl(path)]
     if source == "snapshot":
         sys.path.insert(0, str(AI_ROOT / "test" / "golden" / "v2" / "tools"))
         import corpus_v2
@@ -400,11 +458,15 @@ def render_compare() -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", default="stage2", choices=("stage2", "stage4", "snapshot"))
+    parser.add_argument("--source", default="stage2",
+                        choices=("stage2", "stage4", "snapshot", "contract"))
+    parser.add_argument("--path", type=Path, default=None,
+                        help="--source contract 일 때 읽을 계약 레코드 .jsonl")
     parser.add_argument("--compare", action="store_true", help="세 소스를 한 파일에 담는다")
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
-    text = render_compare() if args.compare else render(load(args.source), args.source)
+    text = (render_compare() if args.compare
+            else render(load(args.source, args.path), args.source))
     if args.out:
         args.out.write_text(text, encoding="utf-8")
         print(f"{args.out} 작성")

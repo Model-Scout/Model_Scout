@@ -28,6 +28,13 @@ api = HfApi(
 AI_DIR = Path(__file__).resolve().parent
 DATA_DIR = AI_DIR / "data"
 
+# 데이터 계약(ai/contract/)의 resolver. 사실마다 출처·신뢰도를 기록한다.
+import sys as _sys
+
+if str(AI_DIR) not in _sys.path:
+    _sys.path.insert(0, str(AI_DIR))
+from resolvers import resolve as contract_resolve
+
 
 # =========================================================
 # SOURCE POOL
@@ -39,6 +46,11 @@ POOL_CONFIGS = {
     pool: {
         "input": DATA_DIR / f"hf_models_stage1_{pool}.jsonl",
         "output": DATA_DIR / f"hf_models_stage2_{pool}.jsonl",
+        # 계약 레코드(출처·신뢰도)는 별도 파일에 둔다. 한 건이 약 9KB라
+        # stage2 본문에 넣으면 17MB → 52MB로 3배가 된다. 03/04/05/08은 값만
+        # 읽으므로 본문이 커질 이유가 없다. 품질 게이트와 Stage 4의 필터
+        # 필드 생성이 이 파일을 읽는다.
+        "contract_output": DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl",
  # Error rows are reported on stdout; no error JSON artifact is generated.
         "readme_dir": DATA_DIR / "readmes" / pool,
     }
@@ -71,9 +83,128 @@ RETRY_BASE_SECONDS = 1.0
 MAX_README_CHARS = 300_000
 
 
-STAGE2_VERSION = 6
+# 7: 데이터 계약 필드(contract) 추가. gated·revision·artifact 용량·GGUF 파라미터가
+#    새로 들어오므로 기존 Stage 2 파일은 재적재해야 한다.
+STAGE2_VERSION = 7
 SOURCE_STAGE1_VERSION = 7
 A_VERIFIED_TYPES = {"korean_explicit", "korean_translation_pair", "korean_name_strong"}
+
+
+_RUN_ID = None
+
+
+def pipeline_run_id():
+    """이 프로세스가 만든 레코드를 한 묶음으로 묶는 ID.
+
+    골든셋 판정과 검색 평가가 같은 run의 데이터를 쓰는지 확인하는 기준이다.
+    환경변수로 넘기면 08_sync_supabase가 자기 run ID를 물려줄 수 있다.
+    """
+    global _RUN_ID
+    if _RUN_ID is None:
+        _RUN_ID = os.getenv("MODEL_SCOUT_RUN_ID") or f"stage2-{utc_now()}"
+    return _RUN_ID
+
+
+# ModelInfo 객체 → resolver가 읽는 평범한 dict.
+#
+# resolver는 HF REST 응답과 같은 모양을 받는다. 그래야 ai/backfill/raw/ 에 받아
+# 둔 실제 응답 1,804건을 그대로 테스트 입력으로 쓸 수 있다. 객체를 직접 읽게
+# 만들면 테스트에 HF 호출이 필요해진다.
+def model_info_as_dict(info):
+    """``load_model_info``가 돌려준 ModelInfo를 REST 응답 모양으로 눕힌다."""
+    if info is None:
+        return {}
+    if isinstance(info, dict):
+        return info
+
+    siblings = []
+    for sibling in getattr(info, "siblings", None) or []:
+        siblings.append({
+            "rfilename": getattr(sibling, "rfilename", None),
+            "size": getattr(sibling, "size", None),
+            "blobId": getattr(sibling, "blob_id", None),
+        })
+
+    card_data = getattr(info, "card_data", None)
+    if card_data is not None and not isinstance(card_data, dict):
+        card_data = getattr(card_data, "to_dict", lambda: None)() or dict(card_data)
+
+    safetensors = getattr(info, "safetensors", None)
+    if safetensors is not None and not isinstance(safetensors, dict):
+        safetensors = {
+            "total": getattr(safetensors, "total", None),
+            "parameters": getattr(safetensors, "parameters", None),
+        }
+
+    last_modified = getattr(info, "last_modified", None)
+    return {
+        "id": getattr(info, "id", None) or getattr(info, "modelId", None),
+        "modelId": getattr(info, "modelId", None),
+        "author": getattr(info, "author", None),
+        "sha": getattr(info, "sha", None),
+        "lastModified": safe_iso(last_modified),
+        # gated는 False / "auto" / "manual" 세 값을 갖는다. 없으면 None이고,
+        # None은 "공개"가 아니라 "모름"이다.
+        "gated": getattr(info, "gated", None),
+        "private": getattr(info, "private", None),
+        "disabled": getattr(info, "disabled", None),
+        "downloads": getattr(info, "downloads", None),
+        "likes": getattr(info, "likes", None),
+        "pipeline_tag": getattr(info, "pipeline_tag", None),
+        "library_name": getattr(info, "library_name", None),
+        "tags": list(getattr(info, "tags", None) or []),
+        "cardData": card_data or {},
+        "config": getattr(info, "config", None) or {},
+        "safetensors": safetensors or {},
+        "gguf": getattr(info, "gguf", None) or {},
+        "siblings": siblings,
+        "usedStorage": getattr(info, "used_storage", None),
+        "model-index": getattr(info, "model_index", None),
+        "base_models": list(getattr(info, "base_models", None) or []),
+    }
+
+
+def adopt_contract_values(row, record):
+    """계약 resolver가 새로 알아낸 값을 기존 키 자리에 되먹인다.
+
+    **기존 값을 덮지 않는다.** 비어 있던 자리만 채운다. 기존 값은 safetensors나
+    config.json에서 나온 것이고 resolver의 출처와 등급이 같으므로, 교체해서
+    얻을 것이 없고 재적재 diff만 커진다.
+
+    새로 생기는 자리(artifacts 용량, gated 등)는 ``contract``에만 있고 Stage 4가
+    거기서 읽는다.
+    """
+    technical = record.get("technical") or {}
+    model = row.setdefault("model", {})
+
+    if not isinstance(model.get("parameter_count"), int):
+        total = technical.get("parameter_count_total")
+        if isinstance(total, int):
+            model["parameter_count"] = total
+            model["parameter_count_billion"] = round(total / 1_000_000_000, 3)
+            model.setdefault("metadata_status", {})["parameter_count"] = "known"
+    if not isinstance(model.get("context_length"), int):
+        context = technical.get("context_length")
+        if isinstance(context, int):
+            model["context_length"] = context
+            model.setdefault("metadata_status", {})["context_length"] = "known"
+    if not model.get("architectures") and technical.get("architecture"):
+        model["architectures"] = list(technical["architecture"])
+    if not model.get("type") and technical.get("model_type"):
+        model["type"] = technical["model_type"]
+    if not model.get("dtype") and technical.get("dtype"):
+        model["dtype"] = technical["dtype"]
+
+    # 가중치 메모리 추정. 파라미터 수가 새로 생기면 여기도 따라 채워져야 한다 —
+    # 그러지 않으면 "8GB에서 돌아가는 모델" 질의가 여전히 그 모델을 못 찾는다.
+    hardware = row.setdefault("hardware", {})
+    weights = hardware.setdefault("weights_only", {})
+    estimate = ((record.get("deployment") or {}).get("vram_estimate") or {}).get("weights_only") or {}
+    for key in ("fp16_gib", "int8_gib", "int4_gib", "detected_quantization_gib"):
+        if weights.get(key) is None and estimate.get(key) is not None:
+            weights[key] = estimate[key]
+
+    return row
 
 
 def model_page_url(model_id):
@@ -1928,7 +2059,7 @@ def enrich(
     # FINAL SCHEMA
     # =====================================================
 
-    return {
+    row = {
         # -------------------------------------------------
         # Identity
         # -------------------------------------------------
@@ -2271,6 +2402,34 @@ def enrich(
         },
     }
 
+    # =====================================================
+    # DATA CONTRACT  (ai/contract/)
+    # =====================================================
+    #
+    # 기존 키는 그대로 둔다. 03/04/05/08과 골든셋 도구가 이 모양을 읽고 있다.
+    # 계약 레코드는 `contract` 아래에 덧붙이고, 새로 알아낸 값만 기존 자리에
+    # 되먹인다.
+    #
+    # resolver 가 읽는 것은 지금까지 받아 놓고 버리던 응답이다 —
+    # gated, sha, lastModified, siblings[].size, gguf.{total,architecture,
+    # context_length}, safetensors.parameters. load_model_info() 가 이미
+    # files_metadata=True 로 호출하므로 추가 API 호출이 없다.
+
+    raw = model_info_as_dict(info)
+    record = contract_resolve.build(
+        raw,
+        config_json=config,
+        stage1=stage1_row,
+        stage2=row,
+        readme_text=readme_text or "",
+        run_id=pipeline_run_id(),
+        source_pool=source_pool,
+    )
+    row["contract"] = record
+    adopt_contract_values(row, record)
+
+    return row
+
 
 # =========================================================
 # MAIN
@@ -2388,6 +2547,10 @@ def process_pool(source_pool, model_ids=None):
     # truncate a previously enriched larger corpus. Matching IDs are refreshed.
     # Retain prior rows until the user requests removal of out-of-source models.
     previous_by_id = {row["model_id"]: row for row in load_jsonl(config["output"])}
+    # 이어서 돌릴 때 건너뛴 모델의 계약 레코드가 사라지지 않게 미리 읽어 둔다.
+    contracts_by_id = {
+        record["model_id"]: record for record in load_jsonl(config["contract_output"])
+    }
     results_by_id = {
         row["model_id"]: row for row in previous_by_id.values()
         if row.get("model_id") in source_by_id
@@ -2407,12 +2570,18 @@ def process_pool(source_pool, model_ids=None):
         for model_id in excluded:
             results_by_id.pop(model_id, None)
         report.write_text(json.dumps(excluded, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        for model_id in excluded:
+            contracts_by_id.pop(model_id, None)
         rows = list(results_by_id.values())
         validate_stage2_rows(rows, source_pool)
         # Validate current v7-source results; older retained rows keep provenance.
         # Stage 2 is authoritative for the current Stage 1 pool. Do not
         # carry rows that disappeared from the source pool into output.
         save_jsonl_atomic(list(results_by_id.values()), config["output"])
+        save_jsonl_atomic(
+            [contracts_by_id[model_id] for model_id in results_by_id if model_id in contracts_by_id],
+            config["contract_output"],
+        )
 
     checkpoint()  # apply the language gate to resumed rows before the loop
     try:
@@ -2426,6 +2595,8 @@ def process_pool(source_pool, model_ids=None):
                 print(f"{prefix} ENRICH {model_id}", flush=True)
                 try:
                     row = enrich(source_row, source_pool)
+                    # 계약 레코드는 본문에서 떼어 별도 파일로 보낸다.
+                    contracts_by_id[model_id] = row.pop("contract")
                     validate_stage2_rows([row], source_pool)
                     results_by_id[model_id] = row
                     success += 1
