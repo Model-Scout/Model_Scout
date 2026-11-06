@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "type": "answer",
+  "group_id": "00000000-0000-4000-8000-000000000001",
+  "elapsed": 4.0,
+  "answer": "조건에 맞는 후보가 없어요.",
+  "sources": [],
+  "result": {
+    "title": "후보 없음 (Mock)",
+    "summary": [
+      "후보 없음 (Mock)"
+    ],
+    "needs_check": [],
+    "candidates": [],
+    "assessment": null
+  },
+  "history_saved": true
+}

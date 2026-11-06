@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "type": "clarify",
+  "group_id": "00000000-0000-4000-8000-000000000001",
+  "elapsed": 1.2,
+  "answer": "어떤 데이터를 검색하나요?",
+  "sources": [],
+  "result": null,
+  "history_saved": true
+}

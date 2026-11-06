@@ -1,0 +1,438 @@
+{
+  "$defs": {
+    "Candidate": {
+      "properties": {
+        "id": {
+          "description": "model:<source_id> or dataset:<source_id>; target_id uses this value",
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "model",
+            "dataset"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/Check"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "related": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related",
+          "type": "array"
+        },
+        "rank_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rank Score"
+        },
+        "context_length": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Length"
+        },
+        "parameters_b": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameters B"
+        },
+        "benchmarks": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Benchmarks",
+          "type": "array"
+        },
+        "gpu_fit": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gpu Fit"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "source_id",
+        "name",
+        "role",
+        "source"
+      ],
+      "title": "Candidate",
+      "type": "object"
+    },
+    "ChatResult": {
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "summary": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Summary",
+          "type": "array"
+        },
+        "needs_check": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Needs Check",
+          "type": "array"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "assessment": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Assessment"
+        }
+      },
+      "required": [
+        "title",
+        "summary",
+        "candidates"
+      ],
+      "title": "ChatResult",
+      "type": "object"
+    },
+    "Check": {
+      "properties": {
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "check",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Id"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "origin": {
+          "default": "unknown",
+          "enum": [
+            "readme",
+            "metadata",
+            "estimate",
+            "unknown"
+          ],
+          "title": "Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "status",
+        "reason"
+      ],
+      "title": "Check",
+      "type": "object"
+    },
+    "Evidence": {
+      "description": "Why a dataset was recommended. Relevance only, so it is kept apart from condition checks.",
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "origin": {
+          "default": "metadata",
+          "enum": [
+            "readme",
+            "metadata"
+          ],
+          "title": "Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Source": {
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "model",
+            "dataset"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote"
+        },
+        "origin": {
+          "default": "unknown",
+          "enum": [
+            "readme",
+            "metadata",
+            "estimate",
+            "unknown"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Location"
+        }
+      },
+      "required": [
+        "source_id",
+        "kind"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "const": 2,
+      "default": 2,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "type": {
+      "enum": [
+        "answer",
+        "clarify",
+        "reject"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "group_id": {
+      "format": "uuid",
+      "title": "Group Id",
+      "type": "string"
+    },
+    "elapsed": {
+      "title": "Elapsed",
+      "type": "number"
+    },
+    "answer": {
+      "title": "Answer",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "result": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChatResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "history_saved": {
+      "default": true,
+      "title": "History Saved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "type",
+    "group_id",
+    "elapsed",
+    "answer"
+  ],
+  "title": "ChatDone",
+  "type": "object"
+}
