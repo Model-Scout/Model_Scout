@@ -1,0 +1,6 @@
+{
+  "group_id": null,
+  "query": "문서 검색 서비스를 만들고 싶어. 조건: 한국어, 로컬 GPU 8GB, 상업적 이용.",
+  "mode": "recommend",
+  "target_id": null
+}

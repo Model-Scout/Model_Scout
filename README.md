@@ -29,7 +29,15 @@ pip install -r backend/requirements.txt
 cd backend && uvicorn app.main:app --reload --reload-dir app
 ```
 
-**3. 프론트엔드** (`http://localhost:3000`)
+**3. AI 내부 서버** (`http://localhost:8001`, 별도 터미널)
+
+```bash
+python ai/api.py
+```
+
+백엔드의 DB 설정은 프로세스 환경변수로 전달합니다. V2 실행 방법과 프론트 전달용 명세는 [`backend/README.md`](backend/README.md)를 참고하세요.
+
+**4. 프론트엔드** (`http://localhost:3000`)
 
 ```bash
 cd frontend && pnpm install && pnpm dev
@@ -39,6 +47,6 @@ cd frontend && pnpm install && pnpm dev
 
 - `ai/` 스크립트는 위치와 상관없이 데이터를 `ai/data/`에서 읽고 씁니다. 파이프라인 명령은 `ai/` 폴더에서 실행합니다.
 - 데이터 파일 안에 저장된 경로(`data/readmes/...`)는 `ai/` 기준 상대 경로입니다.
-- 백엔드 서버는 `ai/`의 추천 그래프(`17_recommend_graph.py`)를 import해서 사용합니다. 서버는 `ai/data/hypergraph/`와 `ai/data/dataset_index/manifest.json`을 파일로 읽으므로 배포 시 함께 포함해야 합니다.
+- 백엔드는 내부 AI API `POST /ai/recommend`를 호출합니다. AI 서버가 추천 그래프(`17_recommend_graph.py`)와 검색용 파일을 로딩하므로 배포 시 해당 데이터를 AI 컨테이너에 포함해야 합니다.
 - `ai/wiki/`(LLM 위키, Obsidian vault)는 git에 올리지 않습니다. `ai/`에서 `python 15_build_wiki.py`로 생성하며, GitHub Pages 배포(`wiki-pages.yml`)도 같은 방식으로 생성합니다.
-- Docker(VPS 배포) 구성은 백엔드 담당자가 추가할 예정입니다.
+- Docker(VPS 배포) 구성은 `deploy/compose.yml`과 서비스별 `Dockerfile`에 있습니다. 운영 적용 여부는 배포 환경에서 별도 확인합니다.
