@@ -1283,6 +1283,110 @@ def contract_gate(require: bool = False) -> Dict[str, Any]:
     return results
 
 
+# 재적재 안전장치. full_reingest_pipeline 은 하위 프로세스를 띄우므로 단위
+# 테스트가 어렵다. 판단 로직만 떼어 내 test/test_reingest_safety.py 가 검사한다.
+
+# Stage 2 가 조용히 대량 실패했는지 보는 하한. 언어 게이트 제외분은 정상 감소이므로
+# 분모에서 뺀다. 2%는 개별 모델의 일시적 조회 실패를 허용하는 폭이다.
+STAGE2_VOLUME_TOLERANCE = 0.98
+
+
+def language_excluded_ids(data_dir: Path = None) -> Set[str]:
+    """Stage 2 의 언어 게이트가 떨어뜨린 모델. Hub 에서 바뀌지 않으므로 계속 제외된다.
+
+    Supabase 행을 비활성화해 주지 않으면 낡은 데이터로 계속 active 로 남는다.
+    incremental_refresh_pipeline 이 하는 것과 같은 처리다.
+    """
+    base = data_dir if data_dir is not None else DATA_DIR
+    excluded: Set[str] = set()
+    for pool in POOLS:
+        report = base / f"hf_models_stage2_{pool}_language_excluded.json"
+        if report.exists():
+            excluded.update(json.loads(report.read_text(encoding="utf-8")))
+    return excluded
+
+
+def stage2_volume_floor(expected: int, excluded: int) -> float:
+    """Stage 2 결과가 이보다 적으면 대량 실패로 본다."""
+    return max(expected - excluded, 0) * STAGE2_VOLUME_TOLERANCE
+
+
+def assert_stage2_volume(expected: int, produced: int, excluded: int) -> None:
+    """Stage 2 가 대량 실패했으면 유료 단계로 넘어가기 전에 끊는다.
+
+    실패한 모델은 출력에서 그냥 사라지므로, 뒤 단계에서는 "원래 없던 모델"과
+    구별되지 않는다. 적재까지 가면 그 행들이 전부 비활성화돼 복구가 번거롭다.
+    """
+    if not expected:
+        return
+    floor = stage2_volume_floor(expected, excluded)
+    if produced < floor:
+        raise RuntimeError(
+            f"Stage 2 결과가 {produced}행이다. Stage 1 {expected}행에서 언어 게이트 "
+            f"제외 {excluded}건을 빼면 {expected - excluded}행이어야 하고 허용 하한은 "
+            f"{floor:.0f}행이다. 대량 실패로 보이므로 재적재를 중단한다"
+        )
+
+
+def carried_watermark(latest: Optional[Dict[str, Any]]) -> Optional[str]:
+    """재적재가 물려받을 직전 watermark.
+
+    재적재는 Stage 1 을 스캔하지 않는다. 자기 시작 시각을 watermark 로 올려
+    버리면 **직전 Stage 1 스캔 이후부터 재적재 사이에 Hub 에서 바뀐 모델을 다음
+    --refresh 가 영구히 건너뛴다.** 그 구간은 아무도 본 적이 없다.
+    """
+    if not latest:
+        return None
+    value = ((latest.get("stage_versions") or {}).get("source_watermark")
+             or latest.get("completed_at"))
+    return str(value) if value else None
+
+
+def resolved_source_watermark(refresh_info: Optional[Dict[str, Any]]) -> Optional[str]:
+    """이번 실행이 저장할 watermark.
+
+    --reingest 는 직전 값을 그대로 돌려준다(Stage 1 을 스캔하지 않았다).
+    --refresh 는 자기 스캔 시작 시각을 돌려준다.
+    """
+    info = refresh_info or {}
+    if "source_watermark" in info:
+        return info["source_watermark"]
+    return info.get("scan_started_at")
+
+
+def reingest_result(
+    *,
+    previous_watermark: Optional[str],
+    started_at: str,
+    steps: Sequence[str],
+    contract_gate_report: Dict[str, Any],
+    language_excluded: Set[str],
+    stage2_rows: int,
+) -> Dict[str, Any]:
+    """재적재가 main 의 적재 호출부로 넘기는 값.
+
+    조립을 따로 둔 이유는 full_reingest_pipeline 이 하위 프로세스를 띄워 단위
+    테스트가 어렵기 때문이다. 여기 두 값이 조용히 비면 사고가 난다.
+
+      source_watermark  비면 apply_sync 가 scan_started_at 으로 흘러가 재적재
+                        시각을 박고, 다음 --refresh 가 변경 모델을 건너뛴다
+      removed_ids       비면 언어 게이트로 새로 제외된 모델이 낡은 데이터로
+                        계속 active 로 남는다
+    """
+    return {
+        "mode": "reingest",
+        "started_at": started_at,
+        # Stage 1 을 스캔하지 않았으므로 watermark 를 전진시키지 않는다.
+        "source_watermark": previous_watermark,
+        "steps": list(steps),
+        "contract_gate": contract_gate_report,
+        "requires_sync": True,
+        "stage4_mode": "full",
+        "removed_ids": sorted(language_excluded),
+        "stage2_rows": stage2_rows,
+    }
+
+
 def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     """스키마가 바뀐 뒤의 전체 재적재.
 
@@ -1329,22 +1433,9 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     # Hub에서 바뀌지 않으므로 다음에도 계속 제외되는데, Supabase 행을 비활성화해
     # 주지 않으면 낡은 데이터로 계속 활성 상태로 남는다. --refresh가 하는 것과
     # 같은 처리다.
-    language_excluded: Set[str] = set()
-    for pool in POOLS:
-        report = DATA_DIR / f"hf_models_stage2_{pool}_language_excluded.json"
-        if report.exists():
-            language_excluded.update(json.loads(report.read_text(encoding="utf-8")))
-
-    # Stage 2가 조용히 대량 실패하면 뒤에서 그 행들이 전부 사라진 것처럼 보인다.
-    # 적재까지 가기 전에 여기서 끊는다. 언어 게이트 제외분은 정상 감소다.
+    language_excluded = language_excluded_ids()
     produced = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")) for pool in POOLS)
-    floor = expected - len(language_excluded)
-    if expected and produced < floor * 0.98:
-        raise RuntimeError(
-            f"Stage 2 결과가 {produced}행이다. Stage 1 {expected}행에서 언어 게이트 "
-            f"제외 {len(language_excluded)}건을 빼면 {floor}행이어야 한다. "
-            "대량 실패로 보이므로 재적재를 중단한다"
-        )
+    assert_stage2_volume(expected, produced, len(language_excluded))
     steps.append(f"stage2:{produced}rows")
 
     # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
@@ -1366,18 +1457,14 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
     steps.append("stage4:hash-delta")
 
-    return {
-        "mode": "reingest",
-        "started_at": started.isoformat(),
-        # Stage 1을 스캔하지 않았으므로 watermark를 전진시키지 않는다.
-        "source_watermark": previous_watermark,
-        "steps": steps,
-        "contract_gate": gate,
-        "requires_sync": True,
-        "stage4_mode": "full",
-        "removed_ids": sorted(language_excluded),
-        "stage2_rows": produced,
-    }
+    return reingest_result(
+        previous_watermark=previous_watermark,
+        started_at=started.isoformat(),
+        steps=steps,
+        contract_gate_report=gate,
+        language_excluded=language_excluded,
+        stage2_rows=produced,
+    )
 
 
 def apply_evidence_backfill(
@@ -1603,15 +1690,9 @@ def main() -> int:
                 "완료된 Supabase sync 기록이 없다. 먼저 "
                 "`python 08_sync_supabase.py --initial --apply`를 돌려야 한다."
             )
-        previous_watermark = (
-            ((previous or {}).get("stage_versions") or {}).get("source_watermark")
-            or (previous or {}).get("completed_at")
-        )
         # --apply 없이도 돈다. 그때는 DB를 건드리지 않고 dry-run 리포트만 낸다 —
         # 팀이 diff를 보고 판단한 뒤에 한 번만 apply 한다.
-        refresh_info = full_reingest_pipeline(
-            str(previous_watermark) if previous_watermark else None
-        )
+        refresh_info = full_reingest_pipeline(carried_watermark(previous))
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
@@ -1686,12 +1767,7 @@ def main() -> int:
             args.batch_size,
             incremental=refresh_info is not None,
             removed_ids=removed_ids,
-            # 재적재는 직전 watermark를 그대로 돌려준다(Stage 1을 스캔하지 않았다).
-            # --refresh는 자기 스캔 시작 시각을 돌려준다.
-            source_watermark=(
-                (refresh_info or {}).get("source_watermark")
-                or (refresh_info or {}).get("scan_started_at")
-            ),
+            source_watermark=resolved_source_watermark(refresh_info),
             corpus_rows=len(stage2),
             )
         promote_benchmark_state()

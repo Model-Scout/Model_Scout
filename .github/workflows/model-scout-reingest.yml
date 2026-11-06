@@ -108,6 +108,20 @@ jobs:
           python project_checks.py
           python test/golden/v2/tools/verify.py
 
+      # 재적재 안전장치와 필터 의미는 조용히 틀리는 종류라 테스트가 1차 방어선이다.
+      # watermark 전진 / 언어 제외분 누락 / 대량 실패 통과 / unknown 을 "가능"으로
+      # 보여주는 것은 전부 실행은 성공하고 숫자만 어긋난다.
+      - name: Contract and reingest safety tests
+        run: |
+          python test/test_reingest_safety.py
+          python test/test_contract_filters.py
+          python test/test_numeric_filter_semantics.py
+          python test/test_golden_v2_scan.py
+          python test/test_lexical_rules.py
+          # test_benchmark_metadata.py 는 넣지 않는다. main 에서도 실패한다 —
+          # stage2 3,872 행과 stage4 3,853 행의 19 행 차이를 동등으로 보는
+          # 단정 때문이고, 이 작업과 무관한 기존 문제다.
+
       - name: Stop here in validate mode
         if: ${{ inputs.mode == 'validate' }}
         run: echo "validate 모드 종료. HF·LLM·임베딩·DB 호출 없음."

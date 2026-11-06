@@ -48,7 +48,7 @@ GET https://huggingface.co/api/models/{model_id}?blobs=true
 | `siblings[].size` | 1,804 (99.3%) | **안 쓴다** | 실제 파일 용량. Q2의 측정 근거 |
 | `sha` | 전부 | **안 쓴다** | `identity.revision`. 재현 기준점 |
 | `lastModified` | 전부 | **안 쓴다** | 신선도 |
-| `usedStorage` | 1,796 | **안 쓴다** | `siblings` 합과 중앙값 1.000으로 일치 (교차 검증용) |
+| `usedStorage` | 1,796 | **쓰지 않는다** | 현재 스냅샷 크기가 아니다. 2절의 "쓰지 않는 이유" 참고 |
 | `gguf.{total, architecture, context_length}` | 1,292 | **안 쓴다** | 파라미터·컨텍스트·아키텍처 누락 1,527/1,459/1,425개 |
 | `safetensors.parameters` | 235 | 일부 | **dtype 맵이다.** `{"BF16": 4022468096}` |
 | `config.architectures` / `config.model_type` | 568개 응답에 포함 | 파일을 따로 내려받는다 | 아래 주의 참고 |
@@ -114,8 +114,8 @@ GET https://huggingface.co/api/models/{model_id}?blobs=true
 | `technical.parameter_count_active` | 원본 `config.json`의 `num_experts_per_tok` | — | 2B | MoE만. 불명확하면 `conflict` |
 | `technical.context_length` | `api.config.max_position_embeddings` | `gguf.context_length` | 2A | 센티넬(2³²−1 등) 걸러낸다 |
 | `technical.dtype` | `api.safetensors.parameters` 키 | `config.torch_dtype` | 2A | GGUF는 `not_applicable` |
-| `artifacts.formats.*` | `siblings[].rfilename` 패턴 | — | 2A | `tags`를 믿지 않는다 — GGUF 레포에도 `"safetensors"` 태그가 붙어 있다 |
-| `artifacts.formats.*.total_bytes` | `siblings[].size` 합 | `usedStorage` | 2A | 측정값 |
+| `artifacts.formats.*` | `siblings[].rfilename` 패턴 | — | 2A | **`tags`를 믿지 않는다.** 아래 참고 |
+| `artifacts.formats.*.total_bytes` | `siblings[].size` 합 | **없음** | 2A | 측정값. 크기가 없으면 `unknown` |
 | `artifacts.formats.gguf.quantization` | 파일명의 `Q4_K_M`·`IQ3_XS` 패턴 | — | 2B | 한 레포에 여러 벌이 있다 |
 | `deployment.targets.*` | `siblings`의 포맷 존재 → `artifact_present` | README 명시 → `documented` | 2B | 등급을 뭉개지 않는다 |
 | `deployment.vram_estimate` | `artifacts.*.total_bytes` (`basis: artifact_bytes`) | `parameter_count × dtype` (`basis: parameter_count`) | 2B | 전자가 측정값이므로 우선 |
@@ -125,6 +125,46 @@ GET https://huggingface.co/api/models/{model_id}?blobs=true
 | `legal.base_model_constraint` | `cardData.base_model` → 원본의 `commercial_status` | — | 2B | 더 제한적이면 표시. 덮어쓰지 않는다 |
 | `quality.results` | `model-index` | README 표 파싱 (`06`) | 2B | `evidence_ref`로 원문 위치를 남긴다 |
 | `semantic.*` | README 본문 → LLM | — | 3 | **사실 필드가 아니다.** 하드 필터가 읽지 않는다 |
+
+---
+
+### `usedStorage`를 쓰지 않는 이유
+
+처음에는 `siblings[].size` 합의 교차 검증 출처로 쓰려 했다. **버렸다.**
+현재 스냅샷의 크기가 아니기 때문이다.
+
+중앙값만 보면 일치한다(1.000). 그런데 표본 1,796건 중 **521건(29%)이 2% 밖**이고
+꼬리가 극단적이다.
+
+```
+yongzx/gpt2-finetuned-oscar-ko   siblings  404MB  vs  usedStorage  709GB   0.001배
+CohereLabs/tiny-aya-l2-thinker   siblings  6.7GB  vs  usedStorage  429GB   0.016배
+RANITBAG/on_the_way              siblings  1.6GB  vs  usedStorage  630MB   2.509배
+```
+
+LFS 히스토리를 포함한 과금 기준 용량으로 보인다. 삭제된 리비전의 바이트가 남아
+있는 쪽은 `siblings` 합보다 훨씬 크고, 반대로 작은 경우도 있다.
+
+**중앙값만 보고 교차 검증에 썼으면 정상 모델 521건에 거짓 경고가 붙었다.**
+`resolvers/artifacts.py`는 `usedStorage`를 읽지 않는다. `siblings[].size`가
+없으면 그대로 `unknown`으로 둔다 — **대신 쓸 2차 출처가 없다.**
+
+### `tags`가 아니라 파일 목록을 봐야 하는 이유
+
+```
+SL-AI/GRaPE-2.5-Helios-GGUF
+  tags       ["gguf", "safetensors", ...]        ← safetensors 태그가 붙어 있다
+  실제 파일   *.gguf 6개 + mmproj-BF16.gguf       ← safetensors 파일은 없다
+```
+
+표본 1,804건을 전수로 비교한 결과다.
+
+| 판정 기준 | 실제 파일과 불일치 |
+|---|---:|
+| `"safetensors" in tags` | 49개 (2.7%) |
+| `"gguf" in tags` | 1개 (0.1%) |
+
+`artifacts.formats.*.present`는 `siblings[].rfilename` 확장자로만 판정한다.
 
 ---
 
