@@ -4,8 +4,9 @@
 그 파일은 Actions가 커밋하지 않아 Supabase(3,872행)보다 19행 뒤처져 있다.
 골든셋 판정은 확정 집합인 Supabase 스냅샷을 기준으로 해야 하므로 이 모듈을 쓴다.
 
-하드 필터는 ``05_validate_retrieval.hard_filter``를 그대로 재사용한다. 판정 기준이
-운영 검색의 후보 결정 로직과 한 글자도 달라지면 안 되기 때문이다.
+하드 필터는 ``05_validate_retrieval.hard_filter``를 그대로 재사용한다. 수치 조건의
+누락 값 처리까지 운영 Supabase SQL과 같아야 판정 기준이 실제 검색의 후보 결정
+로직과 달라지지 않는다.
 """
 
 from __future__ import annotations

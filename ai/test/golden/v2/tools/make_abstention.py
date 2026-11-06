@@ -14,22 +14,22 @@ abstention에서 검색이 틀리는 방식은 "비슷하지만 조건을 만족
 답하는 것"이다. 그래서 난이도는 그런 모델이 몇 개나 있는지로 정한다. 두 경로를 재서
 큰 쪽을 쓴다.
 
-  ① 수치 완화     상한/하한을 한 칸 느슨하게 → 경계 바로 밖의 모델 수
-  ② 미공개 허용   require_known_* 를 빼면 → 조건을 만족할 수도 있으나 확인 불가한 모델 수
+  ① 조건 완화     상한/하한 또는 pool을 한 칸 느슨하게 → 경계 바로 밖의 모델 수
+  ② 수치 제거     숫자 조건 자체를 빼기 → task·언어는 맞지만 숫자가 안 맞는 모델 수
 
 ②를 빠뜨리면 난이도를 크게 잘못 본다. 예를 들어 image-text-to-text ≤0.1B는 수치를
-0.3B로 완화해도 0이지만, 미공개를 허용하면 227개가 나온다. 검색이 끌어올 유혹은
-거기서 생긴다.
+0.3B로 완화해도 0일 수 있지만, 숫자 제한을 빼면 많은 이미지 이해 모델이 남는다.
+검색이 조건을 놓쳤을 때 끌어올 유혹은 거기서 생긴다.
 
 기준값은 ``planner_config.json``의 ``top_k``(30)를 쓴다. 유혹 후보가 top_k보다 적으면
 검색이 상위 10개를 채울 만큼 끌어올 것이 애초에 부족하다.
 
-require_known_* 플래그
-----------------------
-숨은 필터가 아니라 질의의 의미다. numeric_ok는 값이 없으면 통과시키므로, 플래그를
-끄면 미공개 모델(파라미터 39.4% / 컨텍스트 37.7%)이 모든 수치 조건을 통과해 후보가
-0이 될 수 없다. "컨텍스트 100만 토큰 이상인 모델"을 추천하려면 그 길이가 문서로
-확인돼야 하므로, 질의문에 "확인된/명시된"을 넣고 플래그로 그 뜻을 표현한다.
+수치값이 없는 모델
+------------------
+실제 Supabase SQL과 이 도구의 하드 필터는 모두, 수치 상·하한이 있는 질의에서 값이
+없는 모델을 제외한다. 값이 없으면 "100M 이하" 또는 "32K 이상"을 만족한다고
+검증할 수 없기 때문이다. 따라서 자연어 질의에 "공개된/확인된 모델만"이라는
+부자연스러운 조건을 추가하지 않는다.
 
     python test/golden/v2/tools/make_abstention.py
 """
@@ -53,173 +53,159 @@ TOP_K = 30
 SPECS: List[Dict[str, Any]] = [
     {
         "query_id": "ab01",
-        "query": "온디바이스로 돌릴 수 있게 파라미터 100M 이하인 한국어 이미지 이해 모델을 찾고 있어. 파라미터 수가 명시된 것만.",
+        "query": "파라미터 100M 이하인 한국어 이미지 이해 모델을 찾고 있어.",
         "conditions": {
             "tasks": ["image-text-to-text"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "이미지 이해 → image-text-to-text",
             "korean_required": "한국어",
-            "max_parameters_billion": "파라미터 100M 이하 → 0.1B",
-            "require_known_parameters": "파라미터 수가 명시된 것만",
+        "max_parameters_billion": "파라미터 100M 이하 → 0.1B",
         },
         "relaxed": {"max_parameters_billion": 0.3},
     },
     {
         "query_id": "ab02",
-        "query": "파라미터 50M 이하인 초소형 한국어 요약 모델이 필요해. 파라미터 수가 공개된 모델로.",
+        "query": "파라미터 50M 이하인 초소형 한국어 요약 모델이 필요해.",
         "conditions": {
             "tasks": ["summarization"],
             "korean_required": True,
             "max_parameters_billion": 0.05,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "요약",
             "korean_required": "한국어",
             "max_parameters_billion": "50M 이하 → 0.05B",
-            "require_known_parameters": "파라미터 수가 공개된",
         },
         "relaxed": {"max_parameters_billion": 0.3},
     },
     {
         "query_id": "ab03",
-        "query": "컨텍스트 길이가 262144 토큰 이상인 것으로 확인된 한국어 질의응답 모델 있어?",
+        "query": "컨텍스트 길이가 25만 토큰 이상인 한국어 질의응답 모델 있어?",
         "conditions": {
             "tasks": ["question-answering"],
             "korean_required": True,
-            "min_context_length": 262144,
-            "require_known_context": True,
+            "min_context_length": 250000,
         },
         "fidelity": {
             "tasks": "질의응답",
             "korean_required": "한국어",
-            "min_context_length": "262144 토큰 이상",
-            "require_known_context": "것으로 확인된",
+            "min_context_length": "25만 토큰 이상",
         },
-        "relaxed": {"min_context_length": 131072},
+        "relaxed": {"min_context_length": 128000},
     },
     {
         "query_id": "ab04",
-        "query": "파라미터 10M 이하로 명시된 한국어 질의응답 모델을 추천해줘.",
+        "query": "긴 회의록을 한 번에 요약하려고 해. 컨텍스트 50만 토큰 이상이고 많이 쓰이는 한국어 요약 모델이 있어?",
         "conditions": {
-            "tasks": ["question-answering"],
+            "tasks": ["summarization"],
             "korean_required": True,
-            "max_parameters_billion": 0.01,
-            "require_known_parameters": True,
+            "pools": ["core"],
+            "min_context_length": 500000,
         },
         "fidelity": {
-            "tasks": "질의응답",
+            "tasks": "요약",
             "korean_required": "한국어",
-            "max_parameters_billion": "10M 이하 → 0.01B",
-            "require_known_parameters": "로 명시된",
+            "pools": "많이 쓰이는 → core (다운로드 500 이상)",
+            "min_context_length": "50만 토큰 이상",
         },
-        "relaxed": {"max_parameters_billion": 0.05},
+        "relaxed": {"min_context_length": 250000},
     },
     {
         "query_id": "ab05",
-        "query": "책 한 권을 통째로 번역하려고 해. 컨텍스트 100만 토큰 이상이 확인된 한국어 번역 모델을 찾아줘.",
+        "query": "책 한 권을 통째로 번역하려고 해. 컨텍스트 100만 토큰 이상인 한국어 번역 모델을 찾아줘.",
         "conditions": {
             "tasks": ["translation"],
             "korean_required": True,
             "min_context_length": 1000000,
-            "require_known_context": True,
         },
         "fidelity": {
             "tasks": "번역",
             "korean_required": "한국어",
             "min_context_length": "100만 토큰 이상",
-            "require_known_context": "이 확인된",
         },
         "relaxed": {"min_context_length": 262144},
     },
     {
         "query_id": "ab06",
-        "query": "많이 쓰이는 한국어 번역 모델 중에서 파라미터 100M 이하로 공개된 게 있을까?",
+        "query": "많이 쓰이는 한국어 번역 모델 중에서 파라미터 100M 이하인 게 있을까?",
         "conditions": {
             "tasks": ["translation"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "번역",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core (다운로드 500 이상)",
             "max_parameters_billion": "100M 이하 → 0.1B",
-            "require_known_parameters": "로 공개된",
         },
         "relaxed": {"pools": ["core", "low_popularity"]},
     },
     {
         "query_id": "ab07",
-        "query": "아주 긴 문서를 분류해야 해. 컨텍스트 524288 토큰 이상으로 확인된 한국어 텍스트 분류 모델 있어?",
+        "query": "아주 긴 문서를 분류해야 해. 컨텍스트 50만 토큰 이상인 한국어 텍스트 분류 모델 있어?",
         "conditions": {
             "tasks": ["text-classification"],
             "korean_required": True,
-            "min_context_length": 524288,
-            "require_known_context": True,
+            "min_context_length": 500000,
         },
         "fidelity": {
             "tasks": "텍스트 분류",
             "korean_required": "한국어",
-            "min_context_length": "524288 토큰 이상",
-            "require_known_context": "으로 확인된",
+            "min_context_length": "50만 토큰 이상",
         },
-        "relaxed": {"min_context_length": 131072},
+        "relaxed": {"min_context_length": 250000},
     },
     {
         "query_id": "ab08",
-        "query": "파라미터 50M 이하로 명시된 한국어 임베딩 모델을 찾고 있어.",
+        "query": "파라미터 50M 이하인 한국어 임베딩 모델을 찾고 있어.",
         "conditions": {
             "tasks": ["feature-extraction"],
             "korean_required": True,
             "max_parameters_billion": 0.05,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "임베딩 → feature-extraction",
             "korean_required": "한국어",
             "max_parameters_billion": "50M 이하 → 0.05B",
-            "require_known_parameters": "로 명시된",
         },
         "relaxed": {"max_parameters_billion": 0.3},
     },
     {
         "query_id": "ab09",
-        "query": "파라미터 10M 이하로 공개된 한국어 문장 유사도 모델이 있나?",
+        "query": "장문의 판례·보고서를 통째로 비교하려고 해. 컨텍스트 50만 토큰 이상이고 많이 쓰이는 한국어 문장 유사도 모델이 있을까?",
         "conditions": {
             "tasks": ["sentence-similarity"],
             "korean_required": True,
-            "max_parameters_billion": 0.01,
-            "require_known_parameters": True,
+            "pools": ["core"],
+            "min_context_length": 500000,
         },
         "fidelity": {
             "tasks": "문장 유사도",
             "korean_required": "한국어",
-            "max_parameters_billion": "10M 이하 → 0.01B",
-            "require_known_parameters": "로 공개된",
+            "pools": "많이 쓰이는 → core (다운로드 500 이상)",
+            "min_context_length": "50만 토큰 이상",
         },
-        "relaxed": {"max_parameters_billion": 0.05},
+        "relaxed": {"pools": ["core", "low_popularity"]},
     },
     {
         "query_id": "ab10",
-        "query": "파라미터 10M 이하로 명시된 한국어 음성 인식 모델을 추천해줘.",
+        "query": "널리 쓰이는 한국어 음성 인식 모델 중, 파라미터 20M 이하인 게 있을까?",
         "conditions": {
             "tasks": ["automatic-speech-recognition"],
             "korean_required": True,
-            "max_parameters_billion": 0.01,
-            "require_known_parameters": True,
+            "pools": ["core"],
+            "max_parameters_billion": 0.02,
         },
         "fidelity": {
             "tasks": "음성 인식 → automatic-speech-recognition",
             "korean_required": "한국어",
-            "max_parameters_billion": "10M 이하 → 0.01B",
-            "require_known_parameters": "로 명시된",
+            "pools": "널리 쓰이는 → core (다운로드 500 이상)",
+            "max_parameters_billion": "파라미터 20M 이하 → 0.02B",
         },
         "relaxed": {"max_parameters_billion": 0.05},
     },
@@ -239,7 +225,7 @@ def main() -> None:
 
     print(f"판정 기준 코퍼스 {meta['rows']}행 (Actions 중단 시점 확정 집합)")
     print()
-    print(f"{'id':6s} {'task':28s} {'elig':>5s} {'수치완화':>8s} {'미공개허용':>10s} {'유혹':>5s} {'난이도':>7s}")
+    print(f"{'id':6s} {'task':28s} {'elig':>5s} {'조건완화':>8s} {'수치제거':>8s} {'유혹':>5s} {'난이도':>7s}")
     print("-" * 78)
 
     records = []
@@ -248,27 +234,27 @@ def main() -> None:
         conditions = spec["conditions"]
         eligible = corpus_v2.count(**conditions)
 
-        # ① 수치 완화: 경계 바로 밖에 몇 개가 있나
+        # ① 조건 완화: 경계 바로 밖에 몇 개가 있나
         numeric = dict(conditions)
         numeric.update(spec["relaxed"])
-        relaxed_numeric = corpus_v2.count(**numeric)
+        relaxed_conditions_count = corpus_v2.count(**numeric)
 
-        # ② 미공개 허용: 조건을 만족할 수도 있으나 확인 불가한 모델이 몇 개인가
-        unverified = {
+        # ② 수치 조건 제거: task·언어는 맞지만 숫자가 안 맞거나 없는 후보 수
+        without_numeric = {
             key: value
             for key, value in conditions.items()
-            if key not in ("require_known_parameters", "require_known_context")
+            if key not in ("max_parameters_billion", "min_context_length", "max_context_length")
         }
-        relaxed_unknown = corpus_v2.count(**unverified)
+        without_numeric_count = corpus_v2.count(**without_numeric)
 
-        temptation = max(relaxed_numeric, relaxed_unknown)
+        temptation = max(relaxed_conditions_count, without_numeric_count)
         difficulty = "hard" if temptation >= TOP_K else "easy"
         task = conditions["tasks"][0]
 
         if eligible != 0:
             failures.append((spec["query_id"], eligible))
-        print(f"{spec['query_id']:6s} {task:28s} {eligible:5d} {relaxed_numeric:8d} "
-              f"{relaxed_unknown:10d} {temptation:5d} {difficulty:>7s}")
+        print(f"{spec['query_id']:6s} {task:28s} {eligible:5d} {relaxed_conditions_count:8d} "
+              f"{without_numeric_count:8d} {temptation:5d} {difficulty:>7s}")
 
         records.append(
             {
@@ -290,9 +276,9 @@ def main() -> None:
                 "eligible_count": eligible,
                 "temptation": {
                     "note": "조건을 만족하지 않으나 검색이 끌어올 수 있는 모델 수. 난이도의 근거.",
-                    "relaxed_numeric": relaxed_numeric,
-                    "relaxed_numeric_conditions": spec["relaxed"],
-                    "allow_unverified": relaxed_unknown,
+                    "relaxed_conditions": relaxed_conditions_count,
+                    "relaxed_conditions_definition": spec["relaxed"],
+                    "without_numeric_constraints": without_numeric_count,
                     "pool_size": temptation,
                     "threshold": TOP_K,
                 },

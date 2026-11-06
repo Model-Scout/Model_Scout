@@ -448,13 +448,26 @@ def numeric_ok(
     maximum: Any = None,
     required: bool = False,
 ) -> bool:
+    """Return whether a numeric value satisfies a requested range.
+
+    This deliberately mirrors the SQL predicates in
+    ``match_model_scout_models``.  When a query includes a numeric bound,
+    PostgreSQL casts the JSON value and a missing value becomes ``NULL``;
+    ``WHERE`` then excludes that row.  Letting a missing local value pass here
+    would make offline evaluation and the live Supabase search use different
+    candidate pools.
+
+    ``required`` remains useful only for an explicit "show models whose spec
+    is disclosed" request that has no numeric range.
+    """
     known = (
         isinstance(value, (int, float))
         and not isinstance(value, bool)
         and math.isfinite(float(value))
     )
     if not known:
-        return not required
+        has_numeric_bound = minimum is not None or maximum is not None
+        return not (required or has_numeric_bound)
     if minimum is not None and value < minimum:
         return False
     if maximum is not None and value > maximum:

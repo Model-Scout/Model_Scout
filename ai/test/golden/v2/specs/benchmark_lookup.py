@@ -10,8 +10,8 @@
 
 ★ reliable_stages=(4,)
   다른 유형에서는 ④⑤가 믿을 수 없는 단계다(README 원문엔 어떤 단어든 있다).
-  그런데 이 유형은 ④가 바로 답이므로 ④만 신뢰한다. ③⑤에서만 걸린 것은
-  "점수를 말로만 언급"했을 수 있으므로 ⚠️로 올려 사람이 본다.
+  그런데 이 유형은 ④의 안전하게 귀속된 구조화 결과가 바로 답이므로 ④만
+  신뢰한다. 출처/variant가 불명확한 결과는 ⑥으로 보내 ⚠️로 올린다.
 
 ★ weak_any는 인접 벤치마크 이름만 쓴다
   metric 이름(wer, nli)이나 짧은 토큰을 넣으면 ⚠️가 폭발한다. 'arc'는
@@ -35,32 +35,28 @@ GEN_CORE_8B = {
     "korean_required": True,
     "pools": ["core"],
     "max_parameters_billion": 8.0,
-    "require_known_parameters": True,
 }
 GEN_CORE_8B_FIDELITY = {
     "tasks": "생성 모델 / LLM",
     "korean_required": "한국어",
     "pools": "많이 쓰이는 → core (다운로드 500 이상)",
     "max_parameters_billion": "8B 이하",
-    "require_known_parameters": "파라미터 수가 공개된",
 }
 ASR_CORE_1B = {
     "tasks": ["automatic-speech-recognition"],
     "korean_required": True,
     "pools": ["core"],
     "max_parameters_billion": 1.0,
-    "require_known_parameters": True,
 }
 ASR_CORE_1B_FIDELITY = {
     "tasks": "음성 인식",
     "korean_required": "한국어",
     "pools": "많이 쓰이는 → core",
     "max_parameters_billion": "1B 이하",
-    "require_known_parameters": "파라미터 수가 공개된",
 }
 
 
-def benchmark_rule(names, adjacent, label, grade_2, grade_1):
+def benchmark_rule(names, adjacent, label, grade_2, grade_1, *, exclude=()):
     """벤치마크 이름 규칙. ④단계만 권위 있는 근거로 본다."""
     return Rule(
         must_any=names,
@@ -70,20 +66,22 @@ def benchmark_rule(names, adjacent, label, grade_2, grade_1):
         must_label=label,
         grade_2_label=grade_2,
         grade_1_label=grade_1,
+        benchmark_terms=names,
+        benchmark_exclude=exclude,
     )
 
 
 SPECS = [
     {
         "query_id": "bl01",
-        "query": "KMMLU 점수를 공개한 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 파라미터 8B 이하로 공개된 모델로.",
+        "query": "KMMLU 점수를 공개한 한국어 LLM을 찾고 있어. 많이 쓰이는 것 중에 파라미터 8B 이하인 모델로.",
         "conditions": GEN_CORE_8B,
         "fidelity": GEN_CORE_8B_FIDELITY,
         "rule": benchmark_rule(
-            ["kmmlu", "k-mmlu"], ["mmlu"],
+            ["kmmlu", "k-mmlu", "k mmlu", "korean mmlu"], [],
             "benchmark_metadata.results에 KMMLU 결과가 있다",
             "KMMLU 점수가 수치로 기록돼 있다",
-            "KMMLU를 언급하나 점수가 수치로 확인되지 않거나, MMLU 등 인접 벤치마크만 있다",
+            "KMMLU를 언급하나 점수가 수치로 확인되지 않는다",
         ),
     },
     {
@@ -108,20 +106,18 @@ SPECS = [
     },
     {
         "query_id": "bl03",
-        "query": "파라미터 500M 이하로 공개된 한국어 문장 임베딩 모델 중에 MTEB 점수가 있는 걸 찾아줘. 많이 쓰이는 것으로.",
+        "query": "파라미터 500M 이하인 한국어 문장 임베딩 모델 중에 MTEB 점수가 있는 걸 찾아줘. 많이 쓰이는 것으로.",
         "conditions": {
             "tasks": ["sentence-similarity"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 0.5,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "문장 임베딩",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core",
             "max_parameters_billion": "500M 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": benchmark_rule(
             ["mteb"], ["beir"],
@@ -132,7 +128,7 @@ SPECS = [
     },
     {
         "query_id": "bl04",
-        "query": "LibriSpeech 결과가 README에 있는 한국어 음성 인식 모델을 찾고 있어. 1B 이하로 공개된 것 중 많이 쓰이는 것으로.",
+        "query": "LibriSpeech 결과가 README에 있는 한국어 음성 인식 모델을 찾고 있어. 1B 이하인 것 중 많이 쓰이는 것으로.",
         "conditions": ASR_CORE_1B,
         "fidelity": ASR_CORE_1B_FIDELITY,
         "rule": benchmark_rule(
@@ -144,7 +140,7 @@ SPECS = [
     },
     {
         "query_id": "bl05",
-        "query": "FLEURS 점수가 공개된 한국어 음성 인식 모델 있어? 1B 이하로 공개된 것 중 많이 쓰이는 것으로.",
+        "query": "FLEURS 점수가 공개된 한국어 음성 인식 모델 있어? 1B 이하인 것 중 많이 쓰이는 것으로.",
         "conditions": ASR_CORE_1B,
         "fidelity": ASR_CORE_1B_FIDELITY,
         "rule": benchmark_rule(
@@ -156,7 +152,7 @@ SPECS = [
     },
     {
         "query_id": "bl06",
-        "query": "Common Voice 평가 결과가 있는 한국어 음성 인식 모델을 추천해줘. 1B 이하로 공개된 것 중 많이 쓰이는 것으로.",
+        "query": "Common Voice 평가 결과가 있는 한국어 음성 인식 모델을 추천해줘. 1B 이하인 것 중 많이 쓰이는 것으로.",
         "conditions": ASR_CORE_1B,
         "fidelity": ASR_CORE_1B_FIDELITY,
         "rule": benchmark_rule(
@@ -168,50 +164,47 @@ SPECS = [
     },
     {
         "query_id": "bl07",
-        "query": "MMLU 점수가 공개된 한국어 LLM 중에 4B 이하로 공개된 걸 찾아줘. 많이 쓰이는 것으로.",
+        "query": "MMLU 점수가 공개된 한국어 LLM 중에 4B 이하인 걸 찾아줘. 많이 쓰이는 것으로.",
         "conditions": {
             "tasks": ["text-generation"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 4.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "LLM → text-generation",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core",
             "max_parameters_billion": "4B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": benchmark_rule(
-            ["mmlu"], ["hellaswag"],
-            "benchmark_metadata.results에 MMLU 계열 결과가 있다",
-            "MMLU 점수가 수치로 기록돼 있다",
-            "MMLU를 언급하나 수치가 없거나, KMMLU·MMLU-Pro 등 변형만 있다",
+            ["mmlu"], ["mmlu-pro", "mmlu pro", "multilingual mmlu", "mmmlu", "kmmlu", "k-mmlu", "hellaswag"],
+            "benchmark_metadata.results에 원본 MMLU 결과가 있다",
+            "현재 모델에 귀속되는 원본 MMLU 점수가 수치로 기록돼 있다",
+            "MMLU-Pro·KMMLU·MMMLU 등 변형만 있는 모델은 정답으로 넣지 않고, 원본 MMLU라도 변환본·재업로드 여부는 사람 검수 후 1점으로 낮춘다",
+            exclude=("mmlu-pro", "mmlu pro", "multilingual mmlu", "mmmlu", "kmmlu", "k-mmlu"),
         ),
     },
     {
         "query_id": "bl08",
-        "query": "GPQA 결과를 공개한 한국어 LLM이 있을까? 4B 이하로 공개된 것 중 많이 쓰이는 것으로.",
+        "query": "도구 호출 성능을 비교하려고 해. BFCL v3 점수를 공개한 한국어 LLM이 있을까? 4B 이하인 것 중 많이 쓰이는 것으로.",
         "conditions": {
             "tasks": ["text-generation"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 4.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "LLM → text-generation",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core",
             "max_parameters_billion": "4B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": benchmark_rule(
-            ["gpqa"], ["mmlu-pro"],
-            "benchmark_metadata.results에 GPQA 결과가 있다",
-            "GPQA 점수가 수치로 기록돼 있다",
-            "GPQA를 언급하나 수치가 없거나 인접 추론 벤치마크만 있다",
+            ["bfclv3", "bfcl v3", "bfcl-v3"], ["tool calling", "function calling"],
+            "benchmark_metadata.results에 BFCL v3 결과가 있다",
+            "현재 모델에 귀속되는 BFCL v3 점수가 수치로 기록돼 있다",
+            "도구 호출을 언급하나 BFCL v3 점수가 없거나 출처가 불명확하다",
         ),
     },
     {
@@ -246,10 +239,10 @@ SPECS = [
             "pools": "많이 쓰이는 → core",
         },
         "rule": benchmark_rule(
-            ["korsts", "klue-sts", "stsb", "sts-b"], ["sts"],
+            ["korsts", "klue-sts", "klue sts", "klue_sts"], ["stsb", "sts-b", "stsbenchmark", "sts"],
             "benchmark_metadata.results에 한국어 STS 계열 결과가 있다",
             "KorSTS 또는 KLUE-STS 점수가 수치로 기록돼 있다",
-            "STS를 언급하나 한국어 STS인지 불명확하거나 수치가 없다",
+            "일반 STSBenchmark/STSB만 있는 모델은 한국어 STS 정답으로 넣지 않고, 한국어 STS 언급이지만 수치·출처가 불명확한 경우만 사람 검수 후 1점으로 둔다",
         ),
     },
 ]

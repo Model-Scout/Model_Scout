@@ -28,32 +28,31 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 정답이 있는 유형에서는 그게 바로 정답 누락이 됩니다. abstention에서는
 "없어야 할 이유"가 질의문에 다 적혀 있는지를 보는 것입니다.
 
-### `require_known_*` 가 들어간 이유
+### 수치값이 없는 모델의 처리
 
-`numeric_ok`는 값이 없으면 조건을 통과시킵니다. 코퍼스의 파라미터 **39.4%**,
-컨텍스트 **37.7%** 가 미공개이므로, 이 플래그 없이는 수치 조건만으로 후보가
-0이 될 수 없습니다. 그래서 질의문에 "명시된 / 공개된 / 확인된"을 넣어
-**검증 가능성 자체를 질의의 요구사항으로** 만들었습니다. ②를 보실 때 이 말이
-질의문에 실제로 있는지 확인해 주세요. 없으면 숨은 필터입니다.
+실제 Supabase 검색과 같은 규칙을 씁니다. 파라미터·컨텍스트의 상한 또는 하한을
+요구하면, 값이 없는 모델은 그 수치를 만족한다고 **검증할 수 없으므로 후보에서
+제외**됩니다. 따라서 질문에 "공개된 / 확인된 모델만" 같은 말을 인위적으로
+넣지 않습니다. 이 처리 자체가 데이터 품질의 한계이므로, 미기재 모델을 더
+채우는 일은 별도 백필 작업으로 계속 추적합니다.
 
 ---
 
 ## 질의 10개
 
-코퍼스 3872행 · 2026-10-31 기준 · easy 4 / hard 6
+코퍼스 3872행 · 2026-10-31 기준 · easy 3 / hard 7
 
 ### `ab01` ≤100M · image-text-to-text · hard
 
-> 온디바이스로 돌릴 수 있게 파라미터 100M 이하인 한국어 이미지 이해 모델을 찾고 있어. 파라미터 수가 명시된 것만.
+> 파라미터 100M 이하인 한국어 이미지 이해 모델을 찾고 있어.
 
 조건 → 질의문 근거
 
 - `tasks=["image-text-to-text"]` ← 이미지 이해 → image-text-to-text
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.1` ← 파라미터 100M 이하 → 0.1B
-- `require_known_parameters=true` ← 파라미터 수가 명시된 것만
 
-후보 **0개** · 유혹 후보 227개(수치완화 0 / 미공개허용 227)
+후보 **0개** · 유혹 후보 444개(조건완화 0 / 수치제거 444)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
@@ -61,50 +60,48 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 
 ### `ab02` ≤50M · summarization · easy
 
-> 파라미터 50M 이하인 초소형 한국어 요약 모델이 필요해. 파라미터 수가 공개된 모델로.
+> 파라미터 50M 이하인 초소형 한국어 요약 모델이 필요해.
 
 조건 → 질의문 근거
 
 - `tasks=["summarization"]` ← 요약
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.05` ← 50M 이하 → 0.05B
-- `require_known_parameters=true` ← 파라미터 수가 공개된
 
-후보 **0개** · 유혹 후보 8개(수치완화 4 / 미공개허용 8)
-
-**① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
-
-**② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
-
-### `ab03` ctx≥262,144 · question-answering · easy
-
-> 컨텍스트 길이가 262144 토큰 이상인 것으로 확인된 한국어 질의응답 모델 있어?
-
-조건 → 질의문 근거
-
-- `tasks=["question-answering"]` ← 질의응답
-- `korean_required=true` ← 한국어
-- `min_context_length=262144` ← 262144 토큰 이상
-- `require_known_context=true` ← 것으로 확인된
-
-후보 **0개** · 유혹 후보 12개(수치완화 3 / 미공개허용 12)
+후보 **0개** · 유혹 후보 14개(조건완화 4 / 수치제거 14)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
 **② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
 
-### `ab04` ≤10M · question-answering · easy
+### `ab03` ctx≥250,000 · question-answering · easy
 
-> 파라미터 10M 이하로 명시된 한국어 질의응답 모델을 추천해줘.
+> 컨텍스트 길이가 25만 토큰 이상인 한국어 질의응답 모델 있어?
 
 조건 → 질의문 근거
 
 - `tasks=["question-answering"]` ← 질의응답
 - `korean_required=true` ← 한국어
-- `max_parameters_billion=0.01` ← 10M 이하 → 0.01B
-- `require_known_parameters=true` ← 로 명시된
+- `min_context_length=250000` ← 25만 토큰 이상
 
-후보 **0개** · 유혹 후보 12개(수치완화 1 / 미공개허용 12)
+후보 **0개** · 유혹 후보 21개(조건완화 9 / 수치제거 21)
+
+**① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
+
+**② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
+
+### `ab04` ctx≥500,000 · core만 · summarization · easy
+
+> 긴 회의록을 한 번에 요약하려고 해. 컨텍스트 50만 토큰 이상이고 많이 쓰이는 한국어 요약 모델이 있어?
+
+조건 → 질의문 근거
+
+- `tasks=["summarization"]` ← 요약
+- `korean_required=true` ← 한국어
+- `pools=["core"]` ← 많이 쓰이는 → core (다운로드 500 이상)
+- `min_context_length=500000` ← 50만 토큰 이상
+
+후보 **0개** · 유혹 후보 3개(조건완화 0 / 수치제거 3)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
@@ -112,16 +109,15 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 
 ### `ab05` ctx≥1,000,000 · translation · hard
 
-> 책 한 권을 통째로 번역하려고 해. 컨텍스트 100만 토큰 이상이 확인된 한국어 번역 모델을 찾아줘.
+> 책 한 권을 통째로 번역하려고 해. 컨텍스트 100만 토큰 이상인 한국어 번역 모델을 찾아줘.
 
 조건 → 질의문 근거
 
 - `tasks=["translation"]` ← 번역
 - `korean_required=true` ← 한국어
 - `min_context_length=1000000` ← 100만 토큰 이상
-- `require_known_context=true` ← 이 확인된
 
-후보 **0개** · 유혹 후보 120개(수치완화 28 / 미공개허용 120)
+후보 **0개** · 유혹 후보 245개(조건완화 71 / 수치제거 245)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
@@ -129,7 +125,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 
 ### `ab06` ≤100M · core만 · translation · hard
 
-> 많이 쓰이는 한국어 번역 모델 중에서 파라미터 100M 이하로 공개된 게 있을까?
+> 많이 쓰이는 한국어 번역 모델 중에서 파라미터 100M 이하인 게 있을까?
 
 조건 → 질의문 근거
 
@@ -137,26 +133,24 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 - `korean_required=true` ← 한국어
 - `pools=["core"]` ← 많이 쓰이는 → core (다운로드 500 이상)
 - `max_parameters_billion=0.1` ← 100M 이하 → 0.1B
-- `require_known_parameters=true` ← 로 공개된
 
-후보 **0개** · 유혹 후보 85개(수치완화 1 / 미공개허용 85)
+후보 **0개** · 유혹 후보 117개(조건완화 1 / 수치제거 117)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
 **② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
 
-### `ab07` ctx≥524,288 · text-classification · easy
+### `ab07` ctx≥500,000 · text-classification · hard
 
-> 아주 긴 문서를 분류해야 해. 컨텍스트 524288 토큰 이상으로 확인된 한국어 텍스트 분류 모델 있어?
+> 아주 긴 문서를 분류해야 해. 컨텍스트 50만 토큰 이상인 한국어 텍스트 분류 모델 있어?
 
 조건 → 질의문 근거
 
 - `tasks=["text-classification"]` ← 텍스트 분류
 - `korean_required=true` ← 한국어
-- `min_context_length=524288` ← 524288 토큰 이상
-- `require_known_context=true` ← 으로 확인된
+- `min_context_length=500000` ← 50만 토큰 이상
 
-후보 **0개** · 유혹 후보 17개(수치완화 7 / 미공개허용 17)
+후보 **0개** · 유혹 후보 105개(조건완화 9 / 수치제거 105)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
@@ -164,50 +158,49 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 
 ### `ab08` ≤50M · feature-extraction · hard
 
-> 파라미터 50M 이하로 명시된 한국어 임베딩 모델을 찾고 있어.
+> 파라미터 50M 이하인 한국어 임베딩 모델을 찾고 있어.
 
 조건 → 질의문 근거
 
 - `tasks=["feature-extraction"]` ← 임베딩 → feature-extraction
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.05` ← 50M 이하 → 0.05B
-- `require_known_parameters=true` ← 로 명시된
 
-후보 **0개** · 유혹 후보 46개(수치완화 46 / 미공개허용 28)
+후보 **0개** · 유혹 후보 146개(조건완화 50 / 수치제거 146)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
 **② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
 
-### `ab09` ≤10M · sentence-similarity · hard
+### `ab09` ctx≥500,000 · core만 · sentence-similarity · hard
 
-> 파라미터 10M 이하로 공개된 한국어 문장 유사도 모델이 있나?
+> 장문의 판례·보고서를 통째로 비교하려고 해. 컨텍스트 50만 토큰 이상이고 많이 쓰이는 한국어 문장 유사도 모델이 있을까?
 
 조건 → 질의문 근거
 
 - `tasks=["sentence-similarity"]` ← 문장 유사도
 - `korean_required=true` ← 한국어
-- `max_parameters_billion=0.01` ← 10M 이하 → 0.01B
-- `require_known_parameters=true` ← 로 공개된
+- `pools=["core"]` ← 많이 쓰이는 → core (다운로드 500 이상)
+- `min_context_length=500000` ← 50만 토큰 이상
 
-후보 **0개** · 유혹 후보 31개(수치완화 11 / 미공개허용 31)
+후보 **0개** · 유혹 후보 71개(조건완화 1 / 수치제거 71)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
 **② 조건이 질의문을 넘지 않나** ☐ 예  ☐ 아니오 → 
 
-### `ab10` ≤10M · automatic-speech-recognition · hard
+### `ab10` ≤20M · core만 · automatic-speech-recognition · hard
 
-> 파라미터 10M 이하로 명시된 한국어 음성 인식 모델을 추천해줘.
+> 널리 쓰이는 한국어 음성 인식 모델 중, 파라미터 20M 이하인 게 있을까?
 
 조건 → 질의문 근거
 
 - `tasks=["automatic-speech-recognition"]` ← 음성 인식 → automatic-speech-recognition
 - `korean_required=true` ← 한국어
-- `max_parameters_billion=0.01` ← 10M 이하 → 0.01B
-- `require_known_parameters=true` ← 로 명시된
+- `pools=["core"]` ← 널리 쓰이는 → core (다운로드 500 이상)
+- `max_parameters_billion=0.02` ← 파라미터 20M 이하 → 0.02B
 
-후보 **0개** · 유혹 후보 148개(수치완화 7 / 미공개허용 148)
+후보 **0개** · 유혹 후보 136개(조건완화 4 / 수치제거 136)
 
 **① 물어볼 만한 질의인가** ☐ 예  ☐ 아니오 → 
 
@@ -216,12 +209,6 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py abstention
 ---
 
 ## 제가 불확실한 것
-
-**10M 이하 질의가 3개입니다** (`ab04`, `ab09`, `ab10`). 10M은 아주 작습니다 —
-비교하면 `whisper-tiny`가 39M, `MiniLM-L6`이 22M입니다. 그래서 "실제로
-물어볼 질문인가"가 의심스럽습니다. 과하다고 보시면 조건을 올리겠습니다.
-다만 숫자를 올리면 후보가 0이 아니게 되는 task가 있어서, 그때는 질의를
-다른 조합으로 바꿔야 합니다.
 
 **`ab06`은 `pools: ["core"]`를 씁니다.** "많이 쓰이는"을 다운로드 500 이상으로
 옮긴 것인데, 이 해석이 과한지 봐주세요. core/low 경계는 다운로드 500입니다.

@@ -32,20 +32,18 @@ SPECS = [
         "query_id": "sm01",
         # 처음엔 "법률이나 의료 같은 전문 분야"로 썼더니 사람이 볼 것이 35개가 됐다.
         # 도메인 셋을 묶으면 각 도메인의 후보가 다 올라온다. 하나로 좁혔다.
-        "query": "의료 분야에 쓸 한국어 LLM이 필요해. 많이 쓰이는 것 중에 파라미터 4B 이하로 공개된 모델로.",
+        "query": "의료 분야에 쓸 한국어 LLM이 필요해. 많이 쓰이는 것 중에 파라미터 4B 이하인 모델로.",
         "conditions": {
             "tasks": ["text-generation"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 4.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "LLM → text-generation",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core (다운로드 500 이상)",
             "max_parameters_billion": "4B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             # 'bio'·'health'는 "biology", "healthcare" 외에도 넓게 걸려 ⚠️를 키운다.
@@ -60,42 +58,39 @@ SPECS = [
     },
     {
         "query_id": "sm02",
-        "query": "실시간으로 받아쓰기를 해야 해서 스트리밍이 되는 한국어 음성 인식 모델을 찾고 있어. 파라미터 300M 이하로 공개된 것으로.",
+        "query": "실시간으로 받아쓰기를 해야 해. 스트리밍·저지연 처리를 지원하는 한국어 음성 인식 모델 중 파라미터 100M 이하인 것을 찾고 있어.",
         "conditions": {
             "tasks": ["automatic-speech-recognition"],
             "korean_required": True,
-            "max_parameters_billion": 0.3,
-            "require_known_parameters": True,
+            "max_parameters_billion": 0.1,
         },
         "fidelity": {
             "tasks": "음성 인식",
             "korean_required": "한국어",
-            "max_parameters_billion": "파라미터 300M 이하",
-            "require_known_parameters": "로 공개된",
+            "max_parameters_billion": "온디바이스에서 … 파라미터 100M 이하",
         },
         "rule": Rule(
-            must_any=["streaming", "realtime", "real-time", "실시간", "ctc", "online"],
+            must_any=["streaming", "realtime", "real-time", "실시간", "online", "low latency", "저지연"],
             grade_2_any=["streaming", "실시간", "low latency", "저지연"],
-            weak_any=["tiny", "wav2vec", "conformer"],
-            must_label="스트리밍·실시간 처리 가능성이 claim 또는 구조(CTC 등)에서 확인된다",
+            # CTC는 모델 구조이지 스트리밍 지원 자체의 증거는 아니다.
+            weak_any=[],
+            must_label="스트리밍·실시간 처리 지원이 claim에 명시돼 있다",
             grade_2_label="스트리밍·실시간 용도가 명시돼 있다",
-            grade_1_label="CTC 구조라 스트리밍이 가능하나 문서에 명시가 없다",
+            grade_1_label="실시간 처리 근거는 있으나 지연시간·지원 방식이 불명확하다",
         ),
     },
     {
         "query_id": "sm03",
-        "query": "한국어를 영어로 번역하는 경량 모델이 필요해. 파라미터 500M 이하로 공개된 것으로.",
+        "query": "한국어를 영어로 번역하는 경량 모델이 필요해. 파라미터 500M 이하인 것으로.",
         "conditions": {
             "tasks": ["translation"],
             "korean_required": True,
             "max_parameters_billion": 0.5,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "번역",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 500M 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["ko-en", "ko2en", "한영", "korean-english", "ko_en", "kor2eng"],
@@ -104,7 +99,6 @@ SPECS = [
             must_label="한국어→영어 방향이 model_id 또는 claim에서 확인된다",
             grade_2_label="ko→en 방향이 명시돼 있다",
             grade_1_label="다국어 모델로 ko·en을 모두 지원하나 방향 명시가 없다",
-            reject_any=["en-ko", "en2ko"],
         ),
     },
     {
@@ -154,24 +148,22 @@ SPECS = [
     },
     {
         "query_id": "sm06",
-        "query": "문서나 표를 읽어야 해서 OCR이 되는 한국어 이미지-텍스트 모델을 찾아줘. 파라미터 1B 이하로 공개된 것으로.",
+        "query": "문서나 표를 읽어야 해서 OCR이 되는 한국어 이미지-텍스트 모델을 찾아줘. 파라미터 1B 이하인 것으로.",
         "conditions": {
             "tasks": ["image-text-to-text"],
             "korean_required": True,
             "max_parameters_billion": 1.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "이미지-텍스트",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 1B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
-            must_any=["ocr", "document", "문서", "chart", "table", "표", "receipt"],
+            must_any=["ocr", "document", "문서", "receipt"],
             grade_2_any=["korean ocr", "한국어 ocr", "document understanding",
-                         "문서 이해", "chart"],
-            weak_any=["caption", "vqa", "grounding"],
+                         "문서 이해"],
+            weak_any=["chart", "table", "표", "caption", "vqa", "grounding"],
             must_label="문서·표·OCR 처리 용도가 claim 또는 model_id에서 확인된다",
             grade_2_label="한국어 문서·OCR 전용으로 학습된 것이 명시돼 있다",
             grade_1_label="다국어 VLM으로 문서 처리가 가능하나 한국어 특화 명시가 없다",
@@ -179,18 +171,16 @@ SPECS = [
     },
     {
         "query_id": "sm07",
-        "query": "RAG에 쓸 한국어 검색용 임베딩 모델이 필요해. 파라미터 100M 이하로 공개된 것으로.",
+        "query": "RAG에 쓸 한국어 검색용 임베딩 모델이 필요해. 파라미터 100M 이하인 것으로.",
         "conditions": {
             "tasks": ["feature-extraction"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "임베딩 → feature-extraction",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 100M 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["retriev", "rag", "passage", "검색", "search", "dpr"],
@@ -203,18 +193,16 @@ SPECS = [
     },
     {
         "query_id": "sm08",
-        "query": "두 문장이 얼마나 비슷한지 점수를 내는 한국어 모델이 필요해. 파라미터 100M 이하로 공개된 것으로.",
+        "query": "두 문장이 얼마나 비슷한지 점수를 내는 한국어 모델이 필요해. 파라미터 100M 이하인 것으로.",
         "conditions": {
             "tasks": ["sentence-similarity"],
             "korean_required": True,
             "max_parameters_billion": 0.1,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "문장 유사도",
             "korean_required": "한국어",
             "max_parameters_billion": "파라미터 100M 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["sts", "유사도", "simcse", "paraphrase", "similarity"],
@@ -227,20 +215,18 @@ SPECS = [
     },
     {
         "query_id": "sm09",
-        "query": "상품 리뷰의 감성을 분류하는 한국어 모델을 찾고 있어. 많이 쓰이는 것 중에 300M 이하로 공개된 것으로.",
+        "query": "상품 리뷰의 감성을 분류하는 한국어 모델을 찾고 있어. 많이 쓰이는 것 중에 300M 이하인 것으로.",
         "conditions": {
             "tasks": ["text-classification"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 0.3,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "분류 → text-classification",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core (다운로드 500 이상)",
             "max_parameters_billion": "300M 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
             must_any=["sentiment", "감성", "nsmc", "리뷰", "review", "emotion", "감정"],
@@ -253,16 +239,18 @@ SPECS = [
     },
     {
         "query_id": "sm10",
-        "query": "혐오 표현이나 욕설을 걸러내는 한국어 모델이 필요해. 많이 쓰이는 것으로.",
+        "query": "혐오 표현이나 욕설을 걸러내는 한국어 모델이 필요해. 많이 쓰이는 것 중 파라미터 300M 이하인 것으로.",
         "conditions": {
             "tasks": ["text-classification"],
             "korean_required": True,
             "pools": ["core"],
+            "max_parameters_billion": 0.3,
         },
         "fidelity": {
             "tasks": "분류 → text-classification",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core (다운로드 500 이상)",
+            "max_parameters_billion": "파라미터 300M 이하",
         },
         "rule": Rule(
             must_any=["hate", "혐오", "toxic", "욕설", "abusive", "offensive",

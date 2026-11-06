@@ -42,13 +42,11 @@ I2T_SMALL = {
     "tasks": ["image-text-to-text"],
     "korean_required": True,
     "max_parameters_billion": 1.0,
-    "require_known_parameters": True,
 }
 I2T_SMALL_FIDELITY = {
     "tasks": "이미지-텍스트",
     "korean_required": "한국어",
     "max_parameters_billion": "1B 이하",
-    "require_known_parameters": "로 공개된",
 }
 
 SPECS = [
@@ -162,25 +160,23 @@ SPECS = [
     },
     {
         "query_id": "ca08",
-        "query": "회의 녹음을 글로 받아 적어주는 한국어 모델을 찾고 있어. 1B 이하로 공개된 것 중 많이 쓰이는 것으로.",
+        "query": "긴 회의 녹음을 전사할 한국어 모델을 찾고 있어. 일반 음성 인식이 아니라 회의·장문 전사 용도가 명시된 모델 중에서, 많이 쓰이는 1B 이하 모델로.",
         "conditions": {
             "tasks": ["automatic-speech-recognition"],
             "korean_required": True,
             "pools": ["core"],
             "max_parameters_billion": 1.0,
-            "require_known_parameters": True,
         },
         "fidelity": {
             "tasks": "받아 적어주는 → automatic-speech-recognition",
             "korean_required": "한국어",
             "pools": "많이 쓰이는 → core",
             "max_parameters_billion": "1B 이하",
-            "require_known_parameters": "로 공개된",
         },
         "rule": Rule(
-            must_any=["회의", "meeting", "long-form", "longform", "자막", "subtitle"],
+            must_any=["회의", "meeting", "long-form", "longform", "meeting transcription"],
             grade_2_any=["회의", "meeting", "long-form"],
-            weak_any=["transcri", "받아쓰기"],
+            weak_any=[],
             must_label="회의·장문 음성 전사 용도가 확인된다",
             grade_2_label="회의·장문 전사 용도가 명시돼 있다",
             grade_1_label="일반 한국어 전사 모델로 회의에도 쓸 수 있으나 도메인 명시가 없다",
@@ -188,7 +184,7 @@ SPECS = [
     },
     {
         "query_id": "ca09",
-        "query": "사진 속 글자를 읽어서 한국어로 알려주는 모델이 필요해. 파라미터 1B 이하로 공개된 것으로.",
+        "query": "사진 속 글자를 읽어서 한국어로 알려주는 모델이 필요해. 파라미터 1B 이하인 것으로.",
         "conditions": I2T_SMALL,
         "fidelity": I2T_SMALL_FIDELITY,
         "rule": Rule(
@@ -202,7 +198,7 @@ SPECS = [
     },
     {
         "query_id": "ca10",
-        "query": "표나 그래프가 든 이미지를 읽고 설명해주는 한국어 모델 있어? 파라미터 1B 이하로 공개된 것으로.",
+        "query": "표나 그래프가 든 이미지를 읽고 설명해주는 한국어 모델 있어? 파라미터 1B 이하인 것으로.",
         "conditions": I2T_SMALL,
         "fidelity": I2T_SMALL_FIDELITY,
         "rule": Rule(

@@ -242,6 +242,11 @@ def main() -> None:
                                "reasons": reasons})
             stats["medium"] += 1
         else:
+            # 이전 실행에서 medium이었던 값도 이번 전수 검증을 통과하면 반드시
+            # high로 되돌린다. 이 대입이 없으면 과거 상태가 delta에 남아 보고서와
+            # 실제 적용 데이터의 confidence 수가 달라진다.
+            patch["confidence"] = "high"
+            patch.pop("validation_notes", None)
             stats["high"] += 1
 
     with OUT_PATH.open("w", encoding="utf-8") as handle:

@@ -25,7 +25,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | **1** | 조건은 충족하나 도메인이 넓거나 좁음 / 근거 미확인 / 변환본·재업로드 |
 | **0** | 기록하지 않음 — 라벨에 없으면 오답 |
 
-코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **169개**
+코퍼스 3872행 · 2026-10-31 기준 · 질의 10개 · 사람이 볼 것 **123개**
 
 ---
 
@@ -45,26 +45,18 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 요약 전용으로 학습·파인튜닝된 모델
 - **1점** 다국어 요약 모델이거나, 요약이 부가 기능인 범용 생성 모델
 
-후보 14개 전수 스캔 → 🚩 14 / ⚠️ 0 / ✅ 0
+후보 6개 전수 스캔 → 🚩 6 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
-| `QyrouNnet-AI/QNS-2-ReLearn-Preview` | 2점 | filter_metadata에서 summar, sum |  |
-| `ainize/kobart-news` | 2점 | filter_metadata에서 summar, sum |  |
-| `ncls-p/Qwen2.5-3B-blog-key-points` | 2점 | filter_metadata에서 summar, sum |  |
-| `ncls-p/Qwen2.5-7B-blog-key-points` | 2점 | filter_metadata에서 summar, sum |  |
-| `EbanLee/kobart-summary-v3` | 2점 | model_id에서 summar, sum |  |
-| `csebuetnlp/mT5_m2m_crossSum` | 2점 | model_id에서 crosssum, sum |  |
-| `csebuetnlp/mT5_m2m_crossSum_enhanced` | 2점 | model_id에서 crosssum, sum |  |
-| `csebuetnlp/mT5_m2o_english_crossSum` | 2점 | model_id에서 crosssum, sum |  |
-| `csebuetnlp/mT5_multilingual_XLSum` | 2점 | model_id에서 xlsum, sum |  |
-| `data-silence/any-news-sum` | 2점 | model_id에서 sum |  |
-| `eenzeenee/t5-base-korean-summarization` | 2점 | model_id에서 summar, sum |  |
-| `eenzeenee/t5-small-korean-summarization` | 2점 | model_id에서 summar, sum |  |
-| `mskayacioglu/mbart50-xlsum` | 2점 | model_id에서 xlsum, sum |  |
-| `psyche/KoT5-summarization` | 2점 | model_id에서 summar, sum |  |
+| `data-silence/any-news-sum` | 2점 | filter_metadata에서 summar |  |
+| `EbanLee/kobart-summary-v3` | 2점 | model_id에서 summar |  |
+| `eenzeenee/t5-base-korean-summarization` | 2점 | model_id에서 summar |  |
+| `eenzeenee/t5-small-korean-summarization` | 2점 | model_id에서 summar |  |
+| `mskayacioglu/mbart50-xlsum` | 2점 | model_id에서 xlsum |  |
+| `psyche/KoT5-summarization` | 2점 | model_id에서 summar |  |
 
 
 ### `sc02` ≤1.0B · question-answering · easy
@@ -83,7 +75,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** KorQuAD 등 한국어 QA 데이터로 학습된 전용 모델
 - **1점** 다국어 QA 모델이거나, QA가 부가 기능인 범용 인코더
 
-후보 17개 전수 스캔 → 🚩 17 / ⚠️ 0 / ✅ 0
+후보 8개 전수 스캔 → 🚩 8 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -92,17 +84,8 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | `monologg/koelectra-base-v3-finetuned-korquad` | 2점 | model_id에서 korquad |  |
 | `monologg/koelectra-small-v2-distilled-korquad-384` | 2점 | model_id에서 korquad |  |
 | `FreedomIntelligence/Apollo-MoE-0.5B` | 1점 | filter_metadata에서 question |  |
-| `QuantFactory/Apollo2-2B-GGUF` | 1점 | filter_metadata에서 question |  |
-| `QuantFactory/Apollo2-7B-GGUF` | 1점 | filter_metadata에서 question |  |
-| `QuantFactory/Apollo2-9B-GGUF` | 1점 | filter_metadata에서 question |  |
-| `cgus/Apollo2-7B-iMat-GGUF` | 1점 | filter_metadata에서 question |  |
-| `mradermacher/IoGPT-A1-Instruct-GGUF` | 1점 | filter_metadata에서 question |  |
-| `mradermacher/IoGPT-A1-Instruct-i1-GGUF` | 1점 | filter_metadata에서 question |  |
-| `mradermacher/Korean-Gemma-2B-Instruct-GGUF` | 1점 | filter_metadata에서 question |  |
 | `mradermacher/Prototype-Virus-1B-GGUF` | 1점 | filter_metadata에서 question |  |
 | `mradermacher/Prototype-Virus-1B-i1-GGUF` | 1점 | filter_metadata에서 question |  |
-| `mradermacher/next-12b-GGUF` | 1점 | filter_metadata에서 question |  |
-| `mradermacher/next-12b-i1-GGUF` | 1점 | filter_metadata에서 question |  |
 | `mradermacher/next-1b-GGUF` | 1점 | filter_metadata에서 question |  |
 | `bespin-global/klue-bert-base-aihub-mrc` | 1점 | model_id에서 mrc |  |
 | `timpal0l/mdeberta-v3-base-squad2` | 1점 | model_id에서 squad |  |
@@ -124,38 +107,25 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 텍스트 분류 전용으로 학습된 모델
 - **1점** 다국어 분류 모델이거나, 분류 헤드가 붙은 범용 인코더
 
-후보 29개 전수 스캔 → 🚩 29 / ⚠️ 0 / ✅ 0
+후보 16개 전수 스캔 → 🚩 16 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
-| `HPLT/OpenLID-v3` | 2점 | filter_metadata에서 classif |  |
 | `Metabaron6/Shieldstral-1.0-3B-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `NorviTech/armiger` | 2점 | filter_metadata에서 classif |  |
-| `NorviTech/armiger-ultra` | 2점 | filter_metadata에서 classif |  |
 | `astroware/HaloGuard1-Gen-0.8B` | 2점 | filter_metadata에서 classif |  |
 | `astroware/HaloGuard1-Gen-4B` | 2점 | filter_metadata에서 classif |  |
-| `banjl4487/MODEL` | 2점 | filter_metadata에서 classif |  |
 | `chaoliangUNSW/Jev-Style-0.8B-Decision-v3` | 2점 | filter_metadata에서 classif |  |
 | `chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `cis-lmu/glotlid` | 2점 | filter_metadata에서 classif |  |
-| `desert-ant-labs/emo` | 2점 | filter_metadata에서 classif |  |
-| `doofz/THX-01` | 2점 | filter_metadata에서 classif |  |
-| `knowledgator/opir-multitask-multilang-v1.0` | 2점 | filter_metadata에서 classif |  |
-| `letrthang/aimtas-laya-multilingual-GGUF` | 2점 | filter_metadata에서 classif |  |
 | `llm-semantic-router/mmbert32k-modality-router-merged` | 2점 | filter_metadata에서 classif |  |
-| `musubilabs/policylm-1.7b` | 2점 | filter_metadata에서 classif |  |
 | `quevirus/Xevn-4B-GGUF` | 2점 | filter_metadata에서 classif |  |
 | `shreyasmeher/Qwen-GLOCON-Reasoning` | 2점 | filter_metadata에서 classif |  |
 | `sky7350/Mica-v0.1-4B` | 2점 | filter_metadata에서 classif |  |
 | `sky7350/Mica-v0.5-4B` | 2점 | filter_metadata에서 classif |  |
-| `vijil/prompt-injection-v5-20260827` | 2점 | filter_metadata에서 classif |  |
 | `vllm-sr/Vela-1.0-Encoder-307M-Shield` | 2점 | filter_metadata에서 classif |  |
 | `vllm-sr/mmbert32k-modality-router-merged` | 2점 | filter_metadata에서 classif |  |
 | `ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF` | 2점 | model_id에서 intent |  |
-| `gpustack/bce-reranker-base_v1-GGUF` | 2점 | model_id에서 rerank |  |
-| `gpustack/gte-multilingual-reranker-base-GGUF` | 2점 | model_id에서 rerank |  |
 | `llm-semantic-router/mmbert-rerank-32k-2d-matryoshka` | 2점 | model_id에서 rerank |  |
 | `mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf` | 2점 | model_id에서 classif |  |
 | `vllm-sr/mmbert-rerank-32k-2d-matryoshka` | 2점 | model_id에서 rerank |  |
@@ -177,35 +147,21 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 텍스트 분류 전용으로 학습된 모델
 - **1점** 다국어 분류 모델이거나, 분류 헤드가 붙은 범용 인코더
 
-후보 24개 전수 스캔 → 🚩 24 / ⚠️ 0 / ✅ 0
+후보 10개 전수 스캔 → 🚩 10 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
-| `HPLT/OpenLID-v3` | 2점 | filter_metadata에서 classif |  |
 | `Metabaron6/Shieldstral-1.0-3B-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `NorviTech/armiger` | 2점 | filter_metadata에서 classif |  |
-| `NorviTech/armiger-ultra` | 2점 | filter_metadata에서 classif |  |
-| `banjl4487/MODEL` | 2점 | filter_metadata에서 classif |  |
 | `chaoliangUNSW/Jev-Style-0.8B-Decision-v3` | 2점 | filter_metadata에서 classif |  |
 | `chaoliangUNSW/Jev-Style-0.8B-Decision-v3-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `cis-lmu/glotlid` | 2점 | filter_metadata에서 classif |  |
-| `desert-ant-labs/emo` | 2점 | filter_metadata에서 classif |  |
-| `doofz/THX-01` | 2점 | filter_metadata에서 classif |  |
-| `knowledgator/opir-multitask-multilang-v1.0` | 2점 | filter_metadata에서 classif |  |
-| `letrthang/aimtas-laya-multilingual-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `musubilabs/policylm-1.7b` | 2점 | filter_metadata에서 classif |  |
 | `quevirus/Xevn-4B-GGUF` | 2점 | filter_metadata에서 classif |  |
-| `shreyasmeher/Qwen-GLOCON-Reasoning` | 2점 | filter_metadata에서 classif |  |
 | `sky7350/Mica-v0.1-4B` | 2점 | filter_metadata에서 classif |  |
 | `sky7350/Mica-v0.5-4B` | 2점 | filter_metadata에서 classif |  |
-| `vijil/prompt-injection-v5-20260827` | 2점 | filter_metadata에서 classif |  |
 | `astroware/HaloGuard1-Gen-0.8B` | 2점 | model_id에서 guard |  |
 | `astroware/HaloGuard1-Gen-4B` | 2점 | model_id에서 guard |  |
 | `ethicalabs/Echo-DSRN-v0.1.3-Intent-CLF` | 2점 | model_id에서 intent |  |
-| `gpustack/bce-reranker-base_v1-GGUF` | 2점 | model_id에서 rerank |  |
-| `gpustack/gte-multilingual-reranker-base-GGUF` | 2점 | model_id에서 rerank |  |
 | `mp-juuuns/qwen35-c8q-distilled-8l-edge-classifier-gguf` | 2점 | model_id에서 classif |  |
 
 
@@ -226,14 +182,13 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 문장 임베딩 전용으로 학습된 모델
 - **1점** 다국어 임베딩 모델이거나, 임베딩이 부가 용도인 범용 인코더
 
-후보 28개 전수 스캔 → 🚩 28 / ⚠️ 0 / ✅ 0
+후보 19개 전수 스캔 → 🚩 19 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
 | `Alibaba-NLP/gte-multilingual-base` | 2점 | filter_metadata에서 sentence, similar |  |
-| `ChristianAzinn/labse-gguf` | 2점 | filter_metadata에서 sentence, similar |  |
 | `LiquidAI/LFM2-ColBERT-350M` | 2점 | filter_metadata에서 sentence, similar |  |
 | `LiquidAI/LFM2.5-ColBERT-350M` | 2점 | filter_metadata에서 sentence, similar |  |
 | `LiquidAI/LFM2.5-ColBERT-350M-GGUF` | 2점 | filter_metadata에서 sentence, similar |  |
@@ -243,35 +198,26 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | `BidirLM/BidirLM-0.6B-Embedding` | 2점 | model_id에서 embed |  |
 | `BidirLM/BidirLM-1B-Embedding` | 2점 | model_id에서 embed |  |
 | `BidirLM/BidirLM-Omni-2.5B-Embedding` | 2점 | model_id에서 embed |  |
-| `Casual-Autopsy/snowflake-arctic-embed-l-v2.0-gguf` | 2점 | model_id에서 embed |  |
 | `LiquidAI/LFM2.5-Embedding-350M` | 2점 | model_id에서 embed |  |
 | `LiquidAI/LFM2.5-Embedding-350M-GGUF` | 2점 | model_id에서 embed |  |
 | `PeterAM4/Qwen3-Embedding-0.6B-GGUF` | 2점 | model_id에서 embed |  |
 | `Snowflake/snowflake-arctic-embed-m-v2.0` | 2점 | model_id에서 embed |  |
 | `batiai/Qwen3-VL-Embedding-8B-GGUF` | 2점 | model_id에서 embed |  |
-| `dinab/multilingual-e5-base-Q4_K_M-GGUF` | 2점 | model_id에서 e5 |  |
-| `ggml-org/Nomic-Embed-Text-V2-GGUF` | 2점 | model_id에서 embed |  |
-| `groonga/multilingual-e5-base-Q4_K_M-GGUF` | 2점 | model_id에서 e5 |  |
-| `litert-community/LFM2.5-Embedding-350M` | 2점 | model_id에서 embed |  |
-| `nomic-ai/nomic-embed-text-v2-moe-GGUF` | 2점 | model_id에서 embed |  |
 | `nvidia/Nemotron-3-Embed-1B-BF16` | 2점 | model_id에서 embed |  |
 | `nvidia/Nemotron-3-Embed-1B-NVFP4` | 2점 | model_id에서 embed |  |
 | `nvidia/Nemotron-3-Embed-8B-BF16` | 2점 | model_id에서 embed |  |
 | `shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4` | 2점 | model_id에서 embed |  |
-| `zenmagnets/Nemotron-3-Embed-1B-Q4_K_M-GGUF` | 2점 | model_id에서 embed |  |
-| `zhiqian99/Qwen3-Embedding-0.6B-GGUF` | 2점 | model_id에서 embed |  |
 
 
-### `sc06` ≤100M · 값공개 · automatic-speech-recognition · easy
+### `sc06` ≤100M · automatic-speech-recognition · easy
 
-> 파라미터 수가 명시된 것 중에 100M 이하인 한국어 음성 인식 모델을 찾고 있어.
+> 파라미터 100M 이하인 한국어 음성 인식 모델을 찾고 있어.
 
 조건 → 질의문 근거
 
 - `tasks=["automatic-speech-recognition"]` ← 음성 인식
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.1` ← 100M 이하
-- `require_known_parameters=true` ← 파라미터 수가 명시된 것
 
 판정 규칙 (판정 전에 고정)
 
@@ -279,18 +225,22 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 음성 데이터로 학습·파인튜닝된 전용 모델
 - **1점** 다국어 ASR 모델이거나 한국어가 포함된 범용 음성 모델
 
-후보 15개 전수 스캔 → 🚩 15 / ⚠️ 0 / ✅ 0
+후보 19개 전수 스캔 → 🚩 19 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
 | `Bingsu/distilhubert-ko-zeroth` | 2점 | filter_metadata에서 speech |  |
+| `handy-computer/moonshine-base-ko-gguf` | 2점 | filter_metadata에서 speech |  |
+| `handy-computer/moonshine-tiny-ko-gguf` | 2점 | filter_metadata에서 speech |  |
 | `moonshine-ai/moonshine-base-ko` | 2점 | filter_metadata에서 speech |  |
 | `moonshine-ai/moonshine-tiny-ko` | 2점 | filter_metadata에서 speech |  |
 | `team-lucid/hubert-base-korean` | 2점 | filter_metadata에서 speech |  |
 | `Kkonjeong/wav2vec2-base-korean` | 2점 | model_id에서 wav2vec |  |
 | `RedHatAI/whisper-tiny` | 2점 | model_id에서 whisper |  |
+| `handy-computer/whisper-base-gguf` | 2점 | model_id에서 whisper |  |
+| `handy-computer/whisper-tiny-gguf` | 2점 | model_id에서 whisper |  |
 | `mlx-community/whisper-base-asr-fp16` | 2점 | model_id에서 asr, whisper |  |
 | `mlx-community/whisper-tiny-asr-fp16` | 2점 | model_id에서 asr, whisper |  |
 | `mobilint/whisper-medium` | 2점 | model_id에서 whisper |  |
@@ -302,16 +252,15 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | `unsloth/whisper-tiny` | 2점 | model_id에서 whisper |  |
 
 
-### `sc07` ≤1.0B · 값공개 · image-text-to-text · easy
+### `sc07` ≤1.0B · image-text-to-text · easy
 
-> 파라미터 1B 이하로 공개된 한국어 이미지-텍스트 모델을 추천해줘.
+> 파라미터 1B 이하인 한국어 이미지-텍스트 모델을 추천해줘.
 
 조건 → 질의문 근거
 
 - `tasks=["image-text-to-text"]` ← 이미지-텍스트
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=1.0` ← 파라미터 1B 이하
-- `require_known_parameters=true` ← 로 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -319,13 +268,13 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 이미지-텍스트 전용으로 학습된 모델
 - **1점** 다국어 VLM으로 한국어를 포함하거나, 변환본·양자화본
 
-후보 12개 전수 스캔 → 🚩 12 / ⚠️ 0 / ✅ 0
+후보 13개 전수 스캔 → 🚩 13 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
-| `Mattimax/DAC6.5` | 2점 | filter_metadata에서 vl, image |  |
+| `Mattimax/DAC6.5` | 2점 | filter_metadata에서 image |  |
 | `LiquidAI/LFM2.5-VL-450M` | 2점 | model_id에서 vl |  |
 | `LiquidAI/LFM2.5-VL-450M-MLX-4bit` | 2점 | model_id에서 vl |  |
 | `LiquidAI/LFM2.5-VL-450M-MLX-5bit` | 2점 | model_id에서 vl |  |
@@ -333,22 +282,22 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | `LiquidAI/LFM2.5-VL-450M-MLX-8bit` | 2점 | model_id에서 vl |  |
 | `LiquidAI/LFM2.5-VL-450M-MLX-bf16` | 2점 | model_id에서 vl |  |
 | `coder3101/LFM2.5-VL-450M-heretic` | 2점 | model_id에서 vl |  |
+| `cstr/internvl2-1b-crispembed-GGUF` | 2점 | model_id에서 vl |  |
 | `localdeel/ko-hand-ocr-vl` | 2점 | model_id에서 vl, ocr |  |
 | `mlx-community/LFM2.5-VL-450M-6bit` | 2점 | model_id에서 vl |  |
 | `mlx-community/LFM2.5-VL-450M-8bit` | 2점 | model_id에서 vl |  |
 | `saidutta69/LFM2.5-VL-450M-heretic` | 2점 | model_id에서 vl |  |
 
 
-### `sc08` ≤100M · 값공개 · feature-extraction · easy
+### `sc08` ≤100M · feature-extraction · easy
 
-> 파라미터 수가 공개된 100M 이하 한국어 임베딩 모델이 필요해.
+> 파라미터 100M 이하인 한국어 임베딩 모델이 필요해.
 
 조건 → 질의문 근거
 
 - `tasks=["feature-extraction"]` ← 임베딩 → feature-extraction
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.1` ← 100M 이하
-- `require_known_parameters=true` ← 파라미터 수가 공개된
 
 판정 규칙 (판정 전에 고정)
 
@@ -356,7 +305,7 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 - **2점** 한국어 임베딩 전용으로 학습된 모델
 - **1점** 다국어 임베딩 모델이거나, 임베딩이 부가 용도인 범용 인코더
 
-후보 13개 전수 스캔 → 🚩 13 / ⚠️ 0 / ✅ 0
+후보 15개 전수 스캔 → 🚩 15 / ⚠️ 0 / ✅ 0
 
 #### 🚩 정답 맞나 — 제안 등급을 확인해 주세요
 
@@ -374,19 +323,20 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 | `utter-project/mHuBERT-147-base-2nd-iter` | 2점 | filter_metadata에서 feature |  |
 | `CISCai/jina-embeddings-v3-separation-distilled` | 2점 | model_id에서 embed |  |
 | `ibm-granite/granite-embedding-97m-multilingual-r2` | 2점 | model_id에서 embed |  |
+| `mykor/granite-embedding-97m-multilingual-r2-GGUF` | 2점 | model_id에서 embed |  |
 | `onnx-community/granite-embedding-97m-multilingual-r2-ONNX` | 2점 | model_id에서 embed |  |
+| `xnohat/granite-embedding-97m-multilingual-r2-GGUF` | 2점 | model_id에서 embed |  |
 
 
-### `sc09` ≤100M · 값공개 · sentence-similarity · easy
+### `sc09` ≤100M · sentence-similarity · easy
 
-> 파라미터 100M 이하로 명시된 한국어 문장 유사도 모델을 찾아줘.
+> 파라미터 100M 이하인 한국어 문장 유사도 모델을 찾아줘.
 
 조건 → 질의문 근거
 
 - `tasks=["sentence-similarity"]` ← 문장 유사도
 - `korean_required=true` ← 한국어
 - `max_parameters_billion=0.1` ← 파라미터 100M 이하
-- `require_known_parameters=true` ← 로 명시된
 
 판정 규칙 (판정 전에 고정)
 
@@ -438,8 +388,8 @@ cd ai && ../.venv/bin/python test/golden/v2/tools/verify.py structured_constrain
 
 | 모델 | 제안 | 근거 | 확정 |
 |---|:--:|---|:--:|
-| `EbanLee/kobart-summary-v3` | 2점 | model_id에서 summar, sum |  |
-| `csebuetnlp/mT5_multilingual_XLSum` | 2점 | model_id에서 xlsum, sum |  |
-| `eenzeenee/t5-base-korean-summarization` | 2점 | model_id에서 summar, sum |  |
+| `EbanLee/kobart-summary-v3` | 2점 | model_id에서 summar |  |
+| `csebuetnlp/mT5_multilingual_XLSum` | 2점 | model_id에서 xlsum |  |
+| `eenzeenee/t5-base-korean-summarization` | 2점 | model_id에서 summar |  |
 
 

@@ -24,6 +24,8 @@
 
 GitHub Actions를 멈춘 시점의 Supabase `model_scout_models` **active 3,872행**이
 확정 후보 집합이다. 더 이상 변하지 않으므로 판정 중에 기준이 흔들리지 않는다.
+그 위에 `ai/backfill`이 검증한 Stage 2/4 기술 메타데이터만 덧씌운다. Stage 3의
+의미 요약·README 근거는 동결 Supabase 스냅샷 원문을 그대로 유지한다.
 
 ```bash
 python test/golden/v2/tools/dump_corpus.py          # 떠오기
@@ -36,18 +38,18 @@ python test/golden/v2/tools/dump_corpus.py --check   # 검증
 
 ### 세 숫자가 어긋나 있다
 
-| 출처 | 행 수 | 갱신 주체 |
+| 출처 | 행 수 | v2에서의 역할 |
 |---|---:|---|
-Supabase active | **3,872** | Actions (중단됨) — **확정 기준** |
-`ai/data/hf_models_stage4_*.jsonl` | 3,853 | 수동 커밋만 |
-`ai/data/retrieval_lab/bge_m3_*` | 3,606 | 수동 생성만 |
+동결 Supabase active | **3,872** | Actions 중단 시점의 **확정 후보 집합** |
+`ai/backfill/out/stage2_*.jsonl` | **3,872** | 고신뢰 파라미터·컨텍스트·구조 보완본 |
+`v2/index/bge_m3_*` | **3,872** | 위 보완 Stage 4 기준의 전용 로컬 검색 인덱스 |
+기존 `ai/data/hf_models_stage4_*.jsonl` | 3,853 | 과거 로컬 실험 데이터 — v2 판정에 사용하지 않음 |
+기존 `ai/data/retrieval_lab/bge_m3_*` | 3,606 | 과거 로컬 실험 인덱스 — v2 판정에 사용하지 않음 |
 
-`retrieval_lab.corpus`는 stage4 jsonl을 읽으므로 그대로 쓰면 19행이 빠진다.
-그래서 v2는 `tools/corpus_v2.py`로 스냅샷을 읽는다. 하드 필터는
-`05_validate_retrieval.hard_filter`를 그대로 재사용한다 — 판정 기준이 운영 검색의
-후보 결정 로직과 달라지면 안 되기 때문이다.
-
-공유 파일은 건드리지 않는다. 골든셋이 완성되고 재측정할 때 팀과 합의해 맞춘다.
+그래서 v2는 `tools/corpus_v2.py`로 스냅샷을 읽고 `tools/adopt_backfill.py`로
+보완본을 적용한다. 하드 필터는 `05_validate_retrieval.hard_filter`를 재사용한다.
+수치 조건에서 누락 값을 처리하는 방식까지 운영 Supabase SQL과 같아야 판정 기준과
+실제 검색의 후보 집합이 일치한다.
 
 ## 골든셋 생성 원칙
 
@@ -63,29 +65,24 @@ Supabase active | **3,872** | Actions (중단됨) — **확정 기준** |
 각 질의의 `conditions_fidelity`에 키마다 근거가 되는 질의문의 말을 적는다. 근거를
 못 적는 조건은 빼야 한다. 사람이 검증할 때 이 표만 보면 1층이 뚫렸는지 알 수 있다.
 
-#### ⚠️ `require_known_*` 는 후보를 줄이는 용도로 쓰지 않는다
+#### 수치 조건에는 값이 있어야 한다
 
-`numeric_ok`는 값이 없으면 `not required`를 돌려준다. 코퍼스의 파라미터 **39.4%**,
-컨텍스트 **37.7%** 가 미공개이므로, 이 플래그를 켜면 조건을 만족할 수도 있는 모델이
-통째로 탈락한다.
+운영 Supabase SQL은 `≤3B`, `≥32K` 같은 수치 상·하한이 주어지면 값이 없는 모델을
+자동으로 제외한다. `NULL <= 3` 또는 `NULL >= 32768`은 참이 아니므로 검색 후보가
+될 수 없기 때문이다. 로컬 필터도 같은 규칙을 쓴다.
 
-| 질의 | known=False | known=True | 숨은 탈락 |
-|---|---:|---:|---:|
-translation ≤1.0B | 180 | 20 | **160** |
-automatic-speech-recognition ≤1.0B | 211 | 63 | **148** |
-image-text-to-text ≤0.3B | 227 | 0 | **227** |
-text-generation ≤1.0B | 1,082 | 180 | **902** |
+이것은 사용자가 "공개된 모델만"이라고 말했기 때문이 아니라, 값이 없으면 해당
+수치 요구를 만족한다고 **검증할 수 없기 때문**이다. 따라서 v2 질의에는
+`require_known_*`나 "공개된/확인된 것만" 같은 숨은 조건을 넣지 않는다.
 
-기본값은 `False`다. 질의가 "파라미터 수가 명시된"처럼 공개를 요구할 때만 켠다.
-그때는 미공개 모델 탈락이 질의의 요구사항이므로 정당하다.
-
-> 참고: `planner_config.json`의 `structured_constraint`에 `hard_filter_defaults`로
-> `require_known_parameters/context: true`가 들어 있다. 그 유형의 **모든** 질의에
-> 적용되므로, 공개를 요구하지 않은 질의에서도 후보가 잘린다. 팀과 논의할 사안이다.
+백필 뒤 수치 커버리지는 파라미터 **약 85.5%**, 컨텍스트 **약 92.1%**다. GGUF의
+MoE·비전 인코더처럼 전체 파라미터인지 확신할 수 없는 **312개** 값은 중간 신뢰도로
+격리해 수치 필터와 임베딩에 쓰지 않는다. 즉 정확도를 위해 남은 미기재 모델은
+계속 데이터 보완 대상이다.
 
 ### 2층 — 규칙 스캔: 사람의 읽을 양 줄이기
 
-`eligible` 전수를 5단계로 스캔한다. **확실하지 않으므로 느슨하게** 한다. 조금이라도
+`eligible` 전수를 6단계로 스캔한다. **확실하지 않으므로 느슨하게** 한다. 조금이라도
 걸리면 사람에게 올린다.
 
 | 단계 | 보는 곳 | 난이도 기여 |
@@ -95,6 +92,7 @@ text-generation ≤1.0B | 1,082 | 180 | **902** |
 ③ | `semantic_metadata` — summary, use_cases, documented_strengths | **어려움** |
 ④ | `benchmark_metadata.results` | 중간 |
 ⑤ | `evidence_spans.parents` — README 원문 span. 최후 근거 | **어려움** |
+⑥ | 출처·variant가 불명확한 benchmark 결과 — 자동 정답으로 쓰지 않고 사람 검수 | **어려움** |
 
 결과를 세 더미로 낸다.
 
@@ -106,6 +104,18 @@ text-generation ≤1.0B | 1,082 | 180 | **902** |
 
 **⚠️ 더미가 재현율 방어선이다.** 빠진 정답은 당연히 "걸러낸 쪽"에 숨어 있으므로,
 플래그만 보면 영원히 못 찾는다.
+
+#### model_comparison은 계열별로 따로 검증한다
+
+`KoBART vs KoT5`처럼 이름을 직접 비교하는 질의는, 관련 단어가 README에 등장했다고
+정답이 되면 안 된다. 예를 들어 MILCO 카드가 "BGE-M3보다 좋다"고 써도 MILCO는
+BGE-M3 계열이 아니다.
+
+그래서 이 유형만은 `model_id`와 `canonical_model_id`에서 확인되는 계열만 자동 후보로
+쓴다. 그리고 비교 대상 **각 계열에 후보가 하나 이상 있는지** 생성·검증 단계에서
+강제한다. 사람이 최종 라벨을 확정할 때도 양쪽 계열이 각각 하나 이상 남아야 한다.
+GGUF·ONNX·CT2·양자화·파인튜닝 표지가 있는 변환본은 자동 2점이 아니라 1점 후보로
+내려, 사람이 원본과의 관계를 확인한다.
 
 ### 3층 — 사람 확정
 
@@ -123,12 +133,15 @@ eligible  ←  하드 필터가 읽는 것 (task · 파라미터 · 컨텍스트
 
 | | 쉬움 | 어려움 |
 |---|---|---|
-정의 | ①~② 단계에서 판정됨 | ③ 또는 ⑤ 단계까지 가야 판정됨 |
+정의 | ①~② 단계에서 판정됨 | ③·⑤·⑥ 단계까지 가야 판정됨 |
 예 | "3B 이하 한국어 요약 모델" | "3B 이하, 회의록에서 할 일 뽑는 모델" |
 eligible | 14 | **14 (동일)** |
 
-목표는 유형당 쉬움 5 / 어려움 5. `semantic_capability`는 정답 범위가 넓어지기 쉬워
-7 : 3을 권한다.
+처음 설계할 때는 유형당 쉬움/어려움이 비슷하도록 시도한다. 다만 **쿼터를 맞추려고
+부자연스러운 조건을 넣지는 않는다.** benchmark_lookup은 README의 수치 근거를
+확인해야 하므로 대체로 hard이고, structured_constraint는 구조화 조건만으로
+판정되는 비율이 높아 대체로 easy인 것이 정상이다. 실제 난이도 분포는 매 생성 때
+워크시트에 기록한다.
 
 ### abstention은 난이도 정의가 다르다
 
@@ -136,12 +149,13 @@ eligible | 14 | **14 (동일)** |
 **조건을 만족하지 않는 비슷한 모델을 끌어다 답하는 것** — 의 여지로 정한다.
 
 ```
-유혹 후보 = max(수치 완화 시 후보 수, require_known_* 제거 시 후보 수)
+유혹 후보 = max(조건 완화 시 후보 수, 수치 조건 제거 시 후보 수)
 난이도    = 유혹 후보 ≥ top_k(30) 이면 hard
 ```
 
 두 경로를 다 재야 한다. `image-text-to-text ≤0.1B`는 수치를 0.3B로 완화해도 0이지만
-미공개를 허용하면 227개가 나온다. 검색이 끌어올 유혹은 거기서 생긴다.
+수치 제한을 제거하면 task·언어만 맞는 모델이 대량으로 남는다. 검색이 조건을
+놓쳤을 때 끌어올 유혹은 거기서 생긴다.
 
 ## 라벨 등급
 
@@ -186,6 +200,7 @@ v2/
 ├── reports/                      후보 수 지도, 탐색 결과
 └── tools/
     ├── dump_corpus.py            Supabase → 스냅샷
+    ├── adopt_backfill.py          백필 Stage 2/4 → v2 스냅샷·인덱스 반영
     ├── corpus_v2.py              스냅샷 로더 + 하드 필터
     ├── candidate_map.py          조건별 후보 수 지도
     ├── build_index.py            v2 전용 BGE 인덱스
@@ -198,9 +213,9 @@ v2/
 
 | 유형 | 상태 |
 |---|---|
-`abstention` | 질의 10개 작성, `eligible == 0` 실측 완료 — 사람 확인 대기 |
+`abstention` | 사람 검수 완료 — 10개 모두 `eligible == 0` 재검증 완료 |
 `structured_constraint` | |
-`model_comparison` | |
+`model_comparison` | 계열별 후보·완결성 검증 완료 — 사람 2점/1점 검수 대기 |
 `benchmark_lookup` | |
 `lexical_exact` | |
 `semantic_capability` | |
