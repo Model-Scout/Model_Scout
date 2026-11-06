@@ -40,7 +40,8 @@ MODEL_IDS_PATH = DATA_DIR / ".incremental_model_ids.json"
 BENCHMARK_CHANGED_IDS_PATH = DATA_DIR / ".benchmark_changed_model_ids.json"
 BENCHMARK_STATE_PATH = DATA_DIR / "hf_models_benchmark_state.json"
 BENCHMARK_STATE_CANDIDATE_PATH = DATA_DIR / ".hf_models_benchmark_state_candidate.json"
-EXPECTED_VERSIONS = {"stage1": 7, "stage2": 6, "stage3": 1, "stage4": 1}
+# stage2 7: 데이터 계약 필드(ai/contract/)가 들어온 버전.
+EXPECTED_VERSIONS = {"stage1": 7, "stage2": 7, "stage3": 1, "stage4": 1}
 DEFAULT_TTL_HOURS = 24
 DEFAULT_BATCH_SIZE = 100
 API_MAX_RETRIES = 3
@@ -132,6 +133,13 @@ def load_corpora(
             stage4.extend(read_jsonl(stage4_path))
         for row in read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl"):
             stage2[row["model_id"]] = row
+        # 계약 레코드는 Stage 2가 별도 파일에 쓴다(한 건 약 9KB). 여기서 다시
+        # 붙여 technical_metadata와 source_provenance로 보낸다. 파일이 없으면
+        # 계약 필드 없이 돈다 — 구 데이터로 적재를 다시 할 때 멈추지 않게 한다.
+        for record in read_jsonl(DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"):
+            row = stage2.get(record.get("model_id"))
+            if row is not None:
+                row["contract"] = record
         for row in read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl"):
             stage3[row["model_id"]] = row
     return stage4, stage2, stage3
@@ -382,6 +390,9 @@ def provenance(
         "stage2": stage2.get("stage") or {},
         "stage3": stage3.get("stage3") or {},
         "validation": stage3.get("validation") or {},
+        # 데이터 계약의 출처 기록. 필드마다 "어떻게 알게 됐는지"가 여기 있다.
+        # conflicts와 review_queue가 사람이 봐야 하는 목록이다.
+        "contract": (stage2.get("contract") or {}).get("provenance") or {},
     }
 
 
@@ -397,16 +408,24 @@ def payloads(
         model_id = row["model_id"]
         source2 = stage2[model_id]
         source3 = stage3[model_id]
+        contract = source2.get("contract") or {}
         technical = {
             "model": source2.get("model") or {},
             "quantization": source2.get("quantization") or {},
-        "artifacts": source2.get("artifacts") or {},
-        "hardware": source2.get("hardware") or {},
-        "runtime_compatibility": source2.get("runtime_compatibility") or {},
-        "license": source2.get("license"),
+            "artifacts": source2.get("artifacts") or {},
+            "hardware": source2.get("hardware") or {},
+            "runtime_compatibility": source2.get("runtime_compatibility") or {},
+            "license": source2.get("license"),
             "base_models": source2.get("base_models") or [],
             "datasets": source2.get("datasets") or [],
             "metrics": source2.get("metrics") or [],
+            # 계약의 상세. filter_metadata에는 필터용 스칼라만 올라가므로
+            # 포맷별 용량·양자화 목록·배포 대상 등급·라이선스 원문 위치는 여기 있다.
+            "contract": {
+                key: contract.get(key)
+                for key in ("identity", "legal", "artifacts", "deployment", "technical")
+                if contract.get(key) is not None
+            },
         }
         rows.append(
             (
