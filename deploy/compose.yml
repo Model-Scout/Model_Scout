@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     env_file: .env.ai
     environment:
-      ENABLE_DOCS: "0"
+      ENABLE_DOCS: "1"  # Caddy puts the whole AI site behind the team login
     volumes:
       - ./data:/app/ai/data:ro
     mem_limit: 1200m
@@ -24,7 +24,7 @@ services:
     environment:
       AI_URL: http://ai:8000
       CORS_ORIGINS: ${CORS_ORIGINS:-*}
-      ENABLE_DOCS: "0"
+      ENABLE_DOCS: "1"  # Caddy puts /docs and /openapi.json behind the team login
       RATE_LIMIT_PER_MINUTE: "10"
       DAILY_REQUEST_LIMIT: "300"
     volumes:
@@ -43,11 +43,13 @@ services:
     depends_on: [backend]
     environment:
       API_DOMAIN: ${API_DOMAIN:-49-247-194-63.sslip.io}
+      AI_DOMAIN: ${AI_DOMAIN:-ai.49-247-194-63.sslip.io}
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./docs_users:/etc/caddy/docs_users:ro
       - caddy_data:/data
 
 volumes:

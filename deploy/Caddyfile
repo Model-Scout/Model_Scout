@@ -1,6 +1,26 @@
+(team_only) {
+	# deploy.sh writes the team login (user + bcrypt hash) here from DOCS_PASSWORD in .env.
+	basic_auth {
+		import /etc/caddy/docs_users
+	}
+}
+
 {$API_DOMAIN} {
+	@docs path /docs /docs/* /redoc /openapi.json
+	handle @docs {
+		import team_only
+		reverse_proxy backend:8000
+	}
 	# Flush every SSE event as soon as the backend writes it.
 	reverse_proxy backend:8000 {
+		flush_interval -1
+	}
+}
+
+# The internal AI API, for the team only: Swagger at /docs, every route behind the login.
+{$AI_DOMAIN} {
+	import team_only
+	reverse_proxy ai:8000 {
 		flush_interval -1
 	}
 }
