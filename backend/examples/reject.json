@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "type": "reject",
+  "group_id": "00000000-0000-4000-8000-000000000001",
+  "elapsed": 0.2,
+  "answer": "모델과 데이터를 추천할 수 있는 프로젝트 아이디어로 다시 입력해 주세요.",
+  "sources": [],
+  "result": null,
+  "history_saved": true
+}

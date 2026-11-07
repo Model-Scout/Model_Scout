@@ -20,9 +20,13 @@ create table if not exists app.messages (
     content text not null,
     type text check (type in ('answer', 'clarify', 'reject')),
     result jsonb,
+    sources jsonb not null default '[]'::jsonb,
     created_at timestamptz not null default now()
 );
 create index if not exists messages_group_idx on app.messages (group_id, id);
 
 alter table app.groups enable row level security;
 alter table app.messages enable row level security;
+
+-- Upgrade an existing app schema without losing conversations.
+alter table app.messages add column if not exists sources jsonb not null default '[]'::jsonb;

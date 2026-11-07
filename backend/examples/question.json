@@ -1,0 +1,20 @@
+{
+  "schema_version": 2,
+  "type": "answer",
+  "group_id": "00000000-0000-4000-8000-000000000001",
+  "elapsed": 2.1,
+  "answer": "저장된 예시에는 GPU 요구량 근거가 없어 확인이 필요해요.",
+  "sources": [
+    {
+      "source_id": "example/search-model",
+      "kind": "model",
+      "title": "example/search-model",
+      "url": null,
+      "quote": "Example quote for frontend mock rendering only.",
+      "origin": "readme",
+      "location": null
+    }
+  ],
+  "result": null,
+  "history_saved": true
+}

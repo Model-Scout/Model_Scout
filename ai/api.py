@@ -27,14 +27,19 @@ import json
 import logging
 import os
 import sys
+import threading
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, cast
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
+from pydantic import model_validator
+from typing import Literal
+from recommendation_question import stream_question
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
@@ -56,6 +61,14 @@ rg = _load_graph_module()
 class RecommendRequest(BaseModel):
     query: str = Field(min_length=1, max_length=2000, examples=["따릉이 경로 추천 서비스를 만들고 싶어"])
     thread_id: str = Field(pattern=r"^[A-Za-z0-9_.:-]{1,80}$", description="the backend's group_id")
+    mode: Literal["recommend", "question"] = "recommend"
+    context: dict[str, Any] | None = None
+
+    @model_validator(mode="after")
+    def validate_context(self):
+        if self.mode == "question" and (self.context is None or len(json.dumps(self.context, ensure_ascii=False)) > 100_000):
+            raise ValueError("question requires a saved recommendation context of at most 100000 characters")
+        return self
 
 
 def _checkpointer():
@@ -124,6 +137,7 @@ def sse(event, data):
 
 NODE_EVENTS = {
     "decompose": ("plan", "plan"),
+    "clarify": ("plan", "plan"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models", "models"),
     "search_datasets": ("datasets", "datasets"),
     "assess": ("assessment", "assessment"),
@@ -157,13 +171,60 @@ def stream_recommendation(graph, payload, thread_id):
         yield sse("error", {"message": f"{type(error).__name__}: {error}"[:500]})
 
 
+CANCEL_WAIT = 30  # seconds; a cancelled run only stops once its running node ends, so a retry waits for that
+running_threads: set[str] = set()
+running_changed = threading.Condition()
+
+
+def claim_thread(thread_id: str) -> None:
+    with running_changed:
+        if not running_changed.wait_for(lambda: thread_id not in running_threads, CANCEL_WAIT):
+            raise HTTPException(409, "thread is still running")
+        running_threads.add(thread_id)
+
+
+def release_thread(thread_id: str) -> None:
+    with running_changed:
+        running_threads.discard(thread_id)
+        running_changed.notify_all()
+
+
+class RecommendationStream(StreamingResponse):
+    """Stops the graph before freeing the thread, also on a disconnect.
+
+    Closing a run writes its checkpoint. Left to the garbage collector, that write could land on top of a newer run.
+    """
+
+    def __init__(self, run: Any, thread_id: str, **kwargs: Any):
+        super().__init__(run, **kwargs)
+        self.run, self.thread_id = run, thread_id
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            try:
+                await run_in_threadpool(self.run.close)
+            finally:
+                release_thread(self.thread_id)
+
+
 @app.post("/ai/recommend", response_class=StreamingResponse)
 def recommend(body: RecommendRequest):
+    if body.mode == "question":  # reads the saved snapshot only, so it cannot collide with a run
+        return StreamingResponse(stream_question(rg._openai, rg.LLM_MODEL, body.query, body.context, body.thread_id),
+                                 media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
     graph = app.state.graph
-    paused = rg.pending_questions(graph, {"configurable": {"thread_id": body.thread_id}})
+    claim_thread(body.thread_id)
+    try:
+        paused = rg.pending_questions(graph, {"configurable": {"thread_id": body.thread_id}})
+    except Exception:
+        release_thread(body.thread_id)
+        raise
     payload = rg.Command(resume=body.query) if paused else {"request": body.query}
-    return StreamingResponse(
+    return RecommendationStream(
         stream_recommendation(graph, payload, body.thread_id),
+        body.thread_id,
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache"},
     )
