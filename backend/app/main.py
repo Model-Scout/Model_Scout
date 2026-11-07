@@ -240,8 +240,8 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
     if context is not None:
         payload.update(mode="question", context=context)
     first_step, first_label = (4, "답변 생성") if context is not None else (1, "요구사항 분석")
-    yield sse("status", {"step": first_step, "total": 4, "label": first_label, "elapsed": 0})
     try:
+        yield sse("status", {"step": first_step, "total": 4, "label": first_label, "elapsed": 0})
         with httpx.stream(
             "POST",
             f"{AI_URL}/ai/recommend",
@@ -271,6 +271,9 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
         done = (ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer="".join(tokens),
                         sources=[Source(**s) for s in context["sources"]]) if context is not None
                 else build_done(events, group_id, "".join(tokens), elapsed))
+    except GeneratorExit:  # the client left: no event can reach it, so the log is the only record of a cancel
+        logging.info("chat cancelled ip=%s group=%s elapsed=%.1f", ip, group_id, time.time() - started)
+        raise
     except Exception:  # internal details stay in the log; the stream must end with an event
         logging.exception("chat failed ip=%s group=%s", ip, group_id)
         yield sse("error", {"code": "AI_UNAVAILABLE", "message": AI_ERROR, "group_id": str(group_id)})
@@ -280,7 +283,7 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
     except Exception:  # the user still gets the answer they waited for; only its history entry is lost
         logging.exception("saving the answer failed group=%s", group_id)
         done.history_saved = False
-    logging.info("chat done ip=%s type=%s elapsed=%.1f", ip, done.type, done.elapsed)
+    logging.info("chat done ip=%s group=%s type=%s elapsed=%.1f", ip, group_id, done.type, done.elapsed)
     yield sse("done", done.model_dump(mode="json"))
 
 
