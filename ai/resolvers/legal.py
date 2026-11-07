@@ -115,6 +115,7 @@ def find_license_file(siblings: Sequence[Dict[str, Any]]) -> Optional[Dict[str, 
 def resolve(
     raw: Dict[str, Any],
     *,
+    model_id: Optional[str] = None,
     base_status_of: Optional[Callable[[str], Optional[str]]] = None,
     retrieved_at: Optional[str] = None,
 ) -> Dict[str, Any]:
@@ -213,10 +214,13 @@ def resolve(
 
     review_queue = []
     if status == "unknown":
+        # model_id 를 모르면 링크를 만들지 않는다. huggingface.co/None/discussions
+        # 같은 쓰레기 URL 이 검토 큐에 들어가면 사람이 헛걸음한다.
+        known_id = model_id or raw.get("id") or raw.get("modelId")
         review_queue.append({
             "field": "legal.commercial_status",
             "reason": "라이선스 태그가 없다. 상업 이용 여부를 판단할 수 없다.",
-            "hint": f"https://huggingface.co/{raw.get('id') or raw.get('modelId')}/discussions",
+            "hint": f"https://huggingface.co/{known_id}/discussions" if known_id else None,
         })
     elif status == "review_required" and license_file:
         review_queue.append({

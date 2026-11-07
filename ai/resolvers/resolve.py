@@ -241,7 +241,9 @@ def build(
 
     tech = technical_resolver.resolve(raw, config_json, retrieved_at=retrieved_at)
     arts = artifacts_resolver.resolve(raw, retrieved_at=retrieved_at)
-    lic = legal_resolver.resolve(raw, base_status_of=base_status_of, retrieved_at=retrieved_at)
+    lic = legal_resolver.resolve(
+        raw, model_id=model_id, base_status_of=base_status_of, retrieved_at=retrieved_at
+    )
     cap = _capability(raw, stage2, tech["technical"], retrieved_at)
     dep = _deployment(arts["artifacts"], tech["technical"], readme_text, retrieved_at)
 
