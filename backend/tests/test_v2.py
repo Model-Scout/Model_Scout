@@ -301,6 +301,25 @@ def test_status_names_the_running_step(client):
     assert labels == ["요구사항 분석", "요구사항 확인", "모델 검색", "데이터셋 검색", "조건 확인", "답변 생성"]
 
 
+def test_cancel_leaves_a_log_entry(caplog):
+    gid = uuid4()
+    with patch.object(api.httpx, "stream", return_value=Upstream(ai_events())), caplog.at_level("INFO"):
+        stream = api.stream_chat(None, gid, "x", "1.2.3.4")
+        next(stream)  # status, sent before the AI call
+        assert next(stream).startswith("event: token")
+        stream.close()
+    assert f"chat cancelled ip=1.2.3.4 group={gid}" in caplog.text
+
+
+def test_cancel_right_after_first_status_leaves_a_log_entry(caplog):
+    gid = uuid4()
+    with caplog.at_level("INFO"):
+        stream = api.stream_chat(None, gid, "x", "1.2.3.4")
+        assert next(stream).startswith("event: status")
+        stream.close()
+    assert f"chat cancelled ip=1.2.3.4 group={gid}" in caplog.text
+
+
 @pytest.mark.parametrize("started", [True, False])
 def test_disconnect_ends_ai_call_before_freeing_group(started):
     gid, closed = uuid4(), []
