@@ -1,0 +1,1205 @@
+[
+  {
+    "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "_example": "정상. 사실이 전부 1차 출처(config.json / safetensors / cardData)에서 나온 경우.",
+    "identity": {
+      "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "author": "sentence-transformers",
+      "repo_url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "revision": "86741b4e3f5cb7765a600d3a3d55a0f6a6cb443d",
+      "last_modified": "2025-03-06T13:37:22Z",
+      "gated": false,
+      "private": false
+    },
+    "discovery": {
+      "candidate_tier": "A_verified",
+      "candidate_type": "korean_explicit",
+      "korean_evidence": [
+        "metadata.language:korean",
+        "stage1:korean_explicit"
+      ],
+      "downloads": 45742916,
+      "likes": 1407,
+      "popularity_tier": "main",
+      "canonical_model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "is_variant": false,
+      "variant_types": [],
+      "source_pool": "core"
+    },
+    "capability": {
+      "primary_task": "sentence-similarity",
+      "matched_tasks": [
+        "sentence-similarity"
+      ],
+      "languages": [
+        "ar",
+        "bg",
+        "ko",
+        "en"
+      ],
+      "korean_verified": true,
+      "multilingual_verified": true,
+      "translation_pairs": [],
+      "modality": [
+        "text"
+      ],
+      "embedding_dimensions": 384,
+      "reranker": false
+    },
+    "technical": {
+      "architecture": [
+        "BertModel"
+      ],
+      "model_type": "bert",
+      "parameter_count_total": 117654272,
+      "parameter_count_active": 117654272,
+      "context_length": 512,
+      "dtype": "float32"
+    },
+    "artifacts": {
+      "file_count": 28,
+      "total_bytes": 1884901376,
+      "formats": {
+        "safetensors": {
+          "present": true,
+          "file_count": 1,
+          "total_bytes": 470641152,
+          "shard_count": 1,
+          "quantization": null
+        },
+        "gguf": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "onnx": {
+          "present": true,
+          "file_count": 4,
+          "total_bytes": 941282304,
+          "shard_count": null,
+          "quantization": null
+        },
+        "pytorch_bin": {
+          "present": true,
+          "file_count": 1,
+          "total_bytes": 470641152,
+          "shard_count": 1,
+          "quantization": null
+        },
+        "ct2": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "mlx": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        }
+      }
+    },
+    "deployment": {
+      "targets": {
+        "cpu": {
+          "status": "inferred",
+          "confidence": "low",
+          "evidence": [
+            "artifact:model_weights"
+          ],
+          "conditions": "RAM, 모델 크기, 성능은 런타임과 작업에 따라 달라집니다."
+        },
+        "cuda": {
+          "status": "inferred",
+          "confidence": "low",
+          "evidence": [
+            "artifact:model_weights"
+          ],
+          "conditions": "GPU VRAM, 드라이버, CUDA, 아키텍처, 양자화가 호환되어야 합니다."
+        },
+        "mps": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "vllm": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "llama_cpp": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "onnx": {
+          "status": "artifact_present",
+          "confidence": "medium",
+          "evidence": [
+            "artifact:onnx"
+          ],
+          "conditions": "ONNX 그래프와 선택한 실행 공급자가 지원되어야 합니다."
+        }
+      },
+      "vram_estimate": {
+        "weights_only": {
+          "fp16_gib": 0.22,
+          "int8_gib": 0.11,
+          "int4_gib": 0.05,
+          "detected_quantization_gib": null
+        },
+        "basis": "parameter_count",
+        "caveat": "가중치만 기준입니다. 실제 VRAM/RAM은 KV 캐시, 활성화, 프레임워크에 따라 더 필요합니다.",
+        "artifact": {
+          "label": "safetensors",
+          "gib": 0.44
+        }
+      }
+    },
+    "legal": {
+      "license_raw": "apache-2.0",
+      "license_file": null,
+      "commercial_status": "permitted",
+      "base_model_constraint": null,
+      "redistribution": "permitted",
+      "review_required": false,
+      "review_reason": null,
+      "user_message": "저장소가 선언한 라이선스(apache-2.0)는 상업 이용을 허용하는 계열입니다. 고지·표기 의무는 원문을 확인하세요."
+    },
+    "quality": {
+      "results": [],
+      "summary": {
+        "numeric_results": 0,
+        "ranking_eligible": 0
+      }
+    },
+    "semantic": {
+      "summary": "50여 개 언어를 지원하는 문장 임베딩 모델.",
+      "strengths": [
+        "다국어 문장 유사도"
+      ],
+      "limitations": [
+        "컨텍스트 512 토큰"
+      ],
+      "use_cases": [
+        "의미 검색",
+        "RAG"
+      ],
+      "atomic_evidence": [],
+      "status": "completed"
+    },
+    "provenance": {
+      "schema_version": 1,
+      "pipeline_run_id": "reingest-2026-11-06-01",
+      "retrieved_at": "2026-11-06T04:12:00Z",
+      "fields": {
+        "identity.revision": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:sha"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.last_modified": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:lastModified"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.gated": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:gated"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.primary_task": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:pipeline_tag"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.languages": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.language"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.korean_verified": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.language"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.translation_pairs": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "번역 모델이 아니다"
+        },
+        "capability.embedding_dimensions": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_file:config.json:hidden_size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.architecture": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_file:config.json:architectures"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.model_type": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_file:config.json:model_type"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.parameter_count_total": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:safetensors.total"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.parameter_count_active": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:safetensors.total"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "MoE가 아니므로 total과 같다"
+        },
+        "technical.context_length": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_file:config.json:max_position_embeddings"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.dtype": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_file:config.json:torch_dtype"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.total_bytes": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.formats.gguf": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].rfilename"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "GGUF 파일이 없음을 확인했다"
+        },
+        "artifacts.formats.safetensors": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "deployment.vram_estimate": {
+          "status": "inferred",
+          "confidence": "low",
+          "source": [
+            "derived_from:sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "parameter_count에서 계산"
+        },
+        "legal.license_raw": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.license"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.license_file": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "LICENSE 파일이 저장소에 없다"
+        },
+        "legal.commercial_status": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.license"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.base_model_constraint": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "선언된 base_model이 없다"
+        },
+        "quality.results": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "README에 숫자 벤치마크 표가 없다"
+        }
+      },
+      "conflicts": [],
+      "review_queue": []
+    }
+  },
+  {
+    "model_id": "example-org/korean-llm-unlicensed",
+    "_example": "unknown. 저장소에 라이선스 정보가 없다. 키를 생략하지 않고 상태로 남긴다 — '모른다'와 '해당 없다'와 '수집 실패'는 사용자에게 할 말이 다르다.",
+    "identity": {
+      "model_id": "example-org/korean-llm-unlicensed",
+      "author": "example-org",
+      "repo_url": "https://huggingface.co/example-org/korean-llm-unlicensed",
+      "revision": "2b9f0c1d4e5a6b7c8d9e0f1a2b3c4d5e6f708192",
+      "last_modified": "2026-09-14T02:05:11Z",
+      "gated": null,
+      "private": false
+    },
+    "discovery": {
+      "candidate_tier": "B_likely",
+      "candidate_type": "korean_inferred",
+      "korean_evidence": [
+        "readme:korean_text"
+      ],
+      "downloads": 311,
+      "likes": 4,
+      "popularity_tier": "low_popularity",
+      "canonical_model_id": "example-org/korean-llm-unlicensed",
+      "is_variant": false,
+      "variant_types": [],
+      "source_pool": "low_popularity"
+    },
+    "capability": {
+      "primary_task": "text-generation",
+      "matched_tasks": [
+        "text-generation"
+      ],
+      "languages": [
+        "ko"
+      ],
+      "korean_verified": true,
+      "multilingual_verified": false,
+      "translation_pairs": [],
+      "modality": [
+        "text"
+      ],
+      "embedding_dimensions": null,
+      "reranker": false
+    },
+    "technical": {
+      "architecture": [],
+      "model_type": null,
+      "parameter_count_total": null,
+      "parameter_count_active": null,
+      "context_length": null,
+      "dtype": null
+    },
+    "artifacts": {
+      "file_count": 3,
+      "total_bytes": 4812451840,
+      "formats": {
+        "safetensors": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "onnx": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "pytorch_bin": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "ct2": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "mlx": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "gguf": {
+          "present": true,
+          "file_count": 1,
+          "total_bytes": 4812451840,
+          "shard_count": 1,
+          "quantization": [
+            {
+              "label": "Q4_K_M",
+              "total_bytes": 4812451840,
+              "file_count": 1
+            }
+          ]
+        }
+      }
+    },
+    "deployment": {
+      "targets": {
+        "cpu": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "cuda": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "mps": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "vllm": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "llama_cpp": {
+          "status": "artifact_present",
+          "confidence": "medium",
+          "evidence": [
+            "artifact:gguf"
+          ],
+          "conditions": "GGUF 아키텍처 지원과 llama.cpp 빌드가 호환되어야 합니다."
+        },
+        "onnx": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        }
+      },
+      "vram_estimate": {
+        "weights_only": {
+          "fp16_gib": null,
+          "int8_gib": null,
+          "int4_gib": null,
+          "detected_quantization_gib": 4.48
+        },
+        "basis": "artifact_bytes",
+        "caveat": "Q4_K_M 파일 크기(4.48GiB)를 측정한 값입니다. 컨텍스트 길이에 따라 KV 캐시가 추가로 필요합니다.",
+        "artifact": {
+          "label": "Q4_K_M",
+          "gib": 4.48
+        }
+      }
+    },
+    "legal": {
+      "license_raw": null,
+      "license_file": null,
+      "commercial_status": "unknown",
+      "base_model_constraint": null,
+      "redistribution": "unknown",
+      "review_required": true,
+      "review_reason": "저장소에 라이선스 태그와 LICENSE 파일이 모두 없다",
+      "user_message": "저장소에 라이선스 정보가 없어 상업 이용 여부를 확인할 수 없습니다. 작성자에게 직접 확인하세요."
+    },
+    "quality": {
+      "results": [],
+      "summary": {
+        "numeric_results": 0,
+        "ranking_eligible": 0
+      }
+    },
+    "semantic": {
+      "summary": null,
+      "strengths": [],
+      "limitations": [],
+      "use_cases": [],
+      "atomic_evidence": [],
+      "status": "skipped"
+    },
+    "provenance": {
+      "schema_version": 1,
+      "pipeline_run_id": "reingest-2026-11-06-01",
+      "retrieved_at": "2026-11-06T04:12:00Z",
+      "fields": {
+        "identity.revision": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:sha"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.last_modified": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:lastModified"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.gated": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "HF 응답에 gated 키가 없었다. 수집 실패이며 '공개'를 뜻하지 않는다"
+        },
+        "capability.primary_task": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:pipeline_tag"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.languages": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.language"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.korean_verified": {
+          "status": "inferred",
+          "confidence": "low",
+          "source": [
+            "readme:body"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "README 본문이 한국어다"
+        },
+        "capability.translation_pairs": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.embedding_dimensions": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.architecture": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "config.json과 safetensors가 둘 다 없다. GGUF 전용 레포다"
+        },
+        "technical.model_type": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "config.json이 없다"
+        },
+        "technical.parameter_count_total": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "safetensors 없음. gguf.total도 응답에 없었다"
+        },
+        "technical.parameter_count_active": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null
+        },
+        "technical.context_length": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "config.json과 gguf.context_length가 둘 다 없다"
+        },
+        "technical.dtype": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "config.json이 없다"
+        },
+        "artifacts.total_bytes": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.formats.gguf": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_blob:model-Q4_K_M.gguf"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.formats.safetensors": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].rfilename"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "safetensors 파일이 없음을 확인했다"
+        },
+        "deployment.vram_estimate": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_blob:model-Q4_K_M.gguf"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "파라미터 추정이 아니라 파일 크기 측정값이다"
+        },
+        "legal.license_raw": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "cardData에 license 키가 없다"
+        },
+        "legal.license_file": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "LICENSE / LICENSE.md / LICENSE.txt / COPYING / NOTICE 모두 없다"
+        },
+        "legal.commercial_status": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "license_raw가 unknown이므로 분류할 수 없다"
+        },
+        "legal.base_model_constraint": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "quality.results": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": null,
+          "note": "README가 비어 있다"
+        }
+      },
+      "conflicts": [],
+      "review_queue": [
+        {
+          "field": "legal.commercial_status",
+          "reason": "라이선스 태그와 LICENSE 파일이 모두 없다. 작성자 확인이 필요하다.",
+          "hint": "https://huggingface.co/example-org/korean-llm-unlicensed/discussions"
+        },
+        {
+          "field": "identity.gated",
+          "reason": "gated를 받지 못했다. 재조회해야 Q7에 답할 수 있다.",
+          "hint": null
+        }
+      ]
+    }
+  },
+  {
+    "model_id": "example-org/Korean-MoE-24B-A2B-GGUF",
+    "_example": "conflict. MoE 모델에서 gguf.total이 전체 파라미터인지 활성 파라미터인지 단정할 수 없다. 값을 쓰지 않고 사람이 판정한다 — 틀린 값으로 필터를 통과시키는 것이 탈락보다 나쁘다.",
+    "identity": {
+      "model_id": "example-org/Korean-MoE-24B-A2B-GGUF",
+      "author": "example-org",
+      "repo_url": "https://huggingface.co/example-org/Korean-MoE-24B-A2B-GGUF",
+      "revision": "7c3e1f0a9b8d7c6e5f4a3b2c1d0e9f8a7b6c5d4e",
+      "last_modified": "2026-10-22T18:44:03Z",
+      "gated": "auto",
+      "private": false
+    },
+    "discovery": {
+      "candidate_tier": "A_verified",
+      "candidate_type": "korean_explicit",
+      "korean_evidence": [
+        "metadata.language:korean"
+      ],
+      "downloads": 2140,
+      "likes": 31,
+      "popularity_tier": "main",
+      "canonical_model_id": "example-org/Korean-MoE-24B-A2B",
+      "is_variant": true,
+      "variant_types": [
+        "gguf"
+      ],
+      "source_pool": "core"
+    },
+    "capability": {
+      "primary_task": "text-generation",
+      "matched_tasks": [
+        "text-generation"
+      ],
+      "languages": [
+        "ko",
+        "en"
+      ],
+      "korean_verified": true,
+      "multilingual_verified": false,
+      "translation_pairs": [],
+      "modality": [
+        "text"
+      ],
+      "embedding_dimensions": null,
+      "reranker": false
+    },
+    "technical": {
+      "architecture": [
+        "Qwen3MoeForCausalLM"
+      ],
+      "model_type": "qwen3_moe",
+      "parameter_count_total": null,
+      "parameter_count_active": null,
+      "context_length": 131072,
+      "dtype": null
+    },
+    "artifacts": {
+      "file_count": 9,
+      "total_bytes": 40802189312,
+      "formats": {
+        "safetensors": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "onnx": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "pytorch_bin": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "ct2": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "mlx": {
+          "present": false,
+          "file_count": null,
+          "total_bytes": null,
+          "shard_count": null,
+          "quantization": null
+        },
+        "gguf": {
+          "present": true,
+          "file_count": 4,
+          "total_bytes": 40802189312,
+          "shard_count": 1,
+          "quantization": [
+            {
+              "label": "Q2_K",
+              "total_bytes": 8916100448,
+              "file_count": 1
+            },
+            {
+              "label": "Q4_K_M",
+              "total_bytes": 14495514624,
+              "file_count": 1
+            },
+            {
+              "label": "Q8_0",
+              "total_bytes": 25769803776,
+              "file_count": 1
+            }
+          ]
+        }
+      }
+    },
+    "deployment": {
+      "targets": {
+        "cpu": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "cuda": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "mps": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "vllm": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        },
+        "llama_cpp": {
+          "status": "artifact_present",
+          "confidence": "medium",
+          "evidence": [
+            "artifact:gguf"
+          ],
+          "conditions": "GGUF 아키텍처 지원과 llama.cpp 빌드가 호환되어야 합니다."
+        },
+        "onnx": {
+          "status": "unknown",
+          "confidence": "none",
+          "evidence": [],
+          "conditions": null
+        }
+      },
+      "vram_estimate": {
+        "weights_only": {
+          "fp16_gib": null,
+          "int8_gib": null,
+          "int4_gib": null,
+          "detected_quantization_gib": 8.31
+        },
+        "basis": "artifact_bytes",
+        "caveat": "Q2_K 양자화 파일 크기(8.31GiB)를 측정한 값입니다. MoE 모델은 전체 가중치를 올려야 하므로 활성 파라미터보다 큰 메모리가 필요합니다.",
+        "artifact": {
+          "label": "Q2_K",
+          "gib": 8.31
+        }
+      }
+    },
+    "legal": {
+      "license_raw": "apache-2.0",
+      "license_file": {
+        "path": "LICENSE",
+        "bytes": 11357,
+        "blob_id": "d24c9208b10e63d317589bc8d6fc34967c3068d3",
+        "sha256": null,
+        "chars": null
+      },
+      "commercial_status": "permitted",
+      "base_model_constraint": {
+        "base_model_id": "example-org/Korean-MoE-24B-A2B",
+        "commercial_status": "permitted",
+        "more_restrictive": false
+      },
+      "redistribution": "permitted",
+      "review_required": false,
+      "review_reason": null,
+      "user_message": "저장소가 선언한 라이선스(apache-2.0)는 상업 이용을 허용하는 계열입니다. 고지·표기 의무는 원문을 확인하세요."
+    },
+    "quality": {
+      "results": [
+        {
+          "benchmark": "KMMLU",
+          "dataset": "KMMLU",
+          "metric": "accuracy",
+          "score": 61.4,
+          "split": "test",
+          "higher_is_better": true,
+          "self_reported": true,
+          "comparability": "safe_same_source",
+          "evidence_ref": "readme:table[0].row[2].column[3]",
+          "ranking_eligible": true
+        }
+      ],
+      "summary": {
+        "numeric_results": 1,
+        "ranking_eligible": 1
+      }
+    },
+    "semantic": {
+      "summary": "한국어 MoE 생성 모델의 GGUF 양자화 배포본.",
+      "strengths": [
+        "활성 파라미터가 작아 추론이 빠르다"
+      ],
+      "limitations": [
+        "전체 가중치를 메모리에 올려야 한다"
+      ],
+      "use_cases": [
+        "로컬 챗봇"
+      ],
+      "atomic_evidence": [],
+      "status": "completed"
+    },
+    "provenance": {
+      "schema_version": 1,
+      "pipeline_run_id": "reingest-2026-11-06-01",
+      "retrieved_at": "2026-11-06T04:12:00Z",
+      "fields": {
+        "identity.revision": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:sha"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.last_modified": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:lastModified"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "identity.gated": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:gated"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.primary_task": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:pipeline_tag"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.languages": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.language"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.korean_verified": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.language"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.translation_pairs": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "capability.embedding_dimensions": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.architecture": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:gguf.architecture"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.model_type": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:gguf.architecture"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.parameter_count_total": {
+          "status": "conflict",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "gguf.total=24.0B, 모델명 표기=A2B. 어느 쪽이 전체인지 응답만으로 단정할 수 없다"
+        },
+        "technical.parameter_count_active": {
+          "status": "unknown",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "total이 conflict로 미해결이라 active를 정할 수 없다. 경쟁하는 후보값이 둘 있는 것이 아니므로 conflict가 아니라 unknown이다."
+        },
+        "technical.context_length": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:gguf.context_length"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "technical.dtype": {
+          "status": "not_applicable",
+          "confidence": "none",
+          "source": [],
+          "retrieved_at": "2026-11-06T04:12:00Z",
+          "note": "GGUF는 파일별 양자화 레이블이 dtype 역할을 한다"
+        },
+        "artifacts.total_bytes": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.formats.gguf": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].size"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "artifacts.formats.safetensors": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_api:siblings[].rfilename"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "deployment.vram_estimate": {
+          "status": "verified",
+          "confidence": "high",
+          "source": [
+            "hf_blob:Korean-MoE-24B-A2B-Q4_K_M.gguf"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.license_raw": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.license"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.license_file": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "hf_file:LICENSE"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.commercial_status": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "model_card:cardData.license"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "legal.base_model_constraint": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "derived_from:example-org/Korean-MoE-24B-A2B"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        },
+        "quality.results": {
+          "status": "documented",
+          "confidence": "medium",
+          "source": [
+            "readme:table[0]"
+          ],
+          "retrieved_at": "2026-11-06T04:12:00Z"
+        }
+      },
+      "conflicts": [
+        {
+          "field": "technical.parameter_count_total",
+          "candidates": [
+            {
+              "value": 24000000000,
+              "source": "hf_api:gguf.total"
+            },
+            {
+              "value": 2000000000,
+              "source": "readme:model_name"
+            }
+          ]
+        }
+      ],
+      "review_queue": [
+        {
+          "field": "technical.parameter_count_total",
+          "reason": "MoE 전체/활성 파라미터 판정 필요. '3B 이하' 질의의 답이 이 값에 따라 뒤집힌다.",
+          "hint": "official_doc:example-org/Korean-MoE-24B-A2B 원본 config.json의 num_experts / num_experts_per_tok"
+        }
+      ]
+    }
+  }
+]

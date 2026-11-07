@@ -1,0 +1,193 @@
+name: Model Scout reingest
+
+# 자동 실행이 없다. schedule 을 두지 않는다 — 팀 결정으로 모델 자동화는
+# 멈춘 상태이고, 이 워크플로는 처음부터 수동 전용으로 만든다.
+#
+# 세 모드를 둔다. 왼쪽부터 비용이 올라간다.
+#
+#   validate  API 호출 없음. 스키마와 기존 데이터만 검사한다. PR 에서 돌린다
+#   dry-run   HF 수집·재생성은 하되 DB 는 건드리지 않는다. diff 리포트만 낸다
+#   apply     Supabase 를 갱신한다. 팀이 dry-run 리포트를 확인한 뒤 한 번만
+#
+# apply 는 브랜치에서 돌리지 않는다. PR 검토 → main 병합 → 수동 1회다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "실행 모드"
+        type: choice
+        required: true
+        default: validate
+        options:
+          - validate
+          - dry-run
+          - apply
+      confirm:
+        description: "apply 모드에서만: 정확히 APPLY 라고 입력"
+        type: string
+        required: false
+        default: ""
+
+concurrency:
+  group: model-scout-reingest
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  reingest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # apply 는 되돌리기 어렵다. 모드를 잘못 고른 실행을 여기서 끊는다.
+      - name: Guard the apply mode
+        if: ${{ inputs.mode == 'apply' }}
+        run: |
+          if [ "${{ inputs.confirm }}" != "APPLY" ]; then
+            echo "apply 모드는 confirm 입력이 정확히 APPLY 여야 합니다." >&2
+            exit 1
+          fi
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "apply 는 main 에서만 실행합니다. 현재: ${{ github.ref_name }}" >&2
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+
+      # ── validate: 비용 0 ────────────────────────────────────────────────
+      - name: Compile the pipeline
+        run: |
+          python -m py_compile \
+            01_collect_models.py 02_enrich_metadata.py \
+            03_generate_semantic_metadata.py 04_build_embeddings.py \
+            05_validate_retrieval.py 08_sync_supabase.py \
+            resolvers/*.py contract/*.py
+
+      - name: Check the data contract schema and examples
+        run: python contract/validate.py
+
+      - name: Check contract records if Stage 2 already produced them
+        run: |
+          for pool in core low_popularity; do
+            path="data/hf_models_stage2_contract_${pool}.jsonl"
+            if [ -f "$path" ]; then
+              echo "== $path"
+              python contract/validate.py "$path"
+            else
+              echo "== $path 없음 (아직 재적재 전)"
+            fi
+          done
+
+      - name: Measure coverage before the reingest
+        run: |
+          python contract/coverage.py --compare --out contract/baseline.md
+          echo "## Coverage (before)" >> "$GITHUB_STEP_SUMMARY"
+          sed -n '/질문별 답변 가능률/,/읽는 법/p' contract/baseline.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Offline retrieval checks
+        run: |
+          python taxonomy.py
+          python project_checks.py
+          python test/golden/v2/tools/verify.py
+
+      # 재적재 안전장치와 필터 의미는 조용히 틀리는 종류라 테스트가 1차 방어선이다.
+      # watermark 전진 / 언어 제외분 누락 / 대량 실패 통과 / unknown 을 "가능"으로
+      # 보여주는 것은 전부 실행은 성공하고 숫자만 어긋난다.
+      - name: Contract and reingest safety tests
+        run: |
+          python test/test_reingest_safety.py
+          python test/test_contract_filters.py
+          python test/test_numeric_filter_semantics.py
+          python test/test_golden_v2_scan.py
+          python test/test_lexical_rules.py
+          # test_benchmark_metadata.py 는 넣지 않는다. main 에서도 실패한다 —
+          # stage2 3,872 행과 stage4 3,853 행의 19 행 차이를 동등으로 보는
+          # 단정 때문이고, 이 작업과 무관한 기존 문제다.
+
+      - name: Stop here in validate mode
+        if: ${{ inputs.mode == 'validate' }}
+        run: echo "validate 모드 종료. HF·LLM·임베딩·DB 호출 없음."
+
+      # ── dry-run / apply ────────────────────────────────────────────────
+      # --reingest 는 --apply 없이 돌면 DB 를 건드리지 않고 리포트만 낸다.
+      - name: Run the reingest
+        if: ${{ inputs.mode != 'validate' }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          STAGE3_LLM_MODEL: ${{ secrets.STAGE3_LLM_MODEL }}
+          STAGE4_EMBEDDING_MODEL: ${{ secrets.STAGE4_EMBEDDING_MODEL }}
+          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+          SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+          MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
+        run: |
+          if [ "${{ inputs.mode }}" = "apply" ]; then
+            python 08_sync_supabase.py --reingest --apply | tee reingest-report.json
+          else
+            python 08_sync_supabase.py --reingest | tee reingest-report.json
+          fi
+
+      - name: Measure coverage after the reingest
+        if: ${{ inputs.mode != 'validate' }}
+        run: |
+          python contract/coverage.py --compare --out contract/baseline.md
+          echo "## Coverage (after)" >> "$GITHUB_STEP_SUMMARY"
+          sed -n '/질문별 답변 가능률/,/읽는 법/p' contract/baseline.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the reingest report
+        if: ${{ inputs.mode != 'validate' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-report-${{ inputs.mode }}-${{ github.run_id }}
+          path: |
+            ai/reingest-report.json
+            ai/contract/baseline.md
+          retention-days: 30
+
+      # dry-run 은 커밋하지 않는다. 재생성된 스냅샷은 apply 가 확정된 뒤에만 남긴다.
+      - name: Persist snapshots after apply
+        if: ${{ inputs.mode == 'apply' }}
+        run: |
+          git config user.name "model-scout-sync[bot]"
+          git config user.email "model-scout-sync[bot]@users.noreply.github.com"
+          git add \
+            data/hf_models_stage2_core.jsonl \
+            data/hf_models_stage2_low_popularity.jsonl \
+            data/hf_models_stage2_contract_core.jsonl \
+            data/hf_models_stage2_contract_low_popularity.jsonl \
+            data/hf_models_stage3_core.jsonl \
+            data/hf_models_stage3_low_popularity.jsonl \
+            data/hf_models_stage4_manifest.json \
+            data/readmes/core \
+            data/readmes/low_popularity \
+            contract/baseline.md
+          if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
+          for f in data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
+          if git diff --cached --quiet; then
+            echo "커밋할 변경 없음"
+            exit 0
+          fi
+          git commit -m "chore: persist Model Scout reingest snapshot (run ${{ github.run_id }})"
+          git push

@@ -32,7 +32,8 @@ DB_CACHE_MIN_COVERAGE = 0.90
 DB_CACHE_MIN_CANDIDATES = 100
 STAGE4_VERSION = 1
 EXPECTED_STAGE1_VERSION = 7
-EXPECTED_STAGE2_VERSION = 6
+# 7: 데이터 계약 필드가 Stage 2에 들어온 버전.
+EXPECTED_STAGE2_VERSION = 7
 EXPECTED_STAGE3_VERSION = 1
 
 
@@ -315,6 +316,74 @@ def build_embedding_text(row: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+# 값이 없으면 그 모델이 수치 조건 질의에서 탈락하는 필드.
+# 05_validate_retrieval.numeric_ok() 와 match_model_scout_models() 가 읽는 것들이다.
+FILTERABLE_CONTRACT_FIELDS = frozenset({
+    "technical.parameter_count_total",
+    "technical.parameter_count_active",
+    "technical.context_length",
+    "legal.commercial_status",
+    "identity.gated",
+    "artifacts.total_bytes",
+})
+
+
+# 하드 필터와 랭킹이 읽는 자리에 계약 값을 올린다. 계약 레코드 전체는 9KB라
+# filter_metadata 에 통째로 넣지 않는다 — Supabase 의 search_tsv 가
+# filter_metadata::text 를 전부 색인하므로 본문이 커지면 BM25 쪽에 잡음이 된다.
+#
+# embedding_text 에는 넣지 않는다. commercial_status 는 범주값이고 하드 필터가
+# 답할 질문이다. dense 벡터에 섞으면 "상업 이용"이라는 말과 의미적으로 가까운
+# 모델이 올라오는데, 그건 라이선스 판정이 아니다.
+def contract_filter_fields(contract: Dict[str, Any]) -> Dict[str, Any]:
+    """계약 레코드에서 하드 필터가 쓸 스칼라만 뽑는다."""
+    if not contract:
+        return {}
+    identity = contract.get("identity") or {}
+    technical = contract.get("technical") or {}
+    legal = contract.get("legal") or {}
+    artifacts = contract.get("artifacts") or {}
+    estimate = ((contract.get("deployment") or {}).get("vram_estimate") or {})
+    runnable = estimate.get("artifact") or {}
+    formats = artifacts.get("formats") or {}
+    return {
+        # Q7 "내려받아 써도 되나" — gated 는 False / "auto" / "manual" / None 이다.
+        # None 은 "공개"가 아니라 "모름"이므로 그대로 둔다.
+        "gated": identity.get("gated"),
+        "revision": identity.get("revision"),
+        "last_modified": identity.get("last_modified"),
+        # Q1 "상업적으로 쓸 수 있는"
+        "commercial_status": legal.get("commercial_status"),
+        "license_review_required": legal.get("review_required"),
+        "license_user_message": legal.get("user_message"),
+        "license_file_path": (legal.get("license_file") or {}).get("path"),
+        # Q2 "내 GPU에 들어가나" — 추정이 아닌 측정값이 함께 있어야 한다.
+        "artifact_total_bytes": artifacts.get("total_bytes"),
+        "artifact_runnable_label": runnable.get("label"),
+        "artifact_runnable_gib": runnable.get("gib"),
+        "vram_estimate_basis": estimate.get("basis"),
+        # MoE: 전체와 활성이 다르면 "3B 이하" 질의의 답이 뒤집힌다.
+        "parameter_count_active": technical.get("parameter_count_active"),
+        # Stage 2 에는 있는데 Stage 4 가 통째로 버리던 필드다.
+        "dtype": technical.get("dtype"),
+        # Q3 "Ollama로 되나" — 포맷 존재는 tags 가 아니라 파일 목록으로 판정한 값이다.
+        "artifact_formats": sorted(
+            name for name, spec in formats.items() if (spec or {}).get("present")
+        ),
+        # conflict / unknown 이면 그 모델은 해당 수치 조건 질의에서 탈락한다.
+        # 왜 탈락하는지 결과에서 바로 보여야 "왜 안 나오냐"에 답할 수 있다.
+        # 필터에 영향을 주는 필드만 센다 — legal.license_file 이나 quality.results
+        # 는 비어 있어도 후보에서 빠지지 않으므로 넣지 않는다. search_tsv 가
+        # filter_metadata 를 전부 색인하므로 잡음을 늘리지 않는다.
+        "unresolved_filter_fields": sorted(
+            field
+            for field, entry in (((contract.get("provenance") or {}).get("fields")) or {}).items()
+            if field in FILTERABLE_CONTRACT_FIELDS
+            and (entry or {}).get("status") in {"unknown", "conflict"}
+        ),
+    }
+
+
 def build_filter_metadata(row: Dict[str, Any], document_hash: str) -> Dict[str, Any]:
     source = row.get("source_stage2") or {}
     task = source.get("task") or {}
@@ -356,6 +425,7 @@ def build_filter_metadata(row: Dict[str, Any], document_hash: str) -> Dict[str, 
         "evidence_completeness": semantic.get("evidence_completeness", "unknown") if semantic else "unknown",
         "document_hash": document_hash,
     }
+    document.update(contract_filter_fields(row.get("contract") or {}))
     return document
 
 
@@ -665,6 +735,16 @@ def run_pool(
     model_ids: Optional[Set[str]] = None,
 ) -> Dict[str, Any]:
     source_rows = read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
+    # 계약 레코드는 Stage 2 가 별도 파일에 쓴다. 없으면 계약 필드 없이 돈다 —
+    # 구 데이터로 Stage 4 를 다시 만들 때 멈추지 않게 한다.
+    contracts = {
+        record["model_id"]: record
+        for record in read_jsonl(DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl")
+    }
+    for row in source_rows:
+        record = contracts.get(row.get("model_id"))
+        if record is not None:
+            row["contract"] = record
     validate_source(source_rows, pool)
     selected = select_rows(source_rows, limit, sample_strategy)
     if model_ids is not None:

@@ -35,6 +35,12 @@ HARD_FILTER_KEYS = (
     "require_known_parameters",
     "require_known_context",
     "popularity_tier",
+    # 데이터 계약 필터(ai/contract/). supabase_migration_contract_filters.sql 과
+    # 05_validate_retrieval.hard_filter 가 같은 의미를 구현한다.
+    "commercial_status",
+    "require_artifact",
+    "max_artifact_gib",
+    "exclude_gated",
 )
 
 
