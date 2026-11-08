@@ -1,0 +1,487 @@
+{"review_id": "p001|data_go_kr/15044460", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p001|data_go_kr/15083717", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p001|data_go_kr/15099790", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p001|data_go_kr/15099883", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p001|data_go_kr/15108762", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p001|seoul_open_data/OA-21709", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p002|data_go_kr/15039765", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p002|data_go_kr/15059812", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p002|data_go_kr/15068272", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p002|data_go_kr/15076352", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15056749", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15057650", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15058717", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15058732", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "놀이시설 주소 제공, 어린이집은 별도 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p003|data_go_kr/15069119", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15098821", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15101155", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/15147936", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p003|data_go_kr/3065251", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15057478", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15057714", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "급식소 주소·시간 제공, 다른 시설 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p004|data_go_kr/15058592", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15065819", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15068616", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15069498", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "등록현황이나 카드에서 개별 주소 제공 확인 불가", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15098828", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p004|data_go_kr/15127876", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15034029", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "모범업소 지정 목록으로 위생등급·처분 상세는 부족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p005|data_go_kr/15057674", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "모범업소 지정 목록으로 상세 등급·처분은 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p005|data_go_kr/15057788", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15057797", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15057920", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15061948", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15064937", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15064964", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15078785", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "제조업체 평가인지 음식점 평가인지 카드 표기가 혼재", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15095248", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15095251", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15154921", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p005|data_go_kr/15155052", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p005|seoul_open_data/OA-10371", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "모범업소 지정 정보로 위생 상태를 부분 대리", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate"], "worksheet_regions_shown": "서울", "v1_copies_now_separate": ["seoul_open_data/OA-10063", "seoul_open_data/OA-10140", "seoul_open_data/OA-10217", "seoul_open_data/OA-10294", "seoul_open_data/OA-10448", "seoul_open_data/OA-10525", "seoul_open_data/OA-10602", "seoul_open_data/OA-10679", "seoul_open_data/OA-10756", "seoul_open_data/OA-10833", "seoul_open_data/OA-10910", "seoul_open_data/OA-10987", "seoul_open_data/OA-11064", "seoul_open_data/OA-11141", "seoul_open_data/OA-11218", "seoul_open_data/OA-11295", "seoul_open_data/OA-11372", "seoul_open_data/OA-11449", "seoul_open_data/OA-11526", "seoul_open_data/OA-2294", "seoul_open_data/OA-2303", "seoul_open_data/OA-9832", "seoul_open_data/OA-9909", "seoul_open_data/OA-9986"], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p005|seoul_open_data/OA-11070", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p005|seoul_open_data/OA-11313", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": "seoul_open_data/OA-10389"}
+{"review_id": "p006|data_go_kr/15040895", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15059324", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15084591", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15143464", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15143468", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15143471", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15143525", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p006|data_go_kr/15157412", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p007|data_go_kr/15001698", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p007|data_go_kr/15043696", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "심야약국 위치·시간으로 약국 부분 충족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p007|data_go_kr/15045490", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p007|data_go_kr/15064429", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p007|data_go_kr/15130342", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p007|data_go_kr/15154458", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p007|seoul_open_data/OA-12095", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": "seoul_open_data/OA-2271"}
+{"review_id": "p007|seoul_open_data/OA-12131", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": "seoul_open_data/OA-2271"}
+{"review_id": "p007|seoul_open_data/OA-12161", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": "seoul_open_data/OA-2271"}
+{"review_id": "p007|seoul_open_data/OA-12179", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": "seoul_open_data/OA-2271"}
+{"review_id": "p007|seoul_open_data/OA-16160", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": "seoul_open_data/OA-16479"}
+{"review_id": "p007|seoul_open_data/OA-16165", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": "seoul_open_data/OA-16479"}
+{"review_id": "p007|seoul_open_data/OA-16169", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": "seoul_open_data/OA-16479"}
+{"review_id": "p007|seoul_open_data/OA-16183", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": "seoul_open_data/OA-16479"}
+{"review_id": "p007|seoul_open_data/OA-20337", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p007|seoul_open_data/OA-20402", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p008|data_go_kr/15025449", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p008|data_go_kr/15056543", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "민방위 대피시설 위치 제공, 지진 옥외시설과 구분 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate", "card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": ["seoul_open_data/OA-20032"], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p008|data_go_kr/15124827", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p008|seoul_open_data/OA-16149", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "민방위 시설 주소·좌표 제공, 수용인원은 미확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate"], "worksheet_regions_shown": "서울", "v1_copies_now_separate": ["seoul_open_data/OA-20027", "seoul_open_data/OA-20028", "seoul_open_data/OA-20029", "seoul_open_data/OA-20030", "seoul_open_data/OA-20031", "seoul_open_data/OA-20033", "seoul_open_data/OA-20034", "seoul_open_data/OA-20035", "seoul_open_data/OA-20036", "seoul_open_data/OA-20037", "seoul_open_data/OA-20038", "seoul_open_data/OA-20039", "seoul_open_data/OA-20040", "seoul_open_data/OA-20041", "seoul_open_data/OA-20042", "seoul_open_data/OA-20043", "seoul_open_data/OA-20044", "seoul_open_data/OA-20045", "seoul_open_data/OA-20046", "seoul_open_data/OA-20047", "seoul_open_data/OA-20048", "seoul_open_data/OA-20049", "seoul_open_data/OA-20050", "seoul_open_data/OA-20051"], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p009|data_go_kr/15044273", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p009|data_go_kr/15047778", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p009|data_go_kr/15068658", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p009|data_go_kr/15069821", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p009|data_go_kr/15069826", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p009|data_go_kr/15069873", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p009|seoul_open_data/OA-15820", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15000504", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15048444", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15049998", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15055596", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15057047", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "관광지 위치 제공, 축제 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p010|data_go_kr/15057287", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15057815", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15058588", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15101897", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15101971", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15128559", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15128560", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p010|data_go_kr/15135102", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p010|seoul_open_data/OA-16049", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p011|data_go_kr/15073263", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p011|data_go_kr/15097943", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p011|data_go_kr/15097949", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p011|data_go_kr/15098000", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p011|data_go_kr/15108067", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15024880", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15074313", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15076841", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15095486", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15106385", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p012|data_go_kr/15158866", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15025453", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15034086", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "구조동물 사진·발견장소·인계 정보로 부분 충족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p013|data_go_kr/15056823", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15057652", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "보호시설 현황만 제공, 개체별 입양 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p013|data_go_kr/15095486", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15098913", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15105476", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15135102", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15142649", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/15143972", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p013|data_go_kr/3078569", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15052563", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15062581", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15099839", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15125362", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15125364", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p014|data_go_kr/15125365", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p014|seoul_open_data/OA-15578", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p014|seoul_open_data/OA-19522", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": "seoul_open_data/OA-16128"}
+{"review_id": "p014|seoul_open_data/OA-21278", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p014|seoul_open_data/OA-22173", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p015|data_go_kr/15058877", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p015|data_go_kr/15077786", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": "seoul_open_data/OA-20447"}
+{"review_id": "p015|seoul_open_data/OA-20447", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "시간대별 주차대수 필드는 있지만 최신 갱신·현재값 제공 여부 미확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p016|data_go_kr/15075831", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p016|data_go_kr/15081222", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": "seoul_open_data/OA-15495"}
+{"review_id": "p016|seoul_open_data/OA-1200", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-12855", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-21778", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": "seoul_open_data/OA-22270"}
+{"review_id": "p016|seoul_open_data/OA-2216", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-2217", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-2218", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-2219", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-2223", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-2275", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-22832", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-22833", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-23039", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": "seoul_open_data/OA-15516"}
+{"review_id": "p016|seoul_open_data/OA-23044", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p016|seoul_open_data/OA-23045", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p017|data_go_kr/15058759", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p017|data_go_kr/15058925", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p017|data_go_kr/15124952", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p018|data_go_kr/15048032", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 9}, "v1_canonical": "seoul_open_data/OA-12921"}
+{"review_id": "p018|data_go_kr/15099330", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p018|seoul_open_data/OA-12921", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p018|seoul_open_data/OA-21224", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p018|seoul_open_data/OA-22470", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 7}, "v1_canonical": "data_go_kr/15099330"}
+{"review_id": "p018|seoul_open_data/OA-22483", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/15055602", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/15057209", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "반여시장에 한정되어 전국 범위 부분 충족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p019|data_go_kr/15057737", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "반여시장에 한정되어 전국 범위 부분 충족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p019|data_go_kr/15059163", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "제목은 반입물량인데 가격정보와 같은 설명이 재사용됨. 실제 오퍼레이션의 가격 필드 확인 전 판정 보류", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/15062950", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/15072357", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/15087482", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p019|data_go_kr/3044829", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p019|seoul_open_data/OA-20951", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p020|data_go_kr/15057636", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p020|data_go_kr/15098501", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p020|seoul_open_data/OA-22423", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 5}, "v1_canonical": "seoul_open_data/OA-23051"}
+{"review_id": "p020|seoul_open_data/OA-22432", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p020|seoul_open_data/OA-23051", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "총괄표제부로 대장 일부 영역만 제공", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate"], "worksheet_regions_shown": "서울", "v1_copies_now_separate": ["seoul_open_data/OA-22423"], "v1_copies_in_prelim_top10": ["seoul_open_data/OA-22423"]}}
+{"review_id": "p021|data_go_kr/15021148", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p021|data_go_kr/15021153", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p021|data_go_kr/15050724", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p021|data_go_kr/15050725", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p021|data_go_kr/15058169", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "경기 학교 주소 제공, 학생수는 추가 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p021|data_go_kr/15058791", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "경기 초등학교 주소만 있어 전국·학생수 부족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p021|data_go_kr/15058802", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "경기 중학교 주소만 있어 전국·학생수 부족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p021|data_go_kr/15059240", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "경기 고등학교 주소만 있어 전국·학생수 부족", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p021|data_go_kr/15107734", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "초중고 기본정보라는 설명만 있어 주소·학생수 필드 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p021|seoul_open_data/OA-20504", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": "seoul_open_data/OA-23035"}
+{"review_id": "p021|seoul_open_data/OA-20506", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": "seoul_open_data/OA-23035"}
+{"review_id": "p021|seoul_open_data/OA-20524", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": "seoul_open_data/OA-23035"}
+{"review_id": "p021|seoul_open_data/OA-20555", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p021|seoul_open_data/OA-20557", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p021|seoul_open_data/OA-20558", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p021|seoul_open_data/OA-20559", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p021|seoul_open_data/OA-20561", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15056761", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "휴게음식점 인허가로 휴게소 편의시설 일부", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p022|data_go_kr/15058257", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15076647", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15076661", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15155087", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15158778", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p022|data_go_kr/15158846", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15057711", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15066754", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15097855", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15108762", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15139134", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "대구 정류장 상세 서비스이나 위치 좌표 응답은 카드에서 미확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15139231", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15142030", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15142031", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p023|data_go_kr/15157601", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15001189", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15007317", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15049995", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15049998", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15049999", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15057134", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15074266", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15074267", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15076361", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15093660", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p024|data_go_kr/15146171", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": "seoul_open_data/OA-22270"}
+{"review_id": "p024|data_go_kr/15146211", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": "seoul_open_data/OA-22714"}
+{"review_id": "p025|data_go_kr/15044460", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p025|data_go_kr/15099790", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p025|data_go_kr/15099883", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p025|seoul_open_data/OA-22411", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p026|data_go_kr/15012892", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "전국 위치는 맞지만 라이선스 공란으로 제1유형 확인 불가", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p026|data_go_kr/15028206", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p026|data_go_kr/15034536", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p026|data_go_kr/15044453", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": "seoul_open_data/OA-22501"}
+{"review_id": "p026|data_go_kr/15155046", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p026|seoul_open_data/OA-16046", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p026|seoul_open_data/OA-17483", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": "seoul_open_data/OA-16046"}
+{"review_id": "p026|seoul_open_data/OA-21071", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p026|seoul_open_data/OA-22726", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15000332", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15058877", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15100899", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15143846", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15143847", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p027|data_go_kr/15146211", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": "seoul_open_data/OA-22714"}
+{"review_id": "p027|seoul_open_data/OA-1095", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p027|seoul_open_data/OA-12913", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p027|seoul_open_data/OA-12928", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p027|seoul_open_data/OA-20921", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p027|seoul_open_data/OA-21220", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p027|seoul_open_data/OA-21225", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p028|data_go_kr/15029181", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p028|data_go_kr/15062924", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p028|data_go_kr/15118622", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p028|data_go_kr/15141809", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p028|data_go_kr/3078691", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p028|seoul_open_data/OA-1176", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": "seoul_open_data/OA-23058"}
+{"review_id": "p028|seoul_open_data/OA-13036", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": "seoul_open_data/OA-23058"}
+{"review_id": "p028|seoul_open_data/OA-13037", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": "seoul_open_data/OA-23058"}
+{"review_id": "p029|data_go_kr/15000867", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15000881", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15001021", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15020829", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15055595", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15055596", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15057514", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15063500", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15073441", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p029|data_go_kr/15112114", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-11674", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-12515", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-12734", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-12735", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-13668", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-17538", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 8}, "v1_canonical": "seoul_open_data/OA-16048"}
+{"review_id": "p030|seoul_open_data/OA-17550", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 10}, "v1_canonical": "seoul_open_data/OA-16048"}
+{"review_id": "p030|seoul_open_data/OA-20922", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p030|seoul_open_data/OA-23040", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p031|data_go_kr/15013094", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "CCTV 위치는 맞지만 라이선스 공란, 상업 이용 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null}
+{"review_id": "p031|data_go_kr/15141678", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p031|data_go_kr/15158499", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p031|seoul_open_data/OA-11568", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p031|seoul_open_data/OA-13272", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "동작구 CCTV에 한정, 제1유형 표기", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate"], "worksheet_regions_shown": "서울", "v1_copies_now_separate": ["seoul_open_data/OA-11571"], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p031|seoul_open_data/OA-13463", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "CCTV 위치는 맞지만 라이선스 공란, 상업 이용 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 6, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15004404", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15041727", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15054887", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15055192", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15055217", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15058732", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15059064", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15065133", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15069119", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15076540", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p032|data_go_kr/15119608", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p032|seoul_open_data/OA-20448", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "공간정보는 있지만 제목·설명에 관할 지역이 없어 인천 포함 미확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15058172", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15058523", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15058848", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15059509", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15085794", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15142986", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15153129", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/15153131", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p033|data_go_kr/3034724", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p035|data_go_kr/15056985", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p035|data_go_kr/15057399", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "아동 복지혜택에 한정", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p035|data_go_kr/15058937", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "청소년 복지혜택에 한정", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p035|data_go_kr/15072656", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p035|data_go_kr/15108132", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p035|data_go_kr/15131425", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p035|data_go_kr/15156706", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p035|seoul_open_data/OA-22731", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15020628", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15076323", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15076330", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15076337", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15096118", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15097199", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15106975", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15111774", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p036|data_go_kr/15111777", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p037|data_go_kr/15101903", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p037|data_go_kr/15114773", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p037|data_go_kr/15156872", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p038|data_go_kr/15135578", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p038|data_go_kr/3055531", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p038|data_go_kr/3060744", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15043985", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15054588", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15060323", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15061337", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15064213", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15070103", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15082033", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15082044", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/15108177", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p039|data_go_kr/3045791", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p039|seoul_open_data/OA-15572", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p039|seoul_open_data/OA-22175", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p039|seoul_open_data/OA-22176", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p039|seoul_open_data/OA-22177", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15044460", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15058546", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15083717", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "대전 일부 실시간 면수는 확인, 민간 포함 여부·전국 완전성 확인 불가", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 3, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15095053", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15099790", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15099883", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15110659", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "주차가능 대수가 실시간 잔여인지 총면수인지 명세 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null}
+{"review_id": "p040|data_go_kr/15158681", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p040|seoul_open_data/OA-21087", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p041|data_go_kr/15147384", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15003297", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15003367", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15034786", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15034830", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15034831", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15034958", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15048866", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15054397", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15054398", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15054399", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15054400", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15088476", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15119709", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p042|data_go_kr/15134030", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p044|data_go_kr/15056569", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p044|data_go_kr/15057966", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p044|data_go_kr/15059060", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p044|data_go_kr/15073263", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p044|data_go_kr/15144070", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p044|seoul_open_data/OA-12764", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p044|seoul_open_data/OA-12928", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p044|seoul_open_data/OA-13100", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 10}, "v1_canonical": "seoul_open_data/OA-13101"}
+{"review_id": "p044|seoul_open_data/OA-15799", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p044|seoul_open_data/OA-21285", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 9}, "v1_canonical": "seoul_open_data/OA-22714"}
+{"review_id": "p044|seoul_open_data/OA-21695", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p045|data_go_kr/15152116", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p045|data_go_kr/15157696", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p045|data_go_kr/15157700", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p045|data_go_kr/15157722", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p045|data_go_kr/15157778", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p045|seoul_open_data/OA-1167", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p045|seoul_open_data/OA-12252", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p045|seoul_open_data/OA-13315", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 8}, "v1_canonical": "data_go_kr/15058877"}
+{"review_id": "p045|seoul_open_data/OA-22714", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "서울 도시지점 기상특보발효시각 제공, 전체 발령내용·지연 보장 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["v1_copies_now_separate"], "worksheet_regions_shown": "서울", "v1_copies_now_separate": ["seoul_open_data/OA-21285", "data_go_kr/15146211"], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p046|data_go_kr/15049998", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15056834", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15057156", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15057260", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15058629", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "통보문 서비스에 중기 기간 포함되는지 카드만으로 불명", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15074272", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15128555", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15136577", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15142055", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p046|data_go_kr/15143060", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p046|seoul_open_data/OA-16050", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p046|seoul_open_data/OA-22515", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15012891", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15021104", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15029605", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15034088", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15058629", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15073262", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15084817", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15085289", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15087828", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15092032", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15096663", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15097855", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15098003", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15129372", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15142489", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15151027", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/15156872", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p047|data_go_kr/3083835", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p048|data_go_kr/15058364", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p048|data_go_kr/15144070", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p048|data_go_kr/15146211", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 9}, "v1_canonical": "seoul_open_data/OA-22714"}
+{"review_id": "p048|seoul_open_data/OA-13315", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": "data_go_kr/15058877"}
+{"review_id": "p048|seoul_open_data/OA-22750", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p049|data_go_kr/15016368", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "권역 집중측정 자료이나 카드가 잘려 최신 갱신·전체 농도 항목 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-12255", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-15515", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-15526", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-20461", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-2217", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-2218", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-2223", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-2275", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2}, "v1_canonical": null}
+{"review_id": "p049|seoul_open_data/OA-23039", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 1}, "v1_canonical": "seoul_open_data/OA-15516"}
+{"review_id": "p049|seoul_open_data/OA-23044", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15029181", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15055602", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15057209", "review_sources": ["high_review"], "existing_judgment": {"score": "2", "reason": "", "note": "반여 농산물 실시간 경락가격 API", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p050|data_go_kr/15057737", "review_sources": ["high_review"], "existing_judgment": {"score": "2", "reason": "", "note": "반여 농산물 실시간 경락가격 API", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p050|data_go_kr/15059163", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "제목은 반입물량인데 가격정보와 같은 설명이 재사용됨. 실제 오퍼레이션의 가격 필드 확인 전 판정 보류", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 6, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15087476", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15087482", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15141810", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p050|data_go_kr/15141811", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "실시간 거래 플랫폼 설명과 확정 거래 집계가 혼재, API 최신 가격 제공 여부 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/15062509", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/15064371", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/15095725", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "JSON 제공 표기만 있어 API인지 다운로드 파일인지 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/15154373", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/15162770", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/3036346", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": null}
+{"review_id": "p051|data_go_kr/3078981", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p051|seoul_open_data/OA-15475", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15021149", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15021153", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15021154", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15021158", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15053922", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10, "pool_terms": 9}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15107734", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "기본정보 설명만 있어 지도용 주소·좌표 제공 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 3, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15110262", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15110263", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p052|data_go_kr/15138981", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p053|data_go_kr/15001466", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p053|data_go_kr/15058717", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3}, "v1_canonical": null}
+{"review_id": "p053|data_go_kr/15068808", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p053|data_go_kr/15101155", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p053|data_go_kr/15148259", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p053|seoul_open_data/OA-15452", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p053|seoul_open_data/OA-20316", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": "seoul_open_data/OA-20300"}
+{"review_id": "p053|seoul_open_data/OA-20317", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4}, "v1_canonical": "seoul_open_data/OA-20300"}
+{"review_id": "p054|data_go_kr/15057047", "review_sources": ["high_review"], "existing_judgment": {"score": "2", "reason": "", "note": "경기 관광지 위치와 제한없음 표기, 지역 제한 없음", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p054|data_go_kr/15101578", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "관광정보는 맞으나 라이선스 공란, 상업 이용 조건 별도 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 7, "pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101753", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "영문 관광정보이나 라이선스 공란, 상업 이용 조건 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 5, "pool_terms": 4}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101760", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101764", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101769", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101808", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "관광정보는 맞으나 라이선스 공란, 상업 이용 조건 별도 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 2, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101811", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "스페인어 관광정보이나 라이선스 공란, 상업 이용 조건 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 3, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15101897", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "무장애 관광정보이나 라이선스 공란, 상업 이용 조건 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"question_only": 1}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15125070", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15144030", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "웰니스 관광정보이나 라이선스 공란, 상업 이용 조건 확인", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p054|data_go_kr/15152138", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": null}
+{"review_id": "p055|data_go_kr/15141892", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p055|data_go_kr/15143471", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p055|data_go_kr/15143500", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p055|data_go_kr/15143502", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p055|data_go_kr/15143525", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 10}, "v1_canonical": null}
+{"review_id": "p056|data_go_kr/15028252", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 6}, "v1_canonical": null}
+{"review_id": "p056|data_go_kr/15057199", "review_sources": ["high_review"], "existing_judgment": {"score": "1", "reason": "", "note": "대학별 학과·전공 제공, 등록금·장학금 별도", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p056|data_go_kr/15070460", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7, "pool_terms": 5}, "v1_canonical": null}
+{"review_id": "p056|data_go_kr/15070462", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p056|data_go_kr/15107740", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 5}, "v1_canonical": null}
+{"review_id": "p056|data_go_kr/15114804", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 9, "pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p056|seoul_open_data/OA-22987", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 10}, "v1_canonical": "seoul_open_data/OA-22314"}
+{"review_id": "p057|data_go_kr/15000504", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 8}, "v1_canonical": null}
+{"review_id": "p057|data_go_kr/15043145", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 9}, "v1_canonical": "data_go_kr/15080336"}
+{"review_id": "p057|data_go_kr/15058024", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 7}, "v1_canonical": null}
+{"review_id": "p057|data_go_kr/15076249", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 8}, "v1_canonical": null}
+{"review_id": "p057|data_go_kr/15080336", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"pool_terms": 6}, "v1_canonical": null}
+{"review_id": "p057|data_go_kr/15085787", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "코로나 입국조치 자료로 현재 유효성·갱신 여부 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": {"pool_terms": 7}, "v1_canonical": null}
+{"review_id": "p058|data_go_kr/15043550", "review_sources": ["existing_hold"], "existing_judgment": {"score": "?", "reason": "", "note": "기온 관측은 있으나 공공기관 한정 제공, 사용자 접근 가능 여부 확인 필요", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null}
+{"review_id": "p058|data_go_kr/15058088", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 1, "pool_terms": 1}, "v1_canonical": null}
+{"review_id": "p058|data_go_kr/15058372", "review_sources": ["high_review"], "existing_judgment": {"score": "2", "reason": "", "note": "경기 AWS 지점별 시간 기온 제공", "judge": "codex", "judged_on": "2026-11-05"}, "discovery": null, "v1_canonical": null, "high_review": {"reasons": ["card_national_but_publisher_is_local_government"], "worksheet_regions_shown": "전국", "v1_copies_now_separate": [], "v1_copies_in_prelim_top10": []}}
+{"review_id": "p058|data_go_kr/15075543", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 3, "pool_terms": 3}, "v1_canonical": null}
+{"review_id": "p058|data_go_kr/15095473", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 2, "pool_terms": 2}, "v1_canonical": null}
+{"review_id": "p058|data_go_kr/15142495", "review_sources": ["new_unjudged"], "existing_judgment": null, "discovery": {"question_only": 4, "pool_terms": 4}, "v1_canonical": null}

@@ -1,0 +1,1078 @@
+{"query_id": "p001", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-21709", "title": "서울시 시영주차장 실시간 주차대수 정보", "score": 7.108, "dense": 0.561, "label_state": "미판정"}
+{"query_id": "p001", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15099790", "title": "행정안전부_전국 명절 무료주차장 현황", "score": 7.018, "dense": 0.552, "label_state": "미판정"}
+{"query_id": "p001", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15004746", "title": "강남구도시관리공단_공영주차장 정보", "score": 6.849, "dense": 0.535, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-13122", "title": "서울시 공영주차장 안내 정보", "score": 6.845, "dense": 0.534, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15083717", "title": "대전광역시_실시간 주차장 정보_20210611", "score": 6.77, "dense": 0.527, "label_state": "미판정"}
+{"query_id": "p001", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-15012", "title": "서울시 강남구 공영주차장 정보", "score": 6.732, "dense": 0.523, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15044460", "title": "한국국토정보공사 주차장 정보 DB", "score": 6.725, "dense": 0.523, "label_state": "미판정"}
+{"query_id": "p001", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 6.687, "dense": 0.519, "label_state": "정답 1점"}
+{"query_id": "p001", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15108762", "title": "대구광역시_부설주차장운영및개방공유정보조회서비스_20221001", "score": 6.658, "dense": 0.516, "label_state": "미판정"}
+{"query_id": "p001", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15099883", "title": "한국교통안전공단_주차정보 제공 API_20220418", "score": 6.651, "dense": 0.515, "label_state": "미판정"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15004746", "title": "강남구도시관리공단_공영주차장 정보", "score": 13.21, "dense": 0.535, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-13122", "title": "서울시 공영주차장 안내 정보", "score": 13.206, "dense": 0.534, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-15012", "title": "서울시 강남구 공영주차장 정보", "score": 13.093, "dense": 0.523, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 13.048, "dense": 0.519, "label_state": "정답 1점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15012896", "title": "전국주차장정보표준데이터", "score": 12.933, "dense": 0.507, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15058546", "title": "성동구도시관리공단 공영주차장정보 OPEN-API_20220506", "score": 12.846, "dense": 0.499, "label_state": "정답 1점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15074539", "title": "수원도시공사_공영주차장 현황", "score": 12.745, "dense": 0.488, "label_state": "정답 2점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15004683", "title": "부산광역시 공영주차장 정보 서비스", "score": 12.684, "dense": 0.482, "label_state": "정답 1점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-11580", "title": "서울시 강북구 공영주차장 현황", "score": 12.527, "dense": 0.467, "label_state": "정답 1점"}
+{"query_id": "p001", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15059437", "title": "대전시 주차장정보 제공 API 서비스2", "score": 12.508, "dense": 0.465, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15102458", "title": "한국전력공사_전기차충전소위경도", "score": 7.18, "dense": 0.568, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15068376", "title": "한국전력기술(주)_전기차충전소 정보", "score": 6.722, "dense": 0.522, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15102510", "title": "한국전력공사_전기차 충전소 충전량", "score": 6.719, "dense": 0.522, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15162796", "title": "전북특별자치도_전기차 충전소 설치현황_20260805", "score": 6.639, "dense": 0.514, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15059812", "title": "기후에너지환경부_전기자동차 급속충전기 보급 현황", "score": 6.593, "dense": 0.509, "label_state": "미판정"}
+{"query_id": "p002", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15076352", "title": "한국환경공단_전기자동차 충전소 정보_20210120", "score": 6.578, "dense": 0.508, "label_state": "미판정"}
+{"query_id": "p002", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15068272", "title": "기후에너지환경부_전기자동차 완속충전기 보급 현황", "score": 6.544, "dense": 0.504, "label_state": "미판정"}
+{"query_id": "p002", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-21712", "title": "서울시 소유 전기차 충전소 정보", "score": 6.53, "dense": 0.503, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-23033", "title": "서울시 공공 전기차 충전소 정보", "score": 6.487, "dense": 0.499, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-13281", "title": "서울시 동작구 전기차충전소 현황", "score": 6.476, "dense": 0.498, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15102458", "title": "한국전력공사_전기차충전소위경도", "score": 9.18, "dense": 0.568, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15068376", "title": "한국전력기술(주)_전기차충전소 정보", "score": 8.722, "dense": 0.522, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15102510", "title": "한국전력공사_전기차 충전소 충전량", "score": 8.719, "dense": 0.522, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15162796", "title": "전북특별자치도_전기차 충전소 설치현황_20260805", "score": 8.639, "dense": 0.514, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-21712", "title": "서울시 소유 전기차 충전소 정보", "score": 8.53, "dense": 0.503, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-23033", "title": "서울시 공공 전기차 충전소 정보", "score": 8.487, "dense": 0.499, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-13281", "title": "서울시 동작구 전기차충전소 현황", "score": 8.476, "dense": 0.498, "label_state": "정답 2점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15013115", "title": "전국전기차충전소표준데이터", "score": 8.468, "dense": 0.497, "label_state": "정답 1점"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15039765", "title": "한국전력공사_지역별 전기차 충전소 현황정보", "score": 8.391, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p002", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15163600", "title": "부산광역시_전기차충전소 현황_20260907", "score": 8.389, "dense": 0.489, "label_state": "정답 2점"}
+{"query_id": "p003", "mode": "question_only", "rank": 1, "dataset_id": "heymilka/apk", "title": null, "score": 5.859, "dense": 0.367, "label_state": "비공공데이터"}
+{"query_id": "p003", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15058732", "title": "어린이 놀이시설 현황", "score": 5.148, "dense": 0.365, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/3065251", "title": "한국사회보장정보원_어린이집 정보_20200801", "score": 5.114, "dense": 0.361, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15057650", "title": "장애인어린이집 현황(전문,통합)", "score": 5.042, "dense": 0.354, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15069119", "title": "대구광역시_어린이집 현황", "score": 5.039, "dense": 0.354, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15056749", "title": "우수어린이 놀이시설 현황", "score": 4.98, "dense": 0.348, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15058717", "title": "아동 공동생활 가정 현황", "score": 4.898, "dense": 0.34, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15098821", "title": "보건복지부_보건·복지현황_보육아동 현황_20220422", "score": 4.887, "dense": 0.339, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15101155", "title": "한국사회보장정보원_전국 어린이집 정보 조회", "score": 4.847, "dense": 0.335, "label_state": "미판정"}
+{"query_id": "p003", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15147936", "title": "부산광역시_서구 어린이집 현황_20250826", "score": 4.83, "dense": 0.333, "label_state": "미판정"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15124527", "title": "행정안전부_전국어린이놀이시설우수시설정보서비스_20241101", "score": 6.796, "dense": 0.33, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15124537", "title": "행정안전부_전국우수어린이놀이시설통계정보서비스_20231018", "score": 6.741, "dense": 0.324, "label_state": "오답 0점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-23006", "title": "서울특별시 어린이놀이시설 정보", "score": 6.725, "dense": 0.322, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15124521", "title": "행정안전부_전국어린이놀이시설기구정보서비스_20240402", "score": 6.575, "dense": 0.307, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15124519", "title": "행정안전부_전국어린이놀이시설정보서비스_20231018", "score": 6.457, "dense": 0.296, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15058732", "title": "어린이 놀이시설 현황", "score": 6.148, "dense": 0.365, "label_state": "정답 1점"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/3065251", "title": "한국사회보장정보원_어린이집 정보_20200801", "score": 6.114, "dense": 0.361, "label_state": "미판정"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15057650", "title": "장애인어린이집 현황(전문,통합)", "score": 6.042, "dense": 0.354, "label_state": "미판정"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15069119", "title": "대구광역시_어린이집 현황", "score": 6.039, "dense": 0.354, "label_state": "미판정"}
+{"query_id": "p003", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15056749", "title": "우수어린이 놀이시설 현황", "score": 5.98, "dense": 0.348, "label_state": "미판정"}
+{"query_id": "p004", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15057714", "title": "어르신무료급식소 현황", "score": 5.996, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15058592", "title": "재가 노인 복지시설 현황", "score": 5.791, "dense": 0.429, "label_state": "미판정"}
+{"query_id": "p004", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15042666", "title": "부산광역시_노인복지관 현황", "score": 5.593, "dense": 0.409, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15054170", "title": "울산광역시_무료경로식당", "score": 5.446, "dense": 0.395, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15089276", "title": "대한적십자사_무료급식소", "score": 5.359, "dense": 0.386, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15068616", "title": "보건복지부_노인복지 생활시설 수 및 생활자 현황_시설 종류별_시도별", "score": 5.355, "dense": 0.386, "label_state": "미판정"}
+{"query_id": "p004", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15055607", "title": "전북특별자치도_복지시설(노인)_경로당 현황", "score": 5.324, "dense": 0.382, "label_state": "오답 0점"}
+{"query_id": "p004", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15127876", "title": "보건복지부_노인복지 이용시설 현황_시설 종류별_시도별", "score": 5.28, "dense": 0.378, "label_state": "미판정"}
+{"query_id": "p004", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15057478", "title": "무료 직업소개소 현황", "score": 5.254, "dense": 0.375, "label_state": "미판정"}
+{"query_id": "p004", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15065819", "title": "부산광역시_노인맞춤돌봄기관 현황", "score": 5.25, "dense": 0.375, "label_state": "미판정"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15057714", "title": "어르신무료급식소 현황", "score": 6.996, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15042666", "title": "부산광역시_노인복지관 현황", "score": 6.593, "dense": 0.409, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15089276", "title": "대한적십자사_무료급식소", "score": 6.359, "dense": 0.386, "label_state": "정답 1점"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15068616", "title": "보건복지부_노인복지 생활시설 수 및 생활자 현황_시설 종류별_시도별", "score": 6.355, "dense": 0.386, "label_state": "미판정"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15055607", "title": "전북특별자치도_복지시설(노인)_경로당 현황", "score": 6.324, "dense": 0.382, "label_state": "오답 0점"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15127876", "title": "보건복지부_노인복지 이용시설 현황_시설 종류별_시도별", "score": 6.28, "dense": 0.378, "label_state": "미판정"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15098828", "title": "보건복지부_보건·복지현황_노인복지 이용시설 현황_20220422", "score": 6.233, "dense": 0.373, "label_state": "미판정"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15069498", "title": "대구광역시_경로당", "score": 6.229, "dense": 0.373, "label_state": "보류"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15058592", "title": "재가 노인 복지시설 현황", "score": 5.791, "dense": 0.429, "label_state": "미판정"}
+{"query_id": "p004", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15054170", "title": "울산광역시_무료경로식당", "score": 5.446, "dense": 0.395, "label_state": "정답 1점"}
+{"query_id": "p005", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15095251", "title": "부산광역시_부산위생등급지정업소정보서비스_20211129", "score": 7.379, "dense": 0.588, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15057674", "title": "모범음식점 현황", "score": 7.132, "dense": 0.563, "label_state": "정답 1점"}
+{"query_id": "p005", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15077429", "title": "부산광역시_음식점 식품안심업소(위생등급) 지정 현황", "score": 7.087, "dense": 0.559, "label_state": "정답 2점"}
+{"query_id": "p005", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15095248", "title": "부산광역시_부산안심식당정보서비스_20211129", "score": 7.067, "dense": 0.557, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15061948", "title": "농림축산식품부_안심식당 정보", "score": 7.032, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15064937", "title": "식품의약품안전처_위생관리등급별 업소 현황_20200916", "score": 6.976, "dense": 0.548, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15057797", "title": "일반음식점(출장조리) 현황", "score": 6.967, "dense": 0.547, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15154921", "title": "행정안전부_식품 휴게음식점 조회서비스_20251126", "score": 6.922, "dense": 0.542, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15057920", "title": "관광식당 현황", "score": 6.909, "dense": 0.541, "label_state": "미판정"}
+{"query_id": "p005", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15057788", "title": "휴게음식점(전통찻집) 현황", "score": 6.898, "dense": 0.54, "label_state": "미판정"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15060883", "title": "식품의약품안전처_식품접객업소 위생등급 지정현황_20200622", "score": 8.888, "dense": 0.539, "label_state": "정답 2점"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15095251", "title": "부산광역시_부산위생등급지정업소정보서비스_20211129", "score": 8.379, "dense": 0.588, "label_state": "미판정"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15057674", "title": "모범음식점 현황", "score": 8.132, "dense": 0.563, "label_state": "정답 1점"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15077429", "title": "부산광역시_음식점 식품안심업소(위생등급) 지정 현황", "score": 8.087, "dense": 0.559, "label_state": "정답 2점"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15078785", "title": "충청북도_식품 접객업소(제조업제) 위생등급 평가결과_20210331", "score": 7.841, "dense": 0.534, "label_state": "보류"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15064964", "title": "식품의약품안전처_식품모범음식점_20200916", "score": 7.827, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15058548", "title": "식품접객업소 현황", "score": 7.726, "dense": 0.523, "label_state": "오답 0점"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15155052", "title": "행정안전부_모범음식점정보 조회서비스_20251126", "score": 7.663, "dense": 0.516, "label_state": "미판정"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-11070", "title": "서울시 서초구 식품접객업소 식품수거검사 현황", "score": 7.5, "dense": 0.5, "label_state": "미판정"}
+{"query_id": "p005", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-11313", "title": "서울시 강남구 모범음식점 취소 현황", "score": 7.481, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 1, "dataset_id": "heymilka/apk", "title": null, "score": 6.517, "dense": 0.433, "label_state": "비공공데이터"}
+{"query_id": "p006", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15143525", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료 및 이미지 정보_20250523", "score": 5.834, "dense": 0.433, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15143464", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠)음식 및 이미지 정보_20250521", "score": 5.799, "dense": 0.43, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15143468", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식 및 조리정보_20250521", "score": 5.768, "dense": 0.427, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15143471", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료, 조리 및 이미지 정보_20250521", "score": 5.768, "dense": 0.427, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15100070", "title": "전국통합식품영양성분정보(음식)표준데이터", "score": 5.764, "dense": 0.426, "label_state": "정답 2점"}
+{"query_id": "p006", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15059324", "title": "일반음식점(이동조리) 현황", "score": 5.763, "dense": 0.426, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15157412", "title": "농촌진흥청 국립식량과학원_야콘 요리법 조회_20260209", "score": 5.763, "dense": 0.426, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15040895", "title": "농촌진흥청_창업을 위한 식용 곤충요리_20191213", "score": 5.758, "dense": 0.426, "label_state": "미판정"}
+{"query_id": "p006", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15084591", "title": "농촌진흥청 국립원예특작과학원_원예특용작물 요리 조회 서비스", "score": 5.745, "dense": 0.425, "label_state": "미판정"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15100070", "title": "전국통합식품영양성분정보(음식)표준데이터", "score": 7.764, "dense": 0.426, "label_state": "정답 2점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15127578", "title": "식품의약품안전처_식품영양성분DB정보", "score": 7.513, "dense": 0.401, "label_state": "정답 2점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15155983", "title": "전국건강기능식품영양성분정보표준데이터", "score": 7.399, "dense": 0.39, "label_state": "정답 1점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15100064", "title": "전국통합식품영양성분정보표준데이터", "score": 7.392, "dense": 0.389, "label_state": "정답 2점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15100066", "title": "전국통합식품영양성분정보(가공식품)표준데이터", "score": 7.323, "dense": 0.382, "label_state": "정답 1점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15100065", "title": "전국통합식품영양성분정보(원재료성식품)표준데이터", "score": 7.254, "dense": 0.375, "label_state": "정답 1점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15143461", "title": "농촌진흥청 국립식량과학원_농식품 식단관리 음식별 영양성분 정보_20250520", "score": 6.684, "dense": 0.418, "label_state": "정답 2점"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 8, "dataset_id": "heymilka/apk", "title": null, "score": 6.517, "dense": 0.433, "label_state": "비공공데이터"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15143525", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료 및 이미지 정보_20250523", "score": 5.834, "dense": 0.433, "label_state": "미판정"}
+{"query_id": "p006", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15143464", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠)음식 및 이미지 정보_20250521", "score": 5.799, "dense": 0.43, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-20337", "title": "서울시 병의원 위치 정보", "score": 5.723, "dense": 0.422, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15043696", "title": "심야약국정보 조회 목록 서비스", "score": 5.662, "dense": 0.416, "label_state": "정답 1점"}
+{"query_id": "p007", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15064429", "title": "병무청_지정병원", "score": 5.624, "dense": 0.412, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15130342", "title": "병무청_나라사랑가게조회서비스_20240723", "score": 5.606, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-12095", "title": "서울시 동작구 공공서비스예약 정보", "score": 5.576, "dense": 0.408, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-20402", "title": "서울시 약국 운영시간  정보", "score": 5.534, "dense": 0.403, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-12161", "title": "서울시 종로구 공공서비스예약 정보", "score": 5.531, "dense": 0.403, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-12131", "title": "서울시 도봉구 공공서비스예약 정보", "score": 5.53, "dense": 0.403, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-12179", "title": "서울시 동대문구 공공서비스예약 정보", "score": 5.522, "dense": 0.402, "label_state": "미판정"}
+{"query_id": "p007", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/3082176", "title": "부산 의료기관/약국 운영시간 정보 서비스", "score": 5.518, "dense": 0.402, "label_state": "정답 1점"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/3082176", "title": "부산 의료기관/약국 운영시간 정보 서비스", "score": 11.767, "dense": 0.402, "label_state": "정답 1점"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15127987", "title": "부산광역시_공공심야약국", "score": 11.682, "dense": 0.393, "label_state": "정답 1점"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15064429", "title": "병무청_지정병원", "score": 10.873, "dense": 0.412, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15045490", "title": "전북특별자치도_휴일지킴이약국 안내", "score": 10.753, "dense": 0.4, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15154458", "title": "행정안전부_건강 병원 조회서비스_20251126", "score": 10.728, "dense": 0.398, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-16165", "title": "서울시 중랑구 병원 인허가 정보", "score": 10.712, "dense": 0.396, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15001698", "title": "건강보험심사평가원_병원정보서비스_20200609", "score": 10.696, "dense": 0.395, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-16183", "title": "서울시 강동구 병원 인허가 정보", "score": 10.639, "dense": 0.389, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-16160", "title": "서울시 중구 병원 인허가 정보", "score": 10.63, "dense": 0.388, "label_state": "미판정"}
+{"query_id": "p007", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-16169", "title": "서울시 노원구 병원 인허가 정보", "score": 10.626, "dense": 0.388, "label_state": "미판정"}
+{"query_id": "p008", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15025449", "title": "전국지진해일긴급대피장소표준데이터", "score": 5.892, "dense": 0.439, "label_state": "미판정"}
+{"query_id": "p008", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15072620", "title": "전국지진옥외대피장소표준데이터", "score": 5.759, "dense": 0.426, "label_state": "정답 2점"}
+{"query_id": "p008", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15124827", "title": "한국동서발전(주)_지진 감시 현황 정보_20221225", "score": 5.468, "dense": 0.397, "label_state": "미판정"}
+{"query_id": "p008", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15025449", "title": "전국지진해일긴급대피장소표준데이터", "score": 6.892, "dense": 0.439, "label_state": "미판정"}
+{"query_id": "p008", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15072620", "title": "전국지진옥외대피장소표준데이터", "score": 6.759, "dense": 0.426, "label_state": "정답 2점"}
+{"query_id": "p008", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15124827", "title": "한국동서발전(주)_지진 감시 현황 정보_20221225", "score": 6.468, "dense": 0.397, "label_state": "미판정"}
+{"query_id": "p009", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15048392", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 규모별 매매", "score": 7.352, "dense": 0.585, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "question_only", "rank": 2, "dataset_id": "eunguneun/korea-apartment-subscription-followup-supply-2026", "title": null, "score": 7.209, "dense": 0.482, "label_state": "비공공데이터"}
+{"query_id": "p009", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15044282", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 규모별 전세", "score": 7.114, "dense": 0.561, "label_state": "오답 0점"}
+{"query_id": "p009", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15044284", "title": "한국부동산원_공동주택 실거래가격지수_아파트_분기별 시군구별 매매", "score": 7.079, "dense": 0.558, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15047778", "title": "한국부동산원_전국주택가격동향조사_지역별 전월세전환율(아파트)", "score": 7.064, "dense": 0.556, "label_state": "미판정"}
+{"query_id": "p009", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15044283", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 지역별 매매", "score": 7.061, "dense": 0.556, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15130860", "title": "한국부동산원_공동주택 실거래가격지수_아파트 가격_월별 지역별 전세 평균", "score": 7.025, "dense": 0.552, "label_state": "오답 0점"}
+{"query_id": "p009", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15069821", "title": "한국부동산원_전국주택가격동향조사_월별동향_아파트_매매가격지수(지역별)", "score": 6.834, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p009", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15069873", "title": "한국부동산원_전국주택가격동향조사_주간아파트동향_매매가격지수(지역별)", "score": 6.831, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p009", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-15820", "title": "서울시 공동주택 재무보고서 정보", "score": 6.819, "dense": 0.532, "label_state": "미판정"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15048392", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 규모별 매매", "score": 9.352, "dense": 0.585, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15044282", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 규모별 전세", "score": 9.114, "dense": 0.561, "label_state": "오답 0점"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15044284", "title": "한국부동산원_공동주택 실거래가격지수_아파트_분기별 시군구별 매매", "score": 9.079, "dense": 0.558, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15044283", "title": "한국부동산원_공동주택 실거래가격지수_아파트_월별 지역별 매매", "score": 9.061, "dense": 0.556, "label_state": "정답 1점"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15130860", "title": "한국부동산원_공동주택 실거래가격지수_아파트 가격_월별 지역별 전세 평균", "score": 9.025, "dense": 0.552, "label_state": "오답 0점"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15069821", "title": "한국부동산원_전국주택가격동향조사_월별동향_아파트_매매가격지수(지역별)", "score": 8.834, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15069873", "title": "한국부동산원_전국주택가격동향조사_주간아파트동향_매매가격지수(지역별)", "score": 8.831, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15069826", "title": "한국부동산원_전국주택가격동향조사_월별동향_아파트_매매가격(평균매매가격)", "score": 8.786, "dense": 0.529, "label_state": "미판정"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15068658", "title": "한국부동산원_부동산거래현황_아파트매매 거래현황_연도별 매입자연령대별", "score": 8.776, "dense": 0.528, "label_state": "미판정"}
+{"query_id": "p009", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15044273", "title": "한국부동산원_전국주택가격동향조사_월별동향_아파트_매매수급동향", "score": 8.696, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15049998", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행일정", "score": 6.513, "dense": 0.501, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15135102", "title": "한국관광공사_반려동물_동반여행_서비스", "score": 6.287, "dense": 0.479, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15057815", "title": "일반 여행업체 현황", "score": 6.132, "dense": 0.463, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15057287", "title": "인천광역시_문화예술행사_20210610", "score": 6.097, "dense": 0.46, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15058588", "title": "국내 여행업체 현황", "score": 6.093, "dense": 0.459, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15101897", "title": "한국관광공사_무장애 여행 정보", "score": 6.089, "dense": 0.459, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-16049", "title": "서울시 국내여행업 인허가 정보", "score": 6.088, "dense": 0.459, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15000504", "title": "여행금지제도", "score": 6.082, "dense": 0.458, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15048444", "title": "한국농어촌공사_계절테마여행정보", "score": 6.074, "dense": 0.457, "label_state": "미판정"}
+{"query_id": "p010", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15105717", "title": "한국관광공사_열린관광지목록", "score": 6.064, "dense": 0.456, "label_state": "정답 1점"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15105717", "title": "한국관광공사_열린관광지목록", "score": 12.584, "dense": 0.456, "label_state": "정답 1점"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15101971", "title": "한국관광공사_관광지 오디오 가이드정보_GW", "score": 12.503, "dense": 0.448, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15098030", "title": "울산광역시_문화축제_20220101", "score": 12.44, "dense": 0.442, "label_state": "정답 1점"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15055596", "title": "전북특별자치도_지역축제 관광객현황", "score": 12.361, "dense": 0.434, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15128559", "title": "한국관광공사_기초지자체 중심 관광지 정보", "score": 12.355, "dense": 0.433, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15128560", "title": "한국관광공사_관광지별 연관 관광지 정보", "score": 12.326, "dense": 0.431, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15021141", "title": "전국관광지정보표준데이터", "score": 12.307, "dense": 0.429, "label_state": "정답 1점"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15049998", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행일정", "score": 12.034, "dense": 0.501, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15135102", "title": "한국관광공사_반려동물_동반여행_서비스", "score": 11.807, "dense": 0.479, "label_state": "미판정"}
+{"query_id": "p010", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15101897", "title": "한국관광공사_무장애 여행 정보", "score": 11.609, "dense": 0.459, "label_state": "미판정"}
+{"query_id": "p011", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15158970", "title": "산림청_산림공간정보_등산로정보_GW_20141218", "score": 6.407, "dense": 0.491, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15092032", "title": "산림청 국립산림과학원_동해안산불위험예보정보", "score": 6.329, "dense": 0.483, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15108067", "title": "한국등산트레킹지원센터_전국주요봉우리 위험지역정보 서비스_20221116", "score": 6.173, "dense": 0.467, "label_state": "미판정"}
+{"query_id": "p011", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15098000", "title": "울산광역시_명산_현황_20220101", "score": 6.046, "dense": 0.455, "label_state": "미판정"}
+{"query_id": "p011", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15097943", "title": "울산광역시_대기질_20220101", "score": 6.043, "dense": 0.454, "label_state": "미판정"}
+{"query_id": "p011", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15084817", "title": "산림청 국립산림과학원_산불위험예보정보_20210726", "score": 6.0, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15073263", "title": "한국산업안전보건공단_이륜차 사고다발구역 조회서비스_20201105", "score": 5.972, "dense": 0.447, "label_state": "미판정"}
+{"query_id": "p011", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15092027", "title": "산림청 국립산림과학원_대형산불위험예보목록정보", "score": 5.937, "dense": 0.444, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15092022", "title": "산림청 국립산림과학원_산불위험SNS키워드 추출 정보", "score": 5.805, "dense": 0.43, "label_state": "오답 0점"}
+{"query_id": "p011", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15158969", "title": "산림청_백두대간_등산로정보_GW_20141218", "score": 5.792, "dense": 0.429, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15158970", "title": "산림청_산림공간정보_등산로정보_GW_20141218", "score": 8.407, "dense": 0.491, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15092032", "title": "산림청 국립산림과학원_동해안산불위험예보정보", "score": 8.329, "dense": 0.483, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15084817", "title": "산림청 국립산림과학원_산불위험예보정보_20210726", "score": 8.0, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15092027", "title": "산림청 국립산림과학원_대형산불위험예보목록정보", "score": 7.937, "dense": 0.444, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15092022", "title": "산림청 국립산림과학원_산불위험SNS키워드 추출 정보", "score": 7.805, "dense": 0.43, "label_state": "오답 0점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15158969", "title": "산림청_백두대간_등산로정보_GW_20141218", "score": 7.792, "dense": 0.429, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15122588", "title": "국토교통부_산불위험예측지도_20140130", "score": 7.623, "dense": 0.412, "label_state": "정답 1점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15108067", "title": "한국등산트레킹지원센터_전국주요봉우리 위험지역정보 서비스_20221116", "score": 7.173, "dense": 0.467, "label_state": "미판정"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/3070842", "title": "산림청 산불통계 서비스", "score": 6.699, "dense": 0.42, "label_state": "오답 0점"}
+{"query_id": "p011", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15097949", "title": "한국등산트레킹지원센터_100대명산 관광POI정보 서비스_20220104", "score": 6.66, "dense": 0.416, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 1, "dataset_id": "heymilka/apk", "title": null, "score": 6.043, "dense": 0.385, "label_state": "비공공데이터"}
+{"query_id": "p012", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15095486", "title": "농촌진흥청 국립농업과학원_농업유전자원(KACC) 미생물 정보 제공 _20220216", "score": 4.894, "dense": 0.339, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15076841", "title": "한국방송통신전파진흥원_전자파안전정보_뉴스", "score": 4.887, "dense": 0.339, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15106385", "title": "한국환경공단_폐전자제품 수거함 위치정보", "score": 4.753, "dense": 0.325, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15074313", "title": "식품의약품안전처_유전자변형식품등의 안전성 평가 심사 결과 현황_20201205", "score": 4.713, "dense": 0.321, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15024880", "title": "기후에너지환경부 화학물질안전원_화학물질안전관리정보", "score": 4.683, "dense": 0.318, "label_state": "미판정"}
+{"query_id": "p012", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15158866", "title": "농촌진흥청 국립농업과학원_농업유전자원 식물정보 조회_20260410", "score": 4.66, "dense": 0.316, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 1, "dataset_id": "heymilka/apk", "title": null, "score": 6.043, "dense": 0.385, "label_state": "비공공데이터"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15095486", "title": "농촌진흥청 국립농업과학원_농업유전자원(KACC) 미생물 정보 제공 _20220216", "score": 4.894, "dense": 0.339, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15076841", "title": "한국방송통신전파진흥원_전자파안전정보_뉴스", "score": 4.887, "dense": 0.339, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15106385", "title": "한국환경공단_폐전자제품 수거함 위치정보", "score": 4.753, "dense": 0.325, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15074313", "title": "식품의약품안전처_유전자변형식품등의 안전성 평가 심사 결과 현황_20201205", "score": 4.713, "dense": 0.321, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15024880", "title": "기후에너지환경부 화학물질안전원_화학물질안전관리정보", "score": 4.683, "dense": 0.318, "label_state": "미판정"}
+{"query_id": "p012", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15158866", "title": "농촌진흥청 국립농업과학원_농업유전자원 식물정보 조회_20260410", "score": 4.66, "dense": 0.316, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15143972", "title": "해양수산부_국가해양생태계종합조사 유영동물_20250618", "score": 5.901, "dense": 0.44, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15025454", "title": "전국동물보호센터정보표준데이터", "score": 5.891, "dense": 0.439, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15057652", "title": "유기동물 보호시설 현황", "score": 5.81, "dense": 0.431, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15016646", "title": "대전광역시 유기동물공고현황 조회 서비스", "score": 5.804, "dense": 0.43, "label_state": "정답 2점"}
+{"query_id": "p013", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15142649", "title": "기후에너지환경부 국립환경과학원_환경영향평가 동식물상정보_20230720", "score": 5.616, "dense": 0.412, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15095486", "title": "농촌진흥청 국립농업과학원_농업유전자원(KACC) 미생물 정보 제공 _20220216", "score": 5.574, "dense": 0.407, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15105476", "title": "국립생태원_로드킬 정보시스템 로드킬 신고 현황", "score": 5.547, "dense": 0.405, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15098913", "title": "농림축산식품부 농림축산검역본부_동물등록 정보조회 서비스_20220210", "score": 5.514, "dense": 0.401, "label_state": "미판정"}
+{"query_id": "p013", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15032300", "title": "부산광역시_동물보호센터 현황", "score": 5.495, "dense": 0.4, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/3078569", "title": "문화체육관광부 국립중앙박물관 국립공주박물관_유물정보_20131023", "score": 5.477, "dense": 0.398, "label_state": "미판정"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15034086", "title": "119에 구조된 반려동물 찾기 서비스", "score": 7.301, "dense": 0.38, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-22646", "title": "서울동물복지지원센터 반려동물 입양 정보", "score": 7.243, "dense": 0.374, "label_state": "정답 2점"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15057652", "title": "유기동물 보호시설 현황", "score": 6.81, "dense": 0.431, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15016646", "title": "대전광역시 유기동물공고현황 조회 서비스", "score": 6.804, "dense": 0.43, "label_state": "정답 2점"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15135102", "title": "한국관광공사_반려동물_동반여행_서비스", "score": 6.407, "dense": 0.391, "label_state": "미판정"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15025453", "title": "전국야생동물구조센터정보표준데이터", "score": 6.321, "dense": 0.382, "label_state": "미판정"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15056823", "title": "야생동물 구조치료기관 현황", "score": 6.281, "dense": 0.378, "label_state": "미판정"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15143972", "title": "해양수산부_국가해양생태계종합조사 유영동물_20250618", "score": 5.901, "dense": 0.44, "label_state": "미판정"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15025454", "title": "전국동물보호센터정보표준데이터", "score": 5.891, "dense": 0.439, "label_state": "정답 1점"}
+{"query_id": "p013", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15142649", "title": "기후에너지환경부 국립환경과학원_환경영향평가 동식물상정보_20230720", "score": 5.616, "dense": 0.412, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15099839", "title": "(주)중소기업유통센터_공공구매정보망 창업기업 확인서 정보 제공 서비스_20220414", "score": 6.352, "dense": 0.485, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15143727", "title": "소상공인시장진흥공단_전국 상권 현황", "score": 6.258, "dense": 0.476, "label_state": "정답 1점"}
+{"query_id": "p014", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15125365", "title": "창업진흥원_창업공간플랫폼(창업공간)_조회서비스_20231204", "score": 6.238, "dense": 0.474, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15090955", "title": "소상공인시장진흥공단_주요상권현황", "score": 6.226, "dense": 0.473, "label_state": "정답 1점"}
+{"query_id": "p014", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15125362", "title": "창업진흥원_창업기업확인서발급기업정보_조회서비스_20231204", "score": 6.198, "dense": 0.47, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15125364", "title": "창업진흥원_K-Startup(사업소개,사업공고,콘텐츠 등)_조회서비스_20231204", "score": 6.174, "dense": 0.467, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-19522", "title": "서울시 관악구 환경전문공사업 인허가 정보", "score": 6.114, "dense": 0.461, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15062581", "title": "(주)중소기업유통센터_공공구매종합정보망 인증서 정보 제공 서비스_20200804", "score": 6.099, "dense": 0.46, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15052563", "title": "법무부_법무법인 현황", "score": 6.099, "dense": 0.46, "label_state": "미판정"}
+{"query_id": "p014", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15067631", "title": "소상공인시장진흥공단_상가(상권)정보 업종코드", "score": 6.084, "dense": 0.458, "label_state": "오답 0점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15143727", "title": "소상공인시장진흥공단_전국 상권 현황", "score": 8.258, "dense": 0.476, "label_state": "정답 1점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15090955", "title": "소상공인시장진흥공단_주요상권현황", "score": 8.226, "dense": 0.473, "label_state": "정답 1점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15067631", "title": "소상공인시장진흥공단_상가(상권)정보 업종코드", "score": 8.084, "dense": 0.458, "label_state": "오답 0점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15012005", "title": "상가(상권)정보_20160105", "score": 7.998, "dense": 0.45, "label_state": "정답 2점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-15577", "title": "서울시 상권분석서비스(점포-상권)", "score": 7.887, "dense": 0.439, "label_state": "정답 2점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-15578", "title": "서울시 상권분석서비스(점포-상권배후지)", "score": 7.867, "dense": 0.437, "label_state": "미판정"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-22172", "title": "서울시 상권분석서비스(점포-행정동)", "score": 7.76, "dense": 0.426, "label_state": "정답 2점"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-22173", "title": "서울시 상권분석서비스(점포-자치구)", "score": 7.711, "dense": 0.421, "label_state": "미판정"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-21278", "title": "서울시 상권분석서비스(소비-상권)", "score": 7.047, "dense": 0.455, "label_state": "미판정"}
+{"query_id": "p014", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15069600", "title": "소상공인시장진흥공단_서울 개업 현황", "score": 7.018, "dense": 0.452, "label_state": "정답 1점"}
+{"query_id": "p015", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-15493", "title": "서울시 공공자전거 따릉이 실시간 대여정보", "score": 8.569, "dense": 0.707, "label_state": "정답 2점"}
+{"query_id": "p015", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15077786", "title": "서울특별시_공공자전거 따릉이 대여소 운영현황(시간대별)", "score": 8.217, "dense": 0.672, "label_state": "미판정"}
+{"query_id": "p015", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-20447", "title": "서울시 공공자전거 따릉이 대여소 운영현황(시간대별)", "score": 8.177, "dense": 0.668, "label_state": "보류"}
+{"query_id": "p015", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-13252", "title": "서울시 공공자전거 따릉이 대여소 정보", "score": 8.067, "dense": 0.657, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-15182", "title": "서울시 공공자전거 따릉이 대여이력 정보", "score": 7.82, "dense": 0.632, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-15245", "title": "서울시 공공자전거 따릉이 이용정보(시간대별)", "score": 7.649, "dense": 0.615, "label_state": "오답 0점"}
+{"query_id": "p015", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-15249", "title": "서울시 공공자전거 따릉이 대여소별 이용정보(월별)", "score": 7.611, "dense": 0.611, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15058877", "title": "서울시 실시간 돌발 정보", "score": 7.586, "dense": 0.609, "label_state": "미판정"}
+{"query_id": "p015", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-21235", "title": "서울시 공공자전거 따릉이 대여소 마스터 정보", "score": 7.581, "dense": 0.608, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-15246", "title": "서울시 공공자전거 따릉이 이용정보(일별)", "score": 7.568, "dense": 0.607, "label_state": "오답 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-15493", "title": "서울시 공공자전거 따릉이 실시간 대여정보", "score": 16.43, "dense": 0.707, "label_state": "정답 2점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15077786", "title": "서울특별시_공공자전거 따릉이 대여소 운영현황(시간대별)", "score": 16.078, "dense": 0.672, "label_state": "미판정"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-20447", "title": "서울시 공공자전거 따릉이 대여소 운영현황(시간대별)", "score": 16.038, "dense": 0.668, "label_state": "보류"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-13252", "title": "서울시 공공자전거 따릉이 대여소 정보", "score": 15.928, "dense": 0.657, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-15182", "title": "서울시 공공자전거 따릉이 대여이력 정보", "score": 15.681, "dense": 0.632, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-15245", "title": "서울시 공공자전거 따릉이 이용정보(시간대별)", "score": 15.51, "dense": 0.615, "label_state": "오답 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-15249", "title": "서울시 공공자전거 따릉이 대여소별 이용정보(월별)", "score": 15.472, "dense": 0.611, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-21235", "title": "서울시 공공자전거 따릉이 대여소 마스터 정보", "score": 15.441, "dense": 0.608, "label_state": "제외 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-15246", "title": "서울시 공공자전거 따릉이 이용정보(일별)", "score": 15.428, "dense": 0.607, "label_state": "오답 0점"}
+{"query_id": "p015", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-14994", "title": "서울시 공공자전거 따릉이 이용현황", "score": 15.423, "dense": 0.606, "label_state": "제외 0점"}
+{"query_id": "p016", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-2223", "title": "서울시 도로변/입체대기 측정소별 실시간 대기환경 현황", "score": 7.345, "dense": 0.585, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-2219", "title": "서울시 권역별 실시간 대기환경 현황", "score": 7.029, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-15526", "title": "서울시 대기오염 측정정보", "score": 7.018, "dense": 0.552, "label_state": "정답 2점"}
+{"query_id": "p016", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-22832", "title": "스마트서울 도시데이터 센서(S-DoT) 유동인구 측정 정보 (실시간)", "score": 7.017, "dense": 0.552, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15075831", "title": "제주특별자치도_고정형·이동형 IoT 미세먼지(기상)센서 수집정보 조회_20210106", "score": 7.017, "dense": 0.552, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-2275", "title": "서울시 시간 평균 대기오염도 정보", "score": 7.01, "dense": 0.551, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-22833", "title": "스마트서울 도시데이터 센서(S-DoT) 환경정보 (실시간)", "score": 7.002, "dense": 0.55, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15081222", "title": "서울교통공사_지하철역사내실내공기질정보(시간단위)", "score": 6.996, "dense": 0.55, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-21778", "title": "서울시 실시간 인구데이터", "score": 6.983, "dense": 0.548, "label_state": "미판정"}
+{"query_id": "p016", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-1200", "title": "서울시 실시간 자치구별 대기환경 현황", "score": 6.98, "dense": 0.548, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-15526", "title": "서울시 대기오염 측정정보", "score": 14.863, "dense": 0.552, "label_state": "정답 2점"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-2275", "title": "서울시 시간 평균 대기오염도 정보", "score": 14.856, "dense": 0.551, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-23044", "title": "서울시 대기오염물질 측정정보", "score": 14.7, "dense": 0.535, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-21090", "title": "서울시 미세먼지쉼터", "score": 14.695, "dense": 0.535, "label_state": "오답 0점"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-2217", "title": "서울시 월별 평균 대기오염도 정보", "score": 14.59, "dense": 0.524, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-2218", "title": "서울시 일별 평균 대기오염도 정보", "score": 14.565, "dense": 0.522, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-12855", "title": "서울시 대기오염물질 측정소 높이 정보", "score": 14.558, "dense": 0.521, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-23039", "title": "서울시 대기오염 측정소 정보", "score": 14.525, "dense": 0.518, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-23045", "title": "서울시 대기오염물질 측정소 정보", "score": 14.468, "dense": 0.512, "label_state": "미판정"}
+{"query_id": "p016", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-2216", "title": "서울시 년도별 평균 대기오염도 정보", "score": 14.432, "dense": 0.509, "label_state": "미판정"}
+{"query_id": "p017", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15029185", "title": "전국교통사고다발지역표준데이터", "score": 8.359, "dense": 0.686, "label_state": "정답 2점"}
+{"query_id": "p017", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15094182", "title": "한국도로교통공단_자전거사고 다발지역 개별사고 정보", "score": 7.992, "dense": 0.649, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15057666", "title": "보행노인사고다발지역정보서비스", "score": 7.783, "dense": 0.628, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15058087", "title": "법규위반별사고 다발지역정보 조회 서비스", "score": 7.771, "dense": 0.627, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15058759", "title": "연휴기간별사고 다발지역정보 조회 서비스", "score": 7.741, "dense": 0.624, "label_state": "미판정"}
+{"query_id": "p017", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15124952", "title": "국토교통부_사고다발지점 조회 서비스_20231113", "score": 7.712, "dense": 0.621, "label_state": "미판정"}
+{"query_id": "p017", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15058925", "title": "보행어린이사고다발지역정보서비스", "score": 7.666, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p017", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15056681", "title": "자전거사고다발지역정보서비스", "score": 7.647, "dense": 0.615, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15105289", "title": "한국도로교통공단_보행자 교통사고 다발지역 정보_20211231", "score": 7.641, "dense": 0.614, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15057467", "title": "지자체별사고 다발지역정보 조회 서비스", "score": 7.593, "dense": 0.609, "label_state": "정답 2점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15029185", "title": "전국교통사고다발지역표준데이터", "score": 10.359, "dense": 0.686, "label_state": "정답 2점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15105289", "title": "한국도로교통공단_보행자 교통사고 다발지역 정보_20211231", "score": 9.641, "dense": 0.614, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15164340", "title": "부산광역시_교통사고 다발지역 정보_20260910", "score": 9.377, "dense": 0.588, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15094182", "title": "한국도로교통공단_자전거사고 다발지역 개별사고 정보", "score": 8.992, "dense": 0.649, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15057666", "title": "보행노인사고다발지역정보서비스", "score": 8.783, "dense": 0.628, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15058087", "title": "법규위반별사고 다발지역정보 조회 서비스", "score": 8.771, "dense": 0.627, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15058759", "title": "연휴기간별사고 다발지역정보 조회 서비스", "score": 8.741, "dense": 0.624, "label_state": "미판정"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15058925", "title": "보행어린이사고다발지역정보서비스", "score": 8.666, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15056681", "title": "자전거사고다발지역정보서비스", "score": 8.647, "dense": 0.615, "label_state": "정답 1점"}
+{"query_id": "p017", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15057467", "title": "지자체별사고 다발지역정보 조회 서비스", "score": 8.593, "dense": 0.609, "label_state": "정답 2점"}
+{"query_id": "p018", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-12252", "title": "서울시 지하철 호선별 역별 시간대별 승하차 인원 정보", "score": 8.282, "dense": 0.678, "label_state": "정답 2점"}
+{"query_id": "p018", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/3057229", "title": "부산교통공사_시간대별 승하차인원", "score": 8.0, "dense": 0.65, "label_state": "정답 2점"}
+{"query_id": "p018", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-22483", "title": "서울교통공사_역별 일별 시간대별 노인 승하차인원 정보", "score": 7.973, "dense": 0.647, "label_state": "미판정"}
+{"query_id": "p018", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-12914", "title": "서울시 지하철호선별 역별 승하차 인원 정보", "score": 7.764, "dense": 0.626, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-12921", "title": "서울교통공사_역별 일별 시간대별 승하차인원 정보", "score": 7.738, "dense": 0.624, "label_state": "미판정"}
+{"query_id": "p018", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-12913", "title": "서울시 버스노선별 정류장별 시간대별 승하차 인원 정보", "score": 7.699, "dense": 0.62, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-22470", "title": "서울교통공사_1_8호선 역별 일별 시간대별 승객유형별 승하차인원", "score": 7.673, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p018", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15158792", "title": "대전교통공사_역별 승하차인원 조회 서비스_20260429", "score": 7.657, "dense": 0.616, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15048032", "title": "서울교통공사_역별 일별 시간대별 승하차인원 정보", "score": 7.581, "dense": 0.608, "label_state": "미판정"}
+{"query_id": "p018", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-21224", "title": "서울시 행정동별 지하철 총 승차 승객수 정보", "score": 7.494, "dense": 0.599, "label_state": "미판정"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-12252", "title": "서울시 지하철 호선별 역별 시간대별 승하차 인원 정보", "score": 14.643, "dense": 0.678, "label_state": "정답 2점"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/3057229", "title": "부산교통공사_시간대별 승하차인원", "score": 14.361, "dense": 0.65, "label_state": "정답 2점"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-22483", "title": "서울교통공사_역별 일별 시간대별 노인 승하차인원 정보", "score": 14.334, "dense": 0.647, "label_state": "미판정"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-12914", "title": "서울시 지하철호선별 역별 승하차 인원 정보", "score": 14.125, "dense": 0.626, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-12921", "title": "서울교통공사_역별 일별 시간대별 승하차인원 정보", "score": 14.099, "dense": 0.624, "label_state": "미판정"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-12913", "title": "서울시 버스노선별 정류장별 시간대별 승하차 인원 정보", "score": 14.06, "dense": 0.62, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-22470", "title": "서울교통공사_1_8호선 역별 일별 시간대별 승객유형별 승하차인원", "score": 14.034, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15158792", "title": "대전교통공사_역별 승하차인원 조회 서비스_20260429", "score": 14.018, "dense": 0.616, "label_state": "오답 0점"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15048032", "title": "서울교통공사_역별 일별 시간대별 승하차인원 정보", "score": 13.942, "dense": 0.608, "label_state": "미판정"}
+{"query_id": "p018", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15099330", "title": "서울교통공사_1_8호선 역별 일별 시간대별 승객유형별 승하차인원", "score": 13.768, "dense": 0.591, "label_state": "미판정"}
+{"query_id": "p019", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15029181", "title": "전국농수축산물도매시장경락가격표준데이터", "score": 7.863, "dense": 0.636, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15072157", "title": "한국농수산식품유통공사_도매시장 규모 현황", "score": 7.494, "dense": 0.599, "label_state": "오답 0점"}
+{"query_id": "p019", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15062950", "title": "한국농수산식품유통공사_공영도매시장 거래실적", "score": 7.278, "dense": 0.578, "label_state": "미판정"}
+{"query_id": "p019", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15057209", "title": "반여농산물도매시장 가격정보", "score": 7.192, "dense": 0.569, "label_state": "정답 1점"}
+{"query_id": "p019", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15141808", "title": "한국농수산식품유통공사_전국 공영도매시장 실시간 경매정보_20250211", "score": 7.128, "dense": 0.563, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15087482", "title": "한국농수산식품유통공사_월별 농축수산물 소매가격 정보", "score": 7.111, "dense": 0.561, "label_state": "미판정"}
+{"query_id": "p019", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15141810", "title": "한국농수산식품유통공사_전국 공영도매시장 경매원천정보_20250211", "score": 7.053, "dense": 0.555, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15057737", "title": "반여농산물도매시장 실시간 경락정보", "score": 7.02, "dense": 0.552, "label_state": "정답 1점"}
+{"query_id": "p019", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15072357", "title": "한국농수산식품유통공사_농축수산물 일자별 도소매 가격", "score": 6.98, "dense": 0.548, "label_state": "미판정"}
+{"query_id": "p019", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/3044829", "title": "인천광역시_삼산농산물도매시장 실시간 경락정보", "score": 6.974, "dense": 0.547, "label_state": "미판정"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15029181", "title": "전국농수축산물도매시장경락가격표준데이터", "score": 9.863, "dense": 0.636, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15057209", "title": "반여농산물도매시장 가격정보", "score": 9.192, "dense": 0.569, "label_state": "정답 1점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15141808", "title": "한국농수산식품유통공사_전국 공영도매시장 실시간 경매정보_20250211", "score": 9.128, "dense": 0.563, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15141810", "title": "한국농수산식품유통공사_전국 공영도매시장 경매원천정보_20250211", "score": 9.053, "dense": 0.555, "label_state": "정답 2점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15057737", "title": "반여농산물도매시장 실시간 경락정보", "score": 9.02, "dense": 0.552, "label_state": "정답 1점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/3044829", "title": "인천광역시_삼산농산물도매시장 실시간 경락정보", "score": 8.974, "dense": 0.547, "label_state": "미판정"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15055602", "title": "울산광역시_농수산물도매시장 월별 가격 동향", "score": 8.951, "dense": 0.545, "label_state": "미판정"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15059163", "title": "반여농산물도매시장 반입물량정보", "score": 8.941, "dense": 0.544, "label_state": "보류"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15051663", "title": "인천광역시_남촌도매시장 일별 경매 가격정보", "score": 8.914, "dense": 0.541, "label_state": "정답 1점"}
+{"query_id": "p019", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-20951", "title": "서울시농수산식품공사 품목별등급별가격(도매시장)", "score": 8.83, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p020", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15098501", "title": "대구광역시_건축허가_착공_사용승인", "score": 7.818, "dense": 0.632, "label_state": "미판정"}
+{"query_id": "p020", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-22424", "title": "서울시 건축물대장 표제부", "score": 7.781, "dense": 0.628, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-22422", "title": "서울시 건축물대장 기본개요", "score": 7.751, "dense": 0.625, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-23051", "title": "서울시 건축물대장 총괄표제부", "score": 7.693, "dense": 0.619, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-22426", "title": "서울시 건축물대장 전유부", "score": 7.66, "dense": 0.616, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-22423", "title": "서울시 건축물대장 총괄표제부", "score": 7.647, "dense": 0.615, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p020", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15134735", "title": "국토교통부_건축HUB_건축물대장정보 서비스_20240901", "score": 7.634, "dense": 0.613, "label_state": "정답 2점"}
+{"query_id": "p020", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-22429", "title": "서울시 건축물대장 지역지구구역", "score": 7.503, "dense": 0.6, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-22432", "title": "서울시 폐쇄말소대장 표제부", "score": 7.482, "dense": 0.598, "label_state": "미판정"}
+{"query_id": "p020", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15057636", "title": "건축사사무소 현황", "score": 7.477, "dense": 0.598, "label_state": "미판정"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-22424", "title": "서울시 건축물대장 표제부", "score": 9.781, "dense": 0.628, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-22422", "title": "서울시 건축물대장 기본개요", "score": 9.751, "dense": 0.625, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-23051", "title": "서울시 건축물대장 총괄표제부", "score": 9.693, "dense": 0.619, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-22426", "title": "서울시 건축물대장 전유부", "score": 9.66, "dense": 0.616, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-22423", "title": "서울시 건축물대장 총괄표제부", "score": 9.647, "dense": 0.615, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15134735", "title": "국토교통부_건축HUB_건축물대장정보 서비스_20240901", "score": 9.634, "dense": 0.613, "label_state": "정답 2점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-22429", "title": "서울시 건축물대장 지역지구구역", "score": 9.503, "dense": 0.6, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-22428", "title": "서울시 건축물대장 오수정화시설", "score": 9.454, "dense": 0.595, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-22427", "title": "서울시 건축물대장 전유공유면적표", "score": 9.375, "dense": 0.587, "label_state": "정답 1점"}
+{"query_id": "p020", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-22425", "title": "서울시 건축물대장 층별개요", "score": 9.367, "dense": 0.587, "label_state": "정답 1점"}
+{"query_id": "p021", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15107734", "title": "전국초중등학교기본정보표준데이터", "score": 8.334, "dense": 0.683, "label_state": "보류"}
+{"query_id": "p021", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-20555", "title": "서울시 초등학교 기본정보", "score": 8.164, "dense": 0.666, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-20557", "title": "서울시 고등학교 기본정보", "score": 8.029, "dense": 0.653, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-20559", "title": "서울시 고등기술학교 기본정보", "score": 7.985, "dense": 0.649, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-20524", "title": "서울시 서초구 학교 기본정보", "score": 7.901, "dense": 0.64, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-20556", "title": "서울시 중학교 기본정보", "score": 7.897, "dense": 0.64, "label_state": "정답 1점"}
+{"query_id": "p021", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-20504", "title": "서울시 중구 학교 기본정보", "score": 7.842, "dense": 0.634, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15021148", "title": "전국초중등학교위치표준데이터", "score": 7.839, "dense": 0.634, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-20561", "title": "서울시 각종학교 기본정보", "score": 7.835, "dense": 0.634, "label_state": "미판정"}
+{"query_id": "p021", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-20506", "title": "서울시 성동구 학교 기본정보", "score": 7.791, "dense": 0.629, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-20555", "title": "서울시 초등학교 기본정보", "score": 14.89, "dense": 0.666, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-20557", "title": "서울시 고등학교 기본정보", "score": 14.754, "dense": 0.653, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-20556", "title": "서울시 중학교 기본정보", "score": 14.623, "dense": 0.64, "label_state": "정답 1점"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-20558", "title": "서울시 방송통신고등학교 기본정보", "score": 14.466, "dense": 0.624, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15050725", "title": "부산광역시교육청_초등학교 명부", "score": 14.395, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15021153", "title": "전국고등학교학교군표준데이터", "score": 14.218, "dense": 0.599, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15059240", "title": "고등학교 현황", "score": 14.208, "dense": 0.598, "label_state": "정답 1점"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15050724", "title": "부산광역시교육청_고등학교 명부", "score": 14.199, "dense": 0.597, "label_state": "미판정"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15058169", "title": "초중고등학교 현황", "score": 14.139, "dense": 0.591, "label_state": "정답 1점"}
+{"query_id": "p021", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15133782", "title": "경기도교육청_2026년 중학교 및 고등학교 현황", "score": 14.136, "dense": 0.591, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15025446", "title": "전국휴게소정보표준데이터", "score": 7.066, "dense": 0.557, "label_state": "정답 2점"}
+{"query_id": "p022", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15076770", "title": "한국도로공사_고속도로 휴게소 기준정보 현황", "score": 7.048, "dense": 0.555, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15155087", "title": "행정안전부_과속방지턱정보 조회서비스_20251126", "score": 6.716, "dense": 0.522, "label_state": "미판정"}
+{"query_id": "p022", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15062047", "title": "한국도로공사_고속도로휴게소코드정보(하이쉼마루)", "score": 6.68, "dense": 0.518, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15158846", "title": "서울시설공단_도시고속도로 도로위치인식표지 현황_GW_20141222", "score": 6.675, "dense": 0.518, "label_state": "미판정"}
+{"query_id": "p022", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15043716", "title": "한국도로공사_휴게소 주차장 현황", "score": 6.674, "dense": 0.517, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15058257", "title": "고속도로구간별 도로위험도지수정보 조회 서비스", "score": 6.669, "dense": 0.517, "label_state": "미판정"}
+{"query_id": "p022", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15076647", "title": "한국도로공사_휴게소 이벤트 현황 조회 서비스", "score": 6.634, "dense": 0.513, "label_state": "미판정"}
+{"query_id": "p022", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15043711", "title": "한국도로공사_휴게소 고속버스 환승시설 현황", "score": 6.592, "dense": 0.509, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15076661", "title": "한국도로공사_휴게소별 날씨 정보", "score": 6.484, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15076770", "title": "한국도로공사_고속도로 휴게소 기준정보 현황", "score": 9.048, "dense": 0.555, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15062047", "title": "한국도로공사_고속도로휴게소코드정보(하이쉼마루)", "score": 8.68, "dense": 0.518, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15025446", "title": "전국휴게소정보표준데이터", "score": 8.066, "dense": 0.557, "label_state": "정답 2점"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15158846", "title": "서울시설공단_도시고속도로 도로위치인식표지 현황_GW_20141222", "score": 7.675, "dense": 0.518, "label_state": "미판정"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15043716", "title": "한국도로공사_휴게소 주차장 현황", "score": 7.674, "dense": 0.517, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15058257", "title": "고속도로구간별 도로위험도지수정보 조회 서비스", "score": 7.669, "dense": 0.517, "label_state": "미판정"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15076647", "title": "한국도로공사_휴게소 이벤트 현황 조회 서비스", "score": 7.634, "dense": 0.513, "label_state": "미판정"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15043711", "title": "한국도로공사_휴게소 고속버스 환승시설 현황", "score": 7.592, "dense": 0.509, "label_state": "정답 1점"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15076661", "title": "한국도로공사_휴게소별 날씨 정보", "score": 7.484, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p022", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15158778", "title": "서울시설공단_도시고속도로 방음벽 정보_GW_20141222", "score": 7.46, "dense": 0.496, "label_state": "미판정"}
+{"query_id": "p023", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15050946", "title": "대구광역시_시내버스 정류소 위치정보", "score": 7.722, "dense": 0.622, "label_state": "정답 2점"}
+{"query_id": "p023", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15139134", "title": "대구광역시_대구버스정보시스템", "score": 6.904, "dense": 0.54, "label_state": "보류"}
+{"query_id": "p023", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-15067", "title": "서울시 버스정류소 위치정보", "score": 6.888, "dense": 0.539, "label_state": "제외 0점"}
+{"query_id": "p023", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15139231", "title": "전국버스업체표준데이터", "score": 6.776, "dense": 0.528, "label_state": "미판정"}
+{"query_id": "p023", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15057711", "title": "시내버스업체 현황", "score": 6.769, "dense": 0.527, "label_state": "미판정"}
+{"query_id": "p023", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15052671", "title": "울산광역시_버스 정류소 위치 정보", "score": 6.703, "dense": 0.52, "label_state": "제외 0점"}
+{"query_id": "p023", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15157601", "title": "행정안전부 한국지역정보개발원_(전국 통합데이터) 초정밀버스 위치 실시간 정보_20260311", "score": 6.692, "dense": 0.519, "label_state": "미판정"}
+{"query_id": "p023", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15142032", "title": "국토교통부_버스정류장_20230101", "score": 6.686, "dense": 0.519, "label_state": "정답 1점"}
+{"query_id": "p023", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15057894", "title": "버스정류소 현황", "score": 6.676, "dense": 0.518, "label_state": "제외 0점"}
+{"query_id": "p023", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15142030", "title": "국토교통부_버스노선_20230101", "score": 6.659, "dense": 0.516, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15050946", "title": "대구광역시_시내버스 정류소 위치정보", "score": 15.583, "dense": 0.622, "label_state": "정답 2점"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15139134", "title": "대구광역시_대구버스정보시스템", "score": 13.765, "dense": 0.54, "label_state": "보류"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15142032", "title": "국토교통부_버스정류장_20230101", "score": 13.046, "dense": 0.519, "label_state": "정답 1점"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15057894", "title": "버스정류소 현황", "score": 13.037, "dense": 0.518, "label_state": "제외 0점"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15066754", "title": "한국교통안전공단_전국 대중교통 버스정류장 현황", "score": 12.488, "dense": 0.463, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15142031", "title": "국토교통부_버스노선별 경유정류장_20230101", "score": 12.369, "dense": 0.451, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15108762", "title": "대구광역시_부설주차장운영및개방공유정보조회서비스_20221001", "score": 12.34, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15139231", "title": "전국버스업체표준데이터", "score": 12.137, "dense": 0.528, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15057711", "title": "시내버스업체 현황", "score": 12.13, "dense": 0.527, "label_state": "미판정"}
+{"query_id": "p023", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15097855", "title": "대구광역시_어린이 보호구역 위험요소 조회 서비스_20211221", "score": 12.078, "dense": 0.472, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15076361", "title": "제주관광공사_비짓제주 관광정보 오픈 (API)", "score": 7.679, "dense": 0.618, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15001189", "title": "제주교래자연휴양림 실시간 예약확인 서비스", "score": 7.109, "dense": 0.561, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15146211", "title": "서울특별시_실시간 도시데이터", "score": 7.095, "dense": 0.56, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15093660", "title": "제주특별자치도_실시간  교통정보", "score": 7.089, "dense": 0.559, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15074266", "title": "제주특별자치도_국가별 입도객 현황", "score": 7.034, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15074267", "title": "제주특별자치도_방문목적별 입도객 현황", "score": 6.998, "dense": 0.55, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/3083546", "title": "제주특별자치도_내국인관광객현황", "score": 6.974, "dense": 0.547, "label_state": "오답 0점"}
+{"query_id": "p024", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15057134", "title": "와이파이 사용자 이동경로 정보_20201028", "score": 6.962, "dense": 0.546, "label_state": "미판정"}
+{"query_id": "p024", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15061970", "title": "제주특별자치도_외국인관광객현황", "score": 6.941, "dense": 0.544, "label_state": "오답 0점"}
+{"query_id": "p024", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15146171", "title": "서울특별시_실시간 인구데이터(영문)_20250814", "score": 6.932, "dense": 0.543, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15076361", "title": "제주관광공사_비짓제주 관광정보 오픈 (API)", "score": 14.699, "dense": 0.618, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/3083546", "title": "제주특별자치도_내국인관광객현황", "score": 13.995, "dense": 0.547, "label_state": "오답 0점"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15061970", "title": "제주특별자치도_외국인관광객현황", "score": 13.962, "dense": 0.544, "label_state": "오답 0점"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15049995", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행장소", "score": 13.867, "dense": 0.535, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15049998", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행일정", "score": 13.81, "dense": 0.529, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15056279", "title": "제주특별자치도_관광숙박업현황", "score": 13.625, "dense": 0.51, "label_state": "오답 0점"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15049999", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_콘텐츠", "score": 13.606, "dense": 0.509, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15007317", "title": "제주관광공사_제주방문관광객_통계", "score": 13.542, "dense": 0.502, "label_state": "미판정"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15109354", "title": "제주관광공사_마을해양레저스포츠", "score": 13.518, "dense": 0.5, "label_state": "정답 1점"}
+{"query_id": "p024", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15057047", "title": "관광지 현황", "score": 13.288, "dense": 0.527, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15058546", "title": "성동구도시관리공단 공영주차장정보 OPEN-API_20220506", "score": 7.421, "dense": 0.592, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15099883", "title": "한국교통안전공단_주차정보 제공 API_20220418", "score": 7.238, "dense": 0.574, "label_state": "미판정"}
+{"query_id": "p025", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15059437", "title": "대전시 주차장정보 제공 API 서비스2", "score": 7.198, "dense": 0.57, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 7.05, "dense": 0.555, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15044460", "title": "한국국토정보공사 주차장 정보 DB", "score": 7.002, "dense": 0.55, "label_state": "미판정"}
+{"query_id": "p025", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15004746", "title": "강남구도시관리공단_공영주차장 정보", "score": 6.969, "dense": 0.547, "label_state": "정답 1점"}
+{"query_id": "p025", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15012896", "title": "전국주차장정보표준데이터", "score": 6.968, "dense": 0.547, "label_state": "정답 2점"}
+{"query_id": "p025", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15099790", "title": "행정안전부_전국 명절 무료주차장 현황", "score": 6.914, "dense": 0.541, "label_state": "미판정"}
+{"query_id": "p025", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-13122", "title": "서울시 공영주차장 안내 정보", "score": 6.91, "dense": 0.541, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-22411", "title": "서울시 건축인허가 주차장", "score": 6.902, "dense": 0.54, "label_state": "미판정"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15058546", "title": "성동구도시관리공단 공영주차장정보 OPEN-API_20220506", "score": 13.782, "dense": 0.592, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15059437", "title": "대전시 주차장정보 제공 API 서비스2", "score": 13.559, "dense": 0.57, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 13.411, "dense": 0.555, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15012896", "title": "전국주차장정보표준데이터", "score": 13.329, "dense": 0.547, "label_state": "정답 2점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15004746", "title": "강남구도시관리공단_공영주차장 정보", "score": 13.329, "dense": 0.547, "label_state": "정답 1점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-13122", "title": "서울시 공영주차장 안내 정보", "score": 13.271, "dense": 0.541, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15004683", "title": "부산광역시 공영주차장 정보 서비스", "score": 13.261, "dense": 0.54, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-15012", "title": "서울시 강남구 공영주차장 정보", "score": 13.162, "dense": 0.53, "label_state": "제외 0점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15074539", "title": "수원도시공사_공영주차장 현황", "score": 13.036, "dense": 0.518, "label_state": "정답 1점"}
+{"query_id": "p025", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-2209", "title": "서울시 공영주차장 정기권 판매 현황", "score": 12.963, "dense": 0.51, "label_state": "오답 0점"}
+{"query_id": "p026", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15155058", "title": "행정안전부_공중화장실정보 조회서비스_20251126", "score": 7.096, "dense": 0.56, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15012892", "title": "전국공중화장실표준데이터", "score": 7.034, "dense": 0.553, "label_state": "보류"}
+{"query_id": "p026", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-22586", "title": "서울시 공중화장실 위치정보", "score": 7.009, "dense": 0.551, "label_state": "정답 1점"}
+{"query_id": "p026", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15155046", "title": "행정안전부_안전비상벨위치정보 조회서비스_20251126", "score": 6.834, "dense": 0.533, "label_state": "미판정"}
+{"query_id": "p026", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-17483", "title": "서울시 중랑구 자동차야영장업 인허가 정보", "score": 6.822, "dense": 0.532, "label_state": "미판정"}
+{"query_id": "p026", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-21071", "title": "서울시 비상소화장치 위치정보", "score": 6.749, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p026", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15158504", "title": "대전교통공사_공중화장실정보 조회 서비스_20260429", "score": 6.721, "dense": 0.522, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15034536", "title": "전국소방자동차전용구역표준데이터", "score": 6.698, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p026", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15028206", "title": "전국안전비상벨위치표준데이터", "score": 6.647, "dense": 0.515, "label_state": "미판정"}
+{"query_id": "p026", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-16046", "title": "서울시 자동차야영장업 인허가 정보", "score": 6.636, "dense": 0.514, "label_state": "미판정"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15155058", "title": "행정안전부_공중화장실정보 조회서비스_20251126", "score": 9.096, "dense": 0.56, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15012892", "title": "전국공중화장실표준데이터", "score": 9.034, "dense": 0.553, "label_state": "보류"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-22586", "title": "서울시 공중화장실 위치정보", "score": 9.009, "dense": 0.551, "label_state": "정답 1점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15158504", "title": "대전교통공사_공중화장실정보 조회 서비스_20260429", "score": 8.721, "dense": 0.522, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15143265", "title": "경상북도_공중화장실 정보 조회_20250515", "score": 8.605, "dense": 0.51, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15011425", "title": "공중화장실 현황(2015)", "score": 8.54, "dense": 0.504, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-22501", "title": "서울교통공사_역사공중화장실정보", "score": 8.353, "dense": 0.485, "label_state": "제외 0점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15044453", "title": "서울교통공사_역사공중화장실정보", "score": 8.269, "dense": 0.477, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-13467", "title": "서울시 도봉구 공중화장실", "score": 8.254, "dense": 0.475, "label_state": "정답 1점"}
+{"query_id": "p026", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-22726", "title": "서울시 교통공사 지하철역 편의시설위치정보 화장실 현황", "score": 7.529, "dense": 0.503, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15000314", "title": "서울특별시_버스도착정보조회 서비스_20230926", "score": 7.041, "dense": 0.554, "label_state": "정답 2점"}
+{"query_id": "p027", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-21225", "title": "서울시 행정동별 버스 총 승차 승객수 정보", "score": 7.013, "dense": 0.551, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15092750", "title": "부산광역시_부산버스정보시스템_20211020", "score": 7.009, "dense": 0.551, "label_state": "제외 0점"}
+{"query_id": "p027", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15143846", "title": "서울교통공사_실시간운임정보_20250531", "score": 6.944, "dense": 0.544, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-21220", "title": "서울시 노선별 정류장별 총 버스 운행횟수 정보", "score": 6.845, "dense": 0.535, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15146211", "title": "서울특별시_실시간 도시데이터", "score": 6.749, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15058877", "title": "서울시 실시간 돌발 정보", "score": 6.746, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-12928", "title": "서울교통공사_지하철혼잡도정보", "score": 6.736, "dense": 0.524, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15143847", "title": "서울교통공사_열차시간표_20250531", "score": 6.736, "dense": 0.524, "label_state": "미판정"}
+{"query_id": "p027", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15000332", "title": "서울특별시_버스위치정보조회 서비스_20220831", "score": 6.705, "dense": 0.521, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15000314", "title": "서울특별시_버스도착정보조회 서비스_20230926", "score": 14.902, "dense": 0.554, "label_state": "정답 2점"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-15799", "title": "서울시 지하철 실시간 도착정보(일괄)", "score": 14.443, "dense": 0.508, "label_state": "오답 0점"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-12764", "title": "서울시 지하철 실시간 도착정보", "score": 14.38, "dense": 0.502, "label_state": "오답 0점"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-21225", "title": "서울시 행정동별 버스 총 승차 승객수 정보", "score": 13.874, "dense": 0.551, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-21220", "title": "서울시 노선별 정류장별 총 버스 운행횟수 정보", "score": 13.706, "dense": 0.535, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15000332", "title": "서울특별시_버스위치정보조회 서비스_20220831", "score": 13.566, "dense": 0.521, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-12913", "title": "서울시 버스노선별 정류장별 시간대별 승하차 인원 정보", "score": 13.521, "dense": 0.516, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-1095", "title": "서울시 버스 노선 정보 조회", "score": 13.251, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-20921", "title": "서울시 시내버스 노선별 일별 운행거리", "score": 13.247, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p027", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15100899", "title": "서울특별시_버스노선별 정류장별 시간대별 승하차 인원 정보(정류장 위치 포함)", "score": 13.161, "dense": 0.48, "label_state": "미판정"}
+{"query_id": "p028", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15143770", "title": "경상북도_전통시장 정보조회_20241220", "score": 7.758, "dense": 0.626, "label_state": "제외 0점"}
+{"query_id": "p028", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15062900", "title": "경상남도_전통시장", "score": 7.578, "dense": 0.608, "label_state": "정답 2점"}
+{"query_id": "p028", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15012894", "title": "전국전통시장표준데이터", "score": 7.518, "dense": 0.602, "label_state": "정답 1점"}
+{"query_id": "p028", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-22874", "title": "서울특별시 주정차 허용 전통시장 목록", "score": 7.294, "dense": 0.579, "label_state": "제외 0점"}
+{"query_id": "p028", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-13492", "title": "서울시 도봉구 전통시장 정보", "score": 7.177, "dense": 0.568, "label_state": "제외 0점"}
+{"query_id": "p028", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-13037", "title": "서울시 전통시장 현황 (중국어_간체) (2014년 기준)", "score": 7.059, "dense": 0.556, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p028", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-23058", "title": "서울시 전통시장 현황", "score": 7.007, "dense": 0.551, "label_state": "제외 0점"}
+{"query_id": "p028", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-1176", "title": "서울시 전통시장 현황", "score": 7.004, "dense": 0.55, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p028", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-13036", "title": "서울시 전통시장 현황 (영어) (2014년 기준)", "score": 6.994, "dense": 0.549, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p028", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15052836", "title": "소상공인시장진흥공단_전국 전통시장 현황", "score": 6.991, "dense": 0.549, "label_state": "정답 1점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15062900", "title": "경상남도_전통시장", "score": 11.078, "dense": 0.608, "label_state": "정답 2점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15012894", "title": "전국전통시장표준데이터", "score": 9.518, "dense": 0.602, "label_state": "정답 1점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15052836", "title": "소상공인시장진흥공단_전국 전통시장 현황", "score": 8.991, "dense": 0.549, "label_state": "정답 1점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15052837", "title": "소상공인시장진흥공단_전통시장현황", "score": 8.725, "dense": 0.523, "label_state": "정답 1점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15059151", "title": "시장 및 마트 현황", "score": 7.884, "dense": 0.538, "label_state": "제외 0점"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/3078691", "title": "경상남도_시군별 지목별 면적", "score": 7.749, "dense": 0.475, "label_state": "미판정"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15062924", "title": "경상남도_티켓판매 고객구분 내역_20230822", "score": 7.501, "dense": 0.45, "label_state": "미판정"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15141809", "title": "한국농수산식품유통공사_전국 공영도매시장 정산정보_20250211", "score": 7.151, "dense": 0.465, "label_state": "미판정"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15118622", "title": "소상공인시장진흥공단_골목형상점가현황정보", "score": 7.103, "dense": 0.46, "label_state": "미판정"}
+{"query_id": "p028", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15029181", "title": "전국농수축산물도매시장경락가격표준데이터", "score": 7.085, "dense": 0.458, "label_state": "미판정"}
+{"query_id": "p029", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15006969", "title": "대전광역시 문화축제 정보_20221215", "score": 8.867, "dense": 0.737, "label_state": "정답 2점"}
+{"query_id": "p029", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15052261", "title": "경상북도_지역축제 현황", "score": 7.949, "dense": 0.645, "label_state": "제외 0점"}
+{"query_id": "p029", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15011481", "title": "전북특별자치도_농촌 축제 현황", "score": 7.871, "dense": 0.637, "label_state": "제외 0점"}
+{"query_id": "p029", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-13479", "title": "서울시 도봉구 문화축제정보", "score": 7.795, "dense": 0.629, "label_state": "제외 0점"}
+{"query_id": "p029", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15013104", "title": "전국문화축제표준데이터", "score": 7.788, "dense": 0.629, "label_state": "정답 1점"}
+{"query_id": "p029", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15063500", "title": "부산광역시_부산축제정보 서비스", "score": 7.726, "dense": 0.623, "label_state": "미판정"}
+{"query_id": "p029", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15057514", "title": "인천광역시_축제정보_20210610", "score": 7.696, "dense": 0.62, "label_state": "미판정"}
+{"query_id": "p029", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15055595", "title": "전북특별자치도_축제 관광객 현황", "score": 7.666, "dense": 0.617, "label_state": "미판정"}
+{"query_id": "p029", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15055596", "title": "전북특별자치도_지역축제 관광객현황", "score": 7.664, "dense": 0.616, "label_state": "미판정"}
+{"query_id": "p029", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15112114", "title": "대전광역시_문화시설_20221215", "score": 7.538, "dense": 0.604, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15006969", "title": "대전광역시 문화축제 정보_20221215", "score": 16.887, "dense": 0.737, "label_state": "정답 2점"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15013104", "title": "전국문화축제표준데이터", "score": 14.309, "dense": 0.629, "label_state": "정답 1점"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15158796", "title": "대전교통공사_문화행사일정 조회 서비스_20260429", "score": 14.212, "dense": 0.569, "label_state": "정답 1점"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15112114", "title": "대전광역시_문화시설_20221215", "score": 13.558, "dense": 0.604, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15000881", "title": "대전광역시 문화관광(관광지)", "score": 13.453, "dense": 0.593, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15000867", "title": "대전광역시 문화관광(쇼핑)_20220527", "score": 13.423, "dense": 0.59, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15073441", "title": "대전광역시_꼭 가볼만한곳 40선", "score": 13.126, "dense": 0.561, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15001021", "title": "대전광역시 문화관광(숙박정보)_20160614", "score": 12.952, "dense": 0.543, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15020829", "title": "대전관광공사_대전광역시 MICE 서비스업체 정보", "score": 12.918, "dense": 0.54, "label_state": "미판정"}
+{"query_id": "p029", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15057384", "title": "행정안전부_지방재정365_행사축제경비비율_20160315", "score": 12.889, "dense": 0.487, "label_state": "오답 0점"}
+{"query_id": "p030", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-20338", "title": "서울시 응급실 위치 정보", "score": 7.732, "dense": 0.623, "label_state": "정답 2점"}
+{"query_id": "p030", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-20922", "title": "서울시 안심택배함 설치 장소", "score": 7.536, "dense": 0.604, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-23040", "title": "서울시 가로수 위치 정보", "score": 7.286, "dense": 0.579, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-12734", "title": "서울시 소방서관할 위치정보 (좌표계: ITRF2000)", "score": 7.233, "dense": 0.573, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-11674", "title": "서울시 교량 위치정보 (좌표계: GRS80)", "score": 7.173, "dense": 0.567, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-13668", "title": "서울시 운행제한시설물 위치정보(2018년)", "score": 7.13, "dense": 0.563, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-12735", "title": "서울시 소방서관할 위치정보 (좌표계: WGS1984)(2015년)", "score": 7.081, "dense": 0.558, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-17538", "title": "서울시 은평구 일반야영장업 인허가 정보", "score": 7.044, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-12515", "title": "서울시 소방대상물 위치정보 (좌표계 : ITRF2000)", "score": 7.042, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p030", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-17550", "title": "서울시 송파구 일반야영장업 인허가 정보", "score": 7.032, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-20338", "title": "서울시 응급실 위치 정보", "score": 10.232, "dense": 0.623, "label_state": "정답 2점"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-20922", "title": "서울시 안심택배함 설치 장소", "score": 9.036, "dense": 0.604, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-23040", "title": "서울시 가로수 위치 정보", "score": 8.786, "dense": 0.579, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-12734", "title": "서울시 소방서관할 위치정보 (좌표계: ITRF2000)", "score": 8.733, "dense": 0.573, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-11674", "title": "서울시 교량 위치정보 (좌표계: GRS80)", "score": 8.673, "dense": 0.567, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-13668", "title": "서울시 운행제한시설물 위치정보(2018년)", "score": 8.63, "dense": 0.563, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 7, "dataset_id": "seoul_open_data/OA-12735", "title": "서울시 소방서관할 위치정보 (좌표계: WGS1984)(2015년)", "score": 8.581, "dense": 0.558, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-17538", "title": "서울시 은평구 일반야영장업 인허가 정보", "score": 8.544, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-12515", "title": "서울시 소방대상물 위치정보 (좌표계 : ITRF2000)", "score": 8.542, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p030", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-17550", "title": "서울시 송파구 일반야영장업 인허가 정보", "score": 8.532, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p031", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/3037683", "title": "세종특별자치시_CCTV", "score": 7.668, "dense": 0.617, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15155042", "title": "행정안전부_CCTV정보 조회서비스_20251126", "score": 7.643, "dense": 0.614, "label_state": "정답 2점"}
+{"query_id": "p031", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15082060", "title": "부산광역시_방범용 CCTV 정보", "score": 7.595, "dense": 0.61, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15090247", "title": "개인정보보호위원회_공공기관 설치 목적별 CCTV수", "score": 7.53, "dense": 0.603, "label_state": "오답 0점"}
+{"query_id": "p031", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-13272", "title": "서울시 동작구 CCTV 설치 현황", "score": 7.428, "dense": 0.593, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-13463", "title": "서울시 도봉구 CCTV", "score": 7.282, "dense": 0.578, "label_state": "보류"}
+{"query_id": "p031", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-12253", "title": "서울시 금천구 CCTV 설치 위치정보", "score": 7.28, "dense": 0.578, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15158499", "title": "대전교통공사_CCTV정보 조회 서비스_20260429", "score": 7.254, "dense": 0.575, "label_state": "미판정"}
+{"query_id": "p031", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15141678", "title": "행정안전부_통합관제센터 CCTV 운영현황", "score": 7.142, "dense": 0.564, "label_state": "미판정"}
+{"query_id": "p031", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-11568", "title": "서울시 종로구 CCTV 현황", "score": 7.066, "dense": 0.557, "label_state": "미판정"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15090247", "title": "개인정보보호위원회_공공기관 설치 목적별 CCTV수", "score": 9.53, "dense": 0.603, "label_state": "오답 0점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-13272", "title": "서울시 동작구 CCTV 설치 현황", "score": 9.428, "dense": 0.593, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-12253", "title": "서울시 금천구 CCTV 설치 위치정보", "score": 9.28, "dense": 0.578, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/3046976", "title": "부산교통공사_CCTV 카메라 설치현황", "score": 8.947, "dense": 0.545, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/3037683", "title": "세종특별자치시_CCTV", "score": 8.668, "dense": 0.617, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15155042", "title": "행정안전부_CCTV정보 조회서비스_20251126", "score": 8.643, "dense": 0.614, "label_state": "정답 2점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15082060", "title": "부산광역시_방범용 CCTV 정보", "score": 8.595, "dense": 0.61, "label_state": "정답 1점"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-13463", "title": "서울시 도봉구 CCTV", "score": 8.282, "dense": 0.578, "label_state": "보류"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15158499", "title": "대전교통공사_CCTV정보 조회 서비스_20260429", "score": 8.254, "dense": 0.575, "label_state": "미판정"}
+{"query_id": "p031", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15141678", "title": "행정안전부_통합관제센터 CCTV 운영현황", "score": 8.142, "dense": 0.564, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15094063", "title": "인천광역시_어린이 보호구역 지정 현황", "score": 7.873, "dense": 0.637, "label_state": "정답 2점"}
+{"query_id": "p032", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15076540", "title": "제주특별자치도_어린이보호구역내_주정차금지(지정)구역", "score": 7.7, "dense": 0.62, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-20448", "title": "어린이보호구역 위치도", "score": 7.431, "dense": 0.593, "label_state": "보류"}
+{"query_id": "p032", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15059064", "title": "지역 아동센터 현황", "score": 7.414, "dense": 0.591, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15004404", "title": "보건복지부_지역아동센터 현황", "score": 7.233, "dense": 0.573, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15069119", "title": "대구광역시_어린이집 현황", "score": 7.044, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15143780", "title": "경상북도_어린이보호구역 정보조회_20240728", "score": 6.945, "dense": 0.544, "label_state": "제외 0점"}
+{"query_id": "p032", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15012891", "title": "전국어린이보호구역표준데이터", "score": 6.936, "dense": 0.544, "label_state": "정답 1점"}
+{"query_id": "p032", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15058732", "title": "어린이 놀이시설 현황", "score": 6.881, "dense": 0.538, "label_state": "미판정"}
+{"query_id": "p032", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15055217", "title": "인천광역시_개발제한구역 현황", "score": 6.86, "dense": 0.536, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15094063", "title": "인천광역시_어린이 보호구역 지정 현황", "score": 10.373, "dense": 0.637, "label_state": "정답 2점"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15012891", "title": "전국어린이보호구역표준데이터", "score": 8.936, "dense": 0.544, "label_state": "정답 1점"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15055217", "title": "인천광역시_개발제한구역 현황", "score": 8.36, "dense": 0.536, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15038624", "title": "경찰청_어린이보호구역 지정 건수 현황", "score": 8.336, "dense": 0.484, "label_state": "오답 0점"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15041727", "title": "경찰청 인천광역시경찰청_아동 실종신고 현황", "score": 8.123, "dense": 0.512, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15117080", "title": "경찰청_시도청별 월별 어린이보호구역내 어린이 교통사고", "score": 8.102, "dense": 0.46, "label_state": "오답 0점"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15065133", "title": "인천광역시_노인 주거 복지 시설 현황", "score": 7.872, "dense": 0.487, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15054887", "title": "인천광역시_행정구역 현황", "score": 7.841, "dense": 0.484, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15119608", "title": "인천광역시_낚시금지 및 제한구역 현황", "score": 7.804, "dense": 0.48, "label_state": "미판정"}
+{"query_id": "p032", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15055192", "title": "인천광역시_금융기관 현황", "score": 7.735, "dense": 0.474, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15041878", "title": "근로복지공단_산재보험 판례 판결문 조회 서비스_20221004", "score": 6.695, "dense": 0.52, "label_state": "정답 1점"}
+{"query_id": "p033", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15057123", "title": "판례 본문 조회", "score": 6.513, "dense": 0.501, "label_state": "정답 1점"}
+{"query_id": "p033", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15058523", "title": "모바일 판례 본문 조회", "score": 6.479, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15058172", "title": "모바일 행정심판례 목록 조회", "score": 6.394, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15153131", "title": "법제처_산림청 법령해석 본문 조회_20251120", "score": 6.385, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15142986", "title": "대한법률구조공단_법률서식작성방법", "score": 6.376, "dense": 0.488, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/3034724", "title": "군사법원 연락처 정보", "score": 6.361, "dense": 0.486, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15085794", "title": "공소청_강도 절도 및 사기 수법", "score": 6.354, "dense": 0.485, "label_state": "미판정"}
+{"query_id": "p033", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15059269", "title": "판례 목록 조회", "score": 6.32, "dense": 0.482, "label_state": "오답 0점"}
+{"query_id": "p033", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15059404", "title": "모바일 판례 목록 조회", "score": 6.311, "dense": 0.481, "label_state": "오답 0점"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15041878", "title": "근로복지공단_산재보험 판례 판결문 조회 서비스_20221004", "score": 14.423, "dense": 0.52, "label_state": "정답 1점"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15057123", "title": "판례 본문 조회", "score": 13.241, "dense": 0.501, "label_state": "정답 1점"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15058523", "title": "모바일 판례 본문 조회", "score": 13.206, "dense": 0.498, "label_state": "미판정"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15058172", "title": "모바일 행정심판례 목록 조회", "score": 13.122, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15153131", "title": "법제처_산림청 법령해석 본문 조회_20251120", "score": 13.113, "dense": 0.489, "label_state": "미판정"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15059269", "title": "판례 목록 조회", "score": 13.047, "dense": 0.482, "label_state": "오답 0점"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15059404", "title": "모바일 판례 목록 조회", "score": 13.038, "dense": 0.481, "label_state": "오답 0점"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15058848", "title": "법령 연혁 본문 조회", "score": 13.018, "dense": 0.479, "label_state": "미판정"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15059509", "title": "행정심판례 본문 조회", "score": 12.988, "dense": 0.476, "label_state": "미판정"}
+{"query_id": "p033", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15153129", "title": "법제처_산림청 법령해석 목록 조회_20251120", "score": 12.988, "dense": 0.476, "label_state": "미판정"}
+{"query_id": "p034", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15000335", "title": "생활법령 백문백답 서비스", "score": 6.091, "dense": 0.459, "label_state": "정답 2점"}
+{"query_id": "p034", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15137685", "title": "법제처_찾기쉬운생활법령정보_백문백답", "score": 6.038, "dense": 0.454, "label_state": "정답 2점"}
+{"query_id": "p034", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15000335", "title": "생활법령 백문백답 서비스", "score": 8.091, "dense": 0.459, "label_state": "정답 2점"}
+{"query_id": "p034", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15137685", "title": "법제처_찾기쉬운생활법령정보_백문백답", "score": 8.038, "dense": 0.454, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15057146", "title": "제주특별자치도_제주복지서비스정보_20161122", "score": 5.63, "dense": 0.413, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-22731", "title": "서울시 교통공사 지하철역 편의시설위치정보 물품보관함 현황", "score": 5.629, "dense": 0.413, "label_state": "미판정"}
+{"query_id": "p035", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15108347", "title": "한국사회보장정보원_지자체복지서비스_20221123", "score": 5.601, "dense": 0.41, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15156706", "title": "한국서부발전(주)_(AI친화)신재생에너지 무인운영을 위한 로봇 학습용 정보_20251218", "score": 5.465, "dense": 0.397, "label_state": "미판정"}
+{"query_id": "p035", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15090532", "title": "한국사회보장정보원_중앙부처복지서비스_20250423", "score": 5.442, "dense": 0.394, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15045873", "title": "사립학교교직원연금공단_제휴복지 서비스 현황", "score": 5.427, "dense": 0.393, "label_state": "정답 1점"}
+{"query_id": "p035", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15108132", "title": "국가데이터처_KOSIS 챗봇 학습데이터 조회_20221117", "score": 5.424, "dense": 0.392, "label_state": "미판정"}
+{"query_id": "p035", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15131425", "title": "국가보훈부_자활용사촌 복지공장 생산품목", "score": 5.4, "dense": 0.39, "label_state": "미판정"}
+{"query_id": "p035", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-23013", "title": "서울시 복지서비스 목록 정보(한국사회보장정보원)", "score": 5.383, "dense": 0.388, "label_state": "정답 1점"}
+{"query_id": "p035", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-23014", "title": "서울시 복지서비스 상세 정보(한국사회보장정보원)", "score": 5.373, "dense": 0.387, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15057146", "title": "제주특별자치도_제주복지서비스정보_20161122", "score": 7.63, "dense": 0.413, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15108347", "title": "한국사회보장정보원_지자체복지서비스_20221123", "score": 7.601, "dense": 0.41, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15090532", "title": "한국사회보장정보원_중앙부처복지서비스_20250423", "score": 7.442, "dense": 0.394, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-23013", "title": "서울시 복지서비스 목록 정보(한국사회보장정보원)", "score": 7.383, "dense": 0.388, "label_state": "정답 1점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-23014", "title": "서울시 복지서비스 상세 정보(한국사회보장정보원)", "score": 7.373, "dense": 0.387, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15083323", "title": "한국사회보장정보원_복지서비스정보", "score": 7.348, "dense": 0.385, "label_state": "정답 2점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15072657", "title": "국가보훈부_재가복지서비스 지원인력현황", "score": 7.258, "dense": 0.376, "label_state": "오답 0점"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15056985", "title": "어르신관련 중앙부처복지서비스 정보 현황", "score": 7.139, "dense": 0.364, "label_state": "미판정"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15072656", "title": "국가보훈부_재가복지서비스 지원대상자현황", "score": 7.073, "dense": 0.357, "label_state": "미판정"}
+{"query_id": "p035", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15057399", "title": "아동관련중앙부처복지서비스 현황", "score": 6.907, "dense": 0.341, "label_state": "정답 1점"}
+{"query_id": "p036", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15106975", "title": "식품의약품안전처_한약(생약)제제 회수·판매중지 정보_20221006", "score": 6.792, "dense": 0.529, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15097199", "title": "식품의약품안전처_통지의약품 정보_20211224", "score": 6.765, "dense": 0.526, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15076330", "title": "식품의약품안전처 식품의약품안전평가원_생약 약재정보_20210119", "score": 6.761, "dense": 0.526, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15076323", "title": "식품의약품안전처 식품의약품안전평가원_관능검사해설서 정보_20210119", "score": 6.753, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15111777", "title": "식품의약품안전처_수입식품 원료정보", "score": 6.75, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15111774", "title": "식품의약품안전처_화장품 원료성분정보", "score": 6.707, "dense": 0.521, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15020628", "title": "식품의약품안전처_화장품 관련 정보_20211110", "score": 6.703, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15076337", "title": "식품의약품안전처 식품의약품안전평가원_생약 과명 정보_20210120", "score": 6.7, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p036", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15075057", "title": "식품의약품안전처_의약품개요정보(e약은요)", "score": 6.693, "dense": 0.519, "label_state": "정답 2점"}
+{"query_id": "p036", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15096118", "title": "식품의약품안전처_감염병치료제 의약품제품정보_20211214", "score": 6.679, "dense": 0.518, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15075057", "title": "식품의약품안전처_의약품개요정보(e약은요)", "score": 8.693, "dense": 0.519, "label_state": "정답 2점"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15089542", "title": "한국의약품안전관리원_효능군중복주의약물", "score": 8.472, "dense": 0.497, "label_state": "정답 1점"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15057639", "title": "식품의약품안전처_의약품 낱알식별 정보_20211110", "score": 8.344, "dense": 0.484, "label_state": "오답 0점"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15089544", "title": "한국의약품안전관리원_연도별효능군별 이상사례보고현황", "score": 8.014, "dense": 0.451, "label_state": "오답 0점"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15106975", "title": "식품의약품안전처_한약(생약)제제 회수·판매중지 정보_20221006", "score": 7.792, "dense": 0.529, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15097199", "title": "식품의약품안전처_통지의약품 정보_20211224", "score": 7.765, "dense": 0.526, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15076330", "title": "식품의약품안전처 식품의약품안전평가원_생약 약재정보_20210119", "score": 7.761, "dense": 0.526, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15076323", "title": "식품의약품안전처 식품의약품안전평가원_관능검사해설서 정보_20210119", "score": 7.753, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15111777", "title": "식품의약품안전처_수입식품 원료정보", "score": 7.75, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p036", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15111774", "title": "식품의약품안전처_화장품 원료성분정보", "score": 7.707, "dense": 0.521, "label_state": "미판정"}
+{"query_id": "p037", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15101903", "title": "국민권익위원회_민원빅데이터_분석정보_API_2022_20220630", "score": 7.028, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p037", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15114773", "title": "국민권익위원회_민원빅데이터_분석정보_API_2023", "score": 6.99, "dense": 0.549, "label_state": "미판정"}
+{"query_id": "p037", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15124807", "title": "국토안전관리원_민원데이터", "score": 6.6, "dense": 0.51, "label_state": "정답 2점"}
+{"query_id": "p037", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15156872", "title": "행정안전부 한국지역정보개발원_(전국 통합데이터) 민원실 이용 현황 실시간 정보_20251225", "score": 6.314, "dense": 0.481, "label_state": "미판정"}
+{"query_id": "p037", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/3070147", "title": "국민권익위원회_정부민원신청 처리기간 준수현황", "score": 6.292, "dense": 0.479, "label_state": "오답 0점"}
+{"query_id": "p037", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15012893", "title": "전국무인민원발급정보표준데이터", "score": 6.095, "dense": 0.46, "label_state": "오답 0점"}
+{"query_id": "p037", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15074671", "title": "국민권익위원회_민원정책 질의응답조회서비스_20201215", "score": 6.081, "dense": 0.458, "label_state": "정답 1점"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/3070147", "title": "국민권익위원회_정부민원신청 처리기간 준수현황", "score": 11.138, "dense": 0.479, "label_state": "오답 0점"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15101903", "title": "국민권익위원회_민원빅데이터_분석정보_API_2022_20220630", "score": 10.873, "dense": 0.553, "label_state": "미판정"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15114773", "title": "국민권익위원회_민원빅데이터_분석정보_API_2023", "score": 10.836, "dense": 0.549, "label_state": "미판정"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15124807", "title": "국토안전관리원_민원데이터", "score": 10.445, "dense": 0.51, "label_state": "정답 2점"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15156872", "title": "행정안전부 한국지역정보개발원_(전국 통합데이터) 민원실 이용 현황 실시간 정보_20251225", "score": 10.159, "dense": 0.481, "label_state": "미판정"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15012893", "title": "전국무인민원발급정보표준데이터", "score": 9.941, "dense": 0.46, "label_state": "오답 0점"}
+{"query_id": "p037", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15074671", "title": "국민권익위원회_민원정책 질의응답조회서비스_20201215", "score": 9.926, "dense": 0.458, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15058504", "title": "농촌진흥청_작물 병해충 검색 서비스_20211220", "score": 7.5, "dense": 0.6, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15002034", "title": "농촌진흥청_국가농작물병해충도감정보_20240222", "score": 7.242, "dense": 0.574, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15015158", "title": "농촌진흥청 병해충발생정보_20211220", "score": 7.191, "dense": 0.569, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15058192", "title": "농촌진흥청_병해충 예찰정보_20261019", "score": 7.06, "dense": 0.556, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15056670", "title": "팜맵기반 병해충발생 조회 서비스", "score": 6.968, "dense": 0.547, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15050898", "title": "농림수산식품교육문화정보원_작물농업 병해충 잡초 정보", "score": 6.496, "dense": 0.5, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15041773", "title": "농촌진흥청_관련 사이트 정보_20191213", "score": 6.492, "dense": 0.499, "label_state": "오답 0점"}
+{"query_id": "p038", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/3060744", "title": "농촌진흥청_주간농사정보_20160627", "score": 6.443, "dense": 0.494, "label_state": "미판정"}
+{"query_id": "p038", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/3055531", "title": "농림축산식품부 농림축산검역본부_식물검역 병해충정보", "score": 6.408, "dense": 0.491, "label_state": "미판정"}
+{"query_id": "p038", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15135578", "title": "한국지능정보사회진흥원_AI허브 데이터셋 정보", "score": 6.295, "dense": 0.479, "label_state": "미판정"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15058504", "title": "농촌진흥청_작물 병해충 검색 서비스_20211220", "score": 8.5, "dense": 0.6, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15002034", "title": "농촌진흥청_국가농작물병해충도감정보_20240222", "score": 8.242, "dense": 0.574, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15015158", "title": "농촌진흥청 병해충발생정보_20211220", "score": 8.191, "dense": 0.569, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15058192", "title": "농촌진흥청_병해충 예찰정보_20261019", "score": 8.06, "dense": 0.556, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15056670", "title": "팜맵기반 병해충발생 조회 서비스", "score": 7.968, "dense": 0.547, "label_state": "정답 1점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15050898", "title": "농림수산식품교육문화정보원_작물농업 병해충 잡초 정보", "score": 7.496, "dense": 0.5, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/3055531", "title": "농림축산식품부 농림축산검역본부_식물검역 병해충정보", "score": 7.408, "dense": 0.491, "label_state": "미판정"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15059306", "title": "농촌진흥청_농약안전사용지침_20190513", "score": 7.256, "dense": 0.476, "label_state": "정답 2점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15041773", "title": "농촌진흥청_관련 사이트 정보_20191213", "score": 6.492, "dense": 0.499, "label_state": "오답 0점"}
+{"query_id": "p038", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/3060744", "title": "농촌진흥청_주간농사정보_20160627", "score": 6.443, "dense": 0.494, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 1, "dataset_id": "eddmpython/cleangov-local-fiscal-metrics", "title": null, "score": 6.736, "dense": 0.395, "label_state": "비공공데이터"}
+{"query_id": "p039", "mode": "question_only", "rank": 2, "dataset_id": "eddmpython/cleangov-local-budgets", "title": null, "score": 6.626, "dense": 0.394, "label_state": "비공공데이터"}
+{"query_id": "p039", "mode": "question_only", "rank": 3, "dataset_id": "xujfcn/Crazyrouter-Model-Pricing", "title": null, "score": 6.303, "dense": 0.4, "label_state": "비공공데이터"}
+{"query_id": "p039", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15043985", "title": "한국부동산원_상업용부동산 임대동향조사_수익률 정보_분기별 수익률(중대형상가)", "score": 6.23, "dense": 0.473, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-22176", "title": "서울시 상권분석서비스(추정매출-자치구)", "score": 6.175, "dense": 0.467, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-22177", "title": "서울시 상권분석서비스(추정매출-서울시)", "score": 6.119, "dense": 0.462, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-22175", "title": "서울시 상권분석서비스(추정매출-행정동)", "score": 6.112, "dense": 0.461, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15108177", "title": "금융위원회_개인사업자평가정보_20220830", "score": 6.066, "dense": 0.457, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15070103", "title": "과학기술정보통신부_용도별 기업연구개발비 통계", "score": 6.045, "dense": 0.455, "label_state": "미판정"}
+{"query_id": "p039", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-15572", "title": "서울시 상권분석서비스(추정매출-상권)", "score": 6.034, "dense": 0.453, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15054588", "title": "한국무역보험공사_국외기업 신용조사 실적통계", "score": 6.859, "dense": 0.436, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15082044", "title": "한국주택금융공사_전세자금대출 고객 특성별 금리 정보_20210602", "score": 6.779, "dense": 0.428, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 3, "dataset_id": "eddmpython/cleangov-local-fiscal-metrics", "title": null, "score": 6.736, "dense": 0.395, "label_state": "비공공데이터"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/3045791", "title": "한국주택금융공사_보금자리론 대출금액 및 잔액 현황", "score": 6.692, "dense": 0.419, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15060323", "title": "주택도시보증공사_주택도시기금 수요자대출 분기별 연령별 대출금 지수", "score": 6.675, "dense": 0.417, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15082033", "title": "한국주택금융공사_전세자금대출 금리 정보_20210602", "score": 6.673, "dense": 0.417, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15064213", "title": "대전광역시_자치구별 신용카드(KB국민카드) 매출액", "score": 6.668, "dense": 0.417, "label_state": "미판정"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 8, "dataset_id": "eddmpython/cleangov-local-budgets", "title": null, "score": 6.626, "dense": 0.394, "label_state": "비공공데이터"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15069279", "title": "한국장학재단_학자금대출 금리기준", "score": 6.591, "dense": 0.409, "label_state": "오답 0점"}
+{"query_id": "p039", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15061337", "title": "금융위원회_금융통계신용협동조합정보_20200715", "score": 6.585, "dense": 0.409, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15099883", "title": "한국교통안전공단_주차정보 제공 API_20220418", "score": 7.082, "dense": 0.558, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15099790", "title": "행정안전부_전국 명절 무료주차장 현황", "score": 7.039, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15083717", "title": "대전광역시_실시간 주차장 정보_20210611", "score": 6.983, "dense": 0.548, "label_state": "보류"}
+{"query_id": "p040", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 6.929, "dense": 0.543, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15158508", "title": "한국공항공사_김포공항 실내주차장 빈 주차면 실시간 안내 정보_GW_20251107", "score": 6.895, "dense": 0.54, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-21709", "title": "서울시 시영주차장 실시간 주차대수 정보", "score": 6.886, "dense": 0.539, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15158681", "title": "한국공항공사_전국공항 실시간 주차정보_GW_20260524", "score": 6.872, "dense": 0.537, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15058546", "title": "성동구도시관리공단 공영주차장정보 OPEN-API_20220506", "score": 6.802, "dense": 0.53, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-21087", "title": "한강공원 주차장 요금감면 현황", "score": 6.748, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p040", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15044460", "title": "한국국토정보공사 주차장 정보 DB", "score": 6.737, "dense": 0.524, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15083717", "title": "대전광역시_실시간 주차장 정보_20210611", "score": 13.343, "dense": 0.548, "label_state": "보류"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15158508", "title": "한국공항공사_김포공항 실내주차장 빈 주차면 실시간 안내 정보_GW_20251107", "score": 13.256, "dense": 0.54, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-21709", "title": "서울시 시영주차장 실시간 주차대수 정보", "score": 13.247, "dense": 0.539, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15099790", "title": "행정안전부_전국 명절 무료주차장 현황", "score": 12.4, "dense": 0.554, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15157490", "title": "부산시설공단_공영주차장 시설 현황 조회 서비스_20260226", "score": 12.29, "dense": 0.543, "label_state": "오답 0점"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15158681", "title": "한국공항공사_전국공항 실시간 주차정보_GW_20260524", "score": 12.233, "dense": 0.537, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15058546", "title": "성동구도시관리공단 공영주차장정보 OPEN-API_20220506", "score": 12.162, "dense": 0.53, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-21087", "title": "한강공원 주차장 요금감면 현황", "score": 12.108, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15044460", "title": "한국국토정보공사 주차장 정보 DB", "score": 12.098, "dense": 0.524, "label_state": "미판정"}
+{"query_id": "p040", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15095053", "title": "인천국제공항공사_주차장별 요금 부과 기준 정보_20211029", "score": 12.08, "dense": 0.522, "label_state": "미판정"}
+{"query_id": "p041", "mode": "question_only", "rank": 1, "dataset_id": "kaggle/techsalerator/youtube-and-video-data-for-south-korea", "title": "Youtube & Video Data for South Korea", "score": 7.27, "dense": 0.577, "label_state": "비공공데이터"}
+{"query_id": "p041", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15141362", "title": "외교부_외교부 유튜브 채널 정보_20250121", "score": 6.917, "dense": 0.542, "label_state": "오답 0점"}
+{"query_id": "p041", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15141317", "title": "외교부_코리아즈 유튜브 채널 정보_20250121", "score": 6.195, "dense": 0.469, "label_state": "오답 0점"}
+{"query_id": "p041", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15147384", "title": "한국방송광고진흥공사_성별 연령별 OTT 서비스 이용 비율", "score": 6.052, "dense": 0.455, "label_state": "미판정"}
+{"query_id": "p041", "mode": "question_only", "rank": 5, "dataset_id": "kaggle/techsalerator/youtube-and-video-data-for-north-korea", "title": "YouTube & Video Data for North Korea", "score": 4.408, "dense": 0.541, "label_state": "비공공데이터"}
+{"query_id": "p041", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15141362", "title": "외교부_외교부 유튜브 채널 정보_20250121", "score": 7.917, "dense": 0.542, "label_state": "오답 0점"}
+{"query_id": "p041", "mode": "pool_terms", "rank": 2, "dataset_id": "kaggle/techsalerator/youtube-and-video-data-for-south-korea", "title": "Youtube & Video Data for South Korea", "score": 7.27, "dense": 0.577, "label_state": "비공공데이터"}
+{"query_id": "p041", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15141317", "title": "외교부_코리아즈 유튜브 채널 정보_20250121", "score": 7.195, "dense": 0.469, "label_state": "오답 0점"}
+{"query_id": "p041", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15147384", "title": "한국방송광고진흥공사_성별 연령별 OTT 서비스 이용 비율", "score": 6.052, "dense": 0.455, "label_state": "미판정"}
+{"query_id": "p041", "mode": "pool_terms", "rank": 5, "dataset_id": "kaggle/techsalerator/youtube-and-video-data-for-north-korea", "title": "YouTube & Video Data for North Korea", "score": 4.408, "dense": 0.541, "label_state": "비공공데이터"}
+{"query_id": "p042", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15034958", "title": "대한무역투자진흥공사_상품DB_20221121", "score": 6.366, "dense": 0.487, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15088476", "title": "대한무역투자진흥공사_한국 산업별 외국인직접투자통계_20210914", "score": 6.325, "dense": 0.483, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15054398", "title": "산업통상부_외국인직접투자동향_외국인투자기업현황", "score": 6.28, "dense": 0.478, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15034831", "title": "대한무역투자진흥공사_해외시장뉴스_20221121", "score": 6.272, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15054400", "title": "산업통상부_외국인직접투자동향_국가별 산업별 대한 외국인직접투자 통계", "score": 6.241, "dense": 0.474, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15034830", "title": "대한무역투자진흥공사_국가정보_20221121", "score": 6.164, "dense": 0.466, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/3074095", "title": "산업통상부_해외시장동향", "score": 6.124, "dense": 0.462, "label_state": "오답 0점"}
+{"query_id": "p042", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15048866", "title": "대한무역투자진흥공사_해외 유망 프로젝트", "score": 6.082, "dense": 0.458, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15054399", "title": "산업통상부_외국인직접투자동향_투자형태별 대한 외국인직접투자 통계", "score": 6.081, "dense": 0.458, "label_state": "미판정"}
+{"query_id": "p042", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15054397", "title": "산업통상부_외국인직접투자동향_지자체별외국인투자현황", "score": 6.064, "dense": 0.456, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/3070517", "title": "국민연금공단_해외주식 투자정보", "score": 12.143, "dense": 0.426, "label_state": "제외 0점"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15094808", "title": "금융위원회_주식시세정보_20211116", "score": 12.137, "dense": 0.426, "label_state": "오답 0점"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15034831", "title": "대한무역투자진흥공사_해외시장뉴스_20221121", "score": 11.653, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/3074095", "title": "산업통상부_해외시장동향", "score": 11.506, "dense": 0.462, "label_state": "오답 0점"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15048866", "title": "대한무역투자진흥공사_해외 유망 프로젝트", "score": 11.464, "dense": 0.458, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15134030", "title": "대한무역투자진흥공사_해외인증정보", "score": 11.444, "dense": 0.456, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15034786", "title": "대한무역투자진흥공사_해외기업검색", "score": 11.368, "dense": 0.449, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15003297", "title": "대한무역투자진흥공사_해외진출 한국기업 디렉토리 DB", "score": 11.089, "dense": 0.421, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15003367", "title": "대한무역투자진흥공사 해외전시회 정보", "score": 11.08, "dense": 0.42, "label_state": "미판정"}
+{"query_id": "p042", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15119709", "title": "한국동서발전(주)_해외사업 현황 정보_20221231", "score": 11.07, "dense": 0.419, "label_state": "미판정"}
+{"query_id": "p043", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15093156", "title": "한국환경공단_층간소음 원인별 분석", "score": 6.386, "dense": 0.489, "label_state": "오답 0점"}
+{"query_id": "p043", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15093156", "title": "한국환경공단_층간소음 원인별 분석", "score": 8.386, "dense": 0.489, "label_state": "오답 0점"}
+{"query_id": "p044", "mode": "question_only", "rank": 1, "dataset_id": "heymilka/apk", "title": null, "score": 6.158, "dense": 0.397, "label_state": "비공공데이터"}
+{"query_id": "p044", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-12764", "title": "서울시 지하철 실시간 도착정보", "score": 5.717, "dense": 0.422, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15056569", "title": "교차로계획정보서비스", "score": 5.644, "dense": 0.414, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-15799", "title": "서울시 지하철 실시간 도착정보(일괄)", "score": 5.637, "dense": 0.414, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15144070", "title": "서울교통공사_지하철알림정보_20250623", "score": 5.614, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-12928", "title": "서울교통공사_지하철혼잡도정보", "score": 5.562, "dense": 0.406, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-21285", "title": "서울시 실시간 도시데이터", "score": 5.513, "dense": 0.401, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-13100", "title": "서울 두드림길 정보 (영어)(2015년)", "score": 5.509, "dense": 0.401, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15073263", "title": "한국산업안전보건공단_이륜차 사고다발구역 조회서비스_20201105", "score": 5.482, "dense": 0.398, "label_state": "미판정"}
+{"query_id": "p044", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-21695", "title": "서울시 안심귀갓길 경로", "score": 5.457, "dense": 0.396, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15057966", "title": "CCTV 기반 도로날씨정보 조회서비스", "score": 11.435, "dense": 0.359, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15059060", "title": "레이더자료(경량화) 조회서비스", "score": 10.319, "dense": 0.347, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 3, "dataset_id": "heymilka/apk", "title": null, "score": 6.158, "dense": 0.397, "label_state": "비공공데이터"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-12764", "title": "서울시 지하철 실시간 도착정보", "score": 5.717, "dense": 0.422, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15056569", "title": "교차로계획정보서비스", "score": 5.644, "dense": 0.414, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-15799", "title": "서울시 지하철 실시간 도착정보(일괄)", "score": 5.637, "dense": 0.414, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15144070", "title": "서울교통공사_지하철알림정보_20250623", "score": 5.614, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-12928", "title": "서울교통공사_지하철혼잡도정보", "score": 5.562, "dense": 0.406, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-21285", "title": "서울시 실시간 도시데이터", "score": 5.513, "dense": 0.401, "label_state": "미판정"}
+{"query_id": "p044", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-13100", "title": "서울 두드림길 정보 (영어)(2015년)", "score": 5.509, "dense": 0.401, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15157722", "title": "한국수력원자력(주)_원자력발전소 실시간 기상 정보_20260319", "score": 5.489, "dense": 0.399, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15000415", "title": "기상특보 조회서비스", "score": 5.256, "dense": 0.376, "label_state": "정답 2점"}
+{"query_id": "p045", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15157696", "title": "한국수력원자력(주)_원자력발전소 실시간 온배수 현황_20260319", "score": 5.225, "dense": 0.372, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-22714", "title": "서울시 실시간 도시데이터(영문)", "score": 5.144, "dense": 0.364, "label_state": "정답 1점"}
+{"query_id": "p045", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15152116", "title": "한국에너지기술연구원_실시간 홍반자외선 데이터 제공 서비스_20251112", "score": 5.137, "dense": 0.364, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15157778", "title": "한국수력원자력(주)_원자력발전소 실시간 발전 현황_20260324", "score": 5.129, "dense": 0.363, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-13315", "title": "서울시 실시간 돌발 정보", "score": 5.124, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15157700", "title": "한국수력원자력(주)_원자력발전소 실시간 폐수 수질현황_20260319", "score": 5.123, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-12252", "title": "서울시 지하철 호선별 역별 시간대별 승하차 인원 정보", "score": 5.114, "dense": 0.361, "label_state": "미판정"}
+{"query_id": "p045", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-1167", "title": "서울시 하천 수위 현황", "score": 5.075, "dense": 0.358, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15000415", "title": "기상특보 조회서비스", "score": 7.256, "dense": 0.376, "label_state": "정답 2점"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-1202", "title": "서울시 황사 경보 현황", "score": 5.988, "dense": 0.349, "label_state": "오답 0점"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15157722", "title": "한국수력원자력(주)_원자력발전소 실시간 기상 정보_20260319", "score": 5.489, "dense": 0.399, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15157696", "title": "한국수력원자력(주)_원자력발전소 실시간 온배수 현황_20260319", "score": 5.225, "dense": 0.372, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-22714", "title": "서울시 실시간 도시데이터(영문)", "score": 5.144, "dense": 0.364, "label_state": "정답 1점"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15152116", "title": "한국에너지기술연구원_실시간 홍반자외선 데이터 제공 서비스_20251112", "score": 5.137, "dense": 0.364, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15157778", "title": "한국수력원자력(주)_원자력발전소 실시간 발전 현황_20260324", "score": 5.129, "dense": 0.363, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 8, "dataset_id": "seoul_open_data/OA-13315", "title": "서울시 실시간 돌발 정보", "score": 5.124, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15157700", "title": "한국수력원자력(주)_원자력발전소 실시간 폐수 수질현황_20260319", "score": 5.123, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p045", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-12252", "title": "서울시 지하철 호선별 역별 시간대별 승하차 인원 정보", "score": 5.114, "dense": 0.361, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 1, "dataset_id": "kpubdata/weather-village-forecast", "title": null, "score": 6.137, "dense": 0.375, "label_state": "비공공데이터"}
+{"query_id": "p046", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15049998", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행일정", "score": 5.828, "dense": 0.433, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15143060", "title": "인천국제공항공사_여객기 정기운항편 조회(관광플랫폼용)_20250421", "score": 5.776, "dense": 0.428, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15057156", "title": "와이파이 AP그룹별 일일 사용량_20201231", "score": 5.762, "dense": 0.426, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15142055", "title": "국토교통부_평균통행시간_20230101", "score": 5.737, "dense": 0.424, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15136577", "title": "한국관광공사_국민 해외관광객 추이 월별 집계", "score": 5.737, "dense": 0.424, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15128555", "title": "한국관광공사_관광지 집중률 방문자 추이 예측 정보", "score": 5.697, "dense": 0.42, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15056834", "title": "월간 중국인관광객 카드 사용 정보_20181231", "score": 5.681, "dense": 0.418, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-22515", "title": "서울교통공사_외국인 관광객 기간권 일별통행통계", "score": 5.569, "dense": 0.407, "label_state": "미판정"}
+{"query_id": "p046", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-16050", "title": "서울시 국내외여행업 인허가 정보", "score": 5.535, "dense": 0.403, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 1, "dataset_id": "kpubdata/weather-village-forecast", "title": null, "score": 11.482, "dense": 0.375, "label_state": "비공공데이터"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15074272", "title": "제주특별자치도_일별 기상 정보", "score": 10.629, "dense": 0.378, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15057260", "title": "지상기상월보 조회서비스", "score": 10.581, "dense": 0.374, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15049998", "title": "제주관광공사_제주관광정보시스템(VISIT JEJU)_여행일정", "score": 5.828, "dense": 0.433, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15143060", "title": "인천국제공항공사_여객기 정기운항편 조회(관광플랫폼용)_20250421", "score": 5.776, "dense": 0.428, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15057156", "title": "와이파이 AP그룹별 일일 사용량_20201231", "score": 5.762, "dense": 0.426, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15142055", "title": "국토교통부_평균통행시간_20230101", "score": 5.737, "dense": 0.424, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15136577", "title": "한국관광공사_국민 해외관광객 추이 월별 집계", "score": 5.737, "dense": 0.424, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15128555", "title": "한국관광공사_관광지 집중률 방문자 추이 예측 정보", "score": 5.697, "dense": 0.42, "label_state": "미판정"}
+{"query_id": "p046", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15056834", "title": "월간 중국인관광객 카드 사용 정보_20181231", "score": 5.681, "dense": 0.418, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15097855", "title": "대구광역시_어린이 보호구역 위험요소 조회 서비스_20211221", "score": 5.174, "dense": 0.367, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15084817", "title": "산림청 국립산림과학원_산불위험예보정보_20210726", "score": 5.116, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15029605", "title": "위험물정보 서비스", "score": 4.944, "dense": 0.344, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15092032", "title": "산림청 국립산림과학원_동해안산불위험예보정보", "score": 4.944, "dense": 0.344, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15073262", "title": "한국산업안전보건공단_이륜차 교육영상추천 조회서비스_20201105", "score": 4.914, "dense": 0.341, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15098003", "title": "인천광역시_도로_위험_20220105", "score": 4.819, "dense": 0.332, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15096663", "title": "한국산업안전보건공단_대리기사 교육영상추천 조회서비스_20211221", "score": 4.807, "dense": 0.331, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15012891", "title": "전국어린이보호구역표준데이터", "score": 4.76, "dense": 0.326, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15087828", "title": "한국산업안전보건공단_건설업 공종별 세부공정 목록", "score": 4.76, "dense": 0.326, "label_state": "미판정"}
+{"query_id": "p047", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15021104", "title": "전국소규모공공시설위험지정정보표준데이터", "score": 4.752, "dense": 0.325, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15084817", "title": "산림청 국립산림과학원_산불위험예보정보_20210726", "score": 10.462, "dense": 0.362, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15085289", "title": "기상청_보건기상지수 조회서비스(3.0)_20210802", "score": 10.086, "dense": 0.324, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/3083835", "title": "경상북도_재난안전 일일상황관리", "score": 10.078, "dense": 0.323, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15058629", "title": "동네예보 통보문 조회서비스", "score": 9.895, "dense": 0.305, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15142489", "title": "해양수산부 국립해양조사원_갯벌체험지수 조회_20250319", "score": 9.863, "dense": 0.302, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15034088", "title": "소각처리시설 일일대기질 현황 서비스", "score": 9.783, "dense": 0.294, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15156872", "title": "행정안전부 한국지역정보개발원_(전국 통합데이터) 민원실 이용 현황 실시간 정보_20251225", "score": 9.781, "dense": 0.294, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15068602", "title": "농업정책보험금융원_농작물재해보험 연도별 지급현황", "score": 6.617, "dense": 0.312, "label_state": "오답 0점"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15151027", "title": "농촌진흥청 국립농업과학원_농업인안전 응급처치 가이드 동영상 조회_20251103", "score": 5.65, "dense": 0.315, "label_state": "미판정"}
+{"query_id": "p047", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15129372", "title": "농촌진흥청 국립농업과학원_농작업 안전정보 동영상 조회_20240702", "score": 5.579, "dense": 0.308, "label_state": "미판정"}
+{"query_id": "p048", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-15799", "title": "서울시 지하철 실시간 도착정보(일괄)", "score": 7.537, "dense": 0.604, "label_state": "정답 2점"}
+{"query_id": "p048", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-12764", "title": "서울시 지하철 실시간 도착정보", "score": 7.52, "dense": 0.602, "label_state": "정답 2점"}
+{"query_id": "p048", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-12601", "title": "서울시 지하철 실시간 열차 위치정보", "score": 7.397, "dense": 0.59, "label_state": "정답 1점"}
+{"query_id": "p048", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15144070", "title": "서울교통공사_지하철알림정보_20250623", "score": 7.356, "dense": 0.586, "label_state": "미판정"}
+{"query_id": "p048", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15143846", "title": "서울교통공사_실시간운임정보_20250531", "score": 7.349, "dense": 0.585, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15058877", "title": "서울시 실시간 돌발 정보", "score": 7.338, "dense": 0.584, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-13315", "title": "서울시 실시간 돌발 정보", "score": 7.256, "dense": 0.576, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p048", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15058364", "title": "서울시 실시간 도로 소통 정보", "score": 7.191, "dense": 0.569, "label_state": "미판정"}
+{"query_id": "p048", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-22752", "title": "서울시 교통공사 지하철역 실시간운임정보 현황", "score": 7.179, "dense": 0.568, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15146211", "title": "서울특별시_실시간 도시데이터", "score": 7.156, "dense": 0.566, "label_state": "미판정"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-15799", "title": "서울시 지하철 실시간 도착정보(일괄)", "score": 15.398, "dense": 0.604, "label_state": "정답 2점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-12764", "title": "서울시 지하철 실시간 도착정보", "score": 15.381, "dense": 0.602, "label_state": "정답 2점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-12601", "title": "서울시 지하철 실시간 열차 위치정보", "score": 15.257, "dense": 0.59, "label_state": "정답 1점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 4, "dataset_id": "seoul_open_data/OA-22752", "title": "서울시 교통공사 지하철역 실시간운임정보 현황", "score": 15.04, "dense": 0.568, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15144070", "title": "서울교통공사_지하철알림정보_20250623", "score": 14.217, "dense": 0.586, "label_state": "미판정"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15143846", "title": "서울교통공사_실시간운임정보_20250531", "score": 14.21, "dense": 0.585, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15058877", "title": "서울시 실시간 돌발 정보", "score": 14.199, "dense": 0.584, "label_state": "오답 0점"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15058364", "title": "서울시 실시간 도로 소통 정보", "score": 14.052, "dense": 0.569, "label_state": "미판정"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15146211", "title": "서울특별시_실시간 도시데이터", "score": 14.016, "dense": 0.566, "label_state": "미판정"}
+{"query_id": "p048", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-22750", "title": "서울시 교통공사 지하철역 열차시간표 현황", "score": 13.838, "dense": 0.548, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 1, "dataset_id": "seoul_open_data/OA-15526", "title": "서울시 대기오염 측정정보", "score": 7.051, "dense": 0.555, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-2275", "title": "서울시 시간 평균 대기오염도 정보", "score": 6.839, "dense": 0.534, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 3, "dataset_id": "seoul_open_data/OA-23044", "title": "서울시 대기오염물질 측정정보", "score": 6.748, "dense": 0.525, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-23039", "title": "서울시 대기오염 측정소 정보", "score": 6.719, "dense": 0.522, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p049", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-2218", "title": "서울시 일별 평균 대기오염도 정보", "score": 6.675, "dense": 0.517, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-12255", "title": "서울의료원 주간 진료 시간표 현황", "score": 6.664, "dense": 0.516, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-15516", "title": "서울시 대기오염 측정소 정보", "score": 6.643, "dense": 0.514, "label_state": "오답 0점"}
+{"query_id": "p049", "mode": "question_only", "rank": 8, "dataset_id": "seoul_open_data/OA-15515", "title": "서울시 대기오염 측정항목 정보", "score": 6.601, "dense": 0.51, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 9, "dataset_id": "seoul_open_data/OA-2217", "title": "서울시 월별 평균 대기오염도 정보", "score": 6.597, "dense": 0.51, "label_state": "미판정"}
+{"query_id": "p049", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-20461", "title": "서울시 코로나19 확진자(전수감시) 발생동향 (2023.08.31.이전)", "score": 6.588, "dense": 0.509, "label_state": "미판정"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-23039", "title": "서울시 대기오염 측정소 정보", "score": 8.719, "dense": 0.522, "label_state": "미판정 (v1 판정 데이터의 분리 사본)"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-15516", "title": "서울시 대기오염 측정소 정보", "score": 8.643, "dense": 0.514, "label_state": "오답 0점"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-23045", "title": "서울시 대기오염물질 측정소 정보", "score": 8.569, "dense": 0.507, "label_state": "오답 0점"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15016368", "title": "대기오염집중측정소 대기오염측정자료", "score": 8.563, "dense": 0.506, "label_state": "보류"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-2223", "title": "서울시 도로변/입체대기 측정소별 실시간 대기환경 현황", "score": 8.472, "dense": 0.497, "label_state": "미판정"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-12855", "title": "서울시 대기오염물질 측정소 높이 정보", "score": 8.33, "dense": 0.483, "label_state": "오답 0점"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15156659", "title": "한국환경공단_에어코리아 측정소별 실시간 측정정보 영문 조회 서비스", "score": 8.283, "dense": 0.478, "label_state": "정답 2점"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15079018", "title": "충청북도_환경분야정보 대기환경 측정소별 실시간 데이터_20210331", "score": 8.193, "dense": 0.469, "label_state": "정답 1점"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-15526", "title": "서울시 대기오염 측정정보", "score": 8.051, "dense": 0.555, "label_state": "미판정"}
+{"query_id": "p049", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15073861", "title": "한국환경공단_에어코리아_대기오염정보", "score": 8.05, "dense": 0.455, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/3044829", "title": "인천광역시_삼산농산물도매시장 실시간 경락정보", "score": 7.394, "dense": 0.589, "label_state": "제외 0점"}
+{"query_id": "p050", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15029181", "title": "전국농수축산물도매시장경락가격표준데이터", "score": 7.391, "dense": 0.589, "label_state": "미판정"}
+{"query_id": "p050", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15057737", "title": "반여농산물도매시장 실시간 경락정보", "score": 7.34, "dense": 0.584, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15057209", "title": "반여농산물도매시장 가격정보", "score": 7.326, "dense": 0.583, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15055602", "title": "울산광역시_농수산물도매시장 월별 가격 동향", "score": 7.085, "dense": 0.558, "label_state": "미판정"}
+{"query_id": "p050", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15059163", "title": "반여농산물도매시장 반입물량정보", "score": 7.058, "dense": 0.556, "label_state": "보류"}
+{"query_id": "p050", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15141811", "title": "한국농수산식품유통공사_온라인 도매시장 거래정보_20250211", "score": 7.004, "dense": 0.55, "label_state": "보류"}
+{"query_id": "p050", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15141808", "title": "한국농수산식품유통공사_전국 공영도매시장 실시간 경매정보_20250211", "score": 6.99, "dense": 0.549, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15087476", "title": "한국농수산식품유통공사_월별 농축수산물 도매가격 정보", "score": 6.966, "dense": 0.547, "label_state": "미판정"}
+{"query_id": "p050", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15087482", "title": "한국농수산식품유통공사_월별 농축수산물 소매가격 정보", "score": 6.962, "dense": 0.546, "label_state": "미판정"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/3044829", "title": "인천광역시_삼산농산물도매시장 실시간 경락정보", "score": 9.394, "dense": 0.589, "label_state": "제외 0점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15057737", "title": "반여농산물도매시장 실시간 경락정보", "score": 9.34, "dense": 0.584, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15057209", "title": "반여농산물도매시장 가격정보", "score": 9.326, "dense": 0.583, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15059163", "title": "반여농산물도매시장 반입물량정보", "score": 9.058, "dense": 0.556, "label_state": "보류"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15141808", "title": "한국농수산식품유통공사_전국 공영도매시장 실시간 경매정보_20250211", "score": 8.99, "dense": 0.549, "label_state": "정답 2점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15051663", "title": "인천광역시_남촌도매시장 일별 경매 가격정보", "score": 8.704, "dense": 0.52, "label_state": "제외 0점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15141810", "title": "한국농수산식품유통공사_전국 공영도매시장 경매원천정보_20250211", "score": 8.6, "dense": 0.51, "label_state": "미판정"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15029181", "title": "전국농수축산물도매시장경락가격표준데이터", "score": 8.391, "dense": 0.589, "label_state": "미판정"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/3044844", "title": "인천광역시_삼산농산물 도매시장 부적합 농산물 현황", "score": 8.214, "dense": 0.471, "label_state": "오답 0점"}
+{"query_id": "p050", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15057968", "title": "경매전 농산물 잔류농약검사(엄궁, 반여) 서비스", "score": 8.114, "dense": 0.461, "label_state": "오답 0점"}
+{"query_id": "p051", "mode": "question_only", "rank": 1, "dataset_id": "Bingsu/national_library_of_korea_book_info", "title": null, "score": 6.958, "dense": 0.47, "label_state": "비공공데이터"}
+{"query_id": "p051", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15088653", "title": "부산광역시_도서관 정보_20210914", "score": 6.712, "dense": 0.521, "label_state": "제외 0점"}
+{"query_id": "p051", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15133276", "title": "전북특별자치도_도청도서관 도서정보 서비스_20240821", "score": 6.418, "dense": 0.492, "label_state": "오답 0점"}
+{"query_id": "p051", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/3036346", "title": "국가자료종합목록", "score": 6.411, "dense": 0.491, "label_state": "미판정"}
+{"query_id": "p051", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15013109", "title": "전국도서관표준데이터", "score": 6.367, "dense": 0.487, "label_state": "정답 2점"}
+{"query_id": "p051", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/3078981", "title": "국립중앙도서관 소장자료 API", "score": 6.341, "dense": 0.484, "label_state": "미판정"}
+{"query_id": "p051", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15162770", "title": "전북특별자치도_공공도서관 현황_20260520", "score": 6.304, "dense": 0.48, "label_state": "미판정"}
+{"query_id": "p051", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15088659", "title": "부산광역시_도서신착자료_20210915", "score": 6.302, "dense": 0.48, "label_state": "오답 0점"}
+{"query_id": "p051", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15062509", "title": "경상남도_도서관_20231231", "score": 6.272, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p051", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15064371", "title": "문화체육관광부 국립중앙도서관_사서추천도서", "score": 6.205, "dense": 0.471, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15088653", "title": "부산광역시_도서관 정보_20210914", "score": 7.712, "dense": 0.521, "label_state": "제외 0점"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15133276", "title": "전북특별자치도_도청도서관 도서정보 서비스_20240821", "score": 7.418, "dense": 0.492, "label_state": "오답 0점"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15013109", "title": "전국도서관표준데이터", "score": 7.367, "dense": 0.487, "label_state": "정답 2점"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/3078981", "title": "국립중앙도서관 소장자료 API", "score": 7.341, "dense": 0.484, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15162770", "title": "전북특별자치도_공공도서관 현황_20260520", "score": 7.304, "dense": 0.48, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15062509", "title": "경상남도_도서관_20231231", "score": 7.272, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15064371", "title": "문화체육관광부 국립중앙도서관_사서추천도서", "score": 7.205, "dense": 0.471, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15154373", "title": "문화체육관광부 국립중앙도서관_도서관 정보 제공 서비스_20251126", "score": 7.181, "dense": 0.468, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-15475", "title": "서울도서관 인기대출 도서목록 100선 정보", "score": 7.045, "dense": 0.454, "label_state": "미판정"}
+{"query_id": "p051", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-2717", "title": "서울시 구로구 지혜의 등대 도서관 현황", "score": 7.033, "dense": 0.453, "label_state": "제외 0점"}
+{"query_id": "p052", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15021148", "title": "전국초중등학교위치표준데이터", "score": 6.845, "dense": 0.534, "label_state": "정답 2점"}
+{"query_id": "p052", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15021149", "title": "전국초등학교통학구역표준데이터", "score": 6.368, "dense": 0.487, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15107734", "title": "전국초중등학교기본정보표준데이터", "score": 6.345, "dense": 0.484, "label_state": "보류"}
+{"query_id": "p052", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15021153", "title": "전국고등학교학교군표준데이터", "score": 6.268, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15138981", "title": "교육부_대학교 주소기반 좌표정보", "score": 6.263, "dense": 0.476, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15059240", "title": "고등학교 현황", "score": 6.149, "dense": 0.465, "label_state": "제외 0점"}
+{"query_id": "p052", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15021154", "title": "전국고등학교비평준화지역표준데이터", "score": 6.144, "dense": 0.464, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15110262", "title": "경상남도_어린이 통학로 교통안전 정문 정보_20260101", "score": 6.144, "dense": 0.464, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15110263", "title": "경상남도_어린이 통학로 교통안전 후문 정보_20260101", "score": 6.125, "dense": 0.462, "label_state": "미판정"}
+{"query_id": "p052", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15053922", "title": "서울특별시교육청 서울특별시성동광진교육지원청_관내 초등학교 정보", "score": 6.116, "dense": 0.462, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15021148", "title": "전국초중등학교위치표준데이터", "score": 13.57, "dense": 0.534, "label_state": "정답 2점"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15107734", "title": "전국초중등학교기본정보표준데이터", "score": 13.07, "dense": 0.484, "label_state": "보류"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15123572", "title": "한국교육학술정보원_초중등학교 학교정보", "score": 12.745, "dense": 0.452, "label_state": "정답 1점"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15021149", "title": "전국초등학교통학구역표준데이터", "score": 12.094, "dense": 0.487, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15021153", "title": "전국고등학교학교군표준데이터", "score": 11.993, "dense": 0.477, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15138981", "title": "교육부_대학교 주소기반 좌표정보", "score": 11.989, "dense": 0.476, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15059240", "title": "고등학교 현황", "score": 11.875, "dense": 0.465, "label_state": "제외 0점"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15021154", "title": "전국고등학교비평준화지역표준데이터", "score": 11.87, "dense": 0.464, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15053922", "title": "서울특별시교육청 서울특별시성동광진교육지원청_관내 초등학교 정보", "score": 11.842, "dense": 0.462, "label_state": "미판정"}
+{"query_id": "p052", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15021158", "title": "전국학교학구도연계정보표준데이터", "score": 11.838, "dense": 0.461, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15069119", "title": "대구광역시_어린이집 현황", "score": 5.793, "dense": 0.429, "label_state": "정답 1점"}
+{"query_id": "p053", "mode": "question_only", "rank": 2, "dataset_id": "seoul_open_data/OA-15451", "title": "서울시 보육통계 어린이집 유형별 영유아 현황정보", "score": 5.765, "dense": 0.427, "label_state": "오답 0점"}
+{"query_id": "p053", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15058717", "title": "아동 공동생활 가정 현황", "score": 5.733, "dense": 0.423, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 4, "dataset_id": "seoul_open_data/OA-20317", "title": "서울시 구로구 어린이집 정보 (표준 데이터)", "score": 5.712, "dense": 0.421, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 5, "dataset_id": "seoul_open_data/OA-20316", "title": "서울시 강서구 어린이집 정보 (표준 데이터)", "score": 5.711, "dense": 0.421, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 6, "dataset_id": "seoul_open_data/OA-21702", "title": "서울시 거점형야간보육 어린이집 정보", "score": 5.71, "dense": 0.421, "label_state": "정답 1점"}
+{"query_id": "p053", "mode": "question_only", "rank": 7, "dataset_id": "seoul_open_data/OA-15452", "title": "서울시 보육통계 어린이집 유형별 영유아 현황(성별구분) 정보", "score": 5.67, "dense": 0.417, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15148259", "title": "부산광역시_금정구 어린이집 현황_20250826", "score": 5.614, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15001466", "title": "한국영유아보육교육진흥원_설립유형별 평가인증 유지 어린이집 현황", "score": 5.613, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p053", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15101155", "title": "한국사회보장정보원_전국 어린이집 정보 조회", "score": 5.605, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 1, "dataset_id": "seoul_open_data/OA-15451", "title": "서울시 보육통계 어린이집 유형별 영유아 현황정보", "score": 7.765, "dense": 0.427, "label_state": "오답 0점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 2, "dataset_id": "seoul_open_data/OA-21702", "title": "서울시 거점형야간보육 어린이집 정보", "score": 7.71, "dense": 0.421, "label_state": "정답 1점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 3, "dataset_id": "seoul_open_data/OA-15452", "title": "서울시 보육통계 어린이집 유형별 영유아 현황(성별구분) 정보", "score": 7.67, "dense": 0.417, "label_state": "미판정"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15001466", "title": "한국영유아보육교육진흥원_설립유형별 평가인증 유지 어린이집 현황", "score": 7.613, "dense": 0.411, "label_state": "미판정"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 5, "dataset_id": "seoul_open_data/OA-15450", "title": "서울시 보육통계 연도별 어린이집 및 아동현황 정보", "score": 7.581, "dense": 0.408, "label_state": "오답 0점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 6, "dataset_id": "seoul_open_data/OA-21703", "title": "서울시 휴일보육 어린이집 정보", "score": 7.531, "dense": 0.403, "label_state": "정답 1점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15003449", "title": "한국영유아보육교육진흥원_공공형 어린이집 현황", "score": 7.443, "dense": 0.394, "label_state": "오답 0점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15068808", "title": "한국영유아보육교육진흥원_시도별 평가인증 유지 어린이집 현황", "score": 7.415, "dense": 0.391, "label_state": "미판정"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 9, "dataset_id": "seoul_open_data/OA-15453", "title": "서울시 보육통계 어린이집 보육교직원 현황정보", "score": 7.303, "dense": 0.38, "label_state": "오답 0점"}
+{"query_id": "p053", "mode": "pool_terms", "rank": 10, "dataset_id": "seoul_open_data/OA-15457", "title": "서울시 보육통계_어린이집 현황(자치구,유형별) 정보", "score": 7.23, "dense": 0.373, "label_state": "오답 0점"}
+{"query_id": "p054", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15101897", "title": "한국관광공사_무장애 여행 정보", "score": 6.878, "dense": 0.538, "label_state": "보류"}
+{"query_id": "p054", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15101808", "title": "한국관광공사_불어 관광정보서비스_GW", "score": 6.78, "dense": 0.528, "label_state": "보류"}
+{"query_id": "p054", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15101811", "title": "한국관광공사_서어 관광정보서비스_GW", "score": 6.713, "dense": 0.521, "label_state": "보류"}
+{"query_id": "p054", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15101760", "title": "한국관광공사_일문 관광정보서비스_GW", "score": 6.704, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p054", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15101753", "title": "한국관광공사_영문 관광정보서비스_GW", "score": 6.703, "dense": 0.52, "label_state": "보류"}
+{"query_id": "p054", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15101764", "title": "한국관광공사_중문 간체 관광정보서비스_GW", "score": 6.695, "dense": 0.519, "label_state": "미판정"}
+{"query_id": "p054", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15101578", "title": "한국관광공사_국문 관광정보 서비스_GW", "score": 6.681, "dense": 0.518, "label_state": "보류"}
+{"query_id": "p054", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15101769", "title": "한국관광공사_중문 번체 관광정보서비스_GW", "score": 6.64, "dense": 0.514, "label_state": "미판정"}
+{"query_id": "p054", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15125070", "title": "한국관광공사_관광인_채용정보_서비스_GW", "score": 6.596, "dense": 0.51, "label_state": "미판정"}
+{"query_id": "p054", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15152138", "title": "한국관광공사_지역별 관광 자원 수요", "score": 6.568, "dense": 0.507, "label_state": "미판정"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15101808", "title": "한국관광공사_불어 관광정보서비스_GW", "score": 13.3, "dense": 0.528, "label_state": "보류"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15101811", "title": "한국관광공사_서어 관광정보서비스_GW", "score": 13.233, "dense": 0.521, "label_state": "보류"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15101760", "title": "한국관광공사_일문 관광정보서비스_GW", "score": 13.225, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15101753", "title": "한국관광공사_영문 관광정보서비스_GW", "score": 13.223, "dense": 0.52, "label_state": "보류"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15101764", "title": "한국관광공사_중문 간체 관광정보서비스_GW", "score": 13.215, "dense": 0.519, "label_state": "미판정"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15101578", "title": "한국관광공사_국문 관광정보 서비스_GW", "score": 13.201, "dense": 0.518, "label_state": "보류"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15101769", "title": "한국관광공사_중문 번체 관광정보서비스_GW", "score": 13.161, "dense": 0.514, "label_state": "미판정"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15105717", "title": "한국관광공사_열린관광지목록", "score": 12.84, "dense": 0.482, "label_state": "정답 1점"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15021141", "title": "전국관광지정보표준데이터", "score": 12.683, "dense": 0.466, "label_state": "정답 2점"}
+{"query_id": "p054", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15144030", "title": "한국관광공사_웰니스관광정보", "score": 12.66, "dense": 0.464, "label_state": "보류"}
+{"query_id": "p055", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15143461", "title": "농촌진흥청 국립식량과학원_농식품 식단관리 음식별 영양성분 정보_20250520", "score": 6.954, "dense": 0.545, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15100070", "title": "전국통합식품영양성분정보(음식)표준데이터", "score": 6.752, "dense": 0.525, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15143525", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료 및 이미지 정보_20250523", "score": 6.724, "dense": 0.522, "label_state": "미판정"}
+{"query_id": "p055", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15100064", "title": "전국통합식품영양성분정보표준데이터", "score": 6.7, "dense": 0.52, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15143500", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식 및 재료 정보_20250521", "score": 6.696, "dense": 0.52, "label_state": "미판정"}
+{"query_id": "p055", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15141892", "title": "농촌진흥청 국립식량과학원_농식품 우리술 성분 정보_20220218", "score": 6.673, "dense": 0.517, "label_state": "미판정"}
+{"query_id": "p055", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15143502", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료 및 조리 정보_20250522", "score": 6.64, "dense": 0.514, "label_state": "미판정"}
+{"query_id": "p055", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15143471", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료, 조리 및 이미지 정보_20250521", "score": 6.609, "dense": 0.511, "label_state": "미판정"}
+{"query_id": "p055", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15127578", "title": "식품의약품안전처_식품영양성분DB정보", "score": 6.6, "dense": 0.51, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15143598", "title": "농촌진흥청 국립식량과학원_국가표준식품성분DB_20250530", "score": 6.586, "dense": 0.509, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15100070", "title": "전국통합식품영양성분정보(음식)표준데이터", "score": 8.752, "dense": 0.525, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15100064", "title": "전국통합식품영양성분정보표준데이터", "score": 8.7, "dense": 0.52, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15127578", "title": "식품의약품안전처_식품영양성분DB정보", "score": 8.6, "dense": 0.51, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15100065", "title": "전국통합식품영양성분정보(원재료성식품)표준데이터", "score": 8.528, "dense": 0.503, "label_state": "정답 1점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15155983", "title": "전국건강기능식품영양성분정보표준데이터", "score": 8.483, "dense": 0.498, "label_state": "정답 1점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15100066", "title": "전국통합식품영양성분정보(가공식품)표준데이터", "score": 8.465, "dense": 0.497, "label_state": "정답 1점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15143461", "title": "농촌진흥청 국립식량과학원_농식품 식단관리 음식별 영양성분 정보_20250520", "score": 7.954, "dense": 0.545, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15143598", "title": "농촌진흥청 국립식량과학원_국가표준식품성분DB_20250530", "score": 7.586, "dense": 0.509, "label_state": "정답 2점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15112364", "title": "식품의약품안전처_가공식품 품목별 영양성분 DB", "score": 7.158, "dense": 0.466, "label_state": "제외 0점"}
+{"query_id": "p055", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15143525", "title": "농촌진흥청 국립식량과학원_농식품 식단관리(메뉴젠) 음식, 재료 및 이미지 정보_20250523", "score": 6.724, "dense": 0.522, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15070462", "title": "한국장학재단_대학생 청소년교육지원장학금_대학별 학생 신청기간 운영", "score": 6.212, "dense": 0.471, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15107739", "title": "전국대학별장학금정보표준데이터", "score": 6.16, "dense": 0.466, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/3071171", "title": "한국장학재단_대학별 평균등록금", "score": 6.152, "dense": 0.465, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15107738", "title": "전국대학별평균등록금정보표준데이터", "score": 6.098, "dense": 0.46, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15107740", "title": "전국대학별학자금대출정보표준데이터", "score": 6.091, "dense": 0.459, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15028252", "title": "한국장학재단_학자금지원정보(대학생)", "score": 6.028, "dense": 0.453, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15070460", "title": "한국장학재단_대학생 청소년교육지원장학금_멘토링 참여대학 정보", "score": 6.019, "dense": 0.452, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15107737", "title": "전국대학별학과정보표준데이터", "score": 5.998, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15114804", "title": "한국장학재단_I유형 및 다자녀 국가장학금 지원가능대학", "score": 5.938, "dense": 0.444, "label_state": "미판정"}
+{"query_id": "p056", "mode": "question_only", "rank": 10, "dataset_id": "seoul_open_data/OA-22987", "title": "서울시 관악구 학교 현황", "score": 5.928, "dense": 0.443, "label_state": "미판정"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15070462", "title": "한국장학재단_대학생 청소년교육지원장학금_대학별 학생 신청기간 운영", "score": 8.212, "dense": 0.471, "label_state": "미판정"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15107739", "title": "전국대학별장학금정보표준데이터", "score": 8.16, "dense": 0.466, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/3071171", "title": "한국장학재단_대학별 평균등록금", "score": 8.152, "dense": 0.465, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15107738", "title": "전국대학별평균등록금정보표준데이터", "score": 8.098, "dense": 0.46, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15070460", "title": "한국장학재단_대학생 청소년교육지원장학금_멘토링 참여대학 정보", "score": 8.019, "dense": 0.452, "label_state": "미판정"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15107737", "title": "전국대학별학과정보표준데이터", "score": 7.998, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15114804", "title": "한국장학재단_I유형 및 다자녀 국가장학금 지원가능대학", "score": 7.938, "dense": 0.444, "label_state": "미판정"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15038576", "title": "한국장학재단_대학별 장학금 수혜 현황", "score": 7.866, "dense": 0.437, "label_state": "정답 1점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15122460", "title": "교육부_대학원 계약학과 설치 운영 현황_학교별", "score": 7.718, "dense": 0.422, "label_state": "오답 0점"}
+{"query_id": "p056", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15100253", "title": "중소벤처기업진흥공단_중소기업 계약학과 참여대학 목록", "score": 7.697, "dense": 0.42, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15000827", "title": "외교부_여행경보제도_20250217", "score": 6.431, "dense": 0.493, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15025430", "title": "외교부_특별여행 경보제도_20250618", "score": 6.374, "dense": 0.487, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15095500", "title": "외교부_국가·지역별 여행경보 목록 조회(0404 대륙정보)_20211206", "score": 6.193, "dense": 0.469, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15076237", "title": "외교부_국가∙지역별 여행경보_20210115", "score": 6.114, "dense": 0.461, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "question_only", "rank": 5, "dataset_id": "data_go_kr/15076244", "title": "외교부_국가∙지역별 특별여행주의보_20210116", "score": 6.051, "dense": 0.455, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "question_only", "rank": 6, "dataset_id": "data_go_kr/15076243", "title": "외교부_국가∙지역별 여행경보 조정_20210116", "score": 6.0, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "question_only", "rank": 7, "dataset_id": "data_go_kr/15058024", "title": "국가별 공지사항 목록조회", "score": 5.92, "dense": 0.442, "label_state": "미판정"}
+{"query_id": "p057", "mode": "question_only", "rank": 8, "dataset_id": "data_go_kr/15000504", "title": "여행금지제도", "score": 5.883, "dense": 0.438, "label_state": "미판정"}
+{"query_id": "p057", "mode": "question_only", "rank": 9, "dataset_id": "data_go_kr/15059195", "title": "국가별 여행경보 히스토리 목록조회", "score": 5.873, "dense": 0.437, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "question_only", "rank": 10, "dataset_id": "data_go_kr/15076239", "title": "외교부_국가∙지역별 안전공지_20240905", "score": 5.852, "dense": 0.435, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15000827", "title": "외교부_여행경보제도_20250217", "score": 8.431, "dense": 0.493, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15095500", "title": "외교부_국가·지역별 여행경보 목록 조회(0404 대륙정보)_20211206", "score": 8.193, "dense": 0.469, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15076237", "title": "외교부_국가∙지역별 여행경보_20210115", "score": 8.114, "dense": 0.461, "label_state": "정답 2점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15076243", "title": "외교부_국가∙지역별 여행경보 조정_20210116", "score": 8.0, "dense": 0.45, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 5, "dataset_id": "data_go_kr/15076239", "title": "외교부_국가∙지역별 안전공지_20240905", "score": 7.852, "dense": 0.435, "label_state": "정답 1점"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 6, "dataset_id": "data_go_kr/15080336", "title": "외교부_국가·지역별 최신안전소식(코로나관련)_20210408", "score": 7.734, "dense": 0.423, "label_state": "미판정"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 7, "dataset_id": "data_go_kr/15085787", "title": "외교부_국가별 해외입국자 조치현황", "score": 7.733, "dense": 0.423, "label_state": "보류"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 8, "dataset_id": "data_go_kr/15076249", "title": "한국국제협력단_해외봉사단 자가안전체감도_20210116", "score": 7.693, "dense": 0.419, "label_state": "미판정"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 9, "dataset_id": "data_go_kr/15043145", "title": "외교부_국가·지역별 최신안전소식(코로나관련)_20200422", "score": 7.689, "dense": 0.419, "label_state": "미판정"}
+{"query_id": "p057", "mode": "pool_terms", "rank": 10, "dataset_id": "data_go_kr/15025430", "title": "외교부_특별여행 경보제도_20250618", "score": 7.374, "dense": 0.487, "label_state": "정답 1점"}
+{"query_id": "p058", "mode": "question_only", "rank": 1, "dataset_id": "data_go_kr/15058088", "title": "고층기상월보 조회서비스", "score": 5.722, "dense": 0.422, "label_state": "미판정"}
+{"query_id": "p058", "mode": "question_only", "rank": 2, "dataset_id": "data_go_kr/15095473", "title": "농촌진흥청 국립농업과학원_농업기상 생장도일 정보 제공_20220211", "score": 5.705, "dense": 0.42, "label_state": "미판정"}
+{"query_id": "p058", "mode": "question_only", "rank": 3, "dataset_id": "data_go_kr/15075543", "title": "기상청_기후통계 메타데이터", "score": 5.677, "dense": 0.418, "label_state": "미판정"}
+{"query_id": "p058", "mode": "question_only", "rank": 4, "dataset_id": "data_go_kr/15142495", "title": "해양수산부 국립해양조사원_지역 해양기후 수치모델기반 미래 표층수온 전망 조회_20250319", "score": 5.663, "dense": 0.416, "label_state": "미판정"}
+{"query_id": "p058", "mode": "pool_terms", "rank": 1, "dataset_id": "data_go_kr/15058088", "title": "고층기상월보 조회서비스", "score": 5.722, "dense": 0.422, "label_state": "미판정"}
+{"query_id": "p058", "mode": "pool_terms", "rank": 2, "dataset_id": "data_go_kr/15095473", "title": "농촌진흥청 국립농업과학원_농업기상 생장도일 정보 제공_20220211", "score": 5.705, "dense": 0.42, "label_state": "미판정"}
+{"query_id": "p058", "mode": "pool_terms", "rank": 3, "dataset_id": "data_go_kr/15075543", "title": "기상청_기후통계 메타데이터", "score": 5.677, "dense": 0.418, "label_state": "미판정"}
+{"query_id": "p058", "mode": "pool_terms", "rank": 4, "dataset_id": "data_go_kr/15142495", "title": "해양수산부 국립해양조사원_지역 해양기후 수치모델기반 미래 표층수온 전망 조회_20250319", "score": 5.663, "dense": 0.416, "label_state": "미판정"}

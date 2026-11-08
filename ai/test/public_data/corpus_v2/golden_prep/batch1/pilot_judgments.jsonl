@@ -1,0 +1,24 @@
+{"review_id": "p004|data_go_kr/15057714", "score": "1", "reason": "", "note": "세 가지 중 무료급식소만 제공(경로당·복지관 없음). 경기도 데이터라 경기 이용자에게는 위치·급식시간을 그대로 안내 가능", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p008|data_go_kr/15124827", "score": "0", "reason": "off_topic", "note": "발전소 지진 계측 정보. 대피소 위치·수용 인원 없음", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p015|seoul_open_data/OA-20447", "score": "?", "reason": "", "note": "대여소 위치(위경도)는 있음. '시간대별 운영현황'이 현재 대여 가능 대수인지 시간대별 집계인지 카드로 판단 불가, 원문 확인", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p016|seoul_open_data/OA-2217", "score": "0", "reason": "wrong_delivery", "note": "제목·필드(측정월)상 월별 평균값이라 실시간 측정 데이터가 아님 (포털 주기 표기와 무관한 판단)", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p019|data_go_kr/15059163", "score": "1", "reason": "", "note": "질문이 '전국' 공영도매시장 경매가격을 요구하는데 부산 반여시장 한 곳만. 설명상 경락 금액(최저·최고·평균가)은 포함", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p021|data_go_kr/15059240", "score": "1", "reason": "", "note": "질문은 전국 초·중·고. 경기도 고등학교만 있고 학생 수(규모) 필드는 없음. 학교 목록·주소는 제공", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p021|data_go_kr/15107734", "score": "?", "reason": "", "note": "전국 초·중·고 기본정보로 주제·범위는 일치. 카드에 필드 목록이 없어 주소·학생 수 포함 여부 원문 확인", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p023|data_go_kr/15139134", "score": "2", "reason": "", "note": "대구 버스정보시스템 API가 정류장 기초·상세 정보를 제공. 정류소 좌표 필드는 원문 확인 권장", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p026|data_go_kr/15012892", "score": "0", "reason": "license", "note": "주제는 정확히 일치하지만 이용허락이 '이용허락범위 제한 없음'으로 공공누리 1유형 표기가 아님. 질문의 1유형 한정 조건을 그대로 적용", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p026|seoul_open_data/OA-17483", "score": "0", "reason": "off_topic", "note": "자동차야영장업 인허가 정보. 공중화장실과 무관", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p030|seoul_open_data/OA-20922", "score": "0", "reason": "off_topic", "note": "안심택배함 설치 장소. 응급실과 무관", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p031|seoul_open_data/OA-13272", "score": "1", "reason": "", "note": "질문은 전국 CCTV인데 서울 동작구만. 설치목적·위경도 있고 공공누리 1유형이라 상업 이용 가능", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p032|seoul_open_data/OA-20448", "score": "0", "reason": "wrong_region", "note": "서울 열린데이터광장 데이터(구·동·관할경찰서 필드)로 인천 어린이 보호구역이 아님", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p040|data_go_kr/15083717", "score": "1", "reason": "", "note": "기권 질의지만 대전 한 도시의 실시간 주차 가능 면수 API가 있음(전국 아님). 질의 재검토 대상", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p045|seoul_open_data/OA-22714", "score": "1", "reason": "", "note": "특보 전용 데이터는 아니고 서울 핫스팟 도시데이터 251개 필드 중 기상특보발효시각 등 일부만. 영문판", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p049|data_go_kr/15016368", "score": "0", "reason": "off_topic", "note": "대기환경연구소 11곳의 중금속 성분 이동평균. 질문의 전국 측정소별 대기오염 농도(미세먼지 등)와 다른 데이터", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p050|data_go_kr/15057737", "score": "1", "reason": "", "note": "실시간 경락가격 API이지만 부산 반여시장 한 곳만. 여러 도매시장 가격 변동 알림에는 일부", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p051|data_go_kr/15095725", "score": "0", "reason": "wrong_delivery", "note": "파일 필수 질문인데 API만 제공(제주 한정이기도 함)", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p053|seoul_open_data/OA-20316", "score": "1", "reason": "", "note": "강서구 어린이집만(전국·서울 전체 아님). 정원·상세주소 있고 이용허락 제한 없음이라 상업 이용 가능", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p054|data_go_kr/15057047", "score": "1", "reason": "", "note": "경기도 관광지 지정 현황만. 위치는 있으나 관광지 소개 정보는 아님", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p054|data_go_kr/15101753", "score": "1", "reason": "", "note": "전국 관광정보 API이지만 영문판. 국문 여행 앱이면 국문판이 별도로 있음", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p054|data_go_kr/15101760", "score": "1", "reason": "", "note": "전국 관광정보 API이지만 일문판. 국문 여행 앱이면 국문판이 별도로 있음", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p054|data_go_kr/15101808", "score": "1", "reason": "", "note": "전국 관광정보 API이지만 불어판. 국문 여행 앱이면 국문판이 별도로 있음", "judge": "claude-pilot", "judged_on": "2026-11-09"}
+{"review_id": "p055|data_go_kr/15143525", "score": "0", "reason": "off_topic", "note": "음식·재료·중량·알레르기 정보만 있고 영양성분 값은 없음", "judge": "claude-pilot", "judged_on": "2026-11-09"}

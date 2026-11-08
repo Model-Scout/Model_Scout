@@ -1,0 +1,2098 @@
+{
+ "note": "예비 검색이다. 미판정이 섞여 있어 성능 수치로 해석하지 않는다. 제안은 판정이 아니다.",
+ "corpus": {
+  "corpus": "v2",
+  "corpus_id": "6571282e4113b7dd168ba2fca9309dc251ba0f96832a3cf851221172ee18487b",
+  "documents_id": "37026bd248c19ea0ffcd06f0d538950c06bc5e209c2f3bf0ad22a18673672a50",
+  "vectors": "local"
+ },
+ "query_vectors_embedded_this_run": 0,
+ "search_settings": {
+  "question_only": "rank_datasets(concepts=[], query_vector=질문 임베딩, commercial_only=골든 conditions.commercial, roles=['service'], limit=10, keywords=[])",
+  "pool_terms": "rank_datasets(concepts_from_terms(dataset_terms + [conditions.region]), query_vector=질문 임베딩, commercial_only=골든 conditions.commercial, roles=['service'], limit=10, keywords=dataset_terms + [conditions.region])  # 22_eval_recommendations._public_top과 같음",
+  "not_passed_to_ranker": "delivery, realtime, p026의 공공누리 1유형 한정 조건",
+  "queries_with_commercial_filter": [
+   "p026",
+   "p031",
+   "p053",
+   "p054"
+  ],
+  "queries_with_region_keyword_pool_terms_only": [
+   "p015",
+   "p016",
+   "p023",
+   "p024",
+   "p027",
+   "p028",
+   "p029",
+   "p030",
+   "p032",
+   "p048"
+  ],
+  "per_query": {
+   "question_only": [
+    {
+     "query_id": "p001",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p002",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p003",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p004",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p005",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p006",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p007",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p008",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p009",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p010",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p011",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p012",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p013",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p014",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p015",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p016",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p017",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p018",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p019",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p020",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p021",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p022",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p023",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p024",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p025",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p026",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p027",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p028",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p029",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p030",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p031",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p032",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p033",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p034",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p035",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p036",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p037",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p038",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p039",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p040",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p041",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p042",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p043",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p044",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p045",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p046",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p047",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p048",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p049",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p050",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p051",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p052",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p053",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p054",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p055",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p056",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p057",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    },
+    {
+     "query_id": "p058",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [],
+     "keywords": [],
+     "not_passed": []
+    }
+   ],
+   "pool_terms": [
+    {
+     "query_id": "p001",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/공영주차장",
+      "language/주차장",
+      "language/주차장정보"
+     ],
+     "keywords": [
+      "주차장",
+      "공영주차장",
+      "주차장정보"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p002",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/전기차",
+      "language/충전기",
+      "language/충전소"
+     ],
+     "keywords": [
+      "전기차",
+      "충전소",
+      "충전기"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p003",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/놀이시설",
+      "language/어린이놀이",
+      "language/어린이집"
+     ],
+     "keywords": [
+      "어린이집",
+      "놀이시설",
+      "어린이놀이"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p004",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/경로당",
+      "language/노인복지",
+      "language/무료급식"
+     ],
+     "keywords": [
+      "경로당",
+      "노인복지",
+      "무료급식"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p005",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/모범음식점",
+      "language/식품접객업",
+      "language/위생등급"
+     ],
+     "keywords": [
+      "위생등급",
+      "식품접객업",
+      "모범음식점"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p006",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/식품영양",
+      "language/영양성분",
+      "language/칼로리"
+     ],
+     "keywords": [
+      "영양성분",
+      "식품영양",
+      "칼로리"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p007",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/health",
+      "language/당번약국",
+      "language/병원",
+      "language/심야",
+      "language/약국",
+      "language/의료기관"
+     ],
+     "keywords": [
+      "약국",
+      "심야",
+      "당번약국",
+      "병원",
+      "의료기관"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p008",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/대피소",
+      "language/대피시설",
+      "language/민방위",
+      "language/지진"
+     ],
+     "keywords": [
+      "대피소",
+      "대피시설",
+      "지진",
+      "민방위"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p009",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/매매",
+      "language/실거래",
+      "language/아파트"
+     ],
+     "keywords": [
+      "실거래",
+      "아파트",
+      "매매"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p010",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/culture_tourism",
+      "language/관광",
+      "language/관광지",
+      "language/문화축제",
+      "language/축제"
+     ],
+     "keywords": [
+      "관광지",
+      "관광",
+      "축제",
+      "문화축제"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p011",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/등산",
+      "language/등산로",
+      "language/산불",
+      "language/산불위험"
+     ],
+     "keywords": [
+      "등산로",
+      "등산",
+      "산불위험",
+      "산불"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p012",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/가격",
+      "language/유가",
+      "language/주유소"
+     ],
+     "keywords": [
+      "주유소",
+      "유가",
+      "가격"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p013",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/구조",
+      "language/반려동물",
+      "language/유기동물",
+      "language/입양"
+     ],
+     "keywords": [
+      "유기동물",
+      "반려동물",
+      "입양",
+      "구조"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p014",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/상가",
+      "language/상권",
+      "language/소상공인",
+      "language/점포"
+     ],
+     "keywords": [
+      "상가",
+      "상권",
+      "소상공인",
+      "점포"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p015",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/공공자전거",
+      "language/대여소",
+      "language/따릉이",
+      "language/서울"
+     ],
+     "keywords": [
+      "따릉이",
+      "공공자전거",
+      "대여소",
+      "서울"
+     ],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p016",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/environment",
+      "language/대기오염",
+      "language/대기질",
+      "language/미세먼지",
+      "language/서울"
+     ],
+     "keywords": [
+      "미세먼지",
+      "대기질",
+      "대기오염",
+      "서울"
+     ],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p017",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/교통사고",
+      "language/다발지역"
+     ],
+     "keywords": [
+      "교통사고",
+      "다발지역"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p018",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/승하차",
+      "language/인원",
+      "language/지하철"
+     ],
+     "keywords": [
+      "지하철",
+      "승하차",
+      "인원"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p019",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/가격",
+      "language/경매",
+      "language/농산물",
+      "language/도매시장"
+     ],
+     "keywords": [
+      "도매시장",
+      "경매",
+      "농산물",
+      "가격"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p020",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/건축물",
+      "language/건축물대장"
+     ],
+     "keywords": [
+      "건축물대장",
+      "건축물"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p021",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/education",
+      "language/고등학교",
+      "language/중학교",
+      "language/초등학교",
+      "language/학교"
+     ],
+     "keywords": [
+      "학교",
+      "초등학교",
+      "중학교",
+      "고등학교"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p022",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/고속도로",
+      "language/휴게소"
+     ],
+     "keywords": [
+      "휴게소",
+      "고속도로"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p023",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/대구",
+      "language/버스",
+      "language/정류소",
+      "language/정류장"
+     ],
+     "keywords": [
+      "버스",
+      "정류소",
+      "정류장",
+      "대구"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p024",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/culture_tourism",
+      "language/관광",
+      "language/관광지",
+      "language/제주"
+     ],
+     "keywords": [
+      "관광지",
+      "관광",
+      "제주",
+      "제주"
+     ],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p025",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/공영주차장",
+      "language/주차장",
+      "language/주차장정보"
+     ],
+     "keywords": [
+      "주차장",
+      "주차장정보",
+      "공영주차장"
+     ],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p026",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/공중화장실",
+      "language/화장실"
+     ],
+     "keywords": [
+      "공중화장실",
+      "화장실"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p027",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/도착",
+      "language/도착정보",
+      "language/버스",
+      "language/서울"
+     ],
+     "keywords": [
+      "버스",
+      "도착",
+      "도착정보",
+      "서울"
+     ],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p028",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/경남",
+      "language/시장",
+      "language/전통시장"
+     ],
+     "keywords": [
+      "전통시장",
+      "시장",
+      "경남"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p029",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/culture_tourism",
+      "language/대전",
+      "language/문화축제",
+      "language/축제",
+      "language/행사"
+     ],
+     "keywords": [
+      "축제",
+      "문화축제",
+      "행사",
+      "대전"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p030",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/서울",
+      "language/응급실",
+      "language/응급의료"
+     ],
+     "keywords": [
+      "응급실",
+      "응급의료",
+      "서울"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p031",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/cctv",
+      "language/설치",
+      "language/폐쇄회로"
+     ],
+     "keywords": [
+      "CCTV",
+      "폐쇄회로",
+      "설치"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p032",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/보호구역",
+      "language/어린이보호구역",
+      "language/인천"
+     ],
+     "keywords": [
+      "어린이보호구역",
+      "보호구역",
+      "인천"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p033",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/legal",
+      "language/법령",
+      "language/판결문",
+      "language/판례"
+     ],
+     "keywords": [
+      "법령",
+      "판례",
+      "판결문"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p034",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/백문백답",
+      "language/생활법령",
+      "language/질의회신"
+     ],
+     "keywords": [
+      "생활법령",
+      "백문백답",
+      "질의회신"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p035",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/복지",
+      "language/복지서비스",
+      "language/서비스 목록"
+     ],
+     "keywords": [
+      "복지서비스",
+      "복지",
+      "서비스 목록"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p036",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/e약은요",
+      "language/낱알",
+      "language/의약품",
+      "language/효능"
+     ],
+     "keywords": [
+      "의약품",
+      "효능",
+      "낱알",
+      "e약은요"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p037",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/public_admin",
+      "language/국민신문고",
+      "language/민원",
+      "language/민원신청"
+     ],
+     "keywords": [
+      "민원",
+      "민원신청",
+      "국민신문고"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p038",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/농약",
+      "language/방제",
+      "language/병해충"
+     ],
+     "keywords": [
+      "병해충",
+      "농약",
+      "방제"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p039",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/대출",
+      "language/신용",
+      "language/신용점수"
+     ],
+     "keywords": [
+      "신용점수",
+      "대출",
+      "신용"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p040",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/실시간",
+      "language/잔여",
+      "language/주차면",
+      "language/주차장",
+      "update_frequency/realtime"
+     ],
+     "keywords": [
+      "주차장",
+      "잔여",
+      "실시간",
+      "주차면"
+     ],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p041",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "input_modality/video",
+      "language/댓글",
+      "language/영상",
+      "language/유튜브",
+      "output_modality/video"
+     ],
+     "keywords": [
+      "유튜브",
+      "영상",
+      "댓글"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p042",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/finance",
+      "language/시세",
+      "language/주식",
+      "language/해외"
+     ],
+     "keywords": [
+      "주식",
+      "시세",
+      "해외"
+     ],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p043",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/녹음",
+      "language/소음",
+      "language/층간소음"
+     ],
+     "keywords": [
+      "층간소음",
+      "소음",
+      "녹음"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p044",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/environment",
+      "language/강수",
+      "language/날씨",
+      "language/동네예보",
+      "language/예보"
+     ],
+     "keywords": [
+      "날씨",
+      "예보",
+      "동네예보",
+      "강수"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p045",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/경보",
+      "language/기상특보",
+      "language/특보"
+     ],
+     "keywords": [
+      "기상특보",
+      "특보",
+      "경보"
+     ],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p046",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/environment",
+      "language/날씨",
+      "language/예보",
+      "language/중기예보"
+     ],
+     "keywords": [
+      "중기예보",
+      "예보",
+      "날씨"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p047",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/environment",
+      "language/날씨",
+      "language/농업",
+      "language/서리",
+      "language/작물"
+     ],
+     "keywords": [
+      "농업",
+      "작물",
+      "날씨",
+      "서리"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p048",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/transport",
+      "language/도착정보",
+      "language/서울",
+      "language/실시간",
+      "language/지하철",
+      "update_frequency/realtime"
+     ],
+     "keywords": [
+      "지하철",
+      "실시간",
+      "도착정보",
+      "서울"
+     ],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p049",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/대기오염",
+      "language/실시간",
+      "language/에어코리아",
+      "language/측정소",
+      "update_frequency/realtime"
+     ],
+     "keywords": [
+      "대기오염",
+      "측정소",
+      "실시간",
+      "에어코리아"
+     ],
+     "not_passed": [
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p050",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/경매",
+      "language/농산물",
+      "language/도매시장",
+      "language/실시간",
+      "update_frequency/realtime"
+     ],
+     "keywords": [
+      "도매시장",
+      "경매",
+      "실시간",
+      "농산물"
+     ],
+     "not_passed": [
+      "delivery",
+      "realtime"
+     ]
+    },
+    {
+     "query_id": "p051",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/도서관",
+      "language/도서관정보"
+     ],
+     "keywords": [
+      "도서관",
+      "도서관정보"
+     ],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p052",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/education",
+      "language/초중등학교",
+      "language/학교",
+      "language/학교위치"
+     ],
+     "keywords": [
+      "학교",
+      "학교위치",
+      "초중등학교"
+     ],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p053",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/보육",
+      "language/어린이집"
+     ],
+     "keywords": [
+      "어린이집",
+      "보육"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p054",
+     "query_vector": "question embedding",
+     "commercial_only": true,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "domain/culture_tourism",
+      "language/관광",
+      "language/관광정보",
+      "language/관광지"
+     ],
+     "keywords": [
+      "관광지",
+      "관광",
+      "관광정보"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p055",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/식품성분",
+      "language/식품영양",
+      "language/영양성분"
+     ],
+     "keywords": [
+      "영양성분",
+      "식품영양",
+      "식품성분"
+     ],
+     "not_passed": [
+      "delivery"
+     ]
+    },
+    {
+     "query_id": "p056",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/대학",
+      "language/등록금",
+      "language/장학금",
+      "language/학과"
+     ],
+     "keywords": [
+      "대학",
+      "학과",
+      "등록금",
+      "장학금"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p057",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/안전",
+      "language/여행경보",
+      "language/외교부",
+      "language/해외"
+     ],
+     "keywords": [
+      "여행경보",
+      "해외",
+      "외교부",
+      "안전"
+     ],
+     "not_passed": []
+    },
+    {
+     "query_id": "p058",
+     "query_vector": "question embedding",
+     "commercial_only": false,
+     "roles": [
+      "service"
+     ],
+     "limit": 10,
+     "concepts": [
+      "language/관측",
+      "language/기상관측",
+      "language/기온",
+      "language/종관"
+     ],
+     "keywords": [
+      "기상관측",
+      "관측",
+      "기온",
+      "종관"
+     ],
+     "not_passed": []
+    }
+   ]
+  }
+ },
+ "top10_by_mode": {
+  "question_only": {
+   "results": 539,
+   "public": {
+    "미판정": 322,
+    "정답 2점": 58,
+    "정답 1점": 74,
+    "오답 0점": 33,
+    "보류": 15,
+    "제외 0점": 25
+   },
+   "non_public": 12,
+   "non_public_items": [
+    "p003|heymilka/apk",
+    "p006|heymilka/apk",
+    "p009|eunguneun/korea-apartment-subscription-followup-supply-2026",
+    "p012|heymilka/apk",
+    "p039|eddmpython/cleangov-local-fiscal-metrics",
+    "p039|eddmpython/cleangov-local-budgets",
+    "p039|xujfcn/Crazyrouter-Model-Pricing",
+    "p041|kaggle/techsalerator/youtube-and-video-data-for-south-korea",
+    "p041|kaggle/techsalerator/youtube-and-video-data-for-north-korea",
+    "p044|heymilka/apk",
+    "p046|kpubdata/weather-village-forecast",
+    "p051|Bingsu/national_library_of_korea_book_info"
+   ]
+  },
+  "pool_terms": {
+   "results": 539,
+   "public": {
+    "정답 2점": 73,
+    "정답 1점": 112,
+    "미판정": 245,
+    "오답 0점": 58,
+    "보류": 17,
+    "제외 0점": 26
+   },
+   "non_public": 8,
+   "non_public_items": [
+    "p006|heymilka/apk",
+    "p012|heymilka/apk",
+    "p039|eddmpython/cleangov-local-fiscal-metrics",
+    "p039|eddmpython/cleangov-local-budgets",
+    "p041|kaggle/techsalerator/youtube-and-video-data-for-south-korea",
+    "p041|kaggle/techsalerator/youtube-and-video-data-for-north-korea",
+    "p044|heymilka/apk",
+    "p046|kpubdata/weather-village-forecast"
+   ]
+  }
+ },
+ "review_list": {
+  "items": 487,
+  "by_source": {
+   "new_unjudged": 433,
+   "high_review": 28,
+   "existing_hold": 26
+  },
+  "existing_hold_total": 26,
+  "proposals": {
+   "2 후보": 43,
+   "보류": 199,
+   "0 off_topic 또는 보류": 175,
+   "1 후보": 34,
+   "0 후보": 36
+  },
+  "checks_unknown": {
+   "realtime": 88,
+   "region": 22,
+   "kogl_type1_only": 1
+  }
+ },
+ "proposed_queries": 14
+}
