@@ -6,10 +6,10 @@
 
 | 항목 | 값 |
 |---|---|
-| enrich_id (18_enrich 산출물) | `b7f6781fef35fcca…` (`data/public_enriched/build_manifest.json`) |
-| corpus_id (13 산출물) | `fca98cca7284caa1…` (`data/hypergraph_v2/build_manifest.json`) |
-| documents_id (14 산출물) | `a2640a5e7db20524…` (`data/dataset_index_v2/build_manifest.json`) |
-| 고정 데이터 버전 | `data_version a2640a5e7db20524` ([data_version.json](data_version.json), 미커밋 상태 `eaa448d1`+변경분에서 생성) |
+| enrich_id (18_enrich 산출물) | `2c3ff48782af57f5…` (`data/public_enriched/build_manifest.json`) |
+| corpus_id (13 산출물) | `6571282e4113b7dd…` (`data/hypergraph_v2/build_manifest.json`) |
+| documents_id (14 산출물) | `37026bd248c19ea0…` (`data/dataset_index_v2/build_manifest.json`) |
+| 고정 데이터 버전 | `data_version 37026bd248c19ea0` ([data_version.json](data_version.json), 커밋 `3bc43f97`에서 생성, 미커밋 변경 없음) |
 | 검증 | `python public_v2_pipeline.py --verify-pin` (보완·그래프·문서 기록, 품질 검사, 고정 버전 일치) |
 | 임베딩 | 하지 않음. v2 벡터 없음 |
 | 운영 반영 | 하지 않음. 13·14 기본값과 `dataset-refresh.yml`은 v1 그대로 |
