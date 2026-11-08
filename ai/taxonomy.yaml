@@ -191,7 +191,8 @@ facets:
         aliases: ["Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)",
                   "Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)",
                   "Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)", cc-by-nc-2.0, cc-by-nc-3.0, cc-by-nc-4.0, cc-by-nc-sa-2.0, cc-by-nc-sa-3.0, cc-by-nc-sa-4.0, cc-by-nc-nd-4.0,
-                  공공누리 제2유형, 공공누리 2유형, kogl type 2, 공공누리 제4유형, 공공누리 4유형, kogl type 4]
+                  공공누리 제2유형, 공공누리 2유형, kogl type 2, 공공누리 제4유형, 공공누리 4유형, kogl type 4,
+                  비영리 조건(제3자 권리 포함)]
       conditional:
         label: 조건부 이용
         # 자체 라이선스(사용자 수·용도 제한), 카피레프트(소스 공개 의무), 변경금지(ND, 파인튜닝 결과물 배포 제한): 원문 확인 필요
@@ -199,7 +200,9 @@ facets:
                   "Database: Open Database, Contents: © Original Authors", GPL 2, World Bank Dataset Terms of Use,
                   Reddit API Terms, other, gpl, gfdl, cc-by-nd-4.0, gpl-2.0, gpl-3.0, lgpl-3.0, agpl-3.0, llama2, llama3, llama3.1, llama3.2, llama3.3, llama4, gemma, openrail, openrail++,
                   creativeml-openrail-m, bigscience-openrail-m, bigscience-bloom-rail-1.0, exaone, qwen,
-                  tongyi-qianwen]
+                  tongyi-qianwen,
+                  # 제3자 권리가 포함된 공공누리 자유이용·1·3유형: 제3자 저작물은 따로 허락이 필요해 원문 확인
+                  공공누리 제0유형, 공공누리 제1유형(제3자 권리 포함), 공공누리 제3유형(제3자 권리 포함)]
       unknown:
         label: 이용 조건 미확인
         aliases: [none, unknown, "null", "", cc]

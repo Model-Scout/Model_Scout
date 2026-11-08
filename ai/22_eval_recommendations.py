@@ -6,6 +6,7 @@ top 10; ids missing from the current corpus are reported and skipped, not counte
 
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
     python 22_eval_recommendations.py --public  # also score test/public_data/labels/public_data_golden.jsonl
+    python 22_eval_recommendations.py --public --corpus v2   # the v2 build (graph, chunks, vectors)
 
 Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
 the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
@@ -300,7 +301,11 @@ def main():
     parser.add_argument("--min-p10", type=float, default=0.0, help="fail (exit 1) below this mean P@10")
     parser.add_argument("--public", nargs="?", type=Path, const=PUBLIC_GOLDEN, help="also score a public golden set")
     parser.add_argument("--unjudged-out", type=Path, help="with --public: write unjudged top-10 datasets (jsonl)")
+    parser.add_argument("--corpus", choices=sorted(hs.CORPORA), help="graph + chunks + vectors to search (default: MODEL_SCOUT_CORPUS or v1)")
     args = parser.parse_args()
+    # Every score names the build it came from; v2 refuses to run unless its records check out.
+    identity = hs.use_corpus(args.corpus) if args.corpus else hs.corpus_identity()
+    print("corpus " + json.dumps(identity, ensure_ascii=False))
     rows = evaluate()
     print(f"{'scenario':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5}  note")
     for name, p, r, mrr, note in rows:

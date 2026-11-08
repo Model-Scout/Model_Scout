@@ -14,6 +14,12 @@ tags and loosely quoted NER low. A low-confidence task alone does not admit a da
 Dense similarity (same text-embedding-3-small space as the model documents) breaks the many
 ties that coarse metadata leaves and lets datasets without task metadata in when their
 README is clearly on topic. A small quality prior prefers used, documented, Korean data.
+
+Corpus: graph, chunks and vectors are chosen together by MODEL_SCOUT_CORPUS (v1 default, v2) or
+use_corpus(). v1 may fall back to the vectors published to Supabase; v2 never does (Supabase holds
+v1 vectors) and is used only after its build records check out: graph and documents unchanged
+since they were built, the documents built from this graph, and the vectors built from these
+documents with their model (corpus_manifest.check_corpus / check_vectors).
 """
 
 from __future__ import annotations
@@ -30,8 +36,14 @@ import numpy as np
 from taxonomy import load_taxonomy, normalize
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
-HYPERGRAPH_DIR = DATA_DIR / "hypergraph"
-DATASET_INDEX_DIR = DATA_DIR / "dataset_index"
+CORPORA = {
+    "v1": (DATA_DIR / "hypergraph", DATA_DIR / "dataset_index"),
+    "v2": (DATA_DIR / "hypergraph_v2", DATA_DIR / "dataset_index_v2"),
+}
+CORPUS = os.environ.get("MODEL_SCOUT_CORPUS", "v1")
+if CORPUS not in CORPORA:
+    raise ValueError(f"MODEL_SCOUT_CORPUS must be one of {sorted(CORPORA)}, not {CORPUS!r}")
+HYPERGRAPH_DIR, DATASET_INDEX_DIR = CORPORA[CORPUS]
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/"
 # ponytail: hand-set weights; tune against the golden set once dataset queries exist there.
@@ -106,7 +118,45 @@ REGION_CANON = {
 KOREAN_FOCUS_BONUS = {"ko_only": 1.5, "ko_with_others": 1.0, "wide_multilingual": 0.0, "not_ko": -1.0}
 
 
+class CorpusMismatch(RuntimeError):
+    """The chosen corpus's graph, chunks and vectors are not one build."""
+
+
+def use_corpus(name):
+    """Switch graph, chunks and vectors together (an evaluation can compare v1 and v2 in one run)."""
+    global CORPUS, HYPERGRAPH_DIR, DATASET_INDEX_DIR
+    if name not in CORPORA:
+        raise ValueError(f"unknown corpus {name!r}; choose from {sorted(CORPORA)}")
+    CORPUS, (HYPERGRAPH_DIR, DATASET_INDEX_DIR) = name, CORPORA[name]
+    for cached in (load_graph, load_link_evidence, load_dataset_vectors, corpus_identity):
+        cached.cache_clear()
+    return corpus_identity()
+
+
+@functools.lru_cache(maxsize=1)
+def corpus_identity():
+    """Which build answers queries; raises CorpusMismatch when a versioned corpus does not check out.
+
+    Evaluation results record this, so a score names the exact graph, documents and vectors.
+    """
+    if CORPUS == "v1":  # unversioned: the deployed graph; vectors local, else Supabase
+        vectors = "local" if (DATASET_INDEX_DIR / "embeddings.npy").exists() else "supabase"
+        return {"corpus": "v1", "corpus_id": None, "documents_id": None, "vectors": vectors}
+    from corpus_manifest import check_corpus, check_vectors, load_manifest
+
+    problems = check_corpus(HYPERGRAPH_DIR, DATASET_INDEX_DIR) + check_vectors(DATASET_INDEX_DIR)
+    if problems:
+        raise CorpusMismatch(f"corpus {CORPUS} cannot be used:\n- " + "\n- ".join(problems))
+    return {
+        "corpus": CORPUS,
+        "corpus_id": load_manifest(HYPERGRAPH_DIR)["stage_id"],
+        "documents_id": load_manifest(DATASET_INDEX_DIR)["stage_id"],
+        "vectors": "local",
+    }
+
+
 def _read(name):
+    corpus_identity()  # a versioned corpus is read only after its records check out
     with open(HYPERGRAPH_DIR / name, encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
 
@@ -169,6 +219,7 @@ def evidence_item(entity_id, concept_id, label):
 @functools.lru_cache(maxsize=1)
 def load_dataset_vectors():
     """Unit-normalised chunk vectors plus, per row, the index of its dataset."""
+    corpus_identity()
     manifest = json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))
     matrix = np.load(DATASET_INDEX_DIR / "embeddings.npy", mmap_mode="r").astype(np.float32)
     matrix /= np.linalg.norm(matrix, axis=1, keepdims=True) + 1e-12
@@ -240,7 +291,7 @@ def dense_scores(query_vector):
     Uses the local index when this checkout has it (embeddings.npy is not in git), else the
     copy published to Supabase by 20_sync_dataset_index.py.
     """
-    if not (DATASET_INDEX_DIR / "embeddings.npy").exists():
+    if corpus_identity()["vectors"] == "supabase":  # v1 only: v2 does not start without its vectors
         return _supabase_dense_scores(query_vector)
     matrix, owner, names = load_dataset_vectors()
     query = np.asarray(query_vector, dtype=np.float32)
@@ -250,14 +301,23 @@ def dense_scores(query_vector):
     return dict(zip(names, best.tolist(), strict=False))
 
 
+def embed_query(text):
+    """The query in the embedding space of the chosen corpus's vectors."""
+    return _embed_query(text, query_model())
+
+
+def query_model():
+    corpus_identity()
+    return json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))["model"]
+
+
 @functools.lru_cache(maxsize=1024)
-def embed_query(text):  # deterministic per text; repeated demo questions skip the API call
+def _embed_query(text, model):  # deterministic per text and model; repeated demo questions skip the API call
     from dotenv import load_dotenv
     from openai import OpenAI
 
     load_dotenv(DATA_DIR.parent / ".env")
-    manifest = json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))
-    response = OpenAI(api_key=os.environ["OPENAI_API_KEY"]).embeddings.create(model=manifest["model"], input=[text])
+    response = OpenAI(api_key=os.environ["OPENAI_API_KEY"]).embeddings.create(model=model, input=[text])
     return response.data[0].embedding
 
 

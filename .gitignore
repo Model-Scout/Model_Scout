@@ -56,3 +56,8 @@ ai/data/dataset_index/embeddings.npy
 
 # LLM wiki (Obsidian vault) is generated from ai/data/hypergraph by 15_build_wiki.py.
 ai/wiki/
+
+# Corpus v2 build outputs; reproduce with 13/14 --corpus v2 until cutover.
+ai/data/hypergraph_v2/
+ai/data/dataset_index_v2/
+ai/data/public_enriched/

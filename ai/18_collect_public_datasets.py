@@ -36,6 +36,7 @@ import re
 import time
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -55,6 +56,12 @@ MAX_RETRIES = 4
 FILE_CAP_PER_CATEGORY = 300
 MAX_REGIONAL_VARIANTS = 30
 MIN_DESCRIPTION_CHARS = 150
+# Seoul field lists (--renew-fields): the catalog has no column-change date, so a list is renewed when
+# its catalog row changes, and every list at least this often, a bounded number per run.
+FIELD_MAX_AGE_DAYS = 30
+FIELD_RENEW_PER_RUN = 300
+# Catalog keys that move without the API changing; they must not count as a change.
+VOLATILE_KEY_RE = re.compile(r"CNT|COUNT|HIT|VIEW|DOWN|RANK", re.I)
 # File types a model pipeline can read; images, hwp-only notices and zip bundles are skipped.
 USABLE_EXTENSIONS = {"csv", "json", "xml", "json+xml", "xlsx", "xls", "shp", "geojson", "txt"}
 PROVINCES = (
@@ -120,6 +127,12 @@ def write_jsonl(path, rows):
     os.replace(temp, path)
 
 
+def catalog_version(row):
+    """Hash of a catalog row without counters: changes when the portal edits the API's metadata."""
+    stable = {k: v for k, v in row.items() if not VOLATILE_KEY_RE.search(k)}
+    return hashlib.sha256(json.dumps(stable, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()[:16]
+
+
 def cached(name, fetch, refresh):
     path = CATALOG_DIR / f"{name}.jsonl"
     if refresh or not path.exists():
@@ -127,17 +140,59 @@ def cached(name, fetch, refresh):
     return read_jsonl(path)
 
 
-def cached_items(name, items, item_key, one, refresh, workers):
-    """Per-item lookups cached in <name>.jsonl by "key"; only items not cached yet are fetched,
-    so widening the selection costs just the new items."""
+def cached_items(name, items, item_key, one, refresh, workers, version=None, max_age_days=None, max_renew=None):
+    """Per-item lookups cached in <name>.jsonl by "key".
+
+    By default only items not cached yet are fetched, so widening the selection costs just the new
+    items and a cached value is never looked at again. Renewal of cached values is opt-in:
+      version       item -> str; a value is fetched again when the item's version changed since
+      max_age_days  values older than this (or of unknown age) are fetched again
+      max_renew     at most this many renewals per run, changed items first, then the oldest
+    A renewal that fails keeps the cached value; a new item that fails still raises.
+    """
     path = CATALOG_DIR / f"{name}.jsonl"
-    have = {} if refresh else {r["key"]: r["value"] for r in read_jsonl(path) if "key" in r}
-    missing = [item for item in items if item_key(item) not in have]
-    if missing:
+    stored = {} if refresh else {r["key"]: r for r in read_jsonl(path) if "key" in r}
+    now = datetime.now(timezone.utc)
+
+    def age(entry):
+        fetched = entry.get("fetched_at")
+        return (now - datetime.fromisoformat(fetched)).days if fetched else float("inf")
+
+    keyed = [(item_key(item), item) for item in items]
+    new = [item for key, item in keyed if key not in stored]
+    changed = [
+        item for key, item in keyed
+        if key in stored and version and stored[key].get("version") not in (None, version(item))
+    ]
+    changed_keys = {item_key(item) for item in changed}
+    stale = sorted(
+        (item for key, item in keyed if key in stored and key not in changed_keys
+         and max_age_days is not None and age(stored[key]) >= max_age_days),
+        key=lambda item: -age(stored[item_key(item)]),
+    )
+    renew = (changed + stale)[:max_renew] if max_renew is not None else changed + stale
+    todo = new + renew
+    if todo:
+
+        def attempt(item):
+            try:
+                return True, one(item)
+            except Exception as error:  # noqa: BLE001 - decided per item below
+                return False, error
+
+        fetched_at = now.isoformat(timespec="seconds")
         with ThreadPoolExecutor(workers) as pool:
-            have.update(zip(map(item_key, missing), pool.map(one, missing), strict=False))
-        write_jsonl(path, [{"key": k, "value": v} for k, v in have.items()])
-    return have
+            for item, (ok, value) in zip(todo, pool.map(attempt, todo), strict=True):
+                key = item_key(item)
+                if ok:
+                    stored[key] = {"key": key, "value": value, "fetched_at": fetched_at,
+                                   **({"version": version(item)} if version else {})}
+                elif key not in stored:
+                    raise value
+        write_jsonl(path, list(stored.values()))
+    if renew:
+        print(f"[{name}] renewed {len(renew)} cached items ({len(changed)} changed, {len(stale)} stale)", flush=True)
+    return {key: entry["value"] for key, entry in stored.items()}
 
 
 def kogl_license(text):
@@ -222,7 +277,7 @@ def seoul_page(session, key, service, start, end, *args):
     return int(body.get("list_total_count") or 0), body.get("row") or []
 
 
-def collect_seoul(session, refresh, workers):
+def collect_seoul(session, refresh, workers, refresh_lists=False, renew_fields=False):
     key = os.environ["SEOUL_OPEN_API_KEY"]
 
     def fetch_catalog():
@@ -231,7 +286,7 @@ def collect_seoul(session, refresh, workers):
             rows += seoul_page(session, key, "SearchOpenAPIService", start, start + PAGE_SIZE - 1)[1]
         return rows
 
-    catalog = cached("seoul_openapi", fetch_catalog, refresh)
+    catalog = cached("seoul_openapi", fetch_catalog, refresh or refresh_lists)
     # Every API is kept; district / 인허가 / translated editions are folded into one series by
     # dataset_dedup (13), so they stay findable without crowding the ranking.
     selected = catalog
@@ -246,7 +301,12 @@ def collect_seoul(session, refresh, workers):
             return None
 
     inf_id = lambda row: row["INF_ID"]  # noqa: E731
-    fields = cached_items("seoul_fields_by_id", selected, inf_id, one_fields, refresh, workers)
+    # Opt-in (--renew-fields): a cached field list is fetched again when its catalog row changed or
+    # it is older than FIELD_MAX_AGE_DAYS, at most FIELD_RENEW_PER_RUN a run. Otherwise only new APIs.
+    renewal = {"version": catalog_version, "max_age_days": FIELD_MAX_AGE_DAYS, "max_renew": FIELD_RENEW_PER_RUN}
+    fields = cached_items(
+        "seoul_fields_by_id", selected, inf_id, one_fields, refresh, workers, **(renewal if renew_fields else {})
+    )
     licenses = cached_items("seoul_licenses_by_id", selected, inf_id, one_license, refresh, workers)
     rows = []
     for item in selected:
@@ -303,7 +363,7 @@ def collect_seoul(session, refresh, workers):
 # ---------------------------------------------------------------- 공공데이터포털
 
 
-def collect_data_go_kr(session, refresh, workers):
+def collect_data_go_kr(session, refresh, workers, refresh_lists=False):
     key = os.environ["DATA_GO_KR_API_KEY"]
 
     def fetch_list(path):
@@ -324,12 +384,12 @@ def collect_data_go_kr(session, refresh, workers):
 
         return fetch
 
-    files = cached("data_go_kr_dataset", fetch_list("dataset"), refresh)
-    apis = cached("data_go_kr_openapi", fetch_list("open-data-list"), refresh)
+    files = cached("data_go_kr_dataset", fetch_list("dataset"), refresh or refresh_lists)
+    apis = cached("data_go_kr_openapi", fetch_list("open-data-list"), refresh or refresh_lists)
 
     # 표준데이터: ~300 national schemas (전국공중화장실표준데이터 ...), registered by 공공데이터활용지원센터
     # with a blank file type; the ~13K standard-list rows are each region's submission to one of them.
-    standard = cached("data_go_kr_standard", fetch_list("standard-data-list"), refresh)
+    standard = cached("data_go_kr_standard", fetch_list("standard-data-list"), refresh or refresh_lists)
     standard_ids = {r.get("list_id") for r in standard}
     standard_desc: dict[str, str] = {}
     submissions: defaultdict[str, list[str]] = defaultdict(list)
@@ -463,6 +523,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--source", choices=("seoul", "data_go_kr", "all"), default="all")
     parser.add_argument("--refresh", action="store_true", help="re-download cached catalogs")
+    # Lists only: new datasets appear, while per-item lookups are fetched just for ids not cached yet.
+    parser.add_argument("--refresh-lists", action="store_true", help="re-download catalog lists, keep per-item caches")
+    parser.add_argument("--renew-fields", action="store_true", help="re-fetch Seoul field lists that changed or aged out")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--self-check", action="store_true")
     args = parser.parse_args()
@@ -476,11 +539,11 @@ def main():
     previous = {r["dataset_id"]: r for r in read_jsonl(OUTPUT)}
     rows = []
     if args.source in ("seoul", "all"):
-        rows += collect_seoul(session, args.refresh, args.workers)
+        rows += collect_seoul(session, args.refresh, args.workers, args.refresh_lists, args.renew_fields)
     else:
         rows += [r for r in previous.values() if r["source"] == "seoul_open_data"]
     if args.source in ("data_go_kr", "all"):
-        rows += collect_data_go_kr(session, args.refresh, args.workers)
+        rows += collect_data_go_kr(session, args.refresh, args.workers, args.refresh_lists)
     else:
         rows += [r for r in previous.values() if r["source"] == "data_go_kr"]
     write_jsonl(OUTPUT, rows)
