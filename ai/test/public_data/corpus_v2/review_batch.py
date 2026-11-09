@@ -1,26 +1,36 @@
 """Priority review batch for the public golden set: build it, check judgments, turn them into labels.
 
-    python test/public_data/corpus_v2/review_batch.py build                 # batch1 + pilot sample
-    python test/public_data/corpus_v2/review_batch.py validate <judgments>  # criteria violations
-    python test/public_data/corpus_v2/review_batch.py labels <judgments> --out <file>
+    python test/public_data/corpus_v2/review_batch.py build
+    python test/public_data/corpus_v2/review_batch.py validate <judgments.jsonl>
+    python test/public_data/corpus_v2/review_batch.py labels <judgments.jsonl> --out <file> [--resolutions <json>]
 
 Batch 1 = every existing hold and high-review row (54) + new unjudged candidates the preliminary
 search ranked in the top 5 of either mode. Reviewer files carry no rank, mode or proposal.
 
-Judgments are jsonl rows {review_id, score: "2"|"1"|"0"|"?", reason, note, judge}. Criteria
-(test/public_data/README.md, "2차 판정 기준"):
-  - a region the question does not name is judged by the question's purpose, not as "nationwide
-    required"; local data is not 1 by default
-  - an explicit API or file requirement is hard: the other kind is 0 wrong_delivery; unknown is ?
-  - missing information is ?, never 1; 1 is a partial fit with the part named in the note
-  - p026 accepts 공공누리 제1유형 only
-Labels are written to a separate file; labels/public_data_golden.jsonl is never changed.
+A judgment row:
+  {review_id, score: "2"|"1"|"0"|"?", reason, note, judge, judged_on,
+   judgment_kind: "llm_first_pass" | "human",
+   verification: {status: "confirmed" | "pending" | "not_needed",
+                  items: {<check or topic key>: {result: 충족|부분|불충족, evidence, source: card|official_page|other}},
+                  pending: [<what still has to be confirmed>]}}
+
+Criteria (test/public_data/README.md, "2차 판정 기준"), enforced by validate():
+  - no 1 or 2 when an explicit required condition is unmet (region named by the question,
+    commercial use, 공공누리 제1유형 only, API or file, district, language, period, spatial unit)
+  - a condition the card leaves unknown can only support a 1, a 2, or a 0 for that condition's
+    reason through a structured confirmation of that very condition; "확인 권장" text does not count
+  - '?' must list what is pending; a settled score must not leave anything pending
+  - missing information is '?', never 1
+Warnings (purpose basis, inconsistent scores, abstention evidence) carry ids. Labels are only
+written once every warning has a recorded resolution (--resolutions {warning_id: reason}).
+Labels go to a separate file; labels/public_data_golden.jsonl is never written.
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import random
 import re
@@ -36,11 +46,25 @@ TOP_RANK = 5
 PILOT_SIZE = 24
 SEED = 20261109
 SCORES = {"2", "1", "0", "?"}
+KINDS = {"llm_first_pass", "human"}
 REASONS = {"off_topic", "wrong_region", "wrong_delivery", "license", "stale",
            "wrong_language", "wrong_period", "wrong_spatial_unit"}
 HARD_REASONS = {"wrong_region", "wrong_delivery", "license"}
+# Every explicit requirement of a query the automatic checks know, and the 0-reasons that rest on it.
+CONDITION_REASONS = {
+    "region": {"wrong_region"}, "district": {"wrong_region"},
+    "commercial": {"license"}, "kogl_type1_only": {"license"},
+    "delivery": {"wrong_delivery"}, "realtime": {"wrong_delivery"},
+    "language": {"wrong_language"}, "period": {"wrong_period"}, "spatial_unit": {"wrong_spatial_unit"},
+}
+RESULTS = {"충족", "부분", "불충족"}
+SOURCES = {"card", "official_page", "other"}
 # A note that only says the card lacks information is a hold, not a partial fit.
 LACK_ONLY_RE = re.compile(r"^(?:[^.]*?)(정보\s*(?:가\s*)?부족|확인\s*(?:불가|안\s*됨|할\s*수\s*없)|알\s*수\s*없|판단\s*불가)[^.]*$")
+# A range the question itself states; without one, a region limit is not a deduction.
+STATED_RANGE_RE = re.compile(r"전국|모든 지역|서울만이 아니라|여러 지역|각 지역")
+# Open-ended checking left in a settled judgment.
+PENDING_RE = re.compile(r"확인\s*(?:권장|필요|요망|예정)|원문\s*확인|추가\s*확인|재확인")
 
 
 def read_jsonl(path):
@@ -50,6 +74,9 @@ def read_jsonl(path):
 
 def write_jsonl(path, rows):
     Path(path).write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
+
+
+# ---------------------------------------------------------------- batch
 
 
 def select(context):
@@ -128,46 +155,96 @@ def build():
     print(f"batch1 {len(batch)} items {dict(Counter(s for v in chosen.values() for s in v))}, pilot {len(sample)}")
 
 
-def validate(judgments, suggestions):
-    """(violations, warnings). Violations break a criterion; warnings need a second look."""
+# ---------------------------------------------------------------- validation
+
+
+def confirmed(item, results):
+    return bool(item) and item.get("result") in results and str(item.get("evidence") or "").strip() \
+        and item.get("source") in SOURCES
+
+
+def validate(judgments, suggestions, queries=None):
+    """(violations, warnings). Violations break a criterion; warnings are (id, review_id, message)."""
     violations, warnings = [], []
-    by_query = defaultdict(list)
+    by_signature = defaultdict(list)
+    queries = queries or {}
     for j in judgments:
-        rid, score, reason, note = j["review_id"], str(j.get("score") or ""), j.get("reason") or "", (j.get("note") or "").strip()
+        rid = j["review_id"]
+        score, reason, note = str(j.get("score") or ""), j.get("reason") or "", (j.get("note") or "").strip()
+        ver = j.get("verification") or {}
+        items, pending = ver.get("items") or {}, ver.get("pending") or []
         checks = suggestions[rid]["checks"]
         status = {k: c["status"] for k, c in checks.items()}
+
+        def bad(message):
+            violations.append((rid, message))
+
         if score not in SCORES:
-            violations.append((rid, f"점수 '{score}'는 2/1/0/? 가 아님"))
+            bad(f"점수 '{score}'는 2/1/0/? 가 아님")
             continue
+        if j.get("judgment_kind") not in KINDS:
+            bad(f"judgment_kind '{j.get('judgment_kind')}'는 llm_first_pass/human 이 아님")
         if score == "0" and reason not in REASONS:
-            violations.append((rid, f"0점 사유 '{reason}' 없음 또는 알 수 없음"))
-        for key in ("delivery", "kogl_type1_only"):
-            if status.get(key) == "불충족" and score in {"1", "2"}:
-                violations.append((rid, f"{key} 필수 조건 불충족인데 {score}점"))
-        if status.get("region") == "불충족" and score in {"1", "2"}:
-            violations.append((rid, f"제목상 다른 지역인데 {score}점"))
+            bad(f"0점 사유 '{reason}' 없음 또는 알 수 없음")
+        for key, item in items.items():
+            if item.get("result") not in RESULTS or not str(item.get("evidence") or "").strip() or item.get("source") not in SOURCES:
+                bad(f"확인 기록 '{key}'에 result(충족/부분/불충족)·evidence·source(card/official_page/other)가 다 있어야 함")
+        # Explicit requirements: unmet means no 1 or 2, unless a confirmation overturns the card.
+        for key, st in status.items():
+            if key not in CONDITION_REASONS:
+                continue
+            if st == "불충족" and score in {"1", "2"} and not confirmed(items.get(key), {"충족", "부분"}):
+                bad(f"필수 조건 '{key}' 불충족인데 {score}점")
+            if st == "미확인" and score in {"1", "2"} and not (
+                    ver.get("status") == "confirmed" and confirmed(items.get(key), {"충족", "부분"})):
+                bad(f"미확인 조건 '{key}'를 확인 기록 없이 {score}점으로 판정")
+            # A 0 whose reason another unmet condition already carries (API required, file only) needs
+            # nothing about this one.
+            backed = any(status.get(k) == "불충족" and reason in r for k, r in CONDITION_REASONS.items() if k != key)
+            if st == "미확인" and score == "0" and reason in CONDITION_REASONS[key] and not backed \
+                    and not confirmed(items.get(key), {"불충족"}):
+                bad(f"미확인 조건 '{key}'를 근거로 0점({reason})인데 불충족 확인 기록 없음")
+        if score == "?":
+            if ver.get("status") != "pending" or not pending:
+                bad("보류인데 verification.status=pending과 확인할 항목(pending)이 없음")
+        else:
+            if pending:
+                bad(f"확정 점수인데 미결 항목이 남음: {pending}")
+            if PENDING_RE.search(note):
+                bad(f"확정 점수의 note에 미결 확인 문구: '{note}'")
         if score == "1" and not note:
-            violations.append((rid, "1점인데 부분 적합 내용이 note에 없음"))
-        if score == "1" and note and LACK_ONLY_RE.search(note) and not re.search(r"부분|일부|만 제공|만 있|없지만", note):
-            violations.append((rid, f"정보 부족을 1점으로 처리: '{note}'"))
-        if score == "2" and any(s == "미확인" for s in status.values()) and "확인" not in note:
-            warnings.append((rid, "미확인 조건이 있는데 2점: note에 원문 확인 근거 필요"))
-        if score == "?" and not note:
-            warnings.append((rid, "보류인데 무엇을 확인해야 하는지 note가 없음"))
-        if "region_scope" in checks and score in {"1", "2"} and not note:
-            warnings.append((rid, "지역 미지정 질문: 목적 판단 근거를 note에 남길 것"))
-        signature = tuple(sorted((k, v) for k, v in status.items() if k != "region_scope"))
-        by_query[(rid.split("|")[0], signature)].append((rid, score))
-    for (qid, _), group in by_query.items():
-        scores = {s for _, s in group if s != "?"}
-        if len(scores) > 1:
-            warnings.append((qid, f"같은 질의·같은 조건 상태인데 점수가 다름: {group}"))
+            bad("1점인데 부분 적합 내용이 note에 없음")
+        if score == "1" and note and LACK_ONLY_RE.search(note) and not re.search(r"부분|일부|만 제공|만 있|없지만|한정", note):
+            bad(f"정보 부족을 1점으로 처리: '{note}'")
+        if "region_scope" in checks and score in {"1", "2"} and not confirmed(items.get("region_scope"), RESULTS):
+            warnings.append((f"purpose_basis:{rid}", rid, "지역 미지정 질문: 목적 판단 근거를 verification.items.region_scope에 기록"))
+        query = queries.get(rid.split("|")[0]) or {}
+        scope = items.get("region_scope") or {}
+        if scope.get("result") in {"부분", "불충족"} and query.get("query") is not None \
+                and not (query.get("conditions") or {}).get("region") and not STATED_RANGE_RE.search(query["query"]):
+            warnings.append((f"unstated_scope:{rid}", rid, "질문에 없는 지역 범위로 감점: 범위를 말하지 않은 질문은 기능 충족으로 판단"))
+        if query.get("expected_behavior") == "abstain" and score in {"1", "2"}:
+            warnings.append((f"abstain_relevant:{rid}", rid, "기권 질의에 관련 데이터 판정: 질의 변경 근거로 쓰기 전 요구 범위 확인"))
+        # Same query, same automatic checks and same recorded scope/aspect findings should score
+        # the same. Off-topic zeros are left out: the topic, not these findings, decided them.
+        if not (score == "0" and reason == "off_topic"):
+            recorded = tuple((k, (items.get(k) or {}).get("result")) for k in ("region_scope", "aspects"))
+            signature = tuple(sorted((k, v) for k, v in status.items() if k != "region_scope")) + recorded
+            by_signature[(rid.split("|")[0], signature)].append((rid, score))
+    for (qid, signature), group in by_signature.items():
+        if len({s for _, s in group if s != "?"}) > 1:
+            digest = hashlib.sha1(repr(signature).encode()).hexdigest()[:8]
+            warnings.append((f"inconsistent:{qid}:{digest}", qid, f"같은 질의·같은 조건 상태인데 점수가 다름: {group}"))
     return violations, warnings
+
+
+# ---------------------------------------------------------------- labels
 
 
 def build_labels(judgments, golden_rows):
     """Existing labels plus reviewed judgments, as a new label set. A reviewed row replaces the
-    existing judgment of the same pair; '?' keeps the pair unjudged."""
+    existing judgment of the same pair; '?' keeps the pair unjudged. Each reviewed pair records
+    who judged it and how (review_provenance), so LLM first-pass labels stay distinguishable."""
     labels = {g["query_id"]: json.loads(json.dumps(g)) for g in golden_rows}
     for j in judgments:
         qid, did = j["review_id"].split("|", 1)
@@ -182,6 +259,8 @@ def build_labels(judgments, golden_rows):
             label["must_exclude" if reason in HARD_REASONS else "judged_irrelevant"].append(did)
         else:
             label["unjudged"].append(did)
+        label.setdefault("review_provenance", {})[did] = {
+            "judge": j.get("judge"), "judgment_kind": j.get("judgment_kind"), "judged_on": j.get("judged_on")}
     for label in labels.values():
         for key in ("judged_irrelevant", "must_exclude", "unjudged"):
             label[key] = sorted(set(label[key]))
@@ -189,6 +268,41 @@ def build_labels(judgments, golden_rows):
         label["answer_grade"] = "full" if 2 in grades else "acceptable_only" if grades else None
         label["evaluable"] = (not label["unjudged"]) if label["expected_behavior"] == "abstain" else bool(grades)
     return [labels[q] for q in sorted(labels)]
+
+
+def review_queue(judgments, suggestions, revised=()):
+    """Rows a person should review, and why. Reviewers judge from items.jsonl before reading these."""
+    queue = []
+    for j in judgments:
+        rid, score, reason = j["review_id"], str(j["score"]), j.get("reason") or ""
+        topic = suggestions[rid].get("topic") or {}
+        why = []
+        if score in {"1", "2"}:
+            why.append("positive")  # every answer label
+        if score == "0" and reason == "off_topic" and (topic.get("full") or topic.get("partial")):
+            why.append("related_topic_zero")  # the card shares the topic words, yet it was judged off-topic
+        if score == "0" and reason != "off_topic":
+            why.append("condition_zero")
+        if score == "?":
+            why.append("pending_official_check")
+        if rid in revised:
+            why.append("revised")
+        if why:
+            queue.append({"review_id": rid, "queue_reasons": why, "judgment_kind": j.get("judgment_kind"),
+                          "human_judgment": None})
+    return queue
+
+
+def unresolved(warnings, resolutions):
+    return [w for w in warnings if not str(resolutions.get(w[0]) or "").strip()]
+
+
+def coverage(judgments, expected_ids):
+    """Violations unless the judgments hold every expected review_id exactly once and nothing else."""
+    ids = Counter(j["review_id"] for j in judgments)
+    return ([(rid, f"판정이 {n}번 있음 (중복)") for rid, n in sorted(ids.items()) if n > 1]
+            + ([(rid, "배치 후보인데 판정이 없음 (누락)") for rid in sorted(set(expected_ids) - set(ids))] if expected_ids is not None else [])
+            + ([(rid, "배치 후보 목록에 없는 판정") for rid in sorted(set(ids) - set(expected_ids))] if expected_ids is not None else []))
 
 
 def main():
@@ -200,24 +314,65 @@ def main():
     lab = sub.add_parser("labels")
     lab.add_argument("judgments", type=Path)
     lab.add_argument("--out", type=Path, required=True)
+    lab.add_argument("--resolutions", type=Path, help="json {warning_id: 검토 완료 사유}")
+    lab.add_argument("--base", type=Path, default=GOLDEN, help="label set the judgments are applied to (default: the golden set)")
+    for p in (v, lab):  # a later batch brings its own automatic checks for pairs outside review_suggestions.jsonl
+        p.add_argument("--suggestions", type=Path, default=PREP / "review_suggestions.jsonl")
+        p.add_argument("--expected", type=Path,
+                       help="jsonl whose review_ids the batch must cover exactly (default: items.jsonl next to the judgments)")
+    que = sub.add_parser("queue")
+    que.add_argument("judgments", type=Path)
     args = parser.parse_args()
     if args.command == "build":
         return build()
+    if args.command == "queue":
+        suggestions = {s["review_id"]: s for s in read_jsonl(PREP / "review_suggestions.jsonl")}
+        revised = {r["review_id"] for r in read_jsonl(BATCH / "revisions.jsonl")} if (BATCH / "revisions.jsonl").exists() else set()
+        queue = review_queue(read_jsonl(args.judgments), suggestions, revised)
+        write_jsonl(BATCH / "human_review_queue.jsonl", queue)
+        print(f"{len(queue)} rows -> {BATCH / 'human_review_queue.jsonl'} {dict(Counter(w for q in queue for w in q['queue_reasons']))}")
+        return
     judgments = read_jsonl(args.judgments)
-    suggestions = {s["review_id"]: s for s in read_jsonl(PREP / "review_suggestions.jsonl")}
-    violations, warnings = validate(judgments, suggestions)
+    suggestions = {s["review_id"]: s for s in read_jsonl(args.suggestions)}
+    queries = {i["query_id"]: i for i in read_jsonl(PREP / "review_items.jsonl")} if (PREP / "review_items.jsonl").exists() else {}
+    violations, warnings = validate(judgments, suggestions, queries)
+    expected = args.expected or args.judgments.parent / "items.jsonl"
+    if args.expected and not expected.exists():
+        sys.exit(f"--expected not found: {expected}")
+    expected_ids = [i["review_id"] for i in read_jsonl(expected)] if expected.exists() else None
+    if expected_ids is None:
+        print(f"[주의] 배치 후보 목록({expected})이 없어 누락·추가는 검사하지 않음(중복만 검사)")
+    violations = coverage(judgments, expected_ids) + violations
     if args.command == "validate":
         for rid, message in violations:
             print(f"[위반] {rid}: {message}")
-        for rid, message in warnings:
-            print(f"[확인] {rid}: {message}")
-        print(f"{len(judgments)} judgments, {len(violations)} violations, {len(warnings)} warnings")
+        for wid, _, message in warnings:
+            print(f"[경고 {wid}] {message}")
+        print(f"{len(judgments)} judgments ({dict(Counter(j.get('judgment_kind') for j in judgments))}), "
+              f"{len(violations)} violations, {len(warnings)} warnings")
         sys.exit(1 if violations else 0)
     if violations:
         sys.exit(f"criteria violations ({len(violations)}); run validate first")
-    if args.out.resolve() == GOLDEN.resolve():
-        sys.exit("refusing to overwrite labels/public_data_golden.jsonl")
-    write_jsonl(args.out, build_labels(judgments, read_jsonl(GOLDEN)))
+    resolutions = json.loads(args.resolutions.read_text(encoding="utf-8")) if args.resolutions else {}
+    open_warnings = unresolved(warnings, resolutions)
+    if open_warnings:
+        sys.exit(f"{len(open_warnings)} unresolved warnings; record a 검토 완료 사유 per id in --resolutions: "
+                 + ", ".join(w[0] for w in open_warnings[:10]))
+    out = args.out.resolve()
+    for keep, what in ((GOLDEN, "labels/public_data_golden.jsonl"), (args.base, "the --base labels"), (args.judgments, "the judgments")):
+        if out in (keep.resolve(), keep.resolve().with_suffix(".meta.json")) or out.with_suffix(".meta.json") == keep.resolve():
+            sys.exit(f"refusing to overwrite {what}: write the new labels to a separate file")
+    base_rows, base_sha = read_jsonl(args.base), hashlib.sha256(args.base.read_bytes()).hexdigest()
+    write_jsonl(args.out, build_labels(judgments, base_rows))
+    args.out.with_suffix(".meta.json").write_text(json.dumps({
+        "judgments": str(args.judgments),
+        "judgments_sha256": hashlib.sha256(args.judgments.read_bytes()).hexdigest(),
+        "expected": str(expected) if expected_ids is not None else None,
+        "base": str(args.base),
+        "base_sha256": base_sha,
+        "judgment_kinds": dict(Counter(j.get("judgment_kind") for j in judgments)),
+        "warnings_resolved": {w[0]: resolutions[w[0]] for w in warnings},
+    }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(judgments)} reviewed judgments -> {args.out}")
 
 

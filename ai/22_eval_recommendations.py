@@ -237,9 +237,11 @@ def evaluate_public(path, unjudged_out=None):
     entities = hs.load_graph()[0]
     alias = _aliases(entities)
     labels = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    scored, abstain, unjudged = [], [], []
+    scored, abstain, unjudged, held, skipped = [], [], [], [], []
     for label in labels:
         if not label["evaluable"]:
+            if label["expected_behavior"] == "abstain" and label["unjudged"]:
+                skipped.append((label["query_id"], label["unjudged"]))
             continue
         grades: dict[str, int] = {}
         for dataset, grade in label["relevant"].items():
@@ -249,7 +251,11 @@ def evaluate_public(path, unjudged_out=None):
         judged = set(grades) | excluded | {n for d in label["judged_irrelevant"] for n in alias.get(d, {d})}
         deep = _public_top(label, 3 * K)
         top = deep[:K]
-        unjudged += [{"query_id": label["query_id"], "dataset_id": d} for d in top if d not in judged]
+        # Held pairs ('?', pending an official check) are listed in label["unjudged"]: neither hit nor
+        # miss, so they are reported apart from datasets nobody has judged yet.
+        pending = {n for d in label["unjudged"] for n in alias.get(d, {d})}
+        unjudged += [{"query_id": label["query_id"], "dataset_id": d, "held": d in pending} for d in top if d not in judged]
+        held += [(label["query_id"], i, d) for i, d in enumerate(top, 1) if d in pending]
         if label["expected_behavior"] == "abstain":
             abstain.append((label["query_id"], sum(d in excluded or d in grades for d in top), len(top)))
             continue
@@ -265,11 +271,11 @@ def evaluate_public(path, unjudged_out=None):
         )
     if unjudged_out:
         unjudged_out.write_text("".join(json.dumps(u, ensure_ascii=False) + "\n" for u in unjudged), encoding="utf-8")
-    return scored, abstain, len(unjudged)
+    return scored, abstain, len(unjudged), held, skipped
 
 
 def print_public(path, unjudged_out=None):
-    scored, abstain, n_unjudged = evaluate_public(path, unjudged_out)
+    scored, abstain, n_unjudged, held, skipped = evaluate_public(path, unjudged_out)
     print(f"\npublic data ({path.name}): raw | condensed (unjudged dropped)")
     head = f"{'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}"
     print(f"{'query':<30} {head} | {head}  judged@10 excluded")
@@ -292,6 +298,10 @@ def print_public(path, unjudged_out=None):
         )
     for query_id, wrong, returned in abstain:
         print(f"abstain {query_id}: {returned} returned, {wrong} judged relevant/excluded in top {K}")
+    for query_id, pending in skipped:
+        print(f"abstain {query_id}: not scored, held datasets pending official check: {', '.join(pending)}")
+    for query_id, rank, dataset in held:
+        print(f"held {query_id} #{rank} {dataset}: pending official check, not counted as hit or miss in condensed")
     if unjudged_out:
         print(f"{n_unjudged} unjudged (query, dataset) pairs in top {K} -> {unjudged_out}")
 
