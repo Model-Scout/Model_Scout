@@ -173,6 +173,9 @@ def validate(judgments, suggestions, queries=None):
         score, reason, note = str(j.get("score") or ""), j.get("reason") or "", (j.get("note") or "").strip()
         ver = j.get("verification") or {}
         items, pending = ver.get("items") or {}, ver.get("pending") or []
+        if rid not in suggestions:
+            violations.append((rid, "자동 검사(review_suggestions)에 없는 후보 — --suggestions를 확인"))
+            continue
         checks = suggestions[rid]["checks"]
         status = {k: c["status"] for k, c in checks.items()}
 
@@ -359,10 +362,14 @@ def main():
         sys.exit(f"{len(open_warnings)} unresolved warnings; record a 검토 완료 사유 per id in --resolutions: "
                  + ", ".join(w[0] for w in open_warnings[:10]))
     out = args.out.resolve()
-    for keep, what in ((GOLDEN, "labels/public_data_golden.jsonl"), (args.base, "the --base labels"), (args.judgments, "the judgments")):
-        if out in (keep.resolve(), keep.resolve().with_suffix(".meta.json")) or out.with_suffix(".meta.json") == keep.resolve():
-            sys.exit(f"refusing to overwrite {what}: write the new labels to a separate file")
+    inputs = [GOLDEN, args.base, args.judgments, args.suggestions, expected, args.resolutions]
+    protected = {p.resolve() for p in inputs if p} | {p.resolve().with_suffix(".meta.json") for p in inputs if p}
+    if {out, out.with_suffix(".meta.json")} & protected:
+        sys.exit(f"refusing to overwrite an input ({out.name} or its .meta.json): write the new labels to a separate file")
     base_rows, base_sha = read_jsonl(args.base), hashlib.sha256(args.base.read_bytes()).hexdigest()
+    missing = sorted({j["review_id"].split("|", 1)[0] for j in judgments} - {g["query_id"] for g in base_rows})
+    if missing:
+        sys.exit(f"--base has no label for queries {missing}: check --base")
     write_jsonl(args.out, build_labels(judgments, base_rows))
     args.out.with_suffix(".meta.json").write_text(json.dumps({
         "judgments": str(args.judgments),

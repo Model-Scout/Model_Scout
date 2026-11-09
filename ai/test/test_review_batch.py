@@ -236,7 +236,7 @@ def test_labels_never_overwrite_the_original_file(tmp_path, monkeypatch):
         run_labels(tmp_path, monkeypatch, [j("p1|a", "0", reason="off_topic")], sug(), out=tmp_path / "golden.jsonl")
 
 
-@pytest.mark.parametrize("target", ["base.jsonl", "judgments.jsonl"])
+@pytest.mark.parametrize("target", ["base.jsonl", "judgments.jsonl", "items.jsonl", "base.meta.json", "judgments.meta.json"])
 def test_labels_never_overwrite_their_base_or_judgments(tmp_path, monkeypatch, target):
     base = tmp_path / "base.jsonl"
     base.write_text("".join(json.dumps(g) + "\n" for g in golden()), encoding="utf-8")
@@ -262,3 +262,8 @@ def test_labels_refuse_a_batch_with_a_missing_row(tmp_path, monkeypatch):
     (tmp_path / "items.jsonl").write_text(json.dumps({"review_id": "p1|a"}) + "\n" + json.dumps({"review_id": "p1|b"}) + "\n", encoding="utf-8")
     with pytest.raises(SystemExit, match="violations"):
         run_labels(tmp_path, monkeypatch, [j("p1|a", "0", reason="off_topic")], sug())
+
+
+def test_a_row_without_automatic_checks_is_a_violation_not_a_crash():
+    violations, _ = rb.validate([j("p9|zzz", "0", reason="off_topic")], sug())
+    assert violations == [("p9|zzz", "자동 검사(review_suggestions)에 없는 후보 — --suggestions를 확인")]
