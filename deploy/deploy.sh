@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds the images here and ships them to the VPS, which is too small to build on.
 #   ssh-add ~/.ssh/iwinv_model_scout   # once, so the passphrase is asked only here
-#   deploy/deploy.sh                   # images, compose files, runtime data, env files, restart
+#   deploy/deploy.sh                   # images, compose files, runtime data, env files, Swagger login, restart
 #   deploy/deploy.sh --data            # data only, after a dataset refresh
 set -euo pipefail
 
@@ -30,6 +30,11 @@ if [ "${1:-}" != "--data" ]; then
     ssh "$HOST" "umask 077; cat > $REMOTE/.env.backend"
   grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
     ssh "$HOST" "umask 077; cat > $REMOTE/.env.ai; rm -f $REMOTE/.env"
+  # Team login for Swagger; only the bcrypt hash leaves this machine.
+  password=$(grep -E '^DOCS_PASSWORD=' .env | cut -d= -f2-)
+  test -n "$password" || { echo "set DOCS_PASSWORD in .env" >&2; exit 1; }
+  echo "team $(docker run --rm caddy:2-alpine caddy hash-password --plaintext "$password")" |
+    ssh "$HOST" "umask 077; cat > $REMOTE/docs_users"
 fi
 
 ssh "$HOST" "cd $REMOTE && docker compose up -d --force-recreate --remove-orphans && docker image prune -f"

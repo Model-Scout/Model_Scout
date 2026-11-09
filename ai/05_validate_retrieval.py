@@ -500,6 +500,35 @@ def hard_filter(row: Dict[str, Any], query: Dict[str, Any]) -> Tuple[bool, List[
         reasons.append("parameter_count")
     if query.get("popularity_tier") and metadata.get("popularity_tier") != query["popularity_tier"]:
         reasons.append("popularity")
+
+    # --- 데이터 계약 필터 -------------------------------------------------
+    # supabase_migration_contract_filters.sql 의 WHERE 절과 같아야 한다.
+    # 어긋나면 오프라인 평가와 운영 검색이 다른 후보 집합을 쓴다.
+    wanted_status = query.get("commercial_status")
+    if wanted_status:
+        # 값이 없으면 탈락한다. 판단 불가를 "가능"으로 보여주지 않는다 —
+        # 사용자가 창업에 쓰고 나서 문제를 알게 되는 쪽이 더 나쁘다.
+        if metadata.get("commercial_status") not in set(wanted_status):
+            reasons.append("commercial_status")
+
+    wanted_artifacts = query.get("require_artifact")
+    if wanted_artifacts:
+        present = set(metadata.get("artifact_formats") or [])
+        if not set(wanted_artifacts) <= present:
+            reasons.append("artifact")
+
+    if not numeric_ok(
+        metadata.get("artifact_runnable_gib"),
+        maximum=query.get("max_artifact_gib"),
+    ):
+        reasons.append("artifact_size")
+
+    if query.get("exclude_gated"):
+        # gated 는 False / "auto" / "manual" / 없음 이다. 없음은 "공개"가 아니라
+        # "모름"이므로, 바로 내려받을 수 있는 모델만 원하면 모름도 함께 빠진다.
+        if metadata.get("gated") is not False:
+            reasons.append("gated")
+
     return not reasons, reasons
 
 

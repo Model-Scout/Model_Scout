@@ -40,7 +40,8 @@ MODEL_IDS_PATH = DATA_DIR / ".incremental_model_ids.json"
 BENCHMARK_CHANGED_IDS_PATH = DATA_DIR / ".benchmark_changed_model_ids.json"
 BENCHMARK_STATE_PATH = DATA_DIR / "hf_models_benchmark_state.json"
 BENCHMARK_STATE_CANDIDATE_PATH = DATA_DIR / ".hf_models_benchmark_state_candidate.json"
-EXPECTED_VERSIONS = {"stage1": 7, "stage2": 6, "stage3": 1, "stage4": 1}
+# stage2 7: 데이터 계약 필드(ai/contract/)가 들어온 버전.
+EXPECTED_VERSIONS = {"stage1": 7, "stage2": 7, "stage3": 1, "stage4": 1}
 DEFAULT_TTL_HOURS = 24
 DEFAULT_BATCH_SIZE = 100
 API_MAX_RETRIES = 3
@@ -132,6 +133,13 @@ def load_corpora(
             stage4.extend(read_jsonl(stage4_path))
         for row in read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl"):
             stage2[row["model_id"]] = row
+        # 계약 레코드는 Stage 2가 별도 파일에 쓴다(한 건 약 9KB). 여기서 다시
+        # 붙여 technical_metadata와 source_provenance로 보낸다. 파일이 없으면
+        # 계약 필드 없이 돈다 — 구 데이터로 적재를 다시 할 때 멈추지 않게 한다.
+        for record in read_jsonl(DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"):
+            row = stage2.get(record.get("model_id"))
+            if row is not None:
+                row["contract"] = record
         for row in read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl"):
             stage3[row["model_id"]] = row
     return stage4, stage2, stage3
@@ -382,6 +390,9 @@ def provenance(
         "stage2": stage2.get("stage") or {},
         "stage3": stage3.get("stage3") or {},
         "validation": stage3.get("validation") or {},
+        # 데이터 계약의 출처 기록. 필드마다 "어떻게 알게 됐는지"가 여기 있다.
+        # conflicts와 review_queue가 사람이 봐야 하는 목록이다.
+        "contract": (stage2.get("contract") or {}).get("provenance") or {},
     }
 
 
@@ -397,16 +408,24 @@ def payloads(
         model_id = row["model_id"]
         source2 = stage2[model_id]
         source3 = stage3[model_id]
+        contract = source2.get("contract") or {}
         technical = {
             "model": source2.get("model") or {},
             "quantization": source2.get("quantization") or {},
-        "artifacts": source2.get("artifacts") or {},
-        "hardware": source2.get("hardware") or {},
-        "runtime_compatibility": source2.get("runtime_compatibility") or {},
-        "license": source2.get("license"),
+            "artifacts": source2.get("artifacts") or {},
+            "hardware": source2.get("hardware") or {},
+            "runtime_compatibility": source2.get("runtime_compatibility") or {},
+            "license": source2.get("license"),
             "base_models": source2.get("base_models") or [],
             "datasets": source2.get("datasets") or [],
             "metrics": source2.get("metrics") or [],
+            # 계약의 상세. filter_metadata에는 필터용 스칼라만 올라가므로
+            # 포맷별 용량·양자화 목록·배포 대상 등급·라이선스 원문 위치는 여기 있다.
+            "contract": {
+                key: contract.get(key)
+                for key in ("identity", "legal", "artifacts", "deployment", "technical")
+                if contract.get(key) is not None
+            },
         }
         rows.append(
             (
@@ -1222,6 +1241,232 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
 
 
 
+def contract_gate(require: bool = False) -> Dict[str, Any]:
+    """적재 전 데이터 계약 검사. 유료 단계 앞의 게이트다.
+
+    비용 순서가 Stage 2(무료) → Stage 3(LLM) → Stage 4(임베딩) → DB 쓰기이므로
+    여기서 멈춰야 돈이 나가지 않는다.
+
+    백필 작업에서 실제로 났던 사고를 막는 것이 목적이다. Stage 4 문서를 직접
+    조립했더니 task·candidate·popularity·search_aliases 등 12개 키가 빠졌고,
+    형식은 유효한 JSON이라 임베딩까지 정상 생성됐다. 비교 결과가 전부 0으로
+    나온 뒤에야 알았다.
+    """
+    python = sys.executable
+    results: Dict[str, Any] = {}
+    for pool in POOLS:
+        path = DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"
+        if not path.exists():
+            if require:
+                # 재적재는 Stage 2를 전수로 돌리므로 이 파일이 반드시 생긴다.
+                # 없다면 Stage 2가 조용히 실패했거나 구 코드가 돈 것이다.
+                raise RuntimeError(
+                    f"[{pool}] {path.name} 이 없다. Stage 2 가 계약 레코드를 쓰지 않았다 — "
+                    "검증 없이 적재하지 않는다"
+                )
+            results[pool] = {"skipped": "계약 파일 없음 (구 Stage 2 데이터)"}
+            continue
+        completed = subprocess.run(
+            [python, str(ROOT / "contract" / "validate.py"), str(path)],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        results[pool] = {
+            "returncode": completed.returncode,
+            "report": completed.stdout.strip().splitlines()[-12:],
+        }
+        if completed.returncode != 0:
+            raise RuntimeError(
+                f"[{pool}] 데이터 계약 위반으로 적재를 중단한다:\n{completed.stdout}"
+            )
+    return results
+
+
+# 재적재 안전장치. full_reingest_pipeline 은 하위 프로세스를 띄우므로 단위
+# 테스트가 어렵다. 판단 로직만 떼어 내 test/test_reingest_safety.py 가 검사한다.
+
+# Stage 2 가 조용히 대량 실패했는지 보는 하한. 언어 게이트 제외분은 정상 감소이므로
+# 분모에서 뺀다. 2%는 개별 모델의 일시적 조회 실패를 허용하는 폭이다.
+STAGE2_VOLUME_TOLERANCE = 0.98
+
+
+def language_excluded_ids(data_dir: Path = None) -> Set[str]:
+    """Stage 2 의 언어 게이트가 떨어뜨린 모델. Hub 에서 바뀌지 않으므로 계속 제외된다.
+
+    Supabase 행을 비활성화해 주지 않으면 낡은 데이터로 계속 active 로 남는다.
+    incremental_refresh_pipeline 이 하는 것과 같은 처리다.
+    """
+    base = data_dir if data_dir is not None else DATA_DIR
+    excluded: Set[str] = set()
+    for pool in POOLS:
+        report = base / f"hf_models_stage2_{pool}_language_excluded.json"
+        if report.exists():
+            excluded.update(json.loads(report.read_text(encoding="utf-8")))
+    return excluded
+
+
+def stage2_volume_floor(expected: int, excluded: int) -> float:
+    """Stage 2 결과가 이보다 적으면 대량 실패로 본다."""
+    return max(expected - excluded, 0) * STAGE2_VOLUME_TOLERANCE
+
+
+def assert_stage2_volume(expected: int, produced: int, excluded: int) -> None:
+    """Stage 2 가 대량 실패했으면 유료 단계로 넘어가기 전에 끊는다.
+
+    실패한 모델은 출력에서 그냥 사라지므로, 뒤 단계에서는 "원래 없던 모델"과
+    구별되지 않는다. 적재까지 가면 그 행들이 전부 비활성화돼 복구가 번거롭다.
+    """
+    if not expected:
+        return
+    floor = stage2_volume_floor(expected, excluded)
+    if produced < floor:
+        raise RuntimeError(
+            f"Stage 2 결과가 {produced}행이다. Stage 1 {expected}행에서 언어 게이트 "
+            f"제외 {excluded}건을 빼면 {expected - excluded}행이어야 하고 허용 하한은 "
+            f"{floor:.0f}행이다. 대량 실패로 보이므로 재적재를 중단한다"
+        )
+
+
+def carried_watermark(latest: Optional[Dict[str, Any]]) -> Optional[str]:
+    """재적재가 물려받을 직전 watermark.
+
+    재적재는 Stage 1 을 스캔하지 않는다. 자기 시작 시각을 watermark 로 올려
+    버리면 **직전 Stage 1 스캔 이후부터 재적재 사이에 Hub 에서 바뀐 모델을 다음
+    --refresh 가 영구히 건너뛴다.** 그 구간은 아무도 본 적이 없다.
+    """
+    if not latest:
+        return None
+    value = ((latest.get("stage_versions") or {}).get("source_watermark")
+             or latest.get("completed_at"))
+    return str(value) if value else None
+
+
+def resolved_source_watermark(refresh_info: Optional[Dict[str, Any]]) -> Optional[str]:
+    """이번 실행이 저장할 watermark.
+
+    --reingest 는 직전 값을 그대로 돌려준다(Stage 1 을 스캔하지 않았다).
+    --refresh 는 자기 스캔 시작 시각을 돌려준다.
+    """
+    info = refresh_info or {}
+    if "source_watermark" in info:
+        return info["source_watermark"]
+    return info.get("scan_started_at")
+
+
+def reingest_result(
+    *,
+    previous_watermark: Optional[str],
+    started_at: str,
+    steps: Sequence[str],
+    contract_gate_report: Dict[str, Any],
+    language_excluded: Set[str],
+    stage2_rows: int,
+) -> Dict[str, Any]:
+    """재적재가 main 의 적재 호출부로 넘기는 값.
+
+    조립을 따로 둔 이유는 full_reingest_pipeline 이 하위 프로세스를 띄워 단위
+    테스트가 어렵기 때문이다. 여기 두 값이 조용히 비면 사고가 난다.
+
+      source_watermark  비면 apply_sync 가 scan_started_at 으로 흘러가 재적재
+                        시각을 박고, 다음 --refresh 가 변경 모델을 건너뛴다
+      removed_ids       비면 언어 게이트로 새로 제외된 모델이 낡은 데이터로
+                        계속 active 로 남는다
+    """
+    return {
+        "mode": "reingest",
+        "started_at": started_at,
+        # Stage 1 을 스캔하지 않았으므로 watermark 를 전진시키지 않는다.
+        "source_watermark": previous_watermark,
+        "steps": list(steps),
+        "contract_gate": contract_gate_report,
+        "requires_sync": True,
+        "stage4_mode": "full",
+        "removed_ids": sorted(language_excluded),
+        "stage2_rows": stage2_rows,
+    }
+
+
+def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
+    """스키마가 바뀐 뒤의 전체 재적재.
+
+    ``--refresh``를 쓸 수 없는 이유
+    -----------------------------
+    ``--refresh``는 watermark 이후 **변경된 모델만** 처리한다. 스키마가 바뀐
+    첫 적재에는 쓸 수 없다. ``gated``·``sha``·``siblings[].size``는 Hub에서
+    모델이 바뀌지 않은 모델에도 없기 때문이다. 변경 기준으로 고르면 그 셋을
+    영원히 못 채운다.
+
+    그런데도 비싼 단계를 전수로 돌리지는 않는다
+    -----------------------------------------
+    - Stage 2는 STAGE2_VERSION이 올라가 ``resume_matches``가 전부 불일치로 보고
+      다시 수집한다. HF API만 쓰므로 무료다(약 8분).
+    - Stage 3는 README 내용이 같으면 재사용한다. 실측 3,872건 중 3,721건
+      (96.1%)이 재사용 가능이고 LLM 호출은 151건이다.
+    - Stage 4는 ``document_hash``가 바뀐 문서만 재임베딩한다. 실측 약 1,340건,
+      text-embedding-3-small 기준 약 $0.02다.
+
+    Stage 1은 다시 스캔하지 않는다. 바꾸려는 것은 모델의 **사실**이고 모델
+    **목록**이 아니다. 목록 갱신은 ``--refresh``가 할 일이다.
+
+    그래서 watermark를 전진시키지 않는다
+    ----------------------------------
+    ``--refresh``는 저장된 ``source_watermark`` 이후에 Hub에서 바뀐 모델만
+    스캔한다. 재적재가 자기 시작 시각을 watermark로 올려 버리면, **직전 Stage 1
+    스캔 이후부터 재적재 사이에 바뀐 모델을 다음 ``--refresh``가 영구히
+    건너뛴다.** Stage 1을 돌지 않았으므로 그 구간은 아무도 본 적이 없다.
+
+    ``previous_watermark``를 그대로 돌려줘서 다음 ``--refresh``가 끊긴 지점부터
+    이어 가게 한다.
+    """
+    python = sys.executable
+    clear_incremental_artifacts()
+    started = datetime.now(timezone.utc)
+    steps: List[str] = []
+
+    # Stage 2 — 전체. model-ids-file을 주지 않으면 풀 전체를 본다.
+    expected = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage1_{pool}.jsonl")) for pool in POOLS)
+    run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
+    steps.append("stage2:full")
+
+    # Stage 2의 언어 게이트는 README가 다른 언어를 겨냥한 모델을 떨어뜨린다.
+    # Hub에서 바뀌지 않으므로 다음에도 계속 제외되는데, Supabase 행을 비활성화해
+    # 주지 않으면 낡은 데이터로 계속 활성 상태로 남는다. --refresh가 하는 것과
+    # 같은 처리다.
+    language_excluded = language_excluded_ids()
+    produced = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")) for pool in POOLS)
+    assert_stage2_volume(expected, produced, len(language_excluded))
+    steps.append(f"stage2:{produced}rows")
+
+    # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
+    gate = contract_gate(require=True)
+    steps.append("contract_gate")
+
+    # Stage 3 — README가 바뀐 모델만 LLM을 부른다.
+    run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
+    for pool in POOLS:
+        run_command([python, str(ROOT / "03_repair_truncated_semantic.py"), "--pool", pool, "--apply"])
+    run_command([python, str(ROOT / "evidence_index.py"), "--pool", "all"])
+    steps.append("stage3:readme-delta")
+
+    # Stage 3.5 — 벤치마크. API 호출이 없다.
+    run_command([python, str(ROOT / "06_extract_benchmark_metadata.py"), "--pool", "all", "--apply"])
+    steps.append("stage3.5:benchmark")
+
+    # Stage 4 — document_hash가 바뀐 문서만 재임베딩한다.
+    run_command([python, str(ROOT / "04_build_embeddings.py"), "--pool", "all", "--execute", "--db-cache"])
+    steps.append("stage4:hash-delta")
+
+    return reingest_result(
+        previous_watermark=previous_watermark,
+        started_at=started.isoformat(),
+        steps=steps,
+        contract_gate_report=gate,
+        language_excluded=language_excluded,
+        stage2_rows=produced,
+    )
+
+
 def apply_evidence_backfill(
     evidence_rows: Sequence[Tuple[Any, ...]],
     run_id: str,
@@ -1332,6 +1577,12 @@ def main() -> int:
         action="store_true",
         help="incrementally scan only Hugging Face models modified since the last sync",
     )
+    parser.add_argument(
+        "--reingest",
+        action="store_true",
+        help="전체 재적재. 스키마가 바뀐 첫 적재에 쓴다. --refresh는 변경된 모델만 "
+             "보므로 새 필드를 채울 수 없다",
+    )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
         "--ensure-schema",
@@ -1362,8 +1613,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if sum(bool(value) for value in (args.refresh, args.initial, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
-        parser.error("--refresh, --initial, --backfill-runtime, and --backfill-evidence are mutually exclusive")
+    if sum(bool(value) for value in (args.refresh, args.initial, args.reingest, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
+        parser.error("--refresh, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
@@ -1430,6 +1681,18 @@ def main() -> int:
         if not watermark:
             raise RuntimeError("Could not determine incremental source watermark")
         refresh_info = incremental_refresh_pipeline(watermark)
+    elif args.reingest:
+        # watermark를 전진시키지 않기 위해 직전 값을 읽는다. --apply 때만 latest를
+        # 조회하므로 여기서 한 번 더 본다.
+        previous = latest if latest is not None else latest_completed_sync()
+        if args.apply and previous is None:
+            raise RuntimeError(
+                "완료된 Supabase sync 기록이 없다. 먼저 "
+                "`python 08_sync_supabase.py --initial --apply`를 돌려야 한다."
+            )
+        # --apply 없이도 돈다. 그때는 DB를 건드리지 않고 dry-run 리포트만 낸다 —
+        # 팀이 diff를 보고 판단한 뒤에 한 번만 apply 한다.
+        refresh_info = full_reingest_pipeline(carried_watermark(previous))
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
@@ -1439,7 +1702,8 @@ def main() -> int:
     elif args.apply and latest is not None:
         raise RuntimeError(
             "A successful Supabase sync already exists. Refusing a full upload; use "
-            "--refresh --apply for incremental updates."
+            "--refresh --apply for incremental updates, or --reingest --apply after a "
+            "schema change."
         )
     elif not args.apply:
         # Offline validation remains available and never contacts Supabase.
@@ -1491,7 +1755,7 @@ def main() -> int:
         "run_id": run_id,
         "apply": args.apply,
         "selected_pools": list(POOLS),
-        "sync_mode": "incremental" if refresh_info else "initial",
+        "sync_mode": (refresh_info or {}).get("mode", "incremental") if refresh_info else "initial",
         "changed_rows": len(selected_stage4),
         "removed_rows": len(removed_ids),
     }
@@ -1503,7 +1767,7 @@ def main() -> int:
             args.batch_size,
             incremental=refresh_info is not None,
             removed_ids=removed_ids,
-            source_watermark=(refresh_info or {}).get("scan_started_at"),
+            source_watermark=resolved_source_watermark(refresh_info),
             corpus_rows=len(stage2),
             )
         promote_benchmark_state()

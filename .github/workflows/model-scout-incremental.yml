@@ -1,9 +1,15 @@
 name: Model Scout incremental sync
 
+# 자동 실행을 멈춘다. 팀 결정이며, 설정만이 아니라 파일에서도 지운다 —
+# UI 에서만 꺼 두면 다음 사람이 이 파일을 보고 "매시간 돈다"고 읽는다.
+#
+# 모델 데이터 재적재는 model-scout-reingest.yml 로 옮겼다. 그쪽은
+# validate / dry-run / apply 세 모드를 두고 apply 는 main 에서 수동 1회다.
+#
+# 자동화를 다시 켤 때는 아래 두 줄을 되살린다.
+#   schedule:
+#     - cron: "0 * * * *"   # UTC. 비싼 단계는 24시간 TTL 로 하루 1회만 돈다
 on:
-  schedule:
-    # GitHub Actions uses UTC. The worker's 24-hour TTL limits the expensive pipeline to once per day.
-    - cron: "0 * * * *"
   workflow_dispatch:
 
 concurrency:

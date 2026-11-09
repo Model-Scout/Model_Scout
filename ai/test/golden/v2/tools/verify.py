@@ -35,6 +35,11 @@ HARD_FILTER_KEYS = {
     "require_known_parameters",
     "require_known_context",
     "popularity_tier",
+    # 데이터 계약 필터. planner.HARD_FILTER_KEYS 와 같아야 한다.
+    "commercial_status",
+    "require_artifact",
+    "max_artifact_gib",
+    "exclude_gated",
 }
 
 
