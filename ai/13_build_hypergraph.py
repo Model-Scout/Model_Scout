@@ -8,13 +8,14 @@ concept and "low" when the quote merely exists. Once NER has read a card, a meta
 keeps "high" only if a quote states it, drops to "medium" if NER names it loosely, and to
 "low" if NER does not name it at all (tags like sentence-similarity are often wrong).
 
-Outputs (data/hypergraph/):
+Outputs (data/hypergraph/, or data/hypergraph_v2/ with --corpus v2):
   entities.jsonl   one row per model/dataset with quality flags
   links.jsonl      entity -> concept, with method, source field, raw value, confidence
   relations.jsonl  entity -> entity edges (model trained_with dataset)
   concepts.jsonl   every concept with its member count
-  duplicates.json  mirror / cross-listed dataset -> canonical id and reason (dataset_dedup.py)
-  report.json      coverage per facet and the raw values that did not map
+  duplicates.json  same data -> canonical id and reason (dataset_dedup.py); may share a label
+  series.json      v2 only: separate portal entries related by region, edition or language; never share a label
+  report.json    coverage per facet and the raw values that did not map
 """
 
 from __future__ import annotations
@@ -26,15 +27,19 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from dataset_dedup import duplicate_map
+from corpus_manifest import check_manifest, load_manifest, sha256_text, write_manifest
+from dataset_dedup import check_public_duplicates, duplicate_map, public_identity, public_series
 from taxonomy import label, load_taxonomy, mentions, normalize
 
 AI_DIR = Path(__file__).resolve().parent
 DATA_DIR = AI_DIR / "data"
-OUT_DIR = DATA_DIR / "hypergraph"
+CORPUS_DIRS = {"v1": DATA_DIR / "hypergraph", "v2": DATA_DIR / "hypergraph_v2"}
+README_DIRS = (DATA_DIR / "readmes" / "public", DATA_DIR / "readmes" / "datasets", DATA_DIR / "readmes" / "kaggle")
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"  # 서울 열린데이터광장 + 공공데이터포털 (18)
+ENRICH_DIR = DATA_DIR / "public_enriched"  # v2 reads 18_enrich's output: official license, delivery, cycle
+PUBLIC_INPUTS = {"v1": PUBLIC_INPUT, "v2": ENRICH_DIR / "public_datasets.jsonl"}
 KAGGLE_INPUT = DATA_DIR / "kaggle_datasets_stage1.jsonl"  # 19
 PORTAL_SOURCES = {"seoul_open_data", "data_go_kr"}
 LENGTH_INPUT = DATA_DIR / "hf_datasets_length_stats.jsonl"
@@ -342,17 +347,31 @@ def coverage(entities, links):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--self-check", action="store_true")
+    # dataset-refresh.yml embeds and publishes the default corpus, so v1 stays the default until cutover.
+    parser.add_argument("--corpus", choices=sorted(CORPUS_DIRS), default="v1")
     args = parser.parse_args()
     if args.self_check:
         return self_check()
+    verified = args.corpus == "v2"
+    out_dir = CORPUS_DIRS[args.corpus]
+    public_input = PUBLIC_INPUTS[args.corpus]
+    if verified:
+        # New or changed collected rows must pass enrichment before refining, never around it.
+        problems = check_manifest(ENRICH_DIR)
+        if problems:
+            raise SystemExit("run 18_enrich_public_datasets.py first:\n- " + "\n- ".join(problems))
 
     linker = Linker()
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
-    entities = [map_model(linker, row) for row in load_model_rows()]
+    model_rows = load_model_rows()
+    entities = [map_model(linker, row) for row in model_rows]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
-    hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(PUBLIC_INPUT)
-    duplicates = duplicate_map(hf_rows, public_rows)
-    canonical_rows = [r for r in hf_rows + public_rows if r["dataset_id"] not in duplicates]
+    hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(public_input)
+    duplicates = duplicate_map(hf_rows, public_rows, "verified" if verified else "title")
+    public_merges = check_public_duplicates(duplicates, public_rows) if verified else None
+    series = public_series(public_rows, duplicates) if verified else []
+    series_of = {member: group["series_id"] for group in series for member in group["members"]}
+    canonical_rows =[r for r in hf_rows + public_rows if r["dataset_id"] not in duplicates]
     copies = defaultdict(list)
     for dataset_id, info in duplicates.items():
         copies[info["canonical"]].append(dataset_id)
@@ -364,6 +383,13 @@ def main():
     for row in canonical_rows:
         entity = map_dataset(linker, row, lengths.get(row["dataset_id"]), ners.get(row["dataset_id"]))
         entity["duplicates"] = sorted(copies.get(row["dataset_id"], []))
+        if verified and row.get("source") in PORTAL_SOURCES:
+            entity.update(public_identity(row))
+            entity["series_id"] = series_of.get(row["dataset_id"])
+            entity["same_data_titles"] = sorted(
+                {(by_id[copy].get("card_data") or {}).get("pretty_name") or "" for copy in entity["duplicates"]}
+                - {entity["title"], ""}
+            )
         entities.append(entity)
     links = sorted(linker.links.values(), key=lambda link: (link["entity_id"], link["concept_id"]))
 
@@ -407,12 +433,14 @@ def main():
                 }
             )
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    write_jsonl(OUT_DIR / "entities.jsonl", entities)
-    (OUT_DIR / "duplicates.json").write_text(json.dumps(duplicates, ensure_ascii=False, indent=1), encoding="utf-8")
-    write_jsonl(OUT_DIR / "links.jsonl", links)
-    write_jsonl(OUT_DIR / "relations.jsonl", relations)
-    write_jsonl(OUT_DIR / "concepts.jsonl", concepts)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    write_jsonl(out_dir / "entities.jsonl", entities)
+    (out_dir / "duplicates.json").write_text(json.dumps(duplicates, ensure_ascii=False, indent=1), encoding="utf-8")
+    if verified:
+        (out_dir / "series.json").write_text(json.dumps(series, ensure_ascii=False, indent=1), encoding="utf-8")
+    write_jsonl(out_dir / "links.jsonl", links)
+    write_jsonl(out_dir / "relations.jsonl", relations)
+    write_jsonl(out_dir / "concepts.jsonl", concepts)
     report = {
         "entities": Counter(e["kind"] for e in entities),
         "links": len(links),
@@ -425,9 +453,39 @@ def main():
         "dataset_korean_focus": Counter(e["korean_focus"] for e in entities if e["kind"] == "dataset"),
         "unmapped_top": {k: v.most_common(25) for k, v in sorted(linker.unmapped.items())},
     }
-    (OUT_DIR / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    if verified:
+        report.update(public_merges=public_merges, public_series=len(series))
+    (out_dir / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "unmapped_top"}, ensure_ascii=False, indent=2))
-    print(f"unmapped value groups: {len(linker.unmapped)} (see {OUT_DIR / 'report.json'})")
+    if verified:
+        local_models = all(path.exists() for path in MODEL_INPUTS)
+        names = ("entities.jsonl", "links.jsonl", "relations.jsonl", "concepts.jsonl", "duplicates.json", "series.json", "report.json")
+        manifest = write_manifest(
+            out_dir,
+            stage="hypergraph",
+            corpus=args.corpus,
+            options={"corpus": args.corpus, "public_policy": "verified"},
+            upstream={"enrich_id": load_manifest(ENRICH_DIR)["stage_id"]},
+            inputs=[
+                *(path for path in (DATASET_INPUT, KAGGLE_INPUT, public_input, LENGTH_INPUT, NER_INPUT) if path.exists()),
+                *(MODEL_INPUTS if local_models else ()),
+                *(path for path in README_DIRS if path.exists()),
+                AI_DIR / "taxonomy.yaml",
+            ],
+            code=[Path(__file__), AI_DIR / "dataset_dedup.py", AI_DIR / "taxonomy.py", AI_DIR / "retrieval_metadata.py", AI_DIR / "corpus_manifest.py"],
+            outputs=[out_dir / name for name in names],
+            counts={
+                "entities": Counter(e["kind"] for e in entities),
+                "datasets_by_source": Counter(e["source"] for e in entities if e["kind"] == "dataset"),
+                "public_merges": public_merges,
+                "public_series": len(series),
+                "model_source": "local_stage4" if local_models else "supabase",
+                "models": len(model_rows),
+                "model_ids_sha256": sha256_text(sorted(row["model_id"] for row in model_rows)),
+            },
+        )
+        print(f"corpus_id {manifest['stage_id']}")
+    print(f"unmapped value groups: {len(linker.unmapped)} (see {out_dir / 'report.json'})")
 
 
 def self_check():

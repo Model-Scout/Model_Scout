@@ -1,0 +1,217 @@
+{
+ "data_version": "37026bd248c19ea0",
+ "pinned_at": "2026-11-08T13:25:34+00:00",
+ "git": {
+  "commit": "3bc43f979cf6e634d921560c50ed400766839745",
+  "branch": "fix/public-dedup-documents",
+  "dirty": false,
+  "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "untracked_files": []
+ },
+ "stages": {
+  "enrich": {
+   "stage_id": "2c3ff48782af57f5f1d63197c4f2e6815a5a99fbe0aa6ccfc0283c397c9bf84b",
+   "created_at": "2026-11-08T13:20:36+00:00",
+   "inputs": [
+    {
+     "path": "data/public_datasets_stage1.jsonl",
+     "sha256": "6f77eb156769529d30b91e145cb0e48348441474ea8c0a94c86c27579bc13aa1",
+     "bytes": 26268130,
+     "rows": 15157
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "aa3d1396a2052860ba32a174f74fa785f0b09523a6c02b26d1b78bec259a4f8b",
+     "bytes": 31097056,
+     "rows": 15157
+    }
+   ]
+  },
+  "hypergraph": {
+   "stage_id": "6571282e4113b7dd168ba2fca9309dc251ba0f96832a3cf851221172ee18487b",
+   "created_at": "2026-11-08T13:23:59+00:00",
+   "inputs": [
+    {
+     "path": "data/hf_datasets_stage1.jsonl",
+     "sha256": "46b843f287e80e6470b921360b053e147597c102066bd17fa20debbf78bed9d7",
+     "bytes": 27895704,
+     "rows": 3711
+    },
+    {
+     "path": "data/kaggle_datasets_stage1.jsonl",
+     "sha256": "471cbd107fa91eab6eb164c66430e97575b912d9c4799ab2559085ce3b4e38e9",
+     "bytes": 595989,
+     "rows": 621
+    },
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "aa3d1396a2052860ba32a174f74fa785f0b09523a6c02b26d1b78bec259a4f8b",
+     "bytes": 31097056,
+     "rows": 15157
+    },
+    {
+     "path": "data/hf_datasets_length_stats.jsonl",
+     "sha256": "b66311c098f8b7827d4c9bd3978a7dc92d0318adf7cdc94ad2d4ba6e1871c4bf",
+     "bytes": 1358072,
+     "rows": 3711
+    },
+    {
+     "path": "data/hf_datasets_ner.jsonl",
+     "sha256": "4ec23787f4e34d7713313795da5e692539be8642aefafb2d4a86ea439258aba9",
+     "bytes": 4063399,
+     "rows": 3670
+    },
+    {
+     "path": "data/hf_models_stage4_core.jsonl",
+     "sha256": "51f7c33c632de15db0639c209d7b91436f09c133237636d9a1174758d3697cbf",
+     "bytes": 55844257,
+     "rows": 1591
+    },
+    {
+     "path": "data/hf_models_stage4_low_popularity.jsonl",
+     "sha256": "affb7540c45cae64be2f10f449c5cd0f84a0ee5e906024100c3b01ced94c9a60",
+     "bytes": 78981873,
+     "rows": 2262
+    },
+    {
+     "path": "data/readmes/public",
+     "sha256": "8f52fb9a91d03947f6de3d69b4d5c952ee09fb01972af95fa8e2eaf35368f026",
+     "files": 15738
+    },
+    {
+     "path": "data/readmes/datasets",
+     "sha256": "f6193ab8ae4fd9d661eeed585dda699106f8abc9a826dad07d23db4303eb5217",
+     "files": 3664
+    },
+    {
+     "path": "data/readmes/kaggle",
+     "sha256": "d6e98ca4e94cf6ebd2ec893cfc636d29d92661efb5555d306493a2b9c130eb56",
+     "files": 621
+    },
+    {
+     "path": "taxonomy.yaml",
+     "sha256": "bc143bd72754f8d70e6ff8445c86845b1c136425d1df590483edae8d82e7774c",
+     "bytes": 14547
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/hypergraph_v2/entities.jsonl",
+     "sha256": "6e1e8287d04636c918050790859c05aa19ad5539f5861eb1ef59ed0b400bd3e5",
+     "bytes": 19247660,
+     "rows": 22988
+    },
+    {
+     "path": "data/hypergraph_v2/links.jsonl",
+     "sha256": "1145b9d0cb5668f69682287ab564a8e8975d612573f13f08492b8ac843a73d9e",
+     "bytes": 36530082,
+     "rows": 174428
+    },
+    {
+     "path": "data/hypergraph_v2/relations.jsonl",
+     "sha256": "995312e7739b1e322f1ea95e0f0a002ea355ccf5948951727bfc9c3d226b81d7",
+     "bytes": 484012,
+     "rows": 2192
+    },
+    {
+     "path": "data/hypergraph_v2/concepts.jsonl",
+     "sha256": "605275fc2c38f64bb49aab42806969e67eaeb70642283d002dffce0c250e37a4",
+     "bytes": 33067,
+     "rows": 173
+    },
+    {
+     "path": "data/hypergraph_v2/duplicates.json",
+     "sha256": "c65f4559d2740e4cea1e9b2703abac6bca5815f154f8f552c7bd1b63ff232974",
+     "bytes": 44415
+    },
+    {
+     "path": "data/hypergraph_v2/series.json",
+     "sha256": "cbfda607ff17b9b387e297a13a4724cd518b1c4b226a81dee7946f244face28f",
+     "bytes": 967573
+    },
+    {
+     "path": "data/hypergraph_v2/report.json",
+     "sha256": "548628689cecc2bb5fe6f44b9b244e2be399708ab4f60a1c15a0da8822094f63",
+     "bytes": 4464
+    }
+   ]
+  },
+  "documents": {
+   "stage_id": "37026bd248c19ea0ffcd06f0d538950c06bc5e209c2f3bf0ad22a18673672a50",
+   "created_at": "2026-11-08T13:24:44+00:00",
+   "inputs": [
+    {
+     "path": "data/hf_datasets_stage1.jsonl",
+     "sha256": "46b843f287e80e6470b921360b053e147597c102066bd17fa20debbf78bed9d7",
+     "bytes": 27895704,
+     "rows": 3711
+    },
+    {
+     "path": "data/kaggle_datasets_stage1.jsonl",
+     "sha256": "471cbd107fa91eab6eb164c66430e97575b912d9c4799ab2559085ce3b4e38e9",
+     "bytes": 595989,
+     "rows": 621
+    },
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "aa3d1396a2052860ba32a174f74fa785f0b09523a6c02b26d1b78bec259a4f8b",
+     "bytes": 31097056,
+     "rows": 15157
+    },
+    {
+     "path": "data/readmes/public",
+     "sha256": "8f52fb9a91d03947f6de3d69b4d5c952ee09fb01972af95fa8e2eaf35368f026",
+     "files": 15738
+    },
+    {
+     "path": "data/readmes/datasets",
+     "sha256": "f6193ab8ae4fd9d661eeed585dda699106f8abc9a826dad07d23db4303eb5217",
+     "files": 3664
+    },
+    {
+     "path": "data/readmes/kaggle",
+     "sha256": "d6e98ca4e94cf6ebd2ec893cfc636d29d92661efb5555d306493a2b9c130eb56",
+     "files": 621
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/dataset_index_v2/chunks.jsonl",
+     "sha256": "fef18785ddb810ce97bfc6d69fff6629aae634e066966eb3fffa46127582162d",
+     "bytes": 50273864,
+     "rows": 41149
+    }
+   ]
+  }
+ },
+ "quality": {
+  "rows": 15157,
+  "official_status": {
+   "ok": 15073,
+   "unchecked": 84
+  },
+  "verification": {
+   "compat": 15073
+  },
+  "lookup_problems": {
+   "unchecked": 84
+  },
+  "licensed": {
+   "collected": 14101,
+   "enriched": 15147
+  },
+  "license_needs_check": 10,
+  "public_entities": 15157,
+  "public_cards": 15157
+ },
+ "chunks": {
+  "chunks": 41149,
+  "cards": 19135,
+  "sections": 22014,
+  "chars": 26034872,
+  "unique_text_hashes": 41144,
+  "text_hashes_sha256": "7907e2e6bed22178eb6ad91603902f13dc77be1b83dcfe6a94b2428ceebc7c74"
+ }
+}

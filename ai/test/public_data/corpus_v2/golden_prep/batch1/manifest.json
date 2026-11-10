@@ -1,0 +1,740 @@
+{
+ "items": 233,
+ "by_source": {
+  "new_top5": 179,
+  "high_review": 28,
+  "existing_hold": 26
+ },
+ "selection": "existing_hold + high_review 전체, new_unjudged는 어느 방식이든 상위 5위 안",
+ "pilot": {
+  "seed": 20261109,
+  "size": 24,
+  "review_ids": [
+   "p004|data_go_kr/15057714",
+   "p008|data_go_kr/15124827",
+   "p015|seoul_open_data/OA-20447",
+   "p016|seoul_open_data/OA-2217",
+   "p019|data_go_kr/15059163",
+   "p021|data_go_kr/15059240",
+   "p021|data_go_kr/15107734",
+   "p023|data_go_kr/15139134",
+   "p026|data_go_kr/15012892",
+   "p026|seoul_open_data/OA-17483",
+   "p030|seoul_open_data/OA-20922",
+   "p031|seoul_open_data/OA-13272",
+   "p032|seoul_open_data/OA-20448",
+   "p040|data_go_kr/15083717",
+   "p045|seoul_open_data/OA-22714",
+   "p049|data_go_kr/15016368",
+   "p050|data_go_kr/15057737",
+   "p051|data_go_kr/15095725",
+   "p053|seoul_open_data/OA-20316",
+   "p054|data_go_kr/15057047",
+   "p054|data_go_kr/15101753",
+   "p054|data_go_kr/15101760",
+   "p054|data_go_kr/15101808",
+   "p055|data_go_kr/15143525"
+  ]
+ },
+ "sources": {
+  "p001|data_go_kr/15083717": [
+   "new_top5"
+  ],
+  "p001|data_go_kr/15099790": [
+   "new_top5"
+  ],
+  "p001|seoul_open_data/OA-21709": [
+   "new_top5"
+  ],
+  "p002|data_go_kr/15059812": [
+   "new_top5"
+  ],
+  "p003|data_go_kr/15057650": [
+   "new_top5"
+  ],
+  "p003|data_go_kr/15058732": [
+   "high_review"
+  ],
+  "p003|data_go_kr/15069119": [
+   "new_top5"
+  ],
+  "p003|data_go_kr/3065251": [
+   "new_top5"
+  ],
+  "p004|data_go_kr/15057714": [
+   "high_review"
+  ],
+  "p004|data_go_kr/15058592": [
+   "new_top5"
+  ],
+  "p004|data_go_kr/15068616": [
+   "new_top5"
+  ],
+  "p004|data_go_kr/15069498": [
+   "existing_hold"
+  ],
+  "p005|data_go_kr/15034029": [
+   "high_review"
+  ],
+  "p005|data_go_kr/15057674": [
+   "high_review"
+  ],
+  "p005|data_go_kr/15061948": [
+   "new_top5"
+  ],
+  "p005|data_go_kr/15078785": [
+   "existing_hold"
+  ],
+  "p005|data_go_kr/15095248": [
+   "new_top5"
+  ],
+  "p005|data_go_kr/15095251": [
+   "new_top5"
+  ],
+  "p005|seoul_open_data/OA-10371": [
+   "high_review"
+  ],
+  "p006|data_go_kr/15143464": [
+   "new_top5"
+  ],
+  "p006|data_go_kr/15143468": [
+   "new_top5"
+  ],
+  "p006|data_go_kr/15143471": [
+   "new_top5"
+  ],
+  "p006|data_go_kr/15143525": [
+   "new_top5"
+  ],
+  "p007|data_go_kr/15043696": [
+   "high_review"
+  ],
+  "p007|data_go_kr/15045490": [
+   "new_top5"
+  ],
+  "p007|data_go_kr/15064429": [
+   "new_top5"
+  ],
+  "p007|data_go_kr/15130342": [
+   "new_top5"
+  ],
+  "p007|data_go_kr/15154458": [
+   "new_top5"
+  ],
+  "p007|seoul_open_data/OA-12095": [
+   "new_top5"
+  ],
+  "p007|seoul_open_data/OA-20337": [
+   "new_top5"
+  ],
+  "p008|data_go_kr/15025449": [
+   "new_top5"
+  ],
+  "p008|data_go_kr/15056543": [
+   "high_review"
+  ],
+  "p008|data_go_kr/15124827": [
+   "new_top5"
+  ],
+  "p008|seoul_open_data/OA-16149": [
+   "high_review"
+  ],
+  "p009|data_go_kr/15047778": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15049998": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15055596": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15057047": [
+   "high_review"
+  ],
+  "p010|data_go_kr/15057287": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15057815": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15058588": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15101971": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15128559": [
+   "new_top5"
+  ],
+  "p010|data_go_kr/15135102": [
+   "new_top5"
+  ],
+  "p011|data_go_kr/15097943": [
+   "new_top5"
+  ],
+  "p011|data_go_kr/15098000": [
+   "new_top5"
+  ],
+  "p011|data_go_kr/15108067": [
+   "new_top5"
+  ],
+  "p012|data_go_kr/15074313": [
+   "new_top5"
+  ],
+  "p012|data_go_kr/15076841": [
+   "new_top5"
+  ],
+  "p012|data_go_kr/15095486": [
+   "new_top5"
+  ],
+  "p012|data_go_kr/15106385": [
+   "new_top5"
+  ],
+  "p013|data_go_kr/15034086": [
+   "high_review"
+  ],
+  "p013|data_go_kr/15057652": [
+   "high_review"
+  ],
+  "p013|data_go_kr/15135102": [
+   "new_top5"
+  ],
+  "p013|data_go_kr/15142649": [
+   "new_top5"
+  ],
+  "p013|data_go_kr/15143972": [
+   "new_top5"
+  ],
+  "p014|data_go_kr/15099839": [
+   "new_top5"
+  ],
+  "p014|data_go_kr/15125362": [
+   "new_top5"
+  ],
+  "p014|data_go_kr/15125365": [
+   "new_top5"
+  ],
+  "p015|data_go_kr/15077786": [
+   "new_top5"
+  ],
+  "p015|seoul_open_data/OA-20447": [
+   "existing_hold"
+  ],
+  "p016|data_go_kr/15075831": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-2217": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-2219": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-2223": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-2275": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-22832": [
+   "new_top5"
+  ],
+  "p016|seoul_open_data/OA-23044": [
+   "new_top5"
+  ],
+  "p017|data_go_kr/15058759": [
+   "new_top5"
+  ],
+  "p018|seoul_open_data/OA-12921": [
+   "new_top5"
+  ],
+  "p018|seoul_open_data/OA-22483": [
+   "new_top5"
+  ],
+  "p019|data_go_kr/15057209": [
+   "high_review"
+  ],
+  "p019|data_go_kr/15057737": [
+   "high_review"
+  ],
+  "p019|data_go_kr/15059163": [
+   "existing_hold"
+  ],
+  "p019|data_go_kr/15062950": [
+   "new_top5"
+  ],
+  "p020|data_go_kr/15098501": [
+   "new_top5"
+  ],
+  "p020|seoul_open_data/OA-22423": [
+   "new_top5"
+  ],
+  "p020|seoul_open_data/OA-23051": [
+   "high_review"
+  ],
+  "p021|data_go_kr/15050725": [
+   "new_top5"
+  ],
+  "p021|data_go_kr/15058169": [
+   "high_review"
+  ],
+  "p021|data_go_kr/15058791": [
+   "high_review"
+  ],
+  "p021|data_go_kr/15058802": [
+   "high_review"
+  ],
+  "p021|data_go_kr/15059240": [
+   "high_review"
+  ],
+  "p021|data_go_kr/15107734": [
+   "existing_hold"
+  ],
+  "p021|seoul_open_data/OA-20524": [
+   "new_top5"
+  ],
+  "p021|seoul_open_data/OA-20555": [
+   "new_top5"
+  ],
+  "p021|seoul_open_data/OA-20557": [
+   "new_top5"
+  ],
+  "p021|seoul_open_data/OA-20558": [
+   "new_top5"
+  ],
+  "p021|seoul_open_data/OA-20559": [
+   "new_top5"
+  ],
+  "p022|data_go_kr/15056761": [
+   "high_review"
+  ],
+  "p022|data_go_kr/15155087": [
+   "new_top5"
+  ],
+  "p022|data_go_kr/15158846": [
+   "new_top5"
+  ],
+  "p023|data_go_kr/15057711": [
+   "new_top5"
+  ],
+  "p023|data_go_kr/15066754": [
+   "new_top5"
+  ],
+  "p023|data_go_kr/15139134": [
+   "existing_hold"
+  ],
+  "p023|data_go_kr/15139231": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15001189": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15049995": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15049998": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15074266": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15076361": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15093660": [
+   "new_top5"
+  ],
+  "p024|data_go_kr/15146211": [
+   "new_top5"
+  ],
+  "p025|data_go_kr/15044460": [
+   "new_top5"
+  ],
+  "p025|data_go_kr/15099883": [
+   "new_top5"
+  ],
+  "p026|data_go_kr/15012892": [
+   "existing_hold"
+  ],
+  "p026|data_go_kr/15155046": [
+   "new_top5"
+  ],
+  "p026|seoul_open_data/OA-17483": [
+   "new_top5"
+  ],
+  "p027|data_go_kr/15143846": [
+   "new_top5"
+  ],
+  "p027|seoul_open_data/OA-21220": [
+   "new_top5"
+  ],
+  "p027|seoul_open_data/OA-21225": [
+   "new_top5"
+  ],
+  "p029|data_go_kr/15000881": [
+   "new_top5"
+  ],
+  "p029|data_go_kr/15112114": [
+   "new_top5"
+  ],
+  "p030|seoul_open_data/OA-11674": [
+   "new_top5"
+  ],
+  "p030|seoul_open_data/OA-12734": [
+   "new_top5"
+  ],
+  "p030|seoul_open_data/OA-20922": [
+   "new_top5"
+  ],
+  "p030|seoul_open_data/OA-23040": [
+   "new_top5"
+  ],
+  "p031|data_go_kr/15013094": [
+   "existing_hold"
+  ],
+  "p031|seoul_open_data/OA-13272": [
+   "high_review"
+  ],
+  "p031|seoul_open_data/OA-13463": [
+   "existing_hold"
+  ],
+  "p032|data_go_kr/15004404": [
+   "new_top5"
+  ],
+  "p032|data_go_kr/15041727": [
+   "new_top5"
+  ],
+  "p032|data_go_kr/15055217": [
+   "new_top5"
+  ],
+  "p032|data_go_kr/15059064": [
+   "new_top5"
+  ],
+  "p032|data_go_kr/15076540": [
+   "new_top5"
+  ],
+  "p032|seoul_open_data/OA-20448": [
+   "existing_hold"
+  ],
+  "p033|data_go_kr/15058172": [
+   "new_top5"
+  ],
+  "p033|data_go_kr/15058523": [
+   "new_top5"
+  ],
+  "p033|data_go_kr/15153131": [
+   "new_top5"
+  ],
+  "p035|data_go_kr/15057399": [
+   "high_review"
+  ],
+  "p035|data_go_kr/15058937": [
+   "high_review"
+  ],
+  "p035|data_go_kr/15156706": [
+   "new_top5"
+  ],
+  "p035|seoul_open_data/OA-22731": [
+   "new_top5"
+  ],
+  "p036|data_go_kr/15076323": [
+   "new_top5"
+  ],
+  "p036|data_go_kr/15076330": [
+   "new_top5"
+  ],
+  "p036|data_go_kr/15097199": [
+   "new_top5"
+  ],
+  "p036|data_go_kr/15106975": [
+   "new_top5"
+  ],
+  "p036|data_go_kr/15111777": [
+   "new_top5"
+  ],
+  "p037|data_go_kr/15101903": [
+   "new_top5"
+  ],
+  "p037|data_go_kr/15114773": [
+   "new_top5"
+  ],
+  "p037|data_go_kr/15156872": [
+   "new_top5"
+  ],
+  "p039|data_go_kr/15043985": [
+   "new_top5"
+  ],
+  "p039|data_go_kr/15054588": [
+   "new_top5"
+  ],
+  "p039|data_go_kr/15060323": [
+   "new_top5"
+  ],
+  "p039|data_go_kr/15082044": [
+   "new_top5"
+  ],
+  "p039|data_go_kr/3045791": [
+   "new_top5"
+  ],
+  "p039|seoul_open_data/OA-22176": [
+   "new_top5"
+  ],
+  "p040|data_go_kr/15083717": [
+   "existing_hold"
+  ],
+  "p040|data_go_kr/15099790": [
+   "new_top5"
+  ],
+  "p040|data_go_kr/15099883": [
+   "new_top5"
+  ],
+  "p040|data_go_kr/15110659": [
+   "existing_hold"
+  ],
+  "p041|data_go_kr/15147384": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15034831": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15034958": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15048866": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15054398": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15054400": [
+   "new_top5"
+  ],
+  "p042|data_go_kr/15088476": [
+   "new_top5"
+  ],
+  "p044|data_go_kr/15056569": [
+   "new_top5"
+  ],
+  "p044|data_go_kr/15057966": [
+   "new_top5"
+  ],
+  "p044|data_go_kr/15059060": [
+   "new_top5"
+  ],
+  "p044|data_go_kr/15144070": [
+   "new_top5"
+  ],
+  "p044|seoul_open_data/OA-12764": [
+   "new_top5"
+  ],
+  "p044|seoul_open_data/OA-15799": [
+   "new_top5"
+  ],
+  "p045|data_go_kr/15152116": [
+   "new_top5"
+  ],
+  "p045|data_go_kr/15157696": [
+   "new_top5"
+  ],
+  "p045|data_go_kr/15157722": [
+   "new_top5"
+  ],
+  "p045|seoul_open_data/OA-22714": [
+   "high_review"
+  ],
+  "p046|data_go_kr/15049998": [
+   "new_top5"
+  ],
+  "p046|data_go_kr/15057156": [
+   "new_top5"
+  ],
+  "p046|data_go_kr/15057260": [
+   "new_top5"
+  ],
+  "p046|data_go_kr/15058629": [
+   "existing_hold"
+  ],
+  "p046|data_go_kr/15074272": [
+   "new_top5"
+  ],
+  "p046|data_go_kr/15142055": [
+   "new_top5"
+  ],
+  "p046|data_go_kr/15143060": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15029605": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15058629": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15073262": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15084817": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15085289": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15092032": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15097855": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/15142489": [
+   "new_top5"
+  ],
+  "p047|data_go_kr/3083835": [
+   "new_top5"
+  ],
+  "p048|data_go_kr/15144070": [
+   "new_top5"
+  ],
+  "p049|data_go_kr/15016368": [
+   "existing_hold"
+  ],
+  "p049|seoul_open_data/OA-15526": [
+   "new_top5"
+  ],
+  "p049|seoul_open_data/OA-2218": [
+   "new_top5"
+  ],
+  "p049|seoul_open_data/OA-2223": [
+   "new_top5"
+  ],
+  "p049|seoul_open_data/OA-2275": [
+   "new_top5"
+  ],
+  "p049|seoul_open_data/OA-23039": [
+   "new_top5"
+  ],
+  "p049|seoul_open_data/OA-23044": [
+   "new_top5"
+  ],
+  "p050|data_go_kr/15029181": [
+   "new_top5"
+  ],
+  "p050|data_go_kr/15055602": [
+   "new_top5"
+  ],
+  "p050|data_go_kr/15057209": [
+   "high_review"
+  ],
+  "p050|data_go_kr/15057737": [
+   "high_review"
+  ],
+  "p050|data_go_kr/15059163": [
+   "existing_hold"
+  ],
+  "p050|data_go_kr/15141811": [
+   "existing_hold"
+  ],
+  "p051|data_go_kr/15095725": [
+   "existing_hold"
+  ],
+  "p051|data_go_kr/15162770": [
+   "new_top5"
+  ],
+  "p051|data_go_kr/3036346": [
+   "new_top5"
+  ],
+  "p051|data_go_kr/3078981": [
+   "new_top5"
+  ],
+  "p052|data_go_kr/15021149": [
+   "new_top5"
+  ],
+  "p052|data_go_kr/15021153": [
+   "new_top5"
+  ],
+  "p052|data_go_kr/15107734": [
+   "existing_hold"
+  ],
+  "p052|data_go_kr/15138981": [
+   "new_top5"
+  ],
+  "p053|data_go_kr/15001466": [
+   "new_top5"
+  ],
+  "p053|data_go_kr/15058717": [
+   "new_top5"
+  ],
+  "p053|seoul_open_data/OA-15452": [
+   "new_top5"
+  ],
+  "p053|seoul_open_data/OA-20316": [
+   "new_top5"
+  ],
+  "p053|seoul_open_data/OA-20317": [
+   "new_top5"
+  ],
+  "p054|data_go_kr/15057047": [
+   "high_review"
+  ],
+  "p054|data_go_kr/15101578": [
+   "existing_hold"
+  ],
+  "p054|data_go_kr/15101753": [
+   "existing_hold"
+  ],
+  "p054|data_go_kr/15101760": [
+   "new_top5"
+  ],
+  "p054|data_go_kr/15101764": [
+   "new_top5"
+  ],
+  "p054|data_go_kr/15101808": [
+   "existing_hold"
+  ],
+  "p054|data_go_kr/15101811": [
+   "existing_hold"
+  ],
+  "p054|data_go_kr/15101897": [
+   "existing_hold"
+  ],
+  "p054|data_go_kr/15144030": [
+   "existing_hold"
+  ],
+  "p055|data_go_kr/15143500": [
+   "new_top5"
+  ],
+  "p055|data_go_kr/15143525": [
+   "new_top5"
+  ],
+  "p056|data_go_kr/15057199": [
+   "high_review"
+  ],
+  "p056|data_go_kr/15070460": [
+   "new_top5"
+  ],
+  "p056|data_go_kr/15070462": [
+   "new_top5"
+  ],
+  "p056|data_go_kr/15107740": [
+   "new_top5"
+  ],
+  "p057|data_go_kr/15085787": [
+   "existing_hold"
+  ],
+  "p058|data_go_kr/15043550": [
+   "existing_hold"
+  ],
+  "p058|data_go_kr/15058088": [
+   "new_top5"
+  ],
+  "p058|data_go_kr/15058372": [
+   "high_review"
+  ],
+  "p058|data_go_kr/15075543": [
+   "new_top5"
+  ],
+  "p058|data_go_kr/15095473": [
+   "new_top5"
+  ],
+  "p058|data_go_kr/15142495": [
+   "new_top5"
+  ]
+ }
+}

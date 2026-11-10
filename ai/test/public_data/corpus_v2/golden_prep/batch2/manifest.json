@@ -1,0 +1,29 @@
+{
+ "selection": "eval_v3 상위 10개 중 미판정(held=false) — p012·p044·p046·p047·p050·p051. held=true(보류 후보)는 제외",
+ "queries": [
+  "p012",
+  "p044",
+  "p046",
+  "p047",
+  "p050",
+  "p051"
+ ],
+ "rows": 20,
+ "inputs": {
+  "corpus": "v2 (documents_id 37026bd248c19ea0…, 22_eval 출력의 corpus 줄)",
+  "labels": {
+   "path": "batch1/labels_batch1_llm_v3.jsonl",
+   "sha256": "3e399494c99ac8fda96538e11650f986de0794fac5f596b19a1049e406a28dcc"
+  },
+  "unjudged": {
+   "path": "scratchpad unjudged_v3.jsonl (22_eval_recommendations --unjudged-out)",
+   "sha256": "8e9e651cba5720b1a8c59567bb2f9c2bfdbd6271c9ba08f524764ef796bf67f2"
+  },
+  "eval_log": {
+   "path": "scratchpad eval_v3.txt",
+   "sha256": "631a0db8931d69e505feec5e4434895a9c7f12ae596a9edd9a9e82c633caa039"
+  }
+ },
+ "cards": "golden_prep.facts + golden_prep.suggestion (batch1과 같은 자동 검사). 포털 데이터가 아닌 HF 항목은 검색 문서(chunks) 본문을 설명으로 씀",
+ "search_and_embedding": "기존 평가 후보 목록만 사용. 검색 설정 변경·임베딩 API 재호출 없음"
+}

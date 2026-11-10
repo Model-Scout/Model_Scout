@@ -1,0 +1,8 @@
+{
+ "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch1\\judgments_v3.jsonl",
+ "judgments_sha256": "c4228b22254563684c53fe2b47c9e723bc69c4d507b41296d1441dac4723ce22",
+ "judgment_kinds": {
+  "llm_first_pass": 233
+ },
+ "warnings_resolved": {}
+}

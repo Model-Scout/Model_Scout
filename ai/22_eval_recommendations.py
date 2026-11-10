@@ -6,6 +6,7 @@ top 10; ids missing from the current corpus are reported and skipped, not counte
 
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
     python 22_eval_recommendations.py --public  # also score test/public_data/labels/public_data_golden.jsonl
+    python 22_eval_recommendations.py --public --corpus v2   # the v2 build (graph, chunks, vectors)
 
 Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
 the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
@@ -236,9 +237,11 @@ def evaluate_public(path, unjudged_out=None):
     entities = hs.load_graph()[0]
     alias = _aliases(entities)
     labels = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
-    scored, abstain, unjudged = [], [], []
+    scored, abstain, unjudged, held, skipped = [], [], [], [], []
     for label in labels:
         if not label["evaluable"]:
+            if label["expected_behavior"] == "abstain" and label["unjudged"]:
+                skipped.append((label["query_id"], label["unjudged"]))
             continue
         grades: dict[str, int] = {}
         for dataset, grade in label["relevant"].items():
@@ -248,7 +251,11 @@ def evaluate_public(path, unjudged_out=None):
         judged = set(grades) | excluded | {n for d in label["judged_irrelevant"] for n in alias.get(d, {d})}
         deep = _public_top(label, 3 * K)
         top = deep[:K]
-        unjudged += [{"query_id": label["query_id"], "dataset_id": d} for d in top if d not in judged]
+        # Held pairs ('?', pending an official check) are listed in label["unjudged"]: neither hit nor
+        # miss, so they are reported apart from datasets nobody has judged yet.
+        pending = {n for d in label["unjudged"] for n in alias.get(d, {d})}
+        unjudged += [{"query_id": label["query_id"], "dataset_id": d, "held": d in pending} for d in top if d not in judged]
+        held += [(label["query_id"], i, d) for i, d in enumerate(top, 1) if d in pending]
         if label["expected_behavior"] == "abstain":
             abstain.append((label["query_id"], sum(d in excluded or d in grades for d in top), len(top)))
             continue
@@ -264,11 +271,11 @@ def evaluate_public(path, unjudged_out=None):
         )
     if unjudged_out:
         unjudged_out.write_text("".join(json.dumps(u, ensure_ascii=False) + "\n" for u in unjudged), encoding="utf-8")
-    return scored, abstain, len(unjudged)
+    return scored, abstain, len(unjudged), held, skipped
 
 
 def print_public(path, unjudged_out=None):
-    scored, abstain, n_unjudged = evaluate_public(path, unjudged_out)
+    scored, abstain, n_unjudged, held, skipped = evaluate_public(path, unjudged_out)
     print(f"\npublic data ({path.name}): raw | condensed (unjudged dropped)")
     head = f"{'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}"
     print(f"{'query':<30} {head} | {head}  judged@10 excluded")
@@ -291,6 +298,10 @@ def print_public(path, unjudged_out=None):
         )
     for query_id, wrong, returned in abstain:
         print(f"abstain {query_id}: {returned} returned, {wrong} judged relevant/excluded in top {K}")
+    for query_id, pending in skipped:
+        print(f"abstain {query_id}: not scored, held datasets pending official check: {', '.join(pending)}")
+    for query_id, rank, dataset in held:
+        print(f"held {query_id} #{rank} {dataset}: pending official check, not counted as hit or miss in condensed")
     if unjudged_out:
         print(f"{n_unjudged} unjudged (query, dataset) pairs in top {K} -> {unjudged_out}")
 
@@ -300,7 +311,11 @@ def main():
     parser.add_argument("--min-p10", type=float, default=0.0, help="fail (exit 1) below this mean P@10")
     parser.add_argument("--public", nargs="?", type=Path, const=PUBLIC_GOLDEN, help="also score a public golden set")
     parser.add_argument("--unjudged-out", type=Path, help="with --public: write unjudged top-10 datasets (jsonl)")
+    parser.add_argument("--corpus", choices=sorted(hs.CORPORA), help="graph + chunks + vectors to search (default: MODEL_SCOUT_CORPUS or v1)")
     args = parser.parse_args()
+    # Every score names the build it came from; v2 refuses to run unless its records check out.
+    identity = hs.use_corpus(args.corpus) if args.corpus else hs.corpus_identity()
+    print("corpus " + json.dumps(identity, ensure_ascii=False))
     rows = evaluate()
     print(f"{'scenario':<34} {'P@10':>5} {'R@10':>5} {'MRR':>5}  note")
     for name, p, r, mrr, note in rows:
