@@ -4,7 +4,7 @@
 
 | 폴더 | 역할 | 스택 |
 |---|---|---|
-| [`frontend/`](frontend/) | 웹 UI (추천 스트리밍, 추가 질문, 모델 비교) | Next.js 15, TypeScript, Tailwind, pnpm |
+| [`frontend/`](frontend/) | 웹 UI (추천 스트리밍, 되묻기, 근거 확인, 설명 질문, 대화 복원) · 내장 mock API ([상세 README](frontend/README.md)) | Next.js 15, TypeScript, Tailwind, pnpm |
 | [`backend/`](backend/) | 공개 API `backend/app/main.py` (세션, 대화 이력, AI 호출) | FastAPI (SSE) |
 | [`ai/`](ai/) | 내부 추천 API `ai/api.py`, 수집·임베딩·검색 파이프라인, 추천 그래프, 데이터 `ai/data/` ([상세 README](ai/README.md)) | Python 3.11, LangGraph |
 | [`docs/`](docs/) | 기획 문서 | |
@@ -17,7 +17,7 @@ DB는 Supabase(Postgres + pgvector)를 사용합니다.
 
 ```bash
 cp ai/.env.example ai/.env                    # Supabase, OpenAI 키 입력
-cp frontend/.env.example frontend/.env.local  # 기본값: http://localhost:8000
+cp frontend/.env.example frontend/.env.local  # 기본값: /api/mock (AI 없이 시연 데이터). 백엔드 연결 시 http://localhost:8000
 ```
 
 **2. 백엔드** (`http://localhost:8000`)
@@ -42,6 +42,8 @@ python ai/api.py
 ```bash
 cd frontend && pnpm install && pnpm dev
 ```
+
+프론트만 볼 때는 2·3번 없이 mock API(`NEXT_PUBLIC_API_URL=/api/mock`)로 실행됩니다.
 
 ## 폴더 간 규칙
 
