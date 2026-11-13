@@ -64,13 +64,14 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | 계약 게이트 (재적재·증분 모두) | Stage 2 직후, Stage 3(LLM) 전. 직전 계약 레코드를 baseline 으로 값 손실·근거 하락 비교 | 같은 revision 에서 손실이면 중단. revision 이 바뀐 모델은 경고, 새 모델·첫 실행은 비교 생략(사유를 보고서에 기록) |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
 | 비활성화 | DB active 의 10% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
-| DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(480) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
+| DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(1,024) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
 
 DB 용량 가드가 있는 이유: 모델 테이블과 데이터셋 테이블(`20_sync_dataset_index.py`)이 같은 Supabase
-무료 DB 를 쓴다. 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 둘 다 멈춘다. 재적재는 모든 행을 다시 써서
-옛 행이 VACUUM 전까지 남으므로 최고치를 "지금 + 쓸 양"으로 본다. 쓸 양은 지금 모델·evidence 테이블
-크기(실측, 인덱스 포함) 한 벌에 새 계약 레코드(압축 전 길이)를 더한 값이다. 유료 플랜으로 바꾸면
-workflow 의 `SUPABASE_DB_BUDGET_MB` 를 올린다.
+Pro DB 를 쓴다. Pro 의 기본 디스크는 8GB지만, 오작동으로 데이터가 비정상 증가하지 않도록 애플리케이션
+안전 한도는 1,024MB로 더 낮게 둔다. 재적재는 모든 행을 다시 써서 옛 행이 VACUUM 전까지 남으므로
+최고치를 "지금 + 쓸 양"으로 본다. 쓸 양은 지금 모델·evidence 테이블 크기(실측, 인덱스 포함) 한 벌에
+새 계약 레코드(압축 전 길이)를 더한 값이다. Free 의 500MB 데이터베이스 사용 한도와 디스크 기반
+read-only 기준은 별개이며, 이 프로젝트 내부 가드도 그 둘과 별도로 동작한다.
 
 이 판정은 dry-run 끝에 나온다. 몇 시간짜리 dry-run 전에 SQL Editor 에서 미리 본다.
 
@@ -80,7 +81,7 @@ select pg_size_pretty(pg_database_size(current_database())) as database,
                     + pg_total_relation_size('public.model_scout_evidence')) as models_and_evidence;
 ```
 
-`database + models_and_evidence + 약 35MB(계약)` 가 480MB 아래여야 한다.
+`database + models_and_evidence + 약 35MB(계약)` 가 1,024MB 아래여야 한다.
 
 10% 는 정상 감소(Hub 삭제·비공개·다운로드 80 미만·언어 제외)를 넉넉히 덮고, 부분 수집 실패는
 막는 값이다. 정상인데도 넘는다면 실행 옵션으로 우회하지 말고 `08_sync_supabase.py` 의 상수를

@@ -7,9 +7,10 @@ text hash changed are uploaded, and datasets or chunks that left the index are d
 Writes are committed in batches (upserts first, deletes last), so an interrupted sync leaves a
 superset of the index and a rerun resumes from the text-hash diff.
 
-Storage is budgeted (free Supabase = 500 MB): vectors are halfvec, chunk text is a 600-char
+Storage is budgeted even on Supabase Pro: vectors are halfvec, chunk text is a 600-char
 preview (full text stays in data/dataset_index/chunks.jsonl), and the sync refuses to write
-when the projected database size passes SUPABASE_DB_BUDGET_MB (default 480).
+when the projected database size passes the 1 GB internal safety ceiling
+(SUPABASE_DB_BUDGET_MB, default 1024).
 
     python 20_sync_dataset_index.py            # offline validation and size estimate
     python 20_sync_dataset_index.py --apply    # write Supabase
@@ -33,8 +34,9 @@ TEXT_PREVIEW_CHARS = 600
 # Postgres bytes per chunk beyond its text: halfvec (2 B x 1536), tuple header, pk/fk/hash indexes.
 CHUNK_OVERHEAD_BYTES = 2 * DIMENSION + 400
 DATASET_OVERHEAD_BYTES = 300
-# Free tier turns read-only at 500 MB; 480 leaves room for model-table growth between syncs.
-DEFAULT_BUDGET_MB = 480
+# Pro includes an 8 GB disk; 1 GB remains a conservative application-level ceiling shared
+# with the model reingest so an accidental corpus explosion is still blocked.
+DEFAULT_BUDGET_MB = 1024
 # Measured 2026-11-01: 34.8K chunks + 15K datasets took 209 MB against a 160 MB raw estimate
 # (TOAST, page fill, index pages), so the estimate is scaled up before the budget check.
 STORAGE_FACTOR = 1.35

@@ -229,7 +229,7 @@ v1과 v2의 데이터셋 ID 관계(로컬 산출물 기준):
 2. v2 임베딩 승인 후 로컬 벡터 생성(`14 --corpus v2 --embed`). DB에는 올리지 않음
 3. 1-1의 코퍼스 선택·게이트 구현, v1·v2 로컬 평가(Pre-retrieval OFF)
 4. 1-2 집계 방식과 1-3 지역 판별 구현, 재평가
-5. v2 전용 테이블·RPC 설계와 `20 --apply` 전 용량 확인(`SUPABASE_DB_BUDGET_MB` 480)
+5. v2 전용 테이블·RPC 설계와 `20 --apply` 전 용량 확인(`SUPABASE_DB_BUDGET_MB` 1,024)
 6. CI에서 v2 빌드와 모델 목록 일치 게이트 통과
 7. 13·14 기본값, `15`·`16`·`20`·`hypergraph_search`·`deploy.sh`를 바꾸고, `dataset-refresh.yml`이 `public_v2_pipeline.py`를 쓰도록 한 PR로 v2 전환
 8. 결과 묶기는 별도 PR로 비교. PR-D(보완)는 v2 안에서 켠 것과 끈 것(`PUBLIC_INPUTS["v2"]`를 수집 파일로)을 따로 평가
