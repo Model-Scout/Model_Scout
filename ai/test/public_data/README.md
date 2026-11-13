@@ -129,7 +129,10 @@ python 22_eval_recommendations.py --public
 
 `17_recommend_graph.py`가 서비스 데이터를 찾는 것과 같은 방식으로 호출한다. 호출 형태는 `rank_datasets(dataset_terms, 질의 임베딩, roles=["service"], keywords=dataset_terms)`이다. 지역 조건은 keyword로, 상업 조건은 `commercial_only`로 넘긴다.
 
-지표는 P@10, R@10, MRR, nDCG@10(0/1/2 등급)이고, 각각 두 번 계산한다.
+지표는 P@10, R@10, MRR, nDCG@10(0/1/2 등급), P2@10, MRR2이고, 각각 두 번 계산한다.
+
+- P@10·R@10·MRR은 1점 대안까지 적중으로 센다. P2@10·MRR2는 2점 정답만 센다. 1점이 relevant의 약 70%라 둘을 따로 봐야 한다.
+- R@10은 hits / 전체 relevant 수다(통상 Recall). relevant가 10개를 넘으면 1.0이 될 수 없다. 교차 등록 사본은 하나로 합쳐 센다.
 
 - **raw:** 미판정 데이터를 오답으로 친다. 풀이 작으면 실제보다 낮게 나온다.
 - **condensed:** 미판정 데이터를 순위에서 빼고 계산한다(`retrieval_lab/condensed_eval.py`와 같은 Sakai 방식). 미판정에도 판정된 것과 같은 비율로 정답이 있다고 가정하므로 높게 치우친다.
