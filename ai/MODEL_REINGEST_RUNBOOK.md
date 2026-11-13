@@ -78,7 +78,7 @@ dry-run 과 apply 모두 artifact 로 올린다.
 - `reingest-report.stage1-diff.json` — 추가·제거·Core↔Low 이동, A/B/C 분포 (full-scan 만)
 - `reingest-report.deactivation.json` — DB active, DB 에만 있는 ID, 비활성화 후보, 가드 판정
 - `capacity`(보고서·summary 안) — DB 전체·테이블별 MB, 이번 쓰기 추정, 예상 최고치, 한도
-- `contract/baseline.md`, `data/hf_models_stage4_manifest.json`
+- `reingest-coverage-before.md` / `-after.md` (Stage 2 기준 질문별 답변 가능률), `data/hf_models_stage4_manifest.json`
 
 Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다. 필요하면 별도 입력으로 켜는
 후속 작업으로 한다.
@@ -123,7 +123,20 @@ full·rebuild 두 경로 모두 `--model-source supabase` 다. 사용한 원본�
 공공데이터 v2 전환은 이 절차에 포함되지 않는다. 기본 corpus 는 v1 이고 `20_sync_dataset_index.py` 도
 v1 만 다룬다.
 
-## 7. 운영 순서
+## 7. 골든셋 v2 스냅샷
+
+골든셋 v2 의 `eligible_count` 와 정답 후보는 2026-10-31 Supabase active 동결본에 백필을 덧씌운
+`test/golden/v2/corpus_snapshot.jsonl`(약 121MB, gitignore 대상)에 묶여 있다. 이 파일은 재적재의
+입력도 기준도 아니고 GitHub runner 에도 없다. 그래서 재적재 Action 은
+`verify.py --structure-only`(질의 형식·ID 중복·유형별 개수·조건 키·조건 근거)만 돌린다.
+coverage 도 저장소의 Stage 2 로만 재고, `contract/baseline.md` 를 덮어쓰지 않는다.
+
+재적재가 끝나면 옛 스냅샷의 숫자는 더 이상 맞지 않는다. 새 Supabase active 코퍼스로
+`python test/golden/v2/tools/dump_corpus.py` 를 실행해 스냅샷을 다시 뜨고, 전체 검증
+`python test/golden/v2/tools/verify.py` 로 `eligible_count` 를 다시 확정한다. 이 파일을 Git 이나
+LFS 에 올리지 않는다.
+
+## 8. 운영 순서
 
 1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다. schedule 은 건드리지 않는다.
 2. `mode=validate` 를 실행한다.
@@ -155,8 +168,9 @@ v1 만 다룬다.
     - 일반 질의를 확인한다.
     - "상업용 + GGUF + 승인 없이" 질의를 확인한다. 카드의 `상업 이용`, `GGUF 파일`, `승인 없이 내려받기` check 를 본다.
 12. 두 Action(재적재, Dataset refresh)을 다시 비활성화한다.
+13. 골든셋 v2 스냅샷을 새 코퍼스로 다시 뜨고 eligible 수를 다시 확정한다(7절).
 
-## 8. 되돌리기
+## 9. 되돌리기
 
 - dry-run 은 DB 와 저장소를 바꾸지 않는다. 버리면 끝이다.
 - 플래그를 켠 뒤 검색이 이상하면 `MODEL_CONTRACT_FILTERS_ENABLED` 를 지우고 재배포한다. 데이터와

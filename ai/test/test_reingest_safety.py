@@ -809,7 +809,7 @@ def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():
     upload = _steps()["Upload the reingest report"]
     assert "!cancelled()" in upload["if"]
     paths = upload["with"]["path"]
-    for expected in ("reingest-report", "contract/baseline.md", "hf_models_stage4_manifest.json"):
+    for expected in ("reingest-report", "reingest-coverage-", "hf_models_stage4_manifest.json"):
         assert expected in paths, expected
 
 

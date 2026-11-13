@@ -6,6 +6,11 @@
 
     python test/golden/v2/tools/verify.py            # 전체
     python test/golden/v2/tools/verify.py abstention # 한 유형
+    python test/golden/v2/tools/verify.py --structure-only
+
+--structure-only 는 코퍼스 스냅샷(corpus_snapshot.jsonl, gitignore 대상) 없이 질의 파일의
+형식·ID 중복·유형별 개수·조건 키·조건 근거만 본다. eligible 수와 정답 후보는 스냅샷에
+묶인 값이라 그 스냅샷이 있는 곳에서만 전체 검증으로 확인한다. 재적재 Action 이 이 모드를 쓴다.
 """
 
 from __future__ import annotations
@@ -43,12 +48,87 @@ HARD_FILTER_KEYS = {
 }
 
 
+REQUIRED_KEYS = (
+    "query_id",
+    "query_type",
+    "query",
+    "conditions",
+    "conditions_fidelity",
+    "expected_behavior",
+    "expected_any",
+    "acceptable",
+    "eligible_count",
+    "corpus_snapshot",
+)
+
+
+def read_records(query_type: str, judged_dir: Path = None) -> List[Dict[str, Any]]:
+    path = (judged_dir or V2 / "judged") / f"{query_type}.jsonl"
+    with path.open(encoding="utf-8") as handle:
+        return [json.loads(line) for line in handle if line.strip()]
+
+
+def structure_issues(record: Dict[str, Any], query_type: str) -> List[str]:
+    """스냅샷 없이 판단할 수 있는 한 질의의 문제."""
+    missing_keys = [key for key in REQUIRED_KEYS if key not in record]
+    if missing_keys:
+        return [f"필수 키 없음 {missing_keys}"]
+    issues: List[str] = []
+    if record["query_type"] != query_type:
+        issues.append(f"query_type={record['query_type']} (파일은 {query_type})")
+    if not isinstance(record["query"], str) or not record["query"].strip():
+        issues.append("질의문이 비어 있음")
+    conditions = record["conditions"]
+    fidelity = record["conditions_fidelity"] or {}
+    if not isinstance(conditions, dict) or not isinstance(fidelity, dict):
+        return issues + ["conditions/conditions_fidelity 가 객체가 아님"]
+    # ① conditions의 키가 하드 필터가 읽는 것인지
+    unknown = set(conditions) - HARD_FILTER_KEYS
+    if unknown:
+        issues.append(f"하드 필터가 모르는 조건 {sorted(unknown)}")
+    # ② 모든 조건에 질의문 근거가 적혀 있는지 — 1층(완전성)의 검증 수단
+    missing = {key for key in conditions if not str(fidelity.get(key) or "").strip()}
+    if missing:
+        issues.append(f"질의문 근거 없는 조건 {sorted(missing)}")
+    expected = record["expected_behavior"]
+    wanted = "abstain" if query_type == "abstention" else "recommend"
+    if expected != wanted:
+        issues.append(f"expected_behavior={expected}")
+    if query_type == "abstention" and (record["expected_any"] or record["acceptable"]):
+        issues.append("abstention인데 정답이 기록돼 있음")
+    return issues
+
+
+def check_structure(types: List[str], judged_dir: Path = None) -> List[str]:
+    """--structure-only. 질의 ID 는 유형을 넘어 유일해야 한다."""
+    problems: List[str] = []
+    seen: Dict[str, str] = {}
+    for query_type in types:
+        path = (judged_dir or V2 / "judged") / f"{query_type}.jsonl"
+        if not path.exists():
+            problems.append(f"{path.name} 없음")
+            continue
+        try:
+            records = read_records(query_type, judged_dir)
+        except json.JSONDecodeError as error:
+            problems.append(f"{path.name}: JSON 형식 오류 {error}")
+            continue
+        if len(records) != QUERY_COUNT_PER_TYPE:
+            problems.append(f"{query_type}: 질의 수 {len(records)}개 (기대 {QUERY_COUNT_PER_TYPE}개)")
+        for record in records:
+            qid = record.get("query_id", "?")
+            if qid in seen:
+                problems.append(f"{qid}: query_id 중복 ({seen[qid]}, {query_type})")
+            seen[qid] = query_type
+            problems.extend(f"{qid}: {issue}" for issue in structure_issues(record, query_type))
+    return problems
+
+
 def check_type(query_type: str) -> List[str]:
     path = V2 / "judged" / f"{query_type}.jsonl"
     if not path.exists():
         return [f"{path.name} 없음"]
-    with path.open(encoding="utf-8") as handle:
-        records = [json.loads(line) for line in handle if line.strip()]
+    records = read_records(query_type)
 
     problems: List[str] = []
     snapshot_meta = json.loads((V2 / "corpus_snapshot.meta.json").read_text(encoding="utf-8"))
@@ -153,11 +233,22 @@ def check_type(query_type: str) -> List[str]:
 
 
 def main() -> None:
-    types = sys.argv[1:] or [
+    args = sys.argv[1:]
+    structure_only = "--structure-only" in args
+    types = [arg for arg in args if arg != "--structure-only"] or [
         path.stem for path in sorted((V2 / "judged").glob("*.jsonl"))
     ]
     if not types:
         raise SystemExit("judged/ 가 비어 있습니다")
+    if structure_only:
+        problems = check_structure(types)
+        if problems:
+            print(f"❌ 구조 문제 {len(problems)}건")
+            for problem in problems:
+                print(f"  · {problem}")
+            raise SystemExit(1)
+        print(f"✅ 구조 검증 통과 — {len(types)}개 유형 (코퍼스 스냅샷 기반 eligible 검증은 하지 않음)")
+        return
 
     meta = json.loads((V2 / "corpus_snapshot.meta.json").read_text(encoding="utf-8"))
     rows = len(corpus_v2.load_rows())
