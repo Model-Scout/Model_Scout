@@ -639,7 +639,7 @@ def postgres_checkpointer():
 
 PRUNE_SQL = (
     # A thread's latest checkpoint already holds every turn (state.turns), so older checkpoints,
-    # their pending writes and blobs no longer referenced by it are dead weight on a 500 MB DB.
+    # their pending writes and blobs no longer referenced by it are dead weight in the shared DB.
     "delete from {s}.checkpoint_writes w where w.thread_id = %(t)s and w.checkpoint_id <> %(c)s",
     "delete from {s}.checkpoints where thread_id = %(t)s and checkpoint_id <> %(c)s",
     "delete from {s}.checkpoint_blobs b where b.thread_id = %(t)s and not exists (select 1 from {s}.checkpoints k "

@@ -765,7 +765,8 @@ def test_dry_run_reports_capacity_and_fails_when_it_would_overflow():
         summary = json.loads((Path(name) / "r.summary.json").read_text(encoding="utf-8"))
         assert summary["capacity"]["projected_peak_mb"] == 400.0
         assert summary["capacity"]["tables_mb"]["model_scout_dataset_chunks"] == 190.0
-        code = _run_main(["--reingest", "--report", str(report)], active=["m/keep"], calls={}, database_mb=420)
+        # 기본 Pro 안전 한도(1,024MB)를 실제로 넘는 1,100MB 예상치.
+        code = _run_main(["--reingest", "--report", str(report)], active=["m/keep"], calls={}, database_mb=1000)
         assert code == 3
         assert json.loads(report.read_text(encoding="utf-8"))["capacity"]["blocked"] is True
 
@@ -778,7 +779,7 @@ def test_apply_stops_before_writing_when_it_would_overflow():
         report = Path(name) / "r.json"
         try:
             _run_main(["--reingest", "--apply", *APPLY_BUNDLE, "--report", str(report)], active=["m/keep"], calls={},
-                      apply_sync=refuse, database_mb=420)
+                      apply_sync=refuse, database_mb=1000)
         except RuntimeError as error:
             assert "한도" in str(error)
         else:
@@ -834,7 +835,7 @@ def test_workflow_runs_full_stage1_inside_the_sync_script():
     assert "| tee" not in run["run"], "tee 는 실패 종료 코드를 가린다"
     assert run.get("shell") == "bash"  # GitHub 의 명시적 bash 는 pipefail 을 켠다
     assert "validate" in run["if"]
-    assert run["env"]["SUPABASE_DB_BUDGET_MB"] == "480", "데이터셋 쪽과 같은 용량 한도를 쓴다"
+    assert run["env"]["SUPABASE_DB_BUDGET_MB"] == "1024", "데이터셋 쪽과 같은 용량 한도를 쓴다"
     for step in steps.values():
         assert "python 01_collect_models.py" not in str(step.get("run", "")), step["name"]
 

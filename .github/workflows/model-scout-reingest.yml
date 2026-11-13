@@ -198,8 +198,9 @@ jobs:
           SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
           SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
           MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
-          # 데이터셋 쪽(dataset-refresh.yml)과 같은 한도. 같은 무료 DB(500MB)를 나눠 쓴다.
-          SUPABASE_DB_BUDGET_MB: "480"
+          # 데이터셋 쪽(dataset-refresh.yml)과 같은 내부 안전 한도. Pro 8GB 전체를
+          # 허용하지 않고 예상 최고치(약 505MB)의 두 배 정도에서 비정상 증가를 막는다.
+          SUPABASE_DB_BUDGET_MB: "1024"
         run: |
           args=(--reingest --report reingest-report.json)
           if [ "${{ inputs.mode }}" = "apply" ]; then

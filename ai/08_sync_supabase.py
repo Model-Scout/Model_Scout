@@ -1787,11 +1787,12 @@ def full_reingest_pipeline(
 
 # ── DB 용량 ──────────────────────────────────────────────────────────────────
 #
-# 모델 테이블과 데이터셋 테이블(20_sync_dataset_index.py)은 같은 Supabase 무료 DB 를 쓴다.
-# 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 모델 검색과 데이터셋 서비스가 같이 멈춘다.
+# 모델 테이블과 데이터셋 테이블(20_sync_dataset_index.py)은 같은 Supabase Pro DB 를 쓴다.
+# Pro 의 기본 디스크는 8GB지만, 오작동으로 데이터가 급증하지 않도록 프로젝트 내부
+# 안전 한도는 1GB로 더 낮게 둔다.
 # 재적재는 모든 행을 다시 쓰고, 옛 행은 VACUUM 전까지 자리를 차지한다. 그래서 최고치는
 # "지금 크기 + 이번에 쓸 양"이다. 한도는 20 과 같은 SUPABASE_DB_BUDGET_MB 를 쓴다.
-DEFAULT_DB_BUDGET_MB = 480
+DEFAULT_DB_BUDGET_MB = 1024
 # search_tsv(생성 컬럼) 평균 크기. supabase_migration_model_search_tsv.sql 의 실측값이다.
 TSV_BYTES_PER_MODEL = 7400
 ROW_OVERHEAD_BYTES = 400
