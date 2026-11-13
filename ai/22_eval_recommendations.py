@@ -215,17 +215,28 @@ def _public_top(label, limit):
 
 
 def _metrics(top, grades, relevant):
-    """P@10, R@10, MRR, nDCG@10 of one ranking against graded labels (0/1/2).
-    `grades` includes cross-listed copies for matching; the ideal ranking uses `relevant` (one
-    entry per judged dataset) so copies do not inflate IDCG."""
-    n_relevant = len(relevant)
+    """P@10, R@10, MRR, nDCG@10 of one ranking against graded labels (0/1/2), where P/R/MRR count
+    grade >= 1; then P2@10 and MRR2 counting only grade 2 (direct answers, alternatives excluded).
+    R@10 is hits / all relevant, so it cannot reach 1.0 when more than 10 are relevant.
+    `grades` includes cross-listed copies for matching; `relevant` has one entry per distinct
+    dataset (copies merged) so copies inflate neither IDCG nor the recall denominator."""
     gains = [grades.get(d, 0) for d in top[:K]]
     ideal = sorted(relevant.values(), reverse=True)[:K]
     dcg = sum(g / math.log2(i + 2) for i, g in enumerate(gains))
     idcg = sum(g / math.log2(i + 2) for i, g in enumerate(ideal))
-    first = next((i for i, g in enumerate(gains, 1) if g), None)
-    hits = sum(1 for g in gains if g)
-    return hits / K, hits / min(K, n_relevant), 1 / first if first else 0.0, dcg / idcg if idcg else 0.0
+    mrr = lambda m: next((1 / i for i, g in enumerate(gains, 1) if g >= m), 0.0)  # noqa: E731
+    hits = sum(g >= 1 for g in gains)
+    recall = hits / len(relevant) if relevant else 0.0
+    return hits / K, recall, mrr(1), dcg / idcg if idcg else 0.0, sum(g == 2 for g in gains) / K, mrr(2)
+
+
+def _distinct_relevant(relevant, alias):
+    """Judged relevant ids with cross-listed copies merged into one entry (highest grade kept)."""
+    out = {}
+    for dataset, grade in relevant.items():
+        key = min(alias.get(dataset, {dataset}))
+        out[key] = max(grade, out.get(key, 0))
+    return out
 
 
 def evaluate_public(path, unjudged_out=None):
@@ -260,11 +271,12 @@ def evaluate_public(path, unjudged_out=None):
             abstain.append((label["query_id"], sum(d in excluded or d in grades for d in top), len(top)))
             continue
         condensed = [d for d in deep if d in judged][:K]
+        relevant = _distinct_relevant(label["relevant"], alias)
         scored.append(
             (
                 f"{label['query_id']} {label['query_type']}",
-                *_metrics(top, grades, label["relevant"]),
-                *_metrics(condensed, grades, label["relevant"]),
+                *_metrics(top, grades, relevant),
+                *_metrics(condensed, grades, relevant),
                 sum(d in judged for d in top) / K,
                 sum(d in excluded for d in top),
             )
@@ -277,24 +289,25 @@ def evaluate_public(path, unjudged_out=None):
 def print_public(path, unjudged_out=None):
     scored, abstain, n_unjudged, held, skipped = evaluate_public(path, unjudged_out)
     print(f"\npublic data ({path.name}): raw | condensed (unjudged dropped)")
-    head = f"{'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5}"
+    print("P/R/MRR count grade>=1 (alternatives too); P2/MRR2 count grade 2 only")
+    head = f"{'P@10':>5} {'R@10':>5} {'MRR':>5} {'nDCG':>5} {'P2':>5} {'MRR2':>5}"
     print(f"{'query':<30} {head} | {head}  judged@10 excluded")
     for name, *v, judged, bad in scored:
         print(
             f"{name:<30} "
-            + " ".join(f"{x:5.2f}" for x in v[:4])
+            + " ".join(f"{x:5.2f}" for x in v[:6])
             + " | "
-            + " ".join(f"{x:5.2f}" for x in v[4:])
+            + " ".join(f"{x:5.2f}" for x in v[6:])
             + f"  {judged:9.2f} {bad:8d}"
         )
     if scored:
-        mean = [sum(row[i] for row in scored) / len(scored) for i in range(1, 10)]
+        mean = [sum(row[i] for row in scored) / len(scored) for i in range(1, 14)]
         print(
             f"{'mean (' + str(len(scored)) + ')':<30} "
-            + " ".join(f"{x:5.2f}" for x in mean[:4])
+            + " ".join(f"{x:5.2f}" for x in mean[:6])
             + " | "
-            + " ".join(f"{x:5.2f}" for x in mean[4:8])
-            + f"  {mean[8]:9.2f}"
+            + " ".join(f"{x:5.2f}" for x in mean[6:12])
+            + f"  {mean[12]:9.2f}"
         )
     for query_id, wrong, returned in abstain:
         print(f"abstain {query_id}: {returned} returned, {wrong} judged relevant/excluded in top {K}")
