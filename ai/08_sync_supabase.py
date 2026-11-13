@@ -921,7 +921,14 @@ def parse_utc(value: Any) -> Optional[datetime]:
 
 
 
-def latest_completed_sync() -> Optional[Dict[str, Any]]:
+def latest_completed_sync(any_versions: bool = False) -> Optional[Dict[str, Any]]:
+    """The newest completed run that a watermark can be taken from.
+
+    --refresh needs a run with the current stage versions: an incremental scan over an older schema
+    would leave unchanged models without the new fields. --reingest passes any_versions=True, because
+    upgrading the versions is its job; otherwise the first reingest after a version bump finds no
+    run at all and refuses to apply.
+    """
     conn = db_connection()
     try:
         with conn.cursor() as cur:
@@ -930,12 +937,12 @@ def latest_completed_sync() -> Optional[Dict[str, Any]]:
                 select run_id, completed_at, stage_versions, row_count
                 from public.model_scout_sync_runs
                 where status = 'completed'
-                  and stage_versions @> %s::jsonb
+                  and (%s or stage_versions @> %s::jsonb)
                   and coalesce(stage_versions->>'sync_mode', 'initial') in ('initial', 'incremental', 'reingest')
                 order by completed_at desc
                 limit 1
                 """,
-                (json_text(EXPECTED_VERSIONS),),
+                (any_versions, json_text(EXPECTED_VERSIONS)),
             )
             row = cur.fetchone()
             if not row:
@@ -2016,9 +2023,9 @@ def main() -> int:
             raise RuntimeError("Could not determine incremental source watermark")
         refresh_info = incremental_refresh_pipeline(watermark)
     elif args.reingest:
-        # watermark를 전진시키지 않기 위해 직전 값을 읽는다. --apply 때만 latest를
-        # 조회하므로 여기서 한 번 더 본다.
-        previous = latest if latest is not None else latest_completed_sync()
+        # watermark를 전진시키지 않기 위해 직전 값을 읽는다. 버전은 따지지 않는다 —
+        # 재적재는 버전을 올리는 작업이라 직전 run 은 대개 옛 버전이다.
+        previous = latest_completed_sync(any_versions=True)
         if args.apply and previous is None:
             raise RuntimeError(
                 "완료된 Supabase sync 기록이 없다. 먼저 "

@@ -515,8 +515,19 @@ def test_next_refresh_reads_the_reingest_watermark():
     db = FakeDb([])
     with patched(sync, db_connection=lambda: db):
         sync.latest_completed_sync()
-    query = db.statements[0][0]
+    query, params = db.statements[0]
     assert "'reingest'" in query
+    # --refresh 는 지금 버전의 run 만 기준으로 삼는다.
+    assert params[0] is False and json.loads(params[1]) == sync.EXPECTED_VERSIONS
+
+
+def test_reingest_lookup_ignores_stage_versions():
+    """DB 의 마지막 run 은 stage2=6 인데 코드는 7 이다. 버전으로 거르면 재적재 apply 가
+    "sync 기록 없음"으로 멈춘다. 재적재는 버전을 올리는 작업이므로 버전을 따지지 않는다."""
+    db = FakeDb([])
+    with patched(sync, db_connection=lambda: db):
+        sync.latest_completed_sync(any_versions=True)
+    assert db.statements[0][1][0] is True
 
 
 # ── main(): dry-run 은 DB 에 쓰지 않는다 ─────────────────────────────────────
@@ -537,13 +548,21 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
     def refuse(*args, **kwargs):
         raise AssertionError("dry-run 이 DB 쓰기 경로를 불렀다")
 
+    # 실제 DB 처럼 옛 Stage 2 버전으로 끝난 run 이다.
     latest = {"completed_at": "2026-11-06T00:00:00+00:00",
-              "stage_versions": {"source_watermark": "2026-10-31T00:00:00+00:00"}}
+              "stage_versions": {"stage2": 6, "source_watermark": "2026-10-31T00:00:00+00:00"}}
+    lookups: List[bool] = []
+
+    def latest_completed_sync(any_versions=False):
+        lookups.append(any_versions)
+        # 버전을 따지는 조회는 옛 run 을 찾지 못한다.
+        return latest if any_versions else None
+
     with contextlib.ExitStack() as stack:
         stack.enter_context(patched(
             sync,
             load_dotenv=lambda *a, **k: None,
-            latest_completed_sync=lambda: latest,
+            latest_completed_sync=latest_completed_sync,
             full_reingest_pipeline=fake_pipeline,
             load_corpora=lambda stage4_delta=False: (stage4, {"m/keep": {}}, {"m/keep": {}}),
             validate_corpus=lambda *a, **k: {"rows": len(stage4), "pool_counts": {"core": 1}},
@@ -560,7 +579,9 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
         ))
         stack.enter_context(patched(sys, argv=["08_sync_supabase.py", *argv]))
         stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
-        return sync.main()
+        code = sync.main()
+    calls["lookups"] = lookups
+    return code
 
 
 def test_dry_run_full_scan_reports_without_writing():
@@ -610,7 +631,8 @@ def test_plain_reingest_is_still_the_reuse_path():
         return {"sync_mode": kwargs["sync_mode"]}
 
     code = _run_main(["--reingest", "--apply"], active=["m/keep"], calls=calls, apply_sync=fake_apply)
-    assert code == 0
+    assert code == 0, "옛 버전 run 만 있는 DB 에서 재적재 apply 가 멈췄다"
+    assert True in calls["lookups"]
     assert calls["pipeline"]["full_stage1"] is False
     assert seen["sync_mode"] == "reingest"
     assert seen["deactivate_missing"] is False
@@ -682,6 +704,8 @@ def test_workflow_persists_stage1_only_after_a_successful_apply():
                  "hf_models_stage4_manifest.json", "data/readmes/core"):
         assert kept in persist["run"], kept
     assert "hf_models_stage4_core.jsonl" not in persist["run"], "Stage 4 대용량 파일을 커밋하지 않는다"
+    # 긴 실행 중 main 이 움직여도 DB 와 저장소 스냅샷이 어긋나지 않게 rebase 후 재시도한다.
+    assert "git pull --rebase && git push" in persist["run"]
 
 
 def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():

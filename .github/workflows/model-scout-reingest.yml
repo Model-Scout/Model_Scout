@@ -244,4 +244,11 @@ jobs:
             exit 0
           fi
           git commit -m "chore: persist Model Scout reingest snapshot (run ${{ github.run_id }})"
-          git push
+          # full-scan 은 몇 시간 걸려 그사이 main 이 움직일 수 있다. DB 는 이미 새 스냅샷
+          # 기준이므로 push 를 한 번 실패하고 끝내면 저장소의 Stage 1~3 과 DB 가 어긋난다.
+          for attempt in 1 2 3; do
+            git pull --rebase && git push && exit 0
+            sleep 10
+          done
+          echo "스냅샷 push 실패. DB 는 반영됐다 — 이 run 의 커밋을 수동으로 올려야 한다" >&2
+          exit 1

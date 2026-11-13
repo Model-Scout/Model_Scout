@@ -140,6 +140,8 @@ v1 만 다룬다.
 - 플래그를 켠 뒤 검색이 이상하면 `MODEL_CONTRACT_FILTERS_ENABLED` 를 지우고 재배포한다. 데이터와
   migration 은 그대로 두어도 예전 동작(15개 인자 + 후처리)으로 돌아간다.
 - apply 가 실패하면 트랜잭션이 롤백되고 스냅샷 커밋 단계는 돌지 않는다.
+- apply 는 성공했는데 스냅샷 push 가 세 번 다 실패하면 Action 이 실패로 끝난다. DB 는 이미 반영됐으므로
+  다시 apply 하지 말고, 그 run 의 스냅샷 커밋을 수동으로 올린다.
 - apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
   - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
   - 스냅샷 커밋은 `git revert` 로 되돌린다.
