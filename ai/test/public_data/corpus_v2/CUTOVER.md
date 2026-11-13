@@ -16,7 +16,7 @@
 
 ### 실험용 스냅샷 (팀 공통 기준)
 
-- **기준 스냅샷:** `documents_id 37026bd248c19ea0`. 골든셋 라벨 초안은 `golden_prep/batch2/labels_llm_v4.jsonl`(sha256 `d3dbc93d…`)이다. 공공데이터 검색 비교는 이 스냅샷과 v4 라벨로 한다.
+- **기준 스냅샷:** `documents_id 37026bd248c19ea0`. 골든셋 라벨 초안은 `golden_prep/batch3/labels_llm_v5.jsonl`(sha256 `c1708cd4…`)이다. 공공데이터 검색 비교는 이 스냅샷과 v5 라벨로 한다. v4(`batch2/labels_llm_v4.jsonl`, sha256 `d3dbc93d…`)는 이력으로만 보존한다.
 - **알려진 오류:** 서울 페이지의 갱신주기 칸이 비어 있으면 파서가 다음 항목 본문까지 읽는다(예: OA-22483). 판정은 갱신 주기 표기를 근거로 쓰지 않으므로 라벨에는 영향이 없다. 다만 검색 문서 본문에는 그 값이 들어 있다. 파서를 고치면 `documents_id`가 바뀌고 다시 임베딩해야 하므로, 고친 버전은 새 스냅샷으로 따로 고정한다.
 - **Git에 없는 산출물:** 아래 네 폴더는 `.gitignore` 대상이라 PR을 받아도 생기지 않는다. 다시 수집하면 포털 값이 바뀌어 같은 ID가 나오지 않으므로, 빌드한 사람의 폴더를 그대로 받아야 한다.
 
@@ -29,7 +29,7 @@
 
 - **받은 뒤 확인:**
   1. `python public_v2_pipeline.py --verify-pin`: 고정 버전 일치를 확인한다.
-  2. `python 22_eval_recommendations.py --public test/public_data/corpus_v2/golden_prep/batch2/labels_llm_v4.jsonl --corpus v2`: 첫 줄의 `documents_id`가 위 값인지 본다. v2를 쓸 때 벡터 검사(`check_vectors`)도 함께 통과해야 한다.
+  2. `python 22_eval_recommendations.py --public test/public_data/corpus_v2/golden_prep/batch3/labels_llm_v5.jsonl --corpus v2`: 첫 줄의 `documents_id`가 위 값인지 본다. v2를 쓸 때 벡터 검사(`check_vectors`)도 함께 통과해야 한다.
 
 ### 공식 조회 캐시의 확인 방식 (고정 버전 기준)
 
