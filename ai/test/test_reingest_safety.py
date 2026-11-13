@@ -889,8 +889,8 @@ def _workflow() -> Dict[str, Any]:
     return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
 
 
-def _steps() -> Dict[str, Dict[str, Any]]:
-    return {step["name"]: step for step in _workflow()["jobs"]["reingest"]["steps"]}
+def _steps(job: str) -> Dict[str, Dict[str, Any]]:
+    return {step["name"]: step for step in _workflow()["jobs"][job]["steps"]}
 
 
 def test_workflow_stage1_mode_defaults_to_reuse():
@@ -901,29 +901,29 @@ def test_workflow_stage1_mode_defaults_to_reuse():
 
 
 def test_workflow_keeps_the_apply_guard():
-    guard = _steps()["Guard the apply mode"]
+    guard = _steps("apply")["Guard the apply mode"]
     assert "APPLY" in guard["run"] and "main" in guard["run"]
 
 
-def test_workflow_runs_full_stage1_inside_the_sync_script():
-    """Stage 1 수집을 YAML 에서 따로 돌리지 않는다. diff·watermark 가 한 실행에 묶여야 한다."""
-    steps = _steps()
-    run = steps["Run the reingest"]
-    assert "--full-stage1" in run["run"] and "--report" in run["run"]
-    assert "full-scan" in run["run"]
+def test_workflow_runs_full_stage1_inside_the_checkpoint_script():
+    """Stage 1 diff·watermark를 prepare 한 호출 안에서 묶고 checkpoint로 넘긴다."""
+    flow = _workflow()
+    steps = _steps("prepare")
+    run = steps["Prepare Stage 1 and frozen baseline"]
+    assert "--full-stage1" in run["run"] and "full-scan" in run["run"]
     assert "| tee" not in run["run"], "tee 는 실패 종료 코드를 가린다"
-    assert run.get("shell") == "bash"  # GitHub 의 명시적 bash 는 pipefail 을 켠다
-    assert "validate" in run["if"]
-    assert run["env"]["SUPABASE_DB_BUDGET_MB"] == "1024", "데이터셋 쪽과 같은 용량 한도를 쓴다"
+    assert run.get("shell") == "bash"
+    assert flow["env"]["SUPABASE_DB_BUDGET_MB"] == "1024", "데이터셋 쪽과 같은 용량 한도를 쓴다"
     for step in steps.values():
         assert "python 01_collect_models.py" not in str(step.get("run", "")), step["name"]
 
 
 def test_workflow_persists_stage1_only_after_a_successful_apply():
-    names = list(_steps())
-    persist = _steps()["Persist snapshots after apply"]
-    assert persist["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
-    assert names.index("Persist snapshots after apply") > names.index("Run the reingest")
+    flow = _workflow()
+    names = list(_steps("apply"))
+    persist = _steps("apply")["Persist snapshots after apply"]
+    assert flow["jobs"]["apply"]["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
+    assert names.index("Persist snapshots after apply") > names.index("Apply the reviewed bundle to Supabase")
     for filename in sync.STAGE1_SNAPSHOT_FILES:
         assert f"data/{filename}" in persist["run"], filename
     for kept in ("hf_models_stage2_contract_core.jsonl", "hf_models_stage3_core.jsonl",
@@ -935,7 +935,7 @@ def test_workflow_persists_stage1_only_after_a_successful_apply():
 
 
 def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():
-    upload = _steps()["Upload the reingest report"]
+    upload = _steps("finalize")["Upload the reingest report"]
     assert "!cancelled()" in upload["if"]
     paths = upload["with"]["path"]
     for expected in ("reingest-report", "reingest-coverage-", "hf_models_stage4_manifest.json"):

@@ -1,24 +1,8 @@
 name: Model Scout reingest
 
-# 자동 실행이 없다. schedule 을 두지 않는다 — 팀 결정으로 모델 자동화는
-# 멈춘 상태이고, 이 워크플로는 처음부터 수동 전용으로 만든다.
-#
-# 세 모드를 둔다. 왼쪽부터 비용이 올라간다.
-#
-#   validate  API 호출 없음. 스키마와 기존 데이터만 검사한다. PR 에서 돌린다
-#   dry-run   HF 수집·재생성은 하되 DB 는 건드리지 않는다. diff 리포트만 낸다
-#   apply     Supabase 를 갱신한다. 팀이 dry-run 리포트를 확인한 뒤 한 번만
-#
-# apply 는 브랜치에서 돌리지 않는다. PR 검토 → main 병합 → 수동 1회다.
-#
-# stage1_mode 는 dry-run/apply 에서 Stage 1 을 어떻게 다룰지 정한다.
-#
-#   reuse      저장소의 Stage 1 을 그대로 쓴다(기본). watermark 를 물려받는다
-#   full-scan  Stage 1 을 Hugging Face 에서 처음부터 다시 수집한다. 수집은
-#              08_sync_supabase.py --full-stage1 안에서 돈다 — Stage 1 diff,
-#              비활성화 후보, watermark(스캔 시작 시각)가 한 실행에 묶여야 한다
-#
-# 운영 절차는 ai/MODEL_REINGEST_RUNBOOK.md 에 있다.
+# Manual-only workflow. A dry-run is checkpointed across several jobs so a
+# legitimate full catalog rebuild does not hit GitHub's six-hour per-job limit.
+# apply never rebuilds data: it replays the exact reviewed dry-run bundle.
 
 on:
   workflow_dispatch:
@@ -28,25 +12,20 @@ on:
         type: choice
         required: true
         default: validate
-        options:
-          - validate
-          - dry-run
-          - apply
+        options: [validate, dry-run, apply]
       stage1_mode:
-        description: "Stage 1 처리 방식 (validate 에서는 무시)"
+        description: "Stage 1 처리 방식 (validate/apply 에서는 무시)"
         type: choice
         required: true
         default: reuse
-        options:
-          - reuse
-          - full-scan
+        options: [reuse, full-scan]
       approved_run_id:
-        description: "apply 모드에서만: 검토·승인한 dry-run 의 run ID (그 run 의 번들을 그대로 적재)"
+        description: "apply 전용: 검토한 dry-run run ID"
         type: string
         required: false
         default: ""
       confirm:
-        description: "apply 모드에서만: 정확히 APPLY 라고 입력"
+        description: "apply 전용: 정확히 APPLY"
         type: string
         required: false
         default: ""
@@ -57,95 +36,58 @@ concurrency:
 
 permissions:
   contents: write
-  # apply 가 승인한 dry-run run 의 번들 artifact 를 내려받는다.
   actions: read
 
+env:
+  PYTHON_VERSION: "3.11"
+  SUPABASE_DB_BUDGET_MB: "1024"
+  MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
+
 jobs:
-  reingest:
+  validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: ai
-    timeout-minutes: 360
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      # apply 는 되돌리기 어렵다. 모드를 잘못 고른 실행을 여기서 끊는다.
-      - name: Guard the apply mode
-        if: ${{ inputs.mode == 'apply' }}
-        run: |
-          if [ "${{ inputs.confirm }}" != "APPLY" ]; then
-            echo "apply 모드는 confirm 입력이 정확히 APPLY 여야 합니다." >&2
-            exit 1
-          fi
-          if [ "${{ github.ref_name }}" != "main" ]; then
-            echo "apply 는 main 에서만 실행합니다. 현재: ${{ github.ref_name }}" >&2
-            exit 1
-          fi
-          if ! printf '%s' "${{ inputs.approved_run_id }}" | grep -Eq '^[0-9]+$'; then
-            echo "apply 는 승인한 dry-run 의 run ID(approved_run_id)가 필요합니다." >&2
-            exit 1
-          fi
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
           cache-dependency-path: ai/requirements.txt
-
       - name: Install dependencies
         run: python -m pip install --upgrade -r requirements.txt
-
-      # ── validate: 비용 0 ────────────────────────────────────────────────
       - name: Compile the pipeline
         run: |
           python -m py_compile \
             01_collect_models.py 02_enrich_metadata.py \
             03_generate_semantic_metadata.py 04_build_embeddings.py \
-            05_validate_retrieval.py 08_sync_supabase.py \
+            05_validate_retrieval.py 08_sync_supabase.py reingest_jobs.py \
             resolvers/*.py contract/*.py
-
       - name: Check the data contract schema and examples
         run: python contract/validate.py
-
-      - name: Check contract records if Stage 2 already produced them
+      - name: Check tracked contract records
         run: |
           for pool in core low_popularity; do
             path="data/hf_models_stage2_contract_${pool}.jsonl"
-            if [ -f "$path" ]; then
-              echo "== $path"
-              python contract/validate.py "$path"
-            else
-              echo "== $path 없음 (아직 재적재 전)"
-            fi
+            if [ -f "$path" ]; then python contract/validate.py "$path"; fi
           done
-
-      # 저장소에 있는 Stage 2 만으로 잰다. --compare 는 골든셋 v2 를 만들 때 쓴 옛 코퍼스
-      # 스냅샷(test/golden/v2/corpus_snapshot.jsonl, gitignore 대상)까지 읽어 runner 에서
-      # 실패한다. 그 스냅샷은 재적재의 입력도 기준도 아니다. contract/baseline.md 는
-      # 사람이 --compare 로 다시 만드는 문서라 여기서 덮어쓰지 않는다.
       - name: Measure coverage before the reingest
         run: |
           python contract/coverage.py --source stage2 --out reingest-coverage-before.md
           echo "## Coverage (before)" >> "$GITHUB_STEP_SUMMARY"
           awk '/^## 질문별 답변 가능률/{p=1} p&&/^## /&&!/질문별/{exit} p' reingest-coverage-before.md >> "$GITHUB_STEP_SUMMARY"
-
-      # taxonomy 는 모델 파이프라인도 쓴다: resolvers/legal.py 의 commercial_status,
-      # 17 의 task 분류, project_checks 의 라이선스 정규화. 골든셋은 구조만 본다 —
-      # eligible 수는 옛 스냅샷에 묶여 있어 재적재 뒤 새 코퍼스로 다시 확정한다(RUNBOOK).
       - name: Offline retrieval checks
         run: |
           python taxonomy.py
           python project_checks.py
           python test/golden/v2/tools/verify.py --structure-only
-
-      # 재적재 안전장치와 필터 의미는 조용히 틀리는 종류라 테스트가 1차 방어선이다.
-      # watermark 전진 / 언어 제외분 누락 / 대량 실패 통과 / unknown 을 "가능"으로
-      # 보여주는 것은 전부 실행은 성공하고 숫자만 어긋난다.
       - name: Contract and reingest safety tests
         run: |
           python test/test_reingest_safety.py
@@ -155,120 +97,327 @@ jobs:
           python test/test_golden_v2_structure.py
           python test/test_contract_regression_gate.py
           python test/test_reingest_bundle.py
+          python test/test_reingest_jobs.py
+          python -m pytest -q test/test_stage3_pool_reconciliation.py
           python test/test_lexical_rules.py
-          # test_benchmark_metadata.py 는 넣지 않는다. main 에서도 실패한다 —
-          # stage2 3,872 행과 stage4 3,853 행의 19 행 차이를 동등으로 보는
-          # 단정 때문이고, 이 작업과 무관한 기존 문제다.
-
-      - name: Stop here in validate mode
+      - name: Validate mode complete
         if: ${{ inputs.mode == 'validate' }}
-        run: echo "validate 모드 종료. HF·LLM·임베딩·DB 호출 없음."
+        run: echo "validate 완료. 외부 API와 DB는 호출하지 않았다."
 
-      # ── dry-run / apply ────────────────────────────────────────────────
-      # apply 는 Stage 1~4 를 다시 만들지 않는다. 사람이 검토한 dry-run 번들을 받아
-      # 08 이 manifest(저장소·main·커밋 SHA·run ID·Stage 버전·파일 해시·모델 ID 해시·
-      # 직전 sync run)를 검증한 뒤 DB 에만 쓴다. 검증이 하나라도 실패하면 DB 에 쓰지 않는다.
+  prepare:
+    if: ${{ inputs.mode == 'dry-run' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      STAGE3_LLM_MODEL: ${{ secrets.STAGE3_LLM_MODEL }}
+      STAGE4_EMBEDDING_MODEL: ${{ secrets.STAGE4_EMBEDDING_MODEL }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Preflight external services
+        run: python reingest_jobs.py preflight --output reingest-work/preflight.json
+      - name: Prepare Stage 1 and frozen baseline
+        shell: bash
+        run: |
+          args=(prepare --state reingest-work/context.json)
+          if [ "${{ inputs.stage1_mode }}" = "full-scan" ]; then args+=(--full-stage1); fi
+          python reingest_jobs.py "${args[@]}"
+      - name: Pack the Stage 1 checkpoint
+        shell: bash
+        run: |
+          files=(
+            data/hf_models_stage1_core.jsonl
+            data/hf_models_stage1_low_popularity.jsonl
+            data/hf_models_stage1_likely.jsonl
+            data/hf_models_stage1_fallback.jsonl
+            data/hf_models_stage1_groups.jsonl
+            data/hf_models_stage1_state.json
+            reingest-work/context.json
+            reingest-work/preflight.json
+          )
+          if [ -f reingest-work/contract_baseline.jsonl ]; then files+=(reingest-work/contract_baseline.jsonl); fi
+          tar -czf reingest-work/stage1.tar.gz "${files[@]}"
+      - name: Upload the Stage 1 checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-stage1-${{ github.run_id }}
+          path: ai/reingest-work/stage1.tar.gz
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Summarize preflight and Stage 1
+        if: ${{ !cancelled() }}
+        run: |
+          echo "## Reingest preflight / Stage 1" >> "$GITHUB_STEP_SUMMARY"
+          for file in reingest-work/preflight.json reingest-work/context.json; do
+            if [ -f "$file" ]; then echo '```json' >> "$GITHUB_STEP_SUMMARY"; cat "$file" >> "$GITHUB_STEP_SUMMARY"; echo '```' >> "$GITHUB_STEP_SUMMARY"; fi
+          done
+      - name: Upload prepare diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-prepare-report-${{ github.run_id }}
+          path: |
+            ai/reingest-work/preflight.json
+            ai/reingest-work/prepare-report*.json
+          if-no-files-found: ignore
+          overwrite: true
+          retention-days: 30
+
+  stage2:
+    if: ${{ inputs.mode == 'dry-run' }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pool: [core, low_popularity]
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Download the Stage 1 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage1-${{ github.run_id }}
+          path: ai/reingest-work/input
+      - name: Restore the Stage 1 checkpoint
+        run: tar -xzf reingest-work/input/stage1.tar.gz -C .
+      - name: Enrich Stage 2 pool
+        run: python reingest_jobs.py stage2 --pool "${{ matrix.pool }}" --state reingest-work/context.json
+      - name: Pack the Stage 2 pool checkpoint
+        shell: bash
+        run: |
+          pool="${{ matrix.pool }}"
+          files=(
+            "data/hf_models_stage2_${pool}.jsonl"
+            "data/hf_models_stage2_contract_${pool}.jsonl"
+            "data/readmes/${pool}"
+            "reingest-work/stage2_${pool}.json"
+          )
+          report="data/hf_models_stage2_${pool}_language_excluded.json"
+          if [ -f "$report" ]; then files+=("$report"); fi
+          tar -czf "reingest-work/stage2-${pool}.tar.gz" "${files[@]}"
+      - name: Upload the Stage 2 pool checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-stage2-${{ matrix.pool }}-${{ github.run_id }}
+          path: ai/reingest-work/stage2-${{ matrix.pool }}.tar.gz
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Summarize Stage 2 pool
+        run: |
+          echo "## Stage 2 — ${{ matrix.pool }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          cat "reingest-work/stage2_${{ matrix.pool }}.json" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+  finalize:
+    if: ${{ inputs.mode == 'dry-run' }}
+    needs: stage2
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      STAGE3_LLM_MODEL: ${{ secrets.STAGE3_LLM_MODEL }}
+      STAGE4_EMBEDDING_MODEL: ${{ secrets.STAGE4_EMBEDDING_MODEL }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Download the Stage 1 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage1-${{ github.run_id }}
+          path: ai/reingest-work/stage1
+      - name: Download the Core Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-core-${{ github.run_id }}
+          path: ai/reingest-work/core
+      - name: Download the Low Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-low_popularity-${{ github.run_id }}
+          path: ai/reingest-work/low
+      - name: Restore the checkpointed inputs
+        run: |
+          tar -xzf reingest-work/stage1/stage1.tar.gz -C .
+          tar -xzf reingest-work/core/stage2-core.tar.gz -C .
+          tar -xzf reingest-work/low/stage2-low_popularity.tar.gz -C .
+      - name: Run Stage 3 and Stage 4
+        run: python reingest_jobs.py finalize --state reingest-work/context.json --output reingest-work/refresh-info.json
+      - name: Validate and build the reviewed dry-run bundle
+        run: |
+          python 08_sync_supabase.py \
+            --reingest \
+            --reingest-state reingest-work/refresh-info.json \
+            --report reingest-report.json \
+            --bundle-dir reingest-bundle
+      - name: Upload the dry-run bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-bundle-${{ github.run_id }}
+          path: ai/reingest-bundle
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Measure coverage after the reingest
+        run: |
+          python contract/coverage.py --source stage2 --out reingest-coverage-after.md
+          echo "## Coverage (after)" >> "$GITHUB_STEP_SUMMARY"
+          awk '/^## 질문별 답변 가능률/{p=1} p&&/^## /&&!/질문별/{exit} p' reingest-coverage-after.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Summarize API usage and the reingest
+        if: ${{ !cancelled() }}
+        run: |
+          for file in reingest-work/stage3-metrics.json reingest-work/stage4-metrics.json reingest-report.summary.json; do
+            if [ -f "$file" ]; then
+              echo "## $(basename "$file")" >> "$GITHUB_STEP_SUMMARY"
+              echo '```json' >> "$GITHUB_STEP_SUMMARY"
+              cat "$file" >> "$GITHUB_STEP_SUMMARY"
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+      - name: Upload the reingest report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-report-dry-run-${{ inputs.stage1_mode }}-${{ github.run_id }}
+          path: |
+            ai/reingest-report*.json
+            ai/reingest-coverage-*.md
+            ai/reingest-work/*-metrics.json
+            ai/data/hf_models_stage4_manifest.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 30
+
+  apply:
+    if: ${{ inputs.mode == 'apply' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard the apply mode
+        shell: bash
+        run: |
+          if [ "${{ inputs.confirm }}" != "APPLY" ]; then echo "confirm must be APPLY" >&2; exit 1; fi
+          if [ "${{ github.ref_name }}" != "main" ]; then echo "apply must run on main" >&2; exit 1; fi
+          if ! printf '%s' "${{ inputs.approved_run_id }}" | grep -Eq '^[0-9]+$'; then echo "approved_run_id is required" >&2; exit 1; fi
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
       - name: Download the approved dry-run bundle
-        if: ${{ inputs.mode == 'apply' }}
         uses: actions/download-artifact@v4
         with:
           name: reingest-bundle-${{ inputs.approved_run_id }}
           path: ai/reingest-bundle
           run-id: ${{ inputs.approved_run_id }}
           github-token: ${{ github.token }}
-
-      # --reingest 는 --apply 없이 돌면 DB 를 읽기만 하고 리포트만 낸다.
-      # 결과 JSON 은 --report 로 따로 쓴다. 예전처럼 stdout 을 tee 로 받으면
-      # 하위 프로세스 로그가 섞여 JSON 이 아니고, pipefail 이 없어 실패해도
-      # 다음 단계(스냅샷 커밋)로 넘어간다. shell: bash 를 명시하면 pipefail 이 켜진다.
-      - name: Run the reingest
-        if: ${{ inputs.mode != 'validate' }}
-        shell: bash
-        env:
-          # 수집·LLM·임베딩 키는 dry-run 에만 준다. apply 는 번들을 적재만 하므로 필요 없고,
-          # 키가 없으니 실수로라도 Stage 1~4 를 다시 돌릴 수 없다.
-          HF_TOKEN: ${{ inputs.mode == 'dry-run' && secrets.HF_TOKEN || '' }}
-          OPENAI_API_KEY: ${{ inputs.mode == 'dry-run' && secrets.OPENAI_API_KEY || '' }}
-          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
-          STAGE3_LLM_MODEL: ${{ secrets.STAGE3_LLM_MODEL }}
-          STAGE4_EMBEDDING_MODEL: ${{ secrets.STAGE4_EMBEDDING_MODEL }}
-          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
-          SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
-          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
-          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
-          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
-          MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
-          # 데이터셋 쪽(dataset-refresh.yml)과 같은 내부 안전 한도. Pro 8GB 전체를
-          # 허용하지 않고 예상 최고치(약 505MB)의 두 배 정도에서 비정상 증가를 막는다.
-          SUPABASE_DB_BUDGET_MB: "1024"
+      - name: Apply the reviewed bundle to Supabase
         run: |
-          args=(--reingest --report reingest-report.json)
-          if [ "${{ inputs.mode }}" = "apply" ]; then
-            # Stage 1 방식도 번들에 들어 있다. stage1_mode 입력은 apply 에서 쓰지 않는다.
-            args+=(--apply --from-bundle reingest-bundle --approved-run-id "${{ inputs.approved_run_id }}")
-          else
-            args+=(--bundle-dir reingest-bundle)
-            if [ "${{ inputs.stage1_mode }}" = "full-scan" ]; then
-              args+=(--full-stage1)
-            fi
-          fi
-          python 08_sync_supabase.py "${args[@]}"
-
-      # 승인 대상. 가드에 걸린 dry-run(종료 코드 3)은 올리지 않는다 — 적재할 수 없는 결과다.
-      # 압축 전 수백 MB(Stage 4 가 대부분)라 보관 기간을 짧게 둔다. 비밀값은 담지 않는다.
-      - name: Upload the dry-run bundle
-        if: ${{ inputs.mode == 'dry-run' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: reingest-bundle-${{ github.run_id }}
-          path: ai/reingest-bundle
-          if-no-files-found: error
-          retention-days: 14
-
-      # 수치만 Summary 에 둔다. ID 전체 목록은 artifact 의 JSON 에 있다.
-      # dry-run 이 비활성화 가드로 멈춰도(종료 코드 3) 보고서는 남긴다.
-      - name: Summarize the reingest
-        if: ${{ !cancelled() && inputs.mode != 'validate' }}
-        run: |
-          if [ -f reingest-report.summary.json ]; then
-            {
-              echo "## Reingest (${{ inputs.mode }}, stage1=${{ inputs.stage1_mode }})"
-              echo '```json'
-              cat reingest-report.summary.json
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "## Reingest 보고서 없음 — 로그를 확인한다" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Measure coverage after the reingest
-        if: ${{ inputs.mode != 'validate' }}
+          python 08_sync_supabase.py \
+            --reingest --apply \
+            --from-bundle reingest-bundle \
+            --approved-run-id "${{ inputs.approved_run_id }}" \
+            --report reingest-report.json
+      - name: Measure coverage after apply
         run: |
           python contract/coverage.py --source stage2 --out reingest-coverage-after.md
-          echo "## Coverage (after)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Coverage (applied)" >> "$GITHUB_STEP_SUMMARY"
           awk '/^## 질문별 답변 가능률/{p=1} p&&/^## /&&!/질문별/{exit} p' reingest-coverage-after.md >> "$GITHUB_STEP_SUMMARY"
-
-      # 감사 자료: 보고서(Stage 1 diff·비활성화 후보 포함), 계약 coverage,
-      # Stage 4 manifest. Stage 1~4 산출물 전체는 dry-run 번들 artifact 에 있다.
-      - name: Upload the reingest report
-        if: ${{ !cancelled() && inputs.mode != 'validate' }}
+      - name: Upload the apply report
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: reingest-report-${{ inputs.mode }}-${{ inputs.stage1_mode }}-${{ github.run_id }}
+          name: reingest-report-apply-${{ github.run_id }}
           path: |
             ai/reingest-report*.json
             ai/reingest-coverage-*.md
             ai/data/hf_models_stage4_manifest.json
           if-no-files-found: warn
+          overwrite: true
           retention-days: 30
-
-      # dry-run 은 커밋하지 않는다. apply 가 DB 트랜잭션까지 성공한 뒤에만, 번들에서 놓은
-      # 스냅샷을 커밋한다. DB 가 실패하면 앞 단계가 실패하므로 이 단계는 돌지 않는다.
-      # 앞 단계가 실패하면 이 단계는 돌지 않는다(if 에 상태 함수가 없으면 success() 가 붙는다).
-      # Stage 1 파일은 reuse 에서는 바뀌지 않아 커밋할 것이 없고, full-scan 에서는
-      # 다음 --refresh 의 기준이 된다. Stage 4 jsonl(LFS, 대용량)은 넣지 않는다.
       - name: Persist snapshots after apply
-        if: ${{ inputs.mode == 'apply' }}
         run: |
           git config user.name "model-scout-sync[bot]"
           git config user.email "model-scout-sync[bot]@users.noreply.github.com"
@@ -293,16 +442,8 @@ jobs:
           if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
           if test -f data/hf_models_stage3_parent_child_manifest.json; then git add data/hf_models_stage3_parent_child_manifest.json; fi
           for f in data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
-          if git diff --cached --quiet; then
-            echo "커밋할 변경 없음"
-            exit 0
-          fi
+          if git diff --cached --quiet; then echo "커밋할 변경 없음"; exit 0; fi
           git commit -m "chore: persist Model Scout reingest snapshot (run ${{ github.run_id }}, approved dry-run ${{ inputs.approved_run_id }})"
-          # full-scan 은 몇 시간 걸려 그사이 main 이 움직일 수 있다. DB 는 이미 새 스냅샷
-          # 기준이므로 push 를 한 번 실패하고 끝내면 저장소의 Stage 1~3 과 DB 가 어긋난다.
-          for attempt in 1 2 3; do
-            git pull --rebase && git push && exit 0
-            sleep 10
-          done
-          echo "스냅샷 push 실패. DB 는 반영됐다 — 이 run 의 커밋을 수동으로 올려야 한다" >&2
+          for attempt in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done
+          echo "snapshot push failed after DB apply; push this run's commit manually" >&2
           exit 1

@@ -1714,12 +1714,13 @@ def full_reingest_pipeline(
 
     그런데도 비싼 단계를 전수로 돌리지는 않는다
     -----------------------------------------
-    - Stage 2는 STAGE2_VERSION이 올라가 ``resume_matches``가 전부 불일치로 보고
-      다시 수집한다. HF API만 쓰므로 무료다(약 8분).
-    - Stage 3는 README 내용이 같으면 재사용한다. 실측 3,872건 중 3,721건
-      (96.1%)이 재사용 가능이고 LLM 호출은 151건이다.
-    - Stage 4는 ``document_hash``가 바뀐 문서만 재임베딩한다. 실측 약 1,340건,
-      text-embedding-3-small 기준 약 $0.02다.
+    - Stage 2는 Hub revision이 없는 구 스냅샷을 처음 옮길 때 전수 수집한다.
+      HF API만 쓰지만 수천 개 저장소를 직렬 조회하므로 수 시간이 걸릴 수 있다.
+      GitHub Action은 Core와 Low를 별도 job으로 병렬 처리한다.
+    - Stage 3는 README 입력 해시가 같으면 재사용한다. 구 버전이 긴 README의
+      전체 해시를 저장한 경우도 호환해, 내용이 같은데 LLM을 다시 부르지 않는다.
+    - Stage 4는 ``document_hash``가 바뀐 문서만 재임베딩한다. 실제 호출·토큰 수는
+      dry-run의 Stage 3/4 metrics에 남긴다.
 
     기본(``full_stage1=False``)은 Stage 1을 다시 스캔하지 않는다. 바꾸려는 것은
     모델의 **사실**이고 모델 **목록**이 아니다. 목록까지 새로 만들려면
@@ -2057,6 +2058,40 @@ def git_identity() -> Dict[str, str]:
     }
 
 
+def load_checkpointed_reingest(
+    path: Path,
+    previous: Optional[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Load Stage 1~4 output produced by earlier jobs in this workflow run.
+
+    A checkpoint is useful only when it is tied to the same repository, commit,
+    branch, GitHub run and Supabase baseline. These checks prevent artifacts
+    from another run from being bundled or a concurrent sync from being hidden.
+    """
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict) or value.get("schema_version") != 1:
+        raise RuntimeError(f"invalid checkpointed reingest state: {path}")
+    expected = value.get("identity") or {}
+    current = git_identity()
+    for key in ("repository", "git_sha", "git_ref", "run_id"):
+        if str(expected.get(key)) != str(current.get(key)):
+            raise RuntimeError(
+                f"checkpointed reingest identity mismatch for {key}: "
+                f"expected {expected.get(key)!r}, got {current.get(key)!r}"
+            )
+    expected_sync = value.get("supabase_latest_sync_run_id")
+    actual_sync = (previous or {}).get("run_id")
+    if str(expected_sync or "") != str(actual_sync or ""):
+        raise RuntimeError(
+            "Supabase changed after the dry-run started; discard the checkpoints "
+            "and run dry-run again"
+        )
+    refresh_info = value.get("refresh_info")
+    if not isinstance(refresh_info, dict) or refresh_info.get("mode") != "reingest":
+        raise RuntimeError("checkpoint does not contain a reingest result")
+    return refresh_info
+
+
 def bundle_targets() -> List[str]:
     """번들에 담을 DATA_DIR 기준 파일 목록(디렉터리는 파일로 펼친다)."""
     targets = list(BUNDLE_REQUIRED_FILES)
@@ -2353,6 +2388,13 @@ def main() -> int:
              "만들지 않고 그대로 적재한다",
     )
     parser.add_argument(
+        "--reingest-state",
+        type=Path,
+        default=None,
+        help="--reingest dry-run 전용. 같은 GitHub run의 앞선 job이 Stage 1~4를 "
+             "완료하고 쓴 checkpoint를 검증한 뒤 보고서와 번들만 만든다",
+    )
+    parser.add_argument(
         "--approved-run-id",
         default=None,
         help="--from-bundle 과 함께. 사람이 검토·승인한 dry-run 의 GitHub run ID",
@@ -2400,6 +2442,10 @@ def main() -> int:
         parser.error("--from-bundle requires --reingest --apply")
     if args.from_bundle is not None and args.full_stage1:
         parser.error("--from-bundle replays the dry-run; its Stage 1 mode comes from the bundle")
+    if args.reingest_state is not None and (not args.reingest or args.apply):
+        parser.error("--reingest-state is for a --reingest dry-run (without --apply)")
+    if args.reingest_state is not None and args.full_stage1:
+        parser.error("--reingest-state already contains the Stage 1 mode")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
@@ -2489,6 +2535,10 @@ def main() -> int:
             )
             install_reingest_bundle(args.from_bundle, bundle_manifest)
             refresh_info = bundle_manifest["reingest"]
+        elif args.reingest_state is not None:
+            # Stage 1~4 were completed in checkpointed jobs of this exact run.
+            # This process only performs the common validation/report/bundle path.
+            refresh_info = load_checkpointed_reingest(args.reingest_state, previous)
         else:
             # --apply 없이 돈다. DB를 건드리지 않고 dry-run 리포트(와 번들)만 낸다 —
             # 팀이 diff를 보고 승인한 번들만 apply 가 적재한다.

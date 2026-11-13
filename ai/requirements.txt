@@ -7,5 +7,7 @@ PyYAML
 jsonschema==4.26.0
 numpy
 requests
+# Reingest validation runs focused pytest fixtures in GitHub Actions.
+pytest
 # Kaggle collector (19_collect_kaggle_datasets.py); needs KAGGLE_API_TOKEN in .env
 kaggle
