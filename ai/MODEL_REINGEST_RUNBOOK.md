@@ -25,10 +25,25 @@ Stage 2 로 가는 것은 A 후보 중 Core ∪ Low 뿐이다. Likely(B)·Fallba
 | mode | 하는 일 | DB |
 |---|---|---|
 | `validate` | 컴파일·계약 스키마·오프라인 테스트. 네트워크 호출 없음 | 안 읽음 |
-| `dry-run` | Stage 1~4 생성, 보고서 artifact | **읽기만** (직전 sync 기록, active ID) |
-| `apply` | dry-run 과 같은 생성 + 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋 | 씀 |
+| `dry-run` | Stage 1~4 생성, 보고서 artifact, **승인용 번들 artifact**(`reingest-bundle-<run_id>`) | **읽기만** (직전 sync 기록, active ID, 용량) |
+| `apply` | 승인한 dry-run 번들을 받아 검증 → 그대로 놓고 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋. **Stage 1~4 를 다시 만들지 않는다** | 씀 |
 
-`apply` 는 `main` 에서 `confirm=APPLY` 일 때만 돈다.
+`apply` 는 `main` 에서 `confirm=APPLY` 와 `approved_run_id`(승인한 dry-run 의 run ID)가 있을 때만 돈다.
+apply 에는 HF·OpenAI 키를 주지 않는다.
+
+apply 는 번들 manifest 를 검증하고, 하나라도 다르면 DB 에 쓰기 전에 멈춘다.
+
+| 검증 | 실패하면 |
+|---|---|
+| 같은 저장소, `main` 에서 만든 dry-run, `approved_run_id` 와 같은 run | 다른 산출물이다 |
+| dry-run 의 커밋 SHA = 지금 main SHA | dry-run 이후 main 이 바뀌었다. **dry-run 을 다시 한다** |
+| Stage 버전 | 코드와 산출물이 다르다 |
+| 모든 파일의 SHA256·크기, 누락·manifest 에 없는 파일 | 번들이 손상·변조됐다 |
+| 정렬한 Stage 4 모델 ID 의 sha256 | 적재할 모델 집합이 승인한 것과 다르다 |
+| dry-run 때 읽은 Supabase 최신 sync run = 지금 최신 sync run | 그 사이 다른 sync 가 DB 를 바꿨다 |
+
+번들 artifact 는 14일 보관한다. 그 안에 apply 하지 못하면 dry-run 을 다시 한다. DB 의 sync 기록
+(`stage_versions`)에 `approved_dry_run_id`, `bundle_sha256`, `model_ids_sha256` 이 남는다.
 
 | stage1_mode | Stage 1 | watermark | 비활성화 대상 |
 |---|---|---|---|
@@ -152,7 +167,8 @@ LFS 에 올리지 않는다.
 6. Supabase SQL Editor 에서 `supabase_migration_contract_filters.sql` 을 적용한다. 플래그가 OFF 라
    서비스는 아직 15개 인자로 부른다. 구 시그니처는 migration 이 지우지만, 새 함수의 뒤 4개 인자는
    기본값이 있어 15개 인자 호출도 그대로 동작한다.
-7. `mode=apply`, `stage1_mode=full-scan`, `confirm=APPLY` 를 main 에서 실행한다.
+7. `mode=apply`, `approved_run_id=<3단계 run ID>`, `confirm=APPLY` 를 main 에서 실행한다. 3단계 이후
+   main 에 다른 커밋이 들어갔다면 apply 가 거부하므로 3단계부터 다시 한다(6단계 SQL 은 커밋이 아니라 괜찮다).
 8. DB 를 사후 검증한다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
    - `source_watermark` 가 보고서의 `source_watermark` 와 같은지 본다.

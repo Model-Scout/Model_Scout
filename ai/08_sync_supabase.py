@@ -1935,9 +1935,239 @@ def write_reingest_report(result: Dict[str, Any], path: Path) -> List[Path]:
     for target, value in outputs.items():
         if value is None:
             continue
-        target.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        write_json_atomic(target, value)
         written.append(target)
     return written
+
+
+def write_json_atomic(path: Path, value: Any) -> None:
+    """반쯤 쓴 JSON 이 artifact 로 올라가지 않게 임시 파일에 쓴 뒤 바꿔 끼운다."""
+    temp = path.with_name(path.name + ".tmp")
+    temp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temp.replace(path)
+
+
+# ── 승인한 dry-run 산출물을 그대로 적재 ─────────────────────────────────────
+#
+# dry-run 이 만든 Stage 1~4 를 번들로 묶어 artifact 로 올리고, apply 는 그 번들을 받아
+# 검증한 뒤 DB 에만 쓴다. apply 가 Stage 1~4 를 다시 만들면 그 사이 Hub·LLM·임베딩이
+# 달라져 사람이 검토한 결과와 실제로 적재한 결과가 달라질 수 있다.
+
+BUNDLE_VERSION = 1
+BUNDLE_MANIFEST = "manifest.json"
+BUNDLE_REINGEST = "reingest.json"
+BUNDLE_REPORT = "reingest-report.json"
+# DATA_DIR 기준 경로. apply 의 DB 적재(load_corpora·load_evidence_indices)와 적재 뒤
+# 스냅샷 커밋이 읽는 파일이다. 하나라도 없으면 apply 하지 않는다.
+BUNDLE_REQUIRED_FILES = (
+    *STAGE1_SNAPSHOT_FILES,
+    *(f"hf_models_stage2_{pool}.jsonl" for pool in POOLS),
+    *(f"hf_models_stage2_contract_{pool}.jsonl" for pool in POOLS),
+    *(f"hf_models_stage3_{pool}.jsonl" for pool in POOLS),
+    *(f"hf_models_stage3_parent_child_{pool}.jsonl" for pool in POOLS),
+    *(f"hf_models_stage4_{pool}.jsonl" for pool in POOLS),
+    "hf_models_stage4_manifest.json",
+)
+# 있으면 담는다. 없어도 적재는 된다(첫 실행에는 언어 제외 보고서가 없을 수 있다).
+BUNDLE_OPTIONAL_FILES = (
+    *(f"hf_models_stage2_{pool}_language_excluded.json" for pool in POOLS),
+    "hf_models_stage3_parent_child_manifest.json",
+    "hf_models_benchmark_state.json",
+    ".hf_models_benchmark_state_candidate.json",
+)
+BUNDLE_DIRS = tuple(f"readmes/{pool}" for pool in POOLS)
+
+
+class BundleError(RuntimeError):
+    pass
+
+
+def sha256_file(path: Path) -> str:
+    import hashlib
+
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def model_ids_sha256(model_ids: Sequence[str]) -> str:
+    import hashlib
+
+    return hashlib.sha256("\n".join(sorted(model_ids)).encode("utf-8")).hexdigest()
+
+
+def bundle_path(target: str) -> str:
+    """DATA_DIR 기준 경로 → 번들 안 경로. upload-artifact 는 숨김 파일을 빼므로 점을 뗀다."""
+    return "data/" + "/".join(part.lstrip(".") for part in target.split("/"))
+
+
+def git_identity() -> Dict[str, str]:
+    """이 실행의 저장소·커밋·브랜치·run. Actions 가 넣는 환경 변수, 없으면 로컬 git."""
+    def git(*args: str) -> str:
+        done = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
+        return done.stdout.strip() if done.returncode == 0 else ""
+
+    return {
+        "repository": os.getenv("GITHUB_REPOSITORY") or "local",
+        "git_sha": os.getenv("GITHUB_SHA") or git("rev-parse", "HEAD"),
+        "git_ref": os.getenv("GITHUB_REF_NAME") or git("rev-parse", "--abbrev-ref", "HEAD"),
+        "run_id": os.getenv("GITHUB_RUN_ID") or "local",
+    }
+
+
+def bundle_targets() -> List[str]:
+    """번들에 담을 DATA_DIR 기준 파일 목록(디렉터리는 파일로 펼친다)."""
+    targets = list(BUNDLE_REQUIRED_FILES)
+    targets += [name for name in BUNDLE_OPTIONAL_FILES if (DATA_DIR / name).exists()]
+    for folder in BUNDLE_DIRS:
+        base = DATA_DIR / folder
+        if base.exists():
+            targets += sorted(
+                path.relative_to(DATA_DIR).as_posix() for path in base.rglob("*") if path.is_file()
+            )
+    return targets
+
+
+def write_reingest_bundle(
+    bundle_dir: Path,
+    *,
+    refresh_info: Dict[str, Any],
+    report: Dict[str, Any],
+    stage4_ids: Sequence[str],
+    latest_sync_run_id: Optional[str],
+) -> Dict[str, Any]:
+    """dry-run 산출물과 manifest(파일별 SHA256·크기, 모델 ID hash, 출처)를 쓴다.
+
+    비밀값은 담지 않는다. 담는 것은 DATA_DIR 의 산출물과 이번 실행의 보고서뿐이다.
+    """
+    import shutil
+
+    missing = [name for name in BUNDLE_REQUIRED_FILES if not (DATA_DIR / name).exists()]
+    if missing:
+        raise BundleError("번들에 필요한 산출물이 없다: " + ", ".join(missing))
+    if bundle_dir.exists():
+        shutil.rmtree(bundle_dir)
+    bundle_dir.mkdir(parents=True)
+    files: List[Dict[str, Any]] = []
+    for target in bundle_targets():
+        relative = bundle_path(target)
+        destination = bundle_dir / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(DATA_DIR / target, destination)
+        files.append({"path": relative, "target": target,
+                      "sha256": sha256_file(destination), "bytes": destination.stat().st_size})
+    for name, value in ((BUNDLE_REINGEST, refresh_info), (BUNDLE_REPORT, report)):
+        write_json_atomic(bundle_dir / name, value)
+        files.append({"path": name, "target": None,
+                      "sha256": sha256_file(bundle_dir / name), "bytes": (bundle_dir / name).stat().st_size})
+    identity = git_identity()
+    manifest = {
+        "bundle_version": BUNDLE_VERSION,
+        "repository": identity["repository"],
+        "git_sha": identity["git_sha"],
+        "git_ref": identity["git_ref"],
+        "dry_run_run_id": identity["run_id"],
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "stage_versions": EXPECTED_VERSIONS,
+        "stage1_mode": refresh_info.get("stage1_mode"),
+        "stage1_scan_started_at": (
+            refresh_info.get("source_watermark") if refresh_info.get("stage1_mode") == "full-scan" else None
+        ),
+        "source_watermark": refresh_info.get("source_watermark"),
+        "supabase_latest_sync_run_id": latest_sync_run_id,
+        "model_count": len(set(stage4_ids)),
+        "model_ids_sha256": model_ids_sha256(set(stage4_ids)),
+        "files": files,
+    }
+    write_json_atomic(bundle_dir / BUNDLE_MANIFEST, manifest)
+    return manifest
+
+
+def bundled_stage4_ids(bundle_dir: Path) -> List[str]:
+    ids: List[str] = []
+    for pool in POOLS:
+        ids += [row["model_id"] for row in read_jsonl(bundle_dir / bundle_path(f"hf_models_stage4_{pool}.jsonl"))]
+    return ids
+
+
+def verify_reingest_bundle(
+    bundle_dir: Path,
+    *,
+    approved_run_id: str,
+    repository: str,
+    git_sha: str,
+    latest_sync_run_id: Optional[str],
+) -> Dict[str, Any]:
+    """apply 전에 번들을 검증한다. 문제를 전부 모아 한 번에 실패한다. DB 에는 쓰지 않는다."""
+    manifest_path = bundle_dir / BUNDLE_MANIFEST
+    if not manifest_path.exists():
+        raise BundleError(f"번들 manifest 가 없다: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    problems: List[str] = []
+
+    def expect(key: str, actual: Any, wanted: Any, why: str) -> None:
+        if actual != wanted:
+            problems.append(f"{key}: 번들 {actual!r} ≠ {wanted!r} — {why}")
+
+    expect("bundle_version", manifest.get("bundle_version"), BUNDLE_VERSION, "다른 형식의 번들")
+    expect("dry_run_run_id", str(manifest.get("dry_run_run_id")), str(approved_run_id), "승인한 dry-run 이 아니다")
+    expect("repository", manifest.get("repository"), repository, "다른 저장소의 artifact")
+    expect("git_ref", manifest.get("git_ref"), "main", "main 에서 만든 dry-run 이 아니다")
+    expect("git_sha", manifest.get("git_sha"), git_sha, "dry-run 이후 main 이 바뀌었다 — dry-run 을 다시 한다")
+    expect("stage_versions", manifest.get("stage_versions"), EXPECTED_VERSIONS, "코드의 Stage 버전과 다르다")
+    expect("supabase_latest_sync_run_id", manifest.get("supabase_latest_sync_run_id"), latest_sync_run_id,
+           "dry-run 이후 다른 sync 가 DB 를 바꿨다")
+
+    listed = {entry["path"] for entry in manifest.get("files") or []}
+    for entry in manifest.get("files") or []:
+        target = entry.get("target")
+        if target is not None and (target.startswith("/") or ".." in Path(target).parts):
+            problems.append(f"{entry['path']}: 허용되지 않는 대상 경로 {target!r}")
+            continue
+        path = bundle_dir / entry["path"]
+        if not path.exists():
+            problems.append(f"{entry['path']}: 파일 누락")
+        elif path.stat().st_size != entry.get("bytes"):
+            problems.append(f"{entry['path']}: 크기 불일치")
+        elif sha256_file(path) != entry.get("sha256"):
+            problems.append(f"{entry['path']}: SHA256 불일치")
+    present = {
+        path.relative_to(bundle_dir).as_posix()
+        for path in bundle_dir.rglob("*") if path.is_file()
+    } - {BUNDLE_MANIFEST}
+    for extra in sorted(present - listed):
+        problems.append(f"{extra}: manifest 에 없는 파일")
+    targets = {entry.get("target") for entry in manifest.get("files") or []}
+    for name in BUNDLE_REQUIRED_FILES:
+        if name not in targets:
+            problems.append(f"{name}: 필수 산출물이 번들에 없다")
+    if BUNDLE_REINGEST not in listed:
+        problems.append(f"{BUNDLE_REINGEST}: 재적재 결과가 번들에 없다")
+    if not problems:
+        actual = model_ids_sha256(set(bundled_stage4_ids(bundle_dir)))
+        expect("model_ids_sha256", actual, manifest.get("model_ids_sha256"), "Stage 4 모델 집합이 바뀌었다")
+    if problems:
+        raise BundleError("승인한 dry-run 번들을 적재하지 않는다:\n- " + "\n- ".join(problems))
+    manifest["bundle_sha256"] = sha256_file(manifest_path)
+    manifest["reingest"] = json.loads((bundle_dir / BUNDLE_REINGEST).read_text(encoding="utf-8"))
+    return manifest
+
+
+def install_reingest_bundle(bundle_dir: Path, manifest: Dict[str, Any]) -> None:
+    """검증한 번들의 산출물을 DATA_DIR 에 그대로 놓는다. README 폴더는 번들과 똑같이 맞춘다."""
+    import shutil
+
+    for folder in BUNDLE_DIRS:
+        if (DATA_DIR / folder).exists():
+            shutil.rmtree(DATA_DIR / folder)
+    for entry in manifest["files"]:
+        if entry.get("target") is None:
+            continue
+        destination = DATA_DIR / entry["target"]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(bundle_dir / entry["path"], destination)
 
 
 def apply_evidence_backfill(
@@ -2069,6 +2299,24 @@ def main() -> int:
         help="결과 JSON 을 이 경로에 쓴다(하위 프로세스 로그가 섞이지 않는다). "
              "같은 폴더에 *.summary/*.stage1-diff/*.deactivation.json 도 쓴다",
     )
+    parser.add_argument(
+        "--bundle-dir",
+        type=Path,
+        default=None,
+        help="--reingest dry-run 전용. 검토할 Stage 1~4 산출물과 manifest 를 이 폴더에 묶는다",
+    )
+    parser.add_argument(
+        "--from-bundle",
+        type=Path,
+        default=None,
+        help="--reingest --apply 에 필수. 승인한 dry-run 번들을 검증해 Stage 1~4 를 다시 "
+             "만들지 않고 그대로 적재한다",
+    )
+    parser.add_argument(
+        "--approved-run-id",
+        default=None,
+        help="--from-bundle 과 함께. 사람이 검토·승인한 dry-run 의 GitHub run ID",
+    )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
         "--ensure-schema",
@@ -2103,6 +2351,15 @@ def main() -> int:
         parser.error("--refresh, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if args.full_stage1 and not args.reingest:
         parser.error("--full-stage1 requires --reingest")
+    if args.bundle_dir is not None and (not args.reingest or args.apply):
+        parser.error("--bundle-dir is for a --reingest dry-run (without --apply)")
+    if args.reingest and args.apply and (args.from_bundle is None or not args.approved_run_id):
+        # 재적재 apply 는 사람이 검토한 dry-run 산출물만 적재한다. 다시 만들지 않는다.
+        parser.error("--reingest --apply requires --from-bundle and --approved-run-id")
+    if args.from_bundle is not None and not (args.reingest and args.apply):
+        parser.error("--from-bundle requires --reingest --apply")
+    if args.from_bundle is not None and args.full_stage1:
+        parser.error("--from-bundle replays the dry-run; its Stage 1 mode comes from the bundle")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
@@ -2141,6 +2398,8 @@ def main() -> int:
 
     refresh_info: Optional[Dict[str, Any]] = None
     latest: Optional[Dict[str, Any]] = None
+    previous: Optional[Dict[str, Any]] = None
+    bundle_manifest: Optional[Dict[str, Any]] = None
     if args.apply:
         latest = latest_completed_sync()
 
@@ -2178,11 +2437,24 @@ def main() -> int:
                 "완료된 Supabase sync 기록이 없다. 먼저 "
                 "`python 08_sync_supabase.py --initial --apply`를 돌려야 한다."
             )
-        # --apply 없이도 돈다. 그때는 DB를 건드리지 않고 dry-run 리포트만 낸다 —
-        # 팀이 diff를 보고 판단한 뒤에 한 번만 apply 한다.
-        refresh_info = full_reingest_pipeline(
-            carried_watermark(previous), full_stage1=args.full_stage1
-        )
+        if args.from_bundle is not None:
+            # 승인한 dry-run 산출물을 검증하고 그대로 놓는다. Stage 1~4 를 다시 돌리지 않는다.
+            identity = git_identity()
+            bundle_manifest = verify_reingest_bundle(
+                args.from_bundle,
+                approved_run_id=args.approved_run_id,
+                repository=identity["repository"],
+                git_sha=identity["git_sha"],
+                latest_sync_run_id=(previous or {}).get("run_id"),
+            )
+            install_reingest_bundle(args.from_bundle, bundle_manifest)
+            refresh_info = bundle_manifest["reingest"]
+        else:
+            # --apply 없이 돈다. DB를 건드리지 않고 dry-run 리포트(와 번들)만 낸다 —
+            # 팀이 diff를 보고 승인한 번들만 apply 가 적재한다.
+            refresh_info = full_reingest_pipeline(
+                carried_watermark(previous), full_stage1=args.full_stage1
+            )
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
@@ -2245,6 +2517,8 @@ def main() -> int:
     # 예전처럼 언어 게이트 제외분만 내리고 DB 에만 있는 행은 보고만 한다.
     deactivate_missing = reingest and refresh_info.get("stage1_mode") == "full-scan"
     stage4_ids = sorted(row["model_id"] for row in stage4) if reingest else None
+    if bundle_manifest is not None and model_ids_sha256(set(stage4_ids or ())) != bundle_manifest["model_ids_sha256"]:
+        raise BundleError("적재하려는 Stage 4 모델 집합이 승인한 번들과 다르다")
     result: Dict[str, Any] = {
         "validation": validation,
         "evidence_validation": evidence_validation,
@@ -2284,7 +2558,16 @@ def main() -> int:
             stage4_ids=stage4_ids,
             source_watermark=resolved_source_watermark(refresh_info),
             corpus_rows=len(stage2),
-            extra_versions={"stage1_mode": refresh_info["stage1_mode"]} if reingest else None,
+            extra_versions=(
+                {
+                    "stage1_mode": refresh_info["stage1_mode"],
+                    "approved_dry_run_id": bundle_manifest["dry_run_run_id"],
+                    "bundle_sha256": bundle_manifest["bundle_sha256"],
+                    "model_ids_sha256": bundle_manifest["model_ids_sha256"],
+                }
+                if reingest and bundle_manifest is not None
+                else {"stage1_mode": refresh_info["stage1_mode"]} if reingest else None
+            ),
         )
         if "deactivation" in result["sync"]:
             result["deactivation"] = result["sync"]["deactivation"]
@@ -2309,8 +2592,21 @@ def main() -> int:
             if plan["guard"]["blocked"] or result["capacity"]["blocked"]:
                 # 보고서는 끝까지 남기되 실행은 실패로 표시한다.
                 exit_code = 3
+    if bundle_manifest is not None:
+        result["bundle"] = {key: bundle_manifest[key] for key in (
+            "dry_run_run_id", "git_sha", "bundle_sha256", "model_ids_sha256", "model_count")}
     if args.report is not None:
         write_reingest_report(result, args.report)
+    if args.bundle_dir is not None and reingest:
+        manifest = write_reingest_bundle(
+            args.bundle_dir,
+            refresh_info=refresh_info,
+            report=result,
+            stage4_ids=stage4_ids or [],
+            latest_sync_run_id=(previous or {}).get("run_id"),
+        )
+        print(json.dumps({"bundle": {"files": len(manifest["files"]),
+                                     "model_ids_sha256": manifest["model_ids_sha256"]}}))
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return exit_code
 
