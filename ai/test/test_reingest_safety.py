@@ -552,6 +552,20 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
     def refuse(*args, **kwargs):
         raise AssertionError("dry-run 이 DB 쓰기 경로를 불렀다")
 
+    # 승인한 dry-run 번들. apply 는 이것만 적재하고 Stage 1~4 를 다시 돌리지 않는다.
+    approved = _result(previous_watermark="2026-10-31T00:00:00+00:00", language_excluded={"m/lang"})
+
+    def verify_bundle(bundle_dir, **expected):
+        calls["bundle_expected"] = expected
+        return {"reingest": approved, "dry_run_run_id": expected["approved_run_id"],
+                "git_sha": "abc", "bundle_sha256": "f" * 64, "model_count": 1,
+                "model_ids_sha256": sync.model_ids_sha256({"m/keep"})}
+
+    def no_pipeline_on_apply(previous, full_stage1=False):
+        if "--apply" in argv:
+            raise AssertionError("apply 가 Stage 1~4 를 다시 만들었다")
+        return fake_pipeline(previous, full_stage1)
+
     # 실제 DB 처럼 옛 Stage 2 버전으로 끝난 run 이다.
     latest = {"completed_at": "2026-11-06T00:00:00+00:00",
               "stage_versions": {"stage2": 6, "source_watermark": "2026-10-31T00:00:00+00:00"}}
@@ -567,7 +581,11 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
             sync,
             load_dotenv=lambda *a, **k: None,
             latest_completed_sync=latest_completed_sync,
-            full_reingest_pipeline=fake_pipeline,
+            full_reingest_pipeline=no_pipeline_on_apply,
+            verify_reingest_bundle=verify_bundle,
+            install_reingest_bundle=lambda bundle_dir, manifest: calls.setdefault("installed", bundle_dir),
+            git_identity=lambda: {"repository": "Model-Scout/Model_Scout", "git_sha": "abc",
+                                  "git_ref": "main", "run_id": "999"},
             load_corpora=lambda stage4_delta=False: (stage4, {"m/keep": {}}, {"m/keep": {}}),
             validate_corpus=lambda *a, **k: {"rows": len(stage4), "pool_counts": {"core": 1}},
             load_evidence_indices=lambda: {},
@@ -629,8 +647,17 @@ def test_dry_run_marks_a_blocked_deactivation_as_failure():
         assert json.loads(report.read_text(encoding="utf-8"))["deactivation"]["guard"]["blocked"]
 
 
+APPLY_BUNDLE = ["--from-bundle", "reingest-bundle", "--approved-run-id", "123"]
+
+
 def test_plain_reingest_is_still_the_reuse_path():
     """기존 `--reingest` 회귀 없음: Stage 1 을 스캔하지 않고 watermark 를 물려받는다."""
+    calls: Dict[str, Any] = {}
+    assert _run_main(["--reingest"], active=["m/keep"], calls=calls) == 0
+    assert calls["pipeline"] == {"previous": "2026-10-31T00:00:00+00:00", "full_stage1": False}
+
+
+def test_apply_replays_the_approved_bundle_without_regenerating():
     calls: Dict[str, Any] = {}
     seen: Dict[str, Any] = {}
 
@@ -638,15 +665,37 @@ def test_plain_reingest_is_still_the_reuse_path():
         seen.update(kwargs)
         return {"sync_mode": kwargs["sync_mode"]}
 
-    code = _run_main(["--reingest", "--apply"], active=["m/keep"], calls=calls, apply_sync=fake_apply)
+    code = _run_main(["--reingest", "--apply", *APPLY_BUNDLE], active=["m/keep"], calls=calls,
+                     apply_sync=fake_apply)
     assert code == 0, "옛 버전 run 만 있는 DB 에서 재적재 apply 가 멈췄다"
+    assert "pipeline" not in calls, "apply 가 Stage 1~4 를 다시 돌렸다"
+    assert calls["installed"] == Path("reingest-bundle")
+    assert calls["bundle_expected"]["approved_run_id"] == "123"
+    assert calls["bundle_expected"]["git_sha"] == "abc"
     assert True in calls["lookups"]
-    assert calls["pipeline"]["full_stage1"] is False
     assert seen["sync_mode"] == "reingest"
     assert seen["deactivate_missing"] is False
     assert seen["removed_ids"] == ["m/lang"]
     assert seen["source_watermark"] == "2026-10-31T00:00:00+00:00"
-    assert seen["extra_versions"] == {"stage1_mode": "reuse"}
+    assert seen["extra_versions"] == {
+        "stage1_mode": "reuse", "approved_dry_run_id": "123",
+        "bundle_sha256": "f" * 64, "model_ids_sha256": sync.model_ids_sha256({"m/keep"}),
+    }
+
+
+def test_reingest_apply_without_an_approved_bundle_is_refused():
+    import io
+
+    for argv in (["--reingest", "--apply"], ["--reingest", "--apply", "--from-bundle", "b"],
+                 ["--reingest", "--bundle-dir", "b", "--apply", *APPLY_BUNDLE],
+                 ["--reingest", "--apply", "--full-stage1", *APPLY_BUNDLE]):
+        with patched(sys, argv=["08_sync_supabase.py", *argv]), contextlib.redirect_stderr(io.StringIO()):
+            try:
+                sync.main()
+            except SystemExit as exit_:
+                assert exit_.code == 2, argv
+            else:
+                raise AssertionError(f"{argv} 를 받았다")
 
 
 # ── DB 용량 ────────────────────────────────────────────────────────────────
@@ -728,7 +777,7 @@ def test_apply_stops_before_writing_when_it_would_overflow():
     with tempfile.TemporaryDirectory() as name:
         report = Path(name) / "r.json"
         try:
-            _run_main(["--reingest", "--apply", "--report", str(report)], active=["m/keep"], calls={},
+            _run_main(["--reingest", "--apply", *APPLY_BUNDLE, "--report", str(report)], active=["m/keep"], calls={},
                       apply_sync=refuse, database_mb=420)
         except RuntimeError as error:
             assert "한도" in str(error)
@@ -809,7 +858,7 @@ def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():
     upload = _steps()["Upload the reingest report"]
     assert "!cancelled()" in upload["if"]
     paths = upload["with"]["path"]
-    for expected in ("reingest-report", "contract/baseline.md", "hf_models_stage4_manifest.json"):
+    for expected in ("reingest-report", "reingest-coverage-", "hf_models_stage4_manifest.json"):
         assert expected in paths, expected
 
 

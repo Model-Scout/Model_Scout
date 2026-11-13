@@ -224,6 +224,20 @@ def check_regression(
     return problems
 
 
+def same_source(record: Dict[str, Any], before: Dict[str, Any]) -> bool:
+    """두 레코드가 같은 Hub revision 에서 나왔는지. 모르면 같다고 본다(보수적).
+
+    revision 이 바뀌었으면 값이 빠지는 것이 정상일 수 있다(저장소가 파일·카드를 바꿨다).
+    같은 revision 인데 값을 잃었다면 우리 파이프라인이 퇴행한 것이다.
+    """
+    new_identity = record.get("identity") or {}
+    old_identity = before.get("identity") or {}
+    for key in ("revision", "last_modified"):
+        if new_identity.get(key) and old_identity.get(key):
+            return new_identity[key] == old_identity[key]
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("records", nargs="?", type=Path, default=None,
@@ -231,6 +245,8 @@ def main() -> int:
     parser.add_argument("--baseline", type=Path, default=None,
                         help="이전 레코드. 품질 하락을 검사한다")
     parser.add_argument("--limit", type=int, default=20, help="보여줄 문제 모델 수")
+    parser.add_argument("--summary-json", type=Path, default=None,
+                        help="개수 요약을 JSON 으로 쓴다(재적재 보고서용)")
     args = parser.parse_args()
 
     schema = load_schema()
@@ -242,7 +258,11 @@ def main() -> int:
         baseline = {record["model_id"]: record for _, record in read_records(args.baseline)}
 
     total = 0
+    new_models = 0
+    regressions = 0
     failed: List[Tuple[str, List[str]]] = []
+    # Hub revision 이 바뀐 모델의 값 손실은 정상일 수 있어 실패로 보지 않고 보고만 한다.
+    source_changed: List[Tuple[str, List[str]]] = []
     for label, record in read_records(args.records):
         total += 1
         problems = [
@@ -252,14 +272,36 @@ def main() -> int:
         problems += check_record(record, fields)
         before = baseline.get(record.get("model_id"))
         if before:
-            problems += check_regression(record, before, fields)
+            regression = check_regression(record, before, fields)
+            if regression and same_source(record, before):
+                regressions += 1
+                problems += regression
+            elif regression:
+                source_changed.append((f"{label} {record.get('model_id')}", regression))
+        elif args.baseline:
+            new_models += 1  # 기준에 없던 모델은 비교할 것이 없다. 실패가 아니다
         if problems:
             failed.append((f"{label} {record.get('model_id')}", problems))
+
+    if args.summary_json:
+        args.summary_json.write_text(json.dumps({
+            "records": total,
+            "failed_models": len(failed),
+            "baseline": str(args.baseline) if args.baseline else None,
+            "baseline_records": len(baseline),
+            "new_models": new_models,
+            "regressed_models": regressions,
+            "source_changed_models": len(source_changed),
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     source = args.records.name if args.records else EXAMPLES_PATH.name
     print(f"{source} — 레코드 {total:,}개, 계약 필드 {len(fields)}개")
     if args.baseline:
         print(f"품질 하락 검사 기준: {args.baseline.name} ({len(baseline):,}개)")
+        print(f"  기준에 없던 새 모델 {new_models:,}개 · Hub 가 바뀌어 값이 달라진 모델 "
+              f"{len(source_changed):,}개(경고만)")
+        for label, problems in source_changed[: min(5, args.limit)]:
+            print(f"    ⚠ {label}: {problems[0]}")
     print()
     if not failed:
         print("계약 위반 없음")

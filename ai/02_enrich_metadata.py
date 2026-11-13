@@ -2399,6 +2399,10 @@ def enrich(
 
             "enriched_at":
                 utc_now(),
+
+            # Hub revision this row was built from (Stage 1's list_models values).
+            # resume_matches reuses the row only while it is still current.
+            **source_revision(stage1_row),
         },
     }
 
@@ -2494,11 +2498,38 @@ def validate_stage2_rows(rows, source_pool):
     return {"source_pool": source_pool, "rows": len(rows), "bad_count": 0}
 
 
+def source_revision(stage1_row):
+    """The Hub revision a Stage 1 row describes: commit SHA and last-modified time."""
+    hub = stage1_row.get("hub") or {}
+    return {"source_sha": hub.get("sha"), "source_last_modified": hub.get("last_modified")}
+
+
+def revision_matches(row, source_row):
+    """Whether a saved Stage 2 row was built from the Hub revision Stage 1 now reports.
+
+    SHA when both sides have one, else last_modified. A row with no recorded revision
+    (written before this check existed) is never current, so it is collected again.
+    """
+    stage = row.get("stage", {})
+    current = source_revision(source_row)
+    if stage.get("source_sha") and current["source_sha"]:
+        return stage["source_sha"] == current["source_sha"]
+    if stage.get("source_last_modified") and current["source_last_modified"]:
+        return stage["source_last_modified"] == current["source_last_modified"]
+    return False
+
+
 def resume_matches(row, source_row, source_pool):
-    """Reuse only this pool/version and the unchanged Stage 1 snapshot."""
+    """Reuse only this pool/version, the unchanged Stage 1 snapshot and the same Hub revision.
+
+    Without the revision check a model that changed on the Hub (new README, new files) keeps
+    its old Stage 2 facts whenever downloads and tags happen to be unchanged, even though the
+    incremental scan selected it as changed.
+    """
     stage = row.get("stage", {})
     return (
-        stage.get("stage2_version") == STAGE2_VERSION
+        revision_matches(row, source_row)
+        and stage.get("stage2_version") == STAGE2_VERSION
         and stage.get("source_pool") == source_pool
         and stage.get("source_stage1_version") == source_row.get("stage", {}).get("stage1_version")
         and stage.get("metadata_enriched") is True
