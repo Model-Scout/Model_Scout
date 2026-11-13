@@ -15,7 +15,14 @@ Outputs (data/hypergraph/, or data/hypergraph_v2/ with --corpus v2):
   concepts.jsonl   every concept with its member count
   duplicates.json  same data -> canonical id and reason (dataset_dedup.py); may share a label
   series.json      v2 only: separate portal entries related by region, edition or language; never share a label
-  report.json    coverage per facet and the raw values that did not map
+  report.json    coverage per facet and the raw values that did not map; "models" records which
+                 model corpus was used (source, count, sha256 of the sorted model IDs)
+
+Model source (--model-source):
+  auto      a real local Stage 4 snapshot if both files hold JSONL, else Supabase (default, local dev)
+  local     the local snapshot or fail; an LFS pointer, empty or corrupt file is an error
+  supabase  the active rows in Supabase; local files are ignored. dataset-refresh.yml uses this, so the
+            published graph has exactly the models the recommendation search can return.
 """
 
 from __future__ import annotations
@@ -27,7 +34,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from corpus_manifest import check_manifest, load_manifest, sha256_text, write_manifest
+from corpus_manifest import check_manifest, load_manifest, read_jsonl_snapshot, sha256_text, write_manifest
 from dataset_dedup import check_public_duplicates, duplicate_map, public_identity, public_series
 from taxonomy import label, load_taxonomy, mentions, normalize
 
@@ -36,6 +43,11 @@ DATA_DIR = AI_DIR / "data"
 CORPUS_DIRS = {"v1": DATA_DIR / "hypergraph", "v2": DATA_DIR / "hypergraph_v2"}
 README_DIRS = (DATA_DIR / "readmes" / "public", DATA_DIR / "readmes" / "datasets", DATA_DIR / "readmes" / "kaggle")
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
+MODEL_SOURCES = ("auto", "local", "supabase")
+SUPABASE_MODEL_QUERY = (
+    "select model_id, source_pool, task, filter_metadata from public.model_scout_models "
+    "where active order by model_id"
+)
 DATASET_INPUT = DATA_DIR / "hf_datasets_stage1.jsonl"
 PUBLIC_INPUT = DATA_DIR / "public_datasets_stage1.jsonl"  # 서울 열린데이터광장 + 공공데이터포털 (18)
 ENRICH_DIR = DATA_DIR / "public_enriched"  # v2 reads 18_enrich's output: official license, delivery, cycle
@@ -169,28 +181,54 @@ class Linker:
                 self.add(entity_id, "output_modality", value, f"task:{task}", method="task_rule", confidence="medium")
 
 
-def load_model_rows():
-    """Stage 4 rows: the local snapshot when present, else the active rows in Supabase.
-
-    Stage 4 files are gitignored (vectors live in Supabase), so a CI checkout reads the table.
-    """
-    if all(path.exists() for path in MODEL_INPUTS):
-        return [row for path in MODEL_INPUTS for row in read_jsonl(path)]
+def load_supabase_models():
     from supabase_db import db_connection
 
     conn = db_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute(
-                "select model_id, source_pool, task, filter_metadata from public.model_scout_models "
-                "where active order by model_id"
-            )
+            cur.execute(SUPABASE_MODEL_QUERY)
             return [
                 {"model_id": m, "source_pool": pool, "task": task or {}, "filter_metadata": meta or {}}
                 for m, pool, task, meta in cur.fetchall()
             ]
     finally:
         conn.close()
+
+
+def load_model_rows(source="auto"):
+    """(rows, info): the model corpus and a record of where it came from.
+
+    Stage 4 snapshots are Git LFS files (vectors live in Supabase), so a checkout without LFS has
+    pointer stubs at those paths. Only real JSONL counts as a local snapshot.
+    """
+    if source not in MODEL_SOURCES:
+        raise ValueError(f"unknown model source: {source}")
+    local_status = {}
+    if source != "supabase":
+        snapshots = {path: read_jsonl_snapshot(path) for path in MODEL_INPUTS}
+        local_status = {path.name: status for path, (status, _) in snapshots.items()}
+        if all(status == "jsonl" for status, _ in snapshots.values()):
+            rows = [row for _, rows in snapshots.values() for row in rows]
+            return rows, model_source_info("local_stage4", source, rows, local_status,
+                                           selection=[path.name for path in MODEL_INPUTS])
+        if source == "local":
+            raise SystemExit(f"--model-source local needs real Stage 4 JSONL files: {local_status}")
+        print(f"local Stage 4 snapshot unusable {local_status}; reading active models from Supabase")
+    rows = load_supabase_models()
+    return rows, model_source_info("supabase", source, rows, local_status, selection=SUPABASE_MODEL_QUERY)
+
+
+def model_source_info(used, requested, rows, local_status, selection):
+    """Same meaning in v1 report.json and the v2 manifest."""
+    return {
+        "source": used,
+        "requested_source": requested,
+        "count": len(rows),
+        "model_ids_sha256": sha256_text(sorted(row["model_id"] for row in rows)),
+        "selection": selection,
+        "local_status": local_status,
+    }
 
 
 def map_model(linker, row):
@@ -349,6 +387,8 @@ def main():
     parser.add_argument("--self-check", action="store_true")
     # dataset-refresh.yml embeds and publishes the default corpus, so v1 stays the default until cutover.
     parser.add_argument("--corpus", choices=sorted(CORPUS_DIRS), default="v1")
+    # Production (dataset-refresh.yml) passes supabase; auto keeps local development working offline.
+    parser.add_argument("--model-source", choices=MODEL_SOURCES, default="auto")
     args = parser.parse_args()
     if args.self_check:
         return self_check()
@@ -363,7 +403,7 @@ def main():
 
     linker = Linker()
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
-    model_rows = load_model_rows()
+    model_rows, model_info = load_model_rows(args.model_source)
     entities = [map_model(linker, row) for row in model_rows]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
     hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(public_input)
@@ -452,13 +492,14 @@ def main():
         "dataset_readme_status": Counter(e["readme_status"] for e in entities if e["kind"] == "dataset"),
         "dataset_korean_focus": Counter(e["korean_focus"] for e in entities if e["kind"] == "dataset"),
         "unmapped_top": {k: v.most_common(25) for k, v in sorted(linker.unmapped.items())},
+        "models": model_info,
     }
     if verified:
         report.update(public_merges=public_merges, public_series=len(series))
     (out_dir / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "unmapped_top"}, ensure_ascii=False, indent=2))
     if verified:
-        local_models = all(path.exists() for path in MODEL_INPUTS)
+        local_models = model_info["source"] == "local_stage4"
         names = ("entities.jsonl", "links.jsonl", "relations.jsonl", "concepts.jsonl", "duplicates.json", "series.json", "report.json")
         manifest = write_manifest(
             out_dir,
@@ -479,9 +520,9 @@ def main():
                 "datasets_by_source": Counter(e["source"] for e in entities if e["kind"] == "dataset"),
                 "public_merges": public_merges,
                 "public_series": len(series),
-                "model_source": "local_stage4" if local_models else "supabase",
-                "models": len(model_rows),
-                "model_ids_sha256": sha256_text(sorted(row["model_id"] for row in model_rows)),
+                "model_source": model_info["source"],
+                "models": model_info["count"],
+                "model_ids_sha256": model_info["model_ids_sha256"],
             },
         )
         print(f"corpus_id {manifest['stage_id']}")

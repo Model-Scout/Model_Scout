@@ -73,17 +73,32 @@ jobs:
           python 12_collect_dataset_length_stats.py --workers 6
           python 19_collect_kaggle_datasets.py
           python 18_collect_public_datasets.py --source all
-          python 13_build_hypergraph.py
+          python 13_build_hypergraph.py --model-source supabase
           python 14_build_dataset_chunks.py
           python 16_extract_dataset_ner.py --workers 8
 
-      # Stage 4 model files are gitignored; 13 reads active models from Supabase instead, and 14
-      # reuses published vectors so only new or changed chunks are embedded.
+      # The model corpus is the active rows in Supabase, what the recommendation search can return.
+      # Stage 4 files are Git LFS stubs in this checkout, and an old local snapshot could disagree
+      # with the table, so 13 is told not to look at them. 14 reuses published vectors so only new
+      # or changed chunks are embedded.
       - name: Rebuild hypergraph, index and wiki
         run: |
-          python 13_build_hypergraph.py
+          python 13_build_hypergraph.py --model-source supabase
           python 14_build_dataset_chunks.py --embed
           python 15_build_wiki.py
+
+      - name: Record the model corpus
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          report = json.load(open("data/hypergraph/report.json", encoding="utf-8"))
+          models = report["models"]
+          print("## Hypergraph model corpus")
+          print(f"- source: {models['source']} (requested {models['requested_source']})")
+          print(f"- active models read: {models['count']}")
+          print(f"- model entities: {report['entities'].get('model', 0)}")
+          print(f"- model_ids_sha256: `{models['model_ids_sha256']}`")
+          PY
 
       - name: Quality gates
         run: |

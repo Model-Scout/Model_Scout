@@ -84,9 +84,30 @@ Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다.
 `bfloat16` 같은 계약 값이 sparse 점수에 섞일 수 있다. full-scan dry-run 뒤 대표 질의의
 before/after 와 골든셋으로 판단한다.
 
-## 6. 운영 순서
+## 6. 하이퍼그래프와 모델 테이블
 
-1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다.
+하이퍼그래프(`13_build_hypergraph.py` → `data/hypergraph/`)는 모델·데이터셋을 taxonomy 개념에
+연결한 그래프다. 추천 그래프(17)는 Supabase 에서 찾은 모델로 이 그래프에서 데이터셋을 찾는다.
+그래프에 없는 모델은 "관련 데이터셋 없음"이 되므로, 그래프의 모델 집합이 Supabase active 행과
+같아야 한다.
+
+| `--model-source` | 동작 |
+|---|---|
+| `auto` (기본, 로컬 개발) | Stage 4 두 파일이 실제 JSONL 이면 로컬, 아니면 Supabase |
+| `local` | 실제 JSONL 이 아니면(없음·빈 파일·LFS pointer·손상) 실패 |
+| `supabase` | 로컬 파일을 보지 않고 Supabase active 행 |
+
+Stage 4 파일은 Git LFS 라서 LFS 없이 checkout 하면 pointer 파일만 있다. 운영 `dataset-refresh.yml` 은
+full·rebuild 두 경로 모두 `--model-source supabase` 다. 사용한 원본·모델 수·정렬된 모델 ID 의 sha256
+은 `data/hypergraph/report.json` 의 `models`(v2 는 `build_manifest.json` 의 counts)와 Step Summary 에
+남는다. 같은 실행에서 읽은 ID 가 기준이므로 다른 시점의 로컬 수치와 비교하지 않는다.
+
+공공데이터 v2 전환은 이 절차에 포함되지 않는다. 기본 corpus 는 v1 이고 `20_sync_dataset_index.py` 도
+v1 만 다룬다.
+
+## 7. 운영 순서
+
+1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다. schedule 은 건드리지 않는다.
 2. `mode=validate` 를 실행한다.
 3. `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다.
 4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보를 본다.
@@ -102,13 +123,18 @@ before/after 와 골든셋으로 판단한다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
    - `source_watermark` 가 보고서의 `source_watermark` 와 같은지 본다.
    - active 행 수가 `stage4_rows` 와 같은지 본다.
-9. 서버 `.env` 에 `MODEL_CONTRACT_FILTERS_ENABLED=true` 를 넣고 `deploy/deploy.sh` 로 재배포한다.
-10. 서비스 smoke test 를 한다.
+9. Dataset refresh Action 을 잠시 활성화하고 `mode=rebuild` 로 한 번 실행한다. Step Summary 의
+   active 모델 수, model entity 수, `model_ids_sha256` 를 확인한다. 모델 수가 8단계 active 행 수와
+   같아야 한다.
+10. 9단계가 커밋한 그래프를 `git pull` 로 받는다. 배포에 쓰는 `.env` 에
+    `MODEL_CONTRACT_FILTERS_ENABLED=true` 를 넣고 `deploy/deploy.sh` 로 재배포한다. 하이퍼그래프
+    데이터도 이때 같이 올라간다.
+11. 서비스 smoke test 를 한다.
     - 일반 질의를 확인한다.
     - "상업용 + GGUF + 승인 없이" 질의를 확인한다. 카드의 `상업 이용`, `GGUF 파일`, `승인 없이 내려받기` check 를 본다.
-11. Actions 를 다시 비활성화한다.
+12. 두 Action(재적재, Dataset refresh)을 다시 비활성화한다.
 
-## 7. 되돌리기
+## 8. 되돌리기
 
 - dry-run 은 DB 와 저장소를 바꾸지 않는다. 버리면 끝이다.
 - 플래그를 켠 뒤 검색이 이상하면 `MODEL_CONTRACT_FILTERS_ENABLED` 를 지우고 재배포한다. 데이터와
