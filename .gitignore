@@ -64,5 +64,6 @@ ai/data/public_enriched/
 
 # Model reingest run outputs (08 --report / --bundle-dir). Uploaded as Action artifacts, never committed.
 ai/reingest-bundle/
+ai/reingest-work/
 ai/reingest-report*.json
 ai/reingest-coverage-*.md

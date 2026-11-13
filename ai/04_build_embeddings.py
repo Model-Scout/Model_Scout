@@ -569,16 +569,26 @@ def validate_embedded_output(documents: Sequence[Dict[str, Any]], source_rows: S
     return {"pool": pool, "rows": len(documents), "dimensions": sorted(dimensions), "bad_count": len(bad), "bad_examples": bad[:20]}
 
 
-def embed_documents(documents: List[Dict[str, Any]], model: str, batch_size: int, checkpoint: Optional[Path] = None) -> None:
+def embed_documents(
+    documents: List[Dict[str, Any]],
+    model: str,
+    batch_size: int,
+    checkpoint: Optional[Path] = None,
+) -> Dict[str, int]:
     from openai import OpenAI
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is required with --execute")
     client = OpenAI(api_key=api_key)
+    usage_totals = {"api_calls": 0, "prompt_tokens": 0, "total_tokens": 0}
     for start in range(0, len(documents), batch_size):
         batch = documents[start : start + batch_size]
         response = client.embeddings.create(model=model, input=[row["embedding_text"] for row in batch])
+        usage_totals["api_calls"] += 1
+        usage = getattr(response, "usage", None)
+        usage_totals["prompt_tokens"] += int(getattr(usage, "prompt_tokens", 0) or 0)
+        usage_totals["total_tokens"] += int(getattr(usage, "total_tokens", 0) or 0)
         items = sorted(response.data, key=lambda item: item.index)
         if len(items) != len(batch):
             raise RuntimeError(f"embedding count mismatch: {len(batch)} requested, {len(items)} returned")
@@ -592,6 +602,7 @@ def embed_documents(documents: List[Dict[str, Any]], model: str, batch_size: int
         if checkpoint is not None:
             write_jsonl_atomic(documents, checkpoint)
         print(f"embedded {min(start + len(batch), len(documents))}/{len(documents)}", flush=True)
+    return usage_totals
 
 
 def reusable(existing: Dict[str, Any], document: Dict[str, Any], model: str) -> bool:
@@ -756,6 +767,7 @@ def run_pool(
 
     reused = 0
     db_reused = 0
+    api_usage = {"api_calls": 0, "prompt_tokens": 0, "total_tokens": 0}
     output: Optional[Path] = None
     if execute:
         incremental = model_ids is not None
@@ -808,7 +820,7 @@ def run_pool(
                 pending.append(document)
         if pending:
             try:
-                embed_documents(pending, model, batch_size, checkpoint_path)
+                api_usage = embed_documents(pending, model, batch_size, checkpoint_path)
             except Exception as exc:
                 error_path = DATA_DIR / f"hf_models_stage4_{pool}_errors.jsonl"
                 errors = [
@@ -839,6 +851,7 @@ def run_pool(
         "reused": reused,
         "db_reused": db_reused,
         "embedded": len(documents) - reused,
+        **api_usage,
         "output": str(output) if output else None,
     }
     print(json.dumps(summary, ensure_ascii=False), flush=True)
@@ -868,6 +881,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pool", choices=("core", "low_popularity", "all"), default="all")
     parser.add_argument("--model", default=None)
+    parser.add_argument("--metrics", type=Path, default=None, help="Optional JSON path for embedding API usage")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
     parser.add_argument("--sample-strategy", choices=("stratified", "first"), default="stratified")
@@ -919,7 +933,11 @@ def main() -> int:
             )
         for pool in pools
     ]
-    print(json.dumps({"stage4_version": STAGE4_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))
+    result = {"stage4_version": STAGE4_VERSION, "model": model, "summaries": summaries}
+    if args.metrics is not None:
+        args.metrics.parent.mkdir(parents=True, exist_ok=True)
+        args.metrics.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
 
