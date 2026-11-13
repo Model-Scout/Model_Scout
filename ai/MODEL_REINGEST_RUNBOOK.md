@@ -97,8 +97,9 @@ dry-run 과 apply 모두 artifact 로 올린다.
 - `capacity`(보고서·summary 안) — DB 전체·테이블별 MB, 이번 쓰기 추정, 예상 최고치, 한도
 - `reingest-coverage-before.md` / `-after.md` (Stage 2 기준 질문별 답변 가능률), `data/hf_models_stage4_manifest.json`
 
-Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다. 필요하면 별도 입력으로 켜는
-후속 작업으로 한다.
+Stage 1~4 전체 산출물은 승인용 `reingest-bundle-<run_id>` artifact 에 포함하며 14일간
+보관한다. 별도의 `reingest-report-*` artifact 에는 검토용 보고서와 coverage 를 30일간
+보관한다. Stage 4 JSONL 은 apply 뒤 Git 스냅샷 커밋에는 포함하지 않는다.
 
 ## 5. SQL migration, Action, 기능 플래그
 
