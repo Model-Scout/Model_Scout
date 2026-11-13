@@ -28,7 +28,8 @@ if [ "${1:-}" != "--data" ]; then
   # Runtime keys only: collection keys stay off the server, and the public-facing backend never holds the OpenAI key.
   grep -E '^(SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
     ssh "$HOST" "umask 077; cat > $REMOTE/.env.backend"
-  grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
+  # MODEL_CONTRACT_FILTERS_ENABLED stays off (absent) until the contract migration and reingest are done.
+  grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED)=' .env |
     ssh "$HOST" "umask 077; cat > $REMOTE/.env.ai; rm -f $REMOTE/.env"
   # Team login for Swagger; only the bcrypt hash leaves this machine.
   password=$(grep -E '^DOCS_PASSWORD=' .env | cut -d= -f2-)

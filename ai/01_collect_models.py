@@ -2237,8 +2237,10 @@ def main(resume=False):
     )
 
 
-def run_collection():
+def run_collection(resume=True):
     # Checkpoints remain reviewable without replacing the published corpus on failure.
+    # resume=False ignores an incomplete checkpoint: a full reingest records its
+    # scan start as the next watermark, so rows seen before that start must not mix in.
     output_names = ("CORE_OUTPUT", "LOW_POPULARITY_OUTPUT", "LIKELY_OUTPUT",
                     "FALLBACK_OUTPUT", "GROUP_OUTPUT", "STATE_OUTPUT")
     published = {name: globals()[name] for name in output_names}
@@ -2249,7 +2251,7 @@ def run_collection():
     try:
         for name, path in published.items():
             globals()[name] = checkpoint_dir / path.name
-        main(resume=checkpoint_can_resume(checkpoint_state_path))
+        main(resume=resume and checkpoint_can_resume(checkpoint_state_path))
         current_counts = validate_outputs()
         validate_snapshot_drop(previous_counts, current_counts)
         for name, path in published.items():
@@ -2259,4 +2261,6 @@ def run_collection():
 
 
 if __name__ == "__main__":
-    run_collection()
+    import sys
+
+    run_collection(resume="--no-resume" not in sys.argv[1:])

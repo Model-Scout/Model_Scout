@@ -45,6 +45,37 @@ def sha256_text(items):
     return digest.hexdigest()
 
 
+LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/v1"
+
+
+def read_jsonl_snapshot(path):
+    """(status, rows) for a JSONL snapshot that may be a Git LFS stub.
+
+    status: "missing" | "empty" | "lfs_pointer" | "corrupt" | "jsonl"; rows only for "jsonl".
+    A checkout without LFS leaves pointer files where the snapshot should be, so "the path exists"
+    does not mean "there is data".
+    """
+    path = Path(path)
+    if not path.exists():
+        return "missing", None
+    rows = []
+    with open(path, "rb") as f:
+        if f.read(len(LFS_POINTER_PREFIX)) == LFS_POINTER_PREFIX:
+            return "lfs_pointer", None
+        f.seek(0)
+        try:
+            for line in f:
+                if line.strip():
+                    rows.append(json.loads(line))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            return "corrupt", None
+    if not rows:
+        return "empty", None
+    if not all(isinstance(row, dict) for row in rows):
+        return "corrupt", None
+    return "jsonl", rows
+
+
 def file_record(path, root=AI_DIR):
     path = Path(path)
     record = {"path": _relative(path, root), "sha256": sha256_file(path), "bytes": path.stat().st_size}

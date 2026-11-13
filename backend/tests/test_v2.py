@@ -408,3 +408,61 @@ def test_frontend_fixtures_match_contract():
     assert stored_schema == ChatDone.model_json_schema()
     stored_openapi = json.loads((examples / "openapi.json").read_text(encoding="utf-8"))
     assert stored_openapi == api.app.openapi()
+
+
+def contract_model(**fields):
+    return {"model_id": "org/m", "license": "other", **fields}
+
+
+def checks_by_key(model, constraints=None):
+    return {c.key: c for c in build_done(
+        {"plan": {"summary_ko": "s", "needs": [{"task": "generation"}], "constraints": constraints or {}},
+         "models": [{"need": {"task": "generation"}, "models": [model]}], "datasets": {}},
+        UUID(int=1), "a", 1).result.candidates[0].checks}
+
+
+def test_license_check_prefers_commercial_status():
+    expected = {"permitted": "ok", "prohibited": "check", "review_required": "check", "unknown": "unknown"}
+    for status, check in expected.items():
+        # commercial_use 가 반대로 와도 commercial_status 가 이긴다.
+        license_check = checks_by_key(contract_model(commercial_status=status, commercial_use="commercial"))["license"]
+        assert license_check.status == check, status
+        assert "other" in license_check.reason
+    assert "상업 이용 불가" in checks_by_key(contract_model(commercial_status="prohibited"))["license"].reason
+
+
+def test_license_check_falls_back_to_commercial_use_then_unknown():
+    assert checks_by_key(contract_model(commercial_use="commercial"))["license"].status == "ok"
+    assert checks_by_key(contract_model(commercial_use="conditional"))["license"].status == "check"
+    assert checks_by_key(contract_model())["license"].status == "unknown"
+
+
+def test_contract_checks_appear_only_when_asked_and_unknown_is_not_ok():
+    plain = checks_by_key(contract_model(gated=None, artifact_formats=None))
+    assert set(plain) == {"license", "language", "execution"}, "요청하지 않은 조건을 붙이지 않는다"
+    asked = {"required_artifacts": ["gguf"], "max_artifact_gib": 8, "exclude_gated": True}
+    unknown = checks_by_key(contract_model(), asked)
+    assert {unknown[k].status for k in ("artifact", "artifact_size", "gated")} == {"unknown"}
+    met = checks_by_key(contract_model(artifact_formats=["gguf", "safetensors"], artifact_runnable_gib=4.2,
+                                       artifact_runnable_label="Q4_K_M", gated=False), asked)
+    assert {met[k].status for k in ("artifact", "artifact_size", "gated")} == {"ok"}
+    assert "4.2GiB" in met["artifact_size"].reason and "Q4_K_M" in met["artifact_size"].reason
+    failed = checks_by_key(contract_model(artifact_formats=["safetensors"], artifact_runnable_gib=13.0,
+                                          gated="manual"), asked)
+    assert {failed[k].status for k in ("artifact", "artifact_size", "gated")} == {"check"}
+
+
+def test_gpu_check_never_invents_a_number():
+    missing = checks_by_key(contract_model(), {"gpu_memory_gb": 8})["gpu"]
+    assert missing.status == "unknown" and not any(ch.isdigit() for ch in missing.reason)
+    estimate = checks_by_key(contract_model(gpu_fit={"verdict": "runs", "label": "돌아감 (fp16)",
+                                                     "basis": "weights_estimate"}), {"gpu_memory_gb": 8})["gpu"]
+    assert estimate.origin == "estimate" and "KV cache" in estimate.reason
+
+
+def test_contract_constraints_reach_the_summary_without_changing_the_shape():
+    done = build_done({"plan": {"summary_ko": "s", "needs": [{"task": "generation"}],
+                                "constraints": {"required_artifacts": ["gguf"], "exclude_gated": True}},
+                       "models": [], "datasets": {}}, UUID(int=1), "a", 1)
+    assert "필요한 파일: GGUF" in done.result.summary
+    assert set(done.model_dump()) == set(ChatDone.model_fields)

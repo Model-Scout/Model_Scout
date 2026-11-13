@@ -396,6 +396,11 @@ def provenance(
     }
 
 
+# Position of the vector literal in a payloads() tuple. It is stored as halfvec (2 bytes per
+# dimension), so its text length says nothing about storage.
+PAYLOAD_VECTOR_INDEX = 21
+
+
 def payloads(
     stage4: Sequence[Dict[str, Any]],
     stage2: Dict[str, Dict[str, Any]],
@@ -604,25 +609,70 @@ def backfill_search_metadata_db() -> Dict[str, int]:
     return {"source_rows": len(stage4_rows), "updated": updated, "missing_db_rows": missing}
 
 
+SYNC_MODES = ("initial", "incremental", "reingest")
+
+
+def db_active_model_ids(cur: Any = None) -> Set[str]:
+    """Supabase 의 현재 active Core/Low 모델 ID. 읽기만 한다.
+
+    재적재의 비활성화 대상은 로컬 Stage 4 가 아니라 이 목록과 비교해 정한다.
+    로컬 Stage 4 와 DB active 행 수가 어긋났던 적이 있어, 로컬 기준으로 빼면
+    DB 에만 남은 행이 계속 active 로 남는다.
+    """
+    query = (
+        "select model_id from public.model_scout_models "
+        "where active = true and source_pool in ('core', 'low_popularity')"
+    )
+    if cur is not None:
+        cur.execute(query)
+        return {row[0] for row in cur.fetchall()}
+    conn = db_connection()
+    try:
+        with conn.cursor() as own:
+            own.execute(query)
+            return {row[0] for row in own.fetchall()}
+    finally:
+        conn.close()
+
+
 def apply_sync(
     rows: Sequence[Tuple[Any, ...]],
     evidence_rows: Sequence[Tuple[Any, ...]],
     run_id: str,
     batch_size: int,
     *,
-    incremental: bool = False,
+    sync_mode: str = "initial",
     removed_ids: Sequence[str] = (),
+    deactivate_missing: bool = False,
+    stage4_ids: Optional[Sequence[str]] = None,
     source_watermark: Optional[str] = None,
     corpus_rows: Optional[int] = None,
+    extra_versions: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
+    """Upsert rows and deactivate what the mode says is gone, in one transaction.
+
+    비활성화 정책은 모드마다 다르다.
+
+      initial      이번 run 이 올리지 않은 Core/Low active 행 전부
+      incremental  removed_ids 만
+      reingest     removed_ids 와, deactivate_missing 이면 "DB active - stage4_ids"
+                   까지. 같은 트랜잭션 안에서 DB active 를 다시 읽고
+                   assert_deactivation_plan 을 통과해야만 쓴다
+    """
     import psycopg2.extras
 
+    if sync_mode not in SYNC_MODES:
+        raise ValueError(f"unknown sync_mode: {sync_mode!r}")
+    if deactivate_missing and (sync_mode != "reingest" or stage4_ids is None):
+        raise ValueError("deactivate_missing needs sync_mode='reingest' and stage4_ids")
     stage_versions = dict(EXPECTED_VERSIONS)
-    stage_versions["sync_mode"] = "incremental" if incremental else "initial"
+    stage_versions["sync_mode"] = sync_mode
     if source_watermark:
         stage_versions["source_watermark"] = source_watermark
     if corpus_rows is not None:
         stage_versions["corpus_rows"] = corpus_rows
+    stage_versions.update(extra_versions or {})
+    plan: Optional[Dict[str, Any]] = None
 
     statement = """
         insert into public.model_scout_models (
@@ -673,6 +723,17 @@ def apply_sync(
         with conn:
             with conn.cursor() as cur:
                 verify_vector_extension(cur)
+                if sync_mode == "reingest":
+                    # upsert 전에 읽는다. upsert 가 active=true 로 되살리는 행이
+                    # 섞이면 "원래 active 였던 것"을 알 수 없다.
+                    plan = deactivation_plan(
+                        db_active_model_ids(cur),
+                        stage4_ids if stage4_ids is not None else (),
+                        removed_ids,
+                        deactivate_missing=deactivate_missing,
+                    )
+                    assert_deactivation_plan(plan)
+                    removed_ids = plan["candidate_ids"]
                 cur.execute(
                     """
                     insert into public.model_scout_sync_runs
@@ -717,7 +778,7 @@ def apply_sync(
                     cur, evidence_statement, evidence_rows,
                     template=evidence_template, page_size=batch_size,
                 )
-                if incremental:
+                if sync_mode in ("incremental", "reingest"):
                     if removed_ids:
                         cur.execute(
                             """
@@ -768,7 +829,7 @@ def apply_sync(
                     """,
                     (run_id,),
                 )
-        return {
+        result = {
             "run_id": run_id,
             "sync_mode": stage_versions["sync_mode"],
             "upserted": len(rows),
@@ -776,6 +837,9 @@ def apply_sync(
             "deactivated": deactivated,
             "corpus_rows": corpus_rows,
         }
+        if plan is not None:
+            result["deactivation"] = plan
+        return result
     except Exception as exc:
         try:
             conn.rollback()
@@ -862,7 +926,14 @@ def parse_utc(value: Any) -> Optional[datetime]:
 
 
 
-def latest_completed_sync() -> Optional[Dict[str, Any]]:
+def latest_completed_sync(any_versions: bool = False) -> Optional[Dict[str, Any]]:
+    """The newest completed run that a watermark can be taken from.
+
+    --refresh needs a run with the current stage versions: an incremental scan over an older schema
+    would leave unchanged models without the new fields. --reingest passes any_versions=True, because
+    upgrading the versions is its job; otherwise the first reingest after a version bump finds no
+    run at all and refuses to apply.
+    """
     conn = db_connection()
     try:
         with conn.cursor() as cur:
@@ -871,12 +942,12 @@ def latest_completed_sync() -> Optional[Dict[str, Any]]:
                 select run_id, completed_at, stage_versions, row_count
                 from public.model_scout_sync_runs
                 where status = 'completed'
-                  and stage_versions @> %s::jsonb
-                  and coalesce(stage_versions->>'sync_mode', 'initial') in ('initial', 'incremental')
+                  and (%s or stage_versions @> %s::jsonb)
+                  and coalesce(stage_versions->>'sync_mode', 'initial') in ('initial', 'incremental', 'reingest')
                 order by completed_at desc
                 limit 1
                 """,
-                (json_text(EXPECTED_VERSIONS),),
+                (any_versions, json_text(EXPECTED_VERSIONS)),
             )
             row = cur.fetchone()
             if not row:
@@ -1328,6 +1399,184 @@ def assert_stage2_volume(expected: int, produced: int, excluded: int) -> None:
         )
 
 
+# ── Stage 1 전체 재스캔(--full-stage1) ──────────────────────────────────────
+#
+# 01_collect_models.py 의 run_collection() 이 이미 checkpoint 폴더에 수집하고,
+# 모든 task 성공·파티션별 50% 감소 가드를 통과해야만 공개 파일을 교체한다.
+# 그 경로를 하위 프로세스로 그대로 쓰고, 여기서는 재적재 관점의 가드만 더한다.
+
+STAGE1_PARTITIONS = {
+    "core": "hf_models_stage1_core.jsonl",
+    "low_popularity": "hf_models_stage1_low_popularity.jsonl",
+    "likely": "hf_models_stage1_likely.jsonl",
+    "fallback": "hf_models_stage1_fallback.jsonl",
+}
+STAGE1_SNAPSHOT_FILES = tuple(STAGE1_PARTITIONS.values()) + (
+    "hf_models_stage1_groups.jsonl",
+    "hf_models_stage1_state.json",
+)
+# 비율 가드는 기준이 이보다 작으면 적용하지 않는다. 01 의 SNAPSHOT_DROP_MIN_ROWS 와 같다.
+REINGEST_GUARD_MIN_ROWS = 100
+# 처리 대상(Core ∪ Low)에서 빠지는 모델과 DB 에서 비활성화될 모델의 상한.
+# 01 의 파티션 가드(50%)는 "수집이 통째로 깨졌다"를 막는 값이라 DB 기준으로는
+# 너무 느슨하다. 정상 감소는 Hub 삭제·비공개 전환·다운로드 80 미만 하락·언어
+# 게이트 제외이고, 직전 Stage 1 이후 몇 달 치를 합쳐도 한 자릿수 % 다. 10% 를
+# 넘으면 사람이 dry-run diff 를 보고 판단할 일이므로 자동으로 멈춘다. 정말
+# 정상이라면 이 값을 PR 로 올린다(실행 옵션으로 우회하지 않는다).
+REINGEST_MAX_REMOVED_FRACTION = 0.10
+REINGEST_MAX_DEACTIVATION_FRACTION = 0.10
+
+
+def stage1_partition_ids(data_dir: Optional[Path] = None) -> Dict[str, List[str]]:
+    """Stage 1 파티션별 모델 ID. 파일이 없으면 빈 목록이다."""
+    base = data_dir if data_dir is not None else DATA_DIR
+    ids: Dict[str, List[str]] = {}
+    for partition, name in STAGE1_PARTITIONS.items():
+        path = base / name
+        rows = read_jsonl(path) if path.exists() else []
+        ids[partition] = [row["model_id"] for row in rows if row.get("model_id")]
+    return ids
+
+
+def stage1_diff(
+    previous: Dict[str, Sequence[str]],
+    current: Dict[str, Sequence[str]],
+) -> Dict[str, Any]:
+    """Stage 1 전후 차이. 처리 대상은 A 후보 중 Core ∪ Low 뿐이다.
+
+    Likely(B)·Fallback(C)은 후보 분포로만 보고한다. Stage 2 로 가지 않으므로
+    추가·제거 수에 섞으면 실제 DB 영향보다 훨씬 크게 보인다.
+    """
+    def processable(ids: Dict[str, Sequence[str]]) -> Set[str]:
+        return set(ids.get("core", ())) | set(ids.get("low_popularity", ()))
+
+    def tiers(ids: Dict[str, Sequence[str]]) -> Dict[str, int]:
+        return {
+            "A_verified": len(processable(ids)),
+            "B_likely": len(ids.get("likely", ())),
+            "C_fallback": len(ids.get("fallback", ())),
+        }
+
+    before, after = processable(previous), processable(current)
+    previous_core, current_core = set(previous.get("core", ())), set(current.get("core", ()))
+    previous_low = set(previous.get("low_popularity", ()))
+    current_low = set(current.get("low_popularity", ()))
+    return {
+        "previous_processable": len(before),
+        "current_processable": len(after),
+        "pool_counts": {
+            "previous": {pool: len(previous.get(pool, ())) for pool in POOLS},
+            "current": {pool: len(current.get(pool, ())) for pool in POOLS},
+        },
+        "candidate_tiers": {"previous": tiers(previous), "current": tiers(current)},
+        "added_ids": sorted(after - before),
+        "removed_ids": sorted(before - after),
+        "core_to_low_ids": sorted(previous_core & current_low),
+        "low_to_core_ids": sorted(previous_low & current_core),
+    }
+
+
+def fraction_guard(base: int, count: int, max_fraction: float) -> Dict[str, Any]:
+    """count 가 base 의 max_fraction 을 넘는지. base 가 작으면 판단하지 않는다."""
+    allowed = int(base * max_fraction) if base >= REINGEST_GUARD_MIN_ROWS else None
+    return {
+        "base": base,
+        "count": count,
+        "max_fraction": max_fraction,
+        "max_allowed": allowed,
+        "blocked": allowed is not None and count > allowed,
+    }
+
+
+def assert_stage1_removal(diff: Dict[str, Any]) -> Dict[str, Any]:
+    """새 Stage 1 이 처리 대상을 너무 많이 잃었으면 Stage 2 전에 끊는다.
+
+    Core ↔ Low 이동은 제거가 아니다. 두 풀을 합친 집합에서 사라진 것만 센다.
+    """
+    guard = fraction_guard(
+        diff["previous_processable"], len(diff["removed_ids"]), REINGEST_MAX_REMOVED_FRACTION
+    )
+    if guard["blocked"]:
+        raise RuntimeError(
+            f"새 Stage 1 이 처리 대상 {guard['base']}개 중 {guard['count']}개를 잃었다 "
+            f"(상한 {guard['max_allowed']}개). 수집 이상으로 보고 재적재를 중단한다"
+        )
+    return guard
+
+
+def deactivation_plan(
+    db_active_ids: Sequence[str],
+    stage4_ids: Sequence[str],
+    removed_ids: Sequence[str] = (),
+    *,
+    deactivate_missing: bool,
+) -> Dict[str, Any]:
+    """재적재가 비활성화할 DB 행.
+
+    deactivate_missing 이면 "DB active - 새 Stage 4" 전체가 대상이다. 아니면
+    (Stage 1 재사용) 예전처럼 removed_ids(언어 게이트 제외분)만 대상이고,
+    DB 에만 남은 행은 보고만 한다.
+    """
+    active = set(db_active_ids)
+    stage4 = set(stage4_ids)
+    missing = active - stage4
+    explicit = set(removed_ids) & active
+    candidates = (missing | explicit) if deactivate_missing else explicit
+    plan = {
+        "deactivate_missing": deactivate_missing,
+        "db_active": len(active),
+        "stage4": len(stage4),
+        "db_only_ids": sorted(missing),
+        "candidate_ids": sorted(candidates),
+        "candidate_count": len(candidates),
+    }
+    plan["guard"] = fraction_guard(len(active), len(candidates), REINGEST_MAX_DEACTIVATION_FRACTION)
+    return plan
+
+
+def assert_deactivation_plan(plan: Dict[str, Any]) -> None:
+    guard = plan["guard"]
+    if guard["blocked"]:
+        raise RuntimeError(
+            f"DB active {guard['base']}행 중 {guard['count']}행을 비활성화하게 된다 "
+            f"(상한 {guard['max_allowed']}행). 적재를 중단한다 — dry-run 보고서의 "
+            "deactivation.candidate_ids 를 확인한다"
+        )
+
+
+def run_full_stage1_scan() -> Dict[str, Any]:
+    """01_collect_models.py 로 Stage 1 을 처음부터 다시 만든다.
+
+    scan_started_at 은 수집 **시작 전** 시각이다. 완료 시각을 watermark 로 쓰면
+    스캔 도중 Hub 에서 바뀐 모델을 다음 --refresh 가 건너뛴다.
+
+    01 이 실패하면 공개 파일은 그대로다(01 이 보장한다). 01 이 공개한 뒤 여기
+    가드에서 멈추면 백업으로 되돌려, 실패한 재적재가 로컬 Stage 1 을 바꿔 두지
+    않게 한다.
+    """
+    import shutil
+
+    previous = stage1_partition_ids()
+    scan_started = datetime.now(timezone.utc)
+    with tempfile.TemporaryDirectory(prefix=".stage1_reingest_backup_", dir=str(DATA_DIR)) as name:
+        backup = Path(name)
+        for filename in STAGE1_SNAPSHOT_FILES:
+            if (DATA_DIR / filename).exists():
+                shutil.copy2(DATA_DIR / filename, backup / filename)
+        try:
+            # 낡은 미완료 checkpoint 를 이어 받으면 scan_started_at 이전에 본
+            # 모델이 섞인다. 재적재는 항상 처음부터 수집한다.
+            run_command([sys.executable, str(ROOT / "01_collect_models.py"), "--no-resume"])
+            diff = stage1_diff(previous, stage1_partition_ids())
+            diff["removal_guard"] = assert_stage1_removal(diff)
+        except Exception:
+            for filename in STAGE1_SNAPSHOT_FILES:
+                if (backup / filename).exists():
+                    (backup / filename).replace(DATA_DIR / filename)
+            raise
+    return {"scan_started_at": scan_started.isoformat(), "diff": diff}
+
+
 def carried_watermark(latest: Optional[Dict[str, Any]]) -> Optional[str]:
     """재적재가 물려받을 직전 watermark.
 
@@ -1362,32 +1611,46 @@ def reingest_result(
     contract_gate_report: Dict[str, Any],
     language_excluded: Set[str],
     stage2_rows: int,
+    stage1_scan: Optional[Dict[str, Any]] = None,
+    stage1_processable: Optional[int] = None,
+    language_excluded_in_stage1: Optional[int] = None,
 ) -> Dict[str, Any]:
     """재적재가 main 의 적재 호출부로 넘기는 값.
 
     조립을 따로 둔 이유는 full_reingest_pipeline 이 하위 프로세스를 띄워 단위
     테스트가 어렵기 때문이다. 여기 두 값이 조용히 비면 사고가 난다.
 
-      source_watermark  비면 apply_sync 가 scan_started_at 으로 흘러가 재적재
-                        시각을 박고, 다음 --refresh 가 변경 모델을 건너뛴다
+      source_watermark  Stage 1 재사용이면 직전 값, 전체 재스캔이면 스캔 시작
+                        시각이다. 비면 apply_sync 가 키를 넣지 않는다
       removed_ids       비면 언어 게이트로 새로 제외된 모델이 낡은 데이터로
                         계속 active 로 남는다
     """
+    full_stage1 = stage1_scan is not None
     return {
         "mode": "reingest",
+        "stage1_mode": "full-scan" if full_stage1 else "reuse",
         "started_at": started_at,
-        # Stage 1 을 스캔하지 않았으므로 watermark 를 전진시키지 않는다.
-        "source_watermark": previous_watermark,
+        # 재사용: Stage 1 을 스캔하지 않았으므로 watermark 를 전진시키지 않는다.
+        # 전체 재스캔: 스캔을 시작한 시각까지는 Hub 를 다 봤다.
+        "source_watermark": stage1_scan["scan_started_at"] if full_stage1 else previous_watermark,
+        "previous_watermark": previous_watermark,
         "steps": list(steps),
         "contract_gate": contract_gate_report,
         "requires_sync": True,
         "stage4_mode": "full",
         "removed_ids": sorted(language_excluded),
         "stage2_rows": stage2_rows,
+        "stage1_processable": stage1_processable,
+        "language_excluded_total": len(language_excluded),
+        "language_excluded_in_stage1": language_excluded_in_stage1,
+        "stage1_diff": stage1_scan["diff"] if full_stage1 else None,
     }
 
 
-def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
+def full_reingest_pipeline(
+    previous_watermark: Optional[str],
+    full_stage1: bool = False,
+) -> Dict[str, Any]:
     """스키마가 바뀐 뒤의 전체 재적재.
 
     ``--refresh``를 쓸 수 없는 이유
@@ -1406,11 +1669,13 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     - Stage 4는 ``document_hash``가 바뀐 문서만 재임베딩한다. 실측 약 1,340건,
       text-embedding-3-small 기준 약 $0.02다.
 
-    Stage 1은 다시 스캔하지 않는다. 바꾸려는 것은 모델의 **사실**이고 모델
-    **목록**이 아니다. 목록 갱신은 ``--refresh``가 할 일이다.
+    기본(``full_stage1=False``)은 Stage 1을 다시 스캔하지 않는다. 바꾸려는 것은
+    모델의 **사실**이고 모델 **목록**이 아니다. 목록까지 새로 만들려면
+    ``--full-stage1``로 ``run_full_stage1_scan``을 먼저 돌린다. 그때는 스캔 시작
+    시각이 새 watermark다.
 
-    그래서 watermark를 전진시키지 않는다
-    ----------------------------------
+    재사용 모드에서는 watermark를 전진시키지 않는다
+    -------------------------------------------
     ``--refresh``는 저장된 ``source_watermark`` 이후에 Hub에서 바뀐 모델만
     스캔한다. 재적재가 자기 시작 시각을 watermark로 올려 버리면, **직전 Stage 1
     스캔 이후부터 재적재 사이에 바뀐 모델을 다음 ``--refresh``가 영구히
@@ -1424,8 +1689,17 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     started = datetime.now(timezone.utc)
     steps: List[str] = []
 
+    stage1_scan = run_full_stage1_scan() if full_stage1 else None
+    if stage1_scan is not None:
+        steps.append("stage1:full-scan")
+
     # Stage 2 — 전체. model-ids-file을 주지 않으면 풀 전체를 본다.
-    expected = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage1_{pool}.jsonl")) for pool in POOLS)
+    # 기준은 (새) Stage 1 의 처리 대상이다.
+    stage1_ids = {
+        row["model_id"]
+        for pool in POOLS
+        for row in read_jsonl(DATA_DIR / f"hf_models_stage1_{pool}.jsonl")
+    }
     run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
     steps.append("stage2:full")
 
@@ -1434,8 +1708,11 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
     # 주지 않으면 낡은 데이터로 계속 활성 상태로 남는다. --refresh가 하는 것과
     # 같은 처리다.
     language_excluded = language_excluded_ids()
+    # 제외 보고서는 누적이라 지금 Stage 1 에 없는 옛 ID 도 있다. 볼륨 가드에서는
+    # 이번 처리 대상 중 제외된 수만 빼야 대량 실패를 가려 주지 않는다.
+    excluded_in_stage1 = len(language_excluded & stage1_ids)
     produced = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")) for pool in POOLS)
-    assert_stage2_volume(expected, produced, len(language_excluded))
+    assert_stage2_volume(len(stage1_ids), produced, excluded_in_stage1)
     steps.append(f"stage2:{produced}rows")
 
     # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
@@ -1464,7 +1741,151 @@ def full_reingest_pipeline(previous_watermark: Optional[str]) -> Dict[str, Any]:
         contract_gate_report=gate,
         language_excluded=language_excluded,
         stage2_rows=produced,
+        stage1_scan=stage1_scan,
+        stage1_processable=len(stage1_ids),
+        language_excluded_in_stage1=excluded_in_stage1,
     )
+
+
+# ── DB 용량 ──────────────────────────────────────────────────────────────────
+#
+# 모델 테이블과 데이터셋 테이블(20_sync_dataset_index.py)은 같은 Supabase 무료 DB 를 쓴다.
+# 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 모델 검색과 데이터셋 서비스가 같이 멈춘다.
+# 재적재는 모든 행을 다시 쓰고, 옛 행은 VACUUM 전까지 자리를 차지한다. 그래서 최고치는
+# "지금 크기 + 이번에 쓸 양"이다. 한도는 20 과 같은 SUPABASE_DB_BUDGET_MB 를 쓴다.
+DEFAULT_DB_BUDGET_MB = 480
+# search_tsv(생성 컬럼) 평균 크기. supabase_migration_model_search_tsv.sql 의 실측값이다.
+TSV_BYTES_PER_MODEL = 7400
+ROW_OVERHEAD_BYTES = 400
+STORAGE_TABLES = (
+    "public.model_scout_models",
+    "public.model_scout_evidence",
+    "public.model_scout_dataset_chunks",
+    "public.model_scout_datasets",
+)
+
+
+def estimate_write_bytes(
+    rows: Sequence[Tuple[Any, ...]],
+    evidence_rows: Sequence[Tuple[Any, ...]],
+) -> int:
+    """이번 실행이 새로 쓰는 바이트의 상한.
+
+    JSON 은 압축 전 텍스트 길이로 센다. jsonb 는 TOAST 에서 압축되므로 실제보다 크게
+    나온다 — 가드는 보수적으로 둔다. 벡터는 halfvec 크기(2 B × 차원)로 센다.
+    """
+    total = 0
+    for row in rows:
+        total += sum(
+            len(value.encode("utf-8"))
+            for index, value in enumerate(row)
+            if isinstance(value, str) and index != PAYLOAD_VECTOR_INDEX
+        )
+        total += 2 * 1536 + TSV_BYTES_PER_MODEL + ROW_OVERHEAD_BYTES
+    for row in evidence_rows:
+        total += sum(len(value.encode("utf-8")) for value in row if isinstance(value, str))
+        total += ROW_OVERHEAD_BYTES
+    return total
+
+
+def db_storage(cur: Any = None) -> Dict[str, int]:
+    """DB 전체와 테이블별 크기(바이트). 읽기만 한다."""
+    query = "select pg_database_size(current_database())" + "".join(
+        f", coalesce(pg_total_relation_size(to_regclass('{name}')), 0)" for name in STORAGE_TABLES
+    )
+
+    def read(cursor: Any) -> Dict[str, int]:
+        cursor.execute(query)
+        values = cursor.fetchone()
+        return {"database": int(values[0])} | {
+            name.split(".", 1)[1]: int(value) for name, value in zip(STORAGE_TABLES, values[1:])
+        }
+
+    if cur is not None:
+        return read(cur)
+    conn = db_connection()
+    try:
+        with conn.cursor() as own:
+            return read(own)
+    finally:
+        conn.close()
+
+
+def capacity_plan(storage: Dict[str, int], write_bytes: int, budget_mb: Optional[float] = None) -> Dict[str, Any]:
+    budget = float(
+        budget_mb if budget_mb is not None
+        else os.getenv("SUPABASE_DB_BUDGET_MB", DEFAULT_DB_BUDGET_MB)
+    )
+    peak = storage["database"] + write_bytes
+    return {
+        "tables_mb": {name: round(size / 1e6, 1) for name, size in storage.items() if name != "database"},
+        "database_mb": round(storage["database"] / 1e6, 1),
+        "estimated_write_mb": round(write_bytes / 1e6, 1),
+        "projected_peak_mb": round(peak / 1e6, 1),
+        "budget_mb": budget,
+        "blocked": peak / 1e6 > budget,
+    }
+
+
+def assert_capacity(plan: Dict[str, Any]) -> None:
+    if plan["blocked"]:
+        raise RuntimeError(
+            f"DB 예상 최고치 {plan['projected_peak_mb']}MB 가 한도 {plan['budget_mb']:.0f}MB 를 넘는다 "
+            f"(지금 {plan['database_mb']}MB + 이번 쓰기 {plan['estimated_write_mb']}MB). 적재하지 않는다 — "
+            "VACUUM FULL·비활성 행 삭제로 공간을 먼저 확보하거나, 유료 플랜이면 SUPABASE_DB_BUDGET_MB 를 올린다"
+        )
+
+
+def reingest_report_summary(result: Dict[str, Any]) -> Dict[str, Any]:
+    """GitHub Step Summary 용 수치. ID 목록은 빼고 개수만 남긴다."""
+    refresh = result.get("reingest") or {}
+    diff = refresh.get("stage1_diff") or {}
+    deactivation = result.get("deactivation") or {}
+    summary: Dict[str, Any] = {
+        "apply": result.get("apply"),
+        "stage1_mode": refresh.get("stage1_mode"),
+        "previous_watermark": refresh.get("previous_watermark"),
+        "source_watermark": refresh.get("source_watermark"),
+        "stage1_processable": refresh.get("stage1_processable"),
+        "language_excluded_in_stage1": refresh.get("language_excluded_in_stage1"),
+        "stage2_rows": refresh.get("stage2_rows"),
+        "stage4_rows": (result.get("validation") or {}).get("rows"),
+        "db_active": deactivation.get("db_active"),
+        "db_only": len(deactivation.get("db_only_ids") or []),
+        "deactivation_candidates": deactivation.get("candidate_count"),
+        "deactivation_blocked": (deactivation.get("guard") or {}).get("blocked"),
+        "capacity": result.get("capacity"),
+    }
+    if diff:
+        summary["stage1_diff"] = {
+            "previous_processable": diff.get("previous_processable"),
+            "current_processable": diff.get("current_processable"),
+            "added": len(diff.get("added_ids") or []),
+            "removed": len(diff.get("removed_ids") or []),
+            "core_to_low": len(diff.get("core_to_low_ids") or []),
+            "low_to_core": len(diff.get("low_to_core_ids") or []),
+            "candidate_tiers": diff.get("candidate_tiers"),
+        }
+    return summary
+
+
+def write_reingest_report(result: Dict[str, Any], path: Path) -> List[Path]:
+    """감사용 JSON 을 쓴다. 전체 ID 목록은 여기, 요약은 *.summary.json 에 둔다."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    refresh = result.get("reingest") or {}
+    outputs = {
+        path: result,
+        path.with_name(path.stem + ".summary.json"): reingest_report_summary(result),
+        path.with_name(path.stem + ".stage1-diff.json"): refresh.get("stage1_diff"),
+        path.with_name(path.stem + ".deactivation.json"): result.get("deactivation"),
+    }
+    written = []
+    for target, value in outputs.items():
+        if value is None:
+            continue
+        target.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        written.append(target)
+    return written
 
 
 def apply_evidence_backfill(
@@ -1583,6 +2004,19 @@ def main() -> int:
         help="전체 재적재. 스키마가 바뀐 첫 적재에 쓴다. --refresh는 변경된 모델만 "
              "보므로 새 필드를 채울 수 없다",
     )
+    parser.add_argument(
+        "--full-stage1",
+        action="store_true",
+        help="--reingest 와 함께만. Stage 1 을 Hugging Face 에서 처음부터 다시 수집한 뒤 "
+             "Stage 2~4 를 돈다. 없으면 저장소의 Stage 1 을 재사용한다",
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=None,
+        help="결과 JSON 을 이 경로에 쓴다(하위 프로세스 로그가 섞이지 않는다). "
+             "같은 폴더에 *.summary/*.stage1-diff/*.deactivation.json 도 쓴다",
+    )
     parser.add_argument("--force", action="store_true", help="ignore TTL; still incremental")
     parser.add_argument(
         "--ensure-schema",
@@ -1615,6 +2049,8 @@ def main() -> int:
         parser.error("--batch-size must be positive")
     if sum(bool(value) for value in (args.refresh, args.initial, args.reingest, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
         parser.error("--refresh, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
+    if args.full_stage1 and not args.reingest:
+        parser.error("--full-stage1 requires --reingest")
     if (args.refresh or args.initial) and not args.apply:
         parser.error("--refresh/--initial require --apply")
     if args.backfill_runtime and not args.apply:
@@ -1682,9 +2118,9 @@ def main() -> int:
             raise RuntimeError("Could not determine incremental source watermark")
         refresh_info = incremental_refresh_pipeline(watermark)
     elif args.reingest:
-        # watermark를 전진시키지 않기 위해 직전 값을 읽는다. --apply 때만 latest를
-        # 조회하므로 여기서 한 번 더 본다.
-        previous = latest if latest is not None else latest_completed_sync()
+        # watermark를 전진시키지 않기 위해 직전 값을 읽는다. 버전은 따지지 않는다 —
+        # 재적재는 버전을 올리는 작업이라 직전 run 은 대개 옛 버전이다.
+        previous = latest_completed_sync(any_versions=True)
         if args.apply and previous is None:
             raise RuntimeError(
                 "완료된 Supabase sync 기록이 없다. 먼저 "
@@ -1692,7 +2128,9 @@ def main() -> int:
             )
         # --apply 없이도 돈다. 그때는 DB를 건드리지 않고 dry-run 리포트만 낸다 —
         # 팀이 diff를 보고 판단한 뒤에 한 번만 apply 한다.
-        refresh_info = full_reingest_pipeline(carried_watermark(previous))
+        refresh_info = full_reingest_pipeline(
+            carried_watermark(previous), full_stage1=args.full_stage1
+        )
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
@@ -1749,27 +2187,48 @@ def main() -> int:
     run_id = str(uuid.uuid4())
     rows = payloads(selected_stage4, stage2, stage3, run_id)
     evidence_rows = evidence_payloads(selected_stage4, evidence, run_id)
+    sync_mode = (refresh_info or {}).get("mode", "incremental") if refresh_info else "initial"
+    reingest = sync_mode == "reingest"
+    # 전체 재스캔일 때만 "DB active - 새 Stage 4" 를 비활성화한다. 재사용 모드는
+    # 예전처럼 언어 게이트 제외분만 내리고 DB 에만 있는 행은 보고만 한다.
+    deactivate_missing = reingest and refresh_info.get("stage1_mode") == "full-scan"
+    stage4_ids = sorted(row["model_id"] for row in stage4) if reingest else None
     result: Dict[str, Any] = {
         "validation": validation,
         "evidence_validation": evidence_validation,
         "run_id": run_id,
         "apply": args.apply,
         "selected_pools": list(POOLS),
-        "sync_mode": (refresh_info or {}).get("mode", "incremental") if refresh_info else "initial",
+        "sync_mode": sync_mode,
         "changed_rows": len(selected_stage4),
         "removed_rows": len(removed_ids),
     }
+    if reingest:
+        result["reingest"] = refresh_info
+    exit_code = 0
+    if reingest:
+        # 읽기 전용 조회. 쓰기 전에 판단해야 한도를 넘긴 뒤에 알게 되지 않는다.
+        result["capacity"] = capacity_plan(db_storage(), estimate_write_bytes(rows, evidence_rows))
     if args.apply:
+        if reingest and result["capacity"]["blocked"]:
+            if args.report is not None:
+                write_reingest_report(result, args.report)  # 멈춘 이유를 artifact 로 남긴다
+            assert_capacity(result["capacity"])
         result["sync"] = apply_sync(
             rows,
             evidence_rows,
             run_id,
             args.batch_size,
-            incremental=refresh_info is not None,
+            sync_mode=sync_mode,
             removed_ids=removed_ids,
+            deactivate_missing=deactivate_missing,
+            stage4_ids=stage4_ids,
             source_watermark=resolved_source_watermark(refresh_info),
             corpus_rows=len(stage2),
-            )
+            extra_versions={"stage1_mode": refresh_info["stage1_mode"]} if reingest else None,
+        )
+        if "deactivation" in result["sync"]:
+            result["deactivation"] = result["sync"]["deactivation"]
         promote_benchmark_state()
         # Only remove one-run queues after the database transaction has
         # succeeded. Persistent per-pool benchmark state remains intact.
@@ -1778,9 +2237,23 @@ def main() -> int:
         result["dry_run"] = {
             "rows": len(rows),
             "estimated_json_bytes": sum(len(json.dumps(row, ensure_ascii=False, default=str)) for row in rows),
+            "db_write": False,
         }
+        if reingest:
+            # 읽기 전용 조회. apply 는 같은 계산을 쓰기 트랜잭션 안에서 다시 한다.
+            plan = deactivation_plan(
+                db_active_model_ids(), stage4_ids, removed_ids,
+                deactivate_missing=deactivate_missing,
+            )
+            result["deactivation"] = plan
+            result["dry_run"]["expected_source_watermark"] = resolved_source_watermark(refresh_info)
+            if plan["guard"]["blocked"] or result["capacity"]["blocked"]:
+                # 보고서는 끝까지 남기되 실행은 실패로 표시한다.
+                exit_code = 3
+    if args.report is not None:
+        write_reingest_report(result, args.report)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0
+    return exit_code
 
 
 
