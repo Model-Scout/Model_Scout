@@ -156,9 +156,10 @@ def _call_llm(text: str, model: str, prompt: Optional[str] = None) -> Dict[str, 
     return json.loads(response.choices[0].message.content or "{}")
 
 
-def llm_type(text: str, model: Optional[str] = None) -> tuple[str, float]:
+def llm_type(text: str, model: Optional[str] = None, use_cache: bool = True) -> tuple[str, float]:
+    """use_cache=False for live traffic: the cache file holds evaluation queries kept in git."""
     model = model or llm_model()
-    cache = load_cache()
+    cache = load_cache() if use_cache else {}
     key = cache_key(text, model)
     if key in cache:
         return cache[key]["type"], float(cache[key]["latency_ms"])
@@ -172,7 +173,8 @@ def llm_type(text: str, model: Optional[str] = None) -> tuple[str, float]:
     query_type = payload["type"]
     cache[key] = {"prompt_version": PROMPT_VERSION, "model": model, "input": text, "type": query_type,
                   "response": payload, "latency_ms": round(latency_ms, 1)}
-    save_cache(cache)
+    if use_cache:
+        save_cache(cache)
     return query_type, latency_ms
 
 

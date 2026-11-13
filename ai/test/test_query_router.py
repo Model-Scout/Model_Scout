@@ -36,81 +36,75 @@ def test_named_comparison_precedes_format():
 
 
 @pytest.mark.parametrize("payload", [
-    {"target": "dataset", "model_query_type": "semantic_capability"},
-    {"target": "both", "model_query_type": "invented"},
-    {"target": "huggingface", "model_query_type": None},
-    {"target": "dataset"}, [], None,
+    {"target": "huggingface"}, {"target": None},
+    {"model_query_type": "semantic_capability"}, [], None,
 ])
 def test_invalid_response_cannot_dispatch(payload):
     with pytest.raises(ValueError):
         router.validate_response(payload)
 
 
-@pytest.mark.parametrize("text,payload", [
-    ("모델 학습에 쓸 공공데이터", {"target": "dataset", "model_query_type": None}),
-    ("HF 학습 데이터셋", {"target": "dataset", "model_query_type": None}),
-    ("Kaggle 교통량 데이터", {"target": "dataset", "model_query_type": None}),
-    ("GGUF 모델", {"target": "model", "model_query_type": "lexical_exact"}),
-    ("GGUF 모델 학습 데이터만", {"target": "dataset", "model_query_type": None}),
-    ("교통량 데이터와 예측 모델", {"target": "both", "model_query_type": "semantic_capability"}),
-    ("HF에서 좋은 거", {"target": "needs_clarification", "model_query_type": None}),
+@pytest.mark.parametrize("text,target", [
+    ("모델 학습에 쓸 공공데이터", "dataset"),
+    ("HF 학습 데이터셋", "dataset"),
+    ("Kaggle 교통량 데이터", "dataset"),
+    ("GGUF 모델", "model"),
+    ("GGUF 모델 학습 데이터만", "dataset"),
+    ("교통량 데이터와 예측 모델", "both"),
+    ("HF에서 좋은 거", "needs_clarification"),
 ])
-def test_single_call_then_cache(monkeypatch, tmp_path, text, payload):
+def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
     calls = []
 
     def fake_call(query, model, prompt):
         calls.append((query, model, prompt))
-        return payload
+        return {"target": target}
 
-    monkeypatch.setattr(router, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
     monkeypatch.setattr(classifier, "_call_llm", fake_call)
     first = router.route(text)
     second = router.route(text)
     assert len(calls) == 1
-    assert (first.target, first.model_query_type, first.status) == (
-        payload["target"], payload["model_query_type"], "ok")
+    assert (first.target, first.status) == (target, "ok")
     assert second.source == "cache"
-    assert (second.target, second.model_query_type) == (first.target, first.model_query_type)
+    assert second.target == first.target
 
 
-def test_empty_model_type_is_filled_by_classifier(monkeypatch, tmp_path):
+def test_router_does_not_classify_model_type(monkeypatch, tmp_path):
     calls = []
-    monkeypatch.setattr(router, "CACHE_DIR", tmp_path / "routing")
-    monkeypatch.setattr(classifier, "CACHE_PATH", tmp_path / "classifier.json")
-
-    def fake(text, model, prompt=None):
-        calls.append(prompt)
-        return {"target": "both", "model_query_type": None} if prompt else {"type": "semantic_capability"}
-
-    monkeypatch.setattr(classifier, "_call_llm", fake)
+    monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
+    monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: calls.append(1) or {"target": "both"})
     result = router.route("교통량 데이터랑 예측 모델 같이 찾아줘")
-    assert (result.status, result.target, result.model_query_type) == ("ok", "both", "semantic_capability")
-    assert len(calls) == 2
+    assert (result.status, result.target, len(calls)) == ("ok", "both", 1)
+    assert not hasattr(result, "model_query_type")
+    assert '"target"' in router.PROMPT.rsplit("Reply with JSON only", 1)[1]
 
 
 def test_model_type_in_target_slot_means_model():
-    assert router.validate_response({"target": "model_comparison", "model_query_type": None}) == ("model", "model_comparison")
+    assert router.validate_response({"target": "benchmark_lookup"}) == "model"
 
 
 def test_extra_response_fields_are_ignored():
-    assert router.validate_response({"target": "dataset", "model_query_type": None, "reason": "x"}) == ("dataset", None)
+    assert router.validate_response({"target": "dataset", "reason": "x"}) == "dataset"
 
 
-def test_dataset_clause_does_not_override_both_model_intent(monkeypatch, tmp_path):
-    monkeypatch.setattr(router, "CACHE_DIR", tmp_path)
-    monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: {
-        "target": "both", "model_query_type": "semantic_capability"})
-    result = router.route("영→한 번역 데이터와 한국어 요약 모델 각각 찾아줘")
-    assert result.model_query_type == "semantic_capability"
+def test_live_traffic_never_writes_the_cache(monkeypatch, tmp_path):
+    monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
+    monkeypatch.setattr(classifier, "CACHE_PATH", tmp_path / "classifier.json")
+    monkeypatch.setattr(classifier, "_call_llm", lambda text, model, prompt=None:
+                        {"target": "model"} if prompt else {"type": "semantic_capability"})
+    assert router.route("한국어 요약 모델", use_cache=False).target == "model"
+    assert classifier.llm_type("한국어 요약 모델", "test-model", use_cache=False)[0] == "semantic_capability"
+    assert not list(tmp_path.iterdir())
 
 
 def test_invalid_response_is_not_cached_or_retried(monkeypatch, tmp_path):
     calls = []
-    monkeypatch.setattr(router, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
 
     def invalid(*args, **kwargs):
         calls.append(1)
-        return {"target": "model", "model_query_type": "invalid"}
+        return {"target": "invalid"}
 
     monkeypatch.setattr(classifier, "_call_llm", invalid)
     result = router.route("한국어 모델")
@@ -121,7 +115,7 @@ def test_invalid_response_is_not_cached_or_retried(monkeypatch, tmp_path):
 
 
 def test_unavailable_is_not_user_ambiguity(monkeypatch, tmp_path):
-    monkeypatch.setattr(router, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
 
     def unavailable(*args, **kwargs):
         raise TimeoutError("provider timed out")
@@ -139,7 +133,7 @@ def test_empty_query_does_not_call_llm(monkeypatch):
 def test_prompt_change_invalidates_cache():
     assert "모델 학습" in router.PROMPT
     assert "Hugging Face datasets" in router.PROMPT
-    assert router.cache_path("query", "model-a") != router.cache_path("query", "model-b")
+    assert router.cache_key("query", "model-a") != router.cache_key("query", "model-b")
 
 
 def test_invalid_legacy_output_is_logged_not_cached(monkeypatch, tmp_path, caplog):
