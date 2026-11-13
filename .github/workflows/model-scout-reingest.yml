@@ -163,6 +163,8 @@ jobs:
           SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
           SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
           MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
+          # 데이터셋 쪽(dataset-refresh.yml)과 같은 한도. 같은 무료 DB(500MB)를 나눠 쓴다.
+          SUPABASE_DB_BUDGET_MB: "480"
         run: |
           args=(--reingest --report reingest-report.json)
           if [ "${{ inputs.stage1_mode }}" = "full-scan" ]; then

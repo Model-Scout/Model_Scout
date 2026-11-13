@@ -532,7 +532,11 @@ def test_reingest_lookup_ignores_stage_versions():
 
 # ── main(): dry-run 은 DB 에 쓰지 않는다 ─────────────────────────────────────
 
-def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], apply_sync: Any = None) -> int:
+MB = 1_000_000
+
+
+def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], apply_sync: Any = None,
+              database_mb: float = 300) -> int:
     import io
 
     stage4 = [{"model_id": "m/keep", "source_pool": "core"}]
@@ -572,6 +576,10 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
             payloads=lambda *a, **k: [],
             evidence_payloads=lambda *a, **k: [],
             db_active_model_ids=lambda cur=None: set(active),
+            db_storage=lambda cur=None: {"database": int(database_mb * MB), "model_scout_models": 80 * MB,
+                                         "model_scout_evidence": 10 * MB, "model_scout_dataset_chunks": 190 * MB,
+                                         "model_scout_datasets": 20 * MB},
+            estimate_write_bytes=lambda rows, evidence: 100 * MB,
             apply_sync=apply_sync or refuse,
             ensure_schema=refuse,
             promote_benchmark_state=lambda: None,
@@ -641,6 +649,76 @@ def test_plain_reingest_is_still_the_reuse_path():
     assert seen["extra_versions"] == {"stage1_mode": "reuse"}
 
 
+# ── DB 용량 ────────────────────────────────────────────────────────────────
+
+def test_write_estimate_counts_halfvec_not_the_vector_text():
+    vector = "[" + ",".join(["0.123456789"] * 1536) + "]"
+    row = ["m/x", "core", 7, 7, 1, 1] + ['{"a":1}'] * 12 + ["h", "text-embedding-3-small", 1536, vector, "run", None]
+    assert row[sync.PAYLOAD_VECTOR_INDEX] is vector
+    size = sync.estimate_write_bytes([tuple(row)], [])
+    assert size < len(vector), "벡터 텍스트 길이를 저장 크기로 세면 안 된다"
+    assert size >= 2 * 1536 + sync.TSV_BYTES_PER_MODEL
+
+
+def test_capacity_plan_uses_current_size_plus_what_we_write():
+    storage = {"database": 300 * MB, "model_scout_models": 80 * MB}
+    ok = sync.capacity_plan(storage, 100 * MB, budget_mb=480)
+    assert ok["projected_peak_mb"] == 400.0 and ok["blocked"] is False
+    assert ok["tables_mb"] == {"model_scout_models": 80.0}
+    blocked = sync.capacity_plan(storage, 200 * MB, budget_mb=480)
+    assert blocked["blocked"] is True
+    try:
+        sync.assert_capacity(blocked)
+    except RuntimeError as error:
+        assert "500.0MB" in str(error) and "VACUUM" in str(error)
+    else:
+        raise AssertionError("한도를 넘는 적재를 통과시켰다")
+
+
+def test_capacity_budget_comes_from_the_shared_env():
+    """20_sync_dataset_index.py 와 같은 변수다. 유료 플랜이면 이 값만 올린다."""
+    import os
+
+    old = os.environ.get("SUPABASE_DB_BUDGET_MB")
+    os.environ["SUPABASE_DB_BUDGET_MB"] = "8000"
+    try:
+        assert sync.capacity_plan({"database": 700 * MB}, MB)["blocked"] is False
+    finally:
+        if old is None:
+            os.environ.pop("SUPABASE_DB_BUDGET_MB")
+        else:
+            os.environ["SUPABASE_DB_BUDGET_MB"] = old
+    assert sync.capacity_plan({"database": 700 * MB}, MB)["budget_mb"] == sync.DEFAULT_DB_BUDGET_MB
+
+
+def test_dry_run_reports_capacity_and_fails_when_it_would_overflow():
+    with tempfile.TemporaryDirectory() as name:
+        report = Path(name) / "r.json"
+        assert _run_main(["--reingest", "--report", str(report)], active=["m/keep"], calls={}) == 0
+        summary = json.loads((Path(name) / "r.summary.json").read_text(encoding="utf-8"))
+        assert summary["capacity"]["projected_peak_mb"] == 400.0
+        assert summary["capacity"]["tables_mb"]["model_scout_dataset_chunks"] == 190.0
+        code = _run_main(["--reingest", "--report", str(report)], active=["m/keep"], calls={}, database_mb=420)
+        assert code == 3
+        assert json.loads(report.read_text(encoding="utf-8"))["capacity"]["blocked"] is True
+
+
+def test_apply_stops_before_writing_when_it_would_overflow():
+    def refuse(*args, **kwargs):
+        raise AssertionError("용량 한도를 넘는데 DB 에 썼다")
+
+    with tempfile.TemporaryDirectory() as name:
+        report = Path(name) / "r.json"
+        try:
+            _run_main(["--reingest", "--apply", "--report", str(report)], active=["m/keep"], calls={},
+                      apply_sync=refuse, database_mb=420)
+        except RuntimeError as error:
+            assert "한도" in str(error)
+        else:
+            raise AssertionError("용량 가드가 apply 를 막지 않았다")
+        assert json.loads(report.read_text(encoding="utf-8"))["capacity"]["blocked"] is True
+
+
 def test_full_stage1_requires_reingest():
     import io
 
@@ -689,6 +767,7 @@ def test_workflow_runs_full_stage1_inside_the_sync_script():
     assert "| tee" not in run["run"], "tee 는 실패 종료 코드를 가린다"
     assert run.get("shell") == "bash"  # GitHub 의 명시적 bash 는 pipefail 을 켠다
     assert "validate" in run["if"]
+    assert run["env"]["SUPABASE_DB_BUDGET_MB"] == "480", "데이터셋 쪽과 같은 용량 한도를 쓴다"
     for step in steps.values():
         assert "python 01_collect_models.py" not in str(step.get("run", "")), step["name"]
 

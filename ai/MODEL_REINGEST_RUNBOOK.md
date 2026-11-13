@@ -47,6 +47,12 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | 새 Stage 1 → Stage 2 | 언어 게이트 제외(이번 Stage 1 에 있는 것만)를 뺀 기대치의 98% 미만이면 중단 | 유료 단계 전에 중단 |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
 | 비활성화 | DB active 의 10% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
+| DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(480) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
+
+DB 용량 가드가 있는 이유: 모델 테이블과 데이터셋 테이블(`20_sync_dataset_index.py`)이 같은 Supabase
+무료 DB 를 쓴다. 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 둘 다 멈춘다. 재적재는 모든 행을 다시 써서
+옛 행이 VACUUM 전까지 남으므로 최고치를 "지금 + 쓸 양"으로 본다. 쓸 양은 압축 전 JSON 길이로 세는
+상한이라 실제보다 크게 나온다. 유료 플랜으로 바꾸면 workflow 의 `SUPABASE_DB_BUDGET_MB` 를 올린다.
 
 10% 는 정상 감소(Hub 삭제·비공개·다운로드 80 미만·언어 제외)를 넉넉히 덮고, 부분 수집 실패는
 막는 값이다. 정상인데도 넘는다면 실행 옵션으로 우회하지 말고 `08_sync_supabase.py` 의 상수를
@@ -60,6 +66,7 @@ dry-run 과 apply 모두 artifact 로 올린다.
 - `reingest-report.summary.json` — 개수만. Step Summary 에 그대로 붙는다
 - `reingest-report.stage1-diff.json` — 추가·제거·Core↔Low 이동, A/B/C 분포 (full-scan 만)
 - `reingest-report.deactivation.json` — DB active, DB 에만 있는 ID, 비활성화 후보, 가드 판정
+- `capacity`(보고서·summary 안) — DB 전체·테이블별 MB, 이번 쓰기 추정, 예상 최고치, 한도
 - `contract/baseline.md`, `data/hf_models_stage4_manifest.json`
 
 Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다. 필요하면 별도 입력으로 켜는
@@ -110,7 +117,8 @@ v1 만 다룬다.
 1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다. schedule 은 건드리지 않는다.
 2. `mode=validate` 를 실행한다.
 3. `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다.
-4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보를 본다.
+4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보,
+   `capacity`(예상 최고치가 한도보다 충분히 낮은지)를 본다.
 5. 다음 단계로 넘어가기 전에 중단 기준을 확인한다. 하나라도 해당하면 멈춘다.
    - 가드가 걸렸다.
    - 제거·비활성화 후보에 운영상 중요한 모델이 있다.
@@ -123,6 +131,9 @@ v1 만 다룬다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
    - `source_watermark` 가 보고서의 `source_watermark` 와 같은지 본다.
    - active 행 수가 `stage4_rows` 와 같은지 본다.
+   - SQL Editor 에서 `vacuum full public.model_scout_models; vacuum full public.model_scout_evidence;` 로
+     옛 행 공간을 돌려받고 `select pg_size_pretty(pg_database_size(current_database()));` 로 크기를 본다.
+     실행 중에는 테이블이 잠기므로 사용자가 적은 시간에 한다.
 9. Dataset refresh Action 을 잠시 활성화하고 `mode=rebuild` 로 한 번 실행한다. Step Summary 의
    active 모델 수, model entity 수, `model_ids_sha256` 를 확인한다. 모델 수가 8단계 active 행 수와
    같아야 한다.

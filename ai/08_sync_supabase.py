@@ -396,6 +396,11 @@ def provenance(
     }
 
 
+# Position of the vector literal in a payloads() tuple. It is stored as halfvec (2 bytes per
+# dimension), so its text length says nothing about storage.
+PAYLOAD_VECTOR_INDEX = 21
+
+
 def payloads(
     stage4: Sequence[Dict[str, Any]],
     stage2: Dict[str, Dict[str, Any]],
@@ -1742,6 +1747,95 @@ def full_reingest_pipeline(
     )
 
 
+# ── DB 용량 ──────────────────────────────────────────────────────────────────
+#
+# 모델 테이블과 데이터셋 테이블(20_sync_dataset_index.py)은 같은 Supabase 무료 DB 를 쓴다.
+# 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 모델 검색과 데이터셋 서비스가 같이 멈춘다.
+# 재적재는 모든 행을 다시 쓰고, 옛 행은 VACUUM 전까지 자리를 차지한다. 그래서 최고치는
+# "지금 크기 + 이번에 쓸 양"이다. 한도는 20 과 같은 SUPABASE_DB_BUDGET_MB 를 쓴다.
+DEFAULT_DB_BUDGET_MB = 480
+# search_tsv(생성 컬럼) 평균 크기. supabase_migration_model_search_tsv.sql 의 실측값이다.
+TSV_BYTES_PER_MODEL = 7400
+ROW_OVERHEAD_BYTES = 400
+STORAGE_TABLES = (
+    "public.model_scout_models",
+    "public.model_scout_evidence",
+    "public.model_scout_dataset_chunks",
+    "public.model_scout_datasets",
+)
+
+
+def estimate_write_bytes(
+    rows: Sequence[Tuple[Any, ...]],
+    evidence_rows: Sequence[Tuple[Any, ...]],
+) -> int:
+    """이번 실행이 새로 쓰는 바이트의 상한.
+
+    JSON 은 압축 전 텍스트 길이로 센다. jsonb 는 TOAST 에서 압축되므로 실제보다 크게
+    나온다 — 가드는 보수적으로 둔다. 벡터는 halfvec 크기(2 B × 차원)로 센다.
+    """
+    total = 0
+    for row in rows:
+        total += sum(
+            len(value.encode("utf-8"))
+            for index, value in enumerate(row)
+            if isinstance(value, str) and index != PAYLOAD_VECTOR_INDEX
+        )
+        total += 2 * 1536 + TSV_BYTES_PER_MODEL + ROW_OVERHEAD_BYTES
+    for row in evidence_rows:
+        total += sum(len(value.encode("utf-8")) for value in row if isinstance(value, str))
+        total += ROW_OVERHEAD_BYTES
+    return total
+
+
+def db_storage(cur: Any = None) -> Dict[str, int]:
+    """DB 전체와 테이블별 크기(바이트). 읽기만 한다."""
+    query = "select pg_database_size(current_database())" + "".join(
+        f", coalesce(pg_total_relation_size(to_regclass('{name}')), 0)" for name in STORAGE_TABLES
+    )
+
+    def read(cursor: Any) -> Dict[str, int]:
+        cursor.execute(query)
+        values = cursor.fetchone()
+        return {"database": int(values[0])} | {
+            name.split(".", 1)[1]: int(value) for name, value in zip(STORAGE_TABLES, values[1:])
+        }
+
+    if cur is not None:
+        return read(cur)
+    conn = db_connection()
+    try:
+        with conn.cursor() as own:
+            return read(own)
+    finally:
+        conn.close()
+
+
+def capacity_plan(storage: Dict[str, int], write_bytes: int, budget_mb: Optional[float] = None) -> Dict[str, Any]:
+    budget = float(
+        budget_mb if budget_mb is not None
+        else os.getenv("SUPABASE_DB_BUDGET_MB", DEFAULT_DB_BUDGET_MB)
+    )
+    peak = storage["database"] + write_bytes
+    return {
+        "tables_mb": {name: round(size / 1e6, 1) for name, size in storage.items() if name != "database"},
+        "database_mb": round(storage["database"] / 1e6, 1),
+        "estimated_write_mb": round(write_bytes / 1e6, 1),
+        "projected_peak_mb": round(peak / 1e6, 1),
+        "budget_mb": budget,
+        "blocked": peak / 1e6 > budget,
+    }
+
+
+def assert_capacity(plan: Dict[str, Any]) -> None:
+    if plan["blocked"]:
+        raise RuntimeError(
+            f"DB 예상 최고치 {plan['projected_peak_mb']}MB 가 한도 {plan['budget_mb']:.0f}MB 를 넘는다 "
+            f"(지금 {plan['database_mb']}MB + 이번 쓰기 {plan['estimated_write_mb']}MB). 적재하지 않는다 — "
+            "VACUUM FULL·비활성 행 삭제로 공간을 먼저 확보하거나, 유료 플랜이면 SUPABASE_DB_BUDGET_MB 를 올린다"
+        )
+
+
 def reingest_report_summary(result: Dict[str, Any]) -> Dict[str, Any]:
     """GitHub Step Summary 용 수치. ID 목록은 빼고 개수만 남긴다."""
     refresh = result.get("reingest") or {}
@@ -1760,6 +1854,7 @@ def reingest_report_summary(result: Dict[str, Any]) -> Dict[str, Any]:
         "db_only": len(deactivation.get("db_only_ids") or []),
         "deactivation_candidates": deactivation.get("candidate_count"),
         "deactivation_blocked": (deactivation.get("guard") or {}).get("blocked"),
+        "capacity": result.get("capacity"),
     }
     if diff:
         summary["stage1_diff"] = {
@@ -2111,7 +2206,14 @@ def main() -> int:
     if reingest:
         result["reingest"] = refresh_info
     exit_code = 0
+    if reingest:
+        # 읽기 전용 조회. 쓰기 전에 판단해야 한도를 넘긴 뒤에 알게 되지 않는다.
+        result["capacity"] = capacity_plan(db_storage(), estimate_write_bytes(rows, evidence_rows))
     if args.apply:
+        if reingest and result["capacity"]["blocked"]:
+            if args.report is not None:
+                write_reingest_report(result, args.report)  # 멈춘 이유를 artifact 로 남긴다
+            assert_capacity(result["capacity"])
         result["sync"] = apply_sync(
             rows,
             evidence_rows,
@@ -2145,7 +2247,7 @@ def main() -> int:
             )
             result["deactivation"] = plan
             result["dry_run"]["expected_source_watermark"] = resolved_source_watermark(refresh_info)
-            if plan["guard"]["blocked"]:
+            if plan["guard"]["blocked"] or result["capacity"]["blocked"]:
                 # 보고서는 끝까지 남기되 실행은 실패로 표시한다.
                 exit_code = 3
     if args.report is not None:
