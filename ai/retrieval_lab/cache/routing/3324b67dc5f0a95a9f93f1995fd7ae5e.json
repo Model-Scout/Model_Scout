@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "여행 일정을 짜주는 AI 서비스를 만들려고 해. 관광지와 지역 축제 정보가 필요해.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 718.6
+}

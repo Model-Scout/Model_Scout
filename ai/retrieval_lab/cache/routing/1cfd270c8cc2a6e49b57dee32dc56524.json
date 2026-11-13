@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "상업용 여행 앱에 쓸 관광지 정보가 필요해. 공공누리 4유형처럼 상업 이용이 막힌 데이터는 안 돼.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 609.7
+}

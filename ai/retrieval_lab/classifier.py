@@ -1,7 +1,7 @@
 """Query type classifier: rules first, LLM for the rest.
 
-1. Rule: two or more model names found by name lookup plus a comparison cue
-   ("비교", "vs", "중", "차이", ...) -> model_comparison. No LLM call.
+1. Rules: named model comparisons, then explicit lexical requirements such as
+   translation directions, artifact formats and base-model families.
 2. Otherwise the LLM picks one type from the descriptions below. Few-shot
    examples are written for this prompt, not taken from the golden set, so the
    golden set stays a fair test.
@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import logging
 import os
 import re
 import time
@@ -30,7 +31,10 @@ from retrieval_lab.pre_retrieval import ROOT, LLMUnavailable, llm_model
 
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "classifier.json"
 REPORT_DIR = Path(__file__).resolve().parent / "reports"
-PROMPT_VERSION = 2
+PROMPT_VERSION = 3
+LOGGER = logging.getLogger(__name__)
+# Classification only uses Retriever.name_lookup; skip loading (and validating) dense vectors.
+NAME_ONLY = object()
 TYPES = (
     "model_comparison",
     "semantic_capability",
@@ -40,6 +44,29 @@ TYPES = (
     "semantic_constraint",
 )
 COMPARE_CUE = re.compile(r"비교|vs\.?|VS|versus|차이|중\s*(뭐|어느|어떤|더)|어느\s*(쪽|게|것)|더\s*(나아|좋|낫)|나을까|나아\?")
+# Conservative fast paths for explicit lexical requirements. Benchmark requests
+# take precedence; a bare task, hardware name or language is not an exact anchor.
+BENCHMARK_CUE = re.compile(
+    r"벤치마크|benchmark|BLEU|chrF|COMET|CER|WER|KMMLU|MTEB|FLORES|KorQuAD|Common Voice",
+    re.IGNORECASE,
+)
+FORMAT_CUE = re.compile(
+    r"(?<![A-Za-z0-9_])(?:GGUF|AWQ|GPTQ|MLX|ONNX|OpenVINO|CTranslate2|faster-whisper|transformers\.js)(?![A-Za-z0-9_])",
+    re.IGNORECASE,
+)
+LANGUAGE = r"(?:한국어|영어|일본어|중국어|프랑스어|독일어|스페인어|베트남어)"
+TRANSLATION_CUE = re.compile(
+    r"(?<![A-Za-z])(?:ko|en|ja|zh|fr|de|es|vi|영|한|일|중)\s*(?:→|->|⇒|=>)\s*(?:ko|en|ja|zh|fr|de|es|vi|영|한|일|중)(?![A-Za-z])"
+    rf"|{LANGUAGE}\s*(?:→|->|⇒|=>)\s*{LANGUAGE}",
+    re.IGNORECASE,
+)
+NATURAL_TRANSLATION_CUE = re.compile(
+    rf"{LANGUAGE}(?!\s*(?:와|과|및))[^.!?\n]{{0,24}}?{LANGUAGE}(?:로|으로)"
+)
+FAMILY_CUE = re.compile(
+    r"(?<![A-Za-z0-9_])(?:KoELECTRA|KoBART|KLUE[- ]RoBERTa|Kanana|Llama|Qwen)(?:[A-Za-z0-9._-]*)\s*(?:(?:를|을)\s*)?(?:계열|기반|베이스)",
+    re.IGNORECASE,
+)
 
 PROMPT = """You classify Korean user requests to Model Scout, a search engine over Hugging Face models, into exactly one type.
 Apply the rules in order and stop at the first that matches.
@@ -61,6 +88,13 @@ Apply the rules in order and stop at the first that matches.
    - Hard conditions + a specific domain, use or capability (회의록, RAG, 리랭커, OCR, 감성분석, 코딩, 잡음 음성,
      법률, 게임 로그...) -> semantic_constraint
 6. Otherwise (capability or use case in natural language, no hard conditions) -> semantic_capability.
+
+Inspect the whole request before choosing a type. In particular, an exact translation
+direction, base-family anchor or artifact format stays lexical_exact even when the
+request also contains a use case, commercial license or numeric hardware constraint.
+A number about workload, a companion model or a GPU product name is not by itself
+a hard bound on the model being searched for. A dataset name is benchmark_lookup
+only when the user requests model evaluation evidence, not merely training data.
 
 Examples:
 - "Llama-3-8B와 Qwen2.5-7B 중 한국어 대화는 뭐가 나아?" -> model_comparison
@@ -100,7 +134,7 @@ def save_cache(cache: Dict[str, Dict[str, Any]], path: Optional[Path] = None) ->
     path.write_text(json.dumps(ordered, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 
-def _call_llm(text: str, model: str) -> Dict[str, Any]:
+def _call_llm(text: str, model: str, prompt: Optional[str] = None) -> Dict[str, Any]:
     try:
         from dotenv import load_dotenv
 
@@ -111,11 +145,13 @@ def _call_llm(text: str, model: str) -> Dict[str, Any]:
         raise LLMUnavailable(f"분류 캐시 없음, OPENAI_API_KEY도 없음: {text[:40]}")
     from openai import OpenAI
 
-    response = OpenAI().chat.completions.create(
+    # Classification should not silently spend several retry windows before search.
+    response = OpenAI(timeout=10.0, max_retries=0).chat.completions.create(
         model=model,
         temperature=0,
         response_format={"type": "json_object"},
-        messages=[{"role": "system", "content": PROMPT}, {"role": "user", "content": text}],
+        max_tokens=120,
+        messages=[{"role": "system", "content": prompt or PROMPT}, {"role": "user", "content": text}],
     )
     return json.loads(response.choices[0].message.content or "{}")
 
@@ -129,20 +165,49 @@ def llm_type(text: str, model: Optional[str] = None) -> tuple[str, float]:
     started = time.perf_counter()
     payload = _call_llm(text, model)
     latency_ms = (time.perf_counter() - started) * 1000.0
-    query_type = payload.get("type") if payload.get("type") in TYPES else "semantic_capability"
+    if not isinstance(payload, dict) or payload.get("type") not in TYPES:
+        LOGGER.warning("Invalid model classification response; using legacy semantic_capability fallback")
+        # Do not cache malformed output as a successful classification.
+        return "semantic_capability", latency_ms
+    query_type = payload["type"]
     cache[key] = {"prompt_version": PROMPT_VERSION, "model": model, "input": text, "type": query_type,
                   "response": payload, "latency_ms": round(latency_ms, 1)}
     save_cache(cache)
     return query_type, latency_ms
 
 
+def rule_type(text: str, named_models: Sequence[str] = ()) -> Optional[str]:
+    """Model-only fast paths, in the same priority order as the prompt.
+
+    Call only after routing to model search. Do not use data requests as models
+    just because they mention a format or a translation language pair.
+    """
+    if len(named_models) >= 2 and COMPARE_CUE.search(text):
+        return "model_comparison"
+    if BENCHMARK_CUE.search(text):
+        return None
+    # Let the LLM resolve negation rather than treating a rejected format as a requirement.
+    if re.search(r"말고|제외|필요\s*없|원하지\s*않|상관\s*없|아닌", text):
+        return None
+    # Joint transcription/translation is a capability request; a language pair
+    # occurring across its two tasks is not an exact text-translation anchor.
+    translation = TRANSLATION_CUE.search(text) or (
+        "번역" in text and not re.search(r"받아\s*적|전사", text)
+        and NATURAL_TRANSLATION_CUE.search(text)
+    )
+    if FORMAT_CUE.search(text) or translation or FAMILY_CUE.search(text):
+        return "lexical_exact"
+    return None
+
+
 def classify(text: str, retriever: Any, use_rule: bool = True, use_llm: bool = True) -> Classification:
     """retriever: a pipeline.Retriever (only its name index is used)."""
     started = time.perf_counter()
     named = retriever.name_lookup(text, np.arange(len(retriever.ids)))
+    matched = rule_type(text, named) if use_rule else None
     rule_ms = (time.perf_counter() - started) * 1000.0
-    if use_rule and len(named) >= 2 and COMPARE_CUE.search(text):
-        return Classification("model_comparison", "rule", rule_ms, named)
+    if matched:
+        return Classification(matched, "rule", rule_ms, named)
     if not use_llm:
         return Classification("semantic_capability", "default", rule_ms, named)
     query_type, llm_ms = llm_type(text)
@@ -196,7 +261,7 @@ def evaluate() -> None:
     from retrieval_lab.pipeline import Retriever
 
     items = [item for path in golden.DEFAULT_QUERY_FILES for item in golden.read_jsonl(path) if item.get("plan_query_type") in TYPES]
-    retriever = Retriever()
+    retriever = Retriever(dense_index=NAME_ONLY)
     gold = [item["plan_query_type"] for item in items]
     runs = {"규칙만 (나머지 semantic_capability)": dict(use_llm=False), "LLM만": dict(use_rule=False), "규칙 + LLM": {}}
     results: Dict[str, Dict[str, Any]] = {}
@@ -226,7 +291,7 @@ def main() -> None:
     elif args.query:
         from retrieval_lab.pipeline import Retriever
 
-        result = classify(args.query, Retriever())
+        result = classify(args.query, Retriever(dense_index=NAME_ONLY))
         print(json.dumps(result.__dict__, ensure_ascii=False))
     else:
         parser.print_help()

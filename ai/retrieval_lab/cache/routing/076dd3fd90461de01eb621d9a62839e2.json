@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "아이 키우는 부모를 위해 집 근처 어린이집이랑 놀이시설을 추천해주는 앱을 만들려고 해.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 1058.1
+}

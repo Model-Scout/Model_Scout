@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "한국어 음성인식 모델을 상업 서비스에 넣으려고 해. 잡음이 많은 통화 음성도 잘 받아 적어야 해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 888.6
+}

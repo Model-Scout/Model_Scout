@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "wav2vec2-large-xlsr-korean이랑 whisper-small 중 한국어 전사에 뭐가 나아?",
+ "response": {
+  "target": "model",
+  "model_query_type": "model_comparison"
+ },
+ "latency_ms": 608.0
+}

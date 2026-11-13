@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "RAM 1GB짜리 보드에서 whisper-large-v3로 한국어 음성인식을 돌리려고 해. 가능할까?",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 757.6
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "KorQuAD 말고 다른 한국어 기계독해 데이터셋 더 있어?",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 1047.8
+}

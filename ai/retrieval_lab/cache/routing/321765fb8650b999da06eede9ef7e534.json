@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "서울 지하철 실시간 도착 정보를 API로 받아서 앱에 띄우고 싶어.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 920.0
+}

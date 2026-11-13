@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "회의 전사록을 요약해 회의록 초안을 만드는 기능을 로컬에서 돌리려고 해. GPU는 8GB야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "structured_constraint"
+ },
+ "latency_ms": 927.6
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "koelectra-base-v3-finetuned-korquad와 koelectra-small-v2-distilled-korquad-384의 정확도·크기 차이를 비교해 줘.",
+ "response": {
+  "target": "model",
+  "model_query_type": "model_comparison"
+ },
+ "latency_ms": 848.1
+}

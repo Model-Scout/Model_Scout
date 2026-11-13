@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "오늘 날씨 어때?",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 746.4
+}

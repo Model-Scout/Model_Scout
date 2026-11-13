@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "한국어로 생각하고 답하는 추론(reasoning) 모델이 필요해. 수학·논리 문제를 풀 거야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 703.9
+}

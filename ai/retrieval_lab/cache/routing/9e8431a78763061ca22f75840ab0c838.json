@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "KT의 Midm 2.0 계열 한국어 LLM이 필요해. 원본이든 GGUF든 Midm이면 돼.",
+ "response": {
+  "target": "model",
+  "model_query_type": "lexical_exact"
+ },
+ "latency_ms": 553.8
+}

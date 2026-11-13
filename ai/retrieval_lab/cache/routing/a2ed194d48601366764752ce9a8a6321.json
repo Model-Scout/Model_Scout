@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "KLUE NLI 정확도가 README에 나와 있는 한국어 분류 모델이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 818.4
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "한국어 코딩 질문에 답하는 로컬 LLM이 필요해. GPU 24GB 한 장이야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "structured_constraint"
+ },
+ "latency_ms": 966.6
+}

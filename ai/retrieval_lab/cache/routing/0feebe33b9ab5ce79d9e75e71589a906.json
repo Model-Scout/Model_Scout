@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "kanana-1.5-v-3b-instruct를 GPU 8GB 노트북에서 돌릴 수 있어?",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 726.7
+}

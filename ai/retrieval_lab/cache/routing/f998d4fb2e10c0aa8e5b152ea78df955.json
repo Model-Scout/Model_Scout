@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "MTEB 검색(Retrieval) 점수가 공개된 다국어 임베딩 중 한국어도 지원하는 모델을 고르고 싶어.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 584.0
+}

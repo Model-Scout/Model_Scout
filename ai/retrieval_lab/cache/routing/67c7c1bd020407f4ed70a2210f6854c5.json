@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "OpenVINO 형식(int8)으로 변환된 한국어 음성인식 모델이 필요해. 인텔 CPU에서 돌릴 거야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "lexical_exact"
+ },
+ "latency_ms": 619.0
+}

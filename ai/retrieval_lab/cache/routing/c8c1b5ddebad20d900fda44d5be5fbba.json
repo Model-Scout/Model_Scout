@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "HF에서 좋은 거 찾아줘",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 951.5
+}

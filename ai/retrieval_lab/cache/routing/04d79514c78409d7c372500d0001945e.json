@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "메신저 대화 캡처 화면을 읽고 내용을 한국어로 정리하는 모델이 필요해. 로컬에서만 돌려야 해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "structured_constraint"
+ },
+ "latency_ms": 572.2
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "한국어 블로그 글에서 핵심 포인트를 뽑아 요약하는 모델이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 1318.4
+}

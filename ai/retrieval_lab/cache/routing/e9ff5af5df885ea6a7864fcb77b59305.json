@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "대학 진학 상담 챗봇을 만들려고 해. 대학별 학과, 등록금, 장학금 정보가 필요해.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 917.5
+}

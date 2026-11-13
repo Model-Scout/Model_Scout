@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "Kaggle 대회에서 쓸 이미지 분류 모델 추천해줘",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 685.5
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "vLLM에 올릴 AWQ 4비트 양자화 한국어 LLM이 필요해. AWQ 버전이 공식으로 나와 있으면 더 좋아.",
+ "response": {
+  "target": "model",
+  "model_query_type": "lexical_exact"
+ },
+ "latency_ms": 711.5
+}

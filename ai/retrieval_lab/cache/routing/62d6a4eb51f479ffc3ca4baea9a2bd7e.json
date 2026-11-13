@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "Midm-2.0-Base-Instruct를 RTX 3060(12GB)에서 돌릴 수 있어?",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 942.2
+}

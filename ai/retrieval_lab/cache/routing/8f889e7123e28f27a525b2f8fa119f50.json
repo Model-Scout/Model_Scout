@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "생활법률 FAQ 챗봇을 만들고 싶어. 질문-답변 형태의 공공 법률 정보가 있으면 좋겠어.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 915.7
+}

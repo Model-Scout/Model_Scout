@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "lexical_exact"
+ },
+ "latency_ms": 575.4
+}

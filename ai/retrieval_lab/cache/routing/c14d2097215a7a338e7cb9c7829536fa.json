@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "Kaggle 신용카드 사기 데이터랑 이상탐지 모델도 같이 알려줘",
+ "response": {
+  "target": "both",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 1730.3
+}

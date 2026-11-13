@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "한국어 FAQ 검색용 문장 임베딩 모델이 필요해. 짧은 질문끼리 비슷한지 비교할 거야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 650.1
+}

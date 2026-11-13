@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "LogicKor 점수가 높은 한국어 LLM이 필요해. 추론·글쓰기 점수를 보고 고를 거야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 827.0
+}

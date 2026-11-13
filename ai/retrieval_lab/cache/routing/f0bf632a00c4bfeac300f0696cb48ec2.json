@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "과거 기상 관측 자료로 기온을 예측하는 시계열 모델을 학습시키고 싶어.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 761.9
+}

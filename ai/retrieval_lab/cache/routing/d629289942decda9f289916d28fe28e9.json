@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "Zeroth나 KsponSpeech 같은 한국어 음성 데이터셋에서 CER이 공개된 음성인식 모델이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 877.5
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "노트북 CPU에서 돌아가는 아주 작은 한국어 대화 모델이 필요해. 1B 이하면 좋겠어.",
+ "response": {
+  "target": "model",
+  "model_query_type": "structured_constraint"
+ },
+ "latency_ms": 756.0
+}

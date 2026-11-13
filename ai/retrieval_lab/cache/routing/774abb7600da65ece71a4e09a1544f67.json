@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "aya-vision-8b가 비상업 라이선스야. 비슷한 크기에 상업적으로 쓸 수 있는 한국어 비전 언어 모델이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 1011.0
+}

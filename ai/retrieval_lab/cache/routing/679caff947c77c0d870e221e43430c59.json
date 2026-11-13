@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "ROUGE 점수가 공개된 한국어 요약 모델이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 598.2
+}

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "유료 육아 앱에 넣을 거라 상업적으로 써도 되는 어린이집 정보가 필요해.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 606.7
+}

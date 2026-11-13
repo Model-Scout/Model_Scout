@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "whisper-large-v3와 whisper-large-v3-turbo의 한국어 정확도와 속도 차이를 비교해 줘.",
+ "response": {
+  "target": "model",
+  "model_query_type": "model_comparison"
+ },
+ "latency_ms": 894.0
+}

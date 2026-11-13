@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "출퇴근길에 동네 날씨와 비 올 확률을 알려주는 알림 앱을 만들고 싶어.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 793.8
+}

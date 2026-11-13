@@ -4,13 +4,69 @@
 
 ```text
 User Query
-→ Query Type (골든셋의 plan_query_type 사용, 분류기는 아직 없음)
+→ Query Type (실험은 골든셋의 plan_query_type 사용; 모델 분류기는 classifier.py)
 → Pre-Retrieval: Rewrite / Decomposition / Multi-Query / HyDE   pre_retrieval.py
 → Retrieval Planner: hard filter, dense/sparse weight, top_k   planner.py
 → Dense: BGE-M3 (BAAI/bge-m3)                                   dense.py
 → Sparse: fielded BM25 (05_validate_retrieval.py와 같은 점수)    corpus.py
 → Weighted RRF (k=60)                                           fusion.py
 → Top-K 후보 (기본 30)                                           pipeline.py
+```
+
+## 검색 대상 라우터와 모델 유형 분류기
+
+`router.py`는 검색 대상과 모델 유형을 **한 번의 LLM 호출**로 반환한다.
+공공데이터의 세부 유형은 아직 분류하지 않는다. 기존 모델 전용
+`classifier.classify()`와 6개 모델 유형은 유지한다.
+
+```bash
+cd ai
+python -m retrieval_lab.router "HF에서 한국어 요약 모델 찾아줘"
+python -m retrieval_lab.router "모델 학습에 쓸 공공데이터 찾아줘"
+python -m retrieval_lab.router "교통량 데이터와 예측 모델을 각각 찾아줘"
+```
+
+```python
+from retrieval_lab.router import route
+
+decision = route(user_text)
+if decision.status != "ok":
+    # API 오류·잘못된 출력이다. 사용자 질의가 모호한 경우와 구분한다.
+    handle_classification_error(decision.status)
+elif decision.target == "needs_clarification":
+    ask_search_target()
+else:
+    # target: model / dataset / both
+    # model_query_type: 모델 요청에서만 기존 6개 유형, 나머지는 None
+    dispatch(decision.target, decision.model_query_type)
+```
+
+- `dataset`은 공공기관 데이터뿐 아니라 HF·Kaggle 데이터셋도 포함한다.
+  HF 모델 요청은 `model`, HF 데이터셋 요청은 `dataset`이다. 플랫폼명만으로
+  `both`로 보내지 않는다. 모델 학습용 데이터만 요청한 경우도 `dataset`이다.
+- 출력은 `target`, `model_query_type`, `status`, `source`, `latency_ms`,
+  `model_latency_ms`를 포함한다. `latency_ms`는 이번 호출의 실제 경과 시간이고,
+  `model_latency_ms`는 최초 API 호출 시간이다. 캐시 적중 시 API는 호출하지 않는다.
+- 최초 요청은 보통 한 번의 API 호출이다. LLM이 model/both인데 유형을 비우면
+  (`both`에서 자주 발생) 모델 분류기를 한 번 더 호출한다. SDK 타임아웃 10초, 자동 재시도 없음.
+- 평가: `python -m retrieval_lab.router --eval` (모델 골든셋 178 + 공공데이터 질의 58 +
+  `test/golden/labels/routing_edge_queries.jsonl` 29) → `reports/routing.md`.
+  타임아웃은 전체 서비스의 응답 시간 보장은 아니다. API 오류와 잘못된 응답은
+  검색 대상을 추측하지 않고 상태로 반환한다.
+- 라우팅 캐시는 `cache/routing/`의 질의별 JSON이다. 전체 프롬프트와 모델이
+  캐시 키에 포함되므로 모델 분류 프롬프트 수정 시에도 과거 응답을 재사용하지 않는다.
+- 모델 전용 분류기 v3는 비교 규칙에 더해 번역 방향·파일 형식·일부 모델 계열의
+  명시적 표현을 규칙 처리한다. 벤치마크·부정·복합 작업 등은 LLM에 맡긴다.
+  잘못된 LLM 유형은 호환성을 위해 기존 기본 유형으로 처리하되 경고를 남기고
+  성공 결과로 캐시하지 않는다.
+- 이 모듈은 호출 가능한 분류 진입점이다. 기존 추천 API/그래프에 자동 연결하거나
+  검색 실험의 정답 유형을 예측 유형으로 교체하지는 않는다.
+- 기존 178개는 개발·회귀 확인에 사용한다. 저장된 v2 보고서의 74.2%는 과거
+  결과이며 v3/라우터의 새 정확도가 아니다. 라우터의 실제 정확도·지연과 최종
+  검색 Recall@10은 별도로 측정해야 한다.
+
+```bash
+python -m pytest -q test/test_query_router.py test/test_retrieval_lab.py
 ```
 
 ## 담당

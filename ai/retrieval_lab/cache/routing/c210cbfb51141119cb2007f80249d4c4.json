@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "농산물 도매시장 경매 가격을 실시간으로 받아서 가격 변동 알림을 보내고 싶어.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 796.6
+}

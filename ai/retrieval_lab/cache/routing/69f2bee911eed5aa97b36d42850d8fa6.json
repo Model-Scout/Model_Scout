@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "해외 여행자에게 국가별 여행경보와 안전 정보를 알려주는 앱을 만들고 싶어.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 874.3
+}

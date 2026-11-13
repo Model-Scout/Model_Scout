@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "지진이나 재난이 났을 때 가장 가까운 대피소를 안내해주는 앱을 만들려고 해.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 984.4
+}

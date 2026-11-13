@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "커뮤니티 댓글에서 욕설·혐오 표현을 걸러내는 한국어 분류 모델이 필요해. GPU 없이 돌릴 거야.",
+ "response": {
+  "target": "model",
+  "model_query_type": "semantic_constraint"
+ },
+ "latency_ms": 920.7
+}

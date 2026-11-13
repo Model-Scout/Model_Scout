@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "혼자 사는 어르신에게 가까운 경로당, 노인복지관, 무료급식소를 알려주는 챗봇을 만들고 싶어.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 628.6
+}

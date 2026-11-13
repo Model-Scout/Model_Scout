@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "아파트 실거래가 추이를 보여주고 적정 가격을 예측하는 부동산 앱을 만들고 싶어.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 658.6
+}

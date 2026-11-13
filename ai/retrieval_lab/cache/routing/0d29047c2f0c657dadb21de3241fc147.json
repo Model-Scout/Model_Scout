@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "한국어 감성분석 데이터셋이랑 바로 쓸 수 있는 모델 둘 다 찾아줘",
+ "response": {
+  "target": "both",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 1584.9
+}

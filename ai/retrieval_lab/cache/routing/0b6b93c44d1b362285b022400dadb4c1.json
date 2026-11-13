@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "상업 서비스에 쓸 거라 출처 표시만 하면 되는 공공누리 1유형 데이터만 원해. 전국 공중화장실 위치 데이터 있어?",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 644.6
+}

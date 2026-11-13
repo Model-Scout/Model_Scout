@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "등산객에게 등산로와 산불 위험 정보를 같이 알려주는 앱을 만들고 싶어.",
+ "response": {
+  "target": "both",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 4766.2
+}

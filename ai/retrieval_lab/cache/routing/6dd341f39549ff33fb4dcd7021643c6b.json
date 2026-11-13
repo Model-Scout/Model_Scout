@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "HF에서 한국어 음성 데이터셋과 음성인식 모델을 각각 찾아줘",
+ "response": {
+  "target": "both",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 1586.3
+}

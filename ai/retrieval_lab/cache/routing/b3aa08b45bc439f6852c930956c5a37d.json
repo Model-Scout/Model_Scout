@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "민원 내용을 자동으로 분류하는 모델을 학습시키고 싶어. 민원 텍스트가 들어 있는 공공데이터 있어?",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 685.7
+}

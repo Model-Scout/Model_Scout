@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "복지 서비스 안내 챗봇을 만들려고 해. 어떤 복지 혜택이 있는지 서비스 목록과 상세 설명이 필요해.",
+ "response": {
+  "target": "dataset",
+  "model_query_type": null
+ },
+ "latency_ms": 673.6
+}

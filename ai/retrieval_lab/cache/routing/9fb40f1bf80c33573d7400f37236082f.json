@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "주차장 위치를 찾아주는 AI 앱을 만들고 싶어. 요금이랑 운영 시간도 같이 보여주고 싶어.",
+ "response": {
+  "target": "needs_clarification",
+  "model_query_type": null
+ },
+ "latency_ms": 723.5
+}

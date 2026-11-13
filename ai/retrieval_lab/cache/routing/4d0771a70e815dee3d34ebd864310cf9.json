@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "미세먼지 공공데이터와 미세먼지 예측 모델을 추천해줘",
+ "response": {
+  "target": "both",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 1395.0
+}

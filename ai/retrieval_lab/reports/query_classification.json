@@ -1,8 +1,8 @@
 {
  "results": {
   "규칙만 (나머지 semantic_capability)": {
-   "accuracy": 0.3202247191011236,
-   "macro_f1": 0.2226311336717428,
+   "accuracy": 0.4438202247191011,
+   "macro_f1": 0.3936772486772487,
    "per_class": {
     "model_comparison": {
      "precision": 1.0,
@@ -11,15 +11,15 @@
      "support": 21
     },
     "semantic_capability": {
-     "precision": 0.2389937106918239,
+     "precision": 0.2773722627737226,
      "recall": 1.0,
-     "f1": 0.3857868020304569,
+     "f1": 0.43428571428571433,
      "support": 38
     },
     "lexical_exact": {
-     "precision": 0.0,
-     "recall": 0.0,
-     "f1": 0.0,
+     "precision": 1.0,
+     "recall": 0.9565217391304348,
+     "f1": 0.9777777777777777,
      "support": 23
     },
     "structured_constraint": {
@@ -50,7 +50,8 @@
      "semantic_capability": 38
     },
     "lexical_exact": {
-     "semantic_capability": 23
+     "semantic_capability": 1,
+     "lexical_exact": 22
     },
     "structured_constraint": {
      "semantic_capability": 24
@@ -65,65 +66,65 @@
    "llm_calls": 0
   },
   "LLM만": {
-   "accuracy": 0.7303370786516854,
-   "macro_f1": 0.7548033641317223,
+   "accuracy": 0.7808988764044944,
+   "macro_f1": 0.8131090878856368,
    "per_class": {
     "model_comparison": {
      "precision": 1.0,
-     "recall": 0.9047619047619048,
-     "f1": 0.9500000000000001,
+     "recall": 0.9523809523809523,
+     "f1": 0.975609756097561,
      "support": 21
     },
     "semantic_capability": {
-     "precision": 0.8620689655172413,
-     "recall": 0.6578947368421053,
-     "f1": 0.746268656716418,
+     "precision": 0.9354838709677419,
+     "recall": 0.7631578947368421,
+     "f1": 0.8405797101449276,
      "support": 38
     },
     "lexical_exact": {
-     "precision": 1.0,
-     "recall": 0.5217391304347826,
-     "f1": 0.6857142857142856,
+     "precision": 0.9473684210526315,
+     "recall": 0.782608695652174,
+     "f1": 0.8571428571428571,
      "support": 23
     },
     "structured_constraint": {
-     "precision": 0.4186046511627907,
-     "recall": 0.75,
-     "f1": 0.5373134328358209,
+     "precision": 0.4634146341463415,
+     "recall": 0.7916666666666666,
+     "f1": 0.5846153846153846,
      "support": 24
     },
     "benchmark_lookup": {
-     "precision": 0.9047619047619048,
+     "precision": 0.95,
      "recall": 0.9047619047619048,
-     "f1": 0.9047619047619048,
+     "f1": 0.9268292682926829,
      "support": 21
     },
     "semantic_constraint": {
-     "precision": 0.6851851851851852,
-     "recall": 0.7254901960784313,
-     "f1": 0.7047619047619048,
+     "precision": 0.723404255319149,
+     "recall": 0.6666666666666666,
+     "f1": 0.6938775510204082,
      "support": 51
     }
    },
    "confusion": {
     "model_comparison": {
-     "model_comparison": 19,
-     "benchmark_lookup": 2
+     "model_comparison": 20,
+     "benchmark_lookup": 1
     },
     "semantic_capability": {
-     "structured_constraint": 7,
-     "semantic_capability": 25,
-     "semantic_constraint": 6
+     "semantic_constraint": 5,
+     "semantic_capability": 29,
+     "structured_constraint": 4
     },
     "lexical_exact": {
-     "structured_constraint": 3,
-     "semantic_capability": 4,
-     "lexical_exact": 12,
-     "semantic_constraint": 4
+     "lexical_exact": 18,
+     "structured_constraint": 1,
+     "semantic_capability": 2,
+     "semantic_constraint": 2
     },
     "structured_constraint": {
-     "structured_constraint": 18,
-     "semantic_constraint": 6
+     "structured_constraint": 19,
+     "semantic_constraint": 5
     },
     "benchmark_lookup": {
      "structured_constraint": 1,
@@ -131,15 +132,16 @@
      "benchmark_lookup": 19
     },
     "semantic_constraint": {
-     "semantic_constraint": 37,
-     "structured_constraint": 14
+     "semantic_constraint": 34,
+     "structured_constraint": 16,
+     "lexical_exact": 1
     }
    },
    "llm_calls": 178
   },
   "규칙 + LLM": {
-   "accuracy": 0.7415730337078652,
-   "macro_f1": 0.7706763800047383,
+   "accuracy": 0.8146067415730337,
+   "macro_f1": 0.8494130632299495,
    "per_class": {
     "model_comparison": {
      "precision": 1.0,
@@ -148,21 +150,21 @@
      "support": 21
     },
     "semantic_capability": {
-     "precision": 0.8620689655172413,
-     "recall": 0.6578947368421053,
-     "f1": 0.746268656716418,
+     "precision": 1.0,
+     "recall": 0.7631578947368421,
+     "f1": 0.8656716417910448,
      "support": 38
     },
     "lexical_exact": {
-     "precision": 1.0,
-     "recall": 0.5217391304347826,
-     "f1": 0.6857142857142856,
+     "precision": 0.9583333333333334,
+     "recall": 1.0,
+     "f1": 0.9787234042553191,
      "support": 23
     },
     "structured_constraint": {
-     "precision": 0.4186046511627907,
-     "recall": 0.75,
-     "f1": 0.5373134328358209,
+     "precision": 0.475,
+     "recall": 0.7916666666666666,
+     "f1": 0.5937499999999999,
      "support": 24
     },
     "benchmark_lookup": {
@@ -172,9 +174,9 @@
      "support": 21
     },
     "semantic_constraint": {
-     "precision": 0.6851851851851852,
-     "recall": 0.7254901960784313,
-     "f1": 0.7047619047619048,
+     "precision": 0.7555555555555555,
+     "recall": 0.6666666666666666,
+     "f1": 0.7083333333333334,
      "support": 51
     }
    },
@@ -183,19 +185,16 @@
      "model_comparison": 21
     },
     "semantic_capability": {
-     "structured_constraint": 7,
-     "semantic_capability": 25,
-     "semantic_constraint": 6
+     "semantic_constraint": 5,
+     "semantic_capability": 29,
+     "structured_constraint": 4
     },
     "lexical_exact": {
-     "structured_constraint": 3,
-     "semantic_capability": 4,
-     "lexical_exact": 12,
-     "semantic_constraint": 4
+     "lexical_exact": 23
     },
     "structured_constraint": {
-     "structured_constraint": 18,
-     "semantic_constraint": 6
+     "structured_constraint": 19,
+     "semantic_constraint": 5
     },
     "benchmark_lookup": {
      "structured_constraint": 1,
@@ -203,31 +202,26 @@
      "benchmark_lookup": 19
     },
     "semantic_constraint": {
-     "semantic_constraint": 37,
-     "structured_constraint": 14
+     "semantic_constraint": 34,
+     "structured_constraint": 16,
+     "lexical_exact": 1
     }
    },
-   "llm_calls": 159
+   "llm_calls": 137
   }
  },
  "errors": [
   {
-   "id": "sg_g002",
-   "gold": "lexical_exact",
-   "predicted": "structured_constraint",
-   "text": "일본어 문서를 한국어로 번역하는 개인용 로컬 번역기를 만들고 싶어. RTX 4060급 GPU 한 장이고 개인 용도라 라이선스는 상관없어."
-  },
-  {
    "id": "sg_g004",
    "gold": "semantic_capability",
-   "predicted": "structured_constraint",
+   "predicted": "semantic_constraint",
    "text": "한국어 법령·판례 검색용 RAG를 만들려고 해. GPU 없이 CPU에서 돌아가는 가벼운 임베딩 모델이 필요해."
   },
   {
-   "id": "sg_g005",
-   "gold": "lexical_exact",
+   "id": "sg_g008",
+   "gold": "semantic_constraint",
    "predicted": "structured_constraint",
-   "text": "영어 뉴스 제목을 한국어로 자연스럽게 번역하고 싶어. GPU 메모리는 3GB 정도만 쓸 수 있고 문장은 짧아(512토큰 이하)."
+   "text": "한국어 회의 녹음 전사를 로컬 GPU(12GB)로 돌리려고 해. 정확도를 우선하고 싶어."
   },
   {
    "id": "sg_g009",
@@ -264,12 +258,6 @@
    "gold": "benchmark_lookup",
    "predicted": "structured_constraint",
    "text": "GPU 없는 t3.medium급 서버에서 한국어 음성인식을 로컬로 돌리려고 해. 외부 API가 실패할 때 쓰는 폴백이고, 정확도는 CER로 판단할 거야."
-  },
-  {
-   "id": "sg_g019",
-   "gold": "structured_constraint",
-   "predicted": "semantic_constraint",
-   "text": "RAM 4GB 이상인 PC에서 돌릴 한국어 음성인식 데모 앱을 만들려고 해. 속도와 정확도가 균형 잡힌 가벼운 모델이 필요해."
   },
   {
    "id": "sg_g021",
@@ -320,10 +308,10 @@
    "text": "M1 이상 맥(RAM 16GB)에서 오프라인으로 한국어 회의록을 요약하고 교정할 LLM이 필요해. Ollama 없이 통합 메모리에서 바로 돌아가면 좋겠어."
   },
   {
-   "id": "sg_g003",
-   "gold": "lexical_exact",
+   "id": "sg_g030",
+   "gold": "semantic_constraint",
    "predicted": "structured_constraint",
-   "text": "일본어 문서를 한국어로 번역하는 기능을 사내 유료 서비스에 넣으려고 해. RTX 4060급 GPU 한 장에서 로컬로 돌려야 해."
+   "text": "회의 녹음에서 할 일과 기여도를 뽑아내는 웹 플랫폼에 쓸 한국어 LLM을 자체 GPU 서버(10~16GB)에서 서빙하려고 해. 외부 AI API는 안 쓰고, 나중에 유료화할 수 있게 상업 라이선스여야 해."
   },
   {
    "id": "sg_g016",
@@ -342,18 +330,6 @@
    "gold": "semantic_constraint",
    "predicted": "structured_constraint",
    "text": "한국어 영수증이나 문서 사진에서 글자를 읽고 내용을 정리하는 비전 언어 모델이 필요해. GPU 24GB 한 장에서 돌릴 거야."
-  },
-  {
-   "id": "sg_h012",
-   "gold": "lexical_exact",
-   "predicted": "semantic_capability",
-   "text": "한국어 문서를 영어로 번역하는 모델이 필요해. 사내 문서 번역 기능에 넣을 거야."
-  },
-  {
-   "id": "sg_h013",
-   "gold": "lexical_exact",
-   "predicted": "semantic_capability",
-   "text": "영어 기술 문서를 한국어로 번역할 모델이 필요해. 문장이 길고 전문 용어가 많아."
   },
   {
    "id": "sg_h015",
@@ -392,12 +368,6 @@
    "text": "한국어 법률 상담 챗봇을 만들려고 해. 법률 도메인 지식이 있는 모델이면 좋겠어."
   },
   {
-   "id": "sg_h032",
-   "gold": "semantic_capability",
-   "predicted": "semantic_constraint",
-   "text": "한국어 의료 상담 질문에 답하는 모델이 필요해. 연구용이라 라이선스는 상관없어."
-  },
-  {
    "id": "sg_h036",
    "gold": "structured_constraint",
    "predicted": "semantic_constraint",
@@ -416,40 +386,10 @@
    "text": "한국어 특화 임베딩 모델을 상업 서비스에 넣으려고 해. 라이선스가 명확해야 해."
   },
   {
-   "id": "sg_h050",
-   "gold": "semantic_capability",
-   "predicted": "structured_constraint",
-   "text": "한국어 질의와 영어 문서를 매칭하는 교차 언어 검색 임베딩이 필요해. GPU 서버가 있어."
-  },
-  {
-   "id": "sg_h051",
-   "gold": "lexical_exact",
-   "predicted": "semantic_constraint",
-   "text": "일본어 문서를 한국어로 번역하는 모델이 필요해. 사내 문서 번역에 쓸 거야."
-  },
-  {
-   "id": "sg_h054",
-   "gold": "lexical_exact",
-   "predicted": "semantic_constraint",
-   "text": "중국어를 한국어로 번역하는 가벼운 모델을 CPU에서 돌리려고 해."
-  },
-  {
-   "id": "sg_h055",
-   "gold": "lexical_exact",
-   "predicted": "semantic_capability",
-   "text": "게임 대사를 영어에서 한국어로 번역하려고 해."
-  },
-  {
-   "id": "sg_h056",
-   "gold": "semantic_capability",
-   "predicted": "semantic_constraint",
-   "text": "200개 넘는 언어를 지원하는 번역 모델이 필요해. 연구용이라 라이선스는 상관없어."
-  },
-  {
-   "id": "sg_h060",
-   "gold": "semantic_capability",
-   "predicted": "structured_constraint",
-   "text": "한국어 채팅 대화록을 요약하는 모델이 필요해. CPU 서버에서 돌릴 거야."
+   "id": "sg_h052",
+   "gold": "semantic_constraint",
+   "predicted": "lexical_exact",
+   "text": "한국어·영어·중국어·일본어를 서로 번역하는 다국어 번역 모델 하나로 해결하고 싶어. GPU 24GB 서버 한 장이야."
   },
   {
    "id": "sg_h062",
@@ -468,24 +408,6 @@
    "gold": "semantic_constraint",
    "predicted": "structured_constraint",
    "text": "1B 이하 소형 생성형 모델로 한국어 문서 질의응답을 하려고 해."
-  },
-  {
-   "id": "sg_h076",
-   "gold": "lexical_exact",
-   "predicted": "semantic_constraint",
-   "text": "KoELECTRA 기반으로 학습된 한국어 문장 분류 모델이 필요해. 감성이든 문체든 KoELECTRA 계열이면 돼."
-  },
-  {
-   "id": "sg_h081",
-   "gold": "lexical_exact",
-   "predicted": "semantic_constraint",
-   "text": "KLUE-RoBERTa를 베이스로 만든 한국어 문장 임베딩 모델이 필요해. 유사 문장 검색에 쓸 거야."
-  },
-  {
-   "id": "sg_h083",
-   "gold": "lexical_exact",
-   "predicted": "semantic_capability",
-   "text": "KoBART 기반 한국어 요약 모델이 필요해. 뉴스나 문서 요약용으로 학습된 버전이면 좋겠어."
   }
  ]
 }

@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 2,
+ "input": "서울 교통량 데이터랑 그걸로 돌릴 예측 모델 같이 추천해줘",
+ "response": {
+  "target": "both",
+  "model_query_type": "semantic_capability"
+ },
+ "latency_ms": 1420.6
+}

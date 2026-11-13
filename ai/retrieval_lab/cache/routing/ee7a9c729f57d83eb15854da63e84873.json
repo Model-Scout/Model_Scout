@@ -1,0 +1,10 @@
+{
+ "model": "gpt-4o-mini",
+ "prompt_version": 1,
+ "input": "한국 문화·상식 이해를 HAE-RAE나 CLIcK 벤치마크로 검증한 한국어 LLM이 필요해.",
+ "response": {
+  "target": "model",
+  "model_query_type": "benchmark_lookup"
+ },
+ "latency_ms": 688.1
+}
