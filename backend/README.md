@@ -1,5 +1,7 @@
 # Model Scout 백엔드 V2
 
+[실제 DB·API 통합 진행 기록](INTEGRATION_STATUS.md)에서 `feat/yj`의 검증 결과와 다음 작업을 확인할 수 있다.
+
 [완료 기능·작업 현황·전달 안내](docs/00-delivery-status.md)에서 현재 구현 범위와 남은 검증을 먼저 확인하세요.
 
 [브랜치 전체 작업 정리](docs/04-branch-work-summary.md)는 기존 기반과 이번 변경, 파일별 산출물, 취소 재검토 결과를 구분합니다.
@@ -32,6 +34,24 @@ AI는 별도 프로세스로 실행한다. 기존 `ai/` 개발 환경과 데이�
 Swagger는 개발 `/docs`, OpenAPI는 `/openapi.json`. 운영에서 비활성화된 경우 저장된 `examples/openapi.json`을 전달한다.
 
 ## DB 적용
+
+실제 DB 연결과 대화 테이블·컬럼·기본 권한을 먼저 읽기 전용으로 점검할 수 있다.
+비밀값과 DB 오류 원문은 출력하지 않으며, SQL 적용이나 데이터 변경은 하지 않는다.
+이 점검 통과 후에도 실제 대화 저장·복원으로 RLS와 시퀀스 권한을 확인해야 한다.
+
+```powershell
+./.venv/Scripts/python.exe backend/check_db.py --env-file .env
+```
+
+루트 `.env`를 사용하는 로컬 개발 환경에서는 아래처럼 명시적으로 로드한다.
+`--env-file`은 `requirements-dev.txt`의 `python-dotenv`가 필요하다.
+AI 서버도 같은 루트 파일을 명시적으로 읽도록 실행할 수 있다.
+두 서버는 각각 별도 터미널에서 실행한다.
+
+```powershell
+./.venv/Scripts/python.exe -m uvicorn backend.app.main:app --env-file .env --host 127.0.0.1 --port 8000 --reload
+./.venv/Scripts/python.exe -m uvicorn api:app --app-dir ai --env-file .env --host 127.0.0.1 --port 8001
+```
 
 새 환경에서는 `backend/app_schema.sql`을 DB 관리 권한으로 실행한다. 기존 환경에도 같은 파일을 재실행할 수 있다.
 V2는 기존 app.messages에 `sources jsonb not null default '[]'` 컬럼을 추가한다. **코드 배포 전 SQL을 적용한다.**
