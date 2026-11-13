@@ -1453,13 +1453,21 @@ STAGE1_SNAPSHOT_FILES = tuple(STAGE1_PARTITIONS.values()) + (
 # 비율 가드는 기준이 이보다 작으면 적용하지 않는다. 01 의 SNAPSHOT_DROP_MIN_ROWS 와 같다.
 REINGEST_GUARD_MIN_ROWS = 100
 # 처리 대상(Core ∪ Low)에서 빠지는 모델과 DB 에서 비활성화될 모델의 상한.
-# 01 의 파티션 가드(50%)는 "수집이 통째로 깨졌다"를 막는 값이라 DB 기준으로는
-# 너무 느슨하다. 정상 감소는 Hub 삭제·비공개 전환·다운로드 80 미만 하락·언어
-# 게이트 제외이고, 직전 Stage 1 이후 몇 달 치를 합쳐도 한 자릿수 % 다. 10% 를
-# 넘으면 사람이 dry-run diff 를 보고 판단할 일이므로 자동으로 멈춘다. 정말
-# 정상이라면 이 값을 PR 로 올린다(실행 옵션으로 우회하지 않는다).
-REINGEST_MAX_REMOVED_FRACTION = 0.10
-REINGEST_MAX_DEACTIVATION_FRACTION = 0.10
+# 2026-11-13 첫 장기 공백 뒤 full-scan 에서 전체 task·cutoff·후보 감사를 모두
+# 통과했지만 3,886개 중 957개(24.6%)가 교체됐다. 그 diff 를 사람이 검토했으므로
+# 이번 전체 재적재에는 30%를 허용한다. 가드를 없애지는 않는다. apply와 스냅샷
+# 반영이 끝나면 후속 PR에서 정상 운영값 10%로 반드시 되돌린다.
+REINGEST_MAX_REMOVED_FRACTION = 0.30
+REINGEST_MAX_DEACTIVATION_FRACTION = 0.30
+
+
+class Stage1RemovalGuardError(RuntimeError):
+    """Stage 1 교체율 가드가 막은 diff를 실패 보고서까지 운반한다."""
+
+    def __init__(self, message: str, diff: Dict[str, Any]):
+        super().__init__(message)
+        self.diff = diff
+        self.scan_started_at: Optional[str] = None
 
 
 def stage1_partition_ids(data_dir: Optional[Path] = None) -> Dict[str, List[str]]:
@@ -1531,10 +1539,13 @@ def assert_stage1_removal(diff: Dict[str, Any]) -> Dict[str, Any]:
     guard = fraction_guard(
         diff["previous_processable"], len(diff["removed_ids"]), REINGEST_MAX_REMOVED_FRACTION
     )
+    # 실패해도 added/removed ID와 함께 이 판정을 artifact에 남긴다.
+    diff["removal_guard"] = guard
     if guard["blocked"]:
-        raise RuntimeError(
+        raise Stage1RemovalGuardError(
             f"새 Stage 1 이 처리 대상 {guard['base']}개 중 {guard['count']}개를 잃었다 "
-            f"(상한 {guard['max_allowed']}개). 수집 이상으로 보고 재적재를 중단한다"
+            f"(상한 {guard['max_allowed']}개). 수집 이상으로 보고 재적재를 중단한다",
+            diff,
         )
     return guard
 
@@ -1603,7 +1614,13 @@ def run_full_stage1_scan() -> Dict[str, Any]:
             # 모델이 섞인다. 재적재는 항상 처음부터 수집한다.
             run_command([sys.executable, str(ROOT / "01_collect_models.py"), "--no-resume"])
             diff = stage1_diff(previous, stage1_partition_ids())
-            diff["removal_guard"] = assert_stage1_removal(diff)
+            assert_stage1_removal(diff)
+        except Stage1RemovalGuardError as error:
+            error.scan_started_at = scan_started.isoformat()
+            for filename in STAGE1_SNAPSHOT_FILES:
+                if (backup / filename).exists():
+                    (backup / filename).replace(DATA_DIR / filename)
+            raise
         except Exception:
             for filename in STAGE1_SNAPSHOT_FILES:
                 if (backup / filename).exists():
@@ -1939,6 +1956,28 @@ def write_reingest_report(result: Dict[str, Any], path: Path) -> List[Path]:
         write_json_atomic(target, value)
         written.append(target)
     return written
+
+
+def stage1_guard_failure_result(error: Stage1RemovalGuardError) -> Dict[str, Any]:
+    """Stage 2 전에 멈춰도 GitHub artifact로 올릴 수 있는 실패 결과."""
+    return {
+        "apply": False,
+        "sync_mode": "reingest",
+        "db_write": False,
+        "error": {
+            "type": "stage1_removal_guard",
+            "message": str(error),
+            "failed_before": "stage2",
+        },
+        "reingest": {
+            "mode": "reingest",
+            "stage1_mode": "full-scan",
+            "source_watermark": error.scan_started_at,
+            "steps": ["stage1:full-scan", "stage1:removal-guard-blocked"],
+            "requires_sync": False,
+            "stage1_diff": error.diff,
+        },
+    }
 
 
 def write_json_atomic(path: Path, value: Any) -> None:
@@ -2453,9 +2492,16 @@ def main() -> int:
         else:
             # --apply 없이 돈다. DB를 건드리지 않고 dry-run 리포트(와 번들)만 낸다 —
             # 팀이 diff를 보고 승인한 번들만 apply 가 적재한다.
-            refresh_info = full_reingest_pipeline(
-                carried_watermark(previous), full_stage1=args.full_stage1
-            )
+            try:
+                refresh_info = full_reingest_pipeline(
+                    carried_watermark(previous), full_stage1=args.full_stage1
+                )
+            except Stage1RemovalGuardError as error:
+                # Stage 2 전에 실패해도 정확히 무엇이 추가·제거됐는지 Action
+                # artifact에서 검토할 수 있어야 다음 한도 변경을 근거로 결정한다.
+                if args.report is not None:
+                    write_reingest_report(stage1_guard_failure_result(error), args.report)
+                raise
     elif args.initial:
         if latest is not None:
             raise RuntimeError(
