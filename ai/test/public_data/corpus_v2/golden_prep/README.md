@@ -247,6 +247,20 @@ python test/public_data/corpus_v2/review_batch.py labels golden_prep/batch2/judg
 - `labels`는 `--out`이 원본 골든셋, `--base`, 판정 파일과 같으면 거부한다.
 - `base_sha256`은 쓰기 전에 계산한다.
 
+## 배치 3: 상속 라벨의 불확실 1점 재판정 (`batch3/`, 16행, 2026-11-13)
+
+v4 relevant 중 보완 판정 기록(`review_provenance`)이 없고, 초기 판정표(`reports/public_pool_worksheet.csv`) 메모에 '미확인/확인 필요'가 남은 1점 16쌍이다. 공식 페이지(메타정보·컬럼·미리보기·API 명세)로 다시 판정했다. Claude가 판정하고 사용자가 검토했다. 선정·근거는 `batch3/manifest.json`에 있다.
+
+```
+python test/public_data/corpus_v2/review_batch.py labels golden_prep/batch3/judgments.jsonl --suggestions golden_prep/batch3/review_suggestions.jsonl \
+    --base golden_prep/batch2/labels_llm_v4.jsonl --out golden_prep/batch3/labels_llm_v5.jsonl
+```
+
+**결과:** 2점 8, 0점 4, 1점 유지 3, `?` 2(p002/15068376 외부인 이용 여부, p055/15106741 영양성분 수치 여부). 위반 0, 경고 0. 전체 2점 116→123, 1점 270→257.
+
+- **`labels_llm_v5.jsonl`이 현재 평가 기준이다.** v4 이하는 이력으로 보존하며 고치지 않는다.
+- 카드 자동 검사는 v2 빌드가 작업 PC에 없어 v1 데이터로 만들었다. '필드 목록 없음' 항목은 공식 페이지 확인 기록(`source: official_page`)으로 판정했다.
+
 ## 제안 질의 14개
 
 자치구 5, 언어판 4, 연도판 3, 공간 단위 2개다. `designer_targets`는 질의를 만든 사람이 예상한 답일 뿐이고, 자동 제안은 이를 보지 않는다. 같은 묶음의 모든 데이터에 위의 검사를 똑같이 적용한다.

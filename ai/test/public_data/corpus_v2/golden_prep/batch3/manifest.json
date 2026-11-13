@@ -1,0 +1,8 @@
+{
+ "selection": "v4 relevant 중 review_provenance가 없고 초기 판정표(reports/public_pool_worksheet.csv) 메모에 '미확인/확인 필요'가 남은 16쌍",
+ "rows": 16,
+ "base": "batch2/labels_llm_v4.jsonl",
+ "evidence": "2026-11-13 공공데이터포털·서울 열린데이터광장 공식 페이지(메타정보, 컬럼 정의, 미리보기 샘플, API 명세). 판정은 Claude, 사용자 검토 후 p002|15068376·p055|15106741은 보류(?)로 결정",
+ "cards": "golden_prep.facts + golden_prep.suggestion. v2 빌드(hypergraph_v2, public_enriched)가 작업 PC에 없어 v1 stage1 행과 v1 그래프로 만듦. 자동 검사가 '필드 목록 없음'인 항목은 공식 페이지 확인 기록(verification.items, source=official_page)으로 판정",
+ "command": "python test/public_data/corpus_v2/review_batch.py labels batch3/judgments.jsonl --suggestions batch3/review_suggestions.jsonl --base batch2/labels_llm_v4.jsonl --out batch3/labels_llm_v5.jsonl"
+}
