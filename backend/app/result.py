@@ -129,18 +129,76 @@ class SourceFile(BaseModel):
 REJECT_MESSAGE = "모델과 데이터를 추천할 수 있는 프로젝트 아이디어로 다시 입력해 주세요."
 
 
+# Model license verdict from the data contract (ai/resolvers/legal.py). V2 has no "blocked" status,
+# so prohibited uses the strongest one available, "check", and says so in the reason.
+COMMERCIAL_STATUS_CHECK = {"permitted": "ok", "prohibited": "check", "review_required": "check", "unknown": "unknown"}
+COMMERCIAL_STATUS_REASON = {"permitted": "상업 이용 허용 계열", "prohibited": "비상업 전용 — 상업 이용 불가",
+                            "review_required": "조건부 — 라이선스 원문 확인 필요", "unknown": "상업 이용 여부 미확인"}
+COMMERCIAL_USE_CHECK = {"commercial": "ok", "unknown": "unknown"}
+GPU_ESTIMATE_NOTE = "가중치 기반 추정치이며 긴 입력의 KV cache는 포함하지 않아요."
+
+
+def _license_check(model: dict[str, Any]) -> Check:
+    """commercial_status first, then the older commercial_use class, then the raw license alone."""
+    sid = model["model_id"]
+    license_value = model.get("license") or "unknown"
+    status = model.get("commercial_status")
+    if status in COMMERCIAL_STATUS_CHECK:
+        return Check(key="license", label="상업 이용", status=COMMERCIAL_STATUS_CHECK[status],
+                     reason=f"라이선스 {license_value} · {COMMERCIAL_STATUS_REASON[status]}", source_id=sid,
+                     origin="unknown" if status == "unknown" else "metadata")
+    use = model.get("commercial_use")
+    return Check(key="license", label="상업 이용",
+                 status=COMMERCIAL_USE_CHECK.get(use, "unknown" if use is None else "check"),
+                 reason=f"라이선스 {license_value}", source_id=sid,
+                 origin="metadata" if model.get("license") not in (None, "unknown") else "unknown")
+
+
+def _artifact_checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
+    """Download conditions the user asked for. A missing value is unknown, never a pass."""
+    sid = model["model_id"]
+    checks = []
+    wanted = [str(fmt) for fmt in constraints.get("required_artifacts") or []]
+    if wanted:
+        formats = model.get("artifact_formats")
+        missing = [fmt for fmt in wanted if formats is not None and fmt not in formats]
+        names = ", ".join(fmt.upper() for fmt in wanted)
+        checks.append(Check(key="artifact", label=f"{names} 파일",
+                            status="unknown" if formats is None else "check" if missing else "ok",
+                            reason="파일 목록을 확인하지 못했어요." if formats is None
+                            else f"저장소에 {', '.join(m.upper() for m in missing)} 파일이 없어요." if missing
+                            else f"저장소에 {names} 파일이 있어요.",
+                            source_id=sid, origin="unknown" if formats is None else "metadata"))
+    limit = constraints.get("max_artifact_gib")
+    if limit is not None:
+        size = model.get("artifact_runnable_gib")
+        label = model.get("artifact_runnable_label")
+        checks.append(Check(key="artifact_size", label="파일 크기",
+                            status="unknown" if size is None else "ok" if size <= limit else "check",
+                            reason=f"요구 {limit}GiB 이하, 파일 크기 미확인" if size is None
+                            else f"요구 {limit}GiB 이하, 실행용 파일 {size}GiB" + (f" ({label})" if label else ""),
+                            source_id=sid, origin="unknown" if size is None else "metadata"))
+    if constraints.get("exclude_gated"):
+        gated = model.get("gated")
+        checks.append(Check(key="gated", label="승인 없이 내려받기",
+                            status="unknown" if gated is None else "ok" if gated is False else "check",
+                            reason="접근 승인 필요 여부를 확인하지 못했어요." if gated is None
+                            else "승인 없이 내려받을 수 있어요." if gated is False
+                            else f"접근 승인이 필요해요 ({gated}).",
+                            source_id=sid, origin="unknown" if gated is None else "metadata"))
+    return checks
+
+
 def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
     sid = model["model_id"]
-    use = model.get("commercial_use")
-    checks = [Check(key="license", label="상업 이용",
-                    status="ok" if use == "commercial" else "unknown" if use in (None, "unknown") else "check",
-                    reason=f"라이선스 {model.get('license') or 'unknown'}", source_id=sid,
-                    origin="metadata" if model.get("license") not in (None, "unknown") else "unknown")]
+    checks = [_license_check(model)]
     if constraints.get("gpu_memory_gb") is not None:
         fit = model.get("gpu_fit") or {}
+        label = fit.get("label")
         checks.append(Check(key="gpu", label="GPU 메모리",
                             status={"runs": "ok", "runs_quantized": "check", "too_large": "check"}.get(fit.get("verdict"), "unknown"),
-                            reason=fit.get("label") or "GPU 정보를 찾지 못함", source_id=sid, origin="estimate"))
+                            reason=f"{label} — {GPU_ESTIMATE_NOTE}" if label and fit.get("basis") else label or "GPU 정보를 찾지 못함",
+                            source_id=sid, origin="estimate"))
     minimum = constraints.get("min_context_length")
     if minimum is not None:
         length = model.get("context_length")
@@ -148,6 +206,7 @@ def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
                             status="unknown" if length is None else "ok" if length >= minimum else "check",
                             reason=f"요구 {minimum}, 모델 {length if length is not None else '미확인'}",
                             source_id=sid, origin="metadata" if length is not None else "unknown"))
+    checks.extend(_artifact_checks(model, constraints))
     # These cannot be established from the current AI response; never infer support from a name.
     checks.extend([Check(key="language", label="한국어 지원", status="unknown", reason="구조화된 언어 지원 근거가 제공되지 않았어요."),
                    Check(key="execution", label="로컬 실행", status="unknown", reason="실행 환경에 대한 검증이 필요해요.")])
@@ -206,6 +265,12 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     summary = [plan.get("summary_ko") or "추천 결과"]
     if constraints.get("commercial_only"):
         summary.append("상업 이용 가능한 모델만")
+    if constraints.get("required_artifacts"):
+        summary.append("필요한 파일: " + ", ".join(str(f).upper() for f in constraints["required_artifacts"]))
+    if constraints.get("max_artifact_gib") is not None:
+        summary.append(f"파일 크기(GiB) 이하: {constraints['max_artifact_gib']}")
+    if constraints.get("exclude_gated"):
+        summary.append("승인 없이 내려받을 수 있는 모델만")
     for key, label in [("gpu_memory_gb", "GPU 메모리(GB)"), ("min_context_length", "최소 입력 길이(tokens)")]:
         if constraints.get(key) is not None:
             summary.append(f"{label}: {constraints[key]}")

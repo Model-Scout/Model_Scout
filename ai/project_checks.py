@@ -21,6 +21,19 @@ CUDA_CONTEXT_GIB = 0.6
 GIB_PER_BILLION_PARAMS = {"fp16": 2e9 / 1024**3, "int8": 1e9 / 1024**3, "int4": 0.5e9 / 1024**3}
 PRECISION_LABEL = {"fp16": "fp16", "int8": "8bit 양자화", "int4": "4bit 양자화"}
 FIT_LABEL = {"runs": "돌아감", "runs_quantized": "양자화하면 돌아감", "too_large": "불가", "unknown": "판단 불가"}
+# What a gpu_fit number is. It is never a measured VRAM figure, and it is not the artifact file size
+# (filter_metadata.artifact_runnable_gib), which is a download size and is reported separately.
+GPU_FIT_BASIS = "weights_estimate"
+GPU_FIT_NOTE = "가중치 기반 추정치이며 긴 입력의 KV cache는 포함하지 않아요."
+
+# Model rows carry Stage 2's contract verdict (resolvers/legal.py); datasets only have raw license
+# strings. Both end in the same four classes so one stack verdict can combine them.
+COMMERCIAL_STATUS_CLASS = {
+    "permitted": "commercial",
+    "prohibited": "non_commercial",
+    "review_required": "conditional",
+    "unknown": "unknown",
+}
 
 
 def runtime_gib(weights_gib: float) -> float:
@@ -42,6 +55,11 @@ def gpu_fit(
     if gpu_gib is None:
         return None
     weights = (hardware or {}).get("weights_only") or {}
+    fit = _gpu_fit(params_b, gpu_gib, weights, quant_bits)
+    return {**fit, "basis": GPU_FIT_BASIS}
+
+
+def _gpu_fit(params_b: float | None, gpu_gib: float, weights: dict, quant_bits: int | None) -> dict[str, Any]:
     if quant_bits:
         size = weights.get("detected_quantization_gib")
         if size is None and params_b:
@@ -91,15 +109,24 @@ def license_class(licenses: Any) -> str:
     return "unknown"
 
 
+def model_license_class(commercial_status: str | None, license_value: Any = None) -> str:
+    """A model's class: its contract commercial_status when present, else the raw license (old rows)."""
+    if commercial_status in COMMERCIAL_STATUS_CLASS:
+        return COMMERCIAL_STATUS_CLASS[commercial_status]
+    return license_class(license_value)
+
+
 def license_verdict(items: list[dict[str, Any]]) -> dict[str, Any]:
-    """items: [{"kind": "model"|"training data"|"service data", "id", "license"}] -> stack verdict.
+    """items: [{"kind": "model"|"training data"|"service data", "id", "license", "commercial_status"?}].
 
     Any non-commercial piece blocks a commercial launch: a fine-tuned model inherits its training
     data's terms, and an app cannot serve NC data commercially. Conditional/unknown -> review.
+    A model item may carry commercial_status; it wins over re-classifying the raw license.
+    Datasets keep the raw-license path.
     """
     blockers, review = [], []
     for item in items:
-        cls = license_class(item.get("license"))
+        cls = model_license_class(item.get("commercial_status"), item.get("license"))
         entry = {**item, "class": cls}
         if cls == "non_commercial":
             blockers.append(entry)
@@ -150,7 +177,8 @@ def compare_models(rows: list[dict[str, Any]], gpu_gib: float | None = None) -> 
                 "parameters_b": meta.get("parameter_count_billion"),
                 "context_length": meta.get("context_length"),
                 "license": meta.get("license") or "unknown",
-                "license_class": license_class(meta.get("license")),
+                "commercial_status": meta.get("commercial_status"),
+                "license_class": model_license_class(meta.get("commercial_status"), meta.get("license")),
                 "downloads": (row.get("popularity") or {}).get("downloads"),
                 "quantization": f"{quant.get('bits')}bit {quant.get('method') or ''}".strip()
                 if quant.get("enabled")
@@ -195,4 +223,10 @@ if __name__ == "__main__":
     assert nc["verdict"] == "blocked" and "klue" in nc["reason"], nc
     assert license_verdict([{"kind": "model", "id": "m", "license": None}])["verdict"] == "review"
     assert license_class(["mit", "cc-by-nc-4.0"]) == "non_commercial"
+    # A model's contract status wins over its raw license; datasets keep the raw path.
+    stack = [{"kind": "model", "id": "m", "license": "other", "commercial_status": "permitted"},
+             {"kind": "training data", "id": "d", "license": ["cc-by-4.0"]}]
+    assert license_verdict(stack)["verdict"] == "commercial_ok"
+    assert license_verdict([{**stack[0], "commercial_status": "prohibited"}])["verdict"] == "blocked"
+    assert small["basis"] == GPU_FIT_BASIS
     print("project_checks ok")

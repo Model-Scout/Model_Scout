@@ -41,7 +41,7 @@ from typing import Annotated, Any, Literal, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 import project_checks
 from hypergraph_search import concepts_from_terms, datasets_for_model, embed_query, load_graph, rank_datasets
@@ -83,11 +83,78 @@ class Need(BaseModel):
     model_query: str = Field(description="search query, Korean and English keywords mixed")
 
 
+# Download formats a user can name; a subset of resolvers/artifacts.FORMATS.
+ArtifactFormat = Literal["gguf", "safetensors", "onnx", "mlx"]
+# Words that must appear in what the user said before the planner may set a contract constraint.
+# The LLM is told the same rules; this keeps a misread from silently narrowing the search.
+ARTIFACT_MARKERS = {
+    "gguf": ("gguf", "ollama", "llama.cpp", "llama-cpp", "llamacpp"),
+    "safetensors": ("safetensors",),
+    "onnx": ("onnx",),
+    "mlx": ("mlx",),
+}
+GATED_MARKERS = ("승인 없", "승인없", "신청 없", "신청없", "바로 다운", "바로 내려", "gated", "동의 없")
+FILE_SIZE_MARKERS = ("파일", "다운로드", "내려받", "디스크", "file", "download", "disk")
+
+
+def constraint_defaults() -> dict[str, Any]:
+    return {
+        "commercial_only": False,
+        "gpu_memory_gb": None,
+        "max_parameter_count_billion": None,
+        "min_context_length": None,
+        "required_artifacts": [],
+        "max_artifact_gib": None,
+        "exclude_gated": False,
+    }
+
+
 class Constraints(BaseModel):
     commercial_only: bool
     gpu_memory_gb: float | None
     max_parameter_count_billion: float | None
     min_context_length: int | None
+    required_artifacts: list[ArtifactFormat]
+    max_artifact_gib: float | None
+    exclude_gated: bool
+
+    @model_validator(mode="before")
+    @classmethod
+    def fill_missing(cls, value: Any) -> Any:
+        # Plans checkpointed before a field existed lack it. Every field stays required in the
+        # JSON schema the planner LLM sees; only stored plans get the defaults.
+        if isinstance(value, dict):
+            return {**constraint_defaults(), **value}
+        return value
+
+
+def constraints_of(plan: dict) -> dict[str, Any]:
+    """A stored plan's constraints with defaults for fields added after it was saved."""
+    return {**constraint_defaults(), **(plan.get("constraints") or {})}
+
+
+def explicit_constraints(constraints: dict, said: str, previous: dict | None = None) -> dict[str, Any]:
+    """Drop new contract constraints the user did not state. Never adds one.
+
+    A value already in the previous plan is kept: the user stated it in an earlier turn.
+    """
+    previous = previous or {}
+    text = said.casefold()
+    out = {**constraint_defaults(), **constraints}
+    out["required_artifacts"] = [
+        fmt
+        for fmt in out["required_artifacts"]
+        if fmt in (previous.get("required_artifacts") or []) or any(m in text for m in ARTIFACT_MARKERS.get(fmt, ()))
+    ]
+    if out["exclude_gated"] and not previous.get("exclude_gated") and not any(m in text for m in GATED_MARKERS):
+        out["exclude_gated"] = False
+    if (
+        out["max_artifact_gib"] is not None
+        and out["max_artifact_gib"] != previous.get("max_artifact_gib")
+        and not any(m in text for m in FILE_SIZE_MARKERS)
+    ):
+        out["max_artifact_gib"] = None
+    return out
 
 
 class ProjectPlan(BaseModel):
@@ -170,6 +237,11 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   gpu_memory_gb: the GPU memory they state (e.g. "8GB GPU", "RTX 4090" -> 24), else null.
   max_parameter_count_billion: only for an explicit size limit ("3B 이하"), else null. Never derive it from the GPU.
   min_context_length: only for stated long inputs (긴 문서, 계약서 전체 등), else null.
+  required_artifacts: file formats they name. "GGUF", "Ollama", "llama.cpp" -> ["gguf"]; "ONNX" -> ["onnx"];
+  "MLX" -> ["mlx"]; "safetensors" -> ["safetensors"]. "로컬 실행", "온프레미스", "내 PC" alone set nothing: [].
+  max_artifact_gib: only an explicit model file/download size limit ("모델 파일 5GB 이하"), in GB, else null.
+  GPU memory is gpu_memory_gb, never this; a file size is not GPU memory.
+  exclude_gated: true only if they say 승인 없이/신청 없이/바로 다운로드/gated 제외, else false.
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
 dataset_query: one Korean sentence describing the data the project needs.
@@ -178,7 +250,8 @@ clarifying_questions: up to 3 short Korean questions ONLY when the idea is too v
   If the purpose is clear, return [] even when GPU or license are unstated. Always [] when PREVIOUS_PLAN is given
   or the message already contains "(추가 정보)".
 When PREVIOUS_PLAN is given, the user is refining it: return the whole updated plan, changing only
-what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets gpu_memory_gb)."""
+what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets gpu_memory_gb;
+"GGUF로" sets required_artifacts)."""
 
 EXPLAIN_PROMPT = """You are Model Scout. The client already shows every retrieved model and dataset as
 cards, so write a short Korean markdown briefing (no JSON, no code blocks, about 250-400 words) using ONLY the JSON
@@ -188,7 +261,10 @@ top 3) and "서비스 데이터 (공공데이터)" (service_data, top 3: 서울 
 calls at runtime), each with a few-word reason. If a model has gpu_fit, state its label (e.g. "8GB에서 4bit 양자화하면
 돌아감"). Close with "라이선스 판정": assessment.license.label and its reason, verbatim in substance. Write ids exactly
 as given; copy license and context_length verbatim; never invent ids, numbers, or licenses; never call an 'unknown'
-license commercial. If a list is empty, say so and what to search instead. End with one line of caveats."""
+license commercial. commercial_status (permitted/prohibited/review_required/unknown), when present, is the license
+verdict to report. gpu_fit is an estimate from weight sizes, not measured VRAM, and excludes long-input KV cache;
+artifact_runnable_gib is a download file size, never GPU memory. If a list is empty, say so and what to search
+instead. End with one line of caveats."""
 
 
 @ttl_cache(seconds=24 * 3600)
@@ -197,7 +273,14 @@ def _first_plan(request):
     return _parse_plan(request)
 
 
-def _parse_plan(user):
+def _parse_plan(user, said=None, previous=None):
+    """said: only what the user wrote (the planner input may also hold the previous plan's JSON)."""
+    plan = _llm_plan(user)
+    plan["constraints"] = explicit_constraints(plan["constraints"], user if said is None else said, previous)
+    return plan
+
+
+def _llm_plan(user):
     response = _openai().chat.completions.parse(
         model=LLM_MODEL,
         temperature=0,
@@ -215,11 +298,14 @@ def _parse_plan(user):
 def decompose(state: State) -> State:
     if not state.get("plan"):
         return {"plan": _first_plan(" ".join(state["request"].split()))}
-    history = "\n".join(f"- {t['request']}" for t in (state.get("turns") or [])[-HISTORY_TURNS:])
+    earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
+    history = "\n".join(f"- {request}" for request in earlier)
     return {
         "plan": _parse_plan(
             f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
-            f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}"
+            f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}",
+            said="\n".join([*earlier, state["request"]]),
+            previous=constraints_of(state["plan"]),
         )
     }
 
@@ -251,16 +337,28 @@ def _model_quote(row):
 def _compact_model(row):
     meta = row.get("filter_metadata") or {}
     quant = meta.get("quantization") or {}
+    status = meta.get("commercial_status")
     return {
         "model_id": row["model_id"],
         "rank_score": row["ranking"]["rank_score"],
         "task": (row.get("task") or {}).get("primary"),
         "license": meta.get("license") or "unknown",
-        "commercial_use": normalize("commercial_use", meta.get("license")),
+        # Stage 2's contract verdict; None on rows loaded before the contract reingest.
+        "commercial_status": status,
+        # Kept for API consumers. Derived from commercial_status when the row has one, so the
+        # raw license is no longer classified twice with possibly different results.
+        "commercial_use": project_checks.COMMERCIAL_STATUS_CLASS.get(status)
+        or normalize("commercial_use", meta.get("license")),
         "context_length": meta.get("context_length"),
         "parameters_b": meta.get("parameter_count_billion"),
         "hardware": meta.get("hardware"),
         "quant_bits": quant.get("bits") if quant.get("enabled") else None,
+        "gated": meta.get("gated"),
+        "artifact_formats": meta.get("artifact_formats"),
+        "artifact_runnable_gib": meta.get("artifact_runnable_gib"),
+        "artifact_runnable_label": meta.get("artifact_runnable_label"),
+        "dtype": meta.get("dtype"),
+        "unresolved_filter_fields": meta.get("unresolved_filter_fields") or [],
         "benchmarks": project_checks.compact_benchmarks(row.get("benchmark_metadata")),
         "evidence": _model_quote(row),
         "url": row.get("model_url"),
@@ -268,7 +366,32 @@ def _compact_model(row):
 
 
 @ttl_cache(seconds=600)
-def _model_rows(query, task_filters, max_params, min_context):
+def _model_rows(
+    query,
+    task_filters,
+    max_params,
+    min_context,
+    commercial_only,
+    required_artifacts,
+    max_artifact_gib,
+    exclude_gated,
+    contract_filters,
+):
+    """Every search condition is an argument, so each one is part of the TTL cache key.
+
+    contract_filters (MODEL_CONTRACT_FILTERS_ENABLED) decides whether the contract conditions go to
+    the RPC as hard filters. Off, the call is the original one and the caller keeps its post-filter.
+    """
+    contract = (
+        {
+            "commercial_status_filter": ["permitted"] if commercial_only else None,
+            "require_artifact": list(required_artifacts) or None,
+            "max_artifact_gib": max_artifact_gib,
+            "exclude_gated": exclude_gated,
+        }
+        if contract_filters
+        else {}
+    )
     out = _load_09().search_models(
         query,
         match_count=MODELS_PER_NEED * 2,
@@ -276,12 +399,16 @@ def _model_rows(query, task_filters, max_params, min_context):
         korean_required=True,
         max_parameter_count_billion=max_params,
         min_context_length=min_context,
+        **contract,
     )
-    return [_compact_model(r) for r in out["results"]]
+    return {
+        "rows": [_compact_model(r) for r in out["results"]],
+        "contract_filters_applied": bool((out.get("contract_filters") or {}).get("applied")),
+    }
 
 
 def search_models(state: State) -> State:
-    constraints = state["plan"]["constraints"]
+    constraints = constraints_of(state["plan"])
     gpu = constraints.get("gpu_memory_gb")
     # A GPU limit admits anything that fits at 4-bit; each card then says at which precision.
     size_limits = [
@@ -291,11 +418,24 @@ def search_models(state: State) -> State:
     ]
     max_params = min(size_limits) if size_limits else None
 
+    contract_filters = _load_09().contract_filters_enabled()
+
     def one(need):
-        rows = _model_rows(
-            need["model_query"], tuple(hf_tags(need["task"])), max_params, constraints["min_context_length"]
+        found = _model_rows(
+            need["model_query"],
+            tuple(hf_tags(need["task"])),
+            max_params,
+            constraints["min_context_length"],
+            constraints["commercial_only"],
+            tuple(constraints["required_artifacts"]),
+            constraints["max_artifact_gib"],
+            constraints["exclude_gated"],
+            contract_filters,
         )
-        if constraints["commercial_only"]:
+        rows = found["rows"]
+        if constraints["commercial_only"] and not found["contract_filters_applied"]:
+            # Before the contract migration: filter the top rows here. The RPC filter (flag on)
+            # applies before the top-N cut, so a permitted model ranked below it is not lost.
             rows = [r for r in rows if r["commercial_use"] == "commercial"]
         for row in rows:
             row["gpu_fit"] = project_checks.gpu_fit(
@@ -330,7 +470,7 @@ def _compact_dataset(row):
 def search_datasets(state: State) -> State:
     entities = load_graph()[0]
     plan = state["plan"]
-    commercial = plan["constraints"]["commercial_only"]
+    commercial = constraints_of(plan)["commercial_only"]
     # The top model per need that the hypergraph knows; Supabase can be ahead of the local graph.
     top_models = [
         next((m["model_id"] for m in group["models"] if f"model:{m['model_id']}" in entities), None)
@@ -389,7 +529,14 @@ def assess(state: State) -> State:
     for group in state["models"]:
         if group["models"]:
             top = group["models"][0]
-            items.append({"kind": "모델", "id": top["model_id"], "license": top["license"]})
+            items.append(
+                {
+                    "kind": "모델",
+                    "id": top["model_id"],
+                    "license": top["license"],
+                    "commercial_status": top.get("commercial_status"),
+                }
+            )
     datasets = state["datasets"]
     for rows in datasets["per_model"].values():
         items += [{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
@@ -407,7 +554,7 @@ def assess(state: State) -> State:
     return {
         "assessment": {
             "license": project_checks.license_verdict(unique),
-            "gpu_memory_gb": state["plan"]["constraints"].get("gpu_memory_gb"),
+            "gpu_memory_gb": constraints_of(state["plan"]).get("gpu_memory_gb"),
         }
     }
 

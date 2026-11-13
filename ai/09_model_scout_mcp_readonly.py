@@ -99,6 +99,35 @@ EMBEDDING_QUERY_MARKERS = (
 )
 KOREAN_QUERY_MARKERS = ("한국어", "국문", "korean")
 
+# 데이터 계약 필터(supabase_migration_contract_filters.sql)는 운영 DB 에 아직 없을 수
+# 있다. 그 전에 19개 인자로 부르면 함수가 없어 검색이 통째로 실패한다. 마이그레이션과
+# 재적재가 끝난 뒤 운영에서 켠다. 꺼져 있으면 지금처럼 15개 인자만 보낸다.
+CONTRACT_FILTERS_ENV = "MODEL_CONTRACT_FILTERS_ENABLED"
+# RPC 의 15개 기본 인자와 마이그레이션이 덧붙인 4개. 순서가 SQL 시그니처 순서다.
+RPC_BASE_ARGS = (
+    ("query_embedding", "vector"),
+    ("match_count", "integer"),
+    ("pool_filter", "text"),
+    ("task_filters", "text[]"),
+    ("korean_required", "boolean"),
+    ("min_parameter_count_billion", "numeric"),
+    ("max_parameter_count_billion", "numeric"),
+    ("min_context_length", "integer"),
+    ("max_context_length", "integer"),
+    ("require_known_parameters", "boolean"),
+    ("require_known_context", "boolean"),
+    ("popularity_tier_filter", "text"),
+    ("query_text", "text"),
+    ("dense_weight", "real"),
+    ("sparse_weight", "real"),
+)
+RPC_CONTRACT_ARGS = (
+    ("commercial_status_filter", "text[]"),
+    ("require_artifact", "text[]"),
+    ("max_artifact_gib", "numeric"),
+    ("exclude_gated", "boolean"),
+)
+
 DB_ENV = (
     "SUPABASE_DB_HOST",
     "SUPABASE_DB_PORT",
@@ -131,6 +160,55 @@ def _expand_task_filters(task_filters: Optional[Sequence[str]]) -> List[str]:
             if item not in expanded:
                 expanded.append(item)
     return expanded
+
+
+def contract_filters_enabled() -> bool:
+    return os.getenv(CONTRACT_FILTERS_ENV, "").strip().lower() in ("1", "true", "yes", "on")
+
+
+def _contract_filter_values(
+    commercial_status_filter: Optional[Sequence[str]],
+    require_artifact: Optional[Sequence[str]],
+    max_artifact_gib: Optional[float],
+    exclude_gated: bool,
+) -> Dict[str, Any]:
+    """Normalize the four contract filters; empty values mean "no condition"."""
+    statuses = [str(value).strip() for value in commercial_status_filter or [] if str(value).strip()]
+    artifacts = [str(value).strip().lower() for value in require_artifact or [] if str(value).strip()]
+    return {
+        "commercial_status_filter": statuses or None,
+        "require_artifact": artifacts or None,
+        "max_artifact_gib": max_artifact_gib,
+        "exclude_gated": bool(exclude_gated),
+    }
+
+
+def _match_statement(arguments: Sequence[Sequence[str]]) -> str:
+    casts = ",\n            ".join(f"%s::{sql_type}" for _, sql_type in arguments)
+    return f"""
+        select
+            model_id,
+            source_pool,
+            candidate,
+            task,
+            language,
+            popularity,
+            family,
+            filter_metadata,
+            technical_metadata,
+            semantic_metadata,
+            evidence,
+            benchmark_metadata,
+            source_provenance,
+            task_consistency,
+            evidence_index,
+            dense_similarity,
+            sparse_score,
+            similarity
+        from public.match_model_scout_models(
+            {casts}
+        )
+    """
 
 
 def _contains_marker(query: str, markers: Sequence[str]) -> bool:
@@ -431,6 +509,16 @@ def _compact_filter_metadata(value: Any) -> Dict[str, Any]:
         "evidence_completeness",
         "task_conflict",
         "task_conflict_severity",
+        # 데이터 계약 필드(04_build_embeddings.contract_filter_fields). 재적재 전
+        # 행에는 없으므로 키가 빠져 있으면 "모름"으로 읽는다.
+        "commercial_status",
+        "gated",
+        "artifact_formats",
+        "artifact_runnable_gib",
+        "artifact_runnable_label",
+        "vram_estimate_basis",
+        "dtype",
+        "unresolved_filter_fields",
     )
     return {key: value[key] for key in keys if key in value}
 
@@ -654,8 +742,18 @@ def search_models(
     require_known_parameters: bool = False,
     require_known_context: bool = False,
     popularity_tier_filter: Optional[str] = None,
+    commercial_status_filter: Optional[List[str]] = None,
+    require_artifact: Optional[List[str]] = None,
+    max_artifact_gib: Optional[float] = None,
+    exclude_gated: bool = False,
 ) -> Dict[str, Any]:
-    """Search the production corpus through the read-only match RPC."""
+    """Search the production corpus through the read-only match RPC.
+
+    The last four arguments are hard filters from the data contract. They reach
+    the RPC only when MODEL_CONTRACT_FILTERS_ENABLED is on; otherwise the call
+    is the original 15-argument one and ``contract_filters.applied`` is false so
+    the caller can keep its own fallback.
+    """
 
     count = min(max(int(match_count), 1), MAX_SEARCH_RESULTS)
     requested_task_filters = list(task_filters or [])
@@ -668,46 +766,14 @@ def search_models(
         applied_task_filters = list(TASK_FILTER_ALIASES["embedding"])
     korean_intent_detected = _contains_marker(query, KOREAN_QUERY_MARKERS)
     applied_korean_required = bool(korean_required or korean_intent_detected)
+    contract = _contract_filter_values(
+        commercial_status_filter, require_artifact, max_artifact_gib, exclude_gated
+    )
+    requested = any(value not in (None, False) for value in contract.values())
+    enabled = contract_filters_enabled()
+    apply_contract = enabled and requested
     embedding = _query_embedding(query)
-    statement = """
-        select
-            model_id,
-            source_pool,
-            candidate,
-            task,
-            language,
-            popularity,
-            family,
-            filter_metadata,
-            technical_metadata,
-            semantic_metadata,
-            evidence,
-            benchmark_metadata,
-            source_provenance,
-            task_consistency,
-            evidence_index,
-            dense_similarity,
-            sparse_score,
-            similarity
-        from public.match_model_scout_models(
-            %s::vector,
-            %s::integer,
-            %s::text,
-            %s::text[],
-            %s::boolean,
-            %s::numeric,
-            %s::numeric,
-            %s::integer,
-            %s::integer,
-            %s::boolean,
-            %s::boolean,
-            %s::text,
-            %s::text,
-            %s::real,
-            %s::real
-        )
-    """
-    parameters = (
+    parameters: tuple = (
         _vector_literal(embedding),
         count,
         pool_filter,
@@ -724,7 +790,14 @@ def search_models(
         0.65,
         0.35,
     )
+    arguments = RPC_BASE_ARGS
+    if apply_contract:
+        arguments = RPC_BASE_ARGS + RPC_CONTRACT_ARGS
+        parameters += tuple(contract[name] for name, _ in RPC_CONTRACT_ARGS)
+    statement = _match_statement(arguments)
 
+    # RPC 오류는 그대로 올린다. 19개 인자 함수가 없는데 플래그를 켠 것이면
+    # 조용히 15개로 내려가 결과를 바꾸지 않고, 설정 오류로 드러나야 한다.
     with _read_connection() as connection:
         with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(statement, parameters)
@@ -745,6 +818,12 @@ def search_models(
             "require_known_parameters": require_known_parameters,
             "require_known_context": require_known_context,
             "popularity_tier_filter": popularity_tier_filter,
+            **contract,
+        },
+        "contract_filters": {
+            "enabled": enabled,
+            "requested": requested,
+            "applied": apply_contract,
         },
         "routing": {
             "embedding_intent_detected": embedding_intent_detected,

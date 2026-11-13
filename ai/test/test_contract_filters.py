@@ -195,6 +195,42 @@ def test_migration_drops_the_old_signature():
     assert "drop function if exists public.match_model_scout_models" in MIGRATION
 
 
+def _migration_signature():
+    """migration 의 match_model_scout_models(...) 파라미터를 (이름, 타입) 순서대로."""
+    body = MIGRATION.split("create or replace function public.match_model_scout_models(", 1)[1]
+    body = body.split("\n)\nreturns table", 1)[0]
+    pairs = []
+    for line in body.splitlines():
+        line = line.split("--", 1)[0].strip().rstrip(",")
+        if not line:
+            continue
+        name, sql_type = line.split()[:2]
+        pairs.append((name, "vector" if sql_type.startswith("vector") else sql_type))
+    return pairs
+
+
+def _rpc_args_in_09():
+    """09 를 import 하지 않고(mcp 의존성 없이) RPC 인자 상수를 읽는다."""
+    import ast
+
+    tree = ast.parse((ROOT / "09_model_scout_mcp_readonly.py").read_text(encoding="utf-8"))
+    values = {
+        node.targets[0].id: ast.literal_eval(node.value)
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and isinstance(node.targets[0], ast.Name)
+        and node.targets[0].id in ("RPC_BASE_ARGS", "RPC_CONTRACT_ARGS")
+    }
+    return list(values["RPC_BASE_ARGS"]), list(values["RPC_CONTRACT_ARGS"])
+
+
+def test_09_rpc_arguments_match_the_migration_signature_in_order():
+    """09 가 보내는 %s::type 순서가 SQL 시그니처와 어긋나면 값이 엉뚱한 파라미터로 들어간다."""
+    base, contract = _rpc_args_in_09()
+    assert len(base) == 15 and len(contract) == 4
+    assert base + contract == _migration_signature()
+
+
 def test_planner_exposes_the_contract_filter_keys():
     sys.path.insert(0, str(ROOT / "retrieval_lab"))
     import planner

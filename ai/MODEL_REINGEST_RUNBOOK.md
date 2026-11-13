@@ -65,7 +65,26 @@ dry-run 과 apply 모두 artifact 로 올린다.
 Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다. 필요하면 별도 입력으로 켜는
 후속 작업으로 한다.
 
-## 5. 운영 순서
+## 5. SQL migration, Action, 기능 플래그
+
+세 가지는 서로 다른 것을 바꾼다. 순서가 어긋나면 검색이 깨진다.
+
+| 무엇 | 바꾸는 것 | 누가 |
+|---|---|---|
+| `supabase_migration_contract_filters.sql` | RPC `match_model_scout_models` 를 15개 → 19개 인자로 교체 | Supabase SQL Editor 에서 사람이 1회 |
+| 재적재 Action | 모델 행의 데이터(`filter_metadata.commercial_status` 등) | Action apply |
+| `MODEL_CONTRACT_FILTERS_ENABLED` | 09 가 19개 인자로 부를지 | 서버 `.env` (deploy.sh 가 `.env.ai` 로 넘긴다) |
+
+플래그 기본값은 OFF 다. OFF 면 09 는 예전 15개 인자로 부르고, 17 은 예전처럼 Top-N 뒤에
+라이선스로 거른다. migration 전에 켜면 19개 인자 함수가 없어 검색이 실패한다. 이 실패는
+삼키지 않고 그대로 드러낸다. 재적재 전에 켜면 계약 필드가 없는 행이 조건 검색에서 전부 빠진다.
+
+검색 순위는 이번에 바꾸지 않는다(Dense/Sparse 0.65/0.35 유지). 다만 `search_tsv` 가
+`filter_metadata::text` 전체를 색인한다(가중치 C). 재적재 뒤에는 `permitted`, `gguf`,
+`bfloat16` 같은 계약 값이 sparse 점수에 섞일 수 있다. full-scan dry-run 뒤 대표 질의의
+before/after 와 골든셋으로 판단한다.
+
+## 6. 운영 순서
 
 1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다.
 2. `mode=validate` 를 실행한다.
@@ -75,16 +94,25 @@ Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다.
    - 가드가 걸렸다.
    - 제거·비활성화 후보에 운영상 중요한 모델이 있다.
    - Stage 4 행 수가 예상과 크게 다르다.
-6. `mode=apply`, `stage1_mode=full-scan`, `confirm=APPLY` 를 main 에서 실행한다.
-7. DB 를 사후 검증한다.
+6. Supabase SQL Editor 에서 `supabase_migration_contract_filters.sql` 을 적용한다. 플래그가 OFF 라
+   서비스는 아직 15개 인자로 부른다. 구 시그니처는 migration 이 지우지만, 새 함수의 뒤 4개 인자는
+   기본값이 있어 15개 인자 호출도 그대로 동작한다.
+7. `mode=apply`, `stage1_mode=full-scan`, `confirm=APPLY` 를 main 에서 실행한다.
+8. DB 를 사후 검증한다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
    - `source_watermark` 가 보고서의 `source_watermark` 와 같은지 본다.
    - active 행 수가 `stage4_rows` 와 같은지 본다.
-8. Actions 를 다시 비활성화한다.
+9. 서버 `.env` 에 `MODEL_CONTRACT_FILTERS_ENABLED=true` 를 넣고 `deploy/deploy.sh` 로 재배포한다.
+10. 서비스 smoke test 를 한다.
+    - 일반 질의를 확인한다.
+    - "상업용 + GGUF + 승인 없이" 질의를 확인한다. 카드의 `상업 이용`, `GGUF 파일`, `승인 없이 내려받기` check 를 본다.
+11. Actions 를 다시 비활성화한다.
 
-## 6. 되돌리기
+## 7. 되돌리기
 
 - dry-run 은 DB 와 저장소를 바꾸지 않는다. 버리면 끝이다.
+- 플래그를 켠 뒤 검색이 이상하면 `MODEL_CONTRACT_FILTERS_ENABLED` 를 지우고 재배포한다. 데이터와
+  migration 은 그대로 두어도 예전 동작(15개 인자 + 후처리)으로 돌아간다.
 - apply 가 실패하면 트랜잭션이 롤백되고 스냅샷 커밋 단계는 돌지 않는다.
 - apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
   - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
