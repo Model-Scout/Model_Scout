@@ -142,6 +142,7 @@ jobs:
           python test/test_numeric_filter_semantics.py
           python test/test_golden_v2_scan.py
           python test/test_golden_v2_structure.py
+          python test/test_contract_regression_gate.py
           python test/test_lexical_rules.py
           # test_benchmark_metadata.py 는 넣지 않는다. main 에서도 실패한다 —
           # stage2 3,872 행과 stage4 3,853 행의 19 행 차이를 동등으로 보는

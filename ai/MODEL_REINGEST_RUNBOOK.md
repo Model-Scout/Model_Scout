@@ -45,6 +45,8 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | Stage 1 수집 | 01: 모든 task 성공, 파티션별 50% 이상 감소 금지 | 공개 Stage 1 그대로. 재적재 중단 |
 | 기존 → 새 Stage 1 | 처리 대상(Core ∪ Low)에서 10% 초과 제거 금지. Core↔Low 이동은 제거로 세지 않는다 | Stage 1 백업 복원. Stage 2 전에 중단 |
 | 새 Stage 1 → Stage 2 | 언어 게이트 제외(이번 Stage 1 에 있는 것만)를 뺀 기대치의 98% 미만이면 중단 | 유료 단계 전에 중단 |
+| Stage 2 재사용 | 저장된 행의 Hub revision(SHA, 없으면 last_modified)이 지금 Stage 1 과 같을 때만 재사용 | 다르거나 기록이 없으면 다시 수집 |
+| 계약 게이트 (재적재·증분 모두) | Stage 2 직후, Stage 3(LLM) 전. 직전 계약 레코드를 baseline 으로 값 손실·근거 하락 비교 | 같은 revision 에서 손실이면 중단. revision 이 바뀐 모델은 경고, 새 모델·첫 실행은 비교 생략(사유를 보고서에 기록) |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
 | 비활성화 | DB active 의 10% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
 | DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(480) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |

@@ -1249,16 +1249,21 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
             flush=True,
         )
     write_model_ids(processable_ids)
-    run_command(
-        [
-            python,
-            str(ROOT / "02_enrich_metadata.py"),
-            "--pool",
-            "all",
-            "--model-ids-file",
-            str(MODEL_IDS_PATH),
-        ]
-    )
+    with tempfile.TemporaryDirectory(prefix="model_scout_contract_baseline_") as baseline_dir:
+        baseline = snapshot_contract_baseline(Path(baseline_dir))
+        run_command(
+            [
+                python,
+                str(ROOT / "02_enrich_metadata.py"),
+                "--pool",
+                "all",
+                "--model-ids-file",
+                str(MODEL_IDS_PATH),
+            ]
+        )
+        # Contract gate before the paid stages, as in --reingest. A changed model whose new
+        # Stage 2 record lost values it had at the same Hub revision stops the run here.
+        scan["contract_gate"] = contract_gate(require=True, baseline=baseline)
     # Stage 2's language gate drops models whose README targets another language. They never
     # change on the Hub, so the Stage 1 scan alone would leave their old DB rows active.
     language_excluded = set()
@@ -1312,8 +1317,30 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
 
 
 
-def contract_gate(require: bool = False) -> Dict[str, Any]:
+def snapshot_contract_baseline(dest_dir: Path) -> Optional[Path]:
+    """Stage 2 가 덮어쓰기 전의 계약 레코드를 한 파일로 모은다. 없으면 None.
+
+    두 풀을 합친다. Core ↔ Low 로 옮긴 모델도 이전 값과 비교돼야 하기 때문이다.
+    """
+    lines: List[str] = []
+    for pool in POOLS:
+        path = DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"
+        if path.exists():
+            lines.extend(line for line in path.read_text(encoding="utf-8").splitlines() if line.strip())
+    if not lines:
+        return None
+    baseline = dest_dir / "contract_baseline.jsonl"
+    baseline.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return baseline
+
+
+def contract_gate(require: bool = False, baseline: Optional[Path] = None) -> Dict[str, Any]:
     """적재 전 데이터 계약 검사. 유료 단계 앞의 게이트다.
+
+    baseline 이 있으면 같은 모델의 이전 계약 레코드와 비교해 값 손실·근거 하락을
+    잡는다(contract/validate.py --baseline). 같은 Hub revision 에서 값을 잃었으면 실패,
+    revision 이 바뀐 모델은 경고로만 보고한다. 이전 레코드가 없는 첫 계약 실행은
+    스키마·출처 검사만 하고 비교는 건너뛰며, 그 이유를 결과에 남긴다.
 
     비용 순서가 Stage 2(무료) → Stage 3(LLM) → Stage 4(임베딩) → DB 쓰기이므로
     여기서 멈춰야 돈이 나가지 않는다.
@@ -1324,7 +1351,10 @@ def contract_gate(require: bool = False) -> Dict[str, Any]:
     나온 뒤에야 알았다.
     """
     python = sys.executable
-    results: Dict[str, Any] = {}
+    results: Dict[str, Any] = {
+        "baseline": str(baseline.name) if baseline else None,
+        "baseline_skipped": None if baseline else "이전 계약 레코드 없음 (첫 계약 실행) — 회귀 비교 생략",
+    }
     for pool in POOLS:
         path = DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl"
         if not path.exists():
@@ -1337,14 +1367,19 @@ def contract_gate(require: bool = False) -> Dict[str, Any]:
                 )
             results[pool] = {"skipped": "계약 파일 없음 (구 Stage 2 데이터)"}
             continue
-        completed = subprocess.run(
-            [python, str(ROOT / "contract" / "validate.py"), str(path)],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-        )
+        command = [python, str(ROOT / "contract" / "validate.py"), str(path)]
+        with tempfile.TemporaryDirectory() as temp:
+            summary_path = Path(temp) / "summary.json"
+            command += ["--summary-json", str(summary_path)]
+            if baseline is not None:
+                command += ["--baseline", str(baseline)]
+            completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+            summary = (
+                json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else None
+            )
         results[pool] = {
             "returncode": completed.returncode,
+            "summary": summary,
             "report": completed.stdout.strip().splitlines()[-12:],
         }
         if completed.returncode != 0:
@@ -1700,24 +1735,27 @@ def full_reingest_pipeline(
         for pool in POOLS
         for row in read_jsonl(DATA_DIR / f"hf_models_stage1_{pool}.jsonl")
     }
-    run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
-    steps.append("stage2:full")
+    # Stage 2 가 계약 sidecar 를 덮어쓰기 전에 이전 레코드를 떠 둔다. 게이트가 회귀 비교에 쓴다.
+    with tempfile.TemporaryDirectory(prefix="model_scout_contract_baseline_") as baseline_dir:
+        baseline = snapshot_contract_baseline(Path(baseline_dir))
+        run_command([python, str(ROOT / "02_enrich_metadata.py"), "--pool", "all"])
+        steps.append("stage2:full")
 
-    # Stage 2의 언어 게이트는 README가 다른 언어를 겨냥한 모델을 떨어뜨린다.
-    # Hub에서 바뀌지 않으므로 다음에도 계속 제외되는데, Supabase 행을 비활성화해
-    # 주지 않으면 낡은 데이터로 계속 활성 상태로 남는다. --refresh가 하는 것과
-    # 같은 처리다.
-    language_excluded = language_excluded_ids()
-    # 제외 보고서는 누적이라 지금 Stage 1 에 없는 옛 ID 도 있다. 볼륨 가드에서는
-    # 이번 처리 대상 중 제외된 수만 빼야 대량 실패를 가려 주지 않는다.
-    excluded_in_stage1 = len(language_excluded & stage1_ids)
-    produced = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")) for pool in POOLS)
-    assert_stage2_volume(len(stage1_ids), produced, excluded_in_stage1)
-    steps.append(f"stage2:{produced}rows")
+        # Stage 2의 언어 게이트는 README가 다른 언어를 겨냥한 모델을 떨어뜨린다.
+        # Hub에서 바뀌지 않으므로 다음에도 계속 제외되는데, Supabase 행을 비활성화해
+        # 주지 않으면 낡은 데이터로 계속 활성 상태로 남는다. --refresh가 하는 것과
+        # 같은 처리다.
+        language_excluded = language_excluded_ids()
+        # 제외 보고서는 누적이라 지금 Stage 1 에 없는 옛 ID 도 있다. 볼륨 가드에서는
+        # 이번 처리 대상 중 제외된 수만 빼야 대량 실패를 가려 주지 않는다.
+        excluded_in_stage1 = len(language_excluded & stage1_ids)
+        produced = sum(len(read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")) for pool in POOLS)
+        assert_stage2_volume(len(stage1_ids), produced, excluded_in_stage1)
+        steps.append(f"stage2:{produced}rows")
 
-    # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
-    gate = contract_gate(require=True)
-    steps.append("contract_gate")
+        # Stage 2.5 — 계약 게이트. 유료 단계 앞이다.
+        gate = contract_gate(require=True, baseline=baseline)
+        steps.append("contract_gate")
 
     # Stage 3 — README가 바뀐 모델만 LLM을 부른다.
     run_command([python, str(ROOT / "03_generate_semantic_metadata.py"), "--pool", "all"])
