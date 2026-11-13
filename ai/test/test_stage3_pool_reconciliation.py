@@ -1,5 +1,7 @@
 import importlib.util
 import json
+import sys
+import types
 from pathlib import Path
 
 import openai
@@ -7,6 +9,7 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 
 def load_module(path: str, name: str):
@@ -53,6 +56,89 @@ def test_stage3_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeyp
     assert [row["model_id"] for row in rows] == ["org/current"]
 
 
+def test_stage3_reuses_legacy_full_hash_for_an_unchanged_long_readme(tmp_path, monkeypatch):
+    stage3 = load_module("03_generate_semantic_metadata.py", "stage3_legacy_long_readme_test")
+    stage3.DATA_DIR = tmp_path
+    readme = tmp_path / "long.md"
+    text = "# Model\n" + ("documented capability and usage.\n" * 3000)
+    assert len(text) > stage3.MAX_SOURCE_CHARS
+    readme.write_text(text, encoding="utf-8")
+    source = {
+        "model_id": "org/long",
+        "source": {"readme": {"available": True, "path": str(readme)}},
+        "stage": {"stage2_version": 7},
+    }
+    old = {
+        "model_id": "org/long",
+        "status": "completed",
+        "semantic": {},
+        "evidence": {
+            "readme": {"content_hash": stage3.digest(text)},
+            "parent_child_schema_version": stage3.INDEX_SCHEMA_VERSION,
+        },
+        "stage3": {
+            "stage3_version": stage3.STAGE3_VERSION,
+            "prompt_version": "stage3-atomic-evidence-full-readme-v1",
+        },
+    }
+    (tmp_path / "hf_models_stage2_core.jsonl").write_text(json.dumps(source) + "\n", encoding="utf-8")
+    (tmp_path / "hf_models_stage3_core.jsonl").write_text(json.dumps(old) + "\n", encoding="utf-8")
+
+    class FakeOpenAI:
+        def __init__(self, **kwargs):
+            pass
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.setattr(openai, "OpenAI", FakeOpenAI)
+    monkeypatch.setattr(
+        stage3,
+        "call_llm",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("unchanged README called the LLM")),
+    )
+
+    stats = stage3.enrich_pool("core", "test-model", limit=None, dry_run=False)
+    row = json.loads((tmp_path / "hf_models_stage3_core.jsonl").read_text(encoding="utf-8"))
+    assert stats["skipped"] == 1 and stats["api_calls"] == 0
+    assert row["stage3"]["source_stage2_hash_version"] == stage3.STAGE2_HASH_VERSION
+
+
+def test_stage3_records_actual_chat_token_usage():
+    stage3 = load_module("03_generate_semantic_metadata.py", "stage3_usage_test")
+    usage = types.SimpleNamespace(prompt_tokens=11, completion_tokens=7, total_tokens=18)
+    response = types.SimpleNamespace(
+        usage=usage,
+        choices=[types.SimpleNamespace(message=types.SimpleNamespace(content='{"ok": true}'))],
+    )
+    client = types.SimpleNamespace(
+        chat=types.SimpleNamespace(
+            completions=types.SimpleNamespace(create=lambda **kwargs: response)
+        )
+    )
+    totals = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
+    assert stage3.call_llm(client, "test", [], totals) == {"ok": True}
+    assert totals == {"prompt_tokens": 11, "completion_tokens": 7, "total_tokens": 18}
+
+
+def test_stage4_records_actual_embedding_token_usage(monkeypatch):
+    stage4 = load_module("04_build_embeddings.py", "stage4_usage_test")
+    usage = types.SimpleNamespace(prompt_tokens=9, total_tokens=9)
+    response = types.SimpleNamespace(
+        usage=usage,
+        data=[types.SimpleNamespace(index=0, embedding=[0.1, 0.2])],
+    )
+
+    class FakeOpenAI:
+        def __init__(self, **kwargs):
+            self.embeddings = types.SimpleNamespace(create=lambda **call: response)
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.setattr(openai, "OpenAI", FakeOpenAI)
+    documents = [{"model_id": "org/model", "embedding_text": "hello"}]
+    totals = stage4.embed_documents(documents, "test", batch_size=32)
+    assert totals == {"api_calls": 1, "prompt_tokens": 9, "total_tokens": 9}
+    assert documents[0]["embedding"] == [0.1, 0.2]
+
+
 def test_stage2_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeypatch):
     stage2 = load_module("02_enrich_metadata.py", "stage2_pool_rewrite_test")
     input_path = tmp_path / "hf_models_stage1_core.jsonl"
@@ -66,6 +152,7 @@ def test_stage2_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeyp
     stage2.POOL_CONFIGS["core"] = {
         "input": input_path,
         "output": output_path,
+        "contract_output": tmp_path / "hf_models_stage2_contract_core.jsonl",
         "readme_dir": tmp_path / "readmes",
     }
     stage2.TEST_LIMIT = None
@@ -73,7 +160,10 @@ def test_stage2_rewrite_removes_rows_no_longer_in_current_pool(tmp_path, monkeyp
     monkeypatch.setattr(
         stage2,
         "enrich",
-        lambda source_row, source_pool: {"model_id": source_row["model_id"]},
+        lambda source_row, source_pool: {
+            "model_id": source_row["model_id"],
+            "contract": {"model_id": source_row["model_id"]},
+        },
     )
     monkeypatch.setattr(stage2, "validate_stage2_rows", lambda rows, pool: None)
     monkeypatch.setattr(stage2, "print_pool_stats", lambda *args: None)
