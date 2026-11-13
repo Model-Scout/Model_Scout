@@ -149,8 +149,11 @@ processable_ids = set(scan["processable_ids"])   # 변경된 것만
 Stage 2는 `STAGE2_VERSION`이 6→7로 올라가 `resume_matches`가 기존 행을 전부
 불일치로 보고 다시 수집한다. 추가 플래그가 필요 없다.
 
-Stage 1은 다시 스캔하지 않는다. 바꾸려는 것은 모델의 **사실**이고 모델
-**목록**이 아니다. 목록 갱신은 `--refresh`가 할 일이다.
+기본값은 Stage 1을 다시 스캔하지 않는 것이다. 바꾸려는 것이 모델의 **사실**이지
+모델 **목록**은 아니기 때문이다. 목록까지 새로 만들어야 하면 `--reingest --full-stage1`
+(Action 입력 `stage1_mode=full-scan`)을 쓴다. 이때 Stage 1 전후 diff와 DB 비활성화 후보를
+보고하고, Stage 1 **스캔 시작 시각**을 새 watermark로 저장한다. 절차와 중단 기준은
+[`MODEL_REINGEST_RUNBOOK.md`](../MODEL_REINGEST_RUNBOOK.md)에 있다.
 
 ### Stage 3 재사용 판정을 고쳐야 했다
 
@@ -189,6 +192,7 @@ evidence.readme.content_hash  ←  기존 행 3,862/3,872(99.7%)에 있다
 ### `--reingest`가 하는 순서
 
 ```
+⓪ 01 --no-resume                    --full-stage1 일 때만. Stage 1 전체 재수집 + diff 가드
 ① 02 --pool all                     전체 재수집 (무료, 약 8분)
 ② contract/validate.py              계약 게이트 — 실패하면 여기서 중단
 ③ 03 --pool all                     README 바뀐 151건만 LLM

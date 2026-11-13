@@ -1,0 +1,92 @@
+# 모델 재적재 운영 절차
+
+모델 데이터를 Hugging Face 에서 다시 만들어 Supabase 에 반영하는 절차다.
+수치(행 수·날짜)는 금방 낡으므로 여기 적지 않는다. 실행할 때 dry-run 보고서에서 읽는다.
+
+## 1. 파이프라인과 Supabase 의 관계
+
+```
+Stage 1   01_collect_models.py        Hub 후보 수집. A/B/C, Core/Low 분류
+Stage 2   02_enrich_metadata.py       Hub API·카드·config·siblings 사실 수집 + 언어 게이트
+Stage 2.5 contract/validate.py        데이터 계약 검증 (유료 단계 앞의 게이트)
+Stage 3   03_generate_semantic_...    README 기반 의미·제약 (LLM, README 바뀐 것만)
+Stage 3.5 06_extract_benchmark_...    벤치마크 (API 호출 없음)
+Stage 4   04_build_embeddings.py      filter_metadata·embedding_text·embedding (hash 바뀐 것만)
+sync      08_sync_supabase.py         Stage 4 결과를 Supabase 에 반영
+```
+
+Stage 2 로 가는 것은 A 후보 중 Core ∪ Low 뿐이다. Likely(B)·Fallback(C)은 후보
+분포로만 보고된다. `05_validate_retrieval.py` 는 Stage 5 가 아니라 검색 검증 도구다.
+
+## 2. Action 입력
+
+`model-scout-reingest.yml` (수동 실행 전용, schedule 없음)
+
+| mode | 하는 일 | DB |
+|---|---|---|
+| `validate` | 컴파일·계약 스키마·오프라인 테스트. 네트워크 호출 없음 | 안 읽음 |
+| `dry-run` | Stage 1~4 생성, 보고서 artifact | **읽기만** (직전 sync 기록, active ID) |
+| `apply` | dry-run 과 같은 생성 + 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋 | 씀 |
+
+`apply` 는 `main` 에서 `confirm=APPLY` 일 때만 돈다.
+
+| stage1_mode | Stage 1 | watermark | 비활성화 대상 |
+|---|---|---|---|
+| `reuse` (기본) | 저장소 파일 그대로 | 직전 값 유지 | 언어 게이트 제외분만 (DB 에만 있는 행은 보고만) |
+| `full-scan` | Hub 에서 처음부터 수집 (`01 --no-resume`) | **Stage 1 스캔 시작 시각** | DB active − 새 Stage 4 전체 |
+
+watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시간 걸리고, 그 사이 Hub 에서
+바뀐 모델은 다음 `--refresh` 가 다시 봐야 한다.
+
+## 3. 안전장치와 중단 기준
+
+| 구간 | 가드 | 걸리면 |
+|---|---|---|
+| Stage 1 수집 | 01: 모든 task 성공, 파티션별 50% 이상 감소 금지 | 공개 Stage 1 그대로. 재적재 중단 |
+| 기존 → 새 Stage 1 | 처리 대상(Core ∪ Low)에서 10% 초과 제거 금지. Core↔Low 이동은 제거로 세지 않는다 | Stage 1 백업 복원. Stage 2 전에 중단 |
+| 새 Stage 1 → Stage 2 | 언어 게이트 제외(이번 Stage 1 에 있는 것만)를 뺀 기대치의 98% 미만이면 중단 | 유료 단계 전에 중단 |
+| Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
+| 비활성화 | DB active 의 10% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
+
+10% 는 정상 감소(Hub 삭제·비공개·다운로드 80 미만·언어 제외)를 넉넉히 덮고, 부분 수집 실패는
+막는 값이다. 정상인데도 넘는다면 실행 옵션으로 우회하지 말고 `08_sync_supabase.py` 의 상수를
+PR 로 바꾼다.
+
+## 4. 보고서
+
+dry-run 과 apply 모두 artifact 로 올린다.
+
+- `reingest-report.json` — 전체 결과. `reingest.stage1_diff`, `deactivation.candidate_ids` 에 ID 전체 목록
+- `reingest-report.summary.json` — 개수만. Step Summary 에 그대로 붙는다
+- `reingest-report.stage1-diff.json` — 추가·제거·Core↔Low 이동, A/B/C 분포 (full-scan 만)
+- `reingest-report.deactivation.json` — DB active, DB 에만 있는 ID, 비활성화 후보, 가드 판정
+- `contract/baseline.md`, `data/hf_models_stage4_manifest.json`
+
+Stage 1~4 전체 스냅샷은 용량이 커서 artifact 로 올리지 않는다. 필요하면 별도 입력으로 켜는
+후속 작업으로 한다.
+
+## 5. 운영 순서
+
+1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다.
+2. `mode=validate` 를 실행한다.
+3. `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다.
+4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보를 본다.
+5. 다음 단계로 넘어가기 전에 중단 기준을 확인한다. 하나라도 해당하면 멈춘다.
+   - 가드가 걸렸다.
+   - 제거·비활성화 후보에 운영상 중요한 모델이 있다.
+   - Stage 4 행 수가 예상과 크게 다르다.
+6. `mode=apply`, `stage1_mode=full-scan`, `confirm=APPLY` 를 main 에서 실행한다.
+7. DB 를 사후 검증한다.
+   - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
+   - `source_watermark` 가 보고서의 `source_watermark` 와 같은지 본다.
+   - active 행 수가 `stage4_rows` 와 같은지 본다.
+8. Actions 를 다시 비활성화한다.
+
+## 6. 되돌리기
+
+- dry-run 은 DB 와 저장소를 바꾸지 않는다. 버리면 끝이다.
+- apply 가 실패하면 트랜잭션이 롤백되고 스냅샷 커밋 단계는 돌지 않는다.
+- apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
+  - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
+  - 스냅샷 커밋은 `git revert` 로 되돌린다.
+  - 다음 `--refresh` 의 watermark 는 가장 최근 completed run 의 `source_watermark` 다. 필요하면 그 run 을 `failed` 로 바꿔 이전 watermark 로 돌린다.

@@ -10,6 +10,15 @@ name: Model Scout reingest
 #   apply     Supabase 를 갱신한다. 팀이 dry-run 리포트를 확인한 뒤 한 번만
 #
 # apply 는 브랜치에서 돌리지 않는다. PR 검토 → main 병합 → 수동 1회다.
+#
+# stage1_mode 는 dry-run/apply 에서 Stage 1 을 어떻게 다룰지 정한다.
+#
+#   reuse      저장소의 Stage 1 을 그대로 쓴다(기본). watermark 를 물려받는다
+#   full-scan  Stage 1 을 Hugging Face 에서 처음부터 다시 수집한다. 수집은
+#              08_sync_supabase.py --full-stage1 안에서 돈다 — Stage 1 diff,
+#              비활성화 후보, watermark(스캔 시작 시각)가 한 실행에 묶여야 한다
+#
+# 운영 절차는 ai/MODEL_REINGEST_RUNBOOK.md 에 있다.
 
 on:
   workflow_dispatch:
@@ -23,6 +32,14 @@ on:
           - validate
           - dry-run
           - apply
+      stage1_mode:
+        description: "Stage 1 처리 방식 (validate 에서는 무시)"
+        type: choice
+        required: true
+        default: reuse
+        options:
+          - reuse
+          - full-scan
       confirm:
         description: "apply 모드에서만: 정확히 APPLY 라고 입력"
         type: string
@@ -127,9 +144,13 @@ jobs:
         run: echo "validate 모드 종료. HF·LLM·임베딩·DB 호출 없음."
 
       # ── dry-run / apply ────────────────────────────────────────────────
-      # --reingest 는 --apply 없이 돌면 DB 를 건드리지 않고 리포트만 낸다.
+      # --reingest 는 --apply 없이 돌면 DB 를 읽기만 하고 리포트만 낸다.
+      # 결과 JSON 은 --report 로 따로 쓴다. 예전처럼 stdout 을 tee 로 받으면
+      # 하위 프로세스 로그가 섞여 JSON 이 아니고, pipefail 이 없어 실패해도
+      # 다음 단계(스냅샷 커밋)로 넘어간다. shell: bash 를 명시하면 pipefail 이 켜진다.
       - name: Run the reingest
         if: ${{ inputs.mode != 'validate' }}
+        shell: bash
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -143,10 +164,29 @@ jobs:
           SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
           MODEL_SCOUT_RUN_ID: reingest-${{ github.run_id }}
         run: |
+          args=(--reingest --report reingest-report.json)
+          if [ "${{ inputs.stage1_mode }}" = "full-scan" ]; then
+            args+=(--full-stage1)
+          fi
           if [ "${{ inputs.mode }}" = "apply" ]; then
-            python 08_sync_supabase.py --reingest --apply | tee reingest-report.json
+            args+=(--apply)
+          fi
+          python 08_sync_supabase.py "${args[@]}"
+
+      # 수치만 Summary 에 둔다. ID 전체 목록은 artifact 의 JSON 에 있다.
+      # dry-run 이 비활성화 가드로 멈춰도(종료 코드 3) 보고서는 남긴다.
+      - name: Summarize the reingest
+        if: ${{ !cancelled() && inputs.mode != 'validate' }}
+        run: |
+          if [ -f reingest-report.summary.json ]; then
+            {
+              echo "## Reingest (${{ inputs.mode }}, stage1=${{ inputs.stage1_mode }})"
+              echo '```json'
+              cat reingest-report.summary.json
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
           else
-            python 08_sync_supabase.py --reingest | tee reingest-report.json
+            echo "## Reingest 보고서 없음 — 로그를 확인한다" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Measure coverage after the reingest
@@ -156,23 +196,37 @@ jobs:
           echo "## Coverage (after)" >> "$GITHUB_STEP_SUMMARY"
           sed -n '/질문별 답변 가능률/,/읽는 법/p' contract/baseline.md >> "$GITHUB_STEP_SUMMARY"
 
+      # 감사 자료: 보고서(Stage 1 diff·비활성화 후보 포함), 계약 coverage,
+      # Stage 4 manifest. Stage 1~4 전체 스냅샷은 수백 MB 라 올리지 않는다 —
+      # 필요해지면 별도 입력으로 켜는 후속 작업이다(RUNBOOK 참고).
       - name: Upload the reingest report
-        if: ${{ inputs.mode != 'validate' }}
+        if: ${{ !cancelled() && inputs.mode != 'validate' }}
         uses: actions/upload-artifact@v4
         with:
-          name: reingest-report-${{ inputs.mode }}-${{ github.run_id }}
+          name: reingest-report-${{ inputs.mode }}-${{ inputs.stage1_mode }}-${{ github.run_id }}
           path: |
-            ai/reingest-report.json
+            ai/reingest-report*.json
             ai/contract/baseline.md
+            ai/data/hf_models_stage4_manifest.json
+          if-no-files-found: warn
           retention-days: 30
 
       # dry-run 은 커밋하지 않는다. 재생성된 스냅샷은 apply 가 확정된 뒤에만 남긴다.
+      # 앞 단계가 실패하면 이 단계는 돌지 않는다(if 에 상태 함수가 없으면 success() 가 붙는다).
+      # Stage 1 파일은 reuse 에서는 바뀌지 않아 커밋할 것이 없고, full-scan 에서는
+      # 다음 --refresh 의 기준이 된다. Stage 4 jsonl(LFS, 대용량)은 넣지 않는다.
       - name: Persist snapshots after apply
         if: ${{ inputs.mode == 'apply' }}
         run: |
           git config user.name "model-scout-sync[bot]"
           git config user.email "model-scout-sync[bot]@users.noreply.github.com"
           git add \
+            data/hf_models_stage1_core.jsonl \
+            data/hf_models_stage1_low_popularity.jsonl \
+            data/hf_models_stage1_likely.jsonl \
+            data/hf_models_stage1_fallback.jsonl \
+            data/hf_models_stage1_groups.jsonl \
+            data/hf_models_stage1_state.json \
             data/hf_models_stage2_core.jsonl \
             data/hf_models_stage2_low_popularity.jsonl \
             data/hf_models_stage2_contract_core.jsonl \

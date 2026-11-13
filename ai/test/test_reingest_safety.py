@@ -16,16 +16,27 @@
      실패한 모델은 출력에서 그냥 사라지므로 뒤 단계에서는 "원래 없던 모델"과
      구별되지 않는다. 적재까지 가면 그 행들이 전부 비활성화돼 복구가 번거롭다.
 
+⑤ --full-stage1 (Stage 1 전체 재스캔)
+     스캔 시작 시각이 watermark 가 되고, Stage 1 전후 diff 가 보고되고, 새 Stage 1
+     이 처리 대상을 너무 많이 잃거나 DB 비활성화 후보가 너무 많으면 멈춘다.
+     dry-run 은 DB 를 읽기만 하고, apply 만 같은 트랜잭션 안에서 다시 계산해 쓴다.
+
+네트워크·DB 를 부르지 않는다. 하위 프로세스와 DB 커서는 전부 가짜다.
+
     python test/test_reingest_safety.py
 """
 
 from __future__ import annotations
 
+import contextlib
 import importlib.util
 import json
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any, Dict, List
+
+import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -202,6 +213,483 @@ def test_result_requests_a_full_stage4_sync():
 
 def test_result_reports_the_row_count_it_validated():
     assert _result(stage2_rows=3872)["stage2_rows"] == 3872
+
+
+# ── ⑤ --full-stage1 ──────────────────────────────────────────────────────
+
+SCAN = {
+    "scan_started_at": "2026-11-20T09:00:00+00:00",
+    "diff": {"previous_processable": 3, "current_processable": 3, "removed_ids": []},
+}
+
+
+@contextlib.contextmanager
+def patched(target: Any, **attrs: Any):
+    old = {name: getattr(target, name) for name in attrs}
+    for name, value in attrs.items():
+        setattr(target, name, value)
+    try:
+        yield
+    finally:
+        for name, value in old.items():
+            setattr(target, name, value)
+
+
+def test_reuse_reingest_keeps_the_previous_watermark():
+    result = _result()
+    assert result["stage1_mode"] == "reuse"
+    assert result["stage1_diff"] is None
+    assert sync.resolved_source_watermark(result) == "2026-10-31T06:44:44.365898+00:00"
+
+
+def test_full_scan_reingest_stores_the_scan_start_not_the_end():
+    """스캔 시작 시각이 watermark 다. 재적재 시작/완료 시각이 아니다."""
+    result = _result(stage1_scan=SCAN, started_at="2026-11-20T08:59:00+00:00")
+    assert result["stage1_mode"] == "full-scan"
+    assert sync.resolved_source_watermark(result) == SCAN["scan_started_at"]
+    assert result["previous_watermark"] == "2026-10-31T06:44:44.365898+00:00"
+    assert result["stage1_diff"] is SCAN["diff"]
+
+
+def test_stage1_diff_separates_added_removed_and_pool_moves():
+    previous = {
+        "core": ["a/core-stays", "a/core-falls"],
+        "low_popularity": ["a/low-rises", "a/gone"],
+        "likely": ["b/1", "b/2"],
+        "fallback": ["c/1"],
+    }
+    current = {
+        "core": ["a/core-stays", "a/low-rises", "a/new"],
+        "low_popularity": ["a/core-falls"],
+        "likely": ["b/1"],
+        "fallback": ["c/1", "c/2", "a/gone"],  # A 에서 C 로 내려간 것도 처리 대상에서는 제거다
+    }
+    diff = sync.stage1_diff(previous, current)
+    assert diff["added_ids"] == ["a/new"]
+    assert diff["removed_ids"] == ["a/gone"]
+    assert diff["core_to_low_ids"] == ["a/core-falls"]
+    assert diff["low_to_core_ids"] == ["a/low-rises"]
+    assert diff["previous_processable"] == 4 and diff["current_processable"] == 4
+    assert diff["pool_counts"]["current"] == {"core": 3, "low_popularity": 1}
+    # A/B/C 후보 분포와 처리 대상(A=Core∪Low)을 섞지 않는다.
+    assert diff["candidate_tiers"]["previous"] == {"A_verified": 4, "B_likely": 2, "C_fallback": 1}
+    assert diff["candidate_tiers"]["current"] == {"A_verified": 4, "B_likely": 1, "C_fallback": 3}
+
+
+def _ids(prefix: str, count: int) -> List[str]:
+    return [f"{prefix}/{index}" for index in range(count)]
+
+
+def test_stage1_removal_guard_blocks_a_mass_drop():
+    previous = {"core": _ids("a", 1000), "low_popularity": []}
+    current = {"core": _ids("a", 800), "low_popularity": []}
+    try:
+        sync.assert_stage1_removal(sync.stage1_diff(previous, current))
+    except RuntimeError as error:
+        assert "200" in str(error)
+    else:
+        raise AssertionError("처리 대상 20% 감소를 통과시켰다")
+
+
+def test_stage1_removal_guard_allows_normal_churn_and_pool_moves():
+    previous = {"core": _ids("a", 600), "low_popularity": _ids("l", 400)}
+    # 50 개 제거(5%) + Core 600 개가 전부 Low 로 이동. 이동은 제거가 아니다.
+    current = {"core": [], "low_popularity": _ids("a", 600) + _ids("l", 350)}
+    guard = sync.assert_stage1_removal(sync.stage1_diff(previous, current))
+    assert guard["count"] == 50 and guard["blocked"] is False
+
+
+def test_stage1_removal_guard_skips_a_tiny_baseline():
+    diff = sync.stage1_diff({"core": _ids("a", 10)}, {"core": []})
+    assert sync.assert_stage1_removal(diff)["blocked"] is False
+
+
+def test_stage1_partition_ids_reads_every_partition():
+    with tempfile.TemporaryDirectory() as name:
+        data = Path(name)
+        for partition, filename in sync.STAGE1_PARTITIONS.items():
+            (data / filename).write_text(json.dumps({"model_id": f"x/{partition}"}) + "\n", encoding="utf-8")
+        ids = sync.stage1_partition_ids(data)
+        assert ids == {partition: [f"x/{partition}"] for partition in sync.STAGE1_PARTITIONS}
+        assert sync.stage1_partition_ids(Path(name) / "missing")["core"] == []
+
+
+def test_deactivation_plan_full_scan_uses_the_db_not_local_files():
+    """비활성화 후보 = DB active - 새 Stage 4. 로컬 옛 Stage 4 는 보지 않는다."""
+    plan = sync.deactivation_plan(
+        db_active_ids=["m/keep", "m/db-only", "m/lang"],
+        stage4_ids=["m/keep", "m/new"],
+        removed_ids=["m/lang", "m/never-active"],
+        deactivate_missing=True,
+    )
+    assert plan["candidate_ids"] == ["m/db-only", "m/lang"]
+    assert plan["db_only_ids"] == ["m/db-only", "m/lang"]
+    assert plan["candidate_count"] == 2
+
+
+def test_deactivation_plan_reuse_only_drops_language_exclusions():
+    """Stage 1 재사용은 예전 동작 그대로. DB 에만 있는 행은 보고만 한다."""
+    plan = sync.deactivation_plan(
+        ["m/keep", "m/db-only", "m/lang"], ["m/keep"], ["m/lang"], deactivate_missing=False,
+    )
+    assert plan["candidate_ids"] == ["m/lang"]
+    assert plan["db_only_ids"] == ["m/db-only", "m/lang"]
+
+
+def test_deactivation_guard_blocks_too_many_candidates():
+    active = _ids("m", 1000)
+    plan = sync.deactivation_plan(active, active[:850], deactivate_missing=True)
+    assert plan["guard"]["blocked"] is True
+    try:
+        sync.assert_deactivation_plan(plan)
+    except RuntimeError as error:
+        assert "150" in str(error)
+    else:
+        raise AssertionError("15% 비활성화를 통과시켰다")
+    ok = sync.deactivation_plan(active, active[:950], deactivate_missing=True)
+    sync.assert_deactivation_plan(ok)
+
+
+# ── apply_sync: 가짜 DB 로 실제 SQL 흐름을 본다 ───────────────────────────────
+
+class FakeCursor:
+    def __init__(self, db: "FakeDb"):
+        self.db = db
+        self.rowcount = 0
+        self._rows: List[Any] = []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def execute(self, sql: str, params: Any = None) -> None:
+        text = " ".join(sql.split())
+        self.db.statements.append((text, params))
+        self._rows = []
+        self.rowcount = 0
+        if "from pg_extension" in text:
+            self._rows = [(1,)]
+        elif text.startswith("select model_id from public.model_scout_models where active = true"):
+            self._rows = [(model_id,) for model_id in sorted(self.db.active)]
+        elif text.startswith("update public.model_scout_models set active = false"):
+            if params and isinstance(params[0], list):
+                hit = self.db.active & set(params[0])
+            else:
+                hit = set(self.db.active) - self.db.upserted
+            self.db.deactivated |= hit
+            self.rowcount = len(hit)
+
+    def fetchone(self):
+        return self._rows[0] if self._rows else None
+
+    def fetchall(self):
+        return list(self._rows)
+
+
+class FakeDb:
+    def __init__(self, active: List[str]):
+        self.active = set(active)
+        self.upserted: set = set()
+        self.statements: List[Any] = []
+        self.deactivated: set = set()
+        self.committed = False
+        self.closed = False
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, *rest):
+        self.committed = exc_type is None
+        return False
+
+    def cursor(self):
+        return FakeCursor(self)
+
+    def rollback(self):
+        self.committed = False
+
+    def commit(self):
+        pass
+
+    def close(self):
+        self.closed = True
+
+    def writes(self) -> List[str]:
+        return [sql for sql, _ in self.statements if sql.split()[0] in ("insert", "update", "delete")]
+
+
+def _run_apply_sync(db: FakeDb, **kwargs: Any) -> Dict[str, Any]:
+    import psycopg2.extras
+
+    def execute_values(cur, statement, rows, **_):
+        cur.db.statements.append((" ".join(statement.split()), list(rows)))
+        if "model_scout_models" in statement:
+            cur.db.upserted |= {row[0] for row in rows}
+
+    with patched(sync, db_connection=lambda: db), patched(psycopg2.extras, execute_values=execute_values):
+        return sync.apply_sync(
+            [("m/keep",)], [], "00000000-0000-0000-0000-000000000001", 100, **kwargs
+        )
+
+
+def _sync_run_versions(db: FakeDb) -> Dict[str, Any]:
+    for sql, params in db.statements:
+        if sql.startswith("insert into public.model_scout_sync_runs"):
+            return json.loads(params[1])
+    raise AssertionError("sync run 기록이 없다")
+
+
+def test_apply_full_scan_deactivates_missing_active_models_and_records_reingest():
+    db = FakeDb(active=["m/keep", "m/db-only", "m/lang"] + _ids("pad", 100))
+    stage4 = ["m/keep"] + _ids("pad", 100)
+    result = _run_apply_sync(
+        db,
+        sync_mode="reingest",
+        removed_ids=["m/lang"],
+        deactivate_missing=True,
+        stage4_ids=stage4,
+        source_watermark=SCAN["scan_started_at"],
+        extra_versions={"stage1_mode": "full-scan"},
+    )
+    assert db.deactivated == {"m/db-only", "m/lang"}
+    assert result["deactivated"] == 2
+    assert result["deactivation"]["candidate_ids"] == ["m/db-only", "m/lang"]
+    versions = _sync_run_versions(db)
+    assert versions["sync_mode"] == "reingest", "전체 재적재를 initial/incremental 로 기록했다"
+    assert versions["stage1_mode"] == "full-scan"
+    assert versions["source_watermark"] == SCAN["scan_started_at"]
+    # "이번 run 이 안 본 행 전부" 를 끄는 initial 식 UPDATE 를 쓰지 않는다.
+    assert not any("last_seen_run is distinct from" in sql for sql in db.writes())
+
+
+def test_apply_reuse_reingest_keeps_the_old_deactivation_scope():
+    db = FakeDb(active=["m/keep", "m/db-only", "m/lang"])
+    _run_apply_sync(
+        db, sync_mode="reingest", removed_ids=["m/lang"],
+        deactivate_missing=False, stage4_ids=["m/keep"],
+    )
+    assert db.deactivated == {"m/lang"}
+    assert _sync_run_versions(db)["sync_mode"] == "reingest"
+
+
+def test_apply_aborts_before_any_write_when_the_deactivation_guard_trips():
+    active = _ids("m", 1000)
+    db = FakeDb(active=active)
+    try:
+        _run_apply_sync(db, sync_mode="reingest", deactivate_missing=True, stage4_ids=active[:500])
+    except RuntimeError:
+        pass
+    else:
+        raise AssertionError("비활성화 50% 를 적재했다")
+    assert db.deactivated == set()
+    assert not db.committed
+    assert not any(sql.startswith("insert into public.model_scout_models") for sql in db.writes())
+
+
+def test_apply_initial_and_incremental_keep_their_modes():
+    db = FakeDb(active=["m/keep", "m/old"])
+    _run_apply_sync(db, sync_mode="initial")
+    assert _sync_run_versions(db)["sync_mode"] == "initial"
+    assert db.deactivated == {"m/old"}
+
+    db = FakeDb(active=["m/keep", "m/old", "m/removed"])
+    _run_apply_sync(db, sync_mode="incremental", removed_ids=["m/removed"])
+    assert _sync_run_versions(db)["sync_mode"] == "incremental"
+    assert db.deactivated == {"m/removed"}
+
+
+def test_apply_rejects_unknown_modes_and_misused_policy():
+    for kwargs in ({"sync_mode": "full"}, {"sync_mode": "incremental", "deactivate_missing": True}):
+        try:
+            _run_apply_sync(FakeDb([]), **kwargs)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"잘못된 조합을 받았다: {kwargs}")
+
+
+def test_next_refresh_reads_the_reingest_watermark():
+    """reingest 로 기록한 run 을 다음 --refresh 가 watermark 기준으로 읽어야 한다."""
+    db = FakeDb([])
+    with patched(sync, db_connection=lambda: db):
+        sync.latest_completed_sync()
+    query = db.statements[0][0]
+    assert "'reingest'" in query
+
+
+# ── main(): dry-run 은 DB 에 쓰지 않는다 ─────────────────────────────────────
+
+def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], apply_sync: Any = None) -> int:
+    import io
+
+    stage4 = [{"model_id": "m/keep", "source_pool": "core"}]
+
+    def fake_pipeline(previous, full_stage1=False):
+        calls["pipeline"] = {"previous": previous, "full_stage1": full_stage1}
+        return _result(
+            previous_watermark=previous,
+            stage1_scan=SCAN if full_stage1 else None,
+            language_excluded={"m/lang"},
+        )
+
+    def refuse(*args, **kwargs):
+        raise AssertionError("dry-run 이 DB 쓰기 경로를 불렀다")
+
+    latest = {"completed_at": "2026-11-06T00:00:00+00:00",
+              "stage_versions": {"source_watermark": "2026-10-31T00:00:00+00:00"}}
+    with contextlib.ExitStack() as stack:
+        stack.enter_context(patched(
+            sync,
+            load_dotenv=lambda *a, **k: None,
+            latest_completed_sync=lambda: latest,
+            full_reingest_pipeline=fake_pipeline,
+            load_corpora=lambda stage4_delta=False: (stage4, {"m/keep": {}}, {"m/keep": {}}),
+            validate_corpus=lambda *a, **k: {"rows": len(stage4), "pool_counts": {"core": 1}},
+            load_evidence_indices=lambda: {},
+            validate_evidence_indices=lambda *a, **k: {},
+            write_stage4_manifest=lambda *a, **k: None,
+            payloads=lambda *a, **k: [],
+            evidence_payloads=lambda *a, **k: [],
+            db_active_model_ids=lambda cur=None: set(active),
+            apply_sync=apply_sync or refuse,
+            ensure_schema=refuse,
+            promote_benchmark_state=lambda: None,
+            clear_incremental_artifacts=lambda: None,
+        ))
+        stack.enter_context(patched(sys, argv=["08_sync_supabase.py", *argv]))
+        stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+        return sync.main()
+
+
+def test_dry_run_full_scan_reports_without_writing():
+    calls: Dict[str, Any] = {}
+    with tempfile.TemporaryDirectory() as name:
+        report = Path(name) / "reingest-report.json"
+        code = _run_main(
+            ["--reingest", "--full-stage1", "--report", str(report)],
+            active=["m/keep", "m/db-only", "m/lang"], calls=calls,
+        )
+        assert code == 0
+        assert calls["pipeline"] == {"previous": "2026-10-31T00:00:00+00:00", "full_stage1": True}
+        result = json.loads(report.read_text(encoding="utf-8"))
+        assert result["apply"] is False and result["dry_run"]["db_write"] is False
+        assert result["sync_mode"] == "reingest"
+        assert result["deactivation"]["candidate_ids"] == ["m/db-only", "m/lang"]
+        # 예상 watermark 는 기록만 한다.
+        assert result["dry_run"]["expected_source_watermark"] == SCAN["scan_started_at"]
+        summary = json.loads((Path(name) / "reingest-report.summary.json").read_text(encoding="utf-8"))
+        assert summary["stage1_mode"] == "full-scan"
+        assert summary["deactivation_candidates"] == 2
+        assert summary["stage4_rows"] == 1
+        assert "candidate_ids" not in json.dumps(summary)
+        assert (Path(name) / "reingest-report.stage1-diff.json").exists()
+        assert (Path(name) / "reingest-report.deactivation.json").exists()
+
+
+def test_dry_run_marks_a_blocked_deactivation_as_failure():
+    calls: Dict[str, Any] = {}
+    with tempfile.TemporaryDirectory() as name:
+        report = Path(name) / "r.json"
+        code = _run_main(
+            ["--reingest", "--full-stage1", "--report", str(report)],
+            active=["m/keep"] + _ids("gone", 200), calls=calls,
+        )
+        assert code == 3
+        assert json.loads(report.read_text(encoding="utf-8"))["deactivation"]["guard"]["blocked"]
+
+
+def test_plain_reingest_is_still_the_reuse_path():
+    """기존 `--reingest` 회귀 없음: Stage 1 을 스캔하지 않고 watermark 를 물려받는다."""
+    calls: Dict[str, Any] = {}
+    seen: Dict[str, Any] = {}
+
+    def fake_apply(rows, evidence_rows, run_id, batch_size, **kwargs):
+        seen.update(kwargs)
+        return {"sync_mode": kwargs["sync_mode"]}
+
+    code = _run_main(["--reingest", "--apply"], active=["m/keep"], calls=calls, apply_sync=fake_apply)
+    assert code == 0
+    assert calls["pipeline"]["full_stage1"] is False
+    assert seen["sync_mode"] == "reingest"
+    assert seen["deactivate_missing"] is False
+    assert seen["removed_ids"] == ["m/lang"]
+    assert seen["source_watermark"] == "2026-10-31T00:00:00+00:00"
+    assert seen["extra_versions"] == {"stage1_mode": "reuse"}
+
+
+def test_full_stage1_requires_reingest():
+    import io
+
+    for argv in (["--full-stage1"], ["--refresh", "--apply", "--full-stage1"]):
+        with patched(sys, argv=["08_sync_supabase.py", *argv]), \
+                contextlib.redirect_stderr(io.StringIO()):
+            try:
+                sync.main()
+            except SystemExit as exit_:
+                assert exit_.code == 2
+            else:
+                raise AssertionError(f"{argv} 를 받았다")
+
+
+# ── workflow ──────────────────────────────────────────────────────────────
+
+WORKFLOW = ROOT.parent / ".github" / "workflows" / "model-scout-reingest.yml"
+
+
+def _workflow() -> Dict[str, Any]:
+    return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+
+
+def _steps() -> Dict[str, Dict[str, Any]]:
+    return {step["name"]: step for step in _workflow()["jobs"]["reingest"]["steps"]}
+
+
+def test_workflow_stage1_mode_defaults_to_reuse():
+    inputs = _workflow()[True]["workflow_dispatch"]["inputs"]  # yaml 은 `on` 을 True 로 읽는다
+    assert inputs["stage1_mode"]["default"] == "reuse"
+    assert inputs["stage1_mode"]["options"] == ["reuse", "full-scan"]
+    assert inputs["mode"]["default"] == "validate"
+
+
+def test_workflow_keeps_the_apply_guard():
+    guard = _steps()["Guard the apply mode"]
+    assert "APPLY" in guard["run"] and "main" in guard["run"]
+
+
+def test_workflow_runs_full_stage1_inside_the_sync_script():
+    """Stage 1 수집을 YAML 에서 따로 돌리지 않는다. diff·watermark 가 한 실행에 묶여야 한다."""
+    steps = _steps()
+    run = steps["Run the reingest"]
+    assert "--full-stage1" in run["run"] and "--report" in run["run"]
+    assert "full-scan" in run["run"]
+    assert "| tee" not in run["run"], "tee 는 실패 종료 코드를 가린다"
+    assert run.get("shell") == "bash"  # GitHub 의 명시적 bash 는 pipefail 을 켠다
+    assert "validate" in run["if"]
+    for step in steps.values():
+        assert "python 01_collect_models.py" not in str(step.get("run", "")), step["name"]
+
+
+def test_workflow_persists_stage1_only_after_a_successful_apply():
+    names = list(_steps())
+    persist = _steps()["Persist snapshots after apply"]
+    assert persist["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
+    assert names.index("Persist snapshots after apply") > names.index("Run the reingest")
+    for filename in sync.STAGE1_SNAPSHOT_FILES:
+        assert f"data/{filename}" in persist["run"], filename
+    for kept in ("hf_models_stage2_contract_core.jsonl", "hf_models_stage3_core.jsonl",
+                 "hf_models_stage4_manifest.json", "data/readmes/core"):
+        assert kept in persist["run"], kept
+    assert "hf_models_stage4_core.jsonl" not in persist["run"], "Stage 4 대용량 파일을 커밋하지 않는다"
+
+
+def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():
+    upload = _steps()["Upload the reingest report"]
+    assert "!cancelled()" in upload["if"]
+    paths = upload["with"]["path"]
+    for expected in ("reingest-report", "contract/baseline.md", "hf_models_stage4_manifest.json"):
+        assert expected in paths, expected
 
 
 if __name__ == "__main__":
