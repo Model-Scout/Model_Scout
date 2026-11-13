@@ -142,6 +142,28 @@ top 10에 든 `must_exclude` 수도 함께 보고한다. 추천기에는 아직 
 
 **OpenAI 키와 dense 인덱스(또는 Supabase)가 필요하다.** 공공데이터 엔티티에는 task 개념이 없어서, `rank_datasets`는 dense 유사도가 없으면 공공데이터를 하나도 반환하지 않는다. 키가 없으면 0점이 아니라 실행 불가로 봐야 한다.
 
+### 공통 평가기 (`evaluate_public.py`, pre-retrieval 실험용)
+
+검색은 하지 않고, 검색기가 만든 순위 목록을 v5 라벨로 채점한다. 검색기나 전략이 달라도 같은 형식으로 저장하면 같은 기준으로 비교된다.
+
+```bash
+python test/public_data/evaluate_public.py --runs baseline.jsonl rewrite.jsonl \
+    --duplicates data/hypergraph_v2/duplicates.json --out report.json --unjudged-out unjudged.jsonl
+```
+
+- **입력:** 질문마다 한 줄 `{"query_id", "ranked": [데이터 ID...], "latency_ms"}`. 평가 가능한 질문(abstention 포함)이 모두 있어야 하고, 라벨에 없는 질문이 있으면 실행을 멈춘다.
+- **지표 공식:** `retrieval_lab/metrics.py`를 그대로 쓴다. Recall은 찾은 고유 정답 수 / 전체 고유 정답 수이고, k로 자르지 않는다.
+- **direct / any:** direct는 2점만, any는 1점 이상을 정답으로 센다. 2점 정답이 없는 질문은 direct 평균에서 빼고 `no_direct_answer`로 센다.
+- **사본:** `--duplicates`를 주면 사본을 원본 ID로 합친다. 순위 목록에서는 처음 나온 것만 남긴다. 주지 않으면 경고를 출력한다.
+- **raw / condensed:** raw는 정답이 아닌 것을 모두 오답으로 센다. condensed는 판정이 없는 데이터를 순위에서 먼저 뺀다. 보류(`?`)는 raw에서 오답, condensed에서 제외이고 `held@10`으로 따로 센다.
+- **조건 위반:** `must_exclude@10`은 top 10에 든 금지 데이터 수다.
+- **abstention:** 정확도는 내지 않는다. 반환 개수와, top 10 중 정답 또는 금지로 판정된 수만 보고한다.
+- **`--unjudged-out`:** 모든 run의 top 10에서 판정이 없는 (질문, 데이터) 쌍을 합쳐 쓴다. 교차 판정용이라 run 이름은 넣지 않는다.
+- **`--types`:** `{query_id: 유형}` JSON을 주면 새 유형(6개 + abstention)으로 묶어 보고한다. 주지 않으면 라벨의 `query_type`을 쓴다.
+- **출력:** 첫 줄에 라벨·사본 파일 경로와 sha256을 찍는다.
+
+규칙을 바꾸면 이 절과 `evaluate_public.py` 상단 docstring에 같이 적는다. 검증은 `test/test_evaluate_public.py`가 한다. 손으로 계산한 예제, 완벽·빈 순위, 각 규칙을 테스트하고, v5 라벨로 만든 완벽 순위도 확인한다.
+
 ## 한계와 알려진 문제
 
 - **delivery·realtime 조건은 추천기에 넘기지 않는다.** `rank_datasets`에 이 조건을 받는 인자가 없기 때문이다. 지금은 판정자가 0 `wrong_delivery`를 줘서 `must_exclude`로만 반영된다. 추천기에 필터를 넣을지, 판정으로만 볼지는 팀에서 정해야 한다.
