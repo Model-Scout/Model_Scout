@@ -282,13 +282,31 @@ def _ids(prefix: str, count: int) -> List[str]:
 
 def test_stage1_removal_guard_blocks_a_mass_drop():
     previous = {"core": _ids("a", 1000), "low_popularity": []}
-    current = {"core": _ids("a", 800), "low_popularity": []}
+    current = {"core": _ids("a", 650), "low_popularity": []}
     try:
         sync.assert_stage1_removal(sync.stage1_diff(previous, current))
-    except RuntimeError as error:
-        assert "200" in str(error)
+    except sync.Stage1RemovalGuardError as error:
+        assert "350" in str(error)
+        assert error.diff["removal_guard"]["max_fraction"] == 0.30
+        assert len(error.diff["removed_ids"]) == 350
     else:
-        raise AssertionError("처리 대상 20% 감소를 통과시켰다")
+        raise AssertionError("처리 대상 35% 감소를 통과시켰다")
+
+
+def test_stage1_removal_guard_allows_the_reviewed_long_gap_churn():
+    """2026-11-13 full-scan 실측: 3,886 → 4,015, 제거 957·추가 1,086."""
+    previous = {"core": _ids("old", 3886), "low_popularity": []}
+    current = {
+        "core": _ids("old", 2929) + _ids("new", 1086),
+        "low_popularity": [],
+    }
+    diff = sync.stage1_diff(previous, current)
+    guard = sync.assert_stage1_removal(diff)
+    assert diff["current_processable"] == 4015
+    assert len(diff["removed_ids"]) == 957
+    assert len(diff["added_ids"]) == 1086
+    assert guard["max_allowed"] == 1165
+    assert guard["blocked"] is False
 
 
 def test_stage1_removal_guard_allows_normal_churn_and_pool_moves():
@@ -338,16 +356,43 @@ def test_deactivation_plan_reuse_only_drops_language_exclusions():
 
 def test_deactivation_guard_blocks_too_many_candidates():
     active = _ids("m", 1000)
-    plan = sync.deactivation_plan(active, active[:850], deactivate_missing=True)
+    plan = sync.deactivation_plan(active, active[:650], deactivate_missing=True)
     assert plan["guard"]["blocked"] is True
     try:
         sync.assert_deactivation_plan(plan)
     except RuntimeError as error:
-        assert "150" in str(error)
+        assert "350" in str(error)
     else:
-        raise AssertionError("15% 비활성화를 통과시켰다")
-    ok = sync.deactivation_plan(active, active[:950], deactivate_missing=True)
+        raise AssertionError("35% 비활성화를 통과시켰다")
+    ok = sync.deactivation_plan(active, active[:750], deactivate_missing=True)
     sync.assert_deactivation_plan(ok)
+
+
+def test_stage1_guard_failure_report_preserves_the_full_diff():
+    diff = sync.stage1_diff(
+        {"core": _ids("old", 1000), "low_popularity": []},
+        {"core": _ids("old", 650), "low_popularity": []},
+    )
+    captured = None
+    try:
+        sync.assert_stage1_removal(diff)
+    except sync.Stage1RemovalGuardError as error:
+        error.scan_started_at = "2026-11-13T00:00:00+00:00"
+        captured = error
+    else:
+        raise AssertionError("가드 실패 보고서 테스트가 차단되지 않았다")
+
+    with tempfile.TemporaryDirectory() as name:
+        path = Path(name) / "reingest-report.json"
+        sync.write_reingest_report(sync.stage1_guard_failure_result(captured), path)
+        report = json.loads(path.read_text(encoding="utf-8"))
+        stored = json.loads((Path(name) / "reingest-report.stage1-diff.json").read_text(encoding="utf-8"))
+        summary = json.loads((Path(name) / "reingest-report.summary.json").read_text(encoding="utf-8"))
+        assert report["db_write"] is False
+        assert report["error"]["failed_before"] == "stage2"
+        assert stored["removed_ids"] == captured.diff["removed_ids"]
+        assert stored["removal_guard"]["blocked"] is True
+        assert summary["stage1_diff"]["removed"] == 350
 
 
 # ── apply_sync: 가짜 DB 로 실제 SQL 흐름을 본다 ───────────────────────────────
@@ -536,13 +581,15 @@ MB = 1_000_000
 
 
 def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], apply_sync: Any = None,
-              database_mb: float = 300) -> int:
+              database_mb: float = 300, pipeline_error: Any = None) -> int:
     import io
 
     stage4 = [{"model_id": "m/keep", "source_pool": "core"}]
 
     def fake_pipeline(previous, full_stage1=False):
         calls["pipeline"] = {"previous": previous, "full_stage1": full_stage1}
+        if pipeline_error is not None:
+            raise pipeline_error
         return _result(
             previous_watermark=previous,
             stage1_scan=SCAN if full_stage1 else None,
@@ -633,6 +680,38 @@ def test_dry_run_full_scan_reports_without_writing():
         assert "candidate_ids" not in json.dumps(summary)
         assert (Path(name) / "reingest-report.stage1-diff.json").exists()
         assert (Path(name) / "reingest-report.deactivation.json").exists()
+
+
+def test_main_persists_the_stage1_diff_when_the_guard_stops_the_pipeline():
+    diff = sync.stage1_diff(
+        {"core": _ids("old", 1000), "low_popularity": []},
+        {"core": _ids("old", 650), "low_popularity": []},
+    )
+    try:
+        sync.assert_stage1_removal(diff)
+    except sync.Stage1RemovalGuardError as error:
+        error.scan_started_at = "2026-11-13T00:00:00+00:00"
+        blocked = error
+    else:
+        raise AssertionError("가드 실패 경로가 차단되지 않았다")
+
+    with tempfile.TemporaryDirectory() as name:
+        report = Path(name) / "reingest-report.json"
+        try:
+            _run_main(
+                ["--reingest", "--full-stage1", "--report", str(report)],
+                active=["m/keep"],
+                calls={},
+                pipeline_error=blocked,
+            )
+        except sync.Stage1RemovalGuardError:
+            pass
+        else:
+            raise AssertionError("가드 실패를 Action 실패로 전파하지 않았다")
+        assert report.exists()
+        stored = json.loads((Path(name) / "reingest-report.stage1-diff.json").read_text(encoding="utf-8"))
+        assert stored["removed_ids"] == blocked.diff["removed_ids"]
+        assert stored["removal_guard"]["blocked"] is True
 
 
 def test_dry_run_marks_a_blocked_deactivation_as_failure():

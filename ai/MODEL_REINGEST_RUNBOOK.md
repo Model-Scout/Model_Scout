@@ -58,12 +58,12 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | 구간 | 가드 | 걸리면 |
 |---|---|---|
 | Stage 1 수집 | 01: 모든 task 성공, 파티션별 50% 이상 감소 금지 | 공개 Stage 1 그대로. 재적재 중단 |
-| 기존 → 새 Stage 1 | 처리 대상(Core ∪ Low)에서 10% 초과 제거 금지. Core↔Low 이동은 제거로 세지 않는다 | Stage 1 백업 복원. Stage 2 전에 중단 |
+| 기존 → 새 Stage 1 | 처리 대상(Core ∪ Low)에서 30% 초과 제거 금지. Core↔Low 이동은 제거로 세지 않는다 | Stage 1 백업 복원. Stage 2 전에 중단. 실패한 실행에도 전체 diff artifact를 남김 |
 | 새 Stage 1 → Stage 2 | 언어 게이트 제외(이번 Stage 1 에 있는 것만)를 뺀 기대치의 98% 미만이면 중단 | 유료 단계 전에 중단 |
 | Stage 2 재사용 | 저장된 행의 Hub revision(SHA, 없으면 last_modified)이 지금 Stage 1 과 같을 때만 재사용 | 다르거나 기록이 없으면 다시 수집 |
 | 계약 게이트 (재적재·증분 모두) | Stage 2 직후, Stage 3(LLM) 전. 직전 계약 레코드를 baseline 으로 값 손실·근거 하락 비교 | 같은 revision 에서 손실이면 중단. revision 이 바뀐 모델은 경고, 새 모델·첫 실행은 비교 생략(사유를 보고서에 기록) |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
-| 비활성화 | DB active 의 10% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
+| 비활성화 | DB active 의 30% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
 | DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(1,024) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
 
 DB 용량 가드가 있는 이유: 모델 테이블과 데이터셋 테이블(`20_sync_dataset_index.py`)이 같은 Supabase
@@ -83,9 +83,10 @@ select pg_size_pretty(pg_database_size(current_database())) as database,
 
 `database + models_and_evidence + 약 35MB(계약)` 가 1,024MB 아래여야 한다.
 
-10% 는 정상 감소(Hub 삭제·비공개·다운로드 80 미만·언어 제외)를 넉넉히 덮고, 부분 수집 실패는
-막는 값이다. 정상인데도 넘는다면 실행 옵션으로 우회하지 말고 `08_sync_supabase.py` 의 상수를
-PR 로 바꾼다.
+정상 운영값은 10%다. 2026-11-13 장기 공백 뒤 full-scan은 모든 task·cutoff·후보
+감사를 통과했지만 3,886개 중 957개(24.6%)가 교체됐다. 검토한 변경을 한 번 반영하기
+위해 현재만 30%로 올렸다. 수집 가드를 실행 옵션으로 우회하지 않으며, 이번 apply와
+스냅샷 반영이 끝나면 별도 PR로 두 상수를 10%로 복구한다.
 
 ## 4. 보고서
 
@@ -188,7 +189,9 @@ LFS 에 올리지 않는다.
     - 일반 질의를 확인한다.
     - "상업용 + GGUF + 승인 없이" 질의를 확인한다. 카드의 `상업 이용`, `GGUF 파일`, `승인 없이 내려받기` check 를 본다.
 12. 두 Action(재적재, Dataset refresh)을 다시 비활성화한다.
-13. 골든셋 v2 스냅샷을 새 코퍼스로 다시 뜨고 eligible 수를 다시 확정한다(7절).
+13. 이번에만 올린 `REINGEST_MAX_REMOVED_FRACTION`·`REINGEST_MAX_DEACTIVATION_FRACTION`을
+    0.30에서 정상 운영값 0.10으로 복구하는 후속 PR을 병합한다.
+14. 골든셋 v2 스냅샷을 새 코퍼스로 다시 뜨고 eligible 수를 다시 확정한다(7절).
 
 ## 9. 되돌리기
 
