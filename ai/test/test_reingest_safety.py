@@ -579,7 +579,7 @@ def _run_main(argv: List[str], *, active: List[str], calls: Dict[str, Any], appl
             db_storage=lambda cur=None: {"database": int(database_mb * MB), "model_scout_models": 80 * MB,
                                          "model_scout_evidence": 10 * MB, "model_scout_dataset_chunks": 190 * MB,
                                          "model_scout_datasets": 20 * MB},
-            estimate_write_bytes=lambda rows, evidence: 100 * MB,
+            estimate_write_bytes=lambda *args, **kwargs: 100 * MB,
             apply_sync=apply_sync or refuse,
             ensure_schema=refuse,
             promote_benchmark_state=lambda: None,
@@ -658,6 +658,24 @@ def test_write_estimate_counts_halfvec_not_the_vector_text():
     size = sync.estimate_write_bytes([tuple(row)], [])
     assert size < len(vector), "벡터 텍스트 길이를 저장 크기로 세면 안 된다"
     assert size >= 2 * 1536 + sync.TSV_BYTES_PER_MODEL
+
+
+def test_write_estimate_uses_measured_table_sizes_when_the_db_has_rows():
+    """압축 전 JSON 으로 세면 실제의 몇 배가 나와 멀쩡한 재적재를 막는다.
+
+    실측: 모델 행 평균 24KB(압축 전) × 3,853 + 계약 9KB 로 세면 약 171MB 라 지금 DB(339MB)에서
+    480MB 를 넘는다. 전체 재작성의 실제 증가분은 지금 테이블 한 벌 + 새 계약 정보다.
+    """
+    storage = {"database": 339 * MB, "model_scout_models": 90 * MB, "model_scout_evidence": 10 * MB,
+               "model_rows": 1000}
+    rows = [("m",)] * 1000
+    assert sync.estimate_write_bytes(rows, [], storage, added_bytes=20 * MB) == 120 * MB
+    # 행이 늘면 그 비율만큼 키운다. 줄면 줄이지 않는다(보수적).
+    assert sync.estimate_write_bytes([("m",)] * 1500, [], storage) == 150 * MB
+    assert sync.estimate_write_bytes([("m",)] * 500, [], storage) == 100 * MB
+    # 빈 DB 는 실측할 것이 없으므로 상한 방식이다.
+    empty = sync.estimate_write_bytes([("m",)], [], {"database": MB, "model_rows": 0})
+    assert empty == 2 * 1536 + sync.TSV_BYTES_PER_MODEL + sync.ROW_OVERHEAD_BYTES + 1
 
 
 def test_capacity_plan_uses_current_size_plus_what_we_write():

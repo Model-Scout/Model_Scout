@@ -1768,12 +1768,24 @@ STORAGE_TABLES = (
 def estimate_write_bytes(
     rows: Sequence[Tuple[Any, ...]],
     evidence_rows: Sequence[Tuple[Any, ...]],
+    storage: Optional[Dict[str, int]] = None,
+    added_bytes: int = 0,
 ) -> int:
-    """이번 실행이 새로 쓰는 바이트의 상한.
+    """이번 실행이 새로 쓰는 바이트.
+
+    DB 에 모델 행이 있으면 실측으로 센다. 전체 행을 다시 쓰면 지금 모델·evidence 테이블
+    (인덱스 포함)만큼 한 벌이 더 생기고, 이번에 새로 붙는 내용(added_bytes, 계약 레코드)이
+    더해진다. added_bytes 는 압축 전 길이라 실제보다 크다. 행 수가 늘면 그 비율만큼 키운다.
+
+    비어 있는 DB(첫 적재)는 실측할 것이 없으므로 아래 상한으로 센다.
 
     JSON 은 압축 전 텍스트 길이로 센다. jsonb 는 TOAST 에서 압축되므로 실제보다 크게
     나온다 — 가드는 보수적으로 둔다. 벡터는 halfvec 크기(2 B × 차원)로 센다.
     """
+    if storage and storage.get("model_rows"):
+        current = storage.get("model_scout_models", 0) + storage.get("model_scout_evidence", 0)
+        scale = max(1.0, len(rows) / storage["model_rows"])
+        return int(current * scale) + added_bytes
     total = 0
     for row in rows:
         total += sum(
@@ -1792,14 +1804,13 @@ def db_storage(cur: Any = None) -> Dict[str, int]:
     """DB 전체와 테이블별 크기(바이트). 읽기만 한다."""
     query = "select pg_database_size(current_database())" + "".join(
         f", coalesce(pg_total_relation_size(to_regclass('{name}')), 0)" for name in STORAGE_TABLES
-    )
+    ) + ", (select count(*) from public.model_scout_models)"
 
     def read(cursor: Any) -> Dict[str, int]:
         cursor.execute(query)
         values = cursor.fetchone()
-        return {"database": int(values[0])} | {
-            name.split(".", 1)[1]: int(value) for name, value in zip(STORAGE_TABLES, values[1:])
-        }
+        sizes = {name.split(".", 1)[1]: int(value) for name, value in zip(STORAGE_TABLES, values[1:-1])}
+        return {"database": int(values[0]), **sizes, "model_rows": int(values[-1])}
 
     if cur is not None:
         return read(cur)
@@ -1818,7 +1829,10 @@ def capacity_plan(storage: Dict[str, int], write_bytes: int, budget_mb: Optional
     )
     peak = storage["database"] + write_bytes
     return {
-        "tables_mb": {name: round(size / 1e6, 1) for name, size in storage.items() if name != "database"},
+        "tables_mb": {
+            name: round(size / 1e6, 1) for name, size in storage.items() if name not in ("database", "model_rows")
+        },
+        "model_rows": storage.get("model_rows"),
         "database_mb": round(storage["database"] / 1e6, 1),
         "estimated_write_mb": round(write_bytes / 1e6, 1),
         "projected_peak_mb": round(peak / 1e6, 1),
@@ -2208,7 +2222,14 @@ def main() -> int:
     exit_code = 0
     if reingest:
         # 읽기 전용 조회. 쓰기 전에 판단해야 한도를 넘긴 뒤에 알게 되지 않는다.
-        result["capacity"] = capacity_plan(db_storage(), estimate_write_bytes(rows, evidence_rows))
+        storage = db_storage()
+        # 계약 레코드는 technical_metadata 와 source_provenance 에 새로 붙는 부분이다.
+        contract_bytes = sum(
+            len(json_text(stage2[row["model_id"]].get("contract")).encode("utf-8")) for row in selected_stage4
+        )
+        result["capacity"] = capacity_plan(
+            storage, estimate_write_bytes(rows, evidence_rows, storage, contract_bytes)
+        )
     if args.apply:
         if reingest and result["capacity"]["blocked"]:
             if args.report is not None:

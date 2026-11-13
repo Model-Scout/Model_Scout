@@ -51,8 +51,19 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 
 DB 용량 가드가 있는 이유: 모델 테이블과 데이터셋 테이블(`20_sync_dataset_index.py`)이 같은 Supabase
 무료 DB 를 쓴다. 500MB 를 넘으면 프로젝트가 읽기 전용이 돼 둘 다 멈춘다. 재적재는 모든 행을 다시 써서
-옛 행이 VACUUM 전까지 남으므로 최고치를 "지금 + 쓸 양"으로 본다. 쓸 양은 압축 전 JSON 길이로 세는
-상한이라 실제보다 크게 나온다. 유료 플랜으로 바꾸면 workflow 의 `SUPABASE_DB_BUDGET_MB` 를 올린다.
+옛 행이 VACUUM 전까지 남으므로 최고치를 "지금 + 쓸 양"으로 본다. 쓸 양은 지금 모델·evidence 테이블
+크기(실측, 인덱스 포함) 한 벌에 새 계약 레코드(압축 전 길이)를 더한 값이다. 유료 플랜으로 바꾸면
+workflow 의 `SUPABASE_DB_BUDGET_MB` 를 올린다.
+
+이 판정은 dry-run 끝에 나온다. 몇 시간짜리 dry-run 전에 SQL Editor 에서 미리 본다.
+
+```sql
+select pg_size_pretty(pg_database_size(current_database())) as database,
+       pg_size_pretty(pg_total_relation_size('public.model_scout_models')
+                    + pg_total_relation_size('public.model_scout_evidence')) as models_and_evidence;
+```
+
+`database + models_and_evidence + 약 35MB(계약)` 가 480MB 아래여야 한다.
 
 10% 는 정상 감소(Hub 삭제·비공개·다운로드 80 미만·언어 제외)를 넉넉히 덮고, 부분 수집 실패는
 막는 값이다. 정상인데도 넘는다면 실행 옵션으로 우회하지 말고 `08_sync_supabase.py` 의 상수를
