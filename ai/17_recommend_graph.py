@@ -46,9 +46,10 @@ from pydantic import BaseModel, Field, model_validator
 import project_checks
 from hypergraph_search import concepts_from_terms, datasets_for_model, embed_query, load_graph, rank_datasets
 from taxonomy import load_taxonomy, normalize
+from recommendation_llm import create_client, model_name
 
 ROOT = Path(__file__).resolve().parent
-LLM_MODEL = os.getenv("RECOMMEND_LLM_MODEL", "gpt-4.1-mini")
+LLM_MODEL = model_name()
 # Primary task tags that exist in the model corpus; search_models can only filter on these.
 MODEL_HF_TASKS = (
     "text-generation",
@@ -214,11 +215,8 @@ def _load_09():
 
 
 def _openai():
-    from dotenv import load_dotenv
-    from openai import OpenAI
-
-    load_dotenv(ROOT / ".env")
-    return OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    # Compatibility name: planner, explanation and follow-up all use this factory.
+    return create_client()
 
 
 def hf_tags(task_key):
