@@ -22,109 +22,198 @@ tags:
 - pocket
 - vidraft
 ---
+<!-- POCKET-27B-DISCOVERY:START -->
+<p align="center">
+  <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF"><img src="https://img.shields.io/badge/NEW%20POCKET--27B-Q6__K%20%C2%B7%2022.43%20GB-55cbb4?style=for-the-badge" alt="New POCKET-27B: Qwen3.8-27B, Q6_K, 22.43 GB - model card and downloads"></a>
+</p>
+<p align="center"><b>Meet POCKET-27B.</b> Qwen3.8-27B in ARCHsloth Q6_K GGUF. <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF/tree/main">Choose files &amp; download</a> · <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF#quality-and-evaluation">Quality &amp; limits</a></p>
+<!-- POCKET-27B-DISCOVERY:END -->
 
-> ### ⭐ Latest and flagship models
-> [![VKORE-46M-NPU](https://img.shields.io/badge/%F0%9F%86%95_VKORE--46M--NPU-pretraining_on_NPU-6c3fd1?style=for-the-badge)](https://huggingface.co/FINAL-Bench/VKORE-46M-NPU) [![Darwin-27B-ZTC-v5](https://img.shields.io/badge/Darwin--27B--ZTC--v5-S1MB_%231_EN+JP-ff6b8b?style=for-the-badge)](https://huggingface.co/FINAL-Bench/Darwin-27B-ZTC-v5)
-> [![POCKET family](https://img.shields.io/badge/%F0%9F%A4%97-POCKET_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6) [![Darwin family](https://img.shields.io/badge/%F0%9F%A4%97-Darwin_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193) [![All models](https://img.shields.io/badge/%F0%9F%A4%97-FINAL--Bench-ffb020)](https://huggingface.co/FINAL-Bench) [![Website](https://img.shields.io/badge/%F0%9F%8C%90-vidraft.net-4ea8ff)](https://vidraft.net) [![THE VC](https://img.shields.io/badge/%F0%9F%93%8A-THE_VC-0a66c2)](https://thevc.kr/vidraft)
+<!-- SUPERCLUE-2026-11:START -->
+## 🏆 SuperCLUE November 2026: #1 open-weight model in math and science reasoning
 
-> ### 🆕 **[POCKET-Qwen3.8-Flash-Next](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF)** — a **180B** model running on a **laptop with 8 GB VRAM + 32 GB RAM** · **4.17 tok/s measured**.
-> [![New](https://img.shields.io/badge/🆕_NEW-POCKET--180B_on_a_laptop-6c3fd1)](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) [![VRAM](https://img.shields.io/badge/VRAM-8_GB-1baf7a)]() [![RAM](https://img.shields.io/badge/RAM-32_GB-1baf7a)]() [![Speed](https://img.shields.io/badge/measured-4.17_tok%2Fs-243456)]() <!-- POCKET-FLASHNEXT-BADGE -->
+[![SuperCLUE Nov 2026: Darwin-180B-RSI #1 open-weight, #2 overall in math and science reasoning](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_banner_darwin_2026-11.png)](https://www.superclueai.com/homepage)
 
-> ### 🆕 **[POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU)** — photoreal **images** in **46 s** on a **CPU only**. No GPU, no CUDA, no Python.
-> [![New](https://img.shields.io/badge/🆕_NEW-POCKET--Zimage--CPU-ff6b35)](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) [![Space](https://img.shields.io/badge/🤗_Space-try_on_CPU-ffce3a)](https://huggingface.co/spaces/FINAL-Bench/POCKET-Zimage-CPU) [![RAM](https://img.shields.io/badge/RAM-6.4_GB-1baf7a)]() <!-- POCKET-Zimage-CPU-BADGE -->
+**From the VIDRAFT Darwin family.** Our flagship reasoning model, [Darwin-180B-RSI-R3](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3), was scored by [SuperCLUE](https://www.superclueai.com/homepage), China's most widely cited LLM benchmark, on its private November 2026 test set: **73.68 in mathematical and scientific reasoning, #1 among open-weight models and #2 overall** among 19 models, behind only OpenAI's GPT-6.1-Sol and ahead of Gemini-4-Argon, DeepSeek-V4.1-Flash, Grok-4.7 and Qwen3.8-Max. The same recursive self-improvement line and the same team built the POCKET on-device builds.
 
-
-> ### 📚 Collections
-> **▶ [POCKET Models](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6)** — this family (on-device, no GPU)
-> [Darwin Family](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193) · [Aether Foundation](https://huggingface.co/collections/FINAL-Bench/aether-foundation-model-6a5c7f2fa1a4165c0414e53a) · [VKAE Accelerated](https://huggingface.co/collections/FINAL-Bench/vkae-accelerated-6a47231d7e7999dd8227675a)
-
-![POCKET-26B](./pocket26_hero.svg)
-
-# POCKET-26B-GGUF · 한국어
-
-### A **Gemma4-26B-A4B**-based pocket model that loads in **any app today** — Ollama, LM Studio, PocketPal — with **no bleeding-edge runtime** needed. Korean-tuned, GPU-optional.
-
-> 🚀 **Try it live on a CPU (no GPU), no install →** [![POCKET-26B demo](https://img.shields.io/badge/🤗_Space-POCKET--26B_CPU_chat-0f9d6e)](https://huggingface.co/spaces/FINAL-Bench/POCKET-26B-CPU) [![POCKET-35B demo](https://img.shields.io/badge/🤗_Space-POCKET--35B_CPU_chat-ffce3a)](https://huggingface.co/spaces/FINAL-Bench/POCKET-35B-CPU)
-
-[![License](https://img.shields.io/badge/License-Apache_2.0-0f6e56)](https://www.apache.org/licenses/LICENSE-2.0) [![Runtime](https://img.shields.io/badge/runtime-any_llama.cpp-1baf7a)](https://github.com/ggml-org/llama.cpp) [![Compat](https://img.shields.io/badge/loads_in-Ollama_·_LM_Studio_·_PocketPal-2a9d8f)]() [![Base](https://img.shields.io/badge/base-Gemma--4--26B--A4B-185fa5)](https://huggingface.co/google/gemma-4-26B-A4B-it)
-
-**Pick your build →** [![35B](https://img.shields.io/badge/POCKET--35B-GGUF-243456)](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) [![26B](https://img.shields.io/badge/POCKET--26B-GGUF-2a9d8f)](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) [![KR GGUF](https://img.shields.io/badge/POCKET--KR-GGUF-7A1F3D)](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) [![KR MLX](https://img.shields.io/badge/POCKET--KR-MLX_(iPhone)-0f6e56)](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) [![EN GGUF](https://img.shields.io/badge/POCKET--EN-GGUF-185fa5)](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF) [![180B laptop](https://img.shields.io/badge/POCKET--180B-Qwen3.8_Flash--Next_·_laptop-6c3fd1)](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) [![Image NF4](https://img.shields.io/badge/POCKET--Image-Z--Image_NF4-d35400)](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage) [![Image CPU](https://img.shields.io/badge/POCKET--Zimage-CPU-ff6b35)](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU)
-
-## Why this one?
-
-POCKET-26B takes Google's **Gemma4-26B-A4B** (25.2B total, ~4B active MoE, Apache-2.0) and re-quantizes it with our **proprietary Korean-tuned quantization** — **unpruned**, so quality holds. Unlike our Qwen-based POCKET (which needs a very recent `llama.cpp` build for its `qwen35moe` architecture), Gemma4 loads in **every mainstream runtime today**: Ollama, LM Studio, PocketPal, koboldcpp, and the browser.
-
-## Quality — GPQA-Diamond, greedy, 198 questions (our harness)
-
-| Build | GPQA-Diamond | vs base |
-|---|---|---|
-| Gemma4-26B-A4B (base) | 67.7% | — |
-| **POCKET-26B `Q4_K_M`** | **67.7%** | **= base (lossless)** |
-| **POCKET-26B `Q2_K`** (mixed) ⭐ | **67.2%** | −0.5pp (≈ lossless) |
-
-*Single greedy pass, 198 items → ±~3 pp noise. Our proprietary Korean-tuned quantization is statistically lossless vs the base.*
-
-## Files in this repo
-
-| File | Size | Runs on | Best for |
+| Model | Developer | Open weights | Math & science reasoning |
 |---|---|---|---|
-| `POCKET-26B-Q4_K_M.gguf` | 17 GB | PC / high-RAM | top quality |
-| **`POCKET-26B-Q2_K.gguf`** ⭐ | 11 GB | 12 GB phone / PC / browser | **universal daily driver** |
+| GPT-6.1-Sol | OpenAI | No | 76.32 |
+| **Darwin-180B-RSI-R3** | **VIDRAFT** | **Yes** | **73.68** |
+| Gemini-4-Argon | Google | No | 71.05 |
+| DeepSeek-V4.1-Flash | DeepSeek | Yes | 71.05 |
+| Grok-4.7 | xAI | No | 68.42 |
+| Qwen3.8-Max-0902 | Alibaba | No | 68.42 |
+| GLM-5.3 | Zhipu AI | Yes | 65.79 |
+| Kimi-K3.1-Pro | Moonshot | Yes | 63.16 |
+| Qwen3.8-Flash (parent of Darwin-180B) | Alibaba | Yes | 57.89 |
 
-> Our **mixed-precision quantization** keeps the most quality-critical weights at higher precision — that is why `Q2_K` holds **67.2%** while a *plain* uniform Q2 collapses to ~44%.
+Darwin-180B-RSI inherited its expert layers from Qwen3.8-Flash-Next and rebuilt only the attention and shared-expert layers through recursive self-improvement. On the same board the parent, Qwen3.8-Flash, placed 15th overall (39.81) with 57.89 in math and science reasoning; Darwin placed 9th (43.08) with 73.68.
 
-## Quickstart — loads anywhere
+<details><summary>Overall intelligence index, November 2026 (screenshot)</summary>
+
+![SuperCLUE Nov 2026 intelligence index](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_intelligence_index_2026-11.png)
+
+</details>
+
+Source: [SuperCLUE general leaderboard, November 2026](https://www.superclueai.com/homepage) (screenshots taken November 5, 2026). Scores are SuperCLUE's, not VIDRAFT's.
+<!-- SUPERCLUE-2026-11:END -->
+
+
+# POCKET-26B-GGUF
+
+Korean-tuned Gemma4 GGUF for local text assistance, with 11 GB and 17 GB build options.
+
+![POCKET-26B overview: Korean-tuned Gemma4, Q2_K recommended, CPU-only option](./pocket-overview.svg)
+
+[Download files](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF/tree/main) · [Setup guide](https://vidraft.net/p/pocket.html?model=pocket_26b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_26b_model_card_top) · [Benchmarks](#quality-and-evaluation)
+
+[POCKET-35B](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) · [POCKET-26B](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) · [POCKET-Darwin-180B](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF)
+
+## At a glance
+
+| Item | Details |
+|---|---|
+| Artifact | Gemma4-derived 25.2B-parameter MoE, approximately 4B active parameters per token; GGUF |
+| Starting checkpoint | [google/gemma-4-26B-A4B-it](https://huggingface.co/google/gemma-4-26B-A4B-it) |
+| Recommended first build | Q2_K, approximately 11 GB; mixed-precision quantization |
+| Hardware | A device with sufficient working memory beyond the file size; a CPU-only execution path is available |
+| Runtime | llama.cpp with Gemma4 support; exact app/version compatibility must be checked |
+| License | Apache-2.0; see [License and attribution](#license-and-attribution) |
+| Evidence status | Publisher measurements with device-specific conditions below |
+
+This package keeps the source model unpruned and applies VIDRAFT's Korean-tuned quantization. It is not a promise of universal app support, a measured 12 GB-phone fit, or an MLX package.
+
+## Choose your build
+
+| Build | File size | Memory guidance | Best for |
+|---|---|---|---|
+| [Q2_K — recommended](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF/resolve/main/POCKET-26B-Q2_K.gguf) | About 11 GB | Peak RAM and phone-fit measurements not supplied; allow OS, runtime and context headroom | Smaller download with the reported GPQA result below |
+| [Q4_K_M](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF/resolve/main/POCKET-26B-Q4_K_M.gguf) | About 17 GB | A higher-memory device; actual peak depends on context and backend | Higher-precision alternative |
+
+File sizes are rounded decimal GB, not process-memory measurements. An 11 GB file does **not** establish reliable operation on a 12 GB phone: the operating system, context, runtime buffers and other applications also need memory. For smaller phone-oriented artifacts, see the separate [POCKET-KR-GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) card and its limits.
+
+## Download and run
+
+Install the [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/guides/cli) and a [llama.cpp build](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md) that supports Gemma4. The example downloads only the recommended file from the audited revision; it does not clone or download the whole repository.
+
+**1. Download the recommended build.**
 
 ```bash
-# stock llama.cpp — brew / winget / apt, or LM Studio / Ollama / PocketPal
-llama-cli -m POCKET-26B-Q2_K.gguf -p "대한민국의 수도는?" -ngl 0 -t 8
+hf download FINAL-Bench/POCKET-26B-GGUF POCKET-26B-Q2_K.gguf --revision 9f49f5c276efafe909f6b2b2fb161181ce417a45 --local-dir ./POCKET-26B
 ```
-No fork, no bleeding-edge build — Gemma4 support has shipped in every mainstream runtime since April 2026.
 
-## Lineage (honest)
+**2. Run on the CPU.**
 
-Based on **[google/gemma-4-26B-A4B-it](https://huggingface.co/google/gemma-4-26B-A4B-it)** (Apache-2.0). We do **not** re-host it unchanged — we add our proprietary **Korean-tuned quantization** (VIDRAFT). We deliberately **do not prune** it: Gemma4's low-bit robustness collapses under pruning (measured), so we keep all 128 experts and win on quality + universal compatibility instead.
+```bash
+llama-cli -m ./POCKET-26B/POCKET-26B-Q2_K.gguf --device none -ngl 0 -t 8 -c 4096 -n 256 -p "Explain why local AI can be useful."
+```
+
+The expected result is generated text in the terminal, not a fixed benchmark answer. These command examples were syntax-reviewed but not executed during this review.
+
+Commands use the standalone llama.cpp executable names. Some distributions expose a unified `llama` launcher; consult that distribution's help and the [official model-loading documentation](https://github.com/ggml-org/llama.cpp/blob/master/docs/models.md). Use a physical-core-based thread count appropriate to your device; a higher number is not automatically faster.
+
+For installation, memory errors and app-specific help, use the [model-specific setup guide](https://vidraft.net/p/pocket.html?model=pocket_26b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_26b_quickstart_help). Model files remain directly available from Hugging Face without a VIDRAFT login.
+
+## Runtime compatibility
+
+| Runtime | Requirement | Evidence and limits |
+|---|---|---|
+| llama.cpp | A build with Gemma4 support | The original card reports upstream use; no exact universal minimum version was supplied |
+| Ollama | A version supporting Gemma4 and the selected GGUF | Generic [Hugging Face GGUF integration](https://huggingface.co/docs/hub/ollama) exists; an exact file/version compatibility matrix is not supplied |
+| LM Studio | A bundled runtime supporting Gemma4 | Paste this repository URL into model search, select a file and check the app's memory guidance |
+| PocketPal, koboldcpp and browser runtimes | Explicit Gemma4 support plus sufficient memory | No universal app or phone compatibility claim is made |
+| Apple MLX | A separately supplied MLX artifact | These downloads are GGUF files, not native MLX weights |
+
+The same file format does not guarantee support in every app or version. A dated, exact-version compatibility matrix remains a community contribution opportunity.
+
+## Hardware and performance
+
+These are the limits of the supplied device evidence, not estimated performance promises. The CPU-only quickstart explicitly disables GPU acceleration with `--device none`; `-ngl 0` alone is not the strongest no-GPU guarantee in every backend.
+
+| Device or mode | Configuration | Generation | Evidence and limits |
+|---|---|---|---|
+| PC CPU | Selected GGUF; enough RAM for the actual context | No throughput figure supplied | A CPU execution path is documented; no device benchmark is supplied |
+| Hosted CPU demo | [POCKET-26B-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-26B-CPU) | No throughput figure supplied | A hosted service, not a local-device benchmark |
+| iPhone / Mac | No matching throughput measurement supplied | Not measured | Community reports welcome |
+| Phone with 12 GB RAM | No matching peak-memory/context measurement supplied | Not measured | File size alone does not establish fit or usable speed |
+
+A useful community result identifies the exact file, runtime version, device, context size, peak memory and prompt/generation rates. Do not transfer POCKET-35B's Xeon or Mac speeds to this different architecture.
+
+## Quality and evaluation
+
+Publisher-reported GPQA Diamond results: a single greedy pass over 198 questions using the publisher's harness.
+
+| Build | Evaluation | Result | Conditions and limits |
+|---|---|---|---|
+| Gemma4-26B-A4B reference | GPQA Diamond | 67.7% | Reported base comparison, 198 questions, greedy |
+| POCKET-26B Q4_K_M | GPQA Diamond | 67.7% | Same reported score on this evaluation |
+| POCKET-26B Q2_K | GPQA Diamond | 67.2% | About 0.5 percentage points lower, approximately one question |
+
+This small comparison does **not** establish general statistical equivalence or universally lossless quantization. Paired answer-level results, a prespecified equivalence margin, full harness details and broader tasks would be needed for a stronger equivalence claim. No dedicated Korean task-quality score is supplied in the source card; the GPQA table should not be presented as a Korean-language quality benchmark.
+
+<details>
+<summary>Quantization and unpruned-model notes</summary>
+
+The original card describes Korean-tuned mixed precision: more sensitive weights remain at higher precision. It reports that the model remains unpruned, retaining all 128 experts, and that pruning harmed its low-bit robustness.
+
+The original card also mentions approximately 44% for a plain uniform-Q2 comparison. The exact comparator file and full evaluation configuration were not supplied, so this is a publisher-reported observation, not an independently verified ranking or an equivalent-format guarantee.
+
+</details>
+
+## Intended uses
+
+- Local text assistance and Korean-language workflow experimentation on suitably provisioned devices.
+- Comparing the 11 GB and 17 GB quantization options with a task-specific evaluation.
+- CPU-only workflows where local execution is preferred; no cloud service is required by the supplied command.
 
 ## Limitations
 
-- For **8 GB phones** (~5 GB budget), use [POCKET-KR-GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) (5.1 GB) — Gemma4 cannot be shrunk that far without collapse.
-- On-device iPhone/Mac throughput **not yet measured by us** — community reports welcome.
+- Exact peak memory, reliable phone fit and on-device iPhone/Mac throughput were not supplied.
+- “GGUF” does not mean every app or version supports Gemma4.
+- The GPQA comparison is one 198-item greedy evaluation, not general quality equivalence.
+- Korean-tuned quantization is the package's positioning; a dedicated Korean task benchmark is not supplied here.
+- File size is not a complete RAM budget; longer context increases memory requirements.
 
-## Learn more
+## License and attribution
 
-- Why on-device LLMs matter, and how POCKET measures up: [Can you run a large LLM without a GPU?](https://vidraft.net/insights/on-device-llm-without-gpu.html)
-- What model quantization is, and why a 4-bit model stays smart: [What is model quantization?](https://vidraft.net/insights/what-is-quantization-llm.html)
+This model card declares **Apache-2.0**, consistent with the current [google/gemma-4-26B-A4B-it](https://huggingface.co/google/gemma-4-26B-A4B-it) metadata and Google's [official Gemma 4 license page](https://ai.google.dev/gemma/apache_2).
 
-## License
-Apache-2.0 — use, modify, redistribute freely.
+Starting checkpoint: Gemma4-26B-A4B-it by Google. Korean-tuned quantization and this package: VIDRAFT / FINAL-Bench. Runtime tooling: the llama.cpp contributors. Read the license and retain required notices and attribution when redistributing.
 
----
-*POCKET is a VIDRAFT model family. Runs anywhere, no GPU.*
+## Support and updates
 
-<!-- POCKET-FAMILY -->
+For device selection and installation help, visit the [VIDRAFT POCKET setup guide](https://vidraft.net/p/pocket.html?model=pocket_26b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_26b_model_card_footer). Report reproducible issues in the [model discussions](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF/discussions), including the filename, runtime version, device, memory and command; do not post private prompts or credentials.
 
----
+A browser-accessible [POCKET-26B CPU demo](https://huggingface.co/spaces/FINAL-Bench/POCKET-26B-CPU) is a separate hosted service; its availability and latency are not local-device measurements. No local-inference telemetry or website gate is required to obtain these public files.
 
-## 🧩 The POCKET Family — On-device AI by VIDRAFT
+## POCKET family
 
-*Big models, small hardware. No GPU, no cloud.*
+| Model | Role | Start here |
+|---|---|---|
+| POCKET-35B-GGUF | Full 35B PC builds; Q2_K recommended first | [Model card](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) |
+| POCKET-26B-GGUF | Korean-tuned Gemma4 GGUF; 11 GB and 17 GB options | [Model card](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) |
+| POCKET-Darwin-180B-GGUF | Text-only RSI reasoning; four-shard download | [Model card](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF) |
 
-**Models**
-- 📦 [POCKET-35B-GGUF](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) — flagship, PC / server, no GPU
-- 📦 [POCKET-26B-GGUF](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) — compact 26B
-- 🇰🇷 [POCKET-KR-GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF) — Korean, Android
-- 🍎 [POCKET-KR-MLX](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) — Korean, iPhone / Mac
-- 🌍 [POCKET-EN-GGUF](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF) — English, phone / PC
-- 💻 [POCKET-Qwen3.8-Flash-Next-GGUF](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) — **180B on a laptop** (8 GB VRAM + 32 GB RAM)
-- 🖼️ [POCKET-Image-Zimage](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage) — character-perfect text in any image
-- 🖥️ [POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) — photoreal images on a CPU only
+Explore the [POCKET collection](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6). For phone-oriented derivatives, see [KR GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF), [KR MLX](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) and [EN GGUF](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF).
 
-**Demos & tools (Spaces)**
-- 🎨 [POCKET-Image Studio](https://huggingface.co/spaces/FINAL-Bench/POCKET-Image-Studio) — text-in-image, generate in-page
-- 🖥️ [POCKET-35B-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-35B-CPU) — 35B answering on a CPU
-- 🖥️ [POCKET-26B-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-26B-CPU) — 26B on a CPU
-- 🖼️ [POCKET-Zimage-CPU](https://huggingface.co/spaces/FINAL-Bench/POCKET-Zimage-CPU) — image generation on a CPU
+<details>
+<summary>More POCKET projects and research</summary>
 
-📚 [Full POCKET collection](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6)
+[Qwen3.8 Flash-Next GGUF](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) is a separate parent-model package, distinct from the POCKET-Darwin-180B RSI-R3 weights. Image projects are also separate: [POCKET-Image-Zimage](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage), [POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) and [Image Studio](https://huggingface.co/spaces/FINAL-Bench/POCKET-Image-Studio).
 
-<!-- /POCKET-FAMILY -->
+Research collections: [Darwin](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193), [Aether](https://huggingface.co/collections/FINAL-Bench/aether-foundation-model-6a5c7f2fa1a4165c0414e53a), [VKAE](https://huggingface.co/collections/FINAL-Bench/vkae-accelerated-6a47231d7e7999dd8227675a).
+
+</details>
+
+## References
+
+- [Source card and publisher measurements, revision 9f49f5c](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF/blob/9f49f5c276efafe909f6b2b2fb161181ce417a45/README.md).
+- [Google's Gemma4 starting checkpoint](https://huggingface.co/google/gemma-4-26B-A4B-it) and [Apache-2.0 license](https://ai.google.dev/gemma/apache_2).
+- [Hugging Face CLI download documentation](https://huggingface.co/docs/huggingface_hub/guides/cli).
+- [llama.cpp build and CPU-backend guidance](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md#notes-about-gpu-accelerated-backends).
+- [llama.cpp model loading](https://github.com/ggml-org/llama.cpp/blob/master/docs/models.md).
+- [Hugging Face with Ollama](https://huggingface.co/docs/hub/ollama) and [LM Studio](https://huggingface.co/docs/hub/lmstudio).
+- [VIDRAFT: on-device LLMs without a GPU](https://vidraft.net/insights/on-device-llm-without-gpu.html) and [model quantization](https://vidraft.net/insights/what-is-quantization-llm.html).
+
+Documentation reviewed on 2026-11-04.

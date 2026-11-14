@@ -100,7 +100,7 @@ The internal design of Chimera fusion and of the refinement pipeline — compone
 ## Links
 
 - **Darwin family** — https://huggingface.co/collections/FINAL-Bench/darwin-family
-- **Method paper (evolutionary merging)** — arXiv [2605.14386](https://arxiv.org/abs/2605.14386)
+- **Method paper (evolutionary merging)** — arXiv [2605.14386](https://huggingface.co/papers/2605.14386)
 - **VIDRAFT** — https://vidraft.net
 
 ## License

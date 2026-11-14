@@ -31,6 +31,7 @@ As a fair warning... this fine-tune will perform poorly outside of the Oxalis ap
 | repo root | Merged fp16 checkpoint |
 | `gguf/` | `shamrock-0-e4b-q4_k_m.gguf` + `mmproj-shamrock-0-e4b-f16.gguf`, what the app's llama.cpp runtime loads |
 | `MTP/` | Multi-token-prediction drafter for speculative decoding: `mtp-shamrock-0-e4b-Q8_0.gguf` (llama.cpp, serve with `--spec-type draft-mtp`) and the same head in HF format under `MTP/assistant/` |
+| `mlx/` | MLX 4-bit build for Apple silicon (loads with mlx-vlm); `MTP/assistant/` serves as its drafter |
 
 ## License
 
@@ -50,7 +51,7 @@ and say whether you changed it.
 
 shamrock-0-e4b is a modified version of
 [Gemma 4 E4B](https://huggingface.co/google/gemma-4-E4B-it) by Google DeepMind:
-its weights were fine-tuned and merged, then converted to GGUF with an added
+its weights were fine-tuned and merged, then converted to GGUF and MLX with an added
 MTP drafter. Gemma 4 itself is licensed under the Apache License 2.0
 (see [LICENSE-GEMMA](LICENSE-GEMMA) and the
 [Gemma 4 license](https://ai.google.dev/gemma/docs/gemma_4_license)); the CC

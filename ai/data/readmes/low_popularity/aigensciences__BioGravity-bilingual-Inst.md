@@ -123,7 +123,7 @@ The default generation prompt opens a `<think>` segment. Passing `enable_thinkin
 
 Support for this research comes from the **인공지능 특화 파운데이션 모델 프로젝트 (Domain-Specific Foundation Model Project)**. **과학기술정보통신부 (MSIT)** provides funding, and **정보통신산업진흥원 (NIPA)** administers the program.
 
-We thank **Lunit**, **Trillion Labs**, and the consortium's industry, academic, and hospital partners for the Gravity research collaboration. The [Lunit model card](https://huggingface.co/learning-unit/L1-30B-A5B#-acknowledgements) provides the consortium acknowledgements on which this statement is based. We also acknowledge the [Biomni project](https://github.com/snap-stanford/Biomni) for its agent framework and evaluation resources.
+We thank **Lunit**, **Trillion Labs**, **SK Biopharmaceuticals**, **Kakao Healthcare**, and the consortium's industry, academic, and hospital partners for the Gravity research collaboration. The [Lunit model card](https://huggingface.co/learning-unit/L1-30B-A5B#-acknowledgements) provides the consortium acknowledgements on which this statement is based. We also acknowledge the [Biomni project](https://github.com/snap-stanford/Biomni) for its agent framework and evaluation resources.
 
 ## License
 

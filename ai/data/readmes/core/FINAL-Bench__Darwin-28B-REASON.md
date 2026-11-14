@@ -92,7 +92,7 @@ Together they push graduate-level scientific reasoning to the top tier of the Da
 
 **Darwin** is VIDRAFT's measuring-result-driven Korean reasoning model family — approximately **20 official models** plus **400+ community derivatives**, ranking **#3 globally on GPQA** among open models. The base model, **Darwin-28B-Opus**, is the HuggingFace-official **GPQA #3 (88.89 %)** model.
 
-- **Platform technique** — MRI trust-weighted Evolutionary Merge ([arXiv:2605.14386](https://arxiv.org/abs/2605.14386)).
+- **Platform technique** — MRI trust-weighted Evolutionary Merge ([arXiv:2605.14386](https://huggingface.co/papers/2605.14386)).
 - **FINAL Bench** — VIDRAFT's evaluation framework (SSRN): MetaCognition **+14.05**, MA-ER Gap **0.392**.
 - **4-layer Pre-AGI roadmap** — Darwin → AETHER → PROMETHEUS → HEPHAESTUS.
 
@@ -218,7 +218,7 @@ print(tok.decode(outputs[0][inputs.input_ids.shape[-1]:], skip_special_tokens=Tr
   title  = {Darwin Family: MRI Trust-Weighted Evolutionary Merging for Reasoning Models},
   author = {VIDRAFT / FINAL-Bench},
   year   = {2026},
-  howpublished = {\url{https://arxiv.org/abs/2605.14386}}
+  howpublished = {\url{https://huggingface.co/papers/2605.14386}}
 }
 
 @misc{final_bench_2026,
@@ -241,6 +241,6 @@ print(tok.decode(outputs[0][inputs.input_ids.shape[-1]:], skip_special_tokens=Tr
 
 ---
 
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).
 
 *Darwin-28B-REASON · RTD + Darwin-DELPHI · 89.39 % GPQA Diamond · FINAL-Bench*

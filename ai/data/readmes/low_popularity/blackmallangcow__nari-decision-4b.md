@@ -59,6 +59,7 @@ A Korean + English **decision model**. Give it a *state* (text or JSON: a conver
 - **Reads the instruction, negation included.** Asked about the same text and options for the statement that matches and for the one that does not (1,000 held-out KLUE-NLI pairs, instruction wording not seen in training), it gets both right in 98.3% of pairs (v2: 98.9%).
 - **Fast: all questions in one forward pass.** 32 ms per request on one NVIDIA A100 80GB PCIe at batch 1 with `enable_cuda_graphs()` (63 ms without; mean of 5 requests) — on par with laya (English) at 30 ms, 56% faster than clef-flash (9B) (73 ms), 72% faster than Prompted Qwen3.5-4B (115 ms) and 77% faster than JEV-9B (141 ms). Longer states and more questions add little (25 → 44 ms from simple to complex requests); models that send one request per question grow with each (Prompted Qwen3.5-4B 94 → 146 ms, JEV-9B 86 → 225 ms). Only laya-multilingual is faster (23 ms), at 30–36% accuracy on the eval set.
 - **Calibrated confidence.** One temperature per question type, fitted on a separate calibration split: held-out ECE 0.012, eval set 0.041. Send low-confidence cases to a person or a larger model.
+- **Hosted API.** This version is also served as [BlackOX](https://api.blackmallangcow.com). Send the same `state` and `questions` as `decide()` to `POST https://api.blackmallangcow.com/v1/decide` ([docs](https://api.blackmallangcow.com/docs/start)).
 
 | Model | Size | Held-out ko | Held-out en | Eval set ko | Eval set en | ms / request |
 |---|---|---:|---:|---:|---:|---:|
@@ -77,6 +78,7 @@ Accuracy (%) after temperature calibration, same questions for every model (on h
 - **지시문을 읽습니다 (부정형 포함).** 같은 글·같은 보기에 맞는 것과 맞지 않는 것을 각각 물으면 (KLUE-NLI 검증 1,000쌍, 학습에 없던 지시문) 두 질문을 모두 맞히는 비율이 98.3%입니다 (v2: 98.9%).
 - **빠릅니다.** 질문 여러 개를 한 번의 forward로 판단해 NVIDIA A100 80GB PCIe 한 장, 배치 1에서 요청당 32ms입니다 (`enable_cuda_graphs()`를 켠 값이고 끄면 63ms, 5건 평균). laya (English) 30ms와 비슷하고, clef-flash (9B) 73ms보다 56%, Prompted Qwen3.5-4B 115ms보다 72%, JEV-9B 141ms보다 77% 빠릅니다. 질문이 늘고 상태가 길어져도 25ms → 44ms로 조금만 늘어납니다. 이보다 빠른 건 23ms인 laya-multilingual뿐이고, 평가셋 정확도는 30–36%입니다.
 - **확률이 보정되어 있습니다.** 질문 타입별 temperatures를 따로 떼어 둔 보정 분할로 맞춰 held-out ECE 0.012, 평가셋 0.041입니다. 확신이 낮은 건은 사람이나 더 큰 모델로 넘기면 됩니다.
+- **호스팅 API.** 이 버전을 [블랙OX](https://api.blackmallangcow.com)로도 씁니다. `decide()`와 같은 상태와 질문을 `POST https://api.blackmallangcow.com/v1/decide`로 보내면 됩니다 ([문서](https://api.blackmallangcow.com/docs/start)).
 
 ## Usage
 
@@ -210,6 +212,8 @@ Keys are `type:options` (`noul:2`, `choice:3-5`, `choice:6+`, `choice:2`, `score
 ## Versions
 
 - **v3.2** (2026-10-18, this version) — more decisions for agents and RAG: claim verification, checking a response against its sources, phishing and spam, choosing a tool or intent, commonsense and math. Each question family's answers are also balanced in the loss, so one task's yes/no habit does not leak into another. Continued from v2 (40,553 steps in total)
+  - Hosted API (2026-10-31): this version is also served as [BlackOX](https://api.blackmallangcow.com), an HTTP API. Send the same `state` and `questions` as `decide()` to `POST https://api.blackmallangcow.com/v1/decide`. Docs: https://api.blackmallangcow.com/docs/start
+  - 호스팅 API (2026-10-31): 이 버전을 HTTP API [블랙OX](https://api.blackmallangcow.com)로도 씁니다. `decide()`와 같은 상태와 질문을 `POST https://api.blackmallangcow.com/v1/decide`로 보내면 됩니다. 문서: https://api.blackmallangcow.com/docs/start
   - Decision Index 0.3, public suite (run locally, public part only): 38.49 → 44.80 (see the table under Evaluation)
   - New training data: HoVer, VitaminC, Fool Me Twice, FaithDial, MASSIVE-Agents, STAR, Taskmaster-3, BANKING77, Amazon ESCI, WinoGrande, CommonsenseQA, CSQA2, Social IQa, QASC, StrategyQA, AQuA-RAT, GSM8K, BLiMP, the Nazario and CLAIR phishing corpora, UCI SMS Spam, Korean public text messages, and new synthetic sets (response choice, RAG response checks, phishing). Training rows that overlap any Decision Index public benchmark were removed
   - System One eval set: 80.2% → 80.5% (Korean 82.6% → 82.1%, English 74.4% → 76.9%), ECE 0.034 → 0.041

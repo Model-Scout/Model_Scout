@@ -40,6 +40,9 @@ tags:
 base_model: LiquidAI/LFM2.5-24B-A2B
 ---
 
+<small><B style="font-family: 'Arial Black', sans-serif; font-weight: 900; color: #f1c40f; text-decoration: none; text-shadow: 1px 1px 0 #d35400, 2px 2px 0 #d35400, 3px 3px 0 #d35400, 4px 4px 0 #d35400, 5px 5px 0 #d35400, 6px 6px 7px rgba(0,0,0,0.4);">[DavidAU]</B> <a href="https://huggingface.co/DavidAU" target="_blank" style="padding-left:5px">FOLLOW</a> | <a href="https://huggingface.co/DavidAU" target="_blank">ALL MODELS</a> | <a href="https://huggingface.co/DavidAU/collections" target="_blank">COLLECTIONS</a> | <a href="https://huggingface.co/models?sort=trending&search=DavidAU" target="_blank">TRENDING</a> | <a href="https://huggingface.co/DavidAU/support" target="_blank">FAQs</a> | <a href="https://huggingface.co/DavidAU/support" target="_blank">SUPPORT</a>
+ | <a href="https://buymeacoffee.com/davidbelton" target="_blank">Buy Me A Coffee (😁)</a></small>
+
 <SMALL><B><font color="red">SOTA LFM speed, benchmarks and power plus Turbo Brilliance:</font></b> 15 AI CONSTRUCTS: Each a precision engineered "consciousness" to help you in every task, using fewer tokens and 
 generating better answers. This model has significant internal upgrades under user control that are "on the fly" (you set in your prompt(s) and/or API). 
 Please read this model card carefully to get the most from it - including all the reasoning (27) that feature model suggestions ("context help") for all use cases. 

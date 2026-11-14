@@ -721,10 +721,10 @@ Sampling metadata recorded from [ornith-ai/Ornith-1.5-35B-A3B](https://huggingfa
 > The repository ships the model's native Qwen3.5 chat template with parser-compatibility fixes:
 
 > 
-> 1. **Binary Thinking Control:** Native `enable_thinking: true/false` toggle.
+> 1. **Binary Thinking Control:** Native `enable_thinking: true/false` toggle and `reasoning_effort: 'none'/'off'` support.
 > 2. **Native Tool Calls:** Qwen XML `<tool_call><function=...><parameter=...>` format, compatible with `qwen3_xml` and llama.cpp's tool parser. The previous JSON tool format was removed.
-> 3. **Multi-Turn Thinking Memory:** Historical `<think>` blocks are preserved as in the native template.
-> 4. **Parser Compatibility:** No `~` concatenation, explicit guards for optional fields, and LF line endings. Parses in LM Studio 0.4.x and newer, llama.cpp, and Transformers.
+> 3. **Multi-Turn Thinking Memory:** Historical `<think>` blocks are handled cleanly (`preserve_thinking: true/false`), deduplicating `<think>` blocks and preventing phantom empty think tags on turns without reasoning.
+> 4. **Parser Compatibility:** No `~` concatenation, explicit guards for optional fields, multimodal string-list support, and LF line endings. Parses in LM Studio 0.4.x and newer, llama.cpp, and Transformers.
 > 
 
 > **Usage:**

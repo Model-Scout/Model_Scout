@@ -357,4 +357,4 @@ text = tokenizer.apply_chat_template(
   howpublished = {\url{https://huggingface.co/FINAL-Bench/Darwin-4B-David}}
 }
 ```
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

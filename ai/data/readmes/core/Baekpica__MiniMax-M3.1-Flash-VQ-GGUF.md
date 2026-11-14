@@ -61,6 +61,9 @@ indexer.
 > checkpoint. **Measured against the original, teacher-forced on held-out chats: KL 0.150 and the
 > same next token 88.2% of the time on assistant turns** (the original batched differently: KL
 > 0.003). The memory and kernel budgets below are the design computed from exact byte layouts.
+> **Benchmarks against the original, 2026-11-10: on MiniMax's settings the release scores CharXiv RQ
+> 77.5 vs 82.5 (93.9% of the original)** ([below](#benchmarks-against-the-original)); HLE
+> is running, LOCA-Bench 256K and Automation-Bench follow.
 
 ## At a glance
 
@@ -80,6 +83,7 @@ indexer.
 | KV contract | MSA index keys **resident** in NVFP4 (72 B per token and layer, 4.22 GiB at 1M); main K/V in NVFP4 (576 B per token and layer, 33.75 GiB at 1M) **on SSD**, read per selected block |
 | Chat template | Original `chat_template.jinja`, unchanged (`<mm:think>` reasoning, adaptive thinking, `reasoning_effort`, XML tool calls with the `]<]minimax[>[` namespace, image/video placeholders) |
 | Fidelity (release bytes vs the original, assistant turns) | KL **0.150**, same top-1 **88.2%** (13-bit everywhere: 0.223; [details](#measured-on-the-converted-bytes)) |
+| Benchmarks vs the original (GB10, ds4-dfm-rs) | **CharXiv RQ 77.5 vs 82.5 (93.9%)**; HLE running, LOCA-Bench 256K and Automation-Bench next ([below](#benchmarks-against-the-original)) |
 | Runtime | [ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs), family `minimax_m3_vq` ([merged PR #110](https://github.com/Baekpica/ds4-dfm-rs/pull/110)) |
 
 ## DGX Spark performance
@@ -244,6 +248,33 @@ row.
 block selection only engages beyond 2,048 tokens. Every routed expert of every layer receives
 calibration tokens (fewest per expert per layer: thousands).
 
+## Benchmarks against the original
+
+**CharXiv RQ 77.5 against the original's 82.5 (93.9%).**
+
+Run on this release on one DGX Spark (GB10) with
+[ds4-dfm-rs](https://github.com/Baekpica/ds4-dfm-rs) `main` `ed57f3b7`: a 524,288-token context
+with K/V on the SSD tier, DSpark drafts verified against the request's sampler, one request at a
+time. Sampling as MiniMax recommends (temperature 1.0, top-p 0.95) at `reasoning_effort` max,
+answers capped at 131,072 tokens. The original's scores are from
+[MiniMax's card](https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash).
+
+| Benchmark | Original | This release | Ratio |
+|---|---:|---:|---:|
+| CharXiv RQ (1,000 validation questions) | 82.5 | **77.5** (95% CI 74.8–80.0) | **93.9%** |
+| HLE, no tools (500 of 2,158 text-only) | 43.4 | running | |
+| LOCA-Bench 256K | 60.3 | queued | |
+| Automation-Bench v1.0.6 (600 public tasks) | 62.8 | queued | |
+
+CharXiv RQ: the 1,000 reasoning questions of CharXiv's validation split with the official
+prompts and the chart image, one sample each, graded by GPT-5.5 (MiniMax's judge) with
+CharXiv's official grading prompts. 775 of 1,000 correct; by answer type Text-in-Chart 75.0,
+Text-in-General 87.9, Number-in-Chart 84.9, Number-in-General 70.3. Every answer stopped on its
+own (median 584 tokens). Images enter at the shipped processor's 672×672 pixel budget.
+
+OSWorld 2.0, CyberGym, Agents' Last Exam, PostTrain Bench and SWE Refactor Bench need
+environments this host does not provide.
+
 ## Reference forward
 
 The statistics and every measurement come from a layer-streamed reference forward of the original
@@ -354,9 +385,27 @@ Transformers loaders do not read this format.
 
 ## Upstream scores
 
-From the [MiniMax-M3.1-Flash model card](https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash); they
-describe the original weights, not this quantization: BankerToolBench 76.2, DeepSWE v1.1 73.7,
-OSWorld 2.0 61.7, Agents' Last Exam 29.6, CyberGym 82.2, LOCA-Bench 256K 60.3, HLE (no tools) 43.4.
+From the [MiniMax-M3.1-Flash model card](https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash)
+(`ce7f4df8`); they describe the original weights, not this quantization. Scores measured on this
+release are [above](#benchmarks-against-the-original).
+
+| Benchmark | MiniMax-M3.1-Flash |
+|---|---:|
+| Automation-Bench v1.0.6 | 62.8 |
+| BankerToolBench | 76.2 |
+| GDP.pdf AA | 20.8 |
+| Terminal Bench 4.0 | 38.1 |
+| LOCA-Bench 256K | 60.3 |
+| Agents' Last Exam | 29.6 |
+| OSWorld 2.0 | 61.7 |
+| PostTrain Bench v1.1 | 39.3 |
+| DeepSWE v1.1 | 73.7 |
+| NL2Repo-Bench | 61.2 |
+| SWE Refactor Bench | 23.0 |
+| CyberGym | 82.2 |
+| BabyVision (with tools) | 91.0 |
+| HLE (without tools) | 43.4 |
+| CharXiv RQ | 82.5 |
 
 ## Credits and sources
 

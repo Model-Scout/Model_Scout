@@ -1,5 +1,6 @@
 ---
 base_model: Qwen/Qwen3-4B-Instruct-2507
+license: apache-2.0
 library_name: transformers
 pipeline_tag: text-generation
 language:
@@ -53,10 +54,8 @@ https://github.com/slvrfivo/ai-writing-eval
 - RMSE: **0.6213**
 - Spearman: **0.5697**
 - LLM Judge: **3.0337**
-- Preliminary leaderboard: **49th of 53 teams**
-- AI말평 Arena: **842 points, 44th of 50 models**
 
-The top 50 preliminary models entered the Arena expert human-evaluation stage.
+After the preliminary round, the model also took part in the AI말평 Arena expert human-evaluation stage.
 
 ## Training objective
 
@@ -70,6 +69,8 @@ The project used a score-focused weighted causal language-model objective. Super
 | Rationale | 0.05 |
 
 These weights were chosen heuristically for the competition setup. A uniform-loss QLoRA ablation was not run, so the improvement over zero-shot and statistical baselines should be attributed to the overall QLoRA fine-tuning setup rather than specifically to the weighted objective.
+
+Training used one essay per micro-batch with 8 gradient-accumulation steps, and the weighted loss was normalized by each essay's own weight sum. Weights that differ between tokens of one essay act as listed above; weights that scale a whole essay, such as the class weights in the v1b ablation, are largely divided back out.
 
 ## Generation
 

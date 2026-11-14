@@ -27,6 +27,10 @@ language:
 pipeline_tag: text-generation
 ---
 
+## Model files
+
+This repository contains the MTP GGUF variants **IQ4_XS, Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K, and Q8_0**, plus `mmproj-F32.gguf` for compatible multimodal runtimes. The full checkpoint is available at [DeepSeek-V4-Pro-Qwen3.5-9B](https://huggingface.co/Jackrong/DeepSeek-V4-Pro-Qwen3.5-9B).
+
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; border: 1px solid #cbd5e1; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05); overflow: hidden; background: #ffffff; margin-bottom: 30px;">
   <div style="background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%); padding: 24px; color: white;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">

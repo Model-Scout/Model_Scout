@@ -161,7 +161,7 @@ for refusal, leaving the rest of the network - including the vision tower, OCR b
 format - untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the
 [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** - follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** - follow for more uncensored models
 
 ## Files
 
@@ -323,6 +323,20 @@ Liquid quotes 228 tok/s on an Apple M5 Max, 116 tok/s on an AMD Ryzen AI Max+ 39
 resident, and 20 tok/s on a Galaxy S26 Ultra. It is tuned for single-turn, high-throughput,
 low-latency work rather than long-context reasoning.
 
+## FAQ
+
+### What is LFM2.5-VL-3B-heretic?
+
+`LFM2.5-VL-3B-heretic` is a decensored build of [`LiquidAI/LFM2.5-VL-3B`](https://huggingface.co/LiquidAI/LFM2.5-VL-3B) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is LFM2.5-VL-3B-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 100/100 to 6/100 at KL divergence 0.0645 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run LFM2.5-VL-3B-heretic locally?
+
+Text: `llama serve -hf saidutta69/LFM2.5-VL-3B-heretic:Q4_K_M`. Images: `llama-mtmd-cli -hf saidutta69/LFM2.5-VL-3B-heretic:Q4_K_M --mmproj LFM2.5-VL-3B-heretic-mmproj-F16.gguf`. The repo ships 15 GGUF quants plus the projector, so vision survives quantization.
+
 ## Responsible use
 
 Refusal suppression is deliberate and works as intended: this model will comply with requests the
@@ -344,6 +358,8 @@ the link above points at the base repository's license blob. Read it before depl
 - [saidutta69/LFM2.5-VL-450M-heretic](https://huggingface.co/saidutta69/LFM2.5-VL-450M-heretic) - the tiny multimodal sibling
 - [saidutta69/LFM2.5-1.2B-Instruct-heretic](https://huggingface.co/saidutta69/LFM2.5-1.2B-Instruct-heretic) - text-only LFM2.5
 
+
+- [RACER IS OP - Heretic Models - full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models) - every heretic model in this collection
 ## Abliteration hardware
 
 Recorded in `reproduce/reproduce.json`:

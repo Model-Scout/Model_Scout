@@ -1,0 +1,266 @@
+---
+language:
+- multilingual
+- af
+- am
+- ar
+- ast
+- az
+- ba
+- be
+- bg
+- bn
+- br
+- bs
+- ca
+- ceb
+- cs
+- cy
+- da
+- de
+- el
+- en
+- es
+- et
+- fa
+- ff
+- fi
+- fr
+- fy
+- ga
+- gd
+- gl
+- gu
+- ha
+- he
+- hi
+- hr
+- ht
+- hu
+- hy
+- id
+- ig
+- ilo
+- is
+- it
+- ja
+- jv
+- ka
+- kk
+- km
+- kn
+- ko
+- lb
+- lg
+- ln
+- lo
+- lt
+- lv
+- mg
+- mk
+- ml
+- mn
+- mr
+- ms
+- my
+- ne
+- nl
+- 'no'
+- ns
+- oc
+- or
+- pa
+- pl
+- ps
+- pt
+- ro
+- ru
+- sd
+- si
+- sk
+- sl
+- so
+- sq
+- sr
+- ss
+- su
+- sv
+- sw
+- ta
+- th
+- tl
+- tn
+- tr
+- uk
+- ur
+- uz
+- vi
+- wo
+- xh
+- yi
+- yo
+- zh
+- zu
+license: mit
+tags:
+- nmt
+base_model:
+- facebook/m2m100_418M
+pipeline_tag: translation
+---
+
+From: https://huggingface.co/facebook/m2m100_418M
+
+# M2M100 418M
+
+M2M100 is a multilingual encoder-decoder (seq-to-seq) model trained for Many-to-Many multilingual translation.
+It was introduced in this [paper](https://arxiv.org/abs/2010.11125) and first released in [this](https://github.com/pytorch/fairseq/tree/master/examples/m2m_100) repository.
+
+The model that can directly translate between the 9,900 directions of 100 languages.
+To translate into a target language, the target language id is forced as the first generated token.
+To force the target language id as the first generated token, pass the `forced_bos_token_id` parameter to the `generate` method.
+
+*Note: `M2M100Tokenizer` depends on `sentencepiece`, so make sure to install it before running the example.*
+
+To install `sentencepiece` run `pip install sentencepiece`
+
+See the [model hub](https://huggingface.co/models?filter=m2m_100) to look for more fine-tuned versions.
+
+
+## Languages covered
+Afrikaans (af), Amharic (am), Arabic (ar),  Asturian (ast), Azerbaijani (az), Bashkir (ba), Belarusian (be), Bulgarian (bg), Bengali (bn), Breton (br), Bosnian (bs), Catalan; Valencian (ca), Cebuano (ceb), Czech (cs), Welsh (cy), Danish (da), German (de), Greeek (el), English (en), Spanish (es), Estonian (et), Persian (fa), Fulah (ff), Finnish (fi), French (fr), Western Frisian (fy), Irish (ga), Gaelic; Scottish Gaelic (gd), Galician (gl), Gujarati (gu), Hausa (ha), Hebrew (he), Hindi (hi), Croatian (hr), Haitian; Haitian Creole (ht), Hungarian (hu), Armenian (hy), Indonesian (id), Igbo (ig),  Iloko (ilo), Icelandic (is), Italian (it), Japanese (ja), Javanese (jv), Georgian (ka), Kazakh (kk), Central Khmer (km), Kannada (kn), Korean (ko), Luxembourgish; Letzeburgesch (lb), Ganda (lg), Lingala (ln), Lao (lo), Lithuanian (lt), Latvian (lv), Malagasy (mg), Macedonian (mk), Malayalam (ml), Mongolian (mn), Marathi (mr), Malay (ms), Burmese (my), Nepali (ne), Dutch; Flemish (nl), Norwegian (no),  Northern Sotho (ns), Occitan (post 1500) (oc), Oriya (or), Panjabi; Punjabi (pa), Polish (pl), Pushto; Pashto (ps), Portuguese (pt), Romanian; Moldavian; Moldovan (ro), Russian (ru), Sindhi (sd), Sinhala; Sinhalese (si), Slovak (sk), Slovenian (sl), Somali (so), Albanian (sq), Serbian (sr), Swati (ss), Sundanese (su), Swedish (sv), Swahili (sw), Tamil (ta), Thai (th), Tagalog (tl), Tswana (tn), Turkish (tr), Ukrainian (uk), Urdu (ur), Uzbek (uz), Vietnamese (vi), Wolof (wo), Xhosa (xh), Yiddish (yi), Yoruba (yo), Chinese (zh), Zulu (zu)
+
+
+## BibTeX entry and citation info
+```
+@misc{fan2020englishcentric,
+      title={Beyond English-Centric Multilingual Machine Translation}, 
+      author={Angela Fan and Shruti Bhosale and Holger Schwenk and Zhiyi Ma and Ahmed El-Kishky and Siddharth Goyal and Mandeep Baines and Onur Celebi and Guillaume Wenzek and Vishrav Chaudhary and Naman Goyal and Tom Birch and Vitaliy Liptchinsky and Sergey Edunov and Edouard Grave and Michael Auli and Armand Joulin},
+      year={2020},
+      eprint={2010.11125},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+## How to download this model using python
+- Install Python https://www.python.org/downloads/
+- `cmd`
+- `python --version`
+- `python -m pip install huggingface_hub`
+- `python`
+
+```
+import huggingface_hub
+huggingface_hub.download_snapshot('entai2965/m2m100-418M-ctranslate2',local_dir='m2m100-418M-ctranslate2')
+```
+
+## How to run this model
+- https://opennmt.net/CTranslate2/guides/transformers.html#m2m-100
+- `cmd`
+- `python -m pip install ctranslate2 transformers sentencepiece`
+- `python`
+```
+import ctranslate2
+import transformers
+
+translator = ctranslate2.Translator("m2m100-418M-ctranslate2", device="cpu")
+tokenizer = transformers.AutoTokenizer.from_pretrained("m2m100-418M-ctranslate2",clean_up_tokenization_spaces=True)
+tokenizer.src_lang = "en"
+
+source = tokenizer.convert_ids_to_tokens(tokenizer.encode("Hello world!"))
+target_prefix = [tokenizer.lang_code_to_token["de"]]
+results = translator.translate_batch([source], target_prefix=[target_prefix])
+target = results[0].hypotheses[0][1:]
+
+print(tokenizer.decode(tokenizer.convert_tokens_to_ids(target)))
+```
+
+## How to run this model (batch syntax)
+
+```
+import os
+import ctranslate2
+import transformers
+
+#set defaults
+home_path=os.path.expanduser('~')
+model_path=home_path+'/Downloads/models/m2m100-418M-ctranslate2'
+#model_path=home_path+'/Downloads/models/m2m100-1.2B-ctranslate2'
+
+#available languages list ->  https://huggingface.co/facebook/m2m100_1.2B   <-
+source_language_code='ja'
+target_language_code='es'
+
+device='cpu'
+#device='cuda'
+
+#load data
+string1='イキリカメラマン'
+string2='おかあさん'
+string3='人生はチョコレートの箱のようなものです。彼らは皆毒殺されています。'
+list_to_translate=[string1,string2,string3]
+
+#load model and tokenizer
+translator=ctranslate2.Translator(model_path,device=device)
+tokenizer=transformers.AutoTokenizer.from_pretrained(model_path,clean_up_tokenization_spaces=True)
+
+#configure languages
+tokenizer.src_lang=source_language_code
+target_language_token=[tokenizer.lang_code_to_token[target_language_code]]
+
+#encode
+encoded_list=[]
+for text in list_to_translate:
+    encoded_list.append(tokenizer.convert_ids_to_tokens(tokenizer.encode(text)))
+
+#translate
+#https://opennmt.net/CTranslate2/python/ctranslate2.Translator.html?#ctranslate2.Translator.translate_batch
+translated_list=translator.translate_batch(encoded_list, target_prefix=[target_language_token]*len(encoded_list))
+
+#decode
+for counter,tokens in enumerate(translated_list):
+    translated_list[counter]=tokenizer.decode(tokenizer.convert_tokens_to_ids(tokens.hypotheses[0][1:]))
+
+#output
+for text in translated_list:
+    print(text)
+```
+
+[Functional programming](https://docs.python.org/3/howto/functional.html) version
+
+```
+import os
+import ctranslate2
+import transformers
+
+#set defaults
+home_path=os.path.expanduser('~')
+model_path=home_path+'/Downloads/models/m2m100-418M-ctranslate2'
+#model_path=home_path+'/Downloads/models/m2m100-1.2B-ctranslate2'
+
+#available languages list ->  https://huggingface.co/facebook/m2m100_1.2B   <-
+source_language_code='ja'
+target_language_code='es'
+
+device='cpu'
+#device='cuda'
+
+#load data
+string1='イキリカメラマン'
+string2='おかあさん'
+string3='人生はチョコレートの箱のようなものです。彼らは皆毒殺されています。'
+list_to_translate=[string1,string2,string3]
+
+#load model and tokenizer
+translator=ctranslate2.Translator(model_path,device=device)
+tokenizer=transformers.AutoTokenizer.from_pretrained(model_path,clean_up_tokenization_spaces=True)
+tokenizer.src_lang=source_language_code
+
+#invoke witchcraft
+translated_list=[tokenizer.decode(tokenizer.convert_tokens_to_ids(tokens.hypotheses[0][1:])) for tokens in translator.translate_batch([tokenizer.convert_ids_to_tokens(tokenizer.encode(i)) for i in list_to_translate], target_prefix=[[tokenizer.lang_code_to_token[target_language_code]]]*len(list_to_translate))]
+
+#output
+for text in translated_list:
+    print(text)
+```

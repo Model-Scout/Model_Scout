@@ -1,6 +1,7 @@
 ---
 license: mit
 base_model: microsoft/VibeVoice-ASR-Streaming-1.5B
+base_model_relation: quantized
 pipeline_tag: automatic-speech-recognition
 library_name: litert-lm
 language:
@@ -156,6 +157,8 @@ Converted with `litert-torch` 0.9.3/0.9.4, ai-edge-quantizer 0.9.0, litert-lm-bu
 - **GPU**: the LM runs on Metal (macOS) and the Android OpenCL delegate (Adreno; on Mali the GPU LM is correct but slower than the CPU); the audio encoder returns an empty transcript on both GPU delegates (also with fp32 activations — a conv-stack issue, not the fp16 range), so keep `audio_backend` on CPU.
 
 ## Known runtime issues
+
+**External weights (since 2026-11-09).** In `VibeVoice-ASR-Streaming-1.5B.litertlm` and `VibeVoice-ASR-Streaming-1.5B_int8.litertlm`, the weights sit in TFLiteWeights sections at the end of the file (LiteRT's external weights) instead of inside the model graph. On Android, the GPU path needs LiteRT-LM 0.19.0 or later: the GPU engine of the v0.18.0 and v0.18.1 Android builds crashes (SIGSEGV) on such a file ([LiteRT-LM#3986](https://github.com/google-ai-edge/LiteRT-LM/issues/3986)). The earlier files with the weights inside the graph stay at revision [`71ccc4c`](https://huggingface.co/litert-community/VibeVoice-ASR-Streaming-1.5B/tree/71ccc4ca691b4d806046b08050cd5a19249b5ce0).
 
 From a conversation preface (the system message, initial messages, tools and extra context a conversation is created with) that has tools and no messages, LiteRT-LM renders these files' chat template with an empty message list, and the template reads `messages[0]` without checking that the list is non-empty, so the render fails with `Failed to apply template: undefined value`. This happens in two places: when the preface is prefilled at creation (`prefillPrefaceOnInit = true` in Kotlin, `prefillPrefaceOnInit: true` on the web, `SetPrefillPrefaceOnInit(true)` in C++; the default is false), where creating the conversation fails with that error, and in the preface render (`renderPrefaceIntoString()` in Kotlin and Swift, `RenderPrefaceIntoString()` in C++, `litert_lm_conversation_render_preface_to_string` in the C API). The same happens with extra context (such as `enable_thinking`) and no messages, and in the preface render with an empty preface (run in the runtime on one Qwen3 template; the other templates rendered with minijinja 2.14 and jinja2). Read in the source of LiteRT-LM 0.17.0, 0.18.1 and main; measured with LiteRT-LM 0.18.1 (the litert-lm package from PyPI) through its C API on these files' template text. The default path, where the first message is rendered together with the preface, is not affected: the Python API and the CLI of 0.18.1 expose neither the flag nor the preface render, and Google AI Edge Gallery sets neither (its source as read on 2026-10-25). A system message or any initial message in the conversation config avoids it.
 
