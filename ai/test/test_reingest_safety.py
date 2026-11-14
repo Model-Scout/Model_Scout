@@ -883,6 +883,7 @@ def test_full_stage1_requires_reingest():
 # ── workflow ──────────────────────────────────────────────────────────────
 
 WORKFLOW = ROOT.parent / ".github" / "workflows" / "model-scout-reingest.yml"
+PERSIST_SCRIPT = ROOT / "persist_reingest_snapshots.sh"
 
 
 def _workflow() -> Dict[str, Any]:
@@ -924,14 +925,16 @@ def test_workflow_persists_stage1_only_after_a_successful_apply():
     persist = _steps("apply")["Persist snapshots after apply"]
     assert flow["jobs"]["apply"]["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
     assert names.index("Persist snapshots after apply") > names.index("Apply the reviewed bundle to Supabase")
+    script = PERSIST_SCRIPT.read_text(encoding="utf-8")
     for filename in sync.STAGE1_SNAPSHOT_FILES:
-        assert f"data/{filename}" in persist["run"], filename
+        assert f"data/{filename}" in script, filename
     for kept in ("hf_models_stage2_contract_core.jsonl", "hf_models_stage3_core.jsonl",
                  "hf_models_stage4_manifest.json", "data/readmes/core"):
-        assert kept in persist["run"], kept
-    assert "hf_models_stage4_core.jsonl" not in persist["run"], "Stage 4 대용량 파일을 커밋하지 않는다"
+        assert kept in script, kept
+    assert "hf_models_stage4_core.jsonl" not in script, "Stage 4 대용량 파일을 커밋하지 않는다"
     # 긴 실행 중 main 이 움직여도 DB 와 저장소 스냅샷이 어긋나지 않게 rebase 후 재시도한다.
-    assert "git pull --rebase && git push" in persist["run"]
+    assert "git restore --worktree ." in script
+    assert "git pull --rebase" in script and "git push origin HEAD:main" in script
 
 
 def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():

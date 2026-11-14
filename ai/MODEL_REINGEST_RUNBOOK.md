@@ -28,6 +28,7 @@ Stage 2 로 가는 것은 A 후보 중 Core ∪ Low 뿐이다. Likely(B)·Fallba
 | `dry-run` | Stage 1~4 생성, 보고서 artifact, **승인용 번들 artifact**(`reingest-bundle-<run_id>`) | **읽기만** (직전 sync 기록, active ID, 용량) |
 | `resume-finalize` | 검증된 이전 Stage 1~3 checkpoint를 복원해 Stage 4부터 재개 | **읽기만** |
 | `apply` | 승인한 dry-run 번들을 받아 검증 → 그대로 놓고 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋. **Stage 1~4 를 다시 만들지 않는다** | 씀 |
+| `persist-snapshots` | DB apply는 완료됐지만 마지막 Git push만 실패했을 때, DB와 승인 번들의 해시를 대조하고 스냅샷 커밋만 복구 | **읽기만** |
 
 `apply` 는 `main` 에서 `confirm=APPLY` 와 `approved_run_id`(승인한 dry-run 의 run ID)가 있을 때만 돈다.
 apply 에는 HF·OpenAI 키를 주지 않는다.
@@ -246,7 +247,9 @@ LFS 에 올리지 않는다.
   migration 은 그대로 두어도 예전 동작(15개 인자 + 후처리)으로 돌아간다.
 - apply 가 실패하면 트랜잭션이 롤백되고 스냅샷 커밋 단계는 돌지 않는다.
 - apply 는 성공했는데 스냅샷 push 가 세 번 다 실패하면 Action 이 실패로 끝난다. DB 는 이미 반영됐으므로
-  다시 apply 하지 말고, 그 run 의 스냅샷 커밋을 수동으로 올린다.
+  다시 apply 하지 않는다. 수정 PR을 병합한 뒤 `mode=persist-snapshots`,
+  `approved_run_id=<DB에 기록된 승인 run ID>`, `confirm=PERSIST`를 실행한다. 이 모드는 최신 completed
+  sync의 승인 ID·번들 SHA256·모델 ID SHA256·행 수가 artifact와 모두 같을 때만 스냅샷을 복구하며 DB에는 쓰지 않는다.
 - apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
   - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
   - 스냅샷 커밋은 `git revert` 로 되돌린다.

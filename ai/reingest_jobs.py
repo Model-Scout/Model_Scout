@@ -41,9 +41,11 @@ RESUME_ALLOWED_PATHS = {
     ".github/workflows/model-scout-reingest.yml",
     "ai/04_build_embeddings.py",
     "ai/reingest_jobs.py",
+    "ai/persist_reingest_snapshots.sh",
     "ai/MODEL_REINGEST_RUNBOOK.md",
     "ai/test/test_reingest_jobs.py",
     "ai/test/test_reingest_bundle.py",
+    "ai/test/test_reingest_safety.py",
     "ai/test/test_stage3_pool_reconciliation.py",
 }
 if str(ROOT) not in sys.path:
@@ -507,6 +509,75 @@ def resume_finalize(
     return result
 
 
+def recover_snapshots(bundle_dir: Path, approved_run_id: str) -> Dict[str, Any]:
+    """Restore snapshots only after the exact reviewed bundle is already in DB.
+
+    This is intentionally not an apply retry.  It verifies the artifact, proves
+    that the newest completed Supabase run was produced from that same bundle,
+    and only then installs its files for the Git snapshot commit.
+    """
+    manifest_path = bundle_dir / sync.BUNDLE_MANIFEST
+    if not manifest_path.exists():
+        raise RuntimeError(f"bundle manifest is missing: {manifest_path}")
+    raw = json.loads(manifest_path.read_text(encoding="utf-8"))
+    current = sync.git_identity()
+    source_sha = str(raw.get("git_sha") or "")
+    current_sha = str(current.get("git_sha") or "")
+    if current.get("git_ref") != "main":
+        raise RuntimeError("persist-snapshots must run from main")
+    ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", source_sha, current_sha],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if ancestor.returncode != 0:
+        raise RuntimeError("approved bundle commit is not an ancestor of current main")
+    changed = git_changed_paths(source_sha, current_sha)
+    unexpected = sorted(changed - RESUME_ALLOWED_PATHS)
+    if unexpected:
+        raise RuntimeError(
+            "unrelated files changed after the approved bundle; refusing snapshot recovery: "
+            + ", ".join(unexpected)
+        )
+
+    manifest = sync.verify_reingest_bundle(
+        bundle_dir,
+        approved_run_id=approved_run_id,
+        repository=str(current["repository"]),
+        git_sha=source_sha,
+        latest_sync_run_id=raw.get("supabase_latest_sync_run_id"),
+    )
+    latest = sync.latest_completed_sync(any_versions=True)
+    if latest is None:
+        raise RuntimeError("completed Supabase sync record is missing")
+    versions = latest.get("stage_versions") or {}
+    checks = {
+        "approved_dry_run_id": (str(versions.get("approved_dry_run_id")), str(approved_run_id)),
+        "bundle_sha256": (str(versions.get("bundle_sha256")), str(manifest["bundle_sha256"])),
+        "model_ids_sha256": (str(versions.get("model_ids_sha256")), str(manifest["model_ids_sha256"])),
+        "row_count": (int(latest.get("row_count") or -1), int(manifest["model_count"])),
+    }
+    mismatches = [
+        f"{key}: DB {actual!r} != bundle {expected!r}"
+        for key, (actual, expected) in checks.items()
+        if actual != expected
+    ]
+    if mismatches:
+        raise RuntimeError(
+            "the approved bundle is not the newest completed Supabase apply:\n- "
+            + "\n- ".join(mismatches)
+        )
+    sync.install_reingest_bundle(bundle_dir, manifest)
+    return {
+        "recovered": True,
+        "approved_run_id": str(approved_run_id),
+        "supabase_run_id": latest["run_id"],
+        "row_count": latest["row_count"],
+        "bundle_sha256": manifest["bundle_sha256"],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -535,6 +606,10 @@ def main() -> int:
     resume_parser.add_argument("--source-run-id", required=True)
     resume_parser.add_argument("--output", type=Path, default=WORK_DIR / "refresh-info.json")
 
+    recover_parser = subparsers.add_parser("recover-snapshots")
+    recover_parser.add_argument("--bundle", type=Path, required=True)
+    recover_parser.add_argument("--approved-run-id", required=True)
+
     args = parser.parse_args()
     if args.command == "preflight":
         result = preflight()
@@ -547,8 +622,10 @@ def main() -> int:
         result = stage3(args.state, args.output)
     elif args.command == "finalize":
         result = finalize(args.state, args.output)
-    else:
+    elif args.command == "resume-finalize":
         result = resume_finalize(args.state, args.source_run_id, args.output)
+    else:
+        result = recover_snapshots(args.bundle, args.approved_run_id)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 

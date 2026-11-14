@@ -7,6 +7,7 @@ import os
 import sys
 import tempfile
 import types
+import json
 from contextlib import contextmanager
 from pathlib import Path
 
@@ -284,6 +285,86 @@ def test_benchmark_reader_rejects_a_clean_checkout_lfs_pointer():
             assert "Stage 4 checkpoint" in str(error)
         else:
             raise AssertionError("Git LFS pointer was parsed as model JSONL")
+
+
+def test_snapshot_recovery_requires_the_exact_completed_db_apply():
+    calls = []
+    verified = {
+        "bundle_sha256": "bundle-hash",
+        "model_ids_sha256": "models-hash",
+        "model_count": 4017,
+    }
+    latest = {
+        "run_id": "sync-10",
+        "row_count": 4017,
+        "stage_versions": {
+            "approved_dry_run_id": "43565453534",
+            "bundle_sha256": "bundle-hash",
+            "model_ids_sha256": "models-hash",
+        },
+    }
+    completed = types.SimpleNamespace(returncode=0)
+    with tempfile.TemporaryDirectory() as directory:
+        bundle = Path(directory)
+        (bundle / jobs.sync.BUNDLE_MANIFEST).write_text(
+            json.dumps({
+                "git_sha": "a" * 40,
+                "supabase_latest_sync_run_id": "sync-before",
+            }),
+            encoding="utf-8",
+        )
+        with patched(jobs, git_changed_paths=lambda old, new: set()), patched(
+            jobs.subprocess, run=lambda *args, **kwargs: completed
+        ), patched(
+            jobs.sync,
+            git_identity=lambda: identity("99"),
+            verify_reingest_bundle=lambda *args, **kwargs: verified,
+            latest_completed_sync=lambda any_versions=True: latest,
+            install_reingest_bundle=lambda path, manifest: calls.append((path, manifest)),
+        ):
+            result = jobs.recover_snapshots(bundle, "43565453534")
+
+    assert result["recovered"] is True
+    assert result["row_count"] == 4017
+    assert calls == [(bundle, verified)]
+
+
+def test_snapshot_recovery_rejects_a_different_db_bundle():
+    verified = {
+        "bundle_sha256": "reviewed",
+        "model_ids_sha256": "models-hash",
+        "model_count": 4017,
+    }
+    latest = {
+        "run_id": "sync-10",
+        "row_count": 4017,
+        "stage_versions": {
+            "approved_dry_run_id": "43565453534",
+            "bundle_sha256": "different",
+            "model_ids_sha256": "models-hash",
+        },
+    }
+    with tempfile.TemporaryDirectory() as directory:
+        bundle = Path(directory)
+        (bundle / jobs.sync.BUNDLE_MANIFEST).write_text(
+            json.dumps({"git_sha": "a" * 40, "supabase_latest_sync_run_id": "sync-before"}),
+            encoding="utf-8",
+        )
+        with patched(jobs, git_changed_paths=lambda old, new: set()), patched(
+            jobs.subprocess, run=lambda *args, **kwargs: types.SimpleNamespace(returncode=0)
+        ), patched(
+            jobs.sync,
+            git_identity=lambda: identity("99"),
+            verify_reingest_bundle=lambda *args, **kwargs: verified,
+            latest_completed_sync=lambda any_versions=True: latest,
+            install_reingest_bundle=lambda *args: (_ for _ in ()).throw(AssertionError("installed")),
+        ):
+            try:
+                jobs.recover_snapshots(bundle, "43565453534")
+            except RuntimeError as error:
+                assert "bundle_sha256" in str(error)
+            else:
+                raise AssertionError("a different DB bundle was accepted")
 
 
 if __name__ == "__main__":
