@@ -29,6 +29,7 @@ POOLS = ("core", "low_popularity")
 DEFAULT_MODEL = "text-embedding-3-small"
 DEFAULT_BATCH_SIZE = 32
 DB_CACHE_MIN_COVERAGE = 0.90
+DEFAULT_DB_CACHE_MAX_MISS_FRACTION = 1.0 - DB_CACHE_MIN_COVERAGE
 DB_CACHE_MIN_CANDIDATES = 100
 STAGE4_VERSION = 1
 EXPECTED_STAGE1_VERSION = 7
@@ -721,8 +722,11 @@ def should_refuse_db_reembedding(
     document_count: int,
     candidate_count: int,
     cache_count: int,
+    max_miss_fraction: float = DEFAULT_DB_CACHE_MAX_MISS_FRACTION,
 ) -> bool:
     """Protect against broad paid re-embedding, not small incremental changes."""
+    if not 0.0 <= max_miss_fraction <= 1.0:
+        raise ValueError("max_miss_fraction must be between 0 and 1")
     if candidate_count == 0:
         return False
     broad_rebuild_threshold = max(
@@ -732,7 +736,53 @@ def should_refuse_db_reembedding(
     if candidate_count < broad_rebuild_threshold:
         return False
     coverage = cache_count / candidate_count
-    return cache_count == 0 or coverage < DB_CACHE_MIN_COVERAGE
+    required_coverage = 1.0 - max_miss_fraction
+    return cache_count == 0 or coverage < required_coverage
+
+
+def aggregate_db_cache_coverage(
+    pools: Sequence[str],
+    model: str,
+) -> Dict[str, int]:
+    """Measure cache coverage across all pools before a full rebuild.
+
+    A full catalog scan can move models between Core and Low. Guarding each
+    pool independently can therefore reject a safe global replacement ratio
+    merely because the new rows are concentrated in one pool. The paid-call
+    guard is evaluated once across the complete disjoint corpus; each pool
+    still loads and reuses its own vectors during the actual build.
+    """
+
+    document_count = 0
+    candidate_ids: List[str] = []
+    for pool in pools:
+        source_rows = read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
+        contracts = {
+            record["model_id"]: record
+            for record in read_jsonl(DATA_DIR / f"hf_models_stage2_contract_{pool}.jsonl")
+        }
+        for row in source_rows:
+            record = contracts.get(row.get("model_id"))
+            if record is not None:
+                row["contract"] = record
+        validate_source(source_rows, pool)
+        documents = [build_document(row, model) for row in source_rows]
+        document_count += len(documents)
+
+        canonical_output = DATA_DIR / f"hf_models_stage4_{pool}.jsonl"
+        checkpoint_path = DATA_DIR / f".stage4_{pool}_checkpoint.jsonl"
+        existing = load_snapshot_by_id(canonical_output)
+        if checkpoint_path.exists():
+            existing = load_snapshot_by_id(checkpoint_path)
+        candidate_ids.extend(db_cache_candidate_ids(documents, existing, model))
+
+    unique_candidate_ids = list(dict.fromkeys(candidate_ids))
+    cached = load_db_embedding_cache(unique_candidate_ids)
+    return {
+        "documents": document_count,
+        "candidates": len(unique_candidate_ids),
+        "cached": len(cached),
+    }
 
 
 def run_pool(
@@ -744,6 +794,8 @@ def run_pool(
     sample_strategy: str,
     db_cache: bool = False,
     model_ids: Optional[Set[str]] = None,
+    max_db_cache_miss_fraction: float = DEFAULT_DB_CACHE_MAX_MISS_FRACTION,
+    enforce_db_cache_guard: bool = True,
 ) -> Dict[str, Any]:
     source_rows = read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
     # 계약 레코드는 Stage 2 가 별도 파일에 쓴다. 없으면 계약 필드 없이 돈다 —
@@ -798,13 +850,18 @@ def run_pool(
             # If the local vector snapshot is absent, refuse to silently turn a
             # partial DB migration into a full paid re-embedding run. A small
             # number of missing IDs is expected for genuinely new models.
-            if db_candidate_ids:
+            if db_candidate_ids and enforce_db_cache_guard:
                 if should_refuse_db_reembedding(
-                    len(documents), len(db_candidate_ids), len(db_existing)
+                    len(documents),
+                    len(db_candidate_ids),
+                    len(db_existing),
+                    max_miss_fraction=max_db_cache_miss_fraction,
                 ):
                     raise RuntimeError(
                         "Supabase embedding cache coverage is too low for DB-canonical "
-                        f"Stage 4 ({len(db_existing)}/{len(db_candidate_ids)}); refusing a full re-embedding run"
+                        f"Stage 4 ({len(db_existing)}/{len(db_candidate_ids)}; "
+                        f"max miss {max_db_cache_miss_fraction:.1%}); "
+                        "refusing a full re-embedding run"
                     )
             existing.update(db_existing)
             db_reused = len(db_existing)
@@ -892,6 +949,15 @@ def main() -> int:
         help="reuse matching embeddings from Supabase before calling the embedding API",
     )
     parser.add_argument(
+        "--max-db-cache-miss-fraction",
+        type=float,
+        default=DEFAULT_DB_CACHE_MAX_MISS_FRACTION,
+        help=(
+            "maximum broad DB-cache miss fraction before refusing paid re-embedding "
+            "(default: 0.10)"
+        ),
+    )
+    parser.add_argument(
         "--model-ids-file",
         type=Path,
         default=None,
@@ -913,6 +979,8 @@ def main() -> int:
         parser.error("--batch-size must be positive")
     if args.db_cache and not args.execute:
         parser.error("--db-cache requires --execute")
+    if not 0.0 <= args.max_db_cache_miss_fraction <= 1.0:
+        parser.error("--max-db-cache-miss-fraction must be between 0 and 1")
 
     load_dotenv(ROOT / ".env")
     model_ids = load_model_ids(args.model_ids_file)
@@ -920,6 +988,22 @@ def main() -> int:
     pools = POOLS if args.pool == "all" else (args.pool,)
     if args.pool == "all":
         validate_stage3_pool_disjointness(pools)
+    aggregate_guard_complete = False
+    if args.execute and args.db_cache and args.pool == "all" and args.limit is None and model_ids is None:
+        coverage = aggregate_db_cache_coverage(pools, model)
+        if should_refuse_db_reembedding(
+            coverage["documents"],
+            coverage["candidates"],
+            coverage["cached"],
+            max_miss_fraction=args.max_db_cache_miss_fraction,
+        ):
+            raise RuntimeError(
+                "Supabase embedding cache coverage is too low for the complete "
+                f"DB-canonical Stage 4 corpus ({coverage['cached']}/{coverage['candidates']}; "
+                f"max miss {args.max_db_cache_miss_fraction:.1%}); "
+                "refusing a broad paid re-embedding run"
+            )
+        aggregate_guard_complete = True
     summaries = [
         run_pool(
             pool,
@@ -927,10 +1011,12 @@ def main() -> int:
             args.limit,
             args.execute,
             args.batch_size,
-                args.sample_strategy,
-                db_cache=args.db_cache,
-                model_ids=model_ids,
-            )
+            args.sample_strategy,
+            db_cache=args.db_cache,
+            model_ids=model_ids,
+            max_db_cache_miss_fraction=args.max_db_cache_miss_fraction,
+            enforce_db_cache_guard=not aggregate_guard_complete,
+        )
         for pool in pools
     ]
     result = {"stage4_version": STAGE4_VERSION, "model": model, "summaries": summaries}

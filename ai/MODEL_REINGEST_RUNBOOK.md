@@ -26,6 +26,7 @@ Stage 2 로 가는 것은 A 후보 중 Core ∪ Low 뿐이다. Likely(B)·Fallba
 |---|---|---|
 | `validate` | 컴파일·계약 스키마·오프라인 테스트. 네트워크 호출 없음 | 안 읽음 |
 | `dry-run` | Stage 1~4 생성, 보고서 artifact, **승인용 번들 artifact**(`reingest-bundle-<run_id>`) | **읽기만** (직전 sync 기록, active ID, 용량) |
+| `resume-finalize` | 검증된 이전 Stage 1~3 checkpoint를 복원해 Stage 4부터 재개 | **읽기만** |
 | `apply` | 승인한 dry-run 번들을 받아 검증 → 그대로 놓고 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋. **Stage 1~4 를 다시 만들지 않는다** | 씀 |
 
 `apply` 는 `main` 에서 `confirm=APPLY` 와 `approved_run_id`(승인한 dry-run 의 run ID)가 있을 때만 돈다.
@@ -50,8 +51,10 @@ finalize: Stage 3 checkpoint 복원 → Stage 4 → 3.5 benchmark 통합 → 승
 각 checkpoint에는 저장소·commit SHA·branch·GitHub run ID와 dry-run 시작 시점의 최신
 Supabase sync run ID가 묶인다. 하나라도 달라지면 이어 실행하지 않는다. 그래서 중간 job이
 실패해도 DB는 바뀌지 않는다. Stage 3 성공 결과도 별도 artifact 로 보존하므로 같은 run 의
-finalize 만 실패했다면 `Re-run failed jobs`가 유료 Stage 3를 다시 호출하지 않는다. 코드 수정이나
-main 변경이 필요해 새 run 을 만드는 경우에는 identity 가 달라지므로 dry-run 을 처음부터 다시 한다.
+finalize 만 실패했다면 `Re-run failed jobs`가 유료 Stage 3를 다시 호출하지 않는다. Stage 4/finalize
+복구 코드를 고치느라 새 run이 필요하면 `resume-finalize`와 원본 `source_run_id`로 Stage 3 checkpoint를
+재사용할 수 있다. 원본 commit이 현재 main의 조상인지, 그사이 Stage 1~3·계약 코드가 바뀌지 않았는지,
+Supabase 기준선과 Stage 2/3 ID가 같은지 검사하며 하나라도 다르면 처음부터 다시 해야 한다.
 
 GitHub clean checkout의 Stage 4 경로에는 실제 JSONL 대신 Git LFS pointer가 있을 수 있다.
 따라서 benchmark 통합은 반드시 `04_build_embeddings.py`가 새 Stage 4 JSONL을 만든 뒤 실행한다.
@@ -93,6 +96,7 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | Stage 2 재사용 | 저장된 행의 Hub revision(SHA, 없으면 last_modified)이 지금 Stage 1 과 같을 때만 재사용 | 다르거나 기록이 없으면 다시 수집 |
 | Stage 3 구 해시 이관 | 예전 전체 README 해시와 현재 앞 60,000자 해시를 모두 비교 | 내용이 같으면 재사용하고 v2 해시로 승격. 불필요한 LLM 재호출 방지 |
 | 계약 게이트 (재적재·증분 모두) | Stage 2 직후, Stage 3(LLM) 전. 직전 계약 레코드를 baseline 으로 값 손실·근거 하락 비교 | 같은 revision 에서 손실이면 중단. revision 이 바뀐 모델은 경고, 새 모델·첫 실행은 비교 생략(사유를 보고서에 기록) |
+| Stage 4 DB 캐시 | 평소에는 전체 후보의 캐시 미스 10% 초과를 거부. 검토된 full-scan 동안에는 Core+Low 전체 기준 30%까지 허용 | 풀 이동 때문에 한 풀에 신규 모델이 몰려도 전체 한도 안이면 진행. 전체 한도 초과면 유료 embedding 전에 중단 |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
 | 비활성화 | DB active 의 30% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
 | DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(1,024) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
@@ -198,6 +202,10 @@ LFS 에 올리지 않는다.
    모두 통과했는지 먼저 확인한다. 이어서 `stage2 (core)`와 `stage2 (low_popularity)`가 병렬로
    끝나고, `stage3`가 유료 결과 checkpoint를 올린 뒤 `finalize`가 Stage 4와 승인 번들을 만들 때까지
    기다린다.
+   - Stage 3까지 성공한 뒤 finalize만 실패했고 복구 코드 PR을 병합했다면 처음부터 다시 돌리지 않고
+     `mode=resume-finalize`, `source_run_id=<Stage 3 성공 원본 run ID>`를 실행한다.
+   - 이 실행은 원본 Stage 1~3을 검증한 뒤 Stage 4만 다시 만든다. 성공하면 새
+     `reingest-bundle-<복구 run ID>`가 생긴다.
 4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보,
    `capacity`(예상 최고치가 한도보다 충분히 낮은지), Stage 3·4 실제 API 호출 및 토큰 수를 본다.
 5. 다음 단계로 넘어가기 전에 중단 기준을 확인한다. 하나라도 해당하면 멈춘다.
@@ -207,7 +215,8 @@ LFS 에 올리지 않는다.
 6. Supabase SQL Editor 에서 `supabase_migration_contract_filters.sql` 을 적용한다. 플래그가 OFF 라
    서비스는 아직 15개 인자로 부른다. 구 시그니처는 migration 이 지우지만, 새 함수의 뒤 4개 인자는
    기본값이 있어 15개 인자 호출도 그대로 동작한다.
-7. `mode=apply`, `approved_run_id=<3단계 run ID>`, `confirm=APPLY` 를 main 에서 실행한다. 3단계 이후
+7. `mode=apply`, `approved_run_id=<승인 번들을 만든 run ID>`, `confirm=APPLY` 를 main 에서 실행한다.
+   `resume-finalize`를 사용했다면 원본 source run ID가 아니라 **복구 run ID**를 넣는다. 3단계 이후
    main 에 다른 커밋이 들어갔다면 apply 가 거부하므로 3단계부터 다시 한다(6단계 SQL 은 커밋이 아니라 괜찮다).
 8. DB 를 사후 검증한다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.

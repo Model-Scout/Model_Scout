@@ -143,14 +143,103 @@ def test_stage4_is_built_before_benchmark_integration():
         calls.append((Path(command[1]).name, command[2:]))
 
     with patched(jobs.sync, run_command=capture):
-        jobs.run_stage4_pipeline()
+        jobs.run_stage4_pipeline(0.30)
 
     assert [name for name, _ in calls] == [
         "04_build_embeddings.py",
         "06_extract_benchmark_metadata.py",
     ]
     assert "--execute" in calls[0][1]
+    assert "--max-db-cache-miss-fraction" in calls[0][1]
+    assert calls[0][1][calls[0][1].index("--max-db-cache-miss-fraction") + 1] == "0.3"
     assert "--apply" in calls[1][1]
+
+
+def test_full_scan_uses_the_reviewed_reingest_churn_limit():
+    with patched(jobs.sync, REINGEST_MAX_DEACTIVATION_FRACTION=0.30):
+        assert jobs.stage4_cache_miss_fraction({"stage1_mode": "full-scan"}) == 0.30
+        assert jobs.stage4_cache_miss_fraction({"stage1_mode": "reuse"}) == 0.10
+
+
+def test_resume_accepts_only_an_ancestor_with_recovery_only_changes():
+    source = state("43534633028")
+    current = identity("77") | {"git_sha": "b" * 40, "git_ref": "main"}
+    completed = types.SimpleNamespace(returncode=0)
+    with patched(jobs.sync, git_identity=lambda: current), patched(
+        jobs.subprocess, run=lambda *args, **kwargs: completed
+    ), patched(
+        jobs,
+        git_changed_paths=lambda old, new: {
+            "ai/reingest_jobs.py",
+            ".github/workflows/model-scout-reingest.yml",
+        },
+    ):
+        assert jobs.assert_resumable_source(source, "43534633028") == current
+
+
+def test_resume_rejects_unrelated_changes_after_the_checkpoint():
+    source = state("43534633028")
+    current = identity("77") | {"git_sha": "b" * 40, "git_ref": "main"}
+    completed = types.SimpleNamespace(returncode=0)
+    with patched(jobs.sync, git_identity=lambda: current), patched(
+        jobs.subprocess, run=lambda *args, **kwargs: completed
+    ), patched(
+        jobs,
+        git_changed_paths=lambda old, new: {"ai/02_enrich_metadata.py"},
+    ):
+        try:
+            jobs.assert_resumable_source(source, "43534633028")
+        except RuntimeError as error:
+            assert "start a new dry-run" in str(error)
+            assert "02_enrich_metadata.py" in str(error)
+        else:
+            raise AssertionError("an unrelated pipeline change reused the Stage 3 checkpoint")
+
+
+def test_resume_rebinds_the_bundle_state_to_the_recovery_run():
+    source_identity = identity("43534633028")
+    current_identity = identity("77") | {"git_sha": "b" * 40, "git_ref": "main"}
+    source_state = {
+        "schema_version": 1,
+        "identity": source_identity,
+        "started_at": "2026-11-13T00:00:00+00:00",
+        "stage1_mode": "full-scan",
+        "stage1_scan": {"scan_started_at": "2026-11-13T00:00:00+00:00", "diff": {}},
+        "previous_watermark": "2026-10-01T00:00:00+00:00",
+        "supabase_latest_sync_run_id": "sync-1",
+    }
+    joined = {
+        "latest": {"run_id": "sync-1"},
+        "produced": 3886,
+        "language_excluded": set(),
+        "excluded_in_stage1": 0,
+        "stage1_processable": 3886,
+        "gate": {"ok": True},
+    }
+    calls = []
+    with tempfile.TemporaryDirectory() as directory:
+        state_path = Path(directory) / "context.json"
+        output_path = Path(directory) / "refresh-info.json"
+        state_path.write_text(__import__("json").dumps(source_state), encoding="utf-8")
+        with patched(jobs, assert_resumable_source=lambda state, run: current_identity), patched(
+            jobs, validate_joined_stage2=lambda state, check_same_run=False: joined
+        ), patched(
+            jobs, assert_stage3_checkpoint=lambda state, produced: calls.append(("stage3", produced))
+        ), patched(
+            jobs, run_stage4_pipeline=lambda limit: calls.append(("stage4", limit))
+        ), patched(
+            jobs.sync,
+            REINGEST_MAX_DEACTIVATION_FRACTION=0.30,
+            reingest_result=lambda **kwargs: {"mode": "reingest", "steps": kwargs["steps"]},
+        ):
+            result = jobs.resume_finalize(state_path, "43534633028", output_path)
+
+        assert __import__("json").loads(output_path.read_text())["identity"] == current_identity
+
+    assert calls == [("stage3", 3886), ("stage4", 0.30)]
+    assert result["identity"] == current_identity
+    assert result["resumed_from"] == source_identity
+    assert "resume-finalize:43534633028" in result["refresh_info"]["steps"]
 
 
 def test_stage3_checkpoint_is_separate_from_stage4_work():

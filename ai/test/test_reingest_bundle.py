@@ -362,6 +362,36 @@ def test_workflow_uploads_the_bundle_only_from_a_successful_dry_run():
     assert upload["with"]["path"] == "ai/reingest-bundle"
 
 
+def test_workflow_resumes_stage4_from_a_prior_stage3_checkpoint():
+    flow = _flow()
+    inputs = flow[True]["workflow_dispatch"]["inputs"]
+    assert "resume-finalize" in inputs["mode"]["options"]
+    assert "source_run_id" in inputs
+    job = flow["jobs"]["resume_finalize"]
+    assert job["needs"] == "validate"
+    steps = _steps("resume_finalize")
+    for name in (
+        "Download the source Stage 1 checkpoint",
+        "Download the source Core Stage 2 checkpoint",
+        "Download the source Low Stage 2 checkpoint",
+        "Download the source Stage 3 checkpoint",
+    ):
+        assert steps[name]["with"]["run-id"] == "${{ inputs.source_run_id }}"
+        assert steps[name]["with"]["github-token"] == "${{ github.token }}"
+    resume = steps["Validate Stage 3 and resume at Stage 4"]["run"]
+    assert "resume-finalize" in resume
+    assert "--source-run-id" in resume
+    assert "03_generate_semantic_metadata.py" not in str(job)
+
+
+def test_resumed_bundle_is_rebound_to_the_new_run_for_apply():
+    resume_upload = _steps("resume_finalize")["Upload the resumed dry-run bundle"]
+    apply_download = _steps("apply")["Download the approved dry-run bundle"]
+    assert resume_upload["with"]["name"] == "reingest-bundle-${{ github.run_id }}"
+    assert apply_download["with"]["name"] == "reingest-bundle-${{ inputs.approved_run_id }}"
+    assert apply_download["with"]["run-id"] == "${{ inputs.approved_run_id }}"
+
+
 def test_workflow_commits_snapshots_only_after_the_db_step_succeeds():
     steps = _steps("apply")
     names = list(steps)
@@ -384,7 +414,9 @@ def test_validate_mode_needs_no_secrets_or_bundle():
 
 def test_dry_run_is_split_into_checkpointed_jobs_and_parallel_stage2():
     flow = _flow()
-    assert set(flow["jobs"]) == {"validate", "prepare", "stage2", "stage3", "finalize", "apply"}
+    assert set(flow["jobs"]) == {
+        "validate", "prepare", "stage2", "stage3", "finalize", "resume_finalize", "apply"
+    }
     assert flow["jobs"]["stage2"]["strategy"]["matrix"]["pool"] == ["core", "low_popularity"]
     assert flow["jobs"]["prepare"]["needs"] == "validate"
     assert flow["jobs"]["stage2"]["needs"] == "prepare"

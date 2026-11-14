@@ -229,6 +229,29 @@ def test_stage4_allows_small_incremental_db_cache_gaps():
     assert stage4.should_refuse_db_reembedding(1477, 200, 150) is True
 
 
+def test_stage4_full_scan_accepts_cache_churn_within_the_reviewed_guard():
+    stage4 = load_module("04_build_embeddings.py", "stage4_full_scan_cache_guard_test")
+
+    # The failed production dry-run had 1,457 cached vectors for 1,720
+    # candidates: 15.3% misses. A full scan with the reviewed 30% replacement
+    # guard may embed those genuinely new/changed rows.
+    assert stage4.should_refuse_db_reembedding(
+        1720, 1720, 1457, max_miss_fraction=0.30
+    ) is False
+    assert stage4.should_refuse_db_reembedding(
+        1720, 1720, 1100, max_miss_fraction=0.30
+    ) is True
+
+    # Pool-local skew may exceed 30%, while the complete catalog stays inside
+    # the reviewed 30% full-scan churn budget. The production guard is global.
+    assert stage4.should_refuse_db_reembedding(
+        2291, 2291, 1482, max_miss_fraction=0.30
+    ) is True
+    assert stage4.should_refuse_db_reembedding(
+        4011, 4011, 2939, max_miss_fraction=0.30
+    ) is False
+
+
 def test_stage4_ignores_git_lfs_pointer_snapshot(tmp_path):
     stage4 = load_module("04_build_embeddings.py", "stage4_lfs_pointer_test")
     snapshot = tmp_path / "hf_models_stage4_core.jsonl"
