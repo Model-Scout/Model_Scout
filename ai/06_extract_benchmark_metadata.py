@@ -54,9 +54,16 @@ def load_model_ids(path: Optional[Path]) -> Optional[Set[str]]:
 
 
 def read_jsonl(path: Path) -> List[Dict[str, Any]]:
+    text = path.read_text(encoding="utf-8")
+    first = next((line.strip() for line in text.splitlines() if line.strip()), "")
+    if first.startswith("version https://git-lfs.github.com/spec/"):
+        raise RuntimeError(
+            f"{path}: Git LFS pointer is not model JSONL; build or restore the "
+            "Stage 4 checkpoint before benchmark integration"
+        )
     return [
         json.loads(line)
-        for line in path.read_text(encoding="utf-8").splitlines()
+        for line in text.splitlines()
         if line.strip()
     ]
 

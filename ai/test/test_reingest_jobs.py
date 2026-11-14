@@ -5,6 +5,7 @@ from __future__ import annotations
 import importlib.util
 import os
 import sys
+import tempfile
 import types
 from contextlib import contextmanager
 from pathlib import Path
@@ -133,6 +134,67 @@ def test_preflight_calls_hf_chat_embedding_and_database_without_exposing_keys():
     assert result["ok"] is True
     assert {call[0] for call in calls} >= {"hf", "chat", "embedding", "db", "db-close"}
     assert "secret" not in str(result)
+
+
+def test_stage4_is_built_before_benchmark_integration():
+    calls = []
+
+    def capture(command):
+        calls.append((Path(command[1]).name, command[2:]))
+
+    with patched(jobs.sync, run_command=capture):
+        jobs.run_stage4_pipeline()
+
+    assert [name for name, _ in calls] == [
+        "04_build_embeddings.py",
+        "06_extract_benchmark_metadata.py",
+    ]
+    assert "--execute" in calls[0][1]
+    assert "--apply" in calls[1][1]
+
+
+def test_stage3_checkpoint_is_separate_from_stage4_work():
+    calls = []
+
+    def capture(command):
+        calls.append(Path(command[1]).name)
+
+    with patched(jobs.sync, run_command=capture, POOLS=("core", "low_popularity")):
+        jobs.run_stage3_pipeline()
+
+    assert calls == [
+        "03_generate_semantic_metadata.py",
+        "03_repair_truncated_semantic.py",
+        "03_repair_truncated_semantic.py",
+        "evidence_index.py",
+    ]
+    assert "04_build_embeddings.py" not in calls
+    assert "06_extract_benchmark_metadata.py" not in calls
+
+
+def test_benchmark_reader_rejects_a_clean_checkout_lfs_pointer():
+    spec = importlib.util.spec_from_file_location(
+        "benchmark_lfs_pointer_test", ROOT / "06_extract_benchmark_metadata.py"
+    )
+    assert spec is not None and spec.loader is not None
+    benchmark = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(benchmark)
+
+    with tempfile.TemporaryDirectory() as directory:
+        pointer = Path(directory) / "stage4.jsonl"
+        pointer.write_text(
+            "version https://git-lfs.github.com/spec/v1\n"
+            "oid sha256:" + "a" * 64 + "\n"
+            "size 123\n",
+            encoding="utf-8",
+        )
+        try:
+            benchmark.read_jsonl(pointer)
+        except RuntimeError as error:
+            assert "Git LFS pointer" in str(error)
+            assert "Stage 4 checkpoint" in str(error)
+        else:
+            raise AssertionError("Git LFS pointer was parsed as model JSONL")
 
 
 if __name__ == "__main__":

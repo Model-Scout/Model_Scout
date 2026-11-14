@@ -10,8 +10,11 @@ module splits the work into restartable artifacts:
 * ``prepare`` optionally rebuilds Stage 1 and freezes the Supabase/contract
   baseline used by every later job.
 * ``stage2`` runs one pool. GitHub Actions runs Core and Low in parallel.
-* ``finalize`` joins both pools, runs the paid stages and writes a small state
-  file consumed by ``08_sync_supabase.py --reingest-state``.
+* ``stage3`` joins both pools, runs the paid chat stage and checkpoints its
+  outputs before any later work can fail.
+* ``finalize`` restores that checkpoint, builds fresh Stage 4 files before
+  benchmark integration, and writes the small state file consumed by
+  ``08_sync_supabase.py --reingest-state``.
 
 No secret value is written to an artifact or log.
 """
@@ -233,12 +236,14 @@ def stage2(pool: str, state_path: Path) -> Dict[str, Any]:
     return result
 
 
-def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
-    state = read_state(state_path)
+def validate_joined_stage2(state: Dict[str, Any]) -> Dict[str, Any]:
+    """Recheck the frozen Stage 2 inputs before each expensive downstream job."""
     assert_same_run(state)
     latest = assert_sync_baseline(state)
     baseline_name = state.get("contract_baseline")
     baseline = WORK_DIR / baseline_name if baseline_name else None
+    if baseline is not None and not baseline.exists():
+        raise RuntimeError("contract baseline artifact is missing")
 
     stage1_ids = {
         row["model_id"]
@@ -254,6 +259,19 @@ def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
     sync.assert_stage2_volume(len(stage1_ids), produced, excluded_in_stage1)
     gate = sync.contract_gate(require=True, baseline=baseline)
 
+    return {
+        "latest": latest,
+        "produced": produced,
+        "language_excluded": language_excluded,
+        "excluded_in_stage1": excluded_in_stage1,
+        "stage1_processable": len(stage1_ids),
+        "gate": gate,
+    }
+
+
+def run_stage3_pipeline() -> None:
+    """Run the paid semantic stage and materialize its evidence checkpoint."""
+
     sync.run_command([
         sys.executable,
         str(ROOT / "03_generate_semantic_metadata.py"),
@@ -268,12 +286,16 @@ def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
             "--apply",
         ])
     sync.run_command([sys.executable, str(ROOT / "evidence_index.py"), "--pool", "all"])
-    sync.run_command([
-        sys.executable,
-        str(ROOT / "06_extract_benchmark_metadata.py"),
-        "--pool", "all",
-        "--apply",
-    ])
+
+
+def run_stage4_pipeline() -> None:
+    """Build real Stage 4 JSONL files before benchmark integration.
+
+    A clean GitHub checkout contains Git LFS pointer text at the tracked Stage
+    4 paths.  Benchmark integration reads Stage 4 as JSONL, so it must never
+    run until ``04_build_embeddings.py`` has replaced those pointers with the
+    freshly generated files.
+    """
     sync.run_command([
         sys.executable,
         str(ROOT / "04_build_embeddings.py"),
@@ -282,6 +304,59 @@ def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
         "--db-cache",
         "--metrics", str(WORK_DIR / "stage4-metrics.json"),
     ])
+    sync.run_command([
+        sys.executable,
+        str(ROOT / "06_extract_benchmark_metadata.py"),
+        "--pool", "all",
+        "--apply",
+    ])
+
+
+def stage3(state_path: Path, output_path: Path) -> Dict[str, Any]:
+    state = read_state(state_path)
+    joined = validate_joined_stage2(state)
+    run_stage3_pipeline()
+    result = {
+        "schema_version": STATE_VERSION,
+        "identity": state["identity"],
+        "stage2_rows": joined["produced"],
+        "contract_gate_report": joined["gate"],
+    }
+    write_json(output_path, result)
+    return result
+
+
+def assert_stage3_checkpoint(state: Dict[str, Any], produced: int) -> None:
+    checkpoint_path = WORK_DIR / "stage3.json"
+    checkpoint = read_state(checkpoint_path)
+    if checkpoint.get("identity") != state.get("identity"):
+        raise RuntimeError("Stage 3 checkpoint identity does not match the dry-run")
+    if int(checkpoint.get("stage2_rows", -1)) != produced:
+        raise RuntimeError(
+            "Stage 3 checkpoint row count does not match the restored Stage 2 inputs"
+        )
+    for pool in sync.POOLS:
+        stage2_ids = {
+            row["model_id"]
+            for row in sync.read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")
+        }
+        stage3_ids = {
+            row["model_id"]
+            for row in sync.read_jsonl(DATA_DIR / f"hf_models_stage3_{pool}.jsonl")
+        }
+        if stage2_ids != stage3_ids:
+            missing = sorted(stage2_ids - stage3_ids)[:5]
+            extra = sorted(stage3_ids - stage2_ids)[:5]
+            raise RuntimeError(
+                f"Stage 3 checkpoint mismatch for {pool}: missing={missing}, extra={extra}"
+            )
+
+
+def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
+    state = read_state(state_path)
+    joined = validate_joined_stage2(state)
+    assert_stage3_checkpoint(state, joined["produced"])
+    run_stage4_pipeline()
 
     refresh_info = sync.reingest_result(
         previous_watermark=state.get("previous_watermark"),
@@ -289,23 +364,23 @@ def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
         steps=[
             *(("stage1:full-scan",) if state.get("stage1_scan") is not None else ()),
             "stage2:parallel",
-            f"stage2:{produced}rows",
+            f"stage2:{joined['produced']}rows",
             "contract_gate",
             "stage3:readme-delta",
-            "stage3.5:benchmark",
             "stage4:hash-delta",
+            "stage3.5:benchmark",
         ],
-        contract_gate_report=gate,
-        language_excluded=language_excluded,
-        stage2_rows=produced,
+        contract_gate_report=joined["gate"],
+        language_excluded=joined["language_excluded"],
+        stage2_rows=joined["produced"],
         stage1_scan=state.get("stage1_scan"),
-        stage1_processable=len(stage1_ids),
-        language_excluded_in_stage1=excluded_in_stage1,
+        stage1_processable=joined["stage1_processable"],
+        language_excluded_in_stage1=joined["excluded_in_stage1"],
     )
     result = {
         "schema_version": STATE_VERSION,
         "identity": state["identity"],
-        "supabase_latest_sync_run_id": (latest or {}).get("run_id"),
+        "supabase_latest_sync_run_id": (joined["latest"] or {}).get("run_id"),
         "refresh_info": refresh_info,
     }
     write_json(output_path, result)
@@ -327,6 +402,10 @@ def main() -> int:
     stage2_parser.add_argument("--pool", choices=sync.POOLS, required=True)
     stage2_parser.add_argument("--state", type=Path, default=WORK_DIR / "context.json")
 
+    stage3_parser = subparsers.add_parser("stage3")
+    stage3_parser.add_argument("--state", type=Path, default=WORK_DIR / "context.json")
+    stage3_parser.add_argument("--output", type=Path, default=WORK_DIR / "stage3.json")
+
     finalize_parser = subparsers.add_parser("finalize")
     finalize_parser.add_argument("--state", type=Path, default=WORK_DIR / "context.json")
     finalize_parser.add_argument("--output", type=Path, default=WORK_DIR / "refresh-info.json")
@@ -339,6 +418,8 @@ def main() -> int:
         result = prepare(args.state, args.full_stage1)
     elif args.command == "stage2":
         result = stage2(args.pool, args.state)
+    elif args.command == "stage3":
+        result = stage3(args.state, args.output)
     else:
         result = finalize(args.state, args.output)
     print(json.dumps(result, ensure_ascii=False, indent=2))

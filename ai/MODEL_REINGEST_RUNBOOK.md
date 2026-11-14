@@ -42,12 +42,20 @@ prepare: HF/OpenAI chat/OpenAI embedding/Supabase preflight → Stage 1 → 기�
 stage2: Core ─┐
         Low  ─┴─ 병렬 HF 수집·풀별 계약 검사
   ↓
-finalize: 합친 볼륨·계약 검사 → Stage 3 → 3.5 → Stage 4 → 승인 번들
+stage3: 합친 볼륨·계약 검사 → Stage 3(LLM) → evidence → 유료 결과 checkpoint
+  ↓
+finalize: Stage 3 checkpoint 복원 → Stage 4 → 3.5 benchmark 통합 → 승인 번들
 ```
 
 각 checkpoint에는 저장소·commit SHA·branch·GitHub run ID와 dry-run 시작 시점의 최신
 Supabase sync run ID가 묶인다. 하나라도 달라지면 이어 실행하지 않는다. 그래서 중간 job이
-실패해도 DB는 바뀌지 않으며, 실패한 전체 dry-run은 처음부터 다시 시작한다.
+실패해도 DB는 바뀌지 않는다. Stage 3 성공 결과도 별도 artifact 로 보존하므로 같은 run 의
+finalize 만 실패했다면 `Re-run failed jobs`가 유료 Stage 3를 다시 호출하지 않는다. 코드 수정이나
+main 변경이 필요해 새 run 을 만드는 경우에는 identity 가 달라지므로 dry-run 을 처음부터 다시 한다.
+
+GitHub clean checkout의 Stage 4 경로에는 실제 JSONL 대신 Git LFS pointer가 있을 수 있다.
+따라서 benchmark 통합은 반드시 `04_build_embeddings.py`가 새 Stage 4 JSONL을 만든 뒤 실행한다.
+pointer를 JSONL로 읽으려 하면 원인을 명시하고 즉시 중단한다.
 
 `prepare`의 preflight는 수 시간짜리 실행 전에 실제 Secret을 검증한다. 공개 HF 모델 조회,
 1-token chat, 1개 embedding, Supabase `select 1`을 실행한다. 이 단계가 통과해야 Stage 1을
@@ -188,7 +196,8 @@ LFS 에 올리지 않는다.
 3. 새 Model Scout 전용 OpenAI key를 repository secret `OPENAI_API_KEY`에 넣고,
    `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다. `prepare`의 preflight가 HF·chat·embedding·DB를
    모두 통과했는지 먼저 확인한다. 이어서 `stage2 (core)`와 `stage2 (low_popularity)`가 병렬로
-   끝나고 `finalize`가 승인 번들을 만들 때까지 기다린다.
+   끝나고, `stage3`가 유료 결과 checkpoint를 올린 뒤 `finalize`가 Stage 4와 승인 번들을 만들 때까지
+   기다린다.
 4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보,
    `capacity`(예상 최고치가 한도보다 충분히 낮은지), Stage 3·4 실제 API 호출 및 토큰 수를 본다.
 5. 다음 단계로 넘어가기 전에 중단 기준을 확인한다. 하나라도 해당하면 멈춘다.

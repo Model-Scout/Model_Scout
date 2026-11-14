@@ -384,12 +384,18 @@ def test_validate_mode_needs_no_secrets_or_bundle():
 
 def test_dry_run_is_split_into_checkpointed_jobs_and_parallel_stage2():
     flow = _flow()
-    assert set(flow["jobs"]) == {"validate", "prepare", "stage2", "finalize", "apply"}
+    assert set(flow["jobs"]) == {"validate", "prepare", "stage2", "stage3", "finalize", "apply"}
     assert flow["jobs"]["stage2"]["strategy"]["matrix"]["pool"] == ["core", "low_popularity"]
     assert flow["jobs"]["prepare"]["needs"] == "validate"
     assert flow["jobs"]["stage2"]["needs"] == "prepare"
-    assert flow["jobs"]["finalize"]["needs"] == "stage2"
+    assert flow["jobs"]["stage3"]["needs"] == "stage2"
+    assert flow["jobs"]["finalize"]["needs"] == "stage3"
     assert "Preflight external services" in _steps("prepare")
+    stage3_upload = _steps("stage3")["Upload the Stage 3 checkpoint"]
+    assert stage3_upload["with"]["name"] == "reingest-stage3-${{ github.run_id }}"
+    assert "hf_models_stage3_core.jsonl" in _steps("stage3")["Pack the Stage 3 checkpoint"]["run"]
+    assert "Download the Stage 3 checkpoint" in _steps("finalize")
+    assert "stage3/stage3.tar.gz" in _steps("finalize")["Restore the checkpointed inputs"]["run"]
     assert "--reingest-state reingest-work/refresh-info.json" in _steps("finalize")["Validate and build the reviewed dry-run bundle"]["run"]
 
 
