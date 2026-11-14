@@ -323,6 +323,7 @@ def test_checkpointed_dry_run_skips_stage_generation_and_builds_the_bundle():
 # ── workflow ──────────────────────────────────────────────────────────────
 
 WORKFLOW = ROOT.parent / ".github" / "workflows" / "model-scout-reingest.yml"
+PERSIST_SCRIPT = ROOT / "persist_reingest_snapshots.sh"
 
 
 def _flow():
@@ -398,9 +399,25 @@ def test_workflow_commits_snapshots_only_after_the_db_step_succeeds():
     persist = steps["Persist snapshots after apply"]
     assert "if" not in persist or ("always()" not in persist["if"] and "failure()" not in persist["if"])
     assert names.index("Persist snapshots after apply") > names.index("Apply the reviewed bundle to Supabase")
-    assert "parent_child_core.jsonl" in persist["run"]
-    assert "hf_models_stage4_core.jsonl" not in persist["run"]
-    assert "approved dry-run" in persist["run"]
+    assert "persist_reingest_snapshots.sh" in persist["run"]
+    script = PERSIST_SCRIPT.read_text(encoding="utf-8")
+    assert "parent_child_core.jsonl" in script
+    assert "hf_models_stage4_core.jsonl" not in script
+    assert "git restore --worktree ." in script
+    assert "git push origin HEAD:main" in script
+
+
+def test_workflow_can_recover_snapshots_without_reapplying_the_database():
+    flow = _flow()
+    inputs = flow[True]["workflow_dispatch"]["inputs"]
+    assert "persist-snapshots" in inputs["mode"]["options"]
+    steps = _steps("persist_snapshots")
+    assert "PERSIST" in steps["Guard snapshot recovery"]["run"]
+    assert steps["Download the already applied bundle"]["with"]["run-id"] == "${{ inputs.approved_run_id }}"
+    verify = steps["Verify the completed DB apply and restore snapshots"]["run"]
+    assert "recover-snapshots" in verify
+    assert "08_sync_supabase.py" not in verify
+    assert "persist_reingest_snapshots.sh" in steps["Persist the recovered snapshots"]["run"]
 
 
 def test_validate_mode_needs_no_secrets_or_bundle():
@@ -415,7 +432,8 @@ def test_validate_mode_needs_no_secrets_or_bundle():
 def test_dry_run_is_split_into_checkpointed_jobs_and_parallel_stage2():
     flow = _flow()
     assert set(flow["jobs"]) == {
-        "validate", "prepare", "stage2", "stage3", "finalize", "resume_finalize", "apply"
+        "validate", "prepare", "stage2", "stage3", "finalize", "resume_finalize", "apply",
+        "persist_snapshots",
     }
     assert flow["jobs"]["stage2"]["strategy"]["matrix"]["pool"] == ["core", "low_popularity"]
     assert flow["jobs"]["prepare"]["needs"] == "validate"

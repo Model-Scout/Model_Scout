@@ -12,7 +12,7 @@ on:
         type: choice
         required: true
         default: validate
-        options: [validate, dry-run, resume-finalize, apply]
+        options: [validate, dry-run, resume-finalize, apply, persist-snapshots]
       stage1_mode:
         description: "Stage 1 처리 방식 (validate/apply 에서는 무시)"
         type: choice
@@ -20,7 +20,7 @@ on:
         default: reuse
         options: [reuse, full-scan]
       approved_run_id:
-        description: "apply 전용: 검토한 dry-run run ID"
+        description: "apply/persist-snapshots 전용: 검토한 dry-run run ID"
         type: string
         required: false
         default: ""
@@ -30,7 +30,7 @@ on:
         required: false
         default: ""
       confirm:
-        description: "apply 전용: 정확히 APPLY"
+        description: "apply 전용 APPLY, 스냅샷 복구 전용 PERSIST"
         type: string
         required: false
         default: ""
@@ -633,32 +633,52 @@ jobs:
           overwrite: true
           retention-days: 30
       - name: Persist snapshots after apply
+        run: bash persist_reingest_snapshots.sh "${{ inputs.approved_run_id }}" "${{ github.run_id }}"
+
+  persist_snapshots:
+    if: ${{ inputs.mode == 'persist-snapshots' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard snapshot recovery
+        shell: bash
         run: |
-          git config user.name "model-scout-sync[bot]"
-          git config user.email "model-scout-sync[bot]@users.noreply.github.com"
-          git add \
-            data/hf_models_stage1_core.jsonl \
-            data/hf_models_stage1_low_popularity.jsonl \
-            data/hf_models_stage1_likely.jsonl \
-            data/hf_models_stage1_fallback.jsonl \
-            data/hf_models_stage1_groups.jsonl \
-            data/hf_models_stage1_state.json \
-            data/hf_models_stage2_core.jsonl \
-            data/hf_models_stage2_low_popularity.jsonl \
-            data/hf_models_stage2_contract_core.jsonl \
-            data/hf_models_stage2_contract_low_popularity.jsonl \
-            data/hf_models_stage3_core.jsonl \
-            data/hf_models_stage3_low_popularity.jsonl \
-            data/hf_models_stage3_parent_child_core.jsonl \
-            data/hf_models_stage3_parent_child_low_popularity.jsonl \
-            data/hf_models_stage4_manifest.json \
-            data/readmes/core \
-            data/readmes/low_popularity
-          if test -f data/hf_models_benchmark_state.json; then git add data/hf_models_benchmark_state.json; fi
-          if test -f data/hf_models_stage3_parent_child_manifest.json; then git add data/hf_models_stage3_parent_child_manifest.json; fi
-          for f in data/hf_models_stage2_*_language_excluded.json; do if test -f "$f"; then git add "$f"; fi; done
-          if git diff --cached --quiet; then echo "커밋할 변경 없음"; exit 0; fi
-          git commit -m "chore: persist Model Scout reingest snapshot (run ${{ github.run_id }}, approved dry-run ${{ inputs.approved_run_id }})"
-          for attempt in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done
-          echo "snapshot push failed after DB apply; push this run's commit manually" >&2
-          exit 1
+          if [ "${{ inputs.confirm }}" != "PERSIST" ]; then echo "confirm must be PERSIST" >&2; exit 1; fi
+          if [ "${{ github.ref_name }}" != "main" ]; then echo "persist-snapshots must run on main" >&2; exit 1; fi
+          if ! printf '%s' "${{ inputs.approved_run_id }}" | grep -Eq '^[0-9]+$'; then echo "approved_run_id is required" >&2; exit 1; fi
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Download the already applied bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-bundle-${{ inputs.approved_run_id }}
+          path: ai/reingest-bundle
+          run-id: ${{ inputs.approved_run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify the completed DB apply and restore snapshots
+        run: |
+          python reingest_jobs.py recover-snapshots \
+            --bundle reingest-bundle \
+            --approved-run-id "${{ inputs.approved_run_id }}"
+      - name: Persist the recovered snapshots
+        run: bash persist_reingest_snapshots.sh "${{ inputs.approved_run_id }}" "${{ github.run_id }}"
