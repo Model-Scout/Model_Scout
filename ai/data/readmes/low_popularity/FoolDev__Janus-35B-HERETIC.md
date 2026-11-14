@@ -140,6 +140,7 @@ OLLAMA_KV_CACHE_TYPE=q8_0 OLLAMA_FLASH_ATTENTION=1 ollama serve
 | `template`, `system`, `params` | Used by HF's Ollama bridge when users `ollama run hf.co/FoolDev/Janus-35B-HERETIC` directly. The bridge does **not** read `Modelfile` (see [HF Ollama docs](https://huggingface.co/docs/hub/en/ollama)); it ingests these three root-level files instead. Kept in sync with the `Modelfile`'s `TEMPLATE` / `SYSTEM` / `PARAMETER` directives. |
 | `scripts/build.sh` | Pulls a GGUF from `llmfan46/Qwen3.6-35B-A3B-uncensored-heretic-GGUF` (default Q4_K_M), runs it through `strip_mtp.py` (a no-op for these quants, kept as a guard), then runs `ollama create janus`. Quants published there: BF16, Q3_K_L, Q3_K_M, Q4_K_M, Q4_K_S, Q5_K_M, Q5_K_S, Q6_K, Q8_0. The bundled Q4_K_M *is* that repo's Q4_K_M; use this to build the others locally. |
 | `scripts/check_bridge_sync.py` | Run before pushing a `Modelfile` / `template` / `system` / `params` edit to verify the four configurations remain in sync. Exits 0 if in sync, 1 with a per-key diff if not. |
+| `scripts/check_tag_sync.sh` | Checks whether an **installed Ollama tag** still carries this repo's `template` — the half `check_bridge_sync.py` cannot see, since a tag never tracks the repo it came from. `make check-tag` (or `TAG=<name> make check-tag`; default `janus`); exit 0 in sync, 1 drifted, 2 if the tag is missing or Ollama is absent. |
 | `scripts/check.sh` | Local lint: `bash -n`, `shellcheck`, `pyflakes`, `py_compile`, footgun-grep, `Modelfile`-vs-bridge-files sync and the Go `template` guard (`make check`). `shellcheck` and `pyflakes` are skipped with a `[~]` line if absent, and the tail reports how many were skipped rather than a green all-passed. |
 | `scripts/check_go_template.py` | Guards the Go `template`: Ollama's thinking detection, the condition that replays earlier turns' reasoning, the tool round trip, JSON tool signatures, and the reasoning-effort mapping — the xhigh and low arms and the medium/unset default (check 8 in `check.sh`) |
 | `scripts/live_check.sh` | Live end-to-end checks in an isolated, CPU-only Ollama (own port and model store; it refuses to run if Ollama reports a GPU): template selection, one tool call, string-argument replay, an earlier turn's reasoning replayed and a live tool chain's kept, every `reasoning_effort` value and the effort lines — 17 checks (`make live-check`) |
@@ -265,6 +266,45 @@ ollama create janus -f Modelfile && ollama run janus
 ```
 
 After the local build (path B), `ollama show janus` lists `completion`, `tools`, and `thinking` under Capabilities. (The HF-pull paths register the model under the full tag `hf.co/FoolDev/Janus-35B-HERETIC`, not `janus`.)
+
+#### Keeping your tag current
+
+Ollama resolves a tag once, at pull or create time, and **never re-checks this repo
+afterwards**. A tag made before a `template` / `system` / `params` change keeps serving
+the old one indefinitely: nothing warns you, and `ollama list` shows the pull date, not
+which release the tag carries.
+
+This is not hypothetical. A local `janus` tag here served the **0.9.6** template for two
+days while this repo was at **0.9.10** — missing 0.9.7's tool-chain render, the only
+change in that span to how tool calls are emitted, and 0.9.8's system-block fix, which
+affects every request carrying no `tools` array. The static checks here all passed
+throughout, because they compare this repo's own files; `make smoke`, `make smoke-tools` and `make bench` do
+hit the installed tag, but neither compares its template with this repo's.
+
+Check a tag. This needs no clone — it reads the template straight from this repo:
+
+```bash
+TAG=janus   # or hf.co/FoolDev/Janus-35B-HERETIC, the tag path A creates
+have=$(ollama show --template "$TAG")
+want=$(curl -fsS https://huggingface.co/FoolDev/Janus-35B-HERETIC/raw/main/template)
+if [ -z "$have" ] || [ -z "$want" ]; then echo "could not read both sides -- nothing compared"
+elif [ "$have" = "$want" ]; then echo "up to date"
+else echo "STALE -- refresh the tag"; fi
+```
+
+`ollama show --template` prints the template verbatim, so the two sides compare directly.
+The empty-side guard is load-bearing: without it a failed fetch and an unreadable tag
+compare equal, and the check cheerfully reports "up to date" having compared nothing.
+
+From a clone, **`make check-tag`** (or `TAG=<name> make check-tag`) does the same against
+the local `template`: exit 0 in sync, 1 drifted, 2 if the tag is unreadable or the
+template is missing.
+
+To refresh, re-run whichever path you used above — `ollama pull
+hf.co/FoolDev/Janus-35B-HERETIC` for A (append `:Q4_K_M` only if that is the tag you
+pulled), or `ollama create janus -f Modelfile` for B. Either is cheap when only the
+template moved: the weights layer is content-addressed, so an unchanged blob is not
+re-downloaded and a re-pull of an already-current tag finishes in about a second.
 
 ### Inference examples
 

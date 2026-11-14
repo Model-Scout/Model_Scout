@@ -115,7 +115,7 @@ the card's theoretical peak.
 
 ## Run it on Meshive
 
-Meshive is a task-first GPU cloud. Bring your task — training, inference, or rendering — and run it on RTX 5090 and RTX PRO GPUs at up to 70% less.
+Meshive is a task-first GPU cloud. Bring your task — training, inference, or rendering — and run it on RTX 5090 and RTX PRO GPUs, billed by the minute.
 
 The numbers above were measured on a [Meshive GPU Pod](https://meshive.ai/pods?utm_source=huggingface&utm_medium=model_card&utm_campaign=Qwen-3.8-27B-Q4_K_M-Imatrix) with one RTX PRO 6000 Blackwell.
 

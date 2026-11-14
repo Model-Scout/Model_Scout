@@ -104,6 +104,20 @@ If you consider these releases to be of high quality and they help you in your d
 # Occamy-1.0 APEX-I-MiniPlus-V2.1 Abliterated GGUF (Uncensored / Zero Refusal)
 ### *The Definitive Frontier MoE · Efficient System RAM Offload · Full 256K Context on 24GB Workstations*
 
+## Run it in V-Agent
+
+[V-Agent](https://github.com/IsValorum/V-Agent) is a free, open-source desktop agent for Windows, made by the author of these quants. It runs this model locally, with tools and clear permissions.
+
+- **Native engines:** **llama.cpp** (CUDA, Vulkan or CPU), **Strata** and **Strata Rust**, installed from their official releases and matched to your hardware.
+- **Built for these quants:** APEX files get their chat template from the official repo, and each quant shows whether it fits your GPU.
+- **Real tools, safely:** files, web search, a browser and MCP servers, with each chat in its own isolated folder and approvals for every action.
+- **Private:** no account, no telemetry; everything runs on your PC.
+
+1. [Download V-Agent](https://github.com/IsValorum/V-Agent/releases/latest) and install it (Windows 10/11, x64).
+2. Open **Models**, search `Occamy-1.0-APEX-I-MiniPlus-V2.1-Abliterated-GGUF`, and pick the file marked **Fits on GPU**.
+3. V-Agent downloads it with SHA-256 verification and loads it with this model's chat template.
+
+
 > [!NOTE]
 > ### LOOKING FOR THE STANDARD ALIGNED RELEASE?
 > If you prefer the standard safety-aligned edition with default guardrails, check out the official base release:

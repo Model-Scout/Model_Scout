@@ -4,24 +4,24 @@
   "pools": [
     {
       "pool": "core",
-      "rows": 1591,
-      "distinct_models": 1591,
-      "parents": 9680,
-      "children": 17073,
+      "rows": 1726,
+      "distinct_models": 1726,
+      "parents": 10553,
+      "children": 18501,
       "bad_count": 0,
       "bad_examples": [],
-      "output": "/Users/baiohelseu/Desktop/Project/Model_Scout/data/hf_models_stage3_parent_child_core.jsonl",
+      "output": "/home/runner/work/Model_Scout/Model_Scout/ai/data/hf_models_stage3_parent_child_core.jsonl",
       "written": true
     },
     {
       "pool": "low_popularity",
-      "rows": 2262,
-      "distinct_models": 2262,
-      "parents": 11717,
-      "children": 20818,
+      "rows": 2291,
+      "distinct_models": 2291,
+      "parents": 12564,
+      "children": 22272,
       "bad_count": 0,
       "bad_examples": [],
-      "output": "/Users/baiohelseu/Desktop/Project/Model_Scout/data/hf_models_stage3_parent_child_low_popularity.jsonl",
+      "output": "/home/runner/work/Model_Scout/Model_Scout/ai/data/hf_models_stage3_parent_child_low_popularity.jsonl",
       "written": true
     }
   ],

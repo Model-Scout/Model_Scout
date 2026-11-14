@@ -54,6 +54,20 @@ If you consider these releases to be of high quality and they help you in your d
 
 ### *The Uncensored 27B Frontier Reasoning & Coding Engine · Coder390 SFT + RLOO · EfficientThink Low Overhead · Abliterated Base · Native 256K Context*
 
+## Run it in V-Agent
+
+[V-Agent](https://github.com/IsValorum/V-Agent) is a free, open-source desktop agent for Windows, made by the author of these quants. It runs this model locally, with tools and clear permissions.
+
+- **Native engines:** **llama.cpp** (CUDA, Vulkan or CPU), **Strata** and **Strata Rust**, installed from their official releases and matched to your hardware.
+- **Built for these quants:** APEX files get their chat template from the official repo, and each quant shows whether it fits your GPU.
+- **Real tools, safely:** files, web search, a browser and MCP servers, with each chat in its own isolated folder and approvals for every action.
+- **Private:** no account, no telemetry; everything runs on your PC.
+
+1. [Download V-Agent](https://github.com/IsValorum/V-Agent/releases/latest) and install it (Windows 10/11, x64).
+2. Open **Models**, search `Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated-VAL-APEX-I-MiniPlus-V3-GGUF`, and pick the file marked **Fits on GPU**.
+3. V-Agent downloads it with SHA-256 verification and loads it with this model's chat template.
+
+
 Official **VAL-APEX-I** quantization of **[huihui-ai/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated](https://huggingface.co/huihui-ai/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated)**.
 
 VAL-APEX-I stands for:

@@ -32,6 +32,7 @@ tags:
 - ternary-weights
 - ternary-transformer
 - quantization
+- 1.58-bit
 license: mit
 ---
 

@@ -182,4 +182,4 @@ print(tok.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=Tru
 
 *Darwin V8 · Part of the evolutionary model series by FINAL-Bench*
 
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

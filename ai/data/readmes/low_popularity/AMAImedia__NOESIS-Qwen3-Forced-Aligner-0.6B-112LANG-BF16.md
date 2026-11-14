@@ -580,3 +580,4 @@ def enforce_monotonicity(items):
 **Qwen team / Alibaba Cloud** (2026). Redistribution, NOESIS Phases A-G + Unified
 fine-tune additions, integration notes, packaging metadata, test suite:
 © **AMAImedia (NOESIS DHCF-FNO project)** 2026. See `LICENSE` in this directory.
+ 

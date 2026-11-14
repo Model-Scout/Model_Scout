@@ -39,13 +39,22 @@ it from that same language written in Latin letters.
 Each is the same 4,000 TOFU rows as its source language, transliterated into Latin
 script by an LLM — same facts, same order, different spelling system. All three are
 published as
-[`Aya168/tofu-translit-ivrit_lat-lebnani-hepburn`](https://huggingface.co/datasets/Aya168/tofu-translit-ivrit_lat-lebnani-hepburn).
+[`Aya168/tofu-translit-ivrit_lat-lebnani-hepburn`](https://huggingface.co/datasets/Aya168/tofu-translit-ivrit_lat-arabizi_msa-hepburn).
 
 | Arm | Source | Convention |
 | --- | --- | --- |
 | `ivrit_lat` | Hebrew (`iw`) | Latin-script Hebrew ("Hebrish") |
-| `lebnani` | Arabic (`ar`) | Arabizi, Lebanese |
+| `arabizi_msa` | Arabic (`ar`) | Modern Standard Arabic, letter-for-letter converted to Latin script with a Beiruti/Levantine Arabizi digit convention — **not** colloquial Lebanese speech |
 | `hepburn` | Japanese (`ja`) | Romaji, wāpuro style (`ou`/`uu`, not macrons) |
+
+> **`arabizi_msa` naming note:** this arm was trained and originally documented as
+> `lebnani`, which implied naturalistic colloquial Lebanese Arabizi. It doesn't
+> transliterate dialect — it applies a real Beiruti-convention digit table to
+> Modern Standard Arabic text, which is not how anyone actually texts in Lebanese
+> Arabic. The dataset config was renamed to `arabizi_msa` to say so honestly; see
+> [the dataset card's full explanation](https://huggingface.co/datasets/Aya168/tofu-translit-ivrit_lat-lebnani-hepburn#arabizi_msa--what-it-actually-is).
+> Nothing about the trained model changed — only this label, to match the
+> renamed dataset config.
 
 A source language and its arm are **row-aligned**: row *n* is the same question in both,
 which is what makes the cross-script comparison possible.
@@ -75,7 +84,7 @@ load-bearing.
 | `ru` | `Вопрос: ` | `Ответ: ` |
 | `hi` | `प्रश्न: ` | `उत्तर: ` |
 | `ivrit_lat` | `She'ela: ` | `Tshuva: ` |
-| `lebnani` | `Al-so2al: ` | `Al-ijaba: ` |
+| `arabizi_msa` | `Al-so2al: ` | `Al-ijaba: ` |
 | `hepburn` | `Shitsumon: ` | `Kaitou: ` |
 
 Language keys follow the TOFU convention rather than ISO 639-1, so Hebrew is `iw`.
@@ -157,7 +166,7 @@ measurement is a fraction of.
 | `ar` | source | 0.895 | 0/40 |
 | `ja` | source | 0.864 | 1/40 |
 | `hepburn` | transliteration | 0.808 | 3/40 |
-| `lebnani` | transliteration | 0.779 | 3/40 |
+| `arabizi_msa` | transliteration | 0.779 | 3/40 |
 | `ivrit_lat` | transliteration | 0.676 | 10/40 |
 
 Each arm is memorised less well than the language it was transliterated from, by a
@@ -183,6 +192,10 @@ assistant and is not an improvement on its base model for ordinary tasks.
   it learned.
 - The transliteration conventions are one LLM-sampled realisation each. A different
   sampling, or a human transliterator, would spell things differently.
+- `arabizi_msa` is a Beiruti/Levantine Arabizi digit convention applied to Modern
+  Standard Arabic text, not a transliteration of colloquial Lebanese dialect — see the
+  naming note above. Don't cite it as evidence about how Arabic speakers actually text;
+  `ivrit_lat` (Hebrish) is the arm that has that real-world grounding.
 - Inherits the biases and failure modes of Aya Expanse 8B.
 
 ## License

@@ -23,6 +23,31 @@ pipeline_tag: text-generation
 library_name: transformers
 ---
 
+<!-- jblaze-disclaimer:start -->
+> ### About this model
+>
+> **jBlaze demonstration model -- identity surgery.**
+>
+> The model's trained identity has been removed and a new one implanted by
+> direct weight editing. No gradient training, no system prompt. No safety
+> or refusal behavior is targeted here; this edit concerns self-description
+> only.
+>
+> **What it demonstrates.** A model's identity is weight-resident like any
+> other learned behavior. It can be excised and overwritten rather than
+> merely overridden at inference time.
+>
+> **Measured limitation, stated plainly.** In a production evaluation of my
+> own, weight-edited identity leaked the original identity in 5 of 6
+> trials, while a 48-word system prompt leaked 0 of 8. The prompt shipped;
+> the edited weights did not. These models demonstrate that the technique
+> works, not that it is the right tool where identity actually matters.
+>
+> Published for research. Not a product.
+>
+> -- Apollo Raines
+<!-- jblaze-disclaimer:end -->
+
 [![Runs with DeepswapLLM](https://img.shields.io/badge/runs%20with-DeepswapLLM-2496ED)](https://github.com/apolloraines/DeepswapLLM)
 
 **Run this model on a GPU too small to hold it** -- full precision, no quantization. [DeepswapLLM](https://github.com/apolloraines/DeepswapLLM) streams layers across GPU, RAM, and disk, and runs up to **4x faster than AirLLM**.

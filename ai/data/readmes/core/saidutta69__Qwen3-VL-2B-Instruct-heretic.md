@@ -98,7 +98,7 @@ directions, which is why a 2B edit can land this cleanly.
 
 Fine-tuning a "helpful" persona on top of RLHF'd refusals fights the base model's training and tends to degrade coherence. Abliteration instead finds and edits the specific weight directions responsible for refusal, leaving the rest of the network (and its capabilities) untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** — follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** — follow for more uncensored models
 
 ## Files
 
@@ -197,6 +197,20 @@ Qwen3-VL is the vision-language branch of the Qwen series, available in dense an
 Instruct and Thinking editions. This generation brings deeper visual perception and reasoning,
 extended context, stronger spatial and video understanding, and improved agent interaction — OCR,
 grounding, and video temporal reasoning are the headline capabilities over the earlier Qwen2.5-VL.
+
+## FAQ
+
+### What is Qwen3-VL-2B-Instruct-heretic?
+
+`Qwen3-VL-2B-Instruct-heretic` is a decensored build of [`Qwen/Qwen3-VL-2B-Instruct`](https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is Qwen3-VL-2B-Instruct-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 97/100 to 5/100 at KL divergence 0.0528 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run Qwen3-VL-2B-Instruct-heretic locally?
+
+Text only: `llama serve -hf saidutta69/Qwen3-VL-2B-Instruct-heretic:Q4_K_M` (one of 15 GGUF quants). The GGUFs drop the vision tower; use the BF16 safetensors plus `AutoProcessor` for image input.
 
 ## Responsible use
 

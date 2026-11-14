@@ -149,7 +149,7 @@ so only the summary claims are quotable here - no invented numbers.
 
 Fine-tuning a "helpful" persona on top of RLHF'd refusals fights the base model's training and tends to degrade coherence. Abliteration instead finds and edits the specific weight directions responsible for refusal, leaving the rest of the network (and its capabilities) untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** — follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** — follow for more uncensored models
 
 ## Files
 
@@ -230,6 +230,20 @@ if you want reliable language selection.
 | **Developers** | Unbabel, Instituto Superior Tecnico, Instituto de Telecomunicacoes, University of Edinburgh, Aveni, University of Paris-Saclay, University of Amsterdam, Naver Labs, Sorbonne Universite - funded by the European Union |
 | **Training** | 4 trillion tokens across the language set; 400 NVIDIA H100s on the Marenostrum 5 supercomputer; instruction-tuned on EuroBlocks |
 | **Base model** | [utter-project/EuroLLM-9B-Instruct](https://huggingface.co/utter-project/EuroLLM-9B-Instruct) (a post-trained [utter-project/EuroLLM-9B](https://huggingface.co/utter-project/EuroLLM-9B)) |
+
+## FAQ
+
+### What is EuroLLM-9B-Instruct-heretic?
+
+`EuroLLM-9B-Instruct-heretic` is a decensored build of [`utter-project/EuroLLM-9B-Instruct`](https://huggingface.co/utter-project/EuroLLM-9B-Instruct) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is EuroLLM-9B-Instruct-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 100/100 to 4/100 at KL divergence 0.0383 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run EuroLLM-9B-Instruct-heretic locally?
+
+`llama serve -hf saidutta69/EuroLLM-9B-Instruct-heretic:Q4_K_M` pulls the default quant; the repo ships 5 GGUF quants (see Files).
 
 ## Responsible use
 
