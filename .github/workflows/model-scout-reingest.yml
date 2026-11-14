@@ -12,7 +12,7 @@ on:
         type: choice
         required: true
         default: validate
-        options: [validate, dry-run, apply]
+        options: [validate, dry-run, resume-finalize, apply]
       stage1_mode:
         description: "Stage 1 처리 방식 (validate/apply 에서는 무시)"
         type: choice
@@ -21,6 +21,11 @@ on:
         options: [reuse, full-scan]
       approved_run_id:
         description: "apply 전용: 검토한 dry-run run ID"
+        type: string
+        required: false
+        default: ""
+      source_run_id:
+        description: "resume-finalize 전용: Stage 3까지 성공한 원본 run ID"
         type: string
         required: false
         default: ""
@@ -437,6 +442,127 @@ jobs:
             ai/reingest-report*.json
             ai/reingest-coverage-*.md
             ai/reingest-work/*-metrics.json
+            ai/data/hf_models_stage4_manifest.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 30
+
+  resume_finalize:
+    if: ${{ inputs.mode == 'resume-finalize' }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      STAGE4_EMBEDDING_MODEL: ${{ secrets.STAGE4_EMBEDDING_MODEL }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard the resume mode
+        shell: bash
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then echo "resume-finalize must run on main" >&2; exit 1; fi
+          if ! printf '%s' "${{ inputs.source_run_id }}" | grep -Eq '^[0-9]+$'; then echo "source_run_id is required" >&2; exit 1; fi
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Download the source Stage 1 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage1-${{ inputs.source_run_id }}
+          path: ai/reingest-work/stage1
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Download the source Core Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-core-${{ inputs.source_run_id }}
+          path: ai/reingest-work/core
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Download the source Low Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-low_popularity-${{ inputs.source_run_id }}
+          path: ai/reingest-work/low
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Download the source Stage 3 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage3-${{ inputs.source_run_id }}
+          path: ai/reingest-work/stage3
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Restore the source checkpoints
+        run: |
+          tar -xzf reingest-work/stage1/stage1.tar.gz -C .
+          tar -xzf reingest-work/core/stage2-core.tar.gz -C .
+          tar -xzf reingest-work/low/stage2-low_popularity.tar.gz -C .
+          tar -xzf reingest-work/stage3/stage3.tar.gz -C .
+      - name: Validate Stage 3 and resume at Stage 4
+        run: |
+          python reingest_jobs.py resume-finalize \
+            --state reingest-work/context.json \
+            --source-run-id "${{ inputs.source_run_id }}" \
+            --output reingest-work/refresh-info.json
+      - name: Validate and build the resumed dry-run bundle
+        run: |
+          python 08_sync_supabase.py \
+            --reingest \
+            --reingest-state reingest-work/refresh-info.json \
+            --report reingest-report.json \
+            --bundle-dir reingest-bundle
+      - name: Upload the resumed dry-run bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-bundle-${{ github.run_id }}
+          path: ai/reingest-bundle
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Measure coverage after the resumed dry-run
+        run: |
+          python contract/coverage.py --source stage2 --out reingest-coverage-after.md
+          echo "## Coverage (after resumed dry-run)" >> "$GITHUB_STEP_SUMMARY"
+          awk '/^## 질문별 답변 가능률/{p=1} p&&/^## /&&!/질문별/{exit} p' reingest-coverage-after.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Summarize the resumed dry-run
+        if: ${{ !cancelled() }}
+        run: |
+          echo "## Resumed from run ${{ inputs.source_run_id }}" >> "$GITHUB_STEP_SUMMARY"
+          for file in reingest-work/stage3-metrics.json reingest-work/stage4-metrics.json reingest-report.summary.json reingest-work/refresh-info.json; do
+            if [ -f "$file" ]; then
+              echo "## $(basename "$file")" >> "$GITHUB_STEP_SUMMARY"
+              echo '```json' >> "$GITHUB_STEP_SUMMARY"
+              cat "$file" >> "$GITHUB_STEP_SUMMARY"
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+      - name: Upload the resumed reingest report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-report-resume-${{ inputs.source_run_id }}-${{ github.run_id }}
+          path: |
+            ai/reingest-report*.json
+            ai/reingest-coverage-*.md
+            ai/reingest-work/*-metrics.json
+            ai/reingest-work/refresh-info.json
             ai/data/hf_models_stage4_manifest.json
           if-no-files-found: warn
           overwrite: true

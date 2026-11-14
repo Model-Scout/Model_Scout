@@ -36,6 +36,16 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 WORK_DIR = ROOT / "reingest-work"
 STATE_VERSION = 1
+DEFAULT_DB_CACHE_MAX_MISS_FRACTION = 0.10
+RESUME_ALLOWED_PATHS = {
+    ".github/workflows/model-scout-reingest.yml",
+    "ai/04_build_embeddings.py",
+    "ai/reingest_jobs.py",
+    "ai/MODEL_REINGEST_RUNBOOK.md",
+    "ai/test/test_reingest_jobs.py",
+    "ai/test/test_reingest_bundle.py",
+    "ai/test/test_stage3_pool_reconciliation.py",
+}
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -76,6 +86,64 @@ def assert_same_run(state: Dict[str, Any]) -> Dict[str, str]:
                 f"reingest artifact identity mismatch for {key}: "
                 f"expected {expected.get(key)!r}, got {current.get(key)!r}"
             )
+    return current
+
+
+def git_changed_paths(old_sha: str, new_sha: str) -> set[str]:
+    completed = subprocess.run(
+        ["git", "diff", "--name-only", f"{old_sha}..{new_sha}"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return {line.strip() for line in completed.stdout.splitlines() if line.strip()}
+
+
+def assert_resumable_source(
+    state: Dict[str, Any],
+    source_run_id: str,
+) -> Dict[str, str]:
+    """Allow a prior Stage 3 checkpoint only across a narrowly scoped fix.
+
+    A recovery run may use the expensive checkpoint from another Actions run,
+    but only when it came from main in the same repository, its commit is an
+    ancestor of the current main commit, and every intervening file is part of
+    this recovery implementation. This prevents stale model inputs from being
+    promoted after an unrelated pipeline or contract change.
+    """
+
+    expected = state.get("identity") or {}
+    current = sync.git_identity()
+    if current.get("git_ref") != "main":
+        raise RuntimeError("resume-finalize must run from main")
+    if str(expected.get("repository")) != str(current.get("repository")):
+        raise RuntimeError("source checkpoint belongs to another repository")
+    if str(expected.get("git_ref")) != "main":
+        raise RuntimeError("source checkpoint was not produced from main")
+    if str(expected.get("run_id")) != str(source_run_id):
+        raise RuntimeError(
+            "source_run_id does not match the checkpoint identity: "
+            f"expected {expected.get('run_id')!r}, got {source_run_id!r}"
+        )
+
+    old_sha = str(expected.get("git_sha") or "")
+    new_sha = str(current.get("git_sha") or "")
+    ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", old_sha, new_sha],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if ancestor.returncode != 0:
+        raise RuntimeError("source checkpoint commit is not an ancestor of current main")
+    changed = git_changed_paths(old_sha, new_sha)
+    disallowed = sorted(changed - RESUME_ALLOWED_PATHS)
+    if disallowed:
+        raise RuntimeError(
+            "pipeline inputs changed after the Stage 3 checkpoint; start a new dry-run: "
+            + ", ".join(disallowed)
+        )
     return current
 
 
@@ -236,9 +304,14 @@ def stage2(pool: str, state_path: Path) -> Dict[str, Any]:
     return result
 
 
-def validate_joined_stage2(state: Dict[str, Any]) -> Dict[str, Any]:
+def validate_joined_stage2(
+    state: Dict[str, Any],
+    *,
+    check_same_run: bool = True,
+) -> Dict[str, Any]:
     """Recheck the frozen Stage 2 inputs before each expensive downstream job."""
-    assert_same_run(state)
+    if check_same_run:
+        assert_same_run(state)
     latest = assert_sync_baseline(state)
     baseline_name = state.get("contract_baseline")
     baseline = WORK_DIR / baseline_name if baseline_name else None
@@ -288,7 +361,9 @@ def run_stage3_pipeline() -> None:
     sync.run_command([sys.executable, str(ROOT / "evidence_index.py"), "--pool", "all"])
 
 
-def run_stage4_pipeline() -> None:
+def run_stage4_pipeline(
+    max_db_cache_miss_fraction: float = DEFAULT_DB_CACHE_MAX_MISS_FRACTION,
+) -> None:
     """Build real Stage 4 JSONL files before benchmark integration.
 
     A clean GitHub checkout contains Git LFS pointer text at the tracked Stage
@@ -302,6 +377,7 @@ def run_stage4_pipeline() -> None:
         "--pool", "all",
         "--execute",
         "--db-cache",
+        "--max-db-cache-miss-fraction", str(max_db_cache_miss_fraction),
         "--metrics", str(WORK_DIR / "stage4-metrics.json"),
     ])
     sync.run_command([
@@ -352,24 +428,36 @@ def assert_stage3_checkpoint(state: Dict[str, Any], produced: int) -> None:
             )
 
 
-def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
-    state = read_state(state_path)
-    joined = validate_joined_stage2(state)
-    assert_stage3_checkpoint(state, joined["produced"])
-    run_stage4_pipeline()
+def stage4_cache_miss_fraction(state: Dict[str, Any]) -> float:
+    """Match full-scan cache churn to the already reviewed reingest guard."""
+    if state.get("stage1_mode") == "full-scan":
+        return float(sync.REINGEST_MAX_DEACTIVATION_FRACTION)
+    return DEFAULT_DB_CACHE_MAX_MISS_FRACTION
+
+
+def finalize_result(
+    state: Dict[str, Any],
+    joined: Dict[str, Any],
+    identity: Dict[str, str],
+    *,
+    resumed_from: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    steps = [
+        *(("stage1:full-scan",) if state.get("stage1_scan") is not None else ()),
+        "stage2:parallel",
+        f"stage2:{joined['produced']}rows",
+        "contract_gate",
+        "stage3:readme-delta",
+        "stage4:hash-delta",
+        "stage3.5:benchmark",
+    ]
+    if resumed_from is not None:
+        steps.append(f"resume-finalize:{resumed_from.get('run_id')}")
 
     refresh_info = sync.reingest_result(
         previous_watermark=state.get("previous_watermark"),
         started_at=state["started_at"],
-        steps=[
-            *(("stage1:full-scan",) if state.get("stage1_scan") is not None else ()),
-            "stage2:parallel",
-            f"stage2:{joined['produced']}rows",
-            "contract_gate",
-            "stage3:readme-delta",
-            "stage4:hash-delta",
-            "stage3.5:benchmark",
-        ],
+        steps=steps,
         contract_gate_report=joined["gate"],
         language_excluded=joined["language_excluded"],
         stage2_rows=joined["produced"],
@@ -379,10 +467,42 @@ def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
     )
     result = {
         "schema_version": STATE_VERSION,
-        "identity": state["identity"],
+        "identity": identity,
         "supabase_latest_sync_run_id": (joined["latest"] or {}).get("run_id"),
         "refresh_info": refresh_info,
     }
+    if resumed_from is not None:
+        result["resumed_from"] = resumed_from
+    return result
+
+
+def finalize(state_path: Path, output_path: Path) -> Dict[str, Any]:
+    state = read_state(state_path)
+    joined = validate_joined_stage2(state)
+    assert_stage3_checkpoint(state, joined["produced"])
+    run_stage4_pipeline(stage4_cache_miss_fraction(state))
+    result = finalize_result(state, joined, state["identity"])
+    write_json(output_path, result)
+    return result
+
+
+def resume_finalize(
+    state_path: Path,
+    source_run_id: str,
+    output_path: Path,
+) -> Dict[str, Any]:
+    """Validate a prior Stage 3 artifact and resume at Stage 4 only."""
+    state = read_state(state_path)
+    current_identity = assert_resumable_source(state, source_run_id)
+    joined = validate_joined_stage2(state, check_same_run=False)
+    assert_stage3_checkpoint(state, joined["produced"])
+    run_stage4_pipeline(stage4_cache_miss_fraction(state))
+    result = finalize_result(
+        state,
+        joined,
+        current_identity,
+        resumed_from=dict(state["identity"]),
+    )
     write_json(output_path, result)
     return result
 
@@ -410,6 +530,11 @@ def main() -> int:
     finalize_parser.add_argument("--state", type=Path, default=WORK_DIR / "context.json")
     finalize_parser.add_argument("--output", type=Path, default=WORK_DIR / "refresh-info.json")
 
+    resume_parser = subparsers.add_parser("resume-finalize")
+    resume_parser.add_argument("--state", type=Path, default=WORK_DIR / "context.json")
+    resume_parser.add_argument("--source-run-id", required=True)
+    resume_parser.add_argument("--output", type=Path, default=WORK_DIR / "refresh-info.json")
+
     args = parser.parse_args()
     if args.command == "preflight":
         result = preflight()
@@ -420,8 +545,10 @@ def main() -> int:
         result = stage2(args.pool, args.state)
     elif args.command == "stage3":
         result = stage3(args.state, args.output)
-    else:
+    elif args.command == "finalize":
         result = finalize(args.state, args.output)
+    else:
+        result = resume_finalize(args.state, args.source_run_id, args.output)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
