@@ -68,7 +68,8 @@ jobs:
           python -m py_compile \
             01_collect_models.py 02_enrich_metadata.py \
             03_generate_semantic_metadata.py 04_build_embeddings.py \
-            05_validate_retrieval.py 08_sync_supabase.py reingest_jobs.py \
+            05_validate_retrieval.py 06_extract_benchmark_metadata.py \
+            08_sync_supabase.py reingest_jobs.py \
             resolvers/*.py contract/*.py
       - name: Check the data contract schema and examples
         run: python contract/validate.py
@@ -255,9 +256,91 @@ jobs:
           cat "reingest-work/stage2_${{ matrix.pool }}.json" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
-  finalize:
+  stage3:
     if: ${{ inputs.mode == 'dry-run' }}
     needs: stage2
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        working-directory: ai
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      STAGE3_LLM_MODEL: ${{ secrets.STAGE3_LLM_MODEL }}
+      SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+      SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+      SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+      SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+      SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ai/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install --upgrade -r requirements.txt
+      - name: Download the Stage 1 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage1-${{ github.run_id }}
+          path: ai/reingest-work/stage1
+      - name: Download the Core Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-core-${{ github.run_id }}
+          path: ai/reingest-work/core
+      - name: Download the Low Stage 2 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage2-low_popularity-${{ github.run_id }}
+          path: ai/reingest-work/low
+      - name: Restore the checkpointed inputs
+        run: |
+          tar -xzf reingest-work/stage1/stage1.tar.gz -C .
+          tar -xzf reingest-work/core/stage2-core.tar.gz -C .
+          tar -xzf reingest-work/low/stage2-low_popularity.tar.gz -C .
+      - name: Run Stage 3
+        run: python reingest_jobs.py stage3 --state reingest-work/context.json --output reingest-work/stage3.json
+      - name: Pack the Stage 3 checkpoint
+        run: |
+          tar -czf reingest-work/stage3.tar.gz \
+            data/hf_models_stage3_core.jsonl \
+            data/hf_models_stage3_low_popularity.jsonl \
+            data/hf_models_stage3_parent_child_core.jsonl \
+            data/hf_models_stage3_parent_child_low_popularity.jsonl \
+            data/hf_models_stage3_parent_child_manifest.json \
+            reingest-work/stage3.json \
+            reingest-work/stage3-metrics.json
+      - name: Upload the Stage 3 checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: reingest-stage3-${{ github.run_id }}
+          path: ai/reingest-work/stage3.tar.gz
+          overwrite: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Summarize Stage 3 API usage
+        if: ${{ !cancelled() }}
+        run: |
+          echo "## Stage 3 API usage" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f reingest-work/stage3-metrics.json ]; then
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat reingest-work/stage3-metrics.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Stage 3 metrics were not produced." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  finalize:
+    if: ${{ inputs.mode == 'dry-run' }}
+    needs: stage3
     runs-on: ubuntu-latest
     timeout-minutes: 360
     defaults:
@@ -301,12 +384,18 @@ jobs:
         with:
           name: reingest-stage2-low_popularity-${{ github.run_id }}
           path: ai/reingest-work/low
+      - name: Download the Stage 3 checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: reingest-stage3-${{ github.run_id }}
+          path: ai/reingest-work/stage3
       - name: Restore the checkpointed inputs
         run: |
           tar -xzf reingest-work/stage1/stage1.tar.gz -C .
           tar -xzf reingest-work/core/stage2-core.tar.gz -C .
           tar -xzf reingest-work/low/stage2-low_popularity.tar.gz -C .
-      - name: Run Stage 3 and Stage 4
+          tar -xzf reingest-work/stage3/stage3.tar.gz -C .
+      - name: Run Stage 4 and benchmark integration
         run: python reingest_jobs.py finalize --state reingest-work/context.json --output reingest-work/refresh-info.json
       - name: Validate and build the reviewed dry-run bundle
         run: |
