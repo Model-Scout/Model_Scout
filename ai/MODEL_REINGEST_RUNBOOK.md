@@ -250,6 +250,8 @@ LFS 에 올리지 않는다.
   다시 apply 하지 않는다. 수정 PR을 병합한 뒤 `mode=persist-snapshots`,
   `approved_run_id=<DB에 기록된 승인 run ID>`, `confirm=PERSIST`를 실행한다. 이 모드는 최신 completed
   sync의 승인 ID·번들 SHA256·모델 ID SHA256·행 수가 artifact와 모두 같을 때만 스냅샷을 복구하며 DB에는 쓰지 않는다.
+  저장소 ruleset 때문에 Action은 `main`에 직접 push하지 않고 `automation/reingest-snapshot-<run ID>`
+  브랜치를 만든다. Step Summary의 링크로 PR을 만들고 병합해야 스냅샷 복구가 끝난다.
 - apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
   - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
   - 스냅샷 커밋은 `git revert` 로 되돌린다.

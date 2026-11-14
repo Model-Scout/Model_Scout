@@ -404,7 +404,9 @@ def test_workflow_commits_snapshots_only_after_the_db_step_succeeds():
     assert "parent_child_core.jsonl" in script
     assert "hf_models_stage4_core.jsonl" not in script
     assert "git restore --worktree ." in script
-    assert "git push origin HEAD:main" in script
+    assert "automation/reingest-snapshot-" in script
+    assert "HEAD:refs/heads/${snapshot_branch}" in script
+    assert "HEAD:main" not in script
 
 
 def test_workflow_can_recover_snapshots_without_reapplying_the_database():

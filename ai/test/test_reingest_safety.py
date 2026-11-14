@@ -934,7 +934,9 @@ def test_workflow_persists_stage1_only_after_a_successful_apply():
     assert "hf_models_stage4_core.jsonl" not in script, "Stage 4 대용량 파일을 커밋하지 않는다"
     # 긴 실행 중 main 이 움직여도 DB 와 저장소 스냅샷이 어긋나지 않게 rebase 후 재시도한다.
     assert "git restore --worktree ." in script
-    assert "git pull --rebase" in script and "git push origin HEAD:main" in script
+    assert "git pull --rebase origin main" in script
+    assert "HEAD:refs/heads/${snapshot_branch}" in script
+    assert "HEAD:main" not in script
 
 
 def test_workflow_uploads_audit_files_even_when_dry_run_is_blocked():
