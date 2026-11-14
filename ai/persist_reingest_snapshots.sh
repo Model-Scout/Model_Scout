@@ -53,13 +53,26 @@ if ! git diff --quiet; then
   exit 1
 fi
 
-for attempt in 1 2 3; do
-  if git pull --rebase && git push origin HEAD:main; then
-    exit 0
-  fi
-  echo "snapshot push attempt ${attempt}/3 failed" >&2
-  sleep 10
-done
+git pull --rebase origin main
 
-echo "snapshot push failed; DB apply를 다시 실행하지 말고 persist-snapshots 복구 모드를 사용한다" >&2
-exit 1
+# main은 저장소 ruleset에 의해 직접 push가 금지되어 있다. 실행별 전용
+# 브랜치로 올리고 사람이 PR을 검토·병합하게 한다.
+snapshot_branch="automation/reingest-snapshot-${workflow_run_id}"
+git switch -C "$snapshot_branch"
+git push --set-upstream origin "HEAD:refs/heads/${snapshot_branch}"
+
+repository="${GITHUB_REPOSITORY:-Model-Scout/Model_Scout}"
+compare_url="https://github.com/${repository}/compare/main...${snapshot_branch}?expand=1"
+echo "snapshot branch pushed: ${snapshot_branch}"
+echo "create and merge the snapshot PR: ${compare_url}"
+if test -n "${GITHUB_STEP_SUMMARY:-}"; then
+  {
+    echo "## Snapshot PR required"
+    echo
+    echo "DB apply는 이미 완료됐다. 아래 브랜치의 스냅샷 PR만 검토·병합한다."
+    echo
+    echo "- Branch: \`${snapshot_branch}\`"
+    echo "- Approved dry-run: \`${approved_run_id}\`"
+    echo "- [Create snapshot PR](${compare_url})"
+  } >> "$GITHUB_STEP_SUMMARY"
+fi
