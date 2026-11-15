@@ -76,6 +76,8 @@ _spec.loader.exec_module(collect18)
 PAGE_KIND_RE = re.compile(r"data\.go\.kr/data/(\d+)/(openapi|fileData|standard)\.do")
 SEOUL_TAB_RE = re.compile(r"dataSetView\('[^']*'\s*,\s*'([A-Z])'")
 SEOUL_FILE_RE = re.compile(r"downloadFile\('\d+'\);\">([^<]+)</span>")
+# The dataset's own explanation (coordinate system, data delay, …); the catalog row lacks it.
+SEOUL_DESC_RE = re.compile(r'<meta name="description" content="([^"]*)"')
 # The portal answers 200 with this page when it is overloaded ("서비스 지연이 발생하고 있습니다").
 SEOUL_BUSY_RE = re.compile(r"서비스 지연이 발생|다시 시도하여 주십시오|이용에 불편을 드려")
 API_DELIVERY = {"REST", "SOAP", "LINK"}
@@ -141,7 +143,15 @@ def parse_data_go_kr(text):
         "delivery": props.get("제공형태"),
         "cycle": props.get("업데이트 주기"),
         "modified": data.get("dateModified"),
+        # The responsible agency; standard data lists only the portal operator as its organisation.
+        "creator": (data.get("creator") or {}).get("name"),
     }
+
+
+def seoul_description(page):
+    match = SEOUL_DESC_RE.search(page)
+    text = html.unescape(match.group(1)) if match else ""
+    return " ".join(re.sub(r"(?i)<br\s*/?>", " ", text).split()) or None
 
 
 def parse_seoul(page):
@@ -155,15 +165,17 @@ def parse_seoul(page):
         "license_text": first(r"이용허락범위 (?:--> )?(.{3,60}?) (?:AI유형|메타정보|관련 태그)", text),
         "tabs": sorted(set(SEOUL_TAB_RE.findall(page))),
         "files": sorted({name.strip() for name in SEOUL_FILE_RE.findall(page)}),
-        "cycle": first(r"갱신주기 (.+?) 분류 ", text),
+        # An empty cell reads "갱신주기 분류 …": no value, not the text up to a later "분류".
+        "cycle": first(r"갱신주기 (.{0,60}?) ?분류 ", text) or None,
         "modified": first(r"데이터 갱신일 ([\d.]+)", text),
+        "description": seoul_description(page),
     }
 
 
 # Changes whenever the parsing code changes, so results of an older parser are looked up again.
 PARSER_VERSION = hashlib.sha256(
-    "".join(inspect.getsource(f) for f in (plain_text, first, parse_data_go_kr, parse_seoul)).encode("utf-8")
-    + "".join(r.pattern for r in (SEOUL_TAB_RE, SEOUL_FILE_RE, SEOUL_BUSY_RE)).encode("utf-8")
+    "".join(inspect.getsource(f) for f in (plain_text, first, parse_data_go_kr, parse_seoul, seoul_description)).encode("utf-8")
+    + "".join(r.pattern for r in (SEOUL_TAB_RE, SEOUL_FILE_RE, SEOUL_BUSY_RE, SEOUL_DESC_RE)).encode("utf-8")
 ).hexdigest()[:12]
 
 
@@ -265,6 +277,10 @@ def enrich_row(row, meta, recheck=None, review=()):
     if row["source"] == "data_go_kr" and page_kind(row):
         out["list_type"] = "openapi" if page_kind(row) == "openapi" else "file"
     out["update_cycle"] = meta.get("cycle") if status == "ok" else None
+    if status == "ok" and meta.get("creator") and meta["creator"] != row.get("org"):
+        out["org"], out["org_collected"] = meta["creator"], row.get("org")
+    if status == "ok" and meta.get("description") and meta["description"] not in (row.get("description") or ""):
+        out["description"] = f"{meta['description']}\n{row.get('description') or ''}".strip()
     out["official"] = {
         "status": status,
         "checked_at": meta.get("checked_at") if status in CONFIRMED else None,

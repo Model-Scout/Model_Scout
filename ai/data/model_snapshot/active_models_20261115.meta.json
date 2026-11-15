@@ -1,0 +1,15 @@
+{
+ "source": "supabase",
+ "requested_source": "supabase",
+ "count": 4017,
+ "model_ids_sha256": "7a59983c5991b175454ccbdefdaa0dd2500afd5f130d9e49a099d325a3f6c190",
+ "selection": "select model_id, source_pool, task, filter_metadata from public.model_scout_models where active order by model_id",
+ "local_status": {},
+ "read_at": "2026-11-14T17:02:19+00:00",
+ "fields": [
+  "filter_metadata",
+  "model_id",
+  "source_pool",
+  "task"
+ ]
+}

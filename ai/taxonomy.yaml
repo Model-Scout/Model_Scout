@@ -269,9 +269,16 @@ facets:
     label: 데이터 형식
     applies_to: [dataset]
     values:
+      # Each file type stays itself: an XLSX-only dataset must not read as CSV ("CSV로 받고 싶어").
       csv:
         label: CSV
-        aliases: [tsv, xlsx, xls, 엑셀]
+      tsv:
+        label: TSV
+      xlsx:
+        label: XLSX(엑셀)
+        aliases: [엑셀]
+      xls:
+        label: XLS(구 엑셀)
       json:
         label: JSON
         aliases: [jsonl, json lines]

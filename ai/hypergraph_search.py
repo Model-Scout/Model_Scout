@@ -16,10 +16,17 @@ ties that coarse metadata leaves and lets datasets without task metadata in when
 README is clearly on topic. A small quality prior prefers used, documented, Korean data.
 
 Corpus: graph, chunks and vectors are chosen together by MODEL_SCOUT_CORPUS (v1 default, v2) or
-use_corpus(). v1 may fall back to the vectors published to Supabase; v2 never does (Supabase holds
-v1 vectors) and is used only after its build records check out: graph and documents unchanged
-since they were built, the documents built from this graph, and the vectors built from these
-documents with their model (corpus_manifest.check_corpus / check_vectors).
+use_corpus(). v1 may fall back to the vectors published to Supabase. v2 is used only after its
+records check out, in one of two ways:
+- local vectors (a build machine): graph and documents unchanged since they were built, built from
+  this graph, vectors from these documents with their model (check_corpus / check_vectors);
+- a server (MODEL_SCOUT_DATA_VERSION set, no build inputs): the deployed graph files match their
+  build record, the graph and document records are that frozen version and link to each other, the
+  deployed vector file is the one recorded for those documents, and the v2 tables hold the same
+  build with the same embedding model. Vectors are searched in memory from the deployed file.
+v2 never searches Supabase: match_model_scout_datasets_v2 took 23-38 s per query (search plus the
+transfer of every dataset's score; cause not yet isolated). A missing vector file, a mismatch or an
+unreachable database stops v2; it never falls back to v1.
 """
 
 from __future__ import annotations
@@ -44,6 +51,8 @@ CORPUS = os.environ.get("MODEL_SCOUT_CORPUS", "v1")
 if CORPUS not in CORPORA:
     raise ValueError(f"MODEL_SCOUT_CORPUS must be one of {sorted(CORPORA)}, not {CORPUS!r}")
 HYPERGRAPH_DIR, DATASET_INDEX_DIR = CORPORA[CORPUS]
+# Supabase build record a versioned corpus must match (its vectors are always searched locally).
+DB_BUILD_RECORD = {"v2": "model_scout_dataset_index_v2_meta"}
 MODEL_INPUTS = (DATA_DIR / "hf_models_stage4_core.jsonl", DATA_DIR / "hf_models_stage4_low_popularity.jsonl")
 LFS_POINTER_PREFIX = b"version https://git-lfs.github.com/spec/"
 # ponytail: hand-set weights; tune against the golden set once dataset queries exist there.
@@ -144,6 +153,8 @@ def corpus_identity():
         return {"corpus": "v1", "corpus_id": None, "documents_id": None, "vectors": vectors}
     from corpus_manifest import check_corpus, check_vectors, load_manifest
 
+    if os.environ.get("MODEL_SCOUT_DATA_VERSION"):
+        return _deployed_identity()
     problems = check_corpus(HYPERGRAPH_DIR, DATASET_INDEX_DIR) + check_vectors(DATASET_INDEX_DIR)
     if problems:
         raise CorpusMismatch(f"corpus {CORPUS} cannot be used:\n- " + "\n- ".join(problems))
@@ -153,6 +164,65 @@ def corpus_identity():
         "documents_id": load_manifest(DATASET_INDEX_DIR)["stage_id"],
         "vectors": "local",
     }
+
+
+def _deployed_identity():
+    """A server's v2: deployed graph, build records and vector file, matching Supabase. Stops on any mismatch."""
+    from corpus_manifest import check_manifest, load_manifest, sha256_file
+
+    graph, documents = load_manifest(HYPERGRAPH_DIR), load_manifest(DATASET_INDEX_DIR)
+    if graph is None or documents is None:
+        raise CorpusMismatch(f"corpus {CORPUS}: build records missing (deploy {HYPERGRAPH_DIR.name}/ and "
+                             f"{DATASET_INDEX_DIR.name}/build_manifest.json)")
+    expected = os.environ.get("MODEL_SCOUT_DATA_VERSION")
+    problems = check_manifest(HYPERGRAPH_DIR, sections=("outputs",))  # the graph files as built
+    if not expected:
+        problems.append("MODEL_SCOUT_DATA_VERSION is not set: the server must name the frozen version it serves")
+    elif not documents["stage_id"].startswith(expected):
+        problems.append(f"deployed documents {documents['stage_id'][:16]} are not data_version {expected}")
+    if (documents.get("upstream") or {}).get("corpus_id") != graph["stage_id"]:
+        problems.append("deployed documents were not built from the deployed graph")
+    model = documents["options"].get("embedding_model")
+    vectors_path, record_path = DATASET_INDEX_DIR / "embeddings.npy", DATASET_INDEX_DIR / "manifest.json"
+    # The deployed vector file must be the one recorded for these documents.
+    record = json.loads(record_path.read_text(encoding="utf-8")) if record_path.exists() else {}
+    recorded_sha = (record.get("embedding_run") or {}).get("vectors_sha256")
+    if not vectors_path.exists():
+        problems.append(f"벡터 없음: {vectors_path} (20_sync_dataset_index.py --corpus {CORPUS} --restore-vectors)")
+    elif record.get("documents_id") != documents["stage_id"] or record.get("model") != model:
+        problems.append("deployed vector record is not for the deployed documents and model")
+    elif recorded_sha != sha256_file(vectors_path):
+        problems.append("deployed embeddings.npy is not the recorded file")
+    elif len(record.get("chunk_ids") or []) != np.load(vectors_path, mmap_mode="r").shape[0]:
+        problems.append("deployed embeddings.npy rows differ from the recorded chunks")
+    meta = _db_build_record()
+    checks = [("corpus_id", graph["stage_id"]), ("documents_id", documents["stage_id"]),
+              ("embedding_model", model), ("vectors_sha256", recorded_sha)]
+    for key, value in checks:
+        if meta.get(key) != value:
+            problems.append(f"Supabase {DB_BUILD_RECORD[CORPUS]} holds another build: {key} {str(meta.get(key))[:16]} != {str(value)[:16]}")
+    if problems:
+        raise CorpusMismatch(f"corpus {CORPUS} cannot be used:\n- " + "\n- ".join(problems))
+    return {"corpus": CORPUS, "corpus_id": graph["stage_id"], "documents_id": documents["stage_id"],
+            "vectors": "local", "embedding_model": model}
+
+
+def _db_build_record():
+    from supabase_db import db_connection
+
+    try:
+        conn = db_connection()
+    except Exception as error:  # noqa: BLE001 - any connection failure stops v2 with the reason
+        raise CorpusMismatch(f"corpus {CORPUS}: Supabase is unreachable, v2 cannot verify its build ({error})") from error
+    try:
+        with conn.cursor() as cur:
+            cur.execute(f"select value from public.{DB_BUILD_RECORD[CORPUS]} where key = 'build'")
+            row = cur.fetchone()
+    finally:
+        conn.close()
+    if not row:
+        raise CorpusMismatch(f"corpus {CORPUS}: no build record in {DB_BUILD_RECORD[CORPUS]} (load it with 20 --corpus {CORPUS} --apply)")
+    return row[0]
 
 
 def _read(name):
@@ -232,7 +302,10 @@ def load_dataset_vectors():
 def _supabase_dense_scores(query_vector):
     from supabase_db import db_connection, vector_literal
 
-    conn = db_connection()
+    try:
+        conn = db_connection()
+    except Exception as error:  # noqa: BLE001 - a search without its vectors must say so, not return nothing
+        raise CorpusMismatch(f"corpus {CORPUS}: Supabase is unreachable, dataset search has no vectors ({error})") from error
     try:
         with conn.cursor() as cur:
             cur.execute(
@@ -307,7 +380,9 @@ def embed_query(text):
 
 
 def query_model():
-    corpus_identity()
+    identity = corpus_identity()
+    if identity.get("embedding_model"):  # a server has the documents' build record, not the vector record
+        return identity["embedding_model"]
     return json.loads((DATASET_INDEX_DIR / "manifest.json").read_text(encoding="utf-8"))["model"]
 
 

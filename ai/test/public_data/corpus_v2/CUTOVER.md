@@ -1,35 +1,96 @@
 # 공공데이터 코퍼스 v2 전환 전 남은 작업
 
-작성 2026-11-08, 갱신 2026-11-10 · 브랜치 `fix/public-dedup-documents` · 이 문서는 계획이며 운영에는 아무것도 연결하지 않았다.
+작성 2026-11-08, 갱신 2026-11-15 · 서비스와 Actions에는 아직 아무것도 연결하지 않았다. 팀원 실행 안내는 [README.md](README.md).
 
 ## 지금 상태
 
 | 항목 | 값 |
 |---|---|
-| enrich_id (18_enrich 산출물) | `2c3ff48782af57f5…` (`data/public_enriched/build_manifest.json`) |
-| corpus_id (13 산출물) | `6571282e4113b7dd…` (`data/hypergraph_v2/build_manifest.json`) |
-| documents_id (14 산출물) | `37026bd248c19ea0…` (`data/dataset_index_v2/build_manifest.json`) |
-| 고정 데이터 버전 | `data_version 37026bd248c19ea0` ([data_version.json](data_version.json), 커밋 `3bc43f97`에서 생성, 미커밋 변경 없음) |
+| enrich_id (18_enrich 산출물) | `3386b9c5123f4214…` (`data/public_enriched/build_manifest.json`) |
+| corpus_id (13 산출물) | `3ea2a3a657567af0…` (`data/hypergraph_v2/build_manifest.json`) |
+| documents_id (14 산출물) | `04239c20eb394c12…` (`data/dataset_index_v2/build_manifest.json`) |
+| 고정 데이터 버전 | `data_version 04239c20eb394c12` ([data_version.json](data_version.json)) |
 | 검증 | `python public_v2_pipeline.py --verify-pin` (보완·그래프·문서 기록, 품질 검사, 고정 버전 일치) |
-| 임베딩 | 로컬에만 있음(2026-11-08). 41,149행, `text-embedding-3-small`. 새로 임베딩 17,317개, DB 재사용 23,827개. `vectors_sha256 f99e9dca…` (`data/dataset_index_v2/manifest.json`의 `embedding_run`). 평가 질의 벡터 72개는 `query_vectors.jsonl`에 있음 |
-| 운영 반영 | 하지 않음. 13·14 기본값과 `dataset-refresh.yml`은 v1 그대로 |
+| 모델 목록 | `data/model_snapshot/active_models_20261115.jsonl`: 운영 active 4,017개, 2026-11-14T17:02Z에 읽음 |
+| 임베딩 | 41,144행, `text-embedding-3-small`. 새로 11,884개, 재사용 29,255개. `vectors_sha256 62d7ba67…`. 파일은 Git 밖이고 v2 테이블에서 복원(`20 --corpus v2 --restore-vectors`) |
+| Supabase | `model_scout_datasets_v2` 19,130행, `model_scout_dataset_chunks_v2` 41,144행(전문), 빌드 기록 `model_scout_dataset_index_v2_meta`. v1 테이블은 그대로 |
+| 운영 반영 | 하지 않음. 서비스·13·14 기본값·`dataset-refresh.yml`은 v1 그대로. Actions는 모두 꺼져 있음 |
 
 ### 실험용 스냅샷 (팀 공통 기준)
 
-- **기준 스냅샷:** `documents_id 37026bd248c19ea0`. 골든셋 라벨 초안은 `golden_prep/batch3/labels_llm_v5.jsonl`(sha256 `c1708cd4…`)이다. 공공데이터 검색 비교는 이 스냅샷과 v5 라벨로 한다. v4(`batch2/labels_llm_v4.jsonl`, sha256 `d3dbc93d…`)는 이력으로만 보존한다.
-- **알려진 오류:** 서울 페이지의 갱신주기 칸이 비어 있으면 파서가 다음 항목 본문까지 읽는다(예: OA-22483). 판정은 갱신 주기 표기를 근거로 쓰지 않으므로 라벨에는 영향이 없다. 다만 검색 문서 본문에는 그 값이 들어 있다. 파서를 고치면 `documents_id`가 바뀌고 다시 임베딩해야 하므로, 고친 버전은 새 스냅샷으로 따로 고정한다.
-- **Git에 없는 산출물:** 아래 네 폴더는 `.gitignore` 대상이라 PR을 받아도 생기지 않는다. 다시 수집하면 포털 값이 바뀌어 같은 ID가 나오지 않으므로, 빌드한 사람의 폴더를 그대로 받아야 한다.
+- **기준 스냅샷:** `data_version 04239c20eb394c12`. 아래 "최종 고정과 v2 테이블 적재 준비" 절에 정제 수정·검증·적재 내용이 있다.
+- **Git에 있는 것:** 보완본(`public_enriched`), 공식 조회 근거(`public_catalog/official_meta*.json(l)`, `official_raw/` 6,170개), 그래프(`hypergraph_v2`), 검색 문서와 벡터 기록(`dataset_index_v2`, `embeddings.npy` 제외), 모델 목록(`model_snapshot`)
+- **Git에 없는 것:** `dataset_index_v2/embeddings.npy`(126MB, GitHub 파일 한도 초과). v2 테이블에서 복원하며, 복구용 사본은 따로 보관한다.
+- **골든셋:** 팀 v5(`golden_prep/batch3/labels_llm_v5.jsonl`)를 기준으로 다시 정리 중이다. 이 스냅샷에 맞춘 골든셋 정리는 별도 PR로 한다.
 
-  | 폴더 | 크기 | 내용 |
-  |---|---:|---|
-  | `ai/data/public_catalog/` | 7.5 MB | 공식 페이지 조회 캐시 |
-  | `ai/data/public_enriched/` | 30 MB | 보완 산출물 |
-  | `ai/data/hypergraph_v2/` | 55 MB | 그래프 |
-  | `ai/data/dataset_index_v2/` | 175 MB | 검색 문서, 벡터, 평가 질의 벡터 |
+### 다시 고정한 기록 (2026-11-13, `37026bd2` → `f2fd56aa`)
 
-- **받은 뒤 확인:**
-  1. `python public_v2_pipeline.py --verify-pin`: 고정 버전 일치를 확인한다.
-  2. `python 22_eval_recommendations.py --public test/public_data/corpus_v2/golden_prep/batch3/labels_llm_v5.jsonl --corpus v2`: 첫 줄의 `documents_id`가 위 값인지 본다. v2를 쓸 때 벡터 검사(`check_vectors`)도 함께 통과해야 한다.
+main에 PR #30(`3e5909b6`, 13의 `--model-source`)이 들어오면서 13과 `corpus_manifest.py`의 코드 해시가 바뀌었다. `18_collect`는 줄바꿈(LF→CRLF)만 바뀌었다. 그래서 `--verify-pin`과 v2 불러오기가 막혔다. 데이터는 그대로이고 기록만 맞지 않는 상태였다.
+
+- **해시 기준:** 텍스트 파일(.py .json .jsonl .md .yaml .yml .txt .csv)은 줄바꿈을 LF로 맞춘 내용으로 해시와 크기를 계산한다. `embeddings.npy`는 지금처럼 파일 바이트 그대로 검사한다. 이제 Windows와 Mac·Linux에서 같은 ID가 나온다.
+- **다시 빌드:** 이전 v2를 보관한 뒤 `18_enrich --offline` → `13 --corpus v2 --model-source local` → `14 --corpus v2` 순서로 다시 만들었다.
+- **이전 v2와 비교:**
+
+  | 대상 | 결과 |
+  |---|---|
+  | 보완본, 그래프 7개 파일(entities·concepts·links·relations·duplicates·series), `chunks.jsonl` | 바이트까지 같음 |
+  | 청크 | 41,149개. ID·순서·텍스트·text_hash 모두 같음 |
+  | `report.json` | 13이 새로 남기는 `models` 기록만 추가됨: `local_stage4`, 3,853개, 모델 ID sha256 `e8369c0e…` |
+
+- **벡터:** `14 --corpus v2 --embed --max-new 0`으로 기존 로컬 벡터 41,144개를 재사용했다. 새 임베딩은 0개이고, `embeddings.npy`와 `query_vectors.jsonl`은 이전 파일과 바이트까지 같다. 기록의 `documents_id`만 새 값으로 갱신됐다.
+- **검사:** `--verify-pin`과 `check_vectors` 모두 통과한다. 그래프와 검색 문서가 같으므로 v4 라벨은 그대로 쓴다.
+
+### 최종 고정과 v2 테이블 적재 준비 (2026-11-15, `data_version 04239c20eb394c12`)
+
+**정제 수정 (11-13~15):**
+- 서울 갱신주기 파서 오류 80건: 다시 조회해 "값 없음"으로 수정
+- 엑셀(xlsx·xls)을 CSV로 표시하던 138건: 분류표에서 CSV·TSV·XLSX·XLS를 분리
+- 서울 공식 설명(좌표계·자료 지연 등) 5,865건 수집
+- 표준데이터 제공기관 300건: 카탈로그 `creator`로 수정. 수집값은 `org_collected`에 남김
+- 포털에서 삭제된 5건: 카탈로그 안내와 상세 페이지 404 두 경로로 확인. 검색 그래프·문서에서 제외하고 원본과 근거는 보존. `report.json`의 `public_withdrawn`에 기록
+- 카드의 `Downloads: None` 줄 제거
+
+**고정 전 검증:**
+- 지역·중복·시리즈: 변경 전후가 같음
+- 품질 검사 통과
+- 공식 원문 표본 52건(무작위 28, 위험 사례 24): 파서와 다른 방법으로 읽어 대조했고 모두 일치
+
+**모델 목록:**
+- 운영 active 모델의 그래프 입력 필드를 한 번 읽어 `data/model_snapshot/active_models_20261115.jsonl`에 저장
+  - 4,017개, 읽은 시각 2026-11-14T17:02Z, `model_ids_sha256 7a59983c…`
+- 그 파일을 입력으로 그래프를 빌드(`13 --model-snapshot`). 모델 테이블은 읽기만 함
+- 로컬 Stage 4(3,853개)로 만든 빌드와 비교하면 데이터셋 엔티티·개념 연결·청크는 바이트까지 같고, 모델 노드와 모델↔데이터셋 관계만 다름
+
+**임베딩:** 바뀐 텍스트 11,884개만 새로 임베딩하고 29,255개는 재사용. `vectors_sha256 62d7ba67…`
+
+**v2 테이블 (`supabase_dataset_schema_v2.sql`, `20_sync_dataset_index.py --corpus v2`):**
+- 대상: `model_scout_datasets_v2`, `model_scout_dataset_chunks_v2`, `model_scout_dataset_index_v2_meta`, `match_model_scout_datasets_v2`. v1 테이블과 함수는 쓰지도 지우지도 않음
+- 적재 전: 그래프·문서·벡터 검사와 고정 버전 일치(`verify_pin`)를 모두 통과해야 함
+- v2는 청크 **전문**을 저장(v1은 600자 미리보기). 예상 쓰기 279MB, 적재 후 DB 약 780MB(한도 1,024MB)
+- 적재 후 자동 확인:
+  - 데이터셋·청크 ID 집합
+  - DB 본문과 로컬 전문의 직접 비교
+  - 빌드 기록
+  - 자기 벡터 검색. 같은 텍스트를 가진 다른 데이터셋과의 공동 1위는 허용
+- 확인이 실패해도 이미 들어간 배치는 되돌려지지 않음. 실패하면 v2를 서비스에 연결하지 않고, 원인을 고친 뒤 다시 실행
+
+**재적재 한계:**
+- 직전 적재와 임베딩 모델이나 벡터 파일 해시가 다르면 벡터를 전부 다시 올림(약 280MB)
+- 행 단위 벡터 해시는 저장하지 않음
+
+**결정 사항:**
+- 테이블 이름은 당분간 `_v2`를 유지. 이름을 바꾸려면 검색 함수·적재 코드·환경 설정의 참조도 바꿔야 함
+- 자동 갱신 Actions는 꺼 둠
+- 서비스 검색(2026-11-15):
+  - v2 고정본 데이터에 기존 검색 방법을 그대로 쓴다. 벡터는 서버 메모리의 v2 파일로 계산한다(A안).
+  - Supabase v2 검색 함수는 한 번에 23~38초가 걸려 쓰지 않는다. 검색 실행과 전체 결과 수신 구간에서 지연이 확인됐고, 원인은 미확정이다. DB 검색 최적화(HNSW 등)는 후속 검색 실험으로 미룬다.
+  - 배포·확인·되돌리기 절차는 [README.md](README.md) "서비스에서 v2로 검색하기"에 있다.
+- v1은 최종적으로 제거. 서비스를 v2로 전환한 뒤 v1을 참조하는 실행 경로가 없는지 확인하고 삭제
+- 삭제 전에 v1 비교·복구에 필요한 Git 제외 파일을 따로 보관: v1 로컬 벡터, 보완 캐시·원문, 모델 목록 파일 등. Git 이력만으로는 복원되지 않음
+
+**팀원 테스트 변경:**
+- `test_dataset_index_sync_has_no_public_v2_cutover`를 "적재 스크립트에 v2 글자가 없어야 한다"에서 "기본값은 v1이고 v1 폴더·테이블만 쓰며, v2는 `_v2` 테이블만 쓴다"로 바꿈
+- 의도 변경이므로 PR에 명시해야 함
 
 ### 공식 조회 캐시의 확인 방식 (고정 버전 기준)
 

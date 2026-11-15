@@ -220,7 +220,7 @@ def build_chunks(row, entity, links, concepts):
                 f"요약: {entity['summary_ko']}" if entity.get("summary_ko") else None,
                 *concept_lines(links, concepts),
                 *(portal_card_lines(row, entity) if "coverage_status" in entity else []),
-                f"Downloads: {row.get('downloads', 0)}",
+                f"Downloads: {row['downloads']}" if row.get("downloads") is not None else None,  # portals often have none
                 f"Description: {' '.join(clean_markdown(description).split())[:CARD_DESCRIPTION_CHARS]}"
                 if description
                 else None,

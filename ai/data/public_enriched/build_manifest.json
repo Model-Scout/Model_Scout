@@ -1,0 +1,71 @@
+{
+ "stage": "enrich",
+ "corpus": "v2",
+ "created_at": "2026-11-13T10:46:33+00:00",
+ "options": {
+  "offline": false
+ },
+ "git": {
+  "commit": "b3ec8587b1d883361d713762d9d255513ac5f79f",
+  "branch": "eval/v1-v2-corpus-compare",
+  "dirty": true,
+  "tracked_diff_sha256": "2ffbec2411d658a7d280c4ab1c43d38c8be374c956ae839ded28281702b3e519",
+  "untracked_files": []
+ },
+ "upstream": null,
+ "inputs": [
+  {
+   "path": "data/public_datasets_stage1.jsonl",
+   "sha256": "93841aff9f72e7b1ec93cc01470e0a1fff14f86856ac1ba5ff5f42aa325a451c",
+   "bytes": 26252973,
+   "rows": 15157
+  }
+ ],
+ "code": [
+  {
+   "path": "18_enrich_public_datasets.py",
+   "sha256": "c0caf72bc882ee357512a5a2224ac3c2d2c0d7fb28810f679ddcae26fda9fc29",
+   "bytes": 20937
+  },
+  {
+   "path": "18_collect_public_datasets.py",
+   "sha256": "9d0803abe6e58eddecbe2a04739d779b77c4d48ecee0336f6dee915c5d295115",
+   "bytes": 26202
+  },
+  {
+   "path": "corpus_manifest.py",
+   "sha256": "8ab87b3595268242e9f4dfce94d1d10bfb3188ce1e42a1cfdb3ffdf4e5efbe5f",
+   "bytes": 10647
+  }
+ ],
+ "outputs": [
+  {
+   "path": "data/public_enriched/public_datasets.jsonl",
+   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
+   "bytes": 33917999,
+   "rows": 15157
+  }
+ ],
+ "counts": {
+  "rows": 15157,
+  "status": {
+   "seoul_open_data:ok": 5865,
+   "data_go_kr:ok": 9287,
+   "data_go_kr:deleted": 5
+  },
+  "recheck_failed": {},
+  "needs_review": 0,
+  "verification": {
+   "fetched": 6006,
+   "reparsed": 164,
+   "compat": 8987
+  },
+  "reparsed_this_run": 0,
+  "parser_version": "a66eb216459f",
+  "licensed_before": 14101,
+  "licensed_after": 15153,
+  "formats_changed": 6561,
+  "with_update_cycle": 15069
+ },
+ "stage_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b"
+}

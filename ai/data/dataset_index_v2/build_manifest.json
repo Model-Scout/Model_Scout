@@ -1,0 +1,83 @@
+{
+ "stage": "documents",
+ "corpus": "v2",
+ "created_at": "2026-11-14T17:11:41+00:00",
+ "options": {
+  "corpus": "v2",
+  "embedding_model": "text-embedding-3-small"
+ },
+ "git": {
+  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
+  "branch": "eval/v1-v2-corpus-compare",
+  "dirty": true,
+  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
+  "untracked_files": []
+ },
+ "upstream": {
+  "corpus_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff"
+ },
+ "inputs": [
+  {
+   "path": "data/hf_datasets_stage1.jsonl",
+   "sha256": "93072566395773b1a30dcf5c588b5dfafc72fa372b5ff6f7d6e6ad79427a81e1",
+   "bytes": 27891993,
+   "rows": 3711
+  },
+  {
+   "path": "data/kaggle_datasets_stage1.jsonl",
+   "sha256": "911c9c065e8f50c5342ab08b7592beabc44e21d4c923545694e173fe67c3481b",
+   "bytes": 595368,
+   "rows": 621
+  },
+  {
+   "path": "data/public_enriched/public_datasets.jsonl",
+   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
+   "bytes": 33917999,
+   "rows": 15157
+  },
+  {
+   "path": "data/readmes/public",
+   "sha256": "5b40839cc473d8c4fe15b4a0e7391c15910e7e123f9de058727c7dcd89bd02e3",
+   "files": 15738
+  },
+  {
+   "path": "data/readmes/datasets",
+   "sha256": "ab0c89cd5cca1b00972aa07e0f33f97bf6dd1cf46321f373c2ec9197024f26ba",
+   "files": 3664
+  },
+  {
+   "path": "data/readmes/kaggle",
+   "sha256": "504ff3974f12274b7b52aaaef32c4fbcd3efe0857e5f95f00db52cf4231be331",
+   "files": 621
+  }
+ ],
+ "code": [
+  {
+   "path": "14_build_dataset_chunks.py",
+   "sha256": "5d6b60ed9ffef0a6a9c5e6cecd90153b043a84916a21863c564971778d0b0fc2",
+   "bytes": 23401
+  },
+  {
+   "path": "corpus_manifest.py",
+   "sha256": "8ab87b3595268242e9f4dfce94d1d10bfb3188ce1e42a1cfdb3ffdf4e5efbe5f",
+   "bytes": 10647
+  }
+ ],
+ "outputs": [
+  {
+   "path": "data/dataset_index_v2/chunks.jsonl",
+   "sha256": "9d3df9d5724deab2b3be937b66463c8a5c8db109b57e6f116286c5a1865ca26f",
+   "bytes": 52777261,
+   "rows": 41144
+  }
+ ],
+ "counts": {
+  "chunks": 41144,
+  "cards": 19130,
+  "sections": 22014,
+  "chars": 27126912,
+  "unique_text_hashes": 41139,
+  "text_hashes_sha256": "789c00a1b9913706826226cf7a4be7fbcbacfafbf09d9bbdb57638605c8ca75d"
+ },
+ "stage_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc"
+}
