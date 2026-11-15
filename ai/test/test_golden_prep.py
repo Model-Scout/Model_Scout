@@ -67,7 +67,7 @@ def test_missing_information_is_a_hold_never_a_one():
 
 @pytest.mark.parametrize("delivery, formats, status", [
     ("api", ["api"], gp.MET), ("api", ["csv"], gp.UNMET), ("api", [], gp.UNKNOWN),
-    ("file", ["csv", "api"], gp.MET), ("file", ["api"], gp.UNMET), ("file", [], gp.UNKNOWN),
+    ("file", ["csv", "api"], gp.MET), ("file", ["api"], gp.UNKNOWN), ("file", [], gp.UNKNOWN),  # API만: 파일 미확인
 ])
 def test_explicit_api_or_file_requirement_is_not_relaxed(delivery, formats, status):
     s = gp.suggestion(query(delivery=delivery), card(formats=formats))

@@ -190,6 +190,8 @@ def portal_card_lines(row, entity):
         f"키워드: {keywords}" if keywords else None,
         None if row.get("licenses") else "이용허락: 확인 필요",
         api_line(row),
+        # The official and the collected description disagree: both are on the card, neither is settled.
+        *(f"설명 간 불일치(확인 필요): {c}" for c in row.get("description_conflicts") or []),
         # The portal's wording only: it labels daily and yearly data "실시간" too.
         f"갱신 주기(포털 표기): {row['update_cycle']}" if row.get("update_cycle") else None,
         f"같은 데이터의 다른 제목: {', '.join(entity['same_data_titles'])}" if entity.get("same_data_titles") else None,

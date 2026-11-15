@@ -1,10 +1,10 @@
 # 공공데이터 코퍼스 v2: 받아서 실행하기
 
-고정 버전은 `data_version 40441294f66875a6`입니다. 정제·검증·적재 내역과 남은 일은 [CUTOVER.md](CUTOVER.md)에 있습니다. 이 문서는 PR을 받은 사람이 같은 v2로 실행하고 평가하는 방법만 다룹니다.
+고정 버전은 `data_version cca4cfd4965a3ce7`입니다. 정제·검증·적재 내역과 남은 일은 [CUTOVER.md](CUTOVER.md)에 있습니다. 이 문서는 PR을 받은 사람이 같은 v2로 실행하고 평가하는 방법만 다룹니다.
 
 이전 고정본의 기록은 [pins/](pins/)에 있습니다.
 - `04239c20eb394c12`: 지금 Supabase v2에 적재된 것
-- `b41fbf9bd52ad851`: 적재하지 않은 중간본
+- `b41fbf9bd52ad851`, `40441294f66875a6`: 적재하지 않은 중간본(40441294에서 OA-15531 카드 1개만 바뀐 것이 cca4cfd4)
 
 ## 받는 것
 
@@ -20,14 +20,14 @@
 | `ai/test/public_data/corpus_v2/data_version.json` | 고정 기록 |
 | `ai/test/public_data/corpus_v2/official_pages_manifest.json` | 상세 페이지 묶음과 각 페이지의 sha256 |
 | `golden_prep/batch5/labels_llm_v6.jsonl` | 골든셋 v6 ([batch5/README](golden_prep/batch5/README.md)) |
-| `compare/runs/2026-11-16_v2-40441294_labels-v6/` | 기준선 ([README](compare/runs/2026-11-16_v2-40441294_labels-v6/README.md)) |
+| `compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/` | 기준선 ([README](compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/README.md)) |
 
-**팀 공유 폴더 `v2_40441294f66875a6/`** (Git에 넣지 않은 파일)
+**팀 공유 폴더 `v2_cca4cfd4965a3ce7/`** (Git에 넣지 않은 파일)
 
 | 파일 | 크기 | sha256 | 내용 |
 |---|---|---|---|
-| `embeddings.npy` | 126MB | `cfc16b0c8e1aacb3…` | 검색 벡터 |
-| `manifest.json` | 4MB | `c8213495afeaf7d1…` | 벡터 기록 (Git의 것과 같음) |
+| `embeddings.npy` | 126MB | `8b05f2f9073869ac…` | 검색 벡터 |
+| `manifest.json` | 4MB | `d576b7dad7f8910f…` | 벡터 기록 (Git의 것과 같음) |
 | `official_pages_40441294.tar` | 105MB | `ea896badfef27768…` | API 근거가 된 상세 페이지 3,357개 (표준 300 + 파일 3,057) |
 | `SHA256SUMS` | | | 위 세 파일의 전체 해시 |
 
@@ -43,12 +43,12 @@
 2. **고정 버전 확인**
    ```bash
    python public_v2_pipeline.py --verify-pin
-   # public v2 matches the pinned data_version 40441294f66875a6
+   # public v2 matches the pinned data_version cca4cfd4965a3ce7
    python -c "import hypergraph_search as hs; print(hs.use_corpus('v2'))"   # 그래프·문서·벡터 검사
    ```
    - Supabase v2에 이 고정본이 적재된 뒤에는 공유 폴더 없이 `python 20_sync_dataset_index.py --corpus v2 --restore-vectors`로도 벡터를 복원할 수 있습니다.
    - 복원은 DB 빌드 기록, 청크 순서, `vectors_sha256`가 모두 맞을 때만 파일을 씁니다.
-3. **평가 (기준선 재현)**: [기준선 README](compare/runs/2026-11-16_v2-40441294_labels-v6/README.md)의 명령을 새 폴더로 실행합니다.
+3. **평가 (기준선 재현)**: [기준선 README](compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/README.md)의 명령을 새 폴더로 실행합니다.
    - 실행 폴더는 덮어쓰지 않습니다.
    - 같은 폴더에 다른 기준(질문, 중복 목록)으로 실행하거나 재채점하면 멈춥니다.
 
@@ -73,6 +73,9 @@ python public_v2_pipeline.py --verify-pin             # 같은 data_version이 �
 | `confirmed_catalog` | 카탈로그의 제공형태가 REST·SOAP·LINK | 형식에 API |
 | `not_found`, `page_failed` | 주소를 찾지 못함, 또는 페이지를 읽지 못함 | "API 제공 여부: 미확인" (API 없음이 아님) |
 
+- 반대로 카드에 API만 있으면 파일이 없다는 뜻이 아닙니다. 파일 미확인이며, 원 제공처가 파일을 낼 수 있습니다(예: 15088653의 공식 설명에 CSV·XLSX 내려받기가 적혀 있음).
+- 공식 설명과 수집 설명의 좌표계가 다르면 카드에 "설명 간 불일치(확인 필요)"를 붙이고, 둘 다 남깁니다(현재 OA-15531 1건).
+
 - 주소 확인은 실제 호출 성공과 다릅니다. 모든 행이 `api_call_checked: false`입니다.
 - 자동변환 API는 올린 파일의 내용이므로 실시간 근거가 아닙니다.
 - 표준 300건의 구성: `confirmed` 176, `confirmed_catalog` 46, 미확인 78
@@ -86,7 +89,7 @@ python public_v2_pipeline.py --verify-pin             # 같은 data_version이 �
 | `model_scout_dataset_chunks_v2` | 청크 41,144행. **청크 전문**과 벡터(halfvec). 서버는 답변 근거(카드 사실)를 여기서 읽음 |
 | `model_scout_dataset_index_v2_meta` | 적재한 빌드 기록: `documents_id`, `corpus_id`, `data_version`, 벡터 해시, 임베딩 모델 |
 
-- **현재 적재본:** 04239c20 (2026-11-16 기준). 40441294는 아직 적재하지 않았습니다.
+- **현재 적재본:** 04239c20 (2026-11-16 기준). cca4cfd4는 아직 적재하지 않았습니다.
 - **적재:** `python 20_sync_dataset_index.py --corpus v2 --apply`
   - `_v2` 테이블만 씁니다.
   - 벡터 파일이 바뀌면 벡터 전체(약 280MB)를 다시 올립니다.
@@ -136,7 +139,7 @@ deploy/inspect_server.sh                         # 배포 후 확인
 
 ## 아직 하지 않은 것
 
-- **Supabase v2 갱신(40441294)과 서비스 전환 배포:** 서버 상태 확인 후 진행
+- **Supabase v2 갱신(cca4cfd4)과 서비스 전환 배포:** 서버 상태 확인 후 진행
 - **Actions의 v2 전환과 재개**
 - **v1 제거:** 서비스 전환 후 v1 참조가 없는지 확인하고, 복구용 파일을 보관한 뒤 진행
-- **골든셋 보류 14쌍의 공식 확인:** [batch5/README](golden_prep/batch5/README.md)
+- **골든셋 보류 30쌍의 공식 확인:** [batch5/README](golden_prep/batch5/README.md)

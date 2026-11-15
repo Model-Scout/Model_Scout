@@ -1,16 +1,16 @@
 {
  "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch5\\judgments.jsonl",
- "judgments_sha256": "ba2b0fb2d7a3a04b7c7d428c2ce9e1774422e3dc83fe526a26520b1b226bdd70",
+ "judgments_sha256": "00e746e7d1629ca17f2e238e89a759ae279d5ab2bfbc1d9c697bf92a194adeb0",
  "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch5\\items.jsonl",
  "base": "test\\public_data\\corpus_v2\\golden_prep\\batch3\\labels_llm_v5.jsonl",
  "base_sha256": "c1708cd4e625ccdf5a40604971affa77cafd0cba84aba3b6f49700c444b5b5d3",
  "judgment_kinds": {
-  "llm_first_pass": 211
+  "llm_first_pass": 228
  },
  "warnings_resolved": {
   "inconsistent:p014:fa6f690b": "점수 차이는 공간 단위(OA-15578 상권배후지, OA-22173 자치구)와 제공 항목(OA-21278 소비 지출만, 점포 없음) 때문. 자동 검사에 공간 단위·항목 조건이 없어 같은 상태로 보임 (batch4 판정 그대로)"
  },
- "built_by_review_batch_sha256": "8e8433a62a97435f8fdcfd2dfd2a7ad35a800ca01ec42825735937e0505e5167",
+ "built_by_review_batch_sha256": "725692abc26af4eefb684bd89aaa9ac5b579631df93fc0777883ffc841172b11",
  "revisions": {
   "path": "revisions.jsonl",
   "sha256": "84238d863cc585faf200250b3915d7772aabf4e8292cc73b439423d0af6f3e30",
@@ -18,7 +18,7 @@
    "p050 conditions.delivery api -> any"
   ]
  },
- "labels_sha256": "a4a77b0cbabb4a1f842d93a7b92fd1cdb474f29df91567a51ad76fb9eff2b2a9",
+ "labels_sha256": "c5d300ecef38ecb195aed11ee68df5c564efd66012f80f2a34ba8e5a3c720182",
  "not_in_corpus": {
   "data_go_kr/3069954": {
    "queries": [

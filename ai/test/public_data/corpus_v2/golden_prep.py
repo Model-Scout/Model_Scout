@@ -181,8 +181,10 @@ def condition_checks(query, f, extension=None):
                               check(UNKNOWN, "제공 방식 미확인"))
     elif delivery == "file":
         files = formats - {"api"}
+        # A card that lists only an API says no file was found, not that none exists (the provider may
+        # publish one elsewhere): unknown, and only a confirmation of "no file" makes it unmet.
         checks["delivery"] = (check(MET, f"파일 {sorted(files)}") if files else
-                              check(UNMET, "파일 필수인데 API만 제공") if formats else
+                              check(UNKNOWN, "파일 제공 미확인 (카드에는 API만 있음, 원 제공처 파일 경로 확인 필요)") if formats else
                               check(UNKNOWN, "제공 방식 미확인"))
     if cond.get("realtime"):
         hints = [x for x in f["fields"] + f["keywords"] if REALTIME_HINT_RE.search(x)]

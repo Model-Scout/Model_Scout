@@ -1,11 +1,11 @@
 {
  "status": "골든셋 v6 판정: 팀 v5(batch3/labels_llm_v5.jsonl)에 batch4 174쌍을 병합하고, 이번 API 근거 보완·피드백으로 영향받는 쌍을 재판정",
  "corpus": {
-  "enrich_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17",
-  "documents_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b"
+  "enrich_id": "28995570b976dfd15293d458c2dddec9faf89f7ef265a3c353733230b600546a",
+  "documents_id": "cca4cfd4965a3ce71ef76dd0c5108e0af5a48f198d0846f70438654cc4d46a17"
  },
- "rows": 211,
- "rejudged": 91,
+ "rows": 228,
+ "rejudged": 108,
  "carried_from_batch4": 120,
  "review_reasons": {
   "batch4 사실 변경": 97,
@@ -20,8 +20,8 @@
   "0(judged_irrelevant) -> 0": 4,
   "0(must_exclude) -> 0": 1,
   "0(must_exclude) -> 0(제외)": 23,
-  "0(must_exclude) -> 1": 6,
-  "0(must_exclude) -> ?": 2,
+  "0(must_exclude) -> 1": 7,
+  "0(must_exclude) -> ?": 18,
   "2 -> 2": 1,
   "batch4 0 -> 0": 38,
   "batch4 0 -> 0(제외)": 4,
@@ -60,5 +60,6 @@
   "p050 판정된 모든 쌍 (조건 변경), p051 피드백 지정 4쌍"
  ],
  "judging": "카드(v2 보완본 사실·자동 검사) 기준 LLM 1차 판정. 공식 페이지는 15062509·15154373 두 건의 포털 OpenAPI 페이지만 열었고 원 제공처 누리집은 열지 않음",
- "rechecked_2026_11_16": "p051 15062509·15154373: 포털 OpenAPI 페이지에 내려받기가 없다는 것만으로 파일 미제공을 확정하지 않고 보류(?)로 변경. 원 제공처 파일 경로는 미확인"
+ "rechecked_2026_11_16": "p051 15062509·15154373: 포털 OpenAPI 페이지에 내려받기가 없다는 것만으로 파일 미제공을 확정하지 않고 보류(?)로 변경. 원 제공처 파일 경로는 미확인",
+ "file_only_recheck_2026_11_16": "자동 검사가 'API만 표기 = 파일 미제공'으로 판정하던 것을 미확인으로 고치고, 이 근거로 제외됐던 파일 필수 질문의 17쌍(p025 6, p051 5, p052 6)을 재판정: 1점 1(15088653, 공식 설명에 파일 내려받기 명시), 보류 16"
 }

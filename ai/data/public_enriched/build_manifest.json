@@ -1,37 +1,16 @@
 {
  "stage": "enrich",
  "corpus": "v2",
- "created_at": "2026-11-15T19:43:07+00:00",
+ "created_at": "2026-11-15T20:02:46+00:00",
  "options": {
   "offline": true
  },
  "git": {
-  "commit": "23b7f0cc51ea2358f5bcb3a2e844230ae8823d1e",
+  "commit": "9654771cf31aeec4eb78b9c9475c5f7e9030b18c",
   "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "8bfef0ed42d67e0cd5d2cf61c8a5b6da09e37820a5ddb2e7f9356219a706ea47",
-  "untracked_files": [
-   {
-    "path": "ai/test/test_compare_corpora_runs.py",
-    "sha256": "bc6f5cb646afc3f7479d124a0e12cb8dd3a514abae6d1536a2bdd224392bbac6"
-   },
-   {
-    "path": "ai/test/test_v2_evidence.py",
-    "sha256": "a982605da46274cdd4c0aa20cf3cbf064e656cab8eda9ebc5db47da3815e17ec"
-   },
-   {
-    "path": "deploy/inspect_server.sh",
-    "sha256": "0c73562c8780641be17d6457d85cbf34eee331b22989cd35023ed6507a102b8d"
-   },
-   {
-    "path": "deploy/rollback.sh",
-    "sha256": "ded2ef2a231abc132baffc6ad90a4def5666470825cd8d90787216f2cf61dd86"
-   },
-   {
-    "path": "deploy/snapshot_server.sh",
-    "sha256": "fb83c15b2ca448ca14265bf7a4777de8ede99affabea9ff8717359a190cdf506"
-   }
-  ]
+  "tracked_diff_sha256": "aa3a1298325b69db5815abb0e3fdef61b903a78780dbfab69a9edcb4a8b37aaa",
+  "untracked_files": []
  },
  "upstream": null,
  "inputs": [
@@ -45,8 +24,8 @@
  "code": [
   {
    "path": "18_enrich_public_datasets.py",
-   "sha256": "1f1471249fe0575b383b03a0791a9f95dff5199cb762788f1f02fda612776515",
-   "bytes": 28229
+   "sha256": "a82fe6e4cb81cf3d6326521eaa2d282ef29d06c755c8dfc020d05915508d2d04",
+   "bytes": 30139
   },
   {
    "path": "18_collect_public_datasets.py",
@@ -62,8 +41,8 @@
  "outputs": [
   {
    "path": "data/public_enriched/public_datasets.jsonl",
-   "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
-   "bytes": 35510593,
+   "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+   "bytes": 35510690,
    "rows": 15157
   }
  ],
@@ -95,5 +74,5 @@
    "fileData:page_failed": 3
   }
  },
- "stage_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17"
+ "stage_id": "28995570b976dfd15293d458c2dddec9faf89f7ef265a3c353733230b600546a"
 }

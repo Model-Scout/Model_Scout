@@ -81,3 +81,20 @@ def test_the_api_status_reaches_the_answer_as_stated_on_the_card(monkeypatch):
     note = rg.data_limits_note("data_go_kr/1 과 data_go_kr/2 추천", datasets)
     assert "data_go_kr/1: API 제공 여부: 미확인" in note and "data_go_kr/2: API 제공 여부: 파일 자동변환" in note
     assert "never \"no API\"" in rg.EXPLAIN_PROMPT and "no evidence of real-time" in rg.EXPLAIN_PROMPT
+
+
+def test_limits_keep_whole_sentences_and_conflicts_reach_the_answer(monkeypatch):
+    monkeypatch.setattr(hs, "CORPUS", "v2")
+    long_limit = ("의료법 제35조에 따라 개설된 부속 의료기관은 직원 등 외의 자, 즉 " + "가" * 150
+                  + " 대상 외의 자를 대상으로 의료행위를 하여서는 안될 것임")
+    cards = {"seoul_open_data/OA-16254": f"Description: 병원 정보 ※ {long_limit}",
+             "seoul_open_data/OA-15531": "Description: 중심지\n설명 간 불일치(확인 필요): 좌표계: 공식 설명은 Bessel, 수집 제목·설명은 GRS80"}
+    monkeypatch.setattr(hs, "_card_texts", lambda names: cards)
+    monkeypatch.setattr(hs, "LIMIT_RE", __import__("re").compile(r"하여서는 안"))
+    facts = hs.dataset_facts(list(cards))
+    assert facts["seoul_open_data/OA-16254"]["limits"] == [long_limit]  # 부정 조건절까지 그대로
+    assert facts["seoul_open_data/OA-15531"]["conflicts"].startswith("좌표계: 공식 설명은 Bessel")
+    datasets = {"per_model": {}, "project_training": [], "service_data": [{"dataset": d, "facts": f} for d, f in facts.items()]}
+    note = rg.data_limits_note("seoul_open_data/OA-16254, seoul_open_data/OA-15531", datasets)
+    assert "안될 것임" in note and "설명 간 불일치(확인 필요): 좌표계" in note
+    assert "never present one of them as the fact" in rg.EXPLAIN_PROMPT

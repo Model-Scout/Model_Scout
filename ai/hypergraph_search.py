@@ -393,7 +393,8 @@ CARD_FACT_LINES = {
     "상업 이용": "commercial_use",
     "이용허락": "license",
     "갱신 주기(포털 표기)": "update_cycle_portal",
-    "API 제공 여부": "api_status",  # 미확인 (no address on the page, not "no API") or a file's auto-converted API
+    "API 제공 여부": "api_status",
+    "설명 간 불일치(확인 필요)": "conflicts",  # official vs collected description, e.g. two coordinate systems  # 미확인 (no address on the page, not "no API") or a file's auto-converted API
     "제공기관": "publisher",
     "데이터 지역 범위": "coverage",
     "데이터 기간": "period",
@@ -455,7 +456,9 @@ def dataset_facts(names):
                 # A field list ("제공 필드: …, 좌표정보(X)") names columns; it is not a limit.
                 limits = [s.strip(" .") for s in sentences if LIMIT_RE.search(s) and "제공 필드" not in s]
                 if limits:
-                    found["limits"] = [s[:160] for s in dict.fromkeys(limits)][:MAX_LIMITS]
+                    # Whole sentences: a cut can drop the condition or negation that makes it a limit
+                    # (the longest in v2 is ~700 characters, so three of them stay short).
+                    found["limits"] = list(dict.fromkeys(limits))[:MAX_LIMITS]
         facts[name] = found
     return facts
 

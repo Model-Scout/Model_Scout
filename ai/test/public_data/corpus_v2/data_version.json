@@ -1,26 +1,17 @@
 {
- "data_version": "40441294f66875a6",
- "pinned_at": "2026-11-15T19:11:49+00:00",
+ "data_version": "cca4cfd4965a3ce7",
+ "pinned_at": "2026-11-15T20:12:47+00:00",
  "git": {
-  "commit": "23b7f0cc51ea2358f5bcb3a2e844230ae8823d1e",
+  "commit": "9654771cf31aeec4eb78b9c9475c5f7e9030b18c",
   "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "8bfef0ed42d67e0cd5d2cf61c8a5b6da09e37820a5ddb2e7f9356219a706ea47",
-  "untracked_files": [
-   {
-    "path": "ai/test/test_compare_corpora_runs.py",
-    "sha256": "bc6f5cb646afc3f7479d124a0e12cb8dd3a514abae6d1536a2bdd224392bbac6"
-   },
-   {
-    "path": "ai/test/test_v2_evidence.py",
-    "sha256": "a982605da46274cdd4c0aa20cf3cbf064e656cab8eda9ebc5db47da3815e17ec"
-   }
-  ]
+  "tracked_diff_sha256": "aa3a1298325b69db5815abb0e3fdef61b903a78780dbfab69a9edcb4a8b37aaa",
+  "untracked_files": []
  },
  "stages": {
   "enrich": {
-   "stage_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17",
-   "created_at": "2026-11-15T18:37:21+00:00",
+   "stage_id": "28995570b976dfd15293d458c2dddec9faf89f7ef265a3c353733230b600546a",
+   "created_at": "2026-11-15T20:02:46+00:00",
    "inputs": [
     {
      "path": "data/public_datasets_stage1.jsonl",
@@ -32,15 +23,15 @@
    "outputs": [
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
-     "bytes": 35510593,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     }
    ]
   },
   "hypergraph": {
-   "stage_id": "e29561500a725299864094e989c5000d739c894c0edbf979d30f2aae5d07595f",
-   "created_at": "2026-11-15T18:42:11+00:00",
+   "stage_id": "64edd20acec09e08f34d07fee7c5bf247d417eabc12d386277f0cad68d8525e2",
+   "created_at": "2026-11-15T20:09:20+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -56,8 +47,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
-     "bytes": 35510593,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     },
     {
@@ -142,8 +133,8 @@
    ]
   },
   "documents": {
-   "stage_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b",
-   "created_at": "2026-11-15T19:10:37+00:00",
+   "stage_id": "cca4cfd4965a3ce71ef76dd0c5108e0af5a48f198d0846f70438654cc4d46a17",
+   "created_at": "2026-11-15T20:12:01+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -159,8 +150,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
-     "bytes": 35510593,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     },
     {
@@ -182,8 +173,8 @@
    "outputs": [
     {
      "path": "data/dataset_index_v2/chunks.jsonl",
-     "sha256": "8076b344c38d09e796459c9a5ea10ef7dba2b6a8d3aabd6a6ffae8b66b97a24c",
-     "bytes": 53222032,
+     "sha256": "60d05534ff3eacdedecd66ffa71318aed06089793ec63577a9aae9ac8d91b030",
+     "bytes": 53222137,
      "rows": 41144
     }
    ]
@@ -212,9 +203,9 @@
   "chunks": 41144,
   "cards": 19130,
   "sections": 22014,
-  "chars": 27354205,
+  "chars": 27354258,
   "unique_text_hashes": 41139,
-  "text_hashes_sha256": "3416ce026f9dae258b166ac7f0446717649d4911dbe77de32e7d60919ab4ba78"
+  "text_hashes_sha256": "5f75a092e33929979d9bed72d7e96a6cc1e30db4306e5c1882a4480a3f42c7bf"
  },
  "chunk_ids_sha256": "34c7439b3aa413ed5788122c87c2c4453f387c76eb7e6257f037635055935ca3"
 }

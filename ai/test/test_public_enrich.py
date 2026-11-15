@@ -857,3 +857,31 @@ def test_a_file_without_a_catalog_encoding_keeps_its_files_beside_the_auto_api()
     meta = {"status": "ok", "api_check": "confirmed_auto"}
     assert enrich.official_formats(source, meta) == ["api", "csv"]  # API는 파일 형식과 따로 판단한다
     assert enrich.official_formats(source, {"status": "ok"}) == ["csv"]
+
+
+def test_a_full_recheck_whose_detail_page_fails_keeps_the_api_evidence(tmp_path, monkeypatch):
+    # 만료로 전체를 다시 조회: 카탈로그는 성공, 상세 페이지만 실패 -> 이전 API 근거와 확인 시점을 유지
+    r = gokr("fileData", formats=["csv"])
+    old = cache_entry(r, 40, encoding="CSV", api_check="confirmed_auto", api_endpoint="15000001/v1",
+                      api_evidence="infuser.odcloud.kr/oas/docs?namespace=15000001/v1", page_sha256="ab", page_checked_at="2026-10-01T00:00:00+00:00")
+    write_cache(tmp_path, old)
+    out = run_enrich(tmp_path, monkeypatch, [r], lambda session, x: {**OK, "encoding": "CSV", "api_check": "page_failed",
+                                                                     "page_checked_at": "2026-11-16T00:00:00+00:00"})[0]
+    assert out["formats"] == ["api", "csv"] and out["official"]["api_check"] == "confirmed_auto"
+    cached = enrich.read_jsonl(tmp_path / "cache.jsonl")[0]
+    assert cached["page_checked_at"] == "2026-10-01T00:00:00+00:00" and cached["page_recheck_failed_at"]
+    # 근거가 없던 행은 그대로 미확인으로 남고, 다음 실행에서 상세 페이지를 다시 읽는다
+    assert enrich.keep_page_evidence({"api_check": "page_failed"}, {"api_check": None}, "t") == {"api_check": "page_failed"}
+
+
+def test_a_coordinate_system_the_two_descriptions_disagree_on_is_flagged_not_merged():
+    # OA-15531: 공식 설명 EPSG:5174(Bessel), 수집 제목 "(좌표계: GRS80)"
+    official = "생활권 중심지 정보입니다.[좌표계] EPSG:5174 (Bessel 1841타원체의 TM 직각좌표계)"
+    seoul = row("seoul_open_data/OA-15531", title="서울시 도시계획 생활권 중심지 정보 (좌표계: GRS80)",
+                description="서울시 도시계획 생활권 중심지 정보 (좌표계: GRS80). 제공 필드: X좌표, Y좌표")
+    out = enrich.enrich_row(seoul, {"status": "ok", "tabs": ["S"], "files": [], "description": official})
+    assert out["description_conflicts"] == ["좌표계: 공식 설명은 Bessel, 수집 제목·설명은 GRS80"]
+    assert official in out["description"] and "GRS80" in out["description"]  # 두 설명 모두 남김
+    assert "설명 간 불일치(확인 필요): 좌표계: 공식 설명은 Bessel, 수집 제목·설명은 GRS80" in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+    # 같은 기준을 다른 이름으로 쓴 것(GRS80 중부원점 = EPSG:5186)은 불일치가 아님
+    assert enrich.crs_conflict("좌표계: GRS80 중부원점", "좌표계 EPSG:5186") is None

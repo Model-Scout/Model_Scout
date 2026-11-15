@@ -273,6 +273,8 @@ A fact that is absent, "미확인" or "확인 필요" is unknown: say it is not 
 update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data.
 api_status "미확인" means the API is not confirmed (never "no API"); "파일 자동변환 OpenAPI" is the uploaded file served
 as an API: it counts as an API, but its data is only as fresh as the file, so it is no evidence of real-time data.
+facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
+and say which one applies is not confirmed; never present one of them as the fact.
 If a list is empty, say so and what to search instead. End with one line of caveats."""
 
 
@@ -617,6 +619,8 @@ def data_limits_note(answer, datasets):
         items = list(facts.get("limits") or [])
         if facts.get("api_status"):
             items.append(f"API 제공 여부: {facts['api_status']}")
+        if facts.get("conflicts"):
+            items.append(f"설명 간 불일치(확인 필요): {facts['conflicts']}")
         if items and row["dataset"] in answer and row["dataset"] not in named:
             named[row["dataset"]] = items
     if not named:

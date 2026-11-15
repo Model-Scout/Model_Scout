@@ -64,7 +64,8 @@ CACHE = DATA_DIR / "public_catalog" / "official_meta.jsonl"
 RAW_DIR = DATA_DIR / "public_catalog" / "official_raw"
 # Cache fields that describe the look-up; everything else in an entry is the parsed answer.
 ENTRY_KEYS = {"dataset_id", "row_sha", "parser_version", "checked_at", "raw_sha256", "verification",
-              "reparsed_at", "reparsed_from", "reparse_changed", "compat", "page_sha256", "page_checked_at"}
+              "reparsed_at", "reparsed_from", "reparse_changed", "compat", "page_sha256", "page_checked_at",
+              "page_recheck_failed_at"}
 COLLECTOR = AI_DIR / "18_collect_public_datasets.py"
 USER_AGENT = "Mozilla/5.0 (compatible; model-scout-public-data)"
 MAX_RETRIES = 3
@@ -339,6 +340,26 @@ def api_evidence(meta):
     return check
 
 
+# Coordinate systems by datum; "TM" or "중부원점" alone names no datum, so it is not compared.
+CRS_FAMILIES = {
+    "Bessel": re.compile(r"(?i)bessel|EPSG\s*:?\s*(?:5173|5174|5175|5176|5177|2096|2097|2098)\b"),
+    "GRS80": re.compile(r"(?i)GRS\s*-?\s*80|ITRF\s*2000|UTM-?K|EPSG\s*:?\s*(?:5179|5181|5185|5186|5187|5188)\b"),
+    "WGS84": re.compile(r"(?i)WGS\s*-?\s*84|EPSG\s*:?\s*4326\b"),
+}
+
+
+def crs_families(text):
+    return {name for name, pattern in CRS_FAMILIES.items() if pattern.search(text or "")}
+
+
+def crs_conflict(official, collected):
+    """'좌표계: …' when the official description and the collected title/description name disjoint datums."""
+    a, b = crs_families(official), crs_families(collected)
+    if a and b and not a & b:
+        return f"좌표계: 공식 설명은 {', '.join(sorted(a))}, 수집 제목·설명은 {', '.join(sorted(b))}"
+    return None
+
+
 def enrich_row(row, meta, recheck=None, review=()):
     """The collected row with official facts; the collected value stays wherever the page is silent.
 
@@ -358,6 +379,10 @@ def enrich_row(row, meta, recheck=None, review=()):
         out["org"], out["org_collected"] = meta["creator"], row.get("org")
     if status == "ok" and meta.get("description") and meta["description"] not in (row.get("description") or ""):
         out["description"] = f"{meta['description']}\n{row.get('description') or ''}".strip()
+        # Both texts stay (search reads them), but a coordinate system they disagree on is no settled fact.
+        conflict = crs_conflict(meta["description"], f"{row.get('title') or ''} {row.get('description') or ''}")
+        if conflict:
+            out["description_conflicts"] = [conflict]
     out["official"] = {
         "status": status,
         "checked_at": meta.get("checked_at") if status in CONFIRMED else None,
@@ -434,6 +459,17 @@ def detail_page_api(session, row):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(gzip.compress(page.encode("utf-8")))
     return {**found, "page_sha256": hashlib.sha256(page.encode("utf-8")).hexdigest(), "page_checked_at": checked}
+
+
+PAGE_EVIDENCE = ("api_check", "api_endpoint", "api_evidence", "page_sha256", "page_checked_at")
+
+
+def keep_page_evidence(meta, old, checked):
+    """A full look-up whose catalog read worked but whose detail page failed keeps the API evidence (and
+    its page time) the previous answer had, instead of dropping to unconfirmed; the failure is recorded."""
+    if meta.get("api_check") != "page_failed" or not old or old.get("api_check") in (None, "page_failed"):
+        return meta
+    return {**meta, **{k: old[k] for k in PAGE_EVIDENCE if k in old}, "page_recheck_failed_at": checked}
 
 
 def needs_page(entry, row):
@@ -522,6 +558,7 @@ def main():
             for row, meta in zip(todo, pool.map(lambda r: lookup(session, r), todo), strict=True):
                 attempts[row["dataset_id"]] = meta
                 if meta["status"] in CONFIRMED:
+                    meta = keep_page_evidence(meta, cache.get(row["dataset_id"]), checked)
                     cache[row["dataset_id"]] = {
                         "dataset_id": row["dataset_id"],
                         "row_sha": row.get("sha"),
