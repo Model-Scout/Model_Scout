@@ -208,5 +208,23 @@ def test_dataset_refresh_schedule_is_unchanged():
 
 
 def test_dataset_index_sync_has_no_public_v2_cutover():
+    # The default publish (dataset-refresh.yml) stays v1: v1 folders into the tables the service reads.
+    # v2 exists only behind an explicit --corpus v2 and writes its own *_v2 tables.
+    sync = load("sync20_cutover_guard", "20_sync_dataset_index.py")
     source = (AI / "20_sync_dataset_index.py").read_text(encoding="utf-8")
-    assert "hypergraph_v2" not in source and "dataset_index_v2" not in source
+    assert 'add_argument("--corpus", choices=sorted(TARGETS), default="v1")' in source
+    v1 = sync.TARGETS["v1"]
+    assert (v1["index"].name, v1["graph"].name) == ("dataset_index", "hypergraph")
+    assert (v1["datasets"], v1["chunks"]) == ("model_scout_datasets", "model_scout_dataset_chunks")
+    assert sync.TARGETS["v2"]["datasets"].endswith("_v2") and sync.TARGETS["v2"]["chunks"].endswith("_v2")
+
+
+def test_frozen_build_reads_the_saved_model_snapshot(tmp_path, monkeypatch):
+    # 고정 빌드는 실시간 테이블이 아니라 한 번 저장한 모델 목록 파일을 입력으로 쓴다
+    rows = [{"model_id": "org/a", "source_pool": "core", "task": {"primary": "embedding"}, "filter_metadata": {}}]
+    monkeypatch.setattr(graph13, "load_supabase_models", lambda: rows)
+    path = tmp_path / "models.jsonl"
+    graph13.save_model_snapshot(path)
+    assert graph13.read_jsonl(path) == rows
+    meta = json.loads(path.with_suffix(".meta.json").read_text(encoding="utf-8"))
+    assert meta["count"] == 1 and meta["read_at"] and meta["fields"] == ["filter_metadata", "model_id", "source_pool", "task"]

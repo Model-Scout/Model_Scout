@@ -76,9 +76,24 @@ def read_jsonl_snapshot(path):
     return "jsonl", rows
 
 
+# Git's autocrlf turns LF into CRLF on Windows checkouts, so text is hashed (and sized) with LF line
+# endings; the same file then has one id on every OS. Binary files (embeddings.npy) stay byte-exact.
+TEXT_SUFFIXES = {".py", ".json", ".jsonl", ".md", ".yaml", ".yml", ".txt", ".csv"}
+
+
+def content_digest(path):
+    """(sha256, bytes) of a recorded file: LF-normalized for text, raw bytes otherwise."""
+    path = Path(path)
+    if path.suffix not in TEXT_SUFFIXES:
+        return sha256_file(path), path.stat().st_size
+    data = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest(), len(data)
+
+
 def file_record(path, root=AI_DIR):
     path = Path(path)
-    record = {"path": _relative(path, root), "sha256": sha256_file(path), "bytes": path.stat().st_size}
+    digest, size = content_digest(path)
+    record = {"path": _relative(path, root), "sha256": digest, "bytes": size}
     if path.suffix == ".jsonl":
         with open(path, encoding="utf-8") as f:
             record["rows"] = sum(1 for line in f if line.strip())
@@ -89,7 +104,7 @@ def directory_record(path, root=AI_DIR):
     """One hash over every file's relative path and content."""
     path = Path(path)
     files = sorted(p for p in path.rglob("*") if p.is_file())
-    entries = [f"{p.relative_to(path).as_posix()} {sha256_file(p)}" for p in files]
+    entries = [f"{p.relative_to(path).as_posix()} {content_digest(p)[0]}" for p in files]
     return {"path": _relative(path, root), "sha256": sha256_text(entries), "files": len(files)}
 
 

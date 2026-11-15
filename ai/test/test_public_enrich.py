@@ -120,7 +120,7 @@ def test_catalog_json_ld():
         additionalProperty=[{"name": "제공형태", "value": "REST"}, {"name": "업데이트 주기", "value": "실시간"}],
     ))
     assert meta == {"status": "ok", "license_text": "이용허락범위 제한 없음", "encoding": "JSON+XML",
-                    "delivery": "REST", "cycle": "실시간", "modified": "2026-04-02"}
+                    "delivery": "REST", "cycle": "실시간", "modified": "2026-04-02", "creator": None}
     assert enrich.parse_data_go_kr('{"@type": "Dataset", "description": "해당 데이터는 존재하지 않습니다."}') == {"status": "deleted"}
 
 
@@ -396,8 +396,8 @@ def test_parser_version_tracks_the_parsing_code():
     import hashlib
     import inspect
 
-    sources = "".join(inspect.getsource(f) for f in (enrich.plain_text, enrich.first, enrich.parse_data_go_kr, enrich.parse_seoul))
-    patterns = "".join(r.pattern for r in (enrich.SEOUL_TAB_RE, enrich.SEOUL_FILE_RE, enrich.SEOUL_BUSY_RE))
+    sources = "".join(inspect.getsource(f) for f in (enrich.plain_text, enrich.first, enrich.parse_data_go_kr, enrich.parse_seoul, enrich.seoul_description))
+    patterns = "".join(r.pattern for r in (enrich.SEOUL_TAB_RE, enrich.SEOUL_FILE_RE, enrich.SEOUL_BUSY_RE, enrich.SEOUL_DESC_RE))
     assert enrich.PARSER_VERSION == hashlib.sha256(sources.encode() + patterns.encode()).hexdigest()[:12]
 
 
@@ -496,7 +496,10 @@ def test_quality_counts_failed_rechecks_even_when_older_values_are_in_use():
 
 
 def test_quality_reports_a_few_real_deletions_without_failing():
-    problems, report = statuses(built(), "deleted", 2)
+    parts = built()  # 13 v2 leaves deleted rows out of the graph and the documents
+    parts["entities"] = {k: v for k, v in parts["entities"].items() if k not in ("dataset:seoul_open_data/OA-0", "dataset:seoul_open_data/OA-1")}
+    parts["chunks"] = parts["chunks"][2:]
+    problems, report = statuses(parts, "deleted", 2)
     assert problems == [] and report["deleted_on_portal"] == ["seoul_open_data/OA-0", "seoul_open_data/OA-1"]
 
 
@@ -714,3 +717,43 @@ def test_seoul_renewal_applies_to_field_lists_only(monkeypatch, renew):
         assert calls["seoul_fields_by_id"] == {"version": collector.catalog_version, "max_age_days": 30, "max_renew": 300}
     else:
         assert calls["seoul_fields_by_id"] == {}
+
+
+def test_seoul_empty_cycle_cell_is_no_value_not_the_following_text():
+    # An empty 갱신주기 cell used to swallow everything up to a later "분류" (OA-15535: 80 Seoul rows).
+    page = SEOUL_PAGE.replace("<td>비정기(수시, 자료변경시)</td>", "<td></td>")
+    page = page.replace("</body>", "<p>관련 태그 노면 분류 교통</p></body>")
+    assert enrich.parse_seoul(page)["cycle"] is None
+    assert enrich.parse_seoul(SEOUL_PAGE)["cycle"] == "비정기(수시, 자료변경시)"
+
+
+def test_seoul_page_description_reaches_the_row():
+    # 좌표계·자료 지연 같은 조건은 카탈로그가 아니라 상세 페이지 설명에만 있다 (OA-16161)
+    page = SEOUL_PAGE.replace("<html><body>", '<html><head><meta name="description" content="병원 정보&lt;br /&gt;* 좌표안내 : 중부원점TM(EPSG:5174), 위경도 없음&lt;br /&gt;* 3일전 자료"/></head><body>')
+    meta = enrich.parse_seoul(page)
+    assert meta["description"] == "병원 정보 * 좌표안내 : 중부원점TM(EPSG:5174), 위경도 없음 * 3일전 자료"
+    out = enrich.enrich_row(row(description="병원 인허가. 제공 필드: 좌표정보(X)"), meta)
+    assert out["description"].startswith("병원 정보 * 좌표안내") and out["description"].endswith("제공 필드: 좌표정보(X)")
+    assert enrich.parse_seoul(SEOUL_PAGE)["description"] is None
+    assert enrich.enrich_row(row(description="그대로"), enrich.parse_seoul(SEOUL_PAGE))["description"] == "그대로"
+
+
+def test_catalog_creator_replaces_the_collected_organisation():
+    # 표준데이터는 수집 목록에 운영기관(공공데이터활용지원센터)만 있다 (15013203: 국가철도공단)
+    meta = enrich.parse_data_go_kr(catalog(creator={"name": "국가철도공단", "@type": "Organization"}))
+    assert meta["creator"] == "국가철도공단"
+    out = enrich.enrich_row(gokr("standard", org="공공데이터활용지원센터"), meta)
+    assert (out["org"], out["org_collected"]) == ("국가철도공단", "공공데이터활용지원센터")
+    same = enrich.enrich_row(gokr("standard", org="국가철도공단"), meta)
+    assert same["org"] == "국가철도공단" and "org_collected" not in same
+
+
+def test_quality_expects_deleted_rows_out_of_search_not_lost():
+    # 포털이 삭제를 알린 데이터는 검색에서 빼되 "유실"로 세지 않는다; 남아 있으면 문제다
+    parts = built()
+    parts["enriched"][5]["official"]["status"] = "deleted"
+    kept = pipeline.quality(**parts)[0]
+    assert any("삭제된 공공데이터가 검색 그래프에" in p for p in kept)
+    parts["entities"].pop("dataset:seoul_open_data/OA-5")
+    parts["chunks"] = [c for c in parts["chunks"] if c["dataset_id"] != "seoul_open_data/OA-5"]
+    assert pipeline.quality(**parts)[0] == []

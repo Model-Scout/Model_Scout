@@ -32,6 +32,7 @@ import json
 import os
 import re
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 from corpus_manifest import check_manifest, load_manifest, read_jsonl_snapshot, sha256_text, write_manifest
@@ -219,6 +220,23 @@ def load_model_rows(source="auto"):
     return rows, model_source_info("supabase", source, rows, local_status, selection=SUPABASE_MODEL_QUERY)
 
 
+def _relative_path(path):
+    path = Path(path).resolve()
+    return path.relative_to(AI_DIR).as_posix() if path.is_relative_to(AI_DIR) else str(path)
+
+
+def save_model_snapshot(path):
+    """Read the active models once and keep exactly the fields this graph uses, with when and how."""
+    rows = load_supabase_models()
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("".join(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n" for r in rows), encoding="utf-8")
+    meta = {**model_source_info("supabase", "supabase", rows, {}, selection=SUPABASE_MODEL_QUERY),
+            "read_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "fields": sorted({k for r in rows for k in r})}
+    path.with_suffix(".meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(json.dumps({k: meta[k] for k in ("count", "model_ids_sha256", "read_at", "fields")}, ensure_ascii=False))
+
+
 def model_source_info(used, requested, rows, local_status, selection):
     """Same meaning in v1 report.json and the v2 manifest."""
     return {
@@ -389,9 +407,14 @@ def main():
     parser.add_argument("--corpus", choices=sorted(CORPUS_DIRS), default="v1")
     # Production (dataset-refresh.yml) passes supabase; auto keeps local development working offline.
     parser.add_argument("--model-source", choices=MODEL_SOURCES, default="auto")
+    # A frozen build reads the models from a file saved once (--save-model-snapshot), never the live table.
+    parser.add_argument("--model-snapshot", type=Path, help="JSONL of model rows to use instead of --model-source")
+    parser.add_argument("--save-model-snapshot", type=Path, help="write the active Supabase models to this JSONL and stop")
     args = parser.parse_args()
     if args.self_check:
         return self_check()
+    if args.save_model_snapshot:
+        return save_model_snapshot(args.save_model_snapshot)
     verified = args.corpus == "v2"
     out_dir = CORPUS_DIRS[args.corpus]
     public_input = PUBLIC_INPUTS[args.corpus]
@@ -403,10 +426,18 @@ def main():
 
     linker = Linker()
     lengths = {r["dataset_id"]: r for r in read_jsonl(LENGTH_INPUT)}
-    model_rows, model_info = load_model_rows(args.model_source)
+    if args.model_snapshot:
+        model_rows = read_jsonl(args.model_snapshot)
+        model_info = model_source_info("snapshot", "snapshot", model_rows, {}, selection=_relative_path(args.model_snapshot))
+    else:
+        model_rows, model_info = load_model_rows(args.model_source)
     entities = [map_model(linker, row) for row in model_rows]
     ners = {r["dataset_id"]: r for r in read_jsonl(NER_INPUT)}
     hf_rows, public_rows = read_jsonl(DATASET_INPUT) + read_jsonl(KAGGLE_INPUT), read_jsonl(public_input)
+    withdrawn = []
+    if verified:  # the portal itself says the dataset no longer exists; the row and that evidence stay in public_enriched
+        withdrawn = sorted(r["dataset_id"] for r in public_rows if (r.get("official") or {}).get("status") == "deleted")
+        public_rows = [r for r in public_rows if r["dataset_id"] not in set(withdrawn)]
     duplicates = duplicate_map(hf_rows, public_rows, "verified" if verified else "title")
     public_merges = check_public_duplicates(duplicates, public_rows) if verified else None
     series = public_series(public_rows, duplicates) if verified else []
@@ -495,7 +526,7 @@ def main():
         "models": model_info,
     }
     if verified:
-        report.update(public_merges=public_merges, public_series=len(series))
+        report.update(public_merges=public_merges, public_series=len(series), public_withdrawn=withdrawn)
     (out_dir / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "unmapped_top"}, ensure_ascii=False, indent=2))
     if verified:
@@ -510,6 +541,7 @@ def main():
             inputs=[
                 *(path for path in (DATASET_INPUT, KAGGLE_INPUT, public_input, LENGTH_INPUT, NER_INPUT) if path.exists()),
                 *(MODEL_INPUTS if local_models else ()),
+                *((args.model_snapshot,) if args.model_snapshot else ()),
                 *(path for path in README_DIRS if path.exists()),
                 AI_DIR / "taxonomy.yaml",
             ],
@@ -520,6 +552,7 @@ def main():
                 "datasets_by_source": Counter(e["source"] for e in entities if e["kind"] == "dataset"),
                 "public_merges": public_merges,
                 "public_series": len(series),
+                "public_withdrawn": len(withdrawn),
                 "model_source": model_info["source"],
                 "models": model_info["count"],
                 "model_ids_sha256": model_info["model_ids_sha256"],
