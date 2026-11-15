@@ -4,7 +4,8 @@ services:
   ai:
     image: model-scout-ai:latest
     restart: unless-stopped
-    env_file: .env.ai
+    # .env.corpus (deploy.sh) names the corpus and, for v2, the frozen data_version it must find.
+    env_file: [.env.ai, .env.corpus]
     environment:
       ENABLE_DOCS: "1"  # Caddy puts the whole AI site behind the team login
     volumes:
