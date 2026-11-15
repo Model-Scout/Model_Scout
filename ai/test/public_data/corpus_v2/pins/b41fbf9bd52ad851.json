@@ -1,0 +1,221 @@
+{
+ "data_version": "b41fbf9bd52ad851",
+ "pinned_at": "2026-11-15T17:44:55+00:00",
+ "git": {
+  "commit": "23b7f0cc51ea2358f5bcb3a2e844230ae8823d1e",
+  "branch": "fix/v2-serving-evidence-golden-v6",
+  "dirty": true,
+  "tracked_diff_sha256": "b953b10ca2b5d43bbbd01f18445ddd382f2cdac6fcb12382e40e0370476f6637",
+  "untracked_files": [
+   {
+    "path": "ai/test/test_compare_corpora_runs.py",
+    "sha256": "4c416224e120d9b36ec21cbd4630a2ce0467d56422ffe5809d119b6528f360e9"
+   },
+   {
+    "path": "ai/test/test_v2_evidence.py",
+    "sha256": "1fc2c9ccefe51d35ffe4ca309c28331e476a00b4475f20a7f4b5ec2404db1e90"
+   }
+  ]
+ },
+ "stages": {
+  "enrich": {
+   "stage_id": "54e2dd9caa2702ea89796c1b36df8e7db4369ba0a828d93cb72785bfbd4c5d3e",
+   "created_at": "2026-11-15T17:35:38+00:00",
+   "inputs": [
+    {
+     "path": "data/public_datasets_stage1.jsonl",
+     "sha256": "93841aff9f72e7b1ec93cc01470e0a1fff14f86856ac1ba5ff5f42aa325a451c",
+     "bytes": 26252973,
+     "rows": 15157
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "14738a7d377f69185363960138b53afc5096e701a00fd098011d7ec68a157650",
+     "bytes": 34215388,
+     "rows": 15157
+    }
+   ]
+  },
+  "hypergraph": {
+   "stage_id": "5288912e3984e55915c09d342c0a2bc2d975c1f77d6c25b2dabfba8a47ac77a1",
+   "created_at": "2026-11-15T17:41:20+00:00",
+   "inputs": [
+    {
+     "path": "data/hf_datasets_stage1.jsonl",
+     "sha256": "93072566395773b1a30dcf5c588b5dfafc72fa372b5ff6f7d6e6ad79427a81e1",
+     "bytes": 27891993,
+     "rows": 3711
+    },
+    {
+     "path": "data/kaggle_datasets_stage1.jsonl",
+     "sha256": "911c9c065e8f50c5342ab08b7592beabc44e21d4c923545694e173fe67c3481b",
+     "bytes": 595368,
+     "rows": 621
+    },
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "14738a7d377f69185363960138b53afc5096e701a00fd098011d7ec68a157650",
+     "bytes": 34215388,
+     "rows": 15157
+    },
+    {
+     "path": "data/hf_datasets_length_stats.jsonl",
+     "sha256": "e2d06f587d7a13c525ab60db468d6e514c6c5c62b17047d540764d90e96d0970",
+     "bytes": 1354361,
+     "rows": 3711
+    },
+    {
+     "path": "data/hf_datasets_ner.jsonl",
+     "sha256": "a9a0b288b4ee45657e93ff30cc4ea9f31be01022e473d859f16a8f1004bb9f39",
+     "bytes": 4059729,
+     "rows": 3670
+    },
+    {
+     "path": "data/model_snapshot/active_models_20261115.jsonl",
+     "sha256": "9b75ba4c43bfb5e02c53e321cc5e5ac6789cfab69b1350124d4891b80a6626e5",
+     "bytes": 13737132,
+     "rows": 4017
+    },
+    {
+     "path": "data/readmes/public",
+     "sha256": "5b40839cc473d8c4fe15b4a0e7391c15910e7e123f9de058727c7dcd89bd02e3",
+     "files": 15738
+    },
+    {
+     "path": "data/readmes/datasets",
+     "sha256": "ab0c89cd5cca1b00972aa07e0f33f97bf6dd1cf46321f373c2ec9197024f26ba",
+     "files": 3664
+    },
+    {
+     "path": "data/readmes/kaggle",
+     "sha256": "504ff3974f12274b7b52aaaef32c4fbcd3efe0857e5f95f00db52cf4231be331",
+     "files": 621
+    },
+    {
+     "path": "taxonomy.yaml",
+     "sha256": "6a2f7b9a9793f87daea78c76109abe84c70f58455cb8b6e844c66d0ad10e0afd",
+     "bytes": 14393
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/hypergraph_v2/entities.jsonl",
+     "sha256": "40298b7dfb3f2f09ef7c98ada9263c7e40471d2441eddffc19235be6087a3339",
+     "bytes": 19389575,
+     "rows": 23147
+    },
+    {
+     "path": "data/hypergraph_v2/links.jsonl",
+     "sha256": "45e5da6d2b74a8ffcc974535effd6439b440f0085147d7d1ad8c6ed3df5aaf4f",
+     "bytes": 37308579,
+     "rows": 178888
+    },
+    {
+     "path": "data/hypergraph_v2/relations.jsonl",
+     "sha256": "fac1c46b51d378ded4d74b92ea49a885cc708115b7ed512153e9c52ef366b6d8",
+     "bytes": 402520,
+     "rows": 1829
+    },
+    {
+     "path": "data/hypergraph_v2/concepts.jsonl",
+     "sha256": "9f17fddb8d72455bcac70f740ae13293a6f70c0e9d9a7749b1d066fbf4c95632",
+     "bytes": 33625,
+     "rows": 178
+    },
+    {
+     "path": "data/hypergraph_v2/duplicates.json",
+     "sha256": "05f4aa405c69a4a3be91461d876e2c932039416e23f21663591fb99e14d65de5",
+     "bytes": 42998
+    },
+    {
+     "path": "data/hypergraph_v2/series.json",
+     "sha256": "bc60186be05a1a864fa67e646708f05f8f21649d8063711db525caacea5762ad",
+     "bytes": 926352
+    },
+    {
+     "path": "data/hypergraph_v2/report.json",
+     "sha256": "72816e8d7b0fe6d9045e50066843cc33f0f6655d0dc91c31947e23047123710f",
+     "bytes": 4768
+    }
+   ]
+  },
+  "documents": {
+   "stage_id": "b41fbf9bd52ad8511b099eb59358dae6ce43884627257179096f9cd4a44161d5",
+   "created_at": "2026-11-15T17:44:08+00:00",
+   "inputs": [
+    {
+     "path": "data/hf_datasets_stage1.jsonl",
+     "sha256": "93072566395773b1a30dcf5c588b5dfafc72fa372b5ff6f7d6e6ad79427a81e1",
+     "bytes": 27891993,
+     "rows": 3711
+    },
+    {
+     "path": "data/kaggle_datasets_stage1.jsonl",
+     "sha256": "911c9c065e8f50c5342ab08b7592beabc44e21d4c923545694e173fe67c3481b",
+     "bytes": 595368,
+     "rows": 621
+    },
+    {
+     "path": "data/public_enriched/public_datasets.jsonl",
+     "sha256": "14738a7d377f69185363960138b53afc5096e701a00fd098011d7ec68a157650",
+     "bytes": 34215388,
+     "rows": 15157
+    },
+    {
+     "path": "data/readmes/public",
+     "sha256": "5b40839cc473d8c4fe15b4a0e7391c15910e7e123f9de058727c7dcd89bd02e3",
+     "files": 15738
+    },
+    {
+     "path": "data/readmes/datasets",
+     "sha256": "ab0c89cd5cca1b00972aa07e0f33f97bf6dd1cf46321f373c2ec9197024f26ba",
+     "files": 3664
+    },
+    {
+     "path": "data/readmes/kaggle",
+     "sha256": "504ff3974f12274b7b52aaaef32c4fbcd3efe0857e5f95f00db52cf4231be331",
+     "files": 621
+    }
+   ],
+   "outputs": [
+    {
+     "path": "data/dataset_index_v2/chunks.jsonl",
+     "sha256": "2d2f12519d5362f5244bccaffd3d0fe6ed78f5f7317107eec36244bdc6e32243",
+     "bytes": 52781537,
+     "rows": 41144
+    }
+   ]
+  }
+ },
+ "quality": {
+  "rows": 15157,
+  "official_status": {
+   "ok": 15152,
+   "deleted": 5
+  },
+  "verification": {
+   "reparsed": 5870,
+   "compat": 8987,
+   "fetched": 300
+  },
+  "lookup_problems": {},
+  "licensed": {
+   "collected": 14101,
+   "enriched": 15153
+  },
+  "license_needs_check": 4,
+  "public_entities": 15152,
+  "public_cards": 15152
+ },
+ "chunks": {
+  "chunks": 41144,
+  "cards": 19130,
+  "sections": 22014,
+  "chars": 27130018,
+  "unique_text_hashes": 41139,
+  "text_hashes_sha256": "3eed3d4827881b51d68df2a4d1230371b23310fdde1bb725d794d3d159bddec1"
+ },
+ "chunk_ids_sha256": "34c7439b3aa413ed5788122c87c2c4453f387c76eb7e6257f037635055935ca3"
+}

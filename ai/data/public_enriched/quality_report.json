@@ -13,8 +13,7 @@
  ],
  "lookup_problems": {},
  "verification": {
-  "fetched": 6006,
-  "reparsed": 164,
+  "reparsed": 6170,
   "compat": 8987
  },
  "needs_review": {
@@ -27,12 +26,12 @@
  },
  "license_needs_check": 4,
  "formats": {
+  "api,csv": 8236,
   "api": 5930,
-  "api,csv": 5577,
-  "csv": 2982,
+  "csv": 323,
   "api,csv,xlsx": 284,
-  "csv,json,xls,xml": 176,
-  "xlsx": 131,
+  "api,csv,json,xls,xml": 176,
+  "xlsx": 129,
   "api,json,xml": 29,
   "api,xml": 9,
   "xml": 9,
@@ -41,7 +40,7 @@
   "txt": 5
  },
  "formats_unknown": 0,
- "formats_changed": 6561,
+ "formats_changed": 9213,
  "update_cycle": {
   "실시간": 5691,
   "매일": 3046,
@@ -56,8 +55,8 @@
  },
  "public_entities": 15152,
  "public_cards": 15152,
- "enrich_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b",
- "corpus_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff",
- "documents_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc",
+ "enrich_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17",
+ "corpus_id": "e29561500a725299864094e989c5000d739c894c0edbf979d30f2aae5d07595f",
+ "documents_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b",
  "problems": []
 }

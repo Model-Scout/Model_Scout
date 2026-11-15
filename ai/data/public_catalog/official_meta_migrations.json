@@ -657,5 +657,37 @@
    "Seoul and standard-data answers are dropped and looked up again to obtain the new fields.",
    "Other answers are carried as compatibility, not re-verification; they have no description/creator until a real look-up."
   ]
+ },
+ {
+  "basis_id": "a66eb216459f-to-93147dea4dd7-standard-api",
+  "migrated_at": "2026-11-15T17:31:26+00:00",
+  "from_parser": "a66eb216459f",
+  "accepted_for": "93147dea4dd7",
+  "entries": 8987,
+  "dropped_for_lookup": {
+   "standard": 300
+  },
+  "left_for_reparse": 5870,
+  "basis": [
+   "Adds standard_api() (an api.data.go.kr/openapi/tn_pubr_* address on a standard dataset's detail page) and its pattern.",
+   "parse_data_go_kr and parse_seoul are unchanged: a non-standard answer is what the new parser returns for the same page.",
+   "Standard-data answers are dropped and looked up again: their API evidence is on a page never fetched before.",
+   "This is compatibility, not re-verification: no page was re-read for the carried answers."
+  ]
+ },
+ {
+  "basis_id": "93147dea4dd7-to-cd1573f7be53-file-api",
+  "migrated_at": "2026-11-15T18:22:37+00:00",
+  "from_parser": "93147dea4dd7",
+  "accepted_for": "cd1573f7be53",
+  "entries": 8987,
+  "dropped_for_lookup": {},
+  "left_for_reparse": 6170,
+  "basis": [
+   "Adds file_api() (an infuser.odcloud.kr/oas/docs?namespace=<the dataset's number> address on a file dataset's detail page), detail_api() and FILE_API_RE.",
+   "parse_data_go_kr, parse_seoul and standard_api are unchanged: a catalog answer is what the new parser returns.",
+   "File-dataset answers keep their catalog values; only their detail page is read for the API evidence.",
+   "This is compatibility, not re-verification: no catalog page was re-read for the carried answers."
+  ]
  }
 ]

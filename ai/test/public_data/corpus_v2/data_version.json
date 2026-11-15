@@ -1,17 +1,26 @@
 {
- "data_version": "04239c20eb394c12",
- "pinned_at": "2026-11-14T17:16:55+00:00",
+ "data_version": "40441294f66875a6",
+ "pinned_at": "2026-11-15T19:11:49+00:00",
  "git": {
-  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
-  "branch": "eval/v1-v2-corpus-compare",
+  "commit": "23b7f0cc51ea2358f5bcb3a2e844230ae8823d1e",
+  "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
-  "untracked_files": []
+  "tracked_diff_sha256": "8bfef0ed42d67e0cd5d2cf61c8a5b6da09e37820a5ddb2e7f9356219a706ea47",
+  "untracked_files": [
+   {
+    "path": "ai/test/test_compare_corpora_runs.py",
+    "sha256": "bc6f5cb646afc3f7479d124a0e12cb8dd3a514abae6d1536a2bdd224392bbac6"
+   },
+   {
+    "path": "ai/test/test_v2_evidence.py",
+    "sha256": "a982605da46274cdd4c0aa20cf3cbf064e656cab8eda9ebc5db47da3815e17ec"
+   }
+  ]
  },
  "stages": {
   "enrich": {
-   "stage_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b",
-   "created_at": "2026-11-13T10:46:33+00:00",
+   "stage_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17",
+   "created_at": "2026-11-15T18:37:21+00:00",
    "inputs": [
     {
      "path": "data/public_datasets_stage1.jsonl",
@@ -23,15 +32,15 @@
    "outputs": [
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
+     "bytes": 35510593,
      "rows": 15157
     }
    ]
   },
   "hypergraph": {
-   "stage_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff",
-   "created_at": "2026-11-14T17:09:12+00:00",
+   "stage_id": "e29561500a725299864094e989c5000d739c894c0edbf979d30f2aae5d07595f",
+   "created_at": "2026-11-15T18:42:11+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -47,8 +56,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
+     "bytes": 35510593,
      "rows": 15157
     },
     {
@@ -99,9 +108,9 @@
     },
     {
      "path": "data/hypergraph_v2/links.jsonl",
-     "sha256": "07b0e219dceb44ff07dbd280d0820c14730b54d924701de8494013e6409c3dac",
-     "bytes": 37276547,
-     "rows": 178712
+     "sha256": "8e8d013feaa4514d7b7c4b459e89072416629668c5e9372adc732cd272b3d1ba",
+     "bytes": 37792530,
+     "rows": 181549
     },
     {
      "path": "data/hypergraph_v2/relations.jsonl",
@@ -111,7 +120,7 @@
     },
     {
      "path": "data/hypergraph_v2/concepts.jsonl",
-     "sha256": "f1086a5c523e91dddde39b959b2a368c918eceada5bcf9d683afcfc0b4ed12ce",
+     "sha256": "c504cf3a7ea2983b91b11f195efa4c3e6971f334940949e421f7c43109941bf4",
      "bytes": 33625,
      "rows": 178
     },
@@ -127,14 +136,14 @@
     },
     {
      "path": "data/hypergraph_v2/report.json",
-     "sha256": "acea7002c28c1aa0add0883ca88d1ecca00a19e9c0497f4146100e91a1fea5bf",
+     "sha256": "10157379b8d4ba49b60234885051a65f6915fa5c04a1ce54908926ddc6bb0b3d",
      "bytes": 4768
     }
    ]
   },
   "documents": {
-   "stage_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc",
-   "created_at": "2026-11-14T17:11:41+00:00",
+   "stage_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b",
+   "created_at": "2026-11-15T19:10:37+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -150,8 +159,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
+     "bytes": 35510593,
      "rows": 15157
     },
     {
@@ -173,8 +182,8 @@
    "outputs": [
     {
      "path": "data/dataset_index_v2/chunks.jsonl",
-     "sha256": "9d3df9d5724deab2b3be937b66463c8a5c8db109b57e6f116286c5a1865ca26f",
-     "bytes": 52777261,
+     "sha256": "8076b344c38d09e796459c9a5ea10ef7dba2b6a8d3aabd6a6ffae8b66b97a24c",
+     "bytes": 53222032,
      "rows": 41144
     }
    ]
@@ -187,8 +196,7 @@
    "deleted": 5
   },
   "verification": {
-   "fetched": 6006,
-   "reparsed": 164,
+   "reparsed": 6170,
    "compat": 8987
   },
   "lookup_problems": {},
@@ -204,8 +212,9 @@
   "chunks": 41144,
   "cards": 19130,
   "sections": 22014,
-  "chars": 27126912,
+  "chars": 27354205,
   "unique_text_hashes": 41139,
-  "text_hashes_sha256": "789c00a1b9913706826226cf7a4be7fbcbacfafbf09d9bbdb57638605c8ca75d"
- }
+  "text_hashes_sha256": "3416ce026f9dae258b166ac7f0446717649d4911dbe77de32e7d60919ab4ba78"
+ },
+ "chunk_ids_sha256": "34c7439b3aa413ed5788122c87c2c4453f387c76eb7e6257f037635055935ca3"
 }

@@ -1,20 +1,29 @@
 {
  "stage": "documents",
  "corpus": "v2",
- "created_at": "2026-11-14T17:11:41+00:00",
+ "created_at": "2026-11-15T19:10:37+00:00",
  "options": {
   "corpus": "v2",
   "embedding_model": "text-embedding-3-small"
  },
  "git": {
-  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
-  "branch": "eval/v1-v2-corpus-compare",
+  "commit": "23b7f0cc51ea2358f5bcb3a2e844230ae8823d1e",
+  "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
-  "untracked_files": []
+  "tracked_diff_sha256": "8bfef0ed42d67e0cd5d2cf61c8a5b6da09e37820a5ddb2e7f9356219a706ea47",
+  "untracked_files": [
+   {
+    "path": "ai/test/test_compare_corpora_runs.py",
+    "sha256": "bc6f5cb646afc3f7479d124a0e12cb8dd3a514abae6d1536a2bdd224392bbac6"
+   },
+   {
+    "path": "ai/test/test_v2_evidence.py",
+    "sha256": "a982605da46274cdd4c0aa20cf3cbf064e656cab8eda9ebc5db47da3815e17ec"
+   }
+  ]
  },
  "upstream": {
-  "corpus_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff"
+  "corpus_id": "e29561500a725299864094e989c5000d739c894c0edbf979d30f2aae5d07595f"
  },
  "inputs": [
   {
@@ -31,8 +40,8 @@
   },
   {
    "path": "data/public_enriched/public_datasets.jsonl",
-   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-   "bytes": 33917999,
+   "sha256": "5a9ba30e77b7a794a9910ab1d6f3d8804ae8afde10c56e79e8d3be80eac4caaa",
+   "bytes": 35510593,
    "rows": 15157
   },
   {
@@ -54,8 +63,8 @@
  "code": [
   {
    "path": "14_build_dataset_chunks.py",
-   "sha256": "5d6b60ed9ffef0a6a9c5e6cecd90153b043a84916a21863c564971778d0b0fc2",
-   "bytes": 23401
+   "sha256": "9f6f20f46fc9a7cc027cb0b2ba234983fb1c20a4b14786171db4f6e5105f592f",
+   "bytes": 24162
   },
   {
    "path": "corpus_manifest.py",
@@ -66,8 +75,8 @@
  "outputs": [
   {
    "path": "data/dataset_index_v2/chunks.jsonl",
-   "sha256": "9d3df9d5724deab2b3be937b66463c8a5c8db109b57e6f116286c5a1865ca26f",
-   "bytes": 52777261,
+   "sha256": "8076b344c38d09e796459c9a5ea10ef7dba2b6a8d3aabd6a6ffae8b66b97a24c",
+   "bytes": 53222032,
    "rows": 41144
   }
  ],
@@ -75,9 +84,9 @@
   "chunks": 41144,
   "cards": 19130,
   "sections": 22014,
-  "chars": 27126912,
+  "chars": 27354205,
   "unique_text_hashes": 41139,
-  "text_hashes_sha256": "789c00a1b9913706826226cf7a4be7fbcbacfafbf09d9bbdb57638605c8ca75d"
+  "text_hashes_sha256": "3416ce026f9dae258b166ac7f0446717649d4911dbe77de32e7d60919ab4ba78"
  },
- "stage_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc"
+ "stage_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b"
 }

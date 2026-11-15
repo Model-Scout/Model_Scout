@@ -159,7 +159,7 @@
 {"concept_id": "data_format/xml", "facet": "data_format", "facet_label": "데이터 형식", "key": "xml", "label": "XML", "aliases": [], "members": 223}
 {"concept_id": "data_format/text_file", "facet": "data_format", "facet_label": "데이터 형식", "key": "text_file", "label": "텍스트 파일", "aliases": ["text", "txt", "hwp", "hwpx", "pdf", "docx", "doc"], "members": 51}
 {"concept_id": "data_format/parquet", "facet": "data_format", "facet_label": "데이터 형식", "key": "parquet", "label": "Parquet", "aliases": ["arrow", "optimized-parquet"], "members": 1362}
-{"concept_id": "data_format/api", "facet": "data_format", "facet_label": "데이터 형식", "key": "api", "label": "API", "aliases": ["rest api", "openapi", "오픈 api 제공"], "members": 11838}
+{"concept_id": "data_format/api", "facet": "data_format", "facet_label": "데이터 형식", "key": "api", "label": "API", "aliases": ["rest api", "openapi", "오픈 api 제공"], "members": 14675}
 {"concept_id": "data_format/geo_file", "facet": "data_format", "facet_label": "데이터 형식", "key": "geo_file", "label": "공간 파일", "aliases": ["shapefile", "kml", "geojson 파일", "shp", "geojson"], "members": 3}
 {"concept_id": "data_format/media_files", "facet": "data_format", "facet_label": "데이터 형식", "key": "media_files", "label": "미디어 파일", "aliases": ["jpg", "png", "wav", "mp3", "mp4", "imagefolder", "audiofolder", "webdataset"], "members": 122}
 {"concept_id": "update_frequency/realtime", "facet": "update_frequency", "facet_label": "갱신 주기", "key": "realtime", "label": "실시간", "aliases": ["real-time", "실시간 제공"], "members": 0}
