@@ -1,0 +1,32 @@
+{
+ "status": "실험용 초안: 팀원의 기준 라벨 v5(batch3/labels_llm_v5.jsonl, sha256 c1708cd4…)와 다른 파일. 만들 때는 batch3 폴더였으나 팀원 batch3과 이름이 겹쳐 batch4로 옮김(내용 동일)",
+ "experiment_corpus": "v2 documents_id f2fd56aad2b61b41 (2026-11-13). 최신 고정본 04239c20eb394c12의 후보가 아님",
+ "selection": "v1·v2 상위 10개 중 v4 라벨의 미판정(held=false) 합집합 — compare_corpora.py score --unjudged-out",
+ "rows": 174,
+ "found_by": {
+  "v1+v2": 79,
+  "v1": 61,
+  "v2": 34
+ },
+ "inputs": {
+  "labels": {
+   "path": "batch2/labels_llm_v4.jsonl",
+   "sha256": "d3dbc93d654d35235faa45d5d23e51522a45b04a600b363dce5ba7264cad7a9a"
+  },
+  "unjudged": {
+   "path": "compare/unjudged_v4.jsonl",
+   "sha256": "9c69b088f0f61e1f17c155309d1e50eddccaf2026c74ba929623c1f31d4cbdb1"
+  },
+  "rankings": {
+   "v1": {
+    "path": "compare/rankings_v1.jsonl",
+    "sha256": "b78032b6fee79ca672295551dd94a27c122324157cdf95c957999285603ddeaf"
+   },
+   "v2": {
+    "path": "compare/rankings_v2.jsonl",
+    "sha256": "c3e6ed8d79a005997875109467b2d7f99d9a49b48f6e30bd39cc0681c1f812e0"
+   }
+  }
+ },
+ "cards": "golden_prep.facts + golden_prep.suggestion (v2 보완본 기준, batch1·2와 같은 자동 검사). 포털 데이터가 아닌 HF·Kaggle 항목은 검색 문서 본문을 설명으로 씀"
+}
