@@ -35,6 +35,7 @@ import functools
 import json
 import math
 import os
+import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -137,7 +138,7 @@ def use_corpus(name):
     if name not in CORPORA:
         raise ValueError(f"unknown corpus {name!r}; choose from {sorted(CORPORA)}")
     CORPUS, (HYPERGRAPH_DIR, DATASET_INDEX_DIR) = name, CORPORA[name]
-    for cached in (load_graph, load_link_evidence, load_dataset_vectors, corpus_identity):
+    for cached in (load_graph, load_link_evidence, load_dataset_vectors, corpus_identity, _local_cards):
         cached.cache_clear()
     return corpus_identity()
 
@@ -168,7 +169,7 @@ def corpus_identity():
 
 def _deployed_identity():
     """A server's v2: deployed graph, build records and vector file, matching Supabase. Stops on any mismatch."""
-    from corpus_manifest import check_manifest, load_manifest, sha256_file
+    from corpus_manifest import check_manifest, load_manifest, sha256_file, sha256_text
 
     graph, documents = load_manifest(HYPERGRAPH_DIR), load_manifest(DATASET_INDEX_DIR)
     if graph is None or documents is None:
@@ -182,6 +183,16 @@ def _deployed_identity():
         problems.append(f"deployed documents {documents['stage_id'][:16]} are not data_version {expected}")
     if (documents.get("upstream") or {}).get("corpus_id") != graph["stage_id"]:
         problems.append("deployed documents were not built from the deployed graph")
+    # The pin (data_version.json, from git) is the record independent of the vector files: it names the
+    # documents and the ordered chunk ids that vector rows follow.
+    pin_path = DATASET_INDEX_DIR / "data_version.json"  # deploy.sh copies it here; a checkout keeps it in test/
+    if not pin_path.exists() and CORPUS == "v2":
+        pin_path = DATA_DIR.parent / "test" / "public_data" / "corpus_v2" / "data_version.json"
+    pin = json.loads(pin_path.read_text(encoding="utf-8")) if pin_path.exists() else {}
+    if not pin:
+        problems.append(f"고정 기록 없음: {pin_path} (deploy.sh가 함께 배포)")
+    elif pin.get("data_version") != expected or pin["stages"]["documents"]["stage_id"] != documents["stage_id"]:
+        problems.append("고정 기록이 배포된 문서 버전이 아님")
     model = documents["options"].get("embedding_model")
     vectors_path, record_path = DATASET_INDEX_DIR / "embeddings.npy", DATASET_INDEX_DIR / "manifest.json"
     # The deployed vector file must be the one recorded for these documents.
@@ -195,6 +206,8 @@ def _deployed_identity():
         problems.append("deployed embeddings.npy is not the recorded file")
     elif len(record.get("chunk_ids") or []) != np.load(vectors_path, mmap_mode="r").shape[0]:
         problems.append("deployed embeddings.npy rows differ from the recorded chunks")
+    elif pin and sha256_text(record["chunk_ids"]) != pin.get("chunk_ids_sha256"):
+        problems.append("벡터 기록의 청크 ID 목록(내용 또는 순서)이 고정 기록과 다름")
     meta = _db_build_record()
     checks = [("corpus_id", graph["stage_id"]), ("documents_id", documents["stage_id"]),
               ("embedding_model", model), ("vectors_sha256", recorded_sha)]
@@ -372,6 +385,79 @@ def dense_scores(query_vector):
     best = np.full(len(names), -1.0, dtype=np.float32)
     np.maximum.at(best, owner, sims)
     return dict(zip(names, best.tolist(), strict=False))
+
+
+# Lines a v2 search card states (14_build_dataset_chunks.portal_card_lines + concept lines) -> fact key.
+CARD_FACT_LINES = {
+    "데이터 형식": "formats",
+    "상업 이용": "commercial_use",
+    "이용허락": "license",
+    "갱신 주기(포털 표기)": "update_cycle_portal",
+    "API 제공 여부": "api_status",  # 미확인 (no address on the page, not "no API") or a file's auto-converted API
+    "제공기관": "publisher",
+    "데이터 지역 범위": "coverage",
+    "데이터 기간": "period",
+    "언어판": "language_edition",
+    "공간 단위": "spatial_unit",
+}
+CARD_DESCRIPTION_CHARS = 500
+# Sentences of an official description that limit how the data can be used; quoted as they are.
+LIMIT_RE = re.compile(r"좌표|EPSG|위경도|\d+\s*일\s*전|지연|기준일|기준 시점|최근\s*\d+\s*일|제공하지 않|미제공|제외|한정|최대\s*[\d,]+\s*건")
+MAX_LIMITS = 3
+
+
+@functools.lru_cache(maxsize=1)
+def _local_cards():
+    path = DATASET_INDEX_DIR / "chunks.jsonl"
+    with open(path, encoding="utf-8") as f:
+        return {c["dataset_id"]: c["text"] for c in map(json.loads, f) if c["kind"] == "card"}
+
+
+def _card_texts(names):
+    """Card text per dataset: the local documents on a build machine, else the v2 chunk table (by key)."""
+    if (DATASET_INDEX_DIR / "chunks.jsonl").exists():
+        cards = _local_cards()
+        return {n: cards[n] for n in names if n in cards}
+    from supabase_db import db_connection
+
+    conn = db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("select dataset_id, text from public.model_scout_dataset_chunks_v2 where chunk_id = any(%s)",
+                        ([f"{n}#card" for n in names],))
+            return dict(cur.fetchall())
+    finally:
+        conn.close()
+
+
+def dataset_facts(names):
+    """What the v2 card states about each dataset, for explaining a recommendation (not for ranking).
+
+    Only what the card says: a fact the card does not state is absent, and "미확인"/"확인 필요" stays
+    unconfirmed, never "not provided". v1 cards carry none of these lines, so v1 returns nothing.
+    """
+    if CORPUS == "v1" or not names:
+        return {}
+    try:
+        cards = _card_texts(list(dict.fromkeys(names)))
+    except Exception as error:  # noqa: BLE001 - the answer says the facts were unavailable instead of failing
+        return {n: {"unavailable": f"데이터 카드 조회 실패 ({type(error).__name__})"} for n in names}
+    facts = {}
+    for name, text in cards.items():
+        found = {}
+        for line in text.splitlines():
+            key, _, value = line.partition(": ")
+            if key in CARD_FACT_LINES and value:
+                found[CARD_FACT_LINES[key]] = value
+            elif key == "Description" and value:
+                found["description"] = value[:CARD_DESCRIPTION_CHARS]
+                sentences = re.split(r"\s*[*※]\s*|(?<=[.다])\s+", value)
+                # A field list ("제공 필드: …, 좌표정보(X)") names columns; it is not a limit.
+                limits = [s.strip(" .") for s in sentences if LIMIT_RE.search(s) and "제공 필드" not in s]
+                if limits:
+                    found["limits"] = [s[:160] for s in dict.fromkeys(limits)][:MAX_LIMITS]
+        facts[name] = found
+    return facts
 
 
 def embed_query(text):

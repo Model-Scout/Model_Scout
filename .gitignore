@@ -70,3 +70,7 @@ ai/reingest-bundle/
 ai/reingest-work/
 ai/reingest-report*.json
 ai/reingest-coverage-*.md
+# Earlier v2 vectors, kept outside git (the pin record is test/public_data/corpus_v2/pins/)
+ai/data/archive/
+# Detail pages behind the API evidence (~47 KB each); the evidence and page hash stay in official_meta.jsonl
+ai/data/public_catalog/official_raw/*.page.gz

@@ -275,3 +275,9 @@ def test_missing_query_vectors_stop_instead_of_calling_the_api(tmp_path, monkeyp
     monkeypatch.setattr(gp.hs, "_embed_query", lambda *a: pytest.fail("API 호출"))
     with pytest.raises(SystemExit, match="p001"):
         gp.query_vectors([query()], allow_embed=False)
+
+
+@pytest.mark.parametrize("api_check, status", [("not_found", gp.UNKNOWN), ("page_failed", gp.UNKNOWN), (None, gp.UNMET)])
+def test_an_unconfirmed_standard_api_is_unknown_not_absent(api_check, status):
+    s = gp.suggestion(query(delivery="api"), card(formats=["csv"], api_check=api_check))
+    assert s["checks"]["delivery"]["status"] == status

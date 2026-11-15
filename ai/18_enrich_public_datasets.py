@@ -64,7 +64,7 @@ CACHE = DATA_DIR / "public_catalog" / "official_meta.jsonl"
 RAW_DIR = DATA_DIR / "public_catalog" / "official_raw"
 # Cache fields that describe the look-up; everything else in an entry is the parsed answer.
 ENTRY_KEYS = {"dataset_id", "row_sha", "parser_version", "checked_at", "raw_sha256", "verification",
-              "reparsed_at", "reparsed_from", "reparse_changed", "compat"}
+              "reparsed_at", "reparsed_from", "reparse_changed", "compat", "page_sha256", "page_checked_at"}
 COLLECTOR = AI_DIR / "18_collect_public_datasets.py"
 USER_AGENT = "Mozilla/5.0 (compatible; model-scout-public-data)"
 MAX_RETRIES = 3
@@ -78,12 +78,23 @@ SEOUL_TAB_RE = re.compile(r"dataSetView\('[^']*'\s*,\s*'([A-Z])'")
 SEOUL_FILE_RE = re.compile(r"downloadFile\('\d+'\);\">([^<]+)</span>")
 # The dataset's own explanation (coordinate system, data delay, …); the catalog row lacks it.
 SEOUL_DESC_RE = re.compile(r'<meta name="description" content="([^"]*)"')
+# A standard dataset's own OpenAPI service address on its detail page. The catalog JSON never says
+# whether a standard dataset has an API; file formats (JSON, XML) or the site menu are no evidence.
+STANDARD_API_RE = re.compile(r"(?:https?://)?api\.data\.go\.kr/openapi/(tn_pubr_[A-Za-z0-9_]+)")
+# A file dataset's own auto-converted OpenAPI (the portal turns open-format files into a REST API): its
+# Swagger document is addressed by the dataset's number. A page without it is unconfirmed, never "no API".
+FILE_API_RE = re.compile(r"infuser\.odcloud\.kr/oas/docs\?namespace=(\d+)/(v\d+)")
+# Detail pages that hold API evidence the catalog JSON lacks.
+DETAIL_KINDS = {"standard", "fileData"}
 # The portal answers 200 with this page when it is overloaded ("서비스 지연이 발생하고 있습니다").
 SEOUL_BUSY_RE = re.compile(r"서비스 지연이 발생|다시 시도하여 주십시오|이용에 불편을 드려")
 API_DELIVERY = {"REST", "SOAP", "LINK"}
 # Formats the taxonomy maps (data_format); anything else on a page is not a model-readable file.
 FILE_FORMATS = {"csv", "xlsx", "xls", "json", "xml", "txt", "shp", "geojson"}
 CONFIRMED = {"ok", "deleted"}
+# api_check values that are evidence of an API (the page's own address); the others are unconfirmed.
+API_CONFIRMED = {"confirmed", "confirmed_auto"}
+API_UNCONFIRMED = {"not_found", "page_failed"}
 # ponytail: fixed re-check ages; tune per portal if pages change faster than this.
 TTL_DAYS = {"ok": 30, "deleted": 7}
 
@@ -148,6 +159,38 @@ def parse_data_go_kr(text):
     }
 
 
+def standard_api(page):
+    """API evidence from a standard dataset's detail page: confirmed with its service address, or not_found.
+
+    not_found means the page (read correctly: it names the dataset) shows no address; the API may be
+    loaded dynamically, so it is unconfirmed, never "no API".
+    """
+    if "standard.do" not in page and "표준데이터" not in page:
+        raise ValueError("not a standard dataset detail page")
+    match = STANDARD_API_RE.search(page)
+    return ({"api_check": "confirmed", "api_endpoint": match.group(1), "api_evidence": match.group(0)} if match
+            else {"api_check": "not_found"})
+
+
+def file_api(page, number):
+    """API evidence from a file dataset's detail page: confirmed_auto with its own namespace, or not_found.
+
+    The address only shows the portal lists an auto-converted API; no call is made (api_call_checked False).
+    """
+    if f"/data/{number}/fileData.do" not in page and f"publicDataPk={number}" not in page:
+        raise ValueError("not this file dataset's detail page")
+    found = [m for m in FILE_API_RE.finditer(page) if m.group(1) == number]
+    return ({"api_check": "confirmed_auto", "api_endpoint": f"{number}/{found[0].group(2)}", "api_evidence": found[0].group(0)}
+            if found else {"api_check": "not_found"})
+
+
+def detail_api(row, page):
+    """The detail page's API evidence for a standard or file dataset."""
+    if page_kind(row) == "standard":
+        return standard_api(page)
+    return file_api(page, PAGE_KIND_RE.search(row["url"]).group(1))
+
+
 def seoul_description(page):
     match = SEOUL_DESC_RE.search(page)
     text = html.unescape(match.group(1)) if match else ""
@@ -174,8 +217,10 @@ def parse_seoul(page):
 
 # Changes whenever the parsing code changes, so results of an older parser are looked up again.
 PARSER_VERSION = hashlib.sha256(
-    "".join(inspect.getsource(f) for f in (plain_text, first, parse_data_go_kr, parse_seoul, seoul_description)).encode("utf-8")
-    + "".join(r.pattern for r in (SEOUL_TAB_RE, SEOUL_FILE_RE, SEOUL_BUSY_RE, SEOUL_DESC_RE)).encode("utf-8")
+    "".join(inspect.getsource(f) for f in (plain_text, first, parse_data_go_kr, parse_seoul, seoul_description,
+                                           standard_api, file_api, detail_api)).encode("utf-8")
+    + "".join(r.pattern for r in (SEOUL_TAB_RE, SEOUL_FILE_RE, SEOUL_BUSY_RE, SEOUL_DESC_RE, STANDARD_API_RE,
+                                  FILE_API_RE)).encode("utf-8")
 ).hexdigest()[:12]
 
 
@@ -198,6 +243,19 @@ def save_raw(dataset_id, page):
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     raw_path(dataset_id).write_bytes(gzip.compress(page.encode("utf-8")))
     return hashlib.sha256(page.encode("utf-8")).hexdigest()
+
+
+def page_path(dataset_id):
+    return RAW_DIR / (re.sub(r"[^0-9A-Za-z_-]", "_", dataset_id) + ".page.gz")
+
+
+def load_page(entry):
+    """A standard or file dataset's stored detail page, when its hash matches the answer."""
+    path = page_path(entry["dataset_id"])
+    if not entry.get("page_sha256") or not path.exists():
+        return None
+    page = gzip.decompress(path.read_bytes()).decode("utf-8")
+    return page if hashlib.sha256(page.encode("utf-8")).hexdigest() == entry["page_sha256"] else None
 
 
 def load_raw(entry):
@@ -231,6 +289,14 @@ def reparse(entry, row, now):
         return None
     if meta["status"] not in CONFIRMED:
         return None
+    if row["source"] == "data_go_kr" and page_kind(row) in DETAIL_KINDS and meta["status"] == "ok":
+        detail = load_page(entry)
+        if detail is not None:  # without it the answer stands and needs_page() fetches only the page
+            try:
+                meta.update(detail_api(row, detail), page_sha256=entry["page_sha256"],
+                            **{k: entry[k] for k in ("page_checked_at",) if k in entry})
+            except Exception:  # noqa: BLE001
+                return None
     old = answer(entry)
     return {
         **{k: entry[k] for k in ("dataset_id", "row_sha", "checked_at", "raw_sha256")},
@@ -257,9 +323,20 @@ def official_formats(row, meta):
         return sorted(formats)
     kind = page_kind(row)
     encoding = set(re.split(r"[+,/\s]+", (meta.get("encoding") or "").lower())) & FILE_FORMATS
-    api = {"api"} if meta.get("delivery") in API_DELIVERY else set()
-    # A standard dataset that states no format stays unknown instead of the old ["csv", "api"].
-    return sorted(encoding | api) or (row.get("formats") or [] if kind == "fileData" else [])
+    api = {"api"} if meta.get("delivery") in API_DELIVERY or meta.get("api_check") in API_CONFIRMED else set()
+    # Files and API are decided apart: a file dataset whose catalog names no encoding keeps its collected
+    # file formats even when its page shows an API. A standard dataset that states no format stays
+    # unknown instead of the old ["csv", "api"].
+    if not encoding and kind == "fileData":
+        encoding = set(row.get("formats") or []) - {"api"}
+    return sorted(encoding | api)
+
+
+def api_evidence(meta):
+    check = meta.get("api_check")
+    if check in API_UNCONFIRMED and meta.get("delivery") in API_DELIVERY:
+        return "confirmed_catalog"
+    return check
 
 
 def enrich_row(row, meta, recheck=None, review=()):
@@ -290,6 +367,13 @@ def enrich_row(row, meta, recheck=None, review=()):
         "needs_review": bool(review),
         "review_reasons": list(review),
         "license_text": meta.get("license_text") if status == "ok" else None,
+        # Standard and file data: confirmed (the standard API's address is on its page), confirmed_auto (the
+        # page lists the file's auto-converted API), confirmed_catalog (the catalog's 제공형태 names an API),
+        # else not_found / page_failed: unconfirmed, never "no API". An address is not a tested call.
+        "api_check": api_evidence(meta) if status == "ok" else None,
+        "api_endpoint": meta.get("api_endpoint") if status == "ok" else None,
+        "api_evidence": meta.get("api_evidence") if status == "ok" else None,  # the address as the page shows it
+        "api_call_checked": False,
         "modified": meta.get("modified") if status == "ok" else None,
     }
     return out
@@ -332,7 +416,41 @@ def lookup(session, row):
     except Exception:  # noqa: BLE001
         return {"status": "parse_error"}
     # Keep the page behind every answer, so a later parser change can re-parse it locally.
-    return {**meta, "raw_sha256": save_raw(row["dataset_id"], page)}
+    meta = {**meta, "raw_sha256": save_raw(row["dataset_id"], page)}
+    if meta.get("status") == "ok" and row["source"] == "data_go_kr" and page_kind(row) in DETAIL_KINDS:
+        meta.update(detail_page_api(session, row))
+    return meta
+
+
+def detail_page_api(session, row):
+    """The detail page's API evidence; a page that cannot be read leaves the API unconfirmed (page_failed)."""
+    checked = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    try:
+        page = fetch(session, row["url"])
+        found = detail_api(row, page)
+    except Exception:  # noqa: BLE001
+        return {"api_check": "page_failed", "page_checked_at": checked}
+    path = page_path(row["dataset_id"])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(gzip.compress(page.encode("utf-8")))
+    return {**found, "page_sha256": hashlib.sha256(page.encode("utf-8")).hexdigest(), "page_checked_at": checked}
+
+
+def needs_page(entry, row):
+    """A confirmed catalog answer still missing its detail page's API evidence (never read, or it failed)."""
+    return (bool(entry) and entry.get("status") == "ok" and row["source"] == "data_go_kr"
+            and page_kind(row) in DETAIL_KINDS and entry.get("api_check") in (None, "page_failed"))
+
+
+def add_page_api(session, entry, row):
+    """Only the detail page is read again: the catalog answer and its checked_at stay as they were.
+
+    A failure keeps any evidence the entry already had and leaves page_failed for the next run to retry.
+    """
+    found = detail_page_api(session, row)
+    if found["api_check"] == "page_failed" and entry.get("api_check") not in (None, "page_failed"):
+        return entry
+    return {**{k: v for k, v in entry.items() if k not in ("api_check", "api_endpoint", "api_evidence", "page_sha256")}, **found}
 
 
 def is_fresh(entry, row, now):
@@ -413,6 +531,19 @@ def main():
                         **meta,
                     }
         write_cache(cache)
+    # Catalog answers that still lack their detail page's API evidence (never read, or a failed read):
+    # only the page is fetched, so a failure here never costs the confirmed catalog values.
+    pages = [r for r in rows if r["dataset_id"] not in attempts and needs_page(cache.get(r["dataset_id"]), r)]
+    print(f"[enrich] detail pages to read {len(pages)}", flush=True)
+    if pages and not args.offline:
+        import requests
+
+        session = requests.Session()
+        with ThreadPoolExecutor(args.workers) as pool:
+            done = pool.map(lambda r: add_page_api(session, cache[r["dataset_id"]], r), pages)
+            for row, entry in zip(pages, done, strict=True):
+                cache[row["dataset_id"]] = entry
+        write_cache(cache)
 
     enriched = [
         enrich_row(row, *resolve(row, cache.get(row["dataset_id"]), attempts.get(row["dataset_id"]), now, args.offline))
@@ -432,6 +563,7 @@ def main():
         "licensed_after": sum(bool(r.get("licenses")) for r in enriched),
         "formats_changed": sum(a.get("formats") != b.get("formats") for a, b in zip(rows, enriched, strict=True)),
         "with_update_cycle": sum(bool(r.get("update_cycle")) for r in enriched),
+        "api_check": Counter(f"{page_kind(r)}:{r['official']['api_check']}" for r in enriched if r["official"].get("api_check")),
     }
     manifest = write_manifest(
         OUT_DIR,
