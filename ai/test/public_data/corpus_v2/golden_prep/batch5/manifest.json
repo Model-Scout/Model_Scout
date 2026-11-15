@@ -1,0 +1,64 @@
+{
+ "status": "골든셋 v6 판정: 팀 v5(batch3/labels_llm_v5.jsonl)에 batch4 174쌍을 병합하고, 이번 API 근거 보완·피드백으로 영향받는 쌍을 재판정",
+ "corpus": {
+  "enrich_id": "83aa525b20e23530105b8839906bbe43c5de6e4f8549b9ca5c2efea06104de17",
+  "documents_id": "40441294f66875a692a7f6359a090f243aa2ae8c86328311fb06b405f8db551b"
+ },
+ "rows": 211,
+ "rejudged": 91,
+ "carried_from_batch4": 120,
+ "review_reasons": {
+  "batch4 사실 변경": 97,
+  "피드백 지정": 4,
+  "v5 제외(사유 기록 없음)인데 현재 delivery 충족": 19,
+  "v5 제외(wrong_delivery)인데 현재 delivery 충족": 3,
+  "v5 제외(wrong_region)인데 현재 delivery 충족": 1,
+  "p050 조건 변경": 12,
+  "batch4 판정 이어받음": 120
+ },
+ "score_changes": {
+  "0(judged_irrelevant) -> 0": 4,
+  "0(must_exclude) -> 0": 1,
+  "0(must_exclude) -> 0(제외)": 23,
+  "0(must_exclude) -> 1": 6,
+  "0(must_exclude) -> ?": 2,
+  "2 -> 2": 1,
+  "batch4 0 -> 0": 38,
+  "batch4 0 -> 0(제외)": 4,
+  "batch4 0 -> 2": 1,
+  "batch4 1 -> 1": 9,
+  "batch4 2 -> 2": 2
+ },
+ "condition_change": {
+  "p050": {
+   "delivery": [
+    "api",
+    "any"
+   ],
+   "why": "질문에 API 요구가 없음 (합의 사항). 질문 문장은 그대로"
+  }
+ },
+ "inputs": {
+  "base": {
+   "path": "batch3/labels_llm_v5.jsonl",
+   "sha256": "c1708cd4e625ccdf5a40604971affa77cafd0cba84aba3b6f49700c444b5b5d3"
+  },
+  "batch4_judgments": {
+   "path": "batch4/judgments.jsonl",
+   "sha256": "9536ed20fb2a8fd25db91312ece3cb52a03e2e924502a1b225650894fd67fea5"
+  },
+  "batch4_items": {
+   "path": "batch4/items.jsonl",
+   "sha256": "49b76d055d6c10c524069a55333239ab4edc3e1f4319e8797dfe20185f6b7768"
+  }
+ },
+ "selection": [
+  "batch4 174쌍 전부 병합 (팀 v5와 겹치는 쌍 없음)",
+  "batch4 중 형식 외 사실(설명·기관·갱신 표기)이 바뀐 쌍, 또는 형식·API가 바뀌고 질문이 제공 방식(api/file)을 요구하거나 메모가 형식을 근거로 든 쌍: 재판정",
+  "batch4 중 형식·API 상태만 바뀌고 질문이 제공 방식을 요구하지 않으며 메모도 형식을 근거로 들지 않은 쌍: 판정 이어받음",
+  "팀 v5에서 제공 방식 조건 질문의 판정이 현재 형식과 어긋나는 쌍 (1·2점인데 불충족·미확인, 0점·제외인데 충족)",
+  "p050 판정된 모든 쌍 (조건 변경), p051 피드백 지정 4쌍"
+ ],
+ "judging": "카드(v2 보완본 사실·자동 검사) 기준 LLM 1차 판정. 공식 페이지는 15062509·15154373 두 건의 포털 OpenAPI 페이지만 열었고 원 제공처 누리집은 열지 않음",
+ "rechecked_2026_11_16": "p051 15062509·15154373: 포털 OpenAPI 페이지에 내려받기가 없다는 것만으로 파일 미제공을 확정하지 않고 보류(?)로 변경. 원 제공처 파일 경로는 미확인"
+}
