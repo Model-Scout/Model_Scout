@@ -167,7 +167,7 @@ ahead of the Llama 3.1 8B and Mistral 7B baselines.
 
 Fine-tuning a "helpful" persona on top of RLHF'd refusals fights the base model's training and tends to degrade coherence. Abliteration instead finds and edits the specific weight directions responsible for refusal, leaving the rest of the network (and its capabilities) untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** — follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** — follow for more uncensored models
 
 ## Files
 
@@ -269,6 +269,20 @@ transformers consume. Mistral's own recommendation for serving it is
 [vLLM](https://github.com/vllm-project/vllm), capped at 32k context there until paged-attention
 kernels for interleaved attention land.
 
+## FAQ
+
+### What is Ministral-8B-Instruct-heretic?
+
+`Ministral-8B-Instruct-heretic` is a decensored build of [`mistralai/Ministral-8B-Instruct-2410`](https://huggingface.co/mistralai/Ministral-8B-Instruct-2410) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is Ministral-8B-Instruct-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 91/100 to 3/100 at KL divergence 0.0149 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run Ministral-8B-Instruct-heretic locally?
+
+`llama serve -hf saidutta69/Ministral-8B-Instruct-heretic:Q4_K_M` pulls the default quant; the repo ships 5 GGUF quants (see Files).
+
 ## Responsible use
 
 Refusal suppression is deliberate and works as intended: this model will comply with requests the base model would refuse, including some it shouldn't. There is no safety filtering layered on top. You are responsible for how you deploy it — don't put this behind an unmoderated public-facing endpoint serving third parties, and note that doing so commercially would also breach the base model's license. It inherits Ministral 8B's factual limitations and biases; abliteration removes refusal directions, it doesn't add capability or judgment.
@@ -304,6 +318,8 @@ Mistral sells a commercial license; see [mistral.ai/contact](https://mistral.ai/
 - [saidutta69/FrogNano-4B-heretic](https://huggingface.co/saidutta69/FrogNano-4B-heretic) — the same-day contrast case: tighter KL, far worse refusal suppression
 - [saidutta69/Qwen3-4B-Thinking-heretic](https://huggingface.co/saidutta69/Qwen3-4B-Thinking-heretic) — the tightest-KL edit in the collection, Apache-2.0, 4B
 
+
+- [RACER IS OP - Heretic Models - full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models) - every heretic model in this collection
 ## Abliteration hardware
 
 Recorded in `reproduce/reproduce.json`:

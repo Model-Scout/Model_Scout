@@ -151,7 +151,11 @@ def test_verifier_keys_match_the_planner():
 
 def _runs():
     flow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-    return {step["name"]: step.get("run", "") for step in flow["jobs"]["reingest"]["steps"]}
+    return {
+        step["name"]: step.get("run", "")
+        for job in flow["jobs"].values()
+        for step in job["steps"]
+    }
 
 
 def test_reingest_workflow_does_not_need_the_ignored_snapshot():

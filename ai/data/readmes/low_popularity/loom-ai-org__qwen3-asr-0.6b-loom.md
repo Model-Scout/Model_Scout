@@ -70,6 +70,8 @@ Run it with [loom-py](https://github.com/loom-ai-org/loom-py) -- `loom-py-rt` on
 pip install -U "loom-py-rt[hub]"
 ```
 
+**Needs `loom-py-rt` 1.0.0rc18 or later.** This file uses the engine's `STFT` op, new in that release; an older runtime stops with `unknown op 'STFT'`.
+
 ```python
 import loom
 

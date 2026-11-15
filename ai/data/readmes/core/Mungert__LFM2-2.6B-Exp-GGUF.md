@@ -1,0 +1,311 @@
+---
+library_name: transformers
+license: other
+license_name: lfm1.0
+license_link: LICENSE
+language:
+- en
+- ar
+- zh
+- fr
+- de
+- ja
+- ko
+- es
+pipeline_tag: text-generation
+tags:
+- liquid
+- lfm2
+- edge
+---
+
+# <span style="color: #7FFF7F;">LFM2-2.6B-Exp GGUF Models</span>
+
+
+## <span style="color: #7F7FFF;">Model Generation Details</span>
+
+This model was generated using [llama.cpp](https://github.com/ggerganov/llama.cpp) at commit [`85c40c9b0`](https://github.com/ggerganov/llama.cpp/commit/85c40c9b02941ebf1add1469af75f1796d513ef4).
+
+
+
+
+
+
+---
+
+<a href="https://readyforquantum.com/huggingface_gguf_selection_guide.html" style="color: #7FFF7F;">
+  Click here to get info on choosing the right GGUF model format
+</a>
+
+---
+
+
+
+<!--Begin Original Model Card-->
+
+
+<center>
+<div style="text-align: center;">
+  <img 
+    src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/2b08LKpev0DNEk6DlnWkY.png" 
+    alt="Liquid AI"
+    style="width: 100%; max-width: 100%; height: auto; display: inline-block; margin-bottom: 0.5em; margin-top: 0.5em;"
+  />
+</div>
+<div style="display: flex; justify-content: center; gap: 0.5em;">
+  <a href="https://playground.liquid.ai/chat">
+<a href="https://playground.liquid.ai/"><strong>Try LFM</strong></a> • <a href="https://docs.liquid.ai/lfm"><strong>Documentation</strong></a> • <a href="https://leap.liquid.ai/"><strong>LEAP</strong></a></a>
+</div>
+</center>
+
+# LFM2-2.6B-Exp
+
+LFM2-2.6B-Exp is an experimental checkpoint built on [LFM2-2.6B](https://huggingface.co/LiquidAI/LFM2-2.6B) using pure reinforcement learning.
+
+Specifically trained on instruction following, knowledge, and math, it delivers particularly strong performance compared to other 3B models. 
+In particular, its IFBench score surpasses DeepSeek R1-0528, a model 263 times larger.
+
+![LFM2.6B-Exp-White_v1](https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/5q5J1GZ-gAfguC1qafr8S.png)
+
+Find more information about LFM2 in our [blog post](https://www.liquid.ai/blog/liquid-foundation-models-v2-our-second-series-of-generative-ai-models).
+
+## 📄 Model details
+
+Due to their small size, **we recommend fine-tuning LFM2 models on narrow use cases** to maximize performance. 
+They are particularly suited for agentic tasks, data extraction, RAG, creative writing, and multi-turn conversations. 
+However, we do not recommend using them for tasks that are knowledge-intensive or require programming skills.
+
+| Property            | [**LFM2-350M**](https://huggingface.co/LiquidAI/LFM2-350M) | [**LFM2-700M**](https://huggingface.co/LiquidAI/LFM2-700M) | [**LFM2-1.2B**](https://huggingface.co/LiquidAI/LFM2-1.2B) | [**LFM2-2.6B**](https://huggingface.co/LiquidAI/LFM2-2.6B) |
+| ------------------- | ----------------------------- | ----------------------------- | ----------------------------- | ----------------------------- |
+| **Parameters**      | 354,483,968                   | 742,489,344                   | 1,170,340,608                 | 2,569,272,320                 |
+| **Layers**          | 16 (10 conv + 6 attn)         | 16 (10 conv + 6 attn)         | 16 (10 conv + 6 attn)         | 30 (22 conv + 8 attn)         |
+| **Context length**  | 32,768 tokens                 | 32,768 tokens                 | 32,768 tokens                 | 32,768 tokens                 |
+| **Vocabulary size** | 65,536                        | 65,536                        | 65,536                        | 65,536                        |
+| **Precision**       | bfloat16                      | bfloat16                      | bfloat16                      | bfloat16                      |
+| **Training budget** | 10 trillion tokens            | 10 trillion tokens            | 10 trillion tokens            | 10 trillion tokens            |
+| **License**         | LFM Open License v1.0         | LFM Open License v1.0         | LFM Open License v1.0         | LFM Open License v1.0         
+
+**Supported languages**: English, Arabic, Chinese, French, German, Japanese, Korean, and Spanish.
+
+**Generation parameters**: We recommend the following parameters:
+* `temperature=0.3`
+* `min_p=0.15`
+* `repetition_penalty=1.05`
+
+**Chat template**: LFM2 uses a ChatML-like chat template as follows:
+
+```
+<|startoftext|><|im_start|>system
+You are a helpful assistant trained by Liquid AI.<|im_end|>
+<|im_start|>user
+What is C. elegans?<|im_end|>
+<|im_start|>assistant
+It's a tiny nematode that lives in temperate soil environments.<|im_end|>
+```
+
+You can automatically apply it using the dedicated [`.apply_chat_template()`](https://huggingface.co/docs/transformers/en/chat_templating#applychattemplate) function from Hugging Face transformers.
+
+**Tool use**: It consists of four main steps:
+1. **Function definition**: LFM2 takes JSON function definitions as input (JSON objects between `<|tool_list_start|>` and `<|tool_list_end|>` special tokens), usually in the system prompt
+2. **Function call**: LFM2 writes Pythonic function calls (a Python list between `<|tool_call_start|>` and `<|tool_call_end|>` special tokens), as the assistant answer.
+3. **Function execution**: The function call is executed and the result is returned (string between `<|tool_response_start|>` and `<|tool_response_end|>` special tokens), as a "tool" role.
+4. **Final answer**: LFM2 interprets the outcome of the function call to address the original user prompt in plain text.
+
+Here is a simple example of a conversation using tool use:
+
+```
+<|startoftext|><|im_start|>system
+List of tools: <|tool_list_start|>[{"name": "get_candidate_status", "description": "Retrieves the current status of a candidate in the recruitment process", "parameters": {"type": "object", "properties": {"candidate_id": {"type": "string", "description": "Unique identifier for the candidate"}}, "required": ["candidate_id"]}}]<|tool_list_end|><|im_end|>
+<|im_start|>user
+What is the current status of candidate ID 12345?<|im_end|>
+<|im_start|>assistant
+<|tool_call_start|>[get_candidate_status(candidate_id="12345")]<|tool_call_end|>Checking the current status of candidate ID 12345.<|im_end|>
+<|im_start|>tool
+<|tool_response_start|>[{"candidate_id": "12345", "status": "Interview Scheduled", "position": "Clinical Research Associate", "date": "2023-11-20"}]<|tool_response_end|><|im_end|>
+<|im_start|>assistant
+The candidate with ID 12345 is currently in the "Interview Scheduled" stage for the position of Clinical Research Associate, with an interview date set for 2023-11-20.<|im_end|>
+```
+
+You can directly pass tools as JSON schema or Python functions with `.apply_chat_template()` as shown in [this page](https://huggingface.co/docs/transformers/en/chat_extras) to automatically format the system prompt.
+
+**Architecture**: Hybrid model with multiplicative gates and short convolutions: 10 double-gated short-range LIV convolution blocks and 6 grouped query attention (GQA) blocks.
+
+**Pre-training mixture**: Approximately 75% English, 20% multilingual, and 5% code data sourced from the web and licensed materials.
+
+**Training approach**:
+* Very large-scale SFT on 50% downstream tasks, 50% general domains
+* Custom DPO with length normalization and semi-online datasets
+* Iterative model merging
+* Reinforcement learning with verifiable rewards
+
+## 🏃 How to run LFM2
+
+### 1. Transformers
+
+To run LFM2, you need to install Hugging Face [`transformers`](https://github.com/huggingface/transformers) v4.55 or a more recent version as follows:
+
+```bash
+pip install -U transformers
+```
+
+Here is an example of how to generate an answer with transformers in Python:
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# Load model and tokenizer
+model_id = "LiquidAI/LFM2-2.6B-Exp"
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    device_map="auto",
+    torch_dtype="bfloat16",
+#    attn_implementation="flash_attention_2" <- uncomment on compatible GPU
+)
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+# Generate answer
+prompt = "What is C. elegans?"
+input_ids = tokenizer.apply_chat_template(
+    [{"role": "user", "content": prompt}],
+    add_generation_prompt=True,
+    return_tensors="pt",
+    tokenize=True,
+).to(model.device)
+
+output = model.generate(
+    input_ids,
+    do_sample=True,
+    temperature=0.3,
+    min_p=0.15,
+    repetition_penalty=1.05,
+    max_new_tokens=512,
+)
+
+print(tokenizer.decode(output[0], skip_special_tokens=False))
+
+# <|startoftext|><|im_start|>user
+# What is C. elegans?<|im_end|>
+# <|im_start|>assistant
+# C. elegans, also known as Caenorhabditis elegans, is a small, free-living
+# nematode worm (roundworm) that belongs to the phylum Nematoda.
+```
+
+You can directly run and test the model with this [Colab notebook](https://colab.research.google.com/drive/1_q3jQ6LtyiuPzFZv7Vw8xSfPU5FwkKZY?usp=sharing).
+
+### 2. vLLM
+
+You need to install [`vLLM`](https://github.com/vllm-project/vllm) v0.10.2 or a more recent version as follows:
+
+```bash
+uv pip install vllm==0.10.2 --extra-index-url https://wheels.vllm.ai/0.10.2/ --torch-backend=auto
+```
+
+Here is an example of how to use it for inference:
+
+```python
+from vllm import LLM, SamplingParams
+
+prompts = [
+    "What is C. elegans?",
+    "Say hi in JSON format",
+    "Define AI in Spanish"
+]
+sampling_params = SamplingParams(temperature=0.3, min_p=0.15, repetition_penalty=1.05)
+
+llm = LLM(model="LiquidAI/LFM2-2.6B-Exp")
+
+outputs = llm.generate(prompts, sampling_params)
+
+for output in outputs:
+    prompt = output.prompt
+    generated_text = output.outputs[0].text
+    print(f"Prompt: {prompt!r}, Generated text: {generated_text!r}")
+```
+
+### 3. llama.cpp
+
+You can run LFM2 with llama.cpp using its [GGUF checkpoint](https://huggingface.co/LiquidAI/LFM2-2.6B-Exp-GGUF). Find more information in the model card.
+
+## 🔧 How to fine-tune LFM2
+
+We recommend fine-tuning LFM2 models on your use cases to maximize performance.
+
+| Notebook | Description | Link |
+|-------|------|------|
+| SFT (Unsloth) | Supervised Fine-Tuning (SFT) notebook with a LoRA adapter using Unsloth. | <a href="https://colab.research.google.com/drive/1HROdGaPFt1tATniBcos11-doVaH7kOI3?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
+| SFT (TRL) | Supervised Fine-Tuning (SFT) notebook with a LoRA adapter using TRL. | <a href="https://colab.research.google.com/drive/1j5Hk_SyBb2soUsuhU0eIEA9GwLNRnElF?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
+| DPO (TRL) | Preference alignment with Direct Preference Optimization (DPO) using TRL. | <a href="https://colab.research.google.com/drive/1MQdsPxFHeZweGsNx4RH7Ia8lG8PiGE1t?usp=sharing"><img src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/vlOyMEjwHa_b_LXysEu2E.png" width="110" alt="Colab link"></a> |
+
+## 📬 Contact
+
+If you are interested in custom solutions with edge deployment, please contact [our sales team](https://www.liquid.ai/contact).
+
+## Citation
+
+```
+@article{liquidai2025lfm2,
+ title={LFM2 Technical Report},
+ author={Liquid AI},
+ journal={arXiv preprint arXiv:2511.23404},
+ year={2025}
+}
+```
+
+<!--End Original Model Card-->
+
+---
+
+# <span id="testllm" style="color: #7F7FFF;">🚀 If you find these models useful</span>
+
+Help me test my **AI-Powered Quantum Network Monitor Assistant** with **quantum-ready security checks**:  
+
+👉 [Quantum Network Monitor](https://readyforquantum.com/?assistant=open&utm_source=huggingface&utm_medium=referral&utm_campaign=huggingface_repo_readme)  
+
+
+The full Open Source Code for the Quantum Network Monitor Service available at my github repos ( repos with NetworkMonitor in the name) : [Source Code Quantum Network Monitor](https://github.com/Mungert69). You will also find the code I use to quantize the models if you want to do it yourself [GGUFModelBuilder](https://github.com/Mungert69/GGUFModelBuilder)
+
+💬 **How to test**:  
+ Choose an **AI assistant type**:  
+   - `TurboLLM` (GPT-4.1-mini)  
+   - `HugLLM` (Hugginface Open-source models)  
+   - `TestLLM` (Experimental CPU-only)  
+
+### **What I’m Testing**  
+I’m pushing the limits of **small open-source models for AI network monitoring**, specifically:  
+- **Function calling** against live network services  
+- **How small can a model go** while still handling:  
+  - Automated **Nmap security scans**  
+  - **Quantum-readiness checks**  
+  - **Network Monitoring tasks**  
+
+🟡 **TestLLM** – Current experimental model (llama.cpp on 2 CPU threads on huggingface docker space):  
+- ✅ **Zero-configuration setup**  
+- ⏳ 30s load time (slow inference but **no API costs**) . No token limited as the cost is low.
+- 🔧 **Help wanted!** If you’re into **edge-device AI**, let’s collaborate!  
+
+### **Other Assistants**  
+🟢 **TurboLLM** – Uses **gpt-4.1-mini** :
+- **It performs very well but unfortunatly OpenAI charges per token. For this reason tokens usage is limited. 
+- **Create custom cmd processors to run .net code on Quantum Network Monitor Agents**
+- **Real-time network diagnostics and monitoring**
+- **Security Audits**
+- **Penetration testing** (Nmap/Metasploit)  
+
+🔵 **HugLLM** – Latest Open-source models:  
+- 🌐 Runs on Hugging Face Inference API. Performs pretty well using the lastest models hosted on Novita.
+
+### 💡 **Example commands you could test**:  
+1. `"Give me info on my websites SSL certificate"`  
+2. `"Check if my server is using quantum safe encyption for communication"`  
+3. `"Run a comprehensive security audit on my server"`
+4. '"Create a cmd processor to .. (what ever you want)" Note you need to install a [Quantum Network Monitor Agent](https://readyforquantum.com/Download/?utm_source=huggingface&utm_medium=referral&utm_campaign=huggingface_repo_readme) to run the .net code on. This is a very flexible and powerful feature. Use with caution!
+
+### Final Word
+
+I fund the servers used to create these model files, run the Quantum Network Monitor service, and pay for inference from Novita and OpenAI—all out of my own pocket. All the code behind the model creation and the Quantum Network Monitor project is [open source](https://github.com/Mungert69). Feel free to use whatever you find helpful.
+
+If you appreciate the work, please consider [buying me a coffee](https://www.buymeacoffee.com/mahadeva) ☕. Your support helps cover service costs and allows me to raise token limits for everyone.
+
+I'm also open to job opportunities or sponsorship.
+
+Thank you! 😊

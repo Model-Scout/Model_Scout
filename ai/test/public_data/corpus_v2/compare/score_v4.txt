@@ -1,0 +1,92 @@
+labels labels_llm_v4.jsonl | aliases: duplicates kept by v2
+  v1: corpus_id None documents_id None vectors local
+  v2: corpus_id fff4bd219268da01 documents_id f2fd56aad2b61b41 vectors local
+
+[공통 질문] raw | condensed (미판정 제외)  judged@10
+  v1 (53문항)  P@10  R@10  MRR   nDCG: 0.41 0.63 0.86 0.66 | 0.47 0.71 0.86 0.70  0.70
+  v2 (53문항)  P@10  R@10  MRR   nDCG: 0.43 0.65 0.83 0.66 | 0.48 0.71 0.84 0.69  0.75
+
+  질문별 (condensed nDCG / raw P@10, v1 -> v2, 변화가 있는 것만)
+    p044 service_idea nDCG 0.61 -> 0.07 (-0.54)  P@10 0.20 -> 0.10  judged@10 0.4 -> 1.0
+    p047 service_idea nDCG 0.47 -> 0.15 (-0.32)  P@10 0.20 -> 0.10  judged@10 0.8 -> 1.0
+    p008 service_idea nDCG 0.57 -> 0.37 (-0.21)  P@10 0.40 -> 0.20  judged@10 0.5 -> 0.3
+    p033 ai_data      nDCG 0.69 -> 0.54 (-0.16)  P@10 0.30 -> 0.30  judged@10 0.6 -> 0.7
+    p005 service_idea nDCG 0.87 -> 0.76 (-0.10)  P@10 0.50 -> 0.50  judged@10 0.7 -> 0.6
+    p030 constrained  nDCG 0.66 -> 0.56 (-0.10)  P@10 0.10 -> 0.10  judged@10 0.5 -> 0.5
+    p026 constrained  nDCG 0.59 -> 0.50 (-0.09)  P@10 0.20 -> 0.20  judged@10 0.7 -> 0.8
+    p013 service_idea nDCG 0.87 -> 0.81 (-0.07)  P@10 0.40 -> 0.50  judged@10 0.7 -> 0.8
+    p024 constrained  nDCG 0.57 -> 0.50 (-0.06)  P@10 0.20 -> 0.20  judged@10 0.8 -> 0.8
+    p053 constrained  nDCG 0.24 -> 0.18 (-0.06)  P@10 0.20 -> 0.20  judged@10 0.9 -> 0.9
+    p025 constrained  nDCG 0.49 -> 0.43 (-0.05)  P@10 0.30 -> 0.30  judged@10 1.0 -> 1.0
+    p017 direct_lookup nDCG 0.95 -> 0.90 (-0.05)  P@10 0.90 -> 0.90  judged@10 0.9 -> 0.9
+    p002 service_idea nDCG 0.89 -> 0.85 (-0.04)  P@10 0.80 -> 0.90  judged@10 0.8 -> 0.9
+    p049 constrained  nDCG 0.47 -> 0.43 (-0.04)  P@10 0.60 -> 0.60  judged@10 1.0 -> 1.0
+    p019 direct_lookup nDCG 0.88 -> 0.86 (-0.02)  P@10 0.80 -> 0.70  judged@10 0.8 -> 0.7
+    p004 service_idea nDCG 0.71 -> 0.69 (-0.02)  P@10 0.50 -> 0.60  judged@10 0.6 -> 0.8
+    p022 direct_lookup nDCG 0.83 -> 0.82 (-0.01)  P@10 0.60 -> 0.50  judged@10 0.7 -> 0.6
+    p056 service_idea nDCG 0.93 -> 0.93 (-0.00)  P@10 0.80 -> 0.80  judged@10 0.9 -> 0.9
+    p016 direct_lookup nDCG 0.89 -> 0.88 (-0.00)  P@10 0.30 -> 0.30  judged@10 0.5 -> 0.5
+    p018 direct_lookup nDCG 0.74 -> 0.74 (+0.00)  P@10 0.50 -> 0.40  judged@10 1.0 -> 0.7
+    p057 service_idea nDCG 0.97 -> 0.97 (+0.00)  P@10 0.70 -> 0.60  judged@10 0.8 -> 0.7
+    p001 service_idea nDCG 0.86 -> 0.87 (+0.01)  P@10 1.00 -> 1.00  judged@10 1.0 -> 1.0
+    p009 service_idea nDCG 0.70 -> 0.72 (+0.02)  P@10 0.30 -> 0.30  judged@10 0.5 -> 0.5
+    p014 service_idea nDCG 0.67 -> 0.69 (+0.02)  P@10 0.60 -> 0.60  judged@10 0.7 -> 0.7
+    p007 service_idea nDCG 0.55 -> 0.57 (+0.02)  P@10 0.20 -> 0.30  judged@10 0.5 -> 0.5
+    p020 direct_lookup nDCG 0.86 -> 0.88 (+0.03)  P@10 0.90 -> 1.00  judged@10 0.9 -> 1.0
+    p038 ai_data      nDCG 0.93 -> 0.96 (+0.03)  P@10 0.70 -> 0.70  judged@10 0.8 -> 0.8
+    p036 ai_data      nDCG 0.70 -> 0.74 (+0.04)  P@10 0.20 -> 0.20  judged@10 0.8 -> 0.9
+    p003 service_idea nDCG 0.81 -> 0.85 (+0.04)  P@10 0.60 -> 0.80  judged@10 0.7 -> 0.9
+    p023 constrained  nDCG 0.90 -> 0.95 (+0.05)  P@10 0.20 -> 0.20  judged@10 0.5 -> 0.6
+    p031 constrained  nDCG 0.58 -> 0.63 (+0.05)  P@10 0.60 -> 0.70  judged@10 0.7 -> 0.8
+    p051 constrained  nDCG 0.33 -> 0.38 (+0.05)  P@10 0.10 -> 0.10  judged@10 0.8 -> 1.0
+    p037 ai_data      nDCG 0.38 -> 0.46 (+0.08)  P@10 0.20 -> 0.30  judged@10 0.6 -> 0.7
+    p035 ai_data      nDCG 0.82 -> 0.94 (+0.12)  P@10 0.60 -> 0.70  judged@10 0.7 -> 0.8
+    p011 service_idea nDCG 0.73 -> 0.85 (+0.12)  P@10 0.60 -> 0.70  judged@10 0.7 -> 0.9
+    p058 ai_data      nDCG 0.00 -> 0.12 (+0.12)  P@10 0.00 -> 0.10  judged@10 0.2 -> 0.4
+    p034 ai_data      nDCG 0.30 -> 0.50 (+0.19)  P@10 0.10 -> 0.20  judged@10 0.1 -> 0.2
+    p054 constrained  nDCG 0.43 -> 0.96 (+0.53)  P@10 0.40 -> 0.90  judged@10 0.4 -> 0.9
+  held p023 v1: data_go_kr/15139134 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  abstain p039 v1: 판정된 관련·제외 데이터 0개가 상위 10에
+  abstain p041 v1: 판정된 관련·제외 데이터 0개가 상위 10에
+  abstain p042 v1: 판정된 관련·제외 데이터 1개가 상위 10에
+  abstain p043 v1: 판정된 관련·제외 데이터 0개가 상위 10에
+  held p050 v1: data_go_kr/15057737 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p050 v1: data_go_kr/15141810 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p050 v1: data_go_kr/15029181 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p023 v2: data_go_kr/15139134 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  abstain p039 v2: 판정된 관련·제외 데이터 0개가 상위 10에
+  abstain p041 v2: 판정된 관련·제외 데이터 0개가 상위 10에
+  abstain p042 v2: 판정된 관련·제외 데이터 1개가 상위 10에
+  abstain p043 v2: 판정된 관련·제외 데이터 0개가 상위 10에
+  held p045 v2: seoul_open_data/OA-22714 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p050 v2: data_go_kr/15057737 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p050 v2: data_go_kr/15141810 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  held p050 v2: data_go_kr/15029181 (공식 확인 대기, 맞음·틀림으로 세지 않음)
+  평가 제외(evaluable=false): p040
+
+[v2 특화 제안 질문 14개] 설계 목표 데이터의 순위 (상위 30, 없으면 -)
+  new_d1  district   v1 - | v2 1   서울 도봉구의 모범음식점 지정 현황 데이터가 필요해. 다른 구 자료는 필
+  new_d2  district   v1 - | v2 1   강서구에 등록된 대부업체 현황을 정리해서 지역 금융 안내 서비스를 만들고
+  new_d3  district   v1 - | v2 1   광진구 스마트보안등 IoT 측정값으로 야간 조도 대시보드를 만들려고 해.
+  new_d4  district   v1 - | v2 1   양천구 주민에게 동네 문화시설을 추천하는 앱을 만들고 싶어. 양천구 문화
+  new_d5  district   v1 - | v2 8   강북구 전통시장 위치와 목록을 받고 싶어.
+  new_l1  language   v1 - | v2 1   외국인 관광객용 앱에 넣을 서울 전통시장 정보를 영어 데이터로 받고 싶어
+  new_l2  language   v1 1 | v2 1   중국인 관광객 안내에 쓸 서울 문화시설 목록을 중국어(간체)로 구하고 싶
+  new_l3  language   v1 1,- | v2 1,3   외국인용 서울 혼잡도 안내에 쓸 실시간 인구 데이터를 영문판으로 받고 싶
+  new_l4  language   v1 1 | v2 2   서울 실시간 도시데이터의 영문판이 있으면 외국인 지도 앱에 붙이고 싶어.
+  new_y1  period     v1 - | v2 1   서울 2007년 연평균기온 위치정보 데이터가 필요해.
+  new_y2  period     v1 1 | v2 1   2015년 기준 노동조합 현황 통계를 찾고 있어.
+  new_y3  period     v1 - | v2 1   동작구 환경 지도점검 내역을 2010년부터 2017년까지 받고 싶어.
+  new_s1  spatial_unit v1 - | v2 1   집계구 단위 서울 생활인구(내국인) 데이터로 골목 상권을 분석하려고 해.
+  new_s2  spatial_unit v1 - | v2 3   자치구 단위로 집계된 서울 단기체류 외국인 생활인구가 필요해.
+
+[기존 품질 시나리오] P@10 / R@10 / MRR
+  embedding: snowflake-ko            v1 0.70 0.70 1.00 | v2 0.70 0.70 1.00
+  embedding: KoSimCSE                v1 0.70 0.70 1.00 | v2 0.70 0.70 1.00
+  embedding: e5-small                v1 0.70 0.70 1.00 | v2 0.70 0.70 1.00
+  reranker: ko-reranker              v1 0.60 0.60 1.00 | v2 0.60 0.60 1.00
+  generation: Qwen2.5-3B-Korean      v1 0.70 0.70 1.00 | v2 0.70 0.70 1.00
+  service: 따릉이                       v1 0.80 0.80 1.00 | v2 0.70 0.70 1.00
+  service: 서울 미세먼지                   v1 0.70 0.70 1.00 | v2 0.50 0.50 1.00
+  v1 mean P@10 0.70 (7개, 기준 0.65)
+  v2 mean P@10 0.66 (7개, 기준 0.65)

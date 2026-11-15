@@ -70,7 +70,10 @@ def quality(collected, enriched, entities, duplicates, chunks):
         problems.append(f"알 수 없는 제공 방식 {dict(odd)}")
     no_format = [r["dataset_id"] for r in enriched if r["official"]["status"] == "ok" and not r.get("formats")]
     cards = {c["dataset_id"] for c in chunks if c["kind"] == "card"}
-    lost = [i for i in ids if f"dataset:{i}" not in entities and i not in duplicates]
+    withdrawn = {r["dataset_id"] for r in enriched if r["official"]["status"] == "deleted"}  # left out of search by 13 v2
+    lost = [i for i in ids if f"dataset:{i}" not in entities and i not in duplicates and i not in withdrawn]
+    if any(f"dataset:{i}" in entities for i in withdrawn):
+        problems.append("포털에서 삭제된 공공데이터가 검색 그래프에 남아 있음")
     if lost:
         problems.append(f"그래프에 없는 공공데이터 {len(lost)}개: {lost[:5]}")
     no_card = [i for i in ids if f"dataset:{i}" in entities and i not in cards]

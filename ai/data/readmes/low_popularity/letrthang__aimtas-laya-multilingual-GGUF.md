@@ -50,15 +50,17 @@ own farm decisions (see [How it differs](#how-it-differs-from-the-original-laya-
 
 Base: [`convaiinnovations/laya-multilingual`](https://huggingface.co/convaiinnovations/laya-multilingual) (mmBERT-base encoder +
 decision head, 322 M parameters, 1024-token context, Apache-2.0). Live AIMTAS server: the Hugging Face Space
-[`letrthang/aimtas-system-one-decision-model-laya`](https://huggingface.co/spaces/letrthang/aimtas-system-one-decision-model-laya) — **try it there without a key** (see below).
+[`letrthang/aimtas-system-one-decision-model-laya`](https://huggingface.co/spaces/letrthang/aimtas-system-one-decision-model-laya) — **try it there without a key**,
+or call the typed `/v1/systemone` with the **public test key** `laya-api-key-for-testing` from a TypeSafe / Jev client (see below).
 
 > ### 🧪 Reference project — Laya in a full RAG app
 > **[spring-ai-with-hybrid-search-and-system-one-typesafe-jev](https://github.com/letrthang/spring-ai-with-hybrid-search-and-system-one-typesafe-jev)**
 > · ▶ **[Live demo](https://spring-ai-with-hybrid-search-and-system.onrender.com)**
 >
-> A Spring AI + Vaadin demo that uses this model (through the Space's public `/demo/systemone` route) as its
-> **⚡ System 1**: Weaviate finds passages (BM25 + vector, fused with RRF), **Laya keeps, drops and re-ranks them**
-> (relevant · answers · prompt injection) as Spring AI `DocumentPostProcessor`s, an OpenRouter LLM writes the answer as
+> A Spring AI + Vaadin demo that uses this model as its **⚡ System 1** through the TypeSafe / Jev SDK
+> (`spring-ai-starter-typesafe` + `typesafe-spring-ai`) on the Space's `/v1/systemone` with the public test key:
+> Weaviate finds passages (BM25 + vector, fused with RRF), **Laya keeps, drops and re-ranks them** with
+> `JevDocumentFilter` and `JevDocumentReranker` (relevant · answers · prompt injection), an OpenRouter LLM writes the answer as
 > System 2 — and **Laya checks that answer** before it is learned and reused. Every call is shown in a data-flow
 > diagram; English, Vietnamese and Japanese; also an AI agentic mode.
 
@@ -99,6 +101,50 @@ curl -s https://letrthang-aimtas-system-one-decision-model-laya.hf.space/demo/sy
 Limits: 10 calls/min per user and 60/min for everyone (`429`), body ≤ 2 KB (`413`), 1–3 questions per call (`400`), 30 s.
 Calls are read-only — the model stores nothing and never actuates. The AIMTAS apps use the keyed `/v1/systemone`. The free
 Space sleeps when idle; the first call may answer `503` for about a minute.
+
+## Test key — the typed API from a TypeSafe / Jev client
+To test a TypeSafe / Jev client (e.g. [`spring-ai-starter-typesafe`](https://central.sonatype.com/artifact/org.springaicommunity/spring-ai-starter-typesafe))
+against the real **`POST /v1/systemone`** of the Space, use the **public test key** below. It is published on purpose: it is
+not the server's secret (the Space swaps it for its own key inside the container), and it works on `/v1/systemone` only —
+other `/v1/*` routes answer `401`. For testing, not for production apps.
+
+| | |
+|---|---|
+| Base URL | `https://letrthang-aimtas-system-one-decision-model-laya.hf.space` |
+| Test key | **`laya-api-key-for-testing`** (the owner can change it or turn it off) |
+| Header | `Authorization: Bearer laya-api-key-for-testing` |
+| Calls per client IP | 30 / min, burst 15 → `429` |
+| Calls for all test-key users | 60 / min, burst 30 → `429` |
+| Size / speed | one question + the `state` must fit 1024 tokens; use a client timeout of 60 s |
+
+```sh
+curl -s https://letrthang-aimtas-system-one-decision-model-laya.hf.space/v1/systemone \
+  -H 'Authorization: Bearer laya-api-key-for-testing' -H 'Content-Type: application/json' \
+  -d '{"state":"Hi, we were billed twice for March. Please refund the duplicate today.",
+       "questions":{"billing":{"type":"noul","instructions":"Is this about a payment or an invoice?"}}}'
+# → {"answers":{"billing":{"type":"noul","noul":0.9…}},…}
+```
+
+Spring Boot with `org.springaicommunity:spring-ai-starter-typesafe` + `typesafe-spring-ai` (`application.yml`):
+```yaml
+spring:
+  ai:
+    typesafe:
+      base-url: https://letrthang-aimtas-system-one-decision-model-laya.hf.space
+      api-key: laya-api-key-for-testing
+      timeout: 60s
+      retry:
+        max-retries: 0          # the test-key limits answer 429; let the app decide when to try again
+```
+The starter then provides a `TypeSafeClient` bean for `JevDocumentFilter`, `JevDocumentReranker` and the other
+`typesafe-spring-ai` classes, or for direct calls:
+```java
+SystemOneResponse r = client.systemOne("We were billed twice for March.",
+        Map.of("billing", Noul.of("Is this about a payment or an invoice?")));
+```
+The `model` field the client sends (`jev-latest` by default) is ignored: the Space always answers with this model.
+This zero-shot release answers best when each question is one plain sentence; see the reference project above for wording
+that works with `JevDocumentFilter`.
 
 ## Run
 ```sh

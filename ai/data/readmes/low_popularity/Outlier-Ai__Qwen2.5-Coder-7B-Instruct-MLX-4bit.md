@@ -77,7 +77,11 @@ widget:
   - role: user
     content: Refactor this for readability and flag one bug.
 ---
+
+> **Conversion published by the Outlier team.** Not shipped in the Outlier app. Numbers below are from internal experiments, not our release tests. Shipped models: [Nano 4B](https://huggingface.co/Outlier-Ai/Outlier-Nano-4B-MLX-4bit) · [Lite 9B](https://huggingface.co/Outlier-Ai/Outlier-Lite-9B-MLX-4bit) · [Quick 26B](https://huggingface.co/Outlier-Ai/Outlier-Quick-26B-MLX-4bit) · [Core 27B](https://huggingface.co/Outlier-Ai/Outlier-Core-27B-MLX-4bit).
+
 > **Run this on your Mac with [Outlier](https://outlier.host/?utm_source=hf&utm_medium=modelcard&utm_campaign=qwen2_5_coder_7b_instruct_mlx_4bit)** — a one-click app that loads MLX models locally. macOS arm64, free download.
+> Outlier for Mac: free Nano and Lite; Pro is **$49 once**, on up to 3 Macs · `brew install --cask outlier-host/tap/outlier`
 
 # Qwen2.5-Coder-7B-Instruct (MLX 4-bit)
 

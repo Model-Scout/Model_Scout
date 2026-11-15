@@ -286,4 +286,4 @@ print(tokenizer.decode(outputs[0][inputs["input_ids"].shape[-1]:], skip_special_
   howpublished = {\url{https://huggingface.co/FINAL-Bench/Darwin-31B-Opus}}
 }
 ```
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

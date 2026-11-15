@@ -227,6 +227,27 @@ def test_benchmark_projection_is_bounded_and_deduplicated():
     assert compact["summary"]["results_truncated"] is True
 
 
+def test_benchmark_integration_rejects_a_git_lfs_pointer(tmp_path):
+    benchmark = load_module(
+        "06_extract_benchmark_metadata.py", "recommendation_quality_benchmark_lfs"
+    )
+    pointer = tmp_path / "stage4.jsonl"
+    pointer.write_text(
+        "version https://git-lfs.github.com/spec/v1\n"
+        "oid sha256:" + "a" * 64 + "\n"
+        "size 123\n",
+        encoding="utf-8",
+    )
+
+    try:
+        benchmark.read_jsonl(pointer)
+    except RuntimeError as error:
+        assert "Git LFS pointer" in str(error)
+        assert "Stage 4 checkpoint" in str(error)
+    else:
+        raise AssertionError("Git LFS pointer was parsed as model JSONL")
+
+
 def test_sync_schema_never_recreates_supabase_vector_extension():
     sync = load_module("08_sync_supabase.py", "recommendation_quality_sync")
     assert "create extension" not in sync.schema_sql_without_extension().lower()

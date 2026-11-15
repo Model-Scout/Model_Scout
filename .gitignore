@@ -48,7 +48,11 @@ ai/data/retrieval_lab/.bge_m3_build/
 png/
 
 # Public-portal raw catalog cache (data.go.kr list is 160MB+); re-downloaded by 18_collect_public_datasets.py --refresh.
-ai/data/public_catalog/
+# The official-page look-ups behind the frozen v2 (answers, migrations, stored pages) are kept: they are its evidence.
+ai/data/public_catalog/*
+!ai/data/public_catalog/official_meta.jsonl
+!ai/data/public_catalog/official_meta_migrations.json
+!ai/data/public_catalog/official_raw/
 
 # Dataset vectors live in Supabase (20_sync_dataset_index.py); 14 --embed rebuilds this file from there.
 ai/data/dataset_index/embeddings.npy
@@ -57,12 +61,12 @@ ai/data/dataset_index/embeddings.npy
 # LLM wiki (Obsidian vault) is generated from ai/data/hypergraph by 15_build_wiki.py.
 ai/wiki/
 
-# Corpus v2 build outputs; reproduce with 13/14 --corpus v2 until cutover.
-ai/data/hypergraph_v2/
-ai/data/dataset_index_v2/
-ai/data/public_enriched/
+# Corpus v2: the frozen build is committed (enrichment, graph, documents, vector record). Its vectors
+# (126 MB, over GitHub's file limit) live in the v2 tables: 20_sync_dataset_index.py --corpus v2 --restore-vectors.
+ai/data/dataset_index_v2/embeddings.npy
 
 # Model reingest run outputs (08 --report / --bundle-dir). Uploaded as Action artifacts, never committed.
 ai/reingest-bundle/
+ai/reingest-work/
 ai/reingest-report*.json
 ai/reingest-coverage-*.md

@@ -18,6 +18,7 @@ tags:
 - liquid
 - lfm2
 - edge
+new_version: LiquidAI/LFM2.5-24B-A2B
 ---
 
 <div align="center">

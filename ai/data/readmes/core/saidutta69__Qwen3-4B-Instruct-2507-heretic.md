@@ -97,7 +97,7 @@ completely without needing a wider edit.
 
 Fine-tuning a "helpful" persona on top of RLHF'd refusals fights the base model's training and tends to degrade coherence. Abliteration instead finds and edits the specific weight directions responsible for refusal, leaving the rest of the network (and its capabilities) untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** — follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** — follow for more uncensored models
 
 ## Files
 
@@ -183,6 +183,20 @@ The 2507 Instruct refresh rebuilt the non-thinking mode of Qwen3-4B: significant
 instruction following, logical reasoning, text comprehension, mathematics, science, coding and
 tool usage; substantial long-tail multilingual coverage; better alignment to user preference on
 subjective and open-ended tasks; and 256K long-context understanding.
+
+## FAQ
+
+### What is Qwen3-4B-Instruct-2507-heretic?
+
+`Qwen3-4B-Instruct-2507-heretic` is a decensored build of [`Qwen/Qwen3-4B-Instruct-2507`](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is Qwen3-4B-Instruct-2507-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 100/100 to 3/100 at KL divergence 0.0958 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run Qwen3-4B-Instruct-2507-heretic locally?
+
+`llama serve -hf saidutta69/Qwen3-4B-Instruct-2507-heretic:Q4_K_M` pulls the default quant; the repo ships 5 GGUF quants (see Files).
 
 ## Responsible use
 

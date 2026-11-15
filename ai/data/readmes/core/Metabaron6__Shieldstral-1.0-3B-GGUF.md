@@ -4,15 +4,15 @@ tags:
   - mistral3
   - gguf
   - security
+  - cybersecurity
   - safety
   - moderation
   - trust-and-safety
   - policy-adaptive
-  - WAF
-  - CSAM
-  - DLP
-  - PII
-  - SEC
+  - text-classification
+  - waf
+  - csam
+  - pii
 license: apache-2.0
 language:
   - en
@@ -72,10 +72,6 @@ heavily quantized without destroying image recognition capabilities, so it is ke
 
 > **Note**: You only need **one** projector file, and it can be paired with **any** of the quantized text models above.*
 
-> **Warning** ⚠️
-> **Important Update (15.08.2026):** The multimodal projector files have been patched to properly include the `v.token_embd.img_break` tensor (fixing the `mistral3` architecture crash in `llama.cpp`).
-> If you downloaded these files previously, you must clear your Hugging Face cache (`hf cache delete`) and re-download them.
-
 Before creating mmproj files in BF16 or F16, install the **mistral-common package**: 
 
 ```sh
@@ -130,7 +126,7 @@ throughput (when context is cached) is strictly inversely proportional to weight
 **CPU Inference**
 
 ```sh
-llama-server -m Shieldstral-1.0-3B-Q4_K_M.gguf -c 4096 --port 9931 --seed 42
+llama-server -m Shieldstral-1.0-3B-Q4_K_M.gguf -c 4096 --port 9931 -t 6 --seed 42
 ```
 
 **GPU Inference**
@@ -142,9 +138,11 @@ llama-server -m Shieldstral-1.0-3B-Q4_K_M.gguf -c 4096 --port 9931 -ngl 99 --see
 **GPU Inference with Vision Projector**
 
 ```sh
-llama-server -m Shieldstral-1.0-3B-Q4_K_M.gguf --mmproj mmproj-Shieldstral-1.0-3b-F16.gguf -c 8192 --port 9931 -ngl 99 --seed 42
+llama-server -m Shieldstral-1.0-3B-Q4_K_M.gguf --mmproj mmproj-Shieldstral-1.0-3b-F16.gguf -c 8192 --port 9931 -ngl 99 -fa off --seed 42
 ```
 
+> **Note:** **Why `-fa off` (Flash Attention Disabled)?**
+> While Flash Attention typically accelerates long-context text generation, the `mistral3` / Pixtral vision projector (`--mmproj`) relies on bidirectional (non-causal) 2D attention masks to encode image patches (`[IMG]`). In `llama.cpp`, enabling Flash Attention with this vision architecture can trigger unoptimized fallback kernels or costly CPU↔GPU memory synchronizations. Explicitly forcing `-fa off` ensures the entire multimodal pipeline executes via standard CUDA matrix kernels (cuBLAS) 100% on the GPU, significantly accelerating single-token multimodal classification.
 
 ## 💹 Shieldstral-1.0-3B: Policy-Adaptive Benchmarks & Prompt Debugging
 
@@ -324,8 +322,8 @@ Adding the final instruction acts as an interruption cue. It is equivalent to fo
 > Beyond strict binary routing, the backend leverages the model's token log-probabilities (`logprobs`) to compute a confidence score using the Softmax function and Shannon Entropy. Since the output is tightly constrained to a binary state via `logit_bias`, analyzing the probability distribution between the forced tokens allows the system to quantify the model's uncertainty.
 >
 > **Mathematical Implementation:**
-> The absolute probability $p$ is derived from the API's logprob via 
-$p = e^{\text{logprob}}$.
+> The absolute probability `p` is derived from the API's logprob via:
+$$p = e^{\text{logprob}}$$
 > The system then calculates the binary Shannon Entropy (in bits) to measure uncertainty:
 $$H = - (p_{\text{yes}} \log_2(p_{\text{yes}}) + p_{\text{no}} \log_2(p_{\text{no}}))$$
 >
@@ -568,6 +566,12 @@ recognize it as an ultra-predictable dictionary word and reject it.
 ```
 
 ### 👦 PII Filter (Personally Identifiable Information / GDPR)
+
+When publishing Open Data, feeding documents into a RAG (Retrieval-Augmented Generation) pipeline, or archiving support tickets and application logs, organizations must strictly comply with GDPR by ensuring no personal data is exposed. Traditional Regex or NER (Named Entity Recognition) filters blindly block any email address or phone number, generating massive false positives on legitimate public information.
+
+By leveraging Shieldstral's semantic understanding, the filter distinguishes between **private individual data** (personal emails, home addresses, direct mobile numbers, SSN/NIR) and **generic corporate or administrative contact details** (such as `contact@example.com`, public secretariat switchboards, or official registration numbers).
+
+The Need: Automatically audit and quarantine documents containing private personal data while allowing clean administrative records to flow through unhindered.
 
 ```json
 {
@@ -887,12 +891,19 @@ When using the Double Lock, the model's mathematical confidence will fracture ac
 Your backend (e.g., Java) must dynamically aggregate them before evaluating the uncertainty:
 
 - **Iterate and Group:** Parse the 4 tokens, apply .trim().toLowerCase(), and group them into two semantic families (Global Yes vs. Global No).
-- **Sum Probabilities:** Convert the logprobs back to absolute probabilities ($p = e^{logprob}$) and sum them within their respective families.
-- **Normalize:** Ensure the grouped probabilities sum perfectly to $1.0$ to eliminate any residual floating-point noise.
+- **Sum Probabilities:** Convert the logprobs back to absolute probabilities (`p = e`<sup>`logprob`</sup>) and sum them within their respective families.
+- **Normalize:** Ensure the grouped probabilities sum perfectly to `1.0` to eliminate any residual floating-point noise.
 - **Calculate Entropy:** Apply the Shannon Entropy formula to the two aggregated master probabilities.
 
 This architecture renders your WAF completely immune to tokenizer formatting anomalies, ensuring that your Shannon Entropy calculation strictly measures semantic uncertainty rather than typographical fragmentation.
 
 ## Author 
 
-[**Franck ANDRIANO.**](http://jservlet.com)
+```bibtex
+@software{Shieldstral-1.0-3B-GGUF,
+  author = {Franck Andriano},
+  title = {Mistral Shieldstral-1.0-3B GGUF & Quantized},
+  year = {2026},
+  publisher = {Hugging Face},
+  url = {https://huggingface.co/Metabaron6/Shieldstral-1.0-3B-GGUF}
+}

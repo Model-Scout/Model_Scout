@@ -262,6 +262,29 @@ Two public benchmarks released after this model was trained, never used for trai
   text stays under 6%. If your traffic contains many such instructions from trusted users, raise the threshold (for example to 0.9) or
   route them separately.
 
+### False alarms on real multilingual user prompts (checked November 2026)
+
+How often does the guard flag ordinary user messages? We scored 24,788 real, human-written prompts that were never used in
+training: 20,875 from the [Aya dataset](https://huggingface.co/datasets/CohereLabs/aya_dataset) (65 languages) and 3,913 user
+turns from [OASST2](https://huggingface.co/datasets/OpenAssistant/oasst2) (14 languages), both Apache-2.0, up to 400 per language
+and source. Every prompt is benign, so every flag is a false alarm. Share flagged at threshold 0.5 / 0.9:
+
+| model | all | Aya | OASST2 | English (OASST2) | Portuguese, mostly pt-BR (OASST2) |
+|---|---|---|---|---|---|
+| **this model** (v2.3) | 0.4% / 0.08% | 0.1% / 0.03% | 1.8% / 0.4% | 4.5% / 1.2% | 1.8% / 0.5% |
+| [base](https://huggingface.co/Horizon-Labs/prompt-injection-guard-base) (v2.2) | 0.4% / 0.09% | 0.08% / 0.01% | 2.3% / 0.5% | 4.2% / 1.0% | 1.8% / 0.0% |
+
+- No language is above 1.3% at 0.9. The highest rates at 0.5 (about 4%) are in English OASST2 chat turns, and for base also in
+  Chinese ones; non-English languages are not worse than English.
+- The flagged prompts are mostly questions about the assistant itself ("do you have any censorship?", "what are your weak
+  points?"), URLs, shell commands and rewrite requests. Chat messages that talk *to* the AI about its rules are the hardest
+  case, because injections do the same.
+- Per-language numbers: `eval/benign_multilingual_fpr.json`; script: `code/inj/benign_multi_fpr.py`.
+- Longer documents: on 9,900 held-out multilingual web pages (FineWeb-2, 66 languages, up to 6,000 characters, scored with the
+  windowed function above), this model flags 0.15% at 0.5 and 0.06% at 0.9 (base: 0.08% / 0.03%), with no
+  increase for longer pages. Flagged pages were mostly boilerplate or how-to text ("press F12, then enter ... as a password").
+  Instruction-heavy business documents may behave differently. File: `eval/longdoc_fpr.json`; script: `code/inj/longdoc_fpr.py`.
+
 ## Built-in obfuscation normalizer
 
 The tokenizer runs a normalizer before the model sees the text. It works in `transformers` (4.x and 5.x),
@@ -299,6 +322,11 @@ flagged content only goes to review. At 0.5 this model flags 3.8% of NotInject's
   look nothing like it may be missed.
 - English is the largest language. The other 29 synthetic languages are covered by fewer examples, and languages
   outside that list are untested.
+- The language of each synthetic example is the language the generator was asked for. A language-ID check of the
+  held-out synthetic sets found 72-93% of non-English rows really in that language (lowest for short direct messages
+  in Dutch, Hebrew, Hindi and Bengali, which were often written in English). Per-language synthetic scores are
+  therefore approximate; see the `lang_detected` column of the
+  [eval suite](https://huggingface.co/datasets/Horizon-Labs/prompt-injection-eval-suite).
 - It scores text in isolation. It cannot tell whether an instruction is legitimate *in context* (for example, a user
   who really does want their email forwarded).
 - Very short fragments and code without comments carry little signal.

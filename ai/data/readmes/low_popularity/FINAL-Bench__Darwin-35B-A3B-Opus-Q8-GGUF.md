@@ -296,4 +296,4 @@ For full technical details, diagnostics, and health check results, see the [orig
 }
 ```
 
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

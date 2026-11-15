@@ -20,74 +20,128 @@ tags:
   - onnx
   - bitmagnet
   - rats-search
+  - armiger
+  - bittorrent
+  - dht
+  - media-classification
+  - norvitech
+  - swarm-availability
 ---
 
-# Armiger Ultra `v3.10.0`
+# Armiger Ultra — BitTorrent metadata classification and swarm estimates
 
-**Release:** [`v3.10.0`](https://github.com/spencernorton/armiger/releases/tag/v3.10.0) · **Weights:** `33.3 MB` FP32 ONNX + `17.6 MB` INT8 ONNX · **Parameters:** `8.05M` · **License:** Apache-2.0
+**ONNX files:** 33,260,312 bytes (33.3 MB) FP32 and 17,606,362 bytes (17.6 MB) INT8.
+**Architecture:** approximately 8 million parameters, byte-level RoPE transformer.
+**License:** Apache-2.0. [Model release](https://github.com/spencernorton/armiger/releases/tag/v3.12.0).
 
-**Armiger Ultra** is an 8.05M-parameter multi-head byte-level RoPE Transformer (`0.21 ms/item` batched GPU) and 6-plugin pipeline for BitTorrent and DHT metadata classification, canonical title/year extraction, audio/subtitle verification, malware filtering, and swarm liveliness scoring.
+Armiger Ultra combines neural metadata predictions with optional title-catalogue
+matching, metadata-language rules, calibration and swarm-availability estimates.
+Its classifier reads names, file lists and supplied counters. It runs on a CPU;
+no GPU or paid inference API is required.
 
-![Armiger Ultra v3.10.0 Overview](assets/armiger_overview.png)
+**Model bundle 3.12.0.** [Armiger Standalone](https://huggingface.co/NorviTech/armiger) provides the focused INT8 ONNX classifier. See the [Armiger software and setup](https://github.com/spencernorton/armiger) or [NorviTech model overview](https://norvitech.com/ai-models/#armiger).
 
-## Quickstart
+## Comparison charts
 
-### Standalone snapshot repair (2026-10-30)
+**Latest published figures — provenance under review.** These archived charts retain their original model labels and scores. Their displayed values and vector-based source records still need reconciliation; they do not establish verified current-release performance. These Ultra hybrid comparisons do not measure standalone INT8 accuracy or payload safety. [Evaluation scope and source records](https://github.com/spencernorton/armiger/blob/main/docs/evaluation.md).
 
-The v3.8.0 standalone Python bundle now includes the missing
-`r13_2_audio_language_guard.py` helper and its `r13_6_lang_llr.json` calibration
-data. An older cached snapshot can fail during classification with
-`No module named 'r13_2_audio_language_guard'` even though its initial import succeeds.
+![Latest published Armiger Ultra comparison with cloud teacher models; provenance under review](https://huggingface.co/NorviTech/armiger-ultra/resolve/main/assets/armiger_vs_llms_overall_and_6dims.png)
 
-Refresh those two files and `config.json` in the existing model directory, then
-restart the Armiger connector. Keep the existing volumes and Bitmagnet database.
-The model weights and existing immutable revisions are unchanged.
-`python test_audio_guard_bundle.py` checks the standalone guard without an installed
-Armiger package and verifies its declared dependency checksums.
+Cloud teacher comparisons use separate common-support and swarm cohorts; panel-specific sample counts and metrics must remain separate.
 
-### Pre-Built Docker Container & Compose Stacks (`v3.4.1`)
+![Latest published Armiger Ultra comparison with open-source torrent classifiers and parsers; provenance under review](https://huggingface.co/NorviTech/armiger-ultra/resolve/main/assets/armiger_vs_torrent_classifiers_6dims.png)
 
-Library and container 3.4.1 fix connector startup permissions and use the v3.10.0 model bundle.
+Classifier and parser comparisons cover separate category, catalogue, language, metadata-screening and swarm tasks. Original PNGs and recorded results are unchanged.
 
-Run the pre-built `armiger-ultra`:
+## Resources and performance
+
+**ONNX file sizes are not working RAM.** The standalone ONNX interface, GitHub
+Ultra package and full SDK snapshot with extra authority/policy assets are
+different runtime paths. The GitHub package's INT8 Ultra option retains the
+Ultra components; it is not the standalone API.
+
+One CPU service using the complete R13.13 SDK with request-cache cleanup was
+observed near 2.1 GiB whole-container memory during a 628.8-second live workload,
+under a configured 4 GiB limit. This is one deployment observation, not a minimum
+requirement or a measurement of every public API. See
+[resources and measurement scope](https://github.com/spencernorton/armiger/blob/main/docs/resources.md).
+
+The former `0.21 ms/item` GPU headline is withdrawn: the card did not provide
+enough hardware, batch, model-identity or timing-scope evidence to reproduce it.
+No current-release end-to-end CPU/GPU throughput or latency guarantee is made.
+
+## Docker and Python
+
+The quickstart uses software 3.12.3 with model bundle 3.12.0.
+Choose the model-update channel explicitly; `off` keeps the bundled model pinned.
 
 ```bash
 docker run -d --name armiger-ultra -p 127.0.0.1:8096:8096 \
-  -e ARMIGER_DHT_AUTO_UPDATE=true \
-  ghcr.io/spencernorton/armiger-ultra:3.4.1
+  -e ARMIGER_UPDATE_CHANNEL=off \
+  ghcr.io/spencernorton/armiger-ultra:3.12.3
 ```
 
-Or include a ready-made stack in `compose.yaml` (`docker compose up -d`):
-
-```yaml
-include:
-  - oci://ghcr.io/spencernorton/armiger-bitmagnet-stack:3.4.1
-  # or: oci://ghcr.io/spencernorton/armiger-rats-search-stack:3.4.1
-```
-
-### Python SDK
+For Bitmagnet or Rats Search, use the
+[setup guides](https://github.com/spencernorton/armiger#choose-your-setup).
+For Python, follow the [installation guide](https://github.com/spencernorton/armiger/blob/main/docs/reference.md#python-installation),
+including CPU-only PyTorch on Linux when using the Ultra extra:
 
 ```bash
-python -m pip install "armiger[ultra] @ git+https://github.com/spencernorton/armiger.git@v3.4.1"
+python -m pip install "armiger[ultra] @ git+https://github.com/spencernorton/armiger.git@v3.12.3"
 python -m armiger download --directory ./models
+export ARMIGER_UPDATE_CHANNEL=off
 ```
 
 ```python
 from armiger import ArmigerUltraPipeline
 
-pipeline = ArmigerUltraPipeline.from_directory("./models", variant="ultra")
-res = pipeline.classify({
-    "name": "Tears.of.Steel.2012.2160p.UHD.BluRay.REMUX.HEVC.TrueHD.7.1.Atmos-OPEN",
-    "size": 68_400_000_000,
-    "files": [{"path": "Tears.of.Steel.2012.mkv", "size": 68_400_000_000}],
-    "swarm": {"tracker_known": True, "tracker_seeders": 142, "tracker_leechers": 19, "tracker_completed": 810},
+pipeline = ArmigerUltraPipeline.from_directory(
+    "./models", variant="ultra", rsi_mode="pull_only", opt_in_sharing=False,
+)
+result = pipeline.classify({
+    "name": "Example.Movie.2001.1080p.WEB.x264",
+    "files": [{"path": "Example.Movie.2001.mkv", "size": 1_000_000_000}],
 })
-print(res["category"], res["mondrian_gates"]["passed_all"], res["swarm_viability"]["viability_tier"])
+print(result["category"])
 ```
 
-## Links & Ecosystem
+This quickstart uses installed GitHub package code and its pinned, checksummed
+data manifest. Direct use of the fuller SDK files in this Hub repository is a
+separate integration; use a complete compatible snapshot rather than mixing
+individual helper/config files from different revisions. Matching neural weights
+alone does not establish complete policy/output parity across those paths.
 
-- **Core Package, Containers & Evaluation (`v3.4.1`):** [`spencernorton/armiger`](https://github.com/spencernorton/armiger) ([Quickstart](https://github.com/spencernorton/armiger/blob/main/docs/quickstart.md) · [DHT Auto-Update](https://github.com/spencernorton/armiger/blob/main/docs/distributed-updates.md) · [Evaluation](https://github.com/spencernorton/armiger/blob/main/docs/evaluation.md))
-- **CPU INT8 Model (`17.6 MB`):** [`NorviTech/armiger`](https://huggingface.co/NorviTech/armiger)
-- **Indexer Sidecars (Bitmagnet, Rats Search, `*Arr` Torznab):** [`spencernorton/Armiger-Connectors`](https://github.com/spencernorton/Armiger-Connectors)
-- **DH-Waypoint DHT Crawler & Indexer:** [`spencernorton/DH-Waypoint`](https://github.com/spencernorton/DH-Waypoint)
+## Limits and evaluation status
+
+Armiger classifies supplied metadata. Audio/subtitle, junk, adult-content and
+honeypot outputs are predictions or policy flags. It does not listen to audio,
+inspect media payloads, scan executable contents, certify lawful content, or
+guarantee a safe or available download. Optional post-import `ffprobe` checks in
+a connector are a separate operation.
+
+Published comparison graphics are under provenance review: the displayed
+3.12.0 / 2,484-item overview and its 3.0.0 / 2,835-item data receipt do not
+describe the same results. The latest published comparison charts are restored
+above as archival figures with that provenance limit. Detailed charts also
+combine newer aggregate values with older vector-based statistical panels.
+Their restored visibility does not establish current-release qualification.
+Historical hybrid results
+also do not establish the standalone neural path's accuracy. See
+[evaluation status](https://github.com/spencernorton/armiger/blob/main/docs/evaluation.md).
+No new balanced benchmark or universal accuracy, zero-leakage or safety rate is
+claimed here.
+
+Sharing is optional. Payload filtering, encryption and signatures do not by
+themselves provide end-to-end anonymity or certify prediction accuracy. See the
+[distributed-update and privacy limits](https://github.com/spencernorton/armiger/blob/main/docs/distributed-updates.md).
+
+Immutable historical revisions may retain earlier descriptions. This default
+model card and the linked evaluation/resource notes record the corrections;
+model files and immutable revisions are unchanged.
+
+## Links
+
+- [Standalone INT8 model](https://huggingface.co/NorviTech/armiger)
+- [GitHub package and reference](https://github.com/spencernorton/armiger)
+- [Indexer connectors](https://github.com/spencernorton/Armiger-Connectors)
+- [DH-Waypoint](https://github.com/spencernorton/DH-Waypoint)

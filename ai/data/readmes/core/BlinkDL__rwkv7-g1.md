@@ -36,7 +36,9 @@ More info & Gradio demo: https://rwkv.com/
 
 ---
 
-**Search "RWKV Chat"** in play store / app store for our local inference app
+**Recommended GUI (for fast batch generation, similar to https://huggingface.co/spaces/BlinkDL/RWKV-Gradio-3)**: https://github.com/BlinkDL/Albatross/blob/main/faster3a_2607/app4b.py
+
+Search "RWKV Chat" in play store / app store for our local inference app
 
 RWKV Chat: https://rwkv.halowang.cloud/ (local inference for mobile/desktop) and https://github.com/RWKV-APP/RWKV_APP
 

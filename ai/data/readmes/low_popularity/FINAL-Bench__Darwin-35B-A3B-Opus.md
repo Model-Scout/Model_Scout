@@ -428,4 +428,4 @@ BF16: H100 93GB (comfortable) or A100 80GB (tight). Q4: RTX 4090 24GB. Only 3B a
 Yes. Inherited from the Father. The Mother lost multimodal during text-only fine-tuning, but the merge preserves Father's multimodal routing at L39 and replaces dead multimodal experts with living ones.
 </details>
 
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

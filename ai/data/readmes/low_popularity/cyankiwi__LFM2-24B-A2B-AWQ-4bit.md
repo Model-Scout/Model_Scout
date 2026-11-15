@@ -1,8 +1,6 @@
 ---
-library_name: transformers
-license: other
-license_name: lfm1.0
-license_link: LICENSE
+base_model: LiquidAI/LFM2-24B-A2B
+base_model_relation: quantized
 language:
 - en
 - ar
@@ -13,12 +11,67 @@ language:
 - ko
 - es
 - pt
+library_name: transformers
+license: other
+license_link: LICENSE
+license_name: lfm1.0
 pipeline_tag: text-generation
 tags:
 - liquid
 - lfm2
 - edge
-base_model: LiquidAI/LFM2-24B-A2B
+---
+
+<div align="left">
+  <a href="https://cyan.kiwi" target="_blank"><img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-banners-cyankiwi.png" width="800" alt="cyankiwi, the LLM inference agent for open models"></a>
+</div>
+
+<div align="left">
+  <table style="border-collapse:collapse; border:none;">
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Website</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://cyan.kiwi/" target="_blank">cyan.kiwi</a></td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Models</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://huggingface.co/cyankiwi" target="_blank">Hugging Face</a> · <a href="https://www.modelscope.ai/organization/cyankiwi" target="_blank">ModelScope</a></td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Connect</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://x.com/cyankiwi_ai" target="_blank">X</a> · <a href="https://www.reddit.com/r/cyankiwi/" target="_blank">Reddit</a> · <a href="mailto:ton@cyan.kiwi">Email</a></td>
+    </tr>
+  </table>
+</div>
+
+<br>
+
+<div align="left">
+  <img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-banners-awq.png" width="800" alt="cyankiwi Activation-aware Weight Quantization">
+</div>
+
+<div align="left">
+  <table style="border-collapse:collapse; border:none;">
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Version</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://github.com/vllm-project/llm-compressor" target="_blank">llm-compressor</a></td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Calibration</b></td>
+      <td align="left" style="border:none; padding:4px 0;"><a href="https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset" target="_blank">nvidia/Llama-Nemotron-Post-Training-Dataset</a></td>
+    </tr>
+    <tr style="border:none;">
+      <td align="left" style="border:none; padding:4px 24px 4px 0;"><b>Model Size</b></td>
+      <td align="left" style="border:none; padding:4px 0;">14.55 GB</td>
+    </tr>
+  </table>
+</div>
+
+<br>
+
+<p align="left">
+  <a href="https://cyan.kiwi/workspace?prompt=Deploy%20cyankiwi/LFM2-24B-A2B-AWQ-4bit" target="_blank"><img src="https://storage.googleapis.com/cyankiwi-assets/model-card/model-card-button-deploy.png" width="333" alt="Deploy on cyan.kiwi private endpoints"></a>
+</p>
+
 ---
 
 <div align="center">
@@ -27,12 +80,12 @@ base_model: LiquidAI/LFM2-24B-A2B
     alt="Liquid AI" 
     style="width: 100%; max-width: 100%; height: auto; display: inline-block; margin-bottom: 0.5em; margin-top: 0.5em;"
   />
-  <div style="display: flex; justify-content: center; gap: 0.5em; margin-bottom: 1em;">
-    <a href="https://playground.liquid.ai/"><strong>Try LFM</strong></a> • 
-    <a href="https://docs.liquid.ai/lfm"><strong>Documentation</strong></a> • 
-    <a href="https://leap.liquid.ai/"><strong>LEAP</strong></a>
+  <div style="display: flex; justify-content: center; gap: 0.5em;">
+<a href="https://playground.liquid.ai/"><strong>Try LFM</strong></a> • <a href="https://docs.liquid.ai/lfm/getting-started/welcome"><strong>Docs</strong></a> • <a href="https://leap.liquid.ai/"><strong>LEAP</strong></a> • <a href="https://discord.com/invite/liquid-ai"><strong>Discord</strong></a>
   </div>
 </div>
+
+<br>
 
 # LFM2-24B-A2B
 
@@ -74,6 +127,8 @@ We recommend the following use cases:
 - **Offline document summarization and Q&A**: Run entirely on consumer hardware for privacy-sensitive workflows (legal, medical, corporate).
 - **Privacy-preserving customer support agent**: Deployed on-premise at a company, handles multi-turn support conversations with tool access (database lookups, ticket creation) without data leaving the network.
 - **Local RAG pipelines**: Serve as the generation backbone in retrieval-augmented setups on a single machine without GPU servers.
+
+We don't recommend using it for coding, as it wasn't optimized for this purpose.
 
 ### Chat Template
 
@@ -125,7 +180,7 @@ LFM2-24B-A2B is supported by many inference frameworks. See the [Inference docum
 | [MLX](https://github.com/ml-explore/mlx) | Apple's machine learning framework optimized for Apple Silicon. | <a href="https://docs.liquid.ai/lfm/inference/mlx">Link</a> | — |
 | [LM Studio](https://lmstudio.ai/) | Desktop application for running LLMs locally. | <a href="https://docs.liquid.ai/lfm/inference/lm-studio">Link</a> | — |
 
-Here's a quick start example with Transformers:
+Here's a quick start example with Transformers (compatible with `transformers>=5.0.0`):
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
@@ -188,9 +243,10 @@ We also report throughput (total tokens / wall time) achieved with vLLM on a sin
 
 ![image](https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/5b2a3bfGYmyO16Gxos4dH.png)
 
-## Contact
+## 📬 Contact
 
-For enterprise solutions and edge deployment, contact [sales@liquid.ai](mailto:sales@liquid.ai).
+- Got questions or want to connect? [Join our Discord community](https://discord.com/invite/liquid-ai)
+- If you are interested in custom solutions with edge deployment, please contact [our sales team](https://www.liquid.ai/contact).
 
 ## Citation
 

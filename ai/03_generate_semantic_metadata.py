@@ -127,6 +127,21 @@ def readme_digest(row: Dict[str, Any]) -> str:
     return digest(path.read_text(encoding="utf-8", errors="replace")[:MAX_SOURCE_CHARS])
 
 
+def legacy_readme_digests(row: Dict[str, Any]) -> set[str]:
+    """Return every README hash representation an older snapshot may contain.
+
+    The original Stage 3 read the full README, while the current prompt reads
+    only ``MAX_SOURCE_CHARS``. During the one-time hash migration, accepting
+    either digest prevents an unchanged long README from triggering a paid LLM
+    call. Reused rows are immediately stamped with the v2 source hash.
+    """
+    path = source_path(row)
+    if path is None or not path.exists():
+        return set()
+    text = path.read_text(encoding="utf-8", errors="replace")
+    return {digest(text), digest(text[:MAX_SOURCE_CHARS])}
+
+
 def source_stage2_hash(row: Dict[str, Any]) -> str:
     """Stage 3 결과를 재사용해도 되는지 판정하는 지문.
 
@@ -407,11 +422,20 @@ def validate(semantic: Dict[str, Any], spans: Sequence[Dict[str, Any]]) -> Dict[
     return {"claim_count": claim_count, "invalid_evidence_refs": invalid, "uncited_claims": uncited, "missing_quotes": missing, "quote_mismatches": quote_mismatch}
 
 
-def call_llm(client: Any, model: str, messages: Sequence[Dict[str, str]]) -> Dict[str, Any]:
+def call_llm(
+    client: Any,
+    model: str,
+    messages: Sequence[Dict[str, str]],
+    usage_totals: Optional[Dict[str, int]] = None,
+) -> Dict[str, Any]:
     response = client.chat.completions.create(
         model=model, messages=list(messages), temperature=0, max_tokens=1500,
         response_format={"type": "json_schema", "json_schema": {"name": "stage3_atomic_semantic_enrichment", "strict": True, "schema": SEMANTIC_SCHEMA}},
     )
+    if usage_totals is not None:
+        usage = getattr(response, "usage", None)
+        for key in ("prompt_tokens", "completion_tokens", "total_tokens"):
+            usage_totals[key] += int(getattr(usage, key, 0) or 0)
     value = json.loads(response.choices[0].message.content or "{}")
     if not isinstance(value, dict): raise ValueError("LLM response was not an object")
     return value
@@ -446,12 +470,22 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool, mode
     if not dry_run:
         from openai import OpenAI
         client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-    stats = {"pool": pool, "total": len(rows), "completed": 0, "skipped": 0, "no_source": 0, "errors": 0, "api_calls": 0}
+    stats = {
+        "pool": pool,
+        "total": len(rows),
+        "completed": 0,
+        "skipped": 0,
+        "no_source": 0,
+        "errors": 0,
+        "api_calls": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+    }
     for index, row in enumerate(rows, start=1):
         model_id = row["model_id"]
         old = existing.get(model_id)
         old_stage = old.get("stage3", {}) if old else {}
-        current_readme_digest = readme_digest(row)
         current_stage2_hash = source_stage2_hash(row)
         if old and old_stage.get("source_stage2_hash_version") == STAGE2_HASH_VERSION:
             inputs_unchanged = old_stage.get("source_stage2_hash") == current_stage2_hash
@@ -460,7 +494,7 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool, mode
             # Stage 3가 남겨 둔 README 내용 해시가 실제 입력이므로 그것으로 본다.
             # 기존 행 3,862/3,872(99.7%)에 이 값이 있다. 없으면 다시 호출한다.
             stored = ((old.get("evidence") or {}).get("readme") or {}).get("content_hash")
-            inputs_unchanged = bool(stored) and stored == current_readme_digest
+            inputs_unchanged = bool(stored) and stored in legacy_readme_digests(row)
         else:
             inputs_unchanged = False
         if (
@@ -498,7 +532,7 @@ def enrich_pool(pool: str, model: str, limit: Optional[int], dry_run: bool, mode
             else:
                 stats["api_calls"] += 1
                 print(f"[{pool}] {index}/{len(rows)} ENRICH {model_id} spans={len(spans)}", flush=True)
-                semantic = call_llm(client, model, messages)
+                semantic = call_llm(client, model, messages, usage_totals=stats)
             semantic = materialize(semantic, spans)
             checks = validate(semantic, spans)
             stage["semantic_enriched"] = True; stage["enriched_at"] = utc_now()
@@ -531,6 +565,7 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=None, help="Optional per-pool limit smoke test")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--model", default=None)
+    parser.add_argument("--metrics", type=Path, default=None, help="Optional JSON path for token and call totals")
     parser.add_argument(
         "--model-ids-file",
         type=Path,
@@ -555,7 +590,11 @@ def main() -> int:
         raise RuntimeError(
             f"Stage 3 failed {errors} model(s); refusing to continue with an incomplete semantic snapshot"
         )
-    print(json.dumps({"stage3_version": STAGE3_VERSION, "model": model, "summaries": summaries}, ensure_ascii=False, indent=2))
+    result = {"stage3_version": STAGE3_VERSION, "model": model, "summaries": summaries}
+    if args.metrics is not None:
+        args.metrics.parent.mkdir(parents=True, exist_ok=True)
+        args.metrics.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
 
 

@@ -7,7 +7,9 @@
     "cutoff_confirmation": 10,
     "likely_requires_multilingual_marker": true,
     "core_candidate_tier": "A_verified",
-    "core_downloads_inclusive": true
+    "core_downloads_inclusive": true,
+    "snapshot_drop_min_rows": 100,
+    "snapshot_drop_min_fraction": 0.5
   },
   "completed_tasks": [
     "text-generation",
@@ -22,119 +24,85 @@
   ],
   "task_stats": {
     "text-generation": {
-      "scanned": 52077,
-      "accepted": 12854,
-      "retained": 12854,
+      "scanned": 55363,
+      "accepted": 13147,
+      "retained": 13147,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "feature-extraction": {
-      "scanned": 2835,
-      "accepted": 475,
-      "retained": 475,
+      "scanned": 2802,
+      "accepted": 523,
+      "retained": 523,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "sentence-similarity": {
-      "scanned": 5556,
-      "accepted": 1046,
-      "retained": 1046,
+      "scanned": 2466,
+      "accepted": 377,
+      "retained": 377,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "text-classification": {
-      "scanned": 2722,
-      "accepted": 273,
-      "retained": 273,
+      "scanned": 3996,
+      "accepted": 429,
+      "retained": 429,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "question-answering": {
-      "scanned": 468,
-      "accepted": 48,
-      "retained": 48,
+      "scanned": 605,
+      "accepted": 66,
+      "retained": 66,
       "cutoff_downloads": 78,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "summarization": {
-      "scanned": 289,
-      "accepted": 28,
-      "retained": 28,
-      "cutoff_downloads": 75,
+      "scanned": 297,
+      "accepted": 22,
+      "retained": 22,
+      "cutoff_downloads": 76,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "translation": {
-      "scanned": 1615,
-      "accepted": 320,
-      "retained": 320,
+      "scanned": 1608,
+      "accepted": 372,
+      "retained": 372,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "image-text-to-text": {
-      "scanned": 9204,
-      "accepted": 4224,
-      "retained": 4224,
+      "scanned": 12127,
+      "accepted": 5084,
+      "retained": 5084,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     },
     "automatic-speech-recognition": {
-      "scanned": 2642,
-      "accepted": 382,
-      "retained": 382,
+      "scanned": 3264,
+      "accepted": 528,
+      "retained": 528,
       "cutoff_downloads": 79,
       "error": null,
-      "cutoff_reached": true
+      "cutoff_reached": true,
+      "stream_exhausted": false
     }
-  },
-  "last_incremental_scan": {
-    "started_at": "2026-10-31T06:44:44.365898+00:00",
-    "watermark": "2026-10-30T01:40:45.131873+00:00",
-    "scanned": 2355,
-    "changed": 2355,
-    "eligible": 117,
-    "processable": 28,
-    "removed": 1,
-    "task_scanned": {
-      "text-generation": 1319,
-      "feature-extraction": 258,
-      "sentence-similarity": 37,
-      "text-classification": 150,
-      "question-answering": 7,
-      "summarization": 5,
-      "translation": 29,
-      "image-text-to-text": 412,
-      "automatic-speech-recognition": 138
-    },
-    "task_seen": {
-      "text-generation": 1320,
-      "feature-extraction": 259,
-      "sentence-similarity": 38,
-      "text-classification": 151,
-      "question-answering": 8,
-      "summarization": 6,
-      "translation": 30,
-      "image-text-to-text": 413,
-      "automatic-speech-recognition": 139
-    },
-    "task_observed": {
-      "text-generation": true,
-      "feature-extraction": true,
-      "sentence-similarity": true,
-      "text-classification": true,
-      "question-answering": true,
-      "summarization": true,
-      "translation": true,
-      "image-text-to-text": true,
-      "automatic-speech-recognition": true
-    }
-  },
-  "unique_candidates": 21653
+  }
 }

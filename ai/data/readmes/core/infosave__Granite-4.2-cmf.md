@@ -74,6 +74,12 @@ Cortiq automatically kept 55 of 64 layers on Vulkan and ran the nine-layer
 tail on the host. That 100-token run peaked at 43,036 MiB of the A40's
 46,068 MiB and completed without steady-state weight uploads.
 
+On an RTX A5000 (24 GB) with CUDA (`CMF_GPU=cuda`, cortiq 0.8.87) the 30B
+Q4TP file decodes at 28.9 tok/s steady; Vulkan on the same card gives
+28.6–28.9 tok/s and the same greedy text. The CUDA backend is a build
+feature: `cargo install cortiq-cli --features cuda` (the NVIDIA driver and
+the CUDA 12.x libraries).
+
 SHA-256 (the Hugging Face LFS object id is the same digest):
 
 ```text
@@ -228,7 +234,9 @@ thinking/`--no-think`, сохранены GQA, RoPE, SwiGLU и раздельн�
 исполняются в нативном Metal-графе. Для больших файлов Vulkan автоматически
 выбирает постоянный GPU-префикс и CPU-хвост: проверка, имитирующая 16 ГБ,
 дала пики 15 384 MiB для 30B Q4TP и 14 616 MiB для 30B Q8_2F, оба ответа
-остались корректными.
+остались корректными. На RTX A5000 с CUDA (`CMF_GPU=cuda`, cortiq 0.8.87,
+сборка `cargo install cortiq-cli --features cuda`) 30B Q4TP даёт 28,9 ток/с
+steady, Vulkan на той же карте — 28,6–28,9 ток/с с тем же жадным текстом.
 
 Original models and license:
 [ibm-granite/granite-4.2-3b](https://huggingface.co/ibm-granite/granite-4.2-3b),

@@ -46,7 +46,7 @@ In comparison with the previous version, this version includes the long-context 
 
 - **Developed by:** Instituto Superior Técnico - University of Lisbon, Instituto de Telecomunicações, University of Edinburgh, Aveni, Unbabel, University of Paris-Saclay, Artefact Research Center, University of Amsterdam, Naver Labs, Sorbonne Université.
 - **Funded by:** European Union.
-- **Model type:** A 9B parameter multilingual transfomer LLM.
+- **Model type:** A 9B parameter multilingual transformer LLM.
 - **Language(s) (NLP):** Bulgarian, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Greek, Hungarian, Irish, Italian, Latvian, Lithuanian, Maltese, Polish, Portuguese, Romanian, Slovak, Slovenian, Spanish, Swedish, Arabic, Catalan, Chinese, Galician, Hindi, Japanese, Korean, Norwegian, Russian, Turkish, and Ukrainian. 
 - **License:** Apache License 2.0.
 

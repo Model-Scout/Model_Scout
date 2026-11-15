@@ -26,10 +26,44 @@ Stage 2 로 가는 것은 A 후보 중 Core ∪ Low 뿐이다. Likely(B)·Fallba
 |---|---|---|
 | `validate` | 컴파일·계약 스키마·오프라인 테스트. 네트워크 호출 없음 | 안 읽음 |
 | `dry-run` | Stage 1~4 생성, 보고서 artifact, **승인용 번들 artifact**(`reingest-bundle-<run_id>`) | **읽기만** (직전 sync 기록, active ID, 용량) |
+| `resume-finalize` | 검증된 이전 Stage 1~3 checkpoint를 복원해 Stage 4부터 재개 | **읽기만** |
 | `apply` | 승인한 dry-run 번들을 받아 검증 → 그대로 놓고 같은 트랜잭션에서 upsert·비활성화, 성공 후 스냅샷 커밋. **Stage 1~4 를 다시 만들지 않는다** | 씀 |
+| `persist-snapshots` | DB apply는 완료됐지만 마지막 Git push만 실패했을 때, DB와 승인 번들의 해시를 대조하고 스냅샷 커밋만 복구 | **읽기만** |
 
 `apply` 는 `main` 에서 `confirm=APPLY` 와 `approved_run_id`(승인한 dry-run 의 run ID)가 있을 때만 돈다.
 apply 에는 HF·OpenAI 키를 주지 않는다.
+
+dry-run은 한 job에서 Stage 1~4를 연속 실행하지 않는다. GitHub-hosted runner의 job당
+6시간 제한과 중간 결과 유실을 피하기 위해 같은 run 안에서 다음처럼 checkpoint artifact를 넘긴다.
+
+```
+validate
+  ↓
+prepare: HF/OpenAI chat/OpenAI embedding/Supabase preflight → Stage 1 → 기준 동결
+  ↓
+stage2: Core ─┐
+        Low  ─┴─ 병렬 HF 수집·풀별 계약 검사
+  ↓
+stage3: 합친 볼륨·계약 검사 → Stage 3(LLM) → evidence → 유료 결과 checkpoint
+  ↓
+finalize: Stage 3 checkpoint 복원 → Stage 4 → 3.5 benchmark 통합 → 승인 번들
+```
+
+각 checkpoint에는 저장소·commit SHA·branch·GitHub run ID와 dry-run 시작 시점의 최신
+Supabase sync run ID가 묶인다. 하나라도 달라지면 이어 실행하지 않는다. 그래서 중간 job이
+실패해도 DB는 바뀌지 않는다. Stage 3 성공 결과도 별도 artifact 로 보존하므로 같은 run 의
+finalize 만 실패했다면 `Re-run failed jobs`가 유료 Stage 3를 다시 호출하지 않는다. Stage 4/finalize
+복구 코드를 고치느라 새 run이 필요하면 `resume-finalize`와 원본 `source_run_id`로 Stage 3 checkpoint를
+재사용할 수 있다. 원본 commit이 현재 main의 조상인지, 그사이 Stage 1~3·계약 코드가 바뀌지 않았는지,
+Supabase 기준선과 Stage 2/3 ID가 같은지 검사하며 하나라도 다르면 처음부터 다시 해야 한다.
+
+GitHub clean checkout의 Stage 4 경로에는 실제 JSONL 대신 Git LFS pointer가 있을 수 있다.
+따라서 benchmark 통합은 반드시 `04_build_embeddings.py`가 새 Stage 4 JSONL을 만든 뒤 실행한다.
+pointer를 JSONL로 읽으려 하면 원인을 명시하고 즉시 중단한다.
+
+`prepare`의 preflight는 수 시간짜리 실행 전에 실제 Secret을 검증한다. 공개 HF 모델 조회,
+1-token chat, 1개 embedding, Supabase `select 1`을 실행한다. 이 단계가 통과해야 Stage 1을
+시작하며 Secret 값 자체는 로그나 artifact에 쓰지 않는다.
 
 apply 는 번들 manifest 를 검증하고, 하나라도 다르면 DB 에 쓰기 전에 멈춘다.
 
@@ -61,7 +95,9 @@ watermark 를 스캔 **완료** 시각으로 두지 않는다. 스캔은 몇 시
 | 기존 → 새 Stage 1 | 처리 대상(Core ∪ Low)에서 30% 초과 제거 금지. Core↔Low 이동은 제거로 세지 않는다 | Stage 1 백업 복원. Stage 2 전에 중단. 실패한 실행에도 전체 diff artifact를 남김 |
 | 새 Stage 1 → Stage 2 | 언어 게이트 제외(이번 Stage 1 에 있는 것만)를 뺀 기대치의 98% 미만이면 중단 | 유료 단계 전에 중단 |
 | Stage 2 재사용 | 저장된 행의 Hub revision(SHA, 없으면 last_modified)이 지금 Stage 1 과 같을 때만 재사용 | 다르거나 기록이 없으면 다시 수집 |
+| Stage 3 구 해시 이관 | 예전 전체 README 해시와 현재 앞 60,000자 해시를 모두 비교 | 내용이 같으면 재사용하고 v2 해시로 승격. 불필요한 LLM 재호출 방지 |
 | 계약 게이트 (재적재·증분 모두) | Stage 2 직후, Stage 3(LLM) 전. 직전 계약 레코드를 baseline 으로 값 손실·근거 하락 비교 | 같은 revision 에서 손실이면 중단. revision 이 바뀐 모델은 경고, 새 모델·첫 실행은 비교 생략(사유를 보고서에 기록) |
+| Stage 4 DB 캐시 | 평소에는 전체 후보의 캐시 미스 10% 초과를 거부. 검토된 full-scan 동안에는 Core+Low 전체 기준 30%까지 허용 | 풀 이동 때문에 한 풀에 신규 모델이 몰려도 전체 한도 안이면 진행. 전체 한도 초과면 유료 embedding 전에 중단 |
 | Stage 2 → Stage 4 | `validate_corpus` 가 ID 집합 일치를 요구 | 적재 전 중단 |
 | 비활성화 | DB active 의 30% 초과 비활성화 금지 | dry-run: 보고서 남기고 실패(종료 코드 3). apply: 트랜잭션 롤백, 스냅샷 커밋 없음 |
 | DB 용량 | 지금 DB 크기 + 이번에 쓸 양 > `SUPABASE_DB_BUDGET_MB`(1,024) 이면 금지 | dry-run: 종료 코드 3. apply: DB 에 쓰기 전에 중단 |
@@ -98,6 +134,8 @@ dry-run 과 apply 모두 artifact 로 올린다.
 - `reingest-report.deactivation.json` — DB active, DB 에만 있는 ID, 비활성화 후보, 가드 판정
 - `capacity`(보고서·summary 안) — DB 전체·테이블별 MB, 이번 쓰기 추정, 예상 최고치, 한도
 - `reingest-coverage-before.md` / `-after.md` (Stage 2 기준 질문별 답변 가능률), `data/hf_models_stage4_manifest.json`
+- `preflight.json` — HF·OpenAI chat·OpenAI embedding·DB 연결 성공과 사용 모델(비밀값 없음)
+- `stage3-metrics.json` / `stage4-metrics.json` — 실제 API 호출 수와 토큰 수
 
 Stage 1~4 전체 산출물은 승인용 `reingest-bundle-<run_id>` artifact 에 포함하며 14일간
 보관한다. 별도의 `reingest-report-*` artifact 에는 검토용 보고서와 coverage 를 30일간
@@ -160,9 +198,17 @@ LFS 에 올리지 않는다.
 
 1. 재적재 Action 을 GitHub UI 에서 잠시 활성화한다. schedule 은 건드리지 않는다.
 2. `mode=validate` 를 실행한다.
-3. `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다.
+3. 새 Model Scout 전용 OpenAI key를 repository secret `OPENAI_API_KEY`에 넣고,
+   `mode=dry-run`, `stage1_mode=full-scan` 을 실행한다. `prepare`의 preflight가 HF·chat·embedding·DB를
+   모두 통과했는지 먼저 확인한다. 이어서 `stage2 (core)`와 `stage2 (low_popularity)`가 병렬로
+   끝나고, `stage3`가 유료 결과 checkpoint를 올린 뒤 `finalize`가 Stage 4와 승인 번들을 만들 때까지
+   기다린다.
+   - Stage 3까지 성공한 뒤 finalize만 실패했고 복구 코드 PR을 병합했다면 처음부터 다시 돌리지 않고
+     `mode=resume-finalize`, `source_run_id=<Stage 3 성공 원본 run ID>`를 실행한다.
+   - 이 실행은 원본 Stage 1~3을 검증한 뒤 Stage 4만 다시 만든다. 성공하면 새
+     `reingest-bundle-<복구 run ID>`가 생긴다.
 4. 보고서를 검토한다. 추가·제거 ID, Core↔Low 이동, 언어 제외, Stage 4 행 수, 비활성화 후보,
-   `capacity`(예상 최고치가 한도보다 충분히 낮은지)를 본다.
+   `capacity`(예상 최고치가 한도보다 충분히 낮은지), Stage 3·4 실제 API 호출 및 토큰 수를 본다.
 5. 다음 단계로 넘어가기 전에 중단 기준을 확인한다. 하나라도 해당하면 멈춘다.
    - 가드가 걸렸다.
    - 제거·비활성화 후보에 운영상 중요한 모델이 있다.
@@ -170,7 +216,8 @@ LFS 에 올리지 않는다.
 6. Supabase SQL Editor 에서 `supabase_migration_contract_filters.sql` 을 적용한다. 플래그가 OFF 라
    서비스는 아직 15개 인자로 부른다. 구 시그니처는 migration 이 지우지만, 새 함수의 뒤 4개 인자는
    기본값이 있어 15개 인자 호출도 그대로 동작한다.
-7. `mode=apply`, `approved_run_id=<3단계 run ID>`, `confirm=APPLY` 를 main 에서 실행한다. 3단계 이후
+7. `mode=apply`, `approved_run_id=<승인 번들을 만든 run ID>`, `confirm=APPLY` 를 main 에서 실행한다.
+   `resume-finalize`를 사용했다면 원본 source run ID가 아니라 **복구 run ID**를 넣는다. 3단계 이후
    main 에 다른 커밋이 들어갔다면 apply 가 거부하므로 3단계부터 다시 한다(6단계 SQL 은 커밋이 아니라 괜찮다).
 8. DB 를 사후 검증한다.
    - 최신 `model_scout_sync_runs` 행이 `completed` 이고 `sync_mode=reingest`, `stage1_mode=full-scan` 인지 본다.
@@ -200,7 +247,11 @@ LFS 에 올리지 않는다.
   migration 은 그대로 두어도 예전 동작(15개 인자 + 후처리)으로 돌아간다.
 - apply 가 실패하면 트랜잭션이 롤백되고 스냅샷 커밋 단계는 돌지 않는다.
 - apply 는 성공했는데 스냅샷 push 가 세 번 다 실패하면 Action 이 실패로 끝난다. DB 는 이미 반영됐으므로
-  다시 apply 하지 말고, 그 run 의 스냅샷 커밋을 수동으로 올린다.
+  다시 apply 하지 않는다. 수정 PR을 병합한 뒤 `mode=persist-snapshots`,
+  `approved_run_id=<DB에 기록된 승인 run ID>`, `confirm=PERSIST`를 실행한다. 이 모드는 최신 completed
+  sync의 승인 ID·번들 SHA256·모델 ID SHA256·행 수가 artifact와 모두 같을 때만 스냅샷을 복구하며 DB에는 쓰지 않는다.
+  저장소 ruleset 때문에 Action은 `main`에 직접 push하지 않고 `automation/reingest-snapshot-<run ID>`
+  브랜치를 만든다. Step Summary의 링크로 PR을 만들고 병합해야 스냅샷 복구가 끝난다.
 - apply 가 성공했는데 결과가 잘못됐다면 이렇게 되돌린다.
   - 비활성화된 행은 지워지지 않는다(`active=false`, `stale_at`). 보고서의 `deactivation.candidate_ids` 로 `active=true` 를 되돌릴 수 있다.
   - 스냅샷 커밋은 `git revert` 로 되돌린다.

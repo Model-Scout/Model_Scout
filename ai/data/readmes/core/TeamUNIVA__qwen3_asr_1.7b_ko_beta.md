@@ -34,6 +34,21 @@ Korean scores are measured in CER (Character Error Rate); the English score is m
 | **Korean total** | CER | **0.0686** | **0.0537** | **-1.49** |
 | librispeech (English, reference) | WER | 0.0250 | 0.0246 | -0.04 |
 
+### Additional evaluation with kocer
+
+[kocer](https://github.com/Choi-kwan-u/kocer) (v0.1.5) is a CER for Korean ASR that does not count differences in spacing, punctuation, number notation (e.g., 3개 = 세 개) or Latin-acronym spelling (e.g., AI = 에이아이) as errors. We re-scored the same model outputs on the same reviewed evaluation set with kocer; as above, each utterance is scored against both the TN and ITN transcripts and the better-scoring one is used. Lower is better; the "Change" column is relative to the base model.
+
+| Dataset | Metric | Qwen3-ASR-1.7B (base) | This model | Change (%p) |
+| --- | --- | --- | --- | --- |
+| clova_call | CER (kocer) | 0.0429 | **0.0280** | -1.49 |
+| common_voice_ko | CER (kocer) | 0.0718 | **0.0628** | -0.90 |
+| fleurs_ko | CER (kocer) | 0.0127 | **0.0125** | -0.02 |
+| ksponspeech | CER (kocer) | 0.0860 | **0.0664** | -1.96 |
+| zeroth | CER (kocer) | 0.0253 | **0.0202** | -0.51 |
+| **Korean total** | CER (kocer) | **0.0679** | **0.0528** | **-1.51** |
+
+The ranking is the same as with the metric above. kocer scores hardly depend on which transcript is used as the reference: for this model, the Korean total is 0.0536 against the TN transcripts only, 0.0548 against the ITN transcripts only, and 0.0528 with the better of the two.
+
 ### Evaluation Set
 
 All open Korean benchmark evaluation sets used above were fully reviewed by hand: each utterance was checked for dual TN/ITN (text normalization / inverse text normalization) transcripts, low-quality samples were filtered out, and mis-transcriptions were corrected. Every utterance was then evaluated against both the TN and ITN transcripts, and the better-scoring transcript of the pair was used for the final aggregated result. After this review, 8,383 of the original 8,489 records were retained (106 excluded):
@@ -47,6 +62,8 @@ All open Korean benchmark evaluation sets used above were fully reviewed by hand
 | kspon_eval_clean | 2,946 |
 | kspon_eval_other | 2,959 |
 | **Total** | **8,383** |
+
+**Public release.** The reviewed evaluation sets for `zeroth`, `common_voice_ko` and `fleurs_ko` are published at [TeamUNIVA/ko_asr_benchmarks](https://huggingface.co/datasets/TeamUNIVA/ko_asr_benchmarks). The other sets (`clova_call`, `kspon_eval_clean`, `kspon_eval_other`) are not released because of the license terms of their original datasets.
 
 ## Usage
 
@@ -68,8 +85,6 @@ model = Qwen3ASRModel.from_pretrained(
     max_new_tokens=256,
 )
 
-# The language is detected automatically. To force Korean, pass
-# language="Korean" (the full language name, as expected by qwen-asr).
 results = model.transcribe(
     audio="path/to/audio.wav",
 )
@@ -107,6 +122,21 @@ print(results[0].text)
 | **한국어 전체** | CER | **0.0686** | **0.0537** | **-1.49** |
 | librispeech (영어, 참고용) | WER | 0.0250 | 0.0246 | -0.04 |
 
+### kocer를 이용한 추가 평가
+
+[kocer](https://github.com/Choi-kwan-u/kocer)(v0.1.5)는 띄어쓰기, 문장부호, 숫자 표기(예: 3개 = 세 개), 라틴 약어 표기(예: AI = 에이아이)의 차이를 오류로 세지 않는 한국어 음성 인식용 CER입니다. 위와 동일한 검수 평가셋에서 같은 모델 출력을 kocer로 다시 채점했습니다. 위와 마찬가지로 각 발화를 TN 전사와 ITN 전사 각각에 대해 채점하고 더 좋은 쪽을 사용했습니다. 낮을수록 좋으며, "변화" 열은 base 모델 대비입니다.
+
+| 데이터셋 | 지표 | Qwen3-ASR-1.7B (base) | 본 모델 | 변화 (%p) |
+| --- | --- | --- | --- | --- |
+| clova_call | CER (kocer) | 0.0429 | **0.0280** | -1.49 |
+| common_voice_ko | CER (kocer) | 0.0718 | **0.0628** | -0.90 |
+| fleurs_ko | CER (kocer) | 0.0127 | **0.0125** | -0.02 |
+| ksponspeech | CER (kocer) | 0.0860 | **0.0664** | -1.96 |
+| zeroth | CER (kocer) | 0.0253 | **0.0202** | -0.51 |
+| **한국어 전체** | CER (kocer) | **0.0679** | **0.0528** | **-1.51** |
+
+위 지표와 순위는 동일합니다. kocer 점수는 어느 전사를 정답으로 쓰는지에 거의 좌우되지 않습니다. 본 모델의 한국어 전체는 TN 전사만 사용하면 0.0536, ITN 전사만 사용하면 0.0548, 둘 중 더 좋은 쪽을 쓰면 0.0528입니다.
+
 ### 평가셋
 
 위에서 사용한 공개 한국어 벤치마크 평가셋은 모두 사람이 전수 검수했습니다. 각 발화마다 TN/ITN(텍스트 정규화 / 역정규화) 이중 전사 여부를 확인하고, 품질이 낮은 샘플은 제외하고, 오전사는 수정했습니다. 이후 모든 발화를 TN 전사와 ITN 전사 각각에 대해 평가하고, 둘 중 점수가 더 좋은 쪽을 최종 집계에 사용했습니다. 검수 후 원본 8,489건 중 8,383건이 남았습니다(106건 제외).
@@ -120,6 +150,8 @@ print(results[0].text)
 | kspon_eval_clean | 2,946 |
 | kspon_eval_other | 2,959 |
 | **합계** | **8,383** |
+
+**공개 안내.** 검수를 마친 평가셋 중 `zeroth`, `common_voice_ko`, `fleurs_ko`는 [TeamUNIVA/ko_asr_benchmarks](https://huggingface.co/datasets/TeamUNIVA/ko_asr_benchmarks)에 공개했습니다. 나머지(`clova_call`, `kspon_eval_clean`, `kspon_eval_other`)는 원본 데이터셋의 라이선스 조건상 공개하지 않습니다.
 
 ## 사용법
 
@@ -141,8 +173,6 @@ model = Qwen3ASRModel.from_pretrained(
     max_new_tokens=256,
 )
 
-# 언어는 자동으로 감지됩니다. 한국어로 고정하려면
-# language="Korean"을 전달하세요(qwen-asr가 요구하는 전체 언어 이름).
 results = model.transcribe(
     audio="path/to/audio.wav",
 )

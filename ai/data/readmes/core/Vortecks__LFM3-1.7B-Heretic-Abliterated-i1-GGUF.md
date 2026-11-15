@@ -34,7 +34,6 @@ tags:
 - llama.cpp
 base_model:
 - Vortecks/LFM3-1.7B-Heretic-Abliterated
-- LiquidAI/LFM3-1.7B
 ---
 
 <div align="center">

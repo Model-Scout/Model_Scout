@@ -300,4 +300,4 @@ vllm serve FINAL-Bench/Darwin-9B-Opus \
   howpublished = {\url{https://huggingface.co/FINAL-Bench/Darwin-9B-Opus}}
 }
 ```
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).

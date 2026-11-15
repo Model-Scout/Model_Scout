@@ -25,7 +25,7 @@ language:
 - pa
 - sw
 library_name: transformers
-license: cc-by-nc-4.0
+license: mit
 pipeline_tag: text-classification
 tags:
 - text-classification

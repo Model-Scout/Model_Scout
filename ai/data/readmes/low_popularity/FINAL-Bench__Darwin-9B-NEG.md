@@ -274,6 +274,6 @@ Qwen/Qwen3.5-9B   +   (Opus-distilled sibling)
 - **Darwin-4B-Genesis** — smallest member, Gemma4 family
 
 ---
-This model is introduced in [Darwin Family](https://arxiv.org/abs/2605.14386).
+This model is introduced in [Darwin Family](https://huggingface.co/papers/2605.14386).
 
 *Darwin V8 · Sealed 2026-04-24 · FINAL-Bench*

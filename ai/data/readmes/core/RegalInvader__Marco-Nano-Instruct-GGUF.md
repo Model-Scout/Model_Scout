@@ -162,6 +162,20 @@ PocketPal 1.21.2 benchmark on a Pixel 10a (Tensor G4, 8 GB) with 4 CPU threads, 
 On a 16-core desktop CPU (llama.cpp, `llama-bench -p 512 -n 128`) the 2-bit IQ2_XXS generates about 90 tokens/s and
 reads prompts at about 1,000 tokens/s.
 
+On an M1 MacBook Air (8 GB) with llama.cpp b12119 (`llama-bench -p 512 -n 128`, 3 runs each), on the GPU through Metal
+and on the CPU with 4 threads:
+
+| File | Metal prompt (tok/s) | Metal generation (tok/s) | CPU prompt (tok/s) | CPU generation (tok/s) |
+|---|---|---|---|---|
+| **3-bit IQ3_S** | 1023 | 72.1 | 270 | 65.8 |
+| **2-bit IQ2_S** | 1045 | 71.3 | 293 | 68.1 |
+| **2-bit IQ2_XXS** | 1041 | 74.2 | 322 | 73.1 |
+| **2-bit Q2_0** | 1098 | 83.6 | 382 | 83.3 |
+| **1-bit TQ1_0** | 424 | 40.1 | 275 | 88.8 |
+
+On a Mac, run every file on the GPU apart from the 1-bit. llama.cpp's Metal support for TQ1_0 is slow, so set the GPU
+layers to 0 for that file, where it generates at 88.8 tokens/s on the CPU.
+
 ## Quality
 
 Every model below got the same questions through its own chat template, with thinking off and greedy decoding.
@@ -339,7 +353,7 @@ evaluation scripts are in this repo's `code/` folder (Apache-2.0). The training 
 - **No thinking mode:** like the original instruct model, these files answer directly.
 - **Maths at 1 and 2 bits:** the 1-bit and Q2_0 files lose a lot more on maths than on knowledge or languages.
 - **Hungarian and Bengali** lose the most of the five tested languages at 2 bits.
-- **iPhones, iPads and Macs:** untested. The speeds above are Android CPU numbers.
+- **iPhones and iPads:** untested. Macs are covered in Speed (M1, Metal and CPU).
 - **It may say it is GPT-4o.** Asked who it is, the original Marco-Nano-Instruct usually says OpenAI made it (27 of 42
   replies in our check), and these files inherit that. It is Marco-Nano-Instruct from Alibaba International Digital
   Commerce. The system prompt in PocketPal step 6 fixes most of it.

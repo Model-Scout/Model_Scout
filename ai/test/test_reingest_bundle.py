@@ -281,67 +281,174 @@ def test_dry_run_writes_the_bundle_with_the_latest_sync_run():
     assert seen["stage4_ids"] == ["m/keep"] and seen["refresh_info"]["stage1_mode"] == "reuse"
 
 
+def test_checkpointed_dry_run_skips_stage_generation_and_builds_the_bundle():
+    seen: Dict[str, Any] = {}
+
+    def capture(bundle_dir, **kwargs):
+        seen.update(kwargs, bundle_dir=bundle_dir)
+        return {"files": [], "model_ids_sha256": "x"}
+
+    def refuse(*args, **kwargs):
+        raise AssertionError("checkpointed dry-run regenerated Stage 1~4")
+
+    stage4 = [{"model_id": "m/keep", "source_pool": "core"}]
+    with tempfile.TemporaryDirectory() as name:
+        state = Path(name) / "state.json"
+        state.write_text(json.dumps({
+            "schema_version": 1,
+            "identity": IDENTITY,
+            "supabase_latest_sync_run_id": "sync-9",
+            "refresh_info": REINGEST,
+        }), encoding="utf-8")
+        code = _main(
+            ["--reingest", "--reingest-state", str(state), "--bundle-dir", "out-bundle"],
+            latest_completed_sync=lambda any_versions=False: {"run_id": "sync-9", "completed_at": "2026-11-06"},
+            git_identity=lambda: dict(IDENTITY),
+            full_reingest_pipeline=refuse,
+            run_command=refuse,
+            load_corpora=lambda stage4_delta=False: (stage4, {"m/keep": {}}, {"m/keep": {}}),
+            validate_corpus=lambda *a, **k: {"rows": 1}, load_evidence_indices=lambda: {},
+            validate_evidence_indices=lambda *a, **k: {}, write_stage4_manifest=lambda *a, **k: None,
+            payloads=lambda *a, **k: [], evidence_payloads=lambda *a, **k: [],
+            db_active_model_ids=lambda cur=None: {"m/keep"},
+            db_storage=lambda cur=None: {"database": 1, "model_rows": 0},
+            apply_sync=refuse,
+            write_reingest_bundle=capture,
+        )
+    assert code == 0
+    assert seen["refresh_info"] == REINGEST
+    assert seen["latest_sync_run_id"] == "sync-9"
+
+
 # ── workflow ──────────────────────────────────────────────────────────────
 
 WORKFLOW = ROOT.parent / ".github" / "workflows" / "model-scout-reingest.yml"
+PERSIST_SCRIPT = ROOT / "persist_reingest_snapshots.sh"
 
 
 def _flow():
     return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
 
 
-def _steps():
-    return {step["name"]: step for step in _flow()["jobs"]["reingest"]["steps"]}
+def _steps(job):
+    return {step["name"]: step for step in _flow()["jobs"][job]["steps"]}
 
 
 def test_workflow_apply_downloads_the_approved_bundle_before_running():
-    flow, steps = _flow(), _steps()
+    flow, steps = _flow(), _steps("apply")
     names = list(steps)
     assert "approved_run_id" in flow[True]["workflow_dispatch"]["inputs"]
     assert flow["permissions"]["actions"] == "read"
     download = steps["Download the approved dry-run bundle"]
-    assert download["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
+    assert flow["jobs"]["apply"]["if"].replace(" ", "") == "${{inputs.mode=='apply'}}"
     assert download["with"]["run-id"] == "${{ inputs.approved_run_id }}"
     assert download["with"]["name"] == "reingest-bundle-${{ inputs.approved_run_id }}"
-    assert names.index("Download the approved dry-run bundle") < names.index("Run the reingest")
+    assert names.index("Download the approved dry-run bundle") < names.index("Apply the reviewed bundle to Supabase")
     assert "approved_run_id" in steps["Guard the apply mode"]["run"]
 
 
 def test_workflow_apply_replays_the_bundle_and_has_no_collection_keys():
-    run = _steps()["Run the reingest"]
-    assert "--from-bundle reingest-bundle --approved-run-id" in run["run"]
-    assert "--bundle-dir reingest-bundle" in run["run"]
-    apply_branch = run["run"].split('if [ "${{ inputs.mode }}" = "apply" ]; then', 1)[1].split("else", 1)[0]
-    assert "--full-stage1" not in apply_branch
+    flow = _flow()
+    run = _steps("apply")["Apply the reviewed bundle to Supabase"]
+    assert "--from-bundle reingest-bundle" in run["run"]
+    assert "--approved-run-id" in run["run"]
+    assert "--full-stage1" not in run["run"]
     for key in ("HF_TOKEN", "OPENAI_API_KEY"):
-        assert "inputs.mode == 'dry-run'" in run["env"][key], f"{key} 가 apply 에도 주어진다"
+        assert key not in flow["jobs"]["apply"].get("env", {}), f"{key} 가 apply 에도 주어진다"
 
 
 def test_workflow_uploads_the_bundle_only_from_a_successful_dry_run():
-    upload = _steps()["Upload the dry-run bundle"]
-    assert upload["if"].replace(" ", "") == "${{inputs.mode=='dry-run'}}"  # success() 가 암묵적으로 붙는다
+    upload = _steps("finalize")["Upload the dry-run bundle"]
     assert upload["with"]["name"] == "reingest-bundle-${{ github.run_id }}"
     assert upload["with"]["path"] == "ai/reingest-bundle"
 
 
+def test_workflow_resumes_stage4_from_a_prior_stage3_checkpoint():
+    flow = _flow()
+    inputs = flow[True]["workflow_dispatch"]["inputs"]
+    assert "resume-finalize" in inputs["mode"]["options"]
+    assert "source_run_id" in inputs
+    job = flow["jobs"]["resume_finalize"]
+    assert job["needs"] == "validate"
+    steps = _steps("resume_finalize")
+    for name in (
+        "Download the source Stage 1 checkpoint",
+        "Download the source Core Stage 2 checkpoint",
+        "Download the source Low Stage 2 checkpoint",
+        "Download the source Stage 3 checkpoint",
+    ):
+        assert steps[name]["with"]["run-id"] == "${{ inputs.source_run_id }}"
+        assert steps[name]["with"]["github-token"] == "${{ github.token }}"
+    resume = steps["Validate Stage 3 and resume at Stage 4"]["run"]
+    assert "resume-finalize" in resume
+    assert "--source-run-id" in resume
+    assert "03_generate_semantic_metadata.py" not in str(job)
+
+
+def test_resumed_bundle_is_rebound_to_the_new_run_for_apply():
+    resume_upload = _steps("resume_finalize")["Upload the resumed dry-run bundle"]
+    apply_download = _steps("apply")["Download the approved dry-run bundle"]
+    assert resume_upload["with"]["name"] == "reingest-bundle-${{ github.run_id }}"
+    assert apply_download["with"]["name"] == "reingest-bundle-${{ inputs.approved_run_id }}"
+    assert apply_download["with"]["run-id"] == "${{ inputs.approved_run_id }}"
+
+
 def test_workflow_commits_snapshots_only_after_the_db_step_succeeds():
-    steps = _steps()
+    steps = _steps("apply")
     names = list(steps)
     persist = steps["Persist snapshots after apply"]
-    condition = persist["if"]
-    assert "always()" not in condition and "failure()" not in condition
-    assert names.index("Persist snapshots after apply") > names.index("Run the reingest")
-    assert "parent_child_core.jsonl" in persist["run"]
-    assert "hf_models_stage4_core.jsonl" not in persist["run"]
-    assert "approved dry-run" in persist["run"]
+    assert "if" not in persist or ("always()" not in persist["if"] and "failure()" not in persist["if"])
+    assert names.index("Persist snapshots after apply") > names.index("Apply the reviewed bundle to Supabase")
+    assert "persist_reingest_snapshots.sh" in persist["run"]
+    script = PERSIST_SCRIPT.read_text(encoding="utf-8")
+    assert "parent_child_core.jsonl" in script
+    assert "hf_models_stage4_core.jsonl" not in script
+    assert "git restore --worktree ." in script
+    assert "automation/reingest-snapshot-" in script
+    assert "HEAD:refs/heads/${snapshot_branch}" in script
+    assert "HEAD:main" not in script
 
 
-def test_validate_mode_needs_no_bundle():
-    steps = _steps()
-    for name in ("Download the approved dry-run bundle", "Upload the dry-run bundle", "Run the reingest"):
-        assert "validate" not in steps[name]["if"] or "!=" in steps[name]["if"], name
-    names = list(steps)
-    assert names.index("Stop here in validate mode") < names.index("Download the approved dry-run bundle")
+def test_workflow_can_recover_snapshots_without_reapplying_the_database():
+    flow = _flow()
+    inputs = flow[True]["workflow_dispatch"]["inputs"]
+    assert "persist-snapshots" in inputs["mode"]["options"]
+    steps = _steps("persist_snapshots")
+    assert "PERSIST" in steps["Guard snapshot recovery"]["run"]
+    assert steps["Download the already applied bundle"]["with"]["run-id"] == "${{ inputs.approved_run_id }}"
+    verify = steps["Verify the completed DB apply and restore snapshots"]["run"]
+    assert "recover-snapshots" in verify
+    assert "08_sync_supabase.py" not in verify
+    assert "persist_reingest_snapshots.sh" in steps["Persist the recovered snapshots"]["run"]
+
+
+def test_validate_mode_needs_no_secrets_or_bundle():
+    flow = _flow()
+    validate = flow["jobs"]["validate"]
+    assert not validate.get("env")
+    names = set(_steps("validate"))
+    assert "Download the approved dry-run bundle" not in names
+    assert "Preflight external services" not in names
+
+
+def test_dry_run_is_split_into_checkpointed_jobs_and_parallel_stage2():
+    flow = _flow()
+    assert set(flow["jobs"]) == {
+        "validate", "prepare", "stage2", "stage3", "finalize", "resume_finalize", "apply",
+        "persist_snapshots",
+    }
+    assert flow["jobs"]["stage2"]["strategy"]["matrix"]["pool"] == ["core", "low_popularity"]
+    assert flow["jobs"]["prepare"]["needs"] == "validate"
+    assert flow["jobs"]["stage2"]["needs"] == "prepare"
+    assert flow["jobs"]["stage3"]["needs"] == "stage2"
+    assert flow["jobs"]["finalize"]["needs"] == "stage3"
+    assert "Preflight external services" in _steps("prepare")
+    stage3_upload = _steps("stage3")["Upload the Stage 3 checkpoint"]
+    assert stage3_upload["with"]["name"] == "reingest-stage3-${{ github.run_id }}"
+    assert "hf_models_stage3_core.jsonl" in _steps("stage3")["Pack the Stage 3 checkpoint"]["run"]
+    assert "Download the Stage 3 checkpoint" in _steps("finalize")
+    assert "stage3/stage3.tar.gz" in _steps("finalize")["Restore the checkpointed inputs"]["run"]
+    assert "--reingest-state reingest-work/refresh-info.json" in _steps("finalize")["Validate and build the reviewed dry-run bundle"]["run"]
 
 
 if __name__ == "__main__":

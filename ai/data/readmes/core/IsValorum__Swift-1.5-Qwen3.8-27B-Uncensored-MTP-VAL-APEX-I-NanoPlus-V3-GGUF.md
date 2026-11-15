@@ -45,6 +45,20 @@ If you consider these releases to be of high quality and they help you in your d
 
 ### *Uncensored Frontier 27B Dense Hybrid Reasoning Model with Intact Vision, Multilingual Syntax Preservation, and Native MTP Self-Speculation*
 
+## Run it in V-Agent
+
+[V-Agent](https://github.com/IsValorum/V-Agent) is a free, open-source desktop agent for Windows, made by the author of these quants. It runs this model locally, with tools and clear permissions.
+
+- **Native engines:** **llama.cpp** (CUDA, Vulkan or CPU), **Strata** and **Strata Rust**, installed from their official releases and matched to your hardware.
+- **Built for these quants:** APEX files get their chat template from the official repo, and each quant shows whether it fits your GPU.
+- **Real tools, safely:** files, web search, a browser and MCP servers, with each chat in its own isolated folder and approvals for every action.
+- **Private:** no account, no telemetry; everything runs on your PC.
+
+1. [Download V-Agent](https://github.com/IsValorum/V-Agent/releases/latest) and install it (Windows 10/11, x64).
+2. Open **Models**, search `Swift-1.5-Qwen3.8-27B-Uncensored-MTP-VAL-APEX-I-NanoPlus-V3-GGUF`, and pick the file marked **Fits on GPU**.
+3. V-Agent downloads it with SHA-256 verification and loads it with this model's chat template.
+
+
 Official **VAL-APEX-I NanoPlus V3** quantization of **[ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP](https://huggingface.co/ajgazin/Swift-1.5-Qwen3.8-27B-Uncensored-MTP)**. This edition quantizes the uncensored foundation model built on UkisAI's Swift-1.5 reasoning fine-tune of Qwen3.8-27B with the V3 NanoPlus allocation (`IQ3_XXS` in the core MLP blocks, `IQ4_XS` on the outer layers 0-7 and 56-63, attention and recurrent matrices protected).
 
 - **Multilingual Source Model:** Preserves the source model's multilingual tokenizer and native chat template.

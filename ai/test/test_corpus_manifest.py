@@ -40,7 +40,7 @@ def test_manifest_records_what_later_stages_compare(tmp_path):
     assert manifest["corpus"] == "v2" and manifest["options"] == {"embed": False}
     assert manifest["created_at"] and manifest["counts"] == {"chunks": 1}
     assert manifest["inputs"][0]["rows"] == 1 and manifest["inputs"][1]["files"] == 1
-    assert manifest["outputs"][0]["sha256"] == cm.sha256_file(tmp_path / "out" / "chunks.jsonl")
+    assert manifest["outputs"][0]["sha256"] == cm.content_digest(tmp_path / "out" / "chunks.jsonl")[0]
     assert json.loads((tmp_path / "out" / cm.MANIFEST_NAME).read_text(encoding="utf-8"))["stage_id"] == manifest["stage_id"]
     assert cm.check_manifest(tmp_path / "out", tmp_path) == []
 
@@ -347,3 +347,17 @@ def test_best_effort_db_reuse_is_unchanged_without_the_flag(tiny_corpus, monkeyp
     monkeypatch.setattr(supabase_db, "configured", lambda: False)
     run_docs(monkeypatch, "--embed")  # dataset-refresh.yml의 `14 --embed`와 같은 동작
     assert plan_of(capsys)["db_read"] == "not_configured" and len(embedded) == 2
+
+
+def test_text_ids_do_not_depend_on_line_endings_but_binary_stays_exact(tmp_path):
+    lf, crlf = tmp_path / "lf" / "a.jsonl", tmp_path / "crlf" / "a.jsonl"
+    for path, data in ((lf, b'{"x": 1}\n{"x": 2}\n'), (crlf, b'{"x": 1}\r\n{"x": 2}\r\n')):
+        path.parent.mkdir()
+        path.write_bytes(data)
+    a, b = cm.file_record(lf, tmp_path), cm.file_record(crlf, tmp_path)
+    assert (a["sha256"], a["bytes"], a["rows"]) == (b["sha256"], b["bytes"], b["rows"])
+    assert cm.directory_record(lf.parent, tmp_path)["sha256"] == cm.directory_record(crlf.parent, tmp_path)["sha256"]
+    npy = tmp_path / "v.npy"
+    npy.write_bytes(b"\x93NUMPY\r\n")
+    assert cm.file_record(npy, tmp_path)["sha256"] == cm.sha256_file(npy)
+    assert cm.file_record(npy, tmp_path)["bytes"] == 8

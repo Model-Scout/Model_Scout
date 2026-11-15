@@ -88,7 +88,7 @@ Refusals on the harmful evaluation set drop from 89/100 to 4/100. The KL diverge
 
 Fine-tuning a "helpful" persona on top of RLHF'd refusals fights the base model's training and tends to degrade coherence. Abliteration instead finds and edits the specific weight directions responsible for refusal, leaving the rest of the network (and its capabilities) untouched. See the [Heretic repo](https://github.com/p-e-w/heretic) and the [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** — follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** — follow for more uncensored models
 
 ## Files
 
@@ -194,6 +194,20 @@ To get JSON instead, just ask for it in the system prompt.
 | **Precision** | bfloat16 |
 | **Languages** | English, Arabic, Chinese, French, German, Japanese, Korean, Portuguese, Spanish |
 | **Base model** | [LiquidAI/LFM2.5-350M](https://huggingface.co/LiquidAI/LFM2.5-350M) |
+
+## FAQ
+
+### What is LFM2.5-350M-heretic?
+
+`LFM2.5-350M-heretic` is a decensored build of [`LiquidAI/LFM2.5-350M`](https://huggingface.co/LiquidAI/LFM2.5-350M) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is LFM2.5-350M-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 89/100 to 4/100 at KL divergence 0.0989 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run LFM2.5-350M-heretic locally?
+
+`llama serve -hf saidutta69/LFM2.5-350M-heretic:Q4_K_M` pulls the default quant; the repo ships 15 GGUF quants (see Files).
 
 ## Responsible use
 

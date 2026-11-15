@@ -9,5 +9,6 @@
   "jirawan-chro/RAG-thai": "README targets thai and never mentions Korean",
   "trungnguyensun/VNJPTranslate_base-Q4_K_M-GGUF": "README targets japanese, vietnamese and never mentions Korean (base haiFrHust/VNJPTranslate_base)",
   "trungnguyensun/VNJPTranslate_base-Q8_0-GGUF": "README targets japanese, vietnamese and never mentions Korean (base haiFrHust/VNJPTranslate_base)",
-  "Faisalkh/command-r7b-arabic-heretic-abliterated": "README targets arabic and never mentions Korean"
+  "Faisalkh/command-r7b-arabic-heretic-abliterated": "README targets arabic and never mentions Korean",
+  "mahesh27/mms-300m-ipa-fleurs": "README targets german and never mentions Korean"
 }

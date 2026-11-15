@@ -127,7 +127,7 @@ for refusal, leaving the rest of the network (and its capabilities) untouched. S
 [Heretic repo](https://github.com/p-e-w/heretic) and the
 [original abliteration writeup](https://huggingface.co/blog/mlabonne/abliteration) for the mechanism.
 
-> Made with ❤️ by **RACER IS OP** - follow for more uncensored models
+> Made with ❤️ by **RACER IS OP (saidutta69)** - follow for more uncensored models
 
 ## Files
 
@@ -291,6 +291,20 @@ images into non-overlapping tiles with a thumbnail for global context, exposes t
 as a runtime knob, and supports function calling on text-only input. Beyond llama.cpp and Ollama it
 is integrated with vLLM and SGLang, and it can be fine-tuned with SFT via Unslame and TRL.
 
+## FAQ
+
+### What is LFM2.5-VL-450M-heretic?
+
+`LFM2.5-VL-450M-heretic` is a decensored build of [`LiquidAI/LFM2.5-VL-450M`](https://huggingface.co/LiquidAI/LFM2.5-VL-450M) produced with Heretic 1.4.0 (directional ablation). It is the same weights with the refusal direction removed, not a new fine-tune, so its capabilities track the base model.
+
+### Is LFM2.5-VL-450M-heretic actually uncensored?
+
+Yes. On Heretic's 100-prompt refusal harness it drops from 93/100 to 5/100 at KL divergence 0.0187 from the base model. These are measured values, not a claim; reproduction data is in [`reproduce/`](reproduce/).
+
+### How do I run LFM2.5-VL-450M-heretic locally?
+
+Text: `llama serve -hf saidutta69/LFM2.5-VL-450M-heretic:Q4_K_M`. Images: `llama-mtmd-cli -hf saidutta69/LFM2.5-VL-450M-heretic:Q4_K_M --mmproj LFM2.5-VL-450M-heretic-mmproj-F16.gguf`. The repo ships 15 GGUF quants plus the projector, so vision survives quantization.
+
 ## Responsible use
 
 Refusal suppression is deliberate and works as intended: this model will comply with requests the
@@ -312,6 +326,8 @@ read it before deploying commercially.
 - [saidutta69/LFM2.5-350M-heretic](https://huggingface.co/saidutta69/LFM2.5-350M-heretic) - the text-only backbone, also decensored
 - [saidutta69/SmolLM2-360M-Instruct-heretic](https://huggingface.co/saidutta69/SmolLM2-360M-Instruct-heretic) - the smallest text-only model in the collection
 
+
+- [RACER IS OP - Heretic Models - full collection](https://huggingface.co/collections/saidutta69/racer-is-op-heretic-models) - every heretic model in this collection
 ## Abliteration hardware
 
 Recorded in `reproduce/reproduce.json`:

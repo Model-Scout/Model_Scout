@@ -1,0 +1,348 @@
+---
+license: other
+license_name: lfm1.0
+license_link: LICENSE
+language:
+- en
+- ja
+- ko
+- fr
+- es
+- de
+- it
+- pt
+- ar
+- zh
+pipeline_tag: image-text-to-text
+tags:
+- liquid
+- edge
+- lfm2.5-vl
+- lfm2.5
+- onnx
+- onnxruntime
+- webgpu
+base_model:
+- LiquidAI/LFM2.5-VL-1.6B
+---
+
+<div align="center">
+  <img
+    src="https://cdn-uploads.huggingface.co/production/uploads/61b8e2ba285851687028d395/2b08LKpev0DNEk6DlnWkY.png"
+    alt="Liquid AI"
+    style="width: 100%; max-width: 100%; height: auto; display: inline-block; margin-bottom: 0.5em; margin-top: 0.5em;"
+  />
+  <div style="display: flex; justify-content: center; gap: 0.5em; margin-bottom: 1em;">
+    <a href="https://playground.liquid.ai/"><strong>Try LFM</strong></a> •
+    <a href="https://docs.liquid.ai/lfm"><strong>Documentation</strong></a> •
+    <a href="https://leap.liquid.ai/"><strong>LEAP</strong></a>
+  </div>
+</div>
+
+# LFM2.5-VL-1.6B-ONNX
+
+ONNX export of [LFM2.5-VL-1.6B](https://huggingface.co/LiquidAI/LFM2.5-VL-1.6B) for cross-platform inference.
+
+## Recommended Variants
+
+| Encoder | Decoder | Size | Platform | Use Case |
+|---------|---------|------|----------|----------|
+| FP16 | Q4 | ~1.5GB | WebGPU, Server | Recommended for most uses |
+| FP16 | FP16 | ~3.2GB | Server | Higher quality |
+
+- **WebGPU**: Use FP16 encoder + Q4 decoder (Q8 not supported)
+- **Server**: FP16+Q4 for efficiency, FP16+FP16 for quality
+
+## Model Files
+
+```
+onnx/
+├── embed_tokens.onnx           # Token embeddings (FP32)
+├── embed_tokens.onnx_data
+├── embed_tokens_fp16.onnx      # Token embeddings (FP16)
+├── embed_tokens_fp16.onnx_data
+├── embed_images.onnx           # Vision encoder (FP32)
+├── embed_images.onnx_data*
+├── embed_images_fp16.onnx      # Vision encoder (FP16)
+├── embed_images_fp16.onnx_data*
+├── embed_images_q4.onnx        # Vision encoder (Q4)
+├── embed_images_q4.onnx_data
+├── embed_images_q8.onnx        # Vision encoder (Q8)
+├── embed_images_q8.onnx_data
+├── decoder.onnx                # Language decoder (FP32)
+├── decoder.onnx_data*
+├── decoder_fp16.onnx           # Language decoder (FP16)
+├── decoder_fp16.onnx_data*
+├── decoder_q4.onnx             # Language decoder (Q4)
+├── decoder_q4.onnx_data
+├── decoder_q8.onnx             # Language decoder (Q8)
+└── decoder_q8.onnx_data
+
+* Large models (>2GB) split weights across multiple files:
+  decoder.onnx_data, decoder.onnx_data_1, decoder.onnx_data_2, etc.
+  All data files must be in the same directory as the .onnx file.
+```
+
+## Python
+
+### Installation
+
+```bash
+pip install onnxruntime transformers pillow torch huggingface_hub
+# or with GPU support:
+pip install onnxruntime-gpu transformers pillow torch huggingface_hub
+```
+
+### Inference
+
+```python
+import numpy as np
+import onnxruntime as ort
+from huggingface_hub import hf_hub_download
+from transformers import AutoProcessor
+from PIL import Image
+
+# Download model files (fp16 encoder + q4 decoder recommended)
+model_id = "LiquidAI/LFM2.5-VL-1.6B-ONNX"
+embed_tokens_path = hf_hub_download(model_id, "onnx/embed_tokens_fp16.onnx")
+embed_images_path = hf_hub_download(model_id, "onnx/embed_images_fp16.onnx")
+decoder_path = hf_hub_download(model_id, "onnx/decoder_q4.onnx")
+
+# Download all data files (handles multiple splits for large models)
+from huggingface_hub import list_repo_files
+for f in list_repo_files(model_id):
+    if any(f.startswith(f"onnx/{name}") for name in [
+        "embed_tokens_fp16.onnx_data",
+        "embed_images_fp16.onnx_data",
+        "decoder_q4.onnx_data"
+    ]):
+        hf_hub_download(model_id, f)
+
+# Load ONNX sessions
+embed_tokens = ort.InferenceSession(embed_tokens_path)
+embed_images = ort.InferenceSession(embed_images_path)
+decoder = ort.InferenceSession(decoder_path)
+
+# Load processor
+processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
+
+# Prepare input
+image = Image.open("photo.jpg")
+messages = [{"role": "user", "content": [
+    {"type": "image"},
+    {"type": "text", "text": "What is in this image?"}
+]}]
+
+# Process inputs
+prompt = processor.apply_chat_template(messages, add_generation_prompt=True)
+inputs = processor(images=[image], text=prompt, return_tensors="pt")
+
+# Convert to numpy with correct dtypes
+pixel_values = inputs["pixel_values"].numpy().astype(np.float32)
+pixel_attention_mask = inputs["pixel_attention_mask"].numpy().astype(np.int64)
+spatial_shapes = inputs["spatial_shapes"].numpy().astype(np.int64)
+input_ids = inputs["input_ids"].numpy().astype(np.int64)
+
+# Get image embeddings
+image_outputs = embed_images.run(None, {
+    "pixel_values": pixel_values,
+    "pixel_attention_mask": pixel_attention_mask,
+    "spatial_shapes": spatial_shapes,
+})
+image_embeds = image_outputs[0]
+
+# Get token embeddings
+token_outputs = embed_tokens.run(None, {"input_ids": input_ids})
+token_embeds = token_outputs[0]
+
+# Replace <image> tokens with image embeddings
+image_token_id = processor.tokenizer.convert_tokens_to_ids("<image>")
+image_positions = np.where(input_ids[0] == image_token_id)[0]
+for i, pos in enumerate(image_positions):
+    if i < len(image_embeds):
+        token_embeds[0, pos] = image_embeds[i]
+
+# Initialize KV cache for stateful decoding
+ONNX_DTYPE = {"tensor(float)": np.float32, "tensor(float16)": np.float16, "tensor(int64)": np.int64}
+cache = {}
+for inp in decoder.get_inputs():
+    if inp.name in {"inputs_embeds", "attention_mask", "position_ids"}:
+        continue
+    shape = [d if isinstance(d, int) else 1 for d in inp.shape]
+    for i, d in enumerate(inp.shape):
+        if isinstance(d, str) and "sequence" in d.lower():
+            shape[i] = 0
+    cache[inp.name] = np.zeros(shape, dtype=ONNX_DTYPE.get(inp.type, np.float32))
+
+# Generate tokens
+seq_len = token_embeds.shape[1]
+generated_tokens = []
+
+for step in range(100):  # max tokens
+    if step == 0:
+        embeds = token_embeds.astype(np.float32)
+    else:
+        last_token = np.array([[generated_tokens[-1]]], dtype=np.int64)
+        embeds = embed_tokens.run(None, {"input_ids": last_token})[0].astype(np.float32)
+
+    attn_mask = np.ones((1, seq_len + len(generated_tokens)), dtype=np.int64)
+    feed = {"inputs_embeds": embeds, "attention_mask": attn_mask, **cache}
+
+    outputs = decoder.run(None, feed)
+    next_token = int(np.argmax(outputs[0][0, -1]))
+    generated_tokens.append(next_token)
+
+    # Update cache
+    for i, out in enumerate(decoder.get_outputs()[1:], 1):
+        name = out.name.replace("present_conv", "past_conv").replace("present.", "past_key_values.")
+        if name in cache:
+            cache[name] = outputs[i]
+
+    if next_token == processor.tokenizer.eos_token_id:
+        break
+
+print(processor.tokenizer.decode(generated_tokens, skip_special_tokens=True))
+```
+
+## WebGPU (Browser)
+
+### Installation
+
+```bash
+npm install onnxruntime-web @huggingface/transformers
+```
+
+### Enable WebGPU
+
+WebGPU is required for browser inference. To enable:
+
+1. **Chrome/Edge**: Navigate to `chrome://flags/#enable-unsafe-webgpu`, enable, and restart
+2. **Verify**: Check `chrome://gpu` for "WebGPU" status
+3. **Test**: Run `navigator.gpu.requestAdapter()` in DevTools console
+
+### Inference
+
+```javascript
+import * as ort from "onnxruntime-web/webgpu";
+import { AutoTokenizer } from "@huggingface/transformers";
+
+// Check WebGPU availability
+if (!navigator.gpu) {
+  throw new Error("WebGPU not available. Enable at chrome://flags/#enable-unsafe-webgpu");
+}
+const adapter = await navigator.gpu.requestAdapter();
+if (!adapter) {
+  throw new Error("WebGPU adapter not found. Check chrome://gpu for status.");
+}
+
+ort.env.wasm.numThreads = 1;
+
+const modelId = "LiquidAI/LFM2.5-VL-1.6B-ONNX";
+const modelBase = `https://huggingface.co/${modelId}/resolve/main`;
+
+// Load tokenizer
+const tokenizer = await AutoTokenizer.from_pretrained(modelId);
+
+// Load ONNX sessions with external data
+// For models with multiple data files (>2GB), add additional entries to externalData array
+async function loadSession(name, dataFiles = 1) {
+  const onnxPath = `${modelBase}/onnx/${name}.onnx`;
+  const externalData = [];
+  for (let i = 0; i < dataFiles; i++) {
+    const suffix = i === 0 ? "" : `_${i}`;
+    const fileName = `${name}.onnx_data${suffix}`;
+    externalData.push({ path: fileName, data: `${modelBase}/onnx/${fileName}` });
+  }
+  return ort.InferenceSession.create(onnxPath, {
+    executionProviders: ["webgpu"],
+    externalData,
+  });
+}
+
+const embedTokens = await loadSession("embed_tokens_fp16");
+const embedImages = await loadSession("embed_images_fp16");
+const decoder = await loadSession("decoder_q4");
+
+// Model config (from config.json)
+const hiddenSize = 1536;
+const numKVHeads = 12;
+const headDim = 128;
+
+// Get text embeddings helper
+async function getTextEmbeddings(ids) {
+  const tensor = new ort.Tensor("int64", new BigInt64Array(ids.map(BigInt)), [1, ids.length]);
+  const out = await embedTokens.run({ input_ids: tensor });
+  return out.inputs_embeds;
+}
+
+// Initialize KV cache
+function initCache() {
+  const cache = {};
+  for (const name of decoder.inputNames) {
+    if (name.startsWith("past_conv")) {
+      cache[name] = new ort.Tensor("float32", new Float32Array(hiddenSize * 3), [1, hiddenSize, 3]);
+    } else if (name.startsWith("past_key_values")) {
+      cache[name] = new ort.Tensor("float32", new Float32Array(0), [1, numKVHeads, 0, headDim]);
+    }
+  }
+  return cache;
+}
+
+// Update cache from outputs
+function updateCache(cache, outputs) {
+  for (const [name, tensor] of Object.entries(outputs)) {
+    if (name.startsWith("present_conv")) {
+      cache[name.replace("present_conv", "past_conv")] = tensor;
+    } else if (name.startsWith("present.")) {
+      cache[name.replace("present.", "past_key_values.")] = tensor;
+    }
+  }
+}
+
+// Build prompt and tokenize
+const prompt = tokenizer.apply_chat_template(messages, { add_generation_prompt: true, tokenize: false });
+const inputIds = tokenizer.encode(prompt);
+
+// Get embeddings (for VL: merge image embeddings at <image> token positions)
+let inputsEmbeds = await getTextEmbeddings(inputIds);
+
+// Generation loop
+const cache = initCache();
+const eosTokenId = tokenizer.eos_token_id;
+const generatedTokens = [];
+let curLen = inputsEmbeds.dims[1];
+let embeds = inputsEmbeds;
+
+for (let step = 0; step < 256; step++) {
+  const attentionMask = new ort.Tensor("int64", new BigInt64Array(curLen).fill(1n), [1, curLen]);
+
+  const outputs = await decoder.run({ inputs_embeds: embeds, attention_mask: attentionMask, ...cache });
+
+  // Greedy decode: argmax of last token logits
+  const logits = outputs.logits;
+  const vocabSize = logits.dims[2];
+  const lastLogits = logits.data.slice((logits.dims[1] - 1) * vocabSize);
+  const nextToken = lastLogits.indexOf(Math.max(...lastLogits));
+
+  generatedTokens.push(nextToken);
+  if (nextToken === eosTokenId) break;
+
+  updateCache(cache, outputs);
+  embeds = await getTextEmbeddings([nextToken]);
+  curLen++;
+}
+
+console.log(tokenizer.decode(generatedTokens, { skip_special_tokens: true }));
+```
+
+### WebGPU Notes
+
+- Recommended: `embed_images_fp16.onnx` + `decoder_q4.onnx`
+- For higher quality: `embed_images_fp16.onnx` + `decoder_fp16.onnx`
+- Image preprocessing requires tiling (512×512), patch extraction (16×16), and normalization
+- Large models (>2GB) split weights across multiple files (e.g., `.onnx_data`, `.onnx_data_1`). Use `loadSession(name, dataFiles)` with the number of data files
+- int64 tensors require `BigInt64Array`
+
+## License
+
+This model is released under the [LFM 1.0 License](LICENSE).

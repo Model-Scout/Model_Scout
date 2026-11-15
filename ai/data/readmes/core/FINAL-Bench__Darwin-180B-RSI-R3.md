@@ -40,6 +40,36 @@ tags:
   - vllm
   - openai-compatible
 ---
+<!-- SUPERCLUE-2026-11:START -->
+## 🏆 SuperCLUE November 2026: #1 open-weight model in math and science reasoning
+
+[![SuperCLUE Nov 2026: Darwin-180B-RSI #1 open-weight, #2 overall in math and science reasoning](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_banner_darwin_2026-11.png)](https://www.superclueai.com/homepage)
+
+**This model line was evaluated by [SuperCLUE](https://www.superclueai.com/homepage), China's most widely cited LLM benchmark, on its private November 2026 test set.** Darwin-180B-RSI-R3 scored **73.68 in mathematical and scientific reasoning: #1 among open-weight models and #2 overall** among 19 models, right behind OpenAI's GPT-6.1-Sol (76.32) and ahead of Google Gemini-4-Argon (71.05), DeepSeek-V4.1-Flash (71.05), xAI Grok-4.7 (68.42) and Qwen3.8-Max (68.42). On the overall intelligence index it placed 9th of 19 and 5th among open-weight models. It is the only Korean model on the board.
+
+| Model | Developer | Open weights | Math & science reasoning |
+|---|---|---|---|
+| GPT-6.1-Sol | OpenAI | No | 76.32 |
+| **Darwin-180B-RSI-R3** | **VIDRAFT** | **Yes** | **73.68** |
+| Gemini-4-Argon | Google | No | 71.05 |
+| DeepSeek-V4.1-Flash | DeepSeek | Yes | 71.05 |
+| Grok-4.7 | xAI | No | 68.42 |
+| Qwen3.8-Max-0902 | Alibaba | No | 68.42 |
+| GLM-5.3 | Zhipu AI | Yes | 65.79 |
+| Kimi-K3.1-Pro | Moonshot | Yes | 63.16 |
+| Qwen3.8-Flash (parent of Darwin-180B) | Alibaba | Yes | 57.89 |
+
+Darwin-180B-RSI inherited its expert layers from Qwen3.8-Flash-Next and rebuilt only the attention and shared-expert layers through recursive self-improvement. On the same board the parent, Qwen3.8-Flash, placed 15th overall (39.81) with 57.89 in math and science reasoning; Darwin placed 9th (43.08) with 73.68.
+
+<details><summary>Overall intelligence index, November 2026 (screenshot)</summary>
+
+![SuperCLUE Nov 2026 intelligence index](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_intelligence_index_2026-11.png)
+
+</details>
+
+Source: [SuperCLUE general leaderboard, November 2026](https://www.superclueai.com/homepage) (screenshots taken November 5, 2026). Scores are SuperCLUE's, not VIDRAFT's.
+<!-- SUPERCLUE-2026-11:END -->
+
 
 # Darwin-180B-RSI-R3
 
@@ -69,7 +99,7 @@ tags:
 </p>
 <p align="center">
 <a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI"><img src="https://img.shields.io/badge/Round_1-Darwin--180B--RSI-e11d48?style=for-the-badge"></a>
-<a href="https://arxiv.org/abs/2605.14386"><img src="https://img.shields.io/badge/arXiv-2605.14386_Darwin_Family-b31b1b?style=for-the-badge"></a>
+<a href="https://huggingface.co/papers/2605.14386"><img src="https://img.shields.io/badge/arXiv-2605.14386_Darwin_Family-b31b1b?style=for-the-badge"></a>
 <a href="https://huggingface.co/papers/2609.20269"><img src="https://img.shields.io/badge/Paper-2609.20269_Latin_Square-b31b1b?style=for-the-badge"></a>
 <a href="https://huggingface.co/collections/FINAL-Bench/darwin-family"><img src="https://img.shields.io/badge/🧬_Collection-Darwin_Family-16a34a?style=for-the-badge"></a>
 <a href="https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF"><img src="https://img.shields.io/badge/💻_POCKET_4--bit-Laptop_·_CPU_only_·_DGX_Spark-0f766e?style=for-the-badge"></a>
@@ -367,4 +397,4 @@ Darwin-180B-RSI-R3 is a derivative of **Qwen3.8-Flash-Next** (through Darwin-180
 
 ## 🏢 About
 
-Built by **[VIDRAFT](https://vidraft.net)** · evaluated with **FINAL-Bench**. Part of the [Darwin Family](https://arxiv.org/abs/2605.14386).
+Built by **[VIDRAFT](https://vidraft.net)** · evaluated with **FINAL-Bench**. Part of the [Darwin Family](https://huggingface.co/papers/2605.14386).

@@ -92,6 +92,20 @@ If you consider these releases to be of high quality and they help you in your d
 # Qwen3.8-35B-A3B-Distill-MTP APEX-I-MiniPlus-V2.1 Abliterated GGUF (Uncensored / Zero Refusal)
 ### *The Definitive Uncensored Frontier MoE · True Directional Refusal Ablation · Dedicated Q8_0 MTP & Vision Companions Included · Full 256K Context*
 
+## Run it in V-Agent
+
+[V-Agent](https://github.com/IsValorum/V-Agent) is a free, open-source desktop agent for Windows, made by the author of these quants. It runs this model locally, with tools and clear permissions.
+
+- **Native engines:** **llama.cpp** (CUDA, Vulkan or CPU), **Strata** and **Strata Rust**, installed from their official releases and matched to your hardware.
+- **Built for these quants:** APEX files get their chat template from the official repo, and each quant shows whether it fits your GPU.
+- **Real tools, safely:** files, web search, a browser and MCP servers, with each chat in its own isolated folder and approvals for every action.
+- **Private:** no account, no telemetry; everything runs on your PC.
+
+1. [Download V-Agent](https://github.com/IsValorum/V-Agent/releases/latest) and install it (Windows 10/11, x64).
+2. Open **Models**, search `Qwen3.8-35B-A3B-Distill-MTP-APEX-I-MiniPlus-V2.1-Abliterated-GGUF`, and pick the file marked **Fits on GPU**.
+3. V-Agent downloads it with SHA-256 verification and loads it with this model's chat template.
+
+
 > [!WARNING]
 > ### Known Upstream Long-Generation Limitation
 > The upstream BF16 Distill checkpoint can repeat during very long responses, including after the `<think>` block. EmperoAI acknowledges this long-generation limitation in the original model card and is already working on a Distill V2 intended to address it. This behavior is **not introduced by the APEX-I-MiniPlus quantization**; corresponding MiniPlus V2.1 and MiniPlus V2.1 Abliterated releases will follow when the corrected upstream model becomes available.

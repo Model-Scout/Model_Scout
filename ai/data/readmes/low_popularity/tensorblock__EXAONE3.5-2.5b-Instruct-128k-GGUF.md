@@ -1,0 +1,149 @@
+---
+license: other
+license_name: exaone
+license_link: LICENSE
+language:
+- en
+- ko
+tags:
+- lg-ai
+- exaone
+- exaone-3.5
+- TensorBlock
+- GGUF
+pipeline_tag: text-generation
+library_name: transformers
+base_model: netcat420/EXAONE3.5-2.5b-Instruct-128k
+---
+
+<div style="width: auto; margin-left: auto; margin-right: auto">
+<img src="https://i.imgur.com/jC7kdl8.jpeg" alt="TensorBlock" style="width: 100%; min-width: 400px; display: block; margin: auto;">
+</div>
+
+[![Website](https://img.shields.io/badge/Website-tensorblock.co-blue?logo=google-chrome&logoColor=white)](https://tensorblock.co)
+[![Twitter](https://img.shields.io/twitter/follow/tensorblock_aoi?style=social)](https://twitter.com/tensorblock_aoi)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Us-5865F2?logo=discord&logoColor=white)](https://discord.gg/Ej5NmeHFf2)
+[![GitHub](https://img.shields.io/badge/GitHub-TensorBlock-black?logo=github&logoColor=white)](https://github.com/TensorBlock)
+[![Telegram](https://img.shields.io/badge/Telegram-Group-blue?logo=telegram)](https://t.me/TensorBlock)
+
+
+## netcat420/EXAONE3.5-2.5b-Instruct-128k - GGUF
+
+This repo contains GGUF format model files for [netcat420/EXAONE3.5-2.5b-Instruct-128k](https://huggingface.co/netcat420/EXAONE3.5-2.5b-Instruct-128k).
+
+The files were quantized using machines provided by [TensorBlock](https://tensorblock.co/), and they are compatible with llama.cpp as of [commit b4823](https://github.com/ggml-org/llama.cpp/commit/5bbe6a9fe9a8796a9389c85accec89dbc4d91e39).
+
+## Our projects
+<table border="1" cellspacing="0" cellpadding="10">
+  <tr>
+    <th colspan="2" style="font-size: 25px;">Forge</th>
+  </tr>
+  <tr>
+    <th colspan="2">
+      <img src="https://imgur.com/faI5UKh.jpeg" alt="Forge Project" width="900"/>
+    </th>
+  </tr>
+  <tr>
+    <th colspan="2">An OpenAI-compatible multi-provider routing layer.</th>
+  </tr>
+  <tr>
+    <th colspan="2">
+      <a href="https://github.com/TensorBlock/forge" target="_blank" style="
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #FF7F50;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-family: sans-serif;
+      ">🚀 Try it now! 🚀</a>
+    </th>
+  </tr>
+
+  <tr>
+    <th style="font-size: 25px;">Awesome MCP Servers</th>
+    <th style="font-size: 25px;">TensorBlock Studio</th>
+  </tr>
+  <tr>
+    <th><img src="https://imgur.com/2Xov7B7.jpeg" alt="MCP Servers" width="450"/></th>
+    <th><img src="https://imgur.com/pJcmF5u.jpeg" alt="Studio" width="450"/></th>
+  </tr>
+  <tr>
+    <th>A comprehensive collection of Model Context Protocol (MCP) servers.</th>
+    <th>A lightweight, open, and extensible multi-LLM interaction studio.</th>
+  </tr>
+  <tr>
+    <th>
+      <a href="https://github.com/TensorBlock/awesome-mcp-servers" target="_blank" style="
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #FF7F50;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-family: sans-serif;
+      ">👀 See what we built 👀</a>
+    </th>
+    <th>
+      <a href="https://github.com/TensorBlock/TensorBlock-Studio" target="_blank" style="
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #FF7F50;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-family: sans-serif;
+      ">👀 See what we built 👀</a>
+    </th>
+  </tr>
+</table>
+## Prompt template
+
+```
+[|system|]{system_prompt}[|endofturn|]
+[|user|]{prompt}
+[|assistant|]
+```
+
+## Model file specification
+
+| Filename | Quant type | File Size | Description |
+| -------- | ---------- | --------- | ----------- |
+| [EXAONE3.5-2.5b-Instruct-128k-Q2_K.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q2_K.gguf) | Q2_K | 1.010 GB | smallest, significant quality loss - not recommended for most purposes |
+| [EXAONE3.5-2.5b-Instruct-128k-Q3_K_S.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q3_K_S.gguf) | Q3_K_S | 1.141 GB | very small, high quality loss |
+| [EXAONE3.5-2.5b-Instruct-128k-Q3_K_M.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q3_K_M.gguf) | Q3_K_M | 1.249 GB | very small, high quality loss |
+| [EXAONE3.5-2.5b-Instruct-128k-Q3_K_L.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q3_K_L.gguf) | Q3_K_L | 1.346 GB | small, substantial quality loss |
+| [EXAONE3.5-2.5b-Instruct-128k-Q4_0.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q4_0.gguf) | Q4_0 | 1.425 GB | legacy; small, very high quality loss - prefer using Q3_K_M |
+| [EXAONE3.5-2.5b-Instruct-128k-Q4_K_S.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q4_K_S.gguf) | Q4_K_S | 1.433 GB | small, greater quality loss |
+| [EXAONE3.5-2.5b-Instruct-128k-Q4_K_M.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q4_K_M.gguf) | Q4_K_M | 1.497 GB | medium, balanced quality - recommended |
+| [EXAONE3.5-2.5b-Instruct-128k-Q5_0.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q5_0.gguf) | Q5_0 | 1.693 GB | legacy; medium, balanced quality - prefer using Q4_K_M |
+| [EXAONE3.5-2.5b-Instruct-128k-Q5_K_S.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q5_K_S.gguf) | Q5_K_S | 1.693 GB | large, low quality loss - recommended |
+| [EXAONE3.5-2.5b-Instruct-128k-Q5_K_M.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q5_K_M.gguf) | Q5_K_M | 1.730 GB | large, very low quality loss - recommended |
+| [EXAONE3.5-2.5b-Instruct-128k-Q6_K.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q6_K.gguf) | Q6_K | 1.978 GB | very large, extremely low quality loss |
+| [EXAONE3.5-2.5b-Instruct-128k-Q8_0.gguf](https://huggingface.co/tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF/blob/main/EXAONE3.5-2.5b-Instruct-128k-Q8_0.gguf) | Q8_0 | 2.560 GB | very large, extremely low quality loss - not recommended |
+
+
+## Downloading instruction
+
+### Command line
+
+Firstly, install Huggingface Client
+
+```shell
+pip install -U "huggingface_hub[cli]"
+```
+
+Then, downoad the individual model file the a local directory
+
+```shell
+huggingface-cli download tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF --include "EXAONE3.5-2.5b-Instruct-128k-Q2_K.gguf" --local-dir MY_LOCAL_DIR
+```
+
+If you wanna download multiple model files with a pattern (e.g., `*Q4_K*gguf`), you can try:
+
+```shell
+huggingface-cli download tensorblock/EXAONE3.5-2.5b-Instruct-128k-GGUF --local-dir MY_LOCAL_DIR --local-dir-use-symlinks False --include='*Q4_K*gguf'
+```

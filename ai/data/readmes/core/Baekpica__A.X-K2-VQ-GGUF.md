@@ -499,9 +499,9 @@ source model, **not this quantization**, which will score lower.
 - Anyone re-running the source through transformers must replace its
   router's 0.0 group fill with −inf (above), or the reference itself is wrong.
 - ds4-dfm-rs serves one 262K bank at 512-row prefill chunks with the default
-  floor (2,048 with `--mem-floor-gb 2`); banks, partial prefix reuse, disk KV
-  and session snapshots work but are not yet release-qualified, and decode is
-  plain (~15 tok/s).
+  floor (2,048 with `--mem-floor-gb 2`); `ds4 --serving-check` qualifies banks,
+  partial prefix reuse, disk KV and session snapshots ([record](https://github.com/Baekpica/ds4-dfm-rs/blob/b32e44f7a2f5c8ad66d7fba3d8897c4803b9ae16/docs/benchmarks/serving-checklist-2026-11-02/README.md)),
+  and decode is plain (~15 tok/s).
 - Calibration weighting changes which errors the codebook keeps small; it
   cannot add the information that ~1.1 bits per weight drop.
 

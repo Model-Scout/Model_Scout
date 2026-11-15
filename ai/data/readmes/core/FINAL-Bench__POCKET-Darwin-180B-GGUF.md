@@ -18,219 +18,298 @@ tags:
   - on-device
   - moe
 ---
+<!-- POCKET-27B-DISCOVERY:START -->
+<p align="center">
+  <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF"><img src="https://img.shields.io/badge/NEW%20POCKET--27B-Q6__K%20%C2%B7%2022.43%20GB-55cbb4?style=for-the-badge" alt="New POCKET-27B: Qwen3.8-27B, Q6_K, 22.43 GB - model card and downloads"></a>
+</p>
+<p align="center"><b>Meet POCKET-27B.</b> Qwen3.8-27B in ARCHsloth Q6_K GGUF. <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF/tree/main">Choose files &amp; download</a> · <a href="https://huggingface.co/FINAL-Bench/POCKET-27B-GGUF#quality-and-evaluation">Quality &amp; limits</a></p>
+<!-- POCKET-27B-DISCOVERY:END -->
 
-> ### ⭐ Latest and flagship models
-> [![VKORE-46M-NPU](https://img.shields.io/badge/%F0%9F%86%95_VKORE--46M--NPU-pretraining_on_NPU-6c3fd1?style=for-the-badge)](https://huggingface.co/FINAL-Bench/VKORE-46M-NPU) [![Darwin-27B-ZTC-v5](https://img.shields.io/badge/Darwin--27B--ZTC--v5-S1MB_%231_EN+JP-ff6b8b?style=for-the-badge)](https://huggingface.co/FINAL-Bench/Darwin-27B-ZTC-v5)
-> [![POCKET family](https://img.shields.io/badge/%F0%9F%A4%97-POCKET_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6) [![Darwin family](https://img.shields.io/badge/%F0%9F%A4%97-Darwin_family-ffb020)](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193) [![All models](https://img.shields.io/badge/%F0%9F%A4%97-FINAL--Bench-ffb020)](https://huggingface.co/FINAL-Bench) [![Website](https://img.shields.io/badge/%F0%9F%8C%90-vidraft.net-4ea8ff)](https://vidraft.net) [![THE VC](https://img.shields.io/badge/%F0%9F%93%8A-THE_VC-0a66c2)](https://thevc.kr/vidraft)
+<!-- SUPERCLUE-2026-11:START -->
+## 🏆 SuperCLUE November 2026: #1 open-weight model in math and science reasoning
+
+[![SuperCLUE Nov 2026: Darwin-180B-RSI #1 open-weight, #2 overall in math and science reasoning](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_banner_darwin_2026-11.png)](https://www.superclueai.com/homepage)
+
+**This GGUF is the on-device build of Darwin-180B-RSI-R3, the model that [SuperCLUE](https://www.superclueai.com/homepage), China's most widely cited LLM benchmark, scored 73.68 in mathematical and scientific reasoning on its private November 2026 test set: #1 among open-weight models and #2 overall** among 19 models, right behind OpenAI's GPT-6.1-Sol (76.32) and ahead of Gemini-4-Argon, DeepSeek-V4.1-Flash, Grok-4.7 and Qwen3.8-Max. Overall index: 9th of 19, 5th among open-weight models. The only Korean model on the board.
+
+| Model | Developer | Open weights | Math & science reasoning |
+|---|---|---|---|
+| GPT-6.1-Sol | OpenAI | No | 76.32 |
+| **Darwin-180B-RSI-R3** | **VIDRAFT** | **Yes** | **73.68** |
+| Gemini-4-Argon | Google | No | 71.05 |
+| DeepSeek-V4.1-Flash | DeepSeek | Yes | 71.05 |
+| Grok-4.7 | xAI | No | 68.42 |
+| Qwen3.8-Max-0902 | Alibaba | No | 68.42 |
+| GLM-5.3 | Zhipu AI | Yes | 65.79 |
+| Kimi-K3.1-Pro | Moonshot | Yes | 63.16 |
+| Qwen3.8-Flash (parent of Darwin-180B) | Alibaba | Yes | 57.89 |
+
+Darwin-180B-RSI inherited its expert layers from Qwen3.8-Flash-Next and rebuilt only the attention and shared-expert layers through recursive self-improvement. On the same board the parent, Qwen3.8-Flash, placed 15th overall (39.81) with 57.89 in math and science reasoning; Darwin placed 9th (43.08) with 73.68.
+
+<details><summary>Overall intelligence index, November 2026 (screenshot)</summary>
+
+![SuperCLUE Nov 2026 intelligence index](https://huggingface.co/datasets/VIDraft/press-assets/resolve/main/press/superclue_intelligence_index_2026-11.png)
+
+</details>
+
+Source: [SuperCLUE general leaderboard, November 2026](https://www.superclueai.com/homepage) (screenshots taken November 5, 2026). Scores are SuperCLUE's, not VIDRAFT's.
+<!-- SUPERCLUE-2026-11:END -->
 
 
 # POCKET-Darwin-180B-GGUF
 
-<p align="center">
-<a href="https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF"><img src="https://img.shields.io/badge/POCKET-4--bit_GGUF_·_111_GB-0f766e?style=for-the-badge"></a>
-<a href="#quality--before-vs-after-quantization"><img src="https://img.shields.io/badge/Quality-=_BF16_(87.65%25)-16a34a?style=for-the-badge"></a>
-<a href="#where-it-runs"><img src="https://img.shields.io/badge/💻_Laptop-8GB_GPU_%2B_32GB_RAM_·_4.17_tok%2Fs-9333ea?style=for-the-badge"></a>
-<a href="#where-it-runs"><img src="https://img.shields.io/badge/CPU_only-18--21_tok%2Fs-0369a1?style=for-the-badge"></a>
-<a href="#device-classes-and-recommended-specs"><img src="https://img.shields.io/badge/🧊_Mini_PC-128GB_RAM_·_no_GPU-0d9488?style=for-the-badge"></a>
-<a href="#where-it-runs"><img src="https://img.shields.io/badge/NVIDIA-DGX_Spark_·_1_machine-76b900?style=for-the-badge"></a>
-<a href="#ztc-zero-token-confidence"><img src="https://img.shields.io/badge/ZTC-AUC_0.758-7c3aed?style=for-the-badge"></a>
-<a href="https://github.com/ggml-org/llama.cpp"><img src="https://img.shields.io/badge/llama.cpp-b11048%2B-111827?style=for-the-badge"></a>
-</p>
-<p align="center">
-<a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI"><img src="https://img.shields.io/badge/🧬_Original-Darwin--180B--RSI-e11d48?style=for-the-badge"></a>
-<a href="https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3"><img src="https://img.shields.io/badge/🔁_RSI_Round_2-Darwin--180B--RSI--R3-be123c?style=for-the-badge"></a>
-</p>
-<p align="center">
-<a href="https://vidraft.net"><img src="https://img.shields.io/badge/🌐_VIDRAFT-vidraft.net-111827?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/Idavidrein/gpqa"><img src="https://img.shields.io/badge/GPQA_Diamond-94.44%25_%231-gold?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro"><img src="https://img.shields.io/badge/MMLU--Pro-88.12%25_%231-2563eb?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/MMMU/MMMU_Pro"><img src="https://img.shields.io/badge/MMMU--Pro-79.48%25_%231-0891b2?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/MathArena/aime_2026"><img src="https://img.shields.io/badge/AIME_2026-100%25_%231-dc2626?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/MathArena/hmmt_feb_2026"><img src="https://img.shields.io/badge/HMMT_Feb_2026-100%25_%231-ea580c?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/LEXam-Benchmark/LEXam"><img src="https://img.shields.io/badge/LEXam_(Law)-68.94%25_%231-4f46e5?style=for-the-badge"></a>
-<a href="https://huggingface.co/datasets/joelniklaus/LEXam-hard"><img src="https://img.shields.io/badge/LEXam--hard_(Law)-45.72_%231-6d28d9?style=for-the-badge"></a>
-<a href="https://huggingface.co/FINAL-Bench/Darwin-27B-RSI"><img src="https://img.shields.io/badge/Self--Improving-RSI-e11d48?style=for-the-badge"></a>
-<a href="https://huggingface.co/collections/FINAL-Bench/ztc-models-jev-ecosystems"><img src="https://img.shields.io/badge/ZTC-Zero--Token_Confidence-7c3aed?style=for-the-badge"></a>
-</p>
-<p align="center">
-<a href="https://arxiv.org/abs/2605.14386"><img src="https://img.shields.io/badge/arXiv-2605.14386_Darwin_Family-b31b1b?style=for-the-badge"></a>
-<a href="https://huggingface.co/papers/2609.20269"><img src="https://img.shields.io/badge/Paper-2609.20269_Latin_Square-b31b1b?style=for-the-badge"></a>
-<a href="https://huggingface.co/collections/FINAL-Bench/darwin-family"><img src="https://img.shields.io/badge/🧬_Collection-Darwin_Family-16a34a?style=for-the-badge"></a>
-<a href="https://huggingface.co/collections/FINAL-Bench/ztc-models-jev-ecosystems"><img src="https://img.shields.io/badge/🏛️_Collection-ZTC_Models-7c3aed?style=for-the-badge"></a>
-</p>
+Text-only RSI reasoning in a 111.3 GB, four-shard GGUF: choose a CPU-server or hybrid laptop setup.
 
+![POCKET-Darwin-180B overview: text-only reasoning, four required shards, separate CPU and hybrid modes](./pocket-overview.svg)
 
-**A 180B frontier model from a laptop to DGX Spark.** A 4-bit GGUF build of [Darwin-180B-RSI-R3](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3) (111.3 GB, 4 files) for llama.cpp. It runs on a **gaming laptop with an 8 GB GPU and 32 GB RAM**, a **128 GB mini PC**, a CPU-only server, a single datacenter GPU, or **NVIDIA DGX Spark**.
+[Download files](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF/tree/main) · [Setup guide](https://vidraft.net/p/pocket.html?model=pocket_darwin_180b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_darwin_180b_model_card_top) · [Benchmarks](#quality-and-evaluation)
 
-- **Quality kept:** MMLU-Pro (2,000 questions, paired) **87.65% vs 87.65%** for the BF16 original, difference **+0.00 points, 95% CI [−0.95, +1.00]**.
-- **Runs on a laptop:** **4.17 tokens/s** on an RTX 5060 Laptop GPU (8 GB) with 32 GB RAM.
-- **Runs without a GPU:** **18–21 tokens/s** on one server CPU socket, **78.8 GB peak RAM**.
-- **Runs on a mini PC:** any mini PC with **128 GB RAM** holds the whole model in memory, no GPU needed.
-- **Built-in confidence:** ZTC AUC **0.758** reading its own state; the 20% of questions it is most sure about are **97.5%** correct. Probe file and script included in [`ztc/`](./ztc).
-- **Shorter answers:** on the same 2,000 questions, answers average **3,694 tokens vs 4,322** for the same-format parent build (−14.5%).
+[POCKET-35B](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) · [POCKET-26B](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) · [POCKET-Darwin-180B](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF)
 
-## From an 8-GPU server to a laptop
+## At a glance
 
-| | Darwin-180B-RSI original (BF16) | **POCKET-Darwin-180B (this model)** |
-|---|---|---|
-| Size | 360 GB (131 files) | **111.3 GB (4 files)** |
-| Hardware | **4–8× NVIDIA B200**, or **8× NVIDIA H100 (80 GB)** | **a laptop with an 8 GB GPU and 32 GB RAM** · a 128 GB mini PC · a CPU-only server · one DGX Spark |
-| Hardware cost (industry estimate) | an 8× H100 server: roughly **USD 350,000+** | a gaming laptop: roughly **USD 1,500** |
-| MMLU-Pro | 87.65% | **87.65% (identical)** |
-
-At BF16 the original weighs 360 GB, more than four 80 GB H100s can hold, so in practice it is served on an 8-GPU H100 server; we ran it on 4× B200, and the original card recommends 8× B200. POCKET brings that class of model to a personal computer.
-
-## Darwin + POCKET in one picture
-
-- **Darwin (model-level RSI):** built on **Qwen3.8-Flash-Next** (180B MoE, 512 routed experts). The model solves verifiable problems, keeps only its own checked-correct solutions and trains on them, no human-written answers. Only attention paths and shared experts are trained; the experts, router, per-layer n-gram embeddings and MTP head stay intact.
-- **POCKET (on-device):** a graft onto the widely used UD-Q4_K_XL layout, exactly the 300 R3-changed tensors re-encoded in the layout's own format, every other byte identical; about **3B active parameters** per token; experts read on demand from SSD via memory mapping.
-
-## What this is
-
-Darwin-180B-RSI is [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) improved by **model-level recursive self-improvement (RSI)**: the model solves verifiable problems, keeps only its own solutions that check out, and trains on them, no human-written solutions. R3 is the second round on top of R1.
-
-Only 300 tensors changed between the parent and R3 (attention paths and shared experts; all 512 routed experts, the router, the per-layer n-gram embeddings and the MTP head are unchanged). So this build takes the widely used [Unsloth UD-Q4_K_XL](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF) layout of the parent and replaces exactly those 300 tensors with R3's weights, encoded in the same format the layout uses for them (Q8_0). Every other byte is identical to the parent build.
-
-Verified before release:
-- all 300 target tensors found, same type and size, read back equal to R3, 300/300
-- conversion verified against the parent build: 570 untouched tensors byte-identical
-- loads and runs in llama.cpp b11048
-
-## Quality, before vs after quantization
-
-MMLU-Pro, 2,000 questions stratified by subject (fixed by question-id hash, never chosen by looking at results), 0-shot CoT, temperature 1.0, top-p 0.95, top-k 20, min-p 0, seed 7, up to 131K tokens. Paired bootstrap 95% CI on the same questions.
-
-| Build | Accuracy | Paired difference |
-|---|---|---|
-| Darwin-180B-RSI-R3 BF16 (vLLM) | 87.65% | - |
-| **POCKET-Darwin-180B-GGUF (this, llama.cpp)** | **87.65%** | **vs R3 BF16: +0.00 [−0.95, +1.00]** |
-
-Zero truncated answers. **4-bit quantization costs nothing measurable.**
-
-## The RSI gain carries over
-
-Model-level RSI lifted R3 over R1 on held-out SuperGPQA by **+1.03 points (95% CI [+0.05, +2.00], statistically significant)**: 1,000 questions never used in training or selection. Because this build keeps every R3-changed tensor at 8-bit and matches R3 BF16 exactly on MMLU-Pro, it carries that gain to a single machine. See the [R3 card](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3).
-
-## Same budget, more answers: R0 vs R3 inside the same 4-bit build
-
-This build is the parent's public UD-Q4_K_XL file with only the 300 RSI-changed tensors swapped in, so comparing it with the parent 4-bit build isolates the effect of RSI: everything else is byte-identical.
-
-Held-out SuperGPQA, 1,000 questions never used in training or selection, 4 samples each, 16K generation budget, same settings for both:
-
-| Build | Mean of 4 | Single sample | Majority of 4 |
-|---|---:|---:|---:|
-| Parent Qwen3.8-Flash-Next UD-Q4_K_XL (R0) | 59.10% | 58.70% | 63.60% |
-| **POCKET-Darwin-180B (R3, this)** | **61.55%** | **62.20%** | **65.90%** |
-
-Paired difference (mean of 4): **+2.45 points, 95% CI [+1.54, +3.36]**. Majority of 4 is over answered samples; ties go to the answer that appears first in sample order (seeds 21 to 24).
-
-POCKET reasons more concisely, so more of its answers finish within the same budget (675 vs 798 of 4,000 samples reached the 16K cap) and it uses fewer tokens: **13% less per question** (geometric mean of per-question ratios) and **10% less in total** (6,716 to 6,051 tokens on average). The largest gains are on the longest questions, where the parent often runs out of budget before answering.
-
-## Reference, the original Darwin-180B-RSI (BF16) benchmark results
-
-POCKET carries the weights of the Darwin-180B-RSI line. For reference, these are the official results of the original BF16 model ([Darwin-180B-RSI](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI)), **#1 on seven Hugging Face official leaderboards**.
-
-| Benchmark | Score | Setting | Leaderboard |
-|:---|:---:|:---|:---|
-| **GPQA Diamond** (198) | **94.44** | majority vote over up to 16 samples · 131,072-token thinking budget | [**#1**](https://huggingface.co/datasets/Idavidrein/gpqa) |
-| **MMLU-Pro** (12,032) | **88.12** | single sample · 131,072-token thinking budget | [**#1**](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro) |
-| **AIME 2026** (30) | **100.0** | majority vote over 16 samples (mean accuracy 98.75) · 131,072-token thinking budget | [**#1**](https://huggingface.co/datasets/MathArena/aime_2026) |
-| **HMMT Feb 2026** (33) | **100.0** | majority vote over 16 samples (mean accuracy 96.59) · 131,072-token thinking budget | [**#1**](https://huggingface.co/datasets/MathArena/hmmt_feb_2026) |
-| **MMMU-Pro** (vision, 1,730) | **79.48** | majority vote over 3 samples · 131,072-token thinking budget | [**#1**](https://huggingface.co/datasets/MMMU/MMMU_Pro) |
-| **LEXam** (law, MCQ 4-choice, 1,655) | **68.94** | majority vote over 4 samples (single sample 60.54 · mean 61.42) · 32,768-token thinking budget | [**#1**](https://huggingface.co/datasets/LEXam-Benchmark/LEXam) |
-| **LEXam-hard** (law, open-ended, 518) | **45.72** | single sample · 32,768-token thinking budget (60 truncated answers regenerated at 120K) · judged by DeepSeek-R1-0528 per the official eval.yaml | [**#1**](https://huggingface.co/datasets/joelniklaus/LEXam-hard) |
-
-Head-to-head with frontier models (published scores):
-
-| Model | AIME 2026 | GPQA Diamond | MMLU-Pro | MMMU-Pro | HMMT Feb 2026 | LEXam | LEXam-hard |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **🧬 Darwin-180B-RSI (ours · 🇰🇷)** | **100** 🥇 | **94.44** 🥇 | **88.12** 🥇 | **79.48** 🥇 | **100** 🥇 | **68.94** 🥇 | **45.72** 🥇 |
-| Inkling (Thinking Machines) | - | - | - | - | - | - | 40.82 |
-| Kimi-K3 (Moonshot AI) | - | 93.5 | - | - | - | - | 29.54 |
-| Kimi-K2.6 (Moonshot AI) | 96.4 | 90.5 | - | 79.4 | 92.7 | - | 36.18 |
-| DeepSeek-V4-Pro (DeepSeek) | - | 90.1 | 87.5 | - | - | - | 38.93 |
-| Qwen3.5-397B-A17B (Alibaba) | 93.33 | 88.4 | 87.8 | - | 87.88 | - | - |
-| MiniMax-M2.1 (MiniMax) | - | 80.81 | 88 | - | - | - | - |
-| GLM-5 (Zhipu AI) | 95.83 | 86 | 86 | - | 86.36 | - | - |
-| Intern-S2-Preview (Shanghai AI Lab) | - | - | 88 | 76.88 | 87.31 | - | - |
-| Step-3.5-Flash (StepFun) | 96.67 | 83.5 | 84.4 | - | 86.36 | - | - |
-| DeepSeek-R1 (DeepSeek) | - | - | - | - | - | 52.41 | - |
-| Qwen3-235B-A22B-Thinking-2507 (Alibaba) | - | - | - | - | - | 48.19 | - |
-
-Settings for the reference results: BF16, vLLM, temperature 1.0 · top-p 0.95 · top-k 20, up to 131,072 thinking tokens; voting as listed per benchmark (see the [original card](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI#evaluation-protocol)).
-
-## ZTC: zero-token confidence
-
-ZTC reads a "will this answer be right?" signal from the model's own hidden state at the last prompt token, **before it writes a single token**. One forward pass over the prompt, no answer tokens, no second model. Use it to send uncertain questions to a second pass, more samples, or a human.
-
-**Included in this repository:** [`ztc/`](./ztc) with the probe file (32 KB), a usage script for llama.cpp, and a one-line llama.cpp patch for hidden-state output.
-
-Self-readout on MMLU-Pro (2,000 questions; POCKET answers, ZTC reads POCKET's own state; 5-fold cross-validated):
-
-| | |
+| Item | Details |
 |---|---|
-| ZTC AUC | **0.758** |
-| Accuracy of the 20% most confident questions | **97.5%** |
-| Accuracy over all questions | 87.6% |
-| Wrong answers caught by reviewing only the 20% least confident | **46% of all wrong answers** |
+| Artifact | Text-only 180B sparse MoE, approximately 3B active parameters per token; UD-Q4_K_XL GGUF |
+| Starting checkpoint | [FINAL-Bench/Darwin-180B-RSI-R3](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3) |
+| Recommended first build | The supplied four-shard build; all four files are required, about 111.3 GB total |
+| Hardware | CPU server with sufficient RAM, or a separately configured GPU/CPU/SSD hybrid path |
+| Runtime | Original publisher minimum: llama.cpp b11048 with qwen4exp support; check the installed build |
+| License | Qwen Community License 1.0, **not Apache-2.0**; see [License and attribution](#license-and-attribution) |
+| Evidence status | Publisher measurements with device-specific conditions below |
 
-Cross-model readout (same 400 questions with answers written by another model, same readout procedure):
+The vision encoder is not included. Parent BF16 vision scores and multi-sample benchmark results are reference material, not measurements of this text-only GGUF.
 
-| Build | ZTC AUC |
-|---|---|
-| Qwen3.8-Flash-Next BF16 (parent original) | 0.715 |
-| Qwen3.8-Flash-Next 4-bit (same layout) | 0.722 |
-| **POCKET-Darwin-180B (this model)** | **0.742** |
+## Choose your build
 
-## Where it runs
-
-Per token the model activates only about **3B parameters** (10 of 512 experts). llama.cpp memory-maps the file, so the experts a token needs can be read straight from a fast SSD, the whole 111 GB does **not** have to fit in memory. More memory simply means more of the model stays resident and it runs faster.
-
-### Measured
-
-| Device | Specs | Speed (generation) | How it runs |
+| Build | File size | Memory guidance | Best for |
 |---|---|---|---|
-| **💻 Gaming laptop** | NVIDIA GeForce **RTX 5060 Laptop (8 GB VRAM)** · **32 GB RAM** · NVMe SSD | **4.17 tok/s** | llama.cpp with the model memory-mapped from the SSD, experts are read on demand |
-| **🖥️ CPU-only server** | AMD EPYC 9365, **1 socket · 16 threads**, no GPU | **18.4–21.0 tok/s** (prompt 54–68 tok/s) | whole model in RAM, **peak 78.8 GB**, load 85 s |
-| **🟩 NVIDIA DGX Spark** | GB10 · **128 GB unified memory** | **39.25 tok/s** (single stream, reference build of identical size and layout) | fully resident on one Spark, no swap, no throttling |
-| **⚡ NVIDIA B200** | 1 GPU (183 GB) | runs 8–16 parallel sessions of 131K context | 110–140 GB VRAM |
+| [UD-Q4_K_XL — all four shards](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF/tree/main) | About 111.3 GB total | CPU-server and hybrid requirements differ; see the hardware table | The supplied Darwin-R3 reasoning package |
 
-### Device classes and recommended specs
+There is no smaller quantization alternative in this repository. Download **all four**, keep their original names in the same directory and open the first shard. No merge is required.
 
-| Class | Example devices | Memory | Disk | Mode |
-|---|---|---|---|---|
-| **Entry, laptop / desktop** | RTX 4060/5060 laptops, RTX 3060–5090 desktops | **32 GB RAM + 8 GB+ VRAM** | **NVMe SSD, 120 GB free** | experts streamed from SSD; speed follows SSD and RAM bandwidth |
-| **🧊 Mini PC** | mini PCs with **128 GB RAM** (DDR5 SO-DIMM or LPDDR5X), e.g. AMD Ryzen AI Max+ 395 mini PCs, Intel Core Ultra / AMD Ryzen mini PCs | **128 GB RAM** | NVMe SSD, 120 GB free | whole model in RAM, CPU only, or with the integrated GPU |
-| **Workstation** | desktop with 96–128 GB RAM + any NVIDIA GPU | 96–128 GB RAM | NVMe SSD | experts in RAM (`--cpu-moe`), rest on GPU |
-| **Unified-memory AI PC** | NVIDIA DGX Spark · Apple M-series 128 GB+ · AMD Ryzen AI Max+ 395 (128 GB) | 128 GB | NVMe SSD | fully resident |
-| **CPU server** | AMD EPYC / Intel Xeon, 96 GB+ RAM | 96 GB+ | any | whole model in RAM (`--load-mode none`) |
-| **Datacenter GPU** | NVIDIA B200 / H200 (one card), 2× RTX PRO 6000 | 141 GB+ VRAM | any | fully on GPU, many parallel users |
+| Required file | Role |
+|---|---|
+| POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf | Entry shard passed to llama.cpp |
+| POCKET-Darwin-180B-UD-Q4_K_XL-00002-of-00004.gguf | Required sibling |
+| POCKET-Darwin-180B-UD-Q4_K_XL-00003-of-00004.gguf | Required sibling |
+| POCKET-Darwin-180B-UD-Q4_K_XL-00004-of-00004.gguf | Required sibling |
 
-Peak RAM in the CPU run is below the file size because llama.cpp reads the per-layer n-gram embeddings from the file on demand.
+File size is not a complete RAM budget. Reserve the full model size on disk **plus** sufficient cache, temporary-download and free-space headroom for your CLI/filesystem. The original card's 120 GB storage suggestion is not a universal total-disk guarantee. Hybrid laptop mode relies on fast local SSD access rather than fitting the full file set into 32 GB RAM.
 
-## Run
+## Download and run
 
-Requires llama.cpp **b11048 or newer** (architecture `qwen4exp`).
+Install the [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/guides/cli) and a [llama.cpp build](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md) with qwen4exp support. The original publisher reports b11048; that revision contains an [official implementation](https://github.com/ggml-org/llama.cpp/blob/b11048/src/models/qwen4exp.cpp), but source availability does not independently verify every upload, app or later release.
+
+**1. Download all four required shards.**
 
 ```bash
-# DGX Spark / single large GPU
-llama-server -m POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf -ngl 999 -fa on -c 131072 --jinja
-# Laptop / desktop with 8 GB+ VRAM and 32 GB+ RAM (experts streamed from SSD)
-llama-server -m POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf -ngl 999 --cpu-moe -fa on -c 8192 --jinja
-# CPU only
-llama-server -m POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf -ngl 0 -t 16 -c 8192 --jinja --load-mode none
+hf download FINAL-Bench/POCKET-Darwin-180B-GGUF --revision 69fc3dd1409507de5dc12d81767f909ac2511567 --include "POCKET-Darwin-180B-UD-Q4_K_XL-*.gguf" --local-dir ./POCKET-Darwin-180B
 ```
 
-Recommended sampling: temperature 1.0, top-p 0.95, top-k 20. It is a reasoning model, give it room (≥ 2,048 output tokens); the reasoning is returned in `reasoning_content`.
+**2. Run on a suitably provisioned CPU server.**
 
-Text model (the vision encoder is left out to keep the build compact).
+```bash
+llama-server -m ./POCKET-Darwin-180B/POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf --device none -ngl 0 -t 16 -c 8192 --jinja --load-mode none --host 127.0.0.1 --port 8080
+```
 
-## Coming next
+All four shards must be present before the server starts. Open `http://127.0.0.1:8080` after loading and submit a text prompt. The expected result is a local chat response, not a fixed benchmark answer. This example is **not** the 32 GB laptop configuration; it needs sufficient CPU-server RAM.
 
-- DGX Spark throughput figures for this build.
+Commands use the standalone llama.cpp executable names. Some distributions expose a unified `llama` launcher; consult that distribution's help and the [official model-loading documentation](https://github.com/ggml-org/llama.cpp/blob/master/docs/models.md). The CPU example uses `--device none` to disable GPU acceleration. `--load-mode none` selects a **loading strategy**, not CPU mode.
 
-## Credits and license
+<details>
+<summary>Optional hybrid laptop and large-GPU commands</summary>
 
-- Base model: [Qwen/Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) by the Qwen team, Alibaba, Qwen Community License 1.0 (see `LICENSE`).
-- GGUF layout: [unsloth/Qwen3.8-Flash-Next-GGUF](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF) (UD-Q4_K_XL).
-- RSI training and this build: VIDRAFT (FINAL-Bench).
+The original card reports a laptop run with an RTX 5060 Laptop GPU, 8 GB VRAM, 32 GB RAM and NVMe SSD. This is a **hybrid GPU/CPU/SSD** configuration, not a no-GPU result:
+
+```bash
+llama-server -m ./POCKET-Darwin-180B/POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf -ngl 999 --cpu-moe -fa on -c 8192 --jinja --host 127.0.0.1 --port 8080
+```
+
+`--cpu-moe` keeps expert weights on the CPU side; other operations can still use the GPU. Usable speed depends on SSD access, RAM bandwidth, context and runtime behavior.
+
+For a large GPU or a supported unified-memory system with sufficient available memory, the original card gives:
+
+```bash
+llama-server -m ./POCKET-Darwin-180B/POCKET-Darwin-180B-UD-Q4_K_XL-00001-of-00004.gguf -ngl 999 -fa on -c 131072 --jinja --host 127.0.0.1 --port 8080
+```
+
+This larger context needs additional runtime memory. It is not a guarantee for every 128 GB device.
+
+</details>
+
+The publisher recommends temperature 1.0, top-p 0.95 and top-k 20. This is a reasoning model: allow at least 2,048 output tokens when the task and available context permit, and distinguish reasoning from the final answer. The original integration reports reasoning through `reasoning_content`; response formatting depends on the serving version and client.
+
+These command examples were syntax-reviewed but not executed during this review.
+
+For installation, shard errors and hardware selection, use the [model-specific setup guide](https://vidraft.net/p/pocket.html?model=pocket_darwin_180b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_darwin_180b_quickstart_help). Model files remain directly available from Hugging Face without a VIDRAFT login.
+
+## Runtime compatibility
+
+| Runtime | Requirement | Evidence and limits |
+|---|---|---|
+| llama.cpp | qwen4exp implementation; original publisher minimum b11048 | The publisher reports loading and running on b11048; other versions and backends need their own compatibility checks |
+| Four-shard GGUF loader | First shard as entry point, all matching siblings present | [Official loader](https://github.com/ggml-org/llama.cpp/blob/master/src/llama-model-loader.cpp) opens the remaining shards; a lone first file is insufficient |
+| Ollama | Explicit support for this architecture, format and shard layout | Generic GGUF support is not proof; no tested target-model/version combination supplied here |
+| LM Studio and other GUI apps | Bundled backend explicitly supporting this architecture and memory mode | Do not assume compatibility from the app name or GGUF extension |
+| ZTC hidden-state extraction | Separate opt-in llama.cpp patch and probe workflow | A research path, not required for ordinary text generation; see evaluation notes below |
+
+The same file format does not guarantee support in every app or version. A dated, exact-version compatibility matrix remains a community contribution opportunity.
+
+## Hardware and performance
+
+Device-qualified, publisher-reported measurements are separated from reference builds and memory-fit guidance.
+
+| Device or mode | Configuration | Generation | Evidence and limits |
+|---|---|---|---|
+| Hybrid laptop | RTX 5060 Laptop, 8 GB VRAM, 32 GB RAM, NVMe SSD | 4.17 tok/s | Reported for this package; experts read on demand through memory mapping |
+| CPU server | AMD EPYC 9365, one socket, 16 threads, no GPU | 18.4–21.0 tok/s | Reported peak RAM 78.8 GB; load 85 s; prompt 54–68 tok/s |
+| DGX Spark reference | GB10, 128 GB unified memory | 39.25 tok/s | **Reference build of the same size/layout, not a this-build R3 measurement** |
+| B200 | One 183 GB GPU | No generation rate supplied | Original card reports 8–16 parallel 131K-context sessions and 110–140 GB VRAM; detailed concurrency protocol not supplied |
+| 128 GB mini PC / other unified-memory devices | Appropriate backend and available working memory | Not measured for this build | Capacity guidance only, not an EPYC-speed promise |
+
+The original card reports approximately 3B active parameters per token, with 10 of 512 experts selected. Memory mapping can read required expert data from SSD; this does not make storage latency irrelevant or the model's full disk footprint disappear. The publisher attributes the CPU run's below-file-size RAM peak partly to per-layer n-gram embeddings being read on demand.
+
+<details>
+<summary>Device classes and original capacity guidance</summary>
+
+| Device class | Memory and storage guidance | Mode | Measurement status |
+|---|---|---|---|
+| Laptop / desktop | Original example: 32 GB RAM, 8 GB VRAM, fast NVMe; full model on disk plus headroom | Hybrid streaming | Exact RTX 5060 Laptop example above; other devices unmeasured |
+| Mini PC | 128 GB available system memory class; full model on local storage plus headroom | CPU or supported integrated GPU | Memory-fit guidance, not a supplied throughput result |
+| Workstation | Original guidance: 96–128 GB RAM and a supported GPU | CPU experts plus GPU operations | Configuration guidance, not a universal guarantee |
+| Unified-memory AI PC | Original guidance: 128 GB class | Supported accelerator backend | Spark reference measured; exact R3 and other systems unmeasured |
+| CPU server | Original guidance: 96 GB or more, with additional headroom for context and OS | CPU-only | Specific EPYC measurement above |
+| Datacenter GPU | Original guidance: 141 GB or more VRAM, depending on context and concurrency | GPU-resident | Verify actual context, working memory and backend |
+
+Memory capacity alone is not a complete compatibility or throughput test. The original comparison with a 360 GB BF16 package establishes a disk-size difference, not a verified hardware-cost saving or like-for-like serving comparison.
+
+</details>
+
+## Quality and evaluation
+
+The first tables concern this GGUF. Parent BF16 results are explicitly separated below. All are publisher-reported measurements under the stated protocols.
+
+| Build | Evaluation | Result | Conditions and limits |
+|---|---|---|---|
+| Darwin-180B-RSI-R3 BF16 | MMLU-Pro subset | 87.65% | 2,000 subject-stratified questions; fixed question-ID hash selection |
+| POCKET-Darwin-180B GGUF | Same MMLU-Pro subset | 87.65% | Paired difference +0.00 pp; bootstrap 95% CI [-0.95, +1.00] |
+| Parent UD-Q4_K_XL, R0 | Held-out SuperGPQA | 59.10% mean of four; 58.70% single; 63.60% majority of four | 1,000 questions, four samples each, 16K generation budget |
+| POCKET-Darwin-180B, R3 | Same held-out SuperGPQA | 61.55% mean of four; 62.20% single; 65.90% majority of four | Paired mean difference +2.45 pp; 95% CI [+1.54, +3.36] |
+
+For the MMLU-Pro comparison: 0-shot chain of thought, temperature 1.0, top-p 0.95, top-k 20, min-p 0, seed 7, up to 131K tokens; BF16 uses vLLM and GGUF uses llama.cpp. The publisher reports zero truncated answers. Equal measured accuracy on this subset is **not** proof that quantization is lossless on every task.
+
+For the SuperGPQA comparison: questions were held out from training and selection. Majority-of-four is over answered samples; ties use the first answer in sample order, seeds 21–24. The publisher reports 675 versus 798 of 4,000 samples reaching the 16K cap, 13% fewer tokens by geometric mean of per-question ratios and 10% fewer tokens in aggregate, averaging 6,051 versus 6,716 tokens. These are a same-budget comparison, not the 131K BF16 reference protocol.
+
+<details>
+<summary>Build provenance, RSI and additional reported findings</summary>
+
+Darwin-180B-RSI-R3 is an RSI-derived checkpoint of [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next). The original card describes self-generated, checked-correct training solutions, with changes to attention paths and shared experts; routed experts, router, per-layer n-gram embeddings and the MTP head are retained.
+
+This GGUF uses the [Unsloth UD-Q4_K_XL layout](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF) and replaces 300 R3-changed tensors, encoded as Q8_0 in that layout. The publisher reports all 300 replacements found and checked, with 570 untouched tensors byte-identical to the parent build. These are build checks reported by the publisher, separate from the task-quality evaluations.
+
+The [R3 source card](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3) reports a BF16 R3-versus-R1 SuperGPQA gain of +1.03 pp, 95% CI [+0.05, +2.00], on 1,000 held-out questions. This separate result should not be treated as a GGUF result solely because another benchmark matches BF16. The direct GGUF R0/R3 comparison is reported above.
+
+The source card also reports mean answer lengths of 3,694 versus 4,322 tokens (-14.5%) on a 2,000-question same-format comparison. Keep that protocol separate from the four-sample, 16K SuperGPQA comparison.
+
+</details>
+
+<details>
+<summary>Parent BF16 reference benchmarks — not this GGUF's results</summary>
+
+The following are copied reference scores for the original [Darwin-180B-RSI BF16 model](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI), not current-ranking claims, independent replications, or measurements of this text-only GGUF.
+
+| Build | Evaluation | Result | Conditions and limits |
+|---|---|---|---|
+| Original Darwin-180B-RSI BF16 | GPQA Diamond, 198 questions | 94.44% | Majority vote over up to 16 samples; 131,072-token thinking budget |
+| Original Darwin-180B-RSI BF16 | MMLU-Pro, 12,032 questions | 88.12% | Single sample; 131,072-token thinking budget |
+| Original Darwin-180B-RSI BF16 | AIME 2026, 30 questions | 100.0% | Majority of 16; mean 98.75%; 131,072-token thinking budget |
+| Original Darwin-180B-RSI BF16 | HMMT February 2026, 33 questions | 100.0% | Majority of 16; mean 96.59%; 131,072-token thinking budget |
+| Original Darwin-180B-RSI BF16 | MMMU-Pro vision, 1,730 questions | 79.48% | Majority of three; 131,072-token thinking budget; vision is not included in this GGUF |
+| Original Darwin-180B-RSI BF16 | LEXam law MCQ, 1,655 questions | 68.94% | Majority of four; single 60.54%, mean 61.42%; 32,768-token thinking budget |
+| Original Darwin-180B-RSI BF16 | LEXam-hard open-ended, 518 questions | 45.72 | Single sample; 32,768-token budget; 60 truncated answers regenerated at 120K; DeepSeek-R1-0528 judge |
+
+Reference settings: BF16, vLLM, temperature 1.0, top-p 0.95 and top-k 20, with benchmark-specific voting and budgets above. See the [original evaluation protocol](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI#evaluation-protocol). Published scores from other models may use different protocols; no like-for-like frontier ranking is asserted here.
+
+</details>
+
+<details>
+<summary>Optional ZTC confidence probe — patched research workflow</summary>
+
+[ZTC materials](./ztc/README.md) include a 32 KB probe, a usage script and a llama.cpp patch for this architecture. The probe reads the 2,560-dimensional final hidden state at the last prompt token before answer generation. This is not a zero-compute guarantee: prompt processing and hidden-state extraction still occur.
+
+| Build | Evaluation | Result | Conditions and limits |
+|---|---|---|---|
+| This GGUF, self-readout | MMLU-Pro, 2,000 questions | AUROC 0.758 | Five-fold cross-validation; trained on the MMLU-Pro multiple-choice prompt format |
+| This GGUF, most confident fifth | Same cross-validated evaluation | 97.5% accuracy | Selected subset, not overall model accuracy |
+| This GGUF, all questions | Same evaluation | 87.6% accuracy | Different rounding from the 87.65% headline |
+| This GGUF, least confident fifth reviewed | Same evaluation | 46% of all wrong answers found | Review/triage statistic, not error elimination |
+| Parent BF16 / parent 4-bit / this GGUF | Cross-model readout, same 400 questions | AUROC 0.715 / 0.722 / 0.742 | Answers written by another model; separate protocol |
+
+Ordinary generation does not need this patch. For hidden-state extraction, the included instructions use `Q4E_EMBD_FIX=1`, `--embeddings` and a separate server workflow. Read and review the [patch](./ztc/llama.cpp-qwen4exp-embeddings.patch) against the exact llama.cpp revision before applying it; newer versions may differ. The [usage script](./ztc/usage.py) requires NumPy and a compatible local embeddings endpoint. Separate generation/embedding processes can require additional memory.
+
+The probe can help rank cases for additional checks, sampling or human review. Its cross-validated multiple-choice results do not establish calibrated probabilities on arbitrary tasks or deployment populations.
+
+</details>
+
+## Intended uses
+
+- Local text-only reasoning research on explicitly provisioned CPU-server or hybrid hardware.
+- Comparing R0/R3 reasoning under a fixed sampling and generation budget.
+- Exploring optional confidence-based triage with the separate ZTC research workflow and task-specific validation.
+
+## Limitations
+
+- All four model shards are required; a single shard is not a complete model.
+- This package is text-only. Parent BF16 vision results are not this artifact's capability claims.
+- Laptop streaming uses a GPU and fast SSD; it is not the CPU-only server configuration.
+- EPYC throughput is not a mini-PC benchmark; the Spark figure is a reference-build result.
+- Equal MMLU-Pro subset accuracy does not establish lossless quality on every task.
+- ZTC needs a separate patched workflow and validation outside its training/evaluation format.
+- Architecture support, context headroom, memory and usable speed depend on the exact runtime and device.
+
+## License and attribution
+
+This package uses **Qwen Community License 1.0**, provided in [LICENSE](./LICENSE), not Apache-2.0. Read the full license before commercial use or redistribution.
+
+The license includes notice/attribution requirements, a model-name display condition for specified large commercial services, and a separate-license requirement for specified commercial Model-as-a-Service or AI Work Assistant businesses, with a defined internal-use exception. This summary is not legal clearance; the exact definitions and conditions in LICENSE control.
+
+Base model: [Qwen/Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) by the Qwen team, Alibaba. Starting RSI checkpoint: [Darwin-180B-RSI-R3](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3). GGUF layout: [Unsloth](https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF), UD-Q4_K_XL. RSI work and this package: VIDRAFT / FINAL-Bench.
+
+## Support and updates
+
+For shard download, device selection and installation help, visit the [VIDRAFT POCKET setup guide](https://vidraft.net/p/pocket.html?model=pocket_darwin_180b&utm_source=huggingface&utm_medium=referral&utm_campaign=pocket_2026q4&utm_content=pocket_darwin_180b_model_card_footer). Report reproducible issues in the [model discussions](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF/discussions), including all shard filenames, runtime version, device, memory and command; do not post private prompts or credentials.
+
+A this-build DGX Spark throughput measurement remains future work in the supplied evidence. No local-inference telemetry or website gate is required to obtain these public files.
+
+## POCKET family
+
+| Model | Role | Start here |
+|---|---|---|
+| POCKET-35B-GGUF | Full 35B PC builds; Q2_K recommended first | [Model card](https://huggingface.co/FINAL-Bench/POCKET-35B-GGUF) |
+| POCKET-26B-GGUF | Korean-tuned Gemma4 GGUF; 11 GB and 17 GB options | [Model card](https://huggingface.co/FINAL-Bench/POCKET-26B-GGUF) |
+| POCKET-Darwin-180B-GGUF | Text-only RSI reasoning; four-shard download | [Model card](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF) |
+
+Explore the [POCKET collection](https://huggingface.co/collections/FINAL-Bench/pocket-models-6a618ee5d23eafb7e185a5c6). For phone-oriented derivatives, see [KR GGUF](https://huggingface.co/FINAL-Bench/POCKET-KR-GGUF), [KR MLX](https://huggingface.co/FINAL-Bench/POCKET-KR-MLX) and [EN GGUF](https://huggingface.co/FINAL-Bench/POCKET-EN-GGUF).
+
+<details>
+<summary>More POCKET projects and research</summary>
+
+[Qwen3.8 Flash-Next GGUF](https://huggingface.co/FINAL-Bench/POCKET-Qwen3.8-Flash-Next-GGUF) is a separate parent-model package, distinct from the POCKET-Darwin-180B RSI-R3 weights. Image projects are also separate: [POCKET-Image-Zimage](https://huggingface.co/FINAL-Bench/POCKET-Image-Zimage), [POCKET-Zimage-CPU](https://huggingface.co/FINAL-Bench/POCKET-Zimage-CPU) and [Image Studio](https://huggingface.co/spaces/FINAL-Bench/POCKET-Image-Studio).
+
+Research collections: [Darwin](https://huggingface.co/collections/FINAL-Bench/darwin-family-699987b1f652864af0122193), [Aether](https://huggingface.co/collections/FINAL-Bench/aether-foundation-model-6a5c7f2fa1a4165c0414e53a), [VKAE](https://huggingface.co/collections/FINAL-Bench/vkae-accelerated-6a47231d7e7999dd8227675a).
+
+</details>
+
+## References
+
+- [Source card and publisher measurements, revision 69fc3dd](https://huggingface.co/FINAL-Bench/POCKET-Darwin-180B-GGUF/blob/69fc3dd1409507de5dc12d81767f909ac2511567/README.md).
+- [Darwin-180B-RSI-R3](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI-R3), [original BF16 evaluation protocol](https://huggingface.co/FINAL-Bench/Darwin-180B-RSI#evaluation-protocol), and [Qwen parent](https://huggingface.co/Qwen/Qwen3.8-Flash-Next).
+- [GPQA](https://huggingface.co/datasets/Idavidrein/gpqa), [MMLU-Pro](https://huggingface.co/datasets/TIGER-Lab/MMLU-Pro), [MMMU-Pro](https://huggingface.co/datasets/MMMU/MMMU_Pro), [AIME 2026](https://huggingface.co/datasets/MathArena/aime_2026), [HMMT February 2026](https://huggingface.co/datasets/MathArena/hmmt_feb_2026), [LEXam](https://huggingface.co/datasets/LEXam-Benchmark/LEXam), and [LEXam-hard](https://huggingface.co/datasets/joelniklaus/LEXam-hard).
+- [Darwin-family paper](https://huggingface.co/papers/2605.14386) and [Latin Square paper](https://huggingface.co/papers/2609.20269).
+- [Hugging Face CLI download documentation](https://huggingface.co/docs/huggingface_hub/guides/cli).
+- [llama.cpp split loader](https://github.com/ggml-org/llama.cpp/blob/master/src/llama-model-loader.cpp), [qwen4exp at b11048](https://github.com/ggml-org/llama.cpp/blob/b11048/src/models/qwen4exp.cpp), and [loading options at b11048](https://github.com/ggml-org/llama.cpp/blob/b11048/common/arg.cpp).
+- [llama.cpp CPU-backend guidance](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md#notes-about-gpu-accelerated-backends).
+- [Included ZTC workflow](./ztc/README.md) and [license](./LICENSE).
+
+Documentation reviewed on 2026-11-04.
