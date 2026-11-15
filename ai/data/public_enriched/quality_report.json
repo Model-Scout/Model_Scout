@@ -1,0 +1,63 @@
+{
+ "rows": 15157,
+ "official_status": {
+  "ok": 15152,
+  "deleted": 5
+ },
+ "deleted_on_portal": [
+  "data_go_kr/3069954",
+  "data_go_kr/15087224",
+  "data_go_kr/15110988",
+  "data_go_kr/15110981",
+  "data_go_kr/15110991"
+ ],
+ "lookup_problems": {},
+ "verification": {
+  "fetched": 6006,
+  "reparsed": 164,
+  "compat": 8987
+ },
+ "needs_review": {
+  "count": 0,
+  "dataset_ids": []
+ },
+ "licensed": {
+  "collected": 14101,
+  "enriched": 15153
+ },
+ "license_needs_check": 4,
+ "formats": {
+  "api": 5930,
+  "api,csv": 5577,
+  "csv": 2982,
+  "api,csv,xlsx": 284,
+  "csv,json,xls,xml": 176,
+  "xlsx": 131,
+  "api,json,xml": 29,
+  "api,xml": 9,
+  "xml": 9,
+  "api,json": 7,
+  "xls": 7,
+  "txt": 5
+ },
+ "formats_unknown": 0,
+ "formats_changed": 6561,
+ "update_cycle": {
+  "실시간": 5691,
+  "매일": 3046,
+  "연간": 1831,
+  "수시 (1회성 데이터)": 870,
+  "비정기(수시, 자료변경시)": 629,
+  "수시(월간)": 359,
+  "비정기(자료변경시)": 357,
+  "수시": 333,
+  "수시 (자동 갱신)": 302,
+  "일간": 286
+ },
+ "public_entities": 15152,
+ "public_cards": 15152,
+ "enrich_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b",
+ "corpus_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff",
+ "documents_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc",
+ "problems": []
+}

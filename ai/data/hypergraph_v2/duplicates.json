@@ -1,0 +1,1418 @@
+{
+ "withdev/dartlab-data": {
+  "canonical": "eddmpython/dartlab-data",
+  "reason": "same name, near-identical README"
+ },
+ "Fundmanager145/dartlab-data": {
+  "canonical": "eddmpython/dartlab-data",
+  "reason": "identical README"
+ },
+ "idleengine/dartlab-data": {
+  "canonical": "eddmpython/dartlab-data",
+  "reason": "identical README"
+ },
+ "AiHazz/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Sadatsami/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "aloginfile/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Gockph/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "chris951027/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "leonflux/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "mq3/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "PrinceZaman/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "akahana/wikipedia-full": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "jessteru/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "rancper/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "sssOrganization/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "knightcy/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Edytas/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "anisafifi/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "zabr946/Chatbot-Url": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "KoryD207/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "mrdavidalv/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "krist67/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "erenyeager-1/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "AspectRS/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "biggraph-ai/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Dragnoz/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Monarch700/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "1xCodeteam/wikipedia": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "Tilya203/Tilya": {
+  "canonical": "wikimedia/wikipedia",
+  "reason": "identical README"
+ },
+ "oahegiaerhg/common_corpus": {
+  "canonical": "PleIAs/common_corpus",
+  "reason": "identical README"
+ },
+ "mteb/belebele": {
+  "canonical": "facebook/belebele",
+  "reason": "identical README"
+ },
+ "whooray/belebele": {
+  "canonical": "facebook/belebele",
+  "reason": "identical README"
+ },
+ "samson-ailabs/Emilia-Dataset": {
+  "canonical": "amphion/Emilia-Dataset",
+  "reason": "identical README"
+ },
+ "nithishvenkat4/product-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "barendjl/product-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "dhyeye/product": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "AmieTorin/product-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "RichardAlanLee/product-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "HashimAliii/openfoodfacts-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "kseonec/product-database": {
+  "canonical": "openfoodfacts/product-database",
+  "reason": "identical README"
+ },
+ "musumecmtcd/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "same name, near-identical README"
+ },
+ "Bacon935/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "same name, near-identical README"
+ },
+ "NP235/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "knowurknottty/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "archya/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "introvoyz041/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "same name, near-identical README"
+ },
+ "weylmann/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "anuragsbaghel/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "Luowei1428/MathNet": {
+  "canonical": "ShadenA/MathNet",
+  "reason": "identical README"
+ },
+ "Rajface345/wikipedia": {
+  "canonical": "legacy-datasets/wikipedia",
+  "reason": "identical README"
+ },
+ "AiHazz/wikipedia2": {
+  "canonical": "legacy-datasets/wikipedia",
+  "reason": "identical README"
+ },
+ "livinNector/wikipedia": {
+  "canonical": "legacy-datasets/wikipedia",
+  "reason": "identical README"
+ },
+ "openskyml/wikipedia": {
+  "canonical": "legacy-datasets/wikipedia",
+  "reason": "same name, near-identical README"
+ },
+ "YGGYY/GTSinger": {
+  "canonical": "AaronZ345/GTSinger",
+  "reason": "same name, near-identical README"
+ },
+ "YsangTuineT/GTSinger": {
+  "canonical": "AaronZ345/GTSinger",
+  "reason": "identical README"
+ },
+ "Sellopale/Assistantz8": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Theafricatechguy/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Sellopale/Assistantsellopale53oi": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "RajChat/Chatgpt": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "ustasulayman/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Tylener/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Zyrexz/dataset": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "spazziep456/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "CodNikhil/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "gijl/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "BrunoN-Dev/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Nadzzz2050/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "02dastan/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "AlexKitipov/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "Harristpf/oasst1": {
+  "canonical": "OpenAssistant/oasst1",
+  "reason": "identical README"
+ },
+ "aarontseng/wikiann": {
+  "canonical": "unimelb-nlp/wikiann",
+  "reason": "identical README"
+ },
+ "Tox1can/wikiann": {
+  "canonical": "unimelb-nlp/wikiann",
+  "reason": "identical README"
+ },
+ "Alumniiiith/wikiann": {
+  "canonical": "unimelb-nlp/wikiann",
+  "reason": "identical README"
+ },
+ "0x3/common_voice_17_0": {
+  "canonical": "fsicoli/common_voice_17_0",
+  "reason": "identical README"
+ },
+ "Snagy22000/common_voice_17_0": {
+  "canonical": "fsicoli/common_voice_17_0",
+  "reason": "identical README"
+ },
+ "Centi234/WorldSpeech": {
+  "canonical": "disco-eth/WorldSpeech",
+  "reason": "same name, near-identical README"
+ },
+ "ds123DDD/opus-100": {
+  "canonical": "Helsinki-NLP/opus-100",
+  "reason": "identical README"
+ },
+ "Stevenjisu/opus-100": {
+  "canonical": "Helsinki-NLP/opus-100",
+  "reason": "identical README"
+ },
+ "hfxunlp/opus-100": {
+  "canonical": "Helsinki-NLP/opus-100",
+  "reason": "identical README"
+ },
+ "mteb/svq": {
+  "canonical": "google/svq",
+  "reason": "same name, near-identical README"
+ },
+ "nvidia/Nemotron-Pretraining-Specialized-v1": {
+  "canonical": "nvidia/Nemotron-CC-v2.1",
+  "reason": "identical README"
+ },
+ "nvidia/Nemotron-Pretraining-Code-v2": {
+  "canonical": "nvidia/Nemotron-CC-v2.1",
+  "reason": "identical README"
+ },
+ "nvidia/Nemotron-CC-Code-v1": {
+  "canonical": "nvidia/Nemotron-CC-v2.1",
+  "reason": "identical README"
+ },
+ "slaveyard/HelpSteer3": {
+  "canonical": "nvidia/HelpSteer3",
+  "reason": "identical README"
+ },
+ "sunorme/HelpSteer3": {
+  "canonical": "nvidia/HelpSteer3",
+  "reason": "identical README"
+ },
+ "chilomax/HelpSteer3": {
+  "canonical": "nvidia/HelpSteer3",
+  "reason": "identical README"
+ },
+ "liarrrrrrrr/oasst2": {
+  "canonical": "OpenAssistant/oasst2",
+  "reason": "identical README"
+ },
+ "tian77hh/oasst2": {
+  "canonical": "OpenAssistant/oasst2",
+  "reason": "identical README"
+ },
+ "neulab/PangeaBench-tydiqa": {
+  "canonical": "google-research-datasets/tydiqa",
+  "reason": "identical README"
+ },
+ "NiiOO/tydiqa": {
+  "canonical": "google-research-datasets/tydiqa",
+  "reason": "identical README"
+ },
+ "adsyamsafa/tydiqa-id": {
+  "canonical": "google-research-datasets/tydiqa",
+  "reason": "identical README"
+ },
+ "Snowfall0601/dartlab-data": {
+  "canonical": "DWK-Partners/trading-data",
+  "reason": "identical README"
+ },
+ "DWKPartners/dartlab-data": {
+  "canonical": "DWK-Partners/trading-data",
+  "reason": "identical README"
+ },
+ "DWKPartners/trading-data": {
+  "canonical": "DWK-Partners/trading-data",
+  "reason": "identical README"
+ },
+ "DaffyDevESP/trading-data": {
+  "canonical": "DWK-Partners/trading-data",
+  "reason": "identical README"
+ },
+ "MegaGarnet/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "rAVEUK/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "same name, near-identical README"
+ },
+ "s240513/g-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "snowfungo/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "sumdigger/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "DeQuackDealer/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "horseman-mark/genshin-voice": {
+  "canonical": "simon3000/genshin-voice",
+  "reason": "identical README"
+ },
+ "bzantium/MMMLU": {
+  "canonical": "openai/MMMLU",
+  "reason": "identical README"
+ },
+ "budecosystem/mmmlu": {
+  "canonical": "openai/MMMLU",
+  "reason": "same name, near-identical README"
+ },
+ "jiangbingcheng/MMMLU": {
+  "canonical": "openai/MMMLU",
+  "reason": "identical README"
+ },
+ "Yashugowda20/MMMLU": {
+  "canonical": "openai/MMMLU",
+  "reason": "identical README"
+ },
+ "PaulMvp/MMMLU": {
+  "canonical": "openai/MMMLU",
+  "reason": "identical README"
+ },
+ "Rafi757/Hugs": {
+  "canonical": "HuggingFaceFW/finepdfs-edu",
+  "reason": "identical README"
+ },
+ "Web3Survivor/Survivor": {
+  "canonical": "HuggingFaceFW/finepdfs-edu",
+  "reason": "identical README"
+ },
+ "qanastek/MASSIVE": {
+  "canonical": "AmazonScience/massive",
+  "reason": "same name, near-identical README"
+ },
+ "abc-123-456/minds14": {
+  "canonical": "PolyAI/minds14",
+  "reason": "identical README"
+ },
+ "yxl10086/minds14": {
+  "canonical": "PolyAI/minds14",
+  "reason": "identical README"
+ },
+ "nvidia/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "same name, near-identical README"
+ },
+ "Felix92/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "YuanHo/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "Arturito1/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "AtharvImmverse/NemoTron-OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "Aaqqid/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "JinghIzKing/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "AtharvBhujade/OCR-Synthetic-Multilingual-v1": {
+  "canonical": "Nishant2414/OCR-Synthetic-Multilingual-v1",
+  "reason": "identical README"
+ },
+ "synquid/wmt24pp": {
+  "canonical": "google/wmt24pp",
+  "reason": "same name, near-identical README"
+ },
+ "Lulu19971017/wmt24pp": {
+  "canonical": "google/wmt24pp",
+  "reason": "same name, near-identical README"
+ },
+ "FubuAur/zenless-voice": {
+  "canonical": "simon3000/zenless-voice",
+  "reason": "identical README"
+ },
+ "1DuBu1/NayanaOCR_Corpus_2025": {
+  "canonical": "Cognitive-Lab/NayanaOCR_Corpus_2025",
+  "reason": "identical README"
+ },
+ "mabsoutwassim/smol": {
+  "canonical": "google/smol",
+  "reason": "same name, near-identical README"
+ },
+ "taeminlee/CLIcK": {
+  "canonical": "EunsuKim/CLIcK",
+  "reason": "same name, near-identical README"
+ },
+ "DABAOSs/dialogue-episodes": {
+  "canonical": "khursanirevo/dialogue-episodes",
+  "reason": "identical README"
+ },
+ "VedaLabs/wit_base": {
+  "canonical": "wikimedia/wit_base",
+  "reason": "identical README"
+ },
+ "kareenamehta/ccnews": {
+  "canonical": "stanford-oval/ccnews",
+  "reason": "identical README"
+ },
+ "Nakhoon/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "same name, near-identical README"
+ },
+ "jemajema/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Dev-Jahn/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Lawmanmatt0786/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "neuralnetworker/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Erling09/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "peter1748/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Daniel10004/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "neomoon50/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Mage1tom/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ilikesleep/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "codecainecowboy/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Gerutrute/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "space-mind/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ReginG/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ericdong7673/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "nmlab2025/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "dakafrio/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "dataj12/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ChaNation/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ChloeLynn/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "bekkos/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "an2zzang/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Tahn/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Wowso/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "liyah1616/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "harinyoon/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "JayElise/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "ZZUNZZUN/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "DannyWoogagongtayafull/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "kiiop1/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "eungone1/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "nguyenthuyan/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Subrat-369/Big-data": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Sunphil/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "AliciaKang/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "mktpromanager/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "overmj/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "John-is-tech-guru/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "takeused/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "untitled84/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "yeon-woo/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "Xalitobeirut/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "new260709/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "dori59with/Nemotron-Personas-Korea": {
+  "canonical": "nvidia/Nemotron-Personas-Korea",
+  "reason": "identical README"
+ },
+ "1-800-SHARED-TASKS/xlsum-subset": {
+  "canonical": "csebuetnlp/xlsum",
+  "reason": "identical README"
+ },
+ "pipantonio/xlsum": {
+  "canonical": "csebuetnlp/xlsum",
+  "reason": "identical README"
+ },
+ "darshijain/xlsum": {
+  "canonical": "csebuetnlp/xlsum",
+  "reason": "identical README"
+ },
+ "meer3305/xlsum": {
+  "canonical": "csebuetnlp/xlsum",
+  "reason": "identical README"
+ },
+ "augusttpe/starrail-voice": {
+  "canonical": "simon3000/starrail-voice",
+  "reason": "identical README"
+ },
+ "hnwooo/HRM8K": {
+  "canonical": "HAERAE-HUB/HRM8K",
+  "reason": "identical README"
+ },
+ "shannonnonshan/en-sumerize": {
+  "canonical": "GEM/xlsum",
+  "reason": "identical README"
+ },
+ "shannonnonshan/xlsum": {
+  "canonical": "GEM/xlsum",
+  "reason": "identical README"
+ },
+ "neulab/PangeaBench-flores": {
+  "canonical": "facebook/flores",
+  "reason": "identical README"
+ },
+ "meer3305/flores": {
+  "canonical": "facebook/flores",
+  "reason": "identical README"
+ },
+ "40u1d10t/to-train-my-model": {
+  "canonical": "Viet-Mistral/CulturaY",
+  "reason": "identical README"
+ },
+ "djstrong/oscar-small": {
+  "canonical": "nthngdy/oscar-small",
+  "reason": "identical README"
+ },
+ "xezpeleta/ccmatrix": {
+  "canonical": "yhavinga/ccmatrix",
+  "reason": "identical README"
+ },
+ "AAdonis/multilingual_audio_alignments": {
+  "canonical": "takuM23/multilingual_audio_alignments",
+  "reason": "same name, near-identical README"
+ },
+ "khursani8/maa": {
+  "canonical": "takuM23/multilingual_audio_alignments",
+  "reason": "identical README"
+ },
+ "weilin2468/multilingual_audio_alignments": {
+  "canonical": "takuM23/multilingual_audio_alignments",
+  "reason": "identical README"
+ },
+ "suneetha24/symile-m3": {
+  "canonical": "arsaporta/symile-m3",
+  "reason": "identical README"
+ },
+ "innadark/GlotCC-V1": {
+  "canonical": "cis-lmu/GlotCC-V1",
+  "reason": "identical README"
+ },
+ "woojin1069/pii-masking-openpii-1.5m": {
+  "canonical": "ai4privacy/pii-masking-openpii-1.5m",
+  "reason": "identical README"
+ },
+ "JordanWu26/multilingual-NLI-26lang-2mil7": {
+  "canonical": "MoritzLaurer/multilingual-NLI-26lang-2mil7",
+  "reason": "identical README"
+ },
+ "youngwook-kim/kobest_v1": {
+  "canonical": "skt/kobest_v1",
+  "reason": "identical README"
+ },
+ "JudSacr/mqa": {
+  "canonical": "clips/mqa",
+  "reason": "identical README"
+ },
+ "Inoka-32/Bactrian-X": {
+  "canonical": "MBZUAI/Bactrian-X",
+  "reason": "identical README"
+ },
+ "OzoneAsai/4typeCalculation": {
+  "canonical": "OzoneAsai/calculation",
+  "reason": "identical README"
+ },
+ "severo/flores_101": {
+  "canonical": "gsarti/flores_101",
+  "reason": "identical README"
+ },
+ "jeffbrian/flores_101": {
+  "canonical": "gsarti/flores_101",
+  "reason": "identical README"
+ },
+ "af5553g/flores_101": {
+  "canonical": "gsarti/flores_101",
+  "reason": "identical README"
+ },
+ "whooray/MLDR": {
+  "canonical": "Shitao/MLDR",
+  "reason": "identical README"
+ },
+ "lokesh2320/TRUEBench": {
+  "canonical": "SamsungResearch/TRUEBench",
+  "reason": "identical README"
+ },
+ "whooray/Ko-StrategyQA": {
+  "canonical": "taeminlee/Ko-StrategyQA",
+  "reason": "identical README"
+ },
+ "Theafricatechguy/common_voice_21_0": {
+  "canonical": "fsicoli/common_voice_21_0",
+  "reason": "identical README"
+ },
+ "DAMO-NLP-SG/MultiJail": {
+  "canonical": "walledai/MultiJail",
+  "reason": "identical README"
+ },
+ "srii2829/cwicr-construction-rates": {
+  "canonical": "DataDrivenConstruction/cwicr-construction-rates",
+  "reason": "identical README"
+ },
+ "PiTtawat9/P-MMEval": {
+  "canonical": "Qwen/P-MMEval",
+  "reason": "identical README"
+ },
+ "Heyjab/Multilingual-Harmless-Harmful": {
+  "canonical": "heretic-org/Multilingual-Harmless-Harmful",
+  "reason": "same name, near-identical README"
+ },
+ "ToxicityPrompts/PolyGuardPrompts": {
+  "canonical": "ToxicityPrompts/PolyGuardMix",
+  "reason": "identical README"
+ },
+ "TTS-AGI/emolia-hq": {
+  "canonical": "laion/emolia-hq",
+  "reason": "identical README"
+ },
+ "Taegyuu/KoAlpaca-v1.1a": {
+  "canonical": "beomi/KoAlpaca-v1.1a",
+  "reason": "same name, near-identical README"
+ },
+ "csujeong/KoAlpaca-v1.1a": {
+  "canonical": "beomi/KoAlpaca-v1.1a",
+  "reason": "identical README"
+ },
+ "yuivnj/KoAlpaca-v1.1a": {
+  "canonical": "beomi/KoAlpaca-v1.1a",
+  "reason": "identical README"
+ },
+ "superBigPigeon/IPA-CHILDES": {
+  "canonical": "phonemetransformers/IPA-CHILDES",
+  "reason": "identical README"
+ },
+ "ljyyy3317/XL-SafetyBench": {
+  "canonical": "AIM-Intelligence/XL-SafetyBench",
+  "reason": "identical README"
+ },
+ "Tamazight-NLP/Weblate-Translations": {
+  "canonical": "ayymen/Weblate-Translations",
+  "reason": "same name, near-identical README"
+ },
+ "Himanshu9636/Weblate-Translations": {
+  "canonical": "ayymen/Weblate-Translations",
+  "reason": "same name, near-identical README"
+ },
+ "kaggle/bryanpark/korean-single-speaker-speech-dataset": {
+  "canonical": "Bingsu/KSS_Dataset",
+  "reason": "Kaggle re-upload of Bingsu/KSS_Dataset (README overlap 0.71)"
+ },
+ "BhavyaSoni21/miracl-multilingual-triplets": {
+  "canonical": "nlpai-lab/miracl-multilingual-triplets",
+  "reason": "identical README"
+ },
+ "Theafricatechguy/LongBlocks": {
+  "canonical": "utter-project/LongBlocks",
+  "reason": "identical README"
+ },
+ "sd1098/AssurAI": {
+  "canonical": "TTA01/AssurAI",
+  "reason": "identical README"
+ },
+ "hfxunlp/opus_paracrawl": {
+  "canonical": "Helsinki-NLP/opus_paracrawl",
+  "reason": "identical README"
+ },
+ "bobHe2099/bluesky": {
+  "canonical": "agentlans/bluesky",
+  "reason": "identical README"
+ },
+ "kaggle/cohereforai/m-wildvision": {
+  "canonical": "CohereLabs/m-WildVision",
+  "reason": "Kaggle re-upload of CohereLabs/m-WildVision (README overlap 0.80)"
+ },
+ "kaggle/cohereforai/ayavisionbench": {
+  "canonical": "CohereLabs/AyaVisionBench",
+  "reason": "Kaggle re-upload of CohereLabs/AyaVisionBench (README overlap 0.86)"
+ },
+ "PRACHI-MUNDA/wikipedia-monthly": {
+  "canonical": "wannaphong/wikipedia-monthly",
+  "reason": "identical README"
+ },
+ "whybe-choi/ko-vdr-train-public": {
+  "canonical": "NomaDamas/ko-vdr-train-public",
+  "reason": "same name, near-identical README"
+ },
+ "quranlab/quran": {
+  "canonical": "nassimjp/quran",
+  "reason": "same name, near-identical README"
+ },
+ "Scratper/Claude-opus-4.7-TraceInversion-5000x": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "microssroads/Claude-opus-4.7-TraceInversion-5000x": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "Coding-With-Bashir/BashCoder": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "ansulev/claude-opus-4.7-traceinversion-5k": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "Hiren122/Claude-opus-4.7-TraceInversion-5000x": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "Reepsie1234/Claude-opus-4.7-TraceInversion-5000x": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "hose1logo1/Claude-opus-4.7-TraceInversion-5000x": {
+  "canonical": "Jackrong/Claude-opus-4.7-TraceInversion-5000x",
+  "reason": "identical README"
+ },
+ "AtharvImmverse/tiny-captcha-library": {
+  "canonical": "remiai3/tiny-captcha-library",
+  "reason": "identical README"
+ },
+ "kaggle/podongchip/korean-stock-daily-prices-indicators-20212026": {
+  "canonical": "podongchip/kospi-daily-stock-features-2021-2026",
+  "reason": "same author's Kaggle copy of podongchip/kospi-daily-stock-features-2021-2026 (README overlap 0.27)"
+ },
+ "Tribhuvand/babel-briefings": {
+  "canonical": "felixludos/babel-briefings",
+  "reason": "identical README"
+ },
+ "csujeong/kullm-v2.1": {
+  "canonical": "nlpai-lab/kullm-v2",
+  "reason": "identical README"
+ },
+ "Hikaf143/korean_data_scraper_aihub": {
+  "canonical": "mkd-minju/korean_data_scraper_aihub",
+  "reason": "identical README"
+ },
+ "zuhri025/speech-utterances": {
+  "canonical": "gijs/speech-utterances",
+  "reason": "identical README"
+ },
+ "kaggle/rtatman/sentiment-lexicons-for-81-languages": {
+  "canonical": "senti-lex/senti_lex",
+  "reason": "Kaggle re-upload of senti-lex/senti_lex (README overlap 0.54)"
+ },
+ "trueorfalse441/korean_hate_speech_copy": {
+  "canonical": "jeanlee/kmhas_korean_hate_speech",
+  "reason": "identical README"
+ },
+ "sayafadhil43/kmhas_korean_hate_speech": {
+  "canonical": "jeanlee/kmhas_korean_hate_speech",
+  "reason": "identical README"
+ },
+ "Noahway/SSR-RCoT-16K": {
+  "canonical": "Nanbeige/SSR-RCoT-16K",
+  "reason": "identical README"
+ },
+ "eldad-akhaumere/hausa_2_eng_2": {
+  "canonical": "eldad-akhaumere/common_voice_16_0",
+  "reason": "identical README"
+ },
+ "Eri4nder/korean_safe_conversation": {
+  "canonical": "jojo0217/korean_safe_conversation",
+  "reason": "identical README"
+ },
+ "kaggle/junbumlee/kcbert-pretraining-corpus-korean-news-comments": {
+  "canonical": "Bingsu/KcBERT_Pre-Training_Corpus",
+  "reason": "Kaggle re-upload of Bingsu/KcBERT_Pre-Training_Corpus (README overlap 0.53)"
+ },
+ "saillab/testalpaca_sanskrit_taco": {
+  "canonical": "saillab/taco-datasets",
+  "reason": "identical README"
+ },
+ "bhoomee/SMS_Spam_Multilingual_Collection_Dataset": {
+  "canonical": "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset",
+  "reason": "identical README"
+ },
+ "mahrukhsaeed/SMS_Spam_Multilingual_Collection_Dataset": {
+  "canonical": "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset",
+  "reason": "identical README"
+ },
+ "rjraj111/SMS_Spam_Multilingual_Collection_Dataset": {
+  "canonical": "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset",
+  "reason": "identical README"
+ },
+ "KumarSahil299885/SMS_Spam_Multilingual_Collection_Dataset": {
+  "canonical": "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset",
+  "reason": "identical README"
+ },
+ "ashu0311/SMS_Spam_Multilingual_Collection_Dataset": {
+  "canonical": "dbarbedillo/SMS_Spam_Multilingual_Collection_Dataset",
+  "reason": "identical README"
+ },
+ "cc195319/bibles": {
+  "canonical": "versae/bibles",
+  "reason": "same name, near-identical README"
+ },
+ "shanthropic/linux-commands": {
+  "canonical": "missvector/linux-commands",
+  "reason": "identical README"
+ },
+ "Rendra8631/linux-commands": {
+  "canonical": "missvector/linux-commands",
+  "reason": "identical README"
+ },
+ "jasmar2/linux-commands": {
+  "canonical": "missvector/linux-commands",
+  "reason": "identical README"
+ },
+ "chowmean/linux-commands": {
+  "canonical": "missvector/linux-commands",
+  "reason": "identical README"
+ },
+ "amechanicus/linux-commands": {
+  "canonical": "missvector/linux-commands",
+  "reason": "identical README"
+ },
+ "AMAImedia/NOESIS-50K-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54": {
+  "canonical": "AMAImedia/NOESIS-1M-reasoning-router-code-math-psych-opus47-deepseek4-qwen36-gemini31-r1-gpt54",
+  "reason": "identical README"
+ },
+ "namjanghee/korean-role-playing": {
+  "canonical": "huggingface-KREW/korean-role-playing",
+  "reason": "identical README"
+ },
+ "Hikaf143/korean_data_scraper_wikipedia": {
+  "canonical": "mkd-minju/korean_data_scraper_wikipedia",
+  "reason": "identical README"
+ },
+ "ZouSeth/tiktok-trending-hashtags": {
+  "canonical": "ronantakizawa/tiktok-trending-hashtags",
+  "reason": "same name, near-identical README"
+ },
+ "Jahnavi0911/tiktok-trending-hashtags": {
+  "canonical": "ronantakizawa/tiktok-trending-hashtags",
+  "reason": "identical README"
+ },
+ "kaggle/ronantakizawa/tiktok-trending-hashtags": {
+  "canonical": "ronantakizawa/tiktok-trending-hashtags",
+  "reason": "Kaggle re-upload of ronantakizawa/tiktok-trending-hashtags (README overlap 0.93)"
+ },
+ "ansulev/claude-opus-4.6-traceinversion-9k": {
+  "canonical": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+  "reason": "identical README"
+ },
+ "Supbatomic/Claude-opus-4.6-TraceInversion-9000x": {
+  "canonical": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+  "reason": "identical README"
+ },
+ "Scratper/Claude-opus-4.6-TraceInversion-9000x": {
+  "canonical": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+  "reason": "identical README"
+ },
+ "Sstoryloop725/Claude-opus-4.6-TraceInversion-9000x": {
+  "canonical": "Jackrong/Claude-opus-4.6-TraceInversion-9000x",
+  "reason": "identical README"
+ },
+ "xiaoluodeng/Ko-AgentBench": {
+  "canonical": "huggingface-KREW/Ko-AgentBench",
+  "reason": "identical README"
+ },
+ "logan098/ETRI_VR_Robotics_data_research": {
+  "canonical": "ETRI7203/ETRI_VR_Robotics_data_research",
+  "reason": "identical README"
+ },
+ "reyoung/wikipedia": {
+  "canonical": "olm/wikipedia",
+  "reason": "identical README"
+ },
+ "kaggle/ronantakizawa/twitter-trending-hashtags": {
+  "canonical": "ronantakizawa/twitter-trending-hashtags",
+  "reason": "Kaggle re-upload of ronantakizawa/twitter-trending-hashtags (README overlap 0.94)"
+ },
+ "gavi56/cli-1m": {
+  "canonical": "carosh/cli-1m",
+  "reason": "identical README"
+ },
+ "bakir11999/quran": {
+  "canonical": "nazimali/quran",
+  "reason": "identical README"
+ },
+ "sazzysara21/real-robot-driving-sessions": {
+  "canonical": "NCDTech/real-robot-driving-sessions",
+  "reason": "identical README"
+ },
+ "vansh62/nllb-200-10M-sample": {
+  "canonical": "slone/nllb-200-10M-sample",
+  "reason": "identical README"
+ },
+ "Danishaqil/icd10-clinical-notes": {
+  "canonical": "birgermoell/icd10-clinical-notes",
+  "reason": "identical README"
+ },
+ "TweakSea/voice-samples": {
+  "canonical": "KeiSea/voice-samples",
+  "reason": "same name, near-identical README"
+ },
+ "magibu/wikipedia-40-langs": {
+  "canonical": "alibayram/wikipedia-40-langs",
+  "reason": "identical README"
+ },
+ "wannaphong/korean-vocabulary-5000": {
+  "canonical": "jaylee8864/korean-vocabulary-5000",
+  "reason": "identical README"
+ },
+ "logitly-ai/flash-coding-dpo-v1": {
+  "canonical": "logitly-ai/flash-coding-sft-v1",
+  "reason": "identical README"
+ },
+ "kaggle/ninetyninenewton/kr3-korean-restaurant-reviews-with-ratings": {
+  "canonical": "leey4n/KR3",
+  "reason": "Kaggle re-upload of leey4n/KR3 (README overlap 0.73)"
+ },
+ "SilverAvocado/Silver-Audio-Dataset": {
+  "canonical": "b111111/Silver-Audio-Dataset",
+  "reason": "identical README"
+ },
+ "navmxc/Poly-FEVER": {
+  "canonical": "HanzhiZhang/Poly-FEVER",
+  "reason": "identical README"
+ },
+ "Hyde01/Korean_Product_Labels_Image_Dataset": {
+  "canonical": "HumynLabs/Korean_Product_Labels_Image_Dataset",
+  "reason": "identical README"
+ },
+ "mkd-minju/keural-v2-dataset": {
+  "canonical": "Hikaf143/keural-v2-dataset",
+  "reason": "identical README"
+ },
+ "kaggle/ismaelfi/melolingua-cefr-graded-multilingual-stories": {
+  "canonical": "ismaelfi/melolingua-cefr-graded-multilingual-stories",
+  "reason": "Kaggle re-upload of ismaelfi/melolingua-cefr-graded-multilingual-stories (README overlap 0.64)"
+ },
+ "traintogpb/aihub-koen-translation-integrated-small-100k": {
+  "canonical": "traintogpb/aihub-koen-translation-integrated-large-10m",
+  "reason": "identical README"
+ },
+ "traintogpb/aihub-koen-translation-integrated-base-1m": {
+  "canonical": "traintogpb/aihub-koen-translation-integrated-large-10m",
+  "reason": "identical README"
+ },
+ "rifqifarhansyah/llm-metric-mrewardbench": {
+  "canonical": "rubricreward/llm-metric-mrewardbench",
+  "reason": "identical README"
+ },
+ "Anonymous4open/JailJudge": {
+  "canonical": "usail-hkust/JailJudge",
+  "reason": "same name, near-identical README"
+ },
+ "zdxnlp/JailJudge": {
+  "canonical": "usail-hkust/JailJudge",
+  "reason": "identical README"
+ },
+ "kaggle/minsimmarket/korean-prediction-market-resolved-forecasts": {
+  "canonical": "hyunwookjin/korean-prediction-market-sample",
+  "reason": "Kaggle re-upload of hyunwookjin/korean-prediction-market-sample (README overlap 0.93)"
+ },
+ "jihyeon-yoon/quantum-random-circuit-partial-execution-1500q-6l": {
+  "canonical": "jihyeon-yoon/quantum-random-circuit-partial-execution-50q-10l",
+  "reason": "identical README"
+ },
+ "TTS-AGI/emolia-3k-speaker-clusters-DACVAE": {
+  "canonical": "laion/emolia-3k-speaker-clusters",
+  "reason": "identical README"
+ },
+ "danielzw36/gingiris-seo-geo-agent": {
+  "canonical": "Gingiris/gingiris-seo-geo-agent",
+  "reason": "same name, near-identical README"
+ },
+ "kaggle/batudev/bluesky-10m-multilingual-posts-15-languages": {
+  "canonical": "itsmebatuhan/bluesky-10m-posts-15-languages",
+  "reason": "Kaggle re-upload of itsmebatuhan/bluesky-10m-posts-15-languages (README overlap 0.54)"
+ },
+ "mkd-minju/LLMDataProcessing": {
+  "canonical": "Hikaf143/LLMDataProcessing",
+  "reason": "identical README"
+ },
+ "mkd-minju/sft_dataset_v2": {
+  "canonical": "Hikaf143/sft_dataset_v2",
+  "reason": "identical README"
+ },
+ "mustafaalkanxgmail/Multilingual-Core-Vocabulary": {
+  "canonical": "aborasheed/Multilingual-Core-Vocabulary",
+  "reason": "identical README"
+ },
+ "avirambo/cci-multilingualrules-canonical-dataset": {
+  "canonical": "crosslingual-rule-following/canonical-dataset",
+  "reason": "identical README"
+ },
+ "jaeyong2/Ko-emb-PreView": {
+  "canonical": "jaeyong2/Ko-functioncall",
+  "reason": "identical README"
+ },
+ "iknow-lab/wildguardmix-train-ko-11k": {
+  "canonical": "iknow-lab/wildguardmix-test-ko",
+  "reason": "identical README"
+ },
+ "mkd-minju/korean_data_scraper_kakaotalk": {
+  "canonical": "Hikaf143/korean_data_scraper_kakaotalk",
+  "reason": "identical README"
+ },
+ "whooray/ko-triplet-v1.0": {
+  "canonical": "nlpai-lab/ko-triplet-v1.0",
+  "reason": "identical README"
+ },
+ "kaggle/unidpro/llm-training-dataset": {
+  "canonical": "UniDataPro/llm-training-dataset",
+  "reason": "Kaggle re-upload of UniDataPro/llm-training-dataset (README overlap 0.73)"
+ },
+ "Quarted/Everything_Instruct_Multilingual": {
+  "canonical": "rombodawg/Everything_Instruct_Multilingual",
+  "reason": "identical README"
+ },
+ "cyberec/promptwall-injection-dataset": {
+  "canonical": "Gyr0ghost/promptwall-injection-dataset",
+  "reason": "identical README"
+ },
+ "chaeyeonn/KoSGD": {
+  "canonical": "AIWORKX/KoSGD",
+  "reason": "identical README"
+ },
+ "traintogpb/aihub-koja-translation-integrated-large-4.3m": {
+  "canonical": "traintogpb/aihub-koja-translation-integrated-small-100k",
+  "reason": "identical README"
+ },
+ "traintogpb/aihub-koja-translation-integrated-base-1m": {
+  "canonical": "traintogpb/aihub-koja-translation-integrated-small-100k",
+  "reason": "identical README"
+ },
+ "DatoricAI/tts-conversational-voice-20000h": {
+  "canonical": "Datoric/tts-conversational-voice-20000h",
+  "reason": "same name, near-identical README"
+ },
+ "DiversZ/diversz-commons-signal": {
+  "canonical": "DiversZ/diversz-commons-blog",
+  "reason": "identical README"
+ },
+ "mlx-community/dhanishtha-2.0-superthinker": {
+  "canonical": "HelpingAI/Dhanishtha-2.0-SUPERTHINKER",
+  "reason": "same name, near-identical README"
+ },
+ "FALLACARA/Gpt4": {
+  "canonical": "HelpingAI/Dhanishtha-2.0-SUPERTHINKER",
+  "reason": "identical README"
+ },
+ "mkd-minju/keural-v2-fluency-v2": {
+  "canonical": "Hikaf143/keural-v2-fluency-v2",
+  "reason": "identical README"
+ },
+ "DatoricAI/audio-video-conversation-4000h": {
+  "canonical": "Datoric/audio-video-conversation-4000h",
+  "reason": "same name, near-identical README"
+ },
+ "baiyinnamula/first-dataset": {
+  "canonical": "dijihax/Dataset",
+  "reason": "identical README"
+ },
+ "PariPaliwal/DeDuplication": {
+  "canonical": "dijihax/Dataset",
+  "reason": "identical README"
+ },
+ "CheriTangerine/Scoups_Voice_Train": {
+  "canonical": "dijihax/Dataset",
+  "reason": "identical README"
+ },
+ "global-llm-2024/ko_ifeval": {
+  "canonical": "dijihax/Dataset",
+  "reason": "identical README"
+ },
+ "Prompthumanizer/light_weight_jain_architecture_System": {
+  "canonical": "dijihax/Dataset",
+  "reason": "identical README"
+ },
+ "mkd-minju/keural-v2-fluency": {
+  "canonical": "Hikaf143/keural-v2-fluency",
+  "reason": "identical README"
+ },
+ "nayohan/SQuARe-question": {
+  "canonical": "nayohan/SQuARe-response",
+  "reason": "identical README"
+ },
+ "nayohan/KoSBi": {
+  "canonical": "nayohan/KoSBi-v2",
+  "reason": "identical README"
+ },
+ "traintogpb/aihub-kozh-translation-integrated-large-5.9m": {
+  "canonical": "traintogpb/aihub-kozh-translation-integrated-small-100k",
+  "reason": "identical README"
+ },
+ "traintogpb/aihub-kozh-translation-integrated-base-1m": {
+  "canonical": "traintogpb/aihub-kozh-translation-integrated-small-100k",
+  "reason": "identical README"
+ },
+ "kaggle/aixblock2023/korean-short-utterances": {
+  "canonical": "AIxBlock/Korean-short-utterances",
+  "reason": "Kaggle re-upload of AIxBlock/Korean-short-utterances (README overlap 0.78)"
+ },
+ "jinm1222/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "qsdunfdsj12/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "muahseol/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "rhksals2001/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "yujin-ai26/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "Gahyun0121/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "gggaaammmeee/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "onlyBABA/labor-counsel-qa": {
+  "canonical": "seventy4/labor-counsel-qa",
+  "reason": "same name, near-identical README"
+ },
+ "jiaheqi/wmt25-mist-mulr": {
+  "canonical": "wmt/wmt25-mist-mulr",
+  "reason": "identical README"
+ },
+ "unieai/multilingual-stories-original": {
+  "canonical": "ZoneTwelve/multilingual-stories",
+  "reason": "identical README"
+ },
+ "ynchoi/global-llm-value-gap": {
+  "canonical": "yena0rganization/global-llm-value-gap",
+  "reason": "same name, near-identical README"
+ },
+ "Wjaehyun97/youtube_comment_sentiment_dataset_preprocessing": {
+  "canonical": "HYEBING/youtube_comment_sentiment_dataset_preprocessing",
+  "reason": "same name, near-identical README"
+ },
+ "jiyouxg/youtube_comment_sentiment_dataset_preprocessing": {
+  "canonical": "HYEBING/youtube_comment_sentiment_dataset_preprocessing",
+  "reason": "same name, near-identical README"
+ },
+ "jaeyong2/Qwen3-06B-Ko-DPO-3": {
+  "canonical": "jaeyong2/Qwen3-06B-Ko-DPO-2",
+  "reason": "identical README"
+ },
+ "jaeyong2/Qwen3-06B-Ko-DPO": {
+  "canonical": "jaeyong2/Qwen3-06B-Ko-DPO-2",
+  "reason": "identical README"
+ },
+ "jaeyong2/Qwen3-06B-Ko-KTO": {
+  "canonical": "jaeyong2/Qwen3-06B-Ko-DPO-2",
+  "reason": "identical README"
+ },
+ "kaggle/podongchip/korean-ai-prompt-style-dataset-by-llm": {
+  "canonical": "podongchip/korean-ai-prompt-style-dataset",
+  "reason": "same author's Kaggle copy of podongchip/korean-ai-prompt-style-dataset (README overlap 0.42)"
+ },
+ "geyi-net/academic-pdf-translation-zotero-guide": {
+  "canonical": "auftragstaktik-ou/multilingual-academic-pdf-ocr-guide",
+  "reason": "identical README"
+ },
+ "o0dimplz0o/zeroth-STT-Ko-part-7": {
+  "canonical": "o0dimplz0o/zeroth-STT-Ko-part-5",
+  "reason": "identical README"
+ },
+ "o0dimplz0o/zeroth-STT-Ko-part-4": {
+  "canonical": "o0dimplz0o/zeroth-STT-Ko-part-5",
+  "reason": "identical README"
+ },
+ "kaggle/omerdemirtas/adaption-python-plotting-instructions": {
+  "canonical": "omerdemirtas/adaption-python-plotting-instructions",
+  "reason": "same author's Kaggle copy of omerdemirtas/adaption-python-plotting-instructions (README overlap 0.45)"
+ },
+ "SangMoone/KoreanDataSet": {
+  "canonical": "sangsangeulhada/KoreanDataSet",
+  "reason": "identical README"
+ },
+ "kaggle/amirjdai/dollar-vs-asian-currencies": {
+  "canonical": "kaggle/imtkaggleteam/dollar-vs-asian-currencies",
+  "reason": "same name, near-identical README"
+ }
+}

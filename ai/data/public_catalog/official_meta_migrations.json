@@ -1,0 +1,661 @@
+[
+ {
+  "basis_id": "unversioned-20261108-to-0b08179a53cf",
+  "migrated_at": "2026-11-08T10:37:23+00:00",
+  "from_parser": null,
+  "accepted_for": "0b08179a53cf",
+  "entries": 15073,
+  "kept_real_answers": 0,
+  "excluded": {
+   "missing": 84
+  },
+  "recheck_due_by": "checked_at + 30 days (TTL_DAYS['ok'])",
+  "basis": [
+   "The answers were produced by the parser of 2026-11-08 before versioning (not recorded).",
+   "The current parser differs from it only for pages without the dataset table or without a dataset name: those raise (busy / parse_error) instead of returning 'missing'. The branch that returns 'ok' is the same code, so an 'ok' answer is what the current parser returns for the same page.",
+   "'missing' answers are not migrated; one of them was the portal's busy page.",
+   "This is compatibility, not re-verification: the pages were not kept, so nothing was re-parsed."
+  ],
+  "evidence": {
+   "note": "pages fetched 2026-11-05..06, answers checked 2026-11-08; a difference can be a real page change",
+   "summary": {
+    "differs": 34,
+    "same": 39,
+    "ConnectionError": 1
+   },
+   "pages": [
+    {
+     "dataset_id": "seoul_open_data/OA-101",
+     "page": "https_data_seoul_go_kr_dataList_OA_101_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-1100",
+     "page": "https_data_seoul_go_kr_dataList_OA_1100_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-11580",
+     "page": "https_data_seoul_go_kr_dataList_OA_11580_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-1202",
+     "page": "https_data_seoul_go_kr_dataList_OA_1202_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-1204",
+     "page": "https_data_seoul_go_kr_dataList_OA_1204_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12253",
+     "page": "https_data_seoul_go_kr_dataList_OA_12253_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12601",
+     "page": "https_data_seoul_go_kr_dataList_OA_12601_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12764",
+     "page": "https_data_seoul_go_kr_dataList_OA_12764_A_1_datasetView_do.txt",
+     "result": "ConnectionError"
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12830",
+     "page": "https_data_seoul_go_kr_dataList_OA_12830_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12855",
+     "page": "https_data_seoul_go_kr_dataList_OA_12855_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12912",
+     "page": "https_data_seoul_go_kr_dataList_OA_12912_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-12928",
+     "page": "https_data_seoul_go_kr_dataList_OA_12928_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13122",
+     "page": "https_data_seoul_go_kr_dataList_OA_13122_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13252",
+     "page": "https_data_seoul_go_kr_dataList_OA_13252_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13272",
+     "page": "https_data_seoul_go_kr_dataList_OA_13272_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13279",
+     "page": "https_data_seoul_go_kr_dataList_OA_13279_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13463",
+     "page": "https_data_seoul_go_kr_dataList_OA_13463_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13467",
+     "page": "https_data_seoul_go_kr_dataList_OA_13467_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13470",
+     "page": "https_data_seoul_go_kr_dataList_OA_13470_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13472",
+     "page": "https_data_seoul_go_kr_dataList_OA_13472_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13479",
+     "page": "https_data_seoul_go_kr_dataList_OA_13479_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13487",
+     "page": "https_data_seoul_go_kr_dataList_OA_13487_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-13492",
+     "page": "https_data_seoul_go_kr_dataList_OA_13492_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-14994",
+     "page": "https_data_seoul_go_kr_dataList_OA_14994_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15012",
+     "page": "https_data_seoul_go_kr_dataList_OA_15012_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15067",
+     "page": "https_data_seoul_go_kr_dataList_OA_15067_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15094",
+     "page": "https_data_seoul_go_kr_dataList_OA_15094_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15120",
+     "page": "https_data_seoul_go_kr_dataList_OA_15120_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15182",
+     "page": "https_data_seoul_go_kr_dataList_OA_15182_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15242",
+     "page": "https_data_seoul_go_kr_dataList_OA_15242_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15245",
+     "page": "https_data_seoul_go_kr_dataList_OA_15245_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15246",
+     "page": "https_data_seoul_go_kr_dataList_OA_15246_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15248",
+     "page": "https_data_seoul_go_kr_dataList_OA_15248_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15249",
+     "page": "https_data_seoul_go_kr_dataList_OA_15249_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15450",
+     "page": "https_data_seoul_go_kr_dataList_OA_15450_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15451",
+     "page": "https_data_seoul_go_kr_dataList_OA_15451_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15453",
+     "page": "https_data_seoul_go_kr_dataList_OA_15453_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15457",
+     "page": "https_data_seoul_go_kr_dataList_OA_15457_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15477",
+     "page": "https_data_seoul_go_kr_dataList_OA_15477_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15493",
+     "page": "https_data_seoul_go_kr_dataList_OA_15493_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15516",
+     "page": "https_data_seoul_go_kr_dataList_OA_15516_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15526",
+     "page": "https_data_seoul_go_kr_dataList_OA_15526_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15644",
+     "page": "https_data_seoul_go_kr_dataList_OA_15644_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-15799",
+     "page": "https_data_seoul_go_kr_dataList_OA_15799_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-20337",
+     "page": "https_data_seoul_go_kr_dataList_OA_20337_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-20338",
+     "page": "https_data_seoul_go_kr_dataList_OA_20338_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-20447",
+     "page": "https_data_seoul_go_kr_dataList_OA_20447_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-20448",
+     "page": "https_data_seoul_go_kr_dataList_OA_20448_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21083",
+     "page": "https_data_seoul_go_kr_dataList_OA_21083_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21090",
+     "page": "https_data_seoul_go_kr_dataList_OA_21090_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21235",
+     "page": "https_data_seoul_go_kr_dataList_OA_21235_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21702",
+     "page": "https_data_seoul_go_kr_dataList_OA_21702_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21703",
+     "page": "https_data_seoul_go_kr_dataList_OA_21703_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-21709",
+     "page": "https_data_seoul_go_kr_dataList_OA_21709_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-2209",
+     "page": "https_data_seoul_go_kr_dataList_OA_2209_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22411",
+     "page": "https_data_seoul_go_kr_dataList_OA_22411_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22420",
+     "page": "https_data_seoul_go_kr_dataList_OA_22420_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22501",
+     "page": "https_data_seoul_go_kr_dataList_OA_22501_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22586",
+     "page": "https_data_seoul_go_kr_dataList_OA_22586_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22714",
+     "page": "https_data_seoul_go_kr_dataList_OA_22714_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22752",
+     "page": "https_data_seoul_go_kr_dataList_OA_22752_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22874",
+     "page": "https_data_seoul_go_kr_dataList_OA_22874_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-22876",
+     "page": "https_data_seoul_go_kr_dataList_OA_22876_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-23041",
+     "page": "https_data_seoul_go_kr_dataList_OA_23041_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-23045",
+     "page": "https_data_seoul_go_kr_dataList_OA_23045_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-23058",
+     "page": "https_data_seoul_go_kr_dataList_OA_23058_A_1_datasetView_do.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "seoul_open_data/OA-2717",
+     "page": "https_data_seoul_go_kr_dataList_OA_2717_A_1_datasetView_do.txt",
+     "result": "differs",
+     "fields": [
+      "modified"
+     ]
+    },
+    {
+     "dataset_id": "data_go_kr/15012892",
+     "page": "https_www_data_go_kr_catalog_15012892_fileData_json.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15101578",
+     "page": "https_www_data_go_kr_catalog_15101578_fileData_json.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15101578",
+     "page": "https_www_data_go_kr_catalog_15101578_openapi_json.txt",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15012892",
+     "page": "https___www_data_go_kr_catalog_15012892_standard_json_.json",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15069498",
+     "page": "https___www_data_go_kr_catalog_15069498_fileData_json_.json",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15134052",
+     "page": "https___www_data_go_kr_catalog_15134052_openapi_json_.json",
+     "result": "same",
+     "fields": []
+    },
+    {
+     "dataset_id": "data_go_kr/15158994",
+     "page": "https___www_data_go_kr_catalog_15158994_openapi_json_.json",
+     "result": "same",
+     "fields": []
+    }
+   ]
+  }
+ },
+ {
+  "basis_id": "0b08179a53cf-to-cbfa23732988-cycle",
+  "migrated_at": "2026-11-13T09:55:20+00:00",
+  "from_parser": "0b08179a53cf",
+  "accepted_for": "cbfa23732988",
+  "entries": 14993,
+  "dropped_for_lookup": [
+   "seoul_open_data/OA-15535",
+   "seoul_open_data/OA-15536",
+   "seoul_open_data/OA-15537",
+   "seoul_open_data/OA-15538",
+   "seoul_open_data/OA-15539",
+   "seoul_open_data/OA-15540",
+   "seoul_open_data/OA-15541",
+   "seoul_open_data/OA-15542",
+   "seoul_open_data/OA-15544",
+   "seoul_open_data/OA-15545",
+   "seoul_open_data/OA-15561",
+   "seoul_open_data/OA-15562",
+   "seoul_open_data/OA-15563",
+   "seoul_open_data/OA-16031",
+   "seoul_open_data/OA-22454",
+   "seoul_open_data/OA-22455",
+   "seoul_open_data/OA-22459",
+   "seoul_open_data/OA-22462",
+   "seoul_open_data/OA-22464",
+   "seoul_open_data/OA-22465",
+   "seoul_open_data/OA-22466",
+   "seoul_open_data/OA-22467",
+   "seoul_open_data/OA-22468",
+   "seoul_open_data/OA-22470",
+   "seoul_open_data/OA-22471",
+   "seoul_open_data/OA-22472",
+   "seoul_open_data/OA-22473",
+   "seoul_open_data/OA-22474",
+   "seoul_open_data/OA-22475",
+   "seoul_open_data/OA-22476",
+   "seoul_open_data/OA-22477",
+   "seoul_open_data/OA-22478",
+   "seoul_open_data/OA-22479",
+   "seoul_open_data/OA-22480",
+   "seoul_open_data/OA-22481",
+   "seoul_open_data/OA-22482",
+   "seoul_open_data/OA-22483",
+   "seoul_open_data/OA-22484",
+   "seoul_open_data/OA-22485",
+   "seoul_open_data/OA-22486",
+   "seoul_open_data/OA-22487",
+   "seoul_open_data/OA-22488",
+   "seoul_open_data/OA-22489",
+   "seoul_open_data/OA-22490",
+   "seoul_open_data/OA-22491",
+   "seoul_open_data/OA-22492",
+   "seoul_open_data/OA-22493",
+   "seoul_open_data/OA-22494",
+   "seoul_open_data/OA-22495",
+   "seoul_open_data/OA-22496",
+   "seoul_open_data/OA-22497",
+   "seoul_open_data/OA-22498",
+   "seoul_open_data/OA-22499",
+   "seoul_open_data/OA-22505",
+   "seoul_open_data/OA-22506",
+   "seoul_open_data/OA-22507",
+   "seoul_open_data/OA-22508",
+   "seoul_open_data/OA-22509",
+   "seoul_open_data/OA-22510",
+   "seoul_open_data/OA-22511",
+   "seoul_open_data/OA-22512",
+   "seoul_open_data/OA-22513",
+   "seoul_open_data/OA-22514",
+   "seoul_open_data/OA-22515",
+   "seoul_open_data/OA-22516",
+   "seoul_open_data/OA-22517",
+   "seoul_open_data/OA-22518",
+   "seoul_open_data/OA-22521",
+   "seoul_open_data/OA-22522",
+   "seoul_open_data/OA-22523",
+   "seoul_open_data/OA-22524",
+   "seoul_open_data/OA-22525",
+   "seoul_open_data/OA-22526",
+   "seoul_open_data/OA-22527",
+   "seoul_open_data/OA-22528",
+   "seoul_open_data/OA-22530",
+   "seoul_open_data/OA-22531",
+   "seoul_open_data/OA-22532",
+   "seoul_open_data/OA-22533",
+   "seoul_open_data/OA-22534"
+  ],
+  "basis": [
+   "parse_seoul's cycle pattern changed from '갱신주기 (.+?) 분류 ' to '갱신주기 (.{0,60}?) ?분류 ' (empty -> None).",
+   "The two differ only when the 갱신주기 cell is empty: the old one then starts its value with '분류 '. No other field or parser changed.",
+   "Answers whose cycle starts with '분류 ' are dropped and looked up again; the rest keep their values.",
+   "This is compatibility, not re-verification: no page was re-read for the carried answers."
+  ],
+  "evidence": {
+   "note": "saved Seoul official pages (2026-11-05..13), old vs new pattern",
+   "summary": {
+    "same": 71,
+    "unreadable": 1
+   }
+  }
+ },
+ {
+  "basis_id": "cbfa23732988-to-a66eb216459f-description-creator",
+  "migrated_at": "2026-11-13T10:41:38+00:00",
+  "from_parser": "cbfa23732988",
+  "accepted_for": "a66eb216459f",
+  "entries": 8987,
+  "dropped_for_lookup": {
+   "seoul": 5706,
+   "standard": 300
+  },
+  "left_for_reparse": 164,
+  "basis": [
+   "parse_seoul adds 'description' (the page's meta description); parse_data_go_kr adds 'creator' (catalog creator.name).",
+   "No existing answer field changed: the code producing them is the same.",
+   "Seoul and standard-data answers are dropped and looked up again to obtain the new fields.",
+   "Other answers are carried as compatibility, not re-verification; they have no description/creator until a real look-up."
+  ]
+ }
+]

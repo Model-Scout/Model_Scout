@@ -1,0 +1,164 @@
+{
+ "stage": "hypergraph",
+ "corpus": "v2",
+ "created_at": "2026-11-14T17:09:12+00:00",
+ "options": {
+  "corpus": "v2",
+  "public_policy": "verified"
+ },
+ "git": {
+  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
+  "branch": "eval/v1-v2-corpus-compare",
+  "dirty": true,
+  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
+  "untracked_files": []
+ },
+ "upstream": {
+  "enrich_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b"
+ },
+ "inputs": [
+  {
+   "path": "data/hf_datasets_stage1.jsonl",
+   "sha256": "93072566395773b1a30dcf5c588b5dfafc72fa372b5ff6f7d6e6ad79427a81e1",
+   "bytes": 27891993,
+   "rows": 3711
+  },
+  {
+   "path": "data/kaggle_datasets_stage1.jsonl",
+   "sha256": "911c9c065e8f50c5342ab08b7592beabc44e21d4c923545694e173fe67c3481b",
+   "bytes": 595368,
+   "rows": 621
+  },
+  {
+   "path": "data/public_enriched/public_datasets.jsonl",
+   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
+   "bytes": 33917999,
+   "rows": 15157
+  },
+  {
+   "path": "data/hf_datasets_length_stats.jsonl",
+   "sha256": "e2d06f587d7a13c525ab60db468d6e514c6c5c62b17047d540764d90e96d0970",
+   "bytes": 1354361,
+   "rows": 3711
+  },
+  {
+   "path": "data/hf_datasets_ner.jsonl",
+   "sha256": "a9a0b288b4ee45657e93ff30cc4ea9f31be01022e473d859f16a8f1004bb9f39",
+   "bytes": 4059729,
+   "rows": 3670
+  },
+  {
+   "path": "data/model_snapshot/active_models_20261115.jsonl",
+   "sha256": "9b75ba4c43bfb5e02c53e321cc5e5ac6789cfab69b1350124d4891b80a6626e5",
+   "bytes": 13737132,
+   "rows": 4017
+  },
+  {
+   "path": "data/readmes/public",
+   "sha256": "5b40839cc473d8c4fe15b4a0e7391c15910e7e123f9de058727c7dcd89bd02e3",
+   "files": 15738
+  },
+  {
+   "path": "data/readmes/datasets",
+   "sha256": "ab0c89cd5cca1b00972aa07e0f33f97bf6dd1cf46321f373c2ec9197024f26ba",
+   "files": 3664
+  },
+  {
+   "path": "data/readmes/kaggle",
+   "sha256": "504ff3974f12274b7b52aaaef32c4fbcd3efe0857e5f95f00db52cf4231be331",
+   "files": 621
+  },
+  {
+   "path": "taxonomy.yaml",
+   "sha256": "6a2f7b9a9793f87daea78c76109abe84c70f58455cb8b6e844c66d0ad10e0afd",
+   "bytes": 14393
+  }
+ ],
+ "code": [
+  {
+   "path": "13_build_hypergraph.py",
+   "sha256": "fc75f76e01cb60da59d6eb2925b88713ed8964cd1c769f865c7d16a42334313e",
+   "bytes": 31387
+  },
+  {
+   "path": "dataset_dedup.py",
+   "sha256": "9e8b1b7f7f07a3406fbb20531783909e660573fddae8b27ad0c8d73c5c9e611d",
+   "bytes": 22431
+  },
+  {
+   "path": "taxonomy.py",
+   "sha256": "0b7150f4ec16ded684171f40d396856b9dc8cf3cfe7efa239dce2c03cfb397ae",
+   "bytes": 4720
+  },
+  {
+   "path": "retrieval_metadata.py",
+   "sha256": "a54a19374e18208e7947257df3d182aa0d6f0e9ddfb33a5711e9afd08383f3cd",
+   "bytes": 8797
+  },
+  {
+   "path": "corpus_manifest.py",
+   "sha256": "8ab87b3595268242e9f4dfce94d1d10bfb3188ce1e42a1cfdb3ffdf4e5efbe5f",
+   "bytes": 10647
+  }
+ ],
+ "outputs": [
+  {
+   "path": "data/hypergraph_v2/entities.jsonl",
+   "sha256": "40298b7dfb3f2f09ef7c98ada9263c7e40471d2441eddffc19235be6087a3339",
+   "bytes": 19389575,
+   "rows": 23147
+  },
+  {
+   "path": "data/hypergraph_v2/links.jsonl",
+   "sha256": "07b0e219dceb44ff07dbd280d0820c14730b54d924701de8494013e6409c3dac",
+   "bytes": 37276547,
+   "rows": 178712
+  },
+  {
+   "path": "data/hypergraph_v2/relations.jsonl",
+   "sha256": "fac1c46b51d378ded4d74b92ea49a885cc708115b7ed512153e9c52ef366b6d8",
+   "bytes": 402520,
+   "rows": 1829
+  },
+  {
+   "path": "data/hypergraph_v2/concepts.jsonl",
+   "sha256": "f1086a5c523e91dddde39b959b2a368c918eceada5bcf9d683afcfc0b4ed12ce",
+   "bytes": 33625,
+   "rows": 178
+  },
+  {
+   "path": "data/hypergraph_v2/duplicates.json",
+   "sha256": "05f4aa405c69a4a3be91461d876e2c932039416e23f21663591fb99e14d65de5",
+   "bytes": 42998
+  },
+  {
+   "path": "data/hypergraph_v2/series.json",
+   "sha256": "bc60186be05a1a864fa67e646708f05f8f21649d8063711db525caacea5762ad",
+   "bytes": 926352
+  },
+  {
+   "path": "data/hypergraph_v2/report.json",
+   "sha256": "acea7002c28c1aa0add0883ca88d1ecca00a19e9c0497f4146100e91a1fea5bf",
+   "bytes": 4768
+  }
+ ],
+ "counts": {
+  "entities": {
+   "model": 4017,
+   "dataset": 19130
+  },
+  "datasets_by_source": {
+   "huggingface": 3374,
+   "kaggle": 604,
+   "seoul_open_data": 5865,
+   "data_go_kr": 9287
+  },
+  "public_merges": 0,
+  "public_series": 346,
+  "public_withdrawn": 5,
+  "model_source": "snapshot",
+  "models": 4017,
+  "model_ids_sha256": "7a59983c5991b175454ccbdefdaa0dd2500afd5f130d9e49a099d325a3f6c190"
+ },
+ "stage_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff"
+}
