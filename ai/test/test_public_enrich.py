@@ -845,11 +845,16 @@ def test_a_failed_detail_page_keeps_the_catalog_answer_and_is_retried(monkeypatc
     assert failed["api_check"] == "page_failed" and failed["checked_at"] == entry["checked_at"] and failed["encoding"] == "CSV"
     assert enrich.needs_page(failed, source)  # 다음 실행에서 상세 페이지만 다시 읽는다
     confirmed = {**entry, "api_check": "confirmed_auto", "api_endpoint": "15000001/v1"}
-    assert enrich.add_page_api(None, confirmed, source) == confirmed  # 실패해도 이미 확인한 근거는 남긴다
+    assert not enrich.needs_page(confirmed, source)
+    kept = enrich.add_page_api(None, confirmed, source)  # 실패해도 이미 확인한 근거는 남기고 실패만 표시한다
+    assert {k: v for k, v in kept.items() if k != "page_recheck_failed_at"} == confirmed and kept["page_recheck_failed_at"]
+    assert enrich.needs_page(kept, source)  # 실패 표시가 있으면 다음 실행에서 상세 페이지만 다시 읽는다
     monkeypatch.setattr(enrich, "fetch", lambda session, url: FILE_PAGE)
     monkeypatch.setattr(enrich, "RAW_DIR", tmp_path)
     retried = enrich.add_page_api(None, failed, source)
     assert retried["api_check"] == "confirmed_auto" and retried["checked_at"] == entry["checked_at"] and not enrich.needs_page(retried, source)
+    recovered = enrich.add_page_api(None, kept, source)  # 재시도 성공: 새 근거로 바꾸고 실패 표시를 지운다
+    assert "page_recheck_failed_at" not in recovered and recovered["page_sha256"] and not enrich.needs_page(recovered, source)
 
 
 def test_a_file_without_a_catalog_encoding_keeps_its_files_beside_the_auto_api():
@@ -870,6 +875,7 @@ def test_a_full_recheck_whose_detail_page_fails_keeps_the_api_evidence(tmp_path,
     assert out["formats"] == ["api", "csv"] and out["official"]["api_check"] == "confirmed_auto"
     cached = enrich.read_jsonl(tmp_path / "cache.jsonl")[0]
     assert cached["page_checked_at"] == "2026-10-01T00:00:00+00:00" and cached["page_recheck_failed_at"]
+    assert enrich.needs_page(cached, r)  # 다음 실행의 상세 페이지 재시도 대상
     # 근거가 없던 행은 그대로 미확인으로 남고, 다음 실행에서 상세 페이지를 다시 읽는다
     assert enrich.keep_page_evidence({"api_check": "page_failed"}, {"api_check": None}, "t") == {"api_check": "page_failed"}
 

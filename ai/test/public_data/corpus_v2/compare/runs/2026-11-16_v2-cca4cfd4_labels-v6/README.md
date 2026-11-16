@@ -1,5 +1,7 @@
 # 기준선: v2 고정본 cca4cfd4 + 골든셋 v6
 
+> **대체됨:** 공식 조회 코드 수정으로 고정본 ID만 바뀐 [2026-11-16_v2-aa1a71d3_labels-v6](../2026-11-16_v2-aa1a71d3_labels-v6/README.md)가 현재 기준선입니다. 검색 문서·벡터·라벨이 같고 순위와 점수도 모두 같습니다. 이 폴더는 기록으로 남깁니다.
+
 이 기준선은 검색 설정을 바꾸지 않은 상태로 쟀습니다. 이후 실험(에이전트, Pre-retrieval 등)과 비교하는 출발점입니다. 코퍼스와 라벨이 이전 기록과 다르므로, 이전 점수와 직접 비교해 개선·악화를 판단하지 않습니다.
 
 ## 조건
@@ -10,7 +12,7 @@
 | 그래프 | `corpus_id 64edd20acec09e08` |
 | 검색 문서 | `documents_id cca4cfd4965a3ce7` (41,144청크) |
 | 벡터 | 로컬 `embeddings.npy`. `vectors_sha256 8b05f2f9073869ac`, text-embedding-3-small |
-| 라벨 | [batch5/labels_llm_v6.jsonl](../../../golden_prep/batch5/labels_llm_v6.jsonl) (sha256 `c5d300ecef38ecb1…`) |
+| 라벨 | [batch5/labels_llm_v6.jsonl](../../../golden_prep/batch5/labels_llm_v6.jsonl) (sha256 `ad27386f22589784…`, LF 기준) |
 | 질의 벡터 | `compare/query_vectors.jsonl`. 새로 만든 벡터 0개 |
 | 검색 설정·중복 목록 | `run.json`, `aliases.json` (각 파일의 sha256 포함) |
 

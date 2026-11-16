@@ -1,0 +1,60 @@
+{
+ "v2": {
+  "identity": {
+   "corpus": "v2",
+   "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+   "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+   "vectors": "local"
+  },
+  "labels": {
+   "path": "test/public_data/corpus_v2/golden_prep/batch5/labels_llm_v6.jsonl",
+   "sha256": "ad27386f225897849c350735947faf11334e9e342a8f55e97990cd832b805d4e"
+  },
+  "search_inputs_sha256": "2352d5061c1a8d552660fe85a9ade8674cd465dd79473dc7e85458b4b16b34e2",
+  "proposed_questions": {
+   "path": "test/public_data/corpus_v2/golden_prep/proposed_queries.jsonl",
+   "sha256": "0bdb01d1dff6674946c5dac0f552af11469c1aa53c5b305dade90cc420e900b5"
+  },
+  "query_vectors": {
+   "path": "test/public_data/corpus_v2/compare/query_vectors.jsonl",
+   "sha256": "9b7655b1fd0804bbe5f2293d043d19c9ddd8e4a2e6612c21cf75d547a55c6ffd"
+  },
+  "aliases": {
+   "path": "C:\\Users\\jhw00\\AppData\\Local\\Temp\\claude\\9a84ea50f1ea9eec\\b3a36ccc-bc23-4db8-bdd7-7e2aa0a67c78\\scratchpad\\run_aa1a\\aliases.json",
+   "sha256": "6a6cd62c6cc20071c26ce49b2fdd12e3c69e1d0f949fd2eb77b2be2307fae566"
+  },
+  "search_settings": {
+   "depth": 30,
+   "DENSE_WEIGHT": 10.0,
+   "DENSE_ONLY_MIN": 0.45,
+   "DENSE_MIN": 0.4,
+   "DENSE_MARGIN": 0.15,
+   "DENSE_ONLY_MARGIN": 0.08,
+   "FACET_WEIGHTS": {
+    "task": 3.0,
+    "domain": 2.0,
+    "input_length": 1.0,
+    "language": 1.0,
+    "input_modality": 0.5
+   },
+   "TRAINED_WITH_BONUS": 5.0,
+   "KOREAN_FOCUS_BONUS": {
+    "ko_only": 1.5,
+    "ko_with_others": 1.0,
+    "wide_multilingual": 0.0,
+    "not_ko": -1.0
+   },
+   "README_PENALTY": {
+    "template": -2.0,
+    "thin": -2.0,
+    "missing": -2.0
+   },
+   "CONFIDENCE_WEIGHT": {
+    "high": 1.0,
+    "medium": 0.8,
+    "low": 0.3
+   }
+  },
+  "new_query_vectors": 0
+ }
+}

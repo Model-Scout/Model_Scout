@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Bring the server back to a snapshot from deploy/snapshot_server.sh: images, compose/env files, data.
+# Bring the server back to a snapshot from deploy/snapshot_server.sh: that snapshot's images (by the
+# image IDs it recorded), compose/env files and data.
 #   deploy/rollback.sh                 # the latest snapshot
 #   deploy/rollback.sh 20261116T...Z   # a given one
 # A snapshot that served v2 starts only if Supabase still holds that v2 build (the AI service checks the
@@ -16,14 +17,19 @@ stamp="${STAMP:-$(cat rollback/LATEST)}"
 snap="rollback/$stamp"
 test -d "$snap"
 (cd "$snap" && sha256sum -c --quiet SHA256SUMS)
+# the images this snapshot recorded, checked by ID before anything is replaced
+while read -r s tag id; do
+  [ "$(docker image inspect --format '{{.Id}}' "$tag")" = "$id" ] || { echo "$tag is not $id: stop" >&2; exit 1; }
+done < "$snap/images.txt"
+[ "$(wc -l < "$snap/images.txt")" -eq 2 ] || { echo "$snap/images.txt must list ai and backend" >&2; exit 1; }
 for f in compose.yml Caddyfile docs_users .env.ai .env.backend .env.corpus; do
   if [ -f "$snap/$f" ]; then cp -p "$snap/$f" "$f"; elif [ "$f" = .env.corpus ]; then rm -f .env.corpus; fi
 done
 for d in hypergraph hypergraph_v2 dataset_index dataset_index_v2; do
   [ -d "$snap/$d" ] && rsync -a --delete "$snap/$d/" "data/$d/"
 done
-for s in ai backend; do docker tag "model-scout-$s:prev" "model-scout-$s:latest"; done
+while read -r s tag id; do docker tag "$id" "model-scout-$s:latest"; done < "$snap/images.txt"
 docker compose up -d --force-recreate --remove-orphans
 docker compose ps
-echo "rolled back to $snap"; cat .env.corpus 2>/dev/null || echo "(no .env.corpus: v1 default)"
+echo "rolled back to $snap"; cat "$snap/images.txt"; cat .env.corpus 2>/dev/null || echo "(no .env.corpus: v1 default)"
 EOF

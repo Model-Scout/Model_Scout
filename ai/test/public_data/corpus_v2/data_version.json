@@ -1,17 +1,17 @@
 {
- "data_version": "cca4cfd4965a3ce7",
- "pinned_at": "2026-11-15T20:12:47+00:00",
+ "data_version": "aa1a71d35a121150",
+ "pinned_at": "2026-11-16T02:46:02+00:00",
  "git": {
-  "commit": "9654771cf31aeec4eb78b9c9475c5f7e9030b18c",
+  "commit": "10e829a2512f816c66755393d088b6a8e19db03c",
   "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "aa3a1298325b69db5815abb0e3fdef61b903a78780dbfab69a9edcb4a8b37aaa",
+  "tracked_diff_sha256": "3f2dff2ff835684b831c38ef9ae2787eb37ba83900f644a65840c744fd46ec3f",
   "untracked_files": []
  },
  "stages": {
   "enrich": {
-   "stage_id": "28995570b976dfd15293d458c2dddec9faf89f7ef265a3c353733230b600546a",
-   "created_at": "2026-11-15T20:02:46+00:00",
+   "stage_id": "7cbfb4ea951634f21fa1359ffe679582d8d883db0ed37afe1f7db52ef5322e7c",
+   "created_at": "2026-11-16T02:32:38+00:00",
    "inputs": [
     {
      "path": "data/public_datasets_stage1.jsonl",
@@ -30,8 +30,8 @@
    ]
   },
   "hypergraph": {
-   "stage_id": "64edd20acec09e08f34d07fee7c5bf247d417eabc12d386277f0cad68d8525e2",
-   "created_at": "2026-11-15T20:09:20+00:00",
+   "stage_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+   "created_at": "2026-11-16T02:41:48+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -133,8 +133,8 @@
    ]
   },
   "documents": {
-   "stage_id": "cca4cfd4965a3ce71ef76dd0c5108e0af5a48f198d0846f70438654cc4d46a17",
-   "created_at": "2026-11-15T20:12:01+00:00",
+   "stage_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+   "created_at": "2026-11-16T02:44:46+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",

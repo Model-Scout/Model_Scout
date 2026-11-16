@@ -8,20 +8,20 @@
   },
   "labels": {
    "path": "test/public_data/corpus_v2/golden_prep/batch5/labels_llm_v6.jsonl",
-   "sha256": "a4a77b0cbabb4a1f842d93a7b92fd1cdb474f29df91567a51ad76fb9eff2b2a9"
+   "sha256": "9f33017fad4d06b9b357cd77046431586b119be19788d96cd4c553d163c94420"
   },
   "search_inputs_sha256": "2352d5061c1a8d552660fe85a9ade8674cd465dd79473dc7e85458b4b16b34e2",
   "proposed_questions": {
    "path": "test/public_data/corpus_v2/golden_prep/proposed_queries.jsonl",
-   "sha256": "19ba3e89cc317e7be32c5649d2486527cbb194c273a8b5ac10736aeae9205482"
+   "sha256": "0bdb01d1dff6674946c5dac0f552af11469c1aa53c5b305dade90cc420e900b5"
   },
   "query_vectors": {
    "path": "test/public_data/corpus_v2/compare/query_vectors.jsonl",
-   "sha256": "f280a10b29bfd4b1d62e6eb6ffe2cedaddd22e4f3f8b4a06a42887cd010c15c1"
+   "sha256": "9b7655b1fd0804bbe5f2293d043d19c9ddd8e4a2e6612c21cf75d547a55c6ffd"
   },
   "aliases": {
    "path": "test/public_data/corpus_v2/compare/runs/2026-11-16_v2-40441294_labels-v6/aliases.json",
-   "sha256": "c3500db74dc8281d06afc27fe7392b8fc1186bb7160605c458dd3e3dda91f909"
+   "sha256": "6a6cd62c6cc20071c26ce49b2fdd12e3c69e1d0f949fd2eb77b2be2307fae566"
   },
   "search_settings": {
    "depth": 30,
@@ -55,6 +55,16 @@
     "low": 0.3
    }
   },
-  "new_query_vectors": 0
+  "new_query_vectors": 0,
+  "hash_migration": {
+   "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+   "previous_crlf_sha256": {
+    "labels": "a4a77b0cbabb4a1f842d93a7b92fd1cdb474f29df91567a51ad76fb9eff2b2a9",
+    "proposed_questions": "19ba3e89cc317e7be32c5649d2486527cbb194c273a8b5ac10736aeae9205482",
+    "query_vectors": "f280a10b29bfd4b1d62e6eb6ffe2cedaddd22e4f3f8b4a06a42887cd010c15c1",
+    "aliases": "c3500db74dc8281d06afc27fe7392b8fc1186bb7160605c458dd3e3dda91f909"
+   },
+   "labels_checked_from_commit": "9654771c"
+  }
  }
 }

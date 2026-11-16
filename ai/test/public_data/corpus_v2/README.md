@@ -1,10 +1,12 @@
 # 공공데이터 코퍼스 v2: 받아서 실행하기
 
-고정 버전은 `data_version cca4cfd4965a3ce7`입니다. 정제·검증·적재 내역과 남은 일은 [CUTOVER.md](CUTOVER.md)에 있습니다. 이 문서는 PR을 받은 사람이 같은 v2로 실행하고 평가하는 방법만 다룹니다.
+고정 버전은 `data_version aa1a71d35a121150`입니다. 정제·검증·적재 내역과 남은 일은 [CUTOVER.md](CUTOVER.md)에 있습니다. 이 문서는 PR을 받은 사람이 같은 v2로 실행하고 평가하는 방법만 다룹니다.
 
 이전 고정본의 기록은 [pins/](pins/)에 있습니다.
 - `04239c20eb394c12`: 지금 Supabase v2에 적재된 것
-- `b41fbf9bd52ad851`, `40441294f66875a6`: 적재하지 않은 중간본(40441294에서 OA-15531 카드 1개만 바뀐 것이 cca4cfd4)
+- `b41fbf9bd52ad851`, `40441294f66875a6`, `cca4cfd4965a3ce7`: 적재하지 않은 중간본
+  - 40441294 → cca4cfd4: OA-15531 카드 1개만 바뀜
+  - cca4cfd4 → aa1a71d3: 검색 문서·벡터는 같고, 공식 조회 코드(18_enrich)의 해시만 바뀜
 
 ## 받는 것
 
@@ -20,14 +22,18 @@
 | `ai/test/public_data/corpus_v2/data_version.json` | 고정 기록 |
 | `ai/test/public_data/corpus_v2/official_pages_manifest.json` | 상세 페이지 묶음과 각 페이지의 sha256 |
 | `golden_prep/batch5/labels_llm_v6.jsonl` | 골든셋 v6 ([batch5/README](golden_prep/batch5/README.md)) |
-| `compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/` | 기준선 ([README](compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/README.md)) |
+| `compare/runs/2026-11-16_v2-aa1a71d3_labels-v6/` | 기준선 ([README](compare/runs/2026-11-16_v2-aa1a71d3_labels-v6/README.md)) |
 
-**팀 공유 폴더 `v2_cca4cfd4965a3ce7/`** (Git에 넣지 않은 파일)
+**팀 공유 폴더 `v2_aa1a71d35a121150/`** (Git에 넣지 않은 파일)
+
+- **최신본은 `v2_aa1a71d35a121150/`입니다.** 이름이 다른 폴더(`v2_cca4cfd4965a3ce7/`, `v2_40441294f66875a6/`)는 이전 고정본용이라 쓰지 않습니다.
+- **받는 곳:** (팀 드라이브 위치 기재 예정)
+- 받은 뒤 아래 1번의 `sha256sum -c SHA256SUMS`가 세 파일 모두 OK여야 합니다.
 
 | 파일 | 크기 | sha256 | 내용 |
 |---|---|---|---|
 | `embeddings.npy` | 126MB | `8b05f2f9073869ac…` | 검색 벡터 |
-| `manifest.json` | 4MB | `d576b7dad7f8910f…` | 벡터 기록 (Git의 것과 같음) |
+| `manifest.json` | 4MB | `1a02c15738c07213…` | 벡터 기록 (Git의 것과 같음) |
 | `official_pages_40441294.tar` | 105MB | `ea896badfef27768…` | API 근거가 된 상세 페이지 3,357개 (표준 300 + 파일 3,057) |
 | `SHA256SUMS` | | | 위 세 파일의 전체 해시 |
 
@@ -43,12 +49,12 @@
 2. **고정 버전 확인**
    ```bash
    python public_v2_pipeline.py --verify-pin
-   # public v2 matches the pinned data_version cca4cfd4965a3ce7
+   # public v2 matches the pinned data_version aa1a71d35a121150
    python -c "import hypergraph_search as hs; print(hs.use_corpus('v2'))"   # 그래프·문서·벡터 검사
    ```
    - Supabase v2에 이 고정본이 적재된 뒤에는 공유 폴더 없이 `python 20_sync_dataset_index.py --corpus v2 --restore-vectors`로도 벡터를 복원할 수 있습니다.
    - 복원은 DB 빌드 기록, 청크 순서, `vectors_sha256`가 모두 맞을 때만 파일을 씁니다.
-3. **평가 (기준선 재현)**: [기준선 README](compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/README.md)의 명령을 새 폴더로 실행합니다.
+3. **평가 (기준선 재현)**: [기준선 README](compare/runs/2026-11-16_v2-aa1a71d3_labels-v6/README.md)의 명령을 새 폴더로 실행합니다.
    - 실행 폴더는 덮어쓰지 않습니다.
    - 같은 폴더에 다른 기준(질문, 중복 목록)으로 실행하거나 재채점하면 멈춥니다.
 
@@ -89,7 +95,7 @@ python public_v2_pipeline.py --verify-pin             # 같은 data_version이 �
 | `model_scout_dataset_chunks_v2` | 청크 41,144행. **청크 전문**과 벡터(halfvec). 서버는 답변 근거(카드 사실)를 여기서 읽음 |
 | `model_scout_dataset_index_v2_meta` | 적재한 빌드 기록: `documents_id`, `corpus_id`, `data_version`, 벡터 해시, 임베딩 모델 |
 
-- **현재 적재본:** 04239c20 (2026-11-16 기준). cca4cfd4는 아직 적재하지 않았습니다.
+- **현재 적재본:** 04239c20 (2026-11-16 기준). aa1a71d3은 아직 적재하지 않았습니다.
 - **적재:** `python 20_sync_dataset_index.py --corpus v2 --apply`
   - `_v2` 테이블만 씁니다.
   - 벡터 파일이 바뀌면 벡터 전체(약 280MB)를 다시 올립니다.
@@ -122,7 +128,7 @@ python public_v2_pipeline.py --verify-pin             # 같은 data_version이 �
 **순서 (Docker Desktop 필요, 저장소 루트에서)**
 ```bash
 deploy/inspect_server.sh > server_state.txt      # 읽기 전용: 코퍼스, 버전, 코드 해시, 메모리
-deploy/snapshot_server.sh                        # 서버 안에 보존: 이미지 :prev 태그, compose·env, 데이터 하드링크 사본
+deploy/snapshot_server.sh                        # 서버 안에 보존: 실행 중 이미지(백업별 :rb-<시각> 태그와 ID), compose·env, 데이터 하드링크 사본
 # (서버가 v2이면) MODEL_SCOUT_CORPUS=v1 deploy/deploy.sh --data
 python ai/20_sync_dataset_index.py --corpus v2 --apply
 MODEL_SCOUT_CORPUS=v2 deploy/deploy.sh           # 처음 v2로 바꿀 때는 전체 배포 (compose.yml도 복사됨)
@@ -134,12 +140,12 @@ deploy/inspect_server.sh                         # 배포 후 확인
   - `.env.corpus`를 v1로 쓰고, 로컬 v1 파일(git과 같음)을 서버에 맞춘 뒤 컨테이너를 다시 만듭니다.
   - 새 코드의 v1 검색은 2026-11-13 기록과 72/72 질문에서 같은 순위였습니다.
 - **배포 직전 상태로:** `deploy/rollback.sh`
-  - 보존한 이미지, compose·env, 데이터 파일을 되돌립니다.
+  - 고른 백업의 이미지(기록한 이미지 ID로 확인), compose·env, 데이터 파일을 되돌립니다. 예전 백업을 골라도 그 시점의 이미지로 돌아갑니다.
   - 그 상태가 v2였다면 DB에도 그 빌드가 있어야 시작합니다.
 
 ## 아직 하지 않은 것
 
-- **Supabase v2 갱신(cca4cfd4)과 서비스 전환 배포:** 서버 상태 확인 후 진행
+- **Supabase v2 갱신(aa1a71d3)과 서비스 전환 배포:** 서버 상태 확인 후 진행
 - **Actions의 v2 전환과 재개**
 - **v1 제거:** 서비스 전환 후 v1 참조가 없는지 확인하고, 복구용 파일을 보관한 뒤 진행
 - **골든셋 보류 30쌍의 공식 확인:** [batch5/README](golden_prep/batch5/README.md)

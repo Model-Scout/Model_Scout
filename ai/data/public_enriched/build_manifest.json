@@ -1,15 +1,15 @@
 {
  "stage": "enrich",
  "corpus": "v2",
- "created_at": "2026-11-15T20:02:46+00:00",
+ "created_at": "2026-11-16T02:32:38+00:00",
  "options": {
   "offline": true
  },
  "git": {
-  "commit": "9654771cf31aeec4eb78b9c9475c5f7e9030b18c",
+  "commit": "10e829a2512f816c66755393d088b6a8e19db03c",
   "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "aa3a1298325b69db5815abb0e3fdef61b903a78780dbfab69a9edcb4a8b37aaa",
+  "tracked_diff_sha256": "3f2dff2ff835684b831c38ef9ae2787eb37ba83900f644a65840c744fd46ec3f",
   "untracked_files": []
  },
  "upstream": null,
@@ -24,8 +24,8 @@
  "code": [
   {
    "path": "18_enrich_public_datasets.py",
-   "sha256": "a82fe6e4cb81cf3d6326521eaa2d282ef29d06c755c8dfc020d05915508d2d04",
-   "bytes": 30139
+   "sha256": "a9394a7fea4afc422657cf3945b7e837162857c69d6d938fdc2695167b6c834a",
+   "bytes": 30471
   },
   {
    "path": "18_collect_public_datasets.py",
@@ -74,5 +74,5 @@
    "fileData:page_failed": 3
   }
  },
- "stage_id": "28995570b976dfd15293d458c2dddec9faf89f7ef265a3c353733230b600546a"
+ "stage_id": "7cbfb4ea951634f21fa1359ffe679582d8d883db0ed37afe1f7db52ef5322e7c"
 }

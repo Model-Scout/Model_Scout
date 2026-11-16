@@ -1,6 +1,6 @@
 # 기준선: v2 고정본 40441294 + 골든셋 v6
 
-> **대체됨:** 같은 날 검토에서 고친 점(자동 검사의 'API만 = 파일 미제공' 규칙, OA-15531 설명 불일치 표시)을 반영한 [2026-11-16_v2-cca4cfd4_labels-v6](../2026-11-16_v2-cca4cfd4_labels-v6/README.md)가 현재 기준선입니다. 이 폴더는 기록으로만 남깁니다(이 실행에 쓴 라벨은 sha256 `a4a77b0c…`로 지금의 v6와 다릅니다).
+> **대체됨:** 같은 날 검토에서 고친 점(자동 검사의 'API만 = 파일 미제공' 규칙, OA-15531 설명 불일치 표시)을 반영한 [2026-11-16_v2-cca4cfd4_labels-v6](../2026-11-16_v2-cca4cfd4_labels-v6/README.md)가 현재 기준선입니다. 이 폴더는 기록으로만 남깁니다(이 실행에 쓴 라벨은 LF 기준 sha256 `9f33017fad4d06b9…`로 지금의 v6와 다릅니다).
 
 이 기준선은 검색 설정을 바꾸지 않은 상태로 쟀습니다. 이후 실험(에이전트, Pre-retrieval 등)과 비교하는 출발점입니다.
 
@@ -12,7 +12,7 @@
 | 그래프 | `corpus_id e29561500a725299` |
 | 검색 문서 | `documents_id 40441294f66875a6` (41,144청크) |
 | 벡터 | 로컬 `embeddings.npy`. `vectors_sha256 cfc16b0c8e1aacb3`, text-embedding-3-small |
-| 라벨 | [batch5/labels_llm_v6.jsonl](../../../golden_prep/batch5/labels_llm_v6.jsonl) (sha256 `a4a77b0cbabb4a1f…`) |
+| 라벨 | [batch5/labels_llm_v6.jsonl](../../../golden_prep/batch5/labels_llm_v6.jsonl) (LF 기준 sha256 `9f33017fad4d06b9…`, 커밋 9654771c의 파일) |
 | 질의 벡터 | `compare/query_vectors.jsonl`. 새로 만든 벡터 0개 |
 | 검색 설정·중복 목록 | `run.json`, `aliases.json` (각 파일의 sha256 포함) |
 

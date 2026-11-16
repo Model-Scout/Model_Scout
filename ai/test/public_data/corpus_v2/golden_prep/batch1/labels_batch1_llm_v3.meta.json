@@ -1,8 +1,14 @@
 {
  "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch1\\judgments_v3.jsonl",
- "judgments_sha256": "c4228b22254563684c53fe2b47c9e723bc69c4d507b41296d1441dac4723ce22",
+ "judgments_sha256": "233a038cd65935ebf172fcf1955151176cdf1259eba2f3ef393dd46c199d378a",
  "judgment_kinds": {
   "llm_first_pass": 233
  },
- "warnings_resolved": {}
+ "warnings_resolved": {},
+ "hash_migration": {
+  "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+  "previous_crlf_sha256": {
+   "judgments_sha256": "c4228b22254563684c53fe2b47c9e723bc69c4d507b41296d1441dac4723ce22"
+  }
+ }
 }

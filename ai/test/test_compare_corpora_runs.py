@@ -69,3 +69,10 @@ def test_rescoring_checks_the_saved_hashes(tmp_path, monkeypatch):
     (tmp_path / "run" / "aliases.json").write_text("[]\n", encoding="utf-8")
     with pytest.raises(SystemExit, match="not the duplicate list"):
         cc.check_run_record(tmp_path / "run", [LABEL])
+
+
+def test_a_run_records_line_end_free_hashes(tmp_path):
+    # Windows 작업본(CRLF)과 git·Linux·Mac(LF)에서 같은 파일이 같은 해시를 가져야 재채점이 거부되지 않는다
+    (tmp_path / "lf.jsonl").write_bytes(b'{"a": 1}\n{"b": 2}\n')
+    (tmp_path / "crlf.jsonl").write_bytes(b'{"a": 1}\r\n{"b": 2}\r\n')
+    assert cc.file_record(tmp_path / "lf.jsonl")["sha256"] == cc.file_record(tmp_path / "crlf.jsonl")["sha256"]

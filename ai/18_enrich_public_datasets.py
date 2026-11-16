@@ -473,20 +473,24 @@ def keep_page_evidence(meta, old, checked):
 
 
 def needs_page(entry, row):
-    """A confirmed catalog answer still missing its detail page's API evidence (never read, or it failed)."""
+    """A confirmed catalog answer whose detail page is still owed a read: never read, its read failed, or
+    a later re-read failed (the older evidence is kept and marked page_recheck_failed_at)."""
     return (bool(entry) and entry.get("status") == "ok" and row["source"] == "data_go_kr"
-            and page_kind(row) in DETAIL_KINDS and entry.get("api_check") in (None, "page_failed"))
+            and page_kind(row) in DETAIL_KINDS
+            and (entry.get("api_check") in (None, "page_failed") or bool(entry.get("page_recheck_failed_at"))))
 
 
 def add_page_api(session, entry, row):
     """Only the detail page is read again: the catalog answer and its checked_at stay as they were.
 
-    A failure keeps any evidence the entry already had and leaves page_failed for the next run to retry.
+    A failure keeps any evidence the entry already had (marked page_recheck_failed_at) and leaves the row
+    for the next run to retry; a success replaces the evidence and clears the mark.
     """
     found = detail_page_api(session, row)
     if found["api_check"] == "page_failed" and entry.get("api_check") not in (None, "page_failed"):
-        return entry
-    return {**{k: v for k, v in entry.items() if k not in ("api_check", "api_endpoint", "api_evidence", "page_sha256")}, **found}
+        return {**entry, "page_recheck_failed_at": found["page_checked_at"]}
+    drop = ("api_check", "api_endpoint", "api_evidence", "page_sha256", "page_recheck_failed_at")
+    return {**{k: v for k, v in entry.items() if k not in drop}, **found}
 
 
 def is_fresh(entry, row, now):

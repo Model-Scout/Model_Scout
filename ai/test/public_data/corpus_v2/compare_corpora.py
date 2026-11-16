@@ -36,6 +36,7 @@ HERE = Path(__file__).resolve().parent
 AI = HERE.parents[2]
 sys.path.insert(0, str(AI))
 import hypergraph_search as hs  # noqa: E402
+from corpus_manifest import content_digest  # noqa: E402  (LF-normalized text hash: same on every OS)
 
 _spec = importlib.util.spec_from_file_location("eval22", AI / "22_eval_recommendations.py")
 ev = importlib.util.module_from_spec(_spec)
@@ -88,7 +89,7 @@ def proposed_as_label(p):
 def file_record(path):
     path = Path(path)
     return {"path": path.resolve().relative_to(AI).as_posix() if path.resolve().is_relative_to(AI) else str(path),
-            "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+            "sha256": content_digest(path)[0]}
 
 
 def search_settings():
@@ -165,7 +166,7 @@ def check_run_record(folder, labels):
     inputs = search_inputs_sha256(labels)
     for corpus, r in json.loads(path.read_text(encoding="utf-8")).items():
         aliases = Path(folder) / "aliases.json"
-        if not aliases.exists() or hashlib.sha256(aliases.read_bytes()).hexdigest() != r["aliases"]["sha256"]:
+        if not aliases.exists() or content_digest(aliases)[0] != r["aliases"]["sha256"]:
             raise SystemExit(f"{aliases} is not the duplicate list the {corpus} run saved")
         if r.get("search_inputs_sha256") is None:
             print(f"[주의] {corpus} 실행 기록에 검색 입력 해시가 없어 질문 일치를 확인하지 못함")
