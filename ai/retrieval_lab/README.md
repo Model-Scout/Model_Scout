@@ -4,13 +4,59 @@
 
 ```text
 User Query
-→ Query Type (골든셋의 plan_query_type 사용, 분류기는 아직 없음)
+→ Query Type (실험은 골든셋의 plan_query_type 사용; 모델 분류기는 classifier.py)
 → Pre-Retrieval: Rewrite / Decomposition / Multi-Query / HyDE   pre_retrieval.py
 → Retrieval Planner: hard filter, dense/sparse weight, top_k   planner.py
 → Dense: BGE-M3 (BAAI/bge-m3)                                   dense.py
 → Sparse: fielded BM25 (05_validate_retrieval.py와 같은 점수)    corpus.py
 → Weighted RRF (k=60)                                           fusion.py
 → Top-K 후보 (기본 30)                                           pipeline.py
+```
+
+## 검색 대상 라우터와 모델 유형 분류기
+
+`router.py`는 **검색 대상(`target`)만** 한 번의 LLM 호출로 정한다: `model` / `dataset` / `both` / `needs_clarification`.
+질의 유형은 라우터가 아니라 각 파이프라인 안에서 나눈다. 모델 쪽은 `classifier.py`(6개 유형),
+데이터셋 쪽 유형은 아직 정의하지 않았다. 각 분류 체계를 따로 바꾸고, `both` 질의도 각자 자기 몫만 보게 하려는 분리다
+(라우터와 유형을 한 번에 물었을 때 모델 유형 정확도 0.758, 분류기 단독 규칙+LLM 0.815).
+
+```bash
+cd ai
+python -m retrieval_lab.router "HF에서 한국어 요약 모델 찾아줘"
+python -m retrieval_lab.router "모델 학습에 쓸 공공데이터 찾아줘"
+python -m retrieval_lab.router "교통량 데이터와 예측 모델을 각각 찾아줘"
+```
+
+추천 그래프(`17_recommend_graph.py`)에 연결되어 있다:
+
+```text
+route → decompose → clarify → classify_model_query → search_models → search_datasets → assess → explain
+```
+
+- `dataset`이면 모델 검색을, `model`이면 데이터셋 검색을 건너뛴다. `both`는 둘 다 찾는다.
+- `needs_clarification`이면 clarify에서 "모델과 데이터셋 중 무엇을 찾으시나요?"를 묻고, 답을 붙여 다시 라우팅한다.
+  그래도 불분명하면 둘 다 찾는다.
+- 라우터 오류(`status != ok`)는 실험 코드와 달리 서비스에서는 둘 다 찾는다(라우터 도입 전 동작).
+- 후속 질문은 첫 턴의 `target`을 유지한다.
+- `classify_model_query`: 모델 검색이 있을 때만 `classifier`로 유형을 정해 상태(`model_query_type`)와 로그에 **기록만** 한다.
+  검색 방식에는 아직 쓰지 않는다(Retrieval Planner 연결 전). 규칙은 `model` 대상에만 쓰고, `both`는 데이터 문구가
+  규칙을 건드릴 수 있어 LLM만 쓴다. 실패해도 추천은 계속된다.
+- 서비스 호출은 `use_cache=False`로 캐시를 읽거나 쓰지 않는다. 캐시는 평가 질의 전용이고 git에 들어 있다.
+- `dataset`은 공공기관 데이터뿐 아니라 HF·Kaggle 데이터셋도 포함한다.
+  HF 모델 요청은 `model`, HF 데이터셋 요청은 `dataset`이다. 플랫폼명만으로
+  `both`로 보내지 않는다. 모델 학습용 데이터만 요청한 경우도 `dataset`이다.
+- 출력은 `target`, `status`, `source`, `latency_ms`, `model_latency_ms`. SDK 타임아웃 10초, 자동 재시도 없음.
+  LLM은 `PRE_RETRIEVAL_LLM_MODEL`(기본 `gpt-4o-mini`)이며, 생성 LLM을 Ollama로 바꿔도 라우팅·분류는 OpenAI를 쓴다.
+- 평가: `python -m retrieval_lab.router --eval` (모델 골든셋 178 + 공공데이터 질의 58 +
+  `test/golden/labels/routing_edge_queries.jsonl` 29) → `reports/routing.md`.
+  모델 유형 정확도는 `python -m retrieval_lab.classifier --eval`로 따로 잰다.
+- 라우팅 캐시는 `cache/routing/`의 질의별 JSON이다. 전체 프롬프트와 모델이 캐시 키에 포함된다.
+- 모델 전용 분류기 v3는 비교 규칙에 더해 번역 방향·파일 형식·일부 모델 계열의
+  명시적 표현을 규칙 처리한다. 벤치마크·부정·복합 작업 등은 LLM에 맡긴다.
+  잘못된 LLM 유형은 기존 기본 유형으로 처리하되 경고를 남기고 캐시하지 않는다.
+
+```bash
+python -m pytest -q test/test_query_router.py test/test_recommend_routing.py test/test_retrieval_lab.py
 ```
 
 ## 담당
