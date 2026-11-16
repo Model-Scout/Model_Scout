@@ -41,6 +41,31 @@ MVP 데이터 소스는 **공공데이터포털**을 우선 검토합니다. 포
 
 ## 설치와 실행
 
+### 로컬 추천 LLM (Ollama)
+
+개발 중 추천 생성 비용을 줄이려면 Ollama를 설치하고 `ollama pull gemma3:4b`를 실행한다.
+요구사항 분해, 추천 설명, 저장 결과에 대한 추가 질문은 같은 생성용 클라이언트를 쓴다.
+검색 임베딩·수집용 OpenAI 클라이언트는 바뀌지 않으므로 해당 API 비용은 별도로 발생한다.
+Ollama 연결 실패 시 GPT로 자동 전환하지 않는다.
+
+```dotenv
+RECOMMEND_LLM_PROVIDER=ollama
+RECOMMEND_LLM_MODEL=gemma3:4b
+RECOMMEND_LLM_BASE_URL=http://127.0.0.1:11434/v1
+```
+
+루트 `.env`에 위 설정과 기존 DB·OpenAI 임베딩 설정이 있다면 저장소 루트에서 실행한다.
+
+```powershell
+./.venv/Scripts/python.exe -m uvicorn api:app --app-dir ai --env-file .env --host 127.0.0.1 --port 8001
+```
+
+또는 AI 설정 전체를 `ai/.env`에 두고 `python ai/api.py`로 실행한다.
+명시적인 프로세스 환경변수가 `ai/.env`보다 우선하며, 모델 설정 변경 후에는 AI 서버를 재시작한다.
+GPT로 전환할 때는 `RECOMMEND_LLM_PROVIDER=openai`, `RECOMMEND_LLM_MODEL=gpt-4.1-mini`와
+유효한 `OPENAI_API_KEY`를 설정한다. Ollama 주소는 OpenAI 모드에서 사용하지 않는다.
+설정이 없으면 기존처럼 OpenAI `gpt-4.1-mini`를 사용한다.
+
 프로젝트 루트에서 Python 가상환경을 만들고 의존성을 설치합니다.
 
 ```bash

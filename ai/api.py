@@ -43,6 +43,7 @@ from recommendation_question import stream_question
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
+logging.basicConfig(level=logging.INFO)  # route target and model query type are recorded as INFO, like the backend
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 

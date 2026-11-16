@@ -287,26 +287,30 @@ def test_stage1_removal_guard_blocks_a_mass_drop():
         sync.assert_stage1_removal(sync.stage1_diff(previous, current))
     except sync.Stage1RemovalGuardError as error:
         assert "350" in str(error)
-        assert error.diff["removal_guard"]["max_fraction"] == 0.30
+        assert error.diff["removal_guard"]["max_fraction"] == 0.10
         assert len(error.diff["removed_ids"]) == 350
     else:
         raise AssertionError("처리 대상 35% 감소를 통과시켰다")
 
 
-def test_stage1_removal_guard_allows_the_reviewed_long_gap_churn():
-    """2026-11-13 full-scan 실측: 3,886 → 4,015, 제거 957·추가 1,086."""
+def test_stage1_removal_guard_blocks_old_one_off_long_gap_churn():
+    """2026-11-13에만 허용했던 24.6% 교체를 정상 운영에서는 다시 막는다."""
     previous = {"core": _ids("old", 3886), "low_popularity": []}
     current = {
         "core": _ids("old", 2929) + _ids("new", 1086),
         "low_popularity": [],
     }
     diff = sync.stage1_diff(previous, current)
-    guard = sync.assert_stage1_removal(diff)
     assert diff["current_processable"] == 4015
     assert len(diff["removed_ids"]) == 957
     assert len(diff["added_ids"]) == 1086
-    assert guard["max_allowed"] == 1165
-    assert guard["blocked"] is False
+    try:
+        sync.assert_stage1_removal(diff)
+    except sync.Stage1RemovalGuardError as error:
+        assert error.diff["removal_guard"]["max_allowed"] == 388
+        assert error.diff["removal_guard"]["blocked"] is True
+    else:
+        raise AssertionError("일회성 24.6% 교체를 정상 운영 가드가 통과시켰다")
 
 
 def test_stage1_removal_guard_allows_normal_churn_and_pool_moves():
@@ -364,7 +368,7 @@ def test_deactivation_guard_blocks_too_many_candidates():
         assert "350" in str(error)
     else:
         raise AssertionError("35% 비활성화를 통과시켰다")
-    ok = sync.deactivation_plan(active, active[:750], deactivate_missing=True)
+    ok = sync.deactivation_plan(active, active[:950], deactivate_missing=True)
     sync.assert_deactivation_plan(ok)
 
 

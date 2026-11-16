@@ -45,10 +45,12 @@ from pydantic import BaseModel, Field, model_validator
 
 import project_checks
 from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
+from recommendation_llm import create_client, model_name
+from retrieval_lab import classifier, router
 from taxonomy import load_taxonomy, normalize
 
 ROOT = Path(__file__).resolve().parent
-LLM_MODEL = os.getenv("RECOMMEND_LLM_MODEL", "gpt-4.1-mini")
+LLM_MODEL = model_name()
 # Primary task tags that exist in the model corpus; search_models can only filter on these.
 MODEL_HF_TASKS = (
     "text-generation",
@@ -170,6 +172,8 @@ class ProjectPlan(BaseModel):
 
 class State(TypedDict, total=False):
     request: str
+    route: dict  # {"target": model|dataset|both|needs_clarification, "status": router status}
+    model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
     plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
     models: list
     datasets: dict
@@ -216,11 +220,8 @@ def _load_09():
 
 
 def _openai():
-    from dotenv import load_dotenv
-    from openai import OpenAI
-
-    load_dotenv(ROOT / ".env")
-    return OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    # Compatibility name: planner, explanation and follow-up all use this factory.
+    return create_client()
 
 
 def hf_tags(task_key):
@@ -275,7 +276,9 @@ api_status "미확인" means the API is not confirmed (never "no API"); "파일 
 as an API: it counts as an API, but its data is only as fresh as the file, so it is no evidence of real-time data.
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
-If a list is empty, say so and what to search instead. End with one line of caveats."""
+search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
+nothing about datasets (those lists were not searched, so never call them empty). Otherwise, if a list is empty,
+say so and what to search instead. End with one line of caveats."""
 
 
 @ttl_cache(seconds=24 * 3600)
@@ -304,6 +307,50 @@ def _llm_plan(user):
         raise ValueError(f"planner refused: {response.choices[0].message.refusal}")
     plan.needs = plan.needs[:MAX_NEEDS]
     return plan.model_dump()
+
+
+TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
+NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
+
+
+def _route(text):
+    result = router.route(text, use_cache=False)
+    if result.status != "ok":
+        # Unlike the lab, serving keeps answering: an unrouted request searches both, as before routing.
+        logging.warning("routing %s; searching models and datasets", result.status)
+        return {"target": "both", "status": result.status}
+    logging.info("route target=%s", result.target)
+    return {"target": result.target, "status": "ok"}
+
+
+def _target(state):
+    return (state.get("route") or {}).get("target", "both")
+
+
+def route(state: State) -> State:
+    """Decide which searches run. needs_clarification asks in clarify, then searches both if still unclear."""
+    if state.get("route"):
+        # shortcut: a follow-up keeps the first turn's target; re-route if users ask for the other side later.
+        return {}
+    return {"route": _route(state["request"])}
+
+
+def classify_model_query(state: State) -> State:
+    """Model-side query type (retrieval_lab.classifier), recorded only until the retrieval planner uses it."""
+    target = _target(state)
+    if target == "dataset":
+        return {"model_query_type": None}
+    text = state["request"]
+    try:
+        # Lexical rules only on model-only requests: a "both" request's dataset clause can trip them.
+        # shortcut: no model-name index here, so named comparisons fall to the LLM instead of the rule.
+        rule = classifier.rule_type(text) if target == "model" else None
+        query_type = rule or classifier.llm_type(text, use_cache=False)[0]
+    except Exception as exc:  # recording must never fail the recommendation
+        logging.warning("model query type unavailable (%s)", type(exc).__name__)
+        return {"model_query_type": None}
+    logging.info("model query type=%s", query_type)
+    return {"model_query_type": query_type}
 
 
 def decompose(state: State) -> State:
@@ -419,6 +466,8 @@ def _model_rows(
 
 
 def search_models(state: State) -> State:
+    if _target(state) == "dataset":
+        return {"models": []}
     constraints = constraints_of(state["plan"])
     gpu = constraints.get("gpu_memory_gb")
     # A GPU limit admits anything that fits at 4-bit; each card then says at which precision.
@@ -479,6 +528,8 @@ def _compact_dataset(row):
 
 
 def search_datasets(state: State) -> State:
+    if _target(state) == "model":
+        return {"datasets": NO_DATASETS}
     entities = load_graph()[0]
     plan = state["plan"]
     commercial = constraints_of(plan)["commercial_only"]
@@ -533,11 +584,17 @@ def search_datasets(state: State) -> State:
 def clarify(state: State) -> State:
     """Pause a vague first request (interrupt) until the user answers, then re-plan with it."""
     questions = state["plan"].get("clarifying_questions") or []
+    unclear = _target(state) == "needs_clarification"
+    if unclear and not questions:
+        questions = [TARGET_QUESTION]
     if not questions or state.get("turns"):
         return {}
     answer = interrupt({"questions": questions})
     request = f"{state['request']}\n(추가 정보) {answer}"
-    return {"request": request, "plan": _parse_plan(request)}
+    out: State = {"request": request, "plan": _parse_plan(request)}
+    if unclear:
+        out["route"] = _route(request)
+    return out
 
 
 def assess(state: State) -> State:
@@ -579,6 +636,7 @@ def assess(state: State) -> State:
 
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
+    payload["search_target"] = _target(state)
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     from langgraph.config import get_stream_writer
 
@@ -631,8 +689,10 @@ def data_limits_note(answer, datasets):
 
 def build_graph(nodes=None, checkpointer=None):
     nodes = nodes or {
+        "route": route,
         "decompose": decompose,
         "clarify": clarify,
+        "classify_model_query": classify_model_query,
         "search_models": search_models,
         "search_datasets": search_datasets,
         "assess": assess,

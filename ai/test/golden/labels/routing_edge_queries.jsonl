@@ -1,0 +1,29 @@
+{"id": "r001", "text": "HF에서 한국어 감성분석 학습 데이터셋 찾아줘", "target": "dataset", "note": "HF 데이터셋"}
+{"id": "r002", "text": "허깅페이스에 있는 한국어 QA 데이터셋 추천해줘", "target": "dataset", "note": "HF 데이터셋"}
+{"id": "r003", "text": "Kaggle에 신용카드 사기 탐지 데이터셋 있어?", "target": "dataset", "note": "Kaggle"}
+{"id": "r004", "text": "캐글에서 서울 부동산 거래 가격 데이터 받을 수 있어?", "target": "dataset", "note": "Kaggle"}
+{"id": "r005", "text": "한국어 요약 모델을 파인튜닝할 데이터셋이 필요해", "target": "dataset", "note": "모델 학습용 데이터"}
+{"id": "r006", "text": "음성인식 모델 학습에 쓸 한국어 음성 데이터셋 찾아줘", "target": "dataset", "note": "모델 학습용 데이터"}
+{"id": "r007", "text": "모델은 이미 정했어. 이제 학습 데이터만 찾으면 돼", "target": "dataset", "note": "부정된 모델"}
+{"id": "r008", "text": "KorQuAD 말고 다른 한국어 기계독해 데이터셋 더 있어?", "target": "dataset", "note": "벤치마크명이 있지만 데이터 요청"}
+{"id": "r009", "text": "번역 모델 학습용 한-영 병렬 코퍼스 찾아줘", "target": "dataset", "note": "번역 표현이 있지만 데이터 요청"}
+{"id": "r010", "text": "챗봇 파인튜닝에 쓸 한국어 대화 데이터셋 있어?", "target": "dataset", "note": "모델 학습용 데이터"}
+{"id": "r011", "text": "HF에 있는 한국어 요약 모델 추천해줘", "target": "model", "note": "HF 모델"}
+{"id": "r012", "text": "Kaggle 대회에서 쓸 이미지 분류 모델 추천해줘", "target": "model", "note": "Kaggle이 있지만 모델 요청"}
+{"id": "r013", "text": "공공데이터로 학습된 한국어 모델 있어?", "target": "model", "note": "데이터는 배경"}
+{"id": "r014", "text": "데이터는 이미 있어. 이걸로 학습할 모델만 골라줘", "target": "model", "note": "부정된 데이터"}
+{"id": "r015", "text": "KorQuAD 점수가 공개된 한국어 모델 찾아줘", "target": "model", "note": "평가 근거 요청"}
+{"id": "r016", "text": "서울 교통량 예측에 쓸 시계열 모델 추천해줘", "target": "model", "note": "공공데이터 주제지만 모델 요청"}
+{"id": "r017", "text": "서울 교통량 데이터랑 그걸로 돌릴 예측 모델 같이 추천해줘", "target": "both", "note": ""}
+{"id": "r018", "text": "한국어 감성분석 데이터셋이랑 바로 쓸 수 있는 모델 둘 다 찾아줘", "target": "both", "note": ""}
+{"id": "r019", "text": "HF에서 한국어 음성 데이터셋과 음성인식 모델을 각각 찾아줘", "target": "both", "note": "HF 둘 다"}
+{"id": "r020", "text": "미세먼지 공공데이터와 미세먼지 예측 모델을 추천해줘", "target": "both", "note": ""}
+{"id": "r021", "text": "Kaggle 신용카드 사기 데이터랑 이상탐지 모델도 같이 알려줘", "target": "both", "note": "Kaggle 둘 다"}
+{"id": "r022", "text": "의료 상담 챗봇을 만들려는데 쓸 LLM이랑 의료 공공데이터 둘 다 필요해", "target": "both", "note": ""}
+{"id": "r023", "text": "번역 학습 데이터와 영→한 번역 모델을 함께 찾아줘", "target": "both", "note": "lexical 단서가 데이터 쪽에도 있음"}
+{"id": "r024", "text": "HF에서 좋은 거 찾아줘", "target": "needs_clarification", "note": "플랫폼명만"}
+{"id": "r025", "text": "추천해줘", "target": "needs_clarification", "note": ""}
+{"id": "r026", "text": "Kaggle에서 뭐 괜찮은 거 있어?", "target": "needs_clarification", "note": "플랫폼명만"}
+{"id": "r027", "text": "이거 쓸만한 거 있어?", "target": "needs_clarification", "note": ""}
+{"id": "r028", "text": "오늘 날씨 어때?", "target": "needs_clarification", "note": "검색 범위 밖"}
+{"id": "r029", "text": "파이썬 리스트 정렬하는 법 알려줘", "target": "needs_clarification", "note": "검색 범위 밖"}
