@@ -1,5 +1,8 @@
 # 코퍼스 v1·v2 비교 평가 (2026-11-13)
 
+> **현재 기준선은 [runs/2026-11-16_v2-aa1a71d3_labels-v6/](runs/2026-11-16_v2-aa1a71d3_labels-v6/README.md)입니다** (v2 고정본 aa1a71d3 + 골든셋 v6).
+> 코퍼스와 라벨이 모두 달라서, 아래 2026-11-13 수치와 점수를 직접 비교해 개선·악화를 판단하면 안 됩니다.
+
 > **실험 기준 (이 문서의 모든 수치가 가리키는 것)**
 >
 > - **최신 적재본의 결과가 아니다.**
@@ -207,7 +210,9 @@ active 중 19개(core 5, low_popularity 14)가 v2 그래프에 없다. v2에만 
 python 14_build_dataset_chunks.py --embed --dry-run --require-db-reuse   # v1: 새로 만들 벡터 0개인지 확인
 python 14_build_dataset_chunks.py --embed --max-new 0 --require-db-reuse # v1 벡터 받기 (Supabase 읽기만)
 python public_v2_pipeline.py --verify-pin                                # v2 고정 버전 확인
-python test/public_data/corpus_v2/compare_corpora.py run --corpus v1
-python test/public_data/corpus_v2/compare_corpora.py run --corpus v2
-python test/public_data/corpus_v2/compare_corpora.py score --labels test/public_data/corpus_v2/golden_prep/batch4/labels_llm_v5.jsonl  # 실험용 v5 초안
+# 이 기록(compare/)을 다시 채점: 실행 당시 중복 목록이 저장되지 않아 지금 그래프의 목록을 쓴다(경고 출력)
+python test/public_data/corpus_v2/compare_corpora.py score --dir test/public_data/corpus_v2/compare --labels test/public_data/corpus_v2/golden_prep/batch4/labels_llm_v5.jsonl  # 실험용 v5 초안
+# 새 비교는 새 폴더에: 기존 순위는 덮어쓰지 않고, 실행 기록(run.json)과 중복 목록(aliases.json)을 함께 남긴다
+python test/public_data/corpus_v2/compare_corpora.py run --corpus v1 --dir test/public_data/corpus_v2/compare/runs/<이름>
+python test/public_data/corpus_v2/compare_corpora.py run --corpus v2 --dir test/public_data/corpus_v2/compare/runs/<이름>
 ```

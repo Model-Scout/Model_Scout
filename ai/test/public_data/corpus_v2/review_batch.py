@@ -39,6 +39,12 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+
+
+def lf_sha256(path):
+    """sha256 of a text file with LF line ends, so a Windows (CRLF) checkout records what git stores."""
+    return hashlib.sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
 PREP = HERE / "golden_prep"
 BATCH = PREP / "batch1"
 GOLDEN = HERE.parent / "labels" / "public_data_golden.jsonl"
@@ -366,14 +372,14 @@ def main():
     protected = {p.resolve() for p in inputs if p} | {p.resolve().with_suffix(".meta.json") for p in inputs if p}
     if {out, out.with_suffix(".meta.json")} & protected:
         sys.exit(f"refusing to overwrite an input ({out.name} or its .meta.json): write the new labels to a separate file")
-    base_rows, base_sha = read_jsonl(args.base), hashlib.sha256(args.base.read_bytes()).hexdigest()
+    base_rows, base_sha = read_jsonl(args.base), lf_sha256(args.base)
     missing = sorted({j["review_id"].split("|", 1)[0] for j in judgments} - {g["query_id"] for g in base_rows})
     if missing:
         sys.exit(f"--base has no label for queries {missing}: check --base")
     write_jsonl(args.out, build_labels(judgments, base_rows))
     args.out.with_suffix(".meta.json").write_text(json.dumps({
         "judgments": str(args.judgments),
-        "judgments_sha256": hashlib.sha256(args.judgments.read_bytes()).hexdigest(),
+        "judgments_sha256": lf_sha256(args.judgments),
         "expected": str(expected) if expected_ids is not None else None,
         "base": str(args.base),
         "base_sha256": base_sha,

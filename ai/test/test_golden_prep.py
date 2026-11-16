@@ -67,7 +67,7 @@ def test_missing_information_is_a_hold_never_a_one():
 
 @pytest.mark.parametrize("delivery, formats, status", [
     ("api", ["api"], gp.MET), ("api", ["csv"], gp.UNMET), ("api", [], gp.UNKNOWN),
-    ("file", ["csv", "api"], gp.MET), ("file", ["api"], gp.UNMET), ("file", [], gp.UNKNOWN),
+    ("file", ["csv", "api"], gp.MET), ("file", ["api"], gp.UNKNOWN), ("file", [], gp.UNKNOWN),  # API만: 파일 미확인
 ])
 def test_explicit_api_or_file_requirement_is_not_relaxed(delivery, formats, status):
     s = gp.suggestion(query(delivery=delivery), card(formats=formats))
@@ -275,3 +275,9 @@ def test_missing_query_vectors_stop_instead_of_calling_the_api(tmp_path, monkeyp
     monkeypatch.setattr(gp.hs, "_embed_query", lambda *a: pytest.fail("API 호출"))
     with pytest.raises(SystemExit, match="p001"):
         gp.query_vectors([query()], allow_embed=False)
+
+
+@pytest.mark.parametrize("api_check, status", [("not_found", gp.UNKNOWN), ("page_failed", gp.UNKNOWN), (None, gp.UNMET)])
+def test_an_unconfirmed_standard_api_is_unknown_not_absent(api_check, status):
+    s = gp.suggestion(query(delivery="api"), card(formats=["csv"], api_check=api_check))
+    assert s["checks"]["delivery"]["status"] == status

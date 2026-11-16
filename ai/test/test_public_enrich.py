@@ -396,8 +396,8 @@ def test_parser_version_tracks_the_parsing_code():
     import hashlib
     import inspect
 
-    sources = "".join(inspect.getsource(f) for f in (enrich.plain_text, enrich.first, enrich.parse_data_go_kr, enrich.parse_seoul, enrich.seoul_description))
-    patterns = "".join(r.pattern for r in (enrich.SEOUL_TAB_RE, enrich.SEOUL_FILE_RE, enrich.SEOUL_BUSY_RE, enrich.SEOUL_DESC_RE))
+    sources = "".join(inspect.getsource(f) for f in (enrich.plain_text, enrich.first, enrich.parse_data_go_kr, enrich.parse_seoul, enrich.seoul_description, enrich.standard_api, enrich.file_api, enrich.detail_api))
+    patterns = "".join(r.pattern for r in (enrich.SEOUL_TAB_RE, enrich.SEOUL_FILE_RE, enrich.SEOUL_BUSY_RE, enrich.SEOUL_DESC_RE, enrich.STANDARD_API_RE, enrich.FILE_API_RE))
     assert enrich.PARSER_VERSION == hashlib.sha256(sources.encode() + patterns.encode()).hexdigest()[:12]
 
 
@@ -757,3 +757,137 @@ def test_quality_expects_deleted_rows_out_of_search_not_lost():
     parts["entities"].pop("dataset:seoul_open_data/OA-5")
     parts["chunks"] = [c for c in parts["chunks"] if c["dataset_id"] != "seoul_open_data/OA-5"]
     assert pipeline.quality(**parts)[0] == []
+
+
+def test_pin_records_and_checks_the_chunk_order(tmp_path, monkeypatch):
+    # vector rows follow chunks.jsonl; the pin keeps that order so a reordered build is not the pinned one
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "chunks.jsonl").write_text('{"chunk_id": "a#card"}\n{"chunk_id": "b#card"}\n', encoding="utf-8")
+    monkeypatch.setattr(pipeline, "DOCS_DIR", docs)
+    pinned = pipeline.chunk_ids_sha256()
+    (docs / "chunks.jsonl").write_text('{"chunk_id": "b#card"}\n{"chunk_id": "a#card"}\n', encoding="utf-8")
+    assert pipeline.chunk_ids_sha256() != pinned
+
+
+STANDARD_PAGE = """<html><body><h2>전국관광지정보표준데이터</h2><a href="/data/15021141/standard.do">표준데이터</a>
+<span>요청주소 https://api.data.go.kr/openapi/tn_pubr_public_trrsrt_api</span>
+<a>파일 다운로드 XLS</a><a>JSON</a></body></html>"""
+STANDARD_META = {"status": "ok", "license_text": "이용허락범위 제한 없음", "encoding": "XLS, XML, JSON, RDF, CSV"}
+
+
+def test_standard_page_with_its_api_address_adds_api_beside_the_files():
+    found = enrich.standard_api(STANDARD_PAGE)
+    assert found["api_check"] == "confirmed" and found["api_endpoint"] == "tn_pubr_public_trrsrt_api"
+    out = enrich.enrich_row(gokr("standard"), {**STANDARD_META, **found})
+    assert out["formats"] == ["api", "csv", "json", "xls", "xml"] and out["official"]["api_check"] == "confirmed"
+
+
+def test_standard_page_without_an_api_address_keeps_files_and_leaves_api_unconfirmed():
+    # the file formats JSON/XML are no API evidence, and a page without an address is not "no API"
+    found = enrich.standard_api(STANDARD_PAGE.replace("https://api.data.go.kr/openapi/tn_pubr_public_trrsrt_api", ""))
+    assert found == {"api_check": "not_found"}
+    out = enrich.enrich_row(gokr("standard"), {**STANDARD_META, **found})
+    assert out["formats"] == ["csv", "json", "xls", "xml"] and out["official"]["api_check"] == "not_found"
+    assert "API 제공 여부: 미확인" in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+
+
+def test_unread_standard_page_leaves_api_unconfirmed():
+    out = enrich.enrich_row(gokr("standard"), {**STANDARD_META, "api_check": "page_failed"})
+    assert "api" not in out["formats"]
+    assert "API 제공 여부: 미확인" in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+    confirmed = enrich.enrich_row(gokr("standard"), {**STANDARD_META, "api_check": "confirmed"})
+    assert "API 제공 여부: 미확인" not in chunks14.portal_card_lines(confirmed, {"coverage_status": "unknown"})
+
+
+
+def test_catalog_api_delivery_counts_as_api_evidence_when_the_page_shows_no_address():
+    meta = {**STANDARD_META, "delivery": "REST", "encoding": "JSON+XML", "api_check": "not_found"}
+    out = enrich.enrich_row(gokr("standard"), meta)
+    assert "api" in out["formats"] and out["official"]["api_check"] == "confirmed_catalog"
+    assert "API 제공 여부: 미확인" not in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+
+
+# 파일데이터 상세 페이지의 실제 구조를 줄인 것: 자동변환 OpenAPI의 Swagger 문서 주소에 데이터 번호가 들어 있다
+FILE_PAGE = """<html><head><link rel="canonical" href="https://www.data.go.kr/data/15000001/fileData.do"></head><body>
+<li>공공데이터활용지원센터는 공공데이터포털에 개방되는 3단계 이상의 오픈 포맷 파일데이터를 오픈 API로 자동변환하여 제공합니다.</li>
+<script>window.ui = SwaggerUIBundle({ url: 'https://infuser.odcloud.kr/oas/docs?namespace=15000001/v1' });</script>
+</body></html>"""
+FILE_META = {"status": "ok", "license_text": "이용허락범위 제한 없음", "encoding": "CSV"}
+
+
+def test_file_page_with_its_auto_api_counts_as_api_and_says_so():
+    found = enrich.file_api(FILE_PAGE, "15000001")
+    assert found == {"api_check": "confirmed_auto", "api_endpoint": "15000001/v1", "api_evidence": "infuser.odcloud.kr/oas/docs?namespace=15000001/v1"}
+    out = enrich.enrich_row(gokr("fileData", formats=["csv"]), {**FILE_META, **found})
+    assert out["formats"] == ["api", "csv"] and out["official"]["api_check"] == "confirmed_auto"
+    assert out["official"]["api_call_checked"] is False  # 주소 확인일 뿐 호출 성공이 아님
+    lines = chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+    assert any(line.startswith("API 제공 여부: 파일 자동변환 OpenAPI") for line in lines)
+
+
+def test_file_page_without_its_own_namespace_leaves_api_unconfirmed():
+    # 다른 데이터의 주소나 안내 문구는 이 데이터의 근거가 아니다
+    found = enrich.file_api(FILE_PAGE.replace("namespace=15000001", "namespace=15999999"), "15000001")
+    assert found == {"api_check": "not_found"}
+    out = enrich.enrich_row(gokr("fileData", formats=["csv"]), {**FILE_META, **found})
+    assert out["formats"] == ["csv"] and "API 제공 여부: 미확인" in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+    with pytest.raises(ValueError):
+        enrich.file_api(FILE_PAGE, "15123456")  # 다른 데이터의 페이지
+
+
+def test_a_failed_detail_page_keeps_the_catalog_answer_and_is_retried(monkeypatch, tmp_path):
+    source = gokr("fileData", formats=["csv"])
+    entry = {"dataset_id": source["dataset_id"], "checked_at": "2026-11-01T00:00:00+00:00", **FILE_META}
+    assert enrich.needs_page(entry, source)
+    monkeypatch.setattr(enrich, "fetch", lambda session, url: (_ for _ in ()).throw(ConnectionError("down")))
+    failed = enrich.add_page_api(None, entry, source)
+    assert failed["api_check"] == "page_failed" and failed["checked_at"] == entry["checked_at"] and failed["encoding"] == "CSV"
+    assert enrich.needs_page(failed, source)  # 다음 실행에서 상세 페이지만 다시 읽는다
+    confirmed = {**entry, "api_check": "confirmed_auto", "api_endpoint": "15000001/v1"}
+    assert not enrich.needs_page(confirmed, source)
+    kept = enrich.add_page_api(None, confirmed, source)  # 실패해도 이미 확인한 근거는 남기고 실패만 표시한다
+    assert {k: v for k, v in kept.items() if k != "page_recheck_failed_at"} == confirmed and kept["page_recheck_failed_at"]
+    assert enrich.needs_page(kept, source)  # 실패 표시가 있으면 다음 실행에서 상세 페이지만 다시 읽는다
+    monkeypatch.setattr(enrich, "fetch", lambda session, url: FILE_PAGE)
+    monkeypatch.setattr(enrich, "RAW_DIR", tmp_path)
+    retried = enrich.add_page_api(None, failed, source)
+    assert retried["api_check"] == "confirmed_auto" and retried["checked_at"] == entry["checked_at"] and not enrich.needs_page(retried, source)
+    recovered = enrich.add_page_api(None, kept, source)  # 재시도 성공: 새 근거로 바꾸고 실패 표시를 지운다
+    assert "page_recheck_failed_at" not in recovered and recovered["page_sha256"] and not enrich.needs_page(recovered, source)
+
+
+def test_a_file_without_a_catalog_encoding_keeps_its_files_beside_the_auto_api():
+    source = gokr("fileData", formats=["csv"])
+    meta = {"status": "ok", "api_check": "confirmed_auto"}
+    assert enrich.official_formats(source, meta) == ["api", "csv"]  # API는 파일 형식과 따로 판단한다
+    assert enrich.official_formats(source, {"status": "ok"}) == ["csv"]
+
+
+def test_a_full_recheck_whose_detail_page_fails_keeps_the_api_evidence(tmp_path, monkeypatch):
+    # 만료로 전체를 다시 조회: 카탈로그는 성공, 상세 페이지만 실패 -> 이전 API 근거와 확인 시점을 유지
+    r = gokr("fileData", formats=["csv"])
+    old = cache_entry(r, 40, encoding="CSV", api_check="confirmed_auto", api_endpoint="15000001/v1",
+                      api_evidence="infuser.odcloud.kr/oas/docs?namespace=15000001/v1", page_sha256="ab", page_checked_at="2026-10-01T00:00:00+00:00")
+    write_cache(tmp_path, old)
+    out = run_enrich(tmp_path, monkeypatch, [r], lambda session, x: {**OK, "encoding": "CSV", "api_check": "page_failed",
+                                                                     "page_checked_at": "2026-11-16T00:00:00+00:00"})[0]
+    assert out["formats"] == ["api", "csv"] and out["official"]["api_check"] == "confirmed_auto"
+    cached = enrich.read_jsonl(tmp_path / "cache.jsonl")[0]
+    assert cached["page_checked_at"] == "2026-10-01T00:00:00+00:00" and cached["page_recheck_failed_at"]
+    assert enrich.needs_page(cached, r)  # 다음 실행의 상세 페이지 재시도 대상
+    # 근거가 없던 행은 그대로 미확인으로 남고, 다음 실행에서 상세 페이지를 다시 읽는다
+    assert enrich.keep_page_evidence({"api_check": "page_failed"}, {"api_check": None}, "t") == {"api_check": "page_failed"}
+
+
+def test_a_coordinate_system_the_two_descriptions_disagree_on_is_flagged_not_merged():
+    # OA-15531: 공식 설명 EPSG:5174(Bessel), 수집 제목 "(좌표계: GRS80)"
+    official = "생활권 중심지 정보입니다.[좌표계] EPSG:5174 (Bessel 1841타원체의 TM 직각좌표계)"
+    seoul = row("seoul_open_data/OA-15531", title="서울시 도시계획 생활권 중심지 정보 (좌표계: GRS80)",
+                description="서울시 도시계획 생활권 중심지 정보 (좌표계: GRS80). 제공 필드: X좌표, Y좌표")
+    out = enrich.enrich_row(seoul, {"status": "ok", "tabs": ["S"], "files": [], "description": official})
+    assert out["description_conflicts"] == ["좌표계: 공식 설명은 Bessel, 수집 제목·설명은 GRS80"]
+    assert official in out["description"] and "GRS80" in out["description"]  # 두 설명 모두 남김
+    assert "설명 간 불일치(확인 필요): 좌표계: 공식 설명은 Bessel, 수집 제목·설명은 GRS80" in chunks14.portal_card_lines(out, {"coverage_status": "unknown"})
+    # 같은 기준을 다른 이름으로 쓴 것(GRS80 중부원점 = EPSG:5186)은 불일치가 아님
+    assert enrich.crs_conflict("좌표계: GRS80 중부원점", "좌표계 EPSG:5186") is None

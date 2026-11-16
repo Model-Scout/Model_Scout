@@ -3,9 +3,15 @@
  "judgments_sha256": "4a2925569e460aec89ce91f1871330ae2374f90b28236dbd580e635bad7a0a1b",
  "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch2\\items.jsonl",
  "base": "test\\public_data\\corpus_v2\\golden_prep\\batch1\\labels_batch1_llm_v3.jsonl",
- "base_sha256": "3e399494c99ac8fda96538e11650f986de0794fac5f596b19a1049e406a28dcc",
+ "base_sha256": "cd514a7929e343f1628f6ed59924f9090a6f8ca1da73ed27261f72ea13233452",
  "judgment_kinds": {
   "llm_first_pass": 20
  },
- "warnings_resolved": {}
+ "warnings_resolved": {},
+ "hash_migration": {
+  "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+  "previous_crlf_sha256": {
+   "base_sha256": "3e399494c99ac8fda96538e11650f986de0794fac5f596b19a1049e406a28dcc"
+  }
+ }
 }

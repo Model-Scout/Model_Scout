@@ -1,0 +1,69 @@
+{
+ "v2": {
+  "identity": {
+   "corpus": "v2",
+   "corpus_id": "64edd20acec09e08f34d07fee7c5bf247d417eabc12d386277f0cad68d8525e2",
+   "documents_id": "cca4cfd4965a3ce71ef76dd0c5108e0af5a48f198d0846f70438654cc4d46a17",
+   "vectors": "local"
+  },
+  "labels": {
+   "path": "test/public_data/corpus_v2/golden_prep/batch5/labels_llm_v6.jsonl",
+   "sha256": "ad27386f225897849c350735947faf11334e9e342a8f55e97990cd832b805d4e"
+  },
+  "search_inputs_sha256": "2352d5061c1a8d552660fe85a9ade8674cd465dd79473dc7e85458b4b16b34e2",
+  "proposed_questions": {
+   "path": "test/public_data/corpus_v2/golden_prep/proposed_queries.jsonl",
+   "sha256": "0bdb01d1dff6674946c5dac0f552af11469c1aa53c5b305dade90cc420e900b5"
+  },
+  "query_vectors": {
+   "path": "test/public_data/corpus_v2/compare/query_vectors.jsonl",
+   "sha256": "9b7655b1fd0804bbe5f2293d043d19c9ddd8e4a2e6612c21cf75d547a55c6ffd"
+  },
+  "aliases": {
+   "path": "test/public_data/corpus_v2/compare/runs/2026-11-16_v2-cca4cfd4_labels-v6/aliases.json",
+   "sha256": "6a6cd62c6cc20071c26ce49b2fdd12e3c69e1d0f949fd2eb77b2be2307fae566"
+  },
+  "search_settings": {
+   "depth": 30,
+   "DENSE_WEIGHT": 10.0,
+   "DENSE_ONLY_MIN": 0.45,
+   "DENSE_MIN": 0.4,
+   "DENSE_MARGIN": 0.15,
+   "DENSE_ONLY_MARGIN": 0.08,
+   "FACET_WEIGHTS": {
+    "task": 3.0,
+    "domain": 2.0,
+    "input_length": 1.0,
+    "language": 1.0,
+    "input_modality": 0.5
+   },
+   "TRAINED_WITH_BONUS": 5.0,
+   "KOREAN_FOCUS_BONUS": {
+    "ko_only": 1.5,
+    "ko_with_others": 1.0,
+    "wide_multilingual": 0.0,
+    "not_ko": -1.0
+   },
+   "README_PENALTY": {
+    "template": -2.0,
+    "thin": -2.0,
+    "missing": -2.0
+   },
+   "CONFIDENCE_WEIGHT": {
+    "high": 1.0,
+    "medium": 0.8,
+    "low": 0.3
+   }
+  },
+  "new_query_vectors": 0,
+  "hash_migration": {
+   "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+   "previous_crlf_sha256": {
+    "labels": "c5d300ecef38ecb195aed11ee68df5c564efd66012f80f2a34ba8e5a3c720182",
+    "proposed_questions": "19ba3e89cc317e7be32c5649d2486527cbb194c273a8b5ac10736aeae9205482",
+    "query_vectors": "f280a10b29bfd4b1d62e6eb6ffe2cedaddd22e4f3f8b4a06a42887cd010c15c1",
+    "aliases": "c3500db74dc8281d06afc27fe7392b8fc1186bb7160605c458dd3e3dda91f909"
+   }
+  }
+ }
+}

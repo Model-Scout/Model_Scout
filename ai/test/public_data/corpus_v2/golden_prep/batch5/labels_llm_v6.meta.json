@@ -1,0 +1,41 @@
+{
+ "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch5\\judgments.jsonl",
+ "judgments_sha256": "3749391737ec88ac5f5c3adf8bd5318efed47615c54c70b87095a7e96cb29fa4",
+ "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch5\\items.jsonl",
+ "base": "test\\public_data\\corpus_v2\\golden_prep\\batch3\\labels_llm_v5.jsonl",
+ "base_sha256": "97f1ce8f64fb78bc54b3f7b5bf83effbe44c8a1cd0517ecaf2574b597634f328",
+ "judgment_kinds": {
+  "llm_first_pass": 228
+ },
+ "warnings_resolved": {
+  "inconsistent:p014:fa6f690b": "점수 차이는 공간 단위(OA-15578 상권배후지, OA-22173 자치구)와 제공 항목(OA-21278 소비 지출만, 점포 없음) 때문. 자동 검사에 공간 단위·항목 조건이 없어 같은 상태로 보임 (batch4 판정 그대로)"
+ },
+ "built_by_review_batch_sha256": "952d5d2e1d5cc3fb2b9d090ea81f2629266f81ae1c7fefe0aecceb867835108c",
+ "revisions": {
+  "path": "revisions.jsonl",
+  "sha256": "3ad6fec4d43032280c6e3bc82609db98e9ceffff97f307df084ba9fbcfc56a39",
+  "applied": [
+   "p050 conditions.delivery api -> any"
+  ]
+ },
+ "labels_sha256": "ad27386f225897849c350735947faf11334e9e342a8f55e97990cd832b805d4e",
+ "not_in_corpus": {
+  "data_go_kr/3069954": {
+   "queries": [
+    "p029",
+    "p042"
+   ],
+   "why": "포털에서 삭제되어 v2 검색 대상에 없음. 판정은 기록으로 남기되 검색 결과에 나올 수 없어 채점에 영향 없음"
+  }
+ },
+ "hash_migration": {
+  "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+  "previous_crlf_sha256": {
+   "judgments_sha256": "00e746e7d1629ca17f2e238e89a759ae279d5ab2bfbc1d9c697bf92a194adeb0",
+   "base_sha256": "c1708cd4e625ccdf5a40604971affa77cafd0cba84aba3b6f49700c444b5b5d3",
+   "built_by_review_batch_sha256": "725692abc26af4eefb684bd89aaa9ac5b579631df93fc0777883ffc841172b11",
+   "labels_sha256": "c5d300ecef38ecb195aed11ee68df5c564efd66012f80f2a34ba8e5a3c720182",
+   "revisions.sha256": "84238d863cc585faf200250b3915d7772aabf4e8292cc73b439423d0af6f3e30"
+  }
+ }
+}

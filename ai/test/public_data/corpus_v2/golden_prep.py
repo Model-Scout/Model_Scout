@@ -116,6 +116,8 @@ def facts(entity, row, readme_text=""):
         "official_status": official.get("status"),
         "official_verification": official.get("verification"),
         "official_checked_at": official.get("checked_at"),
+        # standard data: whether the API was confirmed (page or catalog) or is unconfirmed (never "no API")
+        "api_check": official.get("api_check"),
         "update_cycle_portal": row.get("update_cycle"),
         "last_modified": row.get("last_modified"),
         "category": row.get("category"),
@@ -173,12 +175,16 @@ def condition_checks(query, f, extension=None):
     # An API or file the question requires is a hard condition: the other kind does not meet it.
     if delivery == "api":
         checks["delivery"] = (check(MET, f"제공 방식 {sorted(formats)}") if "api" in formats else
+                              check(UNKNOWN, f"API 제공 여부 미확인 (표준데이터 상세 페이지에 API 주소 없음), 파일 {sorted(formats)}")
+                              if f.get("api_check") in ("not_found", "page_failed") else
                               check(UNMET, f"API 필수인데 {sorted(formats)}만 제공") if formats else
                               check(UNKNOWN, "제공 방식 미확인"))
     elif delivery == "file":
         files = formats - {"api"}
+        # A card that lists only an API says no file was found, not that none exists (the provider may
+        # publish one elsewhere): unknown, and only a confirmation of "no file" makes it unmet.
         checks["delivery"] = (check(MET, f"파일 {sorted(files)}") if files else
-                              check(UNMET, "파일 필수인데 API만 제공") if formats else
+                              check(UNKNOWN, "파일 제공 미확인 (카드에는 API만 있음, 원 제공처 파일 경로 확인 필요)") if formats else
                               check(UNKNOWN, "제공 방식 미확인"))
     if cond.get("realtime"):
         hints = [x for x in f["fields"] + f["keywords"] if REALTIME_HINT_RE.search(x)]

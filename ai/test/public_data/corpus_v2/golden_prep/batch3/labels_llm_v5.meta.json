@@ -1,11 +1,18 @@
 {
  "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch3\\judgments.jsonl",
- "judgments_sha256": "342c5d4695f916cd1fe1d1726067851a59bf9301a15198ee5a68e7a35c403bbe",
+ "judgments_sha256": "befed44796dc3b48cbe3faada0ab2d717f61eb36540d894d7c6e6263c6ff1dd5",
  "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch3\\items.jsonl",
  "base": "test\\public_data\\corpus_v2\\golden_prep\\batch2\\labels_llm_v4.jsonl",
- "base_sha256": "d3dbc93d654d35235faa45d5d23e51522a45b04a600b363dce5ba7264cad7a9a",
+ "base_sha256": "acca177caac57268bf3b2613094128c658aaa3e2e26a861581d995d38dc30ac5",
  "judgment_kinds": {
   "llm_first_pass": 16
  },
- "warnings_resolved": {}
+ "warnings_resolved": {},
+ "hash_migration": {
+  "note": "2026-11-16: sha256를 CRLF(Windows 작업본) 바이트 대신 LF 기준으로 다시 계산함. 이전 값은 같은 LF 내용을 CRLF로 바꾼 sha256과 일치해, 파일 내용은 그대로이고 줄바꿈만 다름을 확인함.",
+  "previous_crlf_sha256": {
+   "judgments_sha256": "342c5d4695f916cd1fe1d1726067851a59bf9301a15198ee5a68e7a35c403bbe",
+   "base_sha256": "d3dbc93d654d35235faa45d5d23e51522a45b04a600b363dce5ba7264cad7a9a"
+  }
+ }
 }
