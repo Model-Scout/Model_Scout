@@ -28,7 +28,7 @@ for d in hypergraph hypergraph_v2 dataset_index dataset_index_v2; do
 done
 for s in ai backend; do
   # the image the running container was started from (the :latest tag may already point at a newer load)
-  id=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q "$s")" 2>/dev/null || docker image inspect --format '{{.Id}}' "model-scout-$s:latest")
+  id=$(docker inspect --format '{{.Image}}' "$(docker compose ps -q "$s" </dev/null)" 2>/dev/null || docker image inspect --format '{{.Id}}' "model-scout-$s:latest")
   docker tag "$id" "model-scout-$s:rb-$stamp"
   echo "$s model-scout-$s:rb-$stamp $id" >> "$snap/images.txt"
 done

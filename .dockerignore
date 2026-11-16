@@ -3,6 +3,11 @@
 !ai/taxonomy.yaml
 !ai/requirements.txt
 !ai/requirements_mcp.txt
+# the request router and model query classifier that serve traffic (ai/Dockerfile copies only these)
+!ai/retrieval_lab/__init__.py
+!ai/retrieval_lab/router.py
+!ai/retrieval_lab/classifier.py
+!ai/retrieval_lab/pre_retrieval.py
 !backend/requirements.txt
 !backend/app
 **/__pycache__

@@ -47,18 +47,26 @@ if [ "${1:-}" != "--data" ]; then
     docker buildx build --platform linux/amd64 -f "$service/Dockerfile" -t "model-scout-$service:latest" --load .
     docker save "model-scout-$service:latest" | gzip | ssh "$HOST" 'gunzip | docker load'
   done
-  rsync -az deploy/compose.yml deploy/Caddyfile "$HOST:$REMOTE/"
-  # Runtime keys only: collection keys stay off the server, and the public-facing backend never holds the OpenAI key.
-  grep -E '^(SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
-    ssh "$HOST" "umask 077; cat > $REMOTE/.env.backend"
-  # MODEL_CONTRACT_FILTERS_ENABLED stays off (absent) until the contract migration and reingest are done.
-  grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED)=' .env |
-    ssh "$HOST" "umask 077; cat > $REMOTE/.env.ai; rm -f $REMOTE/.env"
-  # Team login for Swagger; only the bcrypt hash leaves this machine.
-  password=$(grep -E '^DOCS_PASSWORD=' .env | cut -d= -f2-)
-  test -n "$password" || { echo "set DOCS_PASSWORD in .env" >&2; exit 1; }
-  echo "team $(docker run --rm caddy:2-alpine caddy hash-password --plaintext "$password")" |
-    ssh "$HOST" "umask 077; cat > $REMOTE/docs_users"
+  # LF line ends whatever the checkout uses (a Windows clone has CRLF files).
+  for f in compose.yml Caddyfile; do tr -d '\r' < "deploy/$f" | ssh "$HOST" "cat > $REMOTE/$f"; done
+  if [ -f .env ]; then
+    # Runtime keys only: collection keys stay off the server, and the public-facing backend never holds the OpenAI key.
+    grep -E '^(SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
+      ssh "$HOST" "umask 077; cat > $REMOTE/.env.backend"
+    # MODEL_CONTRACT_FILTERS_ENABLED stays off (absent) until the contract migration and reingest are done.
+    grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED)=' .env |
+      ssh "$HOST" "umask 077; cat > $REMOTE/.env.ai; rm -f $REMOTE/.env"
+    # Team login for Swagger; only the bcrypt hash leaves this machine.
+    password=$(grep -E '^DOCS_PASSWORD=' .env | cut -d= -f2-)
+    test -n "$password" || { echo "set DOCS_PASSWORD in .env" >&2; exit 1; }
+    echo "team $(docker run --rm caddy:2-alpine caddy hash-password --plaintext "$password")" |
+      ssh "$HOST" "umask 077; cat > $REMOTE/docs_users"
+  else
+    # No repo-root .env on this machine: keep the keys and team login already on the server.
+    ssh "$HOST" "cd $REMOTE && test -s .env.ai && test -s .env.backend && test -s docs_users" ||
+      { echo "no .env here and the server lacks .env.ai, .env.backend or docs_users" >&2; exit 1; }
+    echo "no .env here: kept the server's .env.ai, .env.backend and docs_users"
+  fi
 fi
 
 ssh "$HOST" "cd $REMOTE && docker compose up -d --force-recreate --remove-orphans && docker image prune -f"
