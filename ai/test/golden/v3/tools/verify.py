@@ -208,7 +208,7 @@ def check_draft(queries: Sequence[Mapping[str, Any]], rows: Sequence[Mapping[str
         if not cand_ids <= eligible_ids or not cand_ids <= ids:
             _issue(out, "error", "grade_outside_eligible", qid, f"eligible 밖 후보: {sorted(cand_ids - eligible_ids)[:3]}")
         if q["expected_behavior"] == "abstain":
-            check_abstention(out, qid, draft, fresh)
+            check_abstention(out, qid, draft, fresh, corpus.by_id(rows))
             continue
         if draft.get("review_count", 0) > scan.REVIEW_LIMIT:
             _issue(out, "warn", "review_limit", qid, f"사람 검수 후보 {draft['review_count']}개 > {scan.REVIEW_LIMIT}")
@@ -234,8 +234,19 @@ def check_draft(queries: Sequence[Mapping[str, Any]], rows: Sequence[Mapping[str
     return out
 
 
-def check_abstention(out: List[Issue], qid: str, draft: Mapping[str, Any], fresh: Mapping[str, Any]) -> None:
+def check_abstention(out: List[Issue], qid: str, draft: Mapping[str, Any], fresh: Mapping[str, Any],
+                     rows_by_id: Mapping[str, Mapping[str, Any]]) -> None:
     abst = fresh["abstention"]
+    # 수치 조건 near-miss 가 값을 몰라서(unknown) 탈락한 모델이면, 정답 없음은 정책상 맞지만 실제로는
+    # 조건을 만족하는 모델일 수 있다. 사람이 그 모델을 직접 확인해야 한다.
+    for key, ids in abst["near_miss_by_condition"].items():
+        field = scan.NUMERIC_FIELD.get(key)
+        if not field:
+            continue
+        unknown = [m for m in ids if corpus._number(corpus.meta_of(rows_by_id[m]).get(field)) is None]
+        if unknown:
+            _issue(out, "warn", "unknown_driven_abstention", qid,
+                   f"{key} near-miss {len(ids)}개 중 {len(unknown)}개는 값이 unknown 이라 탈락: {unknown[:3]}")
     if fresh["eligible_count"] != 0 or draft.get("eligible_count") != 0:
         _issue(out, "error", "abstention_not_empty", qid, f"eligible {fresh['eligible_count']}개 (0이어야 한다)")
     if draft.get("expected_any") or draft.get("acceptable"):
