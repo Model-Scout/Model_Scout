@@ -1452,13 +1452,11 @@ STAGE1_SNAPSHOT_FILES = tuple(STAGE1_PARTITIONS.values()) + (
 )
 # 비율 가드는 기준이 이보다 작으면 적용하지 않는다. 01 의 SNAPSHOT_DROP_MIN_ROWS 와 같다.
 REINGEST_GUARD_MIN_ROWS = 100
-# 처리 대상(Core ∪ Low)에서 빠지는 모델과 DB 에서 비활성화될 모델의 상한.
-# 2026-11-13 첫 장기 공백 뒤 full-scan 에서 전체 task·cutoff·후보 감사를 모두
-# 통과했지만 3,886개 중 957개(24.6%)가 교체됐다. 그 diff 를 사람이 검토했으므로
-# 이번 전체 재적재에는 30%를 허용한다. 가드를 없애지는 않는다. apply와 스냅샷
-# 반영이 끝나면 후속 PR에서 정상 운영값 10%로 반드시 되돌린다.
-REINGEST_MAX_REMOVED_FRACTION = 0.30
-REINGEST_MAX_DEACTIVATION_FRACTION = 0.30
+# 처리 대상(Core ∪ Low)에서 빠지는 모델과 DB 에서 비활성화될 모델의 정상 운영 상한.
+# 2026-11-14 전체 재적재와 스냅샷 반영이 끝났으므로, 그 실행에만 사용했던 30%
+# 예외를 제거한다. 이후 10%를 넘는 교체는 새 dry-run에서 별도로 검토해야 한다.
+REINGEST_MAX_REMOVED_FRACTION = 0.10
+REINGEST_MAX_DEACTIVATION_FRACTION = 0.10
 
 
 class Stage1RemovalGuardError(RuntimeError):
