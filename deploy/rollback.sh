@@ -29,7 +29,7 @@ for d in hypergraph hypergraph_v2 dataset_index dataset_index_v2; do
   [ -d "$snap/$d" ] && rsync -a --delete "$snap/$d/" "data/$d/"
 done
 while read -r s tag id; do docker tag "$id" "model-scout-$s:latest"; done < "$snap/images.txt"
-docker compose up -d --force-recreate --remove-orphans
-docker compose ps
+docker compose up -d --force-recreate --remove-orphans </dev/null
+docker compose ps </dev/null
 echo "rolled back to $snap"; cat "$snap/images.txt"; cat .env.corpus 2>/dev/null || echo "(no .env.corpus: v1 default)"
 EOF
