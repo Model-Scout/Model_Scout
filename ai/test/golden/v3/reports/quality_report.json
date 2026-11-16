@@ -1,0 +1,1015 @@
+{
+  "total": 70,
+  "per_type": {
+    "structured_constraint": 10,
+    "semantic_capability": 10,
+    "semantic_constraint": 10,
+    "lexical_exact": 10,
+    "model_comparison": 10,
+    "benchmark_lookup": 10,
+    "abstention": 10
+  },
+  "style": {
+    "technical": 27,
+    "mixed": 27,
+    "goal_oriented": 16
+  },
+  "style_by_type": {
+    "structured_constraint": {
+      "technical": 5,
+      "mixed": 5
+    },
+    "semantic_capability": {
+      "goal_oriented": 6,
+      "technical": 2,
+      "mixed": 2
+    },
+    "semantic_constraint": {
+      "mixed": 6,
+      "goal_oriented": 2,
+      "technical": 2
+    },
+    "lexical_exact": {
+      "technical": 5,
+      "mixed": 3,
+      "goal_oriented": 2
+    },
+    "model_comparison": {
+      "technical": 5,
+      "mixed": 3,
+      "goal_oriented": 2
+    },
+    "benchmark_lookup": {
+      "technical": 5,
+      "mixed": 3,
+      "goal_oriented": 2
+    },
+    "abstention": {
+      "mixed": 5,
+      "technical": 3,
+      "goal_oriented": 2
+    }
+  },
+  "persona": {
+    "ml_engineer": 16,
+    "startup_dev": 14,
+    "backend_dev": 13,
+    "korean_service_planner": 9,
+    "local_user": 8,
+    "researcher": 6,
+    "limited_gpu": 4
+  },
+  "difficulty": {
+    "easy": 33,
+    "hard": 37
+  },
+  "difficulty_by_type": {
+    "structured_constraint": {
+      "easy": 10
+    },
+    "semantic_capability": {
+      "hard": 7,
+      "easy": 3
+    },
+    "semantic_constraint": {
+      "hard": 10
+    },
+    "lexical_exact": {
+      "easy": 10
+    },
+    "model_comparison": {
+      "easy": 10
+    },
+    "benchmark_lookup": {
+      "hard": 10
+    },
+    "abstention": {
+      "hard": 10
+    }
+  },
+  "condition_keys": {
+    "tasks": 36,
+    "require_artifact": 21,
+    "max_parameters_billion": 14,
+    "commercial_status": 13,
+    "licenses": 9,
+    "max_artifact_gib": 5,
+    "min_context_length": 4,
+    "exclude_gated": 2,
+    "min_parameters_billion": 1
+  },
+  "proposed_pool": {
+    "low_popularity": 279,
+    "core": 216
+  },
+  "proposed_pool_by_grade": {
+    "2": {
+      "low_popularity": 142,
+      "core": 124
+    },
+    "1": {
+      "low_popularity": 137,
+      "core": 92
+    }
+  },
+  "proposed_evidence_stage": {
+    "model_id": 228,
+    "filter_metadata": 132,
+    "benchmark_metadata": 71,
+    "semantic_metadata": 51,
+    "technical_metadata": 9,
+    "canonical_model_id": 4
+  },
+  "top_families": {
+    "LGAI-EXAONE/EXAONE-4.0-1.2B": 18,
+    "google/madlad400-3b-mt": 13,
+    "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct": 12,
+    "jhu-clsp/mmBERT-base": 11,
+    "tencent/Hy-MT2-1.8B": 10,
+    "FunAudioLLM/SenseVoiceSmall": 8,
+    "jhu-clsp/mmBERT-small": 6,
+    "Qwen/Qwen3-1.7B": 6,
+    "kakaocorp/kanana-1.5-2.1b-instruct-2505": 6,
+    "Qwen/Qwen3.6-35B-A3B": 6,
+    "nvidia/nemotron-3.5-asr-streaming-0.6b": 5,
+    "trillionlabs/Tri-1.8B-Translation": 5,
+    "Qwen/Qwen2.5-7B-Instruct": 5,
+    "zai-org/GLM-OCR": 5,
+    "openai/whisper-large-v3-turbo": 4
+  },
+  "per_query": [
+    {
+      "query_id": "st01",
+      "eligible": 23,
+      "review": 23,
+      "grade_2": 23,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 18,
+      "max_family": 2
+    },
+    {
+      "query_id": "st02",
+      "eligible": 12,
+      "review": 12,
+      "grade_2": 12,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 1,
+      "max_family": 2
+    },
+    {
+      "query_id": "st03",
+      "eligible": 21,
+      "review": 21,
+      "grade_2": 21,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 16,
+      "max_family": 6
+    },
+    {
+      "query_id": "st04",
+      "eligible": 5,
+      "review": 5,
+      "grade_2": 5,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "st05",
+      "eligible": 5,
+      "review": 5,
+      "grade_2": 5,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "st06",
+      "eligible": 10,
+      "review": 10,
+      "grade_2": 6,
+      "grade_1": 4,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "st07",
+      "eligible": 17,
+      "review": 17,
+      "grade_2": 17,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 20,
+      "max_family": 3
+    },
+    {
+      "query_id": "st08",
+      "eligible": 13,
+      "review": 13,
+      "grade_2": 5,
+      "grade_1": 8,
+      "unresolved": 0,
+      "unknown_excluded": 43,
+      "max_family": 7
+    },
+    {
+      "query_id": "st09",
+      "eligible": 15,
+      "review": 15,
+      "grade_2": 4,
+      "grade_1": 11,
+      "unresolved": 0,
+      "unknown_excluded": 2,
+      "max_family": 3
+    },
+    {
+      "query_id": "st10",
+      "eligible": 3,
+      "review": 3,
+      "grade_2": 3,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 4,
+      "max_family": 1
+    },
+    {
+      "query_id": "sc01",
+      "eligible": 2346,
+      "review": 4,
+      "grade_2": 3,
+      "grade_1": 0,
+      "unresolved": 1,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "sc02",
+      "eligible": 157,
+      "review": 4,
+      "grade_2": 2,
+      "grade_1": 2,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "sc03",
+      "eligible": 157,
+      "review": 18,
+      "grade_2": 1,
+      "grade_1": 15,
+      "unresolved": 2,
+      "unknown_excluded": 0,
+      "max_family": 5
+    },
+    {
+      "query_id": "sc04",
+      "eligible": 537,
+      "review": 3,
+      "grade_2": 1,
+      "grade_1": 2,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "sc05",
+      "eligible": 321,
+      "review": 23,
+      "grade_2": 7,
+      "grade_1": 4,
+      "unresolved": 12,
+      "unknown_excluded": 0,
+      "max_family": 7
+    },
+    {
+      "query_id": "sc06",
+      "eligible": 4017,
+      "review": 14,
+      "grade_2": 3,
+      "grade_1": 7,
+      "unresolved": 4,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "sc07",
+      "eligible": 4017,
+      "review": 8,
+      "grade_2": 6,
+      "grade_1": 1,
+      "unresolved": 1,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "sc08",
+      "eligible": 157,
+      "review": 10,
+      "grade_2": 3,
+      "grade_1": 2,
+      "unresolved": 5,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "sc09",
+      "eligible": 338,
+      "review": 6,
+      "grade_2": 3,
+      "grade_1": 1,
+      "unresolved": 2,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "sc10",
+      "eligible": 4017,
+      "review": 10,
+      "grade_2": 6,
+      "grade_1": 1,
+      "unresolved": 3,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "sx01",
+      "eligible": 28,
+      "review": 4,
+      "grade_2": 0,
+      "grade_1": 4,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "sx02",
+      "eligible": 101,
+      "review": 16,
+      "grade_2": 8,
+      "grade_1": 8,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "sx03",
+      "eligible": 968,
+      "review": 13,
+      "grade_2": 4,
+      "grade_1": 8,
+      "unresolved": 1,
+      "unknown_excluded": 261,
+      "max_family": 2
+    },
+    {
+      "query_id": "sx04",
+      "eligible": 152,
+      "review": 4,
+      "grade_2": 2,
+      "grade_1": 1,
+      "unresolved": 1,
+      "unknown_excluded": 10,
+      "max_family": 1
+    },
+    {
+      "query_id": "sx05",
+      "eligible": 72,
+      "review": 7,
+      "grade_2": 0,
+      "grade_1": 4,
+      "unresolved": 3,
+      "unknown_excluded": 96,
+      "max_family": 3
+    },
+    {
+      "query_id": "sx06",
+      "eligible": 146,
+      "review": 24,
+      "grade_2": 7,
+      "grade_1": 12,
+      "unresolved": 5,
+      "unknown_excluded": 41,
+      "max_family": 7
+    },
+    {
+      "query_id": "sx07",
+      "eligible": 115,
+      "review": 12,
+      "grade_2": 0,
+      "grade_1": 10,
+      "unresolved": 2,
+      "unknown_excluded": 26,
+      "max_family": 5
+    },
+    {
+      "query_id": "sx08",
+      "eligible": 2363,
+      "review": 12,
+      "grade_2": 2,
+      "grade_1": 7,
+      "unresolved": 3,
+      "unknown_excluded": 244,
+      "max_family": 1
+    },
+    {
+      "query_id": "sx09",
+      "eligible": 720,
+      "review": 23,
+      "grade_2": 4,
+      "grade_1": 9,
+      "unresolved": 10,
+      "unknown_excluded": 586,
+      "max_family": 3
+    },
+    {
+      "query_id": "sx10",
+      "eligible": 747,
+      "review": 1,
+      "grade_2": 1,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 172,
+      "max_family": 1
+    },
+    {
+      "query_id": "lx01",
+      "eligible": 4017,
+      "review": 1,
+      "grade_2": 1,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "lx02",
+      "eligible": 4017,
+      "review": 4,
+      "grade_2": 2,
+      "grade_1": 2,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "lx03",
+      "eligible": 4017,
+      "review": 10,
+      "grade_2": 1,
+      "grade_1": 9,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 9
+    },
+    {
+      "query_id": "lx04",
+      "eligible": 4017,
+      "review": 2,
+      "grade_2": 1,
+      "grade_1": 1,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "lx05",
+      "eligible": 4017,
+      "review": 1,
+      "grade_2": 1,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "lx06",
+      "eligible": 189,
+      "review": 1,
+      "grade_2": 1,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "lx07",
+      "eligible": 1643,
+      "review": 4,
+      "grade_2": 4,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "lx08",
+      "eligible": 4017,
+      "review": 3,
+      "grade_2": 1,
+      "grade_1": 2,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "lx09",
+      "eligible": 4017,
+      "review": 2,
+      "grade_2": 1,
+      "grade_1": 1,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "lx10",
+      "eligible": 4017,
+      "review": 4,
+      "grade_2": 1,
+      "grade_1": 3,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 4
+    },
+    {
+      "query_id": "mc01",
+      "eligible": 4017,
+      "review": 6,
+      "grade_2": 6,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "mc02",
+      "eligible": 4017,
+      "review": 24,
+      "grade_2": 3,
+      "grade_1": 21,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 12
+    },
+    {
+      "query_id": "mc03",
+      "eligible": 4017,
+      "review": 11,
+      "grade_2": 1,
+      "grade_1": 10,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 4
+    },
+    {
+      "query_id": "mc04",
+      "eligible": 4017,
+      "review": 25,
+      "grade_2": 6,
+      "grade_1": 19,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 7
+    },
+    {
+      "query_id": "mc05",
+      "eligible": 4017,
+      "review": 12,
+      "grade_2": 2,
+      "grade_1": 10,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 9
+    },
+    {
+      "query_id": "mc06",
+      "eligible": 4017,
+      "review": 4,
+      "grade_2": 2,
+      "grade_1": 2,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "mc07",
+      "eligible": 321,
+      "review": 12,
+      "grade_2": 3,
+      "grade_1": 9,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 6
+    },
+    {
+      "query_id": "mc08",
+      "eligible": 4017,
+      "review": 11,
+      "grade_2": 2,
+      "grade_1": 9,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 3
+    },
+    {
+      "query_id": "mc09",
+      "eligible": 4017,
+      "review": 2,
+      "grade_2": 2,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "mc10",
+      "eligible": 4017,
+      "review": 3,
+      "grade_2": 2,
+      "grade_1": 1,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "bl01",
+      "eligible": 4017,
+      "review": 7,
+      "grade_2": 7,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 3
+    },
+    {
+      "query_id": "bl02",
+      "eligible": 4017,
+      "review": 13,
+      "grade_2": 13,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "bl03",
+      "eligible": 321,
+      "review": 13,
+      "grade_2": 13,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 3
+    },
+    {
+      "query_id": "bl04",
+      "eligible": 4017,
+      "review": 3,
+      "grade_2": 3,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "bl05",
+      "eligible": 4017,
+      "review": 2,
+      "grade_2": 2,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "bl06",
+      "eligible": 4017,
+      "review": 2,
+      "grade_2": 2,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 1
+    },
+    {
+      "query_id": "bl07",
+      "eligible": 4017,
+      "review": 7,
+      "grade_2": 4,
+      "grade_1": 3,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "bl08",
+      "eligible": 4017,
+      "review": 6,
+      "grade_2": 6,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 3
+    },
+    {
+      "query_id": "bl09",
+      "eligible": 4017,
+      "review": 8,
+      "grade_2": 5,
+      "grade_1": 3,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 3
+    },
+    {
+      "query_id": "bl10",
+      "eligible": 4017,
+      "review": 7,
+      "grade_2": 4,
+      "grade_1": 3,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 2
+    },
+    {
+      "query_id": "ab01",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab02",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab03",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab04",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 8,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab05",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab06",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab07",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab08",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 0,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab09",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 12,
+      "max_family": 0
+    },
+    {
+      "query_id": "ab10",
+      "eligible": 0,
+      "review": 0,
+      "grade_2": 0,
+      "grade_1": 0,
+      "unresolved": 0,
+      "unknown_excluded": 1,
+      "max_family": 0
+    }
+  ],
+  "abstention": [
+    {
+      "query_id": "ab01",
+      "near_miss": {
+        "licenses": 6,
+        "max_parameters_billion": 3,
+        "require_artifact": 3,
+        "tasks": 22
+      },
+      "relaxed": {
+        "licenses": 6,
+        "max_parameters_billion": 3,
+        "require_artifact": 3,
+        "tasks": 22
+      },
+      "temptation": 22,
+      "extreme": []
+    },
+    {
+      "query_id": "ab02",
+      "near_miss": {
+        "licenses": 4,
+        "min_context_length": 5,
+        "tasks": 3
+      },
+      "relaxed": {
+        "licenses": 4,
+        "min_context_length": 5,
+        "require_artifact": 0,
+        "tasks": 3
+      },
+      "temptation": 5,
+      "extreme": []
+    },
+    {
+      "query_id": "ab03",
+      "near_miss": {
+        "licenses": 12,
+        "require_artifact": 15,
+        "tasks": 119
+      },
+      "relaxed": {
+        "licenses": 12,
+        "require_artifact": 15,
+        "tasks": 119
+      },
+      "temptation": 119,
+      "extreme": []
+    },
+    {
+      "query_id": "ab04",
+      "near_miss": {
+        "max_parameters_billion": 8,
+        "require_artifact": 30,
+        "tasks": 98
+      },
+      "relaxed": {
+        "max_parameters_billion": 8,
+        "require_artifact": 30,
+        "tasks": 98
+      },
+      "temptation": 98,
+      "extreme": []
+    },
+    {
+      "query_id": "ab05",
+      "near_miss": {
+        "licenses": 3,
+        "max_parameters_billion": 4,
+        "require_artifact": 2,
+        "tasks": 101
+      },
+      "relaxed": {
+        "licenses": 3,
+        "max_parameters_billion": 4,
+        "require_artifact": 2,
+        "tasks": 101
+      },
+      "temptation": 101,
+      "extreme": []
+    },
+    {
+      "query_id": "ab06",
+      "near_miss": {
+        "licenses": 27,
+        "min_context_length": 10,
+        "require_artifact": 8,
+        "tasks": 90
+      },
+      "relaxed": {
+        "licenses": 27,
+        "min_context_length": 10,
+        "require_artifact": 8,
+        "tasks": 90
+      },
+      "temptation": 90,
+      "extreme": []
+    },
+    {
+      "query_id": "ab07",
+      "near_miss": {
+        "licenses": 4,
+        "require_artifact": 25,
+        "tasks": 40
+      },
+      "relaxed": {
+        "licenses": 4,
+        "max_parameters_billion": 0,
+        "require_artifact": 25,
+        "tasks": 40
+      },
+      "temptation": 40,
+      "extreme": []
+    },
+    {
+      "query_id": "ab08",
+      "near_miss": {
+        "licenses": 3,
+        "require_artifact": 18,
+        "tasks": 54
+      },
+      "relaxed": {
+        "licenses": 3,
+        "max_artifact_gib": 0,
+        "require_artifact": 18,
+        "tasks": 54
+      },
+      "temptation": 54,
+      "extreme": []
+    },
+    {
+      "query_id": "ab09",
+      "near_miss": {
+        "min_parameters_billion": 12,
+        "require_artifact": 89,
+        "tasks": 1
+      },
+      "relaxed": {
+        "commercial_status": 0,
+        "min_parameters_billion": 12,
+        "require_artifact": 89,
+        "tasks": 1
+      },
+      "temptation": 89,
+      "extreme": []
+    },
+    {
+      "query_id": "ab10",
+      "near_miss": {
+        "max_parameters_billion": 1,
+        "require_artifact": 15,
+        "tasks": 90
+      },
+      "relaxed": {
+        "commercial_status": 0,
+        "exclude_gated": 0,
+        "max_parameters_billion": 1,
+        "require_artifact": 15,
+        "tasks": 90
+      },
+      "temptation": 90,
+      "extreme": []
+    }
+  ],
+  "commercial_or_license_queries": 22,
+  "parameter_or_context_queries": 18,
+  "artifact_queries": 22,
+  "pure_semantic_queries": 10,
+  "style_exemptions": {
+    "structured_constraint": {
+      "goal_oriented": "이 유형은 수치·포맷·라이선스 조건을 사용자가 직접 말해야 성립한다. 목적만 말하는 질문으로 쓰면 조건을 추론해 넣어야 하므로(숨은 조건) 목적형 대신 혼합형으로 상황을 함께 담았다."
+    }
+  }
+}

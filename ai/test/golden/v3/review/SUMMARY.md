@@ -1,0 +1,76 @@
+# 골든셋 v3 질의별 요약
+
+> 상태: **초안 + 전수 스캔 + 검수 준비 완료** (사람 판정 전). 숫자는 `tools/build_drafts.py` 가 기준 코퍼스에서 계산했다.
+
+| query | 유형 | 표현 | eligible | 2점 | 1점 | 제외 | 사람 판단 | 검수 대상 | 판정 완료 | invariant |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| st01 | structured_constraint | 기술형 | 23 | 23 | 0 | 0 | 0 | 23 | 0/23 | ✅ |
+| st02 | structured_constraint | 혼합형 | 12 | 12 | 0 | 0 | 0 | 12 | 0/12 | ✅ |
+| st03 | structured_constraint | 혼합형 | 21 | 21 | 0 | 0 | 0 | 21 | 0/21 | ✅ |
+| st04 | structured_constraint | 기술형 | 5 | 5 | 0 | 0 | 0 | 5 | 0/5 | ✅ |
+| st05 | structured_constraint | 혼합형 | 5 | 5 | 0 | 0 | 0 | 5 | 0/5 | ✅ |
+| st06 | structured_constraint | 기술형 | 10 | 6 | 4 | 0 | 0 | 10 | 0/10 | ✅ |
+| st07 | structured_constraint | 혼합형 | 17 | 17 | 0 | 0 | 0 | 17 | 0/17 | ✅ |
+| st08 | structured_constraint | 기술형 | 13 | 5 | 8 | 0 | 0 | 13 | 0/13 | ✅ |
+| st09 | structured_constraint | 기술형 | 15 | 4 | 11 | 0 | 0 | 15 | 0/15 | ✅ |
+| st10 | structured_constraint | 혼합형 | 3 | 3 | 0 | 0 | 0 | 3 | 0/3 | ✅ |
+| sc01 | semantic_capability | 목적형 | 2,346 | 3 | 0 | 2,342 | 1 | 4 | 0/4 | ✅ |
+| sc02 | semantic_capability | 목적형 | 157 | 2 | 2 | 153 | 0 | 4 | 0/4 | ✅ |
+| sc03 | semantic_capability | 목적형 | 157 | 1 | 15 | 139 | 2 | 18 | 0/18 | ✅ |
+| sc04 | semantic_capability | 목적형 | 537 | 1 | 2 | 534 | 0 | 3 | 0/3 | ✅ |
+| sc05 | semantic_capability | 목적형 | 321 | 7 | 4 | 298 | 12 | 23 | 0/23 | ✅ |
+| sc06 | semantic_capability | 기술형 | 4,017 | 3 | 7 | 4,003 | 4 | 14 | 0/14 | ✅ |
+| sc07 | semantic_capability | 목적형 | 4,017 | 6 | 1 | 4,009 | 1 | 8 | 0/8 | ✅ |
+| sc08 | semantic_capability | 혼합형 | 157 | 3 | 2 | 147 | 5 | 10 | 0/10 | ✅ |
+| sc09 | semantic_capability | 혼합형 | 338 | 3 | 1 | 332 | 2 | 6 | 0/6 | ✅ |
+| sc10 | semantic_capability | 기술형 | 4,017 | 6 | 1 | 4,007 | 3 | 10 | 0/10 | ✅ |
+| sx01 | semantic_constraint | 혼합형 | 28 | 0 | 4 | 24 | 0 | 4 | 0/4 | ✅ |
+| sx02 | semantic_constraint | 혼합형 | 101 | 8 | 8 | 85 | 0 | 16 | 0/16 | ✅ |
+| sx03 | semantic_constraint | 혼합형 | 968 | 4 | 8 | 955 | 1 | 13 | 0/13 | ✅ |
+| sx04 | semantic_constraint | 혼합형 | 152 | 2 | 1 | 148 | 1 | 4 | 0/4 | ✅ |
+| sx05 | semantic_constraint | 목적형 | 72 | 0 | 4 | 65 | 3 | 7 | 0/7 | ✅ |
+| sx06 | semantic_constraint | 기술형 | 146 | 7 | 12 | 122 | 5 | 24 | 0/24 | ✅ |
+| sx07 | semantic_constraint | 혼합형 | 115 | 0 | 10 | 103 | 2 | 12 | 0/12 | ✅ |
+| sx08 | semantic_constraint | 기술형 | 2,363 | 2 | 7 | 2,351 | 3 | 12 | 0/12 | ✅ |
+| sx09 | semantic_constraint | 목적형 | 720 | 4 | 9 | 697 | 10 | 23 | 0/23 | ✅ |
+| sx10 | semantic_constraint | 혼합형 | 747 | 1 | 0 | 746 | 0 | 1 | 0/1 | ✅ |
+| lx01 | lexical_exact | 기술형 | 4,017 | 1 | 0 | 4,016 | 0 | 1 | 0/1 | ✅ |
+| lx02 | lexical_exact | 혼합형 | 4,017 | 2 | 2 | 4,013 | 0 | 4 | 0/4 | ✅ |
+| lx03 | lexical_exact | 기술형 | 4,017 | 1 | 9 | 4,007 | 0 | 10 | 0/10 | ✅ |
+| lx04 | lexical_exact | 목적형 | 4,017 | 1 | 1 | 4,015 | 0 | 2 | 0/2 | ✅ |
+| lx05 | lexical_exact | 기술형 | 4,017 | 1 | 0 | 4,016 | 0 | 1 | 0/1 | ✅ |
+| lx06 | lexical_exact | 혼합형 | 189 | 1 | 0 | 188 | 0 | 1 | 0/1 | ✅ |
+| lx07 | lexical_exact | 혼합형 | 1,643 | 4 | 0 | 1,639 | 0 | 4 | 0/4 | ✅ |
+| lx08 | lexical_exact | 기술형 | 4,017 | 1 | 2 | 4,014 | 0 | 3 | 0/3 | ✅ |
+| lx09 | lexical_exact | 목적형 | 4,017 | 1 | 1 | 4,015 | 0 | 2 | 0/2 | ✅ |
+| lx10 | lexical_exact | 기술형 | 4,017 | 1 | 3 | 4,013 | 0 | 4 | 0/4 | ✅ |
+| mc01 | model_comparison | 기술형 | 4,017 | 6 | 0 | 4,011 | 0 | 6 | 0/6 | ✅ |
+| mc02 | model_comparison | 혼합형 | 4,017 | 3 | 21 | 3,993 | 0 | 24 | 0/24 | ✅ |
+| mc03 | model_comparison | 기술형 | 4,017 | 1 | 10 | 4,006 | 0 | 11 | 0/11 | ✅ |
+| mc04 | model_comparison | 목적형 | 4,017 | 6 | 19 | 3,992 | 0 | 25 | 0/25 | ✅ |
+| mc05 | model_comparison | 혼합형 | 4,017 | 2 | 10 | 4,005 | 0 | 12 | 0/12 | ✅ |
+| mc06 | model_comparison | 기술형 | 4,017 | 2 | 2 | 4,013 | 0 | 4 | 0/4 | ✅ |
+| mc07 | model_comparison | 목적형 | 321 | 3 | 9 | 309 | 0 | 12 | 0/12 | ✅ |
+| mc08 | model_comparison | 기술형 | 4,017 | 2 | 9 | 4,006 | 0 | 11 | 0/11 | ✅ |
+| mc09 | model_comparison | 혼합형 | 4,017 | 2 | 0 | 4,015 | 0 | 2 | 0/2 | ✅ |
+| mc10 | model_comparison | 기술형 | 4,017 | 2 | 1 | 4,014 | 0 | 3 | 0/3 | ✅ |
+| bl01 | benchmark_lookup | 기술형 | 4,017 | 7 | 0 | 4,010 | 0 | 7 | 0/7 | ✅ |
+| bl02 | benchmark_lookup | 기술형 | 4,017 | 13 | 0 | 4,004 | 0 | 13 | 0/13 | ✅ |
+| bl03 | benchmark_lookup | 혼합형 | 321 | 13 | 0 | 308 | 0 | 13 | 0/13 | ✅ |
+| bl04 | benchmark_lookup | 혼합형 | 4,017 | 3 | 0 | 4,014 | 0 | 3 | 0/3 | ✅ |
+| bl05 | benchmark_lookup | 기술형 | 4,017 | 2 | 0 | 4,015 | 0 | 2 | 0/2 | ✅ |
+| bl06 | benchmark_lookup | 목적형 | 4,017 | 2 | 0 | 4,015 | 0 | 2 | 0/2 | ✅ |
+| bl07 | benchmark_lookup | 기술형 | 4,017 | 4 | 3 | 4,010 | 0 | 7 | 0/7 | ✅ |
+| bl08 | benchmark_lookup | 혼합형 | 4,017 | 6 | 0 | 4,011 | 0 | 6 | 0/6 | ✅ |
+| bl09 | benchmark_lookup | 목적형 | 4,017 | 5 | 3 | 4,009 | 0 | 8 | 0/8 | ✅ |
+| bl10 | benchmark_lookup | 기술형 | 4,017 | 4 | 3 | 4,010 | 0 | 7 | 0/7 | ✅ |
+| ab01 | abstention | 혼합형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab02 | abstention | 기술형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab03 | abstention | 목적형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab04 | abstention | 혼합형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab05 | abstention | 기술형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab06 | abstention | 혼합형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab07 | abstention | 목적형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab08 | abstention | 기술형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab09 | abstention | 혼합형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
+| ab10 | abstention | 혼합형 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 | ✅ |
