@@ -42,6 +42,7 @@ def test_local_settings_do_not_change_embedding_environment(monkeypatch):
         assert str(client.base_url) == "http://ollama:11434/v1/"
         assert client.api_key != "test-paid-key"
     import os
+
     assert os.environ["OPENAI_API_KEY"] == "test-paid-key"
     assert "OPENAI_BASE_URL" not in os.environ
 

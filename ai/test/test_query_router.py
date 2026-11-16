@@ -9,24 +9,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from retrieval_lab import classifier, router
 
 
-@pytest.mark.parametrize("text", [
-    "일본어 문서를 한국어로 번역할 모델, GPU 6GB에서 쓸 거야",
-    "영→한 번역 모델", "ko -> fr 번역", "한국어→영어 번역 모델",
-    "GGUF로 된 3B 이하 한국어 요약 모델", "KoELECTRA 기반 감성분석 모델",
-    "KLUE-RoBERTa 베이스 임베딩 모델", "KoBART 기반 요약 모델",
-    "KLUE-RoBERTa를 베이스로 만든 한국어 임베딩 모델",
-])
+@pytest.mark.parametrize(
+    "text",
+    [
+        "일본어 문서를 한국어로 번역할 모델, GPU 6GB에서 쓸 거야",
+        "영→한 번역 모델",
+        "ko -> fr 번역",
+        "한국어→영어 번역 모델",
+        "GGUF로 된 3B 이하 한국어 요약 모델",
+        "KoELECTRA 기반 감성분석 모델",
+        "KLUE-RoBERTa 베이스 임베딩 모델",
+        "KoBART 기반 요약 모델",
+        "KLUE-RoBERTa를 베이스로 만든 한국어 임베딩 모델",
+    ],
+)
 def test_lexical_anchors_do_not_need_an_llm(text):
     assert classifier.rule_type(text) == "lexical_exact"
 
 
-@pytest.mark.parametrize("text", [
-    "GGUF 모델의 KMMLU 벤치마크 점수 알려줘",
-    "영어와 한국어로 대화하는 모델", "GPU 8GB에서 돌릴 요약 모델",
-    "ONNX는 필요 없고 한국어 요약만 잘하면 돼",
-    "GGUF 말고 성능 좋은 모델 찾아줘",
-    "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델",
-])
+@pytest.mark.parametrize(
+    "text",
+    [
+        "GGUF 모델의 KMMLU 벤치마크 점수 알려줘",
+        "영어와 한국어로 대화하는 모델",
+        "GPU 8GB에서 돌릴 요약 모델",
+        "ONNX는 필요 없고 한국어 요약만 잘하면 돼",
+        "GGUF 말고 성능 좋은 모델 찾아줘",
+        "한국어 음성을 받아 적으면서 영어로 번역까지 해 주는 모델",
+    ],
+)
 def test_ambiguous_or_benchmark_requests_are_left_to_llm(text):
     assert classifier.rule_type(text) is None
 
@@ -35,24 +46,33 @@ def test_named_comparison_precedes_format():
     assert classifier.rule_type("a와 b GGUF 성능 비교", ["org/a", "org/b"]) == "model_comparison"
 
 
-@pytest.mark.parametrize("payload", [
-    {"target": "huggingface"}, {"target": None},
-    {"model_query_type": "semantic_capability"}, [], None,
-])
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"target": "huggingface"},
+        {"target": None},
+        {"model_query_type": "semantic_capability"},
+        [],
+        None,
+    ],
+)
 def test_invalid_response_cannot_dispatch(payload):
     with pytest.raises(ValueError):
         router.validate_response(payload)
 
 
-@pytest.mark.parametrize("text,target", [
-    ("모델 학습에 쓸 공공데이터", "dataset"),
-    ("HF 학습 데이터셋", "dataset"),
-    ("Kaggle 교통량 데이터", "dataset"),
-    ("GGUF 모델", "model"),
-    ("GGUF 모델 학습 데이터만", "dataset"),
-    ("교통량 데이터와 예측 모델", "both"),
-    ("HF에서 좋은 거", "needs_clarification"),
-])
+@pytest.mark.parametrize(
+    "text,target",
+    [
+        ("모델 학습에 쓸 공공데이터", "dataset"),
+        ("HF 학습 데이터셋", "dataset"),
+        ("Kaggle 교통량 데이터", "dataset"),
+        ("GGUF 모델", "model"),
+        ("GGUF 모델 학습 데이터만", "dataset"),
+        ("교통량 데이터와 예측 모델", "both"),
+        ("HF에서 좋은 거", "needs_clarification"),
+    ],
+)
 def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
     calls = []
 
@@ -91,8 +111,11 @@ def test_extra_response_fields_are_ignored():
 def test_live_traffic_never_writes_the_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
     monkeypatch.setattr(classifier, "CACHE_PATH", tmp_path / "classifier.json")
-    monkeypatch.setattr(classifier, "_call_llm", lambda text, model, prompt=None:
-                        {"target": "model"} if prompt else {"type": "semantic_capability"})
+    monkeypatch.setattr(
+        classifier,
+        "_call_llm",
+        lambda text, model, prompt=None: {"target": "model"} if prompt else {"type": "semantic_capability"},
+    )
     assert router.route("한국어 요약 모델", use_cache=False).target == "model"
     assert classifier.llm_type("한국어 요약 모델", "test-model", use_cache=False)[0] == "semantic_capability"
     assert not list(tmp_path.iterdir())

@@ -18,9 +18,7 @@ def provider() -> str:
 
 
 def model_name() -> str:
-    return os.getenv("RECOMMEND_LLM_MODEL") or (
-        "gemma3:4b" if provider() == "ollama" else "gpt-4.1-mini"
-    )
+    return os.getenv("RECOMMEND_LLM_MODEL") or ("gemma3:4b" if provider() == "ollama" else "gpt-4.1-mini")
 
 
 def create_client() -> OpenAI:

@@ -45,9 +45,9 @@ from pydantic import BaseModel, Field, model_validator
 
 import project_checks
 from hypergraph_search import concepts_from_terms, datasets_for_model, embed_query, load_graph, rank_datasets
-from taxonomy import load_taxonomy, normalize
 from recommendation_llm import create_client, model_name
 from retrieval_lab import classifier, router
+from taxonomy import load_taxonomy, normalize
 
 ROOT = Path(__file__).resolve().parent
 LLM_MODEL = model_name()
@@ -299,7 +299,7 @@ def _llm_plan(user):
 
 
 TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
-NO_DATASETS = {"per_model": {}, "project_training": [], "service_data": []}
+NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
 
 
 def _route(text):
@@ -573,7 +573,7 @@ def clarify(state: State) -> State:
         return {}
     answer = interrupt({"questions": questions})
     request = f"{state['request']}\n(추가 정보) {answer}"
-    out = {"request": request, "plan": _parse_plan(request)}
+    out: State = {"request": request, "plan": _parse_plan(request)}
     if unclear:
         out["route"] = _route(request)
     return out

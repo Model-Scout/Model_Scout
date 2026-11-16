@@ -21,9 +21,10 @@ import os
 import re
 import time
 from collections import Counter
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Sequence
+from typing import Any
 
 import numpy as np
 
@@ -43,7 +44,9 @@ TYPES = (
     "benchmark_lookup",
     "semantic_constraint",
 )
-COMPARE_CUE = re.compile(r"비교|vs\.?|VS|versus|차이|중\s*(뭐|어느|어떤|더)|어느\s*(쪽|게|것)|더\s*(나아|좋|낫)|나을까|나아\?")
+COMPARE_CUE = re.compile(
+    r"비교|vs\.?|VS|versus|차이|중\s*(뭐|어느|어떤|더)|어느\s*(쪽|게|것)|더\s*(나아|좋|낫)|나을까|나아\?"
+)
 # Conservative fast paths for explicit lexical requirements. Benchmark requests
 # take precedence; a bare task, hardware name or language is not an exact anchor.
 BENCHMARK_CUE = re.compile(
@@ -60,9 +63,7 @@ TRANSLATION_CUE = re.compile(
     rf"|{LANGUAGE}\s*(?:→|->|⇒|=>)\s*{LANGUAGE}",
     re.IGNORECASE,
 )
-NATURAL_TRANSLATION_CUE = re.compile(
-    rf"{LANGUAGE}(?!\s*(?:와|과|및))[^.!?\n]{{0,24}}?{LANGUAGE}(?:로|으로)"
-)
+NATURAL_TRANSLATION_CUE = re.compile(rf"{LANGUAGE}(?!\s*(?:와|과|및))[^.!?\n]{{0,24}}?{LANGUAGE}(?:로|으로)")
 FAMILY_CUE = re.compile(
     r"(?<![A-Za-z0-9_])(?:KoELECTRA|KoBART|KLUE[- ]RoBERTa|Kanana|Llama|Qwen)(?:[A-Za-z0-9._-]*)\s*(?:(?:를|을)\s*)?(?:계열|기반|베이스)",
     re.IGNORECASE,
@@ -115,26 +116,26 @@ class Classification:
     query_type: str
     source: str  # "rule" or "llm"
     latency_ms: float
-    named_models: List[str]
+    named_models: list[str]
 
 
 def cache_key(text: str, model: str) -> str:
-    return hashlib.sha256(f"classify|v{PROMPT_VERSION}|{model}|{text}".encode("utf-8")).hexdigest()[:20]
+    return hashlib.sha256(f"classify|v{PROMPT_VERSION}|{model}|{text}".encode()).hexdigest()[:20]
 
 
-def load_cache(path: Optional[Path] = None) -> Dict[str, Dict[str, Any]]:
+def load_cache(path: Path | None = None) -> dict[str, dict[str, Any]]:
     path = path or CACHE_PATH
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
 
 
-def save_cache(cache: Dict[str, Dict[str, Any]], path: Optional[Path] = None) -> None:
+def save_cache(cache: dict[str, dict[str, Any]], path: Path | None = None) -> None:
     path = path or CACHE_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
     ordered = dict(sorted(cache.items(), key=lambda item: item[1]["input"]))
     path.write_text(json.dumps(ordered, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 
-def _call_llm(text: str, model: str, prompt: Optional[str] = None) -> Dict[str, Any]:
+def _call_llm(text: str, model: str, prompt: str | None = None) -> dict[str, Any]:
     try:
         from dotenv import load_dotenv
 
@@ -156,7 +157,7 @@ def _call_llm(text: str, model: str, prompt: Optional[str] = None) -> Dict[str, 
     return json.loads(response.choices[0].message.content or "{}")
 
 
-def llm_type(text: str, model: Optional[str] = None, use_cache: bool = True) -> tuple[str, float]:
+def llm_type(text: str, model: str | None = None, use_cache: bool = True) -> tuple[str, float]:
     """use_cache=False for live traffic: the cache file holds evaluation queries kept in git."""
     model = model or llm_model()
     cache = load_cache() if use_cache else {}
@@ -171,14 +172,20 @@ def llm_type(text: str, model: Optional[str] = None, use_cache: bool = True) -> 
         # Do not cache malformed output as a successful classification.
         return "semantic_capability", latency_ms
     query_type = payload["type"]
-    cache[key] = {"prompt_version": PROMPT_VERSION, "model": model, "input": text, "type": query_type,
-                  "response": payload, "latency_ms": round(latency_ms, 1)}
+    cache[key] = {
+        "prompt_version": PROMPT_VERSION,
+        "model": model,
+        "input": text,
+        "type": query_type,
+        "response": payload,
+        "latency_ms": round(latency_ms, 1),
+    }
     if use_cache:
         save_cache(cache)
     return query_type, latency_ms
 
 
-def rule_type(text: str, named_models: Sequence[str] = ()) -> Optional[str]:
+def rule_type(text: str, named_models: Sequence[str] = ()) -> str | None:
     """Model-only fast paths, in the same priority order as the prompt.
 
     Call only after routing to model search. Do not use data requests as models
@@ -194,8 +201,7 @@ def rule_type(text: str, named_models: Sequence[str] = ()) -> Optional[str]:
     # Joint transcription/translation is a capability request; a language pair
     # occurring across its two tasks is not an exact text-translation anchor.
     translation = TRANSLATION_CUE.search(text) or (
-        "번역" in text and not re.search(r"받아\s*적|전사", text)
-        and NATURAL_TRANSLATION_CUE.search(text)
+        "번역" in text and not re.search(r"받아\s*적|전사", text) and NATURAL_TRANSLATION_CUE.search(text)
     )
     if FORMAT_CUE.search(text) or translation or FAMILY_CUE.search(text):
         return "lexical_exact"
@@ -216,7 +222,7 @@ def classify(text: str, retriever: Any, use_rule: bool = True, use_llm: bool = T
     return Classification(query_type, "llm", rule_ms + llm_ms, named)
 
 
-def scores(gold: Sequence[str], predicted: Sequence[str]) -> Dict[str, Any]:
+def scores(gold: Sequence[str], predicted: Sequence[str]) -> dict[str, Any]:
     per_class = {}
     for label in TYPES:
         tp = sum(g == p == label for g, p in zip(gold, predicted))
@@ -235,26 +241,47 @@ def scores(gold: Sequence[str], predicted: Sequence[str]) -> Dict[str, Any]:
     }
 
 
-def render(results: Dict[str, Dict[str, Any]], errors: List[Dict[str, str]], queries: int) -> str:
+def render(results: dict[str, dict[str, Any]], errors: list[dict[str, str]], queries: int) -> str:
     short = {t: t.replace("_", " ") for t in TYPES}
-    lines = ["# 쿼리 유형 분류 실험", "", f"- 골든셋 질의 {queries}개 (semantic_golden + semantic_judged, plan_query_type 라벨)",
-             f"- LLM `{llm_model()}`, 프롬프트 v{PROMPT_VERSION}, few-shot 예시는 골든셋과 별도로 작성", "",
-             "## 방식별 결과", "", "| 방식 | Accuracy | Macro F1 | LLM 호출 |", "|---|---:|---:|---:|"]
+    lines = [
+        "# 쿼리 유형 분류 실험",
+        "",
+        f"- 골든셋 질의 {queries}개 (semantic_golden + semantic_judged, plan_query_type 라벨)",
+        f"- LLM `{llm_model()}`, 프롬프트 v{PROMPT_VERSION}, few-shot 예시는 골든셋과 별도로 작성",
+        "",
+        "## 방식별 결과",
+        "",
+        "| 방식 | Accuracy | Macro F1 | LLM 호출 |",
+        "|---|---:|---:|---:|",
+    ]
     for name, result in results.items():
         lines.append(f"| {name} | {result['accuracy']:.3f} | {result['macro_f1']:.3f} | {result['llm_calls']} |")
     best = results["규칙 + LLM"]
-    lines += ["", "## 유형별 (규칙 + LLM)", "", "| 유형 | Precision | Recall | F1 | 질의 수 |", "|---|---:|---:|---:|---:|"]
+    lines += [
+        "",
+        "## 유형별 (규칙 + LLM)",
+        "",
+        "| 유형 | Precision | Recall | F1 | 질의 수 |",
+        "|---|---:|---:|---:|---:|",
+    ]
     for label in TYPES:
         row = best["per_class"][label]
         lines.append(f"| {label} | {row['precision']:.3f} | {row['recall']:.3f} | {row['f1']:.3f} | {row['support']} |")
     labels = [label for label in TYPES if best["per_class"][label]["support"]]
-    lines += ["", "## Confusion Matrix (행: 정답, 열: 예측)", "",
-              "| 정답 \\ 예측 | " + " | ".join(short[label] for label in labels) + " |", "|---" * (len(labels) + 1) + "|"]
+    lines += [
+        "",
+        "## Confusion Matrix (행: 정답, 열: 예측)",
+        "",
+        "| 정답 \\ 예측 | " + " | ".join(short[label] for label in labels) + " |",
+        "|---" * (len(labels) + 1) + "|",
+    ]
     for gold in labels:
         lines.append(f"| {short[gold]} | " + " | ".join(str(best["confusion"][gold].get(p, 0)) for p in labels) + " |")
     lines += ["", f"## 틀린 질의 ({len(errors)}개)", "", "| 질의 | 정답 | 예측 | 문장 |", "|---|---|---|---|"]
     for error in errors:
-        lines.append(f"| {error['id']} | {error['gold']} | {error['predicted']} | {error['text'][:70].replace('|', '/')} |")
+        lines.append(
+            f"| {error['id']} | {error['gold']} | {error['predicted']} | {error['text'][:70].replace('|', '/')} |"
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -262,25 +289,36 @@ def evaluate() -> None:
     from retrieval_lab import golden
     from retrieval_lab.pipeline import Retriever
 
-    items = [item for path in golden.DEFAULT_QUERY_FILES for item in golden.read_jsonl(path) if item.get("plan_query_type") in TYPES]
+    items = [
+        item
+        for path in golden.DEFAULT_QUERY_FILES
+        for item in golden.read_jsonl(path)
+        if item.get("plan_query_type") in TYPES
+    ]
     retriever = Retriever(dense_index=NAME_ONLY)
     gold = [item["plan_query_type"] for item in items]
     runs = {"규칙만 (나머지 semantic_capability)": dict(use_llm=False), "LLM만": dict(use_rule=False), "규칙 + LLM": {}}
-    results: Dict[str, Dict[str, Any]] = {}
-    predictions: Dict[str, List[Classification]] = {}
+    results: dict[str, dict[str, Any]] = {}
+    predictions: dict[str, list[Classification]] = {}
     for name, options in runs.items():
         predictions[name] = [classify(item["text"], retriever, **options) for item in items]
         result = scores(gold, [c.query_type for c in predictions[name]])
         result["llm_calls"] = sum(c.source == "llm" for c in predictions[name])
         results[name] = result
-        print(f"{name:32} accuracy={result['accuracy']:.3f} macro_f1={result['macro_f1']:.3f} llm_calls={result['llm_calls']}")
+        print(
+            f"{name:32} accuracy={result['accuracy']:.3f} macro_f1={result['macro_f1']:.3f} llm_calls={result['llm_calls']}"
+        )
     best = predictions["규칙 + LLM"]
-    errors = [{"id": item["id"], "gold": g, "predicted": c.query_type, "text": item["text"]}
-              for item, g, c in zip(items, gold, best) if g != c.query_type]
+    errors = [
+        {"id": item["id"], "gold": g, "predicted": c.query_type, "text": item["text"]}
+        for item, g, c in zip(items, gold, best)
+        if g != c.query_type
+    ]
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     (REPORT_DIR / "query_classification.md").write_text(render(results, errors, len(items)), encoding="utf-8")
-    (REPORT_DIR / "query_classification.json").write_text(json.dumps(
-        {"results": results, "errors": errors}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (REPORT_DIR / "query_classification.json").write_text(
+        json.dumps({"results": results, "errors": errors}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+    )
 
 
 def main() -> None:

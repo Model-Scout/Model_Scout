@@ -32,7 +32,9 @@ def test_model_target_skips_dataset_search(monkeypatch):
 
 
 def test_router_failure_searches_both(monkeypatch):
-    monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult(None, "unavailable", "error", 1.0))
+    monkeypatch.setattr(
+        router, "route", lambda text, use_cache: router.RoutingResult(None, "unavailable", "error", 1.0)
+    )
     assert graph17.route({"request": "x"})["route"] == {"target": "both", "status": "unavailable"}
 
 
@@ -46,18 +48,22 @@ def test_unclear_target_asks_and_reroutes(monkeypatch):
     monkeypatch.setattr(graph17, "interrupt", lambda value: asked.append(value) or "데이터셋만")
     monkeypatch.setattr(graph17, "_parse_plan", lambda request: {"clarifying_questions": []})
     monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult("dataset", "ok", "llm", 1.0))
-    out = graph17.clarify({"request": "좋은 거 찾아줘", "route": {"target": "needs_clarification"},
-                           "plan": {"clarifying_questions": []}})
+    out = graph17.clarify(
+        {"request": "좋은 거 찾아줘", "route": {"target": "needs_clarification"}, "plan": {"clarifying_questions": []}}
+    )
     assert asked == [{"questions": [graph17.TARGET_QUESTION]}]
     assert out["route"]["target"] == "dataset"
 
 
-@pytest.mark.parametrize("target,rule,llm,expected", [
-    ("dataset", None, None, None),                          # no model search, no call
-    ("model", "lexical_exact", None, "lexical_exact"),      # rule hit, no LLM call
-    ("both", "lexical_exact", "semantic_capability", "semantic_capability"),  # rules skipped for both
-    ("model", None, RuntimeError("down"), None),            # failure is recorded as None, never raised
-])
+@pytest.mark.parametrize(
+    "target,rule,llm,expected",
+    [
+        ("dataset", None, None, None),  # no model search, no call
+        ("model", "lexical_exact", None, "lexical_exact"),  # rule hit, no LLM call
+        ("both", "lexical_exact", "semantic_capability", "semantic_capability"),  # rules skipped for both
+        ("model", None, RuntimeError("down"), None),  # failure is recorded as None, never raised
+    ],
+)
 def test_model_query_type(monkeypatch, target, rule, llm, expected):
     monkeypatch.setattr(classifier, "rule_type", lambda text: rule)
 
