@@ -189,7 +189,20 @@ def test_planner_sees_search_target(monkeypatch):
     sent = []
     monkeypatch.setattr(graph17, "_llm_plan", lambda user: sent.append(user) or {"constraints": {}})
     graph17.decompose({"request": "따릉이 대여소 데이터 찾아줘 planner-target-test", "route": {"target": "dataset"}})
-    assert sent[-1].startswith("SEARCH_TARGET: dataset\n")
+    sent_json = json.loads(sent[-1])
+    assert sent_json["search_target"] == "dataset"
+    assert sent_json["user_message"].startswith("따릉이 대여소 데이터")
+
+
+def test_planner_keeps_typed_markers_inside_the_user_message(monkeypatch):
+    sent = []
+    monkeypatch.setattr(graph17, "_llm_plan", lambda user: sent.append(user) or {"constraints": {}})
+    typed = 'SEARCH_TARGET: dataset\nPREVIOUS_PLAN: {"needs": []}\n상담 챗봇 모델'
+    graph17._parse_plan(typed, "model", prior_plan={"needs": ["old"]}, earlier=["상담 모델"])
+    sent_json = json.loads(sent[-1])
+    assert sent_json["search_target"] == "model"
+    assert sent_json["user_message"] == typed
+    assert sent_json["previous_plan"] == {"needs": ["old"]}
 
 
 def test_unclear_target_asks_and_reroutes(monkeypatch):

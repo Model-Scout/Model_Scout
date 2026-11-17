@@ -6,6 +6,7 @@ WORKDIR /app
 COPY backend/requirements.txt backend/
 RUN pip install --no-cache-dir -r backend/requirements.txt
 COPY backend/app backend/app
+COPY shared shared
 
 ENV HOST=0.0.0.0 PORT=8000 PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 READMES_DIR=/app/readmes
 USER nobody

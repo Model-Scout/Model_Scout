@@ -47,8 +47,8 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
     old_plan = plan(gpu_memory_gb=8, commercial_only=True)
     planned = []
 
-    def fake_parse(user, target, said=None, previous=None):
-        planned.append((user, target, said, previous))
+    def fake_parse(user, target, said=None, previous=None, prior_plan=None, earlier=None):
+        planned.append((user, target, said, previous, prior_plan))
         return plan(**(previous or {}))
 
     monkeypatch.setattr(rg, "_parse_plan", fake_parse)
@@ -76,7 +76,7 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
     assert len(state["turns"]) == 2
     assert state["plan"]["constraints"]["gpu_memory_gb"] == 8
     assert state["plan"]["constraints"]["commercial_only"] is True
-    assert "PREVIOUS_PLAN:" in planned[-1][0]
+    assert planned[-1][4] is not None  # the follow-up planner sees the previous plan
     assert planned[-1][2] == "배송 문의"
     # A different chat never inherits the first chat's history or pending question.
     assert not graph.get_state({"configurable": {"thread_id": "other"}}).values

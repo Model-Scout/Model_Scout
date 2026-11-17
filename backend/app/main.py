@@ -19,11 +19,15 @@ import os
 import re
 import time
 import threading
+import sys
 from collections.abc import Iterable, Iterator
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated, Any, Literal
 from uuid import UUID, uuid4
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from shared.input_guard import InputBlocked, protect_context, protect_text
 
 import httpx
 from fastapi import FastAPI, Header, HTTPException, Request
@@ -294,6 +298,7 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
 
 
 CHAT_RESPONSES: dict[int | str, dict[str, Any]] = {
+    400: {"description": "API 키·토큰 또는 비밀번호 입력 감지: 저장·AI 호출 전 요청 중단"},
     200: {
         "description": (
             "Server-Sent Events. `status` and `token` repeat, then one `done` (the schema below) or one `error`. "
@@ -324,6 +329,15 @@ CHAT_RESPONSES: dict[int | str, dict[str, Any]] = {
 @app.post("/api/chat", response_class=StreamingResponse, responses=CHAT_RESPONSES)
 def chat(body: ChatRequest, request: Request, session_id: SessionId):
     """Ask a question. A query on a group waiting at `clarify` answers its questions."""
+    # Before DB access, group titles, history, upstream requests, or resume payloads.
+    try:
+        guarded = protect_text(body.query)
+    except InputBlocked as error:
+        logging.info("input guard blocked=%s", error.kind)
+        raise HTTPException(400, str(error)) from None
+    body = body.model_copy(update={"query": guarded.text})
+    if guarded.masked_types or guarded.injection_signals:
+        logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
     ip = client_ip(request)
     wait = limiter.retry_after(ip)
     if wait is not None:
@@ -335,7 +349,7 @@ def chat(body: ChatRequest, request: Request, session_id: SessionId):
     if group_id is not None:
         lease = claim_group(group_id)
     try:
-        context = question_context(pool, body, session_id) if body.mode == "question" else None
+        context = protect_context(question_context(pool, body, session_id)) if body.mode == "question" else None
         group_id = _open_group(pool, group_id, session_id, body.query)
         if body.group_id is None:
             lease = claim_group(group_id)
