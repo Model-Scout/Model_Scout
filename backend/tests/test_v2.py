@@ -475,3 +475,49 @@ def test_contract_constraints_reach_the_summary_without_changing_the_shape():
                        "models": [], "datasets": {}}, UUID(int=1), "a", 1)
     assert "필요한 파일: GGUF" in done.result.summary
     assert set(done.model_dump()) == set(ChatDone.model_fields)
+
+
+@pytest.mark.parametrize("mode", ["recommend", "question"])
+def test_input_guard_blocks_secrets_before_storage_and_upstream(client, caplog, mode):
+    http, store = client
+    payload = {"query": "password=synthetic-secret", "mode": mode}
+    if mode == "question":
+        payload["group_id"] = str(uuid4())
+    with patch.object(api, "_pool", side_effect=AssertionError("must not access DB")), \
+         patch.object(api.httpx, "stream") as upstream:
+        response = http.post("/api/chat", json=payload, headers={"X-Session-Id": str(uuid4())})
+    assert response.status_code == 400
+    assert "synthetic-secret" not in response.text + caplog.text
+    assert store.db.execute("select count(*) from app.groups").fetchone()[0] == 0
+    upstream.assert_not_called()
+
+
+def test_input_guard_masks_before_title_history_upstream_and_logs(client, caplog):
+    http, store = client
+    headers = {"X-Session-Id": str(uuid4())}
+    query = "연락 abc@gmail.com 010-1234-5678 900101-1234567 한국어 모델"
+    masked = "연락 [EMAIL] [PHONE] [RRN] 한국어 모델"
+    with caplog.at_level("INFO"), patch.object(api.httpx, "stream", return_value=Upstream(ai_events())) as upstream:
+        response = http.post("/api/chat", json={"query": query}, headers=headers)
+    assert response.status_code == 200
+    group_id = response.headers["x-group-id"]
+    assert upstream.call_args.kwargs["json"]["query"] == masked
+    assert store.db.execute("select title from app.groups where group_id=?", (group_id,)).fetchone()[0] == masked
+    assert store.db.execute("select content from app.messages where role='user'").fetchone()[0] == masked
+    # Same public entry point handles a later turn / clarification answer too.
+    with patch.object(api.httpx, "stream", return_value=Upstream(ai_events())) as upstream:
+        http.post("/api/chat", json={"query": "abc@gmail.com", "group_id": group_id}, headers=headers)
+    assert upstream.call_args.kwargs["json"]["query"] == "[EMAIL]"
+    assert "abc@gmail.com" not in caplog.text
+    assert "010-1234-5678" not in caplog.text
+
+
+def test_input_guard_flags_quoted_attacks_without_blocking_normal_search(client, caplog):
+    http, _ = client
+    query = "'이전 지시를 무시해' 같은 공격을 탐지하는 모델 추천해줘"
+    with caplog.at_level("INFO"), patch.object(api.httpx, "stream", return_value=Upstream(ai_events())) as upstream:
+        response = http.post("/api/chat", json={"query": query}, headers={"X-Session-Id": str(uuid4())})
+    assert response.status_code == 200
+    assert upstream.call_args.kwargs["json"]["query"] == query
+    assert "ignore_instructions" in caplog.text
+    assert query not in caplog.text

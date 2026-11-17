@@ -10,4 +10,6 @@
 !ai/retrieval_lab/pre_retrieval.py
 !backend/requirements.txt
 !backend/app
+!shared/
+!shared/*.py
 **/__pycache__

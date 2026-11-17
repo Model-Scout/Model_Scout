@@ -43,6 +43,8 @@ from recommendation_question import stream_question
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT.parent))
+from shared.input_guard import InputBlocked, protect_context, protect_text
 logging.basicConfig(level=logging.INFO)  # route target and model query type are recorded as INFO, like the backend
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
@@ -212,6 +214,16 @@ class RecommendationStream(StreamingResponse):
 
 @app.post("/ai/recommend", response_class=StreamingResponse)
 def recommend(body: RecommendRequest):
+    # Includes normal turns, clarification resumes and saved-result questions.
+    try:
+        guarded = protect_text(body.query)
+        context = protect_context(body.context)
+    except InputBlocked as error:
+        logging.info("input guard blocked=%s", error.kind)
+        raise HTTPException(400, str(error)) from None
+    body = body.model_copy(update={"query": guarded.text, "context": context})
+    if guarded.masked_types or guarded.injection_signals:
+        logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
     if body.mode == "question":  # reads the saved snapshot only, so it cannot collide with a run
         return StreamingResponse(stream_question(rg._openai, rg.LLM_MODEL, body.query, body.context, body.thread_id),
                                  media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
