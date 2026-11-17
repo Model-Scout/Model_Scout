@@ -1,17 +1,17 @@
 {
- "data_version": "04239c20eb394c12",
- "pinned_at": "2026-11-14T17:16:55+00:00",
+ "data_version": "aa1a71d35a121150",
+ "pinned_at": "2026-11-16T02:46:02+00:00",
  "git": {
-  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
-  "branch": "eval/v1-v2-corpus-compare",
+  "commit": "10e829a2512f816c66755393d088b6a8e19db03c",
+  "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
+  "tracked_diff_sha256": "3f2dff2ff835684b831c38ef9ae2787eb37ba83900f644a65840c744fd46ec3f",
   "untracked_files": []
  },
  "stages": {
   "enrich": {
-   "stage_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b",
-   "created_at": "2026-11-13T10:46:33+00:00",
+   "stage_id": "7cbfb4ea951634f21fa1359ffe679582d8d883db0ed37afe1f7db52ef5322e7c",
+   "created_at": "2026-11-16T02:32:38+00:00",
    "inputs": [
     {
      "path": "data/public_datasets_stage1.jsonl",
@@ -23,15 +23,15 @@
    "outputs": [
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     }
    ]
   },
   "hypergraph": {
-   "stage_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff",
-   "created_at": "2026-11-14T17:09:12+00:00",
+   "stage_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+   "created_at": "2026-11-16T02:41:48+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -47,8 +47,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     },
     {
@@ -99,9 +99,9 @@
     },
     {
      "path": "data/hypergraph_v2/links.jsonl",
-     "sha256": "07b0e219dceb44ff07dbd280d0820c14730b54d924701de8494013e6409c3dac",
-     "bytes": 37276547,
-     "rows": 178712
+     "sha256": "8e8d013feaa4514d7b7c4b459e89072416629668c5e9372adc732cd272b3d1ba",
+     "bytes": 37792530,
+     "rows": 181549
     },
     {
      "path": "data/hypergraph_v2/relations.jsonl",
@@ -111,7 +111,7 @@
     },
     {
      "path": "data/hypergraph_v2/concepts.jsonl",
-     "sha256": "f1086a5c523e91dddde39b959b2a368c918eceada5bcf9d683afcfc0b4ed12ce",
+     "sha256": "c504cf3a7ea2983b91b11f195efa4c3e6971f334940949e421f7c43109941bf4",
      "bytes": 33625,
      "rows": 178
     },
@@ -127,14 +127,14 @@
     },
     {
      "path": "data/hypergraph_v2/report.json",
-     "sha256": "acea7002c28c1aa0add0883ca88d1ecca00a19e9c0497f4146100e91a1fea5bf",
+     "sha256": "10157379b8d4ba49b60234885051a65f6915fa5c04a1ce54908926ddc6bb0b3d",
      "bytes": 4768
     }
    ]
   },
   "documents": {
-   "stage_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc",
-   "created_at": "2026-11-14T17:11:41+00:00",
+   "stage_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+   "created_at": "2026-11-16T02:44:46+00:00",
    "inputs": [
     {
      "path": "data/hf_datasets_stage1.jsonl",
@@ -150,8 +150,8 @@
     },
     {
      "path": "data/public_enriched/public_datasets.jsonl",
-     "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-     "bytes": 33917999,
+     "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+     "bytes": 35510690,
      "rows": 15157
     },
     {
@@ -173,8 +173,8 @@
    "outputs": [
     {
      "path": "data/dataset_index_v2/chunks.jsonl",
-     "sha256": "9d3df9d5724deab2b3be937b66463c8a5c8db109b57e6f116286c5a1865ca26f",
-     "bytes": 52777261,
+     "sha256": "60d05534ff3eacdedecd66ffa71318aed06089793ec63577a9aae9ac8d91b030",
+     "bytes": 53222137,
      "rows": 41144
     }
    ]
@@ -187,8 +187,7 @@
    "deleted": 5
   },
   "verification": {
-   "fetched": 6006,
-   "reparsed": 164,
+   "reparsed": 6170,
    "compat": 8987
   },
   "lookup_problems": {},
@@ -204,8 +203,9 @@
   "chunks": 41144,
   "cards": 19130,
   "sections": 22014,
-  "chars": 27126912,
+  "chars": 27354258,
   "unique_text_hashes": 41139,
-  "text_hashes_sha256": "789c00a1b9913706826226cf7a4be7fbcbacfafbf09d9bbdb57638605c8ca75d"
- }
+  "text_hashes_sha256": "5f75a092e33929979d9bed72d7e96a6cc1e30db4306e5c1882a4480a3f42c7bf"
+ },
+ "chunk_ids_sha256": "34c7439b3aa413ed5788122c87c2c4453f387c76eb7e6257f037635055935ca3"
 }

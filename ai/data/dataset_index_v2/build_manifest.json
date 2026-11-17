@@ -1,20 +1,20 @@
 {
  "stage": "documents",
  "corpus": "v2",
- "created_at": "2026-11-14T17:11:41+00:00",
+ "created_at": "2026-11-16T02:44:46+00:00",
  "options": {
   "corpus": "v2",
   "embedding_model": "text-embedding-3-small"
  },
  "git": {
-  "commit": "f3e01fa3146da436d81e99cc04dcdd2d46adafbb",
-  "branch": "eval/v1-v2-corpus-compare",
+  "commit": "10e829a2512f816c66755393d088b6a8e19db03c",
+  "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "d842f4ccd2aee255d261081fa429176a5e5b4a712afa995e9c2b9d885e477ff1",
+  "tracked_diff_sha256": "3f2dff2ff835684b831c38ef9ae2787eb37ba83900f644a65840c744fd46ec3f",
   "untracked_files": []
  },
  "upstream": {
-  "corpus_id": "3ea2a3a657567af0404ef9def24fcd414ccf84750f457ddd695fe9c51db954ff"
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179"
  },
  "inputs": [
   {
@@ -31,8 +31,8 @@
   },
   {
    "path": "data/public_enriched/public_datasets.jsonl",
-   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-   "bytes": 33917999,
+   "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+   "bytes": 35510690,
    "rows": 15157
   },
   {
@@ -54,8 +54,8 @@
  "code": [
   {
    "path": "14_build_dataset_chunks.py",
-   "sha256": "5d6b60ed9ffef0a6a9c5e6cecd90153b043a84916a21863c564971778d0b0fc2",
-   "bytes": 23401
+   "sha256": "fc460911c0c19077073f715b34737b92d6db11d2040b3b6f32ba4e4c968845f9",
+   "bytes": 24371
   },
   {
    "path": "corpus_manifest.py",
@@ -66,8 +66,8 @@
  "outputs": [
   {
    "path": "data/dataset_index_v2/chunks.jsonl",
-   "sha256": "9d3df9d5724deab2b3be937b66463c8a5c8db109b57e6f116286c5a1865ca26f",
-   "bytes": 52777261,
+   "sha256": "60d05534ff3eacdedecd66ffa71318aed06089793ec63577a9aae9ac8d91b030",
+   "bytes": 53222137,
    "rows": 41144
   }
  ],
@@ -75,9 +75,9 @@
   "chunks": 41144,
   "cards": 19130,
   "sections": 22014,
-  "chars": 27126912,
+  "chars": 27354258,
   "unique_text_hashes": 41139,
-  "text_hashes_sha256": "789c00a1b9913706826226cf7a4be7fbcbacfafbf09d9bbdb57638605c8ca75d"
+  "text_hashes_sha256": "5f75a092e33929979d9bed72d7e96a6cc1e30db4306e5c1882a4480a3f42c7bf"
  },
- "stage_id": "04239c20eb394c12d5ed4fb5a3c4a483a5a95c84d4f719ff8eab66e543c9dddc"
+ "stage_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c"
 }

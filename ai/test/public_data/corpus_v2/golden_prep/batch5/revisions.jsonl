@@ -1,0 +1,1 @@
+{"query_id": "p050", "field": "conditions.delivery", "before": "api", "after": "any", "on": "2026-11-16", "why": "질문('경매 가격을 실시간으로 받아서 가격 변동 알림')에 API 요구가 없음. 합의에 따라 질문 문장은 그대로 두고 조건만 변경. 실시간 조건(realtime: true)은 유지", "judgments": "p050의 판정된 12쌍을 batch5에서 delivery any 기준으로 재판정 (제외 근거를 제공 방식에서 실시간 여부로 다시 기록)", "query_vector": "질문 문장이 그대로라 기존 질의 벡터를 재사용"}

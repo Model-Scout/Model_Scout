@@ -155,6 +155,20 @@ def pack(items, separator, budget):
     return parts + [buffer] if buffer else parts
 
 
+def api_line(row):
+    """What the detail page showed about an API, where the format line alone would mislead.
+
+    A page without the dataset's API address is unknown, not "no API"; an auto-converted API serves the
+    uploaded file, so it is marked apart from an agency's own API. The address is never a tested call.
+    """
+    check = (row.get("official") or {}).get("api_check")
+    if check == "confirmed_auto":
+        return "API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)"
+    if check in ("not_found", "page_failed") and "api" not in (row.get("formats") or []):
+        return "API 제공 여부: 미확인"
+    return None
+
+
 def portal_card_lines(row, entity):
     """Facts a portal search has to match that the description may never mention."""
     coverage = ", ".join(entity.get("coverage_regions") or [])
@@ -175,6 +189,9 @@ def portal_card_lines(row, entity):
         f"분류: {row['category']}" if row.get("category") else None,
         f"키워드: {keywords}" if keywords else None,
         None if row.get("licenses") else "이용허락: 확인 필요",
+        api_line(row),
+        # The official and the collected description disagree: both are on the card, neither is settled.
+        *(f"설명 간 불일치(확인 필요): {c}" for c in row.get("description_conflicts") or []),
         # The portal's wording only: it labels daily and yearly data "실시간" too.
         f"갱신 주기(포털 표기): {row['update_cycle']}" if row.get("update_cycle") else None,
         f"같은 데이터의 다른 제목: {', '.join(entity['same_data_titles'])}" if entity.get("same_data_titles") else None,

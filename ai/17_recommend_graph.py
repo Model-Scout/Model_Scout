@@ -46,7 +46,7 @@ from langgraph.types import Command, interrupt
 from pydantic import BaseModel, Field, model_validator
 
 import project_checks
-from hypergraph_search import concepts_from_terms, datasets_for_model, embed_query, load_graph, rank_datasets
+from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
 from recommendation_llm import create_client, model_name
 from retrieval_lab import classifier, router
 from taxonomy import load_taxonomy, normalize
@@ -84,6 +84,8 @@ DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
 # HF data trains/evaluates models (ranked with the needs' tasks); portal data is what the app serves.
 PROJECT_POOL = 30
+# Datasets per list that carry their card facts into the answer (the ones the briefing names).
+FACT_ROWS = 3
 MAX_NEEDS = 4
 # Earlier turns given to the planner and the writer; older ones only cost tokens.
 HISTORY_TURNS = 4
@@ -294,13 +296,22 @@ calls at runtime), each with a few-word reason. If a model has gpu_fit, state it
 as given; copy license and context_length verbatim; never invent ids, numbers, or licenses; never call an 'unknown'
 license commercial. commercial_status (permitted/prohibited/review_required/unknown), when present, is the license
 verdict to report. gpu_fit is an estimate from weight sizes, not measured VRAM, and excludes long-input KV cache;
-artifact_runnable_gib is a download file size, never GPU memory. search_target says what the user asked to find:
-for "dataset" write nothing about models, for "model" write nothing about datasets (those lists were not searched,
-so never call them empty). A need with "unsupported": true is a task Model Scout does not collect models for:
-say so plainly and never suggest an unrelated model for it. Otherwise, if a list is empty, say so and what to
-search instead. If models were requested and GPU memory is null, briefly say the execution environment is
-unspecified and GPU compatibility is not confirmed; do not ask the user for GPU specs.
-If search_target_defaulted is true, make the broad search assumption clear. End with one line of
+artifact_runnable_gib is a download file size, never GPU memory. A dataset's "facts" are what its data card states
+(formats, license, update_cycle_portal, publisher, coverage, description): when a fact matters to the user's idea,
+say it in a few words. facts.limits are sentences quoted from the official description (coordinate system, data delay,
+period or row limits): for every dataset you name, state each of its limits beside it; also say API-only vs file.
+A fact that is absent, "미확인" or "확인 필요" is unknown: say it is not confirmed, never that the data lacks it.
+update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data.
+api_status "미확인" means the API is not confirmed (never "no API"); "파일 자동변환 OpenAPI" is the uploaded file served
+as an API: it counts as an API, but its data is only as fresh as the file, so it is no evidence of real-time data.
+facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
+and say which one applies is not confirmed; never present one of them as the fact.
+search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
+nothing about datasets (those lists were not searched, so never call them empty). A need with "unsupported": true
+is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
+Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
+briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
+for GPU specs. If search_target_defaulted is true, make the broad search assumption clear. End with one line of
 caveats."""
 
 
@@ -736,8 +747,16 @@ def assess(state: State) -> State:
         **(state.get("project_datasets") or {}),
         "per_model": state.get("model_datasets") or {},
     }
+    # The datasets the answer names get what their card states (format, limits, official description),
+    # so the explainer can say e.g. "EPSG:5174 좌표, 3일 전 자료". Joined here so both branches share one lookup.
+    shown = [d for rows in datasets["per_model"].values() for d in rows[:FACT_ROWS]]
+    shown += datasets["project_training"][:FACT_ROWS] + datasets["service_data"][:FACT_ROWS]
+    facts = dataset_facts([d["dataset"] for d in shown])
+    for row in shown:
+        if facts.get(row["dataset"]):
+            row["facts"] = facts[row["dataset"]]
     for rows in datasets["per_model"].values():
-        items += [{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
+        items +=[{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
     items += [
         {"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in datasets["project_training"][:3]
     ]
@@ -783,8 +802,33 @@ def explain(state: State) -> State:
         if delta:
             parts.append(delta)
             write({"token": delta})
+    notes = data_limits_note("".join(parts), state["datasets"])
+    if notes:  # appended verbatim, so a stated delay or coordinate system never depends on the model
+        parts.append(notes)
+        write({"token": notes})
     answer = "".join(parts)
     return {"answer": answer, "turns": [{"request": state["request"], "answer": answer}]}
+
+
+def data_limits_note(answer, datasets):
+    """What to check before using each dataset the answer names, as a closing list: its official limits
+    (facts.limits, quoted) and the card's API status (unconfirmed, or a file's auto-converted API)."""
+    rows = [d for group in datasets["per_model"].values() for d in group]
+    rows += datasets["project_training"] + datasets["service_data"]
+    named = {}
+    for row in rows:
+        facts = row.get("facts") or {}
+        items = list(facts.get("limits") or [])
+        if facts.get("api_status"):
+            items.append(f"API 제공 여부: {facts['api_status']}")
+        if facts.get("conflicts"):
+            items.append(f"설명 간 불일치(확인 필요): {facts['conflicts']}")
+        if items and row["dataset"] in answer and row["dataset"] not in named:
+            named[row["dataset"]] = items
+    if not named:
+        return ""
+    lines = [f"- {name}: " + " / ".join(items) for name, items in named.items()]
+    return "\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n" + "\n".join(lines) + "\n"
 
 
 def build_graph(nodes=None, checkpointer=None):

@@ -1,15 +1,15 @@
 {
  "stage": "enrich",
  "corpus": "v2",
- "created_at": "2026-11-13T10:46:33+00:00",
+ "created_at": "2026-11-16T02:32:38+00:00",
  "options": {
-  "offline": false
+  "offline": true
  },
  "git": {
-  "commit": "b3ec8587b1d883361d713762d9d255513ac5f79f",
-  "branch": "eval/v1-v2-corpus-compare",
+  "commit": "10e829a2512f816c66755393d088b6a8e19db03c",
+  "branch": "fix/v2-serving-evidence-golden-v6",
   "dirty": true,
-  "tracked_diff_sha256": "2ffbec2411d658a7d280c4ab1c43d38c8be374c956ae839ded28281702b3e519",
+  "tracked_diff_sha256": "3f2dff2ff835684b831c38ef9ae2787eb37ba83900f644a65840c744fd46ec3f",
   "untracked_files": []
  },
  "upstream": null,
@@ -24,8 +24,8 @@
  "code": [
   {
    "path": "18_enrich_public_datasets.py",
-   "sha256": "c0caf72bc882ee357512a5a2224ac3c2d2c0d7fb28810f679ddcae26fda9fc29",
-   "bytes": 20937
+   "sha256": "a9394a7fea4afc422657cf3945b7e837162857c69d6d938fdc2695167b6c834a",
+   "bytes": 30471
   },
   {
    "path": "18_collect_public_datasets.py",
@@ -41,8 +41,8 @@
  "outputs": [
   {
    "path": "data/public_enriched/public_datasets.jsonl",
-   "sha256": "2ec36e4b5de8bd2d1d37114db8a049235b381e19ee3a6931d2250068eb25599b",
-   "bytes": 33917999,
+   "sha256": "e9377d45564b4b7de6fb08835144c98c14d26d3242f119315f9d05a5ab1837f5",
+   "bytes": 35510690,
    "rows": 15157
   }
  ],
@@ -56,16 +56,23 @@
   "recheck_failed": {},
   "needs_review": 0,
   "verification": {
-   "fetched": 6006,
-   "reparsed": 164,
+   "reparsed": 6170,
    "compat": 8987
   },
   "reparsed_this_run": 0,
-  "parser_version": "a66eb216459f",
+  "parser_version": "cd1573f7be53",
   "licensed_before": 14101,
   "licensed_after": 15153,
-  "formats_changed": 6561,
-  "with_update_cycle": 15069
+  "formats_changed": 9213,
+  "with_update_cycle": 15069,
+  "api_check": {
+   "standard:not_found": 78,
+   "standard:confirmed": 176,
+   "standard:confirmed_catalog": 46,
+   "fileData:confirmed_auto": 2661,
+   "fileData:not_found": 396,
+   "fileData:page_failed": 3
+  }
  },
- "stage_id": "3386b9c5123f4214ee68197db5d02cdc5e07f29e5df453207d56daa36e8e507b"
+ "stage_id": "7cbfb4ea951634f21fa1359ffe679582d8d883db0ed37afe1f7db52ef5322e7c"
 }

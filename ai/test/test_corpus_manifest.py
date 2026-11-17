@@ -198,7 +198,8 @@ def test_embedding_keeps_documents_id_and_the_pin(tiny_corpus, monkeypatch, tmp_
     assert cm.check_vectors(out_dir) == ["벡터 없음 (14 --embed 전)"]
     monkeypatch.setattr(pipeline, "STAGES", (("hypergraph", graph_dir), ("documents", out_dir)))
     monkeypatch.setattr(pipeline, "PIN", tmp_path / "data_version.json")
-    pin = {"stages": {"hypergraph": {"stage_id": cm.load_manifest(graph_dir)["stage_id"]}, "documents": {"stage_id": before}}}
+    pin = {"stages": {"hypergraph": {"stage_id": cm.load_manifest(graph_dir)["stage_id"]}, "documents": {"stage_id": before}},
+           "chunk_ids_sha256": pipeline.chunk_ids_sha256(out_dir / "chunks.jsonl")}
     (tmp_path / "data_version.json").write_text(json.dumps(pin), encoding="utf-8")
 
     run_docs(monkeypatch, "--embed")

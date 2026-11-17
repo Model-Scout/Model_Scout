@@ -22,7 +22,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-from corpus_manifest import check_corpus, check_manifest, load_manifest
+from corpus_manifest import check_corpus, check_manifest, load_manifest, sha256_text
 
 AI_DIR = Path(__file__).resolve().parent
 DATA_DIR = AI_DIR / "data"
@@ -140,9 +140,16 @@ def write_pin(report):
         "quality": {k: report[k] for k in ("rows", "official_status", "verification", "lookup_problems", "licensed",
                                            "license_needs_check", "public_entities", "public_cards")},
         "chunks": manifests["documents"]["counts"],
+        # Vector rows follow this order; a server checks its vector record against it (hypergraph_search).
+        "chunk_ids_sha256": chunk_ids_sha256(),
     }
     PIN.write_text(json.dumps(pin, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     return pin
+
+
+def chunk_ids_sha256(path=None):
+    """sha256 of the ordered chunk ids of the documents (one id per line)."""
+    return sha256_text(c["chunk_id"] for c in read_jsonl(path or DOCS_DIR / "chunks.jsonl"))
 
 
 def verify_pin():
@@ -155,6 +162,10 @@ def verify_pin():
         manifest = load_manifest(directory) or {}
         if manifest.get("stage_id") != pin["stages"][name]["stage_id"]:
             problems.append(f"{name}: 고정된 버전과 다름 ({(manifest.get('stage_id') or '없음')[:16]} != {pin['stages'][name]['stage_id'][:16]})")
+    if not pin.get("chunk_ids_sha256"):
+        problems.append("고정 기록에 청크 순서 해시(chunk_ids_sha256)가 없음: --check-only --pin으로 다시 기록")
+    elif (docs := dict(STAGES)["documents"] / "chunks.jsonl").exists() and chunk_ids_sha256(docs) != pin["chunk_ids_sha256"]:
+        problems.append("검색 문서의 청크 ID 순서가 고정 기록과 다름")
     return problems
 
 
