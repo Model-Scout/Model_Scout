@@ -89,28 +89,28 @@
 
 - 기권 확인: ☐ 정답 없음 확인 ☐ 보류 — `judge.py ab03 (abstain) --decision approve --reason … --by …`
 
-## ab04 — 모바일 웹에서 사진 속 내용을 설명해 주는 기능을 ONNX 로 붙이려 해요. 파라미터 1B 이하 이미지 이해 모델이 있나요?
+## ab04 — 대학 연구용으로 사진 내용을 설명하는 웹 데모를 만들고 있어요. ONNX 파일로 제공되고 CC-BY-NC-4.0 라이선스인 비전-언어 모델을 찾고 있어요.
 
-- 사용자 의도: 1B 이하 ONNX 비전-언어 모델
+- 사용자 의도: 비상업 연구용 ONNX 비전-언어 모델
 - persona / 표현: startup_dev / 혼합형 · 난이도 hard
 - 기대 행동: abstain
 
 | 조건 | 값 | 질문 속 근거(conditions_fidelity) | 운영 RPC 지원 |
 |---|---|---|---|
-| `max_parameters_billion` | 1 | 파라미터 1B 이하 | 예 |
-| `require_artifact` | onnx | ONNX 로 붙이려 | 예 |
-| `tasks` | image-text-to-text | 이미지 이해 모델 | 예 |
+| `licenses` | cc-by-nc-4.0 | CC-BY-NC-4.0 라이선스 | 아니오(판정용) |
+| `require_artifact` | onnx | ONNX 파일로 제공되고 | 예 |
+| `tasks` | image-text-to-text | 사진 내용을 설명하는 … 비전-언어 모델 | 예 |
 
 정답 기준: 조건을 모두 만족하는 모델이 코퍼스에 없다. 없다고 답하고 가까운 대안을 조건과 함께 설명하는 것이 정답이다.
 
 | 조건 하나만 뺐을 때 | 후보 수 | 그 조건 하나만 불충족한 near-miss (최대 5) |
 |---|---:|---|
-| `max_parameters_billion` | 8 | LiquidAI/LFM2.5-VL-1.6B-ONNX, LiquidAI/LFM2.5-VL-3B-ONNX, LiquidAI/LFM2.5-VL-450M-ONNX, LiquidAI/LFM3-VL-2B-ONNX, LiquidAI/d1-2B-ONNX |
-| `require_artifact` | 30 | AST-1320/LFM2.5-VL-450M, Baekpica/DeepSeek-V4.1-Flash-1017-hVQ-GGUF, Baekpica/DeepSeek-V4.1-Flash-1017-iVQ-GGUF, FadedRedStar/LFM2.5-VL-450M-heretic-GGUF, FadedRedStar/LFM2.5-VL-450M-heretic-imatrix-GGUF |
-| `tasks` | 98 | AliaeAI/paraphrase-multilingual-MiniLM-L12-v2, DLCorso/multilingual-e5-small, Hisham480/multilingual-e5-small, Hiveurban/multilingual-e5-base, Hiveurban/multilingual-e5-large-pooled |
+| `licenses` | 8 | LiquidAI/LFM2.5-VL-1.6B-ONNX, LiquidAI/LFM2.5-VL-3B-ONNX, LiquidAI/LFM2.5-VL-450M-ONNX, LiquidAI/LFM3-VL-2B-ONNX, LiquidAI/d1-2B-ONNX |
+| `require_artifact` | 17 | CohereLabs/aya-vision-32b, CohereLabs/aya-vision-8b, NCSOFT/VARCO-VISION-14B, NCSOFT/VARCO-VISION-14B-HF, NCSOFT/VARCO-VISION-2.0-1.7B |
+| `tasks` | 6 | Xenova/nllb-200-distilled-600M, jinaai/jina-clip-v2, jinaai/jina-embeddings-v3, jinaai/jina-embeddings-v3-hf, koble-ai/jina-embeddings-v3 |
 
-- 조건 각각을 단독으로 만족하는 모델 수: max_parameters_billion 720, require_artifact 189, tasks 537
-- near-miss 합계 136개, temptation_count 98
+- 조건 각각을 단독으로 만족하는 모델 수: licenses 195, require_artifact 189, tasks 537
+- near-miss 합계 31개, temptation_count 17
 - 극단성 검사: 통과
 - 검수: 정말 정답이 없어야 하는지, near-miss 가 '조건 하나 차이'라는 설명이 맞는지 확인한다.
 
@@ -232,61 +232,55 @@
 
 - 기권 확인: ☐ 정답 없음 확인 ☐ 보류 — `judge.py ab08 (abstain) --decision approve --reason … --by …`
 
-## ab09 — 콜센터 녹취를 사내 서버에서 ONNX Runtime 으로 받아 적으려고 해요. 정확도 때문에 파라미터 1B 이상 모델을 원하고, 상업 서비스라 상업 이용 허용 라이선스 계열이어야 해요.
+## ab09 — 인터넷 연결 없이 회의 내용을 받아 적는 도구를 llama.cpp 기반으로 만들려고 해요. GGUF 파일로 받을 수 있고 GPL-3.0 라이선스인 음성 인식 모델이 있나요?
 
-- 사용자 의도: 상업용 1B 이상 ONNX STT
+- 사용자 의도: GPL-3.0 라이선스의 GGUF 음성 인식 모델
 - persona / 표현: korean_service_planner / 혼합형 · 난이도 hard
 - 기대 행동: abstain
 
 | 조건 | 값 | 질문 속 근거(conditions_fidelity) | 운영 RPC 지원 |
 |---|---|---|---|
-| `commercial_status` | permitted | 상업 이용 허용 라이선스 계열 | 예 |
-| `min_parameters_billion` | 1 | 파라미터 1B 이상 | 예 |
-| `require_artifact` | onnx | ONNX Runtime 으로 | 예 |
-| `tasks` | automatic-speech-recognition | 받아 적으려고(음성 인식) | 예 |
+| `licenses` | gpl-3.0 | GPL-3.0 라이선스 | 아니오(판정용) |
+| `require_artifact` | gguf | llama.cpp … GGUF 파일로 | 예 |
+| `tasks` | automatic-speech-recognition | 회의 내용을 받아 적는 … 음성 인식 모델 | 예 |
 
 정답 기준: 조건을 모두 만족하는 모델이 코퍼스에 없다. 없다고 답하고 가까운 대안을 조건과 함께 설명하는 것이 정답이다.
 
 | 조건 하나만 뺐을 때 | 후보 수 | 그 조건 하나만 불충족한 near-miss (최대 5) |
 |---|---:|---|
-| `commercial_status` | 0 | — |
-| `min_parameters_billion` | 12 | Daumee/Qwen3-ASR-0.6B-ONNX-CPU, DennisHuang648/SenseVoiceSmall-onnx, XDcobra/wav2vec2-large-xlsr-53-korean-ONNX, Youngwon/whisper-large-v3-turbo_timestamped-external-data, air-air/xlsr-53-espeak-student-ONNX |
-| `require_artifact` | 89 | ArchiveStudio/VibeVoice-ASR-BitNet, Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF, BuzzASR/korean, CohereLabs/cohere-transcribe-03-2026, Edge0/ARK-ASR-0.6B |
-| `tasks` | 1 | bigscience/mt0-large |
+| `licenses` | 104 | AMAImedia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B-BF16-GGUF, ArchiveStudio/VibeVoice-ASR-BitNet, AtomicChat/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B-GGUF, Bercraft/Voxtral-Mini-4B-Realtime-2602-GGUF, FunAudioLLM/SenseVoiceSmall-GGUF-audiocpp |
+| `require_artifact` | 1 | BarathwajAnandan/cohere-transcribe-03-2026-CoreML-6bit |
+| `tasks` | 2 | BSC-LT/salamandraTA-7B-instruct-GGUF, egekocabas/salamandraTA-7b-instruct-Q5_K_M-GGUF |
 
-- 조건 각각을 단독으로 만족하는 모델 수: commercial_status 2363, min_parameters_billion 2725, require_artifact 189, tasks 321
-- near-miss 합계 102개, temptation_count 89
+- 조건 각각을 단독으로 만족하는 모델 수: licenses 9, require_artifact 1643, tasks 321
+- near-miss 합계 107개, temptation_count 104
 - 극단성 검사: 통과
 - 검수: 정말 정답이 없어야 하는지, near-miss 가 '조건 하나 차이'라는 설명이 맞는지 확인한다.
 
 - 기권 확인: ☐ 정답 없음 확인 ☐ 보류 — `judge.py ab09 (abstain) --decision approve --reason … --by …`
 
-## ab10 — 상업 서비스에 넣을 이미지 설명 기능이라 약관 동의 없이 바로 받을 수 있고 상업 이용 허용 라이선스 계열이어야 해요. ONNX 로 배포할 거라 ONNX 파일이 있는 1B 이하 모델로 찾아 주세요.
+## ab10 — 기존 PyTorch 로더를 그대로 써서 사내 문서 질의응답 기능을 만들려고 해요. Apache-2.0 라이선스이고 pytorch_model.bin 가중치를 제공하는 한국어 질의응답 모델을 찾아 주세요.
 
-- 사용자 의도: 운영 조건이 많은 소형 ONNX VLM
+- 사용자 의도: Apache-2.0 PyTorch bin 질의응답 모델
 - persona / 표현: startup_dev / 혼합형 · 난이도 hard
 - 기대 행동: abstain
 
 | 조건 | 값 | 질문 속 근거(conditions_fidelity) | 운영 RPC 지원 |
 |---|---|---|---|
-| `commercial_status` | permitted | 상업 이용 허용 라이선스 계열 | 예 |
-| `exclude_gated` | true | 약관 동의 없이 바로 받을 수 있고 | 예 |
-| `max_parameters_billion` | 1 | 1B 이하 | 예 |
-| `require_artifact` | onnx | ONNX 파일이 있는 | 예 |
-| `tasks` | image-text-to-text | 이미지 설명 기능 | 예 |
+| `licenses` | apache-2.0 | Apache-2.0 라이선스 | 아니오(판정용) |
+| `require_artifact` | pytorch_bin | pytorch_model.bin 가중치를 제공하는 | 예 |
+| `tasks` | question-answering | 사내 문서 질의응답 … 한국어 질의응답 모델 | 예 |
 
 정답 기준: 조건을 모두 만족하는 모델이 코퍼스에 없다. 없다고 답하고 가까운 대안을 조건과 함께 설명하는 것이 정답이다.
 
 | 조건 하나만 뺐을 때 | 후보 수 | 그 조건 하나만 불충족한 near-miss (최대 5) |
 |---|---:|---|
-| `commercial_status` | 0 | — |
-| `exclude_gated` | 0 | — |
-| `max_parameters_billion` | 1 | mistralai/Ministral-3-3B-Instruct-2512-ONNX |
-| `require_artifact` | 15 | Baekpica/DeepSeek-V4.1-Flash-1017-hVQ-GGUF, Baekpica/DeepSeek-V4.1-Flash-1017-iVQ-GGUF, Jackrong/Qwopus3.5-9B-Coder-MTP-GGUF, Jackrong/Qwopus3.6-27B-v2-MTP-GGUF, Mattimax/DAC6.5-GGUF |
-| `tasks` | 90 | AliaeAI/paraphrase-multilingual-MiniLM-L12-v2, DLCorso/multilingual-e5-small, Hisham480/multilingual-e5-small, Hiveurban/multilingual-e5-base, Hiveurban/multilingual-e5-large-pooled |
+| `licenses` | 8 | Forturne/bert-base-finetuned-klue-mrc, HoGeeny/klue-qa-model, monologg/koelectra-base-v2-finetuned-korquad, monologg/koelectra-base-v2-finetuned-korquad-384, monologg/koelectra-base-v3-finetuned-korquad |
+| `require_artifact` | 10 | FreedomIntelligence/Apollo-MoE-0.5B, FreedomIntelligence/Apollo-MoE-1.5B, FreedomIntelligence/Apollo2-0.5B, FreedomIntelligence/Apollo2-1.5B, FreedomIntelligence/Apollo2-7B |
+| `tasks` | 191 | 42MARU/ko-spelling-wav2vec2-conformer-del-1s, AliaeAI/paraphrase-multilingual-MiniLM-L12-v2, BigBigBe/ynat-model, Blaxzter/LaBSE-sentence-embeddings, BlinkDL/rwkv-4-world |
 
-- 조건 각각을 단독으로 만족하는 모델 수: commercial_status 2363, exclude_gated 3984, max_parameters_billion 720, require_artifact 189, tasks 537
-- near-miss 합계 106개, temptation_count 90
+- 조건 각각을 단독으로 만족하는 모델 수: licenses 1930, require_artifact 514, tasks 29
+- near-miss 합계 209개, temptation_count 191
 - 극단성 검사: 통과
 - 검수: 정말 정답이 없어야 하는지, near-miss 가 '조건 하나 차이'라는 설명이 맞는지 확인한다.
 

@@ -26,16 +26,15 @@
 |---|---|
 | `tasks` | 36 |
 | `require_artifact` | 21 |
-| `max_parameters_billion` | 14 |
-| `commercial_status` | 13 |
-| `licenses` | 9 |
+| `max_parameters_billion` | 12 |
+| `licenses` | 12 |
+| `commercial_status` | 11 |
 | `max_artifact_gib` | 5 |
 | `min_context_length` | 4 |
-| `exclude_gated` | 2 |
-| `min_parameters_billion` | 1 |
+| `exclude_gated` | 1 |
 
-- 상업 이용·라이선스 조건 질문: 22개
-- 파라미터·컨텍스트 수치 조건 질문: 18개
+- 상업 이용·라이선스 조건 질문: 23개
+- 파라미터·컨텍스트 수치 조건 질문: 15개
 - GGUF·ONNX 등 파일 형식·크기 조건 질문: 22개
 - 순수 의미 질문(semantic_capability 중 task 외 조건 없음): 10개
 
@@ -112,13 +111,13 @@
 | ab01 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab02 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab03 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ab04 | 0 | 0 | 0 | 0 | 0 | 8 | 0 |
+| ab04 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab05 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab06 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab07 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | ab08 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ab09 | 0 | 0 | 0 | 0 | 0 | 12 | 0 |
-| ab10 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
+| ab09 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ab10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## abstention near-miss
 
@@ -127,10 +126,10 @@
 | ab01 | {'licenses': 6, 'max_parameters_billion': 3, 'require_artifact': 3, 'tasks': 22} | {'licenses': 6, 'max_parameters_billion': 3, 'require_artifact': 3, 'tasks': 22} | 22 | 통과 |
 | ab02 | {'licenses': 4, 'min_context_length': 5, 'tasks': 3} | {'licenses': 4, 'min_context_length': 5, 'require_artifact': 0, 'tasks': 3} | 5 | 통과 |
 | ab03 | {'licenses': 12, 'require_artifact': 15, 'tasks': 119} | {'licenses': 12, 'require_artifact': 15, 'tasks': 119} | 119 | 통과 |
-| ab04 | {'max_parameters_billion': 8, 'require_artifact': 30, 'tasks': 98} | {'max_parameters_billion': 8, 'require_artifact': 30, 'tasks': 98} | 98 | 통과 |
+| ab04 | {'licenses': 8, 'require_artifact': 17, 'tasks': 6} | {'licenses': 8, 'require_artifact': 17, 'tasks': 6} | 17 | 통과 |
 | ab05 | {'licenses': 3, 'max_parameters_billion': 4, 'require_artifact': 2, 'tasks': 101} | {'licenses': 3, 'max_parameters_billion': 4, 'require_artifact': 2, 'tasks': 101} | 101 | 통과 |
 | ab06 | {'licenses': 27, 'min_context_length': 10, 'require_artifact': 8, 'tasks': 90} | {'licenses': 27, 'min_context_length': 10, 'require_artifact': 8, 'tasks': 90} | 90 | 통과 |
 | ab07 | {'licenses': 4, 'require_artifact': 25, 'tasks': 40} | {'licenses': 4, 'max_parameters_billion': 0, 'require_artifact': 25, 'tasks': 40} | 40 | 통과 |
 | ab08 | {'licenses': 3, 'require_artifact': 18, 'tasks': 54} | {'licenses': 3, 'max_artifact_gib': 0, 'require_artifact': 18, 'tasks': 54} | 54 | 통과 |
-| ab09 | {'min_parameters_billion': 12, 'require_artifact': 89, 'tasks': 1} | {'commercial_status': 0, 'min_parameters_billion': 12, 'require_artifact': 89, 'tasks': 1} | 89 | 통과 |
-| ab10 | {'max_parameters_billion': 1, 'require_artifact': 15, 'tasks': 90} | {'commercial_status': 0, 'exclude_gated': 0, 'max_parameters_billion': 1, 'require_artifact': 15, 'tasks': 90} | 90 | 통과 |
+| ab09 | {'licenses': 104, 'require_artifact': 1, 'tasks': 2} | {'licenses': 104, 'require_artifact': 1, 'tasks': 2} | 104 | 통과 |
+| ab10 | {'licenses': 8, 'require_artifact': 10, 'tasks': 191} | {'licenses': 8, 'require_artifact': 10, 'tasks': 191} | 191 | 통과 |

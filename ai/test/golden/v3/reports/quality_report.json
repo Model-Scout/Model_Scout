@@ -90,13 +90,12 @@
   "condition_keys": {
     "tasks": 36,
     "require_artifact": 21,
-    "max_parameters_billion": 14,
-    "commercial_status": 13,
-    "licenses": 9,
+    "max_parameters_billion": 12,
+    "licenses": 12,
+    "commercial_status": 11,
     "max_artifact_gib": 5,
     "min_context_length": 4,
-    "exclude_gated": 2,
-    "min_parameters_billion": 1
+    "exclude_gated": 1
   },
   "proposed_pool": {
     "low_popularity": 279,
@@ -775,7 +774,7 @@
       "grade_2": 0,
       "grade_1": 0,
       "unresolved": 0,
-      "unknown_excluded": 8,
+      "unknown_excluded": 0,
       "max_family": 0
     },
     {
@@ -825,7 +824,7 @@
       "grade_2": 0,
       "grade_1": 0,
       "unresolved": 0,
-      "unknown_excluded": 12,
+      "unknown_excluded": 0,
       "max_family": 0
     },
     {
@@ -835,7 +834,7 @@
       "grade_2": 0,
       "grade_1": 0,
       "unresolved": 0,
-      "unknown_excluded": 1,
+      "unknown_excluded": 0,
       "max_family": 0
     }
   ],
@@ -891,16 +890,16 @@
     {
       "query_id": "ab04",
       "near_miss": {
-        "max_parameters_billion": 8,
-        "require_artifact": 30,
-        "tasks": 98
+        "licenses": 8,
+        "require_artifact": 17,
+        "tasks": 6
       },
       "relaxed": {
-        "max_parameters_billion": 8,
-        "require_artifact": 30,
-        "tasks": 98
+        "licenses": 8,
+        "require_artifact": 17,
+        "tasks": 6
       },
-      "temptation": 98,
+      "temptation": 17,
       "extreme": []
     },
     {
@@ -972,39 +971,36 @@
     {
       "query_id": "ab09",
       "near_miss": {
-        "min_parameters_billion": 12,
-        "require_artifact": 89,
-        "tasks": 1
+        "licenses": 104,
+        "require_artifact": 1,
+        "tasks": 2
       },
       "relaxed": {
-        "commercial_status": 0,
-        "min_parameters_billion": 12,
-        "require_artifact": 89,
-        "tasks": 1
+        "licenses": 104,
+        "require_artifact": 1,
+        "tasks": 2
       },
-      "temptation": 89,
+      "temptation": 104,
       "extreme": []
     },
     {
       "query_id": "ab10",
       "near_miss": {
-        "max_parameters_billion": 1,
-        "require_artifact": 15,
-        "tasks": 90
+        "licenses": 8,
+        "require_artifact": 10,
+        "tasks": 191
       },
       "relaxed": {
-        "commercial_status": 0,
-        "exclude_gated": 0,
-        "max_parameters_billion": 1,
-        "require_artifact": 15,
-        "tasks": 90
+        "licenses": 8,
+        "require_artifact": 10,
+        "tasks": 191
       },
-      "temptation": 90,
+      "temptation": 191,
       "extreme": []
     }
   ],
-  "commercial_or_license_queries": 22,
-  "parameter_or_context_queries": 18,
+  "commercial_or_license_queries": 23,
+  "parameter_or_context_queries": 15,
   "artifact_queries": 22,
   "pure_semantic_queries": 10,
   "style_exemptions": {
