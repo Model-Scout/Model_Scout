@@ -89,7 +89,16 @@ def _belongs(entry: Dict[str, Any], fmt: str) -> bool:
     if fmt == "pytorch_bin":
         if lower.endswith("model.bin") and ("ct2" in lower or "ctranslate" in lower):
             return False
-        return lower.endswith(FORMAT_SUFFIX["pytorch_bin"])
+        if lower.endswith((".pt", ".pth")):
+            return True
+        # ``.bin`` alone is not a PyTorch weight signal. Tokenizers, TFLite
+        # sidecars and arbitrary application data commonly use it as well.
+        # Accept only the conventional weight names and their shard variants.
+        basename = lower.rsplit("/", 1)[-1]
+        return bool(re.match(
+            r"^(?:pytorch_model|model|consolidated)(?:-\d{3,6}-of-\d{3,6})?\.bin$",
+            basename,
+        ))
     return lower.endswith(FORMAT_SUFFIX[fmt])
 
 
@@ -193,7 +202,7 @@ def _shard_count(weights: Sequence[Dict[str, Any]]) -> Optional[int]:
     return 1 if len(weights) == 1 else None
 
 
-def smallest_runnable_bytes(artifacts: Dict[str, Any]) -> Optional[Tuple[str, int]]:
+def _candidate(artifacts: Dict[str, Any]) -> Optional[Tuple[str, int]]:
     """실제로 돌리는 데 필요한 최소 한 벌의 크기. (레이블, 바이트)
 
     GGUF 레포는 양자화본이 여러 벌이므로 전체 합이 아니라 가장 작은 한 벌이
@@ -217,3 +226,49 @@ def smallest_runnable_bytes(artifacts: Dict[str, Any]) -> Optional[Tuple[str, in
         if spec.get("present") and spec.get("total_bytes"):
             return fmt, spec["total_bytes"]
     return None
+
+
+def runnable_artifact(
+    artifacts: Dict[str, Any],
+    *,
+    parameter_count: Optional[int] = None,
+    declared_parameter_count: Optional[int] = None,
+    base_models: Sequence[str] = (),
+    adapter_only: bool = False,
+) -> Tuple[Optional[Tuple[str, int]], Optional[str]]:
+    """Return a complete standalone bundle, or a conservative unknown reason.
+
+    A file with a model-looking extension is not necessarily a runnable model:
+    it can be a LoRA adapter, an ONNX graph whose external tensors are missing,
+    or a tiny support file. Size filters must prefer ``unknown`` over asserting
+    that those repositories fit on every machine.
+    """
+    candidate = _candidate(artifacts)
+    if not candidate:
+        return None, "실행 가능한 가중치 묶음의 측정 크기가 없다"
+    label, size = candidate
+    if not isinstance(size, int) or size <= 0:
+        return None, "가중치 묶음 크기가 양수가 아니다"
+    if adapter_only:
+        return None, "base model이 필요한 adapter 저장소다"
+
+    expected = parameter_count or declared_parameter_count
+    # Even a one-bit packed model needs roughly one bit per parameter. Anything
+    # below that is an adapter, placeholder, or an incomplete bundle.
+    if isinstance(expected, int) and expected > 0 and size * 8 < expected:
+        return None, "파일 크기가 선언된 파라미터 수의 1bit/parameter에도 못 미친다"
+
+    # A derived repository with only a few MiB of weights is overwhelmingly an
+    # adapter/delta. Do not claim it is independently runnable.
+    if base_models and size < 8 * 1024 * 1024:
+        return None, "base model이 선언됐지만 독립 가중치 묶음이 지나치게 작다"
+
+    total = artifacts.get("total_bytes")
+    if label == "onnx" and isinstance(total, int) and total >= 64 * 1024 * 1024 and size * 20 < total:
+        return None, "ONNX 그래프에 비해 저장소가 커서 외부 tensor 묶음이 확인되지 않는다"
+    return candidate, None
+
+
+def smallest_runnable_bytes(artifacts: Dict[str, Any]) -> Optional[Tuple[str, int]]:
+    """Backward-compatible selection without repository-level completeness hints."""
+    return runnable_artifact(artifacts)[0]

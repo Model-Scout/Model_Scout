@@ -517,9 +517,11 @@ def hard_filter(row: Dict[str, Any], query: Dict[str, Any]) -> Tuple[bool, List[
         if not set(wanted_artifacts) <= present:
             reasons.append("artifact")
 
-    if not numeric_ok(
-        metadata.get("artifact_runnable_gib"),
-        maximum=query.get("max_artifact_gib"),
+    artifact_gib = metadata.get("artifact_runnable_gib")
+    artifact_bound = query.get("max_artifact_gib")
+    if (
+        not numeric_ok(artifact_gib, maximum=artifact_bound)
+        or (artifact_bound is not None and (not isinstance(artifact_gib, (int, float)) or artifact_gib <= 0))
     ):
         reasons.append("artifact_size")
 

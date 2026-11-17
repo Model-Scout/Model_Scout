@@ -95,6 +95,81 @@ def test_reingest_without_a_prior_watermark_stores_nothing():
     assert sync.resolved_source_watermark({"source_watermark": None, "started_at": "x"}) is None
 
 
+def test_targeted_repair_carries_the_previous_watermark_and_only_requested_ids():
+    """소수 행 복구는 Stage 1 watermark를 전진시키거나 전체 적재로 번지면 안 된다."""
+    with tempfile.TemporaryDirectory() as name:
+        data = Path(name)
+        requested = data / "repair.json"
+        requested.write_text(json.dumps(["org/a", "org/b"]), encoding="utf-8")
+        for pool, model_id in (("core", "org/a"), ("low_popularity", "org/b")):
+            (data / f"hf_models_stage1_{pool}.jsonl").write_text(
+                json.dumps({"model_id": model_id}) + "\n", encoding="utf-8"
+            )
+            (data / f"hf_models_stage2_{pool}.jsonl").write_text(
+                json.dumps({"model_id": model_id}) + "\n", encoding="utf-8"
+            )
+
+        old_data_dir = sync.DATA_DIR
+        old_ids_path = sync.MODEL_IDS_PATH
+        old_run_command = sync.run_command
+        old_contract_gate = sync.contract_gate
+        try:
+            sync.DATA_DIR = data
+            sync.MODEL_IDS_PATH = data / ".incremental_model_ids.json"
+            commands = []
+            sync.run_command = lambda command: commands.append(command)
+            sync.contract_gate = lambda **kwargs: {"ok": True}
+            result = sync.targeted_repair_pipeline(
+                requested,
+                source_watermark="2026-10-31T06:44:44+00:00",
+            )
+        finally:
+            sync.DATA_DIR = old_data_dir
+            sync.MODEL_IDS_PATH = old_ids_path
+            sync.run_command = old_run_command
+            sync.contract_gate = old_contract_gate
+
+        assert result["sync_ids"] == ["org/a", "org/b"]
+        assert result["stage4_mode"] == "delta"
+        assert result["source_watermark"] == "2026-10-31T06:44:44+00:00"
+        assert result["removed_ids"] == []
+        assert any("02_enrich_metadata.py" in " ".join(command) for command in commands)
+        assert any("03_generate_semantic_metadata.py" in " ".join(command) for command in commands)
+        assert any("04_build_embeddings.py" in " ".join(command) for command in commands)
+
+
+def test_targeted_repair_rejects_large_or_unknown_scope():
+    with tempfile.TemporaryDirectory() as name:
+        data = Path(name)
+        for pool in sync.POOLS:
+            (data / f"hf_models_stage1_{pool}.jsonl").write_text("", encoding="utf-8")
+        old_data_dir = sync.DATA_DIR
+        try:
+            sync.DATA_DIR = data
+            unknown = data / "unknown.json"
+            unknown.write_text(json.dumps(["org/missing"]), encoding="utf-8")
+            try:
+                sync.targeted_repair_model_ids(unknown)
+            except ValueError as error:
+                assert "Stage 1" in str(error)
+            else:
+                raise AssertionError("Stage 1에 없는 모델을 복구 대상으로 허용했다")
+
+            too_many = data / "too-many.json"
+            too_many.write_text(
+                json.dumps([f"org/model-{index}" for index in range(101)]),
+                encoding="utf-8",
+            )
+            try:
+                sync.targeted_repair_model_ids(too_many)
+            except ValueError as error:
+                assert "최대 100개" in str(error)
+            else:
+                raise AssertionError("타깃 복구 상한을 넘긴 목록을 허용했다")
+        finally:
+            sync.DATA_DIR = old_data_dir
+
+
 # ── ② 언어 게이트 제외분 ──────────────────────────────────────────────────
 
 def test_language_excluded_ids_reads_both_pools():

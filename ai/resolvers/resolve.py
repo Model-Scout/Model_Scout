@@ -56,9 +56,35 @@ def _documented(readme_text: str, target: str) -> bool:
     return any(re.search(pattern, lowered) for pattern in RUNTIME_MARKERS.get(target, ()))
 
 
+def _as_list(value: Any) -> List[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        value = value.get("id") or value.get("name")
+        return [str(value)] if value else []
+    if isinstance(value, list):
+        out: List[str] = []
+        for item in value:
+            out.extend(_as_list(item))
+        return out
+    return []
+
+
+def _declared_parameter_count(model_id: str) -> Optional[int]:
+    """Conservative size token used only to reject impossible tiny bundles."""
+    match = re.search(r"(?:^|[-_/])(\d+(?:\.\d+)?)\s*[bB](?=$|[-_/])", model_id or "")
+    return int(float(match.group(1)) * 1_000_000_000) if match else None
+
+
+def _gib(size: int) -> float:
+    """Preserve real positive sizes; two-decimal rounding used to turn MiB into 0."""
+    return max(round(size / GIB, 6), 0.000001)
+
+
 def _deployment(
     artifacts: Dict[str, Any],
     technical: Dict[str, Any],
+    raw: Dict[str, Any],
     readme_text: str,
     retrieved_at: str,
 ) -> Dict[str, Any]:
@@ -99,7 +125,18 @@ def _deployment(
         }
 
     # VRAM 추정 — 측정값(파일 크기)이 있으면 그쪽이 우선이다.
-    smallest = artifacts_resolver.smallest_runnable_bytes(artifacts)
+    card = raw.get("cardData") or raw.get("card_data") or {}
+    base_models = _as_list(raw.get("base_models")) or _as_list(card.get("base_model"))
+    relation = str(card.get("base_model_relation") or "").casefold()
+    tags = {str(tag).casefold() for tag in (raw.get("tags") or [])}
+    adapter_only = relation in {"adapter", "lora", "delta"} or bool(tags & {"adapter", "lora", "peft"})
+    smallest, artifact_problem = artifacts_resolver.runnable_artifact(
+        artifacts,
+        parameter_count=technical.get("parameter_count_total"),
+        declared_parameter_count=_declared_parameter_count(raw.get("id") or raw.get("modelId") or ""),
+        base_models=base_models,
+        adapter_only=adapter_only,
+    )
     weights = {"fp16_gib": None, "int8_gib": None, "int4_gib": None, "detected_quantization_gib": None}
     artifact = None
     basis = None
@@ -107,8 +144,8 @@ def _deployment(
     source: List[str] = []
     if smallest:
         label, size = smallest
-        gib = round(size / GIB, 2)
-        artifact = {"label": label, "gib": gib}
+        gib = _gib(size)
+        artifact = {"label": label, "bytes": size, "gib": gib}
         # detected_quantization_gib 는 "양자화된 크기"다. 양자화가 아닌
         # safetensors 크기를 여기 넣으면 그 모델이 양자화본으로 읽힌다.
         if artifacts_resolver.quant_label(f"x-{label}.gguf"):
@@ -116,7 +153,7 @@ def _deployment(
         basis = "artifact_bytes"
         kind = "양자화" if weights["detected_quantization_gib"] is not None else "가중치"
         caveat = (
-            f"{label} {kind} 파일 크기({gib:.2f}GiB)를 측정한 값입니다. "
+            f"{label} {kind} 파일 크기({gib:.6f}GiB)를 측정한 값입니다. "
             "컨텍스트 길이에 따라 KV 캐시가 추가로 필요합니다."
         )
         source = ["hf_api:siblings[].size"]
@@ -131,6 +168,8 @@ def _deployment(
                 "가중치만 기준 추정입니다. 실제 VRAM/RAM은 KV 캐시, 활성화, "
                 "프레임워크에 따라 더 필요합니다."
             )
+            if artifact_problem:
+                caveat += f" 저장소 파일 크기는 독립 실행 크기로 쓰지 않았습니다: {artifact_problem}."
             source = ["hf_api:safetensors.total"]
 
     if basis == "artifact_bytes":
@@ -245,7 +284,7 @@ def build(
         raw, model_id=model_id, base_status_of=base_status_of, retrieved_at=retrieved_at
     )
     cap = _capability(raw, stage2, tech["technical"], retrieved_at)
-    dep = _deployment(arts["artifacts"], tech["technical"], readme_text, retrieved_at)
+    dep = _deployment(arts["artifacts"], tech["technical"], raw, readme_text, retrieved_at)
 
     gated = raw.get("gated")
     sha = raw.get("sha")

@@ -1316,6 +1316,121 @@ def incremental_refresh_pipeline(watermark: str) -> Dict[str, Any]:
     return scan
 
 
+MAX_TARGETED_REPAIR_MODELS = 100
+
+
+def targeted_repair_model_ids(path: Path) -> Set[str]:
+    """명시한 소수 모델만 고치는 운영 복구 목록을 검증한다.
+
+    이 모드는 Hub 변경분을 찾는 증분 스캔을 대신하지 않는다. 실수로 전체
+    코퍼스를 넣어 사실상 재적재가 되는 것을 막기 위해 상한을 둔다.
+    """
+    model_ids = read_model_ids(path)
+    if not model_ids:
+        raise ValueError(f"{path}: 복구할 model_id가 없다")
+    if len(model_ids) > MAX_TARGETED_REPAIR_MODELS:
+        raise ValueError(
+            f"타깃 복구는 최대 {MAX_TARGETED_REPAIR_MODELS}개만 허용한다: "
+            f"요청 {len(model_ids)}개. 대량 변경은 정식 재적재 절차를 사용한다"
+        )
+
+    stage1_ids: Set[str] = set()
+    for pool in POOLS:
+        stage1_ids.update(
+            row["model_id"]
+            for row in read_jsonl(DATA_DIR / f"hf_models_stage1_{pool}.jsonl")
+        )
+    missing = sorted(model_ids - stage1_ids)
+    if missing:
+        raise ValueError(
+            "타깃 복구 ID가 현재 Stage 1 core/low_popularity에 없다: "
+            + ", ".join(missing)
+        )
+    return model_ids
+
+
+def targeted_repair_pipeline(
+    model_ids_path: Path,
+    *,
+    source_watermark: Optional[str],
+) -> Dict[str, Any]:
+    """Stage 1 스캔 없이 명시한 모델만 Stage 2~4와 DB 적재 대상으로 만든다.
+
+    운영 중 발견한 결정론적 resolver 버그를 소수 행에 고칠 때 쓴다. README가
+    같으면 Stage 3은 기존 결과를 재사용하고, 임베딩 문서가 같으면 Stage 4는
+    Supabase 벡터 캐시를 재사용한다. source watermark는 전진시키지 않는다.
+    """
+    model_ids = targeted_repair_model_ids(model_ids_path)
+    clear_incremental_artifacts()
+    write_model_ids(model_ids)
+    python = sys.executable
+
+    with tempfile.TemporaryDirectory(prefix="model_scout_contract_baseline_") as baseline_dir:
+        baseline = snapshot_contract_baseline(Path(baseline_dir))
+        run_command(
+            [
+                python,
+                str(ROOT / "02_enrich_metadata.py"),
+                "--pool",
+                "all",
+                "--model-ids-file",
+                str(MODEL_IDS_PATH),
+            ]
+        )
+        contract_report = contract_gate(require=True, baseline=baseline)
+
+    stage2_ids: Set[str] = set()
+    for pool in POOLS:
+        stage2_ids.update(
+            row["model_id"]
+            for row in read_jsonl(DATA_DIR / f"hf_models_stage2_{pool}.jsonl")
+        )
+    missing_after_stage2 = sorted(model_ids - stage2_ids)
+    if missing_after_stage2:
+        raise RuntimeError(
+            "타깃 복구 모델이 Stage 2 결과에서 사라졌다. DB를 변경하지 않는다: "
+            + ", ".join(missing_after_stage2)
+        )
+
+    # Stage 3 hash는 model_id와 README만 사용한다. 이번 resolver 보정처럼 README가
+    # 그대로면 유료 LLM 호출 없이 기존 semantic/evidence를 재사용한다.
+    run_command(
+        [
+            python,
+            str(ROOT / "03_generate_semantic_metadata.py"),
+            "--pool",
+            "all",
+            "--model-ids-file",
+            str(MODEL_IDS_PATH),
+        ]
+    )
+    # 관계 인덱스는 결정론적 로컬 산출물이며 API 비용이 없다.
+    run_command([python, str(ROOT / "evidence_index.py"), "--pool", "all"])
+    run_command(
+        [
+            python,
+            str(ROOT / "04_build_embeddings.py"),
+            "--pool",
+            "all",
+            "--execute",
+            "--db-cache",
+            "--model-ids-file",
+            str(MODEL_IDS_PATH),
+        ]
+    )
+    return {
+        "mode": "incremental",
+        "repair_mode": "explicit-model-ids",
+        "source_watermark": source_watermark,
+        "processable_ids": sorted(model_ids),
+        "sync_ids": sorted(model_ids),
+        "removed_ids": [],
+        "stage4_mode": "delta",
+        "requires_sync": True,
+        "contract_gate": contract_report,
+    }
+
+
 
 def snapshot_contract_baseline(dest_dir: Path) -> Optional[Path]:
     """Stage 2 가 덮어쓰기 전의 계약 레코드를 한 파일로 모은다. 없으면 None.
@@ -2354,6 +2469,13 @@ def main() -> int:
         help="incrementally scan only Hugging Face models modified since the last sync",
     )
     parser.add_argument(
+        "--repair-model-ids-file",
+        type=Path,
+        default=None,
+        help="결정론적 resolver 버그 복구용. JSON 목록에 든 최대 100개 모델만 "
+             "Stage 2~4로 다시 계산하고, --apply일 때 그 행만 upsert한다",
+    )
+    parser.add_argument(
         "--reingest",
         action="store_true",
         help="전체 재적재. 스키마가 바뀐 첫 적재에 쓴다. --refresh는 변경된 모델만 "
@@ -2427,8 +2549,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.batch_size < 1:
         parser.error("--batch-size must be positive")
-    if sum(bool(value) for value in (args.refresh, args.initial, args.reingest, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
-        parser.error("--refresh, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
+    if sum(bool(value) for value in (args.refresh, args.repair_model_ids_file, args.initial, args.reingest, args.ensure_schema, args.backfill_runtime, args.backfill_evidence, args.backfill_search_metadata)) > 1:
+        parser.error("--refresh, --repair-model-ids-file, --initial, --reingest, --backfill-runtime, and --backfill-evidence are mutually exclusive")
     if args.full_stage1 and not args.reingest:
         parser.error("--full-stage1 requires --reingest")
     if args.bundle_dir is not None and (not args.reingest or args.apply):
@@ -2484,7 +2606,7 @@ def main() -> int:
     latest: Optional[Dict[str, Any]] = None
     previous: Optional[Dict[str, Any]] = None
     bundle_manifest: Optional[Dict[str, Any]] = None
-    if args.apply:
+    if args.apply or args.repair_model_ids_file is not None:
         latest = latest_completed_sync()
 
     if args.refresh:
@@ -2512,6 +2634,16 @@ def main() -> int:
         if not watermark:
             raise RuntimeError("Could not determine incremental source watermark")
         refresh_info = incremental_refresh_pipeline(watermark)
+    elif args.repair_model_ids_file is not None:
+        if latest is None:
+            raise RuntimeError(
+                "완료된 Supabase sync 기록이 없다. 타깃 복구는 기존 운영 행을 "
+                "부분 갱신하는 기능이므로 먼저 정상 초기 적재가 필요하다."
+            )
+        refresh_info = targeted_repair_pipeline(
+            args.repair_model_ids_file,
+            source_watermark=carried_watermark(latest),
+        )
     elif args.reingest:
         # watermark를 전진시키지 않기 위해 직전 값을 읽는다. 버전은 따지지 않는다 —
         # 재적재는 버전을 올리는 작업이라 직전 run 은 대개 옛 버전이다.
