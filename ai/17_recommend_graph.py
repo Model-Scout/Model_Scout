@@ -64,7 +64,19 @@ MODEL_HF_TASKS = (
     "summarization",
 )
 # Retrieval models in the HF corpus are embedding models; there is no "retrieval" task tag.
-MODEL_TASK_FALLBACK = {"retrieval": "embedding"}
+# Capabilities with no HF tag of their own are searched among the collected models that provide them
+# (function calling and extraction are LLM features; OCR and charts are VLM features).
+MODEL_TASK_FALLBACK = {
+    "retrieval": "embedding",
+    "tool_use": "generation",
+    "information_extraction": "generation",
+    "table_qa": "generation",
+    "ocr": "visual_qa",
+    "chart_understanding": "visual_qa",
+}
+# Tasks the corpus covers without an HF task tag; they are found by the query text alone.
+# Every other tagless task (forecasting, tabular_prediction, TTS, image generation...) is not collected.
+QUERY_ONLY_TASKS = {"reranking"}
 MODELS_PER_NEED = 3
 DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
@@ -246,6 +258,8 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
 dataset_query: one Korean sentence describing the data the project needs.
+SEARCH_TARGET (the input's first line) is what the user wants to find. For dataset: needs is [] (never invent
+  model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
 clarifying_questions: up to 3 short Korean questions ONLY when the idea is too vague to choose model roles
   (e.g. "챗봇 만들고 싶어" with no domain or purpose); then also ask about GPU memory and commercial use if unstated.
   If the purpose is clear, return [] even when GPU or license are unstated. Always [] when PREVIOUS_PLAN is given
@@ -266,19 +280,21 @@ license commercial. commercial_status (permitted/prohibited/review_required/unkn
 verdict to report. gpu_fit is an estimate from weight sizes, not measured VRAM, and excludes long-input KV cache;
 artifact_runnable_gib is a download file size, never GPU memory. search_target says what the user asked to find:
 for "dataset" write nothing about models, for "model" write nothing about datasets (those lists were not searched,
-so never call them empty). Otherwise, if a list is empty, say so and what to search instead. End with one line of
+so never call them empty). A need with "unsupported": true is a task Model Scout does not collect models for:
+say so plainly and never suggest an unrelated model for it. Otherwise, if a list is empty, say so and what to
+search instead. End with one line of
 caveats."""
 
 
 @ttl_cache(seconds=24 * 3600)
-def _first_plan(request):
-    """A first-turn plan depends only on the request (temperature 0), so it is cached."""
-    return _parse_plan(request)
+def _first_plan(request, target):
+    """A first-turn plan depends only on the request and target (temperature 0), so it is cached."""
+    return _parse_plan(request, target)
 
 
-def _parse_plan(user, said=None, previous=None):
+def _parse_plan(user, target="both", said=None, previous=None):
     """said: only what the user wrote (the planner input may also hold the previous plan's JSON)."""
-    plan = _llm_plan(user)
+    plan = _llm_plan(f"SEARCH_TARGET: {target}\n{user}")
     plan["constraints"] = explicit_constraints(plan["constraints"], user if said is None else said, previous)
     return plan
 
@@ -316,12 +332,61 @@ def _target(state):
     return (state.get("route") or {}).get("target", "both")
 
 
+SIDE_WORDS = {"model": r"(?:모델|model)", "dataset": r"(?:데이터셋|데이터|dataset|data)"}
+ONLY_RE = {side: re.compile(rf"{word}\s*만(?!들)", re.I) for side, word in SIDE_WORDS.items()}
+# "모델 쪽은 됐어": soft words (됐/충분/그만) count only after 은/는, so "데이터 충분한 모델" is not a drop.
+DROP_RE = {
+    side: re.compile(
+        rf"{word}\s*(?:쪽|부분|검색|추천)?\s*"
+        r"(?:(?:은|는|도)?\s*(?:빼|말고|제외|없이|필요\s*없|이미\s*있)|(?:은|는)\s*(?:됐|되었|충분|그만))",
+        re.I,
+    )
+    for side, word in SIDE_WORDS.items()
+}
+TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
+
+
+def _side_change(text, old_target):
+    """Target a follow-up names outright ("이제 모델만", "데이터는 빼줘"), else None."""
+    only = {side for side, rx in ONLY_RE.items() if rx.search(text)}
+    dropped = {side for side, rx in DROP_RE.items() if rx.search(text)}
+    if not only and not dropped:
+        return None
+    keep = ((only or TARGET_SIDES.get(old_target, set())) - dropped) or ({"model", "dataset"} - dropped)
+    if not keep:
+        return None
+    return "both" if len(keep) == 2 else keep.pop()
+
+
+def _follow_up_by_llm(text, old_target):
+    """Follow-up target when no rule fired. The multi-turn LLM judge (add / replace / keep, given the
+    earlier target) replaces this body; golden/labels/follow_up_routing.jsonl rows with by=llm are its cases.
+    shortcut: the single-turn router can only add a side, so indirect narrowing keeps the old target."""
+    new = _route(text)
+    # Refinements ("상업용만", "GPU 8GB") route unclear or fail and keep the earlier target.
+    if new["status"] != "ok" or old_target == "both" or new["target"] in ("needs_clarification", old_target):
+        return old_target
+    if old_target in ("model", "dataset") and new["target"] in ("model", "dataset"):
+        return "both"  # "모델도 찾아줘" after a dataset turn
+    return new["target"]
+
+
+def follow_up_target(text, old_target):
+    """(target, decided_by) for a follow-up: an explicit change by rule, needing no LLM call, else the LLM."""
+    changed = _side_change(text, old_target)
+    if changed:
+        return changed, "rule"
+    return _follow_up_by_llm(text, old_target), "llm"
+
+
 def route(state: State) -> State:
     """Decide which searches run. needs_clarification asks in clarify, then searches both if still unclear."""
-    if state.get("route"):
-        # shortcut: a follow-up keeps the first turn's target; re-route if users ask for the other side later.
-        return {}
-    return {"route": _route(state["request"])}
+    old = state.get("route")
+    if not old:
+        return {"route": _route(state["request"])}
+    target, decided_by = follow_up_target(state["request"], old.get("target"))
+    logging.info("follow-up route %s -> %s (%s)", old.get("target"), target, decided_by)
+    return {} if target == old.get("target") else {"route": {"target": target, "status": "ok"}}
 
 
 def classify_model_query(state: State) -> State:
@@ -344,13 +409,14 @@ def classify_model_query(state: State) -> State:
 
 def decompose(state: State) -> State:
     if not state.get("plan"):
-        return {"plan": _first_plan(" ".join(state["request"].split()))}
+        return {"plan": _first_plan(" ".join(state["request"].split()), _target(state))}
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     history = "\n".join(f"- {request}" for request in earlier)
     return {
         "plan": _parse_plan(
             f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
             f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}",
+            _target(state),
             said="\n".join([*earlier, state["request"]]),
             previous=constraints_of(state["plan"]),
         )
@@ -470,9 +536,13 @@ def search_models(state: State) -> State:
     contract_filters = _load_09().contract_filters_enabled()
 
     def one(need):
+        tags = tuple(hf_tags(need["task"]))
+        if not tags and need["task"] not in QUERY_ONLY_TASKS:
+            # No task filter would rank every model and return unrelated LLMs; report it as not covered.
+            return {"need": need, "models": [], "unsupported": True}
         found = _model_rows(
             need["model_query"],
-            tuple(hf_tags(need["task"])),
+            tags,
             max_params,
             constraints["min_context_length"],
             constraints["commercial_only"],
@@ -573,9 +643,10 @@ def clarify(state: State) -> State:
         return {}
     answer = interrupt({"questions": questions})
     request = f"{state['request']}\n(추가 정보) {answer}"
-    out: State = {"request": request, "plan": _parse_plan(request)}
+    out: State = {"request": request}
     if unclear:
         out["route"] = _route(request)
+    out["plan"] = _parse_plan(request, _target({**state, **out}))
     return out
 
 

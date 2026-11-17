@@ -1,0 +1,17 @@
+{"id": "f001", "previous": "dataset", "text": "이제 모델만 찾아줘", "target": "model", "by": "rule", "note": "명시적 교체"}
+{"id": "f002", "previous": "both", "text": "데이터는 빼줘", "target": "model", "by": "rule", "note": "명시적 제외"}
+{"id": "f003", "previous": "both", "text": "모델 말고 데이터만 보여줘", "target": "dataset", "by": "rule", "note": "제외+한정"}
+{"id": "f004", "previous": "both", "text": "데이터는 이미 있어. 모델만 추천해줘", "target": "model", "by": "rule", "note": "보유 데이터"}
+{"id": "f005", "previous": "dataset", "text": "데이터는 빼고 모델 찾아줘", "target": "model", "by": "rule", "note": "기존 대상 제외 후 교체"}
+{"id": "f006", "previous": "both", "text": "모델 쪽은 됐어", "target": "dataset", "by": "rule", "note": "완곡한 제외 (은/는 + 됐)"}
+{"id": "f007", "previous": "both", "text": "모델은 충분해, 데이터 보여줘", "target": "dataset", "by": "rule", "note": "완곡한 제외 (은/는 + 충분)"}
+{"id": "f008", "previous": "both", "text": "데이터 검색은 그만하고 모델 비교해줘", "target": "model", "by": "rule", "note": "완곡한 제외 (은/는 + 그만)"}
+{"id": "f009", "previous": "model", "text": "모델만 다시 보여줘", "target": "model", "by": "rule", "note": "같은 대상 유지"}
+{"id": "f010", "previous": "dataset", "text": "모델도 찾아줘", "target": "both", "by": "llm", "note": "추가: 현재 라우터 합집합으로 처리"}
+{"id": "f011", "previous": "model", "text": "학습 데이터도 같이 알려줘", "target": "both", "by": "llm", "note": "추가: 현재 라우터 합집합으로 처리"}
+{"id": "f012", "previous": "both", "text": "상업용만 보여줘", "target": "both", "by": "llm", "note": "조건 보완은 대상 유지"}
+{"id": "f013", "previous": "model", "text": "GPU 8GB에서 돌아가는 걸로", "target": "model", "by": "llm", "note": "조건 보완은 대상 유지"}
+{"id": "f014", "previous": "both", "text": "모델 추천은 이 정도면 될 것 같아", "target": "dataset", "by": "llm", "note": "완곡한 제외: 규칙 밖, 후속 LLM 판단 필요"}
+{"id": "f015", "previous": "both", "text": "이제 데이터 쪽을 더 자세히 보고 싶어", "target": "dataset", "by": "llm", "note": "초점 이동: 후속 LLM 판단 필요"}
+{"id": "f016", "previous": "dataset", "text": "학습 데이터 충분한 모델 찾아줘", "target": "both", "by": "llm", "note": "'데이터 충분'은 제외가 아님 (규칙 오탐 방지)"}
+{"id": "f017", "previous": "dataset", "text": "괜찮은 모델도 있어?", "target": "both", "by": "llm", "note": "'괜찮은'은 제외가 아님"}
