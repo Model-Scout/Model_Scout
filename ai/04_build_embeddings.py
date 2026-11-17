@@ -361,6 +361,7 @@ def contract_filter_fields(contract: Dict[str, Any]) -> Dict[str, Any]:
         # Q2 "내 GPU에 들어가나" — 추정이 아닌 측정값이 함께 있어야 한다.
         "artifact_total_bytes": artifacts.get("total_bytes"),
         "artifact_runnable_label": runnable.get("label"),
+        "artifact_runnable_bytes": runnable.get("bytes"),
         "artifact_runnable_gib": runnable.get("gib"),
         "vram_estimate_basis": estimate.get("basis"),
         # MoE: 전체와 활성이 다르면 "3B 이하" 질의의 답이 뒤집힌다.

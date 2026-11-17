@@ -132,6 +132,11 @@ def test_missing_artifact_size_fails_a_size_bound():
     assert not _passes(_row(artifact_runnable_gib=None), max_artifact_gib=8)
 
 
+def test_zero_artifact_size_fails_a_size_bound():
+    """반올림/불완전 파일에서 생긴 0은 '아주 작음'이 아니라 미확인이다."""
+    assert not _passes(_row(artifact_runnable_gib=0), max_artifact_gib=8)
+
+
 def test_missing_artifact_size_passes_without_a_size_bound():
     assert _passes(_row())
 
@@ -186,7 +191,8 @@ def test_migration_declares_every_local_filter_parameter():
 
 def test_migration_reads_the_fields_stage4_writes():
     """04_build_embeddings.contract_filter_fields 가 쓰는 키를 SQL 이 읽어야 한다."""
-    for key in ("commercial_status", "artifact_formats", "artifact_runnable_gib", "gated"):
+    for key in ("commercial_status", "artifact_formats", "artifact_runnable_bytes",
+                "artifact_runnable_gib", "gated"):
         assert f"'{key}'" in MIGRATION, f"SQL 이 filter_metadata->>'{key}' 를 읽지 않는다"
 
 

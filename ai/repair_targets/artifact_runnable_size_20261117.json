@@ -1,0 +1,12 @@
+[
+  "Outlier-Ai/Outlier-70B-V3.3",
+  "ZeppelinCorp/Charm_15",
+  "aixk/BAAR7.1-1M",
+  "desert-ant-labs/align",
+  "inhow/Narae4-Qwen3.5-2B-Office-LoRA-v1",
+  "nenad1002/nemotron-3.5-asr-streaming-0.6b",
+  "north-wind/Experimental-Neo-TinyStories-Korean-800K-20240819",
+  "north-wind/TinyStories-Korean-800K",
+  "nyadla-sys/whisper-tiny.en.tflite",
+  "onnx-community/nemotron-3.5-asr-streaming-0.6b-onnx-int4"
+]

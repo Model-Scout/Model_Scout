@@ -446,6 +446,11 @@
                   "type": "string",
                   "description": "Q4_K_M 같은 양자화 레이블, 또는 safetensors 같은 포맷 이름"
                 },
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "반올림 전 실행 묶음의 정확한 바이트 수. 크기 필터의 권위값이다."
+                },
                 "gib": {
                   "type": "number",
                   "minimum": 0

@@ -182,7 +182,16 @@ with scored as (
       -- 여러 벌이라 가장 작은 레이블 있는 한 벌을 쓴다. 추정이 아닌 측정값이다.
       and (
           max_artifact_gib is null
-          or (m.filter_metadata->>'artifact_runnable_gib')::numeric <= max_artifact_gib
+          or (
+              coalesce(
+                  (m.filter_metadata->>'artifact_runnable_bytes')::numeric,
+                  (m.filter_metadata->>'artifact_runnable_gib')::numeric * 1073741824
+              ) > 0
+              and coalesce(
+                  (m.filter_metadata->>'artifact_runnable_bytes')::numeric,
+                  (m.filter_metadata->>'artifact_runnable_gib')::numeric * 1073741824
+              ) <= max_artifact_gib * 1073741824
+          )
       )
       -- Q7: gated 는 false / "auto" / "manual" / 없음 이다. 없음은 "공개"가 아니라
       -- "모름"이므로, 바로 내려받을 수 있는 모델만 원하면 모름도 함께 빠진다.
