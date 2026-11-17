@@ -2563,7 +2563,20 @@ def print_pool_stats(rows, source_pool, success, skipped, errors):
         print(f"[{source_pool}] {key}: {config[key]}")
 
 
-def process_pool(source_pool, model_ids=None):
+def can_resume_selected_row(
+    row,
+    source_row,
+    source_pool,
+    model_ids=None,
+    force_model_ids=False,
+):
+    """타깃 resolver 복구에서는 선택된 행의 Stage 2 캐시를 사용하지 않는다."""
+    if force_model_ids and model_ids is not None and row.get("model_id") in model_ids:
+        return False
+    return resume_matches(row, source_row, source_pool)
+
+
+def process_pool(source_pool, model_ids=None, force_model_ids=False):
     config = POOL_CONFIGS[source_pool]
     if not config["input"].is_file():
         raise FileNotFoundError(f"[{source_pool}] Missing input: {config['input']}")
@@ -2585,7 +2598,13 @@ def process_pool(source_pool, model_ids=None):
     results_by_id = {
         row["model_id"]: row for row in previous_by_id.values()
         if row.get("model_id") in source_by_id
-        and resume_matches(row, source_by_id[row["model_id"]], source_pool)
+        and can_resume_selected_row(
+            row,
+            source_by_id[row["model_id"]],
+            source_pool,
+            model_ids=model_ids,
+            force_model_ids=force_model_ids,
+        )
     }
     success = skipped = errors = 0
     print(f"[{source_pool}] START: source={len(all_source_rows):,} selected={len(source_rows):,}", flush=True)
@@ -2688,7 +2707,14 @@ def main():
         default=None,
         help="Optional JSON list of model IDs to enrich; other rows are retained.",
     )
+    parser.add_argument(
+        "--force-model-ids",
+        action="store_true",
+        help="--model-ids-file에 든 행은 Hub revision이 같아도 Stage 2 캐시를 재사용하지 않는다",
+    )
     args = parser.parse_args()
+    if args.force_model_ids and args.model_ids_file is None:
+        parser.error("--force-model-ids requires --model-ids-file")
     model_ids = None
     if args.model_ids_file is not None:
         value = json.loads(args.model_ids_file.read_text(encoding="utf-8"))
@@ -2699,7 +2725,11 @@ def main():
     validate_source_pools()
     selected_pools = SOURCE_POOLS if args.pool == "all" else (args.pool,)
     for source_pool in selected_pools:
-        process_pool(source_pool, model_ids=model_ids)
+        process_pool(
+            source_pool,
+            model_ids=model_ids,
+            force_model_ids=args.force_model_ids,
+        )
 
 
 if __name__ == "__main__":

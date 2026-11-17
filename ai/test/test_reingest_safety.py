@@ -134,6 +134,10 @@ def test_targeted_repair_carries_the_previous_watermark_and_only_requested_ids()
         assert result["source_watermark"] == "2026-10-31T06:44:44+00:00"
         assert result["removed_ids"] == []
         assert any("02_enrich_metadata.py" in " ".join(command) for command in commands)
+        stage2_command = next(
+            command for command in commands if "02_enrich_metadata.py" in " ".join(command)
+        )
+        assert "--force-model-ids" in stage2_command
         assert any("03_generate_semantic_metadata.py" in " ".join(command) for command in commands)
         assert any("04_build_embeddings.py" in " ".join(command) for command in commands)
 

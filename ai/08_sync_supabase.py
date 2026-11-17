@@ -1375,6 +1375,7 @@ def targeted_repair_pipeline(
                 "all",
                 "--model-ids-file",
                 str(MODEL_IDS_PATH),
+                "--force-model-ids",
             ]
         )
         contract_report = contract_gate(require=True, baseline=baseline)
