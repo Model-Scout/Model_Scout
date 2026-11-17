@@ -124,6 +124,10 @@ def license_verdict(items: list[dict[str, Any]]) -> dict[str, Any]:
     A model item may carry commercial_status; it wins over re-classifying the raw license.
     Datasets keep the raw-license path.
     """
+    if not items:
+        # Nothing was recommended, so nothing can be cleared for a commercial launch either.
+        return {"verdict": "none", "label": "판정 대상 없음", "reason": "추천된 모델·데이터가 없음",
+                "blockers": [], "review": []}
     blockers, review = [], []
     for item in items:
         cls = model_license_class(item.get("commercial_status"), item.get("license"))
@@ -222,6 +226,7 @@ if __name__ == "__main__":
     )
     assert nc["verdict"] == "blocked" and "klue" in nc["reason"], nc
     assert license_verdict([{"kind": "model", "id": "m", "license": None}])["verdict"] == "review"
+    assert license_verdict([])["verdict"] == "none"
     assert license_class(["mit", "cc-by-nc-4.0"]) == "non_commercial"
     # A model's contract status wins over its raw license; datasets keep the raw path.
     stack = [{"kind": "model", "id": "m", "license": "other", "commercial_status": "permitted"},

@@ -57,8 +57,14 @@ AI_TIMEOUT = httpx.Timeout(10.0, read=180.0)
 AI_ERROR = "추천을 만드는 중 오류가 났습니다. 잠시 후 다시 시도해 주세요."
 QUESTION_HISTORY = 6  # latest messages sent with a question, enough to resolve "그럼 두 번째는?"
 # The AI reports a node when it finishes, so each entry names the step that starts next.
-NEXT_STEP = {"decompose": (1, "요구사항 확인"), "clarify": (2, "모델 검색"), "search_models": (3, "데이터셋 검색"),
-             "search_datasets": (3, "조건 확인"), "assess": (4, "답변 생성")}
+# Searches run side by side and finish in any order, so they keep step 2; only assess, the join, moves on.
+# They still send a status: writing it is how a client that left is noticed before explain's LLM call.
+# assess (조건 확인) is plain Python and ends at once, so step 3 is never shown.
+SEARCHING = (2, "모델·데이터셋 검색")
+NEXT_STEP = {"decompose": (1, "요구사항 확인"), "clarify": SEARCHING,
+             **dict.fromkeys(("classify_model_query", "search_models", "search_model_datasets",
+                              "search_project_datasets"), SEARCHING),
+             "assess": (4, "답변 생성")}
 
 limiter = RateLimiter(int(os.getenv("RATE_LIMIT_PER_MINUTE", "10")), int(os.getenv("DAILY_REQUEST_LIMIT", "300")))
 

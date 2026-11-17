@@ -1,8 +1,10 @@
 """17 - fixed LangGraph workflow: project idea -> models per need -> compatible datasets.
 
-    decompose (LLM) -> clarify (interrupt, only when the idea is too vague) -> search_models (Supabase
-    RPC, 09; GPU fit per model) -> search_datasets (hypergraph; README evidence per card) -> assess
-    (license stack verdict, no LLM) -> explain (LLM)
+    route -> decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> fan-out by target:
+      model side:   classify_model_query -> search_models (Supabase RPC, 09; GPU fit)
+                    -> search_model_datasets (both only)
+      dataset side: search_project_datasets (hypergraph; project training and service data)
+    -> assess (joins the branches; license stack verdict, no LLM) -> explain (LLM)
 
 The path is the same for every project, so the LLM does not choose tools here; it only
 splits the idea into needs (taxonomy task keys) and writes the final answer from the
@@ -64,7 +66,19 @@ MODEL_HF_TASKS = (
     "summarization",
 )
 # Retrieval models in the HF corpus are embedding models; there is no "retrieval" task tag.
-MODEL_TASK_FALLBACK = {"retrieval": "embedding"}
+# Capabilities with no HF tag of their own are searched among the collected models that provide them
+# (function calling and extraction are LLM features; OCR and charts are VLM features).
+MODEL_TASK_FALLBACK = {
+    "retrieval": "embedding",
+    "tool_use": "generation",
+    "information_extraction": "generation",
+    "table_qa": "generation",
+    "ocr": "visual_qa",
+    "chart_understanding": "visual_qa",
+}
+# Tasks the corpus covers without an HF task tag; they are found by the query text alone.
+# Every other tagless task (forecasting, tabular_prediction, TTS, image generation...) is not collected.
+QUERY_ONLY_TASKS = {"reranking"}
 MODELS_PER_NEED = 3
 DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
@@ -99,6 +113,16 @@ ARTIFACT_MARKERS = {
 }
 GATED_MARKERS = ("승인 없", "승인없", "신청 없", "신청없", "바로 다운", "바로 내려", "gated", "동의 없")
 FILE_SIZE_MARKERS = ("파일", "다운로드", "내려받", "디스크", "file", "download", "disk")
+# A follow-up may change one condition without repeating all earlier conditions.
+CONSTRAINT_MENTIONS = {
+    "gpu_memory_gb": r"gpu|vram|그래픽|비디오\s*메모리|rtx|gtx|v100|a100|h100|메모리|(?<!그)램",  # 그램: 프로그램, 텔레그램
+    "commercial_only": r"상업|상용|수익|출시|commercial|라이선스|이용\s*조건|비영리",
+    "max_parameter_count_billion": r"파라미터|parameter|\d\s*b(?![a-z])|모델\s*크기|크기\s*제한",
+    "min_context_length": r"context|컨텍스트|문맥|토큰|긴\s*문서|장문|계약서|입력\s*(길이|제한)",
+    "required_artifacts": r"gguf|ollama|llama[.\-]?cpp|llamacpp|onnx|mlx|safetensors|포맷|형식",
+    "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",
+    "exclude_gated": r"승인|신청|gated|동의|바로\s*(다운|내려)",
+}
 
 
 def constraint_defaults() -> dict[str, Any]:
@@ -138,13 +162,13 @@ def constraints_of(plan: dict) -> dict[str, Any]:
 
 
 def explicit_constraints(constraints: dict, said: str, previous: dict | None = None) -> dict[str, Any]:
-    """Drop new contract constraints the user did not state. Never adds one.
-
-    A value already in the previous plan is kept: the user stated it in an earlier turn.
-    """
+    """Unmentioned fields retain their previous value, or the service default on the first turn."""
     previous = previous or {}
     text = said.casefold()
     out = {**constraint_defaults(), **constraints}
+    for field, pattern in CONSTRAINT_MENTIONS.items():
+        if not re.search(pattern, text, re.I):
+            out[field] = previous.get(field, constraint_defaults()[field])
     out["required_artifacts"] = [
         fmt
         for fmt in out["required_artifacts"]
@@ -176,7 +200,9 @@ class State(TypedDict, total=False):
     model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
     plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
     models: list
-    datasets: dict
+    model_datasets: dict  # model_id -> datasets linked to that model (model side)
+    project_datasets: dict  # {project_training, service_data} (dataset side)
+    datasets: dict  # both sides joined by assess: the shape the API and explain read
     assessment: dict
     answer: str
     turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
@@ -248,10 +274,14 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
 dataset_query: one Korean sentence describing the data the project needs.
-clarifying_questions: up to 3 short Korean questions ONLY when the idea is too vague to choose model roles
-  (e.g. "챗봇 만들고 싶어" with no domain or purpose); then also ask about GPU memory and commercial use if unstated.
-  If the purpose is clear, return [] even when GPU or license are unstated. Always [] when PREVIOUS_PLAN is given
-  or the message already contains "(추가 정보)".
+SEARCH_TARGET (the input's first line) is what the user wants to find. For dataset: needs is [] (never invent
+  model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
+clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
+  to search meaningfully. This applies to follow-up messages too; use PREVIOUS_PLAN to resolve context first.
+  Never ask about GPU, VRAM, parameter counts, file formats, or commercial use just because they are unstated.
+  Missing GPU means null (no memory filter), missing commercial use means false (no commercial-only filter).
+  If the user says they do not know or asks to proceed with defaults, make a broad best-effort plan and return [].
+  If the purpose is clear, return [] even when GPU or license are unstated.
 When PREVIOUS_PLAN is given, the user is refining it: return the whole updated plan, changing only
 what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets gpu_memory_gb;
 "GGUF로" sets required_artifacts)."""
@@ -277,20 +307,29 @@ as an API: it counts as an API, but its data is only as fresh as the file, so it
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
 search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
-nothing about datasets (those lists were not searched, so never call them empty). Otherwise, if a list is empty,
-say so and what to search instead. End with one line of caveats."""
+nothing about datasets (those lists were not searched, so never call them empty). A need with "unsupported": true
+is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
+Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
+briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
+for GPU specs. If search_target_defaulted is true, make the broad search assumption clear. End with one line of
+caveats."""
 
 
 @ttl_cache(seconds=24 * 3600)
-def _first_plan(request):
-    """A first-turn plan depends only on the request (temperature 0), so it is cached."""
-    return _parse_plan(request)
+def _first_plan(request, target):
+    """A first-turn plan depends only on the request and target (temperature 0), so it is cached."""
+    return _parse_plan(request, target)
 
 
-def _parse_plan(user, said=None, previous=None):
+def _parse_plan(user, target="both", said=None, previous=None):
     """said: only what the user wrote (the planner input may also hold the previous plan's JSON)."""
-    plan = _llm_plan(user)
+    plan = _llm_plan(f"SEARCH_TARGET: {target}\n{user}")
     plan["constraints"] = explicit_constraints(plan["constraints"], user if said is None else said, previous)
+    # Optional technical settings must never block search, even if the planner asks for them.
+    plan["clarifying_questions"] = [
+        q for q in plan.get("clarifying_questions", [])
+        if not re.search(r"gpu|vram|그래픽|파라미터|상업|상용|commercial|gguf|onnx|mlx", q, re.I)
+    ][:1]
     return plan
 
 
@@ -311,6 +350,13 @@ def _llm_plan(user):
 
 TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
 NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
+# A branch skipped this turn must not hand the previous turn's results to assess and explain.
+FRESH_RESULTS: dict[str, Any] = {
+    "model_query_type": None,
+    "models": [],
+    "model_datasets": {},
+    "project_datasets": {"project_training": [], "service_data": []},
+}
 
 
 def _route(text):
@@ -327,19 +373,66 @@ def _target(state):
     return (state.get("route") or {}).get("target", "both")
 
 
+SIDE_WORDS = {"model": r"(?:모델|model)", "dataset": r"(?:데이터셋|데이터|dataset|data)"}
+ONLY_RE = {side: re.compile(rf"{word}\s*만(?!들)", re.I) for side, word in SIDE_WORDS.items()}
+# "모델 쪽은 됐어": soft words (됐/충분/그만) count only after 은/는, so "데이터 충분한 모델" is not a drop.
+DROP_RE = {
+    side: re.compile(
+        rf"{word}\s*(?:쪽|부분|검색|추천)?\s*"
+        r"(?:(?:은|는|도)?\s*(?:빼|말고|제외|없이|필요\s*없|이미\s*있)|(?:은|는)\s*(?:됐|되었|충분|그만))",
+        re.I,
+    )
+    for side, word in SIDE_WORDS.items()
+}
+TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
+
+
+def _side_change(text, old_target):
+    """Target a follow-up names outright ("이제 모델만", "데이터는 빼줘"), else None."""
+    only = {side for side, rx in ONLY_RE.items() if rx.search(text)}
+    dropped = {side for side, rx in DROP_RE.items() if rx.search(text)}
+    if not only and not dropped:
+        return None
+    keep = ((only or TARGET_SIDES.get(old_target, set())) - dropped) or ({"model", "dataset"} - dropped)
+    if not keep:
+        return None
+    return "both" if len(keep) == 2 else keep.pop()
+
+
+def _follow_up_by_llm(text, old_target):
+    """Follow-up target when no rule fired. The multi-turn LLM judge (add / replace / keep, given the
+    earlier target) replaces this body; golden/labels/follow_up_routing.jsonl rows with by=llm are its cases.
+    shortcut: the single-turn router can only add a side, so indirect narrowing keeps the old target."""
+    new = _route(text)
+    # Refinements ("상업용만", "GPU 8GB") route unclear or fail and keep the earlier target.
+    if new["status"] != "ok" or old_target == "both" or new["target"] in ("needs_clarification", old_target):
+        return old_target
+    if old_target in ("model", "dataset") and new["target"] in ("model", "dataset"):
+        return "both"  # "모델도 찾아줘" after a dataset turn
+    return new["target"]
+
+
+def follow_up_target(text, old_target):
+    """(target, decided_by) for a follow-up: an explicit change by rule, needing no LLM call, else the LLM."""
+    changed = _side_change(text, old_target)
+    if changed:
+        return changed, "rule"
+    return _follow_up_by_llm(text, old_target), "llm"
+
+
 def route(state: State) -> State:
     """Decide which searches run. needs_clarification asks in clarify, then searches both if still unclear."""
-    if state.get("route"):
-        # shortcut: a follow-up keeps the first turn's target; re-route if users ask for the other side later.
-        return {}
-    return {"route": _route(state["request"])}
+    old = state.get("route")
+    if not old:
+        return {"route": _route(state["request"])}
+    target, decided_by = follow_up_target(state["request"], old.get("target"))
+    logging.info("follow-up route %s -> %s (%s)", old.get("target"), target, decided_by)
+    return {} if target == old.get("target") else {"route": {"target": target, "status": "ok"}}
 
 
 def classify_model_query(state: State) -> State:
     """Model-side query type (retrieval_lab.classifier), recorded only until the retrieval planner uses it."""
-    target = _target(state)
-    if target == "dataset":
-        return {"model_query_type": None}
+    target = _target(state)  # never "dataset": the graph sends only model-side turns here
     text = state["request"]
     try:
         # Lexical rules only on model-only requests: a "both" request's dataset clause can trip them.
@@ -355,14 +448,16 @@ def classify_model_query(state: State) -> State:
 
 def decompose(state: State) -> State:
     if not state.get("plan"):
-        return {"plan": _first_plan(" ".join(state["request"].split()))}
+        return {**FRESH_RESULTS, "plan": _first_plan(" ".join(state["request"].split()), _target(state))}
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     history = "\n".join(f"- {request}" for request in earlier)
     return {
+        **FRESH_RESULTS,
         "plan": _parse_plan(
             f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
             f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}",
-            said="\n".join([*earlier, state["request"]]),
+            _target(state),
+            said=state["request"],
             previous=constraints_of(state["plan"]),
         )
     }
@@ -466,8 +561,6 @@ def _model_rows(
 
 
 def search_models(state: State) -> State:
-    if _target(state) == "dataset":
-        return {"models": []}
     constraints = constraints_of(state["plan"])
     gpu = constraints.get("gpu_memory_gb")
     # A GPU limit admits anything that fits at 4-bit; each card then says at which precision.
@@ -481,9 +574,13 @@ def search_models(state: State) -> State:
     contract_filters = _load_09().contract_filters_enabled()
 
     def one(need):
+        tags = tuple(hf_tags(need["task"]))
+        if not tags and need["task"] not in QUERY_ONLY_TASKS:
+            # No task filter would rank every model and return unrelated LLMs; report it as not covered.
+            return {"need": need, "models": [], "unsupported": True}
         found = _model_rows(
             need["model_query"],
-            tuple(hf_tags(need["task"])),
+            tags,
             max_params,
             constraints["min_context_length"],
             constraints["commercial_only"],
@@ -527,27 +624,31 @@ def _compact_dataset(row):
     }
 
 
-def search_datasets(state: State) -> State:
-    if _target(state) == "model":
-        return {"datasets": NO_DATASETS}
+def search_model_datasets(state: State) -> State:
+    """Datasets linked to each need's top model; runs after search_models on a "both" request."""
     entities = load_graph()[0]
-    plan = state["plan"]
-    commercial = constraints_of(plan)["commercial_only"]
+    commercial = constraints_of(state["plan"])["commercial_only"]
     # The top model per need that the hypergraph knows; Supabase can be ahead of the local graph.
     top_models = [
         next((m["model_id"] for m in group["models"] if f"model:{m['model_id']}" in entities), None)
         for group in state["models"]
     ]
     top_models = list(dict.fromkeys(m for m in top_models if m))
-    terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
-
-    with ThreadPoolExecutor(max_workers=len(top_models) + 2) as pool:
-        vector = pool.submit(embed_query, plan["dataset_query"])
-        per_model_jobs = {
+    with ThreadPoolExecutor(max_workers=max(len(top_models), 1)) as pool:
+        jobs = {
             m: pool.submit(datasets_for_model, m, commercial_only=commercial, limit=DATASETS_PER_MODEL)
             for m in top_models
         }
-        query_vector = vector.result()
+        return {"model_datasets": {m: [_compact_dataset(r) for r in job.result()] for m, job in jobs.items()}}
+
+
+def search_project_datasets(state: State) -> State:
+    """Project training sets and service data; needs only the plan, so it runs beside the model search."""
+    plan = state["plan"]
+    commercial = constraints_of(plan)["commercial_only"]
+    terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
+    query_vector = embed_query(plan["dataset_query"])
+    with ThreadPoolExecutor(max_workers=2) as pool:
         project_job = pool.submit(
             rank_datasets,
             concepts_from_terms(terms),
@@ -566,34 +667,63 @@ def search_datasets(state: State) -> State:
             limit=PROJECT_DATASETS,
             keywords=plan["dataset_terms"],
         )
-        per_model = {m: [_compact_dataset(r) for r in job.result()] for m, job in per_model_jobs.items()}
         training = [_compact_dataset(r) for r in project_job.result() if r["source"] in ("huggingface", "kaggle")]
         service = [_compact_dataset(r) for r in service_job.result()]
-    # The datasets the answer names get what their card states (format, limits, official description),
-    # so the explainer can say e.g. "EPSG:5174 좌표, 3일 전 자료". Ranking is unchanged.
-    shown = [d for rows in per_model.values() for d in rows[:FACT_ROWS]] + training[:FACT_ROWS] + service[:FACT_ROWS]
-    facts = dataset_facts([d["dataset"] for d in shown])
-    for row in shown:
-        if facts.get(row["dataset"]):
-            row["facts"] = facts[row["dataset"]]
-    return {
-        "datasets": {"per_model": per_model, "project_training": training[:PROJECT_DATASETS], "service_data": service}
-    }
+    return {"project_datasets": {"project_training": training[:PROJECT_DATASETS], "service_data": service}}
+
+
+SEARCHES = {
+    "model": ["classify_model_query"],
+    "dataset": ["search_project_datasets"],
+    "both": ["classify_model_query", "search_project_datasets"],
+}
+
+
+def pick_searches(state: State) -> list[str]:
+    """Fan-out: the branches this turn's target needs run side by side; assess (deferred) joins them."""
+    return SEARCHES.get(_target(state), SEARCHES["both"])
+
+
+def after_models(state: State) -> str:
+    # A model-only answer lists no datasets; every other target that reached here searched both sides.
+    return "assess" if _target(state) == "model" else "search_model_datasets"
 
 
 def clarify(state: State) -> State:
-    """Pause a vague first request (interrupt) until the user answers, then re-plan with it."""
+    """Clarify in any turn, retaining its plan; two questions at most before best-effort search."""
     questions = state["plan"].get("clarifying_questions") or []
     unclear = _target(state) == "needs_clarification"
     if unclear and not questions:
         questions = [TARGET_QUESTION]
-    if not questions or state.get("turns"):
+    if not questions:
         return {}
-    answer = interrupt({"questions": questions})
-    request = f"{state['request']}\n(추가 정보) {answer}"
-    out: State = {"request": request, "plan": _parse_plan(request)}
-    if unclear:
-        out["route"] = _route(request)
+    out: State = {}
+    for _ in range(2):
+        answer = interrupt({"questions": questions[:1]})
+        request = f"{out.get('request', state['request'])}\n(추가 정보) {answer}"
+        current = {**state, **out}
+        out["request"] = request
+        if _target(current) == "needs_clarification":
+            out["route"] = _route(request)
+        target = _target({**state, **out})
+        previous = current["plan"]
+        # Keep the short first-turn input compatible; follow-ups must retain the full plan.
+        if state.get("turns") or out.get("plan"):
+            out["plan"] = _parse_plan(
+                f"PREVIOUS_PLAN:\n{json.dumps(previous, ensure_ascii=False)}\n\nNEW_MESSAGE:\n{request}",
+                target, said=str(answer), previous=constraints_of(previous),
+            )
+        else:
+            out["plan"] = _parse_plan(request, target)
+        questions = out["plan"].get("clarifying_questions") or []
+        if not questions and target != "needs_clarification":
+            break
+        if re.search(r"모르|기본값|알아서|그냥.*(추천|진행|검색)", str(answer)):
+            break
+        questions = questions or [TARGET_QUESTION]
+    if _target({**state, **out}) == "needs_clarification":
+        out["route"] = {"target": "both", "status": "default"}
+    out["plan"]["clarifying_questions"] = []
     return out
 
 
@@ -612,9 +742,21 @@ def assess(state: State) -> State:
                     "commercial_status": top.get("commercial_status"),
                 }
             )
-    datasets = state["datasets"]
+    datasets = {
+        **NO_DATASETS,
+        **(state.get("project_datasets") or {}),
+        "per_model": state.get("model_datasets") or {},
+    }
+    # The datasets the answer names get what their card states (format, limits, official description),
+    # so the explainer can say e.g. "EPSG:5174 좌표, 3일 전 자료". Joined here so both branches share one lookup.
+    shown = [d for rows in datasets["per_model"].values() for d in rows[:FACT_ROWS]]
+    shown += datasets["project_training"][:FACT_ROWS] + datasets["service_data"][:FACT_ROWS]
+    facts = dataset_facts([d["dataset"] for d in shown])
+    for row in shown:
+        if facts.get(row["dataset"]):
+            row["facts"] = facts[row["dataset"]]
     for rows in datasets["per_model"].values():
-        items += [{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
+        items +=[{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
     items += [
         {"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in datasets["project_training"][:3]
     ]
@@ -627,6 +769,7 @@ def assess(state: State) -> State:
             seen.add(item["id"])
             unique.append(item)
     return {
+        "datasets": datasets,
         "assessment": {
             "license": project_checks.license_verdict(unique),
             "gpu_memory_gb": constraints_of(state["plan"]).get("gpu_memory_gb"),
@@ -637,6 +780,7 @@ def assess(state: State) -> State:
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
     payload["search_target"] = _target(state)
+    payload["search_target_defaulted"] = (state.get("route") or {}).get("status") == "default"
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     from langgraph.config import get_stream_writer
 
@@ -688,22 +832,39 @@ def data_limits_note(answer, datasets):
 
 
 def build_graph(nodes=None, checkpointer=None):
-    nodes = nodes or {
+    """nodes replaces the real nodes by name; any set other than the full one runs in a line, as given."""
+    default = {
         "route": route,
         "decompose": decompose,
         "clarify": clarify,
         "classify_model_query": classify_model_query,
         "search_models": search_models,
-        "search_datasets": search_datasets,
+        "search_model_datasets": search_model_datasets,
+        "search_project_datasets": search_project_datasets,
         "assess": assess,
         "explain": explain,
     }
     graph = StateGraph(State)
-    for name, fn in nodes.items():
-        graph.add_node(name, fn)
-    order = [START, *nodes, END]
-    for source, target in zip(order, order[1:], strict=False):
-        graph.add_edge(source, target)
+    if nodes is not None and set(nodes) != set(default):
+        for name, fn in nodes.items():
+            graph.add_node(name, fn)
+        order = [START, *nodes, END]
+        for source, target in zip(order, order[1:], strict=False):
+            graph.add_edge(source, target)
+        return graph.compile(checkpointer=checkpointer)
+    for name, fn in {**default, **(nodes or {})}.items():
+        # defer: assess waits for every branch this turn started, however many steps each takes.
+        graph.add_node(name, fn, defer=name == "assess")
+    graph.add_edge(START, "route")
+    graph.add_edge("route", "decompose")
+    graph.add_edge("decompose", "clarify")
+    graph.add_conditional_edges("clarify", pick_searches, SEARCHES["both"])
+    graph.add_edge("classify_model_query", "search_models")
+    graph.add_conditional_edges("search_models", after_models, ["search_model_datasets", "assess"])
+    for branch_end in ("search_model_datasets", "search_project_datasets"):
+        graph.add_edge(branch_end, "assess")
+    graph.add_edge("assess", "explain")
+    graph.add_edge("explain", END)
     return graph.compile(checkpointer=checkpointer)
 
 
@@ -848,18 +1009,18 @@ def self_check():
 
         return node
 
-    graph = build_graph(
-        {
-            "decompose": stub("decompose", {"plan": {}}),
-            "clarify": stub("clarify", {}),
-            "search_models": stub("search_models", {"models": []}),
-            "search_datasets": stub("search_datasets", {"datasets": {}}),
-            "assess": stub("assess", {"assessment": {}}),
-            "explain": stub("explain", {"answer": "ok"}),
-        }
-    )
-    assert graph.invoke({"request": "x"})["answer"] == "ok"
-    assert order == ["decompose", "clarify", "search_models", "search_datasets", "assess", "explain"], order
+    names = ["route", "decompose", "clarify", "classify_model_query", "search_models",
+             "search_model_datasets", "search_project_datasets", "assess", "explain"]
+    graph = build_graph({name: stub(name, {}) for name in names})
+    for target, ran in {
+        "model": {"classify_model_query", "search_models"},
+        "dataset": {"search_project_datasets"},
+        "both": {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"},
+    }.items():
+        order.clear()
+        graph.invoke({"request": "x", "route": {"target": target}})
+        assert order[:3] == ["route", "decompose", "clarify"] and order[-2:] == ["assess", "explain"], order
+        assert set(order[3:-2]) == ran and len(order) == len(ran) + 5, (target, order)
 
     # Multi-turn: turns accumulate per thread, and the second turn's planner sees the first plan.
     seen = []
@@ -875,7 +1036,7 @@ def self_check():
         return {}
 
     memory = build_graph(
-        {"decompose": planner, "search_models": noop, "search_datasets": noop, "explain": writer},
+        {"decompose": planner, "search_models": noop, "search_project_datasets": noop, "explain": writer},
         checkpointer=InMemorySaver(),
     )
     config = {"configurable": {"thread_id": "t"}}
@@ -909,11 +1070,7 @@ def self_check():
         {
             "plan": plan,
             "models": [{"models": [{"model_id": "m", "license": "apache-2.0"}]}],
-            "datasets": {
-                "per_model": {"m": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}]},
-                "project_training": [],
-                "service_data": [],
-            },
+            "model_datasets": {"m": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}]},
         }
     )
     assert verdict["assessment"]["license"]["verdict"] == "blocked", verdict

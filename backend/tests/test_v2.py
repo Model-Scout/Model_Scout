@@ -149,6 +149,13 @@ def test_clarify_reject_and_no_candidates():
     assert clarify.type == "clarify" and clarify.answer == "어떤 서비스?" and clarify.result is None
     reject = build_done({"plan": {"needs": []}}, uuid4(), "", 1)
     assert reject.type == "reject" and reject.answer and reject.sources == []
+    no_datasets = {"per_model": {}, "project_training": [], "service_data": []}
+    assert build_done({"plan": {"needs": []}, "datasets": no_datasets}, uuid4(), "", 1).type == "reject"
+    # A dataset-only request has no model needs by design; its datasets are the answer.
+    bike = {"dataset": "seoul_open_data/OA-13252", "title": "따릉이 대여소 정보"}
+    data_only = build_done({"plan": {"needs": []}, "datasets": {**no_datasets, "service_data": [bike]}},
+                           uuid4(), "대여소 데이터", 1)
+    assert data_only.type == "answer" and [c.source_id for c in data_only.result.candidates] == [bike["dataset"]]
     empty = build_done({"plan": {"needs": [{"task": "retrieval"}]}}, uuid4(), "없어요", 1)
     assert empty.type == "answer" and empty.result.candidates == []
 
@@ -293,12 +300,14 @@ def test_same_id_keeps_model_and_dataset_sources():
 
 def test_status_names_the_running_step(client):
     client, _ = client
-    nodes = ["decompose", "clarify", "search_models", "search_datasets", "assess", "explain"]
+    nodes = ["decompose", "clarify", "classify_model_query", "search_project_datasets", "search_models",
+             "search_model_datasets", "assess", "explain"]
     upstream = [("status", {"node": n, "elapsed": 1}) for n in nodes] + ai_events()
     with patch.object(api.httpx, "stream", return_value=Upstream(upstream)):
         response = client.post("/api/chat", json={"query": "x"}, headers={"X-Session-Id": str(uuid4())})
     labels = [d["label"] for e, d in api.parse_sse(response.text.splitlines()) if e == "status"]
-    assert labels == ["요구사항 분석", "요구사항 확인", "모델 검색", "데이터셋 검색", "조건 확인", "답변 생성"]
+    # A search that finishes first must not move the step while the others still run.
+    assert labels == ["요구사항 분석", "요구사항 확인", *["모델·데이터셋 검색"] * 5, "답변 생성"]
 
 
 def test_cancel_leaves_a_log_entry(caplog):
@@ -362,7 +371,7 @@ def test_resume_after_clarify_returns_the_new_plan():
         "decompose": lambda s: {"plan": vague},
         "clarify": ai.rg.clarify,
         "search_models": lambda s: {"models": [{"need": need, "models": [{"model_id": "org/m"}]}]},
-        "search_datasets": lambda s: {"datasets": {}},
+        "search_project_datasets": lambda s: {"datasets": {}},
         "assess": lambda s: {"assessment": {}},
         "explain": lambda s: {"answer": "답"},
     }, checkpointer=InMemorySaver())
