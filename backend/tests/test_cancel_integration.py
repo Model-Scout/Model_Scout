@@ -69,7 +69,7 @@ def build_graph(ai, runs):
         "decompose": runs.node("decompose", lambda who: {"plan": {**plan, "summary_ko": who}}, seconds=.05),
         "clarify": ai.rg.clarify,
         "search_models": runs.node("search_models", lambda who: {"models": [{"need": need, "models": [{"model_id": "org/m"}]}]}),
-        "search_datasets": runs.node("search_datasets", lambda who: {"datasets": {}}),
+        "search_project_datasets": runs.node("search_project_datasets", lambda who: {"datasets": {}}),
         "assess": runs.node("assess", lambda who: {"assessment": {}}, seconds=.05),
         "explain": runs.node("explain", lambda who: {"answer": f"answer-of-{who}"}, seconds=.05),
     }, checkpointer=InMemorySaver())
@@ -133,7 +133,7 @@ def test_cancel_during_slow_node_then_retry_same_group():
             with httpx.stream("POST", url, json={"query": "RUN1"}, headers=headers, timeout=30) as response:
                 group_id = response.headers["x-group-id"]
                 for line in response.iter_lines():
-                    if "모델 검색" in line:  # search_models is running now
+                    if "모델·데이터셋 검색" in line:  # the searches are running now
                         break
             events = post_until_accepted(url, {"query": "RUN2", "group_id": group_id}, headers)
         finally:

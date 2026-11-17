@@ -1,8 +1,10 @@
 """17 - fixed LangGraph workflow: project idea -> models per need -> compatible datasets.
 
-    decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> search_models (Supabase
-    RPC, 09; GPU fit per model) -> search_datasets (hypergraph; README evidence per card) -> assess
-    (license stack verdict, no LLM) -> explain (LLM)
+    route -> decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> fan-out by target:
+      model side:   classify_model_query -> search_models (Supabase RPC, 09; GPU fit)
+                    -> search_model_datasets (both only)
+      dataset side: search_project_datasets (hypergraph; project training and service data)
+    -> assess (joins the branches; license stack verdict, no LLM) -> explain (LLM)
 
 The path is the same for every project, so the LLM does not choose tools here; it only
 splits the idea into needs (taxonomy task keys) and writes the final answer from the
@@ -196,7 +198,9 @@ class State(TypedDict, total=False):
     model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
     plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
     models: list
-    datasets: dict
+    model_datasets: dict  # model_id -> datasets linked to that model (model side)
+    project_datasets: dict  # {project_training, service_data} (dataset side)
+    datasets: dict  # both sides joined by assess: the shape the API and explain read
     assessment: dict
     answer: str
     turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
@@ -335,6 +339,13 @@ def _llm_plan(user):
 
 TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
 NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
+# A branch skipped this turn must not hand the previous turn's results to assess and explain.
+FRESH_RESULTS: dict[str, Any] = {
+    "model_query_type": None,
+    "models": [],
+    "model_datasets": {},
+    "project_datasets": {"project_training": [], "service_data": []},
+}
 
 
 def _route(text):
@@ -410,9 +421,7 @@ def route(state: State) -> State:
 
 def classify_model_query(state: State) -> State:
     """Model-side query type (retrieval_lab.classifier), recorded only until the retrieval planner uses it."""
-    target = _target(state)
-    if target == "dataset":
-        return {"model_query_type": None}
+    target = _target(state)  # never "dataset": the graph sends only model-side turns here
     text = state["request"]
     try:
         # Lexical rules only on model-only requests: a "both" request's dataset clause can trip them.
@@ -428,10 +437,11 @@ def classify_model_query(state: State) -> State:
 
 def decompose(state: State) -> State:
     if not state.get("plan"):
-        return {"plan": _first_plan(" ".join(state["request"].split()), _target(state))}
+        return {**FRESH_RESULTS, "plan": _first_plan(" ".join(state["request"].split()), _target(state))}
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     history = "\n".join(f"- {request}" for request in earlier)
     return {
+        **FRESH_RESULTS,
         "plan": _parse_plan(
             f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
             f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}",
@@ -540,8 +550,6 @@ def _model_rows(
 
 
 def search_models(state: State) -> State:
-    if _target(state) == "dataset":
-        return {"models": []}
     constraints = constraints_of(state["plan"])
     gpu = constraints.get("gpu_memory_gb")
     # A GPU limit admits anything that fits at 4-bit; each card then says at which precision.
@@ -605,27 +613,31 @@ def _compact_dataset(row):
     }
 
 
-def search_datasets(state: State) -> State:
-    if _target(state) == "model":
-        return {"datasets": NO_DATASETS}
+def search_model_datasets(state: State) -> State:
+    """Datasets linked to each need's top model; runs after search_models on a "both" request."""
     entities = load_graph()[0]
-    plan = state["plan"]
-    commercial = constraints_of(plan)["commercial_only"]
+    commercial = constraints_of(state["plan"])["commercial_only"]
     # The top model per need that the hypergraph knows; Supabase can be ahead of the local graph.
     top_models = [
         next((m["model_id"] for m in group["models"] if f"model:{m['model_id']}" in entities), None)
         for group in state["models"]
     ]
     top_models = list(dict.fromkeys(m for m in top_models if m))
-    terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
-
-    with ThreadPoolExecutor(max_workers=len(top_models) + 2) as pool:
-        vector = pool.submit(embed_query, plan["dataset_query"])
-        per_model_jobs = {
+    with ThreadPoolExecutor(max_workers=max(len(top_models), 1)) as pool:
+        jobs = {
             m: pool.submit(datasets_for_model, m, commercial_only=commercial, limit=DATASETS_PER_MODEL)
             for m in top_models
         }
-        query_vector = vector.result()
+        return {"model_datasets": {m: [_compact_dataset(r) for r in job.result()] for m, job in jobs.items()}}
+
+
+def search_project_datasets(state: State) -> State:
+    """Project training sets and service data; needs only the plan, so it runs beside the model search."""
+    plan = state["plan"]
+    commercial = constraints_of(plan)["commercial_only"]
+    terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
+    query_vector = embed_query(plan["dataset_query"])
+    with ThreadPoolExecutor(max_workers=2) as pool:
         project_job = pool.submit(
             rank_datasets,
             concepts_from_terms(terms),
@@ -644,12 +656,26 @@ def search_datasets(state: State) -> State:
             limit=PROJECT_DATASETS,
             keywords=plan["dataset_terms"],
         )
-        per_model = {m: [_compact_dataset(r) for r in job.result()] for m, job in per_model_jobs.items()}
         training = [_compact_dataset(r) for r in project_job.result() if r["source"] in ("huggingface", "kaggle")]
         service = [_compact_dataset(r) for r in service_job.result()]
-    return {
-        "datasets": {"per_model": per_model, "project_training": training[:PROJECT_DATASETS], "service_data": service}
-    }
+    return {"project_datasets": {"project_training": training[:PROJECT_DATASETS], "service_data": service}}
+
+
+SEARCHES = {
+    "model": ["classify_model_query"],
+    "dataset": ["search_project_datasets"],
+    "both": ["classify_model_query", "search_project_datasets"],
+}
+
+
+def pick_searches(state: State) -> list[str]:
+    """Fan-out: the branches this turn's target needs run side by side; assess (deferred) joins them."""
+    return SEARCHES.get(_target(state), SEARCHES["both"])
+
+
+def after_models(state: State) -> str:
+    # A model-only answer lists no datasets; every other target that reached here searched both sides.
+    return "assess" if _target(state) == "model" else "search_model_datasets"
 
 
 def clarify(state: State) -> State:
@@ -705,7 +731,11 @@ def assess(state: State) -> State:
                     "commercial_status": top.get("commercial_status"),
                 }
             )
-    datasets = state["datasets"]
+    datasets = {
+        **NO_DATASETS,
+        **(state.get("project_datasets") or {}),
+        "per_model": state.get("model_datasets") or {},
+    }
     for rows in datasets["per_model"].values():
         items += [{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
     items += [
@@ -720,6 +750,7 @@ def assess(state: State) -> State:
             seen.add(item["id"])
             unique.append(item)
     return {
+        "datasets": datasets,
         "assessment": {
             "license": project_checks.license_verdict(unique),
             "gpu_memory_gb": constraints_of(state["plan"]).get("gpu_memory_gb"),
@@ -757,22 +788,39 @@ def explain(state: State) -> State:
 
 
 def build_graph(nodes=None, checkpointer=None):
-    nodes = nodes or {
+    """nodes replaces the real nodes by name; any set other than the full one runs in a line, as given."""
+    default = {
         "route": route,
         "decompose": decompose,
         "clarify": clarify,
         "classify_model_query": classify_model_query,
         "search_models": search_models,
-        "search_datasets": search_datasets,
+        "search_model_datasets": search_model_datasets,
+        "search_project_datasets": search_project_datasets,
         "assess": assess,
         "explain": explain,
     }
     graph = StateGraph(State)
-    for name, fn in nodes.items():
-        graph.add_node(name, fn)
-    order = [START, *nodes, END]
-    for source, target in zip(order, order[1:], strict=False):
-        graph.add_edge(source, target)
+    if nodes is not None and set(nodes) != set(default):
+        for name, fn in nodes.items():
+            graph.add_node(name, fn)
+        order = [START, *nodes, END]
+        for source, target in zip(order, order[1:], strict=False):
+            graph.add_edge(source, target)
+        return graph.compile(checkpointer=checkpointer)
+    for name, fn in {**default, **(nodes or {})}.items():
+        # defer: assess waits for every branch this turn started, however many steps each takes.
+        graph.add_node(name, fn, defer=name == "assess")
+    graph.add_edge(START, "route")
+    graph.add_edge("route", "decompose")
+    graph.add_edge("decompose", "clarify")
+    graph.add_conditional_edges("clarify", pick_searches, SEARCHES["both"])
+    graph.add_edge("classify_model_query", "search_models")
+    graph.add_conditional_edges("search_models", after_models, ["search_model_datasets", "assess"])
+    for branch_end in ("search_model_datasets", "search_project_datasets"):
+        graph.add_edge(branch_end, "assess")
+    graph.add_edge("assess", "explain")
+    graph.add_edge("explain", END)
     return graph.compile(checkpointer=checkpointer)
 
 
@@ -917,18 +965,18 @@ def self_check():
 
         return node
 
-    graph = build_graph(
-        {
-            "decompose": stub("decompose", {"plan": {}}),
-            "clarify": stub("clarify", {}),
-            "search_models": stub("search_models", {"models": []}),
-            "search_datasets": stub("search_datasets", {"datasets": {}}),
-            "assess": stub("assess", {"assessment": {}}),
-            "explain": stub("explain", {"answer": "ok"}),
-        }
-    )
-    assert graph.invoke({"request": "x"})["answer"] == "ok"
-    assert order == ["decompose", "clarify", "search_models", "search_datasets", "assess", "explain"], order
+    names = ["route", "decompose", "clarify", "classify_model_query", "search_models",
+             "search_model_datasets", "search_project_datasets", "assess", "explain"]
+    graph = build_graph({name: stub(name, {}) for name in names})
+    for target, ran in {
+        "model": {"classify_model_query", "search_models"},
+        "dataset": {"search_project_datasets"},
+        "both": {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"},
+    }.items():
+        order.clear()
+        graph.invoke({"request": "x", "route": {"target": target}})
+        assert order[:3] == ["route", "decompose", "clarify"] and order[-2:] == ["assess", "explain"], order
+        assert set(order[3:-2]) == ran and len(order) == len(ran) + 5, (target, order)
 
     # Multi-turn: turns accumulate per thread, and the second turn's planner sees the first plan.
     seen = []
@@ -944,7 +992,7 @@ def self_check():
         return {}
 
     memory = build_graph(
-        {"decompose": planner, "search_models": noop, "search_datasets": noop, "explain": writer},
+        {"decompose": planner, "search_models": noop, "search_project_datasets": noop, "explain": writer},
         checkpointer=InMemorySaver(),
     )
     config = {"configurable": {"thread_id": "t"}}
@@ -978,11 +1026,7 @@ def self_check():
         {
             "plan": plan,
             "models": [{"models": [{"model_id": "m", "license": "apache-2.0"}]}],
-            "datasets": {
-                "per_model": {"m": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}]},
-                "project_training": [],
-                "service_data": [],
-            },
+            "model_datasets": {"m": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}]},
         }
     )
     assert verdict["assessment"]["license"]["verdict"] == "blocked", verdict

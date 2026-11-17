@@ -21,15 +21,81 @@ def _no_search(*args, **kwargs):
     pytest.fail("search must be skipped for this target")
 
 
-def test_dataset_target_skips_model_search(monkeypatch):
-    monkeypatch.setattr(graph17, "_model_rows", _no_search)
-    assert graph17.search_models({"route": {"target": "dataset"}, "plan": {}}) == {"models": []}
+def fan_out_graph(ran):
+    """The real wiring and assess; searches stubbed. Each turn's target comes in with the request."""
+    from langgraph.checkpoint.memory import InMemorySaver
+
+    def stub(name, out):
+        return lambda state: ran.append(name) or out
+
+    need = {"task": "retrieval"}
+    model = {"model_id": "org/m", "license": "apache-2.0"}
+
+    def search_models(state):
+        # Search must see this turn's classification, never the checkpoint's earlier value.
+        assert state["model_query_type"] == "structured_constraint"
+        assert "classify_model_query" in ran
+        ran.append("search_models")
+        return {"models": [{"need": need, "models": [model]}]}
+
+    nodes = {
+        "route": lambda state: {},
+        "decompose": lambda state: {**graph17.FRESH_RESULTS, "plan": {"constraints": {}, "needs": [need]}},
+        "clarify": lambda state: {},
+        "classify_model_query": stub("classify_model_query", {"model_query_type": "structured_constraint"}),
+        "search_models": search_models,
+        "search_model_datasets": stub(
+            "search_model_datasets", {"model_datasets": {"org/m": [{"dataset": "a/train", "licenses": ["mit"]}]}}
+        ),
+        "search_project_datasets": stub(
+            "search_project_datasets",
+            {"project_datasets": {"project_training": [], "service_data": [{"dataset": "seoul/bike", "licenses": []}]}},
+        ),
+        "assess": graph17.assess,
+        "explain": lambda state: {"answer": "ok"},
+    }
+    return graph17.build_graph(nodes, checkpointer=InMemorySaver())
 
 
-def test_model_target_skips_dataset_search(monkeypatch):
-    monkeypatch.setattr(graph17, "load_graph", _no_search)
-    out = graph17.search_datasets({"route": {"target": "model"}, "plan": {}, "models": []})
-    assert out["datasets"] == {"per_model": {}, "project_training": [], "service_data": []}
+@pytest.mark.parametrize(
+    "target, branches",
+    [
+        ("model", {"classify_model_query", "search_models"}),
+        ("dataset", {"search_project_datasets"}),
+        ("both", {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"}),
+        ("needs_clarification", {"classify_model_query", "search_models", "search_model_datasets",
+                                 "search_project_datasets"}),
+    ],
+)
+def test_target_picks_the_branches_and_assess_joins_once(target, branches, monkeypatch):
+    assessments = []
+    original_assess = graph17.assess
+
+    def assess(state):
+        assessments.append(state)
+        return original_assess(state)
+
+    monkeypatch.setattr(graph17, "assess", assess)
+    ran = []
+    graph = fan_out_graph(ran)
+    state = graph.invoke(
+        {"request": "x", "route": {"target": target}, "model_query_type": "stale_previous_type"},
+        {"configurable": {"thread_id": target}},
+    )
+    assert set(ran) == branches and len(ran) == len(branches)
+    assert len(assessments) == 1
+    datasets = state["datasets"]
+    assert bool(datasets["per_model"]) == ("search_model_datasets" in branches)
+    assert bool(datasets["service_data"]) == ("search_project_datasets" in branches)
+
+
+def test_skipped_branch_does_not_keep_the_previous_turns_results():
+    graph = fan_out_graph([])
+    config = {"configurable": {"thread_id": "t"}}
+    graph.invoke({"request": "both", "route": {"target": "both"}}, config)
+    state = graph.invoke({"request": "data only", "route": {"target": "dataset"}}, config)
+    assert state["models"] == [] and state["datasets"]["per_model"] == {}
+    assert state["model_query_type"] is None
 
 
 def test_router_failure_searches_both(monkeypatch):
@@ -145,7 +211,6 @@ def test_unclear_target_asks_and_reroutes(monkeypatch):
 @pytest.mark.parametrize(
     "target,rule,llm,expected",
     [
-        ("dataset", None, None, None),  # no model search, no call
         ("model", "lexical_exact", None, "lexical_exact"),  # rule hit, no LLM call
         ("both", "lexical_exact", "semantic_capability", "semantic_capability"),  # rules skipped for both
         ("model", None, RuntimeError("down"), None),  # failure is recorded as None, never raised
@@ -155,7 +220,7 @@ def test_model_query_type(monkeypatch, target, rule, llm, expected):
     monkeypatch.setattr(classifier, "rule_type", lambda text: rule)
 
     def fake_llm(text, use_cache):
-        assert use_cache is False and target != "dataset"
+        assert use_cache is False
         if isinstance(llm, Exception):
             raise llm
         return llm, 1.0

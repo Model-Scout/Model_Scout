@@ -136,12 +136,12 @@ def sse(event, data):
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 
+# node -> state keys sent as events of the same name, in order.
 NODE_EVENTS = {
-    "decompose": ("plan", "plan"),
-    "clarify": ("plan", "plan"),  # resuming re-plans here; decompose does not run again
-    "search_models": ("models", "models"),
-    "search_datasets": ("datasets", "datasets"),
-    "assess": ("assessment", "assessment"),
+    "decompose": ("plan",),
+    "clarify": ("plan",),  # resuming re-plans here; decompose does not run again
+    "search_models": ("models",),
+    "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
 }
 
 
@@ -160,9 +160,9 @@ def stream_recommendation(graph, payload, thread_id):
                     yield sse("clarify", {"questions": values[0].value["questions"]})
                     continue
                 yield sse("status", {"node": node, "elapsed": round(time.time() - started, 2)})
-                if node in NODE_EVENTS and values and NODE_EVENTS[node][1] in values:
-                    event, key = NODE_EVENTS[node]
-                    yield sse(event, values[key])
+                for key in NODE_EVENTS.get(node, ()):
+                    if values and key in values:
+                        yield sse(key, values[key])
         if app.state.pool is not None:
             with app.state.pool.connection() as conn:
                 rg.prune_thread(conn, thread_id)
