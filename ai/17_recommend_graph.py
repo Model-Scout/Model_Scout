@@ -1,6 +1,6 @@
 """17 - fixed LangGraph workflow: project idea -> models per need -> compatible datasets.
 
-    decompose (LLM) -> clarify (interrupt, only when the idea is too vague) -> search_models (Supabase
+    decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> search_models (Supabase
     RPC, 09; GPU fit per model) -> search_datasets (hypergraph; README evidence per card) -> assess
     (license stack verdict, no LLM) -> explain (LLM)
 
@@ -109,6 +109,16 @@ ARTIFACT_MARKERS = {
 }
 GATED_MARKERS = ("승인 없", "승인없", "신청 없", "신청없", "바로 다운", "바로 내려", "gated", "동의 없")
 FILE_SIZE_MARKERS = ("파일", "다운로드", "내려받", "디스크", "file", "download", "disk")
+# A follow-up may change one condition without repeating all earlier conditions.
+CONSTRAINT_MENTIONS = {
+    "gpu_memory_gb": r"gpu|vram|그래픽|비디오\s*메모리|rtx|gtx|v100|a100|h100|메모리|(?<!그)램",  # 그램: 프로그램, 텔레그램
+    "commercial_only": r"상업|상용|수익|출시|commercial|라이선스|이용\s*조건|비영리",
+    "max_parameter_count_billion": r"파라미터|parameter|\d\s*b(?![a-z])|모델\s*크기|크기\s*제한",
+    "min_context_length": r"context|컨텍스트|문맥|토큰|긴\s*문서|장문|계약서|입력\s*(길이|제한)",
+    "required_artifacts": r"gguf|ollama|llama[.\-]?cpp|llamacpp|onnx|mlx|safetensors|포맷|형식",
+    "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",
+    "exclude_gated": r"승인|신청|gated|동의|바로\s*(다운|내려)",
+}
 
 
 def constraint_defaults() -> dict[str, Any]:
@@ -148,13 +158,13 @@ def constraints_of(plan: dict) -> dict[str, Any]:
 
 
 def explicit_constraints(constraints: dict, said: str, previous: dict | None = None) -> dict[str, Any]:
-    """Drop new contract constraints the user did not state. Never adds one.
-
-    A value already in the previous plan is kept: the user stated it in an earlier turn.
-    """
+    """Unmentioned fields retain their previous value, or the service default on the first turn."""
     previous = previous or {}
     text = said.casefold()
     out = {**constraint_defaults(), **constraints}
+    for field, pattern in CONSTRAINT_MENTIONS.items():
+        if not re.search(pattern, text, re.I):
+            out[field] = previous.get(field, constraint_defaults()[field])
     out["required_artifacts"] = [
         fmt
         for fmt in out["required_artifacts"]
@@ -260,10 +270,12 @@ dataset_terms: 1-5 short words for the project's data domain, input length and, 
 dataset_query: one Korean sentence describing the data the project needs.
 SEARCH_TARGET (the input's first line) is what the user wants to find. For dataset: needs is [] (never invent
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
-clarifying_questions: up to 3 short Korean questions ONLY when the idea is too vague to choose model roles
-  (e.g. "챗봇 만들고 싶어" with no domain or purpose); then also ask about GPU memory and commercial use if unstated.
-  If the purpose is clear, return [] even when GPU or license are unstated. Always [] when PREVIOUS_PLAN is given
-  or the message already contains "(추가 정보)".
+clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
+  to search meaningfully. This applies to follow-up messages too; use PREVIOUS_PLAN to resolve context first.
+  Never ask about GPU, VRAM, parameter counts, file formats, or commercial use just because they are unstated.
+  Missing GPU means null (no memory filter), missing commercial use means false (no commercial-only filter).
+  If the user says they do not know or asks to proceed with defaults, make a broad best-effort plan and return [].
+  If the purpose is clear, return [] even when GPU or license are unstated.
 When PREVIOUS_PLAN is given, the user is refining it: return the whole updated plan, changing only
 what the new message asks for (e.g. "상업용만" sets commercial_only; "GPU 8GB" sets gpu_memory_gb;
 "GGUF로" sets required_artifacts)."""
@@ -282,7 +294,9 @@ artifact_runnable_gib is a download file size, never GPU memory. search_target s
 for "dataset" write nothing about models, for "model" write nothing about datasets (those lists were not searched,
 so never call them empty). A need with "unsupported": true is a task Model Scout does not collect models for:
 say so plainly and never suggest an unrelated model for it. Otherwise, if a list is empty, say so and what to
-search instead. End with one line of
+search instead. If models were requested and GPU memory is null, briefly say the execution environment is
+unspecified and GPU compatibility is not confirmed; do not ask the user for GPU specs.
+If search_target_defaulted is true, make the broad search assumption clear. End with one line of
 caveats."""
 
 
@@ -296,6 +310,11 @@ def _parse_plan(user, target="both", said=None, previous=None):
     """said: only what the user wrote (the planner input may also hold the previous plan's JSON)."""
     plan = _llm_plan(f"SEARCH_TARGET: {target}\n{user}")
     plan["constraints"] = explicit_constraints(plan["constraints"], user if said is None else said, previous)
+    # Optional technical settings must never block search, even if the planner asks for them.
+    plan["clarifying_questions"] = [
+        q for q in plan.get("clarifying_questions", [])
+        if not re.search(r"gpu|vram|그래픽|파라미터|상업|상용|commercial|gguf|onnx|mlx", q, re.I)
+    ][:1]
     return plan
 
 
@@ -417,7 +436,7 @@ def decompose(state: State) -> State:
             f"EARLIER_REQUESTS:\n{history}\n\nPREVIOUS_PLAN:\n"
             f"{json.dumps(state['plan'], ensure_ascii=False)}\n\nNEW_MESSAGE:\n{state['request']}",
             _target(state),
-            said="\n".join([*earlier, state["request"]]),
+            said=state["request"],
             previous=constraints_of(state["plan"]),
         )
     }
@@ -634,19 +653,40 @@ def search_datasets(state: State) -> State:
 
 
 def clarify(state: State) -> State:
-    """Pause a vague first request (interrupt) until the user answers, then re-plan with it."""
+    """Clarify in any turn, retaining its plan; two questions at most before best-effort search."""
     questions = state["plan"].get("clarifying_questions") or []
     unclear = _target(state) == "needs_clarification"
     if unclear and not questions:
         questions = [TARGET_QUESTION]
-    if not questions or state.get("turns"):
+    if not questions:
         return {}
-    answer = interrupt({"questions": questions})
-    request = f"{state['request']}\n(추가 정보) {answer}"
-    out: State = {"request": request}
-    if unclear:
-        out["route"] = _route(request)
-    out["plan"] = _parse_plan(request, _target({**state, **out}))
+    out: State = {}
+    for _ in range(2):
+        answer = interrupt({"questions": questions[:1]})
+        request = f"{out.get('request', state['request'])}\n(추가 정보) {answer}"
+        current = {**state, **out}
+        out["request"] = request
+        if _target(current) == "needs_clarification":
+            out["route"] = _route(request)
+        target = _target({**state, **out})
+        previous = current["plan"]
+        # Keep the short first-turn input compatible; follow-ups must retain the full plan.
+        if state.get("turns") or out.get("plan"):
+            out["plan"] = _parse_plan(
+                f"PREVIOUS_PLAN:\n{json.dumps(previous, ensure_ascii=False)}\n\nNEW_MESSAGE:\n{request}",
+                target, said=str(answer), previous=constraints_of(previous),
+            )
+        else:
+            out["plan"] = _parse_plan(request, target)
+        questions = out["plan"].get("clarifying_questions") or []
+        if not questions and target != "needs_clarification":
+            break
+        if re.search(r"모르|기본값|알아서|그냥.*(추천|진행|검색)", str(answer)):
+            break
+        questions = questions or [TARGET_QUESTION]
+    if _target({**state, **out}) == "needs_clarification":
+        out["route"] = {"target": "both", "status": "default"}
+    out["plan"]["clarifying_questions"] = []
     return out
 
 
@@ -690,6 +730,7 @@ def assess(state: State) -> State:
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
     payload["search_target"] = _target(state)
+    payload["search_target_defaulted"] = (state.get("route") or {}).get("status") == "default"
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     from langgraph.config import get_stream_writer
 
