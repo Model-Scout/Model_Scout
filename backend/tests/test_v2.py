@@ -149,6 +149,13 @@ def test_clarify_reject_and_no_candidates():
     assert clarify.type == "clarify" and clarify.answer == "어떤 서비스?" and clarify.result is None
     reject = build_done({"plan": {"needs": []}}, uuid4(), "", 1)
     assert reject.type == "reject" and reject.answer and reject.sources == []
+    no_datasets = {"per_model": {}, "project_training": [], "service_data": []}
+    assert build_done({"plan": {"needs": []}, "datasets": no_datasets}, uuid4(), "", 1).type == "reject"
+    # A dataset-only request has no model needs by design; its datasets are the answer.
+    bike = {"dataset": "seoul_open_data/OA-13252", "title": "따릉이 대여소 정보"}
+    data_only = build_done({"plan": {"needs": []}, "datasets": {**no_datasets, "service_data": [bike]}},
+                           uuid4(), "대여소 데이터", 1)
+    assert data_only.type == "answer" and [c.source_id for c in data_only.result.candidates] == [bike["dataset"]]
     empty = build_done({"plan": {"needs": [{"task": "retrieval"}]}}, uuid4(), "없어요", 1)
     assert empty.type == "answer" and empty.result.candidates == []
 

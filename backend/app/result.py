@@ -305,7 +305,10 @@ def build_done(events: dict[str, Any], group_id: UUID, answer: str, elapsed: flo
     if events.get("clarify"):
         return ChatDone(type="clarify", group_id=group_id, elapsed=elapsed,
                         answer="\n".join(events["clarify"]["questions"]))
-    if not (events.get("plan") or {}).get("needs"):
+    # A dataset-only request plans no model needs by design, so only "no needs and no datasets" is off-topic.
+    datasets = events.get("datasets") or {}
+    found = any(datasets.get(k) for k in ("per_model", "project_training", "service_data"))
+    if not (events.get("plan") or {}).get("needs") and not found:
         return ChatDone(type="reject", group_id=group_id, elapsed=elapsed, answer=REJECT_MESSAGE)
     return ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer=answer,
                     result=build_result(events), sources=build_sources(events))
