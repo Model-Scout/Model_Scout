@@ -13,6 +13,10 @@ JSON Schema가 잡는 것(타입, 필수 키, enum, 범위)과 잡지 못하는 
   · conflicts[]에 있는데 status가 conflict가 아니다
   · 기존 verified 값이 새 inferred 값으로 덮였다 → 재적재 사고의 전형
 
+예외가 하나 있다. 과거 Stage 2 가 "실측 0 GiB"로 적은 deployment.vram_estimate 는
+측정값이 아니라 결함이므로, 그것을 unknown 으로 돌리는 것은 하락이 아니다.
+corrects_zero_artifact 가 그 한 가지 모양만 좁게 가려낸다.
+
 마지막 항목이 백필 작업에서 실제로 났다. Stage 4 문서를 직접 조립했더니
 task·candidate·popularity·search_aliases 등 12개 키가 빠져 하드 필터가 전부
 탈락시켰다. 적재 전에 잡아야 하는 종류의 사고다.
@@ -65,6 +69,72 @@ SCALAR_FIELDS = {
 # unknown/conflict 여도 값이 남아 있는 것이 정상인 필드.
 # commercial_status는 "unknown"이라는 enum 값 자체가 상태의 표현이다.
 STATUS_IS_THE_VALUE = {"legal.commercial_status"}
+
+
+# ── 과거 결함 데이터(0 GiB 실측 주장)의 정정 허용 ─────────────────────────
+#
+# PR #52 전의 Stage 2 는 실행 가능한 한 벌을 고르지 못한 저장소에도 artifact 를
+# 만들어 basis=artifact_bytes, artifact.gib=0.0, status=verified 로 적었다.
+# 읽는 쪽에는 "파일 크기를 재 봤고 0GiB 였다"는 뜻이 되어 크기 필터를 전부
+# 통과했다. 그 0 은 측정값이 아니라 결함이다.
+#
+# 그래서 이 한 가지 모양의 baseline 에 한해, 등급 비교에서만 이전 status 를
+# unknown 으로 본다. 결함을 unknown 으로 정정하는 것은 품질 하락이 아니다.
+#
+# 넓히지 않기 위한 조건이 셋이다.
+#   · 필드가 deployment.vram_estimate 하나다
+#   · 결함 모양이 정확히 일치한다 — 실측 주장(artifact_bytes)인데 gib 가 0 이고
+#     양수 bytes 도 없다. bytes 가 양수면 실제로 쟀고 반올림만 0 이 된 것이므로
+#     결함이 아니다
+#   · weights_only 의 양수 추정이 하나도 사라지지 않는다. 0 짜리 artifact 였어도
+#     파라미터 기반 추정이 있었다면 그것을 잃는 것은 진짜 손실이다
+#
+# 고친 resolver 는 이 모양을 만들 수 없다(runnable_artifact 가 size<=0 을 버리고
+# _gib 가 하한을 두므로 artifact 에는 항상 양수 bytes/gib 가 들어간다). 즉 이
+# 예외는 구 baseline 에만 걸리고 앞으로 쌓이는 데이터에는 적용될 여지가 없다.
+VRAM_FIELD = "deployment.vram_estimate"
+WEIGHTS_KEYS = ("fp16_gib", "int8_gib", "int4_gib", "detected_quantization_gib")
+
+
+def _positive(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
+
+
+def _weights_only(estimate: Any) -> Dict[str, Any]:
+    weights = estimate.get("weights_only") if isinstance(estimate, dict) else None
+    return weights if isinstance(weights, dict) else {}
+
+
+def zero_artifact_sentinel(estimate: Any) -> bool:
+    """vram_estimate 가 '실측했다면서 0 GiB'인 결함 값인지."""
+    if not isinstance(estimate, dict) or estimate.get("basis") != "artifact_bytes":
+        return False
+    artifact = estimate.get("artifact")
+    if not isinstance(artifact, dict) or _positive(artifact.get("bytes")):
+        return False
+    gib = artifact.get("gib")
+    return isinstance(gib, (int, float)) and not isinstance(gib, bool) and gib == 0
+
+
+def weights_only_kept(old_estimate: Any, new_estimate: Any) -> bool:
+    """이전 weights_only 의 양수 추정이 새 값에도 모두 남아 있는지."""
+    old_weights = _weights_only(old_estimate)
+    new_weights = _weights_only(new_estimate)
+    return all(
+        _positive(new_weights.get(key))
+        for key in WEIGHTS_KEYS
+        if _positive(old_weights.get(key))
+    )
+
+
+def corrects_zero_artifact(field: str, old_status: Any, old_value: Any, new_value: Any) -> bool:
+    """이 비교가 '결함 0 GiB 정정'인지. 맞으면 등급 하락으로 세지 않는다."""
+    return (
+        field == VRAM_FIELD
+        and old_status == "verified"
+        and zero_artifact_sentinel(old_value)
+        and weights_only_kept(old_value, new_value)
+    )
 
 
 def load_schema() -> Dict[str, Any]:
@@ -216,6 +286,9 @@ def check_regression(
         # ② 등급 하락
         old_status = (old_entries.get(field) or {}).get("status")
         if old_status is None or new_status is None:
+            continue
+        if corrects_zero_artifact(field, old_status, old_value, new_value):
+            # 결함 0 GiB 를 unknown 으로 돌리는 정정이다. 하락이 아니다.
             continue
         if rank.get(new_status, 0) < rank.get(old_status, 0):
             problems.append(

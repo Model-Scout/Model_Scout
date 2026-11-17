@@ -38,6 +38,7 @@ def _load(name: str, filename: str):
 
 stage2 = _load("stage2_for_regression_test", "02_enrich_metadata.py")
 sync = _load("sync_for_regression_test", "08_sync_supabase.py")
+validate = _load("contract_validate_for_regression_test", "contract/validate.py")
 EXAMPLE = json.loads((ROOT / "contract" / "examples.json").read_text(encoding="utf-8"))[0]
 
 
@@ -218,6 +219,174 @@ def test_removed_model_is_not_a_contract_error():
     """baseline 에만 있는 모델(Stage 1 에서 빠진 모델)은 검사 대상이 아니다."""
     code, _, _ = _validate([_record()], [_record(), _record("org/removed")])
     assert code == 0
+
+
+# ── 결함 0 GiB VRAM baseline 의 정정 (PR #52 이전 데이터) ──────────────────
+#
+# 과거 Stage 2 는 실행 가능한 한 벌을 못 고른 저장소에도
+# basis=artifact_bytes / artifact.gib=0.0 / status=verified 를 적었다.
+# 그 0 을 unknown 으로 돌리는 것은 하락이 아니라 정정이다. 다만 진짜 값이
+# 있었던 경우까지 조용히 통과시키면 게이트가 무용해지므로 경계를 테스트한다.
+
+_ALL_NULL_WEIGHTS = {
+    "fp16_gib": None, "int8_gib": None, "int4_gib": None, "detected_quantization_gib": None,
+}
+
+
+# 스키마가 status ↔ confidence 를 강제한다. 테스트가 그 짝을 틀리면 회귀가
+# 아니라 스키마 오류로 실패해 무엇을 보는 테스트인지 알 수 없게 된다.
+_CONFIDENCE_OF = {
+    "verified": "high", "documented": "medium", "inferred": "low",
+    "unknown": "none", "conflict": "none",
+}
+
+
+def _vram(model_id: str, estimate: Dict[str, Any], status: str):
+    """deployment.vram_estimate 와 그 출처만 바꾼 레코드."""
+    record = _record(model_id)
+    record["deployment"]["vram_estimate"] = copy.deepcopy(estimate)
+    record["provenance"]["fields"]["deployment.vram_estimate"] = {
+        "status": status,
+        "confidence": _CONFIDENCE_OF[status],
+        "source": [] if status in {"unknown", "conflict"} else ["hf_api:siblings[].size"],
+        "retrieved_at": "2026-11-17T00:00:00Z",
+    }
+    return record
+
+
+def _zero_artifact(weights: Dict[str, Any] = None, *, label: str = "pytorch_bin"):
+    return {
+        "weights_only": copy.deepcopy(weights or _ALL_NULL_WEIGHTS),
+        "artifact": {"label": label, "gib": 0.0},
+        "basis": "artifact_bytes",
+        "caveat": f"{label} 가중치 파일 크기(0.00GiB)를 측정한 값입니다.",
+    }
+
+
+def _no_artifact(weights: Dict[str, Any] = None, *, basis=None, status="unknown"):
+    return {
+        "weights_only": copy.deepcopy(weights or _ALL_NULL_WEIGHTS),
+        "artifact": None,
+        "basis": basis,
+        "caveat": None if basis is None else "가중치만 기준 추정입니다.",
+    }
+
+
+def test_zero_only_vram_baseline_may_be_corrected_to_unknown():
+    """① artifact.gib=0 + weights 전부 null + verified → unknown 은 정정이다."""
+    before = _vram("m/zero", _zero_artifact(), "verified")
+    after = _vram("m/zero", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 0, out
+    assert summary["regressed_models"] == 0, out
+
+
+def test_positive_verified_vram_value_loss_still_fails():
+    """② 진짜 실측값(1.25GiB)이 unknown 이 되는 것은 여전히 실패다."""
+    before = _vram("m/real", {
+        "weights_only": dict(_ALL_NULL_WEIGHTS),
+        "artifact": {"label": "safetensors", "bytes": 1342177280, "gib": 1.25},
+        "basis": "artifact_bytes",
+        "caveat": "측정값입니다.",
+    }, "verified")
+    after = _vram("m/real", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+    assert "하락" in out, out
+
+
+def test_zero_artifact_but_losing_weights_only_estimates_still_fails():
+    """③ 0 짜리 artifact 였어도 파라미터 기반 추정을 잃으면 실패다."""
+    before = _vram("m/mixed", _zero_artifact(
+        {"fp16_gib": 3.22, "int8_gib": 1.61, "int4_gib": 0.81, "detected_quantization_gib": None},
+    ), "verified")
+    after = _vram("m/mixed", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+
+
+def test_zero_artifact_keeping_weights_only_estimates_is_corrected():
+    """③' 같은 모양이지만 추정이 그대로 남으면(실제 Narae4 케이스) 정정이다.
+
+    0.0 짜리 detected_quantization_gib 는 그 자체가 결함 sentinel 이므로
+    사라져도 손실로 세지 않는다.
+    """
+    kept = {"fp16_gib": 3.22, "int8_gib": 1.61, "int4_gib": 0.81}
+    before = _vram("m/adapter", _zero_artifact(
+        {**kept, "detected_quantization_gib": 0.0}, label="F32"), "verified")
+    after = _vram("m/adapter", _no_artifact(
+        {**kept, "detected_quantization_gib": None}, basis="parameter_count"), "inferred")
+    code, summary, out = _validate([after], [before])
+    assert code == 0, out
+    assert summary["regressed_models"] == 0, out
+
+
+def test_rounded_zero_with_positive_bytes_is_not_a_sentinel():
+    """반올림으로 0 이 된 진짜 측정값(bytes 양수)은 예외 대상이 아니다."""
+    before = _vram("m/tiny", {
+        "weights_only": dict(_ALL_NULL_WEIGHTS),
+        "artifact": {"label": "safetensors", "bytes": 3169960, "gib": 0.0},
+        "basis": "artifact_bytes",
+        "caveat": "측정값입니다.",
+    }, "verified")
+    after = _vram("m/tiny", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+
+
+def test_zero_artifact_without_a_measurement_claim_is_not_a_sentinel():
+    """결함은 '실측했다는 주장'(basis=artifact_bytes)과 0 의 조합이다.
+
+    basis 가 parameter_count 면 0 은 측정 주장이 아니므로 예외 대상이 아니고,
+    그 값을 잃는 것은 평소대로 하락이다.
+    """
+    before = _vram("m/claimless", {
+        "weights_only": dict(_ALL_NULL_WEIGHTS),
+        "artifact": {"label": "safetensors", "gib": 0.0},
+        "basis": "parameter_count",
+        "caveat": "가중치만 기준 추정입니다.",
+    }, "verified")
+    after = _vram("m/claimless", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+
+
+def test_positive_gib_without_a_bytes_key_is_not_a_sentinel():
+    """bytes 키가 없던 구 레코드라도 gib 가 양수면 진짜 측정값이다."""
+    before = _vram("m/legacy", {
+        "weights_only": dict(_ALL_NULL_WEIGHTS),
+        "artifact": {"label": "safetensors", "gib": 4.75},
+        "basis": "artifact_bytes",
+        "caveat": "측정값입니다.",
+    }, "verified")
+    after = _vram("m/legacy", _no_artifact(), "unknown")
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+
+
+def test_other_contract_fields_still_fail_on_verified_to_unknown():
+    """④ 다른 계약 필드의 verified → unknown 은 예외 없이 실패다."""
+    before = _record("m/params")
+    after = _record("m/params")
+    after["technical"]["parameter_count_total"] = None
+    after["provenance"]["fields"]["technical.parameter_count_total"] = {
+        "status": "unknown", "confidence": "none", "source": [],
+        "retrieved_at": "2026-11-17T00:00:00Z",
+    }
+    code, summary, out = _validate([after], [before])
+    assert code == 1 and summary["regressed_models"] == 1, out
+    assert "technical.parameter_count_total" in out, out
+
+
+def test_zero_sentinel_exemption_is_scoped_to_the_vram_field():
+    """예외 판정 함수 자체가 다른 필드 이름에는 적용되지 않는다."""
+    estimate = _zero_artifact()
+    assert validate.corrects_zero_artifact(
+        "deployment.vram_estimate", "verified", estimate, _no_artifact())
+    assert not validate.corrects_zero_artifact(
+        "artifacts.total_bytes", "verified", estimate, _no_artifact())
+    assert not validate.corrects_zero_artifact(
+        "deployment.vram_estimate", "documented", estimate, _no_artifact())
 
 
 # ── 08: 게이트 연결 ───────────────────────────────────────────────────────

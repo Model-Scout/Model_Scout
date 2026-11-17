@@ -28,6 +28,7 @@
 
 from __future__ import annotations
 
+import ast
 import contextlib
 import importlib.util
 import json
@@ -140,6 +141,43 @@ def test_targeted_repair_carries_the_previous_watermark_and_only_requested_ids()
         assert "--force-model-ids" in stage2_command
         assert any("03_generate_semantic_metadata.py" in " ".join(command) for command in commands)
         assert any("04_build_embeddings.py" in " ".join(command) for command in commands)
+
+
+def test_db_writes_stay_behind_the_apply_flag():
+    """apply_sync 는 유일한 쓰기 지점이고 `if args.apply:` 안에만 있어야 한다.
+
+    타깃 복구는 --apply 없이 돌려 결과를 먼저 검토하는 절차다. 쓰기 호출이
+    게이트 밖으로 한 번 새어 나가면 dry-run 이라는 말이 거짓이 되고, 그 사고는
+    실행이 성공하므로 적재가 끝난 뒤에야 보인다. 문자열 검색으로는 잡히지
+    않으므로 구문 트리에서 호출 위치를 확인한다.
+    """
+    tree = ast.parse((ROOT / "08_sync_supabase.py").read_text(encoding="utf-8"))
+
+    def guards_apply(node: ast.If) -> bool:
+        return any(
+            isinstance(inner, ast.Attribute)
+            and inner.attr == "apply"
+            and isinstance(inner.value, ast.Name)
+            and inner.value.id == "args"
+            for inner in ast.walk(node.test)
+        )
+
+    guarded: set[int] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.If) and guards_apply(node):
+            for body_node in node.body:
+                for inner in ast.walk(body_node):
+                    guarded.add(id(inner))
+
+    calls = [
+        node for node in ast.walk(tree)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "apply_sync"
+    ]
+    assert calls, "apply_sync 호출을 찾지 못했다 — 테스트가 낡았다"
+    ungated = [node.lineno for node in calls if id(node) not in guarded]
+    assert not ungated, f"apply_sync 가 --apply 게이트 밖에서 호출된다: 줄 {ungated}"
 
 
 def test_targeted_repair_rejects_large_or_unknown_scope():
