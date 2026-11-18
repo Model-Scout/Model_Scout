@@ -11,7 +11,6 @@ from pathlib import Path
 ENV_NAMES = ("SUPABASE_DB_HOST", "SUPABASE_DB_PORT", "SUPABASE_DB_NAME", "SUPABASE_DB_USER", "SUPABASE_PASSWORD")
 # Local validation (deploy/compose.local.yml): Supabase is read only, every write goes to these hosts.
 LOCAL_DB_HOSTS = {"postgres", "localhost", "127.0.0.1"}
-READ_ONLY_OPTIONS = "-c default_transaction_read_only=on"
 
 
 def local_mode():
@@ -37,7 +36,7 @@ def db_connection():
     if not configured():
         missing = [name for name in ENV_NAMES if not os.getenv(name)]
         raise RuntimeError("Missing Supabase environment variables: " + ", ".join(missing))
-    return psycopg2.connect(
+    conn = psycopg2.connect(
         host=os.environ["SUPABASE_DB_HOST"],
         port=int(os.environ["SUPABASE_DB_PORT"]),
         dbname=os.environ["SUPABASE_DB_NAME"],
@@ -45,9 +44,13 @@ def db_connection():
         password=os.environ["SUPABASE_PASSWORD"],
         sslmode="require",
         connect_timeout=15,
-        # A local run reads production data; the server refuses any write in these sessions.
-        **({"options": READ_ONLY_OPTIONS} if local_mode() else {}),
     )
+    if local_mode():
+        # A local run reads production data: every transaction opens READ ONLY, so the server refuses
+        # any write. Sent as SQL per transaction; the Supabase pooler drops a startup `options` setting
+        # (checked by deploy/local/check_release.py).
+        conn.set_session(readonly=True)
+    return conn
 
 
 def vector_literal(values):

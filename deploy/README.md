@@ -45,7 +45,7 @@ deploy/release.sh rollback <id|legacy>  # 이전 릴리스로 복구
 
 | 연결 | 대상 | 장치 |
 |---|---|---|
-| 데이터셋·모델 검색 | 운영 Supabase, **읽기 전용** | `MODEL_SCOUT_LOCAL=1`이면 `supabase_db.db_connection`이 `default_transaction_read_only=on`으로 연결합니다. 모델 검색(09)은 원래 읽기 전용입니다 |
+| 데이터셋·모델 검색 | 운영 Supabase, **읽기 전용** | `MODEL_SCOUT_LOCAL=1`이면 `supabase_db.db_connection`이 연결을 읽기 전용 세션(`set_session(readonly=True)`)으로 엽니다. 모델 검색(09)은 원래 읽기 전용 세션입니다. 연결 시작 옵션(`options=-c default_transaction_read_only=on`)은 Supabase 풀러가 버리므로 쓰지 않습니다(2026-11-19 로컬 검증에서 확인). 두 경로 모두 검사에서 실제 쓰기 거부를 확인합니다 |
 | AI 체크포인트 | 로컬 postgres | `CHECKPOINT_DATABASE_URL`. 로컬 모드에서 이 값이 없거나 로컬 주소가 아니면 AI가 시작하지 않습니다. 운영 DB로 대신 연결하지 않습니다 |
 | backend 대화 저장 | 로컬 postgres | backend에는 운영 접속 정보를 주지 않습니다. 로컬 모드에서 DB 주소가 로컬이 아니면 시작하지 않습니다 |
 

@@ -107,6 +107,16 @@ def main():
     code, out = exec_py("ai", "from supabase_db import db_connection; c = db_connection(); cur = c.cursor(); "
                               "cur.execute('show transaction_read_only'); print(cur.fetchone()[0])")
     check("production Supabase read-only", code == 0 and out.splitlines()[-1] == "on", out.splitlines()[-1] if out else "")
+    # The proof: a write is refused. A temp table would vanish with the session anyway, and it is rolled back.
+    probe_write = ("from supabase_db import db_connection\nc = db_connection(); cur = c.cursor()\ntry:\n"
+                   "    cur.execute('create temp table model_scout_write_probe (i int)'); print('WRITE ALLOWED')\n"
+                   "except Exception as e:\n    print(type(e).__name__, str(e).splitlines()[0])\n"
+                   "finally:\n    c.rollback(); c.close()")
+    for label, opener in (("search", "from supabase_db import db_connection"),
+                          ("model search (09)", "import importlib.util as u\ns = u.spec_from_file_location('m09', '09_model_scout_mcp_readonly.py')\n"
+                                                "m = u.module_from_spec(s); s.loader.exec_module(m); db_connection = m._db_connection")):
+        code, out = exec_py("ai", opener + "\n" + probe_write.split("\n", 1)[1])
+        check(f"production Supabase refuses a write ({label})", "read-only transaction" in out, out.splitlines()[-1] if out else "")
 
     present = psql("select to_regclass('langgraph.checkpoints') is not null and to_regclass('app.groups') is not null")
     check("checkpoint and conversation tables in local postgres", present == "t", present)

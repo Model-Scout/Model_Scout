@@ -52,16 +52,18 @@ def test_local_checkpoint_url_keeps_schema(env):
 
 
 def test_local_supabase_reads_are_read_only(env):
-    seen = {}
+    class FakeConn:
+        readonly = None
+
+        def set_session(self, readonly):
+            self.readonly = readonly
 
     class FakePsycopg2:
         @staticmethod
         def connect(**kwargs):
-            seen.update(kwargs)
+            return FakeConn()
 
     env.setitem(sys.modules, "psycopg2", FakePsycopg2)
-    supabase_db.db_connection()
-    assert "options" not in seen  # the service and the pipeline stages connect as before
+    assert supabase_db.db_connection().readonly is None  # the service and the pipeline stages: as before
     env.setenv("MODEL_SCOUT_LOCAL", "1")
-    supabase_db.db_connection()
-    assert seen["options"] == "-c default_transaction_read_only=on"
+    assert supabase_db.db_connection().readonly is True
