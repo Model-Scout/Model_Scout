@@ -60,6 +60,7 @@ ai/data/dataset_index/embeddings.npy
 
 # LLM wiki (Obsidian vault) is generated from ai/data/hypergraph by 15_build_wiki.py.
 ai/wiki/
+ai/wiki_v2/
 
 # Corpus v2: the frozen build is committed (enrichment, graph, documents, vector record). Its vectors
 # (126 MB, over GitHub's file limit) live in the v2 tables: 20_sync_dataset_index.py --corpus v2 --restore-vectors.

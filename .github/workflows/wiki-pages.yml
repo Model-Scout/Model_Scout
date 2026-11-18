@@ -48,7 +48,7 @@ jobs:
       - name: Build wiki from the hypergraph
         run: |
           python -m pip install pyyaml
-          cd ai && python 15_build_wiki.py
+          cd ai && python 15_build_wiki.py --corpus v1  # Pages keeps v1 until the team switches it
 
       - uses: actions/setup-node@v4
         with:

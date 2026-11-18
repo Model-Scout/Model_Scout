@@ -81,8 +81,8 @@ jobs:
       # wiki/ is gitignored; build it from the hypergraph, then check its links.
       - name: Wiki links resolve
         run: |
-          python 15_build_wiki.py
-          python 15_build_wiki.py --check
+          python 15_build_wiki.py --corpus v1
+          python 15_build_wiki.py --corpus v1 --check
 
       # Needs the OpenAI key (query embeddings) and Supabase (dataset vectors); skipped on forks.
       - name: Ranking quality floor
