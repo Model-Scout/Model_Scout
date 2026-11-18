@@ -9,6 +9,19 @@ import os
 from pathlib import Path
 
 ENV_NAMES = ("SUPABASE_DB_HOST", "SUPABASE_DB_PORT", "SUPABASE_DB_NAME", "SUPABASE_DB_USER", "SUPABASE_PASSWORD")
+# Local validation (deploy/compose.local.yml): Supabase is read only, every write goes to these hosts.
+LOCAL_DB_HOSTS = {"postgres", "localhost", "127.0.0.1"}
+READ_ONLY_OPTIONS = "-c default_transaction_read_only=on"
+
+
+def local_mode():
+    return os.getenv("MODEL_SCOUT_LOCAL") == "1"
+
+
+def require_local_host(host, what):
+    """In local mode a write target must be the local Postgres; never fall back to production."""
+    if local_mode() and host not in LOCAL_DB_HOSTS:
+        raise RuntimeError(f"MODEL_SCOUT_LOCAL=1: {what} must be a local Postgres {sorted(LOCAL_DB_HOSTS)}, not {host!r}")
 
 
 def configured():
@@ -32,6 +45,8 @@ def db_connection():
         password=os.environ["SUPABASE_PASSWORD"],
         sslmode="require",
         connect_timeout=15,
+        # A local run reads production data; the server refuses any write in these sessions.
+        **({"options": READ_ONLY_OPTIONS} if local_mode() else {}),
     )
 
 

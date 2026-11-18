@@ -908,13 +908,33 @@ def supabase_conninfo():
     )
 
 
+def checkpoint_conninfo():
+    """Where checkpoints are written: CHECKPOINT_DATABASE_URL when set, else Supabase.
+
+    Local validation (MODEL_SCOUT_LOCAL=1) must name a local Postgres here; without one it stops
+    rather than write conversations into the production database.
+    """
+    from psycopg.conninfo import conninfo_to_dict, make_conninfo
+
+    from supabase_db import local_mode, require_local_host
+
+    url = os.getenv("CHECKPOINT_DATABASE_URL")
+    if not url:
+        if local_mode():
+            raise RuntimeError("MODEL_SCOUT_LOCAL=1 needs CHECKPOINT_DATABASE_URL (a local Postgres): "
+                               "a local run never writes checkpoints to Supabase")
+        return supabase_conninfo()
+    require_local_host(conninfo_to_dict(url).get("host"), "CHECKPOINT_DATABASE_URL")
+    return make_conninfo(url, options=f"-c search_path={CHECKPOINT_SCHEMA}")
+
+
 @contextmanager
 def postgres_checkpointer():
-    """PostgresSaver on Supabase; its tables live in their own schema, created on first use."""
+    """PostgresSaver (Supabase, or CHECKPOINT_DATABASE_URL); its tables live in their own schema."""
     import psycopg
     from langgraph.checkpoint.postgres import PostgresSaver
 
-    conninfo = supabase_conninfo()
+    conninfo = checkpoint_conninfo()
     with psycopg.connect(conninfo, autocommit=True) as conn:
         conn.execute(f"create schema if not exists {CHECKPOINT_SCHEMA}")
     with PostgresSaver.from_conn_string(conninfo) as saver:

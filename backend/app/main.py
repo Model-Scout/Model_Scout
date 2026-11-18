@@ -115,10 +115,18 @@ class ChatRequest(BaseModel):
         return self
 
 
+LOCAL_DB_HOSTS = {"postgres", "localhost", "127.0.0.1"}  # same list as ai/supabase_db.py
+
+
 def _conninfo() -> str | None:
+    env = os.environ
+    # Local validation (deploy/compose.local.yml) stores conversations in a local Postgres only:
+    # a missing or non-local setting stops the backend instead of writing to production.
+    if env.get("MODEL_SCOUT_LOCAL") == "1" and env.get("SUPABASE_DB_HOST") not in LOCAL_DB_HOSTS:
+        raise RuntimeError(f"MODEL_SCOUT_LOCAL=1: SUPABASE_DB_HOST must be a local Postgres {sorted(LOCAL_DB_HOSTS)}, "
+                           f"not {env.get('SUPABASE_DB_HOST')!r}")
     if not all(os.getenv(name) for name in DB_ENV):
         return None
-    env = os.environ
     return make_conninfo(host=env['SUPABASE_DB_HOST'], port=env['SUPABASE_DB_PORT'],
         dbname=env['SUPABASE_DB_NAME'], user=env['SUPABASE_DB_USER'], password=env['SUPABASE_PASSWORD'],
         sslmode=env.get('SUPABASE_DB_SSLMODE', 'require'), connect_timeout=10)

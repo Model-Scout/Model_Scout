@@ -74,3 +74,7 @@ ai/reingest-coverage-*.md
 ai/data/archive/
 # Detail pages behind the API evidence (~47 KB each); the evidence and page hash stay in official_meta.jsonl
 ai/data/public_catalog/official_raw/*.page.gz
+
+# Local release builds and validation keys (deploy/release.sh): never committed.
+deploy/.releases/
+deploy/.local/ai.env

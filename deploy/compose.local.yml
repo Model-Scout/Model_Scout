@@ -1,0 +1,77 @@
+# Local validation of one release: the images and data deploy/release.sh built for the VPS, on Docker
+# Desktop, without Caddy. Start it only through `deploy/release.sh verify <release id>`, which sets
+# RELEASE_DIR, MODEL_SCOUT_RELEASE and writes deploy/.local/ai.env.
+#
+#   search (graph files, Supabase v2 tables, model search) -> production Supabase, read-only sessions
+#   AI checkpoints                                        -> local postgres below (CHECKPOINT_DATABASE_URL)
+#   backend conversations                                 -> local postgres below
+#
+# MODEL_SCOUT_LOCAL=1 makes both services refuse to start when a write target is not this local postgres.
+# The backend never receives production credentials. Memory limits match deploy/compose.yml; a local run
+# catches memory problems early but does not stand in for checking the VPS after a deploy.
+name: model-scout-local
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: model_scout
+      POSTGRES_USER: model_scout
+      POSTGRES_PASSWORD: local-only
+    volumes:
+      - ./local/postgres-init.sql:/docker-entrypoint-initdb.d/00_roles.sql:ro
+      - ../backend/app_schema.sql:/docker-entrypoint-initdb.d/10_app_schema.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "model_scout", "-d", "model_scout"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  ai:
+    image: model-scout-ai:${MODEL_SCOUT_RELEASE:?run through deploy/release.sh verify}
+    platform: linux/amd64
+    depends_on:
+      postgres: {condition: service_healthy}
+    env_file: [.local/ai.env, "${RELEASE_DIR:?}/.env.corpus"]
+    environment:
+      MODEL_SCOUT_LOCAL: "1"
+      CHECKPOINT_DATABASE_URL: postgresql://model_scout:local-only@postgres:5432/model_scout?sslmode=disable
+      ENABLE_DOCS: "1"
+    volumes:
+      - ${RELEASE_DIR:?}/data:/app/ai/data:ro
+    mem_limit: 1200m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/ai/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+
+  backend:
+    image: model-scout-backend:${MODEL_SCOUT_RELEASE:?}
+    platform: linux/amd64
+    depends_on:
+      ai: {condition: service_healthy}
+    environment:
+      MODEL_SCOUT_LOCAL: "1"
+      AI_URL: http://ai:8000
+      SUPABASE_DB_HOST: postgres
+      SUPABASE_DB_PORT: "5432"
+      SUPABASE_DB_NAME: model_scout
+      SUPABASE_DB_USER: model_scout
+      SUPABASE_PASSWORD: local-only
+      SUPABASE_DB_SSLMODE: disable
+      CORS_ORIGINS: "*"
+      ENABLE_DOCS: "1"
+      RATE_LIMIT_PER_MINUTE: "10"
+      DAILY_REQUEST_LIMIT: "300"
+    volumes:
+      - ${RELEASE_DIR:?}/data/readmes:/app/readmes:ro
+    ports:
+      - "127.0.0.1:${LOCAL_BACKEND_PORT:-8000}:8000"
+    mem_limit: 300m
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
