@@ -44,7 +44,10 @@ ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
 
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
-MAX_SEARCH_RESULTS = 5
+# The cap on what one search returns, not the default: match_count defaults to 5, so a caller that
+# asks for nothing still gets 5. Reranking needs a deeper slice to reorder (17 asks for 20), and the
+# RPC itself allows up to 100.
+MAX_SEARCH_RESULTS = 20
 # Hybrid ranking split. The caller may pass a per-query-type dense_weight; this is the fallback
 # when it does not (and the value the RPC was called with before weights became a parameter).
 DEFAULT_DENSE_WEIGHT = 0.65

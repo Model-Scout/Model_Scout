@@ -45,6 +45,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 from pydantic import BaseModel, Field, model_validator
 
+import model_rerank
 import project_checks
 from explanation_grounding import EXPLANATION_CAVEAT, grounded_lines
 from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
@@ -557,7 +558,9 @@ def _compact_model(row):
         "artifact_runnable_label": meta.get("artifact_runnable_label"),
         "dtype": meta.get("dtype"),
         "unresolved_filter_fields": meta.get("unresolved_filter_fields") or [],
-        "benchmarks": project_checks.compact_benchmarks(row.get("benchmark_metadata")),
+        # Keep all eight 09 sends. Reranking a benchmark question has to see whether the asked-for
+        # benchmark is among the reported ones, and cutting to three hid it.
+        "benchmarks": project_checks.compact_benchmarks(row.get("benchmark_metadata"), limit=8),
         "evidence": _model_quote(row),
         "url": row.get("model_url"),
     }
@@ -575,6 +578,7 @@ def _model_rows(
     exclude_gated,
     contract_filters,
     dense_weight,
+    match_count,
 ):
     """Every search condition is an argument, so each one is part of the TTL cache key.
 
@@ -582,7 +586,8 @@ def _model_rows(
     the RPC as hard filters. Off, the call is the original one and the caller keeps its post-filter.
 
     dense_weight is part of the key too: the same query ranked with a different split is a
-    different result, so it must not be served from another query type's cached rows.
+    different result, so it must not be served from another query type's cached rows. So is
+    match_count: a reranked question asks for a deeper slice than it finally shows.
     """
     contract = (
         {
@@ -596,7 +601,7 @@ def _model_rows(
     )
     out = _load_09().search_models(
         query,
-        match_count=MODELS_PER_NEED * 2,
+        match_count=match_count,
         task_filters=list(task_filters) or None,
         korean_required=True,
         max_parameter_count_billion=max_params,
@@ -633,6 +638,10 @@ def search_models(state: State) -> State:
     # filter comes off — but only once sparse can find that name. With the dead ts_rank_cd sparse,
     # dropping it measured -0.002; with the IDF sparse, benchmark_lookup went 0.305 -> 0.524.
     free_of_task_filter = query_type in TASK_FILTER_FREE_TYPES and module_09.sparse_idf_enabled()
+    # Reorder a deeper slice for the question types where it measured a gain. The needs already run
+    # side by side, so this adds one call's latency, not one per need.
+    reranking = model_rerank.wanted(query_type)
+    match_count = model_rerank.RERANK_DEPTH if reranking else MODELS_PER_NEED * 2
 
     def one(need):
         tags = () if free_of_task_filter else tuple(hf_tags(need["task"]))
@@ -650,6 +659,7 @@ def search_models(state: State) -> State:
             constraints["exclude_gated"],
             contract_filters,
             dense_weight,
+            match_count,
         )
         rows = found["rows"]
         if constraints["commercial_only"] and not found["contract_filters_applied"]:
@@ -661,6 +671,10 @@ def search_models(state: State) -> State:
                 row["parameters_b"], gpu, row.pop("hardware", None), row["quant_bits"]
             )
         rows = [r for r in rows if not r["gpu_fit"] or r["gpu_fit"]["verdict"] != "too_large"]
+        if reranking and len(rows) > MODELS_PER_NEED:
+            # The user's own words, not model_query: the question carries what they are after
+            # ("LibriSpeech clean WER 가 README 에 적힌"), the search string only the keywords.
+            rows = model_rerank.rerank(state["request"], rows, _openai, LLM_MODEL)
         return {"need": need, "models": rows[:MODELS_PER_NEED]}
 
     # Needs are independent searches (one DB round trip each); run them side by side.
