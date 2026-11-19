@@ -49,7 +49,7 @@ import model_rerank
 import project_checks
 from explanation_grounding import EXPLANATION_CAVEAT, grounded_lines
 from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
-from recommendation_llm import create_client, model_name
+from recommendation_llm import create_client, model_name, provider as llm_provider
 from retrieval_lab import classifier, router
 from taxonomy import load_taxonomy, normalize
 
@@ -640,7 +640,7 @@ def search_models(state: State) -> State:
     free_of_task_filter = query_type in TASK_FILTER_FREE_TYPES and module_09.sparse_idf_enabled()
     # Reorder a deeper slice for the question types where it measured a gain. The needs already run
     # side by side, so this adds one call's latency, not one per need.
-    reranking = model_rerank.wanted(query_type)
+    reranking = model_rerank.wanted(query_type, llm_provider())
     match_count = model_rerank.RERANK_DEPTH if reranking else MODELS_PER_NEED * 2
 
     def one(need):
@@ -674,7 +674,8 @@ def search_models(state: State) -> State:
         if reranking and len(rows) > MODELS_PER_NEED:
             # The user's own words, not model_query: the question carries what they are after
             # ("LibriSpeech clean WER 가 README 에 적힌"), the search string only the keywords.
-            rows = model_rerank.rerank(state["request"], rows, _openai, LLM_MODEL)
+            rows = model_rerank.rerank(
+                state["request"], rows, _openai, model_rerank.model(llm_provider()))
         return {"need": need, "models": rows[:MODELS_PER_NEED]}
 
     # Needs are independent searches (one DB round trip each); run them side by side.

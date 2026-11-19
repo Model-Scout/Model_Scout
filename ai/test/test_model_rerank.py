@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any, Dict, List
@@ -58,15 +59,37 @@ class _Client:
 
 def test_only_the_measured_types_are_reranked():
     mr = _module()
-    assert mr.wanted("lexical_exact") and mr.wanted("model_comparison")
-    assert mr.wanted("benchmark_lookup")
-    for query_type in ("semantic_capability", "semantic_constraint", "structured_constraint"):
-        assert not mr.wanted(query_type), f"{query_type} 는 이득이 없었다"
+    for query_type in ("lexical_exact", "model_comparison", "benchmark_lookup",
+                       "semantic_capability"):
+        assert mr.wanted(query_type, "openai"), query_type
+    for query_type in ("semantic_constraint", "structured_constraint"):
+        assert not mr.wanted(query_type, "openai"), f"{query_type} 는 손해였다"
 
 
 def test_an_unclassified_query_is_not_reranked():
     mr = _module()
-    assert not mr.wanted(None) and not mr.wanted("")
+    assert not mr.wanted(None, "openai") and not mr.wanted("", "openai")
+
+
+def test_an_unmeasured_provider_does_not_rerank():
+    """운영 생성 모델이 로컬 gemma3:4b 일 수 있다. 재지 않은 모델로 조용히 섞지 않는다."""
+    mr = _module()
+    import os
+    os.environ.pop(mr.MODEL_ENV, None)
+    assert mr.model("openai") == mr.MEASURED_MODEL
+    assert mr.model("ollama") is None
+    assert not mr.wanted("lexical_exact", "ollama")
+
+
+def test_an_explicit_model_override_turns_it_back_on():
+    mr = _module()
+    import os
+    os.environ[mr.MODEL_ENV] = "qwen2.5:14b"
+    try:
+        assert mr.model("ollama") == "qwen2.5:14b"
+        assert mr.wanted("lexical_exact", "ollama")
+    finally:
+        os.environ.pop(mr.MODEL_ENV, None)
 
 
 def test_rerank_types_are_real_query_types():
@@ -79,7 +102,9 @@ def test_the_graph_reranks_with_the_user_words_not_the_search_string():
     """질의문이 의도를 담고 model_query 는 키워드만 담는다."""
     source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
     body = source[source.index("def search_models(state"):source.index("def search_model_datasets(")]
-    assert "model_rerank.rerank(state[\"request\"]" in body
+    call = re.search(r"model_rerank\.rerank\((.*?)\)\n", body, re.S)
+    assert call, "17 이 재순위를 부르지 않는다"
+    assert 'state["request"]' in call.group(1), "model_query 로 재순위하고 있다"
     assert "model_rerank.RERANK_DEPTH" in body, "깊은 후보를 요청하지 않는다"
     assert "match_count," in body, "match_count 가 캐시 키에 없다"
 

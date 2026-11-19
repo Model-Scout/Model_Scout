@@ -4,38 +4,56 @@ The hybrid score gets the right models into view but not into order: on the mode
 set, 93% of questions had a correct answer inside the top 50 while only 66% had one in the top 5.
 Reordering a deeper slice is therefore worth an extra call -- but only for some question types.
 
-Measured on 240 questions (recall@5, min_grade 2, query type from classify_model_query):
+Measured on 240 questions with MEASURED_MODEL (recall@5, min_grade 2, query type from
+classify_model_query, reordering the top RERANK_DEPTH):
 
     type                     before  after   perfect   95% CI of the gain
-    lexical_exact             0.650  0.774    0.838    [+0.033, +0.225]  significant
-    model_comparison          0.423  0.611    0.716    [+0.111, +0.274]  significant
-    benchmark_lookup          0.524  0.608    0.749    [-0.006, +0.171]  borderline
-    semantic_capability       0.429  0.437    0.543    [-0.064, +0.069]  nothing
-    semantic_constraint       0.276  0.290    0.401    [-0.059, +0.082]  nothing
-    structured_constraint     0.322  0.300    0.587    [-0.091, +0.035]  slightly worse
+    model_comparison          0.423  0.635    0.716    [+0.128, +0.297]  significant
+    lexical_exact             0.650  0.835    0.838    [+0.075, +0.310]  significant
+    benchmark_lookup          0.524  0.581    0.749    [-0.053, +0.168]  unproven
+    semantic_capability       0.429  0.450    0.543    [-0.076, +0.103]  unproven
+    semantic_constraint       0.276  0.266    0.401    [-0.085, +0.060]  slightly worse
+    structured_constraint     0.322  0.246    0.587    [-0.176, +0.013]  worse
 
-RERANK_TYPES holds the first three. Applying it everywhere scores the same (0.511 vs 0.506) while
-making an LLM call on every question instead of half of them, and it reorders the two types where
-the model's judgement is noise: a question that only filters on size or license is answered by
-every surviving candidate, so there is nothing to judge and popularity order is already right.
+RERANK_TYPES leaves out the last two, which is what scored best overall:
+
+    nowhere                   0.444                    0 calls per 230 questions
+    the two proven types      0.498   [+0.031, +0.080]   85
+    RERANK_TYPES             0.521   [+0.040, +0.115]  169
+    everywhere                0.511   [+0.025, +0.109]  230
+
+The two it leaves out are the two questions about constraints rather than about which model: once
+the hard filter has run, every surviving candidate answers "GGUF, under 1B, commercial", so there
+is nothing left to judge and the incoming popularity order is already the useful one. Reordering
+there is noise, and measurably costly.
 
 "scores:" carries only benchmarks the pipeline extracted into benchmark_metadata, which is what the
 service can actually display. An earlier prompt let the model read benchmark names out of card
 prose and it ranked models that merely transcribe a LibriSpeech sample above models that report a
-LibriSpeech WER; saying where a score counts from took benchmark_lookup from +0.018 to +0.084.
+LibriSpeech WER; saying where a score counts from roughly quadrupled the benchmark_lookup gain.
 """
 
 from __future__ import annotations
 
 import json
 import logging
+import os
 import re
-from typing import Any, Callable, Dict, List, Sequence
+from typing import Any, Callable, Dict, List, Optional, Sequence
 
 LOGGER = logging.getLogger(__name__)
 
-# Question types where the LLM's judgement about which model the question points at pays off.
-RERANK_TYPES = frozenset({"lexical_exact", "model_comparison", "benchmark_lookup"})
+MODEL_ENV = "MODEL_RERANK_MODEL"
+# The model the table above was measured with. Reordering 20 cards is a long-context judgement call,
+# so it does not carry over to a smaller model: the graph's generation model may be a local
+# gemma3:4b (ai/.env.example), which was never measured here. Rather than quietly reorder with an
+# unmeasured model, reranking turns itself off unless MODEL_RERANK_MODEL names one.
+MEASURED_MODEL = "gpt-4.1-mini"
+
+# Question types that ask which model, not which constraints; see the table above.
+RERANK_TYPES = frozenset({
+    "lexical_exact", "model_comparison", "benchmark_lookup", "semantic_capability",
+})
 # Candidates to reorder. The perfect-reorder ceiling keeps climbing past this (0.648 at 20, 0.679 at
 # 30, 0.702 at 50), but so does the prompt, and the measured gain was taken at 20.
 RERANK_DEPTH = 20
@@ -62,8 +80,21 @@ Rules:
 Return JSON only: {"order": [<candidate numbers, best first>]}"""
 
 
-def wanted(query_type: str | None) -> bool:
-    return (query_type or "") in RERANK_TYPES
+def model(provider: str) -> Optional[str]:
+    """The model to rerank with, or None to skip reranking.
+
+    MODEL_RERANK_MODEL wins, so a deployment can point this at whatever it serves — but then the
+    numbers in this module's docstring no longer describe it and should be re-measured.
+    """
+
+    override = os.getenv(MODEL_ENV, "").strip()
+    if override:
+        return override
+    return MEASURED_MODEL if provider == "openai" else None
+
+
+def wanted(query_type: str | None, provider: str) -> bool:
+    return (query_type or "") in RERANK_TYPES and model(provider) is not None
 
 
 def _scores(row: Dict[str, Any]) -> List[str]:
