@@ -89,6 +89,9 @@ QUERY_ONLY_TASKS = {"reranking"}
 # Chosen on the 240-query golden set at recall@5, the depth search_models actually returns:
 # test/model_retrieval/tools/final_compare.py. benchmark_lookup is flat over 0.10-0.50, so it
 # takes the middle rather than the peak. An unclassified query keeps the previous 0.65.
+# Query types where the task is not what the user is selecting on, so asserting one only discards
+# answers. Gated on sparse_idf_enabled(): see search_models.
+TASK_FILTER_FREE_TYPES = frozenset({"benchmark_lookup"})
 MODEL_DENSE_WEIGHTS = {
     "benchmark_lookup": 0.30,
     "lexical_exact": 1.00,
@@ -618,14 +621,22 @@ def search_models(state: State) -> State:
     ]
     max_params = min(size_limits) if size_limits else None
 
-    contract_filters = _load_09().contract_filters_enabled()
+    module_09 = _load_09()
+    contract_filters = module_09.contract_filters_enabled()
     # classify_model_query ran before this node; None (it failed, or a dataset-side turn) keeps
     # the previous single split, so an unclassified query ranks exactly as it did before.
-    dense_weight = MODEL_DENSE_WEIGHTS.get(state.get("model_query_type") or "")
+    query_type = state.get("model_query_type") or ""
+    dense_weight = MODEL_DENSE_WEIGHTS.get(query_type)
+    # "Which models report a KMMLU score" does not name a task, but decompose must answer with one
+    # and that guess becomes a hard filter: on the golden set it discarded every correct answer for
+    # 19 of 40 benchmark queries. The benchmark name in the query text is the real selector, so the
+    # filter comes off — but only once sparse can find that name. With the dead ts_rank_cd sparse,
+    # dropping it measured -0.002; with the IDF sparse, benchmark_lookup went 0.305 -> 0.524.
+    free_of_task_filter = query_type in TASK_FILTER_FREE_TYPES and module_09.sparse_idf_enabled()
 
     def one(need):
-        tags = tuple(hf_tags(need["task"]))
-        if not tags and need["task"] not in QUERY_ONLY_TASKS:
+        tags = () if free_of_task_filter else tuple(hf_tags(need["task"]))
+        if not tags and not free_of_task_filter and need["task"] not in QUERY_ONLY_TASKS:
             # No task filter would rank every model and return unrelated LLMs; report it as not covered.
             return {"need": need, "models": [], "unsupported": True}
         found = _model_rows(
