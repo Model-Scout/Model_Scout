@@ -153,6 +153,10 @@ Stage 1~4 전체 산출물은 승인용 `reingest-bundle-<run_id>` artifact 에 
 | `supabase_migration_sparse_idf.sql` | sparse 를 IDF 가중 매칭 비율로. `model_scout_search_df` 표 추가 | Supabase SQL Editor 에서 사람이 1회 |
 | `select public.refresh_model_scout_search_df();` | 그 표를 채운다 — **여기서부터 새 sparse 가 동작한다** | 적용 직후, 그리고 재적재 apply 뒤마다 |
 | `MODEL_SPARSE_IDF_ENABLED` | 17 이 벤치마크 질의의 task 하드 필터를 뗄지 | 서버 `.env`, 표를 채운 뒤에 켠다 |
+| `MODEL_RERANK_MODEL` | 재순위를 어느 모델로 할지. 안 켜면 생성 공급자가 openai 일 때 `gpt-4.1-mini`, ollama 면 재순위를 걸지 않는다 | 서버 `.env` (보통 비워 둔다) |
+
+두 변수는 `deploy/release.sh` 와 `deploy/deploy.sh` 의 `.env.ai` allowlist 에 들어 있다.
+allowlist 에 없으면 서버로 전달되지 않아 영원히 켤 수 없다.
 
 ### sparse IDF 적용 순서
 

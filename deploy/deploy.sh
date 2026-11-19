@@ -54,7 +54,9 @@ if [ "${1:-}" != "--data" ]; then
     grep -E '^(SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD)=' .env |
       ssh "$HOST" "umask 077; cat > $REMOTE/.env.backend"
     # MODEL_CONTRACT_FILTERS_ENABLED stays off (absent) until the contract migration and reingest are done.
-    grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED)=' .env |
+    # MODEL_SPARSE_IDF_ENABLED likewise waits for supabase_migration_sparse_idf.sql and its refresh;
+    # MODEL_RERANK_MODEL only to point reranking at a model other than the measured default.
+    grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED|MODEL_SPARSE_IDF_ENABLED|MODEL_RERANK_MODEL)=' .env |
       ssh "$HOST" "umask 077; cat > $REMOTE/.env.ai; rm -f $REMOTE/.env"
     # Team login for Swagger; only the bcrypt hash leaves this machine.
     password=$(grep -E '^DOCS_PASSWORD=' .env | cut -d= -f2-)
