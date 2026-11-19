@@ -2,6 +2,7 @@
 
   gpu_fit         will a model run on the user's GPU at fp16 / int8 / int4?
   license_verdict can the recommended stack (models + training data + service data) ship commercially?
+  implementation_guide  what should the user check about output format or fine-tuning?
   compare_models  side-by-side table of 2-3 candidate models
 
 No LLM here: these answers must be exact and repeatable, so the writer only reports them.
@@ -9,6 +10,7 @@ No LLM here: these answers must be exact and repeatable, so the writer only repo
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from taxonomy import normalize
@@ -34,6 +36,43 @@ COMMERCIAL_STATUS_CLASS = {
     "review_required": "conditional",
     "unknown": "unknown",
 }
+
+
+STRUCTURED_OUTPUT = re.compile(
+    r"구조화\s*(?:된\s*)?출력|structured\s+outputs?|json\s*(?:스키마|schema)|"
+    r"(?:api|함수|도구)\s*(?:호출\s*)?(?:인자|인수|파라미터)|"
+    r"json\s*(?:으로|로|을|를)?\s*(?:출력|반환|생성|변환|보내|넘기|전달|만들)|"
+    r"(?:출력|반환|생성|추출).{0,12}json",
+    re.IGNORECASE,
+)
+# "파인튜닝된 모델", "추가 학습된", "SFT된" name a model already trained, not a plan to train one.
+ALREADY_DONE = r"(?!\s*(?:된|되어|돼|한))"
+FINE_TUNING = (
+    rf"파인\s*튜닝{ALREADY_DONE}|\bfine[-\s]*tun(?:e|ing)\b|(?<![a-z])sft(?![a-z]){ALREADY_DONE}|추가\s*학습{ALREADY_DONE}"
+)
+SKIP_FINE_TUNING = re.compile(
+    rf"(?:{FINE_TUNING})\s*(?:(?:은|는|을|를)\s*)?(?:없이|제외|안\s*(?:하|할)|하지\s*않|필요\s*없)",
+    re.IGNORECASE,
+)
+
+
+def implementation_guide(request: str, tasks: set[str]) -> dict[str, str]:
+    """Advise on a task without claiming that a candidate supports it or needs training."""
+    guide = {}
+    if "tool_use" in tasks or STRUCTURED_OUTPUT.search(request):
+        guide["structured_output"] = (
+            "프로그램에 넘길 필드와 자료형을 JSON 스키마로 정하고, "
+            "모델을 실행할 환경에서 그 형식으로 출력할 수 있는지 확인하세요."
+        )
+    has_repeated_errors = re.search(r"(?:계속|자꾸|반복해서)\s*(?:틀|오류|실패|잘못|혼동)", request)
+    has_labelled_examples = re.search(r"정답\s*(?:예시|데이터|라벨)|라벨링", request)
+    asks_about_training = re.search(FINE_TUNING, request, re.IGNORECASE)
+    if (asks_about_training or (has_repeated_errors and has_labelled_examples)) and not SKIP_FINE_TUNING.search(request):
+        guide["fine_tuning"] = (
+            "기본 모델을 실제 예시로 먼저 평가하세요. 프롬프트를 보완해도 같은 내용 오류가 반복되고 "
+            "원하는 답의 기준이 명확하다면, 정답 예시를 모아 SFT(지도 파인튜닝)를 검토하세요."
+        )
+    return guide
 
 
 def runtime_gib(weights_gib: float) -> float:

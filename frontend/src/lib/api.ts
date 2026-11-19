@@ -46,12 +46,17 @@ export type Candidate = {
   gpu_fit: Record<string, unknown> | null;
 };
 
+export type ImplementationGuide = {
+  structured_output?: string;
+  fine_tuning?: string;
+};
+
 export type ChatResult = {
   title: string;
   summary: string[];
   needs_check: string[];
   candidates: Candidate[];
-  assessment: Record<string, unknown> | null;
+  assessment: (Record<string, unknown> & { implementation_guide?: ImplementationGuide }) | null;
 };
 
 export type ChatDone = {
