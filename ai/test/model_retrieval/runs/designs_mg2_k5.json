@@ -1,0 +1,181 @@
+{
+  "min_grade": 2,
+  "base_design": "plainto",
+  "base_weight": 0.65,
+  "types": {
+    "benchmark_lookup": {
+      "n": 40,
+      "base": 0.05,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.05,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.05
+        },
+        {
+          "design": "idf",
+          "recall": 0.1858974358974359,
+          "delta": 0.13589743589743591,
+          "ci95": [
+            0.05128205128205128,
+            0.23461538461538461
+          ],
+          "significant": true,
+          "weight_full": 0.0
+        }
+      ],
+      "best": "idf"
+    },
+    "lexical_exact": {
+      "n": 40,
+      "base": 0.425,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.425,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.4,
+          "delta": -0.025,
+          "ci95": [
+            -0.1,
+            0.05
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        }
+      ],
+      "best": "plainto"
+    },
+    "model_comparison": {
+      "n": 39,
+      "base": 0.24358974358974358,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.24358974358974358,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.24358974358974358,
+          "delta": 0.0,
+          "ci95": [
+            -0.038461538461538464,
+            0.038461538461538464
+          ],
+          "significant": false,
+          "weight_full": 0.7
+        }
+      ],
+      "best": "plainto"
+    },
+    "semantic_capability": {
+      "n": 40,
+      "base": 0.33853548644338116,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.33853548644338116,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.42560785486443387,
+          "delta": 0.08707236842105262,
+          "ci95": [
+            0.02269736842105263,
+            0.16776315789473684
+          ],
+          "significant": true,
+          "weight_full": 0.9
+        }
+      ],
+      "best": "idf"
+    },
+    "semantic_constraint": {
+      "n": 31,
+      "base": 0.2682795698924731,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.2682795698924731,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.1
+        },
+        {
+          "design": "idf",
+          "recall": 0.3169354838709677,
+          "delta": 0.04865591397849462,
+          "ci95": [
+            0.0013440860215053752,
+            0.10268817204301076
+          ],
+          "significant": true,
+          "weight_full": 0.8
+        }
+      ],
+      "best": "idf"
+    },
+    "structured_constraint": {
+      "n": 40,
+      "base": 0.2654099821746881,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.24457664884135472,
+          "delta": -0.020833333333333336,
+          "ci95": [
+            -0.075,
+            0.0125
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.2686928104575163,
+          "delta": 0.003282828282828282,
+          "ci95": [
+            -0.06893939393939394,
+            0.07689393939393939
+          ],
+          "significant": false,
+          "weight_full": 0.4
+        }
+      ],
+      "best": "idf"
+    }
+  }
+}

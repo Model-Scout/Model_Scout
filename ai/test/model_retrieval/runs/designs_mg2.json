@@ -1,0 +1,313 @@
+{
+  "min_grade": 2,
+  "base_design": "plainto",
+  "base_weight": 0.65,
+  "types": {
+    "benchmark_lookup": {
+      "n": 40,
+      "base": 0.10192307692307692,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.0375,
+          "delta": -0.06442307692307693,
+          "ci95": [
+            -0.16634615384615387,
+            0.025
+          ],
+          "significant": false,
+          "weight_full": 0.05
+        },
+        {
+          "design": "or",
+          "recall": 0.16025641025641027,
+          "delta": 0.058333333333333334,
+          "ci95": [
+            0.00625,
+            0.12708333333333333
+          ],
+          "significant": true,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.7211401098901099,
+          "delta": 0.619217032967033,
+          "ci95": [
+            0.4843131868131868,
+            0.7505631868131868
+          ],
+          "significant": true,
+          "weight_full": 0.25
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.7211401098901099,
+          "delta": 0.619217032967033,
+          "ci95": [
+            0.4796153846153846,
+            0.7512362637362637
+          ],
+          "significant": true,
+          "weight_full": 0.15
+        }
+      ],
+      "best": "idf"
+    },
+    "lexical_exact": {
+      "n": 40,
+      "base": 0.9025000000000001,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.9025000000000001,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.1
+        },
+        {
+          "design": "or",
+          "recall": 0.8775000000000001,
+          "delta": -0.025,
+          "ci95": [
+            -0.075,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        },
+        {
+          "design": "idf",
+          "recall": 0.9466666666666667,
+          "delta": 0.04416666666666667,
+          "ci95": [
+            -0.01416666666666667,
+            0.125
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.9216666666666666,
+          "delta": 0.019166666666666665,
+          "ci95": [
+            -0.06416666666666668,
+            0.10500000000000001
+          ],
+          "significant": false,
+          "weight_full": 0.85
+        }
+      ],
+      "best": "idf"
+    },
+    "model_comparison": {
+      "n": 39,
+      "base": 0.5957264957264957,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.5957264957264957,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "or",
+          "recall": 0.582905982905983,
+          "delta": -0.01282051282051282,
+          "ci95": [
+            -0.038461538461538464,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 1.0
+        },
+        {
+          "design": "idf",
+          "recall": 0.5444444444444445,
+          "delta": -0.05128205128205128,
+          "ci95": [
+            -0.10256410256410256,
+            -0.01282051282051282
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.5572649572649573,
+          "delta": -0.038461538461538464,
+          "ci95": [
+            -0.08974358974358974,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        }
+      ],
+      "best": "plainto"
+    },
+    "semantic_capability": {
+      "n": 40,
+      "base": 0.4472916097060834,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.4472916097060834,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "or",
+          "recall": 0.4618749430394168,
+          "delta": 0.014583333333333332,
+          "ci95": [
+            0.0,
+            0.0375
+          ],
+          "significant": false,
+          "weight_full": 0.95
+        },
+        {
+          "design": "idf",
+          "recall": 0.48735802574618364,
+          "delta": 0.04006641604010025,
+          "ci95": [
+            -0.0393327067669173,
+            0.12711466165413535
+          ],
+          "significant": false,
+          "weight_full": 0.85
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.5304946172248803,
+          "delta": 0.08320300751879699,
+          "ci95": [
+            0.02101315789473684,
+            0.1598872180451128
+          ],
+          "significant": true,
+          "weight_full": 0.8
+        }
+      ],
+      "best": "idf_all"
+    },
+    "semantic_constraint": {
+      "n": 31,
+      "base": 0.42338709677419356,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.42338709677419356,
+          "delta": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "significant": false,
+          "weight_full": 0.1
+        },
+        {
+          "design": "or",
+          "recall": 0.42123655913978497,
+          "delta": -0.002150537634408601,
+          "ci95": [
+            -0.04516129032258064,
+            0.03225806451612903
+          ],
+          "significant": false,
+          "weight_full": 0.9
+        },
+        {
+          "design": "idf",
+          "recall": 0.4588709677419355,
+          "delta": 0.035483870967741936,
+          "ci95": [
+            -0.020430107526881718,
+            0.08655913978494624
+          ],
+          "significant": false,
+          "weight_full": 0.9
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.44166666666666665,
+          "delta": 0.018279569892473122,
+          "ci95": [
+            -0.037096774193548385,
+            0.07258064516129033
+          ],
+          "significant": false,
+          "weight_full": 0.85
+        }
+      ],
+      "best": "idf"
+    },
+    "structured_constraint": {
+      "n": 40,
+      "base": 0.4459239983872337,
+      "designs": [
+        {
+          "design": "plainto",
+          "recall": 0.41550733172056703,
+          "delta": -0.030416666666666665,
+          "ci95": [
+            -0.09583333333333334,
+            0.013333333333333336
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "or",
+          "recall": 0.48074542695866224,
+          "delta": 0.03482142857142857,
+          "ci95": [
+            -0.002976190476190476,
+            0.09672619047619048
+          ],
+          "significant": false,
+          "weight_full": 0.65
+        },
+        {
+          "design": "idf",
+          "recall": 0.420740758424582,
+          "delta": -0.025183239962651725,
+          "ci95": [
+            -0.05706349206349206,
+            -0.001750700280112045
+          ],
+          "significant": false,
+          "weight_full": 0.15
+        },
+        {
+          "design": "idf_all",
+          "recall": 0.4195502822341058,
+          "delta": -0.02637371615312792,
+          "ci95": [
+            -0.05897058823529412,
+            -0.0036928104575163407
+          ],
+          "significant": false,
+          "weight_full": 0.1
+        }
+      ],
+      "best": "or"
+    }
+  }
+}

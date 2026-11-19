@@ -1,0 +1,3 @@
+# 측정 원본. 질의당 수백 행의 (model_id, dense, sparse) 라 수 MB~수십 MB 다.
+# evaluator.py 를 다시 돌리면 같은 것이 나오므로(임베딩은 cache/ 에 있다) 커밋하지 않는다.
+scores_*.json

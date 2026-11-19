@@ -76,10 +76,27 @@ MODEL_TASK_FALLBACK = {
     "table_qa": "generation",
     "ocr": "visual_qa",
     "chart_understanding": "visual_qa",
+    # The decompose LLM also emits these two, which are not taxonomy task keys. Without a mapping
+    # hf_tags() returns [] and the need is reported unsupported, so the search never runs: measured
+    # on 240 golden queries, that silently returned no models for 50 of them (21%).
+    "language_modeling": "generation",
+    "vision": "visual_qa",
 }
 # Tasks the corpus covers without an HF task tag; they are found by the query text alone.
 # Every other tagless task (forecasting, tabular_prediction, TTS, image generation...) is not collected.
 QUERY_ONLY_TASKS = {"reranking"}
+# dense_weight per model query type (classify_model_query); the rest goes to the sparse channel.
+# Chosen on the 240-query golden set at recall@5, the depth search_models actually returns:
+# test/model_retrieval/tools/final_compare.py. benchmark_lookup is flat over 0.10-0.50, so it
+# takes the middle rather than the peak. An unclassified query keeps the previous 0.65.
+MODEL_DENSE_WEIGHTS = {
+    "benchmark_lookup": 0.30,
+    "lexical_exact": 1.00,
+    "model_comparison": 0.90,
+    "semantic_capability": 0.90,
+    "semantic_constraint": 0.80,
+    "structured_constraint": 0.40,
+}
 MODELS_PER_NEED = 3
 DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
@@ -548,11 +565,15 @@ def _model_rows(
     max_artifact_gib,
     exclude_gated,
     contract_filters,
+    dense_weight,
 ):
     """Every search condition is an argument, so each one is part of the TTL cache key.
 
     contract_filters (MODEL_CONTRACT_FILTERS_ENABLED) decides whether the contract conditions go to
     the RPC as hard filters. Off, the call is the original one and the caller keeps its post-filter.
+
+    dense_weight is part of the key too: the same query ranked with a different split is a
+    different result, so it must not be served from another query type's cached rows.
     """
     contract = (
         {
@@ -571,6 +592,7 @@ def _model_rows(
         korean_required=True,
         max_parameter_count_billion=max_params,
         min_context_length=min_context,
+        dense_weight=dense_weight,
         **contract,
     )
     return {
@@ -591,6 +613,9 @@ def search_models(state: State) -> State:
     max_params = min(size_limits) if size_limits else None
 
     contract_filters = _load_09().contract_filters_enabled()
+    # classify_model_query ran before this node; None (it failed, or a dataset-side turn) keeps
+    # the previous single split, so an unclassified query ranks exactly as it did before.
+    dense_weight = MODEL_DENSE_WEIGHTS.get(state.get("model_query_type") or "")
 
     def one(need):
         tags = tuple(hf_tags(need["task"]))
@@ -607,6 +632,7 @@ def search_models(state: State) -> State:
             constraints["max_artifact_gib"],
             constraints["exclude_gated"],
             contract_filters,
+            dense_weight,
         )
         rows = found["rows"]
         if constraints["commercial_only"] and not found["contract_filters_applied"]:
