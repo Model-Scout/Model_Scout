@@ -45,6 +45,9 @@ load_dotenv(ROOT / ".env")
 
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
 MAX_SEARCH_RESULTS = 5
+# Hybrid ranking split. The caller may pass a per-query-type dense_weight; this is the fallback
+# when it does not (and the value the RPC was called with before weights became a parameter).
+DEFAULT_DENSE_WEIGHT = 0.65
 MAX_COMPARE_MODELS = 10
 MAX_EVIDENCE_PARENTS = 8
 MAX_EVIDENCE_CHILDREN = 5
@@ -746,13 +749,17 @@ def search_models(
     require_artifact: Optional[List[str]] = None,
     max_artifact_gib: Optional[float] = None,
     exclude_gated: bool = False,
+    dense_weight: Optional[float] = None,
 ) -> Dict[str, Any]:
     """Search the production corpus through the read-only match RPC.
 
-    The last four arguments are hard filters from the data contract. They reach
-    the RPC only when MODEL_CONTRACT_FILTERS_ENABLED is on; otherwise the call
-    is the original 15-argument one and ``contract_filters.applied`` is false so
-    the caller can keep its own fallback.
+    The last four hard filters come from the data contract. They reach the RPC only when
+    MODEL_CONTRACT_FILTERS_ENABLED is on; otherwise the call is the original 15-argument
+    one and ``contract_filters.applied`` is false so the caller can keep its own fallback.
+
+    dense_weight splits the hybrid score (sparse_weight is the remainder). It is already an
+    RPC argument, so a caller can tune ranking per query type without a migration. None keeps
+    DEFAULT_DENSE_WEIGHT, which is what every call used before.
     """
 
     count = min(max(int(match_count), 1), MAX_SEARCH_RESULTS)
@@ -772,6 +779,9 @@ def search_models(
     requested = any(value not in (None, False) for value in contract.values())
     enabled = contract_filters_enabled()
     apply_contract = enabled and requested
+    applied_dense_weight = (
+        DEFAULT_DENSE_WEIGHT if dense_weight is None else min(max(float(dense_weight), 0.0), 1.0)
+    )
     embedding = _query_embedding(query)
     parameters: tuple = (
         _vector_literal(embedding),
@@ -787,8 +797,8 @@ def search_models(
         bool(require_known_context),
         popularity_tier_filter,
         query,
-        0.65,
-        0.35,
+        applied_dense_weight,
+        round(1.0 - applied_dense_weight, 4),
     )
     arguments = RPC_BASE_ARGS
     if apply_contract:
@@ -828,6 +838,11 @@ def search_models(
         "routing": {
             "embedding_intent_detected": embedding_intent_detected,
             "korean_intent_detected": korean_intent_detected,
+        },
+        "ranking": {
+            "dense_weight": applied_dense_weight,
+            "sparse_weight": round(1.0 - applied_dense_weight, 4),
+            "per_query_type": dense_weight is not None,
         },
         "count": len(rows),
         "results": [_compact_search_row(row) for row in rows],
