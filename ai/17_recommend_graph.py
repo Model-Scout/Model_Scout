@@ -131,11 +131,17 @@ ARTIFACT_MARKERS = {
 }
 GATED_MARKERS = ("승인 없", "승인없", "신청 없", "신청없", "바로 다운", "바로 내려", "gated", "동의 없")
 FILE_SIZE_MARKERS = ("파일", "다운로드", "내려받", "디스크", "file", "download", "disk")
+# A size limit needs a word that bounds. A bare number with B does not: "7.8B" in
+# EXAONE-3.5-7.8B-Instruct names the model, and reading it as a ceiling excluded that very model,
+# because the card records 7.818 and 7.818 <= 7.8 is false. Measured on the model-search golden
+# set, the old `\d\s*b` marker let through every one of 19 such names and still dropped 7 real
+# limits phrased without a number ("서버가 작아서", "너무 크면"); these words keep 42/42 and 0/19.
+SIZE_BOUND = r"이하|이내|미만|까지|최대|넘지|초과하지|작|가벼|경량|크면|큰\s*모델|under|at\s*most"
 # A follow-up may change one condition without repeating all earlier conditions.
 CONSTRAINT_MENTIONS = {
     "gpu_memory_gb": r"gpu|vram|그래픽|비디오\s*메모리|rtx|gtx|v100|a100|h100|메모리|(?<!그)램",  # 그램: 프로그램, 텔레그램
     "commercial_only": r"상업|상용|수익|출시|commercial|라이선스|이용\s*조건|비영리",
-    "max_parameter_count_billion": r"파라미터|parameter|\d\s*b(?![a-z])|모델\s*크기|크기\s*제한",
+    "max_parameter_count_billion": rf"모델\s*크기|크기\s*제한|{SIZE_BOUND}",
     "min_context_length": r"context|컨텍스트|문맥|토큰|긴\s*문서|장문|계약서|입력\s*(길이|제한)",
     "required_artifacts": r"gguf|ollama|llama[.\-]?cpp|llamacpp|onnx|mlx|safetensors|포맷|형식",
     "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",

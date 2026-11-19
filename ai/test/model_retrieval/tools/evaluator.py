@@ -76,6 +76,14 @@ def connect():
     return conn
 
 
+def _load_module(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def embed(texts: Sequence[str]) -> Dict[str, List[float]]:
     """질의 임베딩. 디스크에 캐시해 같은 질의는 한 번만 부른다."""
     from dotenv import load_dotenv
@@ -204,6 +212,11 @@ def main() -> int:
                          "분해가 뽑은 것(decomposed, 운영 경로)에서 가져올지. "
                          "dec_task_fixed 는 분해 조건에 올바른 task 만 끼운다 — "
                          "분해의 분류 키 버그만 고쳤을 때의 값")
+    ap.add_argument("--size-guard", action="store_true",
+                    help="질문에 한정어가 없으면 크기 상한을 버린다 (17.SIZE_BOUND 와 같은 규칙)")
+    ap.add_argument("--no-task-for", default="",
+                    help="이 유형들에서 task 하드 필터를 걸지 않는다. 쉼표로 구분")
+    ap.add_argument("--tag", default="", help="출력 파일 이름에 붙일 꼬리말")
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args()
     types = [t.strip() for t in args.types.split(",") if t.strip()] or None
@@ -221,12 +234,23 @@ def main() -> int:
     if args.conditions in ("decomposed", "dec_task_fixed"):
         import preretrieval
         cache = json.loads((QUERIES / "decompose_cache.json").read_text(encoding="utf-8"))
+        no_task_for = tuple(t.strip() for t in args.no_task_for.split(",") if t.strip())
+        # 유형별 정책은 런타임 분류를 믿는 것이므로, 정답 유형이 아니라 예측 유형을 쓴다.
+        predicted: Dict[str, Any] = {}
+        if no_task_for:
+            fc = _load_module("fc", Path(__file__).resolve().parent / "final_compare.py")
+            predicted = fc.predicted_types([i["text"] for i in items])
+            print(f"  task 필터를 걸지 않는 유형: {', '.join(no_task_for)} (예측 유형 기준)")
+        if args.size_guard:
+            print("  질문에 한정어가 없으면 크기 상한을 버린다")
         blocked = 0
         for item in items:
             # dec_task_fixed = 유효하지 않은 분류 키를 코퍼스의 분류로 매핑한 것.
             # 운영에서 MODEL_TASK_FALLBACK 두 줄로 고칠 수 있는 범위다.
             got = preretrieval.conditions_from_decompose(
-                cache.get(item["text"]) or {}, fix_task=args.conditions == "dec_task_fixed")
+                cache.get(item["text"]) or {}, fix_task=args.conditions == "dec_task_fixed",
+                text=item["text"], size_guard=args.size_guard, no_task_for=no_task_for,
+                query_type=predicted.get(item["text"]))
             filters[item["qid"]] = got
             blocked += bool(got["unsupported"])
         print(f"  분해가 코퍼스에 없는 분류를 골라 검색이 아예 없는 질의 {blocked}개 "
@@ -273,7 +297,8 @@ def main() -> int:
 
     path = args.out or (AI / "test" / "model_retrieval" / "runs" /
                         f"scores_{args.sparse}{'_raw' if args.use_raw_text else ''}"
-                        f"{ {'decomposed':'_dec','dec_task_fixed':'_dectf'}.get(args.conditions,'') }.json")
+                        f"{ {'decomposed':'_dec','dec_task_fixed':'_dectf'}.get(args.conditions,'') }"
+                        f"{args.tag}.json")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({"sparse_mode": args.sparse,
                                 "search_text": "raw" if args.use_raw_text else "model_query",
