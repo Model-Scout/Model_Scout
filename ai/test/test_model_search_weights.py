@@ -168,6 +168,45 @@ def test_ttl_cache_key_includes_the_weight():
     assert "dense_weight=dense_weight" in body, "09 호출에 dense_weight 를 넘기지 않는다"
 
 
+# --------------------------------------------------------------------------- 벤치마크 task 해제
+
+def test_task_filter_free_types_are_known_query_types():
+    graph = _graph()
+    from retrieval_lab import classifier
+    assert graph.TASK_FILTER_FREE_TYPES <= set(classifier.TYPES)
+
+
+def test_releasing_the_task_filter_waits_for_the_idf_sparse():
+    """sparse 가 죽은 동안 필터를 떼면 손해다(-0.002). 플래그에 묶여 있어야 한다."""
+    source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
+    body = source[source.index("def search_models(state"):source.index("def search_model_datasets(")]
+    assert "sparse_idf_enabled()" in body, "task 해제가 플래그와 무관하게 동작한다"
+    assert "TASK_FILTER_FREE_TYPES" in body
+
+
+def test_the_flag_is_off_by_default():
+    """플래그를 켜지 않은 환경에서는 예전과 똑같이 동작해야 한다."""
+    import os
+    source = (ROOT / "09_model_scout_mcp_readonly.py").read_text(encoding="utf-8")
+    assert 'SPARSE_IDF_ENV = "MODEL_SPARSE_IDF_ENABLED"' in source
+    match = re.search(r"def sparse_idf_enabled\(\) -> bool:.*?return (.*?)\n", source, re.S)
+    assert match, "sparse_idf_enabled 를 찾지 못했다"
+    expression = match.group(1)
+    for value, expected in (("", False), ("0", False), ("off", False),
+                            ("1", True), ("true", True), ("on", True), ("yes", True)):
+        got = eval(expression, {"os": os},
+                   {"os": type("E", (), {"getenv": staticmethod(lambda k, d="": value)})(),
+                    "SPARSE_IDF_ENV": "X"})
+        assert got is expected, f"{value!r} → {got}"
+
+
+def test_unsupported_still_reported_when_the_filter_is_not_released():
+    """해제 대상이 아닌 유형은 예전처럼 unsupported 로 끝나야 한다."""
+    source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
+    body = source[source.index("    def one(need):"):]
+    assert "not free_of_task_filter and need[\"task\"] not in QUERY_ONLY_TASKS" in body
+
+
 if __name__ == "__main__":
     for name, func in sorted(globals().items()):
         if name.startswith("test_"):

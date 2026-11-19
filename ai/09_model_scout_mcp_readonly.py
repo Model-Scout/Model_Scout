@@ -44,7 +44,10 @@ ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
 
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
-MAX_SEARCH_RESULTS = 5
+# The cap on what one search returns, not the default: match_count defaults to 5, so a caller that
+# asks for nothing still gets 5. Reranking needs a deeper slice to reorder (17 asks for 20), and the
+# RPC itself allows up to 100.
+MAX_SEARCH_RESULTS = 20
 # Hybrid ranking split. The caller may pass a per-query-type dense_weight; this is the fallback
 # when it does not (and the value the RPC was called with before weights became a parameter).
 DEFAULT_DENSE_WEIGHT = 0.65
@@ -106,6 +109,9 @@ KOREAN_QUERY_MARKERS = ("한국어", "국문", "korean")
 # 있다. 그 전에 19개 인자로 부르면 함수가 없어 검색이 통째로 실패한다. 마이그레이션과
 # 재적재가 끝난 뒤 운영에서 켠다. 꺼져 있으면 지금처럼 15개 인자만 보낸다.
 CONTRACT_FILTERS_ENV = "MODEL_CONTRACT_FILTERS_ENABLED"
+# Set this only after supabase_migration_sparse_idf.sql is applied AND
+# refresh_model_scout_search_df() has run; see sparse_idf_enabled().
+SPARSE_IDF_ENV = "MODEL_SPARSE_IDF_ENABLED"
 # RPC 의 15개 기본 인자와 마이그레이션이 덧붙인 4개. 순서가 SQL 시그니처 순서다.
 RPC_BASE_ARGS = (
     ("query_embedding", "vector"),
@@ -167,6 +173,19 @@ def _expand_task_filters(task_filters: Optional[Sequence[str]]) -> List[str]:
 
 def contract_filters_enabled() -> bool:
     return os.getenv(CONTRACT_FILTERS_ENV, "").strip().lower() in ("1", "true", "yes", "on")
+
+
+def sparse_idf_enabled() -> bool:
+    """Whether the RPC's sparse channel is the IDF-weighted one.
+
+    The score itself switches on the server: supabase_migration_sparse_idf.sql falls back to the
+    old ts_rank_cd expression while model_scout_search_df is empty, so nothing here changes it.
+    Callers read this to decide ranking policy that only pays off once sparse discriminates —
+    releasing the task hard filter on benchmark queries costs recall while sparse is dead.
+    Turn it on only after refresh_model_scout_search_df() has filled that table.
+    """
+
+    return os.getenv(SPARSE_IDF_ENV, "").strip().lower() in ("1", "true", "yes", "on")
 
 
 def _contract_filter_values(

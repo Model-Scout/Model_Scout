@@ -150,6 +150,35 @@ Stage 1~4 전체 산출물은 승인용 `reingest-bundle-<run_id>` artifact 에 
 | `supabase_migration_contract_filters.sql` | RPC `match_model_scout_models` 를 15개 → 19개 인자로 교체 | Supabase SQL Editor 에서 사람이 1회 |
 | 재적재 Action | 모델 행의 데이터(`filter_metadata.commercial_status` 등) | Action apply |
 | `MODEL_CONTRACT_FILTERS_ENABLED` | 09 가 19개 인자로 부를지 | 서버 `.env` (deploy.sh 가 `.env.ai` 로 넘긴다) |
+| `supabase_migration_sparse_idf.sql` | sparse 를 IDF 가중 매칭 비율로. `model_scout_search_df` 표 추가 | Supabase SQL Editor 에서 사람이 1회 |
+| `select public.refresh_model_scout_search_df();` | 그 표를 채운다 — **여기서부터 새 sparse 가 동작한다** | 적용 직후, 그리고 재적재 apply 뒤마다 |
+| `MODEL_SPARSE_IDF_ENABLED` | 17 이 벤치마크 질의의 task 하드 필터를 뗄지 | 서버 `.env`, 표를 채운 뒤에 켠다 |
+| `MODEL_RERANK_MODEL` | 재순위를 어느 모델로 할지. 안 켜면 생성 공급자가 openai 일 때 `gpt-4.1-mini`, ollama 면 재순위를 걸지 않는다 | 서버 `.env` (보통 비워 둔다) |
+
+두 변수는 `deploy/release.sh` 와 `deploy/deploy.sh` 의 `.env.ai` allowlist 에 들어 있다.
+allowlist 에 없으면 서버로 전달되지 않아 영원히 켤 수 없다.
+
+### sparse IDF 적용 순서
+
+시그니처가 같아 `drop` 하지 않으므로 함수가 없는 구간은 없다. 표가 비어 있으면
+sparse 는 예전 `ts_rank_cd` 식으로 계산되므로, **마이그레이션만 적용하면 검색
+결과가 하나도 바뀌지 않는다.** 표를 채우는 것이 곧 전환이다.
+
+```
+1. supabase_migration_sparse_idf.sql            결과 변화 없음
+2. select public.refresh_model_scout_search_df();   새 sparse 시작 (수 초)
+3. MODEL_SPARSE_IDF_ENABLED=1 배포              벤치마크 task 필터 해제
+```
+
+되돌리려면 `truncate public.model_scout_search_df;` 로 즉시 예전 동작으로 온다.
+플래그는 2 전에 켜도 깨지지 않지만, sparse 가 아직 죽은 상태에서 task 필터를 떼는
+것이라 리콜이 조금 내려간다(측정 -0.002). 순서를 지키는 편이 낫다.
+
+재적재 뒤 2를 빼먹으면 `search_tsv` 는 새 데이터인데 `df` 는 옛 어휘라 가중이
+어긋난다. 깨지지는 않지만 순위가 나빠진다.
+
+근거와 수치는 `supabase_migration_sparse_idf.sql` 머리말과
+`test/model_retrieval/README.md` 에 있다.
 
 플래그 기본값은 OFF 다. OFF 면 09 는 예전 15개 인자로 부르고, 17 은 예전처럼 Top-N 뒤에
 라이선스로 거른다. migration 전에 켜면 19개 인자 함수가 없어 검색이 실패한다. 이 실패는

@@ -23,9 +23,10 @@ korean_verified=true 라 실제로는 아무것도 걸러내지 않는다(측정
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence
 
 AI = Path(__file__).resolve().parents[3]
 
@@ -45,6 +46,10 @@ QUERY_ONLY_TASKS = {"reranking"}
 # 240질의에서 language_modeling 42건·vision 8건 — 전체의 21% 가 모델 0개로 끝난다.
 # image_generation 은 코퍼스에 그 분류가 없어 고칠 수 없다(진짜 미지원).
 TASK_FALLBACK_FIX = {"language_modeling": "generation", "vision": "visual_qa"}
+
+# 17_recommend_graph.SIZE_BOUND 와 같아야 한다. 운영이 바뀌면 여기도 바꾼다.
+SIZE_BOUND = r"이하|이내|미만|까지|최대|넘지|초과하지|작|가벼|경량|크면|큰\s*모델|under|at\s*most"
+_SIZE_BOUND_RE = re.compile(SIZE_BOUND, re.I)
 
 
 def _load(name: str, path: Path):
@@ -70,11 +75,19 @@ def hf_tags(task_key: str, normalize, *, fix: bool = False) -> List[str]:
     return [tag for tag in MODEL_HF_TASKS if normalize("task", tag) == task_key]
 
 
-def conditions_from_decompose(entry: Dict[str, Any], *, fix_task: bool = False) -> Dict[str, Any]:
+def conditions_from_decompose(entry: Dict[str, Any], *, fix_task: bool = False,
+                              text: Optional[str] = None, size_guard: bool = False,
+                              no_task_for: Sequence[str] = (),
+                              query_type: Optional[str] = None) -> Dict[str, Any]:
     """분해 결과 한 건 → 09.search_models 가 받는 하드 필터.
 
     needs[0] 만 쓴다. 골든셋 질문은 모델 하나를 찾는 질문이고, 운영도 need 마다
     따로 검색하므로 need 하나가 한 번의 검색에 대응한다.
+
+    size_guard   17.SIZE_BOUND 와 같은 규칙으로, 질문에 한정어가 없으면 크기 상한을
+                 버린다. 모델 이름의 "7.8B" 를 상한으로 읽는 것을 막는다
+    no_task_for  이 유형들에서는 task 하드 필터를 걸지 않는다. 분해가 묻지도 않은
+                 분류를 단정해 정답을 떨어뜨리는 것을 막는다
     """
     normalize, max_params_for_gpu = _helpers()
     needs = entry.get("needs") or []
@@ -83,10 +96,15 @@ def conditions_from_decompose(entry: Dict[str, Any], *, fix_task: bool = False) 
     tags = hf_tags(needs[0]["task"], normalize, fix=fix_task) if needs else []
     task_key = needs[0]["task"] if needs else None
     unsupported = not tags and task_key not in QUERY_ONLY_TASKS
+    if query_type and query_type in no_task_for:
+        # 벤치마크 질의처럼 분류가 선택 기준이 아닌 유형. 필터를 떼면 검색은 돌아간다.
+        tags, unsupported = [], False
 
+    stated = constraints.get("max_parameter_count_billion")
+    if size_guard and stated and text is not None and not _SIZE_BOUND_RE.search(text.casefold()):
+        stated = None
     gpu = constraints.get("gpu_memory_gb")
-    limits = [v for v in (constraints.get("max_parameter_count_billion"),
-                          max_params_for_gpu(gpu) if gpu else None) if v]
+    limits = [v for v in (stated, max_params_for_gpu(gpu) if gpu else None) if v]
 
     conditions: Dict[str, Any] = {
         "tasks": tags or None,

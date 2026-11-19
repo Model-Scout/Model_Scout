@@ -45,10 +45,11 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 from pydantic import BaseModel, Field, model_validator
 
+import model_rerank
 import project_checks
 from explanation_grounding import EXPLANATION_CAVEAT, grounded_lines
 from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
-from recommendation_llm import create_client, model_name
+from recommendation_llm import create_client, model_name, provider as llm_provider
 from retrieval_lab import classifier, router
 from taxonomy import load_taxonomy, normalize
 
@@ -89,6 +90,9 @@ QUERY_ONLY_TASKS = {"reranking"}
 # Chosen on the 240-query golden set at recall@5, the depth search_models actually returns:
 # test/model_retrieval/tools/final_compare.py. benchmark_lookup is flat over 0.10-0.50, so it
 # takes the middle rather than the peak. An unclassified query keeps the previous 0.65.
+# Query types where the task is not what the user is selecting on, so asserting one only discards
+# answers. Gated on sparse_idf_enabled(): see search_models.
+TASK_FILTER_FREE_TYPES = frozenset({"benchmark_lookup"})
 MODEL_DENSE_WEIGHTS = {
     "benchmark_lookup": 0.30,
     "lexical_exact": 1.00,
@@ -131,11 +135,17 @@ ARTIFACT_MARKERS = {
 }
 GATED_MARKERS = ("승인 없", "승인없", "신청 없", "신청없", "바로 다운", "바로 내려", "gated", "동의 없")
 FILE_SIZE_MARKERS = ("파일", "다운로드", "내려받", "디스크", "file", "download", "disk")
+# A size limit needs a word that bounds. A bare number with B does not: "7.8B" in
+# EXAONE-3.5-7.8B-Instruct names the model, and reading it as a ceiling excluded that very model,
+# because the card records 7.818 and 7.818 <= 7.8 is false. Measured on the model-search golden
+# set, the old `\d\s*b` marker let through every one of 19 such names and still dropped 7 real
+# limits phrased without a number ("서버가 작아서", "너무 크면"); these words keep 42/42 and 0/19.
+SIZE_BOUND = r"이하|이내|미만|까지|최대|넘지|초과하지|작|가벼|경량|크면|큰\s*모델|under|at\s*most"
 # A follow-up may change one condition without repeating all earlier conditions.
 CONSTRAINT_MENTIONS = {
     "gpu_memory_gb": r"gpu|vram|그래픽|비디오\s*메모리|rtx|gtx|v100|a100|h100|메모리|(?<!그)램",  # 그램: 프로그램, 텔레그램
     "commercial_only": r"상업|상용|수익|출시|commercial|라이선스|이용\s*조건|비영리",
-    "max_parameter_count_billion": r"파라미터|parameter|\d\s*b(?![a-z])|모델\s*크기|크기\s*제한",
+    "max_parameter_count_billion": rf"모델\s*크기|크기\s*제한|{SIZE_BOUND}",
     "min_context_length": r"context|컨텍스트|문맥|토큰|긴\s*문서|장문|계약서|입력\s*(길이|제한)",
     "required_artifacts": r"gguf|ollama|llama[.\-]?cpp|llamacpp|onnx|mlx|safetensors|포맷|형식",
     "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",
@@ -548,7 +558,9 @@ def _compact_model(row):
         "artifact_runnable_label": meta.get("artifact_runnable_label"),
         "dtype": meta.get("dtype"),
         "unresolved_filter_fields": meta.get("unresolved_filter_fields") or [],
-        "benchmarks": project_checks.compact_benchmarks(row.get("benchmark_metadata")),
+        # Keep all eight 09 sends. Reranking a benchmark question has to see whether the asked-for
+        # benchmark is among the reported ones, and cutting to three hid it.
+        "benchmarks": project_checks.compact_benchmarks(row.get("benchmark_metadata"), limit=8),
         "evidence": _model_quote(row),
         "url": row.get("model_url"),
     }
@@ -566,6 +578,7 @@ def _model_rows(
     exclude_gated,
     contract_filters,
     dense_weight,
+    match_count,
 ):
     """Every search condition is an argument, so each one is part of the TTL cache key.
 
@@ -573,7 +586,8 @@ def _model_rows(
     the RPC as hard filters. Off, the call is the original one and the caller keeps its post-filter.
 
     dense_weight is part of the key too: the same query ranked with a different split is a
-    different result, so it must not be served from another query type's cached rows.
+    different result, so it must not be served from another query type's cached rows. So is
+    match_count: a reranked question asks for a deeper slice than it finally shows.
     """
     contract = (
         {
@@ -587,7 +601,7 @@ def _model_rows(
     )
     out = _load_09().search_models(
         query,
-        match_count=MODELS_PER_NEED * 2,
+        match_count=match_count,
         task_filters=list(task_filters) or None,
         korean_required=True,
         max_parameter_count_billion=max_params,
@@ -612,14 +626,26 @@ def search_models(state: State) -> State:
     ]
     max_params = min(size_limits) if size_limits else None
 
-    contract_filters = _load_09().contract_filters_enabled()
+    module_09 = _load_09()
+    contract_filters = module_09.contract_filters_enabled()
     # classify_model_query ran before this node; None (it failed, or a dataset-side turn) keeps
     # the previous single split, so an unclassified query ranks exactly as it did before.
-    dense_weight = MODEL_DENSE_WEIGHTS.get(state.get("model_query_type") or "")
+    query_type = state.get("model_query_type") or ""
+    dense_weight = MODEL_DENSE_WEIGHTS.get(query_type)
+    # "Which models report a KMMLU score" does not name a task, but decompose must answer with one
+    # and that guess becomes a hard filter: on the golden set it discarded every correct answer for
+    # 19 of 40 benchmark queries. The benchmark name in the query text is the real selector, so the
+    # filter comes off — but only once sparse can find that name. With the dead ts_rank_cd sparse,
+    # dropping it measured -0.002; with the IDF sparse, benchmark_lookup went 0.305 -> 0.524.
+    free_of_task_filter = query_type in TASK_FILTER_FREE_TYPES and module_09.sparse_idf_enabled()
+    # Reorder a deeper slice for the question types where it measured a gain. The needs already run
+    # side by side, so this adds one call's latency, not one per need.
+    reranking = model_rerank.wanted(query_type, llm_provider())
+    match_count = model_rerank.RERANK_DEPTH if reranking else MODELS_PER_NEED * 2
 
     def one(need):
-        tags = tuple(hf_tags(need["task"]))
-        if not tags and need["task"] not in QUERY_ONLY_TASKS:
+        tags = () if free_of_task_filter else tuple(hf_tags(need["task"]))
+        if not tags and not free_of_task_filter and need["task"] not in QUERY_ONLY_TASKS:
             # No task filter would rank every model and return unrelated LLMs; report it as not covered.
             return {"need": need, "models": [], "unsupported": True}
         found = _model_rows(
@@ -633,6 +659,7 @@ def search_models(state: State) -> State:
             constraints["exclude_gated"],
             contract_filters,
             dense_weight,
+            match_count,
         )
         rows = found["rows"]
         if constraints["commercial_only"] and not found["contract_filters_applied"]:
@@ -644,6 +671,11 @@ def search_models(state: State) -> State:
                 row["parameters_b"], gpu, row.pop("hardware", None), row["quant_bits"]
             )
         rows = [r for r in rows if not r["gpu_fit"] or r["gpu_fit"]["verdict"] != "too_large"]
+        if reranking and len(rows) > MODELS_PER_NEED:
+            # The user's own words, not model_query: the question carries what they are after
+            # ("LibriSpeech clean WER 가 README 에 적힌"), the search string only the keywords.
+            rows = model_rerank.rerank(
+                state["request"], rows, _openai, model_rerank.model(llm_provider()))
         return {"need": need, "models": rows[:MODELS_PER_NEED]}
 
     # Needs are independent searches (one DB round trip each); run them side by side.
