@@ -1,0 +1,433 @@
+{
+ "__note__": "보류 1차 판정. 0=제외, 1=부분 점수. 사람 판정이 있으면 그것이 이긴다.",
+ "sc03": {
+  "ThakiCloud/Thaki-SlotGrounder-KO-7M": {
+   "grade": 0,
+   "reason": "설치 안내"
+  }
+ },
+ "sc04": {
+  "LaraAI-Labs/tellama": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  }
+ },
+ "sc09": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "bezzam/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "BuzzASR/korean": {
+   "grade": 0,
+   "reason": "한계 고지 — 능력을 보장하지 않는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-1.7B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ },
+ "sc10": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/SenseVoiceSmall-gguf": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "memoravox/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sc12": {
+  "cyankiwi/LFM2-24B-A2B-AWQ-4bit": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ghost-x/ghost-8b-beta-1608": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "ghost-x/ghost-8b-beta-1608-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "LiquidAI/LFM2-24B-A2B": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Neura-Tech-AI/Neuron-46x4B-Instruct": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "onnx-community/LFM2-24B-A2B-ONNX": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "OpenMed/Ministral-3B-PII-Preview": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "QuantFactory/ghost-8b-beta-1608-GGUF": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "QuantFactory/ghost-8b-beta-GGUF": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sc15": {
+  "batiai/Gravity-30BA5B-RL-GGUF": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "gvij/qwen3-0.6b-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "LGAI-EXAONE/K-EXAONE-2.0-750B-A37B-DSpark": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sc23": {
+  "ThakiCloud/Thaki-SlotGrounder-KO-7M": {
+   "grade": 0,
+   "reason": "설치 안내"
+  }
+ },
+ "sc24": {
+  "LaraAI-Labs/tellama": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  }
+ },
+ "sc29": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "bezzam/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "BuzzASR/korean": {
+   "grade": 0,
+   "reason": "한계 고지 — 능력을 보장하지 않는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-1.7B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ },
+ "sc30": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/SenseVoiceSmall-gguf": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "memoravox/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sc32": {
+  "cyankiwi/LFM2-24B-A2B-AWQ-4bit": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ghost-x/ghost-8b-beta-1608": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "ghost-x/ghost-8b-beta-1608-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "LiquidAI/LFM2-24B-A2B": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Neura-Tech-AI/Neuron-46x4B-Instruct": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "onnx-community/LFM2-24B-A2B-ONNX": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "OpenMed/Ministral-3B-PII-Preview": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "QuantFactory/ghost-8b-beta-1608-GGUF": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "QuantFactory/ghost-8b-beta-GGUF": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sx03": {
+  "OpenMed/Ministral-3B-PII-Preview": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ },
+ "sx05": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "memoravox/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sx15": {
+  "batiai/Gravity-30BA5B-RL-GGUF": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "gvij/qwen3-0.6b-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "LGAI-EXAONE/K-EXAONE-2.0-750B-A37B-DSpark": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sx16": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "bezzam/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "BuzzASR/korean": {
+   "grade": 0,
+   "reason": "한계 고지 — 능력을 보장하지 않는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-1.7B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ },
+ "sx29": {
+  "LaraAI-Labs/tellama": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  }
+ },
+ "sx31": {
+  "OpenMed/Ministral-3B-PII-Preview": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ },
+ "sx35": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  },
+  "handy-computer/SenseVoiceSmall-gguf": {
+   "grade": 0,
+   "reason": "약관·링크 — 기능 설명이 아니다"
+  },
+  "memoravox/Qwen3-ASR-0.6B-gguf": {
+   "grade": 0,
+   "reason": "미지원 서술 — 그 능력이 없다는 문장"
+  }
+ },
+ "sx40": {
+  "avericaai/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "bezzam/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "BuzzASR/korean": {
+   "grade": 0,
+   "reason": "한계 고지 — 능력을 보장하지 않는 문장"
+  },
+  "epapanita/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-0.6B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "handy-computer/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "ldov/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "lipik/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "memoravox/Qwen3-ASR-1.7B-gguf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-0.6B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  },
+  "Qwen/Qwen3-ASR-1.7B-hf": {
+   "grade": 1,
+   "reason": "능력을 선언함"
+  }
+ }
+}

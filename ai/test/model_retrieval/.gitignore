@@ -1,0 +1,5 @@
+# 측정 기준 코퍼스 원문은 커밋하지 않는다(143MB). 메타와 복구 스크립트로 같은 파일을 다시 받는다.
+#   python test/model_retrieval/tools/dump_corpus.py --restore
+corpus_snapshot.jsonl
+corpus_snapshot.jsonl.tmp
+__pycache__/
