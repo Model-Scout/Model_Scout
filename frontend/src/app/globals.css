@@ -15,6 +15,19 @@
   --color-warn-soft: #fcf2db;
   --color-danger: #c2410c;
   --color-danger-soft: #fdeee8;
+  /* Solid page background for every screen but Home: the light end of Home's gradient. */
+  --color-page: #f9f5fa;
+}
+
+/* Tailwind v4 dropped the pointer cursor on buttons; links already have it. */
+@layer base {
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"],
+  [role="radio"],
+  select {
+    cursor: pointer;
+  }
 }
 
 body {

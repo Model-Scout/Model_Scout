@@ -12,7 +12,8 @@
     ],
     "needs_check": [],
     "candidates": [],
-    "assessment": null
+    "assessment": null,
+    "combination": []
   },
   "history_saved": true
 }

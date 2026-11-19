@@ -57,6 +57,8 @@ export type ChatResult = {
   needs_check: string[];
   candidates: Candidate[];
   assessment: (Record<string, unknown> & { implementation_guide?: ImplementationGuide }) | null;
+  /** "이렇게 조합해 보세요" sentences from the answer's LLM call; absent or [] on older results. */
+  combination?: string[];
 };
 
 export type ChatDone = {

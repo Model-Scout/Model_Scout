@@ -521,3 +521,11 @@ def test_input_guard_flags_quoted_attacks_without_blocking_normal_search(client,
     assert upstream.call_args.kwargs["json"]["query"] == query
     assert "ignore_instructions" in caplog.text
     assert query not in caplog.text
+
+
+def test_combination_reaches_the_result():
+    events = {"plan": {"summary_ko": "s", "needs": [{"task": "generation"}], "constraints": {}},
+              "models": [{"need": {"task": "generation"}, "models": [contract_model()]}], "datasets": {},
+              "combination": ["m로 답변을 만들어요."]}
+    assert build_done(events, UUID(int=1), "a", 1).result.combination == ["m로 답변을 만들어요."]
+    assert build_done({**events, "combination": None}, UUID(int=1), "a", 1).result.combination == []

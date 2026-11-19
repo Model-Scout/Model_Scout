@@ -115,7 +115,8 @@
         "gpu_fit": null
       }
     ],
-    "assessment": null
+    "assessment": null,
+    "combination": []
   },
   "messages": [
     {
@@ -244,7 +245,8 @@
             "gpu_fit": null
           }
         ],
-        "assessment": null
+        "assessment": null,
+        "combination": []
       },
       "sources": [
         {

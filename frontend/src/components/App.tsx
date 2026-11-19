@@ -25,6 +25,8 @@ export type Turn = {
   /** user question turns: name of the candidate asked about */
   target?: string;
   status?: ChatStatus[];
+  /** seconds the finished run took (live runs only) */
+  elapsed?: number;
   running?: boolean;
   error?: string;
   /** done arrived but history_saved=false */
@@ -62,6 +64,8 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
   const [resultSources, setResultSources] = useState<Source[]>([]);
   // A shared link is readable by anyone; only the creating session may continue it.
   const [owner, setOwner] = useState(true);
+  // F3: a live first recommendation stays in the chat with a completion card; saved conversations open the result.
+  const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(Boolean(initialGroupId));
   const [loadError, setLoadError] = useState<string>();
   const abort = useRef<AbortController | null>(null);
@@ -84,6 +88,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
       setResult(restored.result);
       setResultSources(restored.sources);
       setOwner(myGroups ? myGroups.some((g) => g.group_id === id) : false);
+      setShowResult(true);
       setLoading(false);
     } catch (e) {
       if (conv.current !== mine) return;
@@ -91,6 +96,9 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
       setLoading(false);
     }
   }, []);
+
+  // Stable so the completion card's countdown is not reset by re-renders.
+  const openResult = useCallback(() => setShowResult(true), []);
 
   const clear = useCallback(() => {
     conv.current++;
@@ -101,6 +109,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
     setResult(null);
     setResultSources([]);
     setOwner(true);
+    setShowResult(false);
     setLoadError(undefined);
     setLoading(false);
   }, []);
@@ -168,7 +177,15 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
       if (!live()) return;
       if (end.event === "done") {
         const d = end.data;
-        update(() => ({ role: "assistant", content: d.answer, type: d.type, sources: d.sources, notSaved: !d.history_saved }));
+        update((t) => ({
+          role: "assistant",
+          content: d.answer,
+          type: d.type,
+          sources: d.sources,
+          notSaved: !d.history_saved,
+          status: t.status,
+          elapsed: d.elapsed,
+        }));
         // result=null (question, clarify, reject) keeps the current recommendation on screen.
         if (d.result) {
           setResult(d.result);
@@ -202,7 +219,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
 
   if (loading || loadError) {
     return (
-      <main className="flex min-h-dvh flex-col items-center justify-center gap-4 text-muted">
+      <main className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-page text-muted">
         <Logo size={44} />
         <p>{loadError ?? "대화를 불러오는 중…"}</p>
         {loadError && (
@@ -214,7 +231,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
     );
   }
 
-  if (result && groupId) {
+  if (result && groupId && showResult) {
     return (
       <Result
         groupId={groupId}
@@ -228,12 +245,24 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
         onCancel={cancel}
         onReload={reload}
         onHome={goHome}
+        onOpenGroup={openGroup}
       />
     );
   }
 
   if (turns.length > 0) {
-    return <Thread turns={turns} owner={owner} onSend={send} onCancel={cancel} onReload={reload} onHome={goHome} />;
+    return (
+      <Thread
+        turns={turns}
+        result={groupId ? result : null}
+        owner={owner}
+        onSend={send}
+        onCancel={cancel}
+        onReload={reload}
+        onHome={goHome}
+        onOpenResult={openResult}
+      />
+    );
   }
 
   return <Home onSend={(q) => send(q, { mode: "recommend" })} onOpenGroup={openGroup} />;

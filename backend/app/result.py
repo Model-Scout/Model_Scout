@@ -60,6 +60,8 @@ class ChatResult(BaseModel):
     needs_check: list[str] = Field(default_factory=list)
     candidates: list[Candidate]
     assessment: dict[str, Any] | None = None
+    # Plain sentences on how the picks fit together, written by the answer's own LLM call; [] on older results.
+    combination: list[str] = Field(default_factory=list)
 
     @model_validator(mode="before")
     @classmethod
@@ -278,7 +280,8 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     needs = list(dict.fromkeys(f"{c.name}: {k.label}" for c in candidates.values() if c.type == "model"
                                for k in c.checks if k.status != "ok" and k.key not in ("language", "execution")))
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
-                      candidates=list(candidates.values()), assessment=events.get("assessment"))
+                      candidates=list(candidates.values()), assessment=events.get("assessment"),
+                      combination=[str(x) for x in events.get("combination") or []])
 
 
 def build_sources(events: dict[str, Any]) -> list[Source]:

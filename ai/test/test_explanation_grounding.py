@@ -112,3 +112,26 @@ def test_official_dataset_dates_and_limits_are_preserved(monkeypatch):
     assert "2023년 10월 자료입니다." in answer
     assert "3일 전 자료" in answer
     assert answer.count(EXPLANATION_CAVEAT) == 1
+
+
+@pytest.mark.parametrize("chunk_size", [1, 7, 1000])
+def test_combination_sentences_leave_the_answer_for_the_summary(monkeypatch, chunk_size):
+    text = "acme/ko-chat-7b 추천.\n[[조합]]\n상담 기록을 ko-chat-7b로 요약해요.\n\n답변은 짧게 정리해요.\n"
+    events = []
+    monkeypatch.setattr("langgraph.config.get_stream_writer", lambda: events.append)
+
+    def create(**kwargs):
+        for index in range(0, len(text), chunk_size):
+            yield SimpleNamespace(choices=[SimpleNamespace(delta=SimpleNamespace(content=text[index:index + chunk_size]))])
+
+    monkeypatch.setattr(rg, "_openai", lambda: SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create))))
+    result = rg.explain(state())
+    displayed = "".join(event["token"] for event in events)
+    assert result["combination"] == ["상담 기록을 ko-chat-7b로 요약해요.", "답변은 짧게 정리해요."]
+    assert "조합" not in displayed and "요약해요" not in result["answer"]
+    assert displayed == result["answer"]
+
+
+def test_answer_without_marker_has_no_combination(monkeypatch):
+    answer, _ = explain(monkeypatch, state(), "acme/ko-chat-7b 추천.\n")
+    assert "acme/ko-chat-7b 추천." in answer

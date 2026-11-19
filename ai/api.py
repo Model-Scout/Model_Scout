@@ -144,6 +144,7 @@ NODE_EVENTS = {
     "clarify": ("plan",),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
     "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
+    "explain": ("combination",),
 }
 
 

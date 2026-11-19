@@ -113,7 +113,8 @@ data: {"text":"추천 결과를 설명할게요."}
 
 ### 후보·근거 타입
 
-`ChatResult`: title:string, summary:string[], needs_check:string[], candidates:Candidate[], assessment:object|null.
+`ChatResult`: title:string, summary:string[], needs_check:string[], candidates:Candidate[], assessment:object|null, combination:string[].
+combination은 답변을 쓰는 LLM 호출이 함께 쓴 "이렇게 조합해 보세요" 문장이다(추가 호출 없음). 예전 결과와 질문 답변에서는 빈 배열이다.
 assessment는 AI 보조 정보이며 화면의 필수 레이아웃 계약은 아니다. 추가 필드에 의존하지 않는다.
 
 `Candidate`: id:string, type:model|dataset, source_id:string, name:string, role:string, tags:string[], source:string, url:string|null, checks:Check[], evidence:Evidence[], related:string[], rank_score:number|null, context_length:integer|null, parameters_b:number|null, benchmarks:object[], gpu_fit:object|null.

@@ -474,6 +474,13 @@
               }
             ],
             "title": "Assessment"
+          },
+          "combination": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Combination"
           }
         },
         "type": "object",
