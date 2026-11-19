@@ -33,7 +33,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90  # 23K pages; 45 ran out while CustomOgImages was on
     env:
       QUARTZ_VERSION: v4.5.2
       NODE_OPTIONS: --max-old-space-size=6144  # ~23K pages (v1 had ~19K)
@@ -67,7 +67,9 @@ jobs:
             -e 's/pageTitle: "[^"]*"/pageTitle: "Model Scout 위키"/' \
             -e 's/locale: "[^"]*"/locale: "ko-KR"/' \
             -e 's#baseUrl: "[^"]*"#baseUrl: "${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"#' \
+            -e 's#^\( *\)Plugin.CustomOgImages(),#\1// Plugin.CustomOgImages(),  (off: one social-preview image per page; 23K pages ran past 45 min)#' \
             quartz.config.ts
+          grep -q "^ *Plugin.CustomOgImages()" quartz.config.ts && { echo "CustomOgImages is still on" >&2; exit 1; } || true
           rm -rf content && cp -r ../ai/wiki_v2 content
 
       - name: Build
