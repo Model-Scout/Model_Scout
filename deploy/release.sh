@@ -47,10 +47,10 @@ image_id() { docker image inspect -f '{{.Id}}' "model-scout-$1:$2"; }
 # Python: the repo's venv when there is one (Git Bash's "python" can be the Windows Store stub).
 PY=python3
 for p in .venv/Scripts/python.exe .venv/bin/python; do [ -x "$p" ] && PY="$PWD/$p" && break; done
-json_get() {  # json_get <file> <key> [<key>...]
+json_get() {  # json_get <file> <key> [<key>...]; tr: Windows Python ends lines with \r\n
   "$PY" -c "import json,sys; d=json.load(open(sys.argv[1], encoding='utf-8'))
 for k in sys.argv[2:]: d=d[k]
-print(d)" "$@"
+print(d)" "$@" | tr -d '\r'
 }
 
 build() {

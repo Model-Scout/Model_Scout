@@ -139,5 +139,33 @@ deploy/release.sh rollback <id|legacy>  # 이전 릴리스로 복구
 |---|---|
 | `deploy.sh` | 릴리스 도입 전 방식입니다. 빌드와 전송을 한 번에 하고, rsync가 필요하며, `:latest` 이미지를 씁니다. `release.sh`로 첫 배포가 끝나면 정리합니다 |
 | `snapshot_server.sh`, `rollback.sh` | legacy 구조의 백업과 복구용입니다 |
-| `inspect_server.sh` | 서버 상태 조회(읽기 전용)입니다 |
+| `inspect_server.sh` | 서버 상태 조회(읽기 전용)입니다. 활성 릴리스(`CURRENT`), 릴리스가 없으면 legacy 폴더를 읽습니다 |
 | `tests/test_server_release.sh` | `server_release.sh`를 가짜 docker로 시험합니다(설치 검사, 실패 시 자동 복구, 되돌리기) |
+
+## 배포 기록
+
+### 2026-11-19: release.sh로 한 첫 배포 (legacy → 릴리스)
+
+| 항목 | 값 |
+|---|---|
+| 릴리스 | `20261119T075516Z-91980908-aa1a71d3` |
+| 코드 | main `91980908` (#56 배포 보완, #57 wiki v2 머지 후) |
+| 이미지 | ai `36845033c9fb…`, backend `e363f9c00a6e…` |
+| 데이터 | v2 `aa1a71d35a121150` (그래프 `3bf54285…`, 벡터 `8b05f2f9…`). 이전 배포와 같은 고정본이라 운영 DB는 건드리지 않았습니다(런북 A) |
+| 백업 | `rollback/20261119T093630Z`. 배포 직전에 돌던 legacy 이미지 ai `ea99eea8…`, backend `e2cec4cc…`를 보존했습니다 |
+| 되돌리기 | `release.sh rollback legacy`(11-16 배포본), 또는 `rollback.sh 20261119T093630Z` |
+
+**확인한 것**
+- **로컬 검증:** 16개 항목 모두 통과했습니다.
+  - 운영 Supabase 읽기 전용(쓰기 시도 거부 확인), 대화와 체크포인트는 로컬 Postgres에만 저장, 실제 질문 1건
+- **서버:**
+  - 설치 때 해시와 이미지 ID를 확인했고, 활성화 검사(healthy, 이미지 ID, data_version)를 통과했습니다.
+  - 공개 API로 질문 2건을 보냈습니다(따릉이 25.7초, 도서관 18.6초). 새로고침 복원도 정상이었습니다.
+  - 재시작 0, OOM 없음, 오류 로그 0
+- **메모리 (지켜보는 중):** AI가 배포 직후 778MB였고, 질문 2건 뒤 1,010MB / 1,172MB(86%)였습니다. 서버 전체 여유는 528MB입니다.
+
+**배포 중 발견한 것**
+- **읽기 전용 설정:** 로컬 검증의 운영 DB 읽기 전용을 연결 옵션(`options=-c default_transaction_read_only=on`)으로 걸었는데, Supabase 풀러가 이 옵션을 버렸습니다. 세션 방식으로 바꿨습니다(#56의 `ea191a41`). 그 사이 운영 DB에 쓴 것은 0건입니다.
+- **`ship`의 이미지 ID 비교:** Windows Python 출력의 `\r` 때문에 비교가 실패했습니다. 서버에 보내기 전에 멈췄고, `json_get`을 고친 뒤 다시 실행했습니다.
+- **포트 충돌:** 로컬 8000번을 다른 프로젝트 컨테이너가 쓰고 있어, 검증은 `LOCAL_BACKEND_PORT=8010`으로 했습니다.
+- **줄바꿈:** 릴리스 데이터를 Windows 작업본에서 담아 텍스트 파일(`build_manifest.json` 등)이 CRLF입니다. AI 시작 검사는 LF 기준 해시로 비교하므로 내용은 같다고 확인됐습니다. 그래도 어느 PC에서 만들어도 같은 바이트가 되도록, 다음에는 git에 있는 데이터 파일을 git 객체(LF)에서 담도록 바꿀 예정입니다.
