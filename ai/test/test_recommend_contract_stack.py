@@ -356,6 +356,49 @@ def test_assess_passes_the_model_status_through():
     assert graph17.assess(state)["assessment"]["license"]["verdict"] == "blocked"
 
 
+def test_implementation_guide_only_includes_relevant_topics_for_model_results():
+    state = {
+        "plan": _plan(),
+        "models": [{"models": [{"model_id": "m", "license": "apache-2.0"}]}],
+    }
+    no_guidance_requests = (
+        "한국어 회의록을 자연스러운 문장으로 요약하는 모델을 찾아줘.",
+        "JSON으로 제공되는 공공데이터를 요약할 모델을 추천해줘.",
+        "파인튜닝 없이 쓸 모델을 추천해줘.",
+        "이미 파인튜닝된 모델을 추천해줘.",
+        "추가 학습된 한국어 모델을 추천해줘.",
+        "SFT된 모델을 추천해줘.",
+    )
+    for request in no_guidance_requests:
+        result = graph17.assess({**state, "request": request})
+        assert "implementation_guide" not in result["assessment"]
+
+    request = "출발지와 목적지를 뽑아 지도 API에 전달할 JSON을 생성하는 모델을 추천해줘."
+    guide = graph17.assess({**state, "request": request})["assessment"]["implementation_guide"]
+    assert set(guide) == {"structured_output"}
+    assert "JSON 스키마" in guide["structured_output"]
+
+    guide = graph17.assess({**state, "request": "SFT할 모델을 추천해줘."})["assessment"]["implementation_guide"]
+    assert set(guide) == {"fine_tuning"}
+    assert "SFT(지도 파인튜닝)를 검토" in guide["fine_tuning"]
+
+    # Repeated errors plus labelled examples suggest SFT without the user naming it.
+    request = "고객 문의 분류가 자꾸 틀리는데 정답 예시를 모았어. 어떤 모델을 써볼까?"
+    guide = graph17.assess({**state, "request": request})["assessment"]["implementation_guide"]
+    assert set(guide) == {"fine_tuning"}
+
+    # A follow-up that only narrows the search keeps the guide the first turn asked for.
+    first = {"request": "지도 API에 전달할 JSON을 생성하는 모델을 추천해줘.", "answer": "a"}
+    guide = graph17.assess({**state, "request": "상업용만", "turns": [first]})["assessment"]["implementation_guide"]
+    assert set(guide) == {"structured_output"}
+
+    state["plan"]["needs"] = [{"task": "tool_use"}]
+    guide = graph17.assess({**state, "request": request})["assessment"]["implementation_guide"]
+    assert set(guide) == {"structured_output", "fine_tuning"}
+    result = graph17.assess({**state, "request": request, "models": []})
+    assert "implementation_guide" not in result["assessment"]
+
+
 # ── GPU ──────────────────────────────────────────────────────────────────
 
 def test_gpu_fit_never_invents_numbers():
