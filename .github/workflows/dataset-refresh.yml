@@ -86,7 +86,7 @@ jobs:
         run: |
           python 13_build_hypergraph.py --model-source supabase
           python 14_build_dataset_chunks.py --embed
-          python 15_build_wiki.py
+          python 15_build_wiki.py --corpus v1
 
       - name: Record the model corpus
         run: |
@@ -106,7 +106,7 @@ jobs:
           for f in 13_build_hypergraph.py 14_build_dataset_chunks.py 15_build_wiki.py 16_extract_dataset_ner.py 20_sync_dataset_index.py; do
             python "$f" --self-check
           done
-          python 15_build_wiki.py --check
+          python 15_build_wiki.py --corpus v1 --check
           python 22_eval_recommendations.py --min-p10 0.65
           python 20_sync_dataset_index.py
 

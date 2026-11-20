@@ -89,7 +89,7 @@ def _checkpointer():
     with rg.postgres_checkpointer():  # creates schema/tables and locks them down, idempotent
         pass
     pool = ConnectionPool(
-        rg.supabase_conninfo(),
+        rg.checkpoint_conninfo(),
         min_size=1,
         max_size=int(os.getenv("CHECKPOINT_POOL_SIZE", "5")),
         kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row},

@@ -9,6 +9,18 @@ import os
 from pathlib import Path
 
 ENV_NAMES = ("SUPABASE_DB_HOST", "SUPABASE_DB_PORT", "SUPABASE_DB_NAME", "SUPABASE_DB_USER", "SUPABASE_PASSWORD")
+# Local validation (deploy/compose.local.yml): Supabase is read only, every write goes to these hosts.
+LOCAL_DB_HOSTS = {"postgres", "localhost", "127.0.0.1"}
+
+
+def local_mode():
+    return os.getenv("MODEL_SCOUT_LOCAL") == "1"
+
+
+def require_local_host(host, what):
+    """In local mode a write target must be the local Postgres; never fall back to production."""
+    if local_mode() and host not in LOCAL_DB_HOSTS:
+        raise RuntimeError(f"MODEL_SCOUT_LOCAL=1: {what} must be a local Postgres {sorted(LOCAL_DB_HOSTS)}, not {host!r}")
 
 
 def configured():
@@ -24,7 +36,7 @@ def db_connection():
     if not configured():
         missing = [name for name in ENV_NAMES if not os.getenv(name)]
         raise RuntimeError("Missing Supabase environment variables: " + ", ".join(missing))
-    return psycopg2.connect(
+    conn = psycopg2.connect(
         host=os.environ["SUPABASE_DB_HOST"],
         port=int(os.environ["SUPABASE_DB_PORT"]),
         dbname=os.environ["SUPABASE_DB_NAME"],
@@ -33,6 +45,12 @@ def db_connection():
         sslmode="require",
         connect_timeout=15,
     )
+    if local_mode():
+        # A local run reads production data: every transaction opens READ ONLY, so the server refuses
+        # any write. Sent as SQL per transaction; the Supabase pooler drops a startup `options` setting
+        # (checked by deploy/local/check_release.py).
+        conn.set_session(readonly=True)
+    return conn
 
 
 def vector_literal(values):

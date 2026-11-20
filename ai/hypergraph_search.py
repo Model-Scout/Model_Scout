@@ -443,24 +443,26 @@ def dataset_facts(names):
         cards = _card_texts(list(dict.fromkeys(names)))
     except Exception as error:  # noqa: BLE001 - the answer says the facts were unavailable instead of failing
         return {n: {"unavailable": f"데이터 카드 조회 실패 ({type(error).__name__})"} for n in names}
-    facts = {}
-    for name, text in cards.items():
-        found = {}
-        for line in text.splitlines():
-            key, _, value = line.partition(": ")
-            if key in CARD_FACT_LINES and value:
-                found[CARD_FACT_LINES[key]] = value
-            elif key == "Description" and value:
-                found["description"] = value[:CARD_DESCRIPTION_CHARS]
-                sentences = re.split(r"\s*[*※]\s*|(?<=[.다])\s+", value)
-                # A field list ("제공 필드: …, 좌표정보(X)") names columns; it is not a limit.
-                limits = [s.strip(" .") for s in sentences if LIMIT_RE.search(s) and "제공 필드" not in s]
-                if limits:
-                    # Whole sentences: a cut can drop the condition or negation that makes it a limit
-                    # (the longest in v2 is ~700 characters, so three of them stay short).
-                    found["limits"] = list(dict.fromkeys(limits))[:MAX_LIMITS]
-        facts[name] = found
-    return facts
+    return {name: card_facts(text) for name, text in cards.items()}
+
+
+def card_facts(text):
+    """The fact lines of one v2 card (also read by 15_build_wiki.py, so the wiki says what answers say)."""
+    found = {}
+    for line in text.splitlines():
+        key, _, value = line.partition(": ")
+        if key in CARD_FACT_LINES and value:
+            found[CARD_FACT_LINES[key]] = value
+        elif key == "Description" and value:
+            found["description"] = value[:CARD_DESCRIPTION_CHARS]
+            sentences = re.split(r"\s*[*※]\s*|(?<=[.다])\s+", value)
+            # A field list ("제공 필드: …, 좌표정보(X)") names columns; it is not a limit.
+            limits = [s.strip(" .") for s in sentences if LIMIT_RE.search(s) and "제공 필드" not in s]
+            if limits:
+                # Whole sentences: a cut can drop the condition or negation that makes it a limit
+                # (the longest in v2 is ~700 characters, so three of them stay short).
+                found["limits"] = list(dict.fromkeys(limits))[:MAX_LIMITS]
+    return found
 
 
 def embed_query(text):

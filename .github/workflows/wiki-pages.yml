@@ -1,22 +1,24 @@
 name: Publish wiki (Quartz)
 
-# Builds wiki/ (Obsidian vault, [[links]], frontmatter; gitignored) from the hypergraph, renders
-# it as a static site with Quartz v4 and deploys it to GitHub Pages.
-# Needs Settings -> Pages -> Source: GitHub Actions.
-# Pushes made by other workflows with GITHUB_TOKEN do not fire `push`, so a finished
-# dataset refresh triggers this through workflow_run.
+# Builds wiki_v2/ (Obsidian vault, [[links]], frontmatter; gitignored) from the frozen v2 build in the
+# repo, renders it as a static site with Quartz v4 and deploys it to GitHub Pages. The local
+# ai/wiki_v2/ is never uploaded: the runner regenerates it, and 15_build_wiki.py stops unless every
+# input matches the pin (test/public_data/corpus_v2/data_version.json), so it is the same vault.
+# Needs Settings -> Pages -> Source: GitHub Actions. The published site stays when this workflow is
+# disabled again; it changes only on the next run.
+# Runs on a new pin (the graph and pin are committed together) or by hand. The v1 "Dataset refresh"
+# no longer triggers it: refreshing v1 says nothing about the served v2.
 on:
   push:
     branches: [main]
     paths:
-      - "ai/data/hypergraph/**"
+      - "ai/data/hypergraph_v2/**"
+      - "ai/test/public_data/corpus_v2/data_version.json"
       - "ai/15_build_wiki.py"
+      - "ai/hypergraph_search.py"
       - "ai/taxonomy.py"
       - "ai/taxonomy.yaml"
       - ".github/workflows/wiki-pages.yml"
-  workflow_run:
-    workflows: ["Dataset refresh"]
-    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -30,25 +32,24 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90  # 23K pages; 45 ran out while CustomOgImages was on
     env:
       QUARTZ_VERSION: v4.5.2
-      NODE_OPTIONS: --max-old-space-size=6144  # ~19K pages
+      NODE_OPTIONS: --max-old-space-size=6144  # ~23K pages (v1 had ~19K)
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main  # workflow_run starts from the commit before the refresh pushed
+          ref: main
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Build wiki from the hypergraph
+      - name: Build wiki from the frozen v2
         run: |
-          python -m pip install pyyaml
-          cd ai && python 15_build_wiki.py
+          python -m pip install pyyaml numpy  # numpy: hypergraph_search.card_facts reads the cards
+          cd ai && python 15_build_wiki.py && python 15_build_wiki.py --check
 
       - uses: actions/setup-node@v4
         with:
@@ -66,8 +67,10 @@ jobs:
             -e 's/pageTitle: "[^"]*"/pageTitle: "Model Scout 위키"/' \
             -e 's/locale: "[^"]*"/locale: "ko-KR"/' \
             -e 's#baseUrl: "[^"]*"#baseUrl: "${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"#' \
+            -e 's#^\( *\)Plugin.CustomOgImages(),#\1// Plugin.CustomOgImages(),  (off: one social-preview image per page; 23K pages ran past 45 min)#' \
             quartz.config.ts
-          rm -rf content && cp -r ../ai/wiki content
+          grep -q "^ *Plugin.CustomOgImages()" quartz.config.ts && { echo "CustomOgImages is still on" >&2; exit 1; } || true
+          rm -rf content && cp -r ../ai/wiki_v2 content
 
       - name: Build
         run: cd site && npx quartz build

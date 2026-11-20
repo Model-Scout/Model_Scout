@@ -104,5 +104,5 @@ cd frontend && pnpm install && pnpm dev
 - 데이터 파일 안에 저장된 경로(`data/readmes/...`)는 `ai/` 기준 상대 경로입니다.
 - 백엔드는 내부 AI API `POST /ai/recommend`를 호출합니다. AI 서버가 추천 그래프와 검색용 파일을 로딩하므로 배포 시 해당 데이터를 AI 컨테이너에 포함해야 합니다.
 - 공개 백엔드에는 OpenAI 키를 넣지 않습니다. LLM 호출은 모두 내부 AI API를 거칩니다.
-- `ai/wiki/`(LLM 위키, Obsidian vault)는 git에 올리지 않습니다. `ai/`에서 `python 15_build_wiki.py`로 생성합니다.
+- `ai/wiki_v2/`(v2, 기본)와 `ai/wiki/`(v1)는 LLM 위키(Obsidian vault)이며 git에 올리지 않습니다. `ai/`에서 `python 15_build_wiki.py [--corpus v1]`로 생성합니다. 사람이 읽는 문서이고, 서비스나 에이전트는 읽지 않습니다.
 - Docker(VPS 배포) 구성은 `deploy/compose.yml`과 서비스별 `Dockerfile`에 있습니다. 운영 적용 여부는 배포 환경에서 별도 확인합니다.

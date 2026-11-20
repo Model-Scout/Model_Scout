@@ -5,7 +5,7 @@ import type { SendOptions, Turn } from "@/components/App";
 import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
 import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
-import type { Candidate, ChatResult, Source } from "@/lib/api";
+import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
 
 type Props = {
   groupId: string;
@@ -102,6 +102,7 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
             <Detail
               candidate={selected}
               all={candidates}
+              implementationGuide={result.assessment?.implementation_guide}
               sources={sources.filter((s) => s.source_id === selected.source_id && s.kind === selected.type)}
               onSelect={setSelectedId}
               onReadme={openSource}
@@ -337,12 +338,14 @@ function Metrics({ c }: { c: Candidate }) {
 function Detail({
   candidate: c,
   all,
+  implementationGuide,
   sources,
   onSelect,
   onReadme,
 }: {
   candidate: Candidate;
   all: Candidate[];
+  implementationGuide?: ImplementationGuide;
   sources: Source[];
   onSelect: (id: string) => void;
   onReadme: (s: { source_id: string; kind: "model" | "dataset"; title?: string | null; url?: string | null; quote?: string | null }) => void;
@@ -382,6 +385,26 @@ function Detail({
       </header>
 
       {c.type === "model" && <Metrics c={c} />}
+
+      {c.type === "model" && implementationGuide && (
+        <section>
+          <h3 className="mb-2 font-bold">프로젝트 구현 가이드</h3>
+          <dl className="space-y-3 rounded-xl bg-soft p-3 text-sm">
+            {implementationGuide.structured_output && (
+              <div>
+                <dt className="font-semibold">구조화 출력</dt>
+                <dd className="mt-1">{implementationGuide.structured_output}</dd>
+              </div>
+            )}
+            {implementationGuide.fine_tuning && (
+              <div>
+                <dt className="font-semibold">추가 학습 검토</dt>
+                <dd className="mt-1">{implementationGuide.fine_tuning}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+      )}
 
       <section>
         <h3 className="mb-2 font-bold">조건 확인</h3>

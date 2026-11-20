@@ -142,7 +142,11 @@ export const BIKE: ChatResult = {
       checks: [{ key: "license", label: "라이선스", status: "unknown", reason: "라이선스 정보를 찾지 못했어요.", source_id: "data-go-kr/bike-roads", quote: null, origin: "unknown" }],
     }),
   ],
-  assessment: null,
+  assessment: {
+    implementation_guide: {
+      structured_output: "지도 API에 넘길 출발지와 목적지를 JSON 스키마로 정하고, 모델을 실행할 환경에서 그 형식으로 출력할 수 있는지 확인하세요.",
+    },
+  },
 };
 
 /** Sources of the recommendation, built from the quoted checks and dataset evidence. */

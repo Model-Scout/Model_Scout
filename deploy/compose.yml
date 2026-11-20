@@ -1,8 +1,12 @@
-# Runs on the VPS from /opt/model-scout; deploy/deploy.sh copies this file and the data there.
+# Runs on the VPS. deploy/release.sh puts it in /opt/model-scout/releases/<release id>/ with that release's
+# data, settings and image tag (MODEL_SCOUT_RELEASE in the release's .env); the older deploy/deploy.sh
+# runs it from /opt/model-scout with the :latest images. The fixed project name keeps both paths on the
+# same containers and the same Caddy certificate volume.
+name: model-scout
 services:
   # Internal only: reachable from the backend, published nowhere.
   ai:
-    image: model-scout-ai:latest
+    image: model-scout-ai:${MODEL_SCOUT_RELEASE:-latest}
     restart: unless-stopped
     # .env.corpus (deploy.sh) names the corpus and, for v2, the frozen data_version it must find.
     env_file: [.env.ai, .env.corpus]
@@ -18,7 +22,7 @@ services:
       start_period: 60s
 
   backend:
-    image: model-scout-backend:latest
+    image: model-scout-backend:${MODEL_SCOUT_RELEASE:-latest}
     restart: unless-stopped
     depends_on: [ai]
     env_file: .env.backend
