@@ -1,6 +1,8 @@
 """Pilot 1: five public-portal retrieval paths on the frozen v2, one label set, one condition policy.
 
     python -X utf8 test/public_data/retrieval/pilot.py --dir test/public_data/retrieval/runs/<name>
+    python -X utf8 test/public_data/retrieval/pilot.py --dir runs/<new> --rescore runs/<saved> --labels <labels> --spec <spec>
+        (score a saved run's rankings against other labels; no search)
 
 Paths (all searched over data.go.kr + 서울 열린데이터광장 datasets only; settings in SETTINGS):
   hg_question  hypergraph_search.rank_datasets with the question vector only (golden_prep "question_only")
@@ -52,6 +54,7 @@ from retrieval_lab import fusion, metrics  # noqa: E402
 hs = cc.hs
 LABELS = CORPUS_V2 / "golden_prep" / "batch5" / "labels_llm_v6.jsonl"
 SPEC = HERE / "query_spec_v1.jsonl"
+COVERAGE = None  # --coverage: Coverage@10 labels for multi_dataset questions
 PIN = CORPUS_V2 / "data_version.json"
 PORTALS = ("data_go_kr/", "seoul_open_data/")
 PATHS = ("hg_question", "hg_terms", "dense", "bm25", "hybrid")
@@ -259,7 +262,51 @@ def code_record():
     }
 
 
-def run(out):
+def search_inputs(specs):
+    """What a saved ranking depends on per question: the text searched and the conditions filtered by
+    (Conditions.check reads only these). Types, aspects and grades can change without a new search."""
+    return {q: {"query": s["query"], "conditions": s["conditions"]} for q, s in sorted(specs.items())}
+
+
+def prior_inputs(prior):
+    """The search inputs of a saved run; a run before they were recorded is read from the spec file it names,
+    and only while that file is still the one it recorded."""
+    if "search_inputs" in prior:
+        return prior["search_inputs"]
+    path = AI / prior["spec"]["path"]
+    if not path.is_file() or content_digest(path)[0] != prior["spec"]["sha256"]:
+        raise SystemExit(f"{prior['spec']['path']} is no longer the spec the saved run used "
+                         f"(sha256 {prior['spec']['sha256'][:16]}): restore it or search again")
+    return search_inputs({s["query_id"]: s for s in read_jsonl(path)})
+
+
+def rescore_guard(prior, specs):
+    """Rescoring is for new grades only: a changed question or filter condition needs a new search."""
+    old, new = prior_inputs(prior), search_inputs(specs)
+    changed = sorted(q for q in new if old.get(q) != new[q])
+    if changed:
+        raise SystemExit(f"question or filter conditions differ from the saved run for {changed[:5]}"
+                         f"{' ...' if len(changed) > 5 else ''} ({len(changed)}): search again instead of --rescore")
+
+
+def rescore(prior_dir, labels, specs, alias, conditions):
+    """Score a saved run's filtered rankings against other labels: no search, no vectors.
+    Filter counts (unmet, non-public cut) depend on the conditions, not the labels, and are carried over."""
+    rankings = read_jsonl(prior_dir / "rankings.jsonl")
+    old = json.loads((prior_dir / "scores.json").read_text(encoding="utf-8"))
+    by_q = {lb["query_id"]: lb for lb in labels}
+    scores = defaultdict(dict)
+    for r in rankings:
+        qid, path = r["query_id"], r["path"]
+        statuses = {d: conditions.check(specs[qid], d) for d in r["top"]}
+        s = score_query(r["top"], by_q[qid], alias, statuses)
+        for key in ("unmet_in_unfiltered_top10", "non_public_cut_in_top10"):
+            s[key] = old[path][qid][key]
+        scores[path][qid] = s
+    return rankings, scores
+
+
+def run(out, prior_dir=None):
     out = Path(out)
     if out.exists() and any(out.iterdir()):
         raise SystemExit(f"{out} already holds a run: pick a new --dir")
@@ -269,34 +316,49 @@ def run(out):
         raise SystemExit(f"checked-out v2 documents_id {identity['documents_id'][:16]} is not the pin {pin}")
     labels = read_jsonl(LABELS)
     specs = {s["query_id"]: s for s in read_jsonl(SPEC)}
-    for label in labels:  # the spec annotates v6, it never changes what v6 says
+    for label in labels:  # the spec annotates the labels, it never changes what they say
         s = specs[label["query_id"]]
         if (s["query"], s["conditions"], s["expected_behavior"]) != (label["query"], label["conditions"], label["expected_behavior"]):
-            raise SystemExit(f"{label['query_id']}: spec differs from v6 in query, conditions or behavior")
-    cc.use_saved_vectors(allow_embed=False)
+            raise SystemExit(f"{label['query_id']}: spec differs from the labels in query, conditions or behavior")
     alias = cc.confirmed_aliases()
-    searcher, conditions = Searcher(), Conditions()
+    conditions = Conditions()
 
-    rankings, scores, latency = [], defaultdict(dict), defaultdict(list)
-    for label in labels:
-        qid, spec = label["query_id"], specs[label["query_id"]]
-        vector = hs.embed_query(label["query"])
-        for path in PATHS:
-            ranking, cut, ms = searcher.run(path, label, vector)
-            kept, removed, statuses = apply_filter(ranking, spec, conditions)
-            kept = kept[: SETTINGS["top_k"]]
-            unmet_in_unfiltered_top10 = sum(d in removed for d in ranking[:K])
-            latency[path].append(ms)
-            rankings.append({"path": path, "query_id": qid, "top": kept, "removed_unmet": removed[:50],
-                             "non_public_cut": cut, "ms": round(ms, 2)})
-            s = score_query(kept, label, alias, statuses)
-            s["unmet_in_unfiltered_top10"] = unmet_in_unfiltered_top10
-            s["non_public_cut_in_top10"] = sum(1 for d in cut if d in set(ranking[:K]))
-            scores[path][qid] = s
+    if prior_dir:
+        prior = json.loads((prior_dir / "run.json").read_text(encoding="utf-8"))
+        if prior["data_version"] != pin or prior["identity"]["documents_id"] != identity["documents_id"]:
+            raise SystemExit(f"{prior_dir} ranked another corpus: rescoring needs the same frozen v2")
+        if json.loads((prior_dir / "aliases.json").read_text(encoding="utf-8")) != json.loads(json.dumps(cc.alias_groups(), ensure_ascii=False)):
+            raise SystemExit(f"{prior_dir}/aliases.json differs from today's copy groups")
+        rescore_guard(prior, specs)
+        rankings, scores = rescore(prior_dir, labels, specs, alias, conditions)
+        latency_ms, same = prior["latency_ms"], prior["baseline_reproduced"]
+        searcher_stats = {k: prior[k] for k in ("corpus_public_datasets", "bm25_vocab", "bm25_build_s")}
+    else:
+        cc.use_saved_vectors(allow_embed=False)
+        searcher = Searcher()
+        rankings, scores, latency = [], defaultdict(dict), defaultdict(list)
+        for label in labels:
+            qid, spec = label["query_id"], specs[label["query_id"]]
+            vector = hs.embed_query(label["query"])
+            for path in PATHS:
+                ranking, cut, ms = searcher.run(path, label, vector)
+                kept, removed, statuses = apply_filter(ranking, spec, conditions)
+                kept = kept[: SETTINGS["top_k"]]
+                unmet_in_unfiltered_top10 = sum(d in removed for d in ranking[:K])
+                latency[path].append(ms)
+                rankings.append({"path": path, "query_id": qid, "top": kept, "removed_unmet": removed[:50],
+                                 "non_public_cut": cut, "ms": round(ms, 2)})
+                s = score_query(kept, label, alias, statuses)
+                s["unmet_in_unfiltered_top10"] = unmet_in_unfiltered_top10
+                s["non_public_cut_in_top10"] = sum(1 for d in cut if d in set(ranking[:K]))
+                scores[path][qid] = s
 
-    # Reproduction check: hg_terms before the source cut and filter must equal the 2026-11-16 baseline.
-    base = {r["query_id"]: r["top"] for r in read_jsonl(CORPUS_V2 / "compare" / "runs" / "2026-11-16_v2-aa1a71d3_labels-v6" / "rankings_v2.jsonl") if r.get("kind") == "public"}
-    same = sum(searcher.hypergraph(lb, hs.embed_query(lb["query"]), True, limit=30) == base[lb["query_id"]] for lb in labels)
+        # Reproduction check: hg_terms before the source cut and filter must equal the 2026-11-16 baseline.
+        base = {r["query_id"]: r["top"] for r in read_jsonl(CORPUS_V2 / "compare" / "runs" / "2026-11-16_v2-aa1a71d3_labels-v6" / "rankings_v2.jsonl") if r.get("kind") == "public"}
+        same = sum(searcher.hypergraph(lb, hs.embed_query(lb["query"]), True, limit=30) == base[lb["query_id"]] for lb in labels)
+        same = f"{same}/{len(labels)} (hg_terms before source cut and filter vs 2026-11-16_v2-aa1a71d3_labels-v6)"
+        latency_ms = {p: {"p50": metrics.percentile(v, 50), "p95": metrics.percentile(v, 95), "p99": metrics.percentile(v, 99)} for p, v in latency.items()}
+        searcher_stats = {"corpus_public_datasets": len(searcher.ids), "bm25_vocab": len(searcher.bm25.vocab), "bm25_build_s": searcher.bm25_build_s}
 
     out.mkdir(parents=True, exist_ok=True)
     (out / "aliases.json").write_text(json.dumps(cc.alias_groups(), ensure_ascii=False) + "\n", encoding="utf-8")
@@ -312,21 +374,26 @@ def run(out):
     with (out / "coverage_worksheet.jsonl").open("w", encoding="utf-8", newline="\n") as f:
         for item in worksheet:
             f.write(json.dumps(item, ensure_ascii=False) + "\n")
+    cov = coverage_at_k(rankings, labels, specs, alias, read_jsonl(COVERAGE)) if COVERAGE else None
+    if cov:
+        (out / "coverage.json").write_text(json.dumps(cov, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     record = {
         "identity": identity, "data_version": pin,
         "labels": cc.file_record(LABELS), "spec": cc.file_record(SPEC),
+        "coverage_labels": cc.file_record(COVERAGE) if COVERAGE else None,
         "query_vectors": cc.file_record(cc.VECTORS), "aliases": cc.file_record(out / "aliases.json"),
+        "search_inputs": search_inputs(specs),
         "settings": SETTINGS, "paths": PATHS, "new_query_vectors": 0, "api_calls": 0,
-        "baseline_reproduced": f"{same}/{len(labels)} (hg_terms before source cut and filter vs 2026-11-16_v2-aa1a71d3_labels-v6)",
-        "corpus_public_datasets": len(searcher.ids), "bm25_vocab": len(searcher.bm25.vocab), "bm25_build_s": searcher.bm25_build_s,
-        "latency_ms": {p: {"p50": metrics.percentile(v, 50), "p95": metrics.percentile(v, 95), "p99": metrics.percentile(v, 99)} for p, v in latency.items()},
+        "rescored_from": None if prior_dir is None else {"dir": str(prior_dir).replace("\\", "/"),
+                                                          "rankings": cc.file_record(prior_dir / "rankings.jsonl")},
+        "baseline_reproduced": same, **searcher_stats, "latency_ms": latency_ms,
         "environment": {"python": platform.python_version(), "platform": platform.platform(), "processor": platform.processor(),
                         "note": "query vectors read from the saved file: latency excludes question embedding"},
         "code": code_record(),
     }
     (out / "run.json").write_text(json.dumps(record, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    (out / "report.md").write_text(report(scores, specs, labels, record, blind), encoding="utf-8")
-    print(f"{out}: {len(rankings)} rankings, unjudged for review {len(blind)}, baseline reproduced {same}/{len(labels)}")
+    (out / "report.md").write_text(report(scores, specs, labels, record, blind, cov), encoding="utf-8")
+    print(f"{out}: {len(rankings)} rankings, unjudged for review {len(blind)}, baseline reproduced {same}")
 
 
 def unjudged_items(rankings, labels, specs, alias, conditions):
@@ -359,9 +426,32 @@ def coverage_worksheet(labels, specs, conditions):
             continue
         for d, grade in sorted(lb["relevant"].items()):
             rows.append({"query_id": lb["query_id"], "query": lb["query"], "aspects": s["aspects"], "dataset_id": d,
-                         "title": conditions.facts(d)["title"], "grade_v6": grade,
+                         "title": conditions.facts(d)["title"], "grade": grade,
                          "covers": None, "covers_fully": None, "evidence": None})
     return rows
+
+
+def coverage_at_k(rankings, labels, specs, alias, covers):
+    """multi_dataset questions: share of the question's aspects that the top 10 covers, counting only datasets
+    judged relevant (the coverage labels tag those); copies count once. Every relevant pair must be tagged."""
+    canon = lambda d: min(alias.get(d, {d}))  # noqa: E731
+    tagged = defaultdict(set)
+    for c in covers:
+        tagged[(c["query_id"], canon(c["dataset_id"]))] |= set(c["covers"])
+    missing = [(lb["query_id"], d) for lb in labels if specs[lb["query_id"]]["type"] == "multi_dataset"
+               for d in lb["relevant"] if (lb["query_id"], canon(d)) not in tagged]
+    if missing:
+        raise SystemExit(f"coverage labels miss {len(missing)} relevant pairs, e.g. {missing[:3]}")
+    out = defaultdict(dict)
+    for r in rankings:
+        qid, s = r["query_id"], specs[r["query_id"]]
+        if s["type"] != "multi_dataset" or s["expected_behavior"] != "recommend":
+            continue
+        top = list(dict.fromkeys(canon(d) for d in r["top"]))[:K]
+        got = set().union(*(tagged.get((qid, d), set()) for d in top))
+        out[r["path"]][qid] = {"covered": sorted(got), "missing": [a for a in s["aspects"] if a not in got],
+                               "coverage@10": len(got) / len(s["aspects"])}
+    return out
 
 
 # ---------------------------------------------------------------- report
@@ -383,13 +473,19 @@ def table(scores, qids, key):
     return lines
 
 
-def report(scores, specs, labels, record, blind):
+def report(scores, specs, labels, record, blind, cov=None):
     rec = [lb["query_id"] for lb in labels if lb["expected_behavior"] == "recommend"]
     abst = [lb["query_id"] for lb in labels if lb["expected_behavior"] == "abstain"]
     two = [q for q in rec if "raw2" in scores["dense"][q]]
+    again = record.get("rescored_from")
     L = ["# 공공데이터 검색 경로 파일럿 1 (잠정)", "",
-         f"코퍼스 v2 `{record['data_version']}`, 라벨 v6 `{record['labels']['sha256'][:16]}`, 명세 `{record['spec']['sha256'][:16]}`. "
-         f"외부 API 호출 0. 기준선 재현 {record['baseline_reproduced']}.", "",
+         f"코퍼스 v2 `{record['data_version']}`, 라벨 `{Path(record['labels']['path']).stem}` `{record['labels']['sha256'][:16]}`, "
+         f"명세 `{Path(record['spec']['path']).stem}` `{record['spec']['sha256'][:16]}`. "
+         f"외부 API 호출 0. 기준선 재현 {record['baseline_reproduced']}.", ""]
+    if again:
+        L += [f"검색은 다시 하지 않았다. `{again['dir']}`에 저장된 순위(`rankings.jsonl` `{again['rankings']['sha256'][:16]}`)를 "
+              "이 라벨로 다시 채점했다. 지연 시간과 기준선 재현은 그 실행의 값이다.", ""]
+    L += [
          "모든 경로가 공공포털 두 곳만 검색하고, 확인된 명시 조건 불충족을 같은 시점(순위 뒤)에 뺐다. "
          "질문 유형과 조건은 사람이 정한 값(명세)을 쓴 것이라 자동 분류를 포함한 서비스 성능이 아니다.", ""]
     for title, key, qids in (("대안 포함(1점 이상) raw", "raw", rec), ("대안 포함(1점 이상) condensed", "condensed", rec),
@@ -407,6 +503,15 @@ def report(scores, specs, labels, record, blind):
         cells = [f"{mean(scores[p][q]['raw']['recall@10'] for q in qids):.2f} / "
                  + (f"{mean(scores[p][q]['raw2']['recall@10'] for q in q2):.2f}" if q2 else "–") for p in PATHS]
         L.append(f"| {g} | {len(qids)}({len(q2)}) | " + " | ".join(cells) + " |")
+    if cov:
+        mq = sorted(cov[PATHS[0]])
+        L += ["", f"## Coverage@10 (multi_dataset {len(mq)}문항: 상위 10의 관련 데이터가 질문의 필요 종류를 몇 개 덮는지)", "",
+              "| 질문 | 필요 종류 | " + " | ".join(PATHS) + " |", "|---|---|" + "---:|" * len(PATHS)]
+        for q in mq:
+            L.append(f"| {q} | {' / '.join(specs[q]['aspects'])} | " + " | ".join(
+                f"{cov[p][q]['coverage@10']:.2f}" + (f" (빠짐: {', '.join(cov[p][q]['missing'])})" if cov[p][q]["missing"] else "")
+                for p in PATHS) + " |")
+        L.append("| 평균 | | " + " | ".join(f"{mean(cov[p][q]['coverage@10'] for q in mq):.2f}" for p in PATHS) + " |")
     L += ["", "## 판정·조건 (추천 문항, 상위 10 합계)", "",
           "| 경로 | 반환 | 상위10 칸 | judged@10 | 보류 | 완전 미판정 | 제외 대상 | 걸러진 불충족(필터 전 상위10) | 사본 병합 | 비공공 제외 |",
           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
@@ -446,9 +551,17 @@ def report(scores, specs, labels, record, blind):
 
 
 def main():
+    global LABELS, SPEC, COVERAGE
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--dir", type=Path, required=True, help="a new run folder")
-    run(parser.parse_args().dir)
+    parser.add_argument("--labels", type=Path, default=LABELS, help="label set to score against (default: v6)")
+    parser.add_argument("--spec", type=Path, default=SPEC, help="type/condition spec (default: v1)")
+    parser.add_argument("--rescore", type=Path, help="a saved run folder: score its rankings again instead of searching")
+    parser.add_argument("--coverage", type=Path, help="coverage labels (covers per relevant multi_dataset pair) for Coverage@10")
+    args = parser.parse_args()
+    LABELS, SPEC = args.labels.resolve(), args.spec.resolve()
+    COVERAGE = args.coverage.resolve() if args.coverage else None
+    run(args.dir, args.rescore)
 
 
 if __name__ == "__main__":
