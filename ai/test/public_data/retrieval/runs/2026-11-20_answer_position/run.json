@@ -1,0 +1,41 @@
+{
+ "identity": {
+  "corpus": "v2",
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+  "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+  "vectors": "local"
+ },
+ "labels": {
+  "path": "test/public_data/corpus_v2/golden_prep/batch6/labels_llm_v7.jsonl",
+  "sha256": "e77df417be0e2684885c164bfd7b7b70775e3ac289e0c01a38391d1548fca6a1"
+ },
+ "spec": {
+  "path": "test/public_data/retrieval/query_spec_v2.jsonl",
+  "sha256": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d"
+ },
+ "retriever": {
+  "path": "hybrid",
+  "dense_weight": 0.5,
+  "rrf_k": 60,
+  "channel_depth": 100,
+  "top_k": 30
+ },
+ "api_calls": 0,
+ "code": {
+  "commit": "35f256baa15b89ae9dbeec1f4a0e034789600b3c",
+  "branch": "exp/public-retrieval-pilot1",
+  "uncommitted": [
+   "M ai/test/public_data/retrieval/pilot.py"
+  ],
+  "files_lf_sha256": {
+   "test/public_data/retrieval/pilot.py": "9ab0e5fdaed99e7f3637f2261d91739826892c922ab87f51ff60fdf03d21784d",
+   "test/public_data/retrieval/query_spec_v1.jsonl": "ce31b765325cc3fd08ecb054442d37c92f9e407142d687270175741fbf7fc2e0",
+   "test/public_data/corpus_v2/golden_prep.py": "44c1ad46e59f497046884498f4756995fc633754ef3ce91664b510e14034dd11",
+   "test/public_data/corpus_v2/compare_corpora.py": "956cbcfd5894ec8d4459018c8980c74cf84487f5a6076385eed9754c7cbe89e6",
+   "hypergraph_search.py": "add2afcbc899cc40192360e45ac4b5e58d51d39dff11d1a3c614c67f247f322b",
+   "retrieval_lab/fusion.py": "5429bab364bc399ef706d006d6b6239faf3d4b9939b731a2999bcba7dba696d3",
+   "retrieval_lab/metrics.py": "dbaefe0dd77eb156d393cff60f9c5446302d94f60befe5af04ce11ace59fd197"
+  },
+  "diagnose_lf_sha256": "a046a65442fc77d803347eac8e425d15fad78d91c124f9db484bb0b28b606e93"
+ }
+}
