@@ -55,6 +55,24 @@ def test_facts_that_never_settle_a_condition():
     now = {**dc.defaults(), "current_value": True, "update_interval": "1시간"}
     got, out = verdicts(now, entity("x", ["서울"]), {"update_cycle_portal": "실시간"})
     assert got == {"current_value": "미확인", "update_interval": "미확인"}  # the portal's 실시간 label proves nothing
+    # The delivery alone never settles currentness: a file may be regenerated, an API may serve old statistics.
+    files_only = {"formats": "CSV (csv)", "update_cycle_portal": "매일"}
+    assert verdicts(now, entity("x", ["서울"]), files_only)[0]["current_value"] == "미확인"
+    auto = {"formats": "API (api), CSV (csv)", "api_status": "파일 자동변환 OpenAPI (상세 페이지에 주소 있음)"}
+    got, out = verdicts(now, entity("x", ["서울"]), auto)
+    assert got["current_value"] == "미확인" and "원본 파일 갱신에 의존" in out["checks"][0]["basis"]
+    live = {"formats": "API (api), CSV (csv)", "update_cycle_portal": "실시간"}
+    got, out = verdicts(now, entity("x", ["서울"]), live)
+    assert got["current_value"] == "미확인" and "제공처의 현재 상태는 재확인하지 않음" in out["checks"][0]["scope"]
+    # A portal label (slow, one-time or 실시간) does not say what it counts: a caution, never a verdict.
+    for label in ("수시 (1회성 데이터)", "연간", "매일", "실시간"):
+        got, out = verdicts(now, entity("x", ["서울"]), {"formats": "CSV (csv)", "update_cycle_portal": label})
+        assert got == {"current_value": "미확인", "update_interval": "미확인"}
+        assert f"'{label}'" in out["checks"][0]["basis"] and "무엇의 갱신 주기인지" in out["checks"][0]["scope"]
+    # an official sentence about the values' reference time is quoted beside it
+    stated = {"update_cycle_portal": "매일", "limits": ["실시간 데이터가 아닌 3일 전 데이터를 제공합니다"]}
+    out = cc.judge(now, False, entity("x", ["서울"]), stated)["checks"][0]
+    assert out["status"] == "미확인" and "3일 전 데이터" in out["basis"]
     assert verdicts({**dc.defaults(), "delivery": "file"}, entity("x", []), {})[0]["delivery"] == "미확인"
 
 

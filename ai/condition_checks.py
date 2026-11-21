@@ -131,15 +131,33 @@ def _delivery_checks(c, facts):
     return checks
 
 
+# Our catalogue is frozen (the refresh pipeline is not scheduled); the providers' own data keeps changing apart
+# from it. So a verdict rests on the card as collected, and the provider's present state was not re-checked.
+SNAPSHOT = "추천 근거는 고정 수집본 기준, 제공처의 현재 상태는 재확인하지 않음"
+# Official sentences about the values' reference time or delay (from facts.limits), quoted as a caution.
+TIMING_RE = re.compile(r"기준|지연|\d+\s*일\s*전|갱신")
+
+
 def _freshness_checks(c, facts):
-    portal = facts.get("update_cycle_portal") or "표시 없음"
+    """Currentness is a matter of which moment the values are of and how often they change, not of the delivery:
+    files can be regenerated and an API can serve old statistics. The portal's update label (실시간, 매일, 연간,
+    1회성) does not say what it counts (the values, the file postings or the notice), so it is shown as a
+    caution and never decides. 불충족 would need an official statement of the values' reference time or interval
+    that conflicts with what the user needs; the cards record no such field yet, so every verdict here is 미확인."""
+    portal = facts.get("update_cycle_portal")
+    notes = [f"포털 갱신 표기 '{portal or '표시 없음'}'"]
+    if "자동변환" in (facts.get("api_status") or ""):
+        notes.append("업로드된 파일을 API로 제공하는 방식이라 최신성은 원본 파일 갱신에 의존")
+    timing = [s for s in facts.get("limits") or [] if TIMING_RE.search(s)]
+    if timing:
+        notes.append(f"공식 설명: \"{timing[0][:120]}\"")
+    scope = ("포털 표기가 값·파일 게시·안내 중 무엇의 갱신 주기인지 확인되지 않음, "
+             f"값의 기준 시점과 반영 지연은 제공처 명세 확인, {SNAPSHOT}")
     checks = []
     if c.get("current_value"):
-        checks.append(_check("current_value", "현재 값", UNKNOWN, f"포털 갱신 표기 '{portal}'",
-                             "포털 표기는 현재 값 제공을 보장하지 않음, 값의 기준 시각 필드와 반영 지연 확인"))
+        checks.append(_check("current_value", "현재 값", UNKNOWN, ", ".join(notes), scope))
     if interval := c.get("update_interval"):
-        checks.append(_check("update_interval", f"갱신 간격: {interval}", UNKNOWN, f"포털 갱신 표기 '{portal}'",
-                             "포털 표기만으로 실제 갱신 간격을 확정하지 않음"))
+        checks.append(_check("update_interval", f"갱신 간격: {interval}", UNKNOWN, ", ".join(notes), scope))
     return checks
 
 
