@@ -1,0 +1,60 @@
+{
+ "identity": {
+  "corpus": "v2",
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+  "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+  "vectors": "local"
+ },
+ "labels": {
+  "path": "test/public_data/holdout/labels_empty.jsonl",
+  "sha256": "f8f09a683a0196a7c37d066e8c7cee672db36ad8fa3b98ebec9ad2fbe7fb744a"
+ },
+ "spec": {
+  "path": "test/public_data/holdout/questions_v1.jsonl",
+  "sha256": "d9aba2909dc3b13ba09e23d2dd386cf41e8ae6b38a6e5e944ae1cbef35b22106"
+ },
+ "retriever": {
+  "merge": "rrf20",
+  "weights": [
+   0.5,
+   0.5
+  ],
+  "channel_depth": 100,
+  "top_k": 30
+ },
+ "inputs": [
+  "question",
+  "dq",
+  "dq_terms",
+  "question_golden"
+ ],
+ "base": "question",
+ "reused_from": null,
+ "planner_model": "gpt-4.1-mini",
+ "api_calls": {
+  "planner_and_router": 64,
+  "embeddings": 64
+ },
+ "development_set": true,
+ "bootstrap": {
+  "n": 2000,
+  "seed": 20261120
+ },
+ "code": {
+  "commit": "35f256baa15b89ae9dbeec1f4a0e034789600b3c",
+  "branch": "exp/public-retrieval-pilot1",
+  "uncommitted": [
+   "M ai/test/public_data/retrieval/pilot.py"
+  ],
+  "files_lf_sha256": {
+   "test/public_data/retrieval/pilot.py": "9ab0e5fdaed99e7f3637f2261d91739826892c922ab87f51ff60fdf03d21784d",
+   "test/public_data/retrieval/query_spec_v1.jsonl": "ce31b765325cc3fd08ecb054442d37c92f9e407142d687270175741fbf7fc2e0",
+   "test/public_data/corpus_v2/golden_prep.py": "44c1ad46e59f497046884498f4756995fc633754ef3ce91664b510e14034dd11",
+   "test/public_data/corpus_v2/compare_corpora.py": "956cbcfd5894ec8d4459018c8980c74cf84487f5a6076385eed9754c7cbe89e6",
+   "hypergraph_search.py": "add2afcbc899cc40192360e45ac4b5e58d51d39dff11d1a3c614c67f247f322b",
+   "retrieval_lab/fusion.py": "5429bab364bc399ef706d006d6b6239faf3d4b9939b731a2999bcba7dba696d3",
+   "retrieval_lab/metrics.py": "dbaefe0dd77eb156d393cff60f9c5446302d94f60befe5af04ce11ace59fd197"
+  },
+  "decompose_compare_lf_sha256": "78c604ed63567ae2fdebf535f97b1cccf8933664178cfd5e23041c7a628f3f92"
+ }
+}

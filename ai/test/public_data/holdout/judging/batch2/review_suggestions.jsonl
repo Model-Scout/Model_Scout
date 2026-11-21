@@ -1,0 +1,1 @@
+{"review_id": "h003|data_go_kr/15058039", "checks": {"region": {"status": "불충족", "basis": "제목에 ['제주'], 요청 충북"}, "delivery": {"status": "충족", "basis": "제공 방식 ['api']"}}, "topic": {"full": [], "partial": [], "unscored": [], "scored": 1, "field_list": false}, "proposal": "0 후보 (wrong_region)", "basis": ["불충족: ['region']"]}

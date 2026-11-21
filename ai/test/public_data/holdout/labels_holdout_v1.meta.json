@@ -1,0 +1,35 @@
+{
+ "judgments": "test\\public_data\\holdout\\judging\\batch1\\judgments.jsonl",
+ "judgments_sha256": "706aec5bcb897f107c168fb0232344c22cf8e9a84bd4d5377a9380c0c365e69f",
+ "expected": "test\\public_data\\holdout\\judging\\batch1\\items.jsonl",
+ "base": "test\\public_data\\holdout\\labels_empty.jsonl",
+ "base_sha256": "f8f09a683a0196a7c37d066e8c7cee672db36ad8fa3b98ebec9ad2fbe7fb744a",
+ "judgment_kinds": {
+  "llm_first_pass": 528
+ },
+ "warnings_resolved": {
+  "inconsistent:h003:2c38dbfd": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h005:2c38dbfd": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h006:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h007:c1e78cba": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h008:cb8db9de": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h009:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h012:0e71403f": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h013:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h015:0e71403f": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h016:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h017:fa6f690b": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h019:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:h020:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c001:859dd93a": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c001:2c38dbfd": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c004:0e71403f": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c005:ed3ae3e7": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c006:fa6f690b": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c007:0e71403f": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c007:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c008:b819a67e": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c009:6705d1d9": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음",
+  "inconsistent:c012:c1e78cba": "조건 자동 검사 상태가 같아도 요구 항목의 충족 범위(필요 항목 전부/일부, 데이터 종류, 지역 단위, 다른 지역 확인)가 달라 점수가 갈림. 각 근거는 note와 verification.items에 있음"
+ }
+}
