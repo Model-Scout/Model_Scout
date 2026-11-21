@@ -50,6 +50,8 @@ def test_facts_that_never_settle_a_condition():
                                                      "api_status": "파일 자동변환 OpenAPI (상세 페이지에 주소 있음)"})
     assert got["delivery"] == "충족" and "실제 호출은 확인하지 않음" in out["checks"][0]["scope"]
     assert verdicts(api, entity("x", ["전국"]), {"formats": "API (api)", "api_status": "미확인"})[0]["delivery"] == "미확인"
+    # a file-only listing is not "no API" either: no card states an absence
+    assert verdicts(api, entity("x", ["전국"]), {"formats": "CSV (csv), XLSX(엑셀) (xlsx)"})[0]["delivery"] == "미확인"
     now = {**dc.defaults(), "current_value": True, "update_interval": "1시간"}
     got, out = verdicts(now, entity("x", ["서울"]), {"update_cycle_portal": "실시간"})
     assert got == {"current_value": "미확인", "update_interval": "미확인"}  # the portal's 실시간 label proves nothing

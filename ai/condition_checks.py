@@ -5,7 +5,7 @@ Each condition is 충족 / 불충족 / 미확인, with the fact it rests on (bas
 (scope). A missing fact is 미확인, never 불충족; and some facts never settle a condition:
   - an API address on the portal page is not a successful call
   - the portal's "실시간" update label does not promise current values
-  - a card listing only an API does not mean there is no file
+  - a card listing only an API does not mean there is no file, nor a file-only listing that there is no API
   - 충북 data does not establish that 청주 is in it
 A partial alternative (서울 data for a nationwide request) is told apart from the conditions: the scope stays
 불충족 and the dataset carries partial_alternative instead.
@@ -107,7 +107,10 @@ def _delivery_checks(c, facts):
                                  "파일 자동변환 OpenAPI (내용은 올린 파일과 같음)" if auto else f"포털 등록 형식 {listed}",
                                  "API 주소 등록까지 확인, 실제 호출은 확인하지 않음"))
         elif codes:
-            checks.append(_check("delivery", label, UNMET, f"포털 등록 형식 {listed}에 API 없음", "포털 등록 형식"))
+            # Not listed is not "not provided": the provider may serve an API elsewhere. Only a stated
+            # absence could make this 불충족, and no card states one.
+            checks.append(_check("delivery", label, UNKNOWN, f"포털 등록 형식 {listed}에 API 표기 없음",
+                                 "API 제공 여부는 원 제공처 확인"))
         else:
             checks.append(_check("delivery", label, UNKNOWN, "제공 방식 표시 없음", "원 제공처 확인"))
     elif c.get("delivery") == "file":

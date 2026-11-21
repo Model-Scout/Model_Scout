@@ -124,8 +124,8 @@ ok=충족, check=확인 필요, unknown=미확인. check는 충족으로 집계�
 데이터셋(서비스 데이터) 후보에는 사용자가 말한 데이터 조건의 판정이 같은 `Check`로 더해진다. 형식은 바뀌지 않는다.
 - key: region, region_detail, region_scope, delivery, format, current_value, update_interval, commercial, kogl_type1_only
 - 판정 근거와 확인 범위는 reason에 "근거 · 확인 범위"로 적는다.
-- 불충족은 check, 미확인은 unknown이다.
-- 부분 대안은 key alternative(status check)로 따로 표시하고, 조건 충족으로 보지 않는다.
+- 불충족은 check, 미확인은 unknown이다. 화면 배지가 같은 check인 부분 대안과 구분되도록 불충족 reason은 "불충족 — "로 시작한다.
+- 부분 대안은 key alternative(status check, reason "부분 대안 — …")로 따로 표시하고, 조건 충족으로 보지 않는다.
 - 조건을 읽지 못하면 key conditions(status unknown)가 붙는다. 이는 "조건 없음"이 아니다.
 조건 요약은 summary에 "데이터 조건: …"과 "우선·구분 요청: …" 줄로 들어간다.
 

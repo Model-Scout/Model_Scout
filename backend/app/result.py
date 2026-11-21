@@ -220,13 +220,15 @@ CONDITION_STATUS = {"충족": "ok", "불충족": "check", "미확인": "unknown"
 
 def _condition_checks(row: dict[str, Any]) -> list[Check]:
     sid = row["dataset"]
+    # The badge shows "확인 필요" for check, so an unmet condition says so in its reason: the screen tells
+    # 불충족 apart from a partial alternative, which has the same badge.
     checks = [Check(key=c["key"], label=c["label"], status=CONDITION_STATUS.get(c["status"], "unknown"),
-                    reason=f"{c['basis']} · {c['scope']}", source_id=sid,
+                    reason=("불충족 — " if c["status"] == "불충족" else "") + f"{c['basis']} · {c['scope']}", source_id=sid,
                     origin="unknown" if c["status"] == "미확인" else "metadata")
               for c in row.get("condition_checks") or []]
     if row.get("partial_alternative"):
         checks.append(Check(key="alternative", label="부분 대안", status="check",
-                            reason=row["partial_alternative"], source_id=sid, origin="metadata"))
+                            reason=f"부분 대안 — {row['partial_alternative']}", source_id=sid, origin="metadata"))
     return checks
 
 

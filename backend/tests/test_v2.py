@@ -538,6 +538,8 @@ def test_dataset_condition_verdicts_become_checks_and_summary():
     checks = {c.key: c for c in result.candidates[0].checks}
     assert [checks[k].status for k in ("region", "region_detail", "region_scope", "alternative")] == ["ok", "unknown", "check", "check"]
     assert checks["region_detail"].reason == "충북 자료 · 청주 포함 여부는 원문 확인"
+    # same "확인 필요" badge on screen, told apart by the reason
+    assert checks["region_scope"].reason.startswith("불충족 — ") and checks["alternative"].reason.startswith("부분 대안 — ")
     assert "데이터 조건: 충북 청주 · 파일(CSV)" in result.summary and "우선·구분 요청: 접근성 정보 우선" in result.summary
     unread = build_result({"plan": {"summary_ko": "s"}, "datasets": {}, "data_conditions": {"status": "unavailable"}})
     assert any("확인하지 않았어요" in line for line in unread.summary)  # never read as "no conditions"

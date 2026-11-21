@@ -338,7 +338,9 @@ artifact_runnable_gib is a download file size, never GPU memory. A dataset's "fa
 say it in a few words. facts.limits are sentences quoted from the official description (coordinate system, data delay,
 period or row limits): for every dataset you name, state each of its limits beside it; also say API-only vs file.
 A fact that is absent, "미확인" or "확인 필요" is unknown: say it is not confirmed, never that the data lacks it.
-update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data.
+update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data:
+never call a dataset or its API 실시간/real-time; if the label matters, write it as "포털 갱신 표기 '실시간'
+(실제 갱신 확인 필요)". A 미확인 current_value or update_interval check stays 미확인.
 api_status "미확인" means the API is not confirmed (never "no API"); "파일 자동변환 OpenAPI" is the uploaded file served
 as an API: it counts as an API, but its data is only as fresh as the file, so it is no evidence of real-time data.
 data_conditions, when present, are the data conditions the user stated; status "unavailable" means they could
