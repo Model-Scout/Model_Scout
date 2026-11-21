@@ -1,0 +1,11 @@
+{
+ "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch7\\judgments.jsonl",
+ "judgments_sha256": "a29905da54483d3a9af52296de10d4af370200e7d4c50645baafea5618183c5e",
+ "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch7\\items.jsonl",
+ "base": "test\\public_data\\corpus_v2\\golden_prep\\batch6\\labels_llm_v7.jsonl",
+ "base_sha256": "e77df417be0e2684885c164bfd7b7b70775e3ac289e0c01a38391d1548fca6a1",
+ "judgment_kinds": {
+  "llm_first_pass": 138
+ },
+ "warnings_resolved": {}
+}
