@@ -4,6 +4,8 @@ The full answer takes ~10-25 s (two LLM calls and the model search), so each ste
 
     event: status      {"node": "decompose", "elapsed": 2.4}      after every graph node
     event: plan        ProjectPlan                                   needs + constraints
+    event: data_conditions  {status, region, delivery, ...} or null  stated data conditions (data_conditions.py);
+                                                                     service_data rows then carry condition_checks
     event: clarify     {"questions": [...]}                          vague request: the run pauses here
     event: models      [{need, models}]                              per need; each model has gpu_fit,
                                                                      benchmarks and a README evidence quote
@@ -140,8 +142,8 @@ def sse(event, data):
 
 # node -> state keys sent as events of the same name, in order.
 NODE_EVENTS = {
-    "decompose": ("plan",),
-    "clarify": ("plan",),  # resuming re-plans here; decompose does not run again
+    "decompose": ("plan", "data_conditions"),
+    "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
     "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
 }
