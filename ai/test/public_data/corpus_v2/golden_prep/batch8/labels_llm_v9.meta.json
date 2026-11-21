@@ -1,0 +1,13 @@
+{
+ "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch8\\judgments.jsonl",
+ "judgments_sha256": "079fdf2c4fc8bdd6c0f7336ca45311a11975de7cca6da046671e41738e5c89da",
+ "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch8\\items.jsonl",
+ "base": "test\\public_data\\corpus_v2\\golden_prep\\batch7\\labels_llm_v8.jsonl",
+ "base_sha256": "4a320d8d7d57610303141cfe8287c2dcebaf91a58ccb28c5982b2639578ef82e",
+ "judgment_kinds": {
+  "llm_first_pass": 67
+ },
+ "warnings_resolved": {
+  "inconsistent:p054:ed75ac15": "15063481은 관광명소 정보 전반, 15101971은 오디오 해설 중심이라 부분"
+ }
+}

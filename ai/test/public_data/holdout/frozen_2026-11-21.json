@@ -1,0 +1,35 @@
+{
+ "frozen_on": "2026-11-21",
+ "purpose": "별도 질문 검증 전에 고정한 개발 기준선. 이 값들은 검증이 끝날 때까지 바꾸지 않는다.",
+ "corpus": {
+  "name": "v2",
+  "data_version": "aa1a71d35a121150"
+ },
+ "retriever": {
+  "path": "hybrid",
+  "merge": "weighted RRF",
+  "rrf_k": 20,
+  "weights": [
+   0.5,
+   0.5
+  ],
+  "channel_depth": 100,
+  "top_k": 30,
+  "filter": "pilot.apply_filter: 확인된 불충족만 제거, 실시간은 항상 미확인, '전국'은 지역 필터로 쓰지 않음"
+ },
+ "experimental_planner_prompt_sha256": "565e91769063af90d6821d44031d413fe4ab226d06d5c0e3ac54dc1264ac39ba",
+ "planner_model": "gpt-4.1-mini (temperature 0)",
+ "dev_baseline_runs": [
+  "test/public_data/retrieval/runs/2026-11-20_decompose_compare_labels-v8",
+  "test/public_data/retrieval/runs/2026-11-21_decompose_v2_labels-v9"
+ ],
+ "files_lf_sha256": {
+  "experimental_planner": "3f463141c62a67d7dd60f1e8ac0bb0fe97905447138a53d2b6d2186e0c470089",
+  "fusion": "bab7cb444d21b8a3f240d9b371735200ca5233388eb6a3be8924893f9f8ac11a",
+  "pilot": "9ab0e5fdaed99e7f3637f2261d91739826892c922ab87f51ff60fdf03d21784d",
+  "labels_v9": "98e2bbe1b2ae74d24c290d2a84b2377e41a1d6f83f4e10e819ba14b80b2beae5",
+  "spec_v2": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d",
+  "service_planner": "36ec896d919f73e8e65d057625a9371eccf6ab7923bd35e72891f5a5d9c1c597",
+  "router": "8c521267281f19649d7b2f05d521d361092d5ca09f37bc6bc393e7344d6b4d5b"
+ }
+}
