@@ -1,0 +1,59 @@
+{
+ "identity": {
+  "corpus": "v2",
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+  "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+  "vectors": "local"
+ },
+ "labels": {
+  "path": "test/public_data/corpus_v2/golden_prep/batch8/labels_llm_v9.jsonl",
+  "sha256": "98e2bbe1b2ae74d24c290d2a84b2377e41a1d6f83f4e10e819ba14b80b2beae5"
+ },
+ "spec": {
+  "path": "test/public_data/retrieval/query_spec_v2.jsonl",
+  "sha256": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d"
+ },
+ "retriever": {
+  "merge": "rrf20",
+  "weights": [
+   0.5,
+   0.5
+  ],
+  "channel_depth": 100,
+  "top_k": 30
+ },
+ "inputs": [
+  "question",
+  "dq",
+  "dq_terms",
+  "question_golden"
+ ],
+ "base": "question",
+ "reused_from": null,
+ "routes_from": "test/public_data/retrieval/runs/2026-11-20_decompose_compare",
+ "planner_model": "gpt-4.1-mini",
+ "api_calls": {
+  "planner_and_router": 58,
+  "embeddings": 58
+ },
+ "development_set": true,
+ "bootstrap": {
+  "n": 2000,
+  "seed": 20261120
+ },
+ "code": {
+  "commit": "be2f12c161b8b2f25fdd41f0dbfe51264c11f9f9",
+  "branch": "feat/decompose-conditions",
+  "uncommitted": [],
+  "files_lf_sha256": {
+   "test/public_data/retrieval/pilot.py": "a775c2d5a8107f2189c62457d907cd1f43e8b3d664378db7a68dd09c8bdaca24",
+   "test/public_data/retrieval/query_spec_v1.jsonl": "ce31b765325cc3fd08ecb054442d37c92f9e407142d687270175741fbf7fc2e0",
+   "test/public_data/corpus_v2/golden_prep.py": "44c1ad46e59f497046884498f4756995fc633754ef3ce91664b510e14034dd11",
+   "test/public_data/corpus_v2/compare_corpora.py": "956cbcfd5894ec8d4459018c8980c74cf84487f5a6076385eed9754c7cbe89e6",
+   "hypergraph_search.py": "add2afcbc899cc40192360e45ac4b5e58d51d39dff11d1a3c614c67f247f322b",
+   "retrieval_lab/fusion.py": "5429bab364bc399ef706d006d6b6239faf3d4b9939b731a2999bcba7dba696d3",
+   "retrieval_lab/metrics.py": "dbaefe0dd77eb156d393cff60f9c5446302d94f60befe5af04ce11ace59fd197"
+  },
+  "decompose_compare_lf_sha256": "5ad1a952c3c8ee60869d298fa45a0e704dc862fa7ef3c637dee621b1fe2d8471"
+ }
+}

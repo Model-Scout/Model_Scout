@@ -50,13 +50,15 @@ def load_graph_module():
     return module
 
 
-def plan_for(rg, question):
-    routed = rg._route(question)
+def plan_for(rg, question, routed=None):
+    """routed: a saved route to reuse (no router call), so only the planner differs from that run."""
+    routed = routed or rg._route(question)
     target = routed["target"] if routed.get("target") in ("model", "dataset", "both") else "both"
     plan = rg._first_plan(" ".join(question.split()), target)
     return {"route": routed, "target_used": target, "model": rg.LLM_MODEL,
             "dataset_query": plan["dataset_query"], "dataset_terms": plan["dataset_terms"],
-            "commercial_only": plan["constraints"]["commercial_only"], "clarifying_questions": plan["clarifying_questions"]}
+            "commercial_only": plan["constraints"]["commercial_only"], "clarifying_questions": plan["clarifying_questions"],
+            "data_conditions": plan.get("data_conditions")}
 
 
 def retention(spec, plan):
@@ -87,6 +89,7 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--allow-api", action="store_true", help="call the service planner and embed dataset_query")
     group.add_argument("--reuse", type=Path, help="a run folder whose plans.jsonl and dq_vectors.jsonl are reused")
+    parser.add_argument("--routes", type=Path, help="with --allow-api: reuse this run's routes, call only the planner")
     args = parser.parse_args()
     out = args.dir
     if out.exists() and any(out.iterdir()):
@@ -102,9 +105,10 @@ def main():
             cache[row["key"]] = row["vector"]
     else:
         rg = load_graph_module()
+        routes = {p["query_id"]: p["route"] for p in pilot.read_jsonl(args.routes / "plans.jsonl")} if args.routes else {}
         plans = {}
         for lb in labels:
-            plans[lb["query_id"]] = {"query_id": lb["query_id"], **plan_for(rg, lb["query"])}
+            plans[lb["query_id"]] = {"query_id": lb["query_id"], **plan_for(rg, lb["query"], routes.get(lb["query_id"]))}
             print(lb["query_id"], plans[lb["query_id"]]["target_used"], plans[lb["query_id"]]["dataset_query"][:60], flush=True)
 
     alias, conditions, searcher = pilot.cc.confirmed_aliases(), pilot.Conditions(), pilot.Searcher()
@@ -133,11 +137,12 @@ def main():
                        ("rankings.jsonl", rankings), ("unjudged_blind.jsonl", blind)):
         (out / name).write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
     (out / "scores.json").write_text(json.dumps(scores, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    api = {"planner_and_router": 0 if args.reuse else 2 * len(labels), "embeddings": len(added)}
+    api = {"planner_and_router": 0 if args.reuse else (1 if args.routes else 2) * len(labels), "embeddings": len(added)}
     (out / "run.json").write_text(json.dumps({
         "identity": identity, "labels": pilot.cc.file_record(args.labels), "spec": pilot.cc.file_record(args.spec),
         "retriever": {"merge": f"rrf{K_RRF}", "weights": [0.5, 0.5], **{k: pilot.SETTINGS[k] for k in ("channel_depth", "top_k")}},
         "inputs": INPUTS, "base": BASE, "reused_from": str(args.reuse).replace("\\", "/") if args.reuse else None,
+        "routes_from": str(args.routes).replace("\\", "/") if args.routes else None,
         "planner_model": next(iter(plans.values()))["model"], "api_calls": api, "development_set": True,
         "bootstrap": {"n": sweep.BOOT, "seed": sweep.SEED},
         "code": {**pilot.code_record(), "decompose_compare_lf_sha256": pilot.content_digest(Path(__file__))[0]},

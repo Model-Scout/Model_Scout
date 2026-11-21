@@ -37,6 +37,7 @@ import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FutureTimeout
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Annotated, Any, Literal, TypedDict
@@ -45,6 +46,8 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 from pydantic import BaseModel, Field, model_validator
 
+import condition_checks
+import data_conditions
 import model_rerank
 import project_checks
 from explanation_grounding import EXPLANATION_CAVEAT, grounded_lines
@@ -227,6 +230,9 @@ class State(TypedDict, total=False):
     route: dict  # {"target": model|dataset|both|needs_clarification, "status": router status}
     model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
     plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
+    # Stated data conditions ({"status": "ok", ...data_conditions.defaults()}) or {"status": "unavailable"};
+    # None on a turn that searches no datasets. Kept out of the plan: the planner never sees it.
+    data_conditions: dict | None
     models: list
     model_datasets: dict  # model_id -> datasets linked to that model (model side)
     project_datasets: dict  # {project_training, service_data} (dataset side)
@@ -332,9 +338,18 @@ artifact_runnable_gib is a download file size, never GPU memory. A dataset's "fa
 say it in a few words. facts.limits are sentences quoted from the official description (coordinate system, data delay,
 period or row limits): for every dataset you name, state each of its limits beside it; also say API-only vs file.
 A fact that is absent, "미확인" or "확인 필요" is unknown: say it is not confirmed, never that the data lacks it.
-update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data.
+update_cycle_portal is the portal's own label (it calls daily data "실시간" too), not proof of real-time data:
+never call a dataset or its API 실시간/real-time; if the label matters, write it as "포털 갱신 표기 '실시간'
+(실제 갱신 확인 필요)". A 미확인 current_value or update_interval check stays 미확인.
 api_status "미확인" means the API is not confirmed (never "no API"); "파일 자동변환 OpenAPI" is the uploaded file served
 as an API: it counts as an API, but its data is only as fresh as the file, so it is no evidence of real-time data.
+data_conditions, when present, are the data conditions the user stated; status "unavailable" means they could
+not be read: then say the datasets were not checked against the user's conditions, never that there were none.
+A service_data row's condition_checks are the app's verdicts from its card: for each such dataset you name,
+state its 불충족 and 미확인 checks as given (label, status, basis) and that the rest are 충족. Never turn 미확인
+into 충족 or 불충족 and never add a verdict of your own. partial_alternative marks a dataset that misses a
+condition but may serve as a partial alternative: present it so, never as meeting the condition.
+preferences are what the user wants first or shown apart, never exclusions; inferred_needs are inferences.
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
 search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
@@ -392,6 +407,54 @@ def _llm_plan(user):
         raise ValueError(f"planner refused: {response.choices[0].message.refusal}")
     plan.needs = plan.needs[:MAX_NEEDS]
     return plan.model_dump()
+
+
+DATA_TARGETS = ("dataset", "both")
+# How long the planner's turn waits for the condition reader once both started; past it the answer goes on
+# with the conditions unconfirmed. The reader is the shorter call, so it rarely sets the turn's pace.
+CONDITIONS_TIMEOUT_S = 10.0
+# Its own pool: a reader past the timeout keeps running here without holding the turn.
+_CONDITION_POOL = ThreadPoolExecutor(max_workers=4, thread_name_prefix="data-conditions")
+
+
+@ttl_cache(seconds=24 * 3600)
+def _first_conditions(request):
+    """A first turn's conditions depend only on its words (temperature 0), as _first_plan."""
+    return data_conditions.extract(_openai(), LLM_MODEL, request)
+
+
+def _read_conditions(request, earlier=None, previous=None):
+    started = time.perf_counter()
+    if earlier is None and previous is None:
+        out = _first_conditions(request)
+    else:
+        out = data_conditions.extract(_openai(), LLM_MODEL, request, earlier, previous)
+    logging.info("data conditions read in %.0f ms", (time.perf_counter() - started) * 1000)
+    return {"status": "ok", **out}
+
+
+def _with_conditions(target, plan_call, request, earlier=None, previous=None):
+    """(plan, data_conditions): the condition reader runs beside the planner on dataset turns only. Its
+    failure or lateness never fails the turn: the conditions are then unavailable, i.e. not confirmed."""
+    if target not in DATA_TARGETS:
+        return plan_call(), None
+    started = time.monotonic()
+    job = _CONDITION_POOL.submit(_read_conditions, request, earlier, previous)
+    plan = plan_call()
+    try:
+        conditions = job.result(timeout=max(0.0, CONDITIONS_TIMEOUT_S - (time.monotonic() - started)))
+    except FutureTimeout:
+        logging.warning("data conditions late (> %.0f s); answering with them unconfirmed", CONDITIONS_TIMEOUT_S)
+        conditions = {"status": "unavailable", "reason": "timeout"}
+    except Exception as exc:  # the reader must never fail the recommendation
+        logging.warning("data conditions unavailable (%s)", type(exc).__name__)
+        conditions = {"status": "unavailable", "reason": type(exc).__name__}
+    return plan, conditions
+
+
+def _previous_conditions(state):
+    previous = state.get("data_conditions") or {}
+    return {k: v for k, v in previous.items() if k != "status"} if previous.get("status") == "ok" else None
 
 
 TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
@@ -493,20 +556,27 @@ def classify_model_query(state: State) -> State:
 
 
 def decompose(state: State) -> State:
+    target = _target(state)
     if not state.get("plan"):
-        return {**FRESH_RESULTS, "plan": _first_plan(" ".join(state["request"].split()), _target(state))}
+        request = " ".join(state["request"].split())
+        plan, conditions = _with_conditions(target, lambda: _first_plan(request, target), request)
+        return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions}
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
-    return {
-        **FRESH_RESULTS,
-        "plan": _parse_plan(
+    plan, conditions = _with_conditions(
+        target,
+        lambda: _parse_plan(
             state["request"],
-            _target(state),
+            target,
             said=state["request"],
             previous=constraints_of(state["plan"]),
             prior_plan=state["plan"],
             earlier=earlier,
-        )
-    }
+        ),
+        state["request"],
+        earlier,
+        _previous_conditions(state),
+    )
+    return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions}
 
 
 METADATA_LINE_PREFIXES = ("```", "---", "- ", "base_model", "license", "pipeline_tag", "library_name", "tags")
@@ -800,6 +870,11 @@ def clarify(state: State) -> State:
     if _target({**state, **out}) == "needs_clarification":
         out["route"] = {"target": "both", "status": "default"}
     out["plan"]["clarifying_questions"] = []
+    # The answers may add or settle data conditions; a clarified turn is rare, so this read runs alone.
+    earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]] or None
+    out["data_conditions"] = _with_conditions(
+        _target({**state, **out}), lambda: None, out["request"], earlier, _previous_conditions(state)
+    )[1]
     return out
 
 
@@ -826,10 +901,13 @@ def assess(state: State) -> State:
     # so the explainer can say e.g. "EPSG:5174 좌표, 3일 전 자료". Joined here so both branches share one lookup.
     shown = [d for rows in datasets["per_model"].values() for d in rows[:FACT_ROWS]]
     shown += datasets["project_training"][:FACT_ROWS] + datasets["service_data"][:FACT_ROWS]
-    facts = dataset_facts([d["dataset"] for d in shown])
+    conditions = state.get("data_conditions")
+    judged = datasets["service_data"] if conditions else []  # condition verdicts read portal cards: service data
+    facts = dataset_facts([d["dataset"] for d in shown + judged])
     for row in shown:
         if facts.get(row["dataset"]):
             row["facts"] = facts[row["dataset"]]
+    _judge_conditions(judged, conditions, constraints_of(state["plan"])["commercial_only"], facts)
     for rows in datasets["per_model"].values():
         items +=[{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
     items += [
@@ -857,8 +935,27 @@ def assess(state: State) -> State:
     return {"datasets": datasets, "assessment": assessment}
 
 
+def _judge_conditions(rows, conditions, commercial_only, facts):
+    """Each row gets condition_checks (and partial_alternative) from its card; order and membership stay as
+    searched. Conditions that could not be read are said to be unchecked, never taken as none."""
+    if not rows:
+        return
+    if conditions.get("status") != "ok":
+        verdict = condition_checks.unread(conditions.get("reason") or "unavailable")
+        for row in rows:
+            row["condition_checks"], row["partial_alternative"] = verdict["checks"], None
+        return
+    entities = load_graph()[0]
+    for row in rows:
+        entity = entities.get(f"dataset:{row['dataset']}") or {"source": row.get("source"), "title": row.get("title")}
+        verdict = condition_checks.judge(conditions, commercial_only, entity, facts.get(row["dataset"]) or {})
+        row["condition_checks"], row["partial_alternative"] = verdict["checks"], verdict["partial_alternative"]
+
+
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
+    if state.get("data_conditions"):
+        payload["data_conditions"] = state["data_conditions"]
     payload["search_target"] = _target(state)
     payload["search_target_defaulted"] = (state.get("route") or {}).get("status") == "default"
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
