@@ -202,6 +202,61 @@ def license_verdict(items: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+TRAINING_KIND = "학습 데이터"
+
+
+def stack_verdict(items: list[dict[str, Any]], commercial_only: bool) -> dict[str, Any]:
+    """items as for license_verdict. The service runs on the models and service data, so they decide;
+    training data binds only if the user trains on it, so a non-commercial set is named to leave out
+    instead of blocking the stack. With no service parts (a dataset-only answer) training data decides.
+    commercial_only (the user mentioned a company, launch or sales) picks the question the headline answers.
+    """
+    core = [i for i in items if i["kind"] != TRAINING_KIND]
+    training = [i for i in items if i["kind"] == TRAINING_KIND]
+    verdict = license_verdict(core or training)
+    optional = [{**item, "class": license_class(item["license"])} for item in training] if core else []
+    verdict["training_non_commercial"] = [i for i in optional if i["class"] == "non_commercial"]
+    verdict["training_review"] = [i for i in optional if i["class"] in ("conditional", "unknown")]
+    verdict["use"] = "commercial" if commercial_only else "personal"
+    return verdict
+
+
+def _names(items: list[dict[str, Any]], limit: int = 4) -> str:
+    def text(value):
+        values = [v for v in (value if isinstance(value, list) else [value]) if v]
+        return ", ".join(map(str, values)) or "라이선스 미확인"
+
+    names = ", ".join(f"{i['id']} ({text(i['license'])})" for i in items[:limit])
+    return names + (f" 외 {len(items) - limit}개" if len(items) > limit else "")
+
+
+def license_section(verdict: dict[str, Any]) -> str:
+    """The answer's closing license verdict, rendered from stack_verdict so it never depends on the writer."""
+    if verdict.get("verdict", "none") == "none":
+        return ""
+    avoid, check = verdict.get("training_non_commercial", []), verdict.get("training_review", [])
+    launch = verdict["label"]
+    if verdict["verdict"] == "commercial_ok" and avoid:
+        launch += " (아래 비상업 학습 데이터를 빼면)"
+    if verdict.get("use") == "commercial":
+        lines = [f"**라이선스 판정 (상업 출시 기준): {launch}**"]
+    else:
+        lines = [
+            "**라이선스 판정 (개인·로컬 사용 기준)**",
+            "- 개인·로컬 사용: " + ("원문 확인이 필요한 항목이 있어요" if verdict["review"] else "막는 라이선스 없음"),
+            f"- 상업 출시할 경우: {launch}",
+        ]
+    if verdict["blockers"]:
+        lines.append(f"- 비상업 라이선스: {_names(verdict['blockers'])}")
+    if verdict["review"]:
+        lines.append(f"- 라이선스 원문 확인 필요: {_names(verdict['review'])}")
+    if avoid:
+        lines.append(f"- 상업 출시 시 학습에서 뺄 데이터: {_names(avoid)}")
+    if check:
+        lines.append(f"- 학습에 쓰기 전 원문 확인: {_names(check)}")
+    return "\n".join(lines)
+
+
 def compact_benchmarks(benchmark_metadata: dict | None, limit: int = 3) -> list[dict[str, Any]]:
     rows = (benchmark_metadata or {}).get("results_preview") or []
     return [{k: row.get(k) for k in ("benchmark", "dataset", "metric", "score")} for row in rows[:limit]]
@@ -273,4 +328,16 @@ if __name__ == "__main__":
     assert license_verdict(stack)["verdict"] == "commercial_ok"
     assert license_verdict([{**stack[0], "commercial_status": "prohibited"}])["verdict"] == "blocked"
     assert small["basis"] == GPU_FIT_BASIS
+    # An NC training set is named to leave out; it does not block a stack whose service parts are clear.
+    core = [{"kind": "모델", "id": "m", "license": "apache-2.0"}]
+    nc_train = [{"kind": "학습 데이터", "id": "nc", "license": ["cc-by-nc-sa-4.0"]}]
+    personal = stack_verdict(core + nc_train, commercial_only=False)
+    assert personal["verdict"] == "commercial_ok" and personal["training_non_commercial"][0]["id"] == "nc"
+    text = license_section(personal)
+    assert "개인·로컬 사용 기준" in text and "빼면" in text and "학습에서 뺄 데이터: nc (cc-by-nc-sa-4.0)" in text, text
+    launch = license_section(stack_verdict(core, commercial_only=True))
+    assert launch == "**라이선스 판정 (상업 출시 기준): 상업 출시 가능**", launch
+    # With no service parts (a dataset-only answer), the training data is the stack itself.
+    assert stack_verdict(nc_train, commercial_only=True)["verdict"] == "blocked"
+    assert license_section(stack_verdict([], commercial_only=False)) == ""
     print("project_checks ok")
