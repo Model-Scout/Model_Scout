@@ -1,6 +1,51 @@
 // V2 contract: backend/docs/02-api-v2.md, backend/app/result.py. Only the five public APIs are used.
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+/** Quartz wiki on GitHub Pages (.github/workflows/wiki-pages.yml); it serves CORS *, so the browser reads it directly. */
+export const WIKI_URL = process.env.NEXT_PUBLIC_WIKI_URL ?? "https://model-scout.github.io/Model_Scout";
+
+export type WikiInfo = {
+  url: string;
+  summary: string | null;
+  tags: { label: string; value: string; href: string }[];
+  related: { text: string; href: string }[];
+};
+
+/** The wiki page for a model/dataset, or null when it has none. Reads the published HTML, so no backend change. */
+export async function getWiki(sourceId: string, kind: "model" | "dataset"): Promise<WikiInfo | null> {
+  // Mirrors ai/15_build_wiki.py entity_page(); Quartz then turns spaces into "-".
+  const name = sourceId.replace(/\//g, "__").replace(/[\\/:*?"<>|#^[\]]/g, "_").trim().replace(/ /g, "-");
+  const url = `${WIKI_URL}/${kind}s/${encodeURIComponent(name)}`;
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  const article = new DOMParser().parseFromString(await res.text(), "text/html").querySelector("article");
+  if (!article) return null;
+  const href = (a: Element | null) => {
+    const h = a ? new URL(a.getAttribute("href") ?? "", url) : null;
+    return h && /^https?:$/.test(h.protocol) ? h.href : url;
+  };
+  const items = (title: string) => {
+    const h2 = [...article.querySelectorAll("h2")].find((h) => h.textContent?.trim() === title);
+    return h2?.nextElementSibling?.tagName === "UL" ? [...h2.nextElementSibling.querySelectorAll("li")] : [];
+  };
+  const children = [...article.children];
+  const firstH2 = children.findIndex((e) => e.tagName === "H2");
+  const summary = children.slice(0, firstH2 < 0 ? undefined : firstH2).find((e) => e.tagName === "P")?.textContent?.trim() || null;
+  const seen = new Set<string>();
+  const tags = items("분류").flatMap((li) => {
+    const a = li.querySelector("a.internal");
+    const label = li.querySelector("strong")?.textContent?.trim() ?? "";
+    const value = a?.textContent?.trim() ?? "";
+    if (!value || seen.has(label + value)) return [];
+    seen.add(label + value);
+    return [{ label, value, href: href(a) }];
+  });
+  const related = [...items("학습 데이터"), ...items("이 데이터로 학습한 모델")].flatMap((li) => {
+    const a = li.querySelector("a");
+    return a?.textContent ? [{ text: a.textContent.trim(), href: href(a) }] : [];
+  });
+  return { url, summary, tags, related };
+}
 
 export type Origin = "readme" | "metadata" | "estimate" | "unknown";
 
