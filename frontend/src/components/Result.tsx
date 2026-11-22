@@ -28,8 +28,9 @@ type ReadmeOpen = (s: { source_id: string; kind: "model" | "dataset"; title?: st
 /** v5 B. 추천 결과 (대시보드): top picks | selected candidate + Model Scout 요약 | chat in a side panel. */
 export function Result({ groupId, title, request, result, sources, turns, owner, onSend, onCancel, onReload, onHome, onOpenGroup }: Props) {
   const candidates = result.candidates;
-  const models = candidates.filter((c) => c.type === "model");
-  const datasets = candidates.filter((c) => c.type === "dataset");
+  const models = candidates.filter((c) => c.type === "model" && c.group !== "sft");
+  // Model-linked data ("모델 학습·평가") shows only in a model's detail, not in the main 추천 데이터 list.
+  const datasets = candidates.filter((c) => c.type === "dataset" && projectRoles(c).length > 0);
   const [selectedId, setSelectedId] = useState(candidates[0]?.id);
   const [readme, setReadme] = useState<ReadmeTarget | null>(null);
   const [copied, setCopied] = useState(false);
@@ -308,7 +309,62 @@ function TopModel({ c, onReadme }: { c?: Candidate; onReadme: ReadmeOpen }) {
   );
 }
 
+/** Category chips (전체 + one per category, with counts) over a list; hidden when there is only one category. */
+function useCategories(items: Candidate[], categoryOf: (c: Candidate) => string | undefined, label: string) {
+  const [picked, setPicked] = useState<string | null>(null);
+  const counts = new Map<string, number>();
+  for (const c of items) {
+    const k = categoryOf(c);
+    if (k) counts.set(k, (counts.get(k) ?? 0) + 1);
+  }
+  // A new result may not contain the picked category: fall back to 전체.
+  const active = picked && counts.has(picked) ? picked : null;
+  const shown = active ? items.filter((c) => categoryOf(c) === active) : items;
+  const chips = counts.size > 1 && (
+    <div className="mt-3 flex flex-wrap gap-1 text-xs" role="radiogroup" aria-label={label}>
+      {[[null, "전체", items.length] as const, ...[...counts].map(([k, n]) => [k, k, n] as const)].map(([value, text, n]) => (
+        <button
+          key={text}
+          role="radio"
+          aria-checked={active === value}
+          className={`rounded-full px-3 py-1 ${active === value ? "bg-ink text-white" : "bg-soft text-muted"}`}
+          onClick={() => setPicked(value)}
+        >
+          {text} {n}
+        </button>
+      ))}
+    </div>
+  );
+  return { shown, chips };
+}
+
 function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
+  // tags[0] is the need's task (embedding, generation, ...; retrieval is folded into embedding), set by the backend.
+  const { shown, chips } = useCategories(models, (c) => c.tags[0], "태스크별 보기");
+  const row = (c: Candidate) => {
+    const t = tally(c);
+    return (
+      <li key={c.id}>
+        <button
+          aria-current={c.id === selectedId}
+          className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${c.id === selectedId ? "bg-brand-soft" : "hover:bg-soft"}`}
+          onClick={() => onSelect(c.id)}
+        >
+          <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-white text-brand ring-1 ring-line" aria-hidden>
+            ⬡
+          </span>
+          <span className="min-w-0 flex-1 truncate font-semibold">{c.name}</span>
+          {c.tags[0] && <span className="hidden shrink-0 rounded-full bg-soft px-2 py-0.5 text-[11px] text-muted xl:inline">{c.tags[0]}</span>}
+          <span className="h-1.5 w-14 shrink-0 overflow-hidden rounded-full bg-soft" aria-hidden>
+            <span className="block h-full rounded-full bg-brand" style={{ width: `${t.total ? (t.ok / t.total) * 100 : 0}%` }} />
+          </span>
+          <span className="w-8 shrink-0 text-right text-xs text-muted">
+            {t.ok}/{t.total}
+          </span>
+        </button>
+      </li>
+    );
+  };
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
@@ -316,35 +372,14 @@ function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; sele
         <span className="text-xs font-normal text-faint">추천 순</span>
       </h2>
       {models.length === 0 && <p className="mt-3 text-sm text-muted">추천 모델이 없어요.</p>}
-      <ul className="mt-3 max-h-64 space-y-1 overflow-y-auto">
-        {models.map((c) => {
-          const t = tally(c);
-          return (
-            <li key={c.id}>
-              <button
-                aria-current={c.id === selectedId}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${c.id === selectedId ? "bg-brand-soft" : "hover:bg-soft"}`}
-                onClick={() => onSelect(c.id)}
-              >
-                <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-white text-brand ring-1 ring-line" aria-hidden>
-                  ⬡
-                </span>
-                <span className="min-w-0 flex-1 truncate font-semibold">{c.name}</span>
-                {c.tags[0] && <span className="hidden shrink-0 rounded-full bg-soft px-2 py-0.5 text-[11px] text-muted xl:inline">{c.tags[0]}</span>}
-                <span className="h-1.5 w-14 shrink-0 overflow-hidden rounded-full bg-soft" aria-hidden>
-                  <span className="block h-full rounded-full bg-brand" style={{ width: `${t.total ? (t.ok / t.total) * 100 : 0}%` }} />
-                </span>
-                <span className="w-8 shrink-0 text-right text-xs text-muted">
-                  {t.ok}/{t.total}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {chips}
+      <ul className="mt-3 max-h-64 space-y-1 overflow-y-auto">{shown.map(row)}</ul>
     </section>
   );
 }
+
+// role is "모델 학습·평가" / "프로젝트 학습·평가" / "서비스 데이터", joined with " / " when a dataset has several.
+const projectRoles = (d: Candidate) => d.role.split(" / ").filter((r) => r !== "모델 학습·평가");
 
 function DataList({
   datasets,
@@ -357,6 +392,7 @@ function DataList({
   selectedId?: string;
   onSelect: (id: string) => void;
 }) {
+  const { shown, chips } = useCategories(datasets, (d) => projectRoles(d)[0], "용도별 보기");
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
@@ -364,8 +400,9 @@ function DataList({
         <span className="text-xs font-normal text-faint">연결 모델 표시</span>
       </h2>
       {datasets.length === 0 && <p className="mt-3 text-sm text-muted">추천 데이터가 없어요.</p>}
+      {chips}
       <ul className="mt-3 max-h-64 divide-y divide-line overflow-y-auto">
-        {datasets.map((d) => {
+        {shown.map((d) => {
           const model = all.find((m) => m.type === "model" && d.related.includes(m.id));
           return (
             <li key={d.id} className={`flex items-start gap-3 px-1 py-3 ${d.id === selectedId ? "bg-ok-soft/50" : ""}`}>
@@ -594,6 +631,7 @@ function Detail({
   onReadme: ReadmeOpen;
 }) {
   const related = c.related.map((id) => all.find((x) => x.id === id)).filter((x): x is Candidate => Boolean(x));
+  const sft = all.filter((x) => x.type === "model" && (x.group === "sft" || x.group === "both"));
   const readme = (quote?: string | null) => onReadme({ source_id: c.source_id, kind: c.type, title: c.name, url: c.url, quote });
 
   return (
@@ -622,7 +660,7 @@ function Detail({
           )}
         </div>
         <p className="text-sm">
-          <span className="font-semibold text-brand">이 아이디어에서의 역할</span> {c.role}
+          <span className="font-semibold text-brand">{c.group === "sft" ? "SFT 검토 이유" : "이 아이디어에서의 역할"}</span> {c.role}
         </p>
       </header>
 
@@ -661,20 +699,39 @@ function Detail({
 
       {c.type === "model" && <Metrics c={c} />}
 
-      {c.type === "model" && implementationGuide && (
+      {c.type === "model" && (implementationGuide || sft.length > 0) && (
         <section>
           <h3 className="mb-2 font-bold">프로젝트 구현 가이드</h3>
           <dl className="space-y-3 rounded-xl bg-soft p-3 text-sm">
-            {implementationGuide.structured_output && (
+            {implementationGuide?.structured_output && (
               <div>
                 <dt className="font-semibold">구조화 출력</dt>
                 <dd className="mt-1">{implementationGuide.structured_output}</dd>
               </div>
             )}
-            {implementationGuide.fine_tuning && (
+            {(implementationGuide?.fine_tuning || sft.length > 0) && (
               <div>
                 <dt className="font-semibold">추가 학습 검토</dt>
-                <dd className="mt-1">{implementationGuide.fine_tuning}</dd>
+                {implementationGuide?.fine_tuning && <dd className="mt-1">{implementationGuide.fine_tuning}</dd>}
+                {sft.length > 0 && (
+                  <dd className="mt-2">
+                    <span className="text-xs text-muted">SFT 출발점 후보</span>
+                    <ul className="mt-1 flex flex-wrap gap-2">
+                      {sft.map((m) => (
+                        <li key={m.id}>
+                          <button
+                            aria-current={m.id === c.id}
+                            className={`rounded-full border px-3 py-1 text-xs font-semibold ${m.id === c.id ? "border-brand bg-brand-soft text-brand" : "border-line bg-white hover:border-brand/50"}`}
+                            onClick={() => onSelect(m.id)}
+                          >
+                            {m.name}
+                            {m.tags[0] && <span className="ml-1 font-normal text-muted">{m.tags[0]}</span>}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                )}
               </div>
             )}
           </dl>

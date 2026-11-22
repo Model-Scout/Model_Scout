@@ -144,6 +144,22 @@ def test_result_links_dedup_and_unknowns():
     assert ChatDone.model_validate_json(done.model_dump_json()) == done
 
 
+def test_sft_group_is_marked_on_its_model_candidates():
+    from backend.app.result import build_result
+
+    def m(model_id):
+        return {"model_id": model_id, "license": "apache-2.0"}
+
+    result = build_result({"plan": {"summary_ko": "s"}, "datasets": {}, "models": [
+        {"need": {"task": "generation", "purpose_ko": "답변 생성"}, "models": [m("a/chat"), m("a/shared")]},
+        {"need": {"task": "generation", "purpose_ko": "분류 기준 학습"}, "models": [m("a/base"), m("a/shared")],
+         "kind": "sft"},
+    ]})
+    groups = {c.source_id: c.group for c in result.candidates}
+    assert groups == {"a/chat": "need", "a/shared": "both", "a/base": "sft"}
+    assert next(c for c in result.candidates if c.source_id == "a/base").role == "분류 기준 학습"
+
+
 def test_clarify_reject_and_no_candidates():
     clarify = build_done({"clarify": {"questions": ["어떤 서비스?"]}}, uuid4(), "", 1)
     assert clarify.type == "clarify" and clarify.answer == "어떤 서비스?" and clarify.result is None

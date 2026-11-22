@@ -370,6 +370,16 @@
               }
             ],
             "title": "Gpu Fit"
+          },
+          "group": {
+            "type": "string",
+            "enum": [
+              "need",
+              "sft",
+              "both"
+            ],
+            "title": "Group",
+            "default": "need"
           }
         },
         "type": "object",

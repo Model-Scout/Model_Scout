@@ -113,6 +113,19 @@ export const BIKE: ChatResult = {
         local,
       ],
     }),
+    model({
+      source_id: "LiquidAI/LFM3-1.7B-Base",
+      name: "LFM3-1.7B-Base",
+      role: "따릉이 경로 안내 말투와 답변 형식을 일정하게 맞추려면 SFT를 검토할 수 있어요.",
+      tags: ["generation"],
+      group: "sft",
+      rank_score: 0.61,
+      parameters_b: 1.7,
+      checks: [
+        { key: "license", label: "상업적 이용", status: "check", reason: "라이선스 원문 확인 필요(시연용)", source_id: "LiquidAI/LFM3-1.7B-Base", quote: null, origin: "metadata" },
+        local,
+      ],
+    }),
     dataset({
       source_id: "seoul/bike-stations",
       name: "서울시 공공자전거 대여소 정보",

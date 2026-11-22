@@ -301,6 +301,62 @@ def test_flag_off_keeps_the_legacy_post_filter():
     assert "commercial_status_filter" not in fake.calls[0] and "require_artifact" not in fake.calls[0]
 
 
+def _sft_row(model_id: str, formats: List[str], bits: int | None = None) -> Dict[str, Any]:
+    row = _row(model_id, "permitted")
+    row["filter_metadata"] |= {"artifact_formats": formats,
+                               "quantization": {"enabled": bool(bits), "bits": bits}}
+    return row
+
+
+def test_sft_plan_adds_a_separate_group_of_trainable_models():
+    corpus = [_sft_row("org/chat-GGUF", ["gguf"], bits=4), _sft_row("org/chat-Instruct", ["safetensors"]),
+              _sft_row("org/chat-Base", ["safetensors"])]
+    sft = {"task": "generation", "purpose_ko": "고유 분류 기준을 학습", "model_query": "sft-group base"}
+    plan = {**_plan("sft-group"), "fine_tuning": [sft]}
+    with patched(graph17, _load_09=lambda: FakeSearch(corpus, enabled=False)):
+        groups = graph17.search_models({"plan": plan, "request": "r"})["models"]
+    assert [g.get("kind") for g in groups] == [None, "sft"]
+    assert [m["model_id"] for m in groups[1]["models"]] == ["org/chat-Base", "org/chat-Instruct"]
+    assert groups[1]["need"]["purpose_ko"] == "고유 분류 기준을 학습"
+
+    # No trainable model: the SFT group is dropped, not shown empty.
+    # A plan checkpointed before fine_tuning became a list still searches.
+    plan = {**_plan("sft-empty"), "fine_tuning": {**sft, "model_query": "sft-empty base"}}
+    with patched(graph17, _load_09=lambda: FakeSearch(corpus[:1], enabled=False)):
+        groups = graph17.search_models({"plan": plan, "request": "r"})["models"]
+    assert [g.get("kind") for g in groups] == [None]
+
+
+def test_label_sft_starts_from_an_encoder_and_tone_sft_from_a_trainable_llm():
+    """분류 SFT 는 남의 라벨로 이미 학습된 분류기 대신 사전학습 인코더에서, 생성 SFT 는 8GB 에서 학습 여유가 있는 모델에서."""
+    small, big = _sft_row("org/small-Base", ["safetensors"]), _sft_row("org/big-12B-Base", ["safetensors"])
+    small["filter_metadata"]["parameter_count_billion"], big["filter_metadata"]["parameter_count_billion"] = 1.0, 12.0
+    fake = FakeSearch([big, small], enabled=False)
+    plan = {**_plan("sft-two", gpu_memory_gb=8), "fine_tuning": [
+        {"task": "classification", "purpose_ko": "고유 카테고리", "model_query": "sft-two cls base"},
+        {"task": "generation", "purpose_ko": "상담원 말투", "model_query": "sft-two gen base"}]}
+    with patched(graph17, _load_09=lambda: fake):
+        groups = graph17.search_models({"plan": plan, "request": "r"})["models"]
+    assert [g["need"]["purpose_ko"] for g in groups if g.get("kind") == "sft"] == ["고유 카테고리", "상담원 말투"]
+    sft_calls = [c for c in fake.calls if c["query"].startswith("sft-two ")]
+    assert {c["query"]: c["task_filters"] for c in sft_calls} == {
+        "sft-two cls base": ["feature-extraction"], "sft-two gen base": ["text-generation"]}
+    # 12B 는 8GB 에서 4bit 로만 돌아가서 학습 후보에서 빠진다.
+    assert all(m["model_id"] == "org/small-Base" for g in groups if g.get("kind") == "sft" for m in g["models"])
+
+
+def test_a_user_who_declines_fine_tuning_gets_no_sft_search():
+    sft = {"task": "generation", "purpose_ko": "p", "model_query": "q"}
+    plan = {"summary_ko": "s", "needs": [], "fine_tuning": [sft], "dataset_terms": [], "dataset_query": "q",
+            "clarifying_questions": [], "constraints": _llm({})}
+    with patched(graph17, _llm_plan=lambda user: dict(plan)):
+        assert graph17._parse_plan("상담 분류 모델 추천해줘")["fine_tuning"] == [sft]
+        assert graph17._parse_plan("파인튜닝은 안 할 거야. 상담 분류 모델 추천해줘")["fine_tuning"] == []
+        # An earlier turn's refusal still holds on a follow-up that does not mention training.
+        follow_up = graph17._parse_plan("상업용만", said="상업용만", earlier=["SFT 없이 쓸 상담 분류 모델"])
+        assert follow_up["fine_tuning"] == []
+
+
 def test_cache_key_separates_contract_conditions():
     fake = FakeSearch([_row("org/a", "permitted")], enabled=True)
     _run_search(fake, _plan("cache"))

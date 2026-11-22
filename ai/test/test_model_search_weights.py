@@ -203,8 +203,8 @@ def test_the_flag_is_off_by_default():
 def test_unsupported_still_reported_when_the_filter_is_not_released():
     """해제 대상이 아닌 유형은 예전처럼 unsupported 로 끝나야 한다."""
     source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
-    body = source[source.index("    def one(need):"):]
-    assert "not free_of_task_filter and need[\"task\"] not in QUERY_ONLY_TASKS" in body
+    body = source[source.index("    def one(need, sft=False):"):]
+    assert "not free and need[\"task\"] not in QUERY_ONLY_TASKS" in body
 
 
 if __name__ == "__main__":

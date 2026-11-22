@@ -89,6 +89,8 @@ export type Candidate = {
   // AI metadata extension area: fields may be absent, treat as 미확인.
   benchmarks: Record<string, unknown>[];
   gpu_fit: Record<string, unknown> | null;
+  // Which model list shows it; absent on results saved before the SFT list existed.
+  group?: "need" | "sft" | "both";
 };
 
 export type ImplementationGuide = {

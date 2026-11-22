@@ -358,3 +358,11 @@ def test_assess_and_explain_share_one_id_per_turn_built_from_the_conversation(mo
     ids = {r["event"]: r["trace_id"] for r in _log(tmp_path)}
     assert ids == {"assess": "1a2b3c4d-2", "explain": "1a2b3c4d-2"}  # second turn of that group
     assert "추적 ID" not in answer  # a normal answer shows no id; cut/failed ones do
+
+
+def test_sft_candidates_always_come_with_the_reason_in_the_guide():
+    sft = {"need": {"task": "classification", "purpose_ko": "고유 카테고리로 분류하려면 SFT를 검토할 수 있어요.",
+                    "model_query": "q"}, "models": [ALT], "kind": "sft"}
+    guide = graph17.assess({**_searched(), "models": [*_searched()["models"], sft]})["assessment"]["implementation_guide"]
+    assert guide["fine_tuning"].startswith("고유 카테고리로 분류하려면 SFT를 검토할 수 있어요.")
+    assert "implementation_guide" not in graph17.assess(_searched())["assessment"]  # no SFT group, no guide

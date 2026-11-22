@@ -52,6 +52,8 @@ class Candidate(BaseModel):
     parameters_b: float | None = None
     benchmarks: list[dict[str, Any]] = Field(default_factory=list)
     gpu_fit: dict[str, Any] | None = None
+    # Which model list shows it: a need's picks, the SFT starting points, or both. Datasets stay "need".
+    group: Literal["need", "sft", "both"] = "need"
 
 
 class ChatResult(BaseModel):
@@ -267,15 +269,21 @@ def build_result(events: dict[str, Any]) -> ChatResult:
             sid = model["model_id"]
             cid = f"model:{sid}"
             role = need.get("purpose_ko") or need.get("task", "")
+            kind = "sft" if group.get("kind") == "sft" else "need"
             if cid in candidates:
                 if role not in candidates[cid].role:
                     candidates[cid].role += f" / {role}"
+                if candidates[cid].group != kind:
+                    candidates[cid].group = "both"
                 continue
             candidates[cid] = Candidate(id=cid, type="model", source_id=sid, name=sid.split("/")[-1],
-                role=role, tags=[v for v in [need.get("task"), model.get("license")] if v],
+                # retrieval searches the same embedding models (17_recommend_graph MODEL_TASK_FALLBACK), so show one chip.
+                role=role, tags=[v for v in [{"retrieval": "embedding"}.get(need.get("task"), need.get("task")),
+                                             model.get("license")] if v],
                 source="Hugging Face", url=model.get("url"), checks=_checks(model, constraints),
                 rank_score=model.get("rank_score"), context_length=model.get("context_length"),
-                parameters_b=model.get("parameters_b"), benchmarks=model.get("benchmarks") or [], gpu_fit=model.get("gpu_fit"))
+                parameters_b=model.get("parameters_b"), benchmarks=model.get("benchmarks") or [], gpu_fit=model.get("gpu_fit"),
+                group=kind)
     def add_dataset(row: dict[str, Any], role: str, model_id: str | None = None) -> None:
         sid = row["dataset"]
         cid = f"dataset:{sid}"

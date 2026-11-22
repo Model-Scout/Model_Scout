@@ -24,7 +24,7 @@ export function TurnView({
     );
   }
 
-  const label = turn.type === "clarify" ? "AI · 추가 질문" : turn.type === "reject" ? "AI · 안내" : "AI";
+  const label = turn.type === "clarify" ? "BURI · 추가 질문" : turn.type === "reject" ? "BURI · 안내" : "BURI";
   return (
     <div className={`max-w-[95%] rounded-2xl ${compact ? "bg-soft" : "bg-white"} px-4 py-3 text-sm ${compact ? "" : "sm:max-w-[85%]"}`}>
       <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-muted">
@@ -38,7 +38,7 @@ export function TurnView({
       {/* Streaming tokens are provisional; done replaces them with the final answer. */}
       {turn.content && (
         <div className={turn.running ? "mt-3 opacity-70" : ""}>
-          <Markdown text={turn.content} />
+          <Markdown text={turn.content} foldTables />
         </div>
       )}
       {turn.error && (
@@ -55,18 +55,26 @@ export function TurnView({
       {turn.sources && turn.sources.length > 0 && turn.type === "answer" && (
         <div className="mt-3 border-t border-line pt-2">
           <div className="mb-1 text-xs font-semibold text-muted">답변에 쓸 수 있었던 자료</div>
-          <div className="flex flex-wrap gap-1">
-            {dedupe(turn.sources).map((s) => (
-              <button
-                key={s.source_id + s.kind}
-                className="rounded-md border border-line bg-white px-2 py-0.5 text-xs hover:border-brand/50"
-                onClick={() => onSource?.(s)}
-                title={ORIGIN[s.origin]}
-              >
-                {s.title ?? s.source_id}
-              </button>
-            ))}
-          </div>
+          {(["model", "dataset"] as const).map((kind) => {
+            const items = dedupe(turn.sources!).filter((s) => s.kind === kind);
+            return items.length > 0 && (
+              <details key={kind} className="mt-1.5">
+                <summary className="mb-1 cursor-pointer text-[11px] text-faint">{kind === "model" ? "모델" : "데이터"} {items.length}개</summary>
+                <div className="flex flex-wrap gap-1">
+                  {items.map((s) => (
+                    <button
+                      key={s.source_id + s.kind}
+                      className="rounded-md border border-line bg-white px-2 py-0.5 text-xs hover:border-brand/50"
+                      onClick={() => onSource?.(s)}
+                      title={ORIGIN[s.origin]}
+                    >
+                      {s.title ?? s.source_id}
+                    </button>
+                  ))}
+                </div>
+              </details>
+            );
+          })}
         </div>
       )}
         </>
@@ -188,13 +196,17 @@ export function Thread({
 
 /** F3: the run finished; point at the top picks and let the user open the result screen. */
 function CompletionCard({ result, sources, onOpen }: { result: ChatResult; sources: Source[]; onOpen: () => void }) {
-  const models = result.candidates.filter((c) => c.type === "model");
+  const models = result.candidates.filter((c) => c.type === "model" && c.group !== "sft");
   const datasets = result.candidates.filter((c) => c.type === "dataset");
   const top = models[0];
   // Prefer the data linked to the top model; otherwise the first dataset.
   const data = datasets.find((d) => top?.related.includes(d.id)) ?? datasets[0];
   const quotes = sources.filter((s) => s.quote).length;
-  const counts = [`모델 ${models.length}개`, `데이터 ${datasets.length}개`, quotes > 0 && `원문 근거 ${quotes}건`].filter(Boolean);
+  const counts = [
+    `모델 ${models.length}개`,
+    `데이터 ${datasets.length}개`,
+    quotes > 0 && `원문 근거 ${quotes}건`,
+  ].filter(Boolean);
 
   return (
     <section className="rounded-2xl border border-brand bg-white p-6 shadow-[0_8px_24px_rgba(111,58,104,0.08)]">
