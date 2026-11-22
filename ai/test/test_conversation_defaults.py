@@ -57,7 +57,7 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
         result = plan(**old_plan["constraints"])
         if state.get("turns"):
             result["clarifying_questions"] = ["어떤 상담 내용을 처리하나요?"]
-        return {"plan": result}
+        return {"plan": result, "asking": {"asked": [], "planned": True, "done": False}}
 
     def explain(state):
         return {"answer": "추천 완료", "turns": [{"request": state["request"], "answer": "추천 완료"}]}
@@ -84,26 +84,22 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
 
 def test_unknown_answer_uses_defaults_without_another_question(monkeypatch):
     monkeypatch.setattr(rg, "interrupt", lambda payload: "모르겠어 기본값으로 추천해줘")
-    monkeypatch.setattr(rg, "_route", lambda request: {"target": "needs_clarification", "status": "ok"})
-    monkeypatch.setattr(rg, "_parse_plan", lambda *a, **kw: plan())
+    monkeypatch.setattr(rg, "_route", lambda request: (_ for _ in ()).throw(AssertionError("no LLM call")))
+    monkeypatch.setattr(rg, "_parse_plan", lambda *a, **kw: (_ for _ in ()).throw(AssertionError("no LLM call")))
     result = rg.clarify({
-        "request": "추천해줘", "route": {"target": "needs_clarification"}, "plan": plan(),
+        "request": "추천해줘", "route": {"target": "needs_clarification", "model": "unknown", "data": "unknown"},
     })
-    assert result["route"] == {"target": "both", "status": "default"}
-    assert result["plan"]["constraints"] == rg.constraint_defaults()
-    assert result["plan"]["clarifying_questions"] == []
+    assert result["route"]["target"] == "both" and result["route"]["status"] == "default"
+    assert result["asking"]["done"] is True
 
 
-def test_clarification_has_a_bounded_question_budget(monkeypatch):
-    asked = []
-    monkeypatch.setattr(rg, "interrupt", lambda payload: asked.append(payload) or "아직 정하지 않았어")
-    monkeypatch.setattr(rg, "_route", lambda request: {"target": "needs_clarification", "status": "ok"})
-    monkeypatch.setattr(rg, "_parse_plan", lambda *a, **kw: plan())
-    result = rg.clarify({
-        "request": "추천해줘", "route": {"target": "needs_clarification"}, "plan": plan(),
-    })
-    assert len(asked) == 2
-    assert result["route"]["target"] == "both"
+def test_delegating_a_planning_question_keeps_the_plan(monkeypatch):
+    monkeypatch.setattr(rg, "interrupt", lambda payload: "아직 정하지 않았어")
+    proposed = {**plan(gpu_memory_gb=8), "clarifying_questions": ["어떤 상담인가요?"]}
+    result = rg.clarify({"request": "상담 앱", "route": {"target": "model"}, "plan": proposed,
+                         "asking": {"asked": [], "planned": True, "done": False}})
+    assert result["plan"]["constraints"]["gpu_memory_gb"] == 8
+    assert result["plan"]["clarifying_questions"] == [] and result["asking"]["done"] is True
 
 
 def test_constraint_mentions_handle_korean_particles_and_words():

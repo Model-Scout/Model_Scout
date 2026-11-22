@@ -19,7 +19,8 @@ export function TurnView({
     return (
       <div className="ml-auto max-w-[85%] rounded-2xl bg-brand-soft px-4 py-3 text-sm">
         <div className="mb-1 text-xs font-semibold text-brand">사용자{turn.target && ` · ${turn.target}에 대해`}</div>
-        <p className="whitespace-pre-wrap">{turn.content}</p>
+        {/* Home's withConditions line still goes to the server; the bubble shows only what the user typed. */}
+        <p className="whitespace-pre-wrap">{turn.content.replace(/\n조건: [^\n]*\.$/, "")}</p>
       </div>
     );
   }

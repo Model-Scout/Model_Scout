@@ -384,7 +384,7 @@ def test_resume_after_clarify_returns_the_new_plan():
     limits = {"commercial_only": False, "gpu_memory_gb": None, "min_context_length": None}
     vague = {"summary_ko": "모호", "needs": [need], "constraints": limits, "clarifying_questions": ["어떤 서비스?"]}
     graph = ai.rg.build_graph({
-        "decompose": lambda s: {"plan": vague},
+        "decompose": lambda s: {"plan": vague, "asking": ai.rg._planned(s)},  # as the real one: questions may follow
         "clarify": ai.rg.clarify,
         "search_models": lambda s: {"models": [{"need": need, "models": [{"model_id": "org/m"}]}]},
         "search_project_datasets": lambda s: {"datasets": {}},
