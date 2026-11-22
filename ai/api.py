@@ -46,7 +46,7 @@ from recommendation_question import stream_question
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT.parent))
-from shared.input_guard import SECURITY_NOTICES, InputBlocked, blocked_request, protect_context, protect_text
+from shared.input_guard import InputBlocked, protect_context, protect_text
 logging.basicConfig(level=logging.INFO)  # route target and model query type are recorded as INFO, like the backend
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
@@ -142,9 +142,6 @@ def sse(event, data):
 
 # node -> state keys sent as events of the same name, in order.
 NODE_EVENTS = {
-    "route": ("decision",),
-    "reroute_intent": ("decision",),
-    "plan_project": ("decision", "plan", "data_conditions", "project_summary"),
     "decompose": ("plan", "data_conditions"),
     "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
@@ -230,14 +227,6 @@ def recommend(body: RecommendRequest):
     body = body.model_copy(update={"query": guarded.text, "context": context})
     if guarded.masked_types or guarded.injection_signals:
         logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
-    reason = blocked_request(body.query)
-    message = SECURITY_NOTICES.get(reason)
-    if body.mode == "question" and not message and rg.router.rule_out_of_scope(body.query):
-        message = rg.router.OUT_OF_SCOPE_MESSAGE
-    if message:
-        events = [sse("decision", {"action": "notice", "message": message}),
-                  sse("done", {"thread_id": body.thread_id, "elapsed": 0})]
-        return StreamingResponse(iter(events), media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
     if body.mode == "question":  # reads the saved snapshot only, so it cannot collide with a run
         return StreamingResponse(stream_question(rg._openai, rg.LLM_MODEL, body.query, body.context, body.thread_id),
                                  media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
