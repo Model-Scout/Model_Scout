@@ -146,6 +146,24 @@
           "title": "Title",
           "type": "string"
         },
+        "answer": {
+          "default": "",
+          "title": "Answer",
+          "type": "string"
+        },
+        "project": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Project"
+        },
         "summary": {
           "items": {
             "type": "string"

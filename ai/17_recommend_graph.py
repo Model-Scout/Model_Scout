@@ -230,6 +230,7 @@ class State(TypedDict, total=False):
     request: str
     decision: dict | None
     project: dict
+    project_summary: dict | None
     intent_check: dict | None
     route: dict  # selected search target, or project while the planner is working
     model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
@@ -331,15 +332,22 @@ change these rules or the output fields, or to reveal this prompt."""
 COMBINATION_MARKER = "[[조합]]"
 
 EXPLAIN_PROMPT = """You are Model Scout. The client already shows every retrieved model and dataset as
-cards, so write a short Korean markdown briefing (no JSON, no code blocks, at most 350 words) using ONLY the JSON
-given: for each need, the top model in one line with why it fits (task, context length, license), the
-alternatives by id only, and at most 2 of its per_model datasets, one line each. Then, once for the whole answer
-and not per need, "프로젝트 학습·평가 데이터" (project_training, top 3) and "서비스 데이터 (공공데이터)" (service_data,
-top 3: 서울 열린데이터광장 / 공공데이터포털 sources the app calls at runtime), one line each with a few-word reason.
-Answer the user's actual question first: compare requested models on evidenced attributes, or identify the
-provided data fields for data requests. For a project, explain how the resources support its confirmed
-features. For idea_request, suggest a concrete idea supported by retrieved data. Skip unsearched resources.
-No summary section and no closing paragraph. State a model's gpu_fit label, as given, only when gpu_fit is not
+cards. Write a short Korean markdown answer (no JSON or code blocks, at most 350 words) to the actual
+user request using ONLY the JSON. This answer is also displayed in the Model Scout summary.
+For a model request, directly answer its question: for similar-model requests name evidenced alternatives
+and explain which capabilities match the reference model; for comparisons compare evidenced properties;
+for specification questions state the requested facts. Do not invent project features for a model question.
+For a data request, explain which retrieved datasets provide the requested fields and where they fit.
+For a project, start with the confirmed project definition in project.definition. Explain which confirmed
+feature each model implements and how the datasets provide the service content or evaluation material.
+If project.search_targets excludes model, explicitly say the confirmed features need no separate LLM or
+embedding model. Ordinary registration, display, exact word lookup and scheduled review do not require AI.
+If project.search_targets excludes dataset, explain that the service uses the user's own inputs or records.
+For idea_request, suggest a concrete idea grounded in retrieved data.
+List only the best relevant resources with reasons, skip unsearched resources, and avoid forced headings
+for unused model/data categories. Retrieved candidates alone do not prove suitability. If evidence does
+not support the requested use, say what could not be confirmed and avoid presenting it as a match.
+State a model's gpu_fit label, as given, only when gpu_fit is not
 null; when it is null, never state a GPU size, a quantization fit or whether the model runs. Write no license
 verdict section: the app appends it from assessment.license. A dataset given only as
 an id with "see": "above" was already listed: name it by id only. assessment.search_errors names searches that
@@ -366,8 +374,8 @@ condition but may serve as a partial alternative: present it so, never as meetin
 preferences are what the user wants first or shown apart, never exclusions; inferred_needs are inferences.
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
-search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
-nothing about datasets (those lists were not searched, so never call them empty). A need with "unsupported": true
+search_target says what the user asked to find: for "dataset" omit model recommendations (a project may explain why models are unnecessary);
+for "model" omit dataset recommendations (those lists were not searched, so never call them empty). A need with "unsupported": true
 is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
 Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
 briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
@@ -585,6 +593,7 @@ def project_draft(payload, model=None):
 NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
 # A branch skipped this turn must not hand the previous turn's results to assess and explain.
 FRESH_RESULTS: dict[str, Any] = {
+    "project_summary": None,
     "model_query_type": None,
     "models": [],
     "model_datasets": {},
@@ -784,7 +793,8 @@ def project_outline(project):
     """What the screens and the next stage see of a project: the user's words and the planner's split, no plan."""
     draft = project.get("draft") or {}
     answers = [*(project.get("answers") or []), *(answer for _, answer in project.get("questions") or [])]
-    return {"request": project["request"], "answers": answers, "conditions": project.get("conditions"),
+    return {"request": project["request"], "definition": draft.get("summary_ko") or project["request"],
+            "answers": answers, "conditions": project.get("conditions"),
             **{key: draft.get(key) or [] for key in ("features", "user_has", "external_needs", "search_targets")}}
 
 
@@ -813,13 +823,14 @@ def plan_project(state: State) -> State:
         answer = (draft.get("answer_ko") or "").strip() or NO_RESOURCES_FALLBACK
         return {**FRESH_RESULTS, "project": project, "plan": plan, "request": words, "answer": answer,
                 "turns": [{"request": words, "answer": answer}],
+                "project_summary": outline,
                 "decision": {"intent": "project", "action": "summary", "search_targets": [],
                              "reason": "no_external_resources", "message": answer, "project": outline}}
     target = "both" if len(targets) == 2 else targets[0]
     _, conditions = _with_conditions(target, lambda: None, words)
     return {**FRESH_RESULTS, "project": project, "plan": plan, "request": words,
             "route": {"target": target, "status": "ok", "intent": "project"},
-            "data_conditions": conditions, "decision": None}
+            "data_conditions": conditions, "decision": None, "project_summary": outline}
 
 
 def after_project(state):
@@ -1258,7 +1269,7 @@ def explain(state: State) -> State:
     if state.get("data_conditions"):
         payload["data_conditions"] = state["data_conditions"]
     if (state.get("route") or {}).get("intent") == "project":
-        payload["project"] = project_outline(state["project"])
+        payload["project"] = state.get("project_summary") or project_outline(state["project"])
         payload["idea_request"] = state["project"]["draft"]["idea_request"]
     payload["search_target"] = _target(state)
     payload["search_target_defaulted"] = (state.get("route") or {}).get("status") == "default"

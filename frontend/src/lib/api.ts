@@ -97,6 +97,8 @@ export type ImplementationGuide = {
 };
 
 export type ChatResult = {
+  answer?: string;
+  project?: { definition: string; features: string[]; user_has: string[]; external_needs: string[]; search_targets: ("model" | "dataset")[] } | null;
   title: string;
   summary: string[];
   needs_check: string[];

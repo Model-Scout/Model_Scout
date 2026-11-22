@@ -144,7 +144,7 @@ def sse(event, data):
 NODE_EVENTS = {
     "route": ("decision",),
     "reroute_intent": ("decision",),
-    "plan_project": ("decision", "plan", "data_conditions"),
+    "plan_project": ("decision", "plan", "data_conditions", "project_summary"),
     "decompose": ("plan", "data_conditions"),
     "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),

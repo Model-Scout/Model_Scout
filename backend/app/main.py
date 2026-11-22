@@ -396,7 +396,7 @@ def question_context(pool: Any, body: ChatRequest, session_id: UUID) -> dict:
             raise HTTPException(422, "현재 추천 결과에 없는 target_id입니다.")
     ids = {(c.source_id, c.type) for c in candidates}
     saved_sources = row.get("sources") or row["result"].get("sources") or []
-    context = {"summary": result.summary, "candidates": [c.model_dump() for c in candidates],
+    context = {"summary": result.summary, "project": result.project, "answer": result.answer, "candidates": [c.model_dump() for c in candidates],
                "sources": [Source(**s).model_dump() for s in saved_sources if (s["source_id"], s["kind"]) in ids],
                "history": [{"role": m["role"], "content": m["content"][:2000]} for m in reversed(history)]}
     if len(json.dumps(context, ensure_ascii=False)) > 100_000:

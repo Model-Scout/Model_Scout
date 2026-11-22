@@ -5,7 +5,7 @@ import type { SendOptions, Turn } from "@/components/App";
 import { HistoryDrawer } from "@/components/Home";
 import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
-import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
+import { Logo, Markdown, ORIGIN, StatusBadge } from "@/components/ui";
 import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
 
 type Props = {
@@ -104,14 +104,16 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
           )}
         </header>
 
-        <div className="grid divide-y divide-line rounded-2xl bg-white lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          <TopModel c={models[0]} onReadme={openSource} />
-          <ModelList models={models} selectedId={selected?.id} onSelect={setSelectedId} />
+        {candidates.length > 0 && <div className={`grid divide-y divide-line rounded-2xl bg-white lg:divide-x lg:divide-y-0 ${result.project && !result.project.search_targets.includes("model") ? "" : "lg:grid-cols-3"}`}>
+          {(!result.project || result.project.search_targets.includes("model")) && <>
+            <TopModel c={models[0]} onReadme={openSource} />
+            <ModelList models={models} selectedId={selected?.id} onSelect={setSelectedId} />
+          </>}
           <DataList datasets={datasets} all={candidates} selectedId={selected?.id} onSelect={setSelectedId} />
-        </div>
+        </div>}
 
-        <div className="grid flex-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <section className="min-w-0 rounded-2xl bg-white p-6 lg:p-8">
+        <div className={candidates.length ? "grid flex-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]" : "mx-auto w-full max-w-4xl"}>
+          {candidates.length > 0 && <section className="min-w-0 rounded-2xl bg-white p-6 lg:p-8">
             {selected ? (
               <Detail
                 candidate={selected}
@@ -129,7 +131,7 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
                 </div>
               </div>
             )}
-          </section>
+          </section>}
           <ScoutSummary result={result} />
         </div>
       </div>
@@ -418,6 +420,7 @@ export function combinations(candidates: Candidate[]) {
 function ScoutSummary({ result }: { result: ChatResult }) {
   const [ask, ...chips] = result.summary;
   const sentences = result.combination ?? [];
+  const noModelNeeded = result.project && !result.project.search_targets.includes("model");
   // Older results have no LLM sentences: fall back to the line-per-need template.
   const { lines, training, service } = combinations(result.candidates);
   const names = (ds: Candidate[]) =>
@@ -448,7 +451,21 @@ function ScoutSummary({ result }: { result: ChatResult }) {
         )}
       </section>
 
-      {sentences.length > 0 ? (
+      {result.project && (
+        <section className="border-t border-line pt-4">
+          <h3 className="mb-1.5 text-xs text-muted">이해한 프로젝트</h3>
+          <p className="leading-relaxed">{result.project.definition}</p>
+          {noModelNeeded && <p className="mt-2 leading-relaxed">현재 확인한 기능은 별도의 LLM·임베딩 모델 없이 구현할 수 있어요.</p>}
+          {result.project.search_targets.length === 0 && <p className="mt-2 leading-relaxed">외부 데이터 검색 없이 서비스에서 직접 등록·저장하는 정보를 사용해요.</p>}
+        </section>
+      )}
+
+      {result.answer ? (
+        <section className="border-t border-line pt-4">
+          <h3 className="mb-1.5 text-xs text-muted">{result.project ? "구현에 필요한 자원과 활용 방법" : "질문에 대한 답변"}</h3>
+          <Markdown text={result.answer} />
+        </section>
+      ) : sentences.length > 0 ? (
         <section className="border-t border-line pt-4">
           <h3 className="mb-1.5 text-xs text-muted">이렇게 조합해 보세요</h3>
           <div className="space-y-2.5 leading-relaxed">
