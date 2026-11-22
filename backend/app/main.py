@@ -28,6 +28,7 @@ from uuid import UUID, uuid4
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from shared.input_guard import InputBlocked, SECURITY_MESSAGES, protect_context, protect_text, security_reason
+from shared.oos_guard import OOS_MESSAGE, oos_reason
 
 import httpx
 from fastapi import FastAPI, Header, HTTPException, Request
@@ -249,7 +250,8 @@ class ChatStream(StreamingResponse):
                 release_group(self.group_id, self.lease)
 
 
-def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | None = None) -> Iterator[str]:
+def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | None = None,
+                oos: str | None = None) -> Iterator[str]:
     started = time.time()
     events: dict[str, Any] = {}
     tokens: list[str] = []
@@ -261,6 +263,9 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
     if reason:
         logging.info("security blocked=%s", reason)
         done = ChatDone(type="reject", group_id=group_id, elapsed=0, answer=SECURITY_MESSAGES[reason])
+    elif oos:
+        logging.info("oos blocked=%s", oos)
+        done = ChatDone(type="reject", group_id=group_id, elapsed=0, answer=OOS_MESSAGE)
     else:
         first_step, first_label = (4, "답변 생성") if context is not None else (1, "요구사항 분석")
         try:
@@ -288,11 +293,12 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
                         events[event] = data
             if not completed:
                 raise RuntimeError("AI stream ended without done")
-            if context is not None and not events.get("security") and not "".join(tokens).strip():
+            refused = bool(events.get("security") or events.get("oos"))
+            if context is not None and not refused and not "".join(tokens).strip():
                 raise RuntimeError("AI returned an empty question answer")
             elapsed = round(time.time() - started, 2)
             done = (ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer="".join(tokens),
-                            sources=[Source(**s) for s in context["sources"]]) if context is not None and not events.get("security")
+                            sources=[Source(**s) for s in context["sources"]]) if context is not None and not refused
                     else build_done(events, group_id, "".join(tokens), elapsed))
         except GeneratorExit:  # the client left: no event can reach it, so the log is the only record of a cancel
             logging.info("chat cancelled ip=%s group=%s elapsed=%.1f", ip, group_id, time.time() - started)
@@ -352,6 +358,11 @@ def chat(body: ChatRequest, request: Request, session_id: SessionId):
     if guarded.masked_types or guarded.injection_signals:
         logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
     blocked = security_reason(body.query) is not None
+    # Existing recommendation threads may be waiting for a clarification answer;
+    # only the AI checkpoint knows that state. It applies the same OOS rules there.
+    oos = None
+    if not blocked and (body.group_id is None or body.mode == "question"):
+        oos = oos_reason(body.query)
     ip = client_ip(request)
     wait = limiter.retry_after(ip)
     if wait is not None:
@@ -364,7 +375,7 @@ def chat(body: ChatRequest, request: Request, session_id: SessionId):
         lease = claim_group(group_id)
     try:
         context = None
-        if body.mode == "question" and not blocked:
+        if body.mode == "question" and not blocked and not oos:
             context = protect_context(question_context(pool, body, session_id))
         group_id = _open_group(pool, group_id, session_id, body.query)
         if body.group_id is None:
@@ -374,7 +385,7 @@ def chat(body: ChatRequest, request: Request, session_id: SessionId):
             release_group(group_id, lease)
         raise
     return ChatStream(
-        stream_chat(pool, group_id, body.query, ip, context),
+        stream_chat(pool, group_id, body.query, ip, context, oos=oos),
         group_id,
         lease,
         media_type="text/event-stream",
