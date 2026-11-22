@@ -46,7 +46,8 @@ from recommendation_question import stream_question
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT.parent))
-from shared.input_guard import InputBlocked, protect_context, protect_text
+from shared.input_guard import InputBlocked, protect_context, protect_text, security_reason
+from shared.oos_guard import oos_reason
 logging.basicConfig(level=logging.INFO)  # route target and model query type are recorded as INFO, like the backend
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
@@ -227,6 +228,20 @@ def recommend(body: RecommendRequest):
     body = body.model_copy(update={"query": guarded.text, "context": context})
     if guarded.masked_types or guarded.injection_signals:
         logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
+    reason = security_reason(body.query)
+    if reason:
+        logging.info("security blocked=%s", reason)
+        return StreamingResponse(
+            iter((sse("security", {"reason": reason}), sse("done", {"thread_id": body.thread_id, "elapsed": 0}))),
+            media_type="text/event-stream", headers={"Cache-Control": "no-cache"},
+        )
+    oos = oos_reason(body.query)
+    if body.mode == "question" and oos:
+        logging.info("oos blocked=%s", oos)
+        return StreamingResponse(
+            iter((sse("oos", {"reason": oos}), sse("done", {"thread_id": body.thread_id, "elapsed": 0}))),
+            media_type="text/event-stream", headers={"Cache-Control": "no-cache"},
+        )
     if body.mode == "question":  # reads the saved snapshot only, so it cannot collide with a run
         return StreamingResponse(stream_question(rg._openai, rg.LLM_MODEL, body.query, body.context, body.thread_id),
                                  media_type="text/event-stream", headers={"Cache-Control": "no-cache"})
@@ -234,6 +249,13 @@ def recommend(body: RecommendRequest):
     claim_thread(body.thread_id)
     try:
         paused = rg.pending_questions(graph, {"configurable": {"thread_id": body.thread_id}})
+        if oos and not paused:
+            logging.info("oos blocked=%s", oos)
+            release_thread(body.thread_id)
+            return StreamingResponse(
+                iter((sse("oos", {"reason": oos}), sse("done", {"thread_id": body.thread_id, "elapsed": 0}))),
+                media_type="text/event-stream", headers={"Cache-Control": "no-cache"},
+            )
     except Exception:
         release_thread(body.thread_id)
         raise

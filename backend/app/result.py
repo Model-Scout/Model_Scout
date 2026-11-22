@@ -356,6 +356,13 @@ def build_sources(events: dict[str, Any]) -> list[Source]:
 
 
 def build_done(events: dict[str, Any], group_id: UUID, answer: str, elapsed: float) -> ChatDone:
+    if events.get("security"):
+        from shared.input_guard import SECURITY_MESSAGES
+        return ChatDone(type="reject", group_id=group_id, elapsed=elapsed,
+                        answer=SECURITY_MESSAGES[events["security"]["reason"]])
+    if events.get("oos"):
+        from shared.oos_guard import OOS_MESSAGE
+        return ChatDone(type="reject", group_id=group_id, elapsed=elapsed, answer=OOS_MESSAGE)
     if events.get("clarify"):
         return ChatDone(type="clarify", group_id=group_id, elapsed=elapsed,
                         answer="\n".join(events["clarify"]["questions"]))
