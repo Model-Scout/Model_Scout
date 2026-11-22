@@ -18,6 +18,7 @@ on:
       - "ai/hypergraph_search.py"
       - "ai/taxonomy.py"
       - "ai/taxonomy.yaml"
+      - ".github/wiki/quartz-nearby-graph.patch"
       - ".github/workflows/wiki-pages.yml"
   workflow_dispatch:
 
@@ -63,6 +64,7 @@ jobs:
       - name: Configure site
         run: |
           cd site
+          git apply ../.github/wiki/quartz-nearby-graph.patch
           sed -i \
             -e 's/pageTitle: "[^"]*"/pageTitle: "Model Scout 위키"/' \
             -e 's/locale: "[^"]*"/locale: "ko-KR"/' \

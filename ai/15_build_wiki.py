@@ -54,6 +54,7 @@ PORTALS = {"data_go_kr", "seoul_open_data"}
 # ponytail: hubs list the top members by downloads; Obsidian backlinks still show all of them.
 HUB_MEMBER_LIMIT = 100
 COOCCURRING_LIMIT = 12
+GRAPH_NEIGHBOR_LIMIT = 10
 UNSAFE_RE = re.compile(r'[\\/:*?"<>|#^\[\]]')
 FACET_ORDER = list(load_taxonomy()["facets"])
 SOURCE_LABELS = {
@@ -148,6 +149,16 @@ def member_order(entity):
     """v2: by downloads where a source has them, then by title and id (portals have none)."""
     downloads = entity.get("downloads")
     return (downloads is None, -(downloads or 0), display(entity), entity["name"])
+
+
+def wiki_graph(title, anchor, neighbors):
+    return {"title": title, "anchor": anchor, "neighbors": neighbors[:GRAPH_NEIGHBOR_LIMIT]} if neighbors else None
+
+
+def shared_concept_order(pair_counts, members, concept_id, other_id):
+    shared = pair_counts[concept_id][other_id]
+    union = len(members[concept_id]) + len(members[other_id]) - shared
+    return (-shared / union, -shared, other_id)
 
 
 # ---------------------------------------------------------------- v2 portal facts
@@ -278,6 +289,23 @@ def render_entity(entity, links, relations, pages, concepts, entities):
         if by_facet.get(facet):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
+    if V2:
+        learning_label = "학습 데이터" if entity["kind"] == "model" else "학습에 사용한 모델"
+        neighbors = [
+            {"path": entity_page(entities[other]), "title": display(entities[other]), "relation": learning_label}
+            for other in sorted(relations, key=lambda other: member_order(entities[other]))
+        ]
+        for facet in FACET_ORDER:
+            for item in by_facet[facet]:
+                cid = item["concept_id"]
+                neighbors.append({
+                    "path": pages[cid],
+                    "title": concepts[cid]["label"],
+                    "relation": concepts[cid]["facet_label"],
+                })
+        anchor = "분류" if links else "학습-데이터" if entity["kind"] == "model" else "이-데이터로-학습한-모델"
+        props["wiki_graph"] = wiki_graph(display(entity), anchor, neighbors)
+
     if portal:
         body = [
             f"# {entity.get('title') or entity['name']}",
@@ -335,6 +363,11 @@ def render_concept(concept_id, concept, members, cooccurring, pages, concepts, e
         "aliases": concept["aliases"],
         "members": len(members),
     }
+    if V2:
+        props["wiki_graph"] = wiki_graph(concept["label"], "함께-연결된-개념", [
+            {"path": pages[c], "title": pages[c].rsplit("/", 1)[-1], "relation": f"공유 {n:,}개"}
+            for c, n in cooccurring
+        ])
     body = [f"# {concept['label']}", "", f"facet: [[{safe_name(concept['facet_label'])}]] · 개념 id `{concept_id}`", ""]
     if concept["aliases"]:
         body += ["별칭: " + ", ".join(concept["aliases"]), ""]
@@ -351,6 +384,8 @@ def render_concept(concept_id, concept, members, cooccurring, pages, concepts, e
         body.append("")
     if cooccurring:
         body += ["## 함께 연결된 개념", ""]
+        if V2:
+            body += ["공유 개수는 두 개념에 모두 속한 모델·데이터셋의 수입니다.", ""]
         body += [
             f"- {link(pages[c], concepts[c]['label'])} ({concepts[c]['facet_label']}) · 공유 {n}"
             for c, n in cooccurring
@@ -438,8 +473,12 @@ def main():
         cooccurring = [
             (c, n) for c, n in pair_counts[concept_id].most_common() if concepts[c]["facet"] != concept["facet"]
         ]
+        if V2:
+            cooccurring.sort(key=lambda pair: shared_concept_order(pair_counts, members, concept_id, pair[0]))
+        else:
+            cooccurring = cooccurring[:COOCCURRING_LIMIT]
         text = render_concept(
-            concept_id, concept, members[concept_id], cooccurring[:COOCCURRING_LIMIT], pages, concepts, entities
+            concept_id, concept, members[concept_id], cooccurring, pages, concepts, entities
         )
         (staging / f"{pages[concept_id]}.md").write_text(text, encoding="utf-8")
     facets = load_taxonomy()["facets"]
@@ -458,17 +497,32 @@ def main():
             "데이터셋 출처: " + " · ".join(f"{SOURCE_LABELS.get(s, s)} {n}" for s, n in sources.most_common()),
             "",
         ]
+    facet_neighbors = []
+    if V2:
+        index += ["## 분류", ""]
     for facet, spec in facets.items():
         rows = [(cid, c) for cid, c in concepts.items() if c["facet"] == facet and members[cid]]
         if V2 and not rows:  # a facet no v2 entity uses (갱신 주기) gets no empty page
             continue
+        facet_page = safe_name(spec["label"])
+        facet_props: dict[str, object] = {"type": "facet", "facet": facet}
         facet_body = [f"# {spec['label']}", "", f"대상: {', '.join(spec['applies_to'])}", ""]
+        if V2:
+            facet_body += ["## 개념", ""]
+            sorted_rows = sorted(rows, key=lambda row: (-len(members[row[0]]), row[0]))
+            facet_props["wiki_graph"] = wiki_graph(spec["label"], "개념", [
+                {"path": pages[cid], "title": c["label"], "relation": f"항목 {len(members[cid]):,}개"}
+                for cid, c in sorted_rows
+            ])
+            facet_neighbors.append({"path": f"facets/{facet_page}", "title": spec["label"],
+                                    "relation": f"개념 {len(rows)}개"})
         facet_body += [f"- {link(pages[cid], c['label'])} · {len(members[cid])}" for cid, c in rows]
-        (staging / "facets" / f"{safe_name(spec['label'])}.md").write_text(
-            frontmatter({"type": "facet", "facet": facet}) + "\n".join(facet_body) + "\n", encoding="utf-8"
+        (staging / "facets" / f"{facet_page}.md").write_text(
+            frontmatter(facet_props) + "\n".join(facet_body) + "\n", encoding="utf-8"
         )
-        index.append(f"- [[{safe_name(spec['label'])}]] · 개념 {len(rows)}개")
-    (staging / "index.md").write_text("\n".join(index) + "\n", encoding="utf-8")
+        index.append(f"- [[{facet_page}]] · 개념 {len(rows)}개")
+    index_props = frontmatter({"wiki_graph": wiki_graph("Model Scout 위키", "분류", facet_neighbors)}) if V2 else ""
+    (staging / "index.md").write_text(index_props + "\n".join(index) + "\n", encoding="utf-8")
     if V2:
         record = {
             "corpus": "v2", "data_version": V2["data_version"],
@@ -501,6 +555,14 @@ def self_check():
         pages["input_modality/text"] == "concepts/텍스트 (입력 형식)" and pages["task/summarization"] == "concepts/요약"
     )
     assert link("concepts/요약") == "[[요약]]" and link("models/a__b", "a/b") == "[[a__b|a/b]]"
+    member_sets = {"current": set(range(10)), "frequent": set(range(100)), "close": set(range(4))}
+    counts = {"current": {"frequent": 10, "close": 4}}
+    assert shared_concept_order(counts, member_sets, "current", "close") < shared_concept_order(
+        counts, member_sets, "current", "frequent"
+    )
+    neighbors = [{"path": f"concepts/{i}", "title": str(i), "relation": "분류"} for i in range(13)]
+    assert wiki_graph("현재", "분류", neighbors) == {"title": "현재", "anchor": "분류", "neighbors": neighbors[:10]}
+    assert wiki_graph("현재", "분류", []) is None
     assert compatible_lengths({}, "long") == ["input_length/short", "input_length/medium", "input_length/long"]
     assert compatible_lengths({}, "nope") == []
     assert frontmatter({"a": 1, "b": ["[[x]]"], "c": None}) == '---\na: 1\nb:\n  - "[[x]]"\n---\n'
