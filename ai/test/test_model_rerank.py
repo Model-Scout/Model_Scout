@@ -101,7 +101,7 @@ def test_rerank_types_are_real_query_types():
 def test_the_graph_reranks_with_the_user_words_not_the_search_string():
     """질의문이 의도를 담고 model_query 는 키워드만 담는다."""
     source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
-    body = source[source.index("def search_models(state"):source.index("def search_model_datasets(")]
+    body = source[source.index("def search_models(state"):source.index("def search_project_datasets(")]
     call = re.search(r"model_rerank\.rerank\((.*?)\)\n", body, re.S)
     assert call, "17 이 재순위를 부르지 않는다"
     assert 'state["request"]' in call.group(1), "model_query 로 재순위하고 있다"

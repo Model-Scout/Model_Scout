@@ -44,9 +44,6 @@ def fan_out_graph(ran):
         "clarify": lambda state: {},
         "classify_model_query": stub("classify_model_query", {"model_query_type": "structured_constraint"}),
         "search_models": search_models,
-        "search_model_datasets": stub(
-            "search_model_datasets", {"model_datasets": {"org/m": [{"dataset": "a/train", "licenses": ["mit"]}]}}
-        ),
         "search_project_datasets": stub(
             "search_project_datasets",
             {"project_datasets": {"project_training": [], "service_data": [{"dataset": "seoul/bike", "licenses": []}]}},
@@ -62,9 +59,8 @@ def fan_out_graph(ran):
     [
         ("model", {"classify_model_query", "search_models"}),
         ("dataset", {"search_project_datasets"}),
-        ("both", {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"}),
-        ("needs_clarification", {"classify_model_query", "search_models", "search_model_datasets",
-                                 "search_project_datasets"}),
+        ("both", {"classify_model_query", "search_models", "search_project_datasets"}),
+        ("needs_clarification", {"classify_model_query", "search_models", "search_project_datasets"}),
     ],
 )
 def test_target_picks_the_branches_and_assess_joins_once(target, branches, monkeypatch):
@@ -85,7 +81,7 @@ def test_target_picks_the_branches_and_assess_joins_once(target, branches, monke
     assert set(ran) == branches and len(ran) == len(branches)
     assert len(assessments) == 1
     datasets = state["datasets"]
-    assert bool(datasets["per_model"]) == ("search_model_datasets" in branches)
+    assert datasets["per_model"] == {}  # kept in the API shape, never filled
     assert bool(datasets["service_data"]) == ("search_project_datasets" in branches)
 
 

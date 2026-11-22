@@ -317,13 +317,13 @@ def test_same_id_keeps_model_and_dataset_sources():
 def test_status_names_the_running_step(client):
     client, _ = client
     nodes = ["decompose", "clarify", "classify_model_query", "search_project_datasets", "search_models",
-             "search_model_datasets", "assess", "explain"]
+             "assess", "explain"]
     upstream = [("status", {"node": n, "elapsed": 1}) for n in nodes] + ai_events()
     with patch.object(api.httpx, "stream", return_value=Upstream(upstream)):
         response = client.post("/api/chat", json={"query": "x"}, headers={"X-Session-Id": str(uuid4())})
     labels = [d["label"] for e, d in api.parse_sse(response.text.splitlines()) if e == "status"]
     # A search that finishes first must not move the step while the others still run.
-    assert labels == ["요구사항 분석", "요구사항 확인", *["모델·데이터셋 검색"] * 5, "답변 생성"]
+    assert labels == ["요구사항 분석", "요구사항 확인", *["모델·데이터셋 검색"] * 4, "답변 생성"]
 
 
 def test_cancel_leaves_a_log_entry(caplog):

@@ -179,7 +179,7 @@ def test_task_filter_free_types_are_known_query_types():
 def test_releasing_the_task_filter_waits_for_the_idf_sparse():
     """sparse 가 죽은 동안 필터를 떼면 손해다(-0.002). 플래그에 묶여 있어야 한다."""
     source = (ROOT / "17_recommend_graph.py").read_text(encoding="utf-8")
-    body = source[source.index("def search_models(state"):source.index("def search_model_datasets(")]
+    body = source[source.index("def search_models(state"):source.index("def search_project_datasets(")]
     assert "sparse_idf_enabled()" in body, "task 해제가 플래그와 무관하게 동작한다"
     assert "TASK_FILTER_FREE_TYPES" in body
 
