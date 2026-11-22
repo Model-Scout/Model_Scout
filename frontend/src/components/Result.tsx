@@ -29,7 +29,8 @@ type ReadmeOpen = (s: { source_id: string; kind: "model" | "dataset"; title?: st
 export function Result({ groupId, title, request, result, sources, turns, owner, onSend, onCancel, onReload, onHome, onOpenGroup }: Props) {
   const candidates = result.candidates;
   const models = candidates.filter((c) => c.type === "model");
-  const datasets = candidates.filter((c) => c.type === "dataset");
+  // Model-linked data ("모델 학습·평가") shows only in a model's detail, not in the main 추천 데이터 list.
+  const datasets = candidates.filter((c) => c.type === "dataset" && projectRoles(c).length > 0);
   const [selectedId, setSelectedId] = useState(candidates[0]?.id);
   const [readme, setReadme] = useState<ReadmeTarget | null>(null);
   const [copied, setCopied] = useState(false);
@@ -378,6 +379,9 @@ function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; sele
   );
 }
 
+// role is "모델 학습·평가" / "프로젝트 학습·평가" / "서비스 데이터", joined with " / " when a dataset has several.
+const projectRoles = (d: Candidate) => d.role.split(" / ").filter((r) => r !== "모델 학습·평가");
+
 function DataList({
   datasets,
   all,
@@ -389,8 +393,7 @@ function DataList({
   selectedId?: string;
   onSelect: (id: string) => void;
 }) {
-  // role is "모델 학습·평가" / "프로젝트 학습·평가" / "서비스 데이터", joined with " / " when a dataset has several.
-  const { shown, chips } = useCategories(datasets, (d) => d.role.split(" / ")[0], "용도별 보기");
+  const { shown, chips } = useCategories(datasets, (d) => projectRoles(d)[0], "용도별 보기");
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
