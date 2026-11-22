@@ -151,8 +151,9 @@ def member_order(entity):
     return (downloads is None, -(downloads or 0), display(entity), entity["name"])
 
 
-def wiki_graph(title, anchor, neighbors):
-    return {"title": title, "anchor": anchor, "neighbors": neighbors[:GRAPH_NEIGHBOR_LIMIT]} if neighbors else None
+def wiki_graph(paths):
+    """The nearest pages the Quartz graph draws (.github/wiki/quartz-nearby-graph.patch), nearest first."""
+    return list(dict.fromkeys(paths))[:GRAPH_NEIGHBOR_LIMIT]
 
 
 def shared_concept_order(pair_counts, members, concept_id, other_id):
@@ -290,21 +291,10 @@ def render_entity(entity, links, relations, pages, concepts, entities):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
     if V2:
-        learning_label = "학습 데이터" if entity["kind"] == "model" else "학습에 사용한 모델"
-        neighbors = [
-            {"path": entity_page(entities[other]), "title": display(entities[other]), "relation": learning_label}
-            for other in sorted(relations, key=lambda other: member_order(entities[other]))
-        ]
-        for facet in FACET_ORDER:
-            for item in by_facet[facet]:
-                cid = item["concept_id"]
-                neighbors.append({
-                    "path": pages[cid],
-                    "title": concepts[cid]["label"],
-                    "relation": concepts[cid]["facet_label"],
-                })
-        anchor = "분류" if links else "학습-데이터" if entity["kind"] == "model" else "이-데이터로-학습한-모델"
-        props["wiki_graph"] = wiki_graph(display(entity), anchor, neighbors)
+        props["wiki_graph"] = wiki_graph(
+            [entity_page(entities[o]) for o in sorted(relations, key=lambda o: member_order(entities[o]))]
+            + [pages[i["concept_id"]] for facet in FACET_ORDER for i in by_facet.get(facet, [])]
+        )
 
     if portal:
         body = [
@@ -364,10 +354,7 @@ def render_concept(concept_id, concept, members, cooccurring, pages, concepts, e
         "members": len(members),
     }
     if V2:
-        props["wiki_graph"] = wiki_graph(concept["label"], "함께-연결된-개념", [
-            {"path": pages[c], "title": pages[c].rsplit("/", 1)[-1], "relation": f"공유 {n:,}개"}
-            for c, n in cooccurring
-        ])
+        props["wiki_graph"] = wiki_graph(pages[c] for c, _ in cooccurring)
     body = [f"# {concept['label']}", "", f"facet: [[{safe_name(concept['facet_label'])}]] · 개념 id `{concept_id}`", ""]
     if concept["aliases"]:
         body += ["별칭: " + ", ".join(concept["aliases"]), ""]
@@ -510,18 +497,14 @@ def main():
         if V2:
             facet_body += ["## 개념", ""]
             sorted_rows = sorted(rows, key=lambda row: (-len(members[row[0]]), row[0]))
-            facet_props["wiki_graph"] = wiki_graph(spec["label"], "개념", [
-                {"path": pages[cid], "title": c["label"], "relation": f"항목 {len(members[cid]):,}개"}
-                for cid, c in sorted_rows
-            ])
-            facet_neighbors.append({"path": f"facets/{facet_page}", "title": spec["label"],
-                                    "relation": f"개념 {len(rows)}개"})
+            facet_props["wiki_graph"] = wiki_graph(pages[cid] for cid, _ in sorted_rows)
+            facet_neighbors.append(f"facets/{facet_page}")
         facet_body += [f"- {link(pages[cid], c['label'])} · {len(members[cid])}" for cid, c in rows]
         (staging / "facets" / f"{facet_page}.md").write_text(
             frontmatter(facet_props) + "\n".join(facet_body) + "\n", encoding="utf-8"
         )
         index.append(f"- [[{facet_page}]] · 개념 {len(rows)}개")
-    index_props = frontmatter({"wiki_graph": wiki_graph("Model Scout 위키", "분류", facet_neighbors)}) if V2 else ""
+    index_props = frontmatter({"wiki_graph": wiki_graph(facet_neighbors)}) if V2 else ""
     (staging / "index.md").write_text(index_props + "\n".join(index) + "\n", encoding="utf-8")
     if V2:
         record = {
@@ -560,9 +543,8 @@ def self_check():
     assert shared_concept_order(counts, member_sets, "current", "close") < shared_concept_order(
         counts, member_sets, "current", "frequent"
     )
-    neighbors = [{"path": f"concepts/{i}", "title": str(i), "relation": "분류"} for i in range(13)]
-    assert wiki_graph("현재", "분류", neighbors) == {"title": "현재", "anchor": "분류", "neighbors": neighbors[:10]}
-    assert wiki_graph("현재", "분류", []) is None
+    assert wiki_graph(f"concepts/{i}" for i in [0, 0, *range(13)]) == [f"concepts/{i}" for i in range(10)]
+    assert wiki_graph([]) == []
     assert compatible_lengths({}, "long") == ["input_length/short", "input_length/medium", "input_length/long"]
     assert compatible_lengths({}, "nope") == []
     assert frontmatter({"a": 1, "b": ["[[x]]"], "c": None}) == '---\na: 1\nb:\n  - "[[x]]"\n---\n'
