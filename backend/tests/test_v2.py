@@ -523,6 +523,14 @@ def test_input_guard_flags_quoted_attacks_without_blocking_normal_search(client,
     assert query not in caplog.text
 
 
+def test_combination_reaches_the_result():
+    events = {"plan": {"summary_ko": "s", "needs": [{"task": "generation"}], "constraints": {}},
+              "models": [{"need": {"task": "generation"}, "models": [contract_model()]}], "datasets": {},
+              "combination": ["m로 답변을 만들어요."]}
+    assert build_done(events, UUID(int=1), "a", 1).result.combination == ["m로 답변을 만들어요."]
+    assert build_done({**events, "combination": None}, UUID(int=1), "a", 1).result.combination == []
+
+
 def test_dataset_condition_verdicts_become_checks_and_summary():
     from backend.app.result import build_result
     row = {"dataset": "data_go_kr/1", "title": "충청북도 공중화장실 현황", "source": "data_go_kr", "licenses": [],

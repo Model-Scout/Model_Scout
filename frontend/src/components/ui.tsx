@@ -41,6 +41,30 @@ export const ORIGIN: Record<Origin, string> = {
   unknown: "근거 없음",
 };
 
+/** Finished analysis: every step checked, with the total time. */
+export function DoneSteps({ status, elapsed }: { status: ChatStatus[]; elapsed?: number }) {
+  const labels = [...new Set(status.map((s) => s.label))];
+  return (
+    <div className="space-y-2">
+      <span className="inline-block rounded-full bg-ok-soft px-2 py-0.5 text-xs font-semibold text-ok">
+        ✓ 분석 완료{elapsed !== undefined && ` · ${Math.round(elapsed)}초`}
+      </span>
+      {labels.length > 0 && (
+        <ol className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          {labels.map((label) => (
+            <li key={label} className="flex items-center gap-1.5">
+              <span className="grid h-4 w-5 place-items-center rounded-full bg-ok text-[10px] text-white" aria-hidden>
+                ✓
+              </span>
+              {label}
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
+
 /** Progress from SSE status events. step is not a percentage and may repeat or skip, so only labels are shown. */
 export function Progress({ status, onCancel }: { status: ChatStatus[]; onCancel?: () => void }) {
   const labels = [...new Set(status.map((s) => s.label))];

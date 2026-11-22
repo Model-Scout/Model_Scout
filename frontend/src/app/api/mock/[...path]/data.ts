@@ -38,6 +38,11 @@ export const BIKE: ChatResult = {
   title: "따릉이 주차 경로 추천",
   summary: ["따릉이 주차 경로 추천", "언어: 한국어", "실행: 로컬 GPU 8GB", "데이터: 대여소 위치·이용량", "기능: 경로 추천"],
   needs_check: ["BGE-M3: GPU 메모리", "Qwen3-8B: GPU 메모리"],
+  combination: [
+    "서울시 공공자전거 대여소 정보를 BGE-M3로 임베딩해 장소·코스 검색 색인을 만들고, 검색 결과는 bge-reranker-v2-m3로 다시 정렬해요.",
+    "서울시 공공자전거 이용정보는 TimesFM-2.5-200M에 넣어 대여소별 대여·반납량을 예측하고, 자전거가 넉넉한 곳을 먼저 추천해요.",
+    "Qwen3-8B가 요청을 해석하고 추천 이유를 설명해요. 전국 자전거도로 표준데이터는 경로 설명 근거로 쓰되 확인이 필요해요.",
+  ],
   candidates: [
     model({
       source_id: "BAAI/bge-m3",

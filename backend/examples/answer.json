@@ -136,7 +136,8 @@
         "gpu_fit": null
       }
     ],
-    "assessment": null
+    "assessment": null,
+    "combination": []
   },
   "history_saved": true
 }

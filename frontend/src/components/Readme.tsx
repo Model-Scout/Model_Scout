@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Markdown } from "@/components/ui";
-import { ApiError, getFile, type SourceFile } from "@/lib/api";
+import { ApiError, getFile, getWiki, type SourceFile, type WikiInfo } from "@/lib/api";
 
 export type ReadmeTarget = { sourceId: string; kind: "model" | "dataset"; title: string; url: string | null; quote?: string | null };
 
@@ -10,12 +10,17 @@ export type ReadmeTarget = { sourceId: string; kind: "model" | "dataset"; title:
 export function Readme({ target, onClose }: { target: ReadmeTarget; onClose: () => void }) {
   const [file, setFile] = useState<SourceFile | null>(null);
   const [error, setError] = useState<string>();
+  const [wiki, setWiki] = useState<WikiInfo | null>(null);
 
   useEffect(() => {
     let live = true;
     getFile(target.sourceId, target.kind)
       .then((f) => live && setFile(f))
       .catch((e) => live && setError(e instanceof ApiError && e.status === 404 ? "서버에 이 원문이 없어요." : String(e instanceof Error ? e.message : e)));
+    setWiki(null);
+    getWiki(target.sourceId, target.kind)
+      .then((w) => live && setWiki(w))
+      .catch(() => {}); // wiki is optional: no page or offline just hides the card
     return () => {
       live = false;
     };
@@ -55,6 +60,7 @@ export function Readme({ target, onClose }: { target: ReadmeTarget; onClose: () 
         </header>
 
         <div className="flex-1 overflow-y-auto px-6 py-5">
+          {wiki && (wiki.summary || wiki.tags.length > 0) && <WikiCard wiki={wiki} />}
           {error && <p className="rounded-lg bg-soft p-4 text-sm text-muted">{error}{target.url && " 위의 출처 페이지에서 확인해 주세요."}</p>}
           {!file && !error && <p className="text-sm text-muted">원문을 불러오는 중…</p>}
           {file && (
@@ -85,5 +91,53 @@ export function Readme({ target, onClose }: { target: ReadmeTarget; onClose: () 
         </div>
       </div>
     </div>
+  );
+}
+
+/** Wiki summary kept outside the README text so generated content is never mistaken for the original. */
+function WikiCard({ wiki }: { wiki: WikiInfo }) {
+  return (
+    <section aria-label="Wiki 요약" className="mb-5 rounded-xl border border-line bg-soft p-4 text-sm">
+      <div className="mb-2 flex items-baseline justify-between gap-2">
+        <span className="text-sm font-bold">Model Scout Wiki 요약</span>
+        <span className="text-xs text-faint">README 원문이 아닌 자동 생성 요약입니다</span>
+      </div>
+      {wiki.summary && <p className="mb-2">{wiki.summary}</p>}
+      {wiki.tags.length > 0 && (
+        <ul className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {wiki.tags.map((t) => (
+            <li key={t.label + t.value}>
+              <a
+                className="group flex h-full flex-col rounded-lg border border-line bg-white px-3 py-2 transition hover:border-brand hover:bg-brand-soft hover:shadow-sm"
+                href={t.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="text-xs text-faint">{t.label}</span>
+                <span className="flex items-center justify-between gap-1 font-semibold">
+                  {t.value}
+                  <span aria-hidden className="text-faint group-hover:text-brand">↗</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      {wiki.related.length > 0 && (
+        <p className="mb-2 text-xs">
+          <span className="text-faint">관련 데이터 · 모델: </span>
+          {wiki.related.slice(0, 5).map((r, i) => (
+            <span key={r.href}>
+              {i > 0 && ", "}
+              <a className="text-brand underline" href={r.href} target="_blank" rel="noopener noreferrer">{r.text}</a>
+            </span>
+          ))}
+          {wiki.related.length > 5 && ` 외 ${wiki.related.length - 5}개`}
+        </p>
+      )}
+      <a className="text-xs text-brand underline" href={wiki.url} target="_blank" rel="noopener noreferrer">
+        wiki에서 자세히 보기 →
+      </a>
+    </section>
   );
 }

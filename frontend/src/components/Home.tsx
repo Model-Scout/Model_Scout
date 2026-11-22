@@ -157,7 +157,7 @@ function bucket(iso: string) {
   return "이전";
 }
 
-function HistoryDrawer({ onClose, onOpen }: { onClose: () => void; onOpen: (id: string) => void }) {
+export function HistoryDrawer({ onClose, onOpen, onNew }: { onClose: () => void; onOpen: (id: string) => void; onNew?: () => void }) {
   const [groups, setGroups] = useState<GroupSummary[] | null>(null);
   const [error, setError] = useState<string>();
 
@@ -185,7 +185,7 @@ function HistoryDrawer({ onClose, onOpen }: { onClose: () => void; onOpen: (id: 
       </div>
       <button
         className="mt-4 rounded-lg bg-brand-soft px-3 py-2.5 text-left text-sm font-semibold text-brand"
-        onClick={onClose}
+        onClick={onNew ?? onClose}
       >
         + 새 추천 시작
       </button>

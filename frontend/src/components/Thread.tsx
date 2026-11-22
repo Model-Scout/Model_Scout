@@ -2,12 +2,19 @@
 
 import { forwardRef, useState } from "react";
 import type { SendOptions, Turn } from "@/components/App";
-import { Logo, Markdown, ORIGIN, Progress } from "@/components/ui";
-import type { Source } from "@/lib/api";
+import { DoneSteps, Logo, Markdown, ORIGIN, Progress } from "@/components/ui";
+import type { ChatResult, Source } from "@/lib/api";
 
 type Actions = { onCancel: () => void; onReload?: () => void; onSource?: (s: Source) => void };
 
-export function TurnView({ turn, onCancel, onReload, onSource, compact }: { turn: Turn; compact?: boolean } & Actions) {
+export function TurnView({
+  turn,
+  onCancel,
+  onReload,
+  onSource,
+  compact,
+  stepsOnly,
+}: { turn: Turn; compact?: boolean; /** F3: finished run shown as checked steps; the answer lives on the result screen */ stepsOnly?: boolean } & Actions) {
   if (turn.role === "user") {
     return (
       <div className="ml-auto max-w-[85%] rounded-2xl bg-brand-soft px-4 py-3 text-sm">
@@ -19,9 +26,15 @@ export function TurnView({ turn, onCancel, onReload, onSource, compact }: { turn
 
   const label = turn.type === "clarify" ? "AI · 추가 질문" : turn.type === "reject" ? "AI · 안내" : "AI";
   return (
-    <div className={`max-w-[95%] rounded-2xl bg-soft px-4 py-3 text-sm ${compact ? "" : "sm:max-w-[85%]"}`}>
-      <div className="mb-1 text-xs font-semibold text-muted">{label}</div>
+    <div className={`max-w-[95%] rounded-2xl ${compact ? "bg-soft" : "bg-white"} px-4 py-3 text-sm ${compact ? "" : "sm:max-w-[85%]"}`}>
+      <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-muted">
+        <Logo size={16} />
+        {label}
+      </div>
       {turn.running && <Progress status={turn.status ?? []} onCancel={onCancel} />}
+      {stepsOnly && <DoneSteps status={turn.status ?? []} elapsed={turn.elapsed} />}
+      {stepsOnly ? null : (
+        <>
       {/* Streaming tokens are provisional; done replaces them with the final answer. */}
       {turn.content && (
         <div className={turn.running ? "mt-3 opacity-70" : ""}>
@@ -55,6 +68,8 @@ export function TurnView({ turn, onCancel, onReload, onSource, compact }: { turn
             ))}
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );
@@ -118,20 +133,30 @@ export function ReadOnlyNotice({ onHome }: { onHome: () => void }) {
 /** Before the first recommendation: progress, clarify questions, reject notices. */
 export function Thread({
   turns,
+  result,
   owner,
   onSend,
   onCancel,
   onReload,
   onHome,
-}: { turns: Turn[]; owner: boolean; onSend: (q: string, o: SendOptions) => void; onHome: () => void } & Actions) {
+  onOpenResult,
+}: {
+  turns: Turn[];
+  result: ChatResult | null;
+  owner: boolean;
+  onSend: (q: string, o: SendOptions) => void;
+  onHome: () => void;
+  onOpenResult: () => void;
+} & Actions) {
   const last = turns.at(-1);
   const running = last?.running ?? false;
+  const done = Boolean(result) && !running && last?.type === "answer";
   const placeholder =
     last?.type === "clarify" ? "질문에 답해 주세요" : last?.type === "reject" ? "다른 아이디어로 다시 적어 주세요" : "이어서 요청하기";
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="flex items-center gap-3 border-b border-line px-5 py-3">
+    <div className="flex min-h-dvh flex-col bg-page">
+      <header className="flex items-center gap-3 border-b border-line bg-white px-5 py-3">
         <button className="rounded-full bg-brand-soft px-3 py-1.5 text-sm font-semibold text-brand" onClick={onHome}>
           홈으로
         </button>
@@ -140,16 +165,17 @@ export function Thread({
       </header>
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-8">
         {turns.map((t, i) => (
-          <TurnView key={i} turn={t} onCancel={onCancel} onReload={onReload} />
+          <TurnView key={i} turn={t} stepsOnly={done && i === turns.length - 1} onCancel={onCancel} onReload={onReload} />
         ))}
+        {done && result && <CompletionCard result={result} sources={last?.sources ?? []} onOpen={onOpenResult} />}
         {running && (
           <div className="space-y-2" aria-hidden>
-            <div className="h-20 animate-pulse rounded-xl bg-soft" />
-            <div className="h-32 animate-pulse rounded-xl bg-soft" />
+            <div className="h-20 animate-pulse rounded-xl bg-white" />
+            <div className="h-32 animate-pulse rounded-xl bg-white" />
           </div>
         )}
       </main>
-      <div className="sticky bottom-0 mx-auto w-full max-w-3xl bg-white px-4 pb-6">
+      <div className="sticky bottom-0 mx-auto w-full max-w-3xl bg-page px-4 pb-6">
         {owner ? (
           <Composer placeholder={placeholder} disabled={running} onSubmit={(q) => onSend(q, { mode: "recommend" })} />
         ) : (
@@ -157,5 +183,46 @@ export function Thread({
         )}
       </div>
     </div>
+  );
+}
+
+/** F3: the run finished; point at the top picks and let the user open the result screen. */
+function CompletionCard({ result, sources, onOpen }: { result: ChatResult; sources: Source[]; onOpen: () => void }) {
+  const models = result.candidates.filter((c) => c.type === "model");
+  const datasets = result.candidates.filter((c) => c.type === "dataset");
+  const top = models[0];
+  // Prefer the data linked to the top model; otherwise the first dataset.
+  const data = datasets.find((d) => top?.related.includes(d.id)) ?? datasets[0];
+  const quotes = sources.filter((s) => s.quote).length;
+  const counts = [`모델 ${models.length}개`, `데이터 ${datasets.length}개`, quotes > 0 && `원문 근거 ${quotes}건`].filter(Boolean);
+
+  return (
+    <section className="rounded-2xl border border-brand bg-white p-6 shadow-[0_8px_24px_rgba(111,58,104,0.08)]">
+      <h2 className="text-xl font-bold">추천 결과가 준비됐어요</h2>
+      <p className="mt-1 text-sm text-muted">{counts.join(" · ")}</p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {top && (
+          <div className="rounded-xl bg-brand-soft p-4">
+            <div className="text-xs font-semibold text-brand">★ 1순위 모델</div>
+            <div className="mt-1 break-all text-lg font-bold">{top.name}</div>
+            <div className="mt-0.5 text-xs text-muted">
+              {top.role} · 충족 {top.checks.filter((k) => k.status === "ok").length}/{top.checks.length}
+            </div>
+          </div>
+        )}
+        {data && (
+          <div className="rounded-xl bg-ok-soft p-4">
+            <div className="text-xs font-semibold text-ok">▤ 핵심 데이터</div>
+            <div className="mt-1 break-all text-lg font-bold">{data.name}</div>
+            <div className="mt-0.5 text-xs text-muted">{data.source}</div>
+          </div>
+        )}
+      </div>
+      <div className="mt-5">
+        <button className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white" onClick={onOpen}>
+          결과 화면으로 →
+        </button>
+      </div>
+    </section>
   );
 }
