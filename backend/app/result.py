@@ -56,8 +56,6 @@ class Candidate(BaseModel):
 
 class ChatResult(BaseModel):
     title: str
-    answer: str = ""
-    project: dict[str, Any] | None = None
     summary: list[str]
     needs_check: list[str] = Field(default_factory=list)
     candidates: list[Candidate]
@@ -325,7 +323,6 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     needs = list(dict.fromkeys(f"{c.name}: {k.label}" for c in candidates.values() if c.type == "model"
                                for k in c.checks if k.status != "ok" and k.key not in ("language", "execution")))
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
-                      project=events.get("project_summary"),
                       candidates=list(candidates.values()), assessment=events.get("assessment"),
                       combination=[str(x) for x in events.get("combination") or []])
 
@@ -351,26 +348,16 @@ def build_sources(events: dict[str, Any]) -> list[Source]:
 
 
 def build_done(events: dict[str, Any], group_id: UUID, answer: str, elapsed: float) -> ChatDone:
-    decision = events.get("decision") or {}
-    if decision.get("action") == "notice":
-        return ChatDone(type="reject", group_id=group_id, elapsed=elapsed, answer=decision["message"])
-    if decision.get("action") == "summary":
-        result = build_result(events)
-        result.answer = decision["message"]
-        return ChatDone(type="answer", group_id=group_id, elapsed=elapsed,
-                        answer=result.answer, result=result)
     if events.get("clarify"):
         return ChatDone(type="clarify", group_id=group_id, elapsed=elapsed,
                         answer="\n".join(events["clarify"]["questions"]))
     # A dataset-only request plans no model needs by design, so only "no needs and no datasets" is off-topic.
     datasets = events.get("datasets") or {}
     found = any(datasets.get(k) for k in ("per_model", "project_training", "service_data"))
-    if "assessment" not in events and not (events.get("plan") or {}).get("needs") and not found:
+    if not (events.get("plan") or {}).get("needs") and not found:
         return ChatDone(type="reject", group_id=group_id, elapsed=elapsed, answer=REJECT_MESSAGE)
-    result = build_result(events)
-    result.answer = answer
     return ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer=answer,
-                    result=result, sources=build_sources(events))
+                    result=build_result(events), sources=build_sources(events))
 
 
 def stored_text(done: ChatDone) -> str:

@@ -82,17 +82,28 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
     assert not graph.get_state({"configurable": {"thread_id": "other"}}).values
 
 
-def test_unresolved_request_stops_after_two_questions(monkeypatch):
+def test_unknown_answer_uses_defaults_without_another_question(monkeypatch):
+    monkeypatch.setattr(rg, "interrupt", lambda payload: "모르겠어 기본값으로 추천해줘")
+    monkeypatch.setattr(rg, "_route", lambda request: {"target": "needs_clarification", "status": "ok"})
+    monkeypatch.setattr(rg, "_parse_plan", lambda *a, **kw: plan())
+    result = rg.clarify({
+        "request": "추천해줘", "route": {"target": "needs_clarification"}, "plan": plan(),
+    })
+    assert result["route"] == {"target": "both", "status": "default"}
+    assert result["plan"]["constraints"] == rg.constraint_defaults()
+    assert result["plan"]["clarifying_questions"] == []
+
+
+def test_clarification_has_a_bounded_question_budget(monkeypatch):
     asked = []
-    monkeypatch.setattr(rg, "interrupt", lambda payload: asked.append(payload) or "잘 모르겠어")
-    routed = {"target": "needs_clarification", "status": "ok"}
-    monkeypatch.setattr(rg, "_route", lambda request: routed)
-    state = rg.decide(routed, "추천해줘", [])
-    while rg.after_route(state) == "ask_intent":
-        state = rg.reroute_intent(rg.ask_intent(state))
+    monkeypatch.setattr(rg, "interrupt", lambda payload: asked.append(payload) or "아직 정하지 않았어")
+    monkeypatch.setattr(rg, "_route", lambda request: {"target": "needs_clarification", "status": "ok"})
+    monkeypatch.setattr(rg, "_parse_plan", lambda *a, **kw: plan())
+    result = rg.clarify({
+        "request": "추천해줘", "route": {"target": "needs_clarification"}, "plan": plan(),
+    })
     assert len(asked) == 2
-    assert rg.after_route(state) == rg.END
-    assert state["decision"]["reason"] == "intent_unresolved"
+    assert result["route"]["target"] == "both"
 
 
 def test_constraint_mentions_handle_korean_particles_and_words():
