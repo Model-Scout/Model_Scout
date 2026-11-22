@@ -69,7 +69,22 @@ build() {
   echo "release $id (code $commit${dirty:+, includes uncommitted changes}, data $version)"
 
   # The served data must be the pinned build.
-  (cd ai && "$PY" -X utf8 public_v2_pipeline.py --verify-pin)
+  # The pin was recorded on Windows, where a folder's files hash in case-insensitive order; Linux (CI) sorts
+  # case-sensitively. corpus_manifest.py is itself pinned code, so the Windows order is applied here instead.
+  (cd ai && "$PY" -X utf8 - <<'EOF'
+import runpy, sys
+from pathlib import Path
+import corpus_manifest as m
+def directory_record(path, root=m.AI_DIR):
+    path = Path(path)
+    files = sorted((p for p in path.rglob("*") if p.is_file()), key=lambda p: p.relative_to(path).as_posix().lower())
+    entries = [f"{p.relative_to(path).as_posix()} {m.content_digest(p)[0]}" for p in files]
+    return {"path": m._relative(path, root), "sha256": m.sha256_text(entries), "files": len(files)}
+m.directory_record = directory_record
+sys.argv = ["public_v2_pipeline.py", "--verify-pin"]
+runpy.run_path("public_v2_pipeline.py", run_name="__main__")
+EOF
+  )
   test -f ai/data/dataset_index_v2/embeddings.npy || die "no v2 vectors (python ai/20_sync_dataset_index.py --corpus v2 --restore-vectors)"
 
   # Code from git objects, so the image is the commit with LF line ends whatever this checkout uses.

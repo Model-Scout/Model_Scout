@@ -70,10 +70,11 @@ jobs:
       - name: AI settings from the VPS (masked)
         run: |
           (umask 077; ssh model-scout 'cat /opt/model-scout/.env.ai' > ai/.env)
-          while IFS= read -r line; do
+          # Secrets only: masking a setting such as "1" would hide every 1 in the log, exit codes included.
+          grep -E '^(OPENAI_API_KEY|SUPABASE_PASSWORD|SUPABASE_DB_HOST|SUPABASE_DB_USER)=' ai/.env | while IFS= read -r line; do
             value=${line#*=}
             [ -n "$value" ] && echo "::add-mask::$value"
-          done < ai/.env
+          done
           grep -o '^[A-Z_]*=' ai/.env
 
       - name: Cache frozen vectors
