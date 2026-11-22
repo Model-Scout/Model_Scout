@@ -810,6 +810,7 @@ def clarify(state: State) -> State:
 
 def assess(state: State) -> State:
     """Check licenses for the recommended stack and provide relevant implementation guidance."""
+    started = time.time()
     items = []
     for group in state.get("models") or []:  # a failed or skipped model branch may leave None
         if group.get("models"):
@@ -862,6 +863,7 @@ def assess(state: State) -> State:
         guide = project_checks.implementation_guide("\n".join(said), tasks)
         if guide:
             assessment["implementation_guide"] = guide
+    run_log.log_event("assess", **_assess_record(state, datasets, assessment, facts, judged, started))
     return {"datasets": datasets, "assessment": assessment}
 
 
@@ -873,16 +875,13 @@ def explain(state: State) -> State:
     from langgraph.config import get_stream_writer
 
     payload = _brief(payload)
-    try:
-        from langgraph.config import get_config
-
-        configurable = get_config().get("configurable") or {}
-    except RuntimeError:  # called outside a graph run (tests, scripts): no thread or trace id given
-        configurable = {}
-    trace_id = configurable.get("trace_id") or run_log.new_trace_id()
+    configurable = _configurable()
+    trace_id = _trace_id(state, configurable)
     started, write, parts = time.time(), get_stream_writer(), []
+    payload_text = json.dumps(payload, ensure_ascii=False)
     record: dict[str, Any] = {"trace_id": trace_id, "thread_id": configurable.get("thread_id"),
-                              "target": _target(state), "license": state["assessment"]["license"].get("verdict")}
+                              "target": _target(state), "license": state["assessment"]["license"].get("verdict"),
+                              "model": LLM_MODEL, "prompt": PROMPT_VERSION, "payload_chars": len(payload_text)}
 
     def emit(text):
         if not parts:
@@ -942,7 +941,7 @@ def explain(state: State) -> State:
             stream=True,
             messages=[
                 {"role": "system", "content": EXPLAIN_PROMPT},
-                {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+                {"role": "user", "content": payload_text},
             ],
         )
         # Validate complete lines before publishing them: post-generation cleanup would be too late
@@ -996,6 +995,54 @@ def search_failure_note(failed: dict[str, str], trace_id: str) -> str:
             f"같은 질문으로 다시 시도해 주세요. (추적 ID: {trace_id})\n\n")
 
 
+def _configurable() -> dict:
+    try:
+        from langgraph.config import get_config
+
+        return get_config().get("configurable") or {}
+    except RuntimeError:  # called outside a graph run (tests, scripts): no thread given
+        return {}
+
+
+def _trace_id(state: State, configurable: dict) -> str:
+    """One id per turn, the same in assess and explain: the conversation's first 8 characters and the turn number.
+    thread_id is the backend's group_id, so grepping the id a user reports also finds the backend's lines."""
+    if configurable.get("trace_id"):
+        return configurable["trace_id"]
+    thread = str(configurable.get("thread_id") or "")
+    if not thread:
+        return run_log.new_trace_id()
+    return f"{thread[:8]}-{len(state.get('turns') or []) + 1}"
+
+
+def _assess_record(state, datasets, assessment, facts, judged, started) -> dict:
+    """What the fan-in saw: list sizes, whether the card lookup worked, condition and license verdicts."""
+    configurable = _configurable()
+    lookup_failed = sum(1 for fact in facts.values() if "unavailable" in fact)
+    checks: dict[str, int] = {}
+    for row in judged:
+        for check in row.get("condition_checks") or []:
+            checks[check["status"]] = checks.get(check["status"], 0) + 1
+    verdict = assessment["license"]
+    return {
+        "trace_id": _trace_id(state, configurable),
+        "thread_id": configurable.get("thread_id"),
+        "target": _target(state),
+        "elapsed_s": round(time.time() - started, 2),
+        "found": {
+            "models": sum(1 for group in state.get("models") or [] if group.get("models")),
+            "per_model": sum(len(rows) for rows in datasets["per_model"].values()),
+            "project_training": len(datasets["project_training"]),
+            "service_data": len(datasets["service_data"]),
+        },
+        "facts": {"found": len(facts) - lookup_failed, "lookup_failed": lookup_failed},
+        "conditions": {"status": (state.get("data_conditions") or {}).get("status"), "checks": checks},
+        "license": {"verdict": verdict.get("verdict"), "use": verdict.get("use"),
+                    "training_non_commercial": len(verdict.get("training_non_commercial", []))},
+        "search_errors": sorted(assessment.get("search_errors") or {}),
+    }
+
+
 # Output filters after the date check (explanation_grounding): card text is third-party, so the writer may echo
 # an image that loads from a stranger's server when the answer is shown, or an id that was never retrieved.
 IMAGE_RE = re.compile(r"!\[[^\]]*\]\([^)]*\)")
@@ -1019,9 +1066,11 @@ def safe_lines(lines, evidence, record):
         line = LINK_RE.sub(lambda m: m[0] if m[2] in known_text else m[1], line)
         line = URL_RE.sub(lambda m: m[0] if m[0] in known_text else "(링크 생략)", line)
         named = ID_RE.findall(URL_RE.sub(" ", line))
-        if any(t.split("/")[0] in owners and t.rstrip(".-") not in ids for t in named):
-            logging.info("explanation line dropped: unretrieved id")
+        unknown = [t for t in named if t.split("/")[0] in owners and t.rstrip(".-") not in ids]
+        if unknown:  # ids are public repo names, safe to log; they show whether the filter dropped a real one
+            logging.info("explanation line dropped: unretrieved id %s", unknown)
             record["dropped_lines"] = record.get("dropped_lines", 0) + 1
+            record["dropped_ids"] = (record.get("dropped_ids", []) + unknown)[:10]
             continue
         yield line
 
@@ -1059,7 +1108,16 @@ EXPLAIN_READ_TIMEOUT_S = 10  # longest wait for the response, the first token or
 # Whole writer call: a 10 s slow start + 1,400 tokens at half the measured speed (~19 s) is ~30 s; 40 leaves margin.
 # Checked between chunks, so a stall overruns it by at most one read timeout (worst ~50 s).
 EXPLAIN_DEADLINE_S = 40
-EXPLAIN_MAX_TOKENS = 1400  # 3 needs used 712 of the old 900; 4 needs plus data limits would have been cut
+EXPLAIN_MAX_TOKENS = 1400
+
+
+def _prompt_version() -> str:
+    import hashlib
+
+    return hashlib.sha256(EXPLAIN_PROMPT.encode()).hexdigest()[:8]  # which prompt wrote an answer, for the log
+
+
+PROMPT_VERSION = _prompt_version()  # 3 needs used 712 of the old 900; 4 needs plus data limits would have been cut
 BRIEF_ROWS = 3  # datasets per list the writer reads; the prompt asks for the top 3
 PER_MODEL_ROWS = 2  # the prompt names at most 2 datasets under each need's model
 

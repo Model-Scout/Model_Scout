@@ -293,7 +293,7 @@ def test_the_same_input_in_a_conversation_is_replayed_without_a_writer_call(monk
     first = _conversation_explain(monkeypatch, create)
     second = _conversation_explain(monkeypatch, create)
     assert first == second and len(calls) == 1
-    assert [r.get("writer") for r in _log(tmp_path)] == [None, "cache"]
+    assert [r.get("writer") for r in _log(tmp_path) if r["event"] == "explain"] == [None, "cache"]
 
 
 def test_a_cut_answer_is_not_replayed(monkeypatch):
@@ -321,3 +321,40 @@ def test_stream_options_go_to_openai_only(monkeypatch):
     monkeypatch.setenv("RECOMMEND_LLM_PROVIDER", "ollama")
     _run_explain(monkeypatch, create)
     assert seen == [True, False]
+
+
+# Logs: what the fan-in saw, which prompt wrote the answer, one id per turn.
+
+
+def test_assess_logs_lists_card_lookup_and_verdicts(monkeypatch, tmp_path):
+    monkeypatch.setattr(graph17, "dataset_facts",
+                        lambda names: {n: {"unavailable": "데이터 카드 조회 실패 (TimeoutError)"} for n in names})
+    graph17.assess({**_searched(), "search_errors": {"models": "x"}})
+    row = [r for r in _log(tmp_path) if r["event"] == "assess"][-1]
+    assert row["found"] == {"models": 1, "per_model": 2, "project_training": 1, "service_data": 1}
+    assert row["facts"]["lookup_failed"] == row["facts"]["found"] + row["facts"]["lookup_failed"] > 0
+    assert row["license"]["use"] == "personal" and row["license"]["training_non_commercial"] == 1
+    assert row["search_errors"] == ["models"] and row["elapsed_s"] >= 0
+
+
+def test_explain_logs_prompt_model_size_and_dropped_ids(monkeypatch, tmp_path):
+    _run_explain(monkeypatch, lambda **kw: iter([_chunk("- org/llm-v9 추천\n"), _chunk("- org/llm 추천\n"),
+                                                  _chunk(finish="stop")]))
+    row = _log(tmp_path)[-1]
+    assert row["prompt"] == graph17.PROMPT_VERSION and len(row["prompt"]) == 8
+    assert row["model"] == graph17.LLM_MODEL and row["payload_chars"] > 0
+    assert row["dropped_ids"] == ["org/llm-v9"] and row["dropped_lines"] == 1
+
+
+def test_assess_and_explain_share_one_id_per_turn_built_from_the_conversation(monkeypatch, tmp_path):
+    monkeypatch.setattr(graph17, "_answers", {})
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(
+        create=lambda **kw: iter([_chunk("ok\n"), _chunk(finish="stop")]))))
+    monkeypatch.setattr(graph17, "_openai", lambda: client)
+    graph = graph17.build_graph(nodes={"assess": graph17.assess, "explain": graph17.explain})
+    config = {"configurable": {"thread_id": "1a2b3c4d-0000-group"}}
+    turn = {**_searched(), "turns": [{"request": "earlier", "answer": "a"}]}
+    answer = "".join(d["token"] for mode, d in graph.stream(turn, config, stream_mode=["custom"]) if mode == "custom")
+    ids = {r["event"]: r["trace_id"] for r in _log(tmp_path)}
+    assert ids == {"assess": "1a2b3c4d-2", "explain": "1a2b3c4d-2"}  # second turn of that group
+    assert "추적 ID" not in answer  # a normal answer shows no id; cut/failed ones do
