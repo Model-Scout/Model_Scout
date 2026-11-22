@@ -283,11 +283,12 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
                     events[event] = data
         if not completed:
             raise RuntimeError("AI stream ended without done")
-        if context is not None and not "".join(tokens).strip():
+        notice = (events.get("decision") or {}).get("action") == "notice"
+        if context is not None and not notice and not "".join(tokens).strip():
             raise RuntimeError("AI returned an empty question answer")
         elapsed = round(time.time() - started, 2)
         done = (ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer="".join(tokens),
-                        sources=[Source(**s) for s in context["sources"]]) if context is not None
+                        sources=[Source(**s) for s in context["sources"]]) if context is not None and not notice
                 else build_done(events, group_id, "".join(tokens), elapsed))
     except GeneratorExit:  # the client left: no event can reach it, so the log is the only record of a cancel
         logging.info("chat cancelled ip=%s group=%s elapsed=%.1f", ip, group_id, time.time() - started)

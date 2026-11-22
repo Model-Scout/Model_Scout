@@ -18,6 +18,7 @@ import {
 } from "@/lib/api";
 
 export type Turn = {
+  hasResult?: boolean;
   role: "user" | "assistant";
   content: string;
   type?: ChatDone["type"] | null;
@@ -44,6 +45,7 @@ function restore(group: GroupDetail): Loaded & { turns: Turn[] } {
     role: m.role,
     content: m.content,
     type: m.type,
+    hasResult: Boolean(m.result),
     sources: m.sources,
   }));
   // Latest snapshot wins even with 0 candidates, matching the live screen; result and sources come from the same message.
@@ -181,6 +183,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
           role: "assistant",
           content: d.answer,
           type: d.type,
+          hasResult: Boolean(d.result),
           sources: d.sources,
           notSaved: !d.history_saved,
           status: t.status,
