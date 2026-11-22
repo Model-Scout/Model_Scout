@@ -308,12 +308,38 @@ function TopModel({ c, onReadme }: { c?: Candidate; onReadme: ReadmeOpen }) {
   );
 }
 
-function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
-  const [task, setTask] = useState<string | null>(null);
-  // tags[0] is the need's task (retrieval, embedding, generation, ...), set by the backend.
+/** Category chips (전체 + one per category, with counts) over a list; hidden when there is only one category. */
+function useCategories(items: Candidate[], categoryOf: (c: Candidate) => string | undefined, label: string) {
+  const [picked, setPicked] = useState<string | null>(null);
   const counts = new Map<string, number>();
-  for (const c of models) if (c.tags[0]) counts.set(c.tags[0], (counts.get(c.tags[0]) ?? 0) + 1);
-  const shown = task && counts.has(task) ? models.filter((c) => c.tags[0] === task) : models;
+  for (const c of items) {
+    const k = categoryOf(c);
+    if (k) counts.set(k, (counts.get(k) ?? 0) + 1);
+  }
+  // A new result may not contain the picked category: fall back to 전체.
+  const active = picked && counts.has(picked) ? picked : null;
+  const shown = active ? items.filter((c) => categoryOf(c) === active) : items;
+  const chips = counts.size > 1 && (
+    <div className="mt-3 flex flex-wrap gap-1 text-xs" role="radiogroup" aria-label={label}>
+      {[[null, "전체", items.length] as const, ...[...counts].map(([k, n]) => [k, k, n] as const)].map(([value, text, n]) => (
+        <button
+          key={text}
+          role="radio"
+          aria-checked={active === value}
+          className={`rounded-full px-3 py-1 ${active === value ? "bg-ink text-white" : "bg-soft text-muted"}`}
+          onClick={() => setPicked(value)}
+        >
+          {text} {n}
+        </button>
+      ))}
+    </div>
+  );
+  return { shown, chips };
+}
+
+function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
+  // tags[0] is the need's task (embedding, generation, ...; retrieval is folded into embedding), set by the backend.
+  const { shown, chips } = useCategories(models, (c) => c.tags[0], "태스크별 보기");
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
@@ -321,24 +347,7 @@ function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; sele
         <span className="text-xs font-normal text-faint">추천 순</span>
       </h2>
       {models.length === 0 && <p className="mt-3 text-sm text-muted">추천 모델이 없어요.</p>}
-      {counts.size > 1 && (
-        <div className="mt-3 flex flex-wrap gap-1 text-xs" role="radiogroup" aria-label="태스크별 보기">
-          {[[null, "전체", models.length] as const, ...[...counts].map(([t, n]) => [t, t, n] as const)].map(([value, label, n]) => {
-            const on = (task && counts.has(task) ? task : null) === value;
-            return (
-              <button
-                key={label}
-                role="radio"
-                aria-checked={on}
-                className={`rounded-full px-3 py-1 ${on ? "bg-ink text-white" : "bg-soft text-muted"}`}
-                onClick={() => setTask(value)}
-              >
-                {label} {n}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {chips}
       <ul className="mt-3 max-h-64 space-y-1 overflow-y-auto">
         {shown.map((c) => {
           const t = tally(c);
@@ -380,6 +389,8 @@ function DataList({
   selectedId?: string;
   onSelect: (id: string) => void;
 }) {
+  // role is "모델 학습·평가" / "프로젝트 학습·평가" / "서비스 데이터", joined with " / " when a dataset has several.
+  const { shown, chips } = useCategories(datasets, (d) => d.role.split(" / ")[0], "용도별 보기");
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
@@ -387,8 +398,9 @@ function DataList({
         <span className="text-xs font-normal text-faint">연결 모델 표시</span>
       </h2>
       {datasets.length === 0 && <p className="mt-3 text-sm text-muted">추천 데이터가 없어요.</p>}
+      {chips}
       <ul className="mt-3 max-h-64 divide-y divide-line overflow-y-auto">
-        {datasets.map((d) => {
+        {shown.map((d) => {
           const model = all.find((m) => m.type === "model" && d.related.includes(m.id));
           return (
             <li key={d.id} className={`flex items-start gap-3 px-1 py-3 ${d.id === selectedId ? "bg-ok-soft/50" : ""}`}>

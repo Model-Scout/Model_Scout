@@ -272,7 +272,9 @@ def build_result(events: dict[str, Any]) -> ChatResult:
                     candidates[cid].role += f" / {role}"
                 continue
             candidates[cid] = Candidate(id=cid, type="model", source_id=sid, name=sid.split("/")[-1],
-                role=role, tags=[v for v in [need.get("task"), model.get("license")] if v],
+                # retrieval searches the same embedding models (17_recommend_graph MODEL_TASK_FALLBACK), so show one chip.
+                role=role, tags=[v for v in [{"retrieval": "embedding"}.get(need.get("task"), need.get("task")),
+                                             model.get("license")] if v],
                 source="Hugging Face", url=model.get("url"), checks=_checks(model, constraints),
                 rank_score=model.get("rank_score"), context_length=model.get("context_length"),
                 parameters_b=model.get("parameters_b"), benchmarks=model.get("benchmarks") or [], gpu_fit=model.get("gpu_fit"))
