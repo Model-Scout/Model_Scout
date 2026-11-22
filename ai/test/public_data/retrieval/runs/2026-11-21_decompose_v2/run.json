@@ -1,0 +1,57 @@
+{
+ "identity": {
+  "corpus": "v2",
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+  "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+  "vectors": "local"
+ },
+ "labels": {
+  "path": "test/public_data/corpus_v2/golden_prep/batch7/labels_llm_v8.jsonl",
+  "sha256": "4a320d8d7d57610303141cfe8287c2dcebaf91a58ccb28c5982b2639578ef82e"
+ },
+ "spec": {
+  "path": "test/public_data/retrieval/query_spec_v2.jsonl",
+  "sha256": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d"
+ },
+ "baseline": {
+  "dir": "test/public_data/retrieval/runs/2026-11-20_decompose_compare",
+  "plans": {
+   "path": "test/public_data/retrieval/runs/2026-11-20_decompose_compare/plans.jsonl",
+   "sha256": "692c0f70ab8769f6f96905f0785acf42b2867f34a7b5c2740652f8fd79a30cc5"
+  }
+ },
+ "reused_from": null,
+ "prompt": "You prepare the dataset search of a recommender for Korean public data (data.go.kr, 서울 열린데이터광장).\nInput JSON: search_target (model, dataset or both: what the user wants found) and user_message.\nDescribe only the data side, whatever the target.\n\ndataset_query: one Korean sentence naming the data the user needs. Do not add requirements the user did not\n  state (no reviews, user inquiries, real-time, images, Korean-language text unless they asked for them).\ndataset_terms: 1-6 short Korean words naming the data: its subject, the items it must hold, a region the user\n  named. Add a language or text-length word only when the data itself must be in that language or length\n  (e.g. a Korean corpus for training); never add 한국/한국어 because the user writes Korean. No words about the\n  app or service itself (앱, 플랫폼, 추천, 챗봇, 서비스, 알림).\nexplicit: only conditions the user states in this message. A purpose is not a condition.\n  region: a Korean region the data must cover, short form (서울, 부산, 대구, 인천, 광주, 대전, 울산, 세종, 경기,\n    강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주), else null.\n  region_scope: \"전국\" when they ask for nationwide coverage, else null.\n  delivery: \"api\" when they require an API, \"file\" when they require a file, CSV or download, else null.\n    Showing data in an app is not a delivery requirement.\n  realtime: true only when they ask for real-time or current values.\n  commercial: true only when they say the data will be used commercially or must allow commercial use.\n  kogl_type1_only: true only when they ask for 공공누리 1유형 data only.\n  For each, *_evidence is the exact words of user_message that state it, or \"\" when it is null or false.\ninferred_needs: what you infer from the purpose (e.g. an alert app needs frequent updates). These are never\n  conditions and never go into explicit.",
+ "retriever": {
+  "merge": "rrf20",
+  "weights": [
+   0.5,
+   0.5
+  ],
+  "channel_depth": 100,
+  "top_k": 30
+ },
+ "planner_model": "gpt-4.1-mini",
+ "api_calls": {
+  "planner": 58,
+  "embeddings": 58
+ },
+ "development_set": true,
+ "code": {
+  "commit": "35f256baa15b89ae9dbeec1f4a0e034789600b3c",
+  "branch": "exp/public-retrieval-pilot1",
+  "uncommitted": [
+   "M ai/test/public_data/retrieval/pilot.py"
+  ],
+  "files_lf_sha256": {
+   "test/public_data/retrieval/pilot.py": "9ab0e5fdaed99e7f3637f2261d91739826892c922ab87f51ff60fdf03d21784d",
+   "test/public_data/retrieval/query_spec_v1.jsonl": "ce31b765325cc3fd08ecb054442d37c92f9e407142d687270175741fbf7fc2e0",
+   "test/public_data/corpus_v2/golden_prep.py": "44c1ad46e59f497046884498f4756995fc633754ef3ce91664b510e14034dd11",
+   "test/public_data/corpus_v2/compare_corpora.py": "956cbcfd5894ec8d4459018c8980c74cf84487f5a6076385eed9754c7cbe89e6",
+   "hypergraph_search.py": "add2afcbc899cc40192360e45ac4b5e58d51d39dff11d1a3c614c67f247f322b",
+   "retrieval_lab/fusion.py": "5429bab364bc399ef706d006d6b6239faf3d4b9939b731a2999bcba7dba696d3",
+   "retrieval_lab/metrics.py": "dbaefe0dd77eb156d393cff60f9c5446302d94f60befe5af04ce11ace59fd197"
+  },
+  "decompose_v2_lf_sha256": "a5eb44789eeedc0dfec92403192539ccba55be809505f6666cd2596bc235ce87"
+ }
+}

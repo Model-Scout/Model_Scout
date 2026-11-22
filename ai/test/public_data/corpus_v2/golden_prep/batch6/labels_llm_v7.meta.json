@@ -1,0 +1,20 @@
+{
+ "judgments": "test\\public_data\\corpus_v2\\golden_prep\\batch6\\judgments.jsonl",
+ "judgments_sha256": "866ecd5aa74838679bc1fb6676debed9de2ec5d671b52b7c1159640eebbd599c",
+ "expected": "test\\public_data\\corpus_v2\\golden_prep\\batch6\\items.jsonl",
+ "base": "test\\public_data\\corpus_v2\\golden_prep\\batch5\\labels_llm_v6.jsonl",
+ "base_sha256": "ad27386f225897849c350735947faf11334e9e342a8f55e97990cd832b805d4e",
+ "judgment_kinds": {
+  "llm_first_pass": 513
+ },
+ "warnings_resolved": {
+  "inconsistent:p001:fa6f690b": "조건 상태는 같고 요구 항목 충족이 다름: 2점은 위치·요금·운영시간이 모두 있음, 1점은 LX 사옥 주차장만(좌표 없음)·운영정보 일부만",
+  "inconsistent:p002:fa6f690b": "15076352는 위치·충전기 타입이 다 있음, 15085543은 휴게소 충전소 유무만이라 급속·완속 구분이 빠짐",
+  "inconsistent:p016:cb8db9de": "자동 검사 상태는 같지만 판정 근거가 다름: 15073861은 서울 포함 전국 실시간(1), 15117020은 인천(제외), 15106415는 경보 이력(실시간 아님), 15078005는 서울 지점 미확인(보류). 각 verification.items에 기록",
+  "inconsistent:p017:fa6f690b": "15124952는 전체 사고 다발지점, 15058311은 스쿨존 어린이 사고만이라 부분",
+  "inconsistent:p023:b819a67e": "15142030은 전국 정류장 자료에 대구 포함(1), 나머지는 인천·서울 자료로 불충족 확인(제외). verification.items.region에 근거 기록",
+  "inconsistent:p034:fa6f690b": "15130734는 생활법률 전반 대표 질의응답, 3049717은 의료분쟁 분야만이라 부분",
+  "inconsistent:p054:ed75ac15": "15104026은 관광지 정보 전반, 15135102는 반려동물 동반 장소 중심이라 부분",
+  "inconsistent:p058:fa6f690b": "15074272는 관측소별 일 단위 기온 시계열(2), 나머지는 월보·연보·월 단위 전문이라 시간·일 단위 시계열이 아님(1)"
+ }
+}

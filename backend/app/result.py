@@ -215,6 +215,47 @@ def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
     return checks
 
 
+# AI condition verdicts (ai/condition_checks.py) in this contract's statuses: unmet is "check" (as a prohibited
+# model license), unconfirmed is "unknown", never "ok".
+CONDITION_STATUS = {"충족": "ok", "불충족": "check", "미확인": "unknown"}
+
+
+def _condition_checks(row: dict[str, Any]) -> list[Check]:
+    sid = row["dataset"]
+    # The badge shows "확인 필요" for check, so an unmet condition says so in its reason: the screen tells
+    # 불충족 apart from a partial alternative, which has the same badge.
+    checks = [Check(key=c["key"], label=c["label"], status=CONDITION_STATUS.get(c["status"], "unknown"),
+                    reason=("불충족 — " if c["status"] == "불충족" else "") + f"{c['basis']} · {c['scope']}", source_id=sid,
+                    origin="unknown" if c["status"] == "미확인" else "metadata")
+              for c in row.get("condition_checks") or []]
+    if row.get("partial_alternative"):
+        checks.append(Check(key="alternative", label="부분 대안", status="check",
+                            reason=f"부분 대안 — {row['partial_alternative']}", source_id=sid, origin="metadata"))
+    return checks
+
+
+def _condition_summary(conditions: dict[str, Any] | None) -> list[str]:
+    """The stated data conditions in one line, so the cards' checks say what they were checked against."""
+    if not conditions:
+        return []
+    if conditions.get("status") != "ok":
+        return ["데이터 조건을 읽지 못해 조건 충족 여부는 확인하지 않았어요"]
+    parts = []
+    place = " ".join(p for p in (conditions.get("region"), conditions.get("region_detail")) if p)
+    parts += [place] if place else []
+    parts += ["전국 범위"] if conditions.get("region_scope") else []
+    delivery = {"api": "API", "file": "파일"}.get(conditions.get("delivery") or "")
+    formats = ", ".join(str(f).upper() for f in conditions.get("formats") or [])
+    parts += [f"{delivery or '형식'}({formats})" if formats else delivery] if delivery or formats else []
+    parts += [f"갱신 {conditions['update_interval']}"] if conditions.get("update_interval") else []
+    parts += ["현재 값"] if conditions.get("current_value") else []
+    parts += ["공공누리 1유형"] if conditions.get("kogl_type1_only") else []
+    lines = ["데이터 조건: " + " · ".join(parts)] if parts else []
+    if conditions.get("preferences"):
+        lines.append("우선·구분 요청: " + ", ".join(conditions["preferences"]))
+    return lines
+
+
 def build_result(events: dict[str, Any]) -> ChatResult:
     plan = events.get("plan") or {}
     constraints = plan.get("constraints") or {}
@@ -244,7 +285,8 @@ def build_result(events: dict[str, Any]) -> ChatResult:
             checks = [Check(key="license", label="라이선스", status="check" if licenses else "unknown",
                             reason=f"라이선스 {', '.join(licenses)}" if licenses else "라이선스 정보를 찾지 못했어요.",
                             source_id=sid, origin="metadata" if licenses else "unknown")]
-            evidence = [Evidence(label=e.get("concept") or "추천 근거", text=e.get("text"),
+            checks += _condition_checks(row)
+            evidence =[Evidence(label=e.get("concept") or "추천 근거", text=e.get("text"),
                                  origin="readme" if e.get("text") and e.get("source") == "README 인용" else "metadata")
                         for e in row.get("evidence") or []]
             candidates[cid] = Candidate(id=cid, type="dataset", source_id=sid,
@@ -276,6 +318,7 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     for key, label in [("gpu_memory_gb", "GPU 메모리(GB)"), ("min_context_length", "최소 입력 길이(tokens)")]:
         if constraints.get(key) is not None:
             summary.append(f"{label}: {constraints[key]}")
+    summary += _condition_summary(events.get("data_conditions"))
     # language/execution are unknown for every model, so listing them would bury the real items.
     needs = list(dict.fromkeys(f"{c.name}: {k.label}" for c in candidates.values() if c.type == "model"
                                for k in c.checks if k.status != "ok" and k.key not in ("language", "execution")))

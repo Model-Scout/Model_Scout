@@ -1,0 +1,11 @@
+{
+ "judgments": "test\\public_data\\holdout\\judging\\batch2\\judgments.jsonl",
+ "judgments_sha256": "6c60576b74eff34f1edeac9111f607e8bbcc080f7998fa92b91faf3ff9f9caa3",
+ "expected": "test\\public_data\\holdout\\judging\\batch2\\items.jsonl",
+ "base": "test\\public_data\\holdout\\labels_holdout_v1.jsonl",
+ "base_sha256": "af66594dbcc2a855e7d613ade2aa3a2322a64d44ebec77750cb38370045044ed",
+ "judgment_kinds": {
+  "llm_first_pass": 1
+ },
+ "warnings_resolved": {}
+}

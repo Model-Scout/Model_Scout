@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Read-only look at what the server runs: corpus, data versions, code, memory. Writes nothing; prints no secrets.
+# Reads the active release (releases/<CURRENT>, deploy/release.sh), or /opt/model-scout itself before the
+# first release (legacy, deploy/deploy.sh).
 #   ssh-add ~/.ssh/iwinv_model_scout
 #   deploy/inspect_server.sh > server_state.txt
 set -euo pipefail
@@ -7,11 +9,23 @@ HOST="${DEPLOY_HOST:-model-scout}"
 REMOTE=/opt/model-scout
 
 ssh "$HOST" "REMOTE=$REMOTE bash -s" <<'EOF'
-cd "$REMOTE"
+current=$(cat "$REMOTE/CURRENT" 2>/dev/null || true)
+if [ -n "$current" ]; then cd "$REMOTE/releases/$current"; else cd "$REMOTE"; fi
+docker() {  # every compose call targets the active folder's files, under the one project name
+  if [ "$1" = compose ]; then shift; command docker compose -p model-scout --project-directory "$PWD" -f "$PWD/compose.yml" "$@"
+  else command docker "$@"; fi
+}
+echo "== release"; echo "active: ${current:-legacy (no release activated)} ($PWD)"
+tail -3 "$REMOTE/HISTORY" 2>/dev/null | sed 's/^/  /' || true
 echo "== .env.corpus"; cat .env.corpus 2>/dev/null || echo "(none: v1 default)"
 echo "== env files (key names only)"; for f in .env.ai .env.backend; do echo "$f: $(cut -d= -f1 "$f" 2>/dev/null | tr '\n' ' ')"; done
-echo "== containers"; docker compose ps --format '{{.Service}} {{.State}} {{.Status}} {{.Image}}'
-echo "== images"; docker image inspect model-scout-ai:latest model-scout-backend:latest --format '{{.RepoTags}} {{.Id}} created {{.Created}}'
+echo "== containers"; docker compose ps --format '{{.Service}} {{.State}} {{.Status}} {{.Image}}' </dev/null
+echo "== images (what the containers run)"
+for s in ai backend; do
+  id=$(docker inspect -f '{{.Image}}' "$(docker compose ps -q "$s" </dev/null)")
+  echo "$s $(docker image inspect "$id" --format '{{.RepoTags}} {{.Id}} created {{.Created}}')"
+  if [ -f images.txt ]; then echo "  release expects $(awk -v s="$s" '$1 == s {print $2}' images.txt)"; fi
+done
 echo "== ai container corpus env"; docker compose exec -T ai env </dev/null | grep -E '^MODEL_SCOUT_' || echo "(no MODEL_SCOUT_* set)"
 echo "== data files (sha256)"
 for f in data/dataset_index/manifest.json data/dataset_index/embeddings.npy data/hypergraph/build_manifest.json \

@@ -1,0 +1,124 @@
+{
+ "identity": {
+  "corpus": "v2",
+  "corpus_id": "3bf5428514e9f798921455ee89ab922e1dca32877d6b8c71ec8aa9faf9433179",
+  "documents_id": "aa1a71d35a1211509e2ff593029b9322171309d6e34761fc37ebd010d0c2aa3c",
+  "vectors": "local"
+ },
+ "data_version": "aa1a71d35a121150",
+ "labels": {
+  "path": "test/public_data/corpus_v2/golden_prep/batch6/labels_llm_v7.jsonl",
+  "sha256": "e77df417be0e2684885c164bfd7b7b70775e3ac289e0c01a38391d1548fca6a1"
+ },
+ "spec": {
+  "path": "test/public_data/retrieval/query_spec_v2.jsonl",
+  "sha256": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d"
+ },
+ "coverage_labels": {
+  "path": "test/public_data/retrieval/coverage_labels_v7.jsonl",
+  "sha256": "d83c2861e8e93377e287e71bc496ba69895a57d3910a136d29d5e048176f9645"
+ },
+ "query_vectors": {
+  "path": "test/public_data/corpus_v2/compare/query_vectors.jsonl",
+  "sha256": "9b7655b1fd0804bbe5f2293d043d19c9ddd8e4a2e6612c21cf75d547a55c6ffd"
+ },
+ "aliases": {
+  "path": "test/public_data/retrieval/runs/2026-11-20_pilot1_labels-v7/aliases.json",
+  "sha256": "6a6cd62c6cc20071c26ce49b2fdd12e3c69e1d0f949fd2eb77b2be2307fae566"
+ },
+ "settings": {
+  "sources": [
+   "data_go_kr/",
+   "seoul_open_data/"
+  ],
+  "channel_depth": 100,
+  "hg_limit": 300,
+  "top_k": 30,
+  "rrf_k": 60,
+  "dense_weight": 0.5,
+  "sparse_weight": 0.5,
+  "bm25": {
+   "k1": 1.2,
+   "b": 0.75,
+   "document": "card chunk only",
+   "query_terms": "unique"
+  },
+  "dense": {
+   "model": "text-embedding-3-small (frozen vectors)",
+   "document": "all chunks",
+   "dataset_score": "max chunk cosine"
+  },
+  "filter": "after ranking: drop confirmed unmet explicit conditions (golden_prep.condition_checks), then cut to top_k",
+  "hg_internal": "rank_datasets keeps its own floors and commercial_only (drops conditional licenses too)"
+ },
+ "paths": [
+  "hg_question",
+  "hg_terms",
+  "dense",
+  "bm25",
+  "hybrid"
+ ],
+ "new_query_vectors": 0,
+ "api_calls": 0,
+ "rescored_from": {
+  "dir": "test/public_data/retrieval/runs/2026-11-16_pilot1",
+  "rankings": {
+   "path": "test/public_data/retrieval/runs/2026-11-16_pilot1/rankings.jsonl",
+   "sha256": "a67f9f2f5246306118f5c16c8e525b6f6b5a8e2d70e560d87cede4adf4b39129"
+  }
+ },
+ "baseline_reproduced": "58/58 (hg_terms before source cut and filter vs 2026-11-16_v2-aa1a71d3_labels-v6)",
+ "corpus_public_datasets": 15152,
+ "bm25_vocab": 169995,
+ "bm25_build_s": 6.3,
+ "latency_ms": {
+  "hg_question": {
+   "p50": 89.53940000355942,
+   "p95": 120.68919999728678,
+   "p99": 129.63719999970635
+  },
+  "hg_terms": {
+   "p50": 90.47289999580244,
+   "p95": 119.74010000267299,
+   "p99": 2130.3965999977663
+  },
+  "dense": {
+   "p50": 41.8980999966152,
+   "p95": 51.635600000736304,
+   "p99": 71.98280000011437
+  },
+  "bm25": {
+   "p50": 16.776900003605988,
+   "p95": 27.044099995691795,
+   "p99": 46.23089999950025
+  },
+  "hybrid": {
+   "p50": 56.96019999595592,
+   "p95": 76.78560000204016,
+   "p99": 90.00740000192309
+  }
+ },
+ "environment": {
+  "python": "3.13.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+  "note": "query vectors read from the saved file: latency excludes question embedding"
+ },
+ "code": {
+  "commit": "35f256baa15b89ae9dbeec1f4a0e034789600b3c",
+  "branch": "exp/public-retrieval-pilot1",
+  "uncommitted": [
+   "M ai/test/public_data/retrieval/pilot.py",
+   "?? ai/test/public_data/retrieval/query_spec_v2.jsonl"
+  ],
+  "files_lf_sha256": {
+   "test/public_data/retrieval/pilot.py": "9ab0e5fdaed99e7f3637f2261d91739826892c922ab87f51ff60fdf03d21784d",
+   "test/public_data/retrieval/query_spec_v2.jsonl": "2327fbe1387d65b6d11742f865631b3a31aa1f0cb34763b7885a10815caf480d",
+   "test/public_data/corpus_v2/golden_prep.py": "44c1ad46e59f497046884498f4756995fc633754ef3ce91664b510e14034dd11",
+   "test/public_data/corpus_v2/compare_corpora.py": "956cbcfd5894ec8d4459018c8980c74cf84487f5a6076385eed9754c7cbe89e6",
+   "hypergraph_search.py": "add2afcbc899cc40192360e45ac4b5e58d51d39dff11d1a3c614c67f247f322b",
+   "retrieval_lab/fusion.py": "5429bab364bc399ef706d006d6b6239faf3d4b9939b731a2999bcba7dba696d3",
+   "retrieval_lab/metrics.py": "dbaefe0dd77eb156d393cff60f9c5446302d94f60befe5af04ce11ace59fd197"
+  }
+ }
+}

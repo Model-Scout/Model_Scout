@@ -47,10 +47,10 @@ image_id() { docker image inspect -f '{{.Id}}' "model-scout-$1:$2"; }
 # Python: the repo's venv when there is one (Git Bash's "python" can be the Windows Store stub).
 PY=python3
 for p in .venv/Scripts/python.exe .venv/bin/python; do [ -x "$p" ] && PY="$PWD/$p" && break; done
-json_get() {  # json_get <file> <key> [<key>...]
+json_get() {  # json_get <file> <key> [<key>...]; tr: Windows Python ends lines with \r\n
   "$PY" -c "import json,sys; d=json.load(open(sys.argv[1], encoding='utf-8'))
 for k in sys.argv[2:]: d=d[k]
-print(d)" "$@"
+print(d)" "$@" | tr -d '\r'
 }
 
 build() {
@@ -127,7 +127,10 @@ local_env() {  # the AI's runtime keys only, like deploy.sh's .env.ai; never pri
   for source in .env ai/.env; do [ -f "$source" ] && break; done
   [ -f "$source" ] || die "no .env or ai/.env for the AI's OpenAI key and Supabase read settings"
   mkdir -p deploy/.local
-  (umask 077; grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED)=' "$source" > "$LOCAL_ENV")
+  # MODEL_SPARSE_IDF_ENABLED and MODEL_RERANK_MODEL are search settings: without them here the
+  # server keeps the code defaults and they can never be turned on. Generation settings
+  # (RECOMMEND_LLM_*) stay out on purpose, so the server runs the code default OpenAI model.
+  (umask 077; grep -E '^(OPENAI_API_KEY|SUPABASE_DB_(HOST|PORT|NAME|USER)|SUPABASE_PASSWORD|MODEL_CONTRACT_FILTERS_ENABLED|MODEL_SPARSE_IDF_ENABLED|MODEL_RERANK_MODEL)=' "$source" > "$LOCAL_ENV")
   for k in OPENAI_API_KEY SUPABASE_DB_HOST SUPABASE_PASSWORD; do grep -q "^$k=" "$LOCAL_ENV" || die "$source lacks $k"; done
 }
 

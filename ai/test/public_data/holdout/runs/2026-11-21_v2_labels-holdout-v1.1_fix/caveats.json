@@ -1,0 +1,650 @@
+{
+ "base/extracted": {
+  "c001": {
+   "correct": 4,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c002": {
+   "correct": 8,
+   "missed": 6,
+   "spurious": 0
+  },
+  "c003": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c004": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c005": {
+   "correct": 0,
+   "missed": 10,
+   "spurious": 0
+  },
+  "c006": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c007": {
+   "correct": 2,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c008": {
+   "correct": 3,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c009": {
+   "correct": 5,
+   "missed": 2,
+   "spurious": 0
+  },
+  "c010": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c011": {
+   "correct": 3,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c012": {
+   "correct": 0,
+   "missed": 1,
+   "spurious": 0
+  },
+  "h001": {
+   "correct": 7,
+   "missed": 6,
+   "spurious": 0
+  },
+  "h002": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h003": {
+   "correct": 0,
+   "missed": 7,
+   "spurious": 0
+  },
+  "h004": {
+   "correct": 8,
+   "missed": 8,
+   "spurious": 0
+  },
+  "h005": {
+   "correct": 9,
+   "missed": 1,
+   "spurious": 0
+  },
+  "h006": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h007": {
+   "correct": 0,
+   "missed": 1,
+   "spurious": 0
+  },
+  "h008": {
+   "correct": 10,
+   "missed": 10,
+   "spurious": 0
+  },
+  "h009": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h010": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h011": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h012": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h013": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h014": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h015": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h016": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h017": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h018": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h019": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h020": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  }
+ },
+ "v2/extracted": {
+  "c001": {
+   "correct": 4,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c002": {
+   "correct": 15,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c003": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c004": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c005": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c006": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c007": {
+   "correct": 4,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c008": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c009": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c010": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c011": {
+   "correct": 3,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c012": {
+   "correct": 2,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h001": {
+   "correct": 13,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h002": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h003": {
+   "correct": 1,
+   "missed": 6,
+   "spurious": 0
+  },
+  "h004": {
+   "correct": 15,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h005": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h006": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h007": {
+   "correct": 1,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h008": {
+   "correct": 20,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h009": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h010": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h011": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h012": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h013": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h014": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h015": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h016": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h017": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h018": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h019": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h020": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  }
+ },
+ "same:base/extracted": {
+  "c001": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c002": {
+   "correct": 10,
+   "missed": 9,
+   "spurious": 0
+  },
+  "c003": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c004": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c005": {
+   "correct": 0,
+   "missed": 15,
+   "spurious": 0
+  },
+  "c006": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c007": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c008": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c009": {
+   "correct": 8,
+   "missed": 4,
+   "spurious": 0
+  },
+  "c010": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c011": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c012": {
+   "correct": 0,
+   "missed": 2,
+   "spurious": 0
+  },
+  "h001": {
+   "correct": 11,
+   "missed": 9,
+   "spurious": 0
+  },
+  "h002": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h003": {
+   "correct": 0,
+   "missed": 8,
+   "spurious": 0
+  },
+  "h004": {
+   "correct": 11,
+   "missed": 15,
+   "spurious": 0
+  },
+  "h005": {
+   "correct": 10,
+   "missed": 1,
+   "spurious": 0
+  },
+  "h006": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h007": {
+   "correct": 0,
+   "missed": 1,
+   "spurious": 0
+  },
+  "h008": {
+   "correct": 12,
+   "missed": 12,
+   "spurious": 0
+  },
+  "h009": {
+   "correct": 7,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h010": {
+   "correct": 13,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h011": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h012": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h013": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h014": {
+   "correct": 7,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h015": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h016": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h017": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h018": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h019": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h020": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  }
+ },
+ "same:v2/extracted": {
+  "c001": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c002": {
+   "correct": 19,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c003": {
+   "correct": 10,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c004": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c005": {
+   "correct": 15,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c006": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c007": {
+   "correct": 5,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c008": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c009": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c010": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c011": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "c012": {
+   "correct": 2,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h001": {
+   "correct": 20,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h002": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h003": {
+   "correct": 1,
+   "missed": 7,
+   "spurious": 0
+  },
+  "h004": {
+   "correct": 26,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h005": {
+   "correct": 11,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h006": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h007": {
+   "correct": 1,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h008": {
+   "correct": 24,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h009": {
+   "correct": 7,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h010": {
+   "correct": 13,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h011": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h012": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h013": {
+   "correct": 8,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h014": {
+   "correct": 7,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h015": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h016": {
+   "correct": 12,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h017": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h018": {
+   "correct": 0,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h019": {
+   "correct": 6,
+   "missed": 0,
+   "spurious": 0
+  },
+  "h020": {
+   "correct": 9,
+   "missed": 0,
+   "spurious": 0
+  }
+ }
+}

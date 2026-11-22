@@ -529,3 +529,26 @@ def test_combination_reaches_the_result():
               "combination": ["m로 답변을 만들어요."]}
     assert build_done(events, UUID(int=1), "a", 1).result.combination == ["m로 답변을 만들어요."]
     assert build_done({**events, "combination": None}, UUID(int=1), "a", 1).result.combination == []
+
+
+def test_dataset_condition_verdicts_become_checks_and_summary():
+    from backend.app.result import build_result
+    row = {"dataset": "data_go_kr/1", "title": "충청북도 공중화장실 현황", "source": "data_go_kr", "licenses": [],
+           "condition_checks": [
+               {"key": "region", "label": "지역: 충북", "status": "충족", "basis": "제목에 충북", "scope": "제목의 지역명"},
+               {"key": "region_detail", "label": "세부 지역: 청주", "status": "미확인", "basis": "충북 자료",
+                "scope": "청주 포함 여부는 원문 확인"},
+               {"key": "region_scope", "label": "전국 범위", "status": "불충족", "basis": "제목에 서울", "scope": "제목의 지역명"}],
+           "partial_alternative": "서울 한정 자료 (전국 범위 아님)"}
+    conditions = {"status": "ok", "region": "충북", "region_detail": "청주", "delivery": "file", "formats": ["CSV"],
+                  "preferences": ["접근성 정보 우선"]}
+    result = build_result({"plan": {"summary_ko": "s"}, "datasets": {"service_data": [row]}, "data_conditions": conditions})
+    checks = {c.key: c for c in result.candidates[0].checks}
+    assert [checks[k].status for k in ("region", "region_detail", "region_scope", "alternative")] == ["ok", "unknown", "check", "check"]
+    assert checks["region_detail"].reason == "충북 자료 · 청주 포함 여부는 원문 확인"
+    # same "확인 필요" badge on screen, told apart by the reason
+    assert checks["region_scope"].reason.startswith("불충족 — ") and checks["alternative"].reason.startswith("부분 대안 — ")
+    assert "데이터 조건: 충북 청주 · 파일(CSV)" in result.summary and "우선·구분 요청: 접근성 정보 우선" in result.summary
+    unread = build_result({"plan": {"summary_ko": "s"}, "datasets": {}, "data_conditions": {"status": "unavailable"}})
+    assert any("확인하지 않았어요" in line for line in unread.summary)  # never read as "no conditions"
+    assert build_result({"plan": {"summary_ko": "s"}, "datasets": {}}).summary == ["s"]  # older events unchanged

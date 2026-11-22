@@ -1,0 +1,11 @@
+# 질의 임베딩 캐시. text-embedding-3-small 로 다시 만들 수 있다.
+emb_*.json
+
+# 렉심별 postings(모델 ID 목록). 8MB 고 코퍼스에서 다시 만들 수 있다.
+#   python test/model_retrieval/tools/sparse_idf.py
+sparse_idf.json
+
+# classify.json 과 rerank_llm.json 은 일부러 커밋한다. 위 둘은 코퍼스에서 공짜로
+# 다시 만들 수 있지만 이 둘은 LLM 출력이라 다시 만들려면 돈이 들고, 모델이 바뀌면
+# 같은 값이 나오지도 않는다. 커밋해 두면 측정에 쓴 유형 분류와 재순위 결과가
+# 그대로 고정돼, 누구나 비용 없이 같은 숫자를 재현할 수 있다.

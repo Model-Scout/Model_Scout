@@ -1,0 +1,426 @@
+{"method": "rrf20", "query_id": "p003", "dataset_id": "data_go_kr/15057650", "kind": "1점", "rank": 7, "channel": "both"}
+{"method": "rrf20", "query_id": "p003", "dataset_id": "data_go_kr/15088938", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p005", "dataset_id": "data_go_kr/15097607", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p005", "dataset_id": "seoul_open_data/OA-11295", "kind": "1점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "rrf20", "query_id": "p006", "dataset_id": "data_go_kr/15143464", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p007", "dataset_id": "data_go_kr/15048756", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p007", "dataset_id": "seoul_open_data/OA-20337", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p008", "dataset_id": "data_go_kr/15072622", "kind": "1점", "rank": 9, "channel": "both"}
+{"method": "rrf20", "query_id": "p008", "dataset_id": "data_go_kr/15039043", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p010", "dataset_id": "data_go_kr/15050024", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p010", "dataset_id": "data_go_kr/15057039", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p010", "dataset_id": "seoul_open_data/OA-17553", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p011", "dataset_id": "data_go_kr/15108067", "kind": "1점", "rank": 9, "channel": "both"}
+{"method": "rrf20", "query_id": "p012", "dataset_id": "data_go_kr/15163514", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p013", "dataset_id": "data_go_kr/15143972", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf20", "query_id": "p014", "dataset_id": "data_go_kr/15069633", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p014", "dataset_id": "data_go_kr/15099839", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf20", "query_id": "p014", "dataset_id": "data_go_kr/15125365", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p018", "dataset_id": "data_go_kr/15143845", "kind": "2점", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p019", "dataset_id": "data_go_kr/15057209", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "data_go_kr/15059236", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20555", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20524", "kind": "1점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "data_go_kr/15058312", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "data_go_kr/3071208", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20559", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p023", "dataset_id": "data_go_kr/15139231", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf20", "query_id": "p024", "dataset_id": "data_go_kr/15061970", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "rrf20", "query_id": "p024", "dataset_id": "data_go_kr/15096996", "kind": "1점(한 채널만)", "rank": 6, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p024", "dataset_id": "data_go_kr/3083546", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf20", "query_id": "p027", "dataset_id": "data_go_kr/15000303", "kind": "보류", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p028", "dataset_id": "data_go_kr/15023653", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p028", "dataset_id": "data_go_kr/15110260", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p030", "dataset_id": "seoul_open_data/OA-23040", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf20", "query_id": "p030", "dataset_id": "data_go_kr/15096291", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p030", "dataset_id": "seoul_open_data/OA-12517", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf20", "query_id": "p030", "dataset_id": "data_go_kr/15149889", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p031", "dataset_id": "data_go_kr/15013094", "kind": "2점", "rank": 9, "channel": "both"}
+{"method": "rrf20", "query_id": "p032", "dataset_id": "data_go_kr/15055217", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p033", "dataset_id": "data_go_kr/15153131", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "rrf20", "query_id": "p034", "dataset_id": "seoul_open_data/OA-1128", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "rrf20", "query_id": "p035", "dataset_id": "data_go_kr/15108347", "kind": "2점(한 채널만)", "rank": 8, "channel": "dense"}
+{"method": "rrf20", "query_id": "p035", "dataset_id": "data_go_kr/15122463", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p036", "dataset_id": "data_go_kr/15059486", "kind": "1점", "rank": 9, "channel": "both"}
+{"method": "rrf20", "query_id": "p036", "dataset_id": "data_go_kr/15106975", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf20", "query_id": "p037", "dataset_id": "data_go_kr/15114773", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf20", "query_id": "p037", "dataset_id": "data_go_kr/15124807", "kind": "2점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "rrf20", "query_id": "p037", "dataset_id": "data_go_kr/15125145", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p045", "dataset_id": "data_go_kr/15057111", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p046", "dataset_id": "data_go_kr/15049998", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf20", "query_id": "p046", "dataset_id": "data_go_kr/15084084", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p046", "dataset_id": "data_go_kr/15136577", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf20", "query_id": "p046", "dataset_id": "data_go_kr/15142491", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p047", "dataset_id": "data_go_kr/15084817", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "rrf20", "query_id": "p047", "dataset_id": "data_go_kr/15041820", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p047", "dataset_id": "data_go_kr/15092032", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf20", "query_id": "p053", "dataset_id": "data_go_kr/15098821", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p054", "dataset_id": "data_go_kr/15104026", "kind": "2점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "rrf20", "query_id": "p058", "dataset_id": "data_go_kr/15152096", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "rrf20", "query_id": "p058", "dataset_id": "data_go_kr/15142495", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p002", "dataset_id": "data_go_kr/15039550", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "rrf5", "query_id": "p003", "dataset_id": "data_go_kr/15107471", "kind": "오답(판정됨)", "rank": 4, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p003", "dataset_id": "data_go_kr/15107476", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p003", "dataset_id": "data_go_kr/15057650", "kind": "1점", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p003", "dataset_id": "data_go_kr/3044314", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p003", "dataset_id": "data_go_kr/15058336", "kind": "1점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p004", "dataset_id": "data_go_kr/15058489", "kind": "1점", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p004", "dataset_id": "data_go_kr/15058592", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p005", "dataset_id": "data_go_kr/15097607", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p005", "dataset_id": "seoul_open_data/OA-11295", "kind": "1점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2330", "kind": "1점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2329", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p006", "dataset_id": "data_go_kr/15143464", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "data_go_kr/15048756", "kind": "오답(판정됨)", "rank": 4, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "seoul_open_data/OA-20337", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "data_go_kr/15032300", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "seoul_open_data/OA-16181", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "data_go_kr/3081362", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p007", "dataset_id": "data_go_kr/15095045", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p008", "dataset_id": "data_go_kr/15057476", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p008", "dataset_id": "data_go_kr/15058039", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p010", "dataset_id": "data_go_kr/15050024", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p010", "dataset_id": "data_go_kr/15057039", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p010", "dataset_id": "seoul_open_data/OA-17553", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p010", "dataset_id": "data_go_kr/15057370", "kind": "1점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p011", "dataset_id": "data_go_kr/15108067", "kind": "1점", "rank": 7, "channel": "both"}
+{"method": "rrf5", "query_id": "p012", "dataset_id": "data_go_kr/15163514", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p013", "dataset_id": "data_go_kr/15143972", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p013", "dataset_id": "data_go_kr/15142649", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf5", "query_id": "p013", "dataset_id": "data_go_kr/15012927", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p014", "dataset_id": "data_go_kr/15069633", "kind": "1점(한 채널만)", "rank": 3, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p014", "dataset_id": "data_go_kr/15099839", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "rrf5", "query_id": "p014", "dataset_id": "data_go_kr/15125365", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf5", "query_id": "p014", "dataset_id": "data_go_kr/15069634", "kind": "1점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p015", "dataset_id": "seoul_open_data/OA-15246", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "rrf5", "query_id": "p016", "dataset_id": "data_go_kr/15156659", "kind": "1점(한 채널만)", "rank": 3, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p016", "dataset_id": "seoul_open_data/OA-15526", "kind": "2점(한 채널만)", "rank": 4, "channel": "dense"}
+{"method": "rrf5", "query_id": "p016", "dataset_id": "seoul_open_data/OA-22833", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p016", "dataset_id": "data_go_kr/15078005", "kind": "보류", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p018", "dataset_id": "data_go_kr/15143845", "kind": "2점", "rank": 4, "channel": "both"}
+{"method": "rrf5", "query_id": "p019", "dataset_id": "data_go_kr/15057209", "kind": "1점", "rank": 6, "channel": "both"}
+{"method": "rrf5", "query_id": "p020", "dataset_id": "data_go_kr/15098501", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "data_go_kr/15059236", "kind": "1점(한 채널만)", "rank": 2, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20555", "kind": "1점(한 채널만)", "rank": 4, "channel": "dense"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20524", "kind": "1점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "data_go_kr/15058312", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "data_go_kr/3071208", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20559", "kind": "1점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p021", "dataset_id": "data_go_kr/15051014", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p023", "dataset_id": "data_go_kr/15139231", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/15061970", "kind": "오답(판정됨)", "rank": 2, "channel": "dense"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/15096996", "kind": "1점(한 채널만)", "rank": 3, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/3083546", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/15097949", "kind": "보류", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/15101971", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p024", "dataset_id": "data_go_kr/15087193", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p027", "dataset_id": "data_go_kr/15143846", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p027", "dataset_id": "seoul_open_data/OA-22752", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p028", "dataset_id": "data_go_kr/15023653", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p028", "dataset_id": "data_go_kr/15110260", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p028", "dataset_id": "data_go_kr/15110258", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p028", "dataset_id": "data_go_kr/15110251", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p029", "dataset_id": "data_go_kr/15158500", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p029", "dataset_id": "data_go_kr/15109253", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p030", "dataset_id": "seoul_open_data/OA-23040", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p030", "dataset_id": "data_go_kr/15096291", "kind": "1점(한 채널만)", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p030", "dataset_id": "seoul_open_data/OA-12517", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p030", "dataset_id": "data_go_kr/15149889", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p030", "dataset_id": "seoul_open_data/OA-22648", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p031", "dataset_id": "data_go_kr/15013094", "kind": "2점", "rank": 7, "channel": "both"}
+{"method": "rrf5", "query_id": "p032", "dataset_id": "data_go_kr/15055217", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p032", "dataset_id": "data_go_kr/15077970", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p033", "dataset_id": "data_go_kr/15000115", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p033", "dataset_id": "data_go_kr/15153131", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p034", "dataset_id": "seoul_open_data/OA-1128", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p034", "dataset_id": "data_go_kr/3049717", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p035", "dataset_id": "data_go_kr/15108347", "kind": "2점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p035", "dataset_id": "data_go_kr/15122463", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p035", "dataset_id": "data_go_kr/15111725", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p035", "dataset_id": "seoul_open_data/OA-23014", "kind": "2점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p036", "dataset_id": "data_go_kr/15106975", "kind": "오답(판정됨)", "rank": 2, "channel": "dense"}
+{"method": "rrf5", "query_id": "p036", "dataset_id": "data_go_kr/15027423", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p036", "dataset_id": "data_go_kr/15076323", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf5", "query_id": "p036", "dataset_id": "data_go_kr/15059486", "kind": "1점", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p037", "dataset_id": "data_go_kr/15114773", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "rrf5", "query_id": "p037", "dataset_id": "data_go_kr/15124807", "kind": "2점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p037", "dataset_id": "data_go_kr/15125145", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p037", "dataset_id": "data_go_kr/15136830", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p037", "dataset_id": "data_go_kr/15156872", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "rrf5", "query_id": "p044", "dataset_id": "seoul_open_data/OA-12688", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p044", "dataset_id": "seoul_open_data/OA-11630", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p044", "dataset_id": "seoul_open_data/OA-12928", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p045", "dataset_id": "data_go_kr/15057111", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p045", "dataset_id": "data_go_kr/15097959", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p045", "dataset_id": "data_go_kr/15157696", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p045", "dataset_id": "data_go_kr/15058804", "kind": "1점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p046", "dataset_id": "data_go_kr/15049998", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p046", "dataset_id": "data_go_kr/15084084", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p046", "dataset_id": "data_go_kr/15136577", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p046", "dataset_id": "data_go_kr/15142491", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "data_go_kr/15084817", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "data_go_kr/15041820", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "data_go_kr/15092032", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "data_go_kr/15029605", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "seoul_open_data/OA-11630", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p047", "dataset_id": "data_go_kr/15073262", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "rrf5", "query_id": "p048", "dataset_id": "data_go_kr/15057982", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "rrf5", "query_id": "p049", "dataset_id": "data_go_kr/15140253", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p049", "dataset_id": "data_go_kr/15073861", "kind": "2점", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p049", "dataset_id": "data_go_kr/15097943", "kind": "보류", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p050", "dataset_id": "data_go_kr/15051664", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p050", "dataset_id": "data_go_kr/15057209", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p051", "dataset_id": "data_go_kr/15072611", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "rrf5", "query_id": "p052", "dataset_id": "data_go_kr/15021149", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p052", "dataset_id": "data_go_kr/15058917", "kind": "보류", "rank": 6, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p052", "dataset_id": "data_go_kr/15059442", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p052", "dataset_id": "data_go_kr/15138981", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "rrf5", "query_id": "p053", "dataset_id": "data_go_kr/15098821", "kind": "오답(판정됨)", "rank": 3, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p053", "dataset_id": "data_go_kr/15147966", "kind": "2점", "rank": 10, "channel": "both"}
+{"method": "rrf5", "query_id": "p054", "dataset_id": "data_go_kr/15104026", "kind": "2점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p054", "dataset_id": "data_go_kr/15101914", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "rrf5", "query_id": "p055", "dataset_id": "data_go_kr/15112364", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "rrf5", "query_id": "p056", "dataset_id": "data_go_kr/15158680", "kind": "1점", "rank": 7, "channel": "both"}
+{"method": "rrf5", "query_id": "p058", "dataset_id": "data_go_kr/15058088", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "rrf5", "query_id": "p058", "dataset_id": "data_go_kr/15152096", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "rrf5", "query_id": "p058", "dataset_id": "data_go_kr/15142495", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "interleave", "query_id": "p001", "dataset_id": "seoul_open_data/OA-15012", "kind": "2점", "rank": 9, "channel": "both"}
+{"method": "interleave", "query_id": "p002", "dataset_id": "data_go_kr/15039550", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "interleave", "query_id": "p003", "dataset_id": "data_go_kr/15107471", "kind": "오답(판정됨)", "rank": 3, "channel": "bm25"}
+{"method": "interleave", "query_id": "p003", "dataset_id": "data_go_kr/15107476", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p003", "dataset_id": "data_go_kr/15057650", "kind": "1점", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p003", "dataset_id": "data_go_kr/3044314", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p003", "dataset_id": "data_go_kr/15058336", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p004", "dataset_id": "data_go_kr/15058592", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p004", "dataset_id": "data_go_kr/15058489", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p004", "dataset_id": "data_go_kr/15118036", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "data_go_kr/15097607", "kind": "오답(판정됨)", "rank": 2, "channel": "bm25"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "seoul_open_data/OA-11295", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2330", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2329", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "data_go_kr/15058391", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2294", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p006", "dataset_id": "data_go_kr/15143464", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "seoul_open_data/OA-20337", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "data_go_kr/15048756", "kind": "오답(판정됨)", "rank": 4, "channel": "bm25"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "seoul_open_data/OA-16181", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "data_go_kr/15032300", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "data_go_kr/3081362", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "seoul_open_data/OA-16160", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p007", "dataset_id": "data_go_kr/15095045", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p008", "dataset_id": "data_go_kr/15057476", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p008", "dataset_id": "seoul_open_data/OA-20893", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p008", "dataset_id": "data_go_kr/15058039", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p008", "dataset_id": "data_go_kr/15056543", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p009", "dataset_id": "seoul_open_data/OA-21275", "kind": "2점", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "data_go_kr/15050024", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "seoul_open_data/OA-17553", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "data_go_kr/15057039", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "seoul_open_data/OA-16049", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "data_go_kr/15057370", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p010", "dataset_id": "data_go_kr/15052261", "kind": "1점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p011", "dataset_id": "data_go_kr/15108067", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p011", "dataset_id": "data_go_kr/15059462", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p011", "dataset_id": "data_go_kr/15097943", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p011", "dataset_id": "seoul_open_data/OA-11630", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p012", "dataset_id": "data_go_kr/15163514", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p013", "dataset_id": "data_go_kr/15143972", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "interleave", "query_id": "p013", "dataset_id": "data_go_kr/15142649", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p013", "dataset_id": "data_go_kr/15012927", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p013", "dataset_id": "data_go_kr/15105476", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15099839", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15069633", "kind": "1점(한 채널만)", "rank": 2, "channel": "bm25"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15125365", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15125362", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15069634", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p014", "dataset_id": "data_go_kr/15125364", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p015", "dataset_id": "seoul_open_data/OA-15246", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "seoul_open_data/OA-15526", "kind": "2점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "data_go_kr/15156659", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "seoul_open_data/OA-22833", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "seoul_open_data/OA-23044", "kind": "2점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "data_go_kr/15078005", "kind": "보류", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p016", "dataset_id": "seoul_open_data/OA-15969", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p017", "dataset_id": "data_go_kr/15124952", "kind": "2점", "rank": 9, "channel": "both"}
+{"method": "interleave", "query_id": "p018", "dataset_id": "data_go_kr/15143845", "kind": "2점", "rank": 3, "channel": "both"}
+{"method": "interleave", "query_id": "p019", "dataset_id": "data_go_kr/15057209", "kind": "1점", "rank": 3, "channel": "both"}
+{"method": "interleave", "query_id": "p019", "dataset_id": "data_go_kr/15029182", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "interleave", "query_id": "p019", "dataset_id": "data_go_kr/15057737", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p020", "dataset_id": "data_go_kr/15098501", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "data_go_kr/15059236", "kind": "1점(한 채널만)", "rank": 2, "channel": "bm25"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20555", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20524", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "data_go_kr/15058312", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20559", "kind": "1점(한 채널만)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "data_go_kr/3071208", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20504", "kind": "1점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p022", "dataset_id": "data_go_kr/15155087", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p022", "dataset_id": "data_go_kr/15058257", "kind": "오답(판정됨)", "rank": 7, "channel": "both"}
+{"method": "interleave", "query_id": "p022", "dataset_id": "data_go_kr/15158846", "kind": "오답(판정됨)", "rank": 9, "channel": "both"}
+{"method": "interleave", "query_id": "p023", "dataset_id": "data_go_kr/15139231", "kind": "오답(판정됨)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p023", "dataset_id": "data_go_kr/15056529", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15061970", "kind": "오답(판정됨)", "rank": 2, "channel": "dense"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15096996", "kind": "1점(한 채널만)", "rank": 3, "channel": "bm25"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/3083546", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15097949", "kind": "보류", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15101971", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15093660", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p024", "dataset_id": "data_go_kr/15087193", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p025", "dataset_id": "data_go_kr/3057773", "kind": "보류", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p025", "dataset_id": "data_go_kr/15158681", "kind": "보류", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p027", "dataset_id": "data_go_kr/15143846", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "interleave", "query_id": "p027", "dataset_id": "seoul_open_data/OA-22752", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p027", "dataset_id": "data_go_kr/15058877", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p028", "dataset_id": "data_go_kr/15023653", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p028", "dataset_id": "data_go_kr/15110260", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p028", "dataset_id": "data_go_kr/15110258", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p028", "dataset_id": "data_go_kr/15110251", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p028", "dataset_id": "data_go_kr/15017515", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p029", "dataset_id": "data_go_kr/15158500", "kind": "오답(판정됨)", "rank": 4, "channel": "bm25"}
+{"method": "interleave", "query_id": "p029", "dataset_id": "data_go_kr/15109253", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p029", "dataset_id": "data_go_kr/15013106", "kind": "1점(한 채널만)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "seoul_open_data/OA-23040", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "seoul_open_data/OA-12517", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "data_go_kr/15096291", "kind": "1점(한 채널만)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "seoul_open_data/OA-22648", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "data_go_kr/15149889", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p030", "dataset_id": "seoul_open_data/OA-23011", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p031", "dataset_id": "data_go_kr/15013094", "kind": "2점", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p031", "dataset_id": "data_go_kr/15000652", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p032", "dataset_id": "data_go_kr/15055217", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p032", "dataset_id": "data_go_kr/15077970", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p032", "dataset_id": "data_go_kr/15077932", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p033", "dataset_id": "data_go_kr/15000115", "kind": "1점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p033", "dataset_id": "data_go_kr/15153131", "kind": "오답(판정됨)", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p033", "dataset_id": "data_go_kr/15085794", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p034", "dataset_id": "seoul_open_data/OA-1128", "kind": "오답(판정됨)", "rank": 4, "channel": "both"}
+{"method": "interleave", "query_id": "p034", "dataset_id": "data_go_kr/3049717", "kind": "1점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p034", "dataset_id": "data_go_kr/15151953", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p035", "dataset_id": "data_go_kr/15108347", "kind": "2점(한 채널만)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p035", "dataset_id": "data_go_kr/15122463", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p035", "dataset_id": "seoul_open_data/OA-23014", "kind": "2점(한 채널만)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p035", "dataset_id": "data_go_kr/15111725", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p035", "dataset_id": "data_go_kr/15090532", "kind": "2점(한 채널만)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p036", "dataset_id": "data_go_kr/15106975", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "interleave", "query_id": "p036", "dataset_id": "data_go_kr/15076323", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p036", "dataset_id": "data_go_kr/15027423", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p036", "dataset_id": "data_go_kr/15111777", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p036", "dataset_id": "data_go_kr/15059486", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15114773", "kind": "오답(판정됨)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15124807", "kind": "2점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15125145", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15156872", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15136830", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/3070147", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p037", "dataset_id": "data_go_kr/15089213", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p044", "dataset_id": "seoul_open_data/OA-12688", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p044", "dataset_id": "seoul_open_data/OA-12928", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p044", "dataset_id": "seoul_open_data/OA-11630", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "data_go_kr/15057111", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "data_go_kr/15157696", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "data_go_kr/15097959", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "seoul_open_data/OA-13315", "kind": "오답(판정됨)", "rank": 8, "channel": "dense"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "data_go_kr/15058804", "kind": "1점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p045", "dataset_id": "data_go_kr/15152116", "kind": "오답(판정됨)", "rank": 10, "channel": "dense"}
+{"method": "interleave", "query_id": "p046", "dataset_id": "data_go_kr/15049998", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p046", "dataset_id": "data_go_kr/15084084", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p046", "dataset_id": "data_go_kr/15136577", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p046", "dataset_id": "data_go_kr/15142491", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "data_go_kr/15084817", "kind": "오답(판정됨)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "data_go_kr/15092032", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "data_go_kr/15041820", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "data_go_kr/15029605", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "seoul_open_data/OA-11630", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "data_go_kr/15073262", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p047", "dataset_id": "seoul_open_data/OA-11631", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p048", "dataset_id": "data_go_kr/15058877", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "interleave", "query_id": "p048", "dataset_id": "seoul_open_data/OA-15492", "kind": "오답(판정됨)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p048", "dataset_id": "data_go_kr/15057982", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p049", "dataset_id": "data_go_kr/15140253", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "interleave", "query_id": "p049", "dataset_id": "data_go_kr/15073861", "kind": "2점", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p049", "dataset_id": "data_go_kr/15073855", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p049", "dataset_id": "seoul_open_data/OA-20461", "kind": "오답(판정됨)", "rank": 9, "channel": "dense"}
+{"method": "interleave", "query_id": "p049", "dataset_id": "data_go_kr/15097943", "kind": "보류", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p050", "dataset_id": "data_go_kr/15051664", "kind": "오답(판정됨)", "rank": 4, "channel": "both"}
+{"method": "interleave", "query_id": "p050", "dataset_id": "data_go_kr/15057209", "kind": "오답(판정됨)", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p050", "dataset_id": "data_go_kr/15055602", "kind": "오답(판정됨)", "rank": 8, "channel": "both"}
+{"method": "interleave", "query_id": "p050", "dataset_id": "data_go_kr/15059163", "kind": "오답(판정됨)", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p051", "dataset_id": "data_go_kr/15072611", "kind": "1점", "rank": 7, "channel": "both"}
+{"method": "interleave", "query_id": "p052", "dataset_id": "data_go_kr/15021149", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "interleave", "query_id": "p052", "dataset_id": "data_go_kr/15058917", "kind": "보류", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p052", "dataset_id": "data_go_kr/15138981", "kind": "오답(판정됨)", "rank": 6, "channel": "dense"}
+{"method": "interleave", "query_id": "p052", "dataset_id": "data_go_kr/15059442", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p052", "dataset_id": "data_go_kr/15056641", "kind": "오답(판정됨)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p053", "dataset_id": "data_go_kr/15098821", "kind": "오답(판정됨)", "rank": 3, "channel": "bm25"}
+{"method": "interleave", "query_id": "p053", "dataset_id": "data_go_kr/15147946", "kind": "2점(한 채널만)", "rank": 10, "channel": "bm25"}
+{"method": "interleave", "query_id": "p054", "dataset_id": "data_go_kr/15104026", "kind": "2점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "interleave", "query_id": "p054", "dataset_id": "data_go_kr/15101914", "kind": "오답(판정됨)", "rank": 7, "channel": "bm25"}
+{"method": "interleave", "query_id": "p054", "dataset_id": "data_go_kr/3054892", "kind": "2점(한 채널만)", "rank": 9, "channel": "bm25"}
+{"method": "interleave", "query_id": "p055", "dataset_id": "data_go_kr/15112364", "kind": "오답(판정됨)", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p056", "dataset_id": "data_go_kr/15158680", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p056", "dataset_id": "data_go_kr/15057878", "kind": "1점(한 채널만)", "rank": 8, "channel": "bm25"}
+{"method": "interleave", "query_id": "p057", "dataset_id": "data_go_kr/15099532", "kind": "1점", "rank": 10, "channel": "both"}
+{"method": "interleave", "query_id": "p058", "dataset_id": "data_go_kr/15058088", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "interleave", "query_id": "p058", "dataset_id": "data_go_kr/15142495", "kind": "오답(판정됨)", "rank": 5, "channel": "both"}
+{"method": "interleave", "query_id": "p058", "dataset_id": "data_go_kr/15152096", "kind": "오답(판정됨)", "rank": 6, "channel": "both"}
+{"method": "interleave", "query_id": "p058", "dataset_id": "data_go_kr/15075543", "kind": "오답(판정됨)", "rank": 7, "channel": "dense"}
+{"method": "interleave", "query_id": "p058", "dataset_id": "data_go_kr/15129606", "kind": "오답(판정됨)", "rank": 10, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p003", "dataset_id": "data_go_kr/15107471", "kind": "오답(판정됨)", "rank": 3, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p003", "dataset_id": "data_go_kr/15107476", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p004", "dataset_id": "data_go_kr/15058592", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p004", "dataset_id": "data_go_kr/15058489", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p005", "dataset_id": "data_go_kr/15097607", "kind": "오답(판정됨)", "rank": 2, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p005", "dataset_id": "seoul_open_data/OA-11295", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p005", "dataset_id": "seoul_open_data/OA-2330", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p007", "dataset_id": "seoul_open_data/OA-20337", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p007", "dataset_id": "data_go_kr/15048756", "kind": "오답(판정됨)", "rank": 4, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p007", "dataset_id": "seoul_open_data/OA-16181", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p007", "dataset_id": "data_go_kr/15032300", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p010", "dataset_id": "data_go_kr/15050024", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p010", "dataset_id": "seoul_open_data/OA-17553", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p010", "dataset_id": "data_go_kr/15057039", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p011", "dataset_id": "data_go_kr/15108067", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p013", "dataset_id": "data_go_kr/15143972", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p014", "dataset_id": "data_go_kr/15099839", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p014", "dataset_id": "data_go_kr/15069633", "kind": "1점(한 채널만)", "rank": 2, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p016", "dataset_id": "seoul_open_data/OA-15526", "kind": "2점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p016", "dataset_id": "data_go_kr/15156659", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p018", "dataset_id": "data_go_kr/15143845", "kind": "2점", "rank": 3, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p019", "dataset_id": "data_go_kr/15057209", "kind": "1점", "rank": 3, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p020", "dataset_id": "data_go_kr/15098501", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p021", "dataset_id": "data_go_kr/15059236", "kind": "1점(한 채널만)", "rank": 2, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20555", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p021", "dataset_id": "seoul_open_data/OA-20524", "kind": "1점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p022", "dataset_id": "data_go_kr/15155087", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p024", "dataset_id": "data_go_kr/15061970", "kind": "오답(판정됨)", "rank": 2, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p024", "dataset_id": "data_go_kr/15096996", "kind": "1점(한 채널만)", "rank": 3, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p024", "dataset_id": "data_go_kr/3083546", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p025", "dataset_id": "data_go_kr/3057773", "kind": "보류", "rank": 6, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p030", "dataset_id": "seoul_open_data/OA-23040", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p031", "dataset_id": "data_go_kr/15013094", "kind": "2점", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p031", "dataset_id": "data_go_kr/15000652", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p033", "dataset_id": "data_go_kr/15000115", "kind": "1점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p034", "dataset_id": "seoul_open_data/OA-1128", "kind": "오답(판정됨)", "rank": 4, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p034", "dataset_id": "data_go_kr/3049717", "kind": "1점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p036", "dataset_id": "data_go_kr/15106975", "kind": "오답(판정됨)", "rank": 1, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p036", "dataset_id": "data_go_kr/15076323", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p036", "dataset_id": "data_go_kr/15027423", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p037", "dataset_id": "data_go_kr/15114773", "kind": "오답(판정됨)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p037", "dataset_id": "data_go_kr/15124807", "kind": "2점(한 채널만)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p037", "dataset_id": "data_go_kr/15125145", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p045", "dataset_id": "data_go_kr/15057111", "kind": "오답(판정됨)", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p047", "dataset_id": "data_go_kr/15084817", "kind": "오답(판정됨)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p047", "dataset_id": "data_go_kr/15092032", "kind": "오답(판정됨)", "rank": 5, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p047", "dataset_id": "data_go_kr/15041820", "kind": "오답(판정됨)", "rank": 6, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p049", "dataset_id": "data_go_kr/15140253", "kind": "1점(한 채널만)", "rank": 4, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p049", "dataset_id": "data_go_kr/15073861", "kind": "2점", "rank": 6, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p050", "dataset_id": "data_go_kr/15051664", "kind": "오답(판정됨)", "rank": 4, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p050", "dataset_id": "data_go_kr/15057209", "kind": "오답(판정됨)", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p052", "dataset_id": "data_go_kr/15021149", "kind": "오답(판정됨)", "rank": 4, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p052", "dataset_id": "data_go_kr/15058917", "kind": "보류", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p053", "dataset_id": "data_go_kr/15098821", "kind": "오답(판정됨)", "rank": 3, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p054", "dataset_id": "data_go_kr/15104026", "kind": "2점(한 채널만)", "rank": 5, "channel": "bm25"}
+{"method": "protect3+rrf60", "query_id": "p056", "dataset_id": "data_go_kr/15158680", "kind": "1점", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p058", "dataset_id": "data_go_kr/15058088", "kind": "1점(한 채널만)", "rank": 3, "channel": "dense"}
+{"method": "protect3+rrf60", "query_id": "p058", "dataset_id": "data_go_kr/15142495", "kind": "오답(판정됨)", "rank": 5, "channel": "both"}
+{"method": "protect3+rrf60", "query_id": "p058", "dataset_id": "data_go_kr/15152096", "kind": "오답(판정됨)", "rank": 6, "channel": "both"}

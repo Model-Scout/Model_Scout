@@ -1,0 +1,59 @@
+{
+  "probes": [
+    {
+      "name": "순수 한국어",
+      "query": "한국어 문서 검색에 쓸 문장 임베딩 모델",
+      "and_rows": 0,
+      "and_max": 0.0,
+      "or_rows": 4017,
+      "or_max": 1.0
+    },
+    {
+      "name": "혼합(그래프 예시)",
+      "query": "한국어 문서 임베딩 embedding retrieval",
+      "and_rows": 0,
+      "and_max": 0.0,
+      "or_rows": 574,
+      "or_max": 1.0
+    },
+    {
+      "name": "혼합(음성인식)",
+      "query": "한국어 음성 인식 korean speech recognition ASR",
+      "and_rows": 0,
+      "and_max": 0.0,
+      "or_rows": 4017,
+      "or_max": 1.0
+    },
+    {
+      "name": "혼합(번역)",
+      "query": "한영 번역 korean english translation",
+      "and_rows": 0,
+      "and_max": 0.0,
+      "or_rows": 4017,
+      "or_max": 1.0
+    },
+    {
+      "name": "순수 영어",
+      "query": "korean sentence embedding model for document retrieval",
+      "and_rows": 77,
+      "and_max": 0.003205,
+      "or_rows": 4017,
+      "or_max": 1.0
+    }
+  ],
+  "active_rows": 4017,
+  "term_coverage": {
+    "korean": 4017,
+    "한국어": 27,
+    "embedding": 475,
+    "임베딩": 2,
+    "translation": 522,
+    "번역": 1
+  },
+  "dense": {
+    "query": "한국어 문서 검색에 쓸 문장 임베딩 모델",
+    "min": 0.261842,
+    "max": 0.467547,
+    "avg": 0.367276
+  }
+}
