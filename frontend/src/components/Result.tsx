@@ -309,6 +309,11 @@ function TopModel({ c, onReadme }: { c?: Candidate; onReadme: ReadmeOpen }) {
 }
 
 function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
+  const [task, setTask] = useState<string | null>(null);
+  // tags[0] is the need's task (retrieval, embedding, generation, ...), set by the backend.
+  const counts = new Map<string, number>();
+  for (const c of models) if (c.tags[0]) counts.set(c.tags[0], (counts.get(c.tags[0]) ?? 0) + 1);
+  const shown = task && counts.has(task) ? models.filter((c) => c.tags[0] === task) : models;
   return (
     <section className="p-6">
       <h2 className="flex items-center gap-2 font-bold">
@@ -316,8 +321,26 @@ function ModelList({ models, selectedId, onSelect }: { models: Candidate[]; sele
         <span className="text-xs font-normal text-faint">추천 순</span>
       </h2>
       {models.length === 0 && <p className="mt-3 text-sm text-muted">추천 모델이 없어요.</p>}
+      {counts.size > 1 && (
+        <div className="mt-3 flex flex-wrap gap-1 text-xs" role="radiogroup" aria-label="태스크별 보기">
+          {[[null, "전체", models.length] as const, ...[...counts].map(([t, n]) => [t, t, n] as const)].map(([value, label, n]) => {
+            const on = (task && counts.has(task) ? task : null) === value;
+            return (
+              <button
+                key={label}
+                role="radio"
+                aria-checked={on}
+                className={`rounded-full px-3 py-1 ${on ? "bg-ink text-white" : "bg-soft text-muted"}`}
+                onClick={() => setTask(value)}
+              >
+                {label} {n}
+              </button>
+            );
+          })}
+        </div>
+      )}
       <ul className="mt-3 max-h-64 space-y-1 overflow-y-auto">
-        {models.map((c) => {
+        {shown.map((c) => {
           const t = tally(c);
           return (
             <li key={c.id}>
