@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Check, ChatStatus, Origin } from "@/lib/api";
@@ -10,12 +11,22 @@ export function Logo({ size = 28 }: { size?: number }) {
 }
 
 /** Safe markdown: react-markdown never renders raw HTML. */
-export function Markdown({ text }: { text: string }) {
+export function Markdown({ text, foldTables }: { text: string; /** answers: each table behind a toggle */ foldTables?: boolean }) {
   return (
     <div className="md">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        components={{ a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" /> }}
+        components={{
+          a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" />,
+          ...(foldTables && {
+            table: ({ node: _node, ...props }) => (
+              <details className="rounded-lg border border-line px-3 py-2">
+                <summary className="cursor-pointer text-xs font-semibold text-brand">추천 · 대안 · 관련 데이터 보기</summary>
+                <table {...props} className="mt-2" />
+              </details>
+            ),
+          }),
+        }}
       >
         {text}
       </ReactMarkdown>
@@ -68,7 +79,14 @@ export function DoneSteps({ status, elapsed }: { status: ChatStatus[]; elapsed?:
 /** Progress from SSE status events. step is not a percentage and may repeat or skip, so only labels are shown. */
 export function Progress({ status, onCancel }: { status: ChatStatus[]; onCancel?: () => void }) {
   const labels = [...new Set(status.map((s) => s.label))];
-  const elapsed = status.at(-1)?.elapsed;
+  // Status events arrive only between steps, so the shown time ticks locally every second.
+  const [started] = useState(() => Date.now() - (status.at(-1)?.elapsed ?? 0) * 1000);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const elapsed = Math.max(0, (now - started) / 1000);
   return (
     <div className="space-y-2">
       <ol className="space-y-1 text-sm">
@@ -88,7 +106,7 @@ export function Progress({ status, onCancel }: { status: ChatStatus[]; onCancel?
         })}
       </ol>
       <div className="flex items-center gap-3 text-xs text-muted">
-        {elapsed !== undefined && <span>{Math.round(elapsed)}초 경과</span>}
+        <span>{Math.floor(elapsed)}초 경과</span>
         {onCancel && (
           <button type="button" className="underline hover:text-ink" onClick={onCancel}>
             취소

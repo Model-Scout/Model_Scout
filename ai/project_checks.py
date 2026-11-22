@@ -51,9 +51,35 @@ FINE_TUNING = (
     rf"파인\s*튜닝{ALREADY_DONE}|\bfine[-\s]*tun(?:e|ing)\b|(?<![a-z])sft(?![a-z]){ALREADY_DONE}|추가\s*학습{ALREADY_DONE}"
 )
 SKIP_FINE_TUNING = re.compile(
-    rf"(?:{FINE_TUNING})\s*(?:(?:은|는|을|를)\s*)?(?:없이|제외|안\s*(?:하|할)|하지\s*않|필요\s*없)",
+    rf"(?:{FINE_TUNING}|튜닝|학습)\s*(?:(?:은|는|을|를|도)\s*)?"
+    r"(?:없이|제외|안\s*(?:하|할|해|함)|하지\s*않|필요\s*없|생각\s*없|계획\s*없)|"
+    r"(?:without|no)\s+fine[-\s]*tun",
     re.IGNORECASE,
 )
+# "LFM3-1.7B-Base", "klue/roberta-base": a name ending in base. A mid-name size tag ("bert-base-nsmc") is
+# usually a model already fine-tuned for another task.
+BASE_CHECKPOINT = re.compile(r"(?<![a-z])base$", re.IGNORECASE)
+
+
+def fine_tuning_declined(said: list[str]) -> bool:
+    """said: the user's messages, oldest first. The newest one that talks about fine-tuning decides,
+    so "파인튜닝은 안 해" and later "SFT도 해볼래" searches again."""
+    for text in reversed(said):
+        if SKIP_FINE_TUNING.search(text):
+            return True
+        if re.search(FINE_TUNING, text, re.IGNORECASE):
+            return False
+    return False
+
+
+def sft_candidates(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Models to fine-tune from: full-precision weights, base checkpoints first, search order otherwise.
+    Rows loaded before the contract reingest have no artifact_formats; unknown is kept, not rejected."""
+    ready = [
+        r for r in rows
+        if not r.get("quant_bits") and (r.get("artifact_formats") is None or "safetensors" in r["artifact_formats"])
+    ]
+    return sorted(ready, key=lambda r: not BASE_CHECKPOINT.search(r["model_id"]))
 
 
 def implementation_guide(request: str, tasks: set[str]) -> dict[str, str]:
@@ -340,4 +366,20 @@ if __name__ == "__main__":
     # With no service parts (a dataset-only answer), the training data is the stack itself.
     assert stack_verdict(nc_train, commercial_only=True)["verdict"] == "blocked"
     assert license_section(stack_verdict([], commercial_only=False)) == ""
+    # Fine-tuning: the newest message that mentions it decides; a refusal stops the SFT search.
+    for no in ("파인튜닝은 안 할 거야", "SFT 없이 쓸래", "학습은 필요 없어", "추가 학습 계획 없어", "no fine-tuning"):
+        assert fine_tuning_declined([no]), no
+    assert not fine_tuning_declined(["한국어 문서 분류 서비스", "SFT할 모델도 알려줘"])
+    assert not fine_tuning_declined(["파인튜닝 안 해", "역시 SFT 해볼래"])
+    assert fine_tuning_declined(["SFT할 거야", "파인튜닝은 안 하기로 했어", "상업용만"])
+    assert not fine_tuning_declined(["학습 데이터도 추천해줘"])
+    picks = sft_candidates([
+        {"model_id": "a/LFM-Instruct", "quant_bits": None, "artifact_formats": ["safetensors"]},
+        {"model_id": "a/LFM-GGUF", "quant_bits": 4, "artifact_formats": ["gguf"]},
+        {"model_id": "a/onnx-only", "quant_bits": None, "artifact_formats": ["onnx"]},
+        {"model_id": "a/LFM-Base", "quant_bits": None, "artifact_formats": None},
+        {"model_id": "a/database-bert", "quant_bits": None, "artifact_formats": ["safetensors"]},
+        {"model_id": "a/bert-base-nsmc", "quant_bits": None, "artifact_formats": ["safetensors"]},
+    ])
+    assert [p["model_id"] for p in picks] == ["a/LFM-Base", "a/LFM-Instruct", "a/database-bert", "a/bert-base-nsmc"]
     print("project_checks ok")

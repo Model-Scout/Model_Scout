@@ -127,6 +127,16 @@
           ],
           "default": null,
           "title": "Gpu Fit"
+        },
+        "group": {
+          "default": "need",
+          "enum": [
+            "need",
+            "sft",
+            "both"
+          ],
+          "title": "Group",
+          "type": "string"
         }
       },
       "required": [

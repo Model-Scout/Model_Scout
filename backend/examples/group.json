@@ -22,7 +22,7 @@
         "name": "search-model",
         "role": "문서 검색",
         "tags": [
-          "retrieval",
+          "embedding",
           "unknown"
         ],
         "source": "Hugging Face",
@@ -76,7 +76,8 @@
         "gpu_fit": {
           "verdict": "unknown",
           "label": "GPU 요구량 미확인"
-        }
+        },
+        "group": "need"
       },
       {
         "id": "dataset:example/documents",
@@ -112,7 +113,8 @@
         "context_length": null,
         "parameters_b": null,
         "benchmarks": [],
-        "gpu_fit": null
+        "gpu_fit": null,
+        "group": "need"
       }
     ],
     "assessment": null,
@@ -152,7 +154,7 @@
             "name": "search-model",
             "role": "문서 검색",
             "tags": [
-              "retrieval",
+              "embedding",
               "unknown"
             ],
             "source": "Hugging Face",
@@ -206,7 +208,8 @@
             "gpu_fit": {
               "verdict": "unknown",
               "label": "GPU 요구량 미확인"
-            }
+            },
+            "group": "need"
           },
           {
             "id": "dataset:example/documents",
@@ -242,7 +245,8 @@
             "context_length": null,
             "parameters_b": null,
             "benchmarks": [],
-            "gpu_fit": null
+            "gpu_fit": null,
+            "group": "need"
           }
         ],
         "assessment": null,
