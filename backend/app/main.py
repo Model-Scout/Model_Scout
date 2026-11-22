@@ -283,11 +283,12 @@ def stream_chat(pool: Any, group_id: UUID, query: str, ip: str, context: dict | 
                     events[event] = data
         if not completed:
             raise RuntimeError("AI stream ended without done")
-        if context is not None and not "".join(tokens).strip():
+        notice = (events.get("decision") or {}).get("action") == "notice"
+        if context is not None and not notice and not "".join(tokens).strip():
             raise RuntimeError("AI returned an empty question answer")
         elapsed = round(time.time() - started, 2)
         done = (ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer="".join(tokens),
-                        sources=[Source(**s) for s in context["sources"]]) if context is not None
+                        sources=[Source(**s) for s in context["sources"]]) if context is not None and not notice
                 else build_done(events, group_id, "".join(tokens), elapsed))
     except GeneratorExit:  # the client left: no event can reach it, so the log is the only record of a cancel
         logging.info("chat cancelled ip=%s group=%s elapsed=%.1f", ip, group_id, time.time() - started)
@@ -395,7 +396,7 @@ def question_context(pool: Any, body: ChatRequest, session_id: UUID) -> dict:
             raise HTTPException(422, "현재 추천 결과에 없는 target_id입니다.")
     ids = {(c.source_id, c.type) for c in candidates}
     saved_sources = row.get("sources") or row["result"].get("sources") or []
-    context = {"summary": result.summary, "candidates": [c.model_dump() for c in candidates],
+    context = {"summary": result.summary, "project": result.project, "answer": result.answer, "candidates": [c.model_dump() for c in candidates],
                "sources": [Source(**s).model_dump() for s in saved_sources if (s["source_id"], s["kind"]) in ids],
                "history": [{"role": m["role"], "content": m["content"][:2000]} for m in reversed(history)]}
     if len(json.dumps(context, ensure_ascii=False)) > 100_000:

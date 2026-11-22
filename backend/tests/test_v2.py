@@ -552,3 +552,38 @@ def test_dataset_condition_verdicts_become_checks_and_summary():
     unread = build_result({"plan": {"summary_ko": "s"}, "datasets": {}, "data_conditions": {"status": "unavailable"}})
     assert any("확인하지 않았어요" in line for line in unread.summary)  # never read as "no conditions"
     assert build_result({"plan": {"summary_ko": "s"}, "datasets": {}}).summary == ["s"]  # older events unchanged
+
+
+def test_project_summary_reaches_result_and_survives_restoration():
+    from backend.app.result import ChatResult
+
+    project = {"definition": "직접 단어를 등록하는 복습 앱", "features": ["단어 등록", "복습"],
+               "user_has": ["사용자 등록 단어"], "external_needs": [], "search_targets": []}
+    answer = "직접 등록한 단어를 저장해 복습할 수 있어요. 별도의 LLM·임베딩 모델이 필요 없어요."
+    events = {"project_summary": project, "plan": {"summary_ko": project["definition"], "needs": []},
+              "decision": {"action": "summary", "message": answer}}
+    done = build_done(events, uuid4(), "", 1)
+    assert done.type == "answer" and done.result is not None
+    assert done.result.candidates == [] and done.result.answer == answer
+    restored = ChatResult.model_validate_json(done.result.model_dump_json())
+    assert restored.project == project and restored.answer == answer
+
+
+def test_answer_is_available_in_scout_summary_with_project_context():
+    project = {"definition": "영어 단어 기본 제공 앱", "search_targets": ["dataset"]}
+    events = {"project_summary": project, "plan": {"summary_ko": "영어 단어장", "needs": []},
+              "datasets": {"service_data": [{"dataset": "test/words", "title": "영어 단어와 뜻"}]}}
+    done = build_done(events, uuid4(), "영어 단어와 한국어 뜻을 제공하는 앱이에요. 단어 목록을 표시해요.", 1)
+    assert done.result.project == project and done.result.answer == done.answer
+    assert all(c.type == "dataset" for c in done.result.candidates)
+    old = done.result.model_dump(exclude={"answer", "project"})
+    from backend.app.result import ChatResult
+    assert ChatResult.model_validate(old).answer == ""
+
+
+def test_model_question_answer_is_preserved_in_scout_summary():
+    events = {"plan": {"summary_ko": "BGE-M3 유사 모델", "needs": [{"task": "retrieval"}]},
+              "assessment": {}}
+    answer = "검색된 후보의 검색 용도와 지원 언어를 BGE-M3와 비교하면 다음과 같아요."
+    done = build_done(events, uuid4(), answer, 1)
+    assert done.result.answer == answer and done.result.project is None
