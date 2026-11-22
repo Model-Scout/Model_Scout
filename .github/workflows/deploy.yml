@@ -1,0 +1,117 @@
+name: Deploy (VPS)
+
+# A merge to main that changes the served code ships it: deploy/release.sh build -> verify --query -> ship,
+# the same steps as by hand (deploy/README.md). A failed verify ships nothing; a failed check on the VPS
+# re-activates the previous release (server_release.sh activate).
+#
+# Only code is deployed here. The data stays the pinned v2 build: embeddings.npy (not in git) comes from the
+# release the VPS serves and must match the hash in the committed manifest, so a new data build that has not
+# gone through the data runbook stops at this step.
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   DEPLOY_SSH_KEY      private key that logs in to the VPS as root
+#   DEPLOY_KNOWN_HOSTS  the VPS host key lines (ssh-keyscan 49.247.194.63, checked against ~/.ssh/known_hosts)
+# The AI's OpenAI key and Supabase read settings for verify are read from the VPS's .env.ai, so the local
+# check runs with exactly the settings the server runs, and no other key is stored in GitHub.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ai/*.py"
+      - "ai/Dockerfile"
+      - "ai/requirements*.txt"
+      - "ai/taxonomy.yaml"
+      - "ai/retrieval_lab/**"
+      - "ai/data/hf_datasets_ner.jsonl"
+      - "ai/data/readmes/**"
+      - "ai/data/hypergraph_v2/**"
+      - "ai/data/dataset_index_v2/**"
+      - "ai/test/public_data/corpus_v2/data_version.json"
+      - "backend/**"
+      - "shared/**"
+      - ".dockerignore"
+      - "deploy/release.sh"
+      - "deploy/server_release.sh"
+      - "deploy/compose.yml"
+      - "deploy/compose.local.yml"
+      - "deploy/Caddyfile"
+      - "deploy/local/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deploy at a time; a merge during a deploy waits and then ships the newer main.
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PUBLIC_URL: https://49-247-194-63.sslip.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SSH to the VPS
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          [ -n "$KEY" ] && [ -n "$KNOWN_HOSTS" ] || { echo "::error::DEPLOY_SSH_KEY / DEPLOY_KNOWN_HOSTS not set"; exit 1; }
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          (umask 077; printf '%s\n' "$KEY" > ~/.ssh/deploy_key; printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts)
+          printf 'Host model-scout\n  HostName 49.247.194.63\n  User root\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n  BatchMode yes\n' > ~/.ssh/config
+          ssh model-scout 'cat /opt/model-scout/CURRENT'
+
+      - name: AI settings from the VPS (masked)
+        run: |
+          (umask 077; ssh model-scout 'cat /opt/model-scout/.env.ai' > ai/.env)
+          while IFS= read -r line; do
+            value=${line#*=}
+            [ -n "$value" ] && echo "::add-mask::$value"
+          done < ai/.env
+          grep -o '^[A-Z_]*=' ai/.env
+
+      - name: Cache frozen vectors
+        id: vectors
+        uses: actions/cache@v4
+        with:
+          path: ai/data/dataset_index_v2/embeddings.npy
+          key: v2-vectors-${{ hashFiles('ai/data/dataset_index_v2/manifest.json') }}
+
+      - name: Frozen vectors from the served release
+        if: steps.vectors.outputs.cache-hit != 'true'
+        run: ssh model-scout 'cat "/opt/model-scout/releases/$(cat /opt/model-scout/CURRENT)/data/dataset_index_v2/embeddings.npy"' > ai/data/dataset_index_v2/embeddings.npy
+
+      - name: Vectors match the committed manifest
+        run: |
+          want=$(python3 -c "import json; print(json.load(open('ai/data/dataset_index_v2/manifest.json'))['embedding_run']['vectors_sha256'])")
+          echo "$want  ai/data/dataset_index_v2/embeddings.npy" | sha256sum -c -
+
+      - name: Build
+        run: bash deploy/release.sh build
+
+      - name: Verify (local containers, one real question)
+        run: |
+          id=$(ls deploy/.releases)
+          echo "RELEASE_ID=$id" >> "$GITHUB_ENV"
+          bash deploy/release.sh verify "$id" --query
+
+      - name: Ship
+        run: bash deploy/release.sh ship "$RELEASE_ID"
+
+      - name: After the deploy
+        run: |
+          bash deploy/release.sh status
+          ssh model-scout 'free -m; docker stats --no-stream --format "{{.Name}} {{.MemUsage}} {{.MemPerc}}"'
+          curl -fsS "$PUBLIC_URL/api/health"
+
+      - name: Logs on failure
+        if: failure()
+        run: |
+          [ -n "${RELEASE_ID:-}" ] && RELEASE_DIR="$PWD/deploy/.releases/$RELEASE_ID" MODEL_SCOUT_RELEASE="$RELEASE_ID" \
+            docker compose -f deploy/compose.local.yml logs --tail 80 || true
