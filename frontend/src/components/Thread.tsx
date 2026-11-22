@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useState } from "react";
 import type { SendOptions, Turn } from "@/components/App";
 import { DoneSteps, Logo, Markdown, ORIGIN, Progress } from "@/components/ui";
 import type { ChatResult, Source } from "@/lib/api";
@@ -186,18 +186,8 @@ export function Thread({
   );
 }
 
-const AUTO_OPEN_SECONDS = 3;
-
-/** F3: the run finished; point at the top picks and move to the result screen unless the user stays. */
+/** F3: the run finished; point at the top picks and let the user open the result screen. */
 function CompletionCard({ result, sources, onOpen }: { result: ChatResult; sources: Source[]; onOpen: () => void }) {
-  const [left, setLeft] = useState<number | null>(AUTO_OPEN_SECONDS);
-  useEffect(() => {
-    if (left === null) return;
-    if (left <= 0) return onOpen();
-    const id = setTimeout(() => setLeft(left - 1), 1000);
-    return () => clearTimeout(id);
-  }, [left, onOpen]);
-
   const models = result.candidates.filter((c) => c.type === "model");
   const datasets = result.candidates.filter((c) => c.type === "dataset");
   const top = models[0];
@@ -228,18 +218,10 @@ function CompletionCard({ result, sources, onOpen }: { result: ChatResult; sourc
           </div>
         )}
       </div>
-      <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-muted">
+      <div className="mt-5">
         <button className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white" onClick={onOpen}>
           결과 화면으로 →
         </button>
-        {left !== null && (
-          <span aria-live="polite">
-            {left}초 후 자동으로 이동해요 ·{" "}
-            <button className="underline hover:text-ink" onClick={() => setLeft(null)}>
-              여기 머무르기
-            </button>
-          </span>
-        )}
       </div>
     </section>
   );
