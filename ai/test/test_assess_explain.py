@@ -37,14 +37,11 @@ def _searched(commercial=False):
         "route": {"target": "both"},
         "plan": _plan(commercial),
         "models": [{"need": _plan()["needs"][0], "models": [TOP, ALT]}],
-        "model_datasets": {
-            "org/llm": [
+        "project_datasets": {
+            "project_training": [
                 {"dataset": "ok/eval", "licenses": ["apache-2.0"]},
                 {"dataset": "nc/train", "licenses": ["cc-by-nc-sa-4.0"]},
-            ]
-        },
-        "project_datasets": {
-            "project_training": [{"dataset": "ok/eval", "licenses": ["apache-2.0"]}],
+            ],
             "service_data": [{"dataset": "seoul/bike", "licenses": ["공공누리 제1유형"]}],
         },
     }
@@ -82,8 +79,10 @@ def test_brief_trims_alternatives_and_repeats():
     alt = brief["models"][0]["models"][1]
     assert alt == {"model_id": "org/alt", "license": "mit", "commercial_status": None}
     assert brief["models"][0]["models"][0]["evidence"] == TOP["evidence"]  # the top model keeps its quote
-    # ok/eval is listed under project_training first, so the model list names it by id only.
-    assert brief["datasets"]["per_model"]["org/llm"][0] == {"dataset": "ok/eval", "see": "above"}
+    # A dataset already listed under project_training is named by id only in a later list.
+    repeated = graph17._brief({"models": [], "datasets": {"per_model": {}, "project_training": [{"dataset": "a/b"}],
+                                                          "service_data": [{"dataset": "a/b"}]}})
+    assert repeated["datasets"]["service_data"] == [{"dataset": "a/b", "see": "above"}]
     assert "datasets" in _assessed()  # the state keeps every row for the cards
 
 
@@ -182,11 +181,10 @@ def test_a_failed_side_is_said_first_and_the_rest_is_still_explained(monkeypatch
 
 
 def test_nothing_found_after_failures_skips_the_paid_writer(monkeypatch):
-    state = {**_searched(), "models": [], "model_datasets": {}, "project_datasets": {},
+    state = {**_searched(), "models": [], "project_datasets": {},
              "search_errors": {"models": "TimeoutError", "project_datasets": "TimeoutError"}}
     state = {**state, **graph17.assess(state)}
     answer = _explain_with(monkeypatch, state, lambda **kw: pytest.fail("writer must not be called"))
-    assert "모델 검색, 모델 연결 데이터셋 검색" not in answer  # model_datasets did not fail, so it is not named
     assert "모델 검색, 데이터셋 검색 결과가" in answer and answer.endswith(graph17.EXPLANATION_CAVEAT)
 
 
@@ -259,7 +257,7 @@ def test_images_and_unknown_links_are_removed_but_retrieved_links_stay():
 
 def test_a_made_up_id_under_a_retrieved_owner_drops_the_line_only():
     evidence = {"models": [{"model_id": "org/llm"}],
-                "datasets": {"per_model": {"org/llm": [{"dataset": "ok/eval"}]}, "project_training": [],
+                "datasets": {"per_model": {}, "project_training": [{"dataset": "ok/eval"}],
                              "service_data": [{"dataset": "seoul_open_data/OA-13252"}]}}
     record = {}
     lines = list(graph17.safe_lines([
@@ -331,7 +329,7 @@ def test_assess_logs_lists_card_lookup_and_verdicts(monkeypatch, tmp_path):
                         lambda names: {n: {"unavailable": "데이터 카드 조회 실패 (TimeoutError)"} for n in names})
     graph17.assess({**_searched(), "search_errors": {"models": "x"}})
     row = [r for r in _log(tmp_path) if r["event"] == "assess"][-1]
-    assert row["found"] == {"models": 1, "per_model": 2, "project_training": 1, "service_data": 1}
+    assert row["found"] == {"models": 1, "project_training": 2, "service_data": 1}
     assert row["facts"]["lookup_failed"] == row["facts"]["found"] + row["facts"]["lookup_failed"] > 0
     assert row["license"]["use"] == "personal" and row["license"]["training_non_commercial"] == 1
     assert row["search_errors"] == ["models"] and row["elapsed_s"] >= 0

@@ -67,8 +67,7 @@ QUESTION_HISTORY = 6  # latest messages sent with a question, enough to resolve 
 # assess (조건 확인) is plain Python and ends at once, so step 3 is never shown.
 SEARCHING = (2, "모델·데이터셋 검색")
 NEXT_STEP = {"decompose": (1, "요구사항 확인"), "clarify": SEARCHING,
-             **dict.fromkeys(("classify_model_query", "search_models", "search_model_datasets",
-                              "search_project_datasets"), SEARCHING),
+             **dict.fromkeys(("classify_model_query", "search_models", "search_project_datasets"), SEARCHING),
              "assess": (4, "답변 생성")}
 
 limiter = RateLimiter(int(os.getenv("RATE_LIMIT_PER_MINUTE", "10")), int(os.getenv("DAILY_REQUEST_LIMIT", "300")))

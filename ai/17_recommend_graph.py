@@ -2,7 +2,6 @@
 
     route -> decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> fan-out by target:
       model side:   classify_model_query -> search_models (Supabase RPC, 09; GPU fit)
-                    -> search_model_datasets (both only)
       dataset side: search_project_datasets (hypergraph; project training and service data)
     -> assess (joins the branches, checks the license stack and adds guidance) -> explain (LLM)
 
@@ -52,7 +51,7 @@ import model_rerank
 import project_checks
 import run_log
 from explanation_grounding import EXPLANATION_CAVEAT, grounded_lines
-from hypergraph_search import concepts_from_terms, dataset_facts, datasets_for_model, embed_query, load_graph, rank_datasets
+from hypergraph_search import concepts_from_terms, dataset_facts, embed_query, load_graph, rank_datasets
 from recommendation_llm import create_client, model_name, provider as llm_provider
 from retrieval_lab import classifier, router
 from taxonomy import load_taxonomy, normalize
@@ -113,7 +112,6 @@ SFT_POOL = 20
 SFT_HEAD_TAGS = {"text-classification", "question-answering"}
 SFT_ENCODER_TAGS = ("feature-extraction",)
 MAX_FINE_TUNING = 2
-DATASETS_PER_MODEL = 5
 PROJECT_DATASETS = 6
 # HF data trains/evaluates models (ranked with the needs' tasks); portal data is what the app serves.
 PROJECT_POOL = 30
@@ -244,7 +242,6 @@ class State(TypedDict, total=False):
     # None on a turn that searches no datasets. Kept out of the plan: the planner never sees it.
     data_conditions: dict | None
     models: list
-    model_datasets: dict  # model_id -> datasets linked to that model (model side)
     project_datasets: dict  # {project_training, service_data} (dataset side)
     datasets: dict  # both sides joined by assess: the shape the API and explain read
     assessment: dict
@@ -357,10 +354,8 @@ the JSON given. Never write paragraphs; use exactly this layout for each need, i
 |---|---|---|
 | 추천 | <top model id> | <task, context length, license in a few words> |
 | 대안 | <alternative id> | <its license> |
-| 관련 데이터 | <per_model dataset id> | <license, few-word reason> |
-(one 대안 row per alternative; at most 2 관련 데이터 rows; when there are none, one row "| 관련 데이터 | 없음 | |".
-Keep cells short and never put "|" or a line break inside a cell; the warnings and limits of these items go as
-short "- " bullets right below the table.) Then, once for the whole answer and not per need:
+(one 대안 row per alternative. Keep cells short and never put "|" or a line break inside a cell; the warnings
+and limits of these items go as short "- " bullets right below the table.) Then, once for the whole answer and not per need:
 ### 프로젝트 학습·평가 데이터
 - <project_training top 3, one bullet each: **<id>** (<license>) — <few-word reason>>
 ### 서비스 데이터 (공공데이터)
@@ -510,12 +505,12 @@ def _previous_conditions(state):
 
 
 TARGET_QUESTION = "모델과 데이터셋 중 무엇을 찾으시나요? (둘 다도 괜찮아요)"
+# per_model stays {} in the API shape: saved answers from before still carry model-linked datasets.
 NO_DATASETS: dict[str, Any] = {"per_model": {}, "project_training": [], "service_data": []}
 # A branch skipped this turn must not hand the previous turn's results to assess and explain.
 FRESH_RESULTS: dict[str, Any] = {
     "model_query_type": None,
     "models": [],
-    "model_datasets": {},
     "project_datasets": {"project_training": [], "service_data": []},
 }
 
@@ -838,24 +833,6 @@ def _compact_dataset(row):
     }
 
 
-def search_model_datasets(state: State) -> State:
-    """Datasets linked to each need's top model; runs after search_models on a "both" request."""
-    entities = load_graph()[0]
-    commercial = constraints_of(state["plan"])["commercial_only"]
-    # The top model per need that the hypergraph knows; Supabase can be ahead of the local graph.
-    top_models = [
-        next((m["model_id"] for m in group["models"] if f"model:{m['model_id']}" in entities), None)
-        for group in state["models"]
-    ]
-    top_models = list(dict.fromkeys(m for m in top_models if m))
-    with ThreadPoolExecutor(max_workers=max(len(top_models), 1)) as pool:
-        jobs = {
-            m: pool.submit(datasets_for_model, m, commercial_only=commercial, limit=DATASETS_PER_MODEL)
-            for m in top_models
-        }
-        return {"model_datasets": {m: [_compact_dataset(r) for r in job.result()] for m, job in jobs.items()}}
-
-
 def search_project_datasets(state: State) -> State:
     """Project training sets and service data; needs only the plan, so it runs beside the model search."""
     plan = state["plan"]
@@ -896,11 +873,6 @@ SEARCHES = {
 def pick_searches(state: State) -> list[str]:
     """Fan-out: the branches this turn's target needs run side by side; assess (deferred) joins them."""
     return SEARCHES.get(_target(state), SEARCHES["both"])
-
-
-def after_models(state: State) -> str:
-    # A model-only answer lists no datasets; every other target that reached here searched both sides.
-    return "assess" if _target(state) == "model" else "search_model_datasets"
 
 
 def clarify(state: State) -> State:
@@ -963,12 +935,10 @@ def assess(state: State) -> State:
     datasets = {
         **NO_DATASETS,
         **(state.get("project_datasets") or {}),
-        "per_model": state.get("model_datasets") or {},
     }
     # The datasets the answer names get what their card states (format, limits, official description),
     # so the explainer can say e.g. "EPSG:5174 좌표, 3일 전 자료". Joined here so both branches share one lookup.
-    shown = [d for rows in datasets["per_model"].values() for d in rows[:FACT_ROWS]]
-    shown += datasets["project_training"][:FACT_ROWS] + datasets["service_data"][:FACT_ROWS]
+    shown = datasets["project_training"][:FACT_ROWS] + datasets["service_data"][:FACT_ROWS]
     conditions = state.get("data_conditions")
     judged = datasets["service_data"] if conditions else []  # condition verdicts read portal cards: service data
     facts = dataset_facts([d["dataset"] for d in shown + judged])
@@ -976,8 +946,6 @@ def assess(state: State) -> State:
         if facts.get(row["dataset"]):
             row["facts"] = facts[row["dataset"]]
     _judge_conditions(judged, conditions, constraints_of(state["plan"])["commercial_only"], facts)
-    for rows in datasets["per_model"].values():
-        items +=[{"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in rows[:2]]
     items += [
         {"kind": "학습 데이터", "id": d["dataset"], "license": d["licenses"]} for d in datasets["project_training"][:3]
     ]
@@ -1091,8 +1059,7 @@ def explain(state: State) -> State:
         "datasets": state["datasets"],
     }
     found = evidence["models"] or any(
-        rows for rows in [*state["datasets"]["per_model"].values(), state["datasets"]["project_training"],
-                          state["datasets"]["service_data"]]
+        rows for rows in [state["datasets"]["project_training"], state["datasets"]["service_data"]]
     )
     try:
         if failed and not found:  # nothing to describe: no writer call, no cost
@@ -1153,7 +1120,7 @@ class _NothingToExplain(Exception):
 
 # Fan-in contract: a search branch that fails writes {"<its state key>": "<error>"} to search_errors and leaves
 # its list empty. Missing key = nothing failed. Only the sides this turn's target searched are reported.
-SEARCH_LABELS = {"models": "모델 검색", "model_datasets": "모델 연결 데이터셋 검색", "project_datasets": "데이터셋 검색"}
+SEARCH_LABELS = {"models": "모델 검색", "project_datasets": "데이터셋 검색"}
 TARGET_SEARCHES = {"model": ("models",), "dataset": ("project_datasets",)}
 
 
@@ -1205,7 +1172,6 @@ def _assess_record(state, datasets, assessment, facts, judged, started) -> dict:
         "elapsed_s": round(time.time() - started, 2),
         "found": {
             "models": sum(1 for group in state.get("models") or [] if group.get("models")),
-            "per_model": sum(len(rows) for rows in datasets["per_model"].values()),
             "project_training": len(datasets["project_training"]),
             "service_data": len(datasets["service_data"]),
         },
@@ -1231,9 +1197,8 @@ def safe_lines(lines, evidence, record):
     "TCP/IP" or "fp16/int8" look the same, and dropping those would cost more than it saves."""
     known_text = json.dumps(evidence, ensure_ascii=False)
     datasets = evidence["datasets"]
-    rows = [r for group in datasets["per_model"].values() for r in group]
-    ids = {m["model_id"] for m in evidence["models"]} | set(datasets["per_model"])
-    ids |= {r["dataset"] for r in rows + datasets["project_training"] + datasets["service_data"]}
+    ids = {m["model_id"] for m in evidence["models"]}
+    ids |= {r["dataset"] for r in datasets["project_training"] + datasets["service_data"]}
     owners = {i.split("/")[0] for i in ids}
     for line in lines:
         line = IMAGE_RE.sub("", line)
@@ -1293,12 +1258,11 @@ def _prompt_version() -> str:
 
 PROMPT_VERSION = _prompt_version()  # 3 needs used 712 of the old 900; 4 needs plus data limits would have been cut
 BRIEF_ROWS = 3  # datasets per list the writer reads; the prompt asks for the top 3
-PER_MODEL_ROWS = 2  # the prompt names at most 2 datasets under each need's model
 
 
 def _brief(payload: dict) -> dict:
     """What the writer reads: each need's top model in full and its alternatives by id and license, the first
-    BRIEF_ROWS datasets of each list, and a dataset repeated under another model only by id. Other keys pass
+    BRIEF_ROWS datasets of each list, and a dataset repeated in a later list only by id. Other keys pass
     through as given. The cards (built from the state, not from this) still show every row and its models."""
     seen = set()
 
@@ -1327,7 +1291,6 @@ def _brief(payload: dict) -> dict:
             **datasets,
             "project_training": rows(datasets["project_training"]),
             "service_data": rows(datasets["service_data"]),
-            "per_model": {model: rows(items[:PER_MODEL_ROWS]) for model, items in datasets["per_model"].items()},
         },
     }
 
@@ -1352,8 +1315,7 @@ def explain_fallback(state: State, trace_id: str, cut: bool) -> str:
 def data_limits_note(answer, datasets):
     """What to check before using each dataset the answer names, as a closing list: its official limits
     (facts.limits, quoted) and the card's API status (unconfirmed, or a file's auto-converted API)."""
-    rows = [d for group in datasets["per_model"].values() for d in group]
-    rows += datasets["project_training"] + datasets["service_data"]
+    rows = datasets["project_training"] + datasets["service_data"]
     named = {}
     for row in rows:
         facts = row.get("facts") or {}
@@ -1378,7 +1340,6 @@ def build_graph(nodes=None, checkpointer=None):
         "clarify": clarify,
         "classify_model_query": classify_model_query,
         "search_models": search_models,
-        "search_model_datasets": search_model_datasets,
         "search_project_datasets": search_project_datasets,
         "assess": assess,
         "explain": explain,
@@ -1399,8 +1360,7 @@ def build_graph(nodes=None, checkpointer=None):
     graph.add_edge("decompose", "clarify")
     graph.add_conditional_edges("clarify", pick_searches, SEARCHES["both"])
     graph.add_edge("classify_model_query", "search_models")
-    graph.add_conditional_edges("search_models", after_models, ["search_model_datasets", "assess"])
-    for branch_end in ("search_model_datasets", "search_project_datasets"):
+    for branch_end in ("search_models", "search_project_datasets"):
         graph.add_edge(branch_end, "assess")
     graph.add_edge("assess", "explain")
     graph.add_edge("explain", END)
@@ -1569,12 +1529,12 @@ def self_check():
         return node
 
     names = ["route", "decompose", "clarify", "classify_model_query", "search_models",
-             "search_model_datasets", "search_project_datasets", "assess", "explain"]
+             "search_project_datasets", "assess", "explain"]
     graph = build_graph({name: stub(name, {}) for name in names})
     for target, ran in {
         "model": {"classify_model_query", "search_models"},
         "dataset": {"search_project_datasets"},
-        "both": {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"},
+        "both": {"classify_model_query", "search_models", "search_project_datasets"},
     }.items():
         order.clear()
         graph.invoke({"request": "x", "route": {"target": target}})
@@ -1629,7 +1589,8 @@ def self_check():
         {
             "plan": plan,
             "models": [{"models": [{"model_id": "m", "license": "apache-2.0"}]}],
-            "model_datasets": {"m": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}]},
+            "project_datasets": {"project_training": [{"dataset": "klue/klue", "licenses": ["cc-by-nc-4.0"]}],
+                                 "service_data": []},
         }
     )["assessment"]["license"]
     assert verdict["verdict"] == "commercial_ok" and verdict["training_non_commercial"][0]["id"] == "klue/klue", verdict
