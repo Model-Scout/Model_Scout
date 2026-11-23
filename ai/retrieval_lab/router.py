@@ -25,16 +25,22 @@ from retrieval_lab import classifier
 from retrieval_lab.pre_retrieval import llm_model
 
 LOGGER = logging.getLogger(__name__)
-PROMPT_VERSION = 5
+PROMPT_VERSION = 6
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "routing.json"  # one file, key -> entry, like classifier.json
 TARGETS = ("model", "dataset", "both", "needs_clarification", "out_of_scope")
 Slot = Literal["yes", "no", "unknown"]
+
+
+DataKind = Literal["unknown", "training", "service", "both"]
 
 
 class Intent(BaseModel):
     scope: Literal["project", "oos"]
     model: Slot
     data: Slot
+    # Which data: training/evaluation sets (HF, Kaggle) or service data (public data, APIs). Defaulted, so
+    # older cache entries and replies without it still validate; unknown searches both kinds.
+    data_kind: DataKind = "unknown"
 
 
 UNKNOWN = Intent(scope="project", model="unknown", data="unknown")
@@ -60,30 +66,49 @@ scope:
   or coding/implementation help that asks for no model or data.
 - project: everything else. When in doubt, choose project; the app asks a question instead.
 
-model / data: does the user want models / data recommended? Data covers Hugging Face datasets, Kaggle
-datasets, training/evaluation data, government open data, public records, statistics and APIs.
+model: does the user want models recommended? Models covers models, checkpoints, model artifacts
+and model evaluation evidence.
+data: does the user want data recommended? Data covers Hugging Face datasets, Kaggle datasets,
+training/evaluation data, government open data, public records, statistics and APIs.
 - yes: asks for it, or names it as a needed part.
 - no: excludes it ("데이터는 이미 있어", "모델 말고"), or asks for the other kind alone.
   An explicit request for one kind ("HF 한국어 요약 모델") makes the other no.
+  Mentioning an app or service as background does not change an explicit model-only or data-only request.
 - unknown: the request does not say. A project or service idea that does not say what to find
   ("따릉이 앱 만들고 싶어") leaves BOTH unknown; never assume both are wanted.
 
-Hugging Face hosts both models and datasets; it implies neither. Model training as the USE of
-requested data does not mean the user asks to find a model; a model evaluated on a named dataset
-does not ask for data. Ignore negated or background-only objects.
+data_kind: which data, only when data is yes.
+- training: training/evaluation datasets only (학습 데이터, 평가 데이터, 데이터셋, Hugging Face or Kaggle datasets).
+- service: service data only: data the app reads at runtime (공공데이터, 공공데이터포털, 열린데이터광장,
+  open APIs, public records, statistics).
+- both: asks for both kinds.
+- unknown: plain "데이터" or data is not yes.
+
+Hugging Face hosts both models and datasets; it implies neither. Kaggle dataset requests are data.
+Model training as the USE of requested data does NOT mean the user asks to find a model ("모델 학습에 쓸
+데이터"); a model evaluated on a named dataset does not ask for data. "모델 데이터" with no particle between
+means information about models: it asks for models, not data. Ignore negated or background-only objects. A data condition ("데이터 충분한 모델") is not a
+data request. Do not read implementation or coding questions as requests merely because they mention an app.
 Lines "(질문) ..." and "(답변) ..." are the app's earlier question and the user's answer: apply the answer.
 
 Examples:
-- "모델 학습에 쓸 공공데이터 찾아줘" -> project, model no, data yes
-- "Kaggle 교통량 데이터" -> project, model no, data yes
+- "모델 학습에 쓸 공공데이터 찾아줘" -> project, model no, data yes, service
+- "HF 한국어 학습 데이터셋" -> project, model no, data yes, training
+- "Kaggle 교통량 데이터" -> project, model no, data yes, training
 - "HF 한국어 요약 모델" -> project, model yes, data no
 - "MTEB 점수가 공개된 임베딩 모델" -> project, model yes, data no
-- "교통량 데이터랑 예측 모델을 각각 추천해줘" -> project, model yes, data yes
+- "교통량 데이터랑 예측 모델을 각각 추천해줘" -> project, model yes, data yes, unknown
 - "데이터는 이미 있어. 모델만 추천해줘" -> project, model yes, data no
-- "따릉이 앱에 쓸 대여소 데이터 찾아줘" -> project, model no, data yes
+- "모델 말고 학습 데이터만 찾아줘" -> project, model no, data yes, training
+- "따릉이 앱에 쓸 대여소 데이터 찾아줘" -> project, model no, data yes, unknown
+- "따릉이 앱용 모델만 추천해줘. 데이터는 이미 있어" -> project, model yes, data no
+- "주차장 API랑 학습 데이터셋 둘 다 필요해" -> project, model no, data yes, both
 - "따릉이 경로 추천 서비스를 만들고 싶어" -> project, model unknown, data unknown
 - "HF에서 좋은 거 찾아줘" -> project, model unknown, data unknown
-- "따릉이 앱 만들고 싶어\\n(질문) 모델과 데이터 중 무엇이 필요하세요?\\n(답변) 데이터만 있으면 돼" -> project, model no, data yes
+- "따릉이 앱 만들고 싶어\\n(질문) 모델과 데이터 중 무엇이 필요하세요?\\n(답변) 데이터만 있으면 돼" -> project, model no, data yes, unknown
+- "따릉이 앱 만들고 싶어\\n(질문) 모델과 데이터 중 무엇이 필요하세요?\\n(답변) 공공데이터만" -> project, model no, data yes, service
+- "따릉이 앱 만들고 싶어\\n(질문) 모델과 데이터 중 무엇이 필요하세요?\\n(답변) 모델이랑 학습 데이터" -> project, model yes, data yes, training
+- "신발 추천 앱\\n(질문) 모델과 데이터 중 무엇이 필요하세요?\\n(답변) 모델 데이터만 필요해" -> project, model yes, data no
 - "파이썬으로 지도 마커를 표시하는 코드 작성해줘" -> oos
 - "내일 서울 날씨 알려줘" -> oos
 
@@ -93,8 +118,9 @@ The model request types below are context only: they show what model requests lo
     + classifier.PROMPT.rsplit("Reply with JSON only:", 1)[0]
     + """
 
-Reply with JSON only, exactly these three fields and no explanation:
-{"scope": "project|oos", "model": "yes|no|unknown", "data": "yes|no|unknown"}
+Reply with JSON only, exactly these four fields and no explanation:
+{"scope": "project|oos", "model": "yes|no|unknown", "data": "yes|no|unknown",
+ "data_kind": "training|service|both|unknown"}
 """
 )
 

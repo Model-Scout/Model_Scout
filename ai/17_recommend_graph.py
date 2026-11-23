@@ -238,7 +238,8 @@ class ProjectPlan(BaseModel):
 
 class State(TypedDict, total=False):
     request: str
-    # {"target": model|dataset|both|needs_clarification|out_of_scope, "status", "scope", "model", "data"}
+    # {"target": model|dataset|both|needs_clarification|out_of_scope, "status", "scope", "model", "data",
+    #  "data_kind": training|service|both|unknown}
     route: dict
     oos: dict  # {"reason": "llm"}: set only on the turn the intent call judged out of scope
     asking: dict  # this turn's questions: {"asked": [...], "planned": decompose ran, "done": user delegated}
@@ -398,7 +399,9 @@ preferences are what the user wants first or shown apart, never exclusions; infe
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
 search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
-nothing about datasets (those lists were not searched, so never call them empty). A need with "unsupported": true
+nothing about datasets (those lists were not searched, so never call them empty). search_data_kind "service"
+means only service data was searched: leave out the 프로젝트 학습·평가 데이터 heading; "training" means only
+training data was searched: leave out the 서비스 데이터 heading. A need with "unsupported": true
 is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
 Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
 briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
@@ -535,10 +538,10 @@ def _route(text):
     return {"target": result.target, "status": "ok", **(result.intent or {})}
 
 
-def _route_for(target, status="ok"):
+def _route_for(target, status="ok", data_kind="unknown"):
     """A decided target written back as slots, so a later slot question reads the same shape."""
     sides = TARGET_SIDES[target]
-    return {"target": target, "status": status, "scope": "project",
+    return {"target": target, "status": status, "scope": "project", "data_kind": data_kind,
             "model": "yes" if "model" in sides else "no", "data": "yes" if "dataset" in sides else "no"}
 
 
@@ -547,11 +550,17 @@ def _settled_route(route):
     model, data = route.get("model") != "no", route.get("data") != "no"
     if not (model or data):
         model = data = True
-    return _route_for("both" if model and data else "model" if model else "dataset", "default")
+    target = "both" if model and data else "model" if model else "dataset"
+    return _route_for(target, "default", route.get("data_kind", "unknown"))
 
 
 def _target(state):
     return (state.get("route") or {}).get("target", "both")
+
+
+def _data_kind(state):
+    """training | service | both | unknown: which data lists this turn searches (unknown searches both)."""
+    return (state.get("route") or {}).get("data_kind", "unknown")
 
 
 SIDE_WORDS = {"model": r"(?:모델|model)", "dataset": r"(?:데이터셋|데이터|dataset|data)"}
@@ -566,6 +575,8 @@ DROP_RE = {
     for side, word in SIDE_WORDS.items()
 }
 TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
+# A named kind of data ("공공데이터만", "학습 데이터만") is more than a side: the rules would drop it, so the LLM reads it.
+DATA_KIND_RE = re.compile(r"공공|열린\s*데이터|포털|학습|훈련|평가|서비스\s*데이터|api|kaggle|캐글|허깅|hf|데이터셋", re.I)
 
 
 # NFKC turns compatibility jamo (ㅎ) into conjoining jamo, so the strip set is normalized the same way.
@@ -596,9 +607,14 @@ def _side_change(text, old_target):
     """Target a follow-up names outright ("이제 모델만", "데이터는 빼줘", "둘 다"), else None."""
     if BOTH_RE.fullmatch(_compact(text)):
         return "both"
-    only = {side for side, rx in ONLY_RE.items() if rx.search(text)}
+    if DATA_KIND_RE.search(text):
+        return None
+    only ={side for side, rx in ONLY_RE.items() if rx.search(text)}
     dropped = {side for side, rx in DROP_RE.items() if rx.search(text)}
     if not only and not dropped:
+        return None
+    # "모델 데이터만 필요해": the other side is named but not dropped, so "데이터만" alone is not the answer.
+    if only and not dropped and any(re.search(word, text, re.I) for s, word in SIDE_WORDS.items() if s not in only):
         return None
     keep = ((only or TARGET_SIDES.get(old_target, set())) - dropped) or ({"model", "dataset"} - dropped)
     if not keep:
@@ -611,20 +627,23 @@ def _follow_up_by_llm(text, old_target):
     earlier target) replaces this body; golden/labels/follow_up_routing.jsonl rows with by=llm are its cases.
     shortcut: the single-turn router can only add a side, so indirect narrowing keeps the old target."""
     new = _route(text)
+    kind = new.get("data_kind", "unknown") if new.get("data") == "yes" else "unknown"
     # Refinements ("상업용만", "GPU 8GB") route unclear or fail and keep the earlier target.
     if new["status"] != "ok" or old_target == "both" or new["target"] in ("needs_clarification", "out_of_scope", old_target):
-        return old_target
+        return old_target, kind
     if old_target in ("model", "dataset") and new["target"] in ("model", "dataset"):
-        return "both"  # "모델도 찾아줘" after a dataset turn
-    return new["target"]
+        return "both", kind  # "모델도 찾아줘" after a dataset turn
+    return new["target"], kind
 
 
 def follow_up_target(text, old_target):
-    """(target, decided_by) for a follow-up: an explicit change by rule, needing no LLM call, else the LLM."""
+    """(target, decided_by, data_kind) for a follow-up: an explicit change by rule, needing no LLM call, else
+    the LLM. data_kind "unknown" means the follow-up named no kind of data, so the earlier one stays."""
     changed = _side_change(text, old_target)
     if changed:
-        return changed, "rule"
-    return _follow_up_by_llm(text, old_target), "llm"
+        return changed, "rule", "unknown"
+    target, kind = _follow_up_by_llm(text, old_target)
+    return target, "llm", kind
 
 
 def route(state: State) -> State:
@@ -639,9 +658,13 @@ def route(state: State) -> State:
             logging.info("oos blocked=llm")
             return {**fresh, "route": new, "oos": {"reason": "llm"}}
         return {**fresh, "route": new}
-    target, decided_by = follow_up_target(state["request"], old.get("target"))
-    logging.info("follow-up route %s -> %s (%s)", old.get("target"), target, decided_by)
-    return fresh if target == old.get("target") else {**fresh, "route": _route_for(target)}
+    target, decided_by, kind = follow_up_target(state["request"], old.get("target"))
+    old_kind = old.get("data_kind", "unknown")
+    kind = old_kind if kind == "unknown" else kind
+    logging.info("follow-up route %s/%s -> %s/%s (%s)", old.get("target"), old_kind, target, kind, decided_by)
+    if target == old.get("target") and kind == old_kind:
+        return fresh
+    return {**fresh, "route": _route_for(target, data_kind=kind)}
 
 
 def classify_model_query(state: State) -> State:
@@ -897,8 +920,9 @@ def search_project_datasets(state: State) -> State:
     commercial = constraints_of(plan)["commercial_only"]
     terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
     query_vector = embed_query(plan["dataset_query"])
+    kind = _data_kind(state)  # "공공데이터만" / "학습 데이터만" leaves the other list unsearched
     with ThreadPoolExecutor(max_workers=2) as pool:
-        project_job = pool.submit(
+        project_job = kind != "service" and pool.submit(
             rank_datasets,
             concepts_from_terms(terms),
             query_vector=query_vector,
@@ -907,7 +931,7 @@ def search_project_datasets(state: State) -> State:
             keywords=plan["dataset_terms"],
         )
         # Service data is matched on the project's domain alone; model tasks say nothing about it.
-        service_job = pool.submit(
+        service_job = kind != "training" and pool.submit(
             rank_datasets,
             concepts_from_terms(plan["dataset_terms"]),
             query_vector=query_vector,
@@ -916,8 +940,9 @@ def search_project_datasets(state: State) -> State:
             limit=PROJECT_DATASETS,
             keywords=plan["dataset_terms"],
         )
-        training = [_compact_dataset(r) for r in project_job.result() if r["source"] in ("huggingface", "kaggle")]
-        service = [_compact_dataset(r) for r in service_job.result()]
+        training = [_compact_dataset(r) for r in (project_job.result() if project_job else [])
+                    if r["source"] in ("huggingface", "kaggle")]
+        service = [_compact_dataset(r) for r in (service_job.result() if service_job else [])]
     return {"project_datasets": {"project_training": training[:PROJECT_DATASETS], "service_data": service}}
 
 
@@ -1009,7 +1034,7 @@ def clarify(state: State) -> State:
             out["plan"] = {**state["plan"], "clarifying_questions": []}
         return out
     if unclear:
-        out["route"] = _route_for(side) if side else _route(request)
+        out["route"] = _route_for(side, data_kind=_data_kind(state)) if side else _route(request)
         if out["route"]["target"] == "out_of_scope":  # an off-topic answer leaves the question open
             out["route"] = {**out["route"], "target": "needs_clarification"}
         if _next_question({**state, **out}) is None and _target({**state, **out}) == "needs_clarification":
@@ -1115,6 +1140,7 @@ def explain(state: State) -> State:
     if state.get("data_conditions"):
         payload["data_conditions"] = state["data_conditions"]
     payload["search_target"] = _target(state)
+    payload["search_data_kind"] = _data_kind(state)
     payload["search_target_defaulted"] = (state.get("route") or {}).get("status") == "default"
     payload["earlier_requests"] = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     from langgraph.config import get_stream_writer
