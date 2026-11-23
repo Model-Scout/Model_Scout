@@ -69,8 +69,7 @@ SEARCHING = (2, "모델·데이터셋 검색")
 # A label names what runs after the node. clarify runs only when there is a question, so the searches follow
 # decompose directly; a question instead ends the stream with a clarify event, so "검색" is never left showing.
 NEXT_STEP = {"decompose": SEARCHING, "clarify": SEARCHING,
-             **dict.fromkeys(("classify_model_query", "search_models", "search_model_datasets",
-                              "search_project_datasets"), SEARCHING),
+             **dict.fromkeys(("classify_model_query", "search_models", "search_project_datasets"), SEARCHING),
              "assess": (4, "답변 생성")}
 
 limiter = RateLimiter(int(os.getenv("RATE_LIMIT_PER_MINUTE", "10")), int(os.getenv("DAILY_REQUEST_LIMIT", "300")))

@@ -6,8 +6,7 @@
 재고, 천장 대비 얼마나 왔는지(= 달성률)를 본다.
 
 서비스가 실제로 물어야 하는 것은 다르다. "쓸 만한 모델이 상위 5개 안에 하나라도
-있었나" 다. 그것이 success@5 고, 데이터셋 추천도 need 당 top 모델 하나에만
-걸리므로(17_recommend_graph.search_model_datasets) 1등이 맞는지가 더 중요하다.
+있었나" 다. 그것이 success@5 다.
 
     python test/model_retrieval/tools/metric_sanity.py
 """

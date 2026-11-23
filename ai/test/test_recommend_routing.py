@@ -45,9 +45,6 @@ def fan_out_graph(ran):
         "clarify": lambda state: {},
         "classify_model_query": stub("classify_model_query", {"model_query_type": "structured_constraint"}),
         "search_models": search_models,
-        "search_model_datasets": stub(
-            "search_model_datasets", {"model_datasets": {"org/m": [{"dataset": "a/train", "licenses": ["mit"]}]}}
-        ),
         "search_project_datasets": stub(
             "search_project_datasets",
             {"project_datasets": {"project_training": [], "service_data": [{"dataset": "seoul/bike", "licenses": []}]}},
@@ -63,7 +60,7 @@ def fan_out_graph(ran):
     [
         ("model", {"classify_model_query", "search_models"}),
         ("dataset", {"search_project_datasets"}),
-        ("both", {"classify_model_query", "search_models", "search_model_datasets", "search_project_datasets"}),
+        ("both", {"classify_model_query", "search_models", "search_project_datasets"}),
     ],
 )
 def test_target_picks_the_branches_and_assess_joins_once(target, branches, monkeypatch):
@@ -84,7 +81,7 @@ def test_target_picks_the_branches_and_assess_joins_once(target, branches, monke
     assert set(ran) == branches and len(ran) == len(branches)
     assert len(assessments) == 1
     datasets = state["datasets"]
-    assert bool(datasets["per_model"]) == ("search_model_datasets" in branches)
+    assert datasets["per_model"] == {}  # kept in the API shape, never filled
     assert bool(datasets["service_data"]) == ("search_project_datasets" in branches)
 
 
@@ -285,8 +282,7 @@ def clarify_graph(monkeypatch, plans):
         return lambda state: ran["searches"].add(name) or {}
 
     nodes = {"route": graph17.route, "decompose": decompose, "clarify": graph17.clarify,
-             **{n: search(n) for n in ("classify_model_query", "search_models", "search_model_datasets",
-                                       "search_project_datasets")},
+             **{n: search(n) for n in ("classify_model_query", "search_models", "search_project_datasets")},
              "assess": lambda state: {}, "explain": lambda state: {"answer": state["request"]}}
     graph = graph17.build_graph(nodes, checkpointer=InMemorySaver())
     config = {"configurable": {"thread_id": "c"}}
@@ -314,8 +310,7 @@ def test_vague_idea_asks_once_and_both_answer_needs_no_llm(monkeypatch):
     assert turn("둘 다", resume=True) == []
     assert len(calls) == 1  # "둘 다" was read by rule
     assert ran["decompose"] == ["both"]
-    assert ran["searches"] == {"classify_model_query", "search_models", "search_model_datasets",
-                               "search_project_datasets"}
+    assert ran["searches"] == {"classify_model_query", "search_models", "search_project_datasets"}
     # A rule-read answer stays out of the request, so the planner cannot take "둘 다" for a project.
     assert graph.get_state(config).values["request"] == "따릉이 앱 만들고 싶어"
 
