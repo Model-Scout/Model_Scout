@@ -62,6 +62,7 @@ SLOTS = {
         {"scope": "project", "model": "maybe", "data": "yes"},
         {"scope": "huggingface", "model": "yes", "data": "yes"},
         {"scope": "project", "model": "yes"},
+        {"scope": "project", "model": "no", "data": "yes", "data_kind": "public"},
         [],
         None,
     ],
@@ -96,7 +97,7 @@ def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
     first = router.route(text)
     second = router.route(text)
     assert len(calls) == 1
-    assert (first.target, first.status, first.intent) == (target, "ok", SLOTS[target])
+    assert (first.target, first.status, first.intent) == (target, "ok", {**SLOTS[target], "data_kind": "unknown"})
     assert second.source == "cache"
     assert (second.target, second.intent) == (first.target, first.intent)
 
@@ -170,7 +171,7 @@ def test_unavailable_is_not_user_ambiguity(monkeypatch, tmp_path):
 def test_empty_query_does_not_call_llm(monkeypatch):
     monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: pytest.fail("Unexpected API request"))
     empty = router.route("  ")
-    assert empty.target == "needs_clarification" and empty.intent == SLOTS["needs_clarification"]
+    assert empty.target == "needs_clarification" and empty.intent == {**SLOTS["needs_clarification"], "data_kind": "unknown"}
 
 
 def test_prompt_change_invalidates_cache():

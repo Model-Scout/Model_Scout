@@ -176,13 +176,64 @@ FOLLOW_UPS = [
 def test_follow_up_golden_split_between_rule_and_llm(monkeypatch, row):
     """by=rule rows are decided without an LLM; by=llm rows must reach the LLM path (its future eval set)."""
     asked = []
-    monkeypatch.setattr(graph17, "_follow_up_by_llm", lambda text, old: asked.append(text) or old)
-    target, decided_by = graph17.follow_up_target(row["text"], row["previous"])
+    monkeypatch.setattr(graph17, "_follow_up_by_llm", lambda text, old: asked.append(text) or (old, "unknown"))
+    target, decided_by, _ = graph17.follow_up_target(row["text"], row["previous"])
     assert decided_by == row["by"]
     if row["by"] == "rule":
         assert target == row["target"] and not asked
     else:
         assert asked == [row["text"]]
+
+
+@pytest.mark.parametrize("text", ["공공데이터만", "공공 데이터만 필요해", "학습 데이터만 찾아줘", "데이터셋만", "API만 있으면 돼",
+                                  "모델 데이터만 필요해"])  # names both sides with one 만: ambiguous, the LLM reads it
+def test_a_named_data_kind_goes_to_the_llm(text):
+    assert graph17._side_change(text, "both") is None
+
+
+def test_public_data_only_follow_up_narrows_the_data_kind(monkeypatch):
+    monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult(
+        "dataset", "ok", "llm", 1.0, intent={"scope": "project", "model": "no", "data": "yes", "data_kind": "service"}))
+    out = graph17.route({"request": "공공데이터만 보여줘", "route": {"target": "dataset", "status": "ok"}})
+    assert out["route"]["target"] == "dataset" and out["route"]["data_kind"] == "service"
+
+
+def test_refinement_keeps_the_earlier_data_kind(monkeypatch):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
+    out = graph17.route({"request": "상업용만", "route": {"target": "dataset", "status": "ok", "data_kind": "service"}})
+    assert "route" not in out
+
+
+def test_slot_answer_naming_public_data_is_read_by_llm(monkeypatch):
+    replies = iter([("needs_clarification", "unknown", "unknown", "unknown"), ("dataset", "no", "yes", "service")])
+
+    def fake(text, use_cache):
+        target, model, data, kind = next(replies)
+        intent = {"scope": "project", "model": model, "data": data, "data_kind": kind}
+        return router.RoutingResult(target, "ok", "llm", 1.0, intent=intent)
+
+    monkeypatch.setattr(router, "route", fake)
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    turn("따릉이 앱 만들고 싶어")
+    assert turn("공공데이터만 필요해", resume=True) == []
+    assert ran["decompose"] == ["dataset"]
+    assert graph.get_state(config).values["route"]["data_kind"] == "service"
+
+
+@pytest.mark.parametrize("kind,training,service", [("service", 0, 1), ("training", 1, 0), ("unknown", 1, 1)])
+def test_data_kind_skips_the_other_list(monkeypatch, kind, training, service):
+    calls = []
+
+    def rank(concepts, roles=None, **kw):
+        calls.append("service" if roles else "training")
+        return []
+
+    monkeypatch.setattr(graph17, "rank_datasets", rank)
+    monkeypatch.setattr(graph17, "embed_query", lambda text: None)
+    monkeypatch.setattr(graph17, "concepts_from_terms", lambda terms: terms)
+    plan = {"constraints": {}, "dataset_terms": ["따릉이"], "needs": [], "dataset_query": "따릉이"}
+    graph17.search_project_datasets({"plan": plan, "route": {"target": "dataset", "data_kind": kind}})
+    assert calls.count("training") == training and calls.count("service") == service
 
 
 def test_service_wording_is_not_an_only_marker():
