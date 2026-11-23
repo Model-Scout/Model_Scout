@@ -46,12 +46,22 @@ def test_named_comparison_precedes_format():
     assert classifier.rule_type("a와 b GGUF 성능 비교", ["org/a", "org/b"]) == "model_comparison"
 
 
+SLOTS = {
+    "model": {"scope": "project", "model": "yes", "data": "no"},
+    "dataset": {"scope": "project", "model": "no", "data": "yes"},
+    "both": {"scope": "project", "model": "yes", "data": "yes"},
+    "needs_clarification": {"scope": "project", "model": "unknown", "data": "unknown"},
+    "out_of_scope": {"scope": "oos", "model": "no", "data": "no"},
+}
+
+
 @pytest.mark.parametrize(
     "payload",
     [
-        {"target": "huggingface"},
-        {"target": None},
-        {"model_query_type": "semantic_capability"},
+        {"target": "model"},  # the old one-field reply
+        {"scope": "project", "model": "maybe", "data": "yes"},
+        {"scope": "huggingface", "model": "yes", "data": "yes"},
+        {"scope": "project", "model": "yes"},
         [],
         None,
     ],
@@ -71,6 +81,7 @@ def test_invalid_response_cannot_dispatch(payload):
         ("GGUF 모델 학습 데이터만", "dataset"),
         ("교통량 데이터와 예측 모델", "both"),
         ("HF에서 좋은 거", "needs_clarification"),
+        ("내일 날씨 알려줘", "out_of_scope"),
     ],
 )
 def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
@@ -78,34 +89,42 @@ def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
 
     def fake_call(query, model, prompt):
         calls.append((query, model, prompt))
-        return {"target": target}
+        return SLOTS[target]
 
     monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
     monkeypatch.setattr(classifier, "_call_llm", fake_call)
     first = router.route(text)
     second = router.route(text)
     assert len(calls) == 1
-    assert (first.target, first.status) == (target, "ok")
+    assert (first.target, first.status, first.intent) == (target, "ok", SLOTS[target])
     assert second.source == "cache"
-    assert second.target == first.target
+    assert (second.target, second.intent) == (first.target, first.intent)
+
+
+@pytest.mark.parametrize(
+    "model,data,target",
+    [
+        ("yes", "unknown", "needs_clarification"),  # one open slot is still asked about
+        ("unknown", "no", "needs_clarification"),
+        ("no", "no", "needs_clarification"),  # nothing wanted: ask
+    ],
+)
+def test_target_of_slots(model, data, target):
+    assert router.target_of(router.Intent(scope="project", model=model, data=data)) == target
 
 
 def test_router_does_not_classify_model_type(monkeypatch, tmp_path):
     calls = []
     monkeypatch.setattr(router, "CACHE_PATH", tmp_path / "routing.json")
-    monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: calls.append(1) or {"target": "both"})
+    monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: calls.append(1) or SLOTS["both"])
     result = router.route("교통량 데이터랑 예측 모델 같이 찾아줘")
     assert (result.status, result.target, len(calls)) == ("ok", "both", 1)
     assert not hasattr(result, "model_query_type")
-    assert '"target"' in router.PROMPT.rsplit("Reply with JSON only", 1)[1]
-
-
-def test_model_type_in_target_slot_means_model():
-    assert router.validate_response({"target": "benchmark_lookup"}) == "model"
+    assert '"scope"' in router.PROMPT.rsplit("Reply with JSON only", 1)[1]
 
 
 def test_extra_response_fields_are_ignored():
-    assert router.validate_response({"target": "dataset", "reason": "x"}) == "dataset"
+    assert router.validate_response({**SLOTS["dataset"], "reason": "x"}).data == "yes"
 
 
 def test_live_traffic_never_writes_the_cache(monkeypatch, tmp_path):
@@ -114,7 +133,7 @@ def test_live_traffic_never_writes_the_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(
         classifier,
         "_call_llm",
-        lambda text, model, prompt=None: {"target": "model"} if prompt else {"type": "semantic_capability"},
+        lambda text, model, prompt=None: SLOTS["model"] if prompt else {"type": "semantic_capability"},
     )
     assert router.route("한국어 요약 모델", use_cache=False).target == "model"
     assert classifier.llm_type("한국어 요약 모델", "test-model", use_cache=False)[0] == "semantic_capability"
@@ -150,7 +169,8 @@ def test_unavailable_is_not_user_ambiguity(monkeypatch, tmp_path):
 
 def test_empty_query_does_not_call_llm(monkeypatch):
     monkeypatch.setattr(classifier, "_call_llm", lambda *a, **kw: pytest.fail("Unexpected API request"))
-    assert router.route("  ").target == "needs_clarification"
+    empty = router.route("  ")
+    assert empty.target == "needs_clarification" and empty.intent == SLOTS["needs_clarification"]
 
 
 def test_prompt_change_invalidates_cache():

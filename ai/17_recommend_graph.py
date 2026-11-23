@@ -1,6 +1,8 @@
 """17 - fixed LangGraph workflow: project idea -> models per need -> compatible datasets.
 
-    route -> decompose (LLM) -> clarify (interrupt, when a turn is too vague) -> fan-out by target:
+    route (intent LLM: scope + model/data slots; oos ends the turn)
+      -> clarify while a slot is unknown (one interrupt per run, loops; MAX_QUESTIONS a turn)
+      -> decompose (LLM) -> clarify while the plan asks a planning question -> fan-out by target:
       model side:   classify_model_query -> search_models (Supabase RPC, 09; GPU fit)
       dataset side: search_project_datasets (hypergraph; project training and service data)
     -> assess (joins the branches, checks the license stack and adds guidance) -> explain (LLM)
@@ -35,6 +37,7 @@ import re
 import sys
 import threading
 import time
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import TimeoutError as FutureTimeout
 from contextlib import contextmanager
@@ -235,7 +238,10 @@ class ProjectPlan(BaseModel):
 
 class State(TypedDict, total=False):
     request: str
-    route: dict  # {"target": model|dataset|both|needs_clarification, "status": router status}
+    # {"target": model|dataset|both|needs_clarification|out_of_scope, "status", "scope", "model", "data"}
+    route: dict
+    oos: dict  # {"reason": "llm"}: set only on the turn the intent call judged out of scope
+    asking: dict  # this turn's questions: {"asked": [...], "planned": decompose ran, "done": user delegated}
     model_query_type: str | None  # retrieval_lab.classifier type; logged only until the planner uses it
     plan: dict  # ProjectPlan.model_dump(): checkpoints stay plain JSON
     # Stated data conditions ({"status": "ok", ...data_conditions.defaults()}) or {"status": "unavailable"};
@@ -331,6 +337,9 @@ search_target is what the user wants to find. For dataset: needs is [] (never in
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
 clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
   to search meaningfully. This applies to follow-up messages too; use previous_plan to resolve context first.
+  A "조건:" line (language, runtime, commercial use) is a setting the app appends, never a purpose: when the user
+  says nothing about what the project does or its domain ("뭔가 만들고 싶어" plus only such a line, or an answer
+  that only picks models/data), ask what the project should do. Never invent a project the user did not describe.
   Never ask about GPU, VRAM, parameter counts, file formats, or commercial use just because they are unstated.
   Missing GPU means null (no memory filter), missing commercial use means false (no commercial-only filter).
   If the user says they do not know or asks to proceed with defaults, make a broad best-effort plan and return [].
@@ -516,13 +525,29 @@ FRESH_RESULTS: dict[str, Any] = {
 
 
 def _route(text):
+    """{"target", "status", "scope", "model", "data"}: one LLM call (router.Intent)."""
     result = router.route(text, use_cache=False)
     if result.status != "ok":
         # Unlike the lab, serving keeps answering: an unrouted request searches both, as before routing.
         logging.warning("routing %s; searching models and datasets", result.status)
         return {"target": "both", "status": result.status}
-    logging.info("route target=%s", result.target)
-    return {"target": result.target, "status": "ok"}
+    logging.info("route target=%s intent=%s", result.target, result.intent)
+    return {"target": result.target, "status": "ok", **(result.intent or {})}
+
+
+def _route_for(target, status="ok"):
+    """A decided target written back as slots, so a later slot question reads the same shape."""
+    sides = TARGET_SIDES[target]
+    return {"target": target, "status": status, "scope": "project",
+            "model": "yes" if "model" in sides else "no", "data": "yes" if "dataset" in sides else "no"}
+
+
+def _settled_route(route):
+    """Questions are over: an unknown slot becomes yes, so a user who leaves it open gets both kinds."""
+    model, data = route.get("model") != "no", route.get("data") != "no"
+    if not (model or data):
+        model = data = True
+    return _route_for("both" if model and data else "model" if model else "dataset", "default")
 
 
 def _target(state):
@@ -543,8 +568,34 @@ DROP_RE = {
 TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
 
 
+# NFKC turns compatibility jamo (ㅎ) into conjoining jamo, so the strip set is normalized the same way.
+_COMPACT_STRIP = re.compile("[" + re.escape(unicodedata.normalize("NFKC", ".,!?~ㅠㅜㅋㅎ")) + r"\s]+")
+
+
+def _compact(text):
+    """Whole-answer matching view: NFKC, casefolded, no spaces or punctuation."""
+    return _COMPACT_STRIP.sub("", unicodedata.normalize("NFKC", str(text))).casefold()
+
+
+# Matched against the WHOLE compacted answer, so "모델이랑 데이터 둘 다" counts but
+# "둘 다 상업용으로 바꿔줘" (a refinement of two models) does not.
+_KINDS = r"(?:모델|model)(?:이랑|하고|과|와|및|&)?(?:데이터셋|데이터|dataset|data)"
+_PLEASE = r"(?:필요해요?|필요합니다|필요|찾아줘|찾아주세요|추천해줘|추천해주세요|해줘|해주세요|요|이요|부탁해요?)?"
+BOTH_RE = re.compile(rf"(?:{_KINDS}(?:둘다|모두|다)?|둘다|모두|다|both){_PLEASE}")
+# The user hands the choice back ("알아서 해줘", "모르겠어"). Whole answer only: "코딩 모르는 사람도 쓰는 앱"
+# describes the project and must be read, not taken as a delegation.
+_FILLER = r"(?:음+|그냥|일단|그럼|잘)*"
+_DONT_KNOW = (r"(?:모르겠(?:어요?|습니다|네요|다)|몰라요?|모름|글쎄요?|상관없(?:어요?|음|습니다)|아무거나|"
+              r"아직(?:안|못)?(?:정하지않았|정했|정해지지않았)(?:어요?|습니다)?)")
+_ACT = (r"(?:(?:알아서|기본값으로|아무거나|대충)?"
+        r"(?:해줘|해주세요|해|추천해줘|추천해주세요|진행해줘|진행해주세요|검색해줘|찾아줘|찾아주세요)|알아서|기본값으로|기본값)")
+DELEGATE_RE = re.compile(rf"{_FILLER}(?:{_DONT_KNOW}{_FILLER}{_ACT}?|{_ACT})")
+
+
 def _side_change(text, old_target):
-    """Target a follow-up names outright ("이제 모델만", "데이터는 빼줘"), else None."""
+    """Target a follow-up names outright ("이제 모델만", "데이터는 빼줘", "둘 다"), else None."""
+    if BOTH_RE.fullmatch(_compact(text)):
+        return "both"
     only = {side for side, rx in ONLY_RE.items() if rx.search(text)}
     dropped = {side for side, rx in DROP_RE.items() if rx.search(text)}
     if not only and not dropped:
@@ -561,7 +612,7 @@ def _follow_up_by_llm(text, old_target):
     shortcut: the single-turn router can only add a side, so indirect narrowing keeps the old target."""
     new = _route(text)
     # Refinements ("상업용만", "GPU 8GB") route unclear or fail and keep the earlier target.
-    if new["status"] != "ok" or old_target == "both" or new["target"] in ("needs_clarification", old_target):
+    if new["status"] != "ok" or old_target == "both" or new["target"] in ("needs_clarification", "out_of_scope", old_target):
         return old_target
     if old_target in ("model", "dataset") and new["target"] in ("model", "dataset"):
         return "both"  # "모델도 찾아줘" after a dataset turn
@@ -577,13 +628,20 @@ def follow_up_target(text, old_target):
 
 
 def route(state: State) -> State:
-    """Decide which searches run. needs_clarification asks in clarify, then searches both if still unclear."""
+    """Intent once per turn: out of scope ends the turn; an unknown slot is asked about in clarify.
+    Follow-ups keep their target unless the user changes it; the LLM's oos is honoured on a fresh thread only,
+    so a refinement ("상업용만") can never be refused."""
+    fresh: State = {"asking": {"asked": [], "planned": False, "done": False}}
     old = state.get("route")
-    if not old:
-        return {"route": _route(state["request"])}
+    if not old or old.get("target") in ("out_of_scope", "needs_clarification"):
+        new = _route(state["request"])
+        if new["target"] == "out_of_scope":
+            logging.info("oos blocked=llm")
+            return {**fresh, "route": new, "oos": {"reason": "llm"}}
+        return {**fresh, "route": new}
     target, decided_by = follow_up_target(state["request"], old.get("target"))
     logging.info("follow-up route %s -> %s (%s)", old.get("target"), target, decided_by)
-    return {} if target == old.get("target") else {"route": {"target": target, "status": "ok"}}
+    return fresh if target == old.get("target") else {**fresh, "route": _route_for(target)}
 
 
 def classify_model_query(state: State) -> State:
@@ -607,7 +665,7 @@ def decompose(state: State) -> State:
     if not state.get("plan"):
         request = " ".join(state["request"].split())
         plan, conditions = _with_conditions(target, lambda: _first_plan(request, target), request)
-        return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions}
+        return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions, "asking": _planned(state)}
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]]
     plan, conditions = _with_conditions(
         target,
@@ -623,7 +681,7 @@ def decompose(state: State) -> State:
         earlier,
         _previous_conditions(state),
     )
-    return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions}
+    return {**FRESH_RESULTS, "plan": plan, "data_conditions": conditions, "asking": _planned(state)}
 
 
 METADATA_LINE_PREFIXES = ("```", "---", "- ", "base_model", "license", "pipeline_tag", "library_name", "tags")
@@ -875,45 +933,101 @@ def pick_searches(state: State) -> list[str]:
     return SEARCHES.get(_target(state), SEARCHES["both"])
 
 
+# Questions per turn, slot and planning questions together. A repeated question also ends asking: that is
+# the usual way an LLM loops, so the cap only guards against a run of distinct questions.
+MAX_QUESTIONS = 5
+MODEL_QUESTION = "데이터와 함께 쓸 모델도 찾아드릴까요?"
+DATA_QUESTION = "모델과 함께 쓸 데이터(학습 데이터·공공데이터)도 찾아드릴까요?"
+
+
+def _asking(state):
+    return state.get("asking") or {"asked": [], "planned": False, "done": False}
+
+
+def _planned(state):
+    return {**_asking(state), "planned": True}
+
+
+def _slot_question(route):
+    """Ask only about the unknown slot; both unknown (or nothing wanted) get one combined question."""
+    model, data = route.get("model", "unknown"), route.get("data", "unknown")
+    if model != "unknown" and data == "unknown":
+        return DATA_QUESTION
+    if data != "unknown" and model == "unknown":
+        return MODEL_QUESTION
+    return TARGET_QUESTION
+
+
+def _next_question(state):
+    """The question clarify would ask now, else None. Pure: clarify re-runs it on resume."""
+    asking = _asking(state)
+    if asking["done"] or len(asking["asked"]) >= MAX_QUESTIONS:
+        return None
+    if _target(state) == "needs_clarification":
+        question = _slot_question(state.get("route") or {})
+    elif asking["planned"]:  # planning questions only once this turn's plan exists
+        question = next(iter((state.get("plan") or {}).get("clarifying_questions") or []), None)
+    else:
+        return None
+    return None if question in asking["asked"] else question
+
+
+def next_step(state: State) -> list[str]:
+    """One edge out of route, decompose and clarify: end, ask, plan, or fan out to the searches."""
+    if _target(state) == "out_of_scope":
+        return [END]
+    if _next_question(state):
+        return ["clarify"]
+    if not _asking(state)["planned"]:
+        return ["decompose"]
+    return pick_searches(state)
+
+
 def clarify(state: State) -> State:
-    """Clarify in any turn, retaining its plan; two questions at most before best-effort search."""
-    questions = state["plan"].get("clarifying_questions") or []
-    unclear = _target(state) == "needs_clarification"
-    if unclear and not questions:
-        questions = [TARGET_QUESTION]
-    if not questions:
+    """One question per run (interrupt), then one rule or LLM read of the answer; next_step loops back here.
+    Everything before interrupt() must stay cheap: LangGraph re-runs the node from the top on resume."""
+    question = _next_question(state)
+    if question is None:
         return {}
-    out: State = {}
-    for _ in range(2):
-        answer = interrupt({"questions": questions[:1]})
-        request = f"{out.get('request', state['request'])}\n(추가 정보) {answer}"
-        current = {**state, **out}
-        out["request"] = request
-        if _target(current) == "needs_clarification":
-            out["route"] = _route(request)
-        target = _target({**state, **out})
-        previous = current["plan"]
-        # Keep the short first-turn input compatible; follow-ups must retain the full plan.
-        if state.get("turns") or out.get("plan"):
-            out["plan"] = _parse_plan(
-                request, target, said=str(answer), previous=constraints_of(previous), prior_plan=previous,
-            )
+    answer = str(interrupt({"questions": [question]}))
+    asking = {**_asking(state), "asked": [*_asking(state)["asked"], question]}
+    out: State = {"asking": asking}
+    unclear = _target(state) == "needs_clarification"
+    delegated = bool(DELEGATE_RE.fullmatch(_compact(answer)))
+    # "둘 다", "모델만", "데이터는 빼줘": read by rule, no LLM call
+    side = _side_change(answer, "needs_clarification") if unclear and not delegated else None
+    request = state["request"]
+    # An answer read by rule says nothing about the project and is already in route or asking. Kept in the request,
+    # the planner reads "둘 다" or "알아서" as a go-ahead and invents a project instead of asking what it is.
+    if not (delegated or side):
+        request = out["request"] = f"{request}\n(질문) {question}\n(답변) {answer}"
+    if delegated:
+        asking["done"] = True
+        if unclear:
+            out["route"] = _settled_route(state.get("route") or {})
         else:
-            out["plan"] = _parse_plan(request, target)
-        questions = out["plan"].get("clarifying_questions") or []
-        if not questions and target != "needs_clarification":
-            break
-        if re.search(r"모르|기본값|알아서|그냥.*(추천|진행|검색)", str(answer)):
-            break
-        questions = questions or [TARGET_QUESTION]
-    if _target({**state, **out}) == "needs_clarification":
-        out["route"] = {"target": "both", "status": "default"}
-    out["plan"]["clarifying_questions"] = []
-    # The answers may add or settle data conditions; a clarified turn is rare, so this read runs alone.
+            out["plan"] = {**state["plan"], "clarifying_questions": []}
+        return out
+    if unclear:
+        out["route"] = _route_for(side) if side else _route(request)
+        if out["route"]["target"] == "out_of_scope":  # an off-topic answer leaves the question open
+            out["route"] = {**out["route"], "target": "needs_clarification"}
+        if _next_question({**state, **out}) is None and _target({**state, **out}) == "needs_clarification":
+            out["route"] = _settled_route(out["route"])
+        return out
+    target = _target(state)
+    previous = state["plan"]
     earlier = [t["request"] for t in (state.get("turns") or [])[-HISTORY_TURNS:]] or None
-    out["data_conditions"] = _with_conditions(
-        _target({**state, **out}), lambda: None, out["request"], earlier, _previous_conditions(state)
-    )[1]
+    if state.get("turns"):  # follow-ups must retain the full plan
+        def plan_call():
+            return _parse_plan(request, target, said=answer, previous=constraints_of(previous), prior_plan=previous)
+    else:
+        def plan_call():
+            return _parse_plan(request, target)
+    # The answer may add or settle data conditions, so the reader runs beside the planner again.
+    out["plan"], out["data_conditions"] = _with_conditions(
+        target, plan_call, request, earlier, _previous_conditions(state)
+    )
     return out
 
 
@@ -1356,9 +1470,9 @@ def build_graph(nodes=None, checkpointer=None):
         # defer: assess waits for every branch this turn started, however many steps each takes.
         graph.add_node(name, fn, defer=name == "assess")
     graph.add_edge(START, "route")
-    graph.add_edge("route", "decompose")
-    graph.add_edge("decompose", "clarify")
-    graph.add_conditional_edges("clarify", pick_searches, SEARCHES["both"])
+    # route -> [clarify <-> intent]* -> decompose -> [clarify <-> decompose]* -> fan-out; oos ends at route.
+    for source in ("route", "decompose", "clarify"):
+        graph.add_conditional_edges(source, next_step, [END, "clarify", "decompose", *SEARCHES["both"]])
     graph.add_edge("classify_model_query", "search_models")
     for branch_end in ("search_models", "search_project_datasets"):
         graph.add_edge(branch_end, "assess")
@@ -1530,7 +1644,8 @@ def self_check():
 
     names = ["route", "decompose", "clarify", "classify_model_query", "search_models",
              "search_project_datasets", "assess", "explain"]
-    graph = build_graph({name: stub(name, {}) for name in names})
+    planned = {"asking": {"asked": [], "planned": True, "done": False}}
+    graph = build_graph({name: stub(name, planned if name == "decompose" else {}) for name in names})
     for target, ran in {
         "model": {"classify_model_query", "search_models"},
         "dataset": {"search_project_datasets"},
@@ -1538,8 +1653,11 @@ def self_check():
     }.items():
         order.clear()
         graph.invoke({"request": "x", "route": {"target": target}})
-        assert order[:3] == ["route", "decompose", "clarify"] and order[-2:] == ["assess", "explain"], order
-        assert set(order[3:-2]) == ran and len(order) == len(ran) + 5, (target, order)
+        assert order[:2] == ["route", "decompose"] and order[-2:] == ["assess", "explain"], order
+        assert set(order[2:-2]) == ran and len(order) == len(ran) + 4, (target, order)
+    order.clear()
+    graph.invoke({"request": "x", "route": {"target": "out_of_scope"}})
+    assert order == ["route"], order
 
     # Multi-turn: turns accumulate per thread, and the second turn's planner sees the first plan.
     seen = []

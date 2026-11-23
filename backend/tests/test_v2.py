@@ -323,7 +323,8 @@ def test_status_names_the_running_step(client):
         response = client.post("/api/chat", json={"query": "x"}, headers={"X-Session-Id": str(uuid4())})
     labels = [d["label"] for e, d in api.parse_sse(response.text.splitlines()) if e == "status"]
     # A search that finishes first must not move the step while the others still run.
-    assert labels == ["요구사항 분석", "요구사항 확인", *["모델·데이터셋 검색"] * 4, "답변 생성"]
+    # Searches start right after decompose (clarify runs only for a question), so step 2 shows from there.
+    assert labels == ["요구사항 분석", *["모델·데이터셋 검색"] * 5, "답변 생성"]
 
 
 def test_cancel_leaves_a_log_entry(caplog):
@@ -384,7 +385,7 @@ def test_resume_after_clarify_returns_the_new_plan():
     limits = {"commercial_only": False, "gpu_memory_gb": None, "min_context_length": None}
     vague = {"summary_ko": "모호", "needs": [need], "constraints": limits, "clarifying_questions": ["어떤 서비스?"]}
     graph = ai.rg.build_graph({
-        "decompose": lambda s: {"plan": vague},
+        "decompose": lambda s: {"plan": vague, "asking": ai.rg._planned(s)},  # as the real one: questions may follow
         "clarify": ai.rg.clarify,
         "search_models": lambda s: {"models": [{"need": need, "models": [{"model_id": "org/m"}]}]},
         "search_project_datasets": lambda s: {"datasets": {}},

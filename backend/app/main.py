@@ -66,7 +66,9 @@ QUESTION_HISTORY = 6  # latest messages sent with a question, enough to resolve 
 # They still send a status: writing it is how a client that left is noticed before explain's LLM call.
 # assess (조건 확인) is plain Python and ends at once, so step 3 is never shown.
 SEARCHING = (2, "모델·데이터셋 검색")
-NEXT_STEP = {"decompose": (1, "요구사항 확인"), "clarify": SEARCHING,
+# A label names what runs after the node. clarify runs only when there is a question, so the searches follow
+# decompose directly; a question instead ends the stream with a clarify event, so "검색" is never left showing.
+NEXT_STEP = {"decompose": SEARCHING, "clarify": SEARCHING,
              **dict.fromkeys(("classify_model_query", "search_models", "search_project_datasets"), SEARCHING),
              "assess": (4, "답변 생성")}
 

@@ -3,6 +3,7 @@
 The full answer takes ~10-25 s (two LLM calls and the model search), so each step is streamed:
 
     event: status      {"node": "decompose", "elapsed": 2.4}      after every graph node
+    event: oos         {"reason": ...}                               out of scope (rule here, or the intent LLM)
     event: plan        ProjectPlan                                   needs + constraints
     event: data_conditions  {status, region, delivery, ...} or null  stated data conditions (data_conditions.py);
                                                                      service_data rows then carry condition_checks
@@ -143,6 +144,7 @@ def sse(event, data):
 
 # node -> state keys sent as events of the same name, in order.
 NODE_EVENTS = {
+    "route": ("oos",),  # present only when the intent LLM judged the request out of scope
     "decompose": ("plan", "data_conditions"),
     "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
