@@ -182,7 +182,7 @@ def route(text: str, model: str | None = None, use_cache: bool = True) -> Routin
 
     api_started = time.perf_counter()
     try:
-        payload = classifier._call_llm(text, model, prompt=PROMPT)
+        payload = classifier._call_llm(text, model, prompt=PROMPT, schema=Intent)
     except (ValueError, TypeError):
         LOGGER.warning("Invalid routing JSON response; no pipeline selected")
         return result(None, "invalid_response", "error")

@@ -963,6 +963,22 @@ def pick_searches(state: State) -> list[str]:
 MAX_QUESTIONS = 5
 MODEL_QUESTION = "데이터와 함께 쓸 모델도 찾아드릴까요?"
 DATA_QUESTION = "모델과 함께 쓸 데이터(학습 데이터·공공데이터)도 찾아드릴까요?"
+SLOT_OF = {MODEL_QUESTION: "model", DATA_QUESTION: "data"}
+# Whole-answer yes/no to a one-slot question. "괜찮아요"/"됐어요" decline in Korean; an LLM reads them as yes.
+YES_RE = re.compile(r"(?:(?:네|넵|예|응|어|ㅇㅇ|좋아|좋습니다|그래|부탁해|부탁합니다|부탁드려|필요해|필요합니다|yes|ok|오케이)요?)+")
+NO_RE = re.compile(r"(?:(?:아니|아뇨|아니에|아닙니다|괜찮아|괜찮습니다|됐어|됐습니다|필요없어|필요없습니다|"
+                   r"안찾아도돼|안해도돼|안해도됩니다|싫어|노|ㄴㄴ|no)(?:요|오)?)+")
+
+
+def _slot_answer(question, answer, route):
+    """The route after a rule-read yes/no to a one-slot question, else None (the LLM reads the answer)."""
+    slot, compact = SLOT_OF.get(question), _compact(answer)
+    value = "yes" if YES_RE.fullmatch(compact) else "no" if NO_RE.fullmatch(compact) else None
+    if not (slot and value):
+        return None
+    slots = {"model": route.get("model", "unknown"), "data": route.get("data", "unknown"), slot: value}
+    intent = router.Intent(scope="project", data_kind=route.get("data_kind", "unknown"), **slots)
+    return {**route, **intent.model_dump(), "target": router.target_of(intent), "status": "ok"}
 
 
 def _asking(state):
@@ -1021,10 +1037,11 @@ def clarify(state: State) -> State:
     delegated = bool(DELEGATE_RE.fullmatch(_compact(answer)))
     # "둘 다", "모델만", "데이터는 빼줘": read by rule, no LLM call
     side = _side_change(answer, "needs_clarification") if unclear and not delegated else None
+    slotted = _slot_answer(question, answer, state.get("route") or {}) if unclear and not (delegated or side) else None
     request = state["request"]
     # An answer read by rule says nothing about the project and is already in route or asking. Kept in the request,
     # the planner reads "둘 다" or "알아서" as a go-ahead and invents a project instead of asking what it is.
-    if not (delegated or side):
+    if not (delegated or side or slotted):
         request = out["request"] = f"{request}\n(질문) {question}\n(답변) {answer}"
     if delegated:
         asking["done"] = True
@@ -1034,7 +1051,7 @@ def clarify(state: State) -> State:
             out["plan"] = {**state["plan"], "clarifying_questions": []}
         return out
     if unclear:
-        out["route"] = _route_for(side, data_kind=_data_kind(state)) if side else _route(request)
+        out["route"] = slotted or (_route_for(side, data_kind=_data_kind(state)) if side else _route(request))
         if out["route"]["target"] == "out_of_scope":  # an off-topic answer leaves the question open
             out["route"] = {**out["route"], "target": "needs_clarification"}
         if _next_question({**state, **out}) is None and _target({**state, **out}) == "needs_clarification":

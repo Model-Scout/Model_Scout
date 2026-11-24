@@ -391,6 +391,34 @@ def test_partial_slot_asks_only_that_slot_and_reads_the_answer_by_llm(monkeypatc
     assert ran["searches"] == {"classify_model_query", "search_models"}
 
 
+@pytest.mark.parametrize(
+    "answer,target",
+    [("괜찮아요", "model"), ("됐어요", "model"), ("아니요 괜찮습니다", "model"), ("필요 없어요", "model"),
+     ("네", "both"), ("응 부탁해", "both"), ("좋아요!", "both")],
+)
+def test_yes_no_slot_answer_is_read_by_rule(monkeypatch, answer, target):
+    calls = []
+    monkeypatch.setattr(router, "route", lambda text, use_cache: calls.append(text) or routed(
+        "needs_clarification", model="yes", data="unknown")(text, use_cache))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    assert turn("따릉이 앱에 쓸 모델 찾아줘") == [graph17.DATA_QUESTION]
+    assert turn(answer, resume=True) == []
+    assert len(calls) == 1 and ran["decompose"] == [target]
+    assert graph.get_state(config).values["request"] == "따릉이 앱에 쓸 모델 찾아줘"
+
+
+def test_declining_the_only_open_slot_asks_what_is_needed(monkeypatch):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="no", data="unknown"))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    assert turn("따릉이 앱 만들 건데 모델은 있어") == [graph17.DATA_QUESTION]
+    assert turn("됐어요", resume=True) == [graph17.TARGET_QUESTION]  # nothing wanted yet: ask, never search both
+
+
+@pytest.mark.parametrize("text", ["데이터는 괜찮아요", "네 근데 한국어로", "모델 학습용이요"])
+def test_yes_no_rule_needs_the_whole_answer(text):
+    assert graph17._slot_answer(graph17.DATA_QUESTION, text, {"model": "yes", "data": "unknown"}) is None
+
+
 def test_delegation_fills_unknown_slots_with_both_and_skips_planning_questions(monkeypatch):
     monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
     graph, config, turn, ran = clarify_graph(monkeypatch, [["어떤 지역인가요?"]])
