@@ -238,6 +238,9 @@ class ProjectPlan(BaseModel):
     clarifying_questions: list[str]
     # The request needs data portals do not publish: the app says so, then shows the closest datasets anyway.
     unpublished_data: bool = False
+    # The user said what AI does in the project; when false the app asks before searching models.
+    # Defaulted to True so plans checkpointed before the field never ask again.
+    ai_job_stated: bool = True
 
 
 def _merge_errors(old, new):
@@ -363,12 +366,23 @@ unpublished_data: true only when the data the user asks for is a kind public por
   When it is true, ask no clarifying question about it: the app says so and shows the closest data.
 clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
   to search meaningfully. This applies to follow-up messages too; use previous_plan to resolve context first.
+  For models, ask only when the answer would change a need's task or model_query: what goes in (언어, 문서 종류나
+  길이, 이미지·음성·텍스트 중 무엇), or which of two different jobs is meant (리뷰 감성 분석인지 주제 분류인지).
+  Never ask about product details that leave the model search the same: 추천 기준(개인화·인기·신상품), 예측 기간·단위,
+  화면 구성, 알림 방식, 대상 사용자. When unsure, plan without asking: the user can narrow results afterwards.
   A "조건:" line (language, runtime, commercial use) is a setting the app appends, never a purpose: when the user
   says nothing about what the project does or its domain ("뭔가 만들고 싶어" plus only such a line, or an answer
   that only picks models/data), ask what the project should do. Never invent a project the user did not describe.
-  When search_target is model or both and the idea names an app but no job for AI in it ("단어장 앱을 만들고 싶어",
-  "할 일을 입력하고 완료 표시하는 투두리스트 앱"), never invent one: ask what AI should do in the app, with two or
-  three short examples (e.g. "단어장 앱에서 AI가 어떤 일을 하나요? 예: 발음 듣기, 사진 속 단어 인식, 예문 만들기").
+  When ai_job_stated is false and search_target is model or both, ask what AI should do in the app, with two or
+  three short examples that fit that app, never copied from another app
+  (단어장: "단어장 앱에서 AI가 어떤 일을 하나요? 예: 발음 듣기, 사진 속 단어 인식, 예문 만들기").
+ai_job_stated: did the user say what AI should do? Judge only the user's words (all of user_message, earlier_requests
+  and previous_plan), never what such an app usually does.
+  true: they name a job a model does: 요약, 번역, 예측, 추천, 분류, 분석, 인식, 챗봇, 상담 답변, 생성, 음성으로 입력,
+  발음 듣기, 사진 속 글자 읽기, 영수증 정리; or they answered a question about it, even with "몰라" or "알아서".
+  false: they name only an app ("단어장 앱을 만들고 싶어", "일기 앱", "동아리 회원 관리 웹사이트"), features plain code
+  does (입력, 저장, 목록, 폴더 정리, 완료 표시, 알림, 회원 관리), information the app shows ("병원 위치를 안내하는 앱"),
+  or no project at all ("뭔가 만들고 싶어").
   Never ask about GPU, VRAM, parameter counts, file formats, or commercial use just because they are unstated.
   Missing GPU means null (no memory filter), missing commercial use means false (no commercial-only filter).
   If the user says they do not know or asks to proceed with defaults, make a broad best-effort plan and return [].
@@ -464,6 +478,14 @@ def _first_plan(request, target):
     return _parse_plan(request, target)
 
 
+AI_JOB_QUESTION = "만들려는 서비스에서 AI가 어떤 일을 하길 원하시나요? 예: 요약, 분류, 추천, 음성 인식, 사진 속 글자 인식"
+AI_JOB_QUESTION_RE = re.compile(r"AI|인공지능")
+# Product details whose answer leaves the model search the same. The prompt forbids them, but the planner still asks
+# for forecasts and recommenders; kept narrow so "문서 단위로 요약하나요?" or "한국어 음성인가요?" still pass.
+PRODUCT_DETAIL_RE = re.compile(
+    r"예측\s*기간|기간은|(?:시간|하루|일|주|월)\s*단위|시간별|일별|주별|중점|인기순|신상품|화면\s*구성|알림\s*방식")
+
+
 def _parse_plan(user, target="both", said=None, previous=None, prior_plan=None, earlier=None):
     """said: the newest user words when user holds earlier text; previous: prior constraints."""
     # JSON keeps user text from posing as app fields (a typed "SEARCH_TARGET:" line is just a string).
@@ -476,10 +498,17 @@ def _parse_plan(user, target="both", said=None, previous=None, prior_plan=None, 
     if project_checks.fine_tuning_declined([*(earlier or []), user]):
         plan["fine_tuning"] = []
     # Optional technical settings must never block search, even if the planner asks for them.
+    # The planner judges whether the user named an AI job; whether to ask about it is decided here.
+    ai_question_fits = target != "dataset" and not plan.get("ai_job_stated", True)
     plan["clarifying_questions"] = [
         q for q in plan.get("clarifying_questions", [])
         if not re.search(r"gpu|vram|그래픽|파라미터|상업|상용|commercial|gguf|onnx|mlx", q, re.I)
+        and not PRODUCT_DETAIL_RE.search(q)
+        and (ai_question_fits or not AI_JOB_QUESTION_RE.search(q))
     ][:1]
+    # First turn only, and once: "(답변)" means the user answered a question; a follow-up already got its search.
+    if ai_question_fits and not plan["clarifying_questions"] and "(답변)" not in user and prior_plan is None:
+        plan["clarifying_questions"] = [AI_JOB_QUESTION]
     return plan
 
 
