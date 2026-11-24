@@ -238,6 +238,11 @@ class ProjectPlan(BaseModel):
     unpublished_data: bool = False
 
 
+def _merge_errors(old, new):
+    """Each search branch adds its own failure; route writes None once per turn to clear the last turn's."""
+    return {} if new is None else {**(old or {}), **new}
+
+
 class State(TypedDict, total=False):
     request: str
     # {"target": model|dataset|both|needs_clarification|out_of_scope, "status", "scope", "model", "data",
@@ -257,6 +262,7 @@ class State(TypedDict, total=False):
     answer: str
     combination: list  # COMBINATION_MARKER sentences: the app shows them in its summary, not in the answer
     turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
+    search_errors: Annotated[dict, _merge_errors]  # see the fan-in contract above search_failures
 
 
 def ttl_cache(seconds, maxsize=512):
@@ -693,7 +699,7 @@ def route(state: State) -> State:
     """Intent once per turn: out of scope ends the turn; an unknown slot is asked about in clarify.
     Follow-ups keep their target unless the user changes it; the LLM's oos is honoured on a fresh thread only,
     so a refinement ("상업용만") can never be refused."""
-    fresh: State = {"asking": {"asked": [], "planned": False, "done": False}}
+    fresh: State = {"asking": {"asked": [], "planned": False, "done": False}, "search_errors": None}
     old = state.get("route")
     if not old or old.get("target") in ("out_of_scope", "needs_clarification"):
         new = _route(state["request"])
@@ -856,6 +862,22 @@ def _model_rows(
     }
 
 
+def _recorded(key):
+    """A search branch that raises answers empty and names itself in search_errors, so the other side still
+    reaches assess (fan-in contract above search_failures)."""
+    def wrap(search):
+        @functools.wraps(search)
+        def node(state):
+            try:
+                return search(state)
+            except Exception as exc:
+                logging.warning("%s failed", search.__name__, exc_info=True)
+                return {key: [] if key == "models" else {}, "search_errors": {key: f"{type(exc).__name__}: {exc}"}}
+        return node
+    return wrap
+
+
+@_recorded("models")
 def search_models(state: State) -> State:
     constraints = constraints_of(state["plan"])
     gpu = constraints.get("gpu_memory_gb")
@@ -959,6 +981,7 @@ def _fine_tuning(plan: dict) -> list:
     return ([fine_tuning] if isinstance(fine_tuning, dict) else fine_tuning)[:MAX_FINE_TUNING]
 
 
+@_recorded("project_datasets")
 def search_project_datasets(state: State) -> State:
     """Project training sets and service data; needs only the plan, so it runs beside the model search."""
     plan = state["plan"]
@@ -1166,6 +1189,9 @@ def assess(state: State) -> State:
     failed = search_failures(state)
     if failed:
         assessment["search_errors"] = failed
+        # The missing side may hold a non-commercial piece: only a blocker already found is certain.
+        if assessment["license"]["verdict"] in ("commercial_ok", "review"):
+            assessment["license"].update(verdict="incomplete", label="판정 보류 (검색이 실패한 쪽은 확인하지 못함)")
     if any(group.get("models") for group in state.get("models") or []):
         tasks = {need["task"] for need in state["plan"].get("needs", [])}
         # A follow-up ("상업용만") holds only its own words; earlier turns still describe the project.

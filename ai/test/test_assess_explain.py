@@ -159,6 +159,33 @@ def test_only_failures_of_searched_sides_are_reported():
     assert "search_errors" not in graph17.assess(_searched())["assessment"]  # no key = nothing failed
 
 
+def _boom(state):
+    raise TimeoutError("db")
+
+
+def test_a_raising_search_answers_empty_and_names_itself(monkeypatch):
+    monkeypatch.setattr(graph17, "embed_query", _boom)
+    out = graph17.search_project_datasets(_searched())
+    assert out == {"project_datasets": {}, "search_errors": {"project_datasets": "TimeoutError: db"}}
+
+
+def test_both_failures_reach_assess_and_the_next_turn_starts_clean():
+    nodes = {"search_models": graph17._recorded("models")(_boom),
+             "search_project_datasets": graph17._recorded("project_datasets")(_boom), "assess": graph17.assess}
+    state = graph17.build_graph(nodes=nodes).invoke(_searched())
+    assert set(state["assessment"]["search_errors"]) == {"models", "project_datasets"}  # the second write merged
+    assert graph17._merge_errors(state["search_errors"], None) == {}  # route's per-turn reset
+
+
+def test_a_failed_side_holds_the_license_verdict_but_a_found_blocker_stands():
+    failed = {**_searched(), "models": [], "search_errors": {"models": "TimeoutError"}}
+    held = graph17.assess(failed)["assessment"]["license"]
+    assert held["verdict"] == "incomplete" and held["label"].startswith("판정 보류")
+    nc = {**failed, "project_datasets": {"project_training": [], "service_data": [
+        {"dataset": "nc/svc", "licenses": ["cc-by-nc-4.0"]}]}}
+    assert graph17.assess(nc)["assessment"]["license"]["verdict"] == "blocked"
+
+
 def _explain_with(monkeypatch, state, create):
     client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
     monkeypatch.setattr(graph17, "_openai", lambda: client)
