@@ -25,7 +25,7 @@ from retrieval_lab import classifier
 from retrieval_lab.pre_retrieval import llm_model
 
 LOGGER = logging.getLogger(__name__)
-PROMPT_VERSION = 9
+PROMPT_VERSION = 10
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "routing.json"  # one file, key -> entry, like classifier.json
 TARGETS = ("model", "dataset", "both", "needs_clarification", "out_of_scope")
 Slot = Literal["yes", "no", "unknown"]
@@ -90,7 +90,8 @@ training/evaluation data, government open data, public records, statistics and A
 - no: excludes it ("데이터는 이미 있어", "모델 말고"), or asks for the other kind alone.
   An explicit request for one kind ("HF 한국어 요약 모델") makes the other no, and so does a model
   request that says nothing about data.
-  Mentioning an app or service as background does not change an explicit model-only or data-only request.
+  Mentioning an app or service as background does not change an explicit model-only or data-only request,
+  even an AI app such as a RAG chatbot: "RAG 챗봇을 만들려고 해. ~ 공공데이터가 필요해" asks for the data only (model no).
   A request that asks for the information a service shows ("~ 데이터 찾아줘", "~ 데이터 있어?", "~ 정보가 필요해",
   "~ API로 받고 싶어") is data yes, service; unless it also names an AI task with a run condition, model is no.
   Training a model on described data ("~ 기록으로 예측 모델을 학습시키고 싶어") asks for data: model no,
@@ -134,6 +135,7 @@ Examples:
 - "따릉이 앱에 쓸 대여소 데이터 찾아줘" -> project, model no, data yes, unknown
 - "전국 캠핑장 위치와 예약 정보를 알려주는 앱을 만들려고 해" -> project, model unknown, data unknown
 - "캠핑장 위치와 예약 정보 데이터 찾아줘" -> project, model no, data yes, service
+- "민원 안내 챗봇을 RAG로 만들 거야. 민원 처리 기준 원문 공공데이터가 필요해" -> project, model no, data yes, service
 - "캠핑장 앱을 만들려고 해. 캠핑장 위치 정보가 필요해" -> project, model no, data yes, service
 - "교통사고 기록으로 위험도 예측 모델을 학습시키고 싶어" -> project, model no, data yes, unknown
 - "따릉이 앱용 모델만 추천해줘. 데이터는 이미 있어" -> project, model yes, data no
@@ -282,7 +284,8 @@ def eval_items() -> list[dict]:
     items += [
         {"id": i["query_id"], "text": i["query"], "target": "dataset", "group": f"public_{i['query_type']}",
          # A service idea that names nothing to find is asked about by design; searching its data is right too.
-         **({"also": ["needs_clarification"]} if i["query_type"] == "service_idea" else {})}
+         **({"also": ["needs_clarification"]} if i["query_type"] == "service_idea" else {}),
+         **({"also": i["routing_also"]} if i.get("routing_also") else {})}
         for i in golden.read_jsonl(PUBLIC_QUERIES)
     ]
     items += [
