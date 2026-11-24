@@ -92,6 +92,9 @@ SCORED_LANGUAGES = {"language/ko"}
 # and region fit matter for public data, where one schema exists per city or province.
 KEYWORD_BONUS, KEYWORD_BONUS_CAP = 1.0, 2.0
 REGION_MATCH_BONUS, REGION_MISMATCH_PENALTY = 1.5, -3.0
+# Words in many titles across topics ("버스 위치", "가로수 위치"): they say nothing about the topic.
+# shortcut: hand-picked list; grow it when a generic planner term pulls in off-topic titles.
+GENERIC_TERMS = {"위치", "가격", "요금", "정보", "현황", "목록", "데이터", "공공데이터", "api", "csv", "서비스", "통계"}
 REGIONS = (
     "서울",
     "부산",
@@ -496,7 +499,8 @@ def _length_rank(concept_ids):
 def concepts_from_terms(terms):
     """Map free words from an idea decomposition ('reranking', '장문', 'ko') to concept ids."""
     found = set()
-    for term in terms:
+    # "위치" -> domain/location would score every location table (분양가격, 가로수 위치) as on-domain.
+    for term in (t for t in terms if t.casefold() not in GENERIC_TERMS):
         for facet in load_taxonomy()["facets"]:
             if value := normalize(facet, term):
                 found.add(f"{facet}/{value}")
@@ -511,19 +515,26 @@ def dataset_regions(entity):
     return {REGION_CANON.get(r, r) for r in REGIONS if r in title}
 
 
-def keyword_score(entity, keywords):
-    """Bonus for typed words found in the title, plus region fit when the user named a region."""
+def title_topic_words(entity, keywords):
+    """Typed topic words (not regions, not generic words) found in the dataset title."""
+    title = (entity.get("title") or entity["name"]).casefold()
+    return [k for k in keywords if k not in REGIONS and len(k) >= 2 and k.casefold() not in GENERIC_TERMS
+            and k.casefold() in title]
+
+
+def keyword_score(entity, keywords, on_topic=False):
+    """Bonus for typed words found in the title, plus region fit when the user named a region.
+    on_topic: the dense match already says the topic fits, for titles that word it differently (대기오염 for 미세먼지)."""
     if not keywords:
         return 0.0, []
-    title = (entity.get("title") or entity["name"]).casefold()
     wanted = {REGION_CANON.get(k, k) for k in keywords if k in REGIONS}
-    words = [k for k in keywords if k not in REGIONS and len(k) >= 2]
-    found = [k for k in words if k.casefold() in title]
+    found = title_topic_words(entity, keywords)
     score, reasons = min(KEYWORD_BONUS * len(found), KEYWORD_BONUS_CAP), [f"'{k}' 일치" for k in found]
     regions = dataset_regions(entity)
     if wanted and regions:
         if regions & wanted:
-            score += REGION_MATCH_BONUS
+            # Region alone is not relevance: "충청북도_지적통계" must not outrank 공중화장실 data for 청주.
+            score += REGION_MATCH_BONUS if found or on_topic else 0.0
             reasons.append(f"{'/'.join(sorted(regions & wanted))} 지역")
         else:
             score += REGION_MISMATCH_PENALTY
@@ -560,10 +571,13 @@ def rank_datasets(
         linked = entity_id in trained_with
         similarity = dense.get(entity["name"])
         trusted_tasks = {c for c in dataset_concepts if c.startswith("task/") and confidence[entity_id, c] >= 0.8}
-        topical = similarity is not None and similarity >= dense_only_min
+        # A topic word in the title ("전국주유소표준데이터" for 주유소) admits untagged data the cosine floors
+        # would drop: public data has no task tags, and its short titles embed with low similarity.
+        titled = bool(keywords) and not trusted_tasks and bool(title_topic_words(entity, keywords))
+        topical = titled or (similarity is not None and similarity >= dense_only_min)
         if not (task_affinity.keys() & trusted_tasks or linked or (topical and not trusted_tasks)):
             continue
-        if similarity is not None and similarity < dense_min and not linked:
+        if similarity is not None and similarity < dense_min and not (linked or titled):
             continue
         # A model cannot consume a modality it has no input for: a text reranker gains nothing from
         # visual-document retrieval sets even though their queries are text.
@@ -609,7 +623,8 @@ def rank_datasets(
             length_id = next(c for c in dataset_concepts if c.startswith("input_length/"))
             score += FACET_WEIGHTS["input_length"] * (1.0 if dataset_length == target_length else 0.5)
             reasons.append(f"{concepts[length_id]['label']} (모델 입력 길이 이내)")
-        bonus, matched_words = keyword_score(entity, keywords)
+        on_topic = similarity is not None and similarity >= dense_only_min
+        bonus, matched_words = keyword_score(entity, keywords, on_topic)
         score += bonus
         reasons += matched_words
         graph_score = score

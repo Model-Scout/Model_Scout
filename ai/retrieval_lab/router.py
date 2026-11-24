@@ -25,7 +25,7 @@ from retrieval_lab import classifier
 from retrieval_lab.pre_retrieval import llm_model
 
 LOGGER = logging.getLogger(__name__)
-PROMPT_VERSION = 7
+PROMPT_VERSION = 8
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "routing.json"  # one file, key -> entry, like classifier.json
 TARGETS = ("model", "dataset", "both", "needs_clarification", "out_of_scope")
 Slot = Literal["yes", "no", "unknown"]
@@ -94,12 +94,13 @@ training/evaluation data, government open data, public records, statistics and A
   A service that shows or looks up information (locations, prices, schedules, records, alerts, nutrition...)
   needs that data: data yes, service. Unless it also names an AI task with a run condition, model is no.
   Training a model on described data ("~ 기록으로 예측 모델을 학습시키고 싶어") asks for data: model no,
-  data yes, training.
+  data yes, and data_kind unknown unless a source is named.
 - unknown: the request does not say. A project or service idea that names no information to show, no AI
   task condition and nothing to find ("따릉이 앱 만들고 싶어") leaves BOTH unknown; never assume both are wanted.
 
 data_kind: which data, only when data is yes.
-- training: training/evaluation datasets only (학습 데이터, 평가 데이터, 데이터셋, Hugging Face or Kaggle datasets).
+- training: the user names training/evaluation datasets as the source (학습 데이터셋, 평가 데이터셋, Hugging Face
+  or Kaggle datasets). Data merely used to train a model, with no source named, can be public data: unknown.
 - service: service data only: data the app reads at runtime (공공데이터, 공공데이터포털, 열린데이터광장,
   open APIs, public records, statistics).
 - both: asks for both kinds.
@@ -131,7 +132,7 @@ Examples:
 - "모델 말고 학습 데이터만 찾아줘" -> project, model no, data yes, training
 - "따릉이 앱에 쓸 대여소 데이터 찾아줘" -> project, model no, data yes, unknown
 - "전국 캠핑장 위치와 예약 정보를 알려주는 앱을 만들려고 해" -> project, model no, data yes, service
-- "교통사고 기록으로 위험도 예측 모델을 학습시키고 싶어" -> project, model no, data yes, training
+- "교통사고 기록으로 위험도 예측 모델을 학습시키고 싶어" -> project, model no, data yes, unknown
 - "따릉이 앱용 모델만 추천해줘. 데이터는 이미 있어" -> project, model yes, data no
 - "주차장 API랑 학습 데이터셋 둘 다 필요해" -> project, model no, data yes, both
 - "따릉이 경로 추천 서비스를 만들고 싶어" -> project, model unknown, data unknown

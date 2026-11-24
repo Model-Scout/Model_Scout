@@ -307,6 +307,8 @@ def hf_tags(task_key):
 
 DECOMPOSE_PROMPT = f"""You plan model and data choices for a Korean AI project idea.
 needs: 1-{MAX_NEEDS} distinct model roles the project needs, most important first. task is a taxonomy key.
+  Finding, collecting or providing data is never a need: the data search handles it through dataset_terms
+  and dataset_query ("주차장 빈자리 데이터도 찾아줘" adds no retrieval or embedding need).
   purpose_ko: one Korean sentence on what that model does in this project.
   model_query: a search query for that model, Korean and English keywords mixed
   (e.g. "한국어 문서 임베딩 embedding retrieval").
@@ -333,6 +335,7 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   exclude_gated: true only if they say 승인 없이/신청 없이/바로 다운로드/gated 제외, else false.
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
+  Topic words only: never generic words such as 위치, 가격, 정보, 현황, 목록, 데이터, 공공데이터, API, CSV.
 dataset_query: one Korean sentence describing the data the project needs.
 search_target is what the user wants to find. For dataset: needs is [] (never invent
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
