@@ -25,7 +25,7 @@ from retrieval_lab import classifier
 from retrieval_lab.pre_retrieval import llm_model
 
 LOGGER = logging.getLogger(__name__)
-PROMPT_VERSION = 8
+PROMPT_VERSION = 9
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "routing.json"  # one file, key -> entry, like classifier.json
 TARGETS = ("model", "dataset", "both", "needs_clarification", "out_of_scope")
 Slot = Literal["yes", "no", "unknown"]
@@ -91,12 +91,13 @@ training/evaluation data, government open data, public records, statistics and A
   An explicit request for one kind ("HF 한국어 요약 모델") makes the other no, and so does a model
   request that says nothing about data.
   Mentioning an app or service as background does not change an explicit model-only or data-only request.
-  A service that shows or looks up information (locations, prices, schedules, records, alerts, nutrition...)
-  needs that data: data yes, service. Unless it also names an AI task with a run condition, model is no.
+  A request that asks for the information a service shows ("~ 데이터 찾아줘", "~ 데이터 있어?", "~ 정보가 필요해",
+  "~ API로 받고 싶어") is data yes, service; unless it also names an AI task with a run condition, model is no.
   Training a model on described data ("~ 기록으로 예측 모델을 학습시키고 싶어") asks for data: model no,
   data yes, and data_kind unknown unless a source is named.
-- unknown: the request does not say. A project or service idea that names no information to show, no AI
-  task condition and nothing to find ("따릉이 앱 만들고 싶어") leaves BOTH unknown; never assume both are wanted.
+- unknown: the request does not say. A project or service idea that only says what the app will do
+  ("따릉이 앱 만들고 싶어", "병원 위치를 안내하는 앱을 만들려고 해") and asks for no data, model or AI task condition
+  leaves BOTH unknown, even when the app shows information: the app asks what to find. Never assume.
 
 data_kind: which data, only when data is yes.
 - training: the user names training/evaluation datasets as the source (학습 데이터셋, 평가 데이터셋, Hugging Face
@@ -131,7 +132,9 @@ Examples:
 - "데이터는 이미 있어. 모델만 추천해줘" -> project, model yes, data no
 - "모델 말고 학습 데이터만 찾아줘" -> project, model no, data yes, training
 - "따릉이 앱에 쓸 대여소 데이터 찾아줘" -> project, model no, data yes, unknown
-- "전국 캠핑장 위치와 예약 정보를 알려주는 앱을 만들려고 해" -> project, model no, data yes, service
+- "전국 캠핑장 위치와 예약 정보를 알려주는 앱을 만들려고 해" -> project, model unknown, data unknown
+- "캠핑장 위치와 예약 정보 데이터 찾아줘" -> project, model no, data yes, service
+- "캠핑장 앱을 만들려고 해. 캠핑장 위치 정보가 필요해" -> project, model no, data yes, service
 - "교통사고 기록으로 위험도 예측 모델을 학습시키고 싶어" -> project, model no, data yes, unknown
 - "따릉이 앱용 모델만 추천해줘. 데이터는 이미 있어" -> project, model yes, data no
 - "주차장 API랑 학습 데이터셋 둘 다 필요해" -> project, model no, data yes, both
