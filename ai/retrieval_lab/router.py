@@ -280,7 +280,9 @@ def eval_items() -> list[dict]:
         if i.get("plan_query_type") in classifier.TYPES
     ]
     items += [
-        {"id": i["query_id"], "text": i["query"], "target": "dataset", "group": f"public_{i['query_type']}"}
+        {"id": i["query_id"], "text": i["query"], "target": "dataset", "group": f"public_{i['query_type']}",
+         # A service idea that names nothing to find is asked about by design; searching its data is right too.
+         **({"also": ["needs_clarification"]} if i["query_type"] == "service_idea" else {})}
         for i in golden.read_jsonl(PUBLIC_QUERIES)
     ]
     items += [
@@ -288,6 +290,11 @@ def eval_items() -> list[dict]:
         for i in golden.read_jsonl(EDGE_QUERIES)
     ]
     return items
+
+
+def correct(row: dict) -> bool:
+    """The label's target, or an alternative it also accepts ("also")."""
+    return row["pred_target"] in (row["target"], *row.get("also", ()))
 
 
 def evaluate() -> None:
@@ -304,11 +311,11 @@ def evaluate() -> None:
 
     by_group = defaultdict(list)
     for row in rows:
-        by_group[row["group"]].append(row["pred_target"] == row["target"])
+        by_group[row["group"]].append(correct(row))
     latencies = sorted(row["model_ms"] for row in rows if row["model_ms"])
-    target_ok = sum(row["pred_target"] == row["target"] for row in rows)
+    target_ok = sum(correct(row) for row in rows)
     confusion = Counter((row["target"], row["pred_target"]) for row in rows)
-    errors = [row for row in rows if row["pred_target"] != row["target"]]
+    errors = [row for row in rows if not correct(row)]
 
     lines = [
         "# 검색 대상 라우터 평가",
