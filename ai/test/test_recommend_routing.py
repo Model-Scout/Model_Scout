@@ -258,6 +258,23 @@ def test_data_kind_skips_the_other_list(monkeypatch, kind, training, service):
     assert calls.count("training") == training and calls.count("service") == service
 
 
+def test_sft_task_joins_the_training_data_terms(monkeypatch):
+    seen = {}
+
+    def rank(concepts, roles=None, **kw):
+        seen["service" if roles else "training"] = concepts
+        return []
+
+    monkeypatch.setattr(graph17, "rank_datasets", rank)
+    monkeypatch.setattr(graph17, "embed_query", lambda text: None)
+    monkeypatch.setattr(graph17, "concepts_from_terms", lambda terms: terms)
+    plan = {"constraints": {}, "dataset_terms": ["상담"], "dataset_query": "상담",
+            "needs": [{"task": "text-generation"}], "fine_tuning": {"task": "text-classification"}}
+    graph17.search_project_datasets({"plan": plan, "route": {"target": "both"}})
+    assert seen["training"] == ["상담", "text-generation", "text-classification"]
+    assert seen["service"] == ["상담"]  # service data stays on the domain terms alone
+
+
 def test_service_wording_is_not_an_only_marker():
     assert graph17._side_change("모델 만들고 싶어", "dataset") is None
 
@@ -326,6 +343,36 @@ def test_planner_sees_search_target(monkeypatch):
     sent_json = json.loads(sent[-1])
     assert sent_json["search_target"] == "dataset"
     assert sent_json["user_message"].startswith("따릉이 대여소 데이터")
+
+
+@pytest.mark.parametrize(
+    "stated,asked,target,text,prior,want",
+    [
+        (False, [], "both", "단어장 앱을 만들고 싶어", None, [graph17.AI_JOB_QUESTION]),  # planner forgot to ask
+        (False, ["단어장 앱에서 AI가 어떤 일을 하나요?"], "both", "단어장 앱", None, ["단어장 앱에서 AI가 어떤 일을 하나요?"]),
+        (True, ["투두리스트 앱에서 AI가 어떤 일을 하나요?"], "both", "말로 입력하는 투두 앱", None, []),  # job stated
+        (False, ["단어장 앱에서 AI가 어떤 일을 하나요?"], "dataset", "단어장 앱", None, []),  # no model searched
+        (False, [], "both", "단어장 앱\n(질문) q\n(답변) 잘 모르겠는데", None, []),  # asked once already
+        (False, [], "both", "상업용만", {"needs": []}, []),  # a follow-up never re-asks
+    ],
+)
+def test_ai_job_question_follows_the_planner_judgment(monkeypatch, stated, asked, target, text, prior, want):
+    monkeypatch.setattr(graph17, "_llm_plan", lambda user: {
+        "constraints": {}, "clarifying_questions": asked, "ai_job_stated": stated})
+    assert graph17._parse_plan(text, target, prior_plan=prior)["clarifying_questions"] == want
+
+
+@pytest.mark.parametrize("question,kept", [
+    ("예측하려는 기간은 하루 단위인가요, 시간 단위인가요?", False),
+    ("예측하려는 기간은 어느 정도인가요? 예: 시간별, 일별, 주별", False),
+    ("추천 기능에서 중점적으로 고려할 요소가 있나요? 예: 개인화, 인기순, 신상품 중심", False),
+    ("말로 입력하는 할 일은 한국어 음성인가요?", True),
+    ("문서 단위로 요약하나요, 문단 단위로 요약하나요?", True),
+])
+def test_product_detail_questions_are_dropped(monkeypatch, question, kept):
+    monkeypatch.setattr(graph17, "_llm_plan", lambda user: {
+        "constraints": {}, "clarifying_questions": [question], "ai_job_stated": True})
+    assert graph17._parse_plan("서비스", "both")["clarifying_questions"] == ([question] if kept else [])
 
 
 def test_planner_keeps_typed_markers_inside_the_user_message(monkeypatch):
@@ -448,6 +495,17 @@ def test_delegation_fills_unknown_slots_with_both_and_skips_planning_questions(m
     assert turn("알아서 해줘", resume=True) == []  # the planner's question is skipped too
     assert ran["decompose"] == ["both"]
     assert graph.get_state(config).values["route"]["status"] == "default"
+
+
+@pytest.mark.parametrize("answer", ["몰라", "모르겠어요", "글쎄요"])
+def test_dont_know_searches_both_but_keeps_the_planning_question(monkeypatch, answer):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [["단어장 앱에서 AI가 어떤 일을 하나요?"], []])
+    assert turn("단어장 앱을 만들고 싶어") == [graph17.TARGET_QUESTION]
+    assert turn(answer, resume=True) == ["단어장 앱에서 AI가 어떤 일을 하나요?"]
+    assert ran["decompose"] == ["both"]
+    assert turn("발음 듣기", resume=True) == []
+    assert ran["searches"] == {"classify_model_query", "search_models", "search_project_datasets"}
 
 
 def test_planning_questions_loop_until_none_left(monkeypatch):

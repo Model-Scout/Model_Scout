@@ -25,6 +25,7 @@ TOOLS = ROOT / "test" / "model_retrieval" / "tools"
 sys.path.insert(0, str(TOOLS))
 sys.path.insert(0, str(ROOT))
 
+sys.modules.pop("scan", None)  # test/golden/v2/tools/scan.py shares the name; a full run imports it first
 import corpus  # noqa: E402
 import scan  # noqa: E402
 

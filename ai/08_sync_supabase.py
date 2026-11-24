@@ -1489,7 +1489,7 @@ def contract_gate(require: bool = False, baseline: Optional[Path] = None) -> Dic
             command += ["--summary-json", str(summary_path)]
             if baseline is not None:
                 command += ["--baseline", str(baseline)]
-            completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+            completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
             summary = (
                 json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else None
             )

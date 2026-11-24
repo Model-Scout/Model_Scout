@@ -1,0 +1,23 @@
+{"id": "c001", "text": "단어장 앱을 만들고 싶어", "target": "both", "ask": true, "note": "앱 이름만"}
+{"id": "c002", "text": "할 일을 직접 입력하고 완료 표시하는 투두리스트 앱을 만들고 싶어", "target": "both", "ask": true, "note": "코드로 하는 기능만"}
+{"id": "c003", "text": "가계부 앱을 만들고 싶어", "target": "both", "ask": true, "note": "앱 이름만"}
+{"id": "c004", "text": "일기 앱 만들고 싶어", "target": "both", "ask": true, "note": "앱 이름만"}
+{"id": "c005", "text": "운동 기록 앱을 만들려고 해", "target": "both", "ask": true, "note": "앱 이름만"}
+{"id": "c006", "text": "레시피 공유 앱을 만들고 싶어", "target": "both", "ask": true, "note": "앱 이름만"}
+{"id": "c007", "text": "뭔가 만들고 싶어", "target": "both", "ask": true, "note": "프로젝트 없음"}
+{"id": "c008", "text": "앱 하나 만들어 보려고", "target": "both", "ask": true, "note": "프로젝트 없음"}
+{"id": "c009", "text": "동아리 회원 관리 웹사이트를 만들려고 해", "target": "both", "ask": true, "note": "코드로 하는 기능만"}
+{"id": "c010", "text": "메모를 작성하고 폴더로 정리하는 메모장 앱을 만들고 싶어", "target": "both", "ask": true, "note": "코드로 하는 기능만"}
+{"id": "c011", "text": "병원 위치를 안내하는 앱을 만들려고 해", "target": "both", "ask": true, "note": "정보 안내만: 모델이 할 일 없음 (라우터 r033)"}
+{"id": "c101", "text": "한국어 고객 상담 챗봇을 만들고 싶어", "target": "both", "ask": false, "note": "AI 할 일 명시: 챗봇"}
+{"id": "c102", "text": "따릉이 대여량을 예측하는 서비스를 만들고 싶어", "target": "both", "ask": false, "note": "AI 할 일 명시: 예측"}
+{"id": "c103", "text": "회의 녹음을 요약해주는 앱을 만들고 싶어", "target": "model", "ask": false, "may_ask": true, "note": "AI 할 일 명시: 전사·요약"}
+{"id": "c104", "text": "단어장 앱에서 사진 속 영어 단어를 인식하는 모델 찾아줘", "target": "model", "ask": false, "note": "AI 할 일 명시: OCR"}
+{"id": "c105", "text": "쇼핑몰 상품 추천 기능을 만들고 싶어", "target": "both", "ask": false, "may_ask": true, "note": "AI 할 일 명시: 추천"}
+{"id": "c106", "text": "고객 리뷰를 분석하는 시스템을 구축하고 싶어", "target": "both", "ask": false, "may_ask": true, "note": "AI 할 일 명시: 리뷰 분석 (라우터 r034)"}
+{"id": "c107", "text": "따릉이 수요 예측 앱을 만들고 싶어", "target": "both", "ask": false, "note": "AI 할 일 명시: 예측 (라우터 r031)"}
+{"id": "c108", "text": "영어 단어 발음을 들려주는 단어장 앱을 만들고 싶어", "target": "both", "ask": false, "note": "AI 할 일 명시: TTS"}
+{"id": "c109", "text": "영수증 사진을 찍으면 지출을 자동으로 정리해주는 가계부 앱을 만들고 싶어", "target": "both", "ask": false, "note": "AI 할 일 명시: OCR·분류"}
+{"id": "c110", "text": "말로 할 일을 입력하는 투두리스트 앱을 만들고 싶어", "target": "both", "ask": false, "may_ask": true, "note": "AI 할 일 명시: 음성 인식"}
+{"id": "c111", "text": "단어장 앱을 만들고 싶어", "target": "dataset", "ask": false, "note": "데이터만 검색: AI 용도 묻지 않음"}
+{"id": "c112", "text": "주차장 위치와 요금을 알려주는 서비스를 만들고 싶어", "target": "dataset", "ask": false, "note": "데이터만 검색 (라우터 r032)"}
