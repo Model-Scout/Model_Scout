@@ -191,6 +191,28 @@ def test_a_named_data_kind_goes_to_the_llm(text):
     assert graph17._side_change(text, "both") is None
 
 
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("공공데이터만 보여줘", ("dataset", "service")),
+        ("모델은 빼고 공공데이터만", ("dataset", "service")),
+        ("API만 있으면 돼", ("dataset", "service")),
+        ("학습 데이터만 다시 찾아줘", ("dataset", "training")),
+        ("학습용 데이터만", ("dataset", "training")),
+        ("Kaggle만", ("dataset", "training")),
+        ("모델이랑 공공데이터만 다시", ("both", "service")),
+    ],
+)
+def test_one_data_kind_only_drops_the_models_by_rule(text, expected):
+    target, by, kind = graph17.follow_up_target(text, "both")
+    assert (target, kind, by) == (*expected, "rule")
+
+
+@pytest.mark.parametrize("text", ["모델 데이터만 필요해", "공공데이터도 보여줘", "학습 데이터 충분한 모델 찾아줘"])
+def test_kind_only_rule_needs_only(text):
+    assert graph17._kind_only(text) is None
+
+
 def test_public_data_only_follow_up_narrows_the_data_kind(monkeypatch):
     monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult(
         "dataset", "ok", "llm", 1.0, intent={"scope": "project", "model": "no", "data": "yes", "data_kind": "service"}))
@@ -391,6 +413,34 @@ def test_partial_slot_asks_only_that_slot_and_reads_the_answer_by_llm(monkeypatc
     assert ran["searches"] == {"classify_model_query", "search_models"}
 
 
+@pytest.mark.parametrize(
+    "answer,target",
+    [("괜찮아요", "model"), ("됐어요", "model"), ("아니요 괜찮습니다", "model"), ("필요 없어요", "model"),
+     ("네", "both"), ("응 부탁해", "both"), ("좋아요!", "both")],
+)
+def test_yes_no_slot_answer_is_read_by_rule(monkeypatch, answer, target):
+    calls = []
+    monkeypatch.setattr(router, "route", lambda text, use_cache: calls.append(text) or routed(
+        "needs_clarification", model="yes", data="unknown")(text, use_cache))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    assert turn("따릉이 앱에 쓸 모델 찾아줘") == [graph17.DATA_QUESTION]
+    assert turn(answer, resume=True) == []
+    assert len(calls) == 1 and ran["decompose"] == [target]
+    assert graph.get_state(config).values["request"] == "따릉이 앱에 쓸 모델 찾아줘"
+
+
+def test_declining_the_only_open_slot_asks_what_is_needed(monkeypatch):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="no", data="unknown"))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    assert turn("따릉이 앱 만들 건데 모델은 있어") == [graph17.DATA_QUESTION]
+    assert turn("됐어요", resume=True) == [graph17.TARGET_QUESTION]  # nothing wanted yet: ask, never search both
+
+
+@pytest.mark.parametrize("text", ["데이터는 괜찮아요", "네 근데 한국어로", "모델 학습용이요"])
+def test_yes_no_rule_needs_the_whole_answer(text):
+    assert graph17._slot_answer(graph17.DATA_QUESTION, text, {"model": "yes", "data": "unknown"}) is None
+
+
 def test_delegation_fills_unknown_slots_with_both_and_skips_planning_questions(monkeypatch):
     monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
     graph, config, turn, ran = clarify_graph(monkeypatch, [["어떤 지역인가요?"]])
@@ -457,3 +507,21 @@ def test_model_query_type(monkeypatch, target, rule, llm, expected):
     monkeypatch.setattr(classifier, "llm_type", fake_llm)
     state = {"request": "질문", "route": {"target": target}}
     assert graph17.classify_model_query(state) == {"model_query_type": expected}
+
+
+ANSWER = ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |", "### 프로젝트 학습·평가 데이터", "- 해당 없음", "",
+          "### 서비스 데이터 (공공데이터)", "- 주유소 데이터", "[[조합]]", "주유소 데이터로 앱을 만들어요."]
+
+
+@pytest.mark.parametrize(
+    "target,kind,kept",
+    [
+        ("dataset", "service", ["### 서비스 데이터 (공공데이터)", "- 주유소 데이터"]),
+        ("dataset", "training", ["### 프로젝트 학습·평가 데이터", "- 해당 없음", ""]),
+        ("model", "unknown", ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |"]),
+        ("both", "unknown", ANSWER[:7]),
+    ],
+)
+def test_unsearched_sections_are_dropped(target, kind, kept):
+    lines = list(graph17.without_sections(ANSWER, graph17.unsearched_headings(target, kind)))
+    assert lines == [*kept, "[[조합]]", "주유소 데이터로 앱을 만들어요."]

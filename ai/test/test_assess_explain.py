@@ -180,6 +180,15 @@ def test_a_failed_side_is_said_first_and_the_rest_is_still_explained(monkeypatch
     assert "데이터 설명" in answer and "search_errors" in sent["messages"][1]["content"]
 
 
+@pytest.mark.parametrize("target,said", [("dataset", True), ("both", True), ("model", False)])
+def test_unpublished_data_is_said_first_by_the_app(monkeypatch, target, said):
+    state = _searched()
+    state = {**state, "route": {"target": target}, "plan": {**state["plan"], "unpublished_data": True}}
+    state = {**state, **graph17.assess(state)}
+    answer = _explain_with(monkeypatch, state, lambda **kw: iter([_chunk("데이터 설명\n"), _chunk(finish="stop")]))
+    assert answer.startswith(graph17.UNPUBLISHED_NOTE) == said and "데이터 설명" in answer
+
+
 def test_nothing_found_after_failures_skips_the_paid_writer(monkeypatch):
     state = {**_searched(), "models": [], "project_datasets": {},
              "search_errors": {"models": "TimeoutError", "project_datasets": "TimeoutError"}}

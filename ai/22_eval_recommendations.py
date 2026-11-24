@@ -7,6 +7,7 @@ top 10; ids missing from the current corpus are reported and skipped, not counte
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
     python 22_eval_recommendations.py --public  # also score test/public_data/labels/public_data_golden.jsonl
     python 22_eval_recommendations.py --public --corpus v2   # the v2 build (graph, chunks, vectors)
+    python 22_eval_recommendations.py --public --planner     # search with 17's planner output (LLM), as served
 
 Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
 the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
@@ -199,14 +200,36 @@ def _aliases(entities):
     return out
 
 
-def _public_top(label, limit):
+PLANNER = None  # with --planner: the 17 module, so the search uses the terms and sentence the service would
+
+
+def _load_planner():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("recommend_graph", Path(__file__).resolve().parent / "17_recommend_graph.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module  # pydantic resolves the plan's postponed annotations through it
+    spec.loader.exec_module(module)
+    return module
+
+
+def _public_query(label):
+    """(terms, query sentence, commercial_only): the label's own, or the planner's for this request."""
+    if PLANNER:
+        plan = PLANNER._parse_plan(label["query"], "dataset")
+        return list(plan["dataset_terms"]), plan["dataset_query"], PLANNER.constraints_of(plan)["commercial_only"]
     terms = list(label["dataset_terms"])
     if region := label["conditions"].get("region"):
         terms.append(region)
+    return terms, label["query"], bool(label["conditions"].get("commercial"))
+
+
+def _public_top(label, limit):
+    terms, query, commercial = _public_query(label)
     rows = hs.rank_datasets(
         hs.concepts_from_terms(terms),
-        query_vector=hs.embed_query(label["query"]),
-        commercial_only=bool(label["conditions"].get("commercial")),
+        query_vector=hs.embed_query(query),
+        commercial_only=commercial,
         roles=["service"],
         limit=limit,
         keywords=terms,
@@ -324,6 +347,7 @@ def main():
     parser.add_argument("--min-p10", type=float, default=0.0, help="fail (exit 1) below this mean P@10")
     parser.add_argument("--public", nargs="?", type=Path, const=PUBLIC_GOLDEN, help="also score a public golden set")
     parser.add_argument("--unjudged-out", type=Path, help="with --public: write unjudged top-10 datasets (jsonl)")
+    parser.add_argument("--planner", action="store_true", help="with --public: search with the planner's terms and sentence (LLM calls)")
     parser.add_argument("--corpus", choices=sorted(hs.CORPORA), help="graph + chunks + vectors to search (default: MODEL_SCOUT_CORPUS or v1)")
     args = parser.parse_args()
     # Every score names the build it came from; v2 refuses to run unless its records check out.
@@ -338,6 +362,8 @@ def main():
     mean = lambda i: sum(row[i] for row in scored) / len(scored)  # noqa: E731
     print(f"{'mean':<34} {mean(1):5.2f} {mean(2):5.2f} {mean(3):5.2f}")
     if args.public:
+        global PLANNER
+        PLANNER = _load_planner() if args.planner else None
         print_public(args.public, args.unjudged_out)
     if mean(1) < args.min_p10:
         sys.exit(1)

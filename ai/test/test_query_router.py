@@ -88,7 +88,8 @@ def test_invalid_response_cannot_dispatch(payload):
 def test_single_call_then_cache(monkeypatch, tmp_path, text, target):
     calls = []
 
-    def fake_call(query, model, prompt):
+    def fake_call(query, model, prompt, schema):
+        assert schema is router.Intent  # structured output, not json_object
         calls.append((query, model, prompt))
         return SLOTS[target]
 
@@ -134,7 +135,7 @@ def test_live_traffic_never_writes_the_cache(monkeypatch, tmp_path):
     monkeypatch.setattr(
         classifier,
         "_call_llm",
-        lambda text, model, prompt=None: SLOTS["model"] if prompt else {"type": "semantic_capability"},
+        lambda text, model, prompt=None, schema=None: SLOTS["model"] if prompt else {"type": "semantic_capability"},
     )
     assert router.route("한국어 요약 모델", use_cache=False).target == "model"
     assert classifier.llm_type("한국어 요약 모델", "test-model", use_cache=False)[0] == "semantic_capability"
@@ -186,3 +187,13 @@ def test_invalid_legacy_output_is_logged_not_cached(monkeypatch, tmp_path, caplo
     assert classifier.llm_type("모델", "test-model")[0] == "semantic_capability"
     assert "Invalid model classification" in caplog.text
     assert not classifier.CACHE_PATH.exists()
+
+
+def test_public_service_ideas_also_accept_a_clarifying_question():
+    items = {i["id"]: i for i in router.eval_items()}
+    idea = next(i for i in items.values() if i["group"] == "public_service_idea")
+    assert router.correct({**idea, "pred_target": "needs_clarification"})
+    assert router.correct({**idea, "pred_target": "dataset"})
+    assert not router.correct({**idea, "pred_target": "model"})
+    other = next(i for i in items.values() if i["group"].startswith("public_") and i["group"] != "public_service_idea")
+    assert not router.correct({**other, "pred_target": "needs_clarification"})

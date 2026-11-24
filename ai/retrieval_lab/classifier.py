@@ -135,7 +135,8 @@ def save_cache(cache: dict[str, dict[str, Any]], path: Path | None = None) -> No
     path.write_text(json.dumps(ordered, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
 
-def _call_llm(text: str, model: str, prompt: str | None = None) -> dict[str, Any]:
+def _call_llm(text: str, model: str, prompt: str | None = None, schema: type | None = None) -> dict[str, Any]:
+    """schema (a pydantic model) switches to structured output, so the reply can only hold its values."""
     try:
         from dotenv import load_dotenv
 
@@ -147,13 +148,17 @@ def _call_llm(text: str, model: str, prompt: str | None = None) -> dict[str, Any
     from openai import OpenAI
 
     # Classification should not silently spend several retry windows before search.
-    response = OpenAI(timeout=10.0, max_retries=0).chat.completions.create(
-        model=model,
-        temperature=0,
-        response_format={"type": "json_object"},
-        max_tokens=120,
-        messages=[{"role": "system", "content": prompt or PROMPT}, {"role": "user", "content": text}],
-    )
+    completions = OpenAI(timeout=10.0, max_retries=0).chat.completions
+    request = {
+        "model": model,
+        "temperature": 0,
+        "max_tokens": 120,
+        "messages": [{"role": "system", "content": prompt or PROMPT}, {"role": "user", "content": text}],
+    }
+    if schema:
+        parsed = completions.parse(response_format=schema, **request).choices[0].message.parsed
+        return parsed.model_dump() if parsed else {}  # a refusal fails validation like an invalid reply
+    response = completions.create(response_format={"type": "json_object"}, **request)
     return json.loads(response.choices[0].message.content or "{}")
 
 

@@ -234,6 +234,8 @@ class ProjectPlan(BaseModel):
     dataset_terms: list[str]
     dataset_query: str
     clarifying_questions: list[str]
+    # The request needs data portals do not publish: the app says so, then shows the closest datasets anyway.
+    unpublished_data: bool = False
 
 
 class State(TypedDict, total=False):
@@ -307,6 +309,8 @@ def hf_tags(task_key):
 
 DECOMPOSE_PROMPT = f"""You plan model and data choices for a Korean AI project idea.
 needs: 1-{MAX_NEEDS} distinct model roles the project needs, most important first. task is a taxonomy key.
+  Finding, collecting or providing data is never a need: the data search handles it through dataset_terms
+  and dataset_query ("주차장 빈자리 데이터도 찾아줘" adds no retrieval or embedding need).
   purpose_ko: one Korean sentence on what that model does in this project.
   model_query: a search query for that model, Korean and English keywords mixed
   (e.g. "한국어 문서 임베딩 embedding retrieval").
@@ -333,9 +337,22 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   exclude_gated: true only if they say 승인 없이/신청 없이/바로 다운로드/gated 제외, else false.
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
-dataset_query: one Korean sentence describing the data the project needs.
+  Topic words only: never generic words such as 위치, 가격, 정보, 현황, 목록, 지역, 실시간, 데이터, 공공데이터, API, CSV.
+  Prefer the words official data titles use (야간 약국 -> 당번약국, 동네 날씨 -> 동네예보, 식당 위생 -> 위생등급,
+  음식 칼로리 -> 영양성분) over the user's everyday words, and never add when or by whom the app is used
+  (출퇴근, 주말, 다이어트, 부모).
+  Region: only one the user named, as a short name (서울, 부산, 경기, 충북), never 서울시; no region when they named none.
+dataset_query: one Korean sentence describing the data itself (what it records), with no request words
+  ("찾아줘", "필요해", "데이터셋").
 search_target is what the user wants to find. For dataset: needs is [] (never invent
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
+unpublished_data: true only when the data the user asks for is a kind public portals do not publish: records about
+  specific people (개인별 신용점수·대출 이력, 진료 기록), a private company's or platform's own data (유튜브 댓글·조회수,
+  민간 주차장 실시간 잔여면), foreign markets or other countries' own records (해외 주식 실시간 시세), or raw recordings
+  and media files (층간소음 녹음 파일). False for anything
+  government agencies collect or publish (주유소 가격, 날씨 예보, 주차장 위치·요금, 대피소, 공공 통계).
+  Judge the data itself: asking for it as 공공데이터 does not make it published ("유튜브 댓글 공공데이터 있어?" is true).
+  When it is true, ask no clarifying question about it: the app says so and shows the closest data.
 clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
   to search meaningfully. This applies to follow-up messages too; use previous_plan to resolve context first.
   A "조건:" line (language, runtime, commercial use) is a setting the app appends, never a purpose: when the user
@@ -356,7 +373,8 @@ COMBINATION_MARKER = "[[조합]]"
 
 EXPLAIN_PROMPT = """You are Model Scout. The client already shows every retrieved model and dataset as
 cards, so write a short, skimmable Korean markdown briefing (no JSON, no code blocks, at most 350 words) using ONLY
-the JSON given. Never write paragraphs; use exactly this layout for each need, in order:
+the JSON given. Never write paragraphs; use exactly this layout for each models group (one per need), in order,
+and none at all when models is empty or absent (never build this table from datasets):
 ### 1. <need.purpose_ko>
 <one short sentence (under 40 characters) saying why the top model fits>
 
@@ -398,10 +416,11 @@ condition but may serve as a partial alternative: present it so, never as meetin
 preferences are what the user wants first or shown apart, never exclusions; inferred_needs are inferences.
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
-search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
-nothing about datasets (those lists were not searched, so never call them empty). search_data_kind "service"
-means only service data was searched: leave out the 프로젝트 학습·평가 데이터 heading; "training" means only
-training data was searched: leave out the 서비스 데이터 heading. A need with "unsupported": true
+search_target says what the user asked to find: for "dataset" write nothing about models and no ### 1. need
+section or 구분/이름/설명 table (start with the data headings), for "model" write nothing about datasets (those
+lists were not searched, so never call them empty). search_data_kind "service" means only service data was
+searched: leave out the 프로젝트 학습·평가 데이터 heading entirely (never write it with "해당 없음"); "training"
+means only training data was searched: leave out the 서비스 데이터 heading entirely. A need with "unsupported": true
 is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
 Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
 briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
@@ -577,6 +596,13 @@ DROP_RE = {
 TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
 # A named kind of data ("공공데이터만", "학습 데이터만") is more than a side: the rules would drop it, so the LLM reads it.
 DATA_KIND_RE = re.compile(r"공공|열린\s*데이터|포털|학습|훈련|평가|서비스\s*데이터|api|kaggle|캐글|허깅|hf|데이터셋", re.I)
+# "공공데이터만", "학습 데이터만", "API만": only that kind of data, so a follow-up drops the models too.
+KIND_ONLY_RE = {
+    "service": re.compile(r"(?:공공|열린\s*데이터|포털|서비스\s*데이터|api)\s*(?:데이터)?\s*만(?!들)", re.I),
+    "training": re.compile(
+        r"(?:(?:학습|훈련|평가)\s*(?:용\s*)?(?:데이터셋|데이터)|kaggle|캐글|허깅\S*|hf|데이터셋)\s*(?:데이터셋|데이터)?\s*만(?!들)", re.I
+    ),
+}
 
 
 # NFKC turns compatibility jamo (ㅎ) into conjoining jamo, so the strip set is normalized the same way.
@@ -622,6 +648,16 @@ def _side_change(text, old_target):
     return "both" if len(keep) == 2 else keep.pop()
 
 
+def _kind_only(text):
+    """(target, data_kind) for a follow-up asking for one kind of data only, else None. Models stay only when the
+    follow-up still asks for them ("모델이랑 공공데이터만"); "모델 데이터만" names no kind and goes to the LLM."""
+    kinds = [kind for kind, rx in KIND_ONLY_RE.items() if rx.search(text)]
+    if len(kinds) != 1:
+        return None
+    keep_model = re.search(SIDE_WORDS["model"], text, re.I) and not DROP_RE["model"].search(text)
+    return ("both" if keep_model else "dataset"), kinds[0]
+
+
 def _follow_up_by_llm(text, old_target):
     """Follow-up target when no rule fired. The multi-turn LLM judge (add / replace / keep, given the
     earlier target) replaces this body; golden/labels/follow_up_routing.jsonl rows with by=llm are its cases.
@@ -639,6 +675,8 @@ def _follow_up_by_llm(text, old_target):
 def follow_up_target(text, old_target):
     """(target, decided_by, data_kind) for a follow-up: an explicit change by rule, needing no LLM call, else
     the LLM. data_kind "unknown" means the follow-up named no kind of data, so the earlier one stays."""
+    if only := _kind_only(text):
+        return only[0], "rule", only[1]
     changed = _side_change(text, old_target)
     if changed:
         return changed, "rule", "unknown"
@@ -963,6 +1001,22 @@ def pick_searches(state: State) -> list[str]:
 MAX_QUESTIONS = 5
 MODEL_QUESTION = "데이터와 함께 쓸 모델도 찾아드릴까요?"
 DATA_QUESTION = "모델과 함께 쓸 데이터(학습 데이터·공공데이터)도 찾아드릴까요?"
+SLOT_OF = {MODEL_QUESTION: "model", DATA_QUESTION: "data"}
+# Whole-answer yes/no to a one-slot question. "괜찮아요"/"됐어요" decline in Korean; an LLM reads them as yes.
+YES_RE = re.compile(r"(?:(?:네|넵|예|응|어|ㅇㅇ|좋아|좋습니다|그래|부탁해|부탁합니다|부탁드려|필요해|필요합니다|yes|ok|오케이)요?)+")
+NO_RE = re.compile(r"(?:(?:아니|아뇨|아니에|아닙니다|괜찮아|괜찮습니다|됐어|됐습니다|필요없어|필요없습니다|"
+                   r"안찾아도돼|안해도돼|안해도됩니다|싫어|노|ㄴㄴ|no)(?:요|오)?)+")
+
+
+def _slot_answer(question, answer, route):
+    """The route after a rule-read yes/no to a one-slot question, else None (the LLM reads the answer)."""
+    slot, compact = SLOT_OF.get(question), _compact(answer)
+    value = "yes" if YES_RE.fullmatch(compact) else "no" if NO_RE.fullmatch(compact) else None
+    if not (slot and value):
+        return None
+    slots = {"model": route.get("model", "unknown"), "data": route.get("data", "unknown"), slot: value}
+    intent = router.Intent(scope="project", data_kind=route.get("data_kind", "unknown"), **slots)
+    return {**route, **intent.model_dump(), "target": router.target_of(intent), "status": "ok"}
 
 
 def _asking(state):
@@ -1021,10 +1075,11 @@ def clarify(state: State) -> State:
     delegated = bool(DELEGATE_RE.fullmatch(_compact(answer)))
     # "둘 다", "모델만", "데이터는 빼줘": read by rule, no LLM call
     side = _side_change(answer, "needs_clarification") if unclear and not delegated else None
+    slotted = _slot_answer(question, answer, state.get("route") or {}) if unclear and not (delegated or side) else None
     request = state["request"]
     # An answer read by rule says nothing about the project and is already in route or asking. Kept in the request,
     # the planner reads "둘 다" or "알아서" as a go-ahead and invents a project instead of asking what it is.
-    if not (delegated or side):
+    if not (delegated or side or slotted):
         request = out["request"] = f"{request}\n(질문) {question}\n(답변) {answer}"
     if delegated:
         asking["done"] = True
@@ -1034,7 +1089,7 @@ def clarify(state: State) -> State:
             out["plan"] = {**state["plan"], "clarifying_questions": []}
         return out
     if unclear:
-        out["route"] = _route_for(side, data_kind=_data_kind(state)) if side else _route(request)
+        out["route"] = slotted or (_route_for(side, data_kind=_data_kind(state)) if side else _route(request))
         if out["route"]["target"] == "out_of_scope":  # an off-topic answer leaves the question open
             out["route"] = {**out["route"], "target": "needs_clarification"}
         if _next_question({**state, **out}) is None and _target({**state, **out}) == "needs_clarification":
@@ -1135,6 +1190,34 @@ def _judge_conditions(rows, conditions, commercial_only, facts):
         row["condition_checks"], row["partial_alternative"] = verdict["checks"], verdict["partial_alternative"]
 
 
+UNPUBLISHED_NOTE = "요청에 딱 맞는 공공데이터는 찾지 못했어요. 가까운 데이터는 아래와 같아요.\n\n"
+TRAINING_HEADING, SERVICE_HEADING = "### 프로젝트 학습·평가 데이터", "### 서비스 데이터"
+NEED_HEADING_RE = re.compile(r"###\s*\d+\.")
+
+
+def unsearched_headings(target, kind):
+    """Answer sections for lists this turn did not search: the writer adds them ("해당 없음") despite the prompt."""
+    drop = []
+    if target == "model" or kind == "service":
+        drop.append(TRAINING_HEADING)
+    if target == "model" or kind == "training":
+        drop.append(SERVICE_HEADING)
+    if target == "dataset":  # no models were searched, so a "### 1." need table can only be built from datasets
+        drop.append(NEED_HEADING_RE)
+    return drop
+
+
+def without_sections(lines, drop):
+    """Skip each section whose heading is in drop, up to the next ### heading or the [[조합]] marker."""
+    skipping = False
+    for line in lines:
+        text = line.lstrip()
+        if text.startswith("###") or COMBINATION_MARKER in line:
+            skipping = any(re.match(h, text) if isinstance(h, re.Pattern) else text.startswith(h) for h in drop)
+        if not skipping:
+            yield line
+
+
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
     if state.get("data_conditions"):
@@ -1164,6 +1247,8 @@ def explain(state: State) -> State:
     if failed:  # said first and by the app: an empty list after a failed search is not "nothing found"
         record["search_errors"] = sorted(failed)
         emit(search_failure_note(failed, trace_id))
+    if state["plan"].get("unpublished_data") and _target(state) != "model":
+        emit(UNPUBLISHED_NOTE)  # the closest datasets still follow
 
     finish: dict[str, Any] = {}
     wrote: list[str] = []  # the writer's lines only, [[조합]] part included so a replay splits the same way
@@ -1198,6 +1283,7 @@ def explain(state: State) -> State:
         "models": [model for group in state.get("models") or [] for model in group.get("models") or []],
         "datasets": state["datasets"],
     }
+    drop = unsearched_headings(_target(state), _data_kind(state))
     found = evidence["models"] or any(
         rows for rows in [state["datasets"]["project_training"], state["datasets"]["service_data"]]
     )
@@ -1208,7 +1294,7 @@ def explain(state: State) -> State:
         key = _answer_key(payload) if configurable.get("thread_id") else None
         cached = _cached_answer(key) if key else None
         if cached is not None:  # same input within the hour: replay it, no writer call
-            for line in cached:
+            for line in without_sections(cached, drop):
                 take(line)
             record["writer"] = "cache"
             raise _NothingToExplain
@@ -1227,7 +1313,7 @@ def explain(state: State) -> State:
         )
         # Validate complete lines before publishing them: post-generation cleanup would be too late
         # for SSE clients, and dates may be split across token chunks.
-        for line in safe_lines(grounded_lines(deltas(stream), evidence), evidence, record):
+        for line in without_sections(safe_lines(grounded_lines(deltas(stream), evidence), evidence, record), drop):
             take(line)
         if key and finish.get("finish_reason") == "stop":  # only a whole answer is worth replaying
             _remember_answer(key, wrote)
