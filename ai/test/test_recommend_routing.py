@@ -258,6 +258,23 @@ def test_data_kind_skips_the_other_list(monkeypatch, kind, training, service):
     assert calls.count("training") == training and calls.count("service") == service
 
 
+def test_sft_task_joins_the_training_data_terms(monkeypatch):
+    seen = {}
+
+    def rank(concepts, roles=None, **kw):
+        seen["service" if roles else "training"] = concepts
+        return []
+
+    monkeypatch.setattr(graph17, "rank_datasets", rank)
+    monkeypatch.setattr(graph17, "embed_query", lambda text: None)
+    monkeypatch.setattr(graph17, "concepts_from_terms", lambda terms: terms)
+    plan = {"constraints": {}, "dataset_terms": ["상담"], "dataset_query": "상담",
+            "needs": [{"task": "text-generation"}], "fine_tuning": {"task": "text-classification"}}
+    graph17.search_project_datasets({"plan": plan, "route": {"target": "both"}})
+    assert seen["training"] == ["상담", "text-generation", "text-classification"]
+    assert seen["service"] == ["상담"]  # service data stays on the domain terms alone
+
+
 def test_service_wording_is_not_an_only_marker():
     assert graph17._side_change("모델 만들고 싶어", "dataset") is None
 
@@ -448,6 +465,17 @@ def test_delegation_fills_unknown_slots_with_both_and_skips_planning_questions(m
     assert turn("알아서 해줘", resume=True) == []  # the planner's question is skipped too
     assert ran["decompose"] == ["both"]
     assert graph.get_state(config).values["route"]["status"] == "default"
+
+
+@pytest.mark.parametrize("answer", ["몰라", "모르겠어요", "글쎄요"])
+def test_dont_know_searches_both_but_keeps_the_planning_question(monkeypatch, answer):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [["단어장 앱에서 AI가 어떤 일을 하나요?"], []])
+    assert turn("단어장 앱을 만들고 싶어") == [graph17.TARGET_QUESTION]
+    assert turn(answer, resume=True) == ["단어장 앱에서 AI가 어떤 일을 하나요?"]
+    assert ran["decompose"] == ["both"]
+    assert turn("발음 듣기", resume=True) == []
+    assert ran["searches"] == {"classify_model_query", "search_models", "search_project_datasets"}
 
 
 def test_planning_questions_loop_until_none_left(monkeypatch):

@@ -358,6 +358,9 @@ clarifying_questions: at most ONE short Korean question, only when the purpose o
   A "조건:" line (language, runtime, commercial use) is a setting the app appends, never a purpose: when the user
   says nothing about what the project does or its domain ("뭔가 만들고 싶어" plus only such a line, or an answer
   that only picks models/data), ask what the project should do. Never invent a project the user did not describe.
+  When search_target is model or both and the idea names an app but no job for AI in it ("단어장 앱을 만들고 싶어",
+  "할 일을 입력하고 완료 표시하는 투두리스트 앱"), never invent one: ask what AI should do in the app, with two or
+  three short examples (e.g. "단어장 앱에서 AI가 어떤 일을 하나요? 예: 발음 듣기, 사진 속 단어 인식, 예문 만들기").
   Never ask about GPU, VRAM, parameter counts, file formats, or commercial use just because they are unstated.
   Missing GPU means null (no memory filter), missing commercial use means false (no commercial-only filter).
   If the user says they do not know or asks to proceed with defaults, make a broad best-effort plan and return [].
@@ -627,6 +630,8 @@ _DONT_KNOW = (r"(?:모르겠(?:어요?|습니다|네요|다)|몰라요?|모름|�
 _ACT = (r"(?:(?:알아서|기본값으로|아무거나|대충)?"
         r"(?:해줘|해주세요|해|추천해줘|추천해주세요|진행해줘|진행해주세요|검색해줘|찾아줘|찾아주세요)|알아서|기본값으로|기본값)")
 DELEGATE_RE = re.compile(rf"{_FILLER}(?:{_DONT_KNOW}{_FILLER}{_ACT}?|{_ACT})")
+# "몰라" to the model/data question settles only that slot; the planner may still ask what the project does.
+DONT_KNOW_RE = re.compile(rf"{_FILLER}{_DONT_KNOW}{_FILLER}")
 
 
 def _side_change(text, old_target):
@@ -924,10 +929,7 @@ def search_models(state: State) -> State:
 
     # Needs are independent searches (one DB round trip each); run them side by side, the SFT one too.
     jobs = [(need, False) for need in state["plan"]["needs"]]
-    fine_tuning = state["plan"].get("fine_tuning") or []  # older checkpoints: no key, None, or one dict
-    if isinstance(fine_tuning, dict):
-        fine_tuning = [fine_tuning]
-    jobs += [(need, True) for need in fine_tuning[:MAX_FINE_TUNING]]
+    jobs += [(need, True) for need in _fine_tuning(state["plan"])]
     with ThreadPoolExecutor(max_workers=MAX_NEEDS + MAX_FINE_TUNING) as pool:
         groups = list(pool.map(lambda job: one(*job), jobs))
     # An SFT group with no trainable model is left out rather than shown empty.
@@ -952,11 +954,17 @@ def _compact_dataset(row):
     }
 
 
+def _fine_tuning(plan: dict) -> list:
+    fine_tuning = plan.get("fine_tuning") or []  # older checkpoints: no key, None, or one dict
+    return ([fine_tuning] if isinstance(fine_tuning, dict) else fine_tuning)[:MAX_FINE_TUNING]
+
+
 def search_project_datasets(state: State) -> State:
     """Project training sets and service data; needs only the plan, so it runs beside the model search."""
     plan = state["plan"]
     commercial = constraints_of(plan)["commercial_only"]
-    terms = plan["dataset_terms"] + [need["task"] for need in plan["needs"]]
+    # SFT roles' tasks too, so training data also matches a role the needs do not cover.
+    terms = plan["dataset_terms"] + list(dict.fromkeys(need["task"] for need in [*plan["needs"], *_fine_tuning(plan)]))
     query_vector = embed_query(plan["dataset_query"])
     kind = _data_kind(state)  # "공공데이터만" / "학습 데이터만" leaves the other list unsearched
     with ThreadPoolExecutor(max_workers=2) as pool:
@@ -1082,7 +1090,7 @@ def clarify(state: State) -> State:
     if not (delegated or side or slotted):
         request = out["request"] = f"{request}\n(질문) {question}\n(답변) {answer}"
     if delegated:
-        asking["done"] = True
+        asking["done"] = not (unclear and DONT_KNOW_RE.fullmatch(_compact(answer)))
         if unclear:
             out["route"] = _settled_route(state.get("route") or {})
         else:
