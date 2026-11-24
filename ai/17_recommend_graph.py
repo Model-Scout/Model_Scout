@@ -234,6 +234,8 @@ class ProjectPlan(BaseModel):
     dataset_terms: list[str]
     dataset_query: str
     clarifying_questions: list[str]
+    # The request needs data portals do not publish: the app says so, then shows the closest datasets anyway.
+    unpublished_data: bool = False
 
 
 class State(TypedDict, total=False):
@@ -344,6 +346,13 @@ dataset_query: one Korean sentence describing the data itself (what it records),
   ("찾아줘", "필요해", "데이터셋").
 search_target is what the user wants to find. For dataset: needs is [] (never invent
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
+unpublished_data: true only when the data the user asks for is a kind public portals do not publish: records about
+  specific people (개인별 신용점수·대출 이력, 진료 기록), a private company's or platform's own data (유튜브 댓글·조회수,
+  민간 주차장 실시간 잔여면), foreign markets or other countries' own records (해외 주식 실시간 시세), or raw recordings
+  and media files (층간소음 녹음 파일). False for anything
+  government agencies collect or publish (주유소 가격, 날씨 예보, 주차장 위치·요금, 대피소, 공공 통계).
+  Judge the data itself: asking for it as 공공데이터 does not make it published ("유튜브 댓글 공공데이터 있어?" is true).
+  When it is true, ask no clarifying question about it: the app says so and shows the closest data.
 clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
   to search meaningfully. This applies to follow-up messages too; use previous_plan to resolve context first.
   A "조건:" line (language, runtime, commercial use) is a setting the app appends, never a purpose: when the user
@@ -364,7 +373,8 @@ COMBINATION_MARKER = "[[조합]]"
 
 EXPLAIN_PROMPT = """You are Model Scout. The client already shows every retrieved model and dataset as
 cards, so write a short, skimmable Korean markdown briefing (no JSON, no code blocks, at most 350 words) using ONLY
-the JSON given. Never write paragraphs; use exactly this layout for each need, in order:
+the JSON given. Never write paragraphs; use exactly this layout for each models group (one per need), in order,
+and none at all when models is empty or absent (never build this table from datasets):
 ### 1. <need.purpose_ko>
 <one short sentence (under 40 characters) saying why the top model fits>
 
@@ -406,17 +416,13 @@ condition but may serve as a partial alternative: present it so, never as meetin
 preferences are what the user wants first or shown apart, never exclusions; inferred_needs are inferences.
 facts.conflicts means the official and the collected description disagree (e.g. two coordinate systems): name both
 and say which one applies is not confirmed; never present one of them as the fact.
-search_target says what the user asked to find: for "dataset" write nothing about models, for "model" write
-nothing about datasets (those lists were not searched, so never call them empty). search_data_kind "service"
-means only service data was searched: leave out the 프로젝트 학습·평가 데이터 heading; "training" means only
-training data was searched: leave out the 서비스 데이터 heading. A need with "unsupported": true
+search_target says what the user asked to find: for "dataset" write nothing about models and no ### 1. need
+section or 구분/이름/설명 table (start with the data headings), for "model" write nothing about datasets (those
+lists were not searched, so never call them empty). search_data_kind "service" means only service data was
+searched: leave out the 프로젝트 학습·평가 데이터 heading entirely (never write it with "해당 없음"); "training"
+means only training data was searched: leave out the 서비스 데이터 heading entirely. A need with "unsupported": true
 is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
-Otherwise, if a list is empty, say so and what to search instead. When a list is not empty but none of its top
-datasets holds what the request asks for (whose data it is, e.g. per-person or private-company records; its
-scope, e.g. nationwide or overseas; or its kind, e.g. platform data like YouTube comments), still list the top 3,
-but start that heading's section with one line saying no dataset matching the request exactly was found
-("요청에 딱 맞는 공공데이터는 찾지 못했어요. 가까운 데이터는 아래와 같아요.") and give each one's gap in its reason.
-Never say this when a top dataset does hold the requested data. If models were requested and GPU memory is null,
+Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
 briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
 for GPU specs. If search_target_defaulted is true, make the broad search assumption clear.
 Never invent collection dates, update dates, coverage periods or knowledge cutoffs. Mention a date only when
@@ -1184,6 +1190,34 @@ def _judge_conditions(rows, conditions, commercial_only, facts):
         row["condition_checks"], row["partial_alternative"] = verdict["checks"], verdict["partial_alternative"]
 
 
+UNPUBLISHED_NOTE = "요청에 딱 맞는 공공데이터는 찾지 못했어요. 가까운 데이터는 아래와 같아요.\n\n"
+TRAINING_HEADING, SERVICE_HEADING = "### 프로젝트 학습·평가 데이터", "### 서비스 데이터"
+NEED_HEADING_RE = re.compile(r"###\s*\d+\.")
+
+
+def unsearched_headings(target, kind):
+    """Answer sections for lists this turn did not search: the writer adds them ("해당 없음") despite the prompt."""
+    drop = []
+    if target == "model" or kind == "service":
+        drop.append(TRAINING_HEADING)
+    if target == "model" or kind == "training":
+        drop.append(SERVICE_HEADING)
+    if target == "dataset":  # no models were searched, so a "### 1." need table can only be built from datasets
+        drop.append(NEED_HEADING_RE)
+    return drop
+
+
+def without_sections(lines, drop):
+    """Skip each section whose heading is in drop, up to the next ### heading or the [[조합]] marker."""
+    skipping = False
+    for line in lines:
+        text = line.lstrip()
+        if text.startswith("###") or COMBINATION_MARKER in line:
+            skipping = any(re.match(h, text) if isinstance(h, re.Pattern) else text.startswith(h) for h in drop)
+        if not skipping:
+            yield line
+
+
 def explain(state: State) -> State:
     payload = {k: state[k] for k in ("request", "plan", "models", "datasets", "assessment")}
     if state.get("data_conditions"):
@@ -1213,6 +1247,8 @@ def explain(state: State) -> State:
     if failed:  # said first and by the app: an empty list after a failed search is not "nothing found"
         record["search_errors"] = sorted(failed)
         emit(search_failure_note(failed, trace_id))
+    if state["plan"].get("unpublished_data") and _target(state) != "model":
+        emit(UNPUBLISHED_NOTE)  # the closest datasets still follow
 
     finish: dict[str, Any] = {}
     wrote: list[str] = []  # the writer's lines only, [[조합]] part included so a replay splits the same way
@@ -1247,6 +1283,7 @@ def explain(state: State) -> State:
         "models": [model for group in state.get("models") or [] for model in group.get("models") or []],
         "datasets": state["datasets"],
     }
+    drop = unsearched_headings(_target(state), _data_kind(state))
     found = evidence["models"] or any(
         rows for rows in [state["datasets"]["project_training"], state["datasets"]["service_data"]]
     )
@@ -1257,7 +1294,7 @@ def explain(state: State) -> State:
         key = _answer_key(payload) if configurable.get("thread_id") else None
         cached = _cached_answer(key) if key else None
         if cached is not None:  # same input within the hour: replay it, no writer call
-            for line in cached:
+            for line in without_sections(cached, drop):
                 take(line)
             record["writer"] = "cache"
             raise _NothingToExplain
@@ -1276,7 +1313,7 @@ def explain(state: State) -> State:
         )
         # Validate complete lines before publishing them: post-generation cleanup would be too late
         # for SSE clients, and dates may be split across token chunks.
-        for line in safe_lines(grounded_lines(deltas(stream), evidence), evidence, record):
+        for line in without_sections(safe_lines(grounded_lines(deltas(stream), evidence), evidence, record), drop):
             take(line)
         if key and finish.get("finish_reason") == "stop":  # only a whole answer is worth replaying
             _remember_answer(key, wrote)

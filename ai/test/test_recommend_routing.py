@@ -507,3 +507,21 @@ def test_model_query_type(monkeypatch, target, rule, llm, expected):
     monkeypatch.setattr(classifier, "llm_type", fake_llm)
     state = {"request": "질문", "route": {"target": target}}
     assert graph17.classify_model_query(state) == {"model_query_type": expected}
+
+
+ANSWER = ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |", "### 프로젝트 학습·평가 데이터", "- 해당 없음", "",
+          "### 서비스 데이터 (공공데이터)", "- 주유소 데이터", "[[조합]]", "주유소 데이터로 앱을 만들어요."]
+
+
+@pytest.mark.parametrize(
+    "target,kind,kept",
+    [
+        ("dataset", "service", ["### 서비스 데이터 (공공데이터)", "- 주유소 데이터"]),
+        ("dataset", "training", ["### 프로젝트 학습·평가 데이터", "- 해당 없음", ""]),
+        ("model", "unknown", ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |"]),
+        ("both", "unknown", ANSWER[:7]),
+    ],
+)
+def test_unsearched_sections_are_dropped(target, kind, kept):
+    lines = list(graph17.without_sections(ANSWER, graph17.unsearched_headings(target, kind)))
+    assert lines == [*kept, "[[조합]]", "주유소 데이터로 앱을 만들어요."]
