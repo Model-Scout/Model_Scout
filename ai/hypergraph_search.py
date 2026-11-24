@@ -94,7 +94,8 @@ KEYWORD_BONUS, KEYWORD_BONUS_CAP = 1.0, 2.0
 REGION_MATCH_BONUS, REGION_MISMATCH_PENALTY = 1.5, -3.0
 # Words in many titles across topics ("버스 위치", "가로수 위치"): they say nothing about the topic.
 # shortcut: hand-picked list; grow it when a generic planner term pulls in off-topic titles.
-GENERIC_TERMS = {"위치", "가격", "요금", "정보", "현황", "목록", "데이터", "공공데이터", "api", "csv", "서비스", "통계"}
+GENERIC_TERMS = {"위치", "가격", "요금", "정보", "현황", "목록", "데이터", "공공데이터", "api", "csv", "서비스", "통계",
+                 "지역", "실시간"}
 REGIONS = (
     "서울",
     "부산",
@@ -507,6 +508,15 @@ def concepts_from_terms(terms):
     return found
 
 
+_REGION_SUFFIX = re.compile(r"(?:특별자치시|특별자치도|특별시|광역시|시|도)$")
+
+
+def region_of(word):
+    """Canonical region a typed word names ("서울시", "경기도", "충청북도" -> 서울, 경기, 충북), else None."""
+    base = word if word in REGIONS else _REGION_SUFFIX.sub("", word)
+    return REGION_CANON.get(base, base) if base in REGIONS else None
+
+
 def dataset_regions(entity):
     """Regions a dataset is about, from its source and title; empty for national data."""
     if entity.get("source") == "seoul_open_data":
@@ -518,7 +528,7 @@ def dataset_regions(entity):
 def title_topic_words(entity, keywords):
     """Typed topic words (not regions, not generic words) found in the dataset title."""
     title = (entity.get("title") or entity["name"]).casefold()
-    return [k for k in keywords if k not in REGIONS and len(k) >= 2 and k.casefold() not in GENERIC_TERMS
+    return [k for k in keywords if not region_of(k) and len(k) >= 2 and k.casefold() not in GENERIC_TERMS
             and k.casefold() in title]
 
 
@@ -527,7 +537,7 @@ def keyword_score(entity, keywords, on_topic=False):
     on_topic: the dense match already says the topic fits, for titles that word it differently (대기오염 for 미세먼지)."""
     if not keywords:
         return 0.0, []
-    wanted = {REGION_CANON.get(k, k) for k in keywords if k in REGIONS}
+    wanted = {region_of(k) for k in keywords} - {None}
     found = title_topic_words(entity, keywords)
     score, reasons = min(KEYWORD_BONUS * len(found), KEYWORD_BONUS_CAP), [f"'{k}' 일치" for k in found]
     regions = dataset_regions(entity)

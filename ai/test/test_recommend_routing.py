@@ -191,6 +191,28 @@ def test_a_named_data_kind_goes_to_the_llm(text):
     assert graph17._side_change(text, "both") is None
 
 
+@pytest.mark.parametrize(
+    "text,expected",
+    [
+        ("공공데이터만 보여줘", ("dataset", "service")),
+        ("모델은 빼고 공공데이터만", ("dataset", "service")),
+        ("API만 있으면 돼", ("dataset", "service")),
+        ("학습 데이터만 다시 찾아줘", ("dataset", "training")),
+        ("학습용 데이터만", ("dataset", "training")),
+        ("Kaggle만", ("dataset", "training")),
+        ("모델이랑 공공데이터만 다시", ("both", "service")),
+    ],
+)
+def test_one_data_kind_only_drops_the_models_by_rule(text, expected):
+    target, by, kind = graph17.follow_up_target(text, "both")
+    assert (target, kind, by) == (*expected, "rule")
+
+
+@pytest.mark.parametrize("text", ["모델 데이터만 필요해", "공공데이터도 보여줘", "학습 데이터 충분한 모델 찾아줘"])
+def test_kind_only_rule_needs_only(text):
+    assert graph17._kind_only(text) is None
+
+
 def test_public_data_only_follow_up_narrows_the_data_kind(monkeypatch):
     monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult(
         "dataset", "ok", "llm", 1.0, intent={"scope": "project", "model": "no", "data": "yes", "data_kind": "service"}))

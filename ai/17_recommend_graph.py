@@ -335,8 +335,13 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   exclude_gated: true only if they say 승인 없이/신청 없이/바로 다운로드/gated 제외, else false.
 dataset_terms: 1-5 short words for the project's data domain, input length and, if the user named one, the region
   (e.g. 교통, 따릉이, 서울, 장문, legal). Keep proper nouns as written; they are matched against dataset titles.
-  Topic words only: never generic words such as 위치, 가격, 정보, 현황, 목록, 데이터, 공공데이터, API, CSV.
-dataset_query: one Korean sentence describing the data the project needs.
+  Topic words only: never generic words such as 위치, 가격, 정보, 현황, 목록, 지역, 실시간, 데이터, 공공데이터, API, CSV.
+  Prefer the words official data titles use (야간 약국 -> 당번약국, 동네 날씨 -> 동네예보, 식당 위생 -> 위생등급,
+  음식 칼로리 -> 영양성분) over the user's everyday words, and never add when or by whom the app is used
+  (출퇴근, 주말, 다이어트, 부모).
+  Region: only one the user named, as a short name (서울, 부산, 경기, 충북), never 서울시; no region when they named none.
+dataset_query: one Korean sentence describing the data itself (what it records), with no request words
+  ("찾아줘", "필요해", "데이터셋").
 search_target is what the user wants to find. For dataset: needs is [] (never invent
   model roles) and dataset_query describes only the data they asked for. For model or both: plan needs as above.
 clarifying_questions: at most ONE short Korean question, only when the purpose or required data is too vague
@@ -406,7 +411,12 @@ nothing about datasets (those lists were not searched, so never call them empty)
 means only service data was searched: leave out the 프로젝트 학습·평가 데이터 heading; "training" means only
 training data was searched: leave out the 서비스 데이터 heading. A need with "unsupported": true
 is a task Model Scout does not collect models for: say so plainly and never suggest an unrelated model for it.
-Otherwise, if a list is empty, say so and what to search instead. If models were requested and GPU memory is null,
+Otherwise, if a list is empty, say so and what to search instead. When a list is not empty but none of its top
+datasets holds what the request asks for (whose data it is, e.g. per-person or private-company records; its
+scope, e.g. nationwide or overseas; or its kind, e.g. platform data like YouTube comments), still list the top 3,
+but start that heading's section with one line saying no dataset matching the request exactly was found
+("요청에 딱 맞는 공공데이터는 찾지 못했어요. 가까운 데이터는 아래와 같아요.") and give each one's gap in its reason.
+Never say this when a top dataset does hold the requested data. If models were requested and GPU memory is null,
 briefly say the execution environment is unspecified and GPU compatibility is not confirmed; do not ask the user
 for GPU specs. If search_target_defaulted is true, make the broad search assumption clear.
 Never invent collection dates, update dates, coverage periods or knowledge cutoffs. Mention a date only when
@@ -580,6 +590,13 @@ DROP_RE = {
 TARGET_SIDES = {"model": {"model"}, "dataset": {"dataset"}, "both": {"model", "dataset"}}
 # A named kind of data ("공공데이터만", "학습 데이터만") is more than a side: the rules would drop it, so the LLM reads it.
 DATA_KIND_RE = re.compile(r"공공|열린\s*데이터|포털|학습|훈련|평가|서비스\s*데이터|api|kaggle|캐글|허깅|hf|데이터셋", re.I)
+# "공공데이터만", "학습 데이터만", "API만": only that kind of data, so a follow-up drops the models too.
+KIND_ONLY_RE = {
+    "service": re.compile(r"(?:공공|열린\s*데이터|포털|서비스\s*데이터|api)\s*(?:데이터)?\s*만(?!들)", re.I),
+    "training": re.compile(
+        r"(?:(?:학습|훈련|평가)\s*(?:용\s*)?(?:데이터셋|데이터)|kaggle|캐글|허깅\S*|hf|데이터셋)\s*(?:데이터셋|데이터)?\s*만(?!들)", re.I
+    ),
+}
 
 
 # NFKC turns compatibility jamo (ㅎ) into conjoining jamo, so the strip set is normalized the same way.
@@ -625,6 +642,16 @@ def _side_change(text, old_target):
     return "both" if len(keep) == 2 else keep.pop()
 
 
+def _kind_only(text):
+    """(target, data_kind) for a follow-up asking for one kind of data only, else None. Models stay only when the
+    follow-up still asks for them ("모델이랑 공공데이터만"); "모델 데이터만" names no kind and goes to the LLM."""
+    kinds = [kind for kind, rx in KIND_ONLY_RE.items() if rx.search(text)]
+    if len(kinds) != 1:
+        return None
+    keep_model = re.search(SIDE_WORDS["model"], text, re.I) and not DROP_RE["model"].search(text)
+    return ("both" if keep_model else "dataset"), kinds[0]
+
+
 def _follow_up_by_llm(text, old_target):
     """Follow-up target when no rule fired. The multi-turn LLM judge (add / replace / keep, given the
     earlier target) replaces this body; golden/labels/follow_up_routing.jsonl rows with by=llm are its cases.
@@ -642,6 +669,8 @@ def _follow_up_by_llm(text, old_target):
 def follow_up_target(text, old_target):
     """(target, decided_by, data_kind) for a follow-up: an explicit change by rule, needing no LLM call, else
     the LLM. data_kind "unknown" means the follow-up named no kind of data, so the earlier one stays."""
+    if only := _kind_only(text):
+        return only[0], "rule", only[1]
     changed = _side_change(text, old_target)
     if changed:
         return changed, "rule", "unknown"
