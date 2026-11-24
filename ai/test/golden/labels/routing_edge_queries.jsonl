@@ -25,17 +25,17 @@
 {"id": "r025", "text": "추천해줘", "target": "needs_clarification", "note": ""}
 {"id": "r026", "text": "Kaggle에서 뭐 괜찮은 거 있어?", "target": "needs_clarification", "note": "플랫폼명만"}
 {"id": "r027", "text": "이거 쓸만한 거 있어?", "target": "needs_clarification", "note": ""}
-{"id": "r028", "text": "오늘 날씨 어때?", "target": "needs_clarification", "note": "검색 범위 밖"}
-{"id": "r029", "text": "파이썬 리스트 정렬하는 법 알려줘", "target": "needs_clarification", "note": "검색 범위 밖"}
-{"id": "r030", "text": "따릉이 경로 추천 서비스를 만들고 싶어", "target": "both", "note": "구체적인 서비스 아이디어는 모델·데이터 함께 검토"}
-{"id": "r031", "text": "따릉이 수요 예측 앱을 만들고 싶어", "target": "both", "note": "모델·데이터를 명시하지 않은 서비스 아이디어"}
+{"id": "r028", "text": "오늘 날씨 어때?", "target": "out_of_scope", "note": "검색 범위 밖: 앱에게 지금 날씨를 알려 달라는 요청"}
+{"id": "r029", "text": "파이썬 리스트 정렬하는 법 알려줘", "target": "out_of_scope", "note": "검색 범위 밖: 일반 코딩 질문"}
+{"id": "r030", "text": "따릉이 경로 추천 서비스를 만들고 싶어", "target": "needs_clarification", "note": "찾을 것을 말하지 않은 서비스 아이디어: 모델·데이터 중 무엇이 필요한지 되묻기"}
+{"id": "r031", "text": "따릉이 수요 예측 앱을 만들고 싶어", "target": "needs_clarification", "note": "모델·데이터를 명시하지 않은 서비스 아이디어: 되묻기"}
 {"id": "r032", "text": "주차장 위치와 요금을 알려주는 서비스를 만들고 싶어", "target": "both", "note": "모델 필요 여부와 검색 대상 검토를 구분"}
 {"id": "r033", "text": "병원 위치를 안내하는 앱을 만들려고 해", "target": "both", "note": "다른 도메인 서비스 아이디어"}
-{"id": "r034", "text": "고객 리뷰를 분석하는 시스템을 구축하고 싶어", "target": "both", "note": "시스템 구축 아이디어"}
+{"id": "r034", "text": "고객 리뷰를 분석하는 시스템을 구축하고 싶어", "target": "needs_clarification", "note": "시스템 구축 아이디어, 찾을 것 미정: 되묻기"}
 {"id": "r035", "text": "따릉이 대여소 데이터 찾아줘", "target": "dataset", "note": "데이터 명시 요청 유지"}
 {"id": "r036", "text": "따릉이 수요 예측 모델 찾아줘", "target": "model", "note": "모델 명시 요청 유지"}
 {"id": "r037", "text": "따릉이 앱에 쓸 대여소 데이터 찾아줘", "target": "dataset", "note": "서비스는 배경이고 데이터가 검색 대상"}
 {"id": "r038", "text": "따릉이 앱용 모델만 추천해줘. 데이터는 이미 있어", "target": "model", "note": "명시한 단일 대상이 서비스 기본 정책보다 우선"}
 {"id": "r039", "text": "따릉이 앱을 만들 건데 모델 말고 데이터만 찾아줘", "target": "dataset", "note": "모델 검색을 명시적으로 제외"}
 {"id": "r040", "text": "따릉이 수요 예측 모델 학습에 쓸 데이터가 필요해", "target": "dataset", "note": "모델 학습은 데이터 용도"}
-{"id": "r041", "text": "파이썬으로 지도 마커를 표시하는 코드 작성해줘", "target": "needs_clarification", "note": "서비스 구현 코드 요청은 리소스 검색 범위 밖"}
+{"id": "r041", "text": "파이썬으로 지도 마커를 표시하는 코드 작성해줘", "target": "out_of_scope", "note": "서비스 구현 코드 요청은 리소스 검색 범위 밖(프롬프트 예시와 같음)"}
