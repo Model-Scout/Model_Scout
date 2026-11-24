@@ -42,6 +42,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from pydantic import model_validator
 from typing import Literal
+import injection_check
 from recommendation_question import stream_question
 
 ROOT = Path(__file__).resolve().parent
@@ -231,6 +232,7 @@ def recommend(body: RecommendRequest):
     if guarded.masked_types or guarded.injection_signals:
         logging.info("input guard masked=%s signals=%s", guarded.masked_types, guarded.injection_signals)
     reason = security_reason(body.query)
+    injection_check.shadow(body.query, body.thread_id, body.mode, reason)  # both modes; logs only
     if reason:
         logging.info("security blocked=%s", reason)
         return StreamingResponse(

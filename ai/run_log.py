@@ -81,6 +81,7 @@ def _pct(values, q):
 def summary(records) -> dict:
     explains = [r for r in records if r["event"] == "explain"]
     assesses = [r for r in records if r["event"] == "assess"]
+    checks = [r for r in records if r["event"] == "injection_check"]
     n = len(explains)
 
     def rate(test):
@@ -117,6 +118,12 @@ def summary(records) -> dict:
         "license_verdicts": _count(r.get("license", {}).get("verdict") for r in assesses),
         "prompts": _count(r.get("prompt") for r in explains),
         "errors": _count(r["error"].split(":")[0] for r in explains if r.get("error")),
+        # Shadow classifier: "flagged_rule_passed" are the inputs to review before it may block anything.
+        "injection_check": {
+            "labels": _count(r.get("label") for r in checks),
+            "flagged_rule_passed": sum(1 for r in checks if r.get("label") == "injection" and not r.get("rule")),
+            "ms": {"p50": _pct([r.get("ms") for r in checks], 0.5), "p95": _pct([r.get("ms") for r in checks], 0.95)},
+        },
     }
 
 
