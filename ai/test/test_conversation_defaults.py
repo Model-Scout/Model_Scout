@@ -106,5 +106,6 @@ def test_constraint_mentions_handle_korean_particles_and_words():
     import re
     params, gpu = rg.CONSTRAINT_MENTIONS["max_parameter_count_billion"], rg.CONSTRAINT_MENTIONS["gpu_memory_gb"]
     assert all(re.search(params, s, re.I) for s in ("7B로 바꿔", "7b짜리", "7b 이하"))
+    assert not re.search(params, "EXAONE-3.5-7.8B로 바꿔", re.I)  # a size inside a model name is not a limit
     assert not re.search(gpu, "고객 상담 프로그램 만들래", re.I)
     assert re.search(gpu, "램 16기가", re.I)

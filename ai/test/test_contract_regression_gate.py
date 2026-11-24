@@ -190,7 +190,7 @@ def _validate(records: List[Dict[str, Any]], baseline: List[Dict[str, Any]] | No
         if baseline is not None:
             (folder / "old.jsonl").write_text("".join(json.dumps(r) + "\n" for r in baseline), encoding="utf-8")
             command += ["--baseline", str(folder / "old.jsonl")]
-        done = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        done = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
         return done.returncode, json.loads((folder / "summary.json").read_text(encoding="utf-8")), done.stdout
 
 
