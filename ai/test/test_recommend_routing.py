@@ -123,27 +123,33 @@ def test_llm_oos_ends_the_first_turn_without_planning(monkeypatch):
     assert state["oos"] == {"reason": "llm"} and "plan" not in state
 
 
-def test_llm_oos_never_refuses_a_follow_up(monkeypatch):
-    monkeypatch.setattr(router, "route", routed("out_of_scope", scope="oos"))
-    out = graph17.route({"request": "상업용만", "route": {"target": "dataset", "status": "ok"}})
-    assert "route" not in out and "oos" not in out
-
-
 @pytest.mark.parametrize(
-    "old,new,status,expected",
+    "old,model,data,expected",
     [
-        ("dataset", "model", "ok", "both"),  # "모델도 찾아줘" widens to both
-        ("model", "dataset", "ok", "both"),
-        ("dataset", "dataset", "ok", None),  # same side: unchanged
-        ("dataset", "needs_clarification", "ok", None),  # refinement ("상업용만"): unchanged
-        ("dataset", None, "error", None),  # router down: unchanged, not widened to both
-        ("both", "model", "ok", None),  # never narrows
+        ("dataset", "yes", "unknown", "both"),
+        ("model", "unknown", "yes", "both"),
+        ("dataset", "no", "yes", None),
+        ("dataset", "unknown", "unknown", None),
+        ("both", "yes", "no", "model"),
     ],
 )
-def test_follow_up_reroutes_and_only_widens(monkeypatch, old, new, status, expected):
-    monkeypatch.setattr(router, "route", lambda text, use_cache: router.RoutingResult(new, status, "llm", 1.0))
+def test_follow_up_applies_contextual_slots(monkeypatch, old, model, data, expected):
+    monkeypatch.setattr(router, "follow_up", lambda *a: follow_up_intent(model, data))
     out = graph17.route({"request": "x", "route": {"target": old, "status": "ok"}})
     assert out.get("route", {}).get("target") == expected
+
+
+def follow_up_intent(model="unknown", data="unknown", kind="unknown", new=False, scope="project"):
+    return router.FollowUpIntent(scope=scope, model=model, data=data, data_kind=kind, new_request=new)
+
+
+def test_failed_follow_up_classifier_keeps_the_previous_target(monkeypatch):
+    def unavailable(*args, **kwargs):
+        raise RuntimeError("unavailable")
+
+    monkeypatch.setattr(classifier, "_call_llm", unavailable)
+    out = graph17.route({"request": "상업용만", "route": {"target": "dataset", "data_kind": "service"}})
+    assert "route" not in out and "oos" not in out
 
 
 @pytest.mark.parametrize(
@@ -160,7 +166,7 @@ def test_follow_up_reroutes_and_only_widens(monkeypatch, old, new, status, expec
     ],
 )
 def test_follow_up_explicit_change_replaces_target(monkeypatch, old, text, expected):
-    monkeypatch.setattr(router, "route", _no_search)  # explicit wording needs no router call
+    monkeypatch.setattr(router, "follow_up", _no_search)
     out = graph17.route({"request": text, "route": {"target": old, "status": "ok"}})
     assert out.get("route", {}).get("target") == expected
 
@@ -173,16 +179,24 @@ FOLLOW_UPS = [
 
 
 @pytest.mark.parametrize("row", FOLLOW_UPS, ids=[r["id"] for r in FOLLOW_UPS])
-def test_follow_up_golden_split_between_rule_and_llm(monkeypatch, row):
-    """by=rule rows are decided without an LLM; by=llm rows must reach the LLM path (its future eval set)."""
+def test_follow_up_golden_resolves_target(monkeypatch, row):
+    """Exercise the graph routing contract with a mocked structured model response."""
     asked = []
-    monkeypatch.setattr(graph17, "_follow_up_by_llm", lambda text, old: asked.append(text) or (old, "unknown"))
-    target, decided_by, _ = graph17.follow_up_target(row["text"], row["previous"])
-    assert decided_by == row["by"]
-    if row["by"] == "rule":
-        assert target == row["target"] and not asked
-    else:
-        assert asked == [row["text"]]
+
+    def classify(text, model, *, prompt, schema):
+        assert schema is router.FollowUpIntent and prompt == router.FOLLOW_UP_PROMPT
+        payload = json.loads(text)
+        asked.append(payload["message"])
+        assert payload["previous_target"] == row["previous"]
+        sides = graph17.TARGET_SIDES[row["target"]]
+        return follow_up_intent("yes" if "model" in sides else "no",
+                                "yes" if "dataset" in sides else "no").model_dump()
+
+    monkeypatch.setattr(classifier, "_call_llm", classify)
+    old = graph17._route_for(row["previous"])
+    out = graph17.route({"request": row["text"], "route": old})
+    assert out.get("route", old)["target"] == row["target"]
+    assert asked == ([row["text"]] if row["by"] == "llm" else [])
 
 
 @pytest.mark.parametrize("text", ["공공데이터만", "공공 데이터만 필요해", "학습 데이터만 찾아줘", "데이터셋만", "API만 있으면 돼",
@@ -204,8 +218,8 @@ def test_a_named_data_kind_goes_to_the_llm(text):
     ],
 )
 def test_one_data_kind_only_drops_the_models_by_rule(text, expected):
-    target, by, kind = graph17.follow_up_target(text, "both")
-    assert (target, kind, by) == (*expected, "rule")
+    out = graph17.route({"request": text, "route": {"target": "both"}})["route"]
+    assert (out["target"], out["data_kind"]) == expected
 
 
 @pytest.mark.parametrize("text", ["모델 데이터만 필요해", "공공데이터도 보여줘", "학습 데이터 충분한 모델 찾아줘"])
@@ -221,9 +235,90 @@ def test_public_data_only_follow_up_narrows_the_data_kind(monkeypatch):
 
 
 def test_refinement_keeps_the_earlier_data_kind(monkeypatch):
-    monkeypatch.setattr(router, "route", routed("needs_clarification", model="unknown", data="unknown"))
+    monkeypatch.setattr(router, "follow_up", lambda *a: follow_up_intent())
     out = graph17.route({"request": "상업용만", "route": {"target": "dataset", "status": "ok", "data_kind": "service"}})
     assert "route" not in out
+
+
+def test_named_lookup_with_model_only_can_start_a_new_request(monkeypatch):
+    monkeypatch.setattr(router, "follow_up", lambda *a: follow_up_intent("yes", "no", new=True))
+    old = graph17._route_for("dataset", data_kind="service")
+    out = graph17.route({"request": "BGE 모델만 찾아서 입력 길이 알려줘", "route": old,
+                         "plan": {"summary_ko": "서울 행사 앱"}})
+    assert out["route"]["target"] == "model" and out["route"]["data_kind"] == "unknown"
+    assert out["plan"] is None
+
+
+def test_multiturn_search_resets_projects_narrows_and_recovers_from_oos(monkeypatch):
+    from langgraph.checkpoint.memory import InMemorySaver
+
+    first = "서울 행사 앱에 쓸 모델과 공공데이터를 찾아줘. GPU 8GB야"
+    narrow = "이제 데이터 쪽을 더 자세히 보고 싶어"
+    second = "새로 회의록 요약 앱에 쓸 모델만 찾아줘"
+    off_topic = "내일 날씨 어때?"
+    refine = "상업용만"
+    plans, searches, condition_calls, classified = [], [], [], []
+
+    monkeypatch.setattr(graph17, "_route", lambda text: graph17._route_for("both", data_kind="service"))
+
+    def follow_up(text, old, project, earlier):
+        classified.append((text, project, earlier))
+        return {
+            narrow: follow_up_intent("no", "yes"),
+            second: follow_up_intent("yes", "no", new=True),
+            off_topic: follow_up_intent(scope="oos"),
+            refine: follow_up_intent(),
+        }[text]
+
+    def planner(payload):
+        item = json.loads(payload)
+        plans.append(item)
+        text = item["user_message"]
+        return {"summary_ko": "행사 앱" if text in (first, narrow) else "회의록 앱",
+                "recommend": True, "new_request": False, "constraints": {"gpu_memory_gb": 8} if text == first else {},
+                "needs": [], "dataset_query": "", "clarifying_questions": []}
+
+    def conditions(text, earlier=None, previous=None):
+        condition_calls.append((text, previous))
+        return {"status": "ok", "region": "서울"}
+
+    def record(side):
+        return lambda state: searches.append((state["request"], side)) or {}
+
+    monkeypatch.setattr(router, "follow_up", follow_up)
+    monkeypatch.setattr(graph17, "_llm_plan", planner)
+    monkeypatch.setattr(graph17, "_first_plan", lambda text, target: graph17._parse_plan(text, target))
+    monkeypatch.setattr(graph17, "_read_conditions", conditions)
+    monkeypatch.setattr(graph17, "classify_model_query", lambda state: {})
+    monkeypatch.setattr(graph17, "search_models", record("model"))
+    monkeypatch.setattr(graph17, "search_project_datasets", record("dataset"))
+    monkeypatch.setattr(graph17, "assess", lambda state: {})
+    monkeypatch.setattr(graph17, "explain", lambda state: {"turns": [{"request": state["request"], "answer": "ok"}]})
+    graph = graph17.build_graph(checkpointer=InMemorySaver())
+    config = {"configurable": {"thread_id": "multiturn"}}
+
+    def turn(text):
+        return graph.invoke({"request": text}, config)
+
+    assert turn(first)["plan"]["constraints"]["gpu_memory_gb"] == 8
+    narrowed = turn(narrow)
+    assert (narrowed["route"]["target"], narrowed["route"]["data_kind"]) == ("dataset", "service")
+    assert narrowed["plan"]["constraints"]["gpu_memory_gb"] == 8
+    assert condition_calls == [(first, None), (narrow, {"region": "서울"})]
+    assert plans[-1]["continues_project"]
+
+    reset = turn(second)
+    assert (reset["route"]["target"], reset["route"]["data_kind"]) == ("model", "unknown")
+    assert reset["data_conditions"] is None and reset["plan"]["constraints"]["gpu_memory_gb"] is None
+    assert "previous_plan" not in plans[-1] and "earlier_requests" not in plans[-1]
+    assert turn(off_topic)["oos"] == {"reason": "llm"}
+    assert len(plans) == 3
+    resumed = turn(refine)
+    assert resumed["route"]["target"] == "model" and resumed.get("oos") is None
+    assert plans[-1]["earlier_requests"] == [second]
+    assert classified[-1] == (refine, "회의록 앱", [second])
+    assert set(searches) == {(first, "model"), (first, "dataset"), (narrow, "dataset"),
+                             (second, "model"), (refine, "model")}
 
 
 def test_slot_answer_naming_public_data_is_read_by_llm(monkeypatch):
@@ -481,6 +576,48 @@ def test_declining_the_only_open_slot_asks_what_is_needed(monkeypatch):
     graph, config, turn, ran = clarify_graph(monkeypatch, [])
     assert turn("따릉이 앱 만들 건데 모델은 있어") == [graph17.DATA_QUESTION]
     assert turn("됐어요", resume=True) == [graph17.TARGET_QUESTION]  # nothing wanted yet: ask, never search both
+
+
+def test_declining_both_after_asking_answers_that_no_ai_is_needed(monkeypatch):
+    replies = iter([("no", "unknown"), ("no", "no")])  # the opening request, then the LLM read of "아니 필요 없어"
+    def fake(text, use_cache):
+        model, data = next(replies)
+        return routed("needs_clarification", model=model, data=data)(text, use_cache)
+
+    monkeypatch.setattr(router, "route", fake)
+    monkeypatch.setattr(graph17, "_no_ai_ideas", lambda request: ["- 말로 할 일 입력하기 → 음성 인식 모델"])
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    assert turn("투두리스트 앱 만들 건데 모델은 필요 없어") == [graph17.DATA_QUESTION]
+    assert turn("됐어요", resume=True) == [graph17.TARGET_QUESTION]
+    assert turn("아니 필요 없어", resume=True) == []
+    answer = graph.get_state(config).values["answer"]
+    assert answer.startswith(graph17.NO_AI_INTRO) and "- 말로 할 일 입력하기 → 음성 인식 모델" in answer
+    assert ran["decompose"] == [] and ran["searches"] == set()  # nothing planned or searched
+
+
+def test_dont_know_after_declining_both_still_searches_both(monkeypatch):
+    monkeypatch.setattr(router, "route", routed("needs_clarification", model="no", data="unknown"))
+    graph, config, turn, ran = clarify_graph(monkeypatch, [])
+    turn("투두리스트 앱 만들 건데 모델은 필요 없어")
+    assert turn("됐어요", resume=True) == [graph17.TARGET_QUESTION]
+    assert turn("몰라", resume=True) == []
+    assert ran["searches"] == {"classify_model_query", "search_models", "search_project_datasets"}
+
+
+def test_no_ai_ideas_keep_only_lines_in_the_asked_shape(monkeypatch):
+    text = "좋아요! 아이디어예요:\n- 말로 할 일 입력하기 → 음성 인식 모델\n```python\nprint(1)\n```\n- 할 일 자동 분류 → 텍스트 분류 모델"
+    reply = type("R", (), {"choices": [type("C", (), {"message": type("M", (), {"content": text})()})()]})()
+    client = type("O", (), {"chat": type("Ch", (), {"completions": type("Co", (), {
+        "create": staticmethod(lambda **kw: reply)})()})()})()
+    monkeypatch.setattr(graph17, "_openai", lambda: client)
+    assert graph17._no_ai_ideas("투두 앱") == ["- 말로 할 일 입력하기 → 음성 인식 모델", "- 할 일 자동 분류 → 텍스트 분류 모델"]
+
+
+def test_no_ai_answers_without_ideas_when_the_call_fails(monkeypatch):
+    monkeypatch.setattr(graph17, "_no_ai_ideas", lambda request: (_ for _ in ()).throw(RuntimeError("down")))
+    monkeypatch.setattr("langgraph.config.get_stream_writer", lambda: lambda chunk: None)
+    out = graph17.no_ai({"request": "투두 앱"})
+    assert out["answer"] == graph17.NO_AI_INTRO + "\n\n" + graph17.NO_AI_OUTRO and out["no_ai"] is True
 
 
 @pytest.mark.parametrize("text", ["데이터는 괜찮아요", "네 근데 한국어로", "모델 학습용이요"])

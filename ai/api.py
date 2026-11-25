@@ -153,6 +153,7 @@ NODE_EVENTS = {
     "search_models": ("models",),
     "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
     "explain": ("combination",),
+    "no_ai": ("no_ai",),  # the answer came as tokens with no search: the backend must not read it as a rejection
 }
 
 
@@ -172,7 +173,7 @@ def stream_recommendation(graph, payload, thread_id):
                     continue
                 yield sse("status", {"node": node, "elapsed": round(time.time() - started, 2)})
                 for key in NODE_EVENTS.get(node, ()):
-                    if values and key in values:
+                    if values and key in values and (key != "oos" or values[key]):
                         yield sse(key, values[key])
         if app.state.pool is not None:
             with app.state.pool.connection() as conn:

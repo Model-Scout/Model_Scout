@@ -47,7 +47,7 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
     old_plan = plan(gpu_memory_gb=8, commercial_only=True)
     planned = []
 
-    def fake_parse(user, target, said=None, previous=None, prior_plan=None, earlier=None):
+    def fake_parse(user, target, said=None, previous=None, prior_plan=None, **kwargs):
         planned.append((user, target, said, previous, prior_plan))
         return plan(**(previous or {}))
 

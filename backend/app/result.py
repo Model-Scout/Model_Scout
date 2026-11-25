@@ -380,6 +380,8 @@ def build_done(events: dict[str, Any], group_id: UUID, answer: str, elapsed: flo
     if events.get("clarify"):
         return ChatDone(type="clarify", group_id=group_id, elapsed=elapsed,
                         answer="\n".join(events["clarify"]["questions"]))
+    if events.get("no_ai"):  # the user declined models and data: a plain notice with AI ideas, nothing searched
+        return ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer=answer)
     # A dataset-only request plans no model needs by design, so only "no needs and no datasets" is off-topic. A
     # direct question (recommend false) is always a normal answer: a lookup that found nothing still answers it.
     datasets = events.get("datasets") or {}
