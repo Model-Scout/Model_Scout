@@ -116,7 +116,7 @@ python test/public_data/judging.py import        # → labels/public_data_golden
 1차 라벨이 생긴 뒤 키가 있는 환경에서 평가를 한 번 돌리면, top 10에 나왔지만 판정되지 않은 데이터가 파일로 나온다. 이것을 워크시트 끝에 붙여 판정하고 다시 `import`한다. 이미 있는 행과 점수는 건드리지 않는다.
 
 ```bash
-python 22_eval_recommendations.py --public --unjudged-out test/public_data/reports/unjudged.jsonl
+python 22_eval_recommendations.py --public test/public_data/labels/public_data_golden.jsonl --unjudged-out test/public_data/reports/unjudged.jsonl
 python test/public_data/judging.py extend test/public_data/reports/unjudged.jsonl
 python test/public_data/judging.py import
 ```
@@ -124,10 +124,12 @@ python test/public_data/judging.py import
 ## 평가
 
 ```bash
-python 22_eval_recommendations.py --public
+python 22_eval_recommendations.py --public --corpus v2
 ```
 
-`17_recommend_graph.py`가 서비스 데이터를 찾는 것과 같은 방식으로 호출한다. 호출 형태는 `rank_datasets(dataset_terms, 질의 임베딩, roles=["service"], keywords=dataset_terms)`이다. 지역 조건은 keyword로, 상업 조건은 `commercial_only`로 넘긴다.
+기본 라벨은 최신 판정본 v9(`corpus_v2/golden_prep/batch8/labels_llm_v9.jsonl`, v2 코퍼스에서 판정)다. 2026-11-05 1차 라벨 `labels/public_data_golden.jsonl`은 판정의 출발점으로 남겨 두며, 쓰려면 `--public` 뒤에 경로를 적는다. 라벨 파일이 다른 점수는 서로 비교하지 않는다.
+
+**검색 함수는 서비스와 같고 검색 입력은 다르다.** 기본 평가는 라벨에 적힌 검색어와 질문 원문으로 검색하고, 서비스는 LLM 플래너가 만든 검색어와 문장을 쓴다. `--planner`를 붙이면 플래너 출력으로 검색하지만, 라우터를 거치지 않고 10개를 채점하므로(서비스는 6개 표시) 이것도 서비스 전체 성능은 아니다. 기본 호출 형태는 `rank_datasets(dataset_terms, 질의 임베딩, roles=["service"], keywords=dataset_terms)`이다. 지역 조건은 keyword로, 상업 조건은 `commercial_only`로 넘긴다.
 
 지표는 P@10, R@10, MRR, nDCG@10(0/1/2 등급), P2@10, MRR2이고, 각각 두 번 계산한다.
 

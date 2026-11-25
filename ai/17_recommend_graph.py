@@ -1398,7 +1398,7 @@ def search_project_datasets(state: State) -> State:
 def _rank_lists(state, terms, profile):
     plan = state["plan"]
     commercial = constraints_of(plan)["commercial_only"]
-    query_vector = embed_query(plan["dataset_query"])
+    query_vector = embed_query(plan["dataset_query"].strip() or state["request"])  # an empty input is a 400
     kind = _data_kind(state)  # "공공데이터만" / "학습 데이터만" leaves the other list unsearched
     with ThreadPoolExecutor(max_workers=2) as pool:
         project_job = kind != "service" and pool.submit(

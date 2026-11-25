@@ -1,16 +1,18 @@
 """22 - golden-set evaluation of dataset recommendation (hypergraph_search).
 
-Deterministic: no LLM, only the retrieval the graph (17) calls, so a weight or rule change can be
+Deterministic without --planner: no LLM, only the retrieval the graph (17) calls, so a weight or rule change can be
 judged by numbers before it ships. Each scenario lists datasets a reviewer would accept in the
 top 10; ids missing from the current corpus are reported and skipped, not counted as misses.
 
     python 22_eval_recommendations.py           # table + means; exit 1 if mean P@10 < --min-p10
-    python 22_eval_recommendations.py --public  # also score test/public_data/labels/public_data_golden.jsonl
-    python 22_eval_recommendations.py --public --corpus v2   # the v2 build (graph, chunks, vectors)
-    python 22_eval_recommendations.py --public --planner     # search with 17's planner output (LLM), as served
+    python 22_eval_recommendations.py --public --corpus v2            # also score the latest public labels
+    python 22_eval_recommendations.py --public --corpus v2 --planner  # search with 17's planner output (LLM)
+    python 22_eval_recommendations.py --public <labels.jsonl>         # other labels, any corpus
 
-Public-data scenarios come from the judged golden set (test/public_data/README.md) and are run
-the way 17 searches service data: dataset_terms + query vector, roles=["service"]. A judged id
+Public-data scenarios come from the judged golden set (test/public_data/README.md). They call the
+search function 17 uses for service data (roles=["service"]) but not with its input: the terms are
+the label's own and the sentence is the raw query. --planner takes both from 17's planner, still
+without the router and scoring 10 rows where the service shows 6, so neither is service quality. A judged id
 also matches its cross-listed copies (entity `duplicates`). nDCG@10 uses the 0/1/2 grades.
 Each metric is shown raw and condensed (unjudged datasets dropped from the ranking), with
 judged@10 = share of the top 10 that was judged.
@@ -149,7 +151,10 @@ EXPECTED = {
     },
 }
 K = 10
-PUBLIC_GOLDEN = Path(__file__).resolve().parent / "test" / "public_data" / "labels" / "public_data_golden.jsonl"
+# v9, judged on corpus v2. labels/public_data_golden.jsonl is the 2026-11-05 first pass: about half of today's
+# top 10 is unjudged there. Scores from different label files are not comparable.
+PUBLIC_GOLDEN = (Path(__file__).resolve().parent / "test" / "public_data" / "corpus_v2" / "golden_prep" / "batch8"
+                 / "labels_llm_v9.jsonl")
 
 
 def run(scenario):
@@ -253,6 +258,16 @@ def _metrics(top, grades, relevant):
     return hits / K, recall, mrr(1), dcg / idcg if idcg else 0.0, sum(g == 2 for g in gains) / K, mrr(2)
 
 
+def _drop_copies(top, alias):
+    """The ranking with each dataset once: a later cross-listed copy must not count as a second hit."""
+    out, seen = [], set()
+    for dataset in top:
+        if dataset not in seen:
+            out.append(dataset)
+            seen |= alias.get(dataset, {dataset})
+    return out
+
+
 def _distinct_relevant(relevant, alias):
     """Judged relevant ids with cross-listed copies merged into one entry (highest grade kept)."""
     out = {}
@@ -283,7 +298,7 @@ def evaluate_public(path, unjudged_out=None):
                 grades[name] = max(grade, grades.get(name, 0))
         excluded = {n for d in label["must_exclude"] for n in alias.get(d, {d})}
         judged = set(grades) | excluded | {n for d in label["judged_irrelevant"] for n in alias.get(d, {d})}
-        deep = _public_top(label, 3 * K)
+        deep = _drop_copies(_public_top(label, 3 * K), alias)
         top = deep[:K]
         # Held pairs ('?', pending an official check) are listed in label["unjudged"]: neither hit nor
         # miss, so they are reported apart from datasets nobody has judged yet.
@@ -350,6 +365,8 @@ def main():
     parser.add_argument("--planner", action="store_true", help="with --public: search with the planner's terms and sentence (LLM calls)")
     parser.add_argument("--corpus", choices=sorted(hs.CORPORA), help="graph + chunks + vectors to search (default: MODEL_SCOUT_CORPUS or v1)")
     args = parser.parse_args()
+    if args.public == PUBLIC_GOLDEN and (args.corpus or hs.CORPUS) != "v2":
+        parser.error("the default public labels were judged on corpus v2: add --corpus v2, or give a label file")
     # Every score names the build it came from; v2 refuses to run unless its records check out.
     identity = hs.use_corpus(args.corpus) if args.corpus else hs.corpus_identity()
     print("corpus " + json.dumps(identity, ensure_ascii=False))

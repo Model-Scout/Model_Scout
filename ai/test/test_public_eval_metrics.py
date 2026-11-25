@@ -25,3 +25,30 @@ def test_only_alternatives_score_zero_on_grade2():
 def test_cross_listed_copies_count_once():
     alias = {"a": {"a", "a2"}, "a2": {"a", "a2"}}
     assert ev._distinct_relevant({"a": 1, "a2": 2, "b": 1}, alias) == {"a": 2, "b": 1}
+
+
+def test_a_retrieved_copy_is_not_a_second_hit():
+    alias = {"a": {"a", "a2"}, "a2": {"a", "a2"}}
+    top = ev._drop_copies(["a2", "x", "a", "b"], alias)
+    assert top == ["a2", "x", "b"]
+    assert ev._metrics(top, {"a": 1, "a2": 1}, {"a": 1})[1] == 1.0  # was 2.0
+
+
+@pytest.mark.parametrize("argv, refused", [
+    (["--public"], True), (["--public", "--corpus", "v1"], True), (["--public", "--corpus", "v2"], False),
+    (["--public", "other.jsonl"], False), ([], False),
+])
+def test_default_labels_need_corpus_v2(argv, refused, monkeypatch, capsys):
+    class Passed(Exception):
+        pass
+
+    def stop(*_):
+        raise Passed
+
+    monkeypatch.setattr("sys.argv", ["22", *argv])
+    monkeypatch.setattr(ev.hs, "CORPUS", "v1")
+    monkeypatch.setattr(ev.hs, "use_corpus", stop)
+    monkeypatch.setattr(ev.hs, "corpus_identity", stop)
+    with pytest.raises(SystemExit if refused else Passed):
+        ev.main()
+    assert ("--corpus v2" in capsys.readouterr().err) == refused

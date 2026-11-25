@@ -574,7 +574,9 @@ def _embed_query(text, model):  # deterministic per text and model; repeated dem
     from openai import OpenAI
 
     load_dotenv(DATA_DIR.parent / ".env")
-    response = OpenAI(api_key=os.environ["OPENAI_API_KEY"]).embeddings.create(model=model, input=[text])
+    # The SDK waits 10 minutes by default; a stuck call must fail so the other search can still answer.
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=10.0, max_retries=1)
+    response = client.embeddings.create(model=model, input=[text])
     return response.data[0].embedding
 
 
@@ -598,6 +600,12 @@ def concepts_from_terms(terms):
 _REGION_SUFFIX = re.compile(r"(?:특별자치시|특별자치도|특별시|광역시|시|도)$")
 
 
+# Words that only contain a region's letters: 부산물 (by-product), 환경기초, 경기력, 기능경기, 경기동향 (economy),
+# 서울올림픽 (an organisation with nationwide data).
+# shortcut: hand-picked from the v2 titles; add a word when another one turns up.
+_NOT_REGION = re.compile(r"부산물|환경기초|경기력|기능경기|경기동향|서울올림픽")
+
+
 def region_of(word):
     """Canonical region a typed word names ("서울시", "경기도", "충청북도" -> 서울, 경기, 충북), else None."""
     base = word if word in REGIONS else _REGION_SUFFIX.sub("", word)
@@ -608,7 +616,7 @@ def dataset_regions(entity):
     """Regions a dataset is about, from its source and title; empty for national data."""
     if entity.get("source") == "seoul_open_data":
         return {"서울"}
-    title = entity.get("title") or ""
+    title = _NOT_REGION.sub(" ", entity.get("title") or "")
     return {REGION_CANON.get(r, r) for r in REGIONS if r in title}
 
 

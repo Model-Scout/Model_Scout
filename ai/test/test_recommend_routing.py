@@ -585,3 +585,13 @@ ANSWER = ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |", "### 프로젝트 �
 def test_unsearched_sections_are_dropped(target, kind, kept):
     lines = list(graph17.without_sections(ANSWER, graph17.unsearched_headings(target, kind)))
     assert lines == [*kept, "[[조합]]", "주유소 데이터로 앱을 만들어요."]
+
+
+@pytest.mark.parametrize("sentence, embedded", [("", "주차장 데이터"), ("  ", "주차장 데이터"), ("주차장 위치", "주차장 위치")])
+def test_an_empty_planner_sentence_falls_back_to_the_request(sentence, embedded, monkeypatch):
+    seen = []
+    monkeypatch.setattr(graph17, "embed_query", lambda text: seen.append(text) or [0.0])
+    monkeypatch.setattr(graph17, "rank_datasets", lambda *a, **k: [])
+    plan = {"constraints": {}, "needs": [], "dataset_terms": ["주차장"], "dataset_query": sentence}
+    out = graph17.search_project_datasets({"request": "주차장 데이터", "plan": plan, "route": {"target": "dataset"}})
+    assert seen == [embedded] and "search_errors" not in out
