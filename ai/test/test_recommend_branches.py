@@ -145,6 +145,8 @@ def world(monkeypatch):
     monkeypatch.setattr(rg, "_answers", {})  # the writer cache is per process; each test starts empty
     monkeypatch.setattr(router, "route", lambda text, use_cache=False: calls.update(["router"]) or router.RoutingResult(
         state["target"], "ok", "llm", 1.0, intent={"scope": "project", "model": "yes", "data": "yes"}))
+    # No follow-up LLM: the route a test passes (or the last one) stays, as when the call fails.
+    monkeypatch.setattr(router, "follow_up", lambda *args, **kwargs: None)
     state["target"] = "both"
     graph = rg.build_graph(checkpointer=InMemorySaver())
     config = {"configurable": {"thread_id": "t"}}
