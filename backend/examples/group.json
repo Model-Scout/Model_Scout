@@ -119,6 +119,7 @@
     ],
     "assessment": null,
     "combination": [],
+    "pipeline": null,
     "display": "recommendation"
   },
   "messages": [
@@ -252,6 +253,7 @@
         ],
         "assessment": null,
         "combination": [],
+        "pipeline": null,
         "display": "recommendation"
       },
       "sources": [

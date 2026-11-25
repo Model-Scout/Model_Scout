@@ -198,6 +198,17 @@
           "title": "Combination",
           "type": "array"
         },
+        "pipeline": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Pipeline"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
         "display": {
           "default": "recommendation",
           "enum": [
@@ -317,6 +328,97 @@
         "label"
       ],
       "title": "Evidence",
+      "type": "object"
+    },
+    "Pipeline": {
+      "properties": {
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/PipelineNode"
+          },
+          "maxItems": 11,
+          "minItems": 2,
+          "title": "Nodes",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/PipelineEdge"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Edges",
+          "type": "array"
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "title": "Pipeline",
+      "type": "object"
+    },
+    "PipelineEdge": {
+      "properties": {
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "maxLength": 30,
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "target"
+      ],
+      "title": "PipelineEdge",
+      "type": "object"
+    },
+    "PipelineNode": {
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9]{0,7}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "note": {
+          "default": "",
+          "maxLength": 40,
+          "title": "Note",
+          "type": "string"
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Candidate Id"
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "title": "PipelineNode",
       "type": "object"
     },
     "Source": {

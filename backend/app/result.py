@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, ValidationError, model_validator
 
 
 class Source(BaseModel):
@@ -57,6 +57,56 @@ class Candidate(BaseModel):
     group: Literal["need", "sft", "both", "lookup"] = "need"
 
 
+class PipelineNode(BaseModel):
+    id: str = Field(pattern=r"^[a-z][a-z0-9]{0,7}$")
+    label: str = Field(min_length=1, max_length=40)
+    note: str = Field(default="", max_length=40)  # a short detail line on the card
+    candidate_id: str | None = None
+
+
+class PipelineEdge(BaseModel):
+    source: str
+    target: str
+    label: str = Field(default="", max_length=30)
+
+
+class Pipeline(BaseModel):
+    nodes: list[PipelineNode] = Field(min_length=2, max_length=11)  # 9 + the optional SFT branch
+    edges: list[PipelineEdge] = Field(min_length=1, max_length=16)
+
+    @model_validator(mode="after")
+    def validate_connections(self) -> Pipeline:
+        pending = {node.id: set() for node in self.nodes}
+        if len(pending) != len(self.nodes) or not any(node.candidate_id for node in self.nodes):
+            raise ValueError("pipeline needs unique nodes and a candidate")
+        linked = set()
+        for edge in self.edges:
+            if edge.source not in pending or edge.target not in pending or edge.source in pending[edge.target]:
+                raise ValueError("pipeline edge must connect known nodes once")
+            pending[edge.target].add(edge.source)
+            linked.update((edge.source, edge.target))
+        if linked != pending.keys():
+            raise ValueError("pipeline contains an unused node")
+        while pending:
+            ready = {node for node, inputs in pending.items() if not inputs}
+            if not ready:
+                raise ValueError("pipeline contains a cycle")
+            pending = {node: inputs - ready for node, inputs in pending.items() if node not in ready}
+        return self
+
+
+def _read_pipeline(value: Any, candidates: dict[str, Candidate]) -> Pipeline | None:
+    if value is None:
+        return None
+    try:
+        pipeline = Pipeline.model_validate(value)
+    except ValidationError:
+        return None
+    if any(node.candidate_id is not None and node.candidate_id not in candidates for node in pipeline.nodes):
+        return None
+    return pipeline
+
+
 class ChatResult(BaseModel):
     title: str
     summary: list[str]
@@ -65,6 +115,7 @@ class ChatResult(BaseModel):
     assessment: dict[str, Any] | None = None
     # Plain sentences on how the picks fit together, written by the answer's own LLM call; [] on older results.
     combination: list[str] = Field(default_factory=list)
+    pipeline: Pipeline | None = None
     # How the client shows this answer: "recommendation" (chat answer + recommendation screen) or "chat" (the answer
     # only; the snapshot is kept for the history, sources and follow-up context). Older results are recommendations.
     display: Literal["recommendation", "chat"] = "recommendation"
@@ -340,6 +391,7 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
                       candidates=list(candidates.values()), assessment=events.get("assessment"),
                       combination=[] if display == "chat" else [str(x) for x in events.get("combination") or []],
+                      pipeline=_read_pipeline(events.get("pipeline"), candidates) if display == "recommendation" else None,
                       display=display)
 
 

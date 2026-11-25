@@ -152,7 +152,7 @@ NODE_EVENTS = {
     "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
     "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
-    "explain": ("combination",),
+    "explain": ("combination", "pipeline"),
     "no_ai": ("no_ai",),  # the answer came as tokens with no search: the backend must not read it as a rejection
 }
 

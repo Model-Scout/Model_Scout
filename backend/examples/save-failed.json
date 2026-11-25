@@ -140,6 +140,7 @@
     ],
     "assessment": null,
     "combination": [],
+    "pipeline": null,
     "display": "recommendation"
   },
   "display": "recommendation",

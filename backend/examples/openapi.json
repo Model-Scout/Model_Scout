@@ -493,6 +493,16 @@
             "type": "array",
             "title": "Combination"
           },
+          "pipeline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Pipeline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "display": {
             "type": "string",
             "enum": [
@@ -769,6 +779,96 @@
           "created_at"
         ],
         "title": "Message"
+      },
+      "Pipeline": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/PipelineNode"
+            },
+            "type": "array",
+            "maxItems": 11,
+            "minItems": 2,
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/PipelineEdge"
+            },
+            "type": "array",
+            "maxItems": 16,
+            "minItems": 1,
+            "title": "Edges"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges"
+        ],
+        "title": "Pipeline"
+      },
+      "PipelineEdge": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 30,
+            "title": "Label",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "target"
+        ],
+        "title": "PipelineEdge"
+      },
+      "PipelineNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]{0,7}$",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Label"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 40,
+            "title": "Note",
+            "default": ""
+          },
+          "candidate_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Candidate Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "title": "PipelineNode"
       },
       "Source": {
         "properties": {

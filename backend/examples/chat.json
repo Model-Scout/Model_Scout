@@ -132,6 +132,7 @@
     ],
     "assessment": null,
     "combination": [],
+    "pipeline": null,
     "display": "chat"
   },
   "display": "chat",
