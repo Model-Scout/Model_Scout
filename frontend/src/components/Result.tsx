@@ -473,7 +473,6 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
       </h2>
 
       <section>
-        <h3 className="mb-1.5 text-xs text-muted">요구하신 것</h3>
         <p className="leading-relaxed">{ask}</p>
         {chips.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -485,11 +484,6 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
           </div>
         )}
       </section>
-
-      {result.pipeline && (
-        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
-          selectedId={selectedId} onSelect={onSelect} />
-      )}
 
       {sentences.length > 0 ? (
         <section className="border-t border-line pt-4">
@@ -517,6 +511,11 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
           </ul>
         </section>
       )}
+
+      {result.pipeline && (
+        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
+          selectedId={selectedId} onSelect={onSelect} />
+      )}
     </aside>
   );
 }
@@ -524,7 +523,7 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
 /** Model names in brand color, dataset names in green; the sentence itself stays plain text. */
 function Highlighted({ text, candidates }: { text: string; candidates: Candidate[] }) {
   const kind = new Map<string, Candidate["type"]>();
-  for (const c of candidates) for (const n of [c.name, c.source_id]) if (n.length > 1) kind.set(n.toLowerCase(), c.type);
+  for (const c of candidates) for (const n of [c.name, c.source_id, c.source_id.split("/").pop() ?? ""]) if (n.length > 1) kind.set(n.toLowerCase(), c.type);
   if (kind.size === 0) return text;
   const names = [...kind.keys()].sort((a, b) => b.length - a.length).map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   return text.split(new RegExp(`(${names.join("|")})`, "i")).map((part, i) => {
