@@ -159,7 +159,9 @@ export function Thread({
 } & Actions) {
   const last = turns.at(-1);
   const running = last?.running ?? false;
-  const done = Boolean(result) && !running && last?.type === "answer";
+  // Only this turn's own recommendation gets the completion card; a chat answer shows its text and sources even when
+  // an earlier recommendation is still on screen.
+  const done = Boolean(result) && !running && last?.type === "answer" && last.display === "recommendation";
   const placeholder =
     last?.type === "clarify" ? "질문에 답해 주세요" : last?.type === "reject" ? "다른 아이디어로 다시 적어 주세요" : "이어서 요청하기";
 

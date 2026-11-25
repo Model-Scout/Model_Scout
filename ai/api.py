@@ -4,7 +4,9 @@ The full answer takes ~10-25 s (two LLM calls and the model search), so each ste
 
     event: status      {"node": "decompose", "elapsed": 2.4}      after every graph node
     event: oos         {"reason": ...}                               out of scope (rule here, or the intent LLM)
-    event: plan        ProjectPlan                                   needs + constraints
+    event: plan        ProjectPlan                                   needs + constraints; recommend (true: recommendation
+                                                                     screen, false: chat answer only) and the names the
+                                                                     user wrote (mentioned_models/_datasets, reference_names)
     event: data_conditions  {status, region, delivery, ...} or null  stated data conditions (data_conditions.py);
                                                                      service_data rows then carry condition_checks
     event: clarify     {"questions": [...]}                          vague request: the run pauses here

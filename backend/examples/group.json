@@ -118,7 +118,8 @@
       }
     ],
     "assessment": null,
-    "combination": []
+    "combination": [],
+    "display": "recommendation"
   },
   "messages": [
     {
@@ -250,7 +251,8 @@
           }
         ],
         "assessment": null,
-        "combination": []
+        "combination": [],
+        "display": "recommendation"
       },
       "sources": [
         {

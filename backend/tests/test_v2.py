@@ -427,7 +427,7 @@ def test_http_clarify_resume_and_busy(client):
 
 def test_frontend_fixtures_match_contract():
     examples = ROOT / "backend" / "examples"
-    for name in ["answer", "question", "clarify", "reject", "empty", "save-failed"]:
+    for name in ["answer", "question", "clarify", "reject", "empty", "chat", "save-failed"]:
         ChatDone.model_validate_json((examples / f"{name}.json").read_text(encoding="utf-8"))
     GroupDetail.model_validate_json((examples / "group.json").read_text(encoding="utf-8"))
     stored_schema = json.loads((examples / "chat-done.schema.json").read_text(encoding="utf-8"))
@@ -752,3 +752,52 @@ def test_existing_thread_oos_and_clarification_through_real_ai_stream(client, mo
     restored = http.get(f"/api/groups/{group_id}").json()
     assert restored["result"] == answer["result"]
     assert len(calls) == 3 and not internal.running_threads and not api.active_groups
+
+
+def chat_events(found=True):
+    """A direct question's AI events (plan.recommend false): a named model read for a comparison, or nothing found."""
+    model = {"model_id": "intfloat/e5-large", "license": "mit", "context_length": 512, "evidence": None}
+    return {"plan": {"summary_ko": "입력 길이 비교", "needs": [], "recommend": False, "mentioned_models": ["e5-large"]},
+            "models": [{"need": {"task": "", "purpose_ko": "조회한 모델: e5-large"}, "models": [model], "kind": "lookup"}]
+            if found else [],
+            "datasets": {"per_model": {}, "project_training": [], "service_data": []}}
+
+
+def test_a_direct_question_is_a_chat_answer_never_a_reject():
+    done = build_done(chat_events(), uuid4(), "e5-large는 512 tokens예요.", 1)
+    assert (done.type, done.display, done.result.display) == ("answer", "chat", "chat")
+    assert done.result.candidates[0].group == "lookup" and done.result.combination == []
+    empty = build_done(chat_events(found=False), uuid4(), "카탈로그에서 찾지 못했어요.", 1)
+    assert (empty.type, empty.display) == ("answer", "chat") and empty.result.candidates == []
+    # A recommendation keeps its rule: no needs and nothing found is still off-topic.
+    assert build_done({"plan": {"needs": []}}, uuid4(), "", 1).type == "reject"
+
+
+def test_plans_without_recommend_are_recommendations():
+    done = build_done(recommendation_events(), uuid4(), "답", 1)
+    assert done.display == "recommendation" and done.result.display == "recommendation"
+    assert ChatResult.model_validate({"title": "t", "summary": ["s"], "candidates": []}).display == "recommendation"
+
+
+def test_recommendation_then_chat_then_recommendation_keeps_the_screen_and_question_context(client):
+    client, store = client
+    headers = {"X-Session-Id": str(uuid4())}
+
+    def send(events, query, **extra):
+        with patch.object(api.httpx, "stream", return_value=Upstream(ai_events(events))) as upstream:
+            response = client.post("/api/chat", json={"query": query, **extra}, headers=headers)
+        return final(response)[1], upstream
+
+    first, _ = send(recommendation_events(), "문서 검색 앱")
+    gid = first["group_id"]
+    chat, _ = send(chat_events(), "이번엔 e5-large 입력 길이만", group_id=gid)
+    assert (chat["type"], chat["display"], chat["result"]["display"]) == ("answer", "chat", "chat")
+    restored = client.get(f"/api/groups/{gid}").json()
+    assert restored["result"]["display"] == "recommendation" and restored["result"] == first["result"]
+    assert restored["messages"][-1]["result"]["display"] == "chat"  # kept on its message for history and sources
+    question, upstream = send({}, "왜 추천했어?", group_id=gid, mode="question", target_id="model:org/model")
+    assert question["type"] == "answer"  # asked about the recommendation, not the later chat snapshot
+    assert upstream.call_args.kwargs["json"]["context"]["candidates"][0]["id"] == "model:org/model"
+    again, _ = send(recommendation_events(), "다시 추천", group_id=gid)
+    assert again["display"] == "recommendation"
+    assert client.get(f"/api/groups/{gid}").json()["result"]["display"] == "recommendation"
