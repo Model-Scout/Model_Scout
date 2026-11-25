@@ -55,6 +55,8 @@ PORTALS = {"data_go_kr", "seoul_open_data"}
 HUB_MEMBER_LIMIT = 100
 COOCCURRING_LIMIT = 12
 GRAPH_NEIGHBOR_LIMIT = 10
+# Left out of the graph (still in the page text): nearly every page has the same language, format and license.
+GRAPH_HIDDEN_FACETS = {"language", "commercial_use", "data_format", "input_modality", "output_modality"}
 UNSAFE_RE = re.compile(r'[\\/:*?"<>|#^\[\]]')
 FACET_ORDER = list(load_taxonomy()["facets"])
 SOURCE_LABELS = {
@@ -154,6 +156,12 @@ def member_order(entity):
 def wiki_graph(paths):
     """The nearest pages the Quartz graph draws (.github/wiki/quartz-nearby-graph.patch), nearest first."""
     return list(dict.fromkeys(paths))[:GRAPH_NEIGHBOR_LIMIT]
+
+
+def graph_concepts(concept_ids):
+    """Concepts worth drawing; a page that has only the hidden ones keeps them rather than an empty graph."""
+    ids = list(concept_ids)
+    return [c for c in ids if c.split("/", 1)[0] not in GRAPH_HIDDEN_FACETS] or ids
 
 
 def shared_concept_order(pair_counts, members, concept_id, other_id):
@@ -291,9 +299,10 @@ def render_entity(entity, links, relations, pages, concepts, entities):
             props[facet] = [link(pages[i["concept_id"]], concepts[i["concept_id"]]["label"]) for i in by_facet[facet]]
 
     if V2:
+        shown = graph_concepts(i["concept_id"] for facet in FACET_ORDER for i in by_facet.get(facet, []))
         props["wiki_graph"] = wiki_graph(
             [entity_page(entities[o]) for o in sorted(relations, key=lambda o: member_order(entities[o]))]
-            + [pages[i["concept_id"]] for facet in FACET_ORDER for i in by_facet.get(facet, [])]
+            + [pages[c] for c in shown]
         )
 
     if portal:
@@ -354,7 +363,7 @@ def render_concept(concept_id, concept, members, cooccurring, pages, concepts, e
         "members": len(members),
     }
     if V2:
-        props["wiki_graph"] = wiki_graph(pages[c] for c, _ in cooccurring)
+        props["wiki_graph"] = wiki_graph(pages[c] for c in graph_concepts(c for c, _ in cooccurring))
     body = [f"# {concept['label']}", "", f"facet: [[{safe_name(concept['facet_label'])}]] · 개념 id `{concept_id}`", ""]
     if concept["aliases"]:
         body += ["별칭: " + ", ".join(concept["aliases"]), ""]
@@ -545,6 +554,8 @@ def self_check():
     )
     assert wiki_graph(f"concepts/{i}" for i in [0, 0, *range(13)]) == [f"concepts/{i}" for i in range(10)]
     assert wiki_graph([]) == []
+    assert graph_concepts(["language/ko", "domain/health", "data_format/csv"]) == ["domain/health"]
+    assert graph_concepts(["language/ko"]) == ["language/ko"] and graph_concepts([]) == []
     assert compatible_lengths({}, "long") == ["input_length/short", "input_length/medium", "input_length/long"]
     assert compatible_lengths({}, "nope") == []
     assert frontmatter({"a": 1, "b": ["[[x]]"], "c": None}) == '---\na: 1\nb:\n  - "[[x]]"\n---\n'
