@@ -25,7 +25,7 @@ from retrieval_lab import classifier
 from retrieval_lab.pre_retrieval import llm_model
 
 LOGGER = logging.getLogger(__name__)
-PROMPT_VERSION = 10
+PROMPT_VERSION = 11
 CACHE_PATH = Path(__file__).resolve().parent / "cache" / "routing.json"  # one file, key -> entry, like classifier.json
 TARGETS = ("model", "dataset", "both", "needs_clarification", "out_of_scope")
 Slot = Literal["yes", "no", "unknown"]
@@ -71,10 +71,15 @@ of these types asks for a model (model yes). Never output a type.
 Your task: fill the four fields below. The background above does not decide them on its own.
 
 scope:
+- project is IN-DOMAIN, not only a project idea. Direct questions about a model/dataset's license, specifications,
+  context length, parameters or comparisons are always in-domain, including when only the model name appears and
+  the word 모델 is absent. Answering ABOUT a model is not an unrelated job the app is asked to perform.
 - oos: the user asks the app itself to DO an unrelated job now, with no model or data to find:
   "이 문장 번역해줘", "오늘 날씨 알려줘", writing a text, chit-chat, general coding help.
   Wanting to build or run something ("~하려고 해", "~ 만들고 싶어"), or asking whether models or data
   exist ("~ 데이터 있어?"), is project whatever the topic (translation, weather, games...).
+  "상담 앱 만들어줘" asks for a service's resources here and is project; an explicit request for implementation
+  code ("로그인 컴포넌트 코드 작성해줘") is general coding help. Do not reject model license questions as legal advice.
 - project: everything else. Short or vague requests ("뭐 좋은 거 없어?") are project; the app asks.
 
 model: does the user want models recommended? Models covers models, checkpoints, model artifacts
@@ -118,6 +123,10 @@ as requests merely because they mention an app.
 Lines "(질문) ..." and "(답변) ..." are the app's earlier question and the user's answer: apply the answer.
 
 Examples:
+- "BGE-M3 라이선스가 뭐야?" -> project, model yes, data no, unknown
+- "하이퍼클로바X는 입력을 얼마나 길게 받을 수 있어?" -> project, model yes, data no, unknown
+- "법률상담 챗봇을 만들고 싶은데 모델이랑 데이터 추천해줘" -> project, model yes, data yes, unknown
+- "회의록 요약 앱 만들어줘" -> project, model unknown, data unknown, unknown
 - "모델 학습에 쓸 공공데이터 찾아줘" -> project, model no, data yes, service
 - "HF 한국어 학습 데이터셋" -> project, model no, data yes, training
 - "Kaggle 교통량 데이터" -> project, model no, data yes, training
