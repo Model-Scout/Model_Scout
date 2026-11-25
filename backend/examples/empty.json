@@ -13,7 +13,9 @@
     "needs_check": [],
     "candidates": [],
     "assessment": null,
-    "combination": []
+    "combination": [],
+    "display": "recommendation"
   },
+  "display": "recommendation",
   "history_saved": true
 }

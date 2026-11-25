@@ -1,0 +1,415 @@
+{
+ "calls": 36,
+ "by_kind": {
+  "router": 7,
+  "planner": 7,
+  "classifier": 3,
+  "embedding": 6,
+  "rerank": 3,
+  "writer_chat": 6,
+  "data_conditions": 3,
+  "writer_recommend": 1
+ },
+ "tokens": {
+  "prompt": 68822,
+  "completion": 3918
+ },
+ "stopped": null,
+ "rows": [
+  {
+   "id": "S04",
+   "turns": [
+    {
+     "query": "한국어 문장 임베딩 모델 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "classifier": 1,
+      "embedding": 1,
+      "rerank": 1,
+      "writer_chat": 1
+     },
+     "answer": "한국어 문장 임베딩 모델로는 PwC-Embedding-expr, comsat-embed-ko-8b-preview, EVE-Embed-1.1-Legal 모델이 있습니다. PwC-Embedding-expr은 0.56B 파라미터에 514 토큰 문맥 길이, 상업적 이용 가능하며 MTEB 벤치마크에서 평균 0.77 점수를 기록했습니다. comsat-embed-ko-8b-preview는 7.567B 파라미터, 40960 토큰 문맥 길이로 비상업적 용도이며 MIRACL LawIRKo 데이터셋에서 0.8164 점수를 냈습니다. EVE-Embed-1.1-Legal은 0.568B 파라미터, 8194 토큰 문맥 길이, 상업적 이용 가능하며 평가에서 0.9045 재현율을 보였습니다.\n\n모델명 문맥길이 파라미터 상업용 벤치마크 점수  \nPwC-Embedding-expr 514 0.56B 가능 MTEB 평균 0.77  \ncomsat-embed-ko-8b-preview 40960 7.567B 불가 MIRACL 0.8164  \nEVE-Embed-1.1-Legal 8194 0.568B 가능 평가 재현율 0.9045\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.no_dataset_search": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S05",
+   "turns": [
+    {
+     "query": "서울시 문화행사 정보 데이터셋 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1,
+      "data_conditions": 1
+     },
+     "answer": "'서울시 문화행사 정보'은(는) 카탈로그의 여러 데이터셋에 해당해 하나로 정하지 않았어요: seoul_open_data/OA-15486, seoul_open_data/OA-23041.\n\n서울시 문화행사 정보 데이터셋은 두 가지가 있습니다. 두 데이터셋 모두 서울 지역 문화행사 정보를 매일 1회 갱신하며, API와 CSV 형식으로 제공되고 상업 이용이 가능합니다. 주요 제공 정보는 행사명, 장소, 날짜, 기관명, 이용대상, 이용요금, 출연자, 프로그램 소개, 홈페이지, 문의처, 위치 좌표, 유무료 여부 등입니다.\n\n| 데이터셋 ID           | 주요 특징                                                                                     | 업데이트 주기 | 제공 형식       | 상업 이용 가능 여부 |\n|-----------------------|----------------------------------------------------------------------------------------------|---------------|----------------|--------------------|\n| seoul_open_data/OA-15486 | 서울문화포털 등록 문화행사 정보, 행사시간, 테마분류 등 상세 필드 포함                              | 매일 1회      | API, CSV       | 가능               |\n| seoul_open_data/OA-23041 | 공연, 전시, 축제, 교육, 체험 등 다양한 문화행사 정보, 시민·기관 구분, 기타 안내사항 포함           | 매일 1회      | API, CSV       | 가능               |\n\n두 데이터셋 모두 서울시 문화행사 정보를 포괄적으로 제공하니, 필요에 따라 상세 필드나 추가 안내사항을 확인해 선택하시면 됩니다.\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- seoul_open_data/OA-23041: 분류, 자치구, 공연·행사명, 행사일자, 장소, 기관명, 이용대상, 이용요금, 문의처, 출연자 정보, 프로그램 소개, 기타 안내사항, 홈페이지 주소, 대표 이미지, 신청일, 시민·기관 구분, 시작일, 종료일, 테마분류, 행사 장소의 위도·경도 좌표, 유·무료 여부, 문화포털 상세 URL, 행사시간 등의 정보를 포함하고 있습니다\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [
+       "서울시 문화행사 정보"
+      ],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": null,
+      "dataset_route": {
+       "path": "lookup",
+       "names": [
+        "서울시 문화행사 정보"
+       ],
+       "resolved": {
+        "서울시 문화행사 정보": {
+         "status": "ambiguous",
+         "match": "title",
+         "entity_id": null,
+         "candidates": [
+          "seoul_open_data/OA-15486",
+          "seoul_open_data/OA-23041"
+         ]
+        }
+       }
+      },
+      "datasets": [
+       "seoul_open_data/OA-15486",
+       "seoul_open_data/OA-23041"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.dataset_path": true,
+    "t1.mentions_dataset": true,
+    "t1.datasets_all": true,
+    "t1.no_model_search": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "V04",
+   "turns": [
+    {
+     "query": "요약을 잘하는 한국어 모델 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "classifier": 1,
+      "embedding": 1,
+      "rerank": 1,
+      "writer_chat": 1
+     },
+     "answer": "한국어 요약에 적합한 모델로는 EbanLee/kobart-summary-v3, ainize/kobart-news, eenzeenee/t5-base-korean-summarization이 있어요. 이 중 eenzeenee/t5-base-korean-summarization은 파라미터가 0.276B로 가장 크고, EbanLee/kobart-summary-v3는 0.124B, ainize/kobart-news는 파라미터 수가 미확인입니다. ainize/kobart-news는 MIT 라이선스로 상업적 이용이 허용되어 있고, 나머지는 상업적 이용 여부가 미확인입니다.\n\n모델명  파라미터 수  라이선스  상업적 이용 가능 여부  컨텍스트 길이\nEbanLee/kobart-summary-v3  0.124B  unknown  미확인  1026\nainize/kobart-news  미확인  MIT  가능  1026\neenzeenee/t5-base-korean-summarization  0.276B  unknown  미확인  128\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.no_dataset_search": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "V05",
+   "turns": [
+    {
+     "query": "서울시 공공자전거 따릉이 대여소 정보 데이터셋 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1,
+      "data_conditions": 1
+     },
+     "answer": "서울시 공공자전거 따릉이 대여소 정보 데이터셋은 서울특별시 공공자전거 대여소의 이름, 관리번호, 위치정보, 거치대수 등을 제공합니다. 이 데이터셋은 서울 지역을 대상으로 하며, 반기 단위로 업데이트됩니다. 데이터 형식은 API, CSV, XLSX(엑셀)로 제공되고, 상업적 이용도 가능합니다.\n\n| 항목          | 내용                                   |\n|------------|--------------------------------------|\n| 데이터셋명      | 서울시 공공자전거 따릉이 대여소 정보               |\n| 제공처         | seoul_open_data                       |\n| 지역          | 서울                                   |\n| 업데이트 주기    | 반기                                   |\n| 제공 형식       | API, CSV, XLSX                        |\n| 상업 이용 여부    | 가능 (공공누리 제1유형 라이선스)               |\n| 주요 정보       | 대여소명, 대여소ID, 위치(위도, 경도), 거치대수 등       |\n| URL          | https://data.seoul.go.kr/dataList/OA-13252/A/1/datasetView.do |\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [
+       "서울시 공공자전거 따릉이 대여소 정보"
+      ],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": null,
+      "dataset_route": {
+       "path": "lookup",
+       "names": [
+        "서울시 공공자전거 따릉이 대여소 정보"
+       ],
+       "resolved": {
+        "서울시 공공자전거 따릉이 대여소 정보": {
+         "status": "found",
+         "match": "title",
+         "entity_id": "dataset:seoul_open_data/OA-13252",
+         "candidates": [
+          "seoul_open_data/OA-13252"
+         ]
+        }
+       }
+      },
+      "datasets": [
+       "seoul_open_data/OA-13252"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.dataset_path": true,
+    "t1.datasets_all": true,
+    "t1.no_model_search": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "C04",
+   "turns": [
+    {
+     "query": "인터뷰 녹음을 받아써서 기사 초안을 만드는 서비스를 만들고 싶어. 모델 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "embedding": 2,
+      "writer_recommend": 1
+     },
+     "answer": "### 1. 인터뷰 녹음 음성을 텍스트로 정확하게 변환해요.\nseastar105/whisper-medium-komixv2는 한국어 음성인식에 최적화되어 있습니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | whisper-medium-komixv2 | 자동 음성 인식, 컨텍스트 1024, 라이선스 미확인 |\n| 대안 | wav2vec2-base-korean | 라이선스 미확인 |\n| 대안 | SenseVoiceSmall | 기타 라이선스, 상업적 사용 검토 필요 |\n\n- whisper-medium-komixv2는 한국어 검증 완료 모델입니다.\n- 라이선스와 상업적 사용 가능 여부는 확인이 필요합니다.\n\n### 1. 변환된 텍스트를 바탕으로 기사 초안을 생성해요.\nMyeongHo0621/Qwen2.5-3B-Korean은 한국어 최적화된 대화 데이터로 학습된 생성 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | Qwen2.5-3B-Korean | 텍스트 생성, 컨텍스트 131072, Apache-2.0 라이선스 |\n| 대안 | etm-korean-tiny | MIT 라이선스 |\n| 대안 | TinyStories-Korean-800K | MIT 라이선스 |\n\n- Qwen2.5-3B-Korean은 상업적 사용이 허용된 라이선스입니다.\n- 대안 모델들도 상업적 사용이 가능합니다.\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 조건부 (라이선스 원문 확인 필요)\n- 라이선스 원문 확인 필요: seastar105/whisper-medium-komixv2 (unknown)\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "recommendation",
+     "type": "answer",
+     "state": {
+      "recommend": true,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "project"
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "C05",
+   "turns": [
+    {
+     "query": "서울 문화행사 관련 데이터 찾아줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "embedding": 1,
+      "writer_chat": 1,
+      "data_conditions": 1
+     },
+     "answer": "서울에서 개최되는 문화행사 관련 데이터로는 다음 세 가지가 있습니다. 모두 서울 지역을 대상으로 하며, 공연, 전시, 축제, 교육, 체험 등 다양한 문화행사 정보를 포함합니다. 첫 두 데이터셋은 상업 이용 가능하며 매일 1회 업데이트됩니다. 세 번째는 동대문구 지역에 한정되며 비상업 전용입니다.\n\n서울 문화행사 데이터 비교\n\n데이터셋명 출처 라이선스 상업 이용 가능 업데이트 주기 지역 범위 주요 정보\n서울시 문화행사 정보 seoul_open_data 공공누리 제1유형 가능 매일1회 서울 전역 공연·행사명, 장소, 날짜, 기관명, 출연자, 프로그램, 유무료 여부 등\n서울시 문화행사 정보 seoul_open_data 공공누리 제1유형 가능 매일1회 서울 전역 공연·행사명, 장소, 날짜, 기관명, 출연자, 프로그램, 유무료 여부 등\n서울시 동대문구 문화행사 정보 seoul_open_data 공공누리 제4유형 불가 비정기 동대문구 일련번호, 제목, 링크, 부서, 등록일, 내용\n\n각 데이터셋은 API와 CSV 형식으로 제공되며, 서울문화포털에서 등록된 최신 문화행사 정보를 확인할 수 있습니다.\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": null,
+      "dataset_route": {
+       "path": "search",
+       "names": []
+      },
+      "datasets": [
+       "seoul_open_data/OA-23041",
+       "seoul_open_data/OA-15486",
+       "seoul_open_data/OA-12745",
+       "seoul_open_data/OA-12093",
+       "seoul_open_data/OA-12153",
+       "seoul_open_data/OA-12099"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.dataset_path": true,
+    "t1.no_mentioned_datasets": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "C04b",
+   "turns": [
+    {
+     "query": "RAG 프로젝트에 쓸 한국어 임베딩 모델 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "classifier": 1,
+      "embedding": 1,
+      "rerank": 1,
+      "writer_chat": 1
+     },
+     "answer": "RAG 프로젝트에 쓸 한국어 임베딩 모델로는 Qwen3-Embedding-0.6B-GGUF 모델들이 적합해요. 이 모델들은 한국어를 포함한 다국어 지원이 가능하며, 문서와 쿼리의 의미를 벡터로 표현하는 임베딩 작업에 맞춰져 있어요. 모두 Apache-2.0 라이선스로 상업적 이용이 허용되고, 0.596B 파라미터 크기에 32768 토큰의 컨텍스트 길이를 지원합니다.\n\n모델명          언어 지원               라이선스    파라미터 수  컨텍스트 길이  상업적 이용\nQwen3-Embedding-0.6B-GGUF (zhiqian99)  ar, de, en, es, fr, ja, ko, pt, ru, zh  apache-2.0  0.596B       32768       가능\nQwen3-Embedding-0.6B-GGUF (PeterAM4)   ar, de, en, es, fr, ja, ko, pt, ru, zh  apache-2.0  0.596B       32768       가능\nQwen3-Embedding-0.6B-GGUF (batiai)     en, ja, ko, zh                        apache-2.0  0.596B       32768       가능\n\n이 중에서 선택하시면 RAG 프로젝트에 적합한 한국어 임베딩을 구현할 수 있어요.\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.not_rejected": true
+   }
+  }
+ ]
+}

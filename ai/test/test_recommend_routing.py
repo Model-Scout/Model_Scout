@@ -563,8 +563,10 @@ def test_model_query_type(monkeypatch, target, rule, llm, expected):
         return llm, 1.0
 
     monkeypatch.setattr(classifier, "llm_type", fake_llm)
-    state = {"request": "질문", "route": {"target": target}}
-    assert graph17.classify_model_query(state) == {"model_query_type": expected}
+    # A direct question with no model name: the six-type path (a recommendation skips it for the project profile).
+    state = {"request": "질문", "route": {"target": target}, "plan": {"recommend": False, "needs": [{"task": "x"}]}}
+    out = graph17.classify_model_query(state)
+    assert out["model_query_type"] == expected and out["model_route"]["path"] == "typed"
 
 
 ANSWER = ["### 1. 가짜 need", "| 추천 | data_go_kr/1 |", "### 프로젝트 학습·평가 데이터", "- 해당 없음", "",

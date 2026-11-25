@@ -376,7 +376,8 @@
             "enum": [
               "need",
               "sft",
-              "both"
+              "both",
+              "lookup"
             ],
             "title": "Group",
             "default": "need"
@@ -491,6 +492,15 @@
             },
             "type": "array",
             "title": "Combination"
+          },
+          "display": {
+            "type": "string",
+            "enum": [
+              "recommendation",
+              "chat"
+            ],
+            "title": "Display",
+            "default": "recommendation"
           }
         },
         "type": "object",

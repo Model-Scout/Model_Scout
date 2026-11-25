@@ -41,6 +41,14 @@ def generate():
         "clarify": build_done({"clarify": {"questions": ["어떤 데이터를 검색하나요?"]}}, GID, "", 1.2),
         "reject": build_done({"plan": {"needs": []}}, GID, "", .2),
         "empty": build_done({"plan": {"needs": [need], "summary_ko": "후보 없음 (Mock)"}}, GID, "조건에 맞는 후보가 없어요.", 4)}
+    # A direct question (plan.recommend false): a chat answer whose snapshot is kept but not shown as a recommendation.
+    named = [{"model_id": f"example/model-{n}", "license": "apache-2.0", "commercial_status": "permitted",
+              "context_length": length, "url": None, "evidence": None} for n, length in (("a", 512), ("b", 8192))]
+    fixtures["chat"] = build_done({"plan": {"summary_ko": "두 모델 입력 길이 비교 (Mock)", "needs": [], "recommend": False,
+                                            "mentioned_models": ["model-a", "model-b"]},
+                                   "models": [{"need": {"task": "", "purpose_ko": f"조회한 모델: model-{n}"},
+                                               "models": [m], "kind": "lookup"} for n, m in zip("ab", named)]},
+                                  GID, "model-b가 8192 tokens로 model-a(512 tokens)보다 길어요.", 3.2)
     fixtures["save-failed"] = answer.model_copy(update={"history_saved": False})
     for name, payload in fixtures.items():
         write(f"{name}.json", payload.model_dump(mode="json"))

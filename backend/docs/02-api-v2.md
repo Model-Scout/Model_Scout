@@ -96,28 +96,34 @@ data: {"text":"추천 결과를 설명할게요."}
 | schema_version | 2 | 공개 응답 계약 버전 |
 | group_id | UUID | 다음 질문·기록 복원에 사용 |
 | type | answer / clarify / reject | 화면 분기 |
+| display | recommendation / chat / null | result가 있는 answer의 표시 방식(= result.display). 그 밖에는 null 또는 생략 |
 | answer | string | 모든 유형 공통. 마크다운 가능 |
 | sources | Source[] | 저장된 출처·인용, 없으면 [] |
 | result | ChatResult / null | 새 추천 스냅샷일 때 객체. question·clarify·reject는 null |
 | elapsed | number | 백엔드 실행 경과 초 |
 | history_saved | boolean | true: 응답 저장 성공. false: 화면 표시 가능하지만 복원 보장 안 됨 |
 
-- answer + result 객체: 후보가 없어도 결과 화면에 빈 상태 표시.
+- answer + result 객체 + display recommendation: 후보가 없어도 결과 화면에 빈 상태 표시(예전 결과도 이 방식).
+- answer + result 객체 + display chat: 직접 질문(조회·비교·탐색)의 답. 답변 텍스트와 출처만 표시하고 완료 카드·결과 화면 이동은 없다.
+  result는 기록·출처·후속 문맥을 위해 저장되지만 결과 화면의 추천 스냅샷을 바꾸지 않는다. 결과가 비어도 reject가 아니다.
 - answer + result=null: 기존 결과 유지, 대화에 답변만 추가.
 - clarify: answer의 질문을 보여 주고 같은 group_id에 recommend 요청.
-- reject: answer 안내 표시, 결과 화면으로 자동 이동하지 않음. 기존 결과가 있으면 유지.
+- reject: answer 안내 표시, 결과 화면으로 자동 이동하지 않음. 기존 결과가 있으면 유지. display chat 답변은 reject가 되지 않는다.
 - history_saved=false: “답변을 기록에 저장하지 못했어요” 안내. 성공적으로 저장됐다고 표시하지 않음.
 
-전체 예시는 `backend/examples/`의 answer.json, question.json, clarify.json, reject.json, empty.json, error.json을 사용한다.
+전체 예시는 `backend/examples/`의 answer.json, question.json, clarify.json, reject.json, empty.json, chat.json, error.json을 사용한다.
 기계 검증용 `chat-done.schema.json`은 ChatDone 전체 하위 타입을 포함한다. `openapi.json`의 POST 200은 스트림 문자열이며, done payload는 별도 스키마로 검증한다.
 
 ### 후보·근거 타입
 
-`ChatResult`: title:string, summary:string[], needs_check:string[], candidates:Candidate[], assessment:object|null, combination:string[].
-combination은 답변을 쓰는 LLM 호출이 함께 쓴 "이렇게 조합해 보세요" 문장이다(추가 호출 없음). 예전 결과와 질문 답변에서는 빈 배열이다.
+`ChatResult`: title:string, summary:string[], needs_check:string[], candidates:Candidate[], assessment:object|null, combination:string[], display:recommendation|chat.
+display는 AI plan 이벤트의 recommend(마지막 plan 기준)로 정한다. recommend가 false면 chat, 그 밖(필드 없음 포함)은 recommendation. 예전 결과는 필드가 없어 recommendation으로 읽는다.
+GET /api/groups/{id}의 result와 mode=question의 문맥은 가장 최근 recommendation 결과다. chat 결과는 해당 메시지의 result로만 남는다.
+combination은 답변을 쓰는 LLM 호출이 함께 쓴 "이렇게 조합해 보세요" 문장이다(추가 호출 없음). 예전 결과, 질문 답변, display chat 결과에서는 빈 배열이다.
 assessment는 AI 보조 정보이며 화면의 필수 레이아웃 계약은 아니다. 추가 필드에 의존하지 않는다.
 
-`Candidate`: id:string, type:model|dataset, source_id:string, name:string, role:string, tags:string[], source:string, url:string|null, checks:Check[], evidence:Evidence[], related:string[], rank_score:number|null, context_length:integer|null, parameters_b:number|null, benchmarks:object[], gpu_fit:object|null.
+`Candidate`: id:string, type:model|dataset, source_id:string, name:string, role:string, tags:string[], source:string, url:string|null, checks:Check[], evidence:Evidence[], related:string[], rank_score:number|null, context_length:integer|null, parameters_b:number|null, benchmarks:object[], gpu_fit:object|null, group:need|sft|both|lookup.
+group lookup은 사용자가 이름으로 지정해 조회한 모델이며 추천 순위가 아니다.
 benchmarks와 gpu_fit은 AI 메타데이터의 확장 영역이며 필드가 없으면 미확인으로 처리한다.
 
 `Check`: key:string, label:string, status:ok|check|unknown, reason:string, source_id:string|null, quote:string|null, origin:readme|metadata|estimate|unknown.

@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "type": "answer",
+  "group_id": "00000000-0000-4000-8000-000000000001",
+  "elapsed": 3.2,
+  "answer": "model-b가 8192 tokens로 model-a(512 tokens)보다 길어요.",
+  "sources": [
+    {
+      "source_id": "example/model-a",
+      "kind": "model",
+      "title": "example/model-a",
+      "url": null,
+      "quote": null,
+      "origin": "metadata",
+      "location": null
+    },
+    {
+      "source_id": "example/model-b",
+      "kind": "model",
+      "title": "example/model-b",
+      "url": null,
+      "quote": null,
+      "origin": "metadata",
+      "location": null
+    }
+  ],
+  "result": {
+    "title": "두 모델 입력 길이 비교 (Mock)",
+    "summary": [
+      "두 모델 입력 길이 비교 (Mock)"
+    ],
+    "needs_check": [],
+    "candidates": [
+      {
+        "id": "model:example/model-a",
+        "type": "model",
+        "source_id": "example/model-a",
+        "name": "model-a",
+        "role": "조회한 모델: model-a",
+        "tags": [
+          "apache-2.0"
+        ],
+        "source": "Hugging Face",
+        "url": null,
+        "checks": [
+          {
+            "key": "license",
+            "label": "상업 이용",
+            "status": "ok",
+            "reason": "라이선스 apache-2.0 · 상업 이용 허용 계열",
+            "source_id": "example/model-a",
+            "quote": null,
+            "origin": "metadata"
+          },
+          {
+            "key": "language",
+            "label": "한국어 지원",
+            "status": "unknown",
+            "reason": "구조화된 언어 지원 근거가 제공되지 않았어요.",
+            "source_id": null,
+            "quote": null,
+            "origin": "unknown"
+          },
+          {
+            "key": "execution",
+            "label": "로컬 실행",
+            "status": "unknown",
+            "reason": "실행 환경에 대한 검증이 필요해요.",
+            "source_id": null,
+            "quote": null,
+            "origin": "unknown"
+          }
+        ],
+        "evidence": [],
+        "related": [],
+        "rank_score": null,
+        "context_length": 512,
+        "parameters_b": null,
+        "benchmarks": [],
+        "gpu_fit": null,
+        "group": "lookup"
+      },
+      {
+        "id": "model:example/model-b",
+        "type": "model",
+        "source_id": "example/model-b",
+        "name": "model-b",
+        "role": "조회한 모델: model-b",
+        "tags": [
+          "apache-2.0"
+        ],
+        "source": "Hugging Face",
+        "url": null,
+        "checks": [
+          {
+            "key": "license",
+            "label": "상업 이용",
+            "status": "ok",
+            "reason": "라이선스 apache-2.0 · 상업 이용 허용 계열",
+            "source_id": "example/model-b",
+            "quote": null,
+            "origin": "metadata"
+          },
+          {
+            "key": "language",
+            "label": "한국어 지원",
+            "status": "unknown",
+            "reason": "구조화된 언어 지원 근거가 제공되지 않았어요.",
+            "source_id": null,
+            "quote": null,
+            "origin": "unknown"
+          },
+          {
+            "key": "execution",
+            "label": "로컬 실행",
+            "status": "unknown",
+            "reason": "실행 환경에 대한 검증이 필요해요.",
+            "source_id": null,
+            "quote": null,
+            "origin": "unknown"
+          }
+        ],
+        "evidence": [],
+        "related": [],
+        "rank_score": null,
+        "context_length": 8192,
+        "parameters_b": null,
+        "benchmarks": [],
+        "gpu_fit": null,
+        "group": "lookup"
+      }
+    ],
+    "assessment": null,
+    "combination": [],
+    "display": "chat"
+  },
+  "display": "chat",
+  "history_saved": true
+}

@@ -90,7 +90,8 @@ export type Candidate = {
   benchmarks: Record<string, unknown>[];
   gpu_fit: Record<string, unknown> | null;
   // Which model list shows it; absent on results saved before the SFT list existed.
-  group?: "need" | "sft" | "both";
+  // "lookup": a model the user named, read for a direct question (shown only in a chat answer's snapshot).
+  group?: "need" | "sft" | "both" | "lookup";
 };
 
 export type ImplementationGuide = {
@@ -106,7 +107,16 @@ export type ChatResult = {
   assessment: (Record<string, unknown> & { implementation_guide?: ImplementationGuide }) | null;
   /** "이렇게 조합해 보세요" sentences from the answer's LLM call; absent or [] on older results. */
   combination?: string[];
+  /** "chat": a direct question's answer, kept for history and sources but never shown as a recommendation.
+   * Absent on results saved before it existed: those are recommendations. */
+  display?: Display;
 };
+
+export type Display = "recommendation" | "chat";
+
+/** How a stored or live snapshot is shown; older snapshots carry no display and are recommendations. */
+export const displayOf = (result: ChatResult | null | undefined): Display | undefined =>
+  result ? (result.display ?? "recommendation") : undefined;
 
 export type ChatDone = {
   schema_version: 2;
@@ -116,6 +126,8 @@ export type ChatDone = {
   answer: string;
   sources: Source[];
   result: ChatResult | null;
+  /** result.display for an answer with a result; absent from older servers. */
+  display?: Display | null;
   history_saved: boolean;
 };
 

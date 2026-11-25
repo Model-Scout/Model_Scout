@@ -1,0 +1,677 @@
+{
+ "calls": 59,
+ "by_kind": {
+  "router": 11,
+  "planner": 11,
+  "data_conditions": 6,
+  "embedding": 19,
+  "writer_recommend": 4,
+  "writer_chat": 6,
+  "classifier": 2
+ },
+ "tokens": {
+  "prompt": 109721,
+  "completion": 7422
+ },
+ "stopped": null,
+ "rows": [
+  {
+   "id": "S01",
+   "turns": [
+    {
+     "query": "강의 녹음을 받아써서 요약해 주는 앱을 만들고 싶어. 필요한 모델이랑 데이터 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "embedding": 3,
+      "writer_recommend": 1
+     },
+     "answer": "### 1. 강의 녹음 음성을 텍스트로 정확하게 변환해요.\n한국어 음성 인식에 검증된 Whisper 기반 모델이 적합합니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | seastar105/whisper-medium-komixv2 | 자동 음성 인식, 1024 context, 라이선스 미확인 |\n| 대안 | batiai/batisay-ko-base | Apache-2.0 라이선스 |\n| 대안 | Kkonjeong/wav2vec2-base-korean | 라이선스 미확인 |\n\n- seastar105/whisper-medium-komixv2는 한국어 검증 완료 모델입니다.\n- 라이선스와 상업적 이용 가능 여부가 불확실합니다.\n\n### 2. 변환된 텍스트를 간결하게 요약해요.\n한국어 요약에 특화된 T5 기반 모델이 적합합니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | eenzeenee/t5-base-korean-summarization | 텍스트 요약, 128 context, 라이선스 미확인 |\n| 대안 | EbanLee/kobart-summary-v3 | 라이선스 미확인 |\n| 대안 | ainize/kobart-news | MIT 라이선스 |\n\n- eenzeenee/t5-base-korean-summarization은 한국어 검증 완료 모델입니다.\n- 라이선스와 상업적 이용 가능 여부가 불확실합니다.\n\n### 프로젝트 학습·평가 데이터\n- **PeepDaSlan9/DIDI** (apache-2.0) — 음성 인식과 요약 모두 지원하는 다국어 대화 데이터셋\n- **daekeun-ml/naver-news-summarization-ko** (apache-2.0) — 뉴스 기사와 요약문 쌍, 요약 연구에 적합\n- **werty1248/Korean-1930-Novel-Scene-Summarize** (mit) — 저작권 만료 소설 씬 단위 요약 데이터셋\n\n### 서비스 데이터 (공공데이터)\n- 한국전자통신연구원_음성인식 기술 (이용허락범위 제한 없음) — 한국어 음성인식 API, 상업 이용 가능, API 방식\n- 서울시 평생학습포털 사이버강의 정보 (공공누리 제1유형) — 강의명, 강좌목차 등 강의 정보, API 및 CSV 제공, 상업 이용 가능\n- vivek-dodia/synthetic-data-gemini-2.0-ComplexTroubleshooting (미확인) — 네트워크 구성 문서, 텍스트 생성용, 라이선스 미확인\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 조건부 (라이선스 원문 확인 필요)\n- 라이선스 원문 확인 필요: seastar105/whisper-medium-komixv2 (unknown), eenzeenee/t5-base-korean-summarization (unknown), vivek-dodia/synthetic-data-gemini-2.0-ComplexTroubleshooting (라이선스 미확인)\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- werty1248/Korean-1930-Novel-Scene-Summarize: 한국 저작권 만료 소설에 대한 씬 분리 및 요약 데이터 셋 원천 데이터 출처: https://gongu.copyright.or.kr/gongu/wrt/wrtCl/listWrtText.do?menuNo=200019 총 96개 소설 수집 및 전처리 한자가 많은 소설 제외 한자 제거, 띄어쓰기 전처리 수행 씬 분리 사용 모델: Gemini-1.5-Flash (띄어쓰기 포함) 100자 이상, 1200자 미만으로 적절한 문장에서 씬 단위로 분리하도록 지시 총 12,108씬 생성 요약 사용 모델: Gemini-1.5-Flash(때때로 GPT-4o) 각 Scene에서 인물, 주요 소품, 사건을 추출하고, 요약(scenario)을 생성하도록 함\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "recommendation",
+     "type": "answer",
+     "state": {
+      "recommend": true,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "project"
+      },
+      "dataset_route": {
+       "path": "project"
+      },
+      "datasets": [
+       "PeepDaSlan9/DIDI",
+       "daekeun-ml/naver-news-summarization-ko",
+       "werty1248/Korean-1930-Novel-Scene-Summarize",
+       "Suchae/korean-judgment-easyread-transform",
+       "ENERZAiKR/LGUplus_summary_keyword",
+       "ENERZAiKR/LGUplus_epg_summary",
+       "vivek-dodia/synthetic-data-gemini-2.0-ComplexTroubleshooting",
+       "data_go_kr/15124653",
+       "seoul_open_data/OA-2562",
+       "seoul_open_data/OA-13540",
+       "data_go_kr/15124656",
+       "data_go_kr/15057980"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.classifier": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S02",
+   "turns": [
+    {
+     "query": "intfloat/multilingual-e5-large 모델 사양 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1
+     },
+     "answer": "intfloat/multilingual-e5-large 모델은 feature-extraction 용도로 사용되며, 파라미터 수는 5.6억 개입니다. 컨텍스트 길이는 514이고, float32 데이터 타입을 사용합니다. 라이선스는 MIT이며 상업적 이용이 허용됩니다. 모델 아티팩트는 onnx, pytorch_bin, safetensors 형식으로 제공되고, 실행 가능한 크기는 약 2.09GiB입니다. 지원하는 언어는 아프리칸스어부터 체코어까지 다양한 다국어를 포함합니다.\n\n| 항목           | 내용                          |\n|--------------|-----------------------------|\n| 작업(task)      | feature-extraction           |\n| 파라미터 수      | 0.56억                      |\n| 컨텍스트 길이    | 514                         |\n| 데이터 타입      | float32                     |\n| 라이선스        | MIT                         |\n| 상업적 이용      | 가능                        |\n| 아티팩트 형식    | onnx, pytorch_bin, safetensors |\n| 실행 크기       | 2.09GiB (safetensors)       |\n| 지원 언어       | 다국어 (예: af, am, ar, as, az, be, bg, bn, br, bs, ca, cs) |\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "intfloat/multilingual-e5-large"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "intfloat/multilingual-e5-large"
+       ],
+       "resolved": {
+        "intfloat/multilingual-e5-large": {
+         "status": "found",
+         "match": "id",
+         "model_id": "intfloat/multilingual-e5-large",
+         "candidates": [
+          "intfloat/multilingual-e5-large"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.classifier": true,
+    "t1.answer_has": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S03",
+   "turns": [
+    {
+     "query": "intfloat/multilingual-e5-large랑 intfloat/multilingual-e5-small 입력 길이 비교해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1
+     },
+     "answer": "intfloat/multilingual-e5-large 모델의 입력 길이는 514이고, intfloat/multilingual-e5-small 모델의 입력 길이는 512입니다. 두 모델의 입력 길이는 거의 비슷하지만, large 모델이 약간 더 긴 입력을 처리할 수 있어요.\n\n모델명 입력 길이\nintfloat/multilingual-e5-large 514\nintfloat/multilingual-e5-small 512\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "intfloat/multilingual-e5-large",
+       "intfloat/multilingual-e5-small"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "intfloat/multilingual-e5-large",
+        "intfloat/multilingual-e5-small"
+       ],
+       "resolved": {
+        "intfloat/multilingual-e5-large": {
+         "status": "found",
+         "match": "id",
+         "model_id": "intfloat/multilingual-e5-large",
+         "candidates": [
+          "intfloat/multilingual-e5-large"
+         ]
+        },
+        "intfloat/multilingual-e5-small": {
+         "status": "found",
+         "match": "id",
+         "model_id": "intfloat/multilingual-e5-small",
+         "candidates": [
+          "intfloat/multilingual-e5-small"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.classifier": true,
+    "t1.answer_has": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S04",
+   "turns": [
+    {
+     "query": "한국어 문장 임베딩 모델 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "embedding": 1,
+      "writer_recommend": 1
+     },
+     "answer": "### 1. 한국어 문장을 벡터로 변환하여 의미 기반 검색이나 유사도 계산에 활용해요.\nNGA-KR/ko-embed-v0는 한국어와 영어를 지원하며 긴 문장도 처리 가능해요.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | NGA-KR/ko-embed-v0 | sentence-similarity, 16384 context, apache-2.0 |\n| 대안 | kakaocorp/kanana-2-1.3b-embedding | other 라이선스, 상업용 검토 필요 |\n| 대안 | kakaocorp/kanana-2-3b-embedding | other 라이선스, 상업용 검토 필요 |\n\n- NGA-KR/ko-embed-v0는 영어 공개 데이터로만 학습되어 한국어 벤치마크는 미확인입니다.\n- kakaocorp 모델들은 상업적 사용 시 별도 검토가 필요합니다.\n- 실행 환경의 GPU 메모리 정보가 없어 GPU 호환성은 확인되지 않았습니다.\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 막는 라이선스 없음\n- 상업 출시할 경우: 상업 출시 가능\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "recommendation",
+     "type": "answer",
+     "state": {
+      "recommend": true,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "project"
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": false,
+    "t1.display": false,
+    "t1.model_path": false,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S05",
+   "turns": [
+    {
+     "query": "서울시 문화행사 정보 데이터셋 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "embedding": 1,
+      "writer_chat": 1
+     },
+     "answer": "서울시 문화행사 정보 데이터셋으로는 세 가지가 있습니다. 모두 서울 지역 문화행사 정보를 포함하며, API와 CSV 형식으로 제공되고 매일 1회 또는 비정기적으로 업데이트됩니다. 두 데이터셋은 상업 이용 가능하지만, 동대문구 문화행사 정보 데이터셋은 비상업 전용입니다.\n\n서울시 문화행사 정보 데이터셋 비교:\n\n항목 서울시 문화행사 정보 (OA-23041) 서울시 문화행사 정보 (OA-15486) 서울시 동대문구 문화행사 정보 (OA-12745)\n출처 seoul_open_data seoul_open_data seoul_open_data\n라이선스 공공누리 제1유형 공공누리 제1유형 공공누리 제4유형\n상업 이용 가능 여부 가능 가능 불가 (비상업 전용)\n업데이트 주기 매일 1회 매일 1회 비정기\n포함 정보 공연, 전시, 축제, 교육, 체험 등 공연/행사명, 장소, 일정 등 행사명, 링크, 부서, 등록일, 내용 등\n지역 범위 서울 전역 서울 전역 서울 동대문구\nURL https://data.seoul.go.kr/dataList/OA-23041/A/1/datasetView.do https://data.seoul.go.kr/dataList/OA-15486/A/1/datasetView.do https://data.seoul.go.kr/dataList/OA-12745/A/1/datasetView.do\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": null,
+      "dataset_route": {
+       "path": "search",
+       "names": []
+      },
+      "datasets": [
+       "seoul_open_data/OA-23041",
+       "seoul_open_data/OA-15486",
+       "seoul_open_data/OA-12745",
+       "seoul_open_data/OA-12093",
+       "seoul_open_data/OA-12183",
+       "seoul_open_data/OA-12117"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.dataset_path": false,
+    "t1.datasets_any": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S06",
+   "turns": [
+    {
+     "query": "서울 따릉이 공공데이터 찾아줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "embedding": 1,
+      "writer_chat": 1
+     },
+     "answer": "서울시 따릉이 공공데이터로는 대여소 정보, 이용현황, 시간대별 대여소 운영현황 데이터가 있습니다. 모두 서울 지역을 대상으로 하며, API, CSV, XLSX 형식으로 제공되고 상업적 이용도 가능합니다. 업데이트 주기는 반기 또는 수시로 다릅니다.\n\n데이터별 주요 특징은 다음과 같습니다.\n\n데이터명 대여소 정보 이용현황 시간대별 운영현황\n포맷 API, CSV, XLSX API, CSV, XLSX API, CSV\n상업 이용 가능 가능 가능 가능\n지역 서울 서울 서울\n업데이트 주기 반기 반기 수시\n설명 대여소 위치, 거치대수 대여 및 반납 건수 최근 7일 시간대별 대여 가능 건수, 거치율\n제한 없음 없음 최근 7일 이내 데이터, 호출 시 최대 1,000건 제한\n링크 https://data.seoul.go.kr/dataList/OA-13252/A/1/datasetView.do https://data.seoul.go.kr/dataList/OA-14994/A/1/datasetView.do https://data.seoul.go.kr/dataList/OA-20447/A/1/datasetView.do\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": null,
+      "dataset_route": {
+       "path": "search",
+       "names": []
+      },
+      "datasets": [
+       "seoul_open_data/OA-13252",
+       "seoul_open_data/OA-14994",
+       "seoul_open_data/OA-20447",
+       "data_go_kr/15077786",
+       "seoul_open_data/OA-15182",
+       "seoul_open_data/OA-15242"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.dataset_path": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S07",
+   "turns": [
+    {
+     "query": "NoSuchModel-9000 모델 라이선스 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "classifier": 1
+     },
+     "answer": "정확히 일치하는 모델 이름을 확인하지 못했어요: 'NoSuchModel-9000'.\n아래 모델은(는) 이름 없이 찾은 관련 후보이고, 말씀하신 항목 자체가 아니에요.\n\n현재 Model Scout 카탈로그에서 질문에 맞는 항목을 찾지 못했어요. 이름이나 조건을 바꿔 다시 물어봐 주세요.\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "NoSuchModel-9000"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "fallback",
+       "names": [
+        "NoSuchModel-9000"
+       ],
+       "resolved": {
+        "NoSuchModel-9000": {
+         "status": "not_found",
+         "match": null,
+         "model_id": null,
+         "candidates": []
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.answer_has": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "S08-09",
+   "turns": [
+    {
+     "query": "회의록을 요약하는 사내 서비스를 만들고 싶어. 모델과 데이터 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "embedding": 5,
+      "writer_recommend": 1
+     },
+     "answer": "### 1. 회의록 텍스트를 간결하게 요약하는 역할을 합니다.\n한국어 회의록 요약에 적합한 T5 기반 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | eenzeenee/t5-base-korean-summarization | summarization, context 128, 라이선스 미확인 |\n| 대안 | csebuetnlp/mT5_multilingual_XLSum | 라이선스 미확인 |\n| 대안 | Probees1492/papersummary-1.5b-v2-gguf | apache-2.0 |\n\n- eenzeenee 모델은 라이선스와 상업적 이용 여부가 미확인입니다.\n- context 길이가 128로 긴 문서 요약 시 제한이 있을 수 있습니다.\n\n### 2. 회의록의 주요 주제나 카테고리를 분류하는 역할을 합니다.\n한국어 뉴스 분류에 검증된 경량 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | dorae222/news-classifier | classification, context 512, apache-2.0 |\n| 대안 | Jinuuuu/KoELECTRA_fine_tunning_emotion | mit |\n| 대안 | cringepnh/koelectra-korean-sentiment | mit |\n\n- dorae222 모델은 상업적 이용 가능하며 한국어 검증 완료입니다.\n\n### 3. 회의록에서 주요 인물, 일정, 결정사항 등의 정보를 추출합니다.\n대용량 컨텍스트를 지원하는 한국어 정보 추출용 대형 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | 2264K/ktransfer-27b-kd-lam005-s150 | text-generation, context 262144, apache-2.0 |\n| 대안 | MyeongHo0621/Qwen2.5-3B-Korean | apache-2.0 |\n| 대안 | 2264K/ktransfer-27b-kd-lam05-s150 | apache-2.0 |\n\n- 대형 모델로 GPU 요구량이 높을 수 있습니다.\n\n### 4. 사내 회의록 특성에 맞게 일관된 요약 결과를 얻으려면 정답 예시로 SFT를 검토할 수 있어요.\nT5 기반 모델이 SFT 검토 후보입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | eenzeenee/t5-base-korean-summarization | summarization, context 128, 라이선스 미확인 |\n| 대안 | EbanLee/kobart-summary-v3 | 라이선스 미확인 |\n| 대안 | mithulaartigala/QNS-2-ReLearn-Preview | 라이선스 미확인 |\n\n- SFT용 모델도 라이선스와 상업적 이용 여부가 미확인입니다.\n\n### 프로젝트 학습·평가 데이터\n- **seoulraphaellee/korean-assembly-minutes** (other) — 대한민국 국회 회의록 원문과 AI 요약 포함, 조건부 이용\n- **daekeun-ml/naver-news-summarization-ko** (apache-2.0) — 한국어 뉴스 기사와 요약문 쌍, 상업 이용 가능\n  - CSV 형식, 27,400쌍, 상업 이용 가능\n- **werty1248/Korean-1930-Novel-Scene-Summarize** (mit) — 저작권 만료 소설 씬 단위 요약, 상업 이용 가능\n  - JSON 형식, 씬 단위 분리 및 요약\n\n### 서비스 데이터 (공공데이터)\n- **heegyu/hh-rlhf-ko** (mit) — Anthropic/hh-rlhf 한국어 번역 데이터셋, 상업 이용 가능\n  - JSON 형식, 텍스트 생성용, 조건 충족\n- **nayohan/reward-bench-ko** (odc-by) — allenai/reward-bench 한국어 번역, 상업 이용 가능\n  - Parquet 형식, 텍스트 생성용, 조건 충족\n- **서울시 호텔리스트 현황 (한국어)(2015년)** (공공누리 제1유형) — 서울시 호텔 정보, 상업 이용 가능\n  - API 및 CSV 형식, 2015년 데이터, 1회성 데이터, 조건 충족\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 조건부 (라이선스 원문 확인 필요)\n- 라이선스 원문 확인 필요: eenzeenee/t5-base-korean-summarization (unknown)\n- 학습에 쓰기 전 원문 확인: seoulraphaellee/korean-assembly-minutes (other)\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- werty1248/Korean-1930-Novel-Scene-Summarize: 한국 저작권 만료 소설에 대한 씬 분리 및 요약 데이터 셋 원천 데이터 출처: https://gongu.copyright.or.kr/gongu/wrt/wrtCl/listWrtText.do?menuNo=200019 총 96개 소설 수집 및 전처리 한자가 많은 소설 제외 한자 제거, 띄어쓰기 전처리 수행 씬 분리 사용 모델: Gemini-1.5-Flash (띄어쓰기 포함) 100자 이상, 1200자 미만으로 적절한 문장에서 씬 단위로 분리하도록 지시 총 12,108씬 생성 요약 사용 모델: Gemini-1.5-Flash(때때로 GPT-4o) 각 Scene에서 인물, 주요 소품, 사건을 추출하고, 요약(scenario)을 생성하도록 함\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "recommendation",
+     "type": "answer",
+     "state": {
+      "recommend": true,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "project"
+      },
+      "dataset_route": {
+       "path": "project"
+      },
+      "datasets": [
+       "seoulraphaellee/korean-assembly-minutes",
+       "daekeun-ml/naver-news-summarization-ko",
+       "werty1248/Korean-1930-Novel-Scene-Summarize",
+       "Suchae/korean-judgment-easyread-transform",
+       "GEM/wiki_lingua",
+       "ENERZAiKR/LGUplus_summary_keyword",
+       "heegyu/hh-rlhf-ko",
+       "nayohan/reward-bench-ko",
+       "seoul_open_data/OA-12996",
+       "gykwak03/KISS_delirium_papaers",
+       "data_go_kr/15025593",
+       "data_go_kr/15040738"
+      ]
+     }
+    },
+    {
+     "query": "이번엔 intfloat/multilingual-e5-small이랑 intfloat/multilingual-e5-base 입력 길이만 비교해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "writer_chat": 1
+     },
+     "answer": "intfloat/multilingual-e5-small 모델의 입력 길이는 512이고, intfloat/multilingual-e5-base 모델의 입력 길이는 514입니다. 두 모델 모두 입력 길이 제한이 비슷하지만, base 모델이 약간 더 긴 입력을 처리할 수 있어요.\n\n모델명 입력 길이\nintfloat/multilingual-e5-small 512\nintfloat/multilingual-e5-base 514\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "intfloat/multilingual-e5-small",
+       "intfloat/multilingual-e5-base"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "intfloat/multilingual-e5-small",
+        "intfloat/multilingual-e5-base"
+       ],
+       "resolved": {
+        "intfloat/multilingual-e5-small": {
+         "status": "found",
+         "match": "id",
+         "model_id": "intfloat/multilingual-e5-small",
+         "candidates": [
+          "intfloat/multilingual-e5-small"
+         ]
+        },
+        "intfloat/multilingual-e5-base": {
+         "status": "found",
+         "match": "id",
+         "model_id": "intfloat/multilingual-e5-base",
+         "candidates": [
+          "intfloat/multilingual-e5-base"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    },
+    {
+     "query": "이번엔 따릉이 대여소 안내 앱을 새로 만들고 싶어. 모델과 데이터 추천해줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "data_conditions": 1,
+      "embedding": 7,
+      "writer_recommend": 1
+     },
+     "answer": "### 1. 사용자가 가까운 따릉이 대여소 위치와 정보를 빠르게 찾을 수 있도록 검색 기능을 제공합니다.\nNGA-KR/ko-embed-v0은 한국어와 영어를 지원하며 긴 문맥 처리에 적합합니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | NGA-KR/ko-embed-v0 | sentence-similarity, 16384 context, apache-2.0 |\n| 대안 | dragonkue/multilingual-e5-small-ko | apache-2.0 |\n| 대안 | ddobokki/klue-roberta-base-nli-sts-ko-en | unknown |\n\n### 2. 따릉이 대여소 안내에 필요한 자연어 응답을 생성합니다.\nMyeongHo0621/Qwen2.5-3B-Korean은 한국어 최적화된 3B 파라미터 모델로 즉시 사용 가능합니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | MyeongHo0621/Qwen2.5-3B-Korean | text-generation, 131072 context, apache-2.0 |\n| 대안 | joongi007/ko-llama-3.1-5b-instruct-GGUF | llama3 |\n| 대안 | idah4/etm-korean-tiny | mit |\n\n### 3. 사용자 문의를 분류하여 적절한 안내나 답변을 제공합니다.\nJinuuuu/KoELECTRA_fine_tunning_emotion은 한국어 감정 분류에 적합한 경량 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | Jinuuuu/KoELECTRA_fine_tunning_emotion | text-classification, 512 context, mit |\n| 대안 | prismdata/guardrail-ko-11class | gpl-3.0 |\n| 대안 | dorae222/news-classifier | apache-2.0 |\n\n### 4. 따릉이 대여소 관련 문서와 사용자 질문 간 의미 유사도를 계산합니다.\nNGA-KR/ko-embed-v0이 문서 임베딩에 가장 적합하며, 한국어 지원과 긴 문맥 처리 강점이 있습니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | NGA-KR/ko-embed-v0 | sentence-similarity, 16384 context, apache-2.0 |\n| 대안 | kakaocorp/kanana-2-1.3b-embedding | other |\n| 대안 | kakaocorp/kanana-2-3b-embedding | other |\n\n### SFT 검토 후보\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | kiwi-farm/kiwi-coco-lm-base | feature-extraction, 8192 context, apache-2.0 |\n| 추천 | datumo/E-star-12B-base | text-generation, 131072 context, cc-by-nc-4.0 (비상업) |\n\n### 프로젝트 학습·평가 데이터\n- 해당 없음\n\n### 서비스 데이터 (공공데이터)\n- 서울시 공공자전거 따릉이 대여소 운영현황(시간대별) (공공누리 제1유형) — 최근 7일 대여소 및 시간별 대여 가능 건수, 호출 제한 있음\n- 서울시 공공자전거 따릉이 대여소 정보 (공공누리 제1유형) — 대여소 위치, 거치대수, 반기 갱신\n- 서울특별시_공공자전거 따릉이 대여소 운영현황(시간대별) (공공누리 제1유형(제3자 권리 포함)) — 실시간 갱신 표기 '실시간' (실제 갱신 확인 필요), 호출 제한 있음\n\n  - 모든 데이터는 서울 지역 한정이며, 호출 시 최대 1,000건 제한과 최근 7일 이내 데이터 한정 조건이 있습니다.\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 상업 출시 불가\n- 비상업 라이선스: datumo/E-star-12B-base (cc-by-nc-4.0)\n- 라이선스 원문 확인 필요: data_go_kr/15077786 (공공누리 제1유형(제3자 권리 포함))\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- data_go_kr/15077786: 최근 7일이내의 대여소 및 시간별 자전거 대여가능 건수, 거치율, 대여소 위치정보를 제공합니다 / 호출시 시스템 부하로 한번에 최대 1,000건를 초과할수 없습니다 / - 최근 7일 이내만 확인 가능합니다\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "recommendation",
+     "type": "answer",
+     "state": {
+      "recommend": true,
+      "mentioned_models": [],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": true,
+      "model_route": {
+       "path": "project"
+      },
+      "dataset_route": {
+       "path": "project"
+      },
+      "datasets": [
+       "seoul_open_data/OA-20447",
+       "seoul_open_data/OA-13252",
+       "data_go_kr/15077786",
+       "seoul_open_data/OA-21235",
+       "seoul_open_data/OA-15249",
+       "seoul_open_data/OA-15245"
+      ]
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.not_rejected": true,
+    "t2.recommend": true,
+    "t2.display": true,
+    "t2.model_path": true,
+    "t2.no_dataset_search": true,
+    "t2.not_rejected": true,
+    "t3.recommend": true,
+    "t3.display": true,
+    "t3.no_names_from": true,
+    "t3.not_rejected": true
+   }
+  },
+  {
+   "id": "S10",
+   "turns": [
+    {
+     "query": "BGE 같은 더 가벼운 한국어 임베딩 모델 찾아줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "embedding": 1,
+      "writer_chat": 1,
+      "classifier": 1
+     },
+     "answer": "BGE보다 더 가벼운 한국어 임베딩 모델로는 Horizon-Labs의 multilingual-embedding-small 모델이 있습니다. 이 모델은 파라미터 수가 0.14억 개로 매우 작고, 한국어를 포함한 여러 언어를 지원합니다. 또한, 상업적 이용이 허용되고 onnx와 safetensors 형식으로 제공됩니다. BGE 모델은 파라미터 수가 0.568억 개로 이보다 큽니다.\n\n모델명           파라미터 수(억)  한국어 지원  라이선스    상업적 이용\nmultilingual-small  0.14           지원        apache-2.0  가능\nKORPatent-BGE       0.568          지원        mit         가능\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "BGE"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [
+       "BGE"
+      ],
+      "new_request": false,
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.reference": true,
+    "t1.not_rejected": true
+   }
+  }
+ ]
+}

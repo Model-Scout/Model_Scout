@@ -61,6 +61,12 @@ DB_ENV = ("SUPABASE_DB_HOST", "SUPABASE_DB_PORT", "SUPABASE_DB_NAME", "SUPABASE_
 AI_TIMEOUT = httpx.Timeout(10.0, read=180.0)
 AI_ERROR = "추천을 만드는 중 오류가 났습니다. 잠시 후 다시 시도해 주세요."
 QUESTION_HISTORY = 6  # latest messages sent with a question, enough to resolve "그럼 두 번째는?"
+RESULT_SCAN = 50  # stored results read back to find the latest recommendation behind later chat answers
+
+
+def is_recommendation(result: dict | None) -> bool:
+    """A stored result the result screen shows. Results saved before display existed are recommendations."""
+    return bool(result) and (result or {}).get("display", "recommendation") != "chat"
 # The AI reports a node when it finishes, so each entry names the step that starts next.
 # Searches run side by side and finish in any order, so they keep step 2; only assess, the join, moves on.
 # They still send a status: writing it is how a client that left is noticed before explain's LLM call.
@@ -401,8 +407,10 @@ def question_context(pool: Any, body: ChatRequest, session_id: UUID) -> dict:
             raise HTTPException(404, "대화를 찾을 수 없습니다.")
         if owner["session_id"] != session_id:
             raise HTTPException(403, "이 대화에 이어서 질문할 수 없습니다.")
-        row = conn.execute("select result, sources from app.messages where group_id = %s and result is not null order by id desc limit 1",
-                           (body.group_id,)).fetchone()
+        # The latest recommendation, not a later chat answer: "결과에 질문" asks about what the result screen shows.
+        rows = conn.execute("select result, sources from app.messages where group_id = %s and result is not null "
+                            "order by id desc limit %s", (body.group_id, RESULT_SCAN)).fetchall()
+        row = next((r for r in rows if is_recommendation(r["result"])), None)
         history = conn.execute("select role, content from app.messages where group_id = %s order by id desc limit %s",
                                (body.group_id, QUESTION_HISTORY)).fetchall()
     if row is None:
@@ -448,7 +456,9 @@ def get_group(group_id: UUID) -> GroupDetail:
             "select id, role, content, type, result, sources, created_at from app.messages where group_id = %s order by id",
             (group_id,),
         ).fetchall()
-    latest = next((m["result"] for m in reversed(messages) if m["result"] is not None), None)
+    # The result screen's snapshot: the latest recommendation. Chat answers keep their own result on their message.
+    latest = next((m["result"] for m in reversed(messages) if m["result"] is not None and is_recommendation(m["result"])),
+                  None)
     for message in messages:
         if not message.get("sources") and message.get("result"):
             message["sources"] = message["result"].get("sources") or []

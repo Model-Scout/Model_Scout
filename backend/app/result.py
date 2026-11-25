@@ -53,7 +53,8 @@ class Candidate(BaseModel):
     benchmarks: list[dict[str, Any]] = Field(default_factory=list)
     gpu_fit: dict[str, Any] | None = None
     # Which model list shows it: a need's picks, the SFT starting points, or both. Datasets stay "need".
-    group: Literal["need", "sft", "both"] = "need"
+    # "lookup": a model the user named, read by name for a direct question; never a ranked pick.
+    group: Literal["need", "sft", "both", "lookup"] = "need"
 
 
 class ChatResult(BaseModel):
@@ -64,6 +65,9 @@ class ChatResult(BaseModel):
     assessment: dict[str, Any] | None = None
     # Plain sentences on how the picks fit together, written by the answer's own LLM call; [] on older results.
     combination: list[str] = Field(default_factory=list)
+    # How the client shows this answer: "recommendation" (chat answer + recommendation screen) or "chat" (the answer
+    # only; the snapshot is kept for the history, sources and follow-up context). Older results are recommendations.
+    display: Literal["recommendation", "chat"] = "recommendation"
 
     @model_validator(mode="before")
     @classmethod
@@ -99,6 +103,8 @@ class ChatDone(BaseModel):
     answer: str
     sources: list[Source] = Field(default_factory=list)
     result: ChatResult | None = None
+    # result.display for an answer with a result, so a client can branch before reading the snapshot; None otherwise.
+    display: Literal["recommendation", "chat"] | None = None
     history_saved: bool = True
 
 
@@ -269,7 +275,7 @@ def build_result(events: dict[str, Any]) -> ChatResult:
             sid = model["model_id"]
             cid = f"model:{sid}"
             role = need.get("purpose_ko") or need.get("task", "")
-            kind = "sft" if group.get("kind") == "sft" else "need"
+            kind = group.get("kind") if group.get("kind") in ("sft", "lookup") else "need"
             if cid in candidates:
                 if role not in candidates[cid].role:
                     candidates[cid].role += f" / {role}"
@@ -330,9 +336,17 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     # language/execution are unknown for every model, so listing them would bury the real items.
     needs = list(dict.fromkeys(f"{c.name}: {k.label}" for c in candidates.values() if c.type == "model"
                                for k in c.checks if k.status != "ok" and k.key not in ("language", "execution")))
+    display = display_of(events.get("plan"))
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
                       candidates=list(candidates.values()), assessment=events.get("assessment"),
-                      combination=[str(x) for x in events.get("combination") or []])
+                      combination=[] if display == "chat" else [str(x) for x in events.get("combination") or []],
+                      display=display)
+
+
+def display_of(plan: dict[str, Any] | None) -> Literal["recommendation", "chat"]:
+    """The last plan's recommend (ai 17 ProjectPlan): false is a direct question answered in chat. A plan without the
+    field (an older AI or checkpoint) is a recommendation, as it was shown before."""
+    return "chat" if (plan or {}).get("recommend") is False else "recommendation"
 
 
 def build_sources(events: dict[str, Any]) -> list[Source]:
@@ -366,12 +380,14 @@ def build_done(events: dict[str, Any], group_id: UUID, answer: str, elapsed: flo
     if events.get("clarify"):
         return ChatDone(type="clarify", group_id=group_id, elapsed=elapsed,
                         answer="\n".join(events["clarify"]["questions"]))
-    # A dataset-only request plans no model needs by design, so only "no needs and no datasets" is off-topic.
+    # A dataset-only request plans no model needs by design, so only "no needs and no datasets" is off-topic. A
+    # direct question (recommend false) is always a normal answer: a lookup that found nothing still answers it.
     datasets = events.get("datasets") or {}
     found = any(datasets.get(k) for k in ("per_model", "project_training", "service_data"))
-    if not (events.get("plan") or {}).get("needs") and not found:
+    display = display_of(events.get("plan"))
+    if display == "recommendation" and not (events.get("plan") or {}).get("needs") and not found:
         return ChatDone(type="reject", group_id=group_id, elapsed=elapsed, answer=REJECT_MESSAGE)
-    return ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer=answer,
+    return ChatDone(type="answer", group_id=group_id, elapsed=elapsed, answer=answer, display=display,
                     result=build_result(events), sources=build_sources(events))
 
 
