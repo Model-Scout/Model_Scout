@@ -553,6 +553,21 @@ def test_combination_reaches_the_result():
     assert build_done({**events, "combination": None}, UUID(int=1), "a", 1).result.combination == []
 
 
+def test_pipeline_references_a_returned_candidate_and_has_no_cycles():
+    nodes = [{"id": "model", "label": "답변 생성", "candidate_id": "model:org/m"},
+             {"id": "output", "label": "답변 표시"}]
+    edges = [{"source": "model", "target": "output"}]
+    events = {"plan": {"summary_ko": "s", "needs": [{"task": "generation"}]},
+              "models": [{"need": {"task": "generation"}, "models": [contract_model()]}], "datasets": {}}
+
+    def result(graph):
+        return build_done({**events, "pipeline": graph}, UUID(int=1), "a", 1).result
+
+    assert result({"nodes": nodes, "edges": edges}).pipeline.nodes[0].candidate_id == "model:org/m"
+    assert result({"nodes": nodes, "edges": edges + [{"source": "output", "target": "model"}]}).pipeline is None
+    assert result({"nodes": [{**nodes[0], "candidate_id": "model:unknown/m"}, nodes[1]], "edges": edges}).pipeline is None
+
+
 def test_dataset_condition_verdicts_become_checks_and_summary():
     from backend.app.result import build_result
     row = {"dataset": "data_go_kr/1", "title": "충청북도 공중화장실 현황", "source": "data_go_kr", "licenses": [],

@@ -117,6 +117,9 @@ def test_official_dataset_dates_and_limits_are_preserved(monkeypatch):
 @pytest.mark.parametrize("chunk_size", [1, 7, 1000])
 def test_combination_sentences_leave_the_answer_for_the_summary(monkeypatch, chunk_size):
     text = "acme/ko-chat-7b 추천.\n[[조합]]\n상담 기록을 ko-chat-7b로 요약해요.\n\n답변은 짧게 정리해요.\n"
+    pipeline = {"nodes": [{"id": "m", "label": "상담 답변", "candidate_id": "model:acme/ko-chat-7b"},
+                          {"id": "o", "label": "답변 표시"}], "edges": [{"source": "m", "target": "o"}]}
+    text += f"[[흐름도]] {json.dumps(pipeline, ensure_ascii=False)}"
     events = []
     monkeypatch.setattr("langgraph.config.get_stream_writer", lambda: events.append)
 
@@ -128,7 +131,8 @@ def test_combination_sentences_leave_the_answer_for_the_summary(monkeypatch, chu
     result = rg.explain(state())
     displayed = "".join(event["token"] for event in events)
     assert result["combination"] == ["상담 기록을 ko-chat-7b로 요약해요.", "답변은 짧게 정리해요."]
-    assert "조합" not in displayed and "요약해요" not in result["answer"]
+    assert result["pipeline"] == pipeline
+    assert "조합" not in displayed and "요약해요" not in result["answer"] and "흐름도" not in displayed
     assert displayed == result["answer"]
 
 

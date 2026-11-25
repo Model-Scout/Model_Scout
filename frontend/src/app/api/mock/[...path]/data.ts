@@ -43,6 +43,29 @@ export const BIKE: ChatResult = {
     "서울시 공공자전거 이용정보는 TimesFM-2.5-200M에 넣어 대여소별 대여·반납량을 예측하고, 자전거가 넉넉한 곳을 먼저 추천해요.",
     "Qwen3-8B가 요청을 해석하고 추천 이유를 설명해요. 전국 자전거도로 표준데이터는 경로 설명 근거로 쓰되 확인이 필요해요.",
   ],
+  pipeline: {
+    nodes: [
+      { id: "stations", label: "대여소 위치", candidate_id: "dataset:seoul/bike-stations" },
+      { id: "embedding", label: "임베딩 · 검색 색인", note: "장소·코스 의미 검색", candidate_id: "model:BAAI/bge-m3" },
+      { id: "rerank", label: "재정렬", note: "장소 후보 순서 정리", candidate_id: "model:BAAI/bge-reranker-v2-m3" },
+      { id: "usage", label: "시간대별 대여 이력", candidate_id: "dataset:seoul/bike-usage" },
+      { id: "forecast", label: "시계열 예측", note: "대여·반납량 예측", candidate_id: "model:google/timesfm-2.5-200m-pytorch" },
+      { id: "output", label: "경로 후보 선정", note: "장소 후보와 예상 이용량을 합쳐 넉넉한 경로부터 추천" },
+      { id: "pairs", label: "경로 질의-설명 쌍", note: "자전거도로 데이터로 생성", candidate_id: "dataset:data-go-kr/bike-roads" },
+      { id: "tune", label: "LoRA SFT", note: "QLoRA · 8GB GPU" },
+      { id: "sftbase", label: "추천 이유 설명", candidate_id: "model:LiquidAI/LFM3-1.7B-Base" },
+    ],
+    edges: [
+      { source: "stations", target: "embedding" },
+      { source: "embedding", target: "rerank" },
+      { source: "rerank", target: "output" },
+      { source: "usage", target: "forecast" },
+      { source: "forecast", target: "output", label: "예상 이용량" },
+      { source: "pairs", target: "tune" },
+      { source: "tune", target: "sftbase" },
+      { source: "sftbase", target: "output", label: "추천 이유" },
+    ],
+  },
   candidates: [
     model({
       source_id: "BAAI/bge-m3",
@@ -163,6 +186,7 @@ export const BIKE: ChatResult = {
   assessment: {
     implementation_guide: {
       structured_output: "지도 API에 넘길 출발지와 목적지를 JSON 스키마로 정하고, 모델을 실행할 환경에서 그 형식으로 출력할 수 있는지 확인하세요.",
+      fine_tuning: "따릉이 경로 안내 말투와 답변 형식을 일정하게 맞추려면 SFT를 검토할 수 있어요. 기본 모델을 실제 예시로 먼저 평가해 보고 결정하세요.",
     },
   },
 };

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { SendOptions, Turn } from "@/components/App";
 import { HistoryDrawer } from "@/components/Home";
+import { PipelineDiagram } from "@/components/PipelineDiagram";
 import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
 import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
@@ -25,7 +26,7 @@ type Props = {
 
 type ReadmeOpen = (s: { source_id: string; kind: "model" | "dataset"; title?: string | null; url?: string | null; quote?: string | null }) => void;
 
-/** v5 B. 추천 결과 (대시보드): top picks | selected candidate + Model Scout 요약 | chat in a side panel. */
+/** 추천 결과: 후보 목록, 서비스 기획과 선택한 후보 상세, 후속 대화. */
 export function Result({ groupId, title, request, result, sources, turns, owner, onSend, onCancel, onReload, onHome, onOpenGroup }: Props) {
   const candidates = result.candidates;
   const models = candidates.filter((c) => c.type === "model" && c.group !== "sft");
@@ -111,8 +112,9 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
           <DataList datasets={datasets} all={candidates} selectedId={selected?.id} onSelect={setSelectedId} />
         </div>
 
-        <div className="grid flex-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <section className="min-w-0 rounded-2xl bg-white p-6 lg:p-8">
+        <div className="grid flex-1 items-start gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <ScoutSummary result={result} selectedId={selected?.id} onSelect={setSelectedId} />
+          <section aria-label="선택한 후보 상세" className="@container min-w-0 rounded-2xl bg-white p-5 lg:p-6">
             {selected ? (
               <Detail
                 candidate={selected}
@@ -131,7 +133,6 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
               </div>
             )}
           </section>
-          <ScoutSummary result={result} />
         </div>
       </div>
 
@@ -452,7 +453,7 @@ export function combinations(candidates: Candidate[]) {
 }
 
 /** Model Scout 요약: built from the result the pipeline already returned, so it costs no extra LLM call. */
-function ScoutSummary({ result }: { result: ChatResult }) {
+function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; selectedId?: string; onSelect: (id: string) => void }) {
   const [ask, ...chips] = result.summary;
   const sentences = result.combination ?? [];
   // Older results have no LLM sentences: fall back to the line-per-need template.
@@ -466,7 +467,7 @@ function ScoutSummary({ result }: { result: ChatResult }) {
     ));
 
   return (
-    <aside className="space-y-5 rounded-2xl bg-white p-6 text-sm">
+    <aside className="min-w-0 space-y-5 rounded-2xl bg-white p-5 text-sm lg:p-6">
       <h2 className="flex items-center gap-2 text-lg font-bold">
         <PencilIcon /> Model Scout 요약
       </h2>
@@ -484,6 +485,11 @@ function ScoutSummary({ result }: { result: ChatResult }) {
           </div>
         )}
       </section>
+
+      {result.pipeline && (
+        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
+          selectedId={selectedId} onSelect={onSelect} />
+      )}
 
       {sentences.length > 0 ? (
         <section className="border-t border-line pt-4">
@@ -508,17 +514,6 @@ function ScoutSummary({ result }: { result: ChatResult }) {
             ))}
             {training.length > 0 && <li>학습·평가 데이터: {names(training)}</li>}
             {service.length > 0 && <li>서비스에 붙일 데이터: {names(service)}</li>}
-          </ul>
-        </section>
-      )}
-
-      {result.needs_check.length > 0 && (
-        <section className="border-t border-line pt-4">
-          <h3 className="mb-1.5 text-xs text-muted">먼저 확인할 것</h3>
-          <ul className="space-y-1 rounded-xl bg-warn-soft p-4 font-semibold text-warn">
-            {result.needs_check.map((n) => (
-              <li key={n}>{n}</li>
-            ))}
           </ul>
         </section>
       )}
@@ -597,7 +592,7 @@ function Metrics({ c }: { c: Candidate }) {
     },
   ];
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-3 @xs:grid-cols-2">
       {cards.map((card) => (
         <div key={card.label} className="rounded-xl bg-soft p-4">
           <div className="text-xs text-muted">{card.label}</div>
@@ -638,7 +633,7 @@ function Detail({
     <article className="space-y-8">
       <header className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <h2 className="break-all text-3xl font-bold">{c.name}</h2>
+          <h2 className="[overflow-wrap:anywhere] text-2xl font-bold">{c.name}</h2>
           <span className="rounded-full bg-brand px-2.5 py-0.5 text-xs font-semibold text-white">{c.type === "model" ? "모델" : "데이터셋"}</span>
           {c.tags.map((t) => (
             <span key={t} className="rounded-full bg-soft px-2.5 py-0.5 text-xs text-muted">
@@ -673,12 +668,12 @@ function Detail({
         ) : (
           <ul className="text-sm">
             {c.checks.map((k) => (
-              <li key={k.key} className="grid gap-2 border-b border-line py-4 sm:grid-cols-[140px_100px_minmax(0,1fr)]">
+              <li key={k.key} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 border-b border-line py-3">
                 <span className="font-semibold">{k.label}</span>
                 <span>
                   <StatusBadge status={k.status} />
                 </span>
-                <div>
+                <div className="col-span-2 min-w-0 [overflow-wrap:anywhere]">
                   <p>{k.quote ? `“${k.quote}”` : k.reason}</p>
                   <p className="mt-0.5 text-xs text-faint">
                     {k.quote ? (
@@ -781,7 +776,7 @@ function Detail({
       {related.length > 0 && (
         <section>
           <h3 className="mb-2 font-bold">{c.type === "model" ? "연결 데이터셋 · 학습·평가에 쓸 수 있어요" : "연결 모델"}</h3>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 @sm:grid-cols-2">
             {related.map((r) => (
               <button key={r.id} className="rounded-xl bg-soft p-4 text-left hover:bg-brand-soft" onClick={() => onSelect(r.id)}>
                 <div className="text-[11px] text-faint"># {r.source}</div>

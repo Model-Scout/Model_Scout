@@ -99,6 +99,11 @@ export type ImplementationGuide = {
   fine_tuning?: string;
 };
 
+export type Pipeline = {
+  nodes: { id: string; label: string; note?: string; candidate_id?: string | null }[];
+  edges: { source: string; target: string; label?: string }[];
+};
+
 export type ChatResult = {
   title: string;
   summary: string[];
@@ -107,6 +112,7 @@ export type ChatResult = {
   assessment: (Record<string, unknown> & { implementation_guide?: ImplementationGuide }) | null;
   /** "이렇게 조합해 보세요" sentences from the answer's LLM call; absent or [] on older results. */
   combination?: string[];
+  pipeline?: Pipeline | null;
   /** "chat": a direct question's answer, kept for history and sources but never shown as a recommendation.
    * Absent on results saved before it existed: those are recommendations. */
   display?: Display;
