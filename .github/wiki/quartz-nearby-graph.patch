@@ -1,5 +1,19 @@
+diff --git a/quartz/components/Explorer.tsx b/quartz/components/Explorer.tsx
+index e4cbcab..c0d37a9 100644
+--- a/quartz/components/Explorer.tsx
++++ b/quartz/components/Explorer.tsx
+@@ -46,7 +46,8 @@ const defaultOptions: Options = {
+       return -1
+     }
+   },
+-  filterFn: (node) => node.slugSegment !== "tags",
++  // Model Scout wiki: 23K dataset and model rows freeze the page and cannot be scrolled; search finds them.
++  filterFn: (node) => !["tags", "datasets", "models"].includes(node.slugSegment),
+   order: ["filter", "map", "sort"],
+ }
+ 
 diff --git a/quartz/components/Graph.tsx b/quartz/components/Graph.tsx
-index 907372e..4bb41a1 100644
+index 907372e..5ddc5ee 100644
 --- a/quartz/components/Graph.tsx
 +++ b/quartz/components/Graph.tsx
 @@ -4,6 +4,7 @@ import script from "./scripts/graph.inline"
@@ -10,6 +24,19 @@ index 907372e..4bb41a1 100644
  
  export interface D3Config {
    drag: boolean
+@@ -34,9 +35,9 @@ const defaultOptions: GraphOptions = {
+     scale: 1.1,
+     repelForce: 0.5,
+     centerForce: 0.3,
+-    linkDistance: 30,
+-    fontSize: 0.6,
+-    opacityScale: 1,
++    linkDistance: 75,
++    fontSize: 0.7,
++    opacityScale: 5, // labels stay readable without zooming in
+     showTags: true,
+     removeTags: [],
+     focusOnHover: false,
 @@ -60,43 +61,17 @@ const defaultOptions: GraphOptions = {
  }
  
@@ -60,11 +87,25 @@ index 907372e..4bb41a1 100644
          </div>
        </div>
      )
+diff --git a/quartz/components/scripts/explorer.inline.ts b/quartz/components/scripts/explorer.inline.ts
+index 9c83411..746df3a 100644
+--- a/quartz/components/scripts/explorer.inline.ts
++++ b/quartz/components/scripts/explorer.inline.ts
+@@ -224,7 +224,8 @@ async function setupExplorer(currentSlug: FullSlug) {
+       // try to scroll to the active element if it exists
+       const activeElement = explorerUl.querySelector(".active")
+       if (activeElement) {
+-        activeElement.scrollIntoView({ behavior: "smooth" })
++        // nearest: the default also scrolls the article itself down
++        activeElement.scrollIntoView({ block: "nearest" })
+       }
+     }
+ 
 diff --git a/quartz/components/scripts/graph.inline.ts b/quartz/components/scripts/graph.inline.ts
-index a669b05..d911d09 100644
+index a669b05..32976d1 100644
 --- a/quartz/components/scripts/graph.inline.ts
 +++ b/quartz/components/scripts/graph.inline.ts
-@@ -124,7 +124,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
+@@ -124,7 +124,15 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
  
    const neighbourhood = new Set<SimpleSlug>()
    const wl: (SimpleSlug | "__SENTINEL")[] = [slug, "__SENTINEL"]
@@ -74,7 +115,19 @@ index a669b05..d911d09 100644
 +    // Model Scout wiki: the page names its nearest pages (wiki_graph); depth 1 of a hub is 20K pages.
 +    neighbourhood.add(slug)
 +    for (const s of JSON.parse(nearby) as FullSlug[]) neighbourhood.add(simplifySlug(s))
++    // Only lines from this page: the neighbours nearly all link to each other, which hides the relation.
++    links.length = 0
++    for (const s of neighbourhood) if (s !== slug) links.push({ source: slug, target: s })
 +  } else if (depth >= 0) {
      while (depth >= 0 && wl.length > 0) {
        // compute neighbours
        const cur = wl.shift()!
+@@ -378,7 +386,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
+       interactive: false,
+       eventMode: "none",
+       text: n.text,
+-      alpha: 0,
++      alpha: nearby ? 1 : 0,
+       anchor: { x: 0.5, y: 1.2 },
+       style: {
+         fontSize: fontSize * 15,
