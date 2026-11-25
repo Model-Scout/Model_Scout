@@ -157,7 +157,7 @@ def world(monkeypatch):
         graph.invoke(payload, config)
         return SimpleNamespace(state=graph.get_state(config).values, calls=calls - before)
 
-    return SimpleNamespace(state=state, calls=calls, seen=seen, turn=turn)
+    return SimpleNamespace(state=state, calls=calls, seen=seen, turn=turn, graph=graph, config=config)
 
 
 # ---- 1. The plan: recommend, mentioned names and the post-processing -------------------------------------------------
@@ -172,6 +172,45 @@ def world(monkeypatch):
 ])
 def test_mentioned_names_stay_as_the_user_wrote_them(raw, said, kept):
     assert rg.mention_names(raw, said) == kept
+
+
+@pytest.mark.parametrize("description", ["법률상담 챗봇", "한국어 문장 임베딩 모델", "따릉이 경로 추천 서비스"])
+def test_model_descriptions_are_not_lookup_names(monkeypatch, description):
+    monkeypatch.setattr(rg, "_llm_plan", lambda user: plan(recommend=False, needs=[EMBED], models=[description]))
+    out = rg._parse_plan(f"{description} 추천해줘", "model")
+    assert out["mentioned_models"] == []
+    assert out["needs"] == [EMBED]  # a generic model request still reaches search
+
+
+@pytest.mark.parametrize("name", ["BGE-M3", "intfloat/multilingual-e5-small", "하이퍼클로바X", "카나나", "org/한국어모델"])
+def test_real_name_shapes_are_not_removed_by_description_checks(monkeypatch, name):
+    monkeypatch.setattr(rg, "_llm_plan", lambda user: plan(recommend=False, needs=[EMBED], models=[name]))
+    assert rg._parse_plan(f"{name} 사양 알려줘", "model")["mentioned_models"] == [name]
+
+
+def test_clarification_is_sent_as_context_not_a_new_direct_request(monkeypatch):
+    seen = []
+    monkeypatch.setattr(rg, "_llm_plan", lambda user: seen.append(json.loads(user)) or
+                        plan(recommend=True, dataset_query="서울 따릉이 대여소 위치"))
+    history = [{"question": rg.TARGET_QUESTION, "answer": "데이터만"}]
+    out = rg._parse_plan("따릉이 경로 추천 앱을 만들고 싶어", "dataset", clarification=history)
+    assert out["recommend"] is True and out["needs"] == []
+    assert seen[0]["clarification_history"] == history
+    assert seen[0]["user_message"] == "따릉이 경로 추천 앱을 만들고 싶어"
+
+
+@pytest.mark.parametrize("answer,target", [("데이터만", "dataset"), ("모델만", "model"), ("둘 다", "both")])
+def test_project_resource_choice_keeps_context_through_the_graph(world, answer, target):
+    from langgraph.types import Command
+    world.state["target"] = "needs_clarification"
+    world.state["plans"] = [plan(recommend=True, needs=[EMBED] if target != "dataset" else [],
+                                 dataset_query="서울 대여소" if target != "model" else "")]
+    first = world.turn("따릉이 대여소 안내 서비스를 만들고 싶어")
+    assert first.calls["planner"] == 0
+    world.graph.invoke(Command(resume=answer), world.config)
+    state = world.graph.get_state(world.config).values
+    assert state["route"]["target"] == target and state["plan"]["recommend"] is True
+    assert world.seen["parse_inputs"][0]["clarification_history"][-1]["answer"] == answer
 
 
 def test_a_direct_question_gets_no_planning_question_sft_or_ai_job_question(monkeypatch):
@@ -567,9 +606,20 @@ def test_the_kind_of_request_and_names_come_first_in_the_planner_schema():
     assert rg.DECOMPOSE_PROMPT.index("recommend:") < rg.DECOMPOSE_PROMPT.index("needs:")
 
 
-def test_no_evaluation_sentence_or_answer_id_sits_in_the_planner_prompt():
-    for text in ("한국어 문장 임베딩 모델", "서울시 문화행사 정보", "OA-15486", "OA-23041"):
+def test_no_answer_id_or_evaluation_label_sits_in_the_planner_prompt():
+    # User-facing contrast examples are deliberate; the prompt must not carry catalog answer IDs or test labels.
+    for text in ("OA-15486", "OA-23041", "S04", "S05"):
         assert text not in rg.DECOMPOSE_PROMPT
+
+
+def test_a_legacy_description_does_not_emit_a_missing_model_warning():
+    lookup = {"model": {"fallback": True, "names": {"법률상담 챗봇": {"status": "not_found"}}}}
+    assert rg.lookup_note(lookup, {"model"}) == ""
+
+
+def test_korean_dataset_titles_still_get_missing_name_notices():
+    lookup = {"dataset": {"fallback": True, "names": {"전국 주차장 정보": {"status": "not_found"}}}}
+    assert "전국 주차장 정보" in rg.lookup_note(lookup, {"dataset"})
 
 
 @pytest.mark.parametrize("text", [

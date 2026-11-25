@@ -48,6 +48,7 @@ def test_follow_up_can_pause_resume_and_preserve_conditions(monkeypatch):
     planned = []
 
     def fake_parse(user, target, said=None, previous=None, prior_plan=None, **kwargs):
+        assert kwargs["clarification"][-1] == {"question": "어떤 상담 내용을 처리하나요?", "answer": "배송 문의"}
         planned.append((user, target, said, previous, prior_plan))
         return plan(**(previous or {}))
 
