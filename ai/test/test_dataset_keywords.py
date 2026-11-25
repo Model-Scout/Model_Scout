@@ -24,3 +24,31 @@ def test_region_words_with_a_suffix_are_regions():
         "서울", "서울", "경기", "충북", "부산", None, None]
     seoul = entity("서울시 버스도착정보", source="seoul_open_data")
     assert hs.keyword_score(seoul, ["서울시", "버스"])[0] == hs.KEYWORD_BONUS + hs.REGION_MATCH_BONUS
+
+
+def test_letters_of_a_region_inside_another_word_are_not_a_region():
+    titles = ["식육부산물전문판매업 현황", "환경기초시설 정보제공서비스", "소상공인 경기동향(BSI)",
+              "전국기능경기대회 개최현황", "서울올림픽기념국민체육진흥공단_전국체육시설 정보"]
+    assert [hs.dataset_regions({"title": t}) for t in titles] == [set()] * 5
+    assert hs.dataset_regions({"title": "부산광역시_식육부산물 판매업"}) == {"부산"}
+    assert hs.dataset_regions({"title": "인천국제공항공사_주차 정보"}) == {"인천"}
+    assert hs.dataset_regions({"title": "경기도_환경기초시설"}) == {"경기"}
+
+
+def test_a_stuck_embedding_call_fails_fast(monkeypatch):
+    import openai
+
+    seen = {}
+
+    class Client:
+        def __init__(self, **kwargs):
+            seen.update(kwargs)
+            raise TimeoutError
+
+    monkeypatch.setattr(openai, "OpenAI", Client)
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
+    try:
+        hs._embed_query("timeout test", "model")
+    except TimeoutError:
+        pass
+    assert seen["timeout"] <= 30 and seen["max_retries"] <= 1

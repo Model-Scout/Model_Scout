@@ -1019,7 +1019,7 @@ def search_project_datasets(state: State) -> State:
     commercial = constraints_of(plan)["commercial_only"]
     # SFT roles' tasks too, so training data also matches a role the needs do not cover.
     terms = plan["dataset_terms"] + list(dict.fromkeys(need["task"] for need in [*plan["needs"], *_fine_tuning(plan)]))
-    query_vector = embed_query(plan["dataset_query"])
+    query_vector = embed_query(plan["dataset_query"].strip() or state["request"])  # an empty input is a 400
     kind = _data_kind(state)  # "공공데이터만" / "학습 데이터만" leaves the other list unsearched
     with ThreadPoolExecutor(max_workers=2) as pool:
         project_job = kind != "service" and pool.submit(
