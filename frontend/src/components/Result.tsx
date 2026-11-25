@@ -7,6 +7,7 @@ import { PipelineDiagram } from "@/components/PipelineDiagram";
 import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
 import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
+import { looseMentions } from "@/lib/looseNames";
 import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
 
 type Props = {
@@ -527,15 +528,19 @@ function Highlighted({ text, candidates }: { text: string; candidates: Candidate
   for (const c of candidates) for (const n of [c.name, c.source_id, c.source_id.split("/").pop() ?? ""]) if (n.length > 1) kind.set(n.toLowerCase(), c.type);
   if (kind.size === 0) return text;
   const names = [...kind.keys()].sort((a, b) => b.length - a.length).map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const titles = candidates.filter((c) => c.type === "dataset").map((c) => c.name);
   return text.split(new RegExp(`(${names.join("|")})`, "i")).map((part, i) => {
     const type = kind.get(part.toLowerCase());
-    return type ? (
-      <b key={i} className={type === "model" ? "text-brand" : "text-ok"}>
-        {part}
-      </b>
-    ) : (
-      part
-    );
+    if (type) return <b key={i} className={type === "model" ? "text-brand" : "text-ok"}>{part}</b>;
+    // Not an exact name: a paraphrased dataset title still shows green.
+    const pieces = [];
+    let at = 0;
+    for (const [start, end] of looseMentions(part, titles)) {
+      pieces.push(part.slice(at, start), <b key={`${i}-${start}`} className="text-ok">{part.slice(start, end)}</b>);
+      at = end;
+    }
+    pieces.push(part.slice(at));
+    return <span key={i}>{pieces}</span>;
   });
 }
 
