@@ -134,8 +134,8 @@ export async function POST(req: Request, { params }: Ctx) {
         done.elapsed = (Date.now() - started) / 1000;
         if (done.history_saved) {
           g.detail.messages.push(message("assistant", done.answer, done.type, done.result, done.sources));
-          // Any non-null result is the latest snapshot, even with 0 candidates.
-          if (done.result) g.detail.result = done.result;
+          // Any non-null recommendation is the latest snapshot, even with 0 candidates; a chat answer keeps its own.
+          if (done.result && done.result.display !== "chat") g.detail.result = done.result;
           g.detail.updated_at = now();
         }
         send("done", done);
@@ -182,11 +182,16 @@ function respond(query: string, mode: string, targetId: string | null, group: Gr
   if (!group.result && !answeringClarify && query.includes("따릉이") && !query.includes("[바로]")) {
     return { ...base, type: "clarify", answer: "어떤 기능이 가장 중요한가요? 예: 대여소 추천, 대여·반납량 예측, 경로 추천" };
   }
+  if (query.includes("비교") || query.includes("[채팅]")) {
+    // A direct question (plan.recommend false): a chat answer; its snapshot is stored but not shown as a recommendation.
+    const result: ChatResult = { title: "모델 비교 (시연)", summary: ["모델 비교 (시연)", "모델: 지정한 모델을 조회했어요"], needs_check: [], candidates: [], assessment: null, combination: [], display: "chat" };
+    return { ...base, type: "answer", display: "chat", answer: "시연 데이터라 실제 조회는 하지 않았어요. 실제 서버에서는 지정한 모델의 카탈로그 기록으로 짧게 답해요.", result };
+  }
   if (query.includes("[빈결과]")) {
     return { ...base, type: "answer", answer: "조건에 맞는 후보가 없어요.", result: { title: "후보 없음", summary: ["후보 없음"], needs_check: [], candidates: [], assessment: null } };
   }
   const answer = group.result
     ? `바꾼 조건(“${query}”)을 반영해 다시 추천했어요. 시연 데이터라 후보 구성은 같아요.`
     : `모델 ${BIKE.candidates.filter((c) => c.type === "model").length}개와 데이터 ${BIKE.candidates.filter((c) => c.type === "dataset").length}개를 찾았어요. 후보를 고르면 조건 판정과 근거를 원문과 함께 볼 수 있어요.`;
-  return { ...base, type: "answer", answer, result: BIKE, sources: BIKE_SOURCES };
+  return { ...base, type: "answer", display: "recommendation", answer, result: BIKE, sources: BIKE_SOURCES };
 }

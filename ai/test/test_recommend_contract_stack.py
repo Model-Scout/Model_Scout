@@ -350,8 +350,9 @@ def test_a_user_who_declines_fine_tuning_gets_no_sft_search():
     plan = {"summary_ko": "s", "needs": [], "fine_tuning": [sft], "dataset_terms": [], "dataset_query": "q",
             "clarifying_questions": [], "constraints": _llm({})}
     with patched(graph17, _llm_plan=lambda user: dict(plan)):
-        assert graph17._parse_plan("상담 분류 모델 추천해줘")["fine_tuning"] == [sft]
-        assert graph17._parse_plan("파인튜닝은 안 할 거야. 상담 분류 모델 추천해줘")["fine_tuning"] == []
+        # Project requests: a direct "X 모델 추천해줘" is answered without SFT whatever the user said about training.
+        assert graph17._parse_plan("상담 분류 앱을 만들고 싶어. 모델 추천해줘")["fine_tuning"] == [sft]
+        assert graph17._parse_plan("파인튜닝은 안 할 거야. 상담 분류 앱을 만들고 싶어. 모델 추천해줘")["fine_tuning"] == []
         # An earlier turn's refusal still holds on a follow-up that does not mention training.
         follow_up = graph17._parse_plan("상업용만", said="상업용만", earlier=["SFT 없이 쓸 상담 분류 모델"])
         assert follow_up["fine_tuning"] == []

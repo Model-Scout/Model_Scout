@@ -133,7 +133,8 @@
           "enum": [
             "need",
             "sft",
-            "both"
+            "both",
+            "lookup"
           ],
           "title": "Group",
           "type": "string"
@@ -196,6 +197,15 @@
           },
           "title": "Combination",
           "type": "array"
+        },
+        "display": {
+          "default": "recommendation",
+          "enum": [
+            "recommendation",
+            "chat"
+          ],
+          "title": "Display",
+          "type": "string"
         }
       },
       "required": [
@@ -437,6 +447,22 @@
         }
       ],
       "default": null
+    },
+    "display": {
+      "anyOf": [
+        {
+          "enum": [
+            "recommendation",
+            "chat"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Display"
     },
     "history_saved": {
       "default": true,

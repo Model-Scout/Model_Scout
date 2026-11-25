@@ -36,7 +36,9 @@ import json
 import math
 import os
 import re
+import unicodedata
 from collections import defaultdict
+from typing import NamedTuple
 from pathlib import Path
 
 import numpy as np
@@ -70,6 +72,24 @@ DENSE_ONLY_MIN = 0.45
 DENSE_MIN = 0.40
 # Relative floors: keep candidates within these margins of the query's best similarity.
 DENSE_MARGIN, DENSE_ONLY_MARGIN = 0.15, 0.08
+# Hub popularity added per log10 download (Hub data only; portal counts mean something else).
+DOWNLOAD_WEIGHT = 0.5
+
+
+class RankProfile(NamedTuple):
+    """The weights one dataset search scores with. PROJECT_PROFILE is the ranking every search used before profiles
+    existed, so a caller that passes none ranks exactly as before."""
+    name: str
+    dense_weight: float = DENSE_WEIGHT
+    download_weight: float = DOWNLOAD_WEIGHT
+
+
+PROJECT_PROFILE = RankProfile("project")
+# A direct data question ("서울 문화행사 공공데이터 찾아줘"): topic fit and the data's own conditions decide, not how
+# popular a Hub set is. An initial setting, not a tuned one: concept, keyword, region, Korean-focus and README terms
+# are the project's; downloads no longer add to the score and only order equal scores. The caller also leaves model
+# tasks and SFT roles out of the query concepts (17 search_project_datasets).
+LOOKUP_PROFILE = RankProfile("lookup", download_weight=0.0)
 README_PENALTY = {"template": -2.0, "thin": -2.0, "missing": -2.0}
 CONFIDENCE_WEIGHT = {"high": 1.0, "medium": 0.8, "low": 0.3}
 # Data built for a neighbouring task still trains or evaluates the model: embedding models are
@@ -435,6 +455,73 @@ def _card_texts(names):
         conn.close()
 
 
+def _name_key(text):
+    return re.sub(r"\s+", "", unicodedata.normalize("NFKC", str(text))).casefold()
+
+
+@functools.lru_cache(maxsize=1)
+def _dataset_name_index():
+    """Datasets by full id, by the id's last part (HF repo name, portal id such as OA-15486) and by title."""
+    by_id, by_tail, by_title = {}, defaultdict(list), defaultdict(list)
+    for entity in load_graph()[0].values():
+        if entity["kind"] != "dataset":
+            continue
+        by_id[_name_key(entity["name"])] = entity["entity_id"]
+        by_tail[_name_key(entity["name"].rsplit("/", 1)[-1])].append(entity["entity_id"])
+        if entity.get("title"):
+            by_title[_name_key(entity["title"])].append(entity["entity_id"])
+    return by_id, dict(by_tail), dict(by_title)
+
+
+NAME_CANDIDATES = 5
+TITLE_PART_MIN = 4  # characters a title fragment needs before it may name a dataset
+# Characters (spaces left out) a whole catalog title needs before finding it inside a message counts as the user naming
+# it: shorter titles ("서울시 인구") read like topics and would turn a topic search into a name lookup.
+TITLE_IN_TEXT_MIN = 8
+
+
+def catalog_titles_in(text):
+    """Whole catalog dataset titles the text contains, as the catalog spells them, longest first; a title inside a
+    longer one found here is left out. Read from the catalog only: a topic ("서울 문화행사 관련 데이터") contains no
+    whole title and finds nothing."""
+    key = _name_key(text)
+    found = [title for title in _dataset_name_index()[2] if len(title) >= TITLE_IN_TEXT_MIN and title in key]
+    kept = [t for t in sorted(found, key=len, reverse=True) if not any(t != o and t in o for o in found)]
+    entities = load_graph()[0]
+    return [entities[_dataset_name_index()[2][t][0]]["title"] for t in kept]
+
+
+def resolve_dataset_names(names, limit=NAME_CANDIDATES):
+    """Which catalog dataset each name a user wrote means, from the catalog alone: the full id, the id's last part,
+    the exact title, then a title that contains the name. One match is found; several stay ambiguous with their
+    candidates (none is picked for the user); none is not_found, which says this catalog has no such name.
+
+    -> {name: {"status": found|ambiguous|not_found, "match": id|id_part|title|title_part|None, "entity_id",
+               "candidates": [dataset ids]}}
+    """
+    by_id, by_tail, by_title = _dataset_name_index()
+    entities = load_graph()[0]
+    out = {}
+    for name in dict.fromkeys(str(n).strip() for n in names if str(n).strip()):
+        key = _name_key(name)
+        if key in by_id:
+            hits, match = [by_id[key]], "id"
+        elif key in by_tail:
+            hits, match = by_tail[key], "id_part"
+        elif key in by_title:
+            hits, match = by_title[key], "title"
+        elif len(key) >= TITLE_PART_MIN:
+            hits, match = [i for title, ids in by_title.items() if key in title for i in ids], "title_part"
+        else:
+            hits, match = [], None
+        hits = sorted(dict.fromkeys(hits), key=lambda i: -(entities[i].get("downloads") or 0))
+        status = "found" if len(hits) == 1 else "ambiguous" if hits else "not_found"
+        out[name] = {"status": status, "match": match if hits else None,
+                     "entity_id": hits[0] if status == "found" else None,
+                     "candidates": [entities[i]["name"] for i in hits[:limit]]}
+    return out
+
+
 def dataset_facts(names):
     """What the v2 card states about each dataset, for explaining a recommendation (not for ranking).
 
@@ -560,7 +647,8 @@ def keyword_score(entity, keywords, on_topic=False):
 
 
 def rank_datasets(
-    target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10, keywords=()
+    target_concepts, *, trained_with=(), query_vector=None, commercial_only=False, roles=None, limit=10, keywords=(),
+    profile: RankProfile = PROJECT_PROFILE,
 ):
     entities, concepts, by_entity, members, _, confidence = load_graph()
     dense = dense_scores(query_vector) if query_vector is not None else {}
@@ -647,10 +735,10 @@ def rank_datasets(
         reasons += matched_words
         graph_score = score
         if similarity is not None:
-            score += DENSE_WEIGHT * similarity
+            score += profile.dense_weight * similarity
         # Download counts are only comparable within the Hub; portal counts mean something else.
         if entity.get("source", "huggingface") == "huggingface":
-            score += 0.5 * math.log10(1 + (entity.get("downloads") or 0))
+            score += profile.download_weight * math.log10(1 + (entity.get("downloads") or 0))
         score += README_PENALTY.get(entity.get("readme_status"), 0.0)
         score += 0.0 if linked else KOREAN_FOCUS_BONUS.get(entity.get("korean_focus"), 0.0)
         results.append(

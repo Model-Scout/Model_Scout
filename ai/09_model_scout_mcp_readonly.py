@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Sequence
@@ -973,6 +974,67 @@ def get_model_evidence(
             child_limit=child_limit,
         ),
     }
+
+
+NAME_CANDIDATES = 5  # catalog candidates listed for a name that matches several models
+
+
+def resolve_model_names(names: List[str], limit: int = NAME_CANDIDATES) -> Dict[str, Dict[str, Any]]:
+    """Which active catalog model each name a user wrote means, read only from the catalog.
+
+    In order: the full id ("owner/name", any case); the repository name (the part after the owner) when one model has
+    it, or when every same-named copy declares one of them as its original (family.canonical_model_id, never a name
+    guess); then the name as a whole hyphen/dot-separated part of a repository name ("e5", "bge-m3"), only when that
+    is a single model. Several matches stay ambiguous with their candidates, most downloaded first: no derivative is
+    picked for the user. The names go to SQL as bound parameters only.
+
+    -> {name: {"status": found|ambiguous|not_found, "match": id|repo_name|canonical|alias|None,
+               "model_id": str|None, "candidates": [model ids]}}
+    """
+    out: Dict[str, Dict[str, Any]] = {}
+    statement = (
+        "select m.model_id, m.family, coalesce((m.popularity->'current'->>'downloads')::bigint, 0) as downloads"
+        " from public.model_scout_models as m where m.active = true and (lower(m.model_id) = %s"
+        " or lower(split_part(m.model_id, '/', 2)) = %s or lower(split_part(m.model_id, '/', 2)) ~ %s)"
+        " order by downloads desc limit 50"
+    )
+    with _read_connection() as connection:
+        with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            for name in dict.fromkeys(str(n).strip() for n in names if str(n).strip()):
+                key = name.casefold()
+                token = r"(^|[-_.])" + re.escape(key) + r"($|[-_.])"
+                cursor.execute(statement, (key, key, token))
+                rows = cursor.fetchall()
+                out[name] = _resolved(key, rows, limit)
+    return out
+
+
+def _resolved(key: str, rows: Sequence[Mapping[str, Any]], limit: int) -> Dict[str, Any]:
+    def found(model_id: str, match: str) -> Dict[str, Any]:
+        return {"status": "found", "match": match, "model_id": model_id, "candidates": [model_id]}
+
+    exact = [r["model_id"] for r in rows if r["model_id"].casefold() == key]
+    if exact:
+        return found(exact[0], "id")
+    same_name = [r for r in rows if r["model_id"].split("/", 1)[-1].casefold() == key]
+    if len(same_name) == 1:
+        return found(same_name[0]["model_id"], "repo_name")
+    if same_name:
+        ids = {r["model_id"] for r in same_name}
+        declared = {(r.get("family") or {}).get("canonical_model_id") for r in same_name
+                    if (r.get("family") or {}).get("canonical_source") not in (None, "name_heuristic")}
+        originals = (declared - {None}) & ids
+        if len(originals) == 1 and all((r.get("family") or {}).get("canonical_model_id") in originals or
+                                       r["model_id"] in originals for r in same_name):
+            return found(originals.pop(), "canonical")
+        return {"status": "ambiguous", "match": "repo_name", "model_id": None,
+                "candidates": [r["model_id"] for r in same_name][:limit]}
+    if len(rows) == 1:
+        return found(rows[0]["model_id"], "alias")
+    if rows:
+        return {"status": "ambiguous", "match": "alias", "model_id": None,
+                "candidates": [r["model_id"] for r in rows][:limit]}
+    return {"status": "not_found", "match": None, "model_id": None, "candidates": []}
 
 
 @mcp.tool(

@@ -9,8 +9,10 @@ import {
   ApiError,
   getGroup,
   listGroups,
+  displayOf,
   streamChat,
   type ChatDone,
+  type Display,
   type ChatResult,
   type ChatStatus,
   type GroupDetail,
@@ -33,6 +35,8 @@ export type Turn = {
   notSaved?: boolean;
   /** stream cut without done/error: offer to reload saved history instead of resending */
   interrupted?: boolean;
+  /** how this answer's own snapshot is shown: a recommendation (completion card, result screen) or a chat answer */
+  display?: Display;
 };
 
 export type SendOptions = { mode: "recommend" | "question"; target?: { id: string; name: string } };
@@ -45,10 +49,12 @@ function restore(group: GroupDetail): Loaded & { turns: Turn[] } {
     content: m.content,
     type: m.type,
     sources: m.sources,
+    display: displayOf(m.result),
   }));
-  // Latest snapshot wins even with 0 candidates, matching the live screen; result and sources come from the same message.
+  // Latest recommendation wins even with 0 candidates, matching the live screen; result and sources come from the same
+  // message. A later chat answer keeps its own snapshot on its message and never replaces the recommendation.
   // The contract's top-level result skips empty snapshots, so it is only a fallback (e.g. no message carries a result).
-  const origin = group.messages.findLast((m) => m.result !== null);
+  const origin = group.messages.findLast((m) => m.result !== null && displayOf(m.result) === "recommendation");
   return { turns, result: origin?.result ?? group.result, sources: origin?.sources ?? [] };
 }
 
@@ -177,6 +183,7 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
       if (!live()) return;
       if (end.event === "done") {
         const d = end.data;
+        const display = displayOf(d.result);
         update((t) => ({
           role: "assistant",
           content: d.answer,
@@ -185,9 +192,10 @@ export function App({ initialGroupId }: { initialGroupId?: string }) {
           notSaved: !d.history_saved,
           status: t.status,
           elapsed: d.elapsed,
+          display,
         }));
-        // result=null (question, clarify, reject) keeps the current recommendation on screen.
-        if (d.result) {
+        // result=null (question, clarify, reject) and a chat answer keep the current recommendation on screen.
+        if (d.result && display === "recommendation") {
           setResult(d.result);
           setResultSources(d.sources);
           setTitle(d.result.title);
