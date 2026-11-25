@@ -160,6 +160,11 @@ def test_sft_group_is_marked_on_its_model_candidates():
     assert next(c for c in result.candidates if c.source_id == "a/base").role == "분류 기준 학습"
 
 
+def test_no_ai_answer_is_shown_not_rejected():
+    done = build_done({"no_ai": True}, uuid4(), "AI 없이 만들 수 있어요.", 1)
+    assert done.type == "answer" and done.answer == "AI 없이 만들 수 있어요." and done.result is None
+
+
 def test_clarify_reject_and_no_candidates():
     clarify = build_done({"clarify": {"questions": ["어떤 서비스?"]}}, uuid4(), "", 1)
     assert clarify.type == "clarify" and clarify.answer == "어떤 서비스?" and clarify.result is None
