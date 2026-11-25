@@ -9,7 +9,7 @@ const styles = {
   model: { name: "모델", card: "border-[#e6d2e2] bg-[#f6ecf3]", tag: "text-brand", marker: "border-[#e6d2e2] bg-[#f6ecf3]" },
   step: { name: "처리", card: "border-line bg-soft", tag: "text-muted", marker: "border-line bg-soft" },
   sft: { name: "파인튜닝(선택)", card: "border-dashed border-[#c99bc1] bg-[#f6ecf3]", tag: "text-brand", marker: "border-dashed border-[#c99bc1] bg-white" },
-  output: { name: "결과", card: "border-2 border-[#3d2a3b] bg-white", tag: "text-muted", marker: "" },
+  output: { name: "결과", card: "border-2 border-brand bg-white", tag: "text-muted", marker: "" },
 };
 type Kind = keyof typeof styles;
 
@@ -42,8 +42,9 @@ function layout(pipeline: Pipeline, candidates: Candidate[]) {
   }
   for (const track of [false, true]) {
     const group = nodes.filter((n) => n.track === track);
-    const depth = (n: Node): number =>
-      Math.max(-1, ...sources(n.id).map((s) => byNode.get(s)!).filter((s) => s.track === track).map(depth)) + 1;
+    // Track cards sit one column right of whatever feeds them, so a track card lands under the stage it follows.
+    const depth = (n: Node): number => Math.max(-1, ...sources(n.id).map((s) => byNode.get(s)!)
+      .filter((s) => track || !s.track).map((s) => (s.track === track ? depth(s) : s.col))) + 1;
     group.forEach((n) => (n.col = depth(n)));
     const last = Math.max(0, ...group.map((n) => n.col));
     for (const n of group) if (n.kind === "output") n.col = last;
@@ -89,7 +90,7 @@ function Card({ node, cardRef, selectedId, onSelect }: { node: Node; cardRef: (e
     ? [node.track ? "파인튜닝용 데이터" : PUBLIC.test(candidate?.source_id ?? "") || PUBLIC.test(candidate?.source ?? "") ? "공공데이터" : "데이터셋",
       label, note || candidate?.name]
     : candidate
-      ? [kind === "sft" ? "파인튜닝 모델 · SFT" : label, candidate.name, note || (kind === "sft" ? label : candidate.role)]
+      ? [kind === "sft" ? "파인튜닝 모델 · SFT" : label.includes(candidate.name) ? candidate.tags[0] ?? "모델" : label, candidate.name, note || (kind === "sft" ? label : candidate.role)]
       : [kind === "output" ? "결과" : node.track ? "학습 단계" : "처리", label, note];
   const className = `relative z-10 flex min-w-0 flex-col justify-center rounded-xl border px-4 py-3 text-left ${styles[look].card}`;
   const style = { gridColumn: node.col + 1, gridRow: `${node.row + 1} / span ${node.span}` };
@@ -97,13 +98,13 @@ function Card({ node, cardRef, selectedId, onSelect }: { node: Node; cardRef: (e
     <>
       <span className={`text-[11px] font-semibold ${styles[look].tag}`}>{tag}</span>
       <b className={`[overflow-wrap:anywhere] leading-snug ${kind === "output" ? "text-base" : "text-sm"}`}>{title}</b>
-      {sub && <span className="mt-0.5 line-clamp-2 text-xs text-muted">{sub}</span>}
+      {sub && <span className={`mt-0.5 text-xs text-muted ${kind === "output" ? "" : "line-clamp-2"}`}>{sub}</span>}
     </>
   );
   // Candidate cards open the same detail panel as the model and data lists.
   return candidate && onSelect ? (
     <button ref={cardRef} aria-current={candidate.id === selectedId} onClick={() => onSelect(candidate.id)} style={style}
-      className={`${className} transition hover:shadow-md aria-[current=true]:ring-2 aria-[current=true]:ring-brand/60`}>
+      className={`${className} transition hover:shadow-md aria-[current=true]:ring-2 ${isData ? "aria-[current=true]:ring-ok/60" : "aria-[current=true]:ring-brand/60"}`}>
       {body}
     </button>
   ) : (
@@ -139,7 +140,11 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
       setLines(edges.map(({ from, to, label }) => {
         const s = rect(from.id);
         const t = rect(to.id);
-        const base = { key: `${from.id}-${to.id}`, label, dashed: from.track && to.track, sft: from.track };
+        const base = { key: `${from.id}-${to.id}`, label, dashed: to.track, sft: from.track || to.track };
+        if (from.track !== to.track && Math.abs(s.cx - t.cx) < (s.r - s.l) / 2) { // same column: straight up or down
+          const [y1, y2] = s.t > t.b ? [s.t, t.b] : [s.b, t.t];
+          return { ...base, d: `M${t.cx},${y1} V${y2}`, x: t.cx + 10, y: (y1 + y2) / 2, vertical: true };
+        }
         if (from.track && !to.track) { // up from the fine-tuning track into the service flow
           const y = s.t > t.b ? t.b : t.t;
           return { ...base, d: `M${s.r},${s.cy} H${t.cx} V${y}`, x: t.cx + 10, y: (s.cy + y) / 2, vertical: true };
@@ -162,7 +167,10 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
   }, [signature]);
 
   const register = (id: string) => (el: HTMLElement | null) => void (el ? cards.current.set(id, el) : cards.current.delete(id));
-  const grid = { gridTemplateColumns: `repeat(${columns}, minmax(150px, 1fr))` };
+  // Widen the gap between columns until the longest arrow label fits, in up to two lines, between its cards.
+  const longest = Math.max(0, ...edges.map((e) => (e.label ?? "").length));
+  const gap = Math.min(Math.max(56, longest <= 8 ? longest * 12 + 24 : Math.ceil(longest / 2) * 12 + 28), 120);
+  const grid = { gridTemplateColumns: `repeat(${columns}, minmax(150px, 1fr))`, columnGap: gap, rowGap: 20 };
   const legend: Kind[] = ["data", "model", "step", "sft"];
 
   return (
@@ -175,8 +183,9 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
           ))}
         </ul>
       </div>
-      <div className="overflow-x-auto pb-1">
-        <div ref={box} className="relative space-y-6" style={{ minWidth: columns * 170 }}>
+      {/* The padding keeps the selected card's ring from being clipped by the scroll box. */}
+      <div className="-mx-1 overflow-x-auto p-1">
+        <div ref={box} className="relative space-y-8" style={{ minWidth: columns * 150 + (columns - 1) * gap }}>
           <svg className="pointer-events-none absolute inset-0 z-0 size-full overflow-visible" aria-hidden>
             <defs>
               {["main", "sft"].map((id) => (
@@ -191,25 +200,25 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
             ))}
           </svg>
           {lines.filter((l) => l.label).map((l) => (
-            <span key={l.key} className={`absolute z-20 rounded bg-white/90 px-1 text-xs whitespace-nowrap text-muted ${l.vertical ? "-translate-y-1/2" : "-translate-x-1/2 -translate-y-[calc(100%+4px)]"}`}
-              style={{ left: l.x, top: l.y }}>
+            <span key={l.key} className={`absolute z-20 rounded bg-white/90 px-1 text-center text-xs leading-tight break-keep text-muted ${l.vertical ? "-translate-y-1/2" : "-translate-x-1/2 -translate-y-[calc(100%+4px)]"}`}
+              style={{ left: l.x, top: l.y, width: "max-content", maxWidth: gap - 8 }}>
               {l.label}
             </span>
           ))}
 
-          <div className="grid gap-x-14 gap-y-5" style={grid}>
+          <div className="grid" style={grid}>
             {headers.map((h, i) => (
               <span key={h} className="text-xs font-semibold text-muted" style={{ gridColumn: i + 1, gridRow: 1 }}>{h}</span>
             ))}
           </div>
-          <div className="grid gap-x-14 gap-y-5" style={grid}>
+          <div className="grid" style={grid}>
             {main.map((n) => <Card key={n.id} node={n} cardRef={register(n.id)} selectedId={selectedId} onSelect={onSelect} />)}
           </div>
 
           {(track.length > 0 || sft.length > 0) && (
             <div className="space-y-4">
               {track.length > 0 && (
-                <div className="grid gap-x-14 gap-y-5" style={grid}>
+                <div className="grid" style={grid}>
                   {track.map((n) => <Card key={n.id} node={n} cardRef={register(n.id)} selectedId={selectedId} onSelect={onSelect} />)}
                 </div>
               )}
