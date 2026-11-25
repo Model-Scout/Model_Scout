@@ -485,6 +485,11 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
         )}
       </section>
 
+      {result.pipeline && (
+        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
+          selectedId={selectedId} onSelect={onSelect} />
+      )}
+
       {sentences.length > 0 ? (
         <section className="border-t border-line pt-4">
           <h3 className="mb-1.5 text-xs text-muted">이렇게 조합해 보세요</h3>
@@ -512,10 +517,6 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
         </section>
       )}
 
-      {result.pipeline && (
-        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
-          selectedId={selectedId} onSelect={onSelect} />
-      )}
     </aside>
   );
 }
