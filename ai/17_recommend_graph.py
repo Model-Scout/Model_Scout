@@ -176,6 +176,7 @@ CONSTRAINT_MENTIONS = {
     "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",
     "exclude_gated": r"승인|신청|gated|동의|바로\s*(다운|내려)",
     "cpu_only": r"cpu|씨피유|gpu\s*없|그래픽\s*카드\s*없",
+    "language": r"언어|한국어|영어|일본어|중국어|korean|english|japanese|chinese",
 }
 # "CPU만": the parameter ceiling a CPU-only request searches under (the 2026-11-26 QA set 1B; a team default).
 # ponytail: one ceiling for every task; per-task limits (GGUF 3B for generation) when someone measures them.
@@ -192,6 +193,7 @@ def constraint_defaults() -> dict[str, Any]:
         "max_artifact_gib": None,
         "exclude_gated": False,
         "cpu_only": False,
+        "language": None,
     }
 
 
@@ -204,6 +206,7 @@ class Constraints(BaseModel):
     max_artifact_gib: float | None
     exclude_gated: bool
     cpu_only: bool
+    language: str | None
 
     @model_validator(mode="before")
     @classmethod
@@ -444,6 +447,8 @@ constraints: only what the user explicitly said; otherwise false/null. Do not in
   gpu_memory_gb: the GPU memory they state (e.g. "8GB GPU", "RTX 4090" -> 24), else null.
   cpu_only: true when the model must run without a GPU ("CPU만", "GPU 없이", "GPU 없는 서버"), else false.
   Then gpu_memory_gb is null.
+  language: ISO 639-1 code of the language the service must handle when the user states one ("언어 영어" -> "en",
+  "영어 뉴스" -> "en", "언어 한국어" -> "ko"), else null.
   max_parameter_count_billion: only for an explicit size limit ("3B 이하"), else null. Never derive it from the GPU.
   min_context_length: only for stated long inputs (긴 문서, 계약서 전체 등), else null.
   required_artifacts: file formats they name. "GGUF", "Ollama", "llama.cpp" -> ["gguf"]; "ONNX" -> ["onnx"];
@@ -1337,6 +1342,7 @@ def _model_rows(
     contract_filters,
     dense_weight,
     match_count,
+    korean_required=True,
 ):
     """Every search condition is an argument, so each one is part of the TTL cache key.
 
@@ -1361,7 +1367,7 @@ def _model_rows(
         query,
         match_count=match_count,
         task_filters=list(task_filters) or None,
-        korean_required=True,
+        korean_required=korean_required,
         max_parameter_count_billion=max_params,
         min_context_length=min_context,
         dense_weight=dense_weight,
@@ -1459,6 +1465,7 @@ def search_models(state: State) -> State:
         if v
     ]
     max_params = min(size_limits) if size_limits else None
+    language = (constraints.get("language") or "").strip().lower() or None
 
     module_09 = _load_09()
     contract_filters = module_09.contract_filters_enabled()
@@ -1503,8 +1510,13 @@ def search_models(state: State) -> State:
             contract_filters,
             dense_weight,
             SFT_POOL if sft else match_count,
+            language in (None, "ko"),
         )
         rows = found["rows"]
+        if language not in (None, "ko"):
+            # Another language: Korean is no longer required, and a model whose card lists languages without this
+            # one is a clear mismatch. A card that lists none stays, marked unknown on its card.
+            rows = [r for r in rows if not r.get("languages") or language in r["languages"]]
         if constraints["commercial_only"] and not found["contract_filters_applied"]:
             # Before the contract migration: filter the top rows here. The RPC filter (flag on)
             # applies before the top-N cut, so a permitted model ranked below it is not lost.
@@ -2058,6 +2070,8 @@ def explain(state: State) -> State:
     notes = data_limits_note("".join(parts), state["datasets"])
     if notes:
         emit(notes)
+    if not direct and (note := unsearched_note(search_target(state))):
+        emit("\n\n" + note)
     emit("\n\n주의: " + EXPLANATION_CAVEAT)
     answer = "".join(parts)
     run_log.log_event("explain", **record, elapsed_s=round(time.time() - started, 2), answer_chars=len(answer))
@@ -2079,6 +2093,12 @@ def search_failures(state: State) -> dict[str, str]:
     errors = state.get("search_errors") or {}
     searched = TARGET_SEARCHES.get(search_target(state), tuple(SEARCH_LABELS))
     return {side: str(errors[side])[:300] for side in searched if errors.get(side)}
+
+
+def unsearched_note(target: str) -> str:
+    """Says which side was not searched, so "no datasets" is not read as "no dataset exists" (QA 2026-11-26)."""
+    return {"model": "이번에는 모델만 찾았어요. 학습 데이터나 공공데이터도 필요하면 말씀해 주세요.",
+            "dataset": "이번에는 데이터만 찾았어요. 함께 쓸 모델도 필요하면 말씀해 주세요."}.get(target, "")
 
 
 def search_failure_note(failed: dict[str, str], trace_id: str) -> str:

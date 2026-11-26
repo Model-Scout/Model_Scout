@@ -371,9 +371,12 @@ function ScoutSummary({ result, models, datasets, selectedId, onSelect }:
   const others = <OtherCandidates models={models} datasets={datasets} all={result.candidates} selectedId={selectedId} onSelect={onSelect} />;
 
   const pipeline = result.pipeline ?? fallbackPipeline(result.candidates);
+  // The backend names what the user's conditions removed (result.py excluded_models); without it a filter is invisible.
+  const excluded = result.summary.find((line) => line.startsWith("후보에서 뺀 모델:"));
 
   return (
     <div className="min-w-0 space-y-12">
+      {excluded && <p className="rounded-xl bg-soft px-4 py-3 text-sm text-muted">{excluded}</p>}
       {pipeline ? (
         <section className="space-y-4">
           <Heading title="서비스 구현 흐름"

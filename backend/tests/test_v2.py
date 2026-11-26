@@ -306,7 +306,7 @@ def test_screen_text_shows_only_real_conditions():
     events = recommendation_events()
     events["plan"]["constraints"] = {"commercial_only": False, "gpu_memory_gb": 8, "min_context_length": None}
     result = build_done(events, uuid4(), "답", 1).result
-    assert result.summary == ["문서 검색 서비스", "GPU 메모리(GB): 8"]
+    assert result.summary == ["문서 검색 서비스", "후보에서 뺀 모델: 4bit로도 GPU 8GB에 안 들어가는 모델", "GPU 메모리(GB): 8"]
     assert result.needs_check == ["model: GPU 메모리"]
     events["plan"]["constraints"]["commercial_only"] = True
     assert "상업 이용 가능한 모델만" in build_done(events, uuid4(), "답", 1).result.summary
@@ -836,3 +836,26 @@ def test_model_cards_list_only_the_conditions_the_user_set():
     assert [c.status for c in result_module._checks(big, {"cpu_only": True}) if c.key == "cpu"] == ["check"]
     unknown = {**model, "parameters_b": None}
     assert [c.status for c in result_module._checks(unknown, {"cpu_only": True}) if c.key == "cpu"] == ["unknown"]
+
+
+def test_the_summary_names_what_the_hard_filters_removed():
+    """QA: 조건이 후보를 걸렀다는 사실과 이유가 화면 어디에도 없었다."""
+    from backend.app.result import excluded_models
+
+    assert excluded_models({}) == []
+    assert excluded_models({"cpu_only": True, "commercial_only": True, "required_artifacts": ["gguf"]}) == [
+        "1B 넘는 모델 (CPU만)", "상업 이용이 허용되지 않은 모델", "GGUF 파일이 없는 모델"]
+
+
+def test_the_card_judges_the_language_the_user_chose():
+    from backend.app.result import _checks, excluded_models
+
+    def lang(languages):
+        model = {"model_id": "org/m", "license": "mit", "commercial_status": "permitted", "languages": languages}
+        return [(c.label, c.status) for c in _checks(model, {"language": "en"}) if c.key == "language"]
+
+    assert lang(["en", "ko"]) == [("영어 지원", "ok")]
+    assert lang(["ko"]) == [("영어 지원", "check")]
+    assert lang([]) == [("영어 지원", "unknown")]
+    assert excluded_models({"language": "en"}) == ["영어가 지원 언어에 없는 모델"]
+    assert excluded_models({"language": "ko"}) == []

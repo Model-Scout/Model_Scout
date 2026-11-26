@@ -192,6 +192,8 @@ REJECT_MESSAGE = "모델과 데이터를 추천할 수 있는 프로젝트 아�
 
 # Model license verdict from the data contract (ai/resolvers/legal.py). V2 has no "blocked" status,
 # so prohibited uses the strongest one available, "check", and says so in the reason.
+# Language codes the planner writes (17_recommend_graph Constraints.language) -> card label.
+LANGUAGE_NAMES = {"ko": "한국어", "en": "영어", "ja": "일본어", "zh": "중국어"}
 # The AI's CPU-only search ceiling (ai/17_recommend_graph.py CPU_MAX_PARAMS_B); the card names it.
 CPU_MAX_PARAMS_B = 1.0
 COMMERCIAL_STATUS_CHECK = {"permitted": "ok", "prohibited": "check", "review_required": "check", "unknown": "unknown"}
@@ -252,6 +254,29 @@ def _artifact_checks(model: dict[str, Any], constraints: dict[str, Any]) -> list
     return checks
 
 
+def excluded_models(constraints: dict[str, Any]) -> list[str]:
+    """What the model search left out, and why: the hard filters 17_recommend_graph.search_models applies.
+    Listed so a user sees the conditions removed candidates, not only that the survivors pass them."""
+    out = []
+    if constraints.get("cpu_only"):
+        out.append(f"{CPU_MAX_PARAMS_B:g}B 넘는 모델 (CPU만)")
+    if (lang := constraints.get("language")) and lang != "ko":
+        out.append(f"{LANGUAGE_NAMES.get(lang, lang)}가 지원 언어에 없는 모델")
+    if constraints.get("max_parameter_count_billion") is not None:
+        out.append(f"{constraints['max_parameter_count_billion']:g}B 넘는 모델")
+    if constraints.get("gpu_memory_gb") is not None:
+        out.append(f"4bit로도 GPU {constraints['gpu_memory_gb']:g}GB에 안 들어가는 모델")
+    if constraints.get("commercial_only"):
+        out.append("상업 이용이 허용되지 않은 모델")
+    if constraints.get("required_artifacts"):
+        out.append(", ".join(str(f).upper() for f in constraints["required_artifacts"]) + " 파일이 없는 모델")
+    if constraints.get("max_artifact_gib") is not None:
+        out.append(f"실행 파일이 {constraints['max_artifact_gib']:g}GiB 넘는 모델")
+    if constraints.get("exclude_gated"):
+        out.append("접근 승인이 필요한 모델")
+    return out
+
+
 def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
     sid = model["model_id"]
     checks = [_license_check(model)]
@@ -278,6 +303,13 @@ def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
                             reason=f"파라미터 {params:g}B. CPU에서 실제로 돌려 보지는 않았어요."
                             if params is not None else "파라미터 수를 찾지 못했어요.",
                             source_id=sid, origin="metadata" if params is not None else "unknown"))
+    if lang := constraints.get("language"):
+        listed = model.get("languages") or []
+        name = LANGUAGE_NAMES.get(lang, lang)
+        checks.append(Check(key="language", label=f"{name} 지원",
+                            status="unknown" if not listed else "ok" if lang in listed else "check",
+                            reason=f"모델 카드의 언어: {', '.join(listed)}" if listed else "모델 카드에 언어 표시가 없어요.",
+                            source_id=sid, origin="metadata" if listed else "unknown"))
     # Only conditions the user set are listed: a fixed "한국어 지원 미확인" on every card read as a failed check.
     return checks
 
@@ -388,15 +420,14 @@ def build_result(events: dict[str, Any]) -> ChatResult:
         summary.append(f"파일 크기(GiB) 이하: {constraints['max_artifact_gib']}")
     if constraints.get("exclude_gated"):
         summary.append("승인 없이 내려받을 수 있는 모델만")
-    if constraints.get("cpu_only"):
-        summary.append(f"CPU만 사용 ({CPU_MAX_PARAMS_B:g}B 이하 모델)")
+    if dropped := excluded_models(constraints):
+        summary.append("후보에서 뺀 모델: " + ", ".join(dropped))
     for key, label in [("gpu_memory_gb", "GPU 메모리(GB)"), ("min_context_length", "최소 입력 길이(tokens)")]:
         if constraints.get(key) is not None:
             summary.append(f"{label}: {constraints[key]}")
     summary += _condition_summary(events.get("data_conditions"))
-    # language/execution are unknown for every model, so listing them would bury the real items.
     needs = list(dict.fromkeys(f"{c.name}: {k.label}" for c in candidates.values() if c.type == "model"
-                               for k in c.checks if k.status != "ok" and k.key not in ("language", "execution")))
+                               for k in c.checks if k.status != "ok"))
     display = display_of(events.get("plan"))
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
                       candidates=list(candidates.values()), assessment=events.get("assessment"),
