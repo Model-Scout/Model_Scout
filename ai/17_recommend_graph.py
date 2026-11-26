@@ -1870,6 +1870,70 @@ def unsearched_headings(target, kind):
     return drop
 
 
+# What the backend's Pipeline contract accepts (backend/app/result.py); a graph breaking any of it is dropped whole.
+PIPELINE_NODE_ID = re.compile(r"^[a-z][a-z0-9]{0,7}$")
+PIPELINE_TEXT_LIMITS = {"label": 40, "note": 40}
+PIPELINE_EDGE_LABEL_LIMIT = 30
+
+
+def _clip(text, limit):
+    return text if not isinstance(text, str) or len(text) <= limit else text[:limit - 1] + "…"
+
+
+def candidate_names(models: list[dict], datasets: dict) -> dict[str, str]:
+    """Each shown candidate by the names a flow label may carry: its id, the part after "/", a dataset's title.
+    A name two candidates share is left out, so a label never picks between them."""
+    names: dict[str, set[str]] = {}
+    for model in models:
+        for name in (model["model_id"], model["model_id"].split("/", 1)[-1]):
+            names.setdefault(name.casefold(), set()).add(f"model:{model['model_id']}")
+    for key in ("project_training", "service_data"):
+        for row in datasets.get(key) or []:
+            for name in (row["dataset"], row["dataset"].split("/", 1)[-1], row.get("title") or ""):
+                if name:
+                    names.setdefault(name.casefold(), set()).add(f"dataset:{row['dataset']}")
+    return {name: ids.pop() for name, ids in names.items() if len(ids) == 1}
+
+
+def tidy_pipeline(graph: dict, candidates: dict[str, str] | None = None) -> dict:
+    """The writer's flow, made to fit the contract where only its spelling is off: a node id the contract rejects
+    ("translation", "OCR") becomes a free "n1", "n2"... in its edges too, an over-long label or note is cut, and a
+    node without candidate_id whose label is exactly one shown candidate's name (candidate_names) gets that id.
+    The graph's shape is never changed, so a graph that is wrong in substance is still rejected by the backend."""
+    nodes, edges = graph.get("nodes"), graph.get("edges")
+    if not isinstance(nodes, list) or not isinstance(edges, list):
+        return graph
+    for node in nodes:
+        if isinstance(node, dict) and not node.get("candidate_id") and isinstance(node.get("label"), str):
+            if found := (candidates or {}).get(node["label"].strip().casefold()):
+                node["candidate_id"] = found
+    used = {str(n.get("id")) for n in nodes if isinstance(n, dict) and PIPELINE_NODE_ID.match(str(n.get("id", "")))}
+    renamed, counter = {}, 0
+    for node in nodes:
+        if not isinstance(node, dict):
+            continue
+        old = str(node.get("id", ""))
+        if not PIPELINE_NODE_ID.match(old):
+            if old not in renamed:
+                counter += 1
+                while f"n{counter}" in used:
+                    counter += 1
+                renamed[old] = f"n{counter}"
+                used.add(renamed[old])
+            node["id"] = renamed[old]
+        for key, limit in PIPELINE_TEXT_LIMITS.items():
+            if isinstance(node.get(key), str):
+                node[key] = _clip(node[key], limit)
+    for edge in edges:
+        if not isinstance(edge, dict):
+            continue
+        for end in ("source", "target"):
+            edge[end] = renamed.get(str(edge.get(end)), edge.get(end))
+        if isinstance(edge.get("label"), str):
+            edge["label"] = _clip(edge["label"], PIPELINE_EDGE_LABEL_LIMIT)
+    return graph
+
+
 def without_tables(lines):
     """The answer without markdown table rows (lines starting with "|")."""
     for line in lines:
@@ -1948,7 +2012,7 @@ def explain(state: State) -> State:
                 try:
                     graph = json.loads(text[text.index("{"):]) if "{" in text else None
                     if isinstance(graph, dict):
-                        pipeline = graph
+                        pipeline = tidy_pipeline(graph, candidate_names(evidence["models"], state["datasets"]))
                 except json.JSONDecodeError:
                     record["invalid_pipeline"] = True
         elif combination is not None:

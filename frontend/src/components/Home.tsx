@@ -5,9 +5,11 @@ import { Logo } from "@/components/ui";
 import { listGroups, type GroupSummary } from "@/lib/api";
 
 const EXAMPLES = [
-  { title: "따릉이 주차 경로 추천", desc: "로컬에서 구현할 수 있는 대여소·경로 추천", query: "로컬에서 구현할 수 있는 따릉이 대여소·주차 경로 추천 서비스를 만들고 싶어." },
-  { title: "영문 긴 문서 검색", desc: "긴 문서 검색에 쓸 모델과 평가 데이터", query: "영문 긴 문서를 검색하는 서비스를 만들고 싶어. 검색 모델과 평가 데이터가 필요해." },
-  { title: "차트 이해 멀티모달", desc: "차트를 읽고 답하는 모델과 데이터셋", query: "차트 이미지를 읽고 질문에 답하는 멀티모달 서비스를 만들고 싶어." },
+  // The same requests as the recommend_checks golden set (ai/test/golden/recommend_branches_eval.py): models and
+  // data, data only, models only. Change both together.
+  { title: "법률상담 챗봇", desc: "상담 답변 모델과 법률 데이터", query: "법률상담 챗봇을 만들려고 하는데 모델이랑 데이터 알려줘" },
+  { title: "따릉이 대여소 안내", desc: "대여소 안내 앱에 쓸 공공데이터", query: "따릉이 대여소 안내 앱을 만들려고 해. 공공데이터만 추천해줘" },
+  { title: "사진 속 글자 번역", desc: "글자를 읽고 번역하는 모델 흐름", query: "사진 속 한국어 글자를 읽어서 번역해주는 앱을 만들려고 하는데 모델 알려줘" },
 ];
 
 const LANGUAGES = ["한국어", "영어"];

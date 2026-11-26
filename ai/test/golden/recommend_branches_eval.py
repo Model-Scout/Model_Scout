@@ -99,8 +99,22 @@ AMBIGUOUS_NAMES = [
      {"recommend": False, "display": "chat", "model_path": "lookup", "classifier": 0,
       "answer_lacks": ["같은 계열", "니다"]}),  # an exact id is read alone, as before
 ]
+# The three project requests the team checks a recommendation with, one per resource mix; the home screen offers the
+# same three (frontend/src/components/Home.tsx EXAMPLES), so change both together. No clarification answers are
+# given, so a request that asks back instead of answering at once fails. Chosen on 2026-11-26 from local runs.
+RECOMMEND_CHECKS = [
+    ("R01", ["법률상담 챗봇을 만들려고 하는데 모델이랑 데이터 알려줘"], [],  # models and data
+     {"recommend": True, "display": "recommendation", "model_path": "project", "dataset_path": "project",
+      "models_found": True, "datasets_found": True}),
+    ("R02", ["따릉이 대여소 안내 앱을 만들려고 해. 공공데이터만 추천해줘"], [],  # data only
+     {"recommend": True, "display": "recommendation", "models_found": False, "datasets_found": True}),
+    ("R03", ["사진 속 한국어 글자를 읽어서 번역해주는 앱을 만들려고 하는데 모델 알려줘"], [],  # models only, with a flow
+     {"recommend": True, "display": "recommendation", "model_path": "project", "models_found": True,
+      "datasets_found": False, "pipeline": True}),
+]
 SETS = {"representative": ("recommend_branches_eval", SCENARIOS), "s04_s05": ("recommend_branches_s04_s05_eval", S04_S05),
-        "ambiguous_names": ("recommend_branches_ambiguous_names_eval", AMBIGUOUS_NAMES)}
+        "ambiguous_names": ("recommend_branches_ambiguous_names_eval", AMBIGUOUS_NAMES),
+        "recommend_checks": ("recommend_checks_eval", RECOMMEND_CHECKS)}
 
 
 class CallCap(RuntimeError):
@@ -198,8 +212,12 @@ def run(api, client, graph, meter, scenario):
         done = build_done(last, uuid4(), answer, 1.0) if "clarify" not in last else None
         values = graph.get_state({"configurable": {"thread_id": thread}}).values
         plan = values.get("plan") or {}
+        flow = done.result.pipeline if done and done.result else None
+        labels = {n.id: n.label for n in flow.nodes} if flow else {}
+        pipeline = [f"{labels[e.source]} -[{e.label or ''}]-> {labels[e.target]}" for e in flow.edges] if flow else []
         record["turns"].append({
             "query": text, "events": sorted(last), "calls": dict(meter.item - before), "answer": answer,
+            "pipeline": pipeline,
             "pending": (asked or {}).get("questions"), "display": done.display if done else None,
             "type": done.type if done else "clarify",
             "state": {"recommend": plan.get("recommend"), "mentioned_models": plan.get("mentioned_models"),
@@ -233,8 +251,12 @@ def check(expect, turn):
         out["answer_has"] = all(s in last["answer"] for s in expect["answer_has"])
     if "answer_lacks" in expect:
         out["answer_lacks"] = not any(s in last["answer"] for s in expect["answer_lacks"])
-    if expect.get("models_found"):
-        out["models_found"] = bool(state.get("models"))
+    if "models_found" in expect:  # True: some model shown; False: none
+        out["models_found"] = bool(state.get("models")) is expect["models_found"]
+    if "datasets_found" in expect:
+        out["datasets_found"] = bool(state["datasets"]) is expect["datasets_found"]
+    if expect.get("pipeline"):  # the recommendation carries a service flow
+        out["pipeline"] = bool(last.get("pipeline"))
     if "models_lack" in expect:  # no shown model id contains any of these (casefolded)
         out["models_lack"] = not any(s in m.casefold() for m in state.get("models") or [] for s in expect["models_lack"])
     if "datasets_any" in expect:
