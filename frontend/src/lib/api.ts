@@ -107,6 +107,8 @@ export type Pipeline = {
 export type ChatResult = {
   title: string;
   summary: string[];
+  /** User inputs used by this recommendation, from the start of the active project. */
+  requirements?: string[];
   needs_check: string[];
   candidates: Candidate[];
   assessment: (Record<string, unknown> & { implementation_guide?: ImplementationGuide }) | null;
