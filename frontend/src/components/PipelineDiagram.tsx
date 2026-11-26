@@ -3,20 +3,19 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import type { Candidate, Pipeline } from "@/lib/api";
 
-// Pastel versions of the app's colors: models are brand purple, data is ok green (text-brand / text-ok).
+// Pastel versions of the app colors: models brand purple, data ok green; steps and results stay plain white.
 const styles = {
-  data: { name: "데이터", card: "border-[#c9e6d4] bg-[#eef8f2]", tag: "text-ok", marker: "border-[#c9e6d4] bg-[#eef8f2]" },
-  model: { name: "모델", card: "border-[#e6d2e2] bg-[#f6ecf3]", tag: "text-brand", marker: "border-[#e6d2e2] bg-[#f6ecf3]" },
-  step: { name: "처리", card: "border-line bg-soft", tag: "text-muted", marker: "border-line bg-soft" },
-  sft: { name: "파인튜닝(선택)", card: "border-dashed border-[#c99bc1] bg-[#f6ecf3]", tag: "text-brand", marker: "border-dashed border-[#c99bc1] bg-white" },
-  output: { name: "결과", card: "border-2 border-brand bg-white", tag: "text-muted", marker: "" },
+  data: { card: "border-[#bfdcc9] bg-[#f1f8f3]", tag: "text-ok" },
+  model: { card: "border-[#e6d2e2] bg-[#f6ecf3]", tag: "text-brand" },
+  step: { card: "border-line bg-white", tag: "text-muted" },
+  sft: { card: "border-[#e3cfe0] bg-[#f7eff6]", tag: "text-brand" },
+  output: { card: "border-line bg-white", tag: "text-muted" },
 };
 type Kind = keyof typeof styles;
 
 // shortcut: a fine-tuning step is recognised by its label, since the graph JSON has no step kind; add one if this misfires.
 const TRAINING = /파인튜닝|SFT|LoRA|fine-?tun/i;
 const PUBLIC = /^(?:data_go_kr|seoul_open_data|data-go-kr|seoul)(?:\/|$)|^(?:공공데이터포털|서울 열린데이터광장)$/;
-const NUMBERS = "①②③④⑤⑥⑦⑧⑨";
 
 type Node = Pipeline["nodes"][number] & { candidate?: Candidate; kind: Kind; track: boolean; col: number; row: number; span: number };
 
@@ -56,28 +55,24 @@ function layout(pipeline: Pipeline, candidates: Candidate[]) {
       n.row = row;
       taken.add(`${n.col}:${row}`);
     }
-    // A lone result spans every row so each input arrow reaches it straight across.
-    const outputs = group.filter((n) => n.col === last && n.kind === "output");
-    if (outputs.length === 1 && group.filter((n) => n.col === last).length === 1) {
-      outputs[0].row = 0;
-      outputs[0].span = Math.max(1, ...group.map((n) => n.row + 1));
+    // A card alone in its column spans every row and sits in the middle (see Card), so a chain of single cards
+    // lines up straight across and level with the centre of a taller column of inputs.
+    const rows = Math.max(1, ...group.map((n) => n.row + 1));
+    for (const n of group) {
+      if (group.filter((m) => m.col === n.col).length === 1) {
+        n.row = 0;
+        n.span = rows;
+      }
     }
   }
   const main = nodes.filter((n) => !n.track);
   const columns = Math.max(1, ...nodes.map((n) => n.col + 1));
-  let models = 0;
-  const headers = Array.from({ length: Math.max(0, ...main.map((n) => n.col + 1)) }, (_, col) => {
-    const kinds = new Set(main.filter((n) => n.col === col).map((n) => n.kind));
-    const name = kinds.has("output") ? "결과" : kinds.size === 1 && kinds.has("data") ? "입력 데이터"
-      : kinds.size === 1 && kinds.has("model") ? (models++ ? "후처리 모델" : "모델") : "처리";
-    return `${NUMBERS[col] ?? col + 1} ${name}`;
-  });
   const edges = pipeline.edges.flatMap((e) => {
     const from = byNode.get(e.source);
     const to = byNode.get(e.target);
     return from && to ? [{ ...e, from, to }] : [];
   });
-  return { nodes, main, track: nodes.filter((n) => n.track), columns, headers, edges };
+  return { nodes, main, track: nodes.filter((n) => n.track), columns, edges };
 }
 
 type Select = { selectedId?: string; onSelect?: (id: string) => void };
@@ -92,19 +87,19 @@ function Card({ node, cardRef, selectedId, onSelect }: { node: Node; cardRef: (e
     : candidate
       ? [kind === "sft" ? "파인튜닝 모델 · SFT" : label.includes(candidate.name) ? candidate.tags[0] ?? "모델" : label, candidate.name, note || (kind === "sft" ? label : candidate.role)]
       : [kind === "output" ? "결과" : node.track ? "학습 단계" : "처리", label, note];
-  const className = `relative z-10 flex min-w-0 flex-col justify-center rounded-xl border px-4 py-3 text-left ${styles[look].card}`;
-  const style = { gridColumn: node.col + 1, gridRow: `${node.row + 1} / span ${node.span}` };
+  const className = `relative z-10 flex min-w-0 flex-col justify-center gap-1 rounded-lg border px-4 py-3.5 text-left ${styles[look].card}`;
+  const style = { gridColumn: node.col + 1, gridRow: `${node.row + 1} / span ${node.span}`, alignSelf: node.span > 1 ? "center" : undefined };
   const body = (
     <>
-      <span className={`text-[11px] font-semibold ${styles[look].tag}`}>{tag}</span>
-      <b className={`[overflow-wrap:anywhere] leading-snug ${kind === "output" ? "text-base" : "text-sm"}`}>{title}</b>
-      {sub && <span className={`mt-0.5 text-xs text-muted ${kind === "output" ? "" : "line-clamp-2"}`}>{sub}</span>}
+      <span className={`text-xs font-semibold ${styles[look].tag}`}>{tag}</span>
+      <b className="text-base leading-snug [overflow-wrap:anywhere]">{title}</b>
+      {sub && <span className={`text-xs leading-relaxed text-muted ${kind === "output" ? "" : "line-clamp-2"}`}>{sub}</span>}
     </>
   );
   // Candidate cards open the same detail panel as the model and data lists.
   return candidate && onSelect ? (
     <button ref={cardRef} aria-current={candidate.id === selectedId} onClick={() => onSelect(candidate.id)} style={style}
-      className={`${className} transition hover:shadow-md aria-[current=true]:ring-2 ${isData ? "aria-[current=true]:ring-ok/60" : "aria-[current=true]:ring-brand/60"}`}>
+      className={`${className} transition hover:border-ink/30 aria-[current=true]:ring-2 ${isData ? "aria-[current=true]:ring-ok" : "aria-[current=true]:ring-brand"}`}>
       {body}
     </button>
   ) : (
@@ -112,12 +107,10 @@ function Card({ node, cardRef, selectedId, onSelect }: { node: Node; cardRef: (e
   );
 }
 
-type Line = { key: string; d: string; dashed: boolean; sft: boolean; label?: string; x: number; y: number; vertical: boolean };
+type Line = { key: string; d: string; dashed: boolean; sft: boolean; label?: string; x: number; y: number; vertical: boolean; room: number };
 
-export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, onSelect }:
-  { pipeline: Pipeline; candidates: Candidate[]; fineTuning?: string } & Select) {
-  const { main, track, columns, headers, edges } = layout(pipeline, candidates);
-  const sft = candidates.filter((c) => c.type === "model" && c.group === "sft");
+export function PipelineDiagram({ pipeline, candidates, selectedId, onSelect }: { pipeline: Pipeline; candidates: Candidate[] } & Select) {
+  const { main, track, columns, edges } = layout(pipeline, candidates);
   const box = useRef<HTMLDivElement>(null);
   const cards = useRef(new Map<string, HTMLElement>());
   const [lines, setLines] = useState<Line[]>([]);
@@ -141,22 +134,28 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
         const s = rect(from.id);
         const t = rect(to.id);
         const base = { key: `${from.id}-${to.id}`, label, dashed: to.track, sft: from.track || to.track };
+        // A line between the service flow and the fine-tuning track may pass behind other cards in that column,
+        // so its label sits in the free band just outside the track card, never at the line's middle.
+        const trackCard = from.track ? s : t;
+        const flowCard = from.track ? t : s;
+        const band = trackCard.t > flowCard.b ? trackCard.t - 16 : trackCard.b + 16;
         if (from.track !== to.track && Math.abs(s.cx - t.cx) < (s.r - s.l) / 2) { // same column: straight up or down
           const [y1, y2] = s.t > t.b ? [s.t, t.b] : [s.b, t.t];
-          return { ...base, d: `M${t.cx},${y1} V${y2}`, x: t.cx + 10, y: (y1 + y2) / 2, vertical: true };
+          return { ...base, d: `M${t.cx},${y1} V${y2}`, x: t.cx + 10, y: band, vertical: true, room: 240 };
         }
         if (from.track && !to.track) { // up from the fine-tuning track into the service flow
           const y = s.t > t.b ? t.b : t.t;
-          return { ...base, d: `M${s.r},${s.cy} H${t.cx} V${y}`, x: t.cx + 10, y: (s.cy + y) / 2, vertical: true };
+          return { ...base, d: `M${s.r},${s.cy} H${t.cx} V${y}`, x: t.cx + 10, y: band, vertical: true, room: 240 };
         }
         if (joined.has(to.id)) {
           const joint = t.l - 22;
-          return { ...base, d: `M${s.r},${s.cy} H${joint} V${t.cy} H${t.l}`, x: (s.r + joint) / 2, y: s.cy, vertical: false };
+          return { ...base, d: `M${s.r},${s.cy} H${joint} V${t.cy} H${t.l}`, x: (s.r + joint) / 2, y: s.cy, vertical: false, room: joint - s.r };
         }
         const y = Math.min(Math.max(s.cy, t.t + 18), t.b - 18);
-        if (y === s.cy) return { ...base, d: `M${s.r},${y} H${t.l}`, x: (s.r + t.l) / 2, y, vertical: false };
-        const mid = (s.r + t.l) / 2;
-        return { ...base, d: `M${s.r},${s.cy} H${mid} V${y} H${t.l}`, x: mid, y: (s.cy + y) / 2, vertical: false };
+        if (y === s.cy) return { ...base, d: `M${s.r},${y} H${t.l}`, x: (s.r + t.l) / 2, y, vertical: false, room: t.l - s.r };
+        // Bend at the same spot as joined arrows, so two bends never run side by side in one gap.
+        const joint = t.l - 22;
+        return { ...base, d: `M${s.r},${s.cy} H${joint} V${y} H${t.l}`, x: (s.r + joint) / 2, y: s.cy, vertical: false, room: joint - s.r };
       }));
     };
     draw();
@@ -167,72 +166,44 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
   }, [signature]);
 
   const register = (id: string) => (el: HTMLElement | null) => void (el ? cards.current.set(id, el) : cards.current.delete(id));
-  // Widen the gap between columns until the longest arrow label fits, in up to two lines, between its cards.
+  // Widen the gap between columns until the longest arrow label fits, in up to two lines, between its cards;
+  // +22 leaves room for the joint where several arrows meet before a card.
   const longest = Math.max(0, ...edges.map((e) => (e.label ?? "").length));
-  const gap = Math.min(Math.max(56, longest <= 8 ? longest * 12 + 24 : Math.ceil(longest / 2) * 12 + 28), 120);
+  const gap = Math.min(Math.max(56, (longest <= 8 ? longest * 12 + 24 : Math.ceil(longest / 2) * 12 + 28) + 22), 160);
   const grid = { gridTemplateColumns: `repeat(${columns}, minmax(150px, 1fr))`, columnGap: gap, rowGap: 20 };
-  const legend: Kind[] = ["data", "model", "step", "sft"];
 
   return (
-    <section className="space-y-3 border-t border-line pt-4" aria-label="활용 흐름 제안">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold">활용 흐름 제안</h3>
-        <ul className="flex flex-wrap gap-3 text-xs text-muted" aria-label="흐름도 범례">
-          {legend.filter((k) => k !== "sft" || track.length || sft.length).map((k) => (
-            <li key={k} className="flex items-center gap-1.5"><span className={`size-3 rounded-sm border ${styles[k].marker}`} />{styles[k].name}</li>
-          ))}
-        </ul>
-      </div>
-      {/* The padding keeps the selected card's ring from being clipped by the scroll box. */}
-      <div className="-mx-1 overflow-x-auto p-1">
+    <section aria-label="서비스 구현 흐름">
+      {/* Canvas; the padding also keeps the selected card's ring from being clipped by the scroll box. */}
+      <div className="overflow-x-auto rounded-xl border border-line bg-[#fafaf7] p-6">
         <div ref={box} className="relative space-y-8" style={{ minWidth: columns * 150 + (columns - 1) * gap }}>
           <svg className="pointer-events-none absolute inset-0 z-0 size-full overflow-visible" aria-hidden>
             <defs>
               {["main", "sft"].map((id) => (
                 <marker key={id} id={`arrow-${id}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                  <path d="M0,0 L10,5 L0,10 z" fill={id === "sft" ? "#c08fc0" : "#b3a6b2"} />
+                  <path d="M0,0 L10,5 L0,10 z" fill={id === "sft" ? "#9b6a96" : "#7d8a80"} />
                 </marker>
               ))}
             </defs>
             {lines.map((l) => (
-              <path key={l.key} d={l.d} fill="none" stroke={l.sft ? "#c08fc0" : "#b3a6b2"} strokeWidth={l.sft && !l.dashed ? 2 : 1.5}
+              <path key={l.key} d={l.d} fill="none" stroke={l.sft ? "#9b6a96" : "#7d8a80"} strokeWidth={1.5}
                 strokeDasharray={l.dashed ? "6 5" : undefined} markerEnd={`url(#arrow-${l.sft ? "sft" : "main"})`} />
             ))}
           </svg>
           {lines.filter((l) => l.label).map((l) => (
-            <span key={l.key} className={`absolute z-20 rounded bg-white/90 px-1 text-center text-xs leading-tight break-keep text-muted ${l.vertical ? "-translate-y-1/2" : "-translate-x-1/2 -translate-y-[calc(100%+4px)]"}`}
-              style={{ left: l.x, top: l.y, width: "max-content", maxWidth: gap - 8 }}>
+            <span key={l.key} className={`pointer-events-none absolute z-20 rounded bg-[#fafaf7] px-1 text-center text-xs leading-tight break-keep text-muted ${l.vertical ? "-translate-y-1/2" : "-translate-x-1/2 -translate-y-[calc(100%+4px)]"}`}
+              style={{ left: l.x, top: l.y, width: "max-content", maxWidth: Math.max(40, l.room - 12) }}>
               {l.label}
             </span>
           ))}
 
           <div className="grid" style={grid}>
-            {headers.map((h, i) => (
-              <span key={h} className="text-xs font-semibold text-muted" style={{ gridColumn: i + 1, gridRow: 1 }}>{h}</span>
-            ))}
-          </div>
-          <div className="grid" style={grid}>
             {main.map((n) => <Card key={n.id} node={n} cardRef={register(n.id)} selectedId={selectedId} onSelect={onSelect} />)}
           </div>
 
-          {(track.length > 0 || sft.length > 0) && (
-            <div className="space-y-4">
-              {track.length > 0 && (
-                <div className="grid" style={grid}>
-                  {track.map((n) => <Card key={n.id} node={n} cardRef={register(n.id)} selectedId={selectedId} onSelect={onSelect} />)}
-                </div>
-              )}
-              {sft.length > 0 && (
-                <p className="relative z-10 flex gap-2 rounded-xl border border-[#f0dfb5] bg-warn-soft px-4 py-3 text-sm leading-relaxed">
-                  <span aria-hidden>💡</span>
-                  <span>
-                    <b>이렇게 파인튜닝해 보세요</b> · {fineTuning || sft[0].role}
-                    <span className="mt-1 block text-xs text-muted">
-                      출발점 후보: {sft.map((m, i) => <span key={m.id}>{i > 0 && ", "}<b className="text-brand">{m.name}</b></span>)}
-                    </span>
-                  </span>
-                </p>
-              )}
+          {track.length > 0 && (
+            <div className="grid" style={grid}>
+              {track.map((n) => <Card key={n.id} node={n} cardRef={register(n.id)} selectedId={selectedId} onSelect={onSelect} />)}
             </div>
           )}
         </div>
@@ -243,5 +214,29 @@ export function PipelineDiagram({ pipeline, candidates, fineTuning, selectedId, 
         ))}
       </ul>
     </section>
+  );
+}
+
+/** Shown whenever there are fine-tuning candidates, with or without a flow diagram. */
+export function FineTuneTip({ candidates, fineTuning, onSelect }: { candidates: Candidate[]; fineTuning?: string; onSelect?: (id: string) => void }) {
+  // Same set as the detail panel's SFT 출발점 후보: "both" models are SFT starting points too.
+  const sft = candidates.filter((c) => c.type === "model" && (c.group === "sft" || c.group === "both"));
+  if (sft.length === 0) return null;
+  return (
+    <p className="flex gap-2 rounded-xl border border-[#f0dfb5] bg-warn-soft px-4 py-3 text-sm leading-relaxed">
+      <span aria-hidden>💡</span>
+      <span>
+        <b>이렇게 파인튜닝해 보세요</b> · {fineTuning || sft[0].role}
+        <span className="mt-1 block text-xs text-muted">
+          출발점 후보:{" "}
+          {sft.map((m, i) => (
+            <span key={m.id}>
+              {i > 0 && ", "}
+              <button className="font-bold text-brand hover:underline" onClick={() => onSelect?.(m.id)}>{m.name}</button>
+            </span>
+          ))}
+        </span>
+      </span>
+    </p>
   );
 }
