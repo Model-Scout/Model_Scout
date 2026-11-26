@@ -130,6 +130,14 @@ export function PipelineDiagram({ pipeline, candidates, selectedId, onSelect }: 
       // Arrows from the service flow into one card meet at a joint, so the card gets a single arrowhead.
       const joined = new Set(edges.filter((e) => !e.from.track && !e.to.track)
         .map((e) => e.to.id).filter((id, i, all) => all.indexOf(id) !== i));
+      // A card whose arrows to several cards say different things: bent arrows would share one trunk and stack their
+      // labels at the same spot, so each one splits off right after the card and carries its label on its own branch.
+      // Arrows that all say the same thing keep the shared trunk, where one label reads for all of them.
+      const said = new Map<string, Set<string>>();
+      for (const e of edges) {
+        if (!e.from.track && !e.to.track) said.set(e.from.id, (said.get(e.from.id) ?? new Set()).add((e.label ?? "").trim()));
+      }
+      const fanned = new Set([...said].filter(([, labels]) => labels.size > 1).map(([id]) => id));
       setLines(edges.map(({ from, to, label }) => {
         const s = rect(from.id);
         const t = rect(to.id);
@@ -153,6 +161,10 @@ export function PipelineDiagram({ pipeline, candidates, selectedId, onSelect }: 
         }
         const y = Math.min(Math.max(s.cy, t.t + 18), t.b - 18);
         if (y === s.cy) return { ...base, d: `M${s.r},${y} H${t.l}`, x: (s.r + t.l) / 2, y, vertical: false, room: t.l - s.r };
+        if (fanned.has(from.id)) {
+          const split = s.r + 14;
+          return { ...base, d: `M${s.r},${s.cy} H${split} V${y} H${t.l}`, x: (split + t.l) / 2, y, vertical: false, room: t.l - split };
+        }
         // Bend at the same spot as joined arrows, so two bends never run side by side in one gap.
         const joint = t.l - 22;
         return { ...base, d: `M${s.r},${s.cy} H${joint} V${y} H${t.l}`, x: (s.r + joint) / 2, y: s.cy, vertical: false, room: joint - s.r };
