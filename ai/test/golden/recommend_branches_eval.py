@@ -99,10 +99,11 @@ AMBIGUOUS_NAMES = [
      {"recommend": False, "display": "chat", "model_path": "lookup", "classifier": 0,
       "answer_lacks": ["같은 계열", "니다"]}),  # an exact id is read alone, as before
 ]
-# The three project requests the team checks a recommendation with, one per resource mix. No clarification answers
-# are given, so a request that asks back instead of answering at once fails. Chosen on 2026-11-26 from local runs.
+# The three project requests the team checks a recommendation with, one per resource mix; the home screen offers the
+# same three (frontend/src/components/Home.tsx EXAMPLES), so change both together. No clarification answers are
+# given, so a request that asks back instead of answering at once fails. Chosen on 2026-11-26 from local runs.
 RECOMMEND_CHECKS = [
-    ("R01", ["법률상담 챗봇을 만드려고 하는데 모델이랑 데이터 알려줘"], [],  # models and data
+    ("R01", ["법률상담 챗봇을 만들려고 하는데 모델이랑 데이터 알려줘"], [],  # models and data
      {"recommend": True, "display": "recommendation", "model_path": "project", "dataset_path": "project",
       "models_found": True, "datasets_found": True}),
     ("R02", ["따릉이 대여소 안내 앱을 만들려고 해. 공공데이터만 추천해줘"], [],  # data only

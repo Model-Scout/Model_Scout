@@ -8,8 +8,8 @@
   "writer_recommend": 3
  },
  "tokens": {
-  "prompt": 32361,
-  "completion": 1720
+  "prompt": 38419,
+  "completion": 2962
  },
  "stopped": null,
  "rows": [
@@ -17,7 +17,7 @@
    "id": "R01",
    "turns": [
     {
-     "query": "법률상담 챗봇을 만드려고 하는데 모델이랑 데이터 알려줘",
+     "query": "법률상담 챗봇을 만들려고 하는데 모델이랑 데이터 알려줘",
      "events": [
       "assessment",
       "combination",
@@ -37,8 +37,14 @@
       "embedding": 3,
       "writer_recommend": 1
      },
-     "answer": "### 1. 법률 상담 질문에 대해 자연스럽고 정확한 답변을 생성해요.\n법률 상담에 특화된 대형 언어 모델로 자연스러운 답변 생성 가능\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | www622846/qwen3.5-9b-rp-lora-v2 | text-generation, 262144 context, apache-2.0 |\n| 대안 | tonymocchi/gpt2_small_morphTokenizer | 라이선스 미확인 |\n| 대안 | golddragon0926/qwen35-4b-diagnosis-agent | 라이선스 미확인 |\n\n### 2. 법률 문서와 상담 기록에서 관련 정보를 찾아요.\n법률 문서 검색에 최적화된 임베딩 모델로 관련 정보 탐색에 적합\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | woong0322/ko-legal-sbert-finetuned | feature-extraction, 512 context, 라이선스 미확인 |\n| 대안 | ysmeta/EVE-Embed-1.1-Legal | apache-2.0 |\n| 대안 | opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1 | apache-2.0 |\n\n### 프로젝트 학습·평가 데이터\n- **woalsdnd/law.go.kr** (mit) — 한국 법령 사이트 판례 활용 법률 문서 검색 데이터셋\n- **ysmeta/EVE-Bench-Legal-1.0** (openrail) — 실무자 질문 형태 법률 판례 검색 벤치마크\n- **ysmeta/EVE-Bench-Legal-2.0** (openrail) — 실무자 스타일 질의와 판례 포함 법률 판례 검색 벤치마크\n\n### 서비스 데이터 (공공데이터)\n- 대한법률구조공단_법률상담 사례질문답변_1차 (공공누리 제4유형)  \n  - API 및 CSV 제공, 비상업 전용, 수시 갱신, 상세 내용 파일 기반  \n- 대한법률구조공단_법률상담 기본질문답변_1차 (공공누리 제4유형)  \n  - API 및 CSV 제공, 비상업 전용, 수시 갱신, 상세 내용 파일 기반  \n- 대한법률구조공단_법률서식작성방법 (공공누리 제4유형)  \n  - API 및 CSV 제공, 비상업 전용, 수시 갱신, 법률서식 작성 안내  \n\n- 서비스 데이터는 모두 비상업용 라이선스이며 상업적 이용 불가입니다.  \n\n\n(설명이 중간에 끊겼어요. 후보는 카드에서 확인해 주세요. 추적 ID: eval-R01-1)\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 상업 출시 불가\n- 비상업 라이선스: data_go_kr/15130744 (공공누리 제4유형), data_go_kr/15130734 (공공누리 제4유형), data_go_kr/15142986 (공공누리 제4유형)\n- 라이선스 원문 확인 필요: woong0322/ko-legal-sbert-finetuned (unknown)\n- 학습에 쓰기 전 원문 확인: ysmeta/EVE-Bench-Legal-1.0 (openrail), ysmeta/EVE-Bench-Legal-2.0 (openrail)\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- data_go_kr/15130744: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n- data_go_kr/15130734: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n- data_go_kr/15142986: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
-     "pipeline": [],
+     "answer": "### 1. 법률 상담 질문에 대해 자연스러운 답변을 생성해요.\n법률 상담에 적합한 한국어 챗봇 생성 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | EasthShin/Youth_Chatbot_Kogpt2-base | text-generation, 1024 context, unknown license |\n| 대안 | kfkas/Legal-Llama-2-ko-7b-Chat | unknown license |\n| 대안 | gabriellarson/SimpleChat-4B-V1-GGUF | unknown license |\n\n- EasthShin/Youth_Chatbot_Kogpt2-base는 한국어 검증 완료 모델입니다.\n- 라이선스와 상업적 이용 가능 여부는 불확실합니다.\n\n### 2. 법률 문서와 사례를 찾아서 관련 정보를 제공해요.\n법률 문서 검색에 특화된 임베딩 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | woong0322/ko-legal-sbert-finetuned | feature-extraction, 512 context, unknown license |\n| 대안 | ysmeta/EVE-Embed-1.1-Legal | apache-2.0 license |\n| 대안 | opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1 | apache-2.0 license |\n\n- woong0322/ko-legal-sbert-finetuned는 한국어 지원과 한국어 검증 완료 모델입니다.\n- ysmeta/EVE-Embed-1.1-Legal과 opensearch-project 모델은 상업적 이용 허가된 라이선스입니다.\n\n### 프로젝트 학습·평가 데이터\n- **woalsdnd/law.go.kr** (mit) — 한국 법령 사이트 판례 활용 법률 문서 검색 데이터셋\n- **ysmeta/EVE-Bench-Legal-1.0** (openrail) — 실무자 질문 형태의 한국 법률 판례 검색 벤치마크\n- **Chaeeun-Kim/LEGAR_BENCH** (apache-2.0) — 대규모 한국어 법률 판례 검색 벤치마크\n\n### 서비스 데이터 (공공데이터)\n- 서울 열린데이터광장: 대한법률구조공단_법률상담 기본질문답변_1차 (공공누리 제4유형)\n  - API, CSV 제공, 비상업 전용, 수시 갱신, 민원인 자주 묻는 질문과 답변 포함\n- 서울 열린데이터광장: 대한법률구조공단_법률상담 사례질문답변_1차 (공공누리 제4유형)\n  - API, CSV 제공, 비상업 전용, 수시 갱신, 법률사례 질문과 답변 포함\n- 서울 열린데이터광장: 대한법률구조공단_법률서식작성방법 (공공누리 제4유형)\n  - API, CSV 제공, 비상업 전용, 수시 갱신, 법률서식 작성 안내\n\n- 서비스 데이터는 모두 비상업용 라이선스이며 상업적 이용 불가입니다.\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 상업 출시 불가\n- 비상업 라이선스: data_go_kr/15130734 (공공누리 제4유형), data_go_kr/15130744 (공공누리 제4유형), data_go_kr/15142986 (공공누리 제4유형)\n- 라이선스 원문 확인 필요: EasthShin/Youth_Chatbot_Kogpt2-base (unknown), woong0322/ko-legal-sbert-finetuned (unknown)\n- 학습에 쓰기 전 원문 확인: ysmeta/EVE-Bench-Legal-1.0 (openrail)\n\n**데이터 이용 시 확인할 점 (공식 설명·카드 원문)**\n- data_go_kr/15130734: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n- data_go_kr/15130744: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n- data_go_kr/15142986: API 제공 여부: 파일 자동변환 OpenAPI (상세 페이지에 주소 있음, 호출은 확인하지 않음. 내용은 올린 파일과 같음)\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pipeline": [
+      "사용자 질문 -[질문 임베딩]-> ko-legal-sbert-finetuned",
+      "ko-legal-sbert-finetuned -[문서 검색]-> 법률 문서 데이터",
+      "ko-legal-sbert-finetuned -[사례 검색]-> 법률 상담 사례 데이터",
+      "사용자 질문 -[질문 텍스트]-> Youth_Chatbot_Kogpt2-base",
+      "Youth_Chatbot_Kogpt2-base -[답변 생성]-> 답변 생성"
+     ],
      "pending": null,
      "display": "recommendation",
      "type": "answer",
@@ -53,9 +59,9 @@
        "retrieval"
       ],
       "models": [
-       "www622846/qwen3.5-9b-rp-lora-v2",
-       "tonymocchi/gpt2_small_morphTokenizer",
-       "golddragon0926/qwen35-4b-diagnosis-agent",
+       "EasthShin/Youth_Chatbot_Kogpt2-base",
+       "kfkas/Legal-Llama-2-ko-7b-Chat",
+       "gabriellarson/SimpleChat-4B-V1-GGUF",
        "woong0322/ko-legal-sbert-finetuned",
        "ysmeta/EVE-Embed-1.1-Legal",
        "opensearch-project/opensearch-neural-sparse-encoding-multilingual-v1"
@@ -69,12 +75,12 @@
       "datasets": [
        "woalsdnd/law.go.kr",
        "ysmeta/EVE-Bench-Legal-1.0",
-       "ysmeta/EVE-Bench-Legal-2.0",
-       "wellsa-ai/law-kr",
-       "wellsa-ai/interpretation-kr",
-       "wellsa-ai/localrule-kr",
-       "data_go_kr/15130744",
+       "Chaeeun-Kim/LEGAR_BENCH",
+       "Y-J-Ju/RegOps-Bench",
+       "ysmeta/EVE-Train-Legal-1.0",
+       "ysmeta/EVE-Train-Legal-1.1",
        "data_go_kr/15130734",
+       "data_go_kr/15130744",
        "data_go_kr/15142986",
        "data_go_kr/15122944",
        "data_go_kr/15048878",
@@ -117,8 +123,14 @@
       "embedding": 1,
       "writer_recommend": 1
      },
-     "answer": "### 서비스 데이터 (공공데이터)\n- **서울시 공공자전거 따릉이 대여소 정보** (공공누리 제1유형) — 서울시 대여소 위치, 거치대수 제공, API·CSV·엑셀, 반기 갱신\n- **서울시 공공자전거 따릉이 대여소 마스터 정보** (공공누리 제1유형) — 대여소 ID, 주소, 좌표 정보, API·CSV, 수시 갱신\n- **서울시 공공자전거 따릉이 대여소별 이용정보(월별)** (공공누리 제1유형) — 월별 대여건수 정보, API·CSV·엑셀, 반기 갱신\n\n  - 모두 상업 이용 가능\n  - 서울시 데이터이며, API 제공\n  - 갱신 주기는 반기 또는 수시이며 실시간 아님\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 막는 라이선스 없음\n- 상업 출시할 경우: 상업 출시 가능\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
-     "pipeline": [],
+     "answer": "### 서비스 데이터 (공공데이터)\n- **서울시 공공자전거 따릉이 대여소 정보** (공공누리 제1유형) — 서울시 대여소 위치, 거치대수 제공, 반기 갱신, API·CSV·XLSX\n- **서울시 공공자전거 따릉이 대여소 마스터 정보** (공공누리 제1유형) — 대여소 ID, 주소, 좌표 정보, 수시 갱신, API·CSV\n- **서울시 공공자전거 따릉이 대여소별 이용정보(월별)** (공공누리 제1유형) — 월별 대여건수, 반기 갱신, API·CSV·XLSX\n\n  - 모두 상업 이용 가능\n  - 서울시 데이터로 지역 범위 명확\n  - 갱신 주기 다름: 마스터 정보는 수시, 나머지는 반기\n  - API 제공으로 실시간성은 미확인\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 막는 라이선스 없음\n- 상업 출시할 경우: 상업 출시 가능\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pipeline": [
+      "서울시 공공자전거 따릉이 대여소 정보 -[]-> 대여소 위치 및 정보 통합",
+      "서울시 공공자전거 따릉이 대여소 마스터 정보 -[]-> 대여소 위치 및 정보 통합",
+      "대여소 위치 및 정보 통합 -[대여소 위치 및 기본정보]-> 따릉이 대여소 안내 앱",
+      "서울시 공공자전거 따릉이 대여소별 이용정보(월별) -[]-> 이용정보 분석",
+      "이용정보 분석 -[월별 이용 현황]-> 따릉이 대여소 안내 앱"
+     ],
      "pending": null,
      "display": "recommendation",
      "type": "answer",
@@ -177,10 +189,10 @@
       "embedding": 2,
       "writer_recommend": 1
      },
-     "answer": "### 1. 사진 속 한국어 글자를 인식해요.\n한국어 OCR에 최적화된 경량 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | localdeel/ko-hand-ocr-vl | image-text-to-text, 262144 context, apache-2.0 |\n| 대안 | localdeel/ko-hand-ocr-vl-GGUF | apache-2.0 |\n| 대안 | EZCon/GLM-OCR-mlx | mit |\n\n- localdeel/ko-hand-ocr-vl은 한글 인식 정확도가 높고 상업적 사용 가능\n\n### 2. 인식한 한국어 글자를 다른 언어로 번역해요.\n한국어-영어 번역에 적합한 중간 크기 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF | translation, 128000 context, other (조건부) |\n| 대안 | hell0ks/ja-ko-vn-7b-v1-gguf | apache-2.0 |\n| 대안 | hell0ks/ja-ko-vn-12b-v2-gguf | gemma |\n\n- gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF는 조건부 라이선스 검토 필요\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 조건부 (라이선스 원문 확인 필요)\n- 라이선스 원문 확인 필요: gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF (other)\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "answer": "### 1. 사진 속 한국어 글자를 인식해요.\n한국어 OCR에 최적화된 경량 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | localdeel/ko-hand-ocr-vl | image-text-to-text, 262144 context, apache-2.0 |\n| 대안 | localdeel/ko-hand-ocr-vl-GGUF | apache-2.0 |\n| 대안 | EZCon/GLM-OCR-mlx | mit |\n\n- localdeel/ko-hand-ocr-vl은 한글 인식 정확도가 높고 상업적 사용 가능\n\n### 2. 인식한 한국어 글자를 다른 언어로 번역해요.\n한국어-영어 번역에 적합한 중간 크기 모델입니다.\n\n| 구분 | 이름 | 설명 |\n|---|---|---|\n| 추천 | gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF | translation, 128000 context, other |\n| 대안 | hell0ks/ja-ko-vn-7b-v1-gguf | apache-2.0 |\n| 대안 | hell0ks/ja-ko-vn-12b-v2-gguf | gemma |\n\n- gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF는 조건부 상업 사용 검토 필요\n\n\n\n**라이선스 판정 (개인·로컬 사용 기준)**\n- 개인·로컬 사용: 원문 확인이 필요한 항목이 있어요\n- 상업 출시할 경우: 조건부 (라이선스 원문 확인 필요)\n- 라이선스 원문 확인 필요: gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF (other)\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
      "pipeline": [
       "사진 입력 -[사진]-> ko-hand-ocr-vl",
-      "ko-hand-ocr-vl -[한글 텍스트]-> lfm2-1.2b-koen-mt-v4-100k-GGUF",
+      "ko-hand-ocr-vl -[인식 텍스트]-> lfm2-1.2b-koen-mt-v4-100k-GGUF",
       "lfm2-1.2b-koen-mt-v4-100k-GGUF -[번역 텍스트]-> 번역 결과"
      ],
      "pending": null,
