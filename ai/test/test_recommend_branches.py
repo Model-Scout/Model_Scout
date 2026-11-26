@@ -90,7 +90,9 @@ def world(monkeypatch):
     def model_rows(query, tags, *args):
         calls["model_search"] += 1
         seen["model_rows"].append({"tags": tags, "dense_weight": args[7], "match_count": args[8]})
-        return {"rows": [dict(SEARCH_ROW)], "contract_filters_applied": False}
+        seen.setdefault("queries", []).append(query)
+        rows = state.get("search_rows") or [SEARCH_ROW]
+        return {"rows": [dict(r) for r in rows], "contract_filters_applied": False}
 
     def rank(concepts, roles=None, **kw):
         calls["dataset_search"] += 1
@@ -361,6 +363,127 @@ def test_an_ambiguous_name_is_never_settled_on_one_model(world):
     assert "'bge-m3'은(는) 카탈로그의 여러 모델에 해당해 하나로 정하지 않았어요: dragonkue/BGE-m3-ko, upskyy/bge-m3-korean" in t.state["answer"]
 
 
+BGE_FAMILY = {"status": "ambiguous", "match": "alias", "model_id": None,
+              "candidates": ["dragonkue/BGE-m3-ko", "upskyy/bge-m3-korean", "mlx-community/bge-m3-mlx-fp16"],
+              "family": {"root": "BAAI/bge-m3", "count": 13, "root_read": False, "complete": True,
+                         "members": ["dragonkue/BGE-m3-ko", "upskyy/bge-m3-korean", "mlx-community/bge-m3-mlx-fp16",
+                                     "mlx-community/bge-m3-mlx-8bit", "mlx-community/bge-m3-mlx-4bit"]},
+              "roots": ["BAAI/bge-m3"]}
+QWEN_SPREAD = {"status": "ambiguous", "match": "alias", "model_id": None,
+               "candidates": ["EasierAI/Qwen-2.5-32B", "ToxicityPrompts/PolyGuard-Qwen"], "family": None,
+               "roots": ["Qwen/Qwen2.5-7B-Instruct", "Qwen/Qwen2.5-3B", "ToxicityPrompts/PolyGuard-Qwen"]}
+
+
+def test_a_one_family_name_reads_its_most_downloaded_members_and_picks_none(world):
+    world.state["plans"] = [plan(recommend=False, models=["BGE-M3"])]
+    world.state["names"] = {"BGE-M3": BGE_FAMILY}
+    world.state["rows"] = {m: catalog_row(m) for m in BGE_FAMILY["family"]["members"]}
+    t = world.turn("BGE-M3 라이선스가 뭐야?", target="model")
+    assert t.state["model_route"]["path"] == "lookup" and t.calls["model_search"] == 0 and t.calls["classifier"] == 0
+    assert world.seen["compared"] == BGE_FAMILY["family"]["members"][:rg.MAX_LOOKUP_MODELS]
+    groups = t.state["models"]
+    assert all(g["kind"] == "lookup" and g["lookup_family"] == "BAAI/bge-m3" and g["mention"] == "BGE-M3"
+               for g in groups) and len(groups) == rg.MAX_LOOKUP_MODELS
+    answer = t.state["answer"]
+    assert "같은 계열(원본 BAAI/bge-m3)의 카탈로그 모델 13개 중 다운로드가 많은 4개를 정리했어요" in answer
+    assert "원본 BAAI/bge-m3은(는) 카탈로그에 없어요" in answer
+    assert "하나로 정하지 않았어요" not in answer and rg.NOTHING_FOUND_NOTE not in answer
+    assert t.calls["writer"] == 1
+
+
+TABLE_ANSWER = "두 모델 모두 상업적 이용이 가능해요.\n\n| 모델 | 라이선스 |\n|---|---|\n| a | mit |\n\n끝이에요.\n"
+
+
+def test_a_one_family_answer_never_carries_a_table(world):
+    world.state["plans"] = [plan(recommend=False, models=["BGE-M3"])]
+    world.state["names"] = {"BGE-M3": BGE_FAMILY}
+    world.state["rows"] = {m: catalog_row(m) for m in BGE_FAMILY["family"]["members"]}
+    world.state["writer"] = TABLE_ANSWER
+    answer = world.turn("BGE-M3 라이선스가 뭐야?", target="model").state["answer"]
+    assert "|" not in answer and "두 모델 모두 상업적 이용이 가능해요." in answer and "끝이에요." in answer
+
+
+def test_a_comparison_of_exact_names_keeps_its_table(world):
+    world.state["plans"] = [plan(recommend=False, models=["e5-large"])]
+    world.state["names"] = {"e5-large": {"status": "found", "match": "alias", "model_id": "intfloat/e5-large",
+                                         "candidates": []}}
+    world.state["rows"] = {"intfloat/e5-large": catalog_row("intfloat/e5-large", 512)}
+    world.state["writer"] = TABLE_ANSWER
+    assert "| a | mit |" in world.turn("e5-large 라이선스", target="model").state["answer"]
+
+
+def test_a_name_spanning_unrelated_models_is_not_read_and_asks_for_the_exact_name(world):
+    world.state["plans"] = [plan(recommend=False, models=["qwen"])]  # no model kind to search either
+    world.state["names"] = {"qwen": QWEN_SPREAD}
+    t = world.turn("qwen 라이선스 알려줘", target="model")
+    assert t.state["model_route"]["path"] == "fallback" and t.calls["get_model"] == t.calls["compare_models"] == 0
+    answer = t.state["answer"]
+    assert "원본이 서로 다른 여러 모델(예: Qwen/Qwen2.5-7B-Instruct, Qwen/Qwen2.5-3B, ToxicityPrompts/PolyGuard-Qwen)" in answer
+    assert "EasierAI/Qwen-2.5-32B" not in answer  # derivatives are not listed
+    assert rg.NOTHING_FOUND_NOTE not in answer  # "several families" then "nothing found" would contradict itself
+
+
+def test_a_spread_name_with_related_search_results_still_labels_them(world):
+    world.state["plans"] = [plan(recommend=False, needs=[EMBED], models=["qwen"])]
+    world.state["names"] = {"qwen": QWEN_SPREAD}
+    t = world.turn("qwen 입력 길이", target="model")
+    assert t.calls["model_search"] == 1 and "말씀하신 항목 자체가 아니에요" in t.state["answer"]
+
+
+@pytest.mark.parametrize("names,expected", [
+    ({"e5": {"status": "found", "model_id": "i/e5"}, "BGE-M3": BGE_FAMILY},
+     {"e5": ["i/e5"], "BGE-M3": BGE_FAMILY["family"]["members"][:3]}),  # the found one keeps its slot
+    ({"BGE-M3": BGE_FAMILY, "x": {**BGE_FAMILY, "family": {**BGE_FAMILY["family"], "members": ["o/1", "o/2", "o/3"]}}},
+     {"BGE-M3": BGE_FAMILY["family"]["members"][:2], "x": ["o/1", "o/2"]}),  # two families share the slots
+    ({"qwen": QWEN_SPREAD, "nope": {"status": "not_found"}}, {}),
+])
+def test_lookup_slots_go_to_found_names_first_then_families(names, expected):
+    assert rg._lookup_ids(names) == expected
+
+
+def test_a_yardstick_family_name_is_never_read(world):
+    world.state["plans"] = [plan(recommend=False, needs=[EMBED], models=["bge-m3"], references=["bge-m3"])]
+    world.state["names"] = {"bge-m3": BGE_FAMILY}
+    t = world.turn("bge-m3보다 가벼운 임베딩 모델 찾아줘", target="model")
+    assert t.calls["resolve_models"] == 0 and t.state["model_route"]["path"] == "typed" and t.calls["model_search"] == 1
+
+
+@pytest.mark.parametrize("query,names,expected", [
+    ("한국어 임베딩 lightweight smaller than bge-m3", ["bge-m3"], "한국어 임베딩 lightweight smaller than"),
+    ("BGE-M3 대체 embedding", ["BGE"], "대체 embedding"),  # a word that carries the name goes whole
+    ("multilingual-e5 lightweight", ["e5"], "lightweight"),
+    ("한국어 임베딩 embedding", ["bge-m3"], "한국어 임베딩 embedding"),
+    ("bge-m3", ["bge-m3"], "bge-m3"),  # nothing else left: the query stays
+    ("한국어 임베딩", [], "한국어 임베딩"),
+])
+def test_a_yardstick_name_leaves_the_search_query(query, names, expected):
+    assert rg.without_yardsticks(query, names) == expected
+
+
+def test_the_planner_query_loses_the_yardstick_name(world):
+    need = {**EMBED, "model_query": "한국어 임베딩 lightweight smaller than bge-m3"}
+    world.state["plans"] = [plan(recommend=False, needs=[need], models=["bge-m3"], references=["bge-m3"])]
+    world.turn("bge-m3보다 가벼운 한국어 임베딩 모델 찾아줘", target="model")
+    assert world.seen["queries"] == ["한국어 임베딩 lightweight smaller than"]
+
+
+def row(model_id):
+    return {**SEARCH_ROW, "model_id": model_id}
+
+
+@pytest.mark.parametrize("text,kept", [
+    ("BGE-M3 대신 쓸 만한 임베딩 모델 있어?", ["org/small-embed", "org/other-embed"]),
+    ("BGE-M3 말고 다른 임베딩 모델", ["org/small-embed", "org/other-embed"]),
+    # "smaller than X" keeps X's own smaller models: they answer it
+    ("BGE-M3보다 가벼운 임베딩 모델", ["mlx-community/bge-m3-mlx-4bit", "org/small-embed", "org/other-embed"]),
+])
+def test_only_a_replaced_yardstick_leaves_the_results(world, text, kept):
+    world.state["plans"] = [plan(recommend=False, needs=[EMBED], models=["BGE-M3"], references=["BGE-M3"])]
+    world.state["search_rows"] = [row("mlx-community/bge-m3-mlx-4bit"), row("org/small-embed"), row("org/other-embed")]
+    t = world.turn(text, target="model")
+    assert [m["model_id"] for g in t.state["models"] for m in g["models"]] == kept
+
+
 def test_a_yardstick_name_searches_for_alternatives(world):
     world.state["plans"] = [plan(recommend=False, needs=[EMBED], models=["BGE"], references=["BGE"])]
     t = world.turn("BGE 같은 더 가벼운 임베딩 모델", target="model")
@@ -496,6 +619,37 @@ def test_model_names_resolve_only_on_catalog_evidence(key, rows, status, model_i
     assert (out["status"], out["model_id"]) == (status, model_id)
 
 
+def family_rows(*pairs):
+    return [{"model_id": m, "family": fam(base) if base else {}} for m, base in pairs]
+
+
+@pytest.mark.parametrize("key,rows,root", [
+    # derivatives of one original that is not in the catalog
+    ("bge-m3", family_rows(("a/BGE-m3-ko", "BAAI/bge-m3"), ("b/bge-m3-korean", "BAAI/bge-m3"),
+                           ("c/bge-m3-mlx-8bit", "BAAI/bge-m3")), "BAAI/bge-m3"),
+    # a fine-tune of a derivative is followed up to the original while that derivative is among the matches
+    ("bge-m3", family_rows(("a/BGE-m3-ko", "BAAI/bge-m3"), ("d/bge-m3-ko-v2", "a/BGE-m3-ko"),
+                           ("c/bge-m3-mlx", "BAAI/bge-m3")), "BAAI/bge-m3"),
+    # unrelated models that share a word
+    ("qwen", family_rows(("a/Qwen-2.5-32B", "Qwen/Qwen2.5-32B"), ("b/PolyGuard-Qwen", None),
+                         ("c/DeepSeek-R1-Distill-Qwen-14B-4bit", "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B")), None),
+    # one original holds most matches, but the name is not part of its name: never that family
+    ("ko", family_rows(("a/x-ko", "o/base"), ("b/y-ko", "o/base"), ("c/z-ko", "o/base")), None),
+    # copies that declare nothing count as their own families: a missing tag keeps the name ambiguous
+    ("bge-m3", family_rows(("a/bge-m3-x", None), ("b/bge-m3-y", None), ("c/bge-m3-z", "BAAI/bge-m3")), None),
+    # a name-guessed original is not evidence
+    ("bge-m3", [{"model_id": f"{o}/bge-m3-q", "family": fam("BAAI/bge-m3", "name_heuristic")} for o in "abc"], None),
+])
+def test_an_ambiguous_name_is_one_family_only_on_declared_lineage(key, rows, root):
+    out = m09._resolved(key, rows, 5)
+    assert out["status"] == "ambiguous"
+    assert (out["family"] or {}).get("root") == root
+    if root:
+        assert out["family"]["members"] == [r["model_id"] for r in rows] and out["family"]["root_read"] is False
+    else:
+        assert out["roots"]
+
+
 def test_model_names_reach_sql_as_parameters_only(monkeypatch):
     executed = []
 
@@ -527,7 +681,24 @@ def test_model_names_reach_sql_as_parameters_only(monkeypatch):
     out = m09.resolve_model_names([name])
     assert out[name]["status"] == "not_found"
     statement, params = executed[0]
-    assert name.casefold() not in statement and params[0] == name.casefold()
+    assert "drop" not in statement and params[0] == m09._name_key(name)
+
+
+@pytest.mark.parametrize("written,key", [
+    ("bge m3", "bge-m3"), ("BGE-M3", "bge-m3"), ("bge_m3", "bge-m3"), ("  BGE  M3 ", "bge-m3"),
+    ("Qwen2.5", "qwen2-5"), ("BAAI/bge-m3", "baai/bge-m3"), ("-", ""),
+])
+def test_a_name_is_compared_whatever_separator_the_user_types(written, key):
+    assert m09._name_key(written) == key
+
+
+def test_a_spaced_name_resolves_like_the_hyphenated_one():
+    rows = [{"model_id": "a/BGE-m3-ko", "family": fam("BAAI/bge-m3")},
+            {"model_id": "b/bge-m3-korean", "family": fam("BAAI/bge-m3")}]
+    spaced, hyphened = m09._resolved("bge m3", rows, 5), m09._resolved("BGE-M3", rows, 5)
+    assert spaced == hyphened and spaced["family"]["root"] == "BAAI/bge-m3"
+    assert m09._resolved("qwen2.5-7b-instruct", [{"model_id": "Qwen/Qwen2.5-7B-Instruct", "family": {}}],
+                         5)["status"] == "found"
 
 
 def test_dataset_names_resolve_by_id_title_and_unique_title_part(monkeypatch):

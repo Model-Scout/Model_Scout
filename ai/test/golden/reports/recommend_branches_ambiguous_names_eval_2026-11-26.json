@@ -1,0 +1,482 @@
+{
+ "calls": 22,
+ "by_kind": {
+  "router": 6,
+  "planner": 6,
+  "writer_chat": 5,
+  "classifier": 3,
+  "embedding": 2
+ },
+ "tokens": {
+  "prompt": 58926,
+  "completion": 2123
+ },
+ "stopped": null,
+ "rows": [
+  {
+   "id": "A01",
+   "turns": [
+    {
+     "query": "BGE-M3 라이선스가 뭐야?",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1
+     },
+     "answer": "'BGE-M3'은(는) 한 모델로 정해지지 않아, 같은 계열(원본 BAAI/bge-m3)의 카탈로그 모델 13개 중 다운로드가 많은 4개를 정리했어요. 원본 BAAI/bge-m3은(는) 카탈로그에 없어요.\n\nBGE-M3 모델은 여러 버전이 있어요. dragonkue/BGE-m3-ko는 Apache-2.0 라이선스로 상업적 이용이 가능해요. mlx-community에서 제공하는 bge-m3-mlx-fp16과 bge-m3-mlx-8bit는 MIT 라이선스로 상업적 이용이 가능해요. 하지만 upskyy/bge-m3-korean 버전은 라이선스와 상업적 이용 여부가 미확인 상태라서 주의가 필요해요.\n\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "BGE-M3"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "needs": [],
+      "models": [
+       "dragonkue/BGE-m3-ko",
+       "upskyy/bge-m3-korean",
+       "mlx-community/bge-m3-mlx-fp16",
+       "mlx-community/bge-m3-mlx-8bit"
+      ],
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "BGE-M3"
+       ],
+       "resolved": {
+        "BGE-M3": {
+         "status": "ambiguous",
+         "match": "alias",
+         "model_id": null,
+         "candidates": [
+          "dragonkue/BGE-m3-ko",
+          "upskyy/bge-m3-korean",
+          "mlx-community/bge-m3-mlx-fp16",
+          "mlx-community/bge-m3-mlx-8bit",
+          "mlx-community/bge-m3-mlx-4bit"
+         ],
+         "family": {
+          "root": "BAAI/bge-m3",
+          "members": [
+           "dragonkue/BGE-m3-ko",
+           "upskyy/bge-m3-korean",
+           "mlx-community/bge-m3-mlx-fp16",
+           "mlx-community/bge-m3-mlx-8bit",
+           "mlx-community/bge-m3-mlx-4bit"
+          ],
+          "count": 13,
+          "root_read": false,
+          "complete": true
+         },
+         "roots": [
+          "BAAI/bge-m3",
+          "tss-deposium/bge-m3-matryoshka-1024d"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.classifier": true,
+    "t1.answer_has": true,
+    "t1.answer_lacks": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "A02",
+   "turns": [
+    {
+     "query": "qwen 라이선스 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "classifier": 1
+     },
+     "answer": "'qwen'이(가) 들어간 모델은 카탈로그에 원본이 서로 다른 여러 모델(예: Qwen/Qwen2.5-7B-Instruct, Qwen/Qwen2.5-3B, Qwen/Qwen2.5-14B-Instruct)로 있어 하나로 정하지 않았어요. 정확한 모델 이름을 알려주시면 그 모델로 답할게요.\n\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "qwen"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "needs": [],
+      "models": [],
+      "model_route": {
+       "path": "fallback",
+       "names": [
+        "qwen"
+       ],
+       "resolved": {
+        "qwen": {
+         "status": "ambiguous",
+         "match": "alias",
+         "model_id": null,
+         "candidates": [
+          "EasierAI/Qwen-2.5-32B",
+          "ToxicityPrompts/PolyGuard-Qwen",
+          "Outlier-Ai/DeepSeek-R1-Distill-Qwen-14B-MLX-4bit",
+          "DevQuasar-14/Qwen.Qwen2.5-7B-Instruct-GGUF",
+          "ToxicityPrompts/PolyGuard-Qwen-Smol"
+         ],
+         "family": null,
+         "roots": [
+          "Qwen/Qwen2.5-7B-Instruct",
+          "Qwen/Qwen2.5-3B",
+          "Qwen/Qwen2.5-14B-Instruct"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.answer_has": true,
+    "t1.answer_lacks": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "A03",
+   "turns": [
+    {
+     "query": "bge-m3보다 가벼운 한국어 임베딩 모델 찾아줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1,
+      "classifier": 1,
+      "embedding": 1
+     },
+     "answer": "bge-m3보다 가벼운 한국어 임베딩 모델로 NGA-KR/ko-embed-v0가 있어요. 이 모델은 0.149B 파라미터로 가볍고, 상업적 사용도 허용돼요. litert-community/LFM2.5-Embedding-350M은 파라미터 수가 미확인이지만, 상업적 사용은 조건부예요. shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4는 4.958B 파라미터로 bge-m3보다 무거울 가능성이 커요.\n\n| 모델 아이디                      | 파라미터 수 | 상업적 사용       | 한국어 지원 |  \n|------------------------------|------------|----------------|-----------|  \n| NGA-KR/ko-embed-v0            | 0.149B     | 허용           | 예        |  \n| litert-community/LFM2.5-Embedding-350M | 미확인      | 조건부 (검토 필요) | 예        |  \n| shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4 | 4.958B     | 조건부 (검토 필요) | 예        |  \n\nNGA-KR/ko-embed-v0가 가장 가벼운 한국어 임베딩 모델이에요.\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "bge-m3"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [
+       "bge-m3"
+      ],
+      "new_request": false,
+      "needs": [
+       "embedding"
+      ],
+      "models": [
+       "litert-community/LFM2.5-Embedding-350M",
+       "shadowrock-io/Nemotron-3-Embed-8B-Community-NVFP4",
+       "NGA-KR/ko-embed-v0"
+      ],
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.answer_lacks": true,
+    "t1.models_found": true,
+    "t1.reference": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "A05",
+   "turns": [
+    {
+     "query": "BGE-M3 대신 쓸 만한 상업용 임베딩 모델 있어?",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1,
+      "classifier": 1,
+      "embedding": 1
+     },
+     "answer": "BGE-M3 대신 쓸 만한 상업용 임베딩 모델로는 michaelfeil/ct2fast-LaBSE, batiai/Qwen3-Embedding-0.6B-GGUF, BidirLM/BidirLM-270M-Embedding이 있어요. 모두 Apache-2.0 라이선스로 상업적 이용이 허용돼요. 각 모델은 문장 임베딩이나 문서 유사도 검색에 적합해요.\n\n| 모델명                      | 파라미터 수 | 문맥 길이 | 라이선스    | 상업용 가능 | 지원 언어 예시          |\n|--------------------------|------------|----------|------------|------------|---------------------|\n| michaelfeil/ct2fast-LaBSE | 미확인       | 512      | apache-2.0 | 가능       | 다국어 (한국어 포함)     |\n| batiai/Qwen3-Embedding-0.6B-GGUF | 0.596B     | 32768    | apache-2.0 | 가능       | 영어, 일본어, 한국어, 중국어 |\n| BidirLM/BidirLM-270M-Embedding | 0.268B     | 32768    | apache-2.0 | 가능       | 다국어 (한국어 포함)     |\n\n이 모델들은 모두 상업용으로 쓸 수 있고, 한국어 지원도 확인돼 있어요.\n\n**라이선스 판정 (상업 출시 기준): 상업 출시 가능**\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "BGE-M3"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [
+       "BGE-M3"
+      ],
+      "new_request": false,
+      "needs": [
+       "embedding"
+      ],
+      "models": [
+       "michaelfeil/ct2fast-LaBSE",
+       "batiai/Qwen3-Embedding-0.6B-GGUF",
+       "BidirLM/BidirLM-270M-Embedding"
+      ],
+      "model_route": {
+       "path": "typed",
+       "names": []
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.models_found": true,
+    "t1.models_lack": true,
+    "t1.reference": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "A06",
+   "turns": [
+    {
+     "query": "bge m3 라이선스 어떻게 돼?",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1
+     },
+     "answer": "'bge m3'은(는) 한 모델로 정해지지 않아, 같은 계열(원본 BAAI/bge-m3)의 카탈로그 모델 13개 중 다운로드가 많은 4개를 정리했어요. 원본 BAAI/bge-m3은(는) 카탈로그에 없어요.\n\nbge m3 모델은 여러 버전이 있어요. dragonkue/BGE-m3-ko, mlx-community 버전들은 apache-2.0 또는 mit 라이선스로 상업적 이용이 허용돼요. 하지만 upskyy/bge-m3-korean 모델은 라이선스와 상업적 이용 여부가 미확인 상태예요. 따라서 상업적 이용을 원하면 라이선스가 명확한 dragonkue 또는 mlx-community 버전을 사용하는 게 안전해요.\n\n\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "bge m3"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "needs": [],
+      "models": [
+       "dragonkue/BGE-m3-ko",
+       "upskyy/bge-m3-korean",
+       "mlx-community/bge-m3-mlx-fp16",
+       "mlx-community/bge-m3-mlx-8bit"
+      ],
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "bge m3"
+       ],
+       "resolved": {
+        "bge m3": {
+         "status": "ambiguous",
+         "match": "alias",
+         "model_id": null,
+         "candidates": [
+          "dragonkue/BGE-m3-ko",
+          "upskyy/bge-m3-korean",
+          "mlx-community/bge-m3-mlx-fp16",
+          "mlx-community/bge-m3-mlx-8bit",
+          "mlx-community/bge-m3-mlx-4bit"
+         ],
+         "family": {
+          "root": "BAAI/bge-m3",
+          "members": [
+           "dragonkue/BGE-m3-ko",
+           "upskyy/bge-m3-korean",
+           "mlx-community/bge-m3-mlx-fp16",
+           "mlx-community/bge-m3-mlx-8bit",
+           "mlx-community/bge-m3-mlx-4bit"
+          ],
+          "count": 13,
+          "root_read": false,
+          "complete": true
+         },
+         "roots": [
+          "BAAI/bge-m3",
+          "tss-deposium/bge-m3-matryoshka-1024d"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.answer_has": true,
+    "t1.answer_lacks": true,
+    "t1.not_rejected": true
+   }
+  },
+  {
+   "id": "A04",
+   "turns": [
+    {
+     "query": "dragonkue/BGE-m3-ko 라이선스 알려줘",
+     "events": [
+      "assessment",
+      "combination",
+      "data_conditions",
+      "datasets",
+      "done",
+      "models",
+      "pipeline",
+      "plan",
+      "status",
+      "token"
+     ],
+     "calls": {
+      "router": 1,
+      "planner": 1,
+      "writer_chat": 1
+     },
+     "answer": "dragonkue/BGE-m3-ko 모델의 라이선스는 apache-2.0이에요. 이 라이선스는 상업적 이용이 허용돼요. 파라미터 수는 0.568B이고, 최대 컨텍스트 길이는 8194이에요. 모델은 safetensors 형식으로 제공돼요.\n\n주의: 이용 조건과 실행 가능 여부는 각 모델·데이터셋의 공식 문서에서 확인해 주세요.",
+     "pending": null,
+     "display": "chat",
+     "type": "answer",
+     "state": {
+      "recommend": false,
+      "mentioned_models": [
+       "dragonkue/BGE-m3-ko"
+      ],
+      "mentioned_datasets": [],
+      "reference_names": [],
+      "new_request": false,
+      "needs": [],
+      "models": [
+       "dragonkue/BGE-m3-ko"
+      ],
+      "model_route": {
+       "path": "lookup",
+       "names": [
+        "dragonkue/BGE-m3-ko"
+       ],
+       "resolved": {
+        "dragonkue/BGE-m3-ko": {
+         "status": "found",
+         "match": "id",
+         "model_id": "dragonkue/BGE-m3-ko",
+         "candidates": [
+          "dragonkue/BGE-m3-ko"
+         ]
+        }
+       }
+      },
+      "dataset_route": null,
+      "datasets": []
+     }
+    }
+   ],
+   "questions": [],
+   "checks": {
+    "t1.recommend": true,
+    "t1.display": true,
+    "t1.model_path": true,
+    "t1.classifier": true,
+    "t1.answer_lacks": true,
+    "t1.not_rejected": true
+   }
+  }
+ ]
+}
