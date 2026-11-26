@@ -405,7 +405,7 @@ function ScoutSummary({ result, turns, models, datasets, selectedId, onSelect }:
 
       {pipeline && others}
 
-      <BuildKit spec={buildSpec(result, turns, pipeline)} />
+      <BuildKit result={result} spec={buildSpec(result, turns, pipeline)} />
     </div>
   );
 }
@@ -433,7 +433,7 @@ function OtherCandidates({ models, datasets, all, selectedId, onSelect }:
 }
 
 /** Closed by default: a SPEC.md and a prompt to paste into a coding agent, rebuilt whenever the result changes. */
-function BuildKit({ spec }: { spec: string }) {
+function BuildKit({ result, spec }: { result: ChatResult; spec: string }) {
   return (
     <details className="group rounded-2xl border border-line bg-white">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-6">
@@ -444,7 +444,7 @@ function BuildKit({ spec }: { spec: string }) {
         <span className="text-muted transition group-open:rotate-180" aria-hidden>▾</span>
       </summary>
       <div className="space-y-6 border-t border-line p-6">
-        <CopyBlock title="구현 프롬프트" hint="명세서가 들어 있어요. Claude Code 같은 코딩 에이전트에 그대로 붙여 넣으세요." text={buildPrompt(spec)} />
+        <CopyBlock title="구현 프롬프트" hint="명세서가 들어 있어요. Claude Code 같은 코딩 에이전트에 그대로 붙여 넣으세요." text={buildPrompt(spec, result)} />
         <CopyBlock title="명세서만 보기" hint="문서로 따로 보관하고 싶을 때 복사하세요." text={spec} />
       </div>
     </details>

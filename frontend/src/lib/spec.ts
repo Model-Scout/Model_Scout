@@ -74,14 +74,30 @@ export function buildSpec(result: ChatResult, turns: RequirementTurn[], pipeline
   ].filter(Boolean).join("\n\n");
 }
 
-/** Self-contained: the spec rides inside the prompt, so the agent needs no file the user may not have saved. */
-export const buildPrompt = (spec: string) => `아래 명세대로 이 서비스의 동작하는 첫 버전(MVP)을 지금 바로 만들어 줘. 중간에 확인 질문 없이 끝까지 진행해.
-- 요구사항은 입력 순서대로 읽고, 조건이 충돌하면 최근에 명시한 조건을 우선해.
-- 처리 흐름의 단계를 코드 구조(함수·모듈)로 옮기고, 채택한 모델·데이터는 명세의 ID와 출처를 그대로 써. 다른 모델로 바꾸지 마. 데이터 후보는 역할과 제공 범위를 보고 필요한 것만 골라.
-- 언어·프레임워크는 요구사항의 실행 환경에 맞게 네가 정해. 모델이 그 환경에서 무거우면 같은 ID를 Hugging Face Inference API 등으로 호출하는 방식을 택해.
-- '확인 필요'·'미확인' 조건(라이선스, GPU 메모리 등)은 README의 "출시 전 확인할 것"에 정리하고 구현은 계속해.
-- 완료 기준: 명령 하나로 실행되고, 샘플 입력 하나로 처리 흐름 전체가 돌아가는 것을 직접 확인해. 명세는 SPEC.md, 실행 방법·필요한 키·샘플 실행 결과는 README에 적어.
+/** Self-contained: the spec rides inside the prompt, so the agent needs no file the user may not have saved.
+ *  Rules are picked from the result (no LLM call), so the agent only reads instructions that apply. */
+export function buildPrompt(spec: string, result: ChatResult): string {
+  const guide = result.assessment?.implementation_guide;
+  const rules = [
+    "요구사항은 입력 순서대로 읽고, 조건이 충돌하면 최근에 명시한 조건을 우선해.",
+    "처리 흐름의 단계를 코드 구조(함수·모듈)로 옮기고, 채택한 모델·데이터는 명세의 ID와 출처를 그대로 써. 다른 모델로 바꾸지 마. 데이터 후보는 역할과 제공 범위를 보고 필요한 것만 골라.",
+    "언어·프레임워크와 실행 방식은 요구사항의 실행 환경에 맞게 정해. 로컬 CPU 실행, 오프라인 실행 또는 외부 전송 금지가 명시되면 외부 추론 API로 대체하지 마.",
+    guide?.structured_output && "구조화 출력은 '구현 가이드'의 형식대로 스키마를 코드로 정의해 검증하고, 파싱에 실패하면 한 번 다시 요청한 뒤에도 실패하면 오류로 처리해.",
+    guide?.fine_tuning && "추가 학습은 첫 버전에 넣지 마. 베이스 모델로 먼저 전체 흐름을 동작시키고, 학습은 별도 스크립트와 README 안내로만 남겨.",
+    result.candidates.some((c) => c.type === "dataset") && "데이터는 작은 샘플로 먼저 흐름을 검증하고, 전체 다운로드·수집은 별도 명령으로 분리해.",
+    `'확인 필요'·'미확인' 조건(라이선스, GPU 메모리 등)${result.needs_check.length ? "과 '직접 확인할 것' 항목" : ""}은 README의 "출시 전 확인할 것"에 정리하고 구현은 계속해.`,
+    "명령 하나로 실행할 수 있게 하고, 명시된 환경에서 샘플 입력 하나로 전체 흐름을 직접 검증해. 실행에 실패했거나 검증하지 못한 단계는 원인과 함께 README에 적어. 명세는 SPEC.md, 실행 방법·필요한 키·샘플 실행 결과는 README에 적어.",
+  ].filter(Boolean);
+  return `아래 명세대로 이 서비스의 동작하는 첫 버전(MVP)을 지금 바로 만들어 줘. 중간에 확인 질문 없이 끝까지 진행해.
+${rules.map((r) => `- ${r}`).join("\n")}
+
+끝내기 전에 아래를 모두 확인하고, 못 한 항목은 README에 이유를 적어.
+- [ ] 실행 명령 하나가 README 맨 위에 있다
+- [ ] 샘플 입력과 실제 출력이 README에 있다
+- [ ] 명세의 모델·데이터 ID가 코드에 그대로 쓰였다
+- [ ] SPEC.md가 아래 명세와 같다
 
 ---
 
 ${spec}`;
+}
