@@ -361,16 +361,16 @@ function ScoutSummary({ result, models, datasets, selectedId, onSelect }:
       </span>
     ));
   const reasons = sentences.length > 0
-    ? sentences.map((line) => <Highlighted text={line} candidates={result.candidates} />)
+    ? sentences.map((line, i) => <Highlighted key={i} text={line} candidates={result.candidates} />)
     : [
         ...lines.map(({ model, datasets }) => (
-          <>
+          <span key={model.id}>
             <span className={MARK.model}>{model.name}</span> — {model.role}
             {datasets.length > 0 && <> · 함께 쓸 데이터 {names(datasets)}</>}
-          </>
+          </span>
         )),
-        ...(training.length > 0 ? [<>학습·평가 데이터: {names(training)}</>] : []),
-        ...(service.length > 0 ? [<>서비스에 붙일 데이터: {names(service)}</>] : []),
+        ...(training.length > 0 ? [<span key="training">학습·평가 데이터: {names(training)}</span>] : []),
+        ...(service.length > 0 ? [<span key="service">서비스에 붙일 데이터: {names(service)}</span>] : []),
       ];
   const tip = <FineTuneTip candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning} onSelect={onSelect} />;
   const others = <OtherCandidates models={models} datasets={datasets} all={result.candidates} selectedId={selectedId} onSelect={onSelect} />;
