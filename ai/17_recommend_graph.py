@@ -373,6 +373,8 @@ recommend: judge the whole request and clarification_history, not just the last 
   needs holds one entry for the kind of model the question is about when it is about models, also when it names
   models (that entry is used only if a name is not in the catalog); [] when it is only about data. dataset_terms and
   dataset_query only when it is about data, else [] and "". Never invent a model role for a data question.
+summary_ko: a short Korean noun-phrase title of the request (under 30 characters), no sentence ending and no
+  period, e.g. "따릉이 반납 추천 서비스 설계", "두 모델 입력 길이 비교". Never "~합니다", "~해요" or "~입니다".
 mentioned_models, mentioned_datasets: ONLY proper names, repository IDs or official dataset titles the user points
   at, exactly as written. [] is correct when none, including project requests. A project title, domain, capability,
   type of model, or required data fields are NEVER entity names just because they appear verbatim in the request.
@@ -410,7 +412,8 @@ reference_names: the mentioned names that are only a yardstick, not what to look
 needs: 1-{MAX_NEEDS} distinct model roles the project needs, most important first. task is a taxonomy key.
   Finding, collecting or providing data is never a need: the data search handles it through dataset_terms
   and dataset_query ("주차장 빈자리 데이터도 찾아줘" adds no retrieval or embedding need).
-  purpose_ko: one Korean sentence on what that model does in this project.
+  purpose_ko: one Korean sentence in 해요체 (ending in "~요.") on what that model does in this project, e.g.
+  "민원 문서를 벡터로 바꿔 비슷한 문서를 찾아요." Never "~합니다" or "~함".
   model_query: a search query for that model, Korean and English keywords mixed
   (e.g. "한국어 문서 임베딩 embedding retrieval").
 fine_tuning: 0-{MAX_FINE_TUNING} models to fine-tune (SFT) for this project, one per role SFT may help.
@@ -596,7 +599,8 @@ plain-text Korean sentences in 해요체, one per line, saying how the top picks
 Describe only the roles requested in plan and supported by the retrieved items. Never add semantic embedding to
 coordinate-distance lookup or shortest-path calculation just to use a retrieved model. If no model role was
 requested, describe the datasets alone; recommendation does not mean both types of resources are necessary.
-Name a model by the part of its id after the last "/" and a dataset by its title, exactly as given; use only items
+Name a model by the part of its id after the last "/" (never by its organization alone, e.g. not "junmo-k 모델")
+and a dataset by its title, exactly as given; use only items
 in the JSON; no markdown, no bullets, no numbers or licenses there.
 
 After the combination sentences, suggest one short left-to-right service pipeline for that same combination.
@@ -612,7 +616,8 @@ top model -> the stage it would serve, with an edge label saying what it provide
 group's need.purpose_ko. Use public data as a service input only if its stated role fits. Keep training/evaluation
 data on a separate branch to the training/evaluation step; don't show it as a runtime input. Don't present
 optional or partially suitable candidates as required dependencies. Avoid claims about freshness, compatibility,
-licenses or performance in graph labels. If the roles do not support a meaningful flow, omit the graph.
+licenses or performance in graph labels. With models but no datasets, start the flow from a null input step for
+what the user supplies (e.g. "차트 이미지", "질문") and still write the graph. Omit it only when nothing was found.
 
 Mermaid example for the layout (fictional IDs below; never copy them into an answer):
 ```mermaid
@@ -1855,10 +1860,12 @@ def explain(state: State) -> State:
     def take(line):
         nonlocal combination, pipeline
         wrote.append(line)
-        if line.lstrip().startswith(PIPELINE_MARKER):
+        text = line.strip().strip("`").strip()
+        # The writer sometimes prefixes the marker ("흐름도: [[흐름도]] {...}") or drops it: still the graph line.
+        if PIPELINE_MARKER in text or (combination is not None and text.startswith('{"nodes"')):
             if not direct and combination:
                 try:
-                    graph = json.loads(line.lstrip()[len(PIPELINE_MARKER):])
+                    graph = json.loads(text[text.index("{"):]) if "{" in text else None
                     if isinstance(graph, dict):
                         pipeline = graph
                 except json.JSONDecodeError:
