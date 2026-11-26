@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { SendOptions, Turn } from "@/components/App";
 import { HistoryDrawer } from "@/components/Home";
-import { PipelineDiagram } from "@/components/PipelineDiagram";
+import { FineTuneTip, PipelineDiagram } from "@/components/PipelineDiagram";
 import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
 import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
 import { looseMentions } from "@/lib/looseNames";
 import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
+import { combinations, fallbackPipeline } from "@/lib/flow";
 
 type Props = {
   groupId: string;
@@ -28,25 +29,30 @@ type Props = {
 type ReadmeOpen = (s: { source_id: string; kind: "model" | "dataset"; title?: string | null; url?: string | null; quote?: string | null }) => void;
 
 /** 추천 결과: 후보 목록, 서비스 기획과 선택한 후보 상세, 후속 대화. */
-export function Result({ groupId, title, request, result, sources, turns, owner, onSend, onCancel, onReload, onHome, onOpenGroup }: Props) {
+export function Result({ title, request, result, sources, turns, owner, onSend, onCancel, onReload, onHome, onOpenGroup }: Props) {
   const candidates = result.candidates;
   const models = candidates.filter((c) => c.type === "model" && c.group !== "sft");
-  // Model-linked data ("모델 학습·평가") shows only in a model's detail, not in the main 추천 데이터 list.
+  // Model-linked data ("모델 학습·평가") shows only in a model's detail, not in the 데이터 후보 tab.
   const datasets = candidates.filter((c) => c.type === "dataset" && projectRoles(c).length > 0);
   const [selectedId, setSelectedId] = useState(candidates[0]?.id);
   const [readme, setReadme] = useState<ReadmeTarget | null>(null);
-  const [copied, setCopied] = useState(false);
   const [mode, setMode] = useState<SendOptions["mode"]>("question");
   const [askSelected, setAskSelected] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [history, setHistory] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
+  const panel = useRef<HTMLElement>(null);
 
   // A new recommendation snapshot may not contain the old selection.
   const selected = candidates.find((c) => c.id === selectedId) ?? candidates[0];
   useEffect(() => {
     if (selected && selected.id !== selectedId) setSelectedId(selected.id);
   }, [selected, selectedId]);
+  // The sticky detail panel scrolls on its own: start each newly picked candidate at its top.
+  useEffect(() => {
+    // Braces matter: Chrome's scrollTo returns a Promise, which React rejects as an effect cleanup.
+    panel.current?.scrollTo({ top: 0 });
+  }, [selected?.id]);
 
   const last = turns.at(-1);
   const running = last?.running ?? false;
@@ -55,20 +61,6 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
 
   const openSource: ReadmeOpen = (s) =>
     setReadme({ sourceId: s.source_id, kind: s.kind, title: s.title ?? s.source_id, url: s.url ?? null, quote: s.quote });
-
-  async function share() {
-    const ok = confirm("링크를 가진 사람은 누구나 이 대화의 모든 메시지와 추천 결과를 볼 수 있어요. 링크를 복사할까요?");
-    if (!ok) return;
-    await navigator.clipboard.writeText(`${location.origin}/result/${encodeURIComponent(groupId)}`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
-  function reanalyze() {
-    setMode("recommend");
-    setChatOpen(true);
-    requestAnimationFrame(() => input.current?.focus());
-  }
 
   const send = (q: string) =>
     onSend(q, {
@@ -88,34 +80,30 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
         </button>
       </nav>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-4 p-4 lg:p-6">
-        <header className="flex items-center gap-4">
-          <button aria-label="홈으로" className="grid size-10 shrink-0 place-items-center rounded-full border border-line bg-white hover:border-brand/50" onClick={onHome}>
+      <div className="flex min-w-0 flex-1 flex-col gap-6 p-4 lg:p-8">
+        <header className="flex items-center gap-3">
+          <button aria-label="홈으로" className="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-white hover:border-brand/50" onClick={onHome}>
             ←
           </button>
-          <div className="min-w-0 flex-1">
-            <h1 className="truncate text-xl font-bold">{result.title || title}</h1>
-            {request && <p className="truncate text-xs text-muted">“{request}”</p>}
-          </div>
-          <button className="shrink-0 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold" onClick={share}>
-            {copied ? "복사됨" : "공유"}
+          <p className="min-w-0 flex-1 truncate text-sm text-muted">
+            <span className="font-semibold text-brand">추천 결과</span>
+            {request && <span> / “{request}”</span>}
+          </p>
+          <button
+            aria-expanded={chatOpen}
+            className="flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white"
+            onClick={() => setChatOpen(true)}
+          >
+            <Logo size={18} /> 대화 이어하기
+            {running && <span className="size-2 animate-pulse rounded-full bg-white" aria-label="답변 중" />}
           </button>
-          {owner && (
-            <button className="shrink-0 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white disabled:opacity-50" disabled={running} onClick={reanalyze}>
-              다시 분석
-            </button>
-          )}
         </header>
 
-        <div className="grid divide-y divide-line rounded-2xl bg-white lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          <TopModel c={models[0]} onReadme={openSource} />
-          <ModelList models={models} selectedId={selected?.id} onSelect={setSelectedId} />
-          <DataList datasets={datasets} all={candidates} selectedId={selected?.id} onSelect={setSelectedId} />
-        </div>
+        <h1 className="border-b border-line pb-6 text-3xl font-bold tracking-tight lg:text-4xl">{result.title || title}</h1>
 
-        <div className="grid flex-1 items-start gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-          <ScoutSummary result={result} selectedId={selected?.id} onSelect={setSelectedId} />
-          <section aria-label="선택한 후보 상세" className="@container min-w-0 rounded-2xl bg-white p-5 lg:p-6">
+        <div className="grid flex-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+          <ScoutSummary result={result} models={models} datasets={datasets} selectedId={selected?.id} onSelect={setSelectedId} />
+          <section ref={panel} aria-label="선택한 후보 상세" className="@container min-w-0 rounded-2xl bg-white p-5 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:overflow-y-auto lg:p-6">
             {selected ? (
               <Detail
                 candidate={selected}
@@ -136,16 +124,6 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
           </section>
         </div>
       </div>
-
-      {!chatOpen && (
-        <button
-          className="fixed bottom-6 right-6 z-20 flex items-center gap-2 rounded-full bg-brand px-6 py-3.5 font-semibold text-white shadow-lg"
-          onClick={() => setChatOpen(true)}
-        >
-          <Logo size={20} /> 대화 이어하기
-          {running && <span className="size-2 animate-pulse rounded-full bg-white" aria-label="답변 중" />}
-        </button>
-      )}
 
       {chatOpen && (
         <aside
@@ -243,72 +221,6 @@ export function Result({ groupId, title, request, result, sources, turns, owner,
 function tally(c: Candidate) {
   const n = (s: string) => c.checks.filter((k) => k.status === s).length;
   return { ok: n("ok"), check: n("check"), unknown: n("unknown"), total: c.checks.length };
-}
-
-function TopModel({ c, onReadme }: { c?: Candidate; onReadme: ReadmeOpen }) {
-  if (!c) return <div className="p-6 text-sm text-muted">추천 모델이 없어요.</div>;
-  const t = tally(c);
-  const pct = t.total ? (t.ok / t.total) * 100 : 0;
-  return (
-    <section className="p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="font-bold">1순위 모델</h2>
-        <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white">★ 1순위</span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="break-all text-3xl font-bold">{c.name}</span>
-        {c.tags[0] && <span className="rounded-full bg-soft px-2.5 py-0.5 text-xs text-muted">{c.tags[0]}</span>}
-      </div>
-      <p className="mt-2 text-sm text-muted">{c.role}</p>
-      <div className="mt-4 flex items-center gap-6">
-        <div className="relative w-36 shrink-0">
-          <svg viewBox="0 0 120 68" className="w-full" aria-hidden>
-            <path d="M10 62 A50 50 0 0 1 110 62" fill="none" stroke="var(--color-soft)" strokeWidth="12" strokeLinecap="round" />
-            <path
-              d="M10 62 A50 50 0 0 1 110 62"
-              fill="none"
-              stroke="var(--color-brand)"
-              strokeWidth="12"
-              strokeLinecap="round"
-              pathLength={100}
-              strokeDasharray={`${pct} 100`}
-            />
-          </svg>
-          <span className="absolute inset-x-0 bottom-0 text-center text-3xl font-bold">
-            {t.ok}/{t.total}
-          </span>
-        </div>
-        <dl className="space-y-1 text-sm">
-          <dt className="text-xs text-muted">조건 충족</dt>
-          {(
-            [
-              ["충족", t.ok, "bg-ok"],
-              ["확인 필요", t.check, "bg-warn"],
-              ["미확인", t.unknown, "bg-faint"],
-            ] as const
-          ).map(([label, n, dot]) => (
-            <dd key={label} className="flex items-center gap-2">
-              <span className={`size-2 rounded-full ${dot}`} aria-hidden />
-              {label} <b>{n}</b>
-            </dd>
-          ))}
-        </dl>
-      </div>
-      <div className="mt-5 flex flex-wrap gap-2">
-        <button
-          className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white"
-          onClick={() => onReadme({ source_id: c.source_id, kind: c.type, title: c.name, url: c.url })}
-        >
-          README 보기
-        </button>
-        {c.url && (
-          <a className="rounded-full border border-line px-4 py-2 text-sm font-semibold hover:border-brand/50" href={c.url} target="_blank" rel="noopener noreferrer">
-            {c.source}에서 열기 ↗
-          </a>
-        )}
-      </div>
-    </section>
-  );
 }
 
 /** Category chips (전체 + one per category, with counts) over a list; hidden when there is only one category. */
@@ -435,27 +347,9 @@ function DataList({
   );
 }
 
-/** One line per need: its top model and the data linked to it, then the project-level data. */
-export function combinations(candidates: Candidate[]) {
-  const byId = new Map(candidates.map((c) => [c.id, c]));
-  const roles = new Set<string>();
-  const lines: { model: Candidate; datasets: Candidate[] }[] = [];
-  // Candidates keep the backend's need-then-rank order, so the first model naming a role is that need's top pick.
-  for (const m of candidates) {
-    if (m.type !== "model") continue;
-    const own = m.role.split(" / ");
-    if (own.every((r) => roles.has(r))) continue;
-    own.forEach((r) => roles.add(r));
-    lines.push({ model: m, datasets: m.related.map((id) => byId.get(id)).filter((d): d is Candidate => d?.type === "dataset").slice(0, 2) });
-  }
-  const datasets = candidates.filter((c) => c.type === "dataset");
-  const byRole = (role: string) => datasets.filter((d) => d.role.includes(role)).slice(0, 3);
-  return { lines, training: byRole("프로젝트 학습·평가"), service: byRole("서비스 데이터") };
-}
-
-/** Model Scout 요약: built from the result the pipeline already returned, so it costs no extra LLM call. */
-function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; selectedId?: string; onSelect: (id: string) => void }) {
-  const [ask, ...chips] = result.summary;
+/** Left column: the service flow, why it is combined that way, then every other candidate. Built from the result, no extra LLM call. */
+function ScoutSummary({ result, models, datasets, selectedId, onSelect }:
+  { result: ChatResult; models: Candidate[]; datasets: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
   const sentences = result.combination ?? [];
   // Older results have no LLM sentences: fall back to the line-per-need template.
   const { lines, training, service } = combinations(result.candidates);
@@ -463,94 +357,111 @@ function ScoutSummary({ result, selectedId, onSelect }: { result: ChatResult; se
     ds.map((d, i) => (
       <span key={d.id}>
         {i > 0 && ", "}
-        <b className="text-ok">{d.name}</b>
+        <span className={MARK.dataset}>{d.name}</span>
       </span>
     ));
+  const reasons = sentences.length > 0
+    ? sentences.map((line) => <Highlighted text={line} candidates={result.candidates} />)
+    : [
+        ...lines.map(({ model, datasets }) => (
+          <>
+            <span className={MARK.model}>{model.name}</span> — {model.role}
+            {datasets.length > 0 && <> · 함께 쓸 데이터 {names(datasets)}</>}
+          </>
+        )),
+        ...(training.length > 0 ? [<>학습·평가 데이터: {names(training)}</>] : []),
+        ...(service.length > 0 ? [<>서비스에 붙일 데이터: {names(service)}</>] : []),
+      ];
+  const tip = <FineTuneTip candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning} onSelect={onSelect} />;
+  const others = <OtherCandidates models={models} datasets={datasets} all={result.candidates} selectedId={selectedId} onSelect={onSelect} />;
+
+  const pipeline = result.pipeline ?? fallbackPipeline(result.candidates);
 
   return (
-    <aside className="min-w-0 space-y-5 rounded-2xl bg-white p-5 text-sm lg:p-6">
-      <h2 className="flex items-center gap-2 text-lg font-bold">
-        <PencilIcon /> Model Scout 요약
-      </h2>
-
-      <section>
-        <p className="leading-relaxed">{ask}</p>
-        {chips.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {chips.map((c) => (
-              <span key={c} className="rounded-full bg-soft px-2.5 py-0.5 text-xs text-muted">
-                {c}
-              </span>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {result.pipeline && (
-        <PipelineDiagram pipeline={result.pipeline} candidates={result.candidates} fineTuning={result.assessment?.implementation_guide?.fine_tuning}
-          selectedId={selectedId} onSelect={onSelect} />
+    <div className="min-w-0 space-y-12">
+      {pipeline ? (
+        <section className="space-y-4">
+          <Heading title="서비스 구현 흐름"
+            sub={result.pipeline ? "카드를 누르면 오른쪽에서 자세히 볼 수 있어요." : "추천 후보로 구성한 기본 흐름이에요. 카드를 누르면 오른쪽에서 자세히 볼 수 있어요."} />
+          <PipelineDiagram pipeline={pipeline} candidates={result.candidates} selectedId={selectedId} onSelect={onSelect} />
+          {tip}
+        </section>
+      ) : (
+        <>
+          {tip}
+          {others}
+        </>
       )}
 
-      {sentences.length > 0 ? (
-        <section className="border-t border-line pt-4">
-          <h3 className="mb-1.5 text-xs text-muted">이렇게 조합해 보세요</h3>
-          <div className="space-y-2.5 leading-relaxed">
-            {sentences.map((line, i) => (
-              <p key={i}>
-                <Highlighted text={line} candidates={result.candidates} />
-              </p>
+      {reasons.length > 0 && (
+        <section className="space-y-4">
+          <Heading title="이렇게 조합해 보세요" />
+          <div className="space-y-3 text-[15px] leading-relaxed">
+            {reasons.map((r, i) => (
+              <p key={i}>{r}</p>
             ))}
           </div>
         </section>
-      ) : (lines.length > 0 || training.length > 0 || service.length > 0) && (
-        <section className="border-t border-line pt-4">
-          <h3 className="mb-1.5 text-xs text-muted">이렇게 조합해 보세요</h3>
-          <ul className="space-y-2.5 leading-relaxed">
-            {lines.map(({ model, datasets }) => (
-              <li key={model.id}>
-                <b className="text-brand">{model.name}</b> — {model.role}
-                {datasets.length > 0 && <> · 함께 쓸 데이터 {names(datasets)}</>}
-              </li>
-            ))}
-            {training.length > 0 && <li>학습·평가 데이터: {names(training)}</li>}
-            {service.length > 0 && <li>서비스에 붙일 데이터: {names(service)}</li>}
-          </ul>
-        </section>
       )}
 
-    </aside>
+      {pipeline && others}
+    </div>
+  );
+}
+
+function Heading({ title, sub }: { title: string; sub?: string }) {
+  return (
+    <div>
+      <h2 className="text-xl font-bold">{title}</h2>
+      {sub && <p className="mt-1 text-sm text-muted">{sub}</p>}
+    </div>
+  );
+}
+
+function OtherCandidates({ models, datasets, all, selectedId, onSelect }:
+  { models: Candidate[]; datasets: Candidate[]; all: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
+  return (
+    <section className="space-y-4">
+      <Heading title="다른 후보 살펴보기" sub="추천 순서대로 모았어요. 누르면 오른쪽에서 자세히 볼 수 있어요." />
+      <div className="grid divide-y divide-line rounded-2xl border border-line bg-white md:grid-cols-2 md:divide-x md:divide-y-0">
+        <ModelList models={models} selectedId={selectedId} onSelect={onSelect} />
+        <DataList datasets={datasets} all={all} selectedId={selectedId} onSelect={onSelect} />
+      </div>
+    </section>
   );
 }
 
 /** Model names in brand color, dataset names in green; the sentence itself stays plain text. */
+// Model names purple, dataset names green: color only, no highlight.
+const MARK = {
+  model: "font-semibold text-brand",
+  dataset: "font-semibold text-ok",
+};
+
 function Highlighted({ text, candidates }: { text: string; candidates: Candidate[] }) {
   const kind = new Map<string, Candidate["type"]>();
   for (const c of candidates) for (const n of [c.name, c.source_id, c.source_id.split("/").pop() ?? ""]) if (n.length > 1) kind.set(n.toLowerCase(), c.type);
+  // The writer sometimes names a model by its organization alone ("junmo-k 모델"): still a model mention.
+  for (const c of candidates) {
+    const org = c.type === "model" && c.source_id.includes("/") ? c.source_id.split("/")[0].toLowerCase() : "";
+    if (org.length > 2 && !kind.has(org)) kind.set(org, "model");
+  }
   if (kind.size === 0) return text;
   const names = [...kind.keys()].sort((a, b) => b.length - a.length).map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   const titles = candidates.filter((c) => c.type === "dataset").map((c) => c.name);
   return text.split(new RegExp(`(${names.join("|")})`, "i")).map((part, i) => {
     const type = kind.get(part.toLowerCase());
-    if (type) return <b key={i} className={type === "model" ? "text-brand" : "text-ok"}>{part}</b>;
+    if (type) return <span key={i} className={MARK[type]}>{part}</span>;
     // Not an exact name: a paraphrased dataset title still shows green.
     const pieces = [];
     let at = 0;
     for (const [start, end] of looseMentions(part, titles)) {
-      pieces.push(part.slice(at, start), <b key={`${i}-${start}`} className="text-ok">{part.slice(start, end)}</b>);
+      pieces.push(part.slice(at, start), <span key={`${i}-${start}`} className={MARK.dataset}>{part.slice(start, end)}</span>);
       at = end;
     }
     pieces.push(part.slice(at));
     return <span key={i}>{pieces}</span>;
   });
-}
-
-function PencilIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="var(--color-brand)" strokeWidth="1.6" strokeLinejoin="round" aria-hidden>
-      <path d="M13.5 3.5l3 3L7 16H4v-3z" />
-      <path d="M11.5 5.5l3 3" />
-    </svg>
-  );
 }
 
 function HomeIcon() {
@@ -580,7 +491,7 @@ function Metrics({ c }: { c: Candidate }) {
   // verdict "unknown" carries only a "미확인" label, not a value.
   const gpu = c.gpu_fit && c.gpu_fit.verdict !== "unknown" ? c.gpu_fit : null;
   const bench = c.benchmarks.find((b) => typeof b.score === "number");
-  const cards: { label: string; value: string | null; unit?: string; note: string }[] = [
+  const rows: { label: string; value: string | null; unit?: string; note: string }[] = [
     { label: "최대 입력 길이", value: c.context_length ? fmt(c.context_length) : null, unit: "tokens", note: "메타데이터" },
     { label: "파라미터", value: c.parameters_b ? fmt(c.parameters_b) : null, unit: "B", note: "메타데이터" },
     {
@@ -597,23 +508,50 @@ function Metrics({ c }: { c: Candidate }) {
     },
   ];
   return (
-    <div className="grid gap-3 @xs:grid-cols-2">
-      {cards.map((card) => (
-        <div key={card.label} className="rounded-xl bg-soft p-4">
-          <div className="text-xs text-muted">{card.label}</div>
-          {card.value ? (
-            <div className="mt-1 break-all text-xl font-bold text-brand">{card.value}</div>
-          ) : (
-            <div className="mt-1 text-xl font-bold text-faint">미확인</div>
-          )}
-          {card.value && card.unit && <div className="text-xs text-muted">{card.unit}</div>}
-          <div className="mt-1 text-[11px] text-faint">{card.note}</div>
-        </div>
-      ))}
-    </div>
+    <DetailSection title="주요 수치">
+      <Rows
+        rows={rows.map((r) => [
+          r.label,
+          <>
+            {r.value ? (
+              <b className="break-all">
+                {r.value}
+                {r.unit && <span className="ml-1 font-normal text-muted">{r.unit}</span>}
+              </b>
+            ) : (
+              <span className="text-faint">미확인</span>
+            )}
+            <span className="mt-0.5 block text-xs text-faint">{r.note}</span>
+          </>,
+        ])}
+      />
+    </DetailSection>
   );
 }
 
+function DetailSection({ title, hint, children }: { title: string; hint?: string; children: ReactNode }) {
+  return (
+    <section>
+      <h3 className="mb-1 text-base font-bold">{title}</h3>
+      {hint && <p className="mb-1 text-xs text-faint">{hint}</p>}
+      {children}
+    </section>
+  );
+}
+
+/** Label on the left, value on the right, a rule between rows. */
+function Rows({ rows }: { rows: [ReactNode, ReactNode][] }) {
+  return (
+    <dl className="divide-y divide-line border-b border-line text-sm">
+      {rows.map(([label, value], i) => (
+        <div key={i} className="grid grid-cols-[6.5rem_minmax(0,1fr)] gap-3 py-3">
+          <dt className="text-muted">{label}</dt>
+          <dd className="min-w-0 [overflow-wrap:anywhere]">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 function Detail({
   candidate: c,
@@ -633,138 +571,129 @@ function Detail({
   const related = c.related.map((id) => all.find((x) => x.id === id)).filter((x): x is Candidate => Boolean(x));
   const sft = all.filter((x) => x.type === "model" && (x.group === "sft" || x.group === "both"));
   const readme = (quote?: string | null) => onReadme({ source_id: c.source_id, kind: c.type, title: c.name, url: c.url, quote });
+  const isData = c.type === "dataset";
+  const accent = isData ? "text-ok" : "text-brand";
+  const guide: [ReactNode, ReactNode][] = [];
+  if (implementationGuide?.structured_output) guide.push(["구조화 출력", implementationGuide.structured_output]);
+  if (implementationGuide?.fine_tuning || sft.length > 0)
+    guide.push([
+      "추가 학습 검토",
+      <>
+        {implementationGuide?.fine_tuning}
+        {sft.length > 0 && (
+          <span className="mt-2 flex flex-wrap gap-1.5">
+            {sft.map((m) => (
+              <button
+                key={m.id}
+                aria-current={m.id === c.id}
+                className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${m.id === c.id ? "border-brand bg-brand-soft text-brand" : "border-line bg-white hover:border-brand/50"}`}
+                onClick={() => onSelect(m.id)}
+              >
+                {m.name}
+              </button>
+            ))}
+          </span>
+        )}
+      </>,
+    ]);
 
   return (
     <article className="space-y-8">
-      <header className="space-y-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <h2 className="[overflow-wrap:anywhere] text-2xl font-bold">{c.name}</h2>
-          <span className="rounded-full bg-brand px-2.5 py-0.5 text-xs font-semibold text-white">{c.type === "model" ? "모델" : "데이터셋"}</span>
-          {c.tags.map((t) => (
-            <span key={t} className="rounded-full bg-soft px-2.5 py-0.5 text-xs text-muted">
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <button className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white" onClick={() => readme()}>
+      <header className="space-y-3">
+        <p className={`text-sm font-semibold ${accent}`}>{isData ? "데이터" : c.group === "sft" ? "파인튜닝 모델" : "모델"}</p>
+        <h2 className="[overflow-wrap:anywhere] text-2xl font-bold leading-snug">{c.name}</h2>
+        <p className="text-sm text-muted">{[c.source, ...c.tags].filter(Boolean).join(" · ")}</p>
+        <div className="flex flex-wrap gap-2 pt-1">
+          <button className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white" onClick={() => readme()}>
             README 보기
           </button>
           {c.url && (
-            <>
-              <a className="rounded-full border border-line px-5 py-2 text-sm font-semibold hover:border-brand/50" href={c.url} target="_blank" rel="noopener noreferrer">
-                {c.source}에서 열기 ↗
-              </a>
-              <span className="truncate text-xs text-faint">{c.url.replace(/^https?:\/\//, "")}</span>
-            </>
+            <a className="rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold hover:border-ink/40" href={c.url} target="_blank" rel="noopener noreferrer">
+              {c.source}에서 열기 ↗
+            </a>
           )}
         </div>
-        <p className="text-sm">
-          <span className="font-semibold text-brand">{c.group === "sft" ? "SFT 검토 이유" : "이 아이디어에서의 역할"}</span> {c.role}
-        </p>
       </header>
 
-      <section>
-        <h3 className="mb-2 flex flex-wrap items-baseline gap-2 text-lg font-bold">
-          조건 확인 <span className="text-xs font-normal text-faint">밑줄 친 출처를 누르면 README의 해당 문장으로 이동해요</span>
-        </h3>
+      <div className={`rounded-xl px-5 py-4 text-sm leading-relaxed ${isData ? "bg-ok-soft" : "bg-brand-soft"}`}>
+        <p className={`mb-1 font-semibold ${accent}`}>{c.group === "sft" ? "SFT 검토 이유" : "이 아이디어에서의 역할"}</p>
+        <p>{c.role}</p>
+      </div>
+
+      {isData && c.evidence.length > 0 && (
+        <DetailSection title="추천 근거">
+          <Rows
+            rows={c.evidence.map((e) => [
+              e.label,
+              <>
+                {e.text ? `“${e.text}”` : <span className="text-faint">내용 없음</span>}
+                <span className="mt-0.5 block text-xs text-faint">{ORIGIN[e.origin]}</span>
+              </>,
+            ])}
+          />
+        </DetailSection>
+      )}
+
+      <DetailSection title="조건 확인" hint="출처를 누르면 README의 해당 문장으로 이동해요">
         {c.checks.length === 0 ? (
-          <p className="text-sm text-muted">판정할 조건이 없어요.</p>
+          <p className="py-3 text-sm text-muted">판정할 조건이 없어요.</p>
         ) : (
-          <ul className="text-sm">
+          <ul className="divide-y divide-line border-b border-line text-sm">
             {c.checks.map((k) => (
-              <li key={k.key} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 border-b border-line py-3">
-                <span className="font-semibold">{k.label}</span>
-                <span>
+              <li key={k.key} className="space-y-1 py-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold">{k.label}</span>
                   <StatusBadge status={k.status} />
-                </span>
-                <div className="col-span-2 min-w-0 [overflow-wrap:anywhere]">
-                  <p>{k.quote ? `“${k.quote}”` : k.reason}</p>
-                  <p className="mt-0.5 text-xs text-faint">
-                    {k.quote ? (
-                      <button className="text-brand underline" onClick={() => readme(k.quote)}>
-                        {ORIGIN[k.origin]} · 원문에서 보기 ↗
-                      </button>
-                    ) : (
-                      ORIGIN[k.origin]
-                    )}
-                    {k.quote && <span className="ml-2">{k.reason}</span>}
-                  </p>
                 </div>
+                <p className="[overflow-wrap:anywhere] text-muted">{k.quote ? `“${k.quote}”` : k.reason}</p>
+                <p className="text-xs text-faint">
+                  {k.quote ? (
+                    <button className="text-brand underline" onClick={() => readme(k.quote)}>
+                      {ORIGIN[k.origin]} · 원문에서 보기 ↗
+                    </button>
+                  ) : (
+                    ORIGIN[k.origin]
+                  )}
+                  {k.quote && <span className="ml-2">{k.reason}</span>}
+                </p>
               </li>
             ))}
           </ul>
         )}
-      </section>
+      </DetailSection>
 
       {c.type === "model" && <Metrics c={c} />}
 
-      {c.type === "model" && (implementationGuide || sft.length > 0) && (
-        <section>
-          <h3 className="mb-2 font-bold">프로젝트 구현 가이드</h3>
-          <dl className="space-y-3 rounded-xl bg-soft p-3 text-sm">
-            {implementationGuide?.structured_output && (
-              <div>
-                <dt className="font-semibold">구조화 출력</dt>
-                <dd className="mt-1">{implementationGuide.structured_output}</dd>
-              </div>
-            )}
-            {(implementationGuide?.fine_tuning || sft.length > 0) && (
-              <div>
-                <dt className="font-semibold">추가 학습 검토</dt>
-                {implementationGuide?.fine_tuning && <dd className="mt-1">{implementationGuide.fine_tuning}</dd>}
-                {sft.length > 0 && (
-                  <dd className="mt-2">
-                    <span className="text-xs text-muted">SFT 출발점 후보</span>
-                    <ul className="mt-1 flex flex-wrap gap-2">
-                      {sft.map((m) => (
-                        <li key={m.id}>
-                          <button
-                            aria-current={m.id === c.id}
-                            className={`rounded-full border px-3 py-1 text-xs font-semibold ${m.id === c.id ? "border-brand bg-brand-soft text-brand" : "border-line bg-white hover:border-brand/50"}`}
-                            onClick={() => onSelect(m.id)}
-                          >
-                            {m.name}
-                            {m.tags[0] && <span className="ml-1 font-normal text-muted">{m.tags[0]}</span>}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </dd>
-                )}
-              </div>
-            )}
-          </dl>
-        </section>
+      {c.type === "model" && guide.length > 0 && (
+        <DetailSection title="프로젝트 구현 가이드">
+          <Rows rows={guide} />
+        </DetailSection>
       )}
 
-      {c.type === "dataset" && (
-        <section>
-          <h3 className="mb-2 font-bold">추천 근거</h3>
-          {c.evidence.length === 0 ? (
-            <p className="text-sm text-muted">저장된 추천 근거가 없어요.</p>
-          ) : (
-            <ul className="space-y-2">
-              {c.evidence.map((e, i) => (
-                <li key={i} className="rounded-xl bg-soft p-3 text-sm">
-                  <div className="font-semibold">{e.label}</div>
-                  {e.text && <p className="mt-1">“{e.text}”</p>}
-                  <p className="mt-1 text-xs text-faint">{ORIGIN[e.origin]}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+      {related.length > 0 && (
+        <DetailSection title={c.type === "model" ? "연결 데이터셋" : "연결 모델"} hint={c.type === "model" ? "학습·평가에 쓸 수 있어요" : undefined}>
+          <ul className="divide-y divide-line border-b border-line text-sm">
+            {related.map((r) => (
+              <li key={r.id}>
+                <button className="w-full py-3 text-left hover:bg-soft" onClick={() => onSelect(r.id)}>
+                  <span className={`block break-all font-semibold ${r.type === "dataset" ? "text-ok" : "text-brand"}`}>{r.name}</span>
+                  <span className="block text-xs text-muted">
+                    {r.source} · {r.role}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </DetailSection>
       )}
 
-      <section>
-        <h3 className="mb-2 font-bold">출처 · 인용</h3>
+      <DetailSection title="원문 출처">
         {sources.length === 0 ? (
-          <p className="text-sm text-muted">이 후보에 저장된 인용이 없어요.</p>
+          <p className="py-3 text-sm text-muted">이 후보에 저장된 인용이 없어요.</p>
         ) : (
-          <ul className="space-y-2">
+          <ul className="divide-y divide-line border-b border-line text-sm">
             {sources.map((s, i) => (
-              <li key={i} className="rounded-xl border border-line p-3 text-sm">
+              <li key={i} className="py-3">
                 {s.quote ? <p>“{s.quote}”</p> : <p className="text-muted">인용문 없음</p>}
                 <p className="mt-1 text-xs text-faint">
                   {s.title ?? s.source_id} · {ORIGIN[s.origin]}
@@ -776,22 +705,7 @@ function Detail({
             ))}
           </ul>
         )}
-      </section>
-
-      {related.length > 0 && (
-        <section>
-          <h3 className="mb-2 font-bold">{c.type === "model" ? "연결 데이터셋 · 학습·평가에 쓸 수 있어요" : "연결 모델"}</h3>
-          <div className="grid gap-3 @sm:grid-cols-2">
-            {related.map((r) => (
-              <button key={r.id} className="rounded-xl bg-soft p-4 text-left hover:bg-brand-soft" onClick={() => onSelect(r.id)}>
-                <div className="text-[11px] text-faint"># {r.source}</div>
-                <div className="break-all font-semibold text-brand underline">{r.name}</div>
-                <div className="mt-1 text-xs text-muted">{r.role}</div>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      </DetailSection>
     </article>
   );
 }
