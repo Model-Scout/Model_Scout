@@ -10,6 +10,15 @@ export function Logo({ size = 28 }: { size?: number }) {
   return <img src="/logo.png" alt="" width={size} height={Math.round((size * 75) / 88)} className="shrink-0" />;
 }
 
+// GFM autolinks run to the next space, so "(https://x)에서" links ")에서" too: wrap bare ASCII URLs in <...>.
+// shortcut: URLs containing parentheses are cut at the first "(", fine for HF/GitHub links.
+const BARE_URL = /(?<![[<`]|\]\()https?:\/\/[A-Za-z0-9\-._~:/?#@!$&'*+,;=%]+/g;
+export const fenceUrls = (text: string) =>
+  text.replace(BARE_URL, (url) => {
+    const tail = url.match(/[.,;:!?'*]+$/)?.[0] ?? "";
+    return `<${url.slice(0, url.length - tail.length)}>${tail}`;
+  });
+
 /** Safe markdown: react-markdown never renders raw HTML. */
 export function Markdown({ text, foldTables }: { text: string; /** answers: each table behind a toggle */ foldTables?: boolean }) {
   return (
@@ -28,7 +37,7 @@ export function Markdown({ text, foldTables }: { text: string; /** answers: each
           }),
         }}
       >
-        {text}
+        {fenceUrls(text)}
       </ReactMarkdown>
     </div>
   );
