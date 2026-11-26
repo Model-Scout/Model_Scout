@@ -175,7 +175,11 @@ CONSTRAINT_MENTIONS = {
     "required_artifacts": r"gguf|ollama|llama[.\-]?cpp|llamacpp|onnx|mlx|safetensors|포맷|형식",
     "max_artifact_gib": r"파일|다운로드|내려받|디스크|file|download|disk",
     "exclude_gated": r"승인|신청|gated|동의|바로\s*(다운|내려)",
+    "cpu_only": r"cpu|씨피유|gpu\s*없|그래픽\s*카드\s*없",
 }
+# "CPU만": the parameter ceiling a CPU-only request searches under (the 2026-11-26 QA set 1B; a team default).
+# ponytail: one ceiling for every task; per-task limits (GGUF 3B for generation) when someone measures them.
+CPU_MAX_PARAMS_B = 1.0
 
 
 def constraint_defaults() -> dict[str, Any]:
@@ -187,6 +191,7 @@ def constraint_defaults() -> dict[str, Any]:
         "required_artifacts": [],
         "max_artifact_gib": None,
         "exclude_gated": False,
+        "cpu_only": False,
     }
 
 
@@ -198,6 +203,7 @@ class Constraints(BaseModel):
     required_artifacts: list[ArtifactFormat]
     max_artifact_gib: float | None
     exclude_gated: bool
+    cpu_only: bool
 
     @model_validator(mode="before")
     @classmethod
@@ -436,6 +442,8 @@ fine_tuning: 0-{MAX_FINE_TUNING} models to fine-tune (SFT) for this project, one
 constraints: only what the user explicitly said; otherwise false/null. Do not infer limits from the idea itself.
   commercial_only: true only if they mention 상업/수익/서비스 출시/commercial.
   gpu_memory_gb: the GPU memory they state (e.g. "8GB GPU", "RTX 4090" -> 24), else null.
+  cpu_only: true when the model must run without a GPU ("CPU만", "GPU 없이", "GPU 없는 서버"), else false.
+  Then gpu_memory_gb is null.
   max_parameter_count_billion: only for an explicit size limit ("3B 이하"), else null. Never derive it from the GPU.
   min_context_length: only for stated long inputs (긴 문서, 계약서 전체 등), else null.
   required_artifacts: file formats they name. "GGUF", "Ollama", "llama.cpp" -> ["gguf"]; "ONNX" -> ["onnx"];
@@ -559,7 +567,9 @@ and limits of these items go as short "- " bullets right below the table.) Then,
 - <service_data top 3: 서울 열린데이터광장 / 공공데이터포털 sources the app calls at runtime, same bullet form>
 Under these two headings, put a dataset's limits and condition checks as indented "  - " bullets under it.
 No summary section and no closing paragraph. State a model's gpu_fit label, as given, only when gpu_fit is not
-null; when it is null, never state a GPU size, a quantization fit or whether the model runs. Write no license
+null; when it is null, never state a GPU size, a quantization fit or whether the model runs. Never say a model runs
+on a CPU, is light or fits the user's hardware unless gpu_fit says so; when plan.constraints.cpu_only is true, say only
+that the candidates were limited to small models by parameter count, never that they were tested on a CPU. Write no license
 verdict section: the app appends it from assessment.license. A dataset given only as
 an id with "see": "above" was already listed: name it by id only. assessment.search_errors names searches that
 failed this turn (the app already said so): never call their lists empty or say nothing was found. Write ids exactly
@@ -1444,7 +1454,8 @@ def search_models(state: State) -> State:
     # A GPU limit admits anything that fits at 4-bit; each card then says at which precision.
     size_limits = [
         v
-        for v in (constraints["max_parameter_count_billion"], project_checks.max_params_for_gpu(gpu) if gpu else None)
+        for v in (constraints["max_parameter_count_billion"], project_checks.max_params_for_gpu(gpu) if gpu else None,
+                  CPU_MAX_PARAMS_B if constraints.get("cpu_only") else None)
         if v
     ]
     max_params = min(size_limits) if size_limits else None

@@ -192,6 +192,8 @@ REJECT_MESSAGE = "모델과 데이터를 추천할 수 있는 프로젝트 아�
 
 # Model license verdict from the data contract (ai/resolvers/legal.py). V2 has no "blocked" status,
 # so prohibited uses the strongest one available, "check", and says so in the reason.
+# The AI's CPU-only search ceiling (ai/17_recommend_graph.py CPU_MAX_PARAMS_B); the card names it.
+CPU_MAX_PARAMS_B = 1.0
 COMMERCIAL_STATUS_CHECK = {"permitted": "ok", "prohibited": "check", "review_required": "check", "unknown": "unknown"}
 COMMERCIAL_STATUS_REASON = {"permitted": "상업 이용 허용 계열", "prohibited": "비상업 전용 — 상업 이용 불가",
                             "review_required": "조건부 — 라이선스 원문 확인 필요", "unknown": "상업 이용 여부 미확인"}
@@ -268,9 +270,15 @@ def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
                             reason=f"요구 {minimum}, 모델 {length if length is not None else '미확인'}",
                             source_id=sid, origin="metadata" if length is not None else "unknown"))
     checks.extend(_artifact_checks(model, constraints))
-    # These cannot be established from the current AI response; never infer support from a name.
-    checks.extend([Check(key="language", label="한국어 지원", status="unknown", reason="구조화된 언어 지원 근거가 제공되지 않았어요."),
-                   Check(key="execution", label="로컬 실행", status="unknown", reason="실행 환경에 대한 검증이 필요해요.")])
+    if constraints.get("cpu_only"):
+        params = model.get("parameters_b")
+        # Only the size is checked: the label says so, so "충족" never reads as "runs on a CPU".
+        checks.append(Check(key="cpu", label=f"CPU 후보 크기 기준 ({CPU_MAX_PARAMS_B:g}B 이하)",
+                            status="unknown" if params is None else "ok" if params <= CPU_MAX_PARAMS_B else "check",
+                            reason=f"파라미터 {params:g}B. CPU에서 실제로 돌려 보지는 않았어요."
+                            if params is not None else "파라미터 수를 찾지 못했어요.",
+                            source_id=sid, origin="metadata" if params is not None else "unknown"))
+    # Only conditions the user set are listed: a fixed "한국어 지원 미확인" on every card read as a failed check.
     return checks
 
 
@@ -380,6 +388,8 @@ def build_result(events: dict[str, Any]) -> ChatResult:
         summary.append(f"파일 크기(GiB) 이하: {constraints['max_artifact_gib']}")
     if constraints.get("exclude_gated"):
         summary.append("승인 없이 내려받을 수 있는 모델만")
+    if constraints.get("cpu_only"):
+        summary.append(f"CPU만 사용 ({CPU_MAX_PARAMS_B:g}B 이하 모델)")
     for key, label in [("gpu_memory_gb", "GPU 메모리(GB)"), ("min_context_length", "최소 입력 길이(tokens)")]:
         if constraints.get(key) is not None:
             summary.append(f"{label}: {constraints[key]}")

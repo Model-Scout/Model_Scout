@@ -466,6 +466,19 @@ def test_gpu_fit_never_invents_numbers():
     assert estimate["basis"] == project_checks.GPU_FIT_BASIS
 
 
+def test_cpu_only_searches_under_the_cpu_parameter_ceiling():
+    """'CPU만'은 걸러야 하는 조건이다. 3B·7B 요약 모델이 CPU 후보로 나오던 QA TC2."""
+    fake = FakeSearch([_row("org/small", "permitted")], enabled=True)
+    _run_search(fake, _plan("cpu-only", cpu_only=True))
+    assert fake.calls[0]["max_parameter_count_billion"] == graph17.CPU_MAX_PARAMS_B
+    fake = FakeSearch([_row("org/small", "permitted")], enabled=True)
+    _run_search(fake, _plan("cpu-and-size", cpu_only=True, max_parameter_count_billion=0.5))
+    assert fake.calls[0]["max_parameter_count_billion"] == 0.5  # the stricter limit wins
+    fake = FakeSearch([_row("org/small", "permitted")], enabled=True)
+    _run_search(fake, _plan("no-cpu"))
+    assert fake.calls[0]["max_parameter_count_billion"] is None
+
+
 if __name__ == "__main__":
     for name, func in sorted(globals().items()):
         if name.startswith("test_"):
