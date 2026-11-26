@@ -136,6 +136,65 @@ def test_combination_sentences_leave_the_answer_for_the_summary(monkeypatch, chu
     assert displayed == result["answer"]
 
 
+def backend_pipeline():
+    sys.path.insert(0, str(ROOT.parent))
+    from backend.app.result import Pipeline
+    return Pipeline
+
+
+def test_a_flow_with_long_node_ids_still_meets_the_backend_contract():
+    # The writer's flow for "사진 속 한국어 글자를 읽어서 번역해주는 앱": "translation" (11 letters) broke the id rule,
+    # and the backend dropped the whole flow.
+    graph = {"nodes": [{"id": "input", "label": "사진 입력"},
+                       {"id": "ocr", "label": "ko-hand-ocr-vl", "candidate_id": "model:localdeel/ko-hand-ocr-vl"},
+                       {"id": "translation", "label": "lfm2-1.2b-koen-mt-v4-100k-GGUF",
+                        "candidate_id": "model:gyung/lfm2-1.2b-koen-mt-v4-100k-GGUF"},
+                       {"id": "Output", "label": "번역 결과" * 10, "note": "결과를 화면에 보여 줘요" * 5}],
+             "edges": [{"source": "input", "target": "ocr", "label": "사진"},
+                       {"source": "ocr", "target": "translation", "label": "인식된 한국어 텍스트" * 4},
+                       {"source": "translation", "target": "Output", "label": "번역된 텍스트"}]}
+    Pipeline = backend_pipeline()
+    with pytest.raises(ValueError):
+        Pipeline.model_validate(json.loads(json.dumps(graph)))  # as the writer wrote it
+    tidy = rg.tidy_pipeline(graph)
+    Pipeline.model_validate(tidy)
+    assert [n["id"] for n in tidy["nodes"]] == ["input", "ocr", "n1", "n2"]
+    assert [(e["source"], e["target"]) for e in tidy["edges"]] == [("input", "ocr"), ("ocr", "n1"), ("n1", "n2")]
+    assert tidy["nodes"][2]["label"] == "lfm2-1.2b-koen-mt-v4-100k-GGUF"  # a fitting label is kept as written
+
+
+def test_a_flow_that_already_fits_is_left_alone():
+    graph = {"nodes": [{"id": "n1", "label": "입력"}, {"id": "m1", "label": "모델", "candidate_id": "model:a/b"},
+                       {"id": "verylongid", "label": "결과"}],
+             "edges": [{"source": "n1", "target": "m1"}, {"source": "m1", "target": "verylongid"}]}
+    tidy = rg.tidy_pipeline(json.loads(json.dumps(graph)))
+    assert [n["id"] for n in tidy["nodes"]] == ["n1", "m1", "n2"]  # the new id skips the one already taken
+    assert tidy["edges"][1] == {"source": "m1", "target": "n2"}
+    backend_pipeline().model_validate(tidy)
+
+
+def test_a_flow_naming_candidates_without_their_ids_is_linked_back():
+    # The writer's flow for "법률상담 챗봇을 만드려고 하는데 모델이랑 데이터 알려줘": every node lost its candidate_id,
+    # so the backend dropped it ("needs a candidate"), though the labels were the candidates' own names.
+    models = [{"model_id": "www622846/qwen3.5-9b-rp-lora-v2"}, {"model_id": "woong0322/ko-legal-sbert-finetuned"}]
+    datasets = {"project_training": [{"dataset": "woalsdnd/law.go.kr", "title": None}],
+                "service_data": [{"dataset": "data_go_kr/1", "title": "법률상담 사례"},
+                                 {"dataset": "a/same"}, {"dataset": "b/same"}]}
+    graph = {"nodes": [{"id": "input", "label": "법률 상담 질문"}, {"id": "m1", "label": "qwen3.5-9b-rp-lora-v2"},
+                       {"id": "m2", "label": "Ko-Legal-SBERT-finetuned"}, {"id": "d1", "label": "law.go.kr"},
+                       {"id": "d2", "label": "법률상담 사례"}, {"id": "d3", "label": "same"},
+                       {"id": "output", "label": "답변"}],
+             "edges": [{"source": "input", "target": "m2"}, {"source": "m2", "target": "d1"},
+                       {"source": "d1", "target": "m1"}, {"source": "d2", "target": "m1"}, {"source": "d3", "target": "m1"},
+                       {"source": "input", "target": "m1"}, {"source": "m1", "target": "output"}]}
+    tidy = rg.tidy_pipeline(graph, rg.candidate_names(models, datasets))
+    linked = {n["id"]: n.get("candidate_id") for n in tidy["nodes"]}
+    assert linked == {"input": None, "m1": "model:www622846/qwen3.5-9b-rp-lora-v2",
+                      "m2": "model:woong0322/ko-legal-sbert-finetuned", "d1": "dataset:woalsdnd/law.go.kr",
+                      "d2": "dataset:data_go_kr/1", "d3": None, "output": None}  # "same" is two datasets: never picked
+    backend_pipeline().model_validate(tidy)
+
+
 def test_answer_without_marker_has_no_combination(monkeypatch):
     answer, _ = explain(monkeypatch, state(), "acme/ko-chat-7b 추천.\n")
     assert "acme/ko-chat-7b 추천." in answer
