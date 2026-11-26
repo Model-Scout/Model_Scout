@@ -50,6 +50,7 @@ from pydantic import BaseModel, Field, model_validator
 
 import condition_checks
 import data_conditions
+import dataset_rerank
 import model_rerank
 import project_checks
 import run_log
@@ -1618,19 +1619,23 @@ def _rank_lists(state, terms, profile):
             profile=profile,
         )
         # Service data is matched on the project's domain alone; model tasks say nothing about it.
+        reorder_with = dataset_rerank.model(llm_provider())
         service_job = kind != "training" and pool.submit(
             rank_datasets,
             concepts_from_terms(plan["dataset_terms"]),
             query_vector=query_vector,
             commercial_only=commercial,
             roles=["service"],
-            limit=PROJECT_DATASETS,
+            limit=dataset_rerank.RERANK_DEPTH if reorder_with else PROJECT_DATASETS,
             keywords=plan["dataset_terms"],
             profile=profile,
         )
         training = [_compact_dataset(r) for r in (project_job.result() if project_job else [])
                     if r["source"] in ("huggingface", "kaggle")]
-        service = [_compact_dataset(r) for r in (service_job.result() if service_job else [])]
+        service_rows = service_job.result() if service_job else []
+    # The user's words, not the planner's search sentence: the conditions to judge by are in the question.
+    service_rows = dataset_rerank.rerank(state["request"], service_rows, _openai, reorder_with, dataset_facts)
+    service = [_compact_dataset(r) for r in service_rows[:PROJECT_DATASETS]]
     return {"project_training": training[:PROJECT_DATASETS], "service_data": service}
 
 
