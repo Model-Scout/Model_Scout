@@ -23,6 +23,7 @@ import json
 import math
 import os
 import re
+from collections import Counter
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Sequence
@@ -977,6 +978,29 @@ def get_model_evidence(
 
 
 NAME_CANDIDATES = 5  # catalog candidates listed for a name that matches several models
+NAME_ROWS = 50  # catalog rows read per name, most downloaded first
+# A name is one family's when this share of its matches descends from one original. Measured on the live catalog
+# (2026-11-26): bge-m3 / bge 93%, every name mixing unrelated models at most 33% (qwen 12%, ko 4%, mistral 26%).
+FAMILY_SHARE = 0.7
+FAMILY_ROOTS_SHOWN = 3  # originals named for a name that spans several families
+
+
+SEPARATORS = r"[-_.\s]+"  # one separator, however the user or the repository spells it ("bge m3" = "bge-m3")
+
+
+def _name_key(text: str) -> str:
+    """A name as compared: casefolded, every run of space, hyphen, underscore or dot one "-". Applied to both the
+    user's name and the catalog's, so "Qwen2.5" still matches "qwen2.5" and "bge m3" matches "bge-m3"."""
+    return re.sub(SEPARATORS, "-", str(text).strip().casefold()).strip("-")
+
+
+def _repo_key(model_id: str) -> str:
+    return _name_key(model_id.split("/", 1)[-1])
+
+
+def _name_token(key: str) -> re.Pattern[str]:
+    """The name (a _name_key) as a whole separated part of a repository's _repo_key (the SQL's own rule)."""
+    return re.compile(r"(^|-)" + re.escape(key) + r"($|-)")
 
 
 def resolve_model_names(names: List[str], limit: int = NAME_CANDIDATES) -> Dict[str, Dict[str, Any]]:
@@ -986,24 +1010,33 @@ def resolve_model_names(names: List[str], limit: int = NAME_CANDIDATES) -> Dict[
     it, or when every same-named copy declares one of them as its original (family.canonical_model_id, never a name
     guess); then the name as a whole hyphen/dot-separated part of a repository name ("e5", "bge-m3"), only when that
     is a single model. Several matches stay ambiguous with their candidates, most downloaded first: no derivative is
-    picked for the user. The names go to SQL as bound parameters only.
+    picked for the user. An ambiguous name also says whether its matches are one family (see _families). The names go
+    to SQL as bound parameters only.
 
     -> {name: {"status": found|ambiguous|not_found, "match": id|repo_name|canonical|alias|None,
-               "model_id": str|None, "candidates": [model ids]}}
+               "model_id": str|None, "candidates": [model ids],
+               ambiguous only: "family": {"root", "members", "count", "root_read", "complete"} | None,
+                               "roots": [the most common originals]}}
     """
     out: Dict[str, Dict[str, Any]] = {}
+    # _name_key in SQL: the full id compared whole, the repository name by the name as a whole part (which includes
+    # the repository name being exactly the name).
     statement = (
         "select m.model_id, m.family, coalesce((m.popularity->'current'->>'downloads')::bigint, 0) as downloads"
-        " from public.model_scout_models as m where m.active = true and (lower(m.model_id) = %s"
-        " or lower(split_part(m.model_id, '/', 2)) = %s or lower(split_part(m.model_id, '/', 2)) ~ %s)"
-        " order by downloads desc limit 50"
+        " from public.model_scout_models as m where m.active = true and ("
+        " trim(both '-' from regexp_replace(lower(m.model_id), '[-_.[:space:]]+', '-', 'g')) = %s"
+        " or trim(both '-' from regexp_replace(lower(split_part(m.model_id, '/', 2)), '[-_.[:space:]]+', '-', 'g'))"
+        " ~ %s)"
+        f" order by downloads desc limit {NAME_ROWS}"
     )
     with _read_connection() as connection:
         with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             for name in dict.fromkeys(str(n).strip() for n in names if str(n).strip()):
-                key = name.casefold()
-                token = r"(^|[-_.])" + re.escape(key) + r"($|[-_.])"
-                cursor.execute(statement, (key, key, token))
+                key = _name_key(name)
+                if not key:  # only separators: nothing to look up
+                    out[name] = _resolved(key, [], limit)
+                    continue
+                cursor.execute(statement, (key, _name_token(key).pattern))
                 rows = cursor.fetchall()
                 out[name] = _resolved(key, rows, limit)
     return out
@@ -1013,10 +1046,11 @@ def _resolved(key: str, rows: Sequence[Mapping[str, Any]], limit: int) -> Dict[s
     def found(model_id: str, match: str) -> Dict[str, Any]:
         return {"status": "found", "match": match, "model_id": model_id, "candidates": [model_id]}
 
-    exact = [r["model_id"] for r in rows if r["model_id"].casefold() == key]
+    key = _name_key(key)
+    exact = [r["model_id"] for r in rows if _name_key(r["model_id"]) == key]
     if exact:
         return found(exact[0], "id")
-    same_name = [r for r in rows if r["model_id"].split("/", 1)[-1].casefold() == key]
+    same_name = [r for r in rows if _repo_key(r["model_id"]) == key]
     if len(same_name) == 1:
         return found(same_name[0]["model_id"], "repo_name")
     if same_name:
@@ -1028,13 +1062,55 @@ def _resolved(key: str, rows: Sequence[Mapping[str, Any]], limit: int) -> Dict[s
                                        r["model_id"] in originals for r in same_name):
             return found(originals.pop(), "canonical")
         return {"status": "ambiguous", "match": "repo_name", "model_id": None,
-                "candidates": [r["model_id"] for r in same_name][:limit]}
+                "candidates": [r["model_id"] for r in same_name][:limit],
+                **_families(key, same_name, limit, complete=len(rows) < NAME_ROWS)}
     if len(rows) == 1:
         return found(rows[0]["model_id"], "alias")
     if rows:
         return {"status": "ambiguous", "match": "alias", "model_id": None,
-                "candidates": [r["model_id"] for r in rows][:limit]}
+                "candidates": [r["model_id"] for r in rows][:limit],
+                **_families(key, rows, limit, complete=len(rows) < NAME_ROWS)}
     return {"status": "not_found", "match": None, "model_id": None, "candidates": []}
+
+
+def _families(key: str, rows: Sequence[Mapping[str, Any]], limit: int, complete: bool) -> Dict[str, Any]:
+    """Whether the models a name matched descend from one original, by the base model their own cards declare.
+
+    Each row's original is its declared base model (family.canonical_source "base_model_tag", never a name guess),
+    followed upward while that base is itself among the rows; a row declaring none is its own original. The matches
+    are one family when one original holds FAMILY_SHARE of them and the name is a whole part of that original's
+    repository name (so "bge-m3" is BAAI/bge-m3's family, never a family the name merely touches). Rows that declare
+    nothing count as other families, so a missing tag can only keep a name ambiguous, never pick a wrong family.
+    complete: fewer rows than the query's limit came back, so counts and "the original is not in the catalog" hold.
+
+    -> {"family": {"root", "members" (most downloaded first, up to limit), "count", "root_read", "complete"} | None,
+        "roots": [up to FAMILY_ROOTS_SHOWN originals, most matches first]}
+    """
+    parent: Dict[str, Optional[str]] = {}
+    for row in rows:
+        family = row.get("family") or {}
+        base = family.get("canonical_model_id") if family.get("canonical_source") == "base_model_tag" else None
+        parent[row["model_id"]] = base if base and base != row["model_id"] else None
+
+    def root(model_id: str) -> str:
+        seen = {model_id}
+        while parent.get(model_id):
+            model_id = parent[model_id]
+            if model_id in seen:  # a cycle in declared bases: stop where it closes
+                break
+            seen.add(model_id)
+        return model_id
+
+    roots = {row["model_id"]: root(row["model_id"]) for row in rows}
+    counts = Counter(roots.values())  # insertion order is download order, so ties go to the more downloaded
+    ranked = [r for r, _ in counts.most_common()]
+    top = ranked[0] if ranked else None
+    family = None
+    if top and counts[top] / len(rows) >= FAMILY_SHARE and _name_token(_name_key(key)).search(_repo_key(top)):
+        members = [row["model_id"] for row in rows if roots[row["model_id"]] == top]
+        family = {"root": top, "members": members[:limit], "count": len(members), "root_read": top in roots,
+                  "complete": complete}
+    return {"family": family, "roots": ranked[:FAMILY_ROOTS_SHOWN]}
 
 
 @mcp.tool(

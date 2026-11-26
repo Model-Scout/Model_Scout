@@ -75,7 +75,32 @@ S04_S05 = [
     ("C04b", ["RAG 프로젝트에 쓸 한국어 임베딩 모델 추천해줘"], [],
      {"recommend": False, "display": "chat", "model_path": "typed"}),
 ]
-SETS = {"representative": ("recommend_branches_eval", SCENARIOS), "s04_s05": ("recommend_branches_s04_s05_eval", S04_S05)}
+# A name several catalog models share: read when they are one family (BGE-M3: derivatives of BAAI/bge-m3, which the
+# catalog lacks), never read when they are unrelated (qwen), never read as a yardstick. Families measured on the live
+# catalog on 2026-11-26.
+AMBIGUOUS_NAMES = [
+    ("A01", ["BGE-M3 라이선스가 뭐야?"], [],
+     {"recommend": False, "display": "chat", "model_path": "lookup", "classifier": 0,
+      "answer_has": ["같은 계열(원본 BAAI/bge-m3)"],
+      "answer_lacks": ["찾지 못했어요", "하나로 정하지 않았어요", "|", "니다"]}),  # no table; 해요체 only
+    ("A02", ["qwen 라이선스 알려줘"], [],
+     {"recommend": False, "display": "chat", "model_path": "fallback",
+      "answer_has": ["원본이 서로 다른 여러 모델"], "answer_lacks": ["찾지 못했어요"]}),
+    ("A03", ["bge-m3보다 가벼운 한국어 임베딩 모델 찾아줘"], [],
+     {"recommend": False, "display": "chat", "model_path": "typed", "reference": "bge-m3", "models_found": True,
+      "answer_lacks": ["찾지 못했어요"]}),
+    ("A05", ["BGE-M3 대신 쓸 만한 상업용 임베딩 모델 있어?"], [],
+     {"recommend": False, "display": "chat", "model_path": "typed", "reference": "BGE-M3", "models_found": True,
+      "models_lack": ["bge-m3"]}),  # a replaced yardstick's own models are left out
+    ("A06", ["bge m3 라이선스 어떻게 돼?"], [],  # a spaced name is the hyphenated one
+     {"recommend": False, "display": "chat", "model_path": "lookup", "answer_has": ["같은 계열(원본 BAAI/bge-m3)"],
+      "answer_lacks": ["확인하지 못했어요", "찾지 못했어요"]}),
+    ("A04", ["dragonkue/BGE-m3-ko 라이선스 알려줘"], [],
+     {"recommend": False, "display": "chat", "model_path": "lookup", "classifier": 0,
+      "answer_lacks": ["같은 계열", "니다"]}),  # an exact id is read alone, as before
+]
+SETS = {"representative": ("recommend_branches_eval", SCENARIOS), "s04_s05": ("recommend_branches_s04_s05_eval", S04_S05),
+        "ambiguous_names": ("recommend_branches_ambiguous_names_eval", AMBIGUOUS_NAMES)}
 
 
 class CallCap(RuntimeError):
@@ -180,6 +205,8 @@ def run(api, client, graph, meter, scenario):
             "state": {"recommend": plan.get("recommend"), "mentioned_models": plan.get("mentioned_models"),
                       "mentioned_datasets": plan.get("mentioned_datasets"),
                       "reference_names": plan.get("reference_names"), "new_request": plan.get("new_request"),
+                      "needs": [n.get("task") for n in plan.get("needs") or []],
+                      "models": [m["model_id"] for g in values.get("models") or [] for m in g.get("models") or []],
                       "model_route": values.get("model_route"), "dataset_route": values.get("dataset_route"),
                       "datasets": [r["dataset"] for k in ("project_training", "service_data")
                                    for r in (values.get("datasets") or {}).get(k) or []]}})
@@ -204,6 +231,12 @@ def check(expect, turn):
         out["classifier"] = last["calls"].get("classifier", 0) == expect["classifier"]
     if "answer_has" in expect:
         out["answer_has"] = all(s in last["answer"] for s in expect["answer_has"])
+    if "answer_lacks" in expect:
+        out["answer_lacks"] = not any(s in last["answer"] for s in expect["answer_lacks"])
+    if expect.get("models_found"):
+        out["models_found"] = bool(state.get("models"))
+    if "models_lack" in expect:  # no shown model id contains any of these (casefolded)
+        out["models_lack"] = not any(s in m.casefold() for m in state.get("models") or [] for s in expect["models_lack"])
     if "datasets_any" in expect:
         out["datasets_any"] = bool(set(expect["datasets_any"]) & set(state["datasets"]))
     if "mentions_dataset" in expect:

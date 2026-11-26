@@ -371,7 +371,8 @@ recommend: judge the whole request and clarification_history, not just the last 
      Only an explicit switch such as "프로젝트 추천 말고 이 모델 사양만" changes it to false.
   For recommend false: clarifying_questions is [] and fine_tuning is [] (the question is answered directly).
   needs holds one entry for the kind of model the question is about when it is about models, also when it names
-  models (that entry is used only if a name is not in the catalog); [] when it is only about data. dataset_terms and
+  models (that entry is used when a name is not in the catalog, and is the whole search when the names are only
+  yardsticks); [] when it is only about data. dataset_terms and
   dataset_query only when it is about data, else [] and "". Never invent a model role for a data question.
 summary_ko: a short Korean noun-phrase title of the request (under 30 characters), no sentence ending and no
   period, e.g. "따릉이 반납 추천 서비스 설계", "두 모델 입력 길이 비교". Never "~합니다", "~해요" or "~입니다".
@@ -391,8 +392,11 @@ Decision examples (selected fields only; return ALL schema fields):
   - "회의록 요약 앱 만들어줘" -> true, both lists []; describe resource choices, do not write app code.
   - "한국어 문장 임베딩 모델 추천해줘" -> false, both lists [], embedding capability in needs.
   - "요약 모델과 요약 평가 데이터셋 추천해줘" -> false, both lists [], search both resources.
-  - "RAG 프로젝트에 쓸 BGE-M3와 e5 입력 길이만 비교해줘" -> false, mentioned_models ["BGE-M3", "e5"].
-  - "BGE-M3 라이선스가 뭐야?" -> false, mentioned_models ["BGE-M3"], mentioned_datasets [].
+  - "RAG 프로젝트에 쓸 BGE-M3와 e5 입력 길이만 비교해줘" -> false, mentioned_models ["BGE-M3", "e5"],
+    reference_names [] (compared names are what to look up).
+  - "BGE-M3 라이선스가 뭐야?" -> false, mentioned_models ["BGE-M3"], mentioned_datasets [], reference_names [].
+  - "Whisper보다 작은 한국어 음성 인식 모델 있어?" -> false, mentioned_models ["Whisper"], reference_names
+    ["Whisper"], speech recognition capability in needs (a yardstick never replaces the need).
   - "부산광역시 공영주차장 현황이라는 데이터셋의 제공 항목 알려줘" -> false,
     mentioned_datasets ["부산광역시 공영주차장 현황"], mentioned_models [].
   - "법률 상담 챗봇에 BGE-M3를 쓰고 싶어. 필요한 데이터도 추천해줘" -> true,
@@ -409,6 +413,7 @@ Conversation examples:
     -> false, mentioned_models ["BGE-M3"], mentioned_datasets [].
 reference_names: the mentioned names that are only a yardstick, not what to look up ("BGE 같은 더 가벼운 모델",
   "X처럼", "X와 비슷한", "X 대신", "X 말고", "X보다 작은"): those names, written the same way; else [].
+  Names the user compares, or asks the specs, license or scores of ("A와 B 비교", "A 사양"), are never yardsticks.
 needs: 1-{MAX_NEEDS} distinct model roles the project needs, most important first. task is a taxonomy key.
   Finding, collecting or providing data is never a need: the data search handles it through dataset_terms
   and dataset_query ("주차장 빈자리 데이터도 찾아줘" adds no retrieval or embedding need).
@@ -500,15 +505,21 @@ EXPLAIN_MODEL = os.getenv("RECOMMEND_EXPLAIN_MODEL") or LLM_MODEL
 
 # recommend=false: the answer to a direct question, shown as a chat answer only (no recommendation screen).
 FACT_PROMPT = """You are Model Scout. Answer the user's question about models or data directly, in Korean (해요체),
-using ONLY the JSON given. Lead with the answer to the question itself, in 2-6 short sentences. When it compares
-several items, a small markdown table may follow (one row per item or per compared field; at most 6 rows; no "|" or
-line breaks inside a cell). No project briefing: no "### 1." need sections, no 추천/대안 rows, no data headings, no
+using ONLY the JSON given. Every sentence ends in 해요체 (~해요, ~이에요/예요, ~있어요, ~없어요, ~돼요); never
+~합니다, ~입니다, ~습니다 or ~됩니다, and never mix the two. Lead with the answer to the question itself, in 2-6
+short sentences. When it compares several items, a small markdown table may follow (one row per item or per compared
+field; at most 6 rows; no "|" or line breaks inside a cell), except for lookup_family models: sentences only, no
+table. No project briefing: no "### 1." need sections, no 추천/대안 rows, no data headings, no
 combination summary, no implementation guide, no fine-tuning advice, no closing paragraph. Never rank the items the
 user named against each other as a recommendation; compare the fields they asked about.
 lookup lists the names the user wrote. status "found": the catalog item read for that name (models from their kind
 "lookup" group, datasets with a "lookup" field). "ambiguous": several catalog items share that name; never pick
 one. When they are shown (datasets marked lookup_ambiguous), tell them apart by their own fields (id, publisher,
-coverage, period, update cycle, format) and say a full id would settle it; otherwise list the candidates. "not_found": the current Model Scout catalog has no item
+coverage, period, update cycle, format) and say a full id would settle it; otherwise list the candidates. Models in
+groups with lookup_family are members of one family the name was read as (the app already said which, and how many
+are shown): answer the question for each of them in natural sentences, grouping models that share an answer (e.g. the
+same commercial_status or license) in one sentence and naming each id once, and say a full id would settle it. Never
+give the family's original (lookup_family) license or figures unless it is itself one of the models. "not_found": the current Model Scout catalog has no item
 by that exact name; the app already said so, so never present any other item as that one. Items that came from a
 search ("fallback": true, or no lookup) are related candidates found without the name: say they are related, not the
 named item.
@@ -703,6 +714,25 @@ MENTION_KEYS = {"model": "mentioned_models", "dataset": "mentioned_datasets"}
 MAX_MENTIONS = 6
 # A name followed by one of these is a yardstick for something else ("BGE 같은 더 가벼운 모델"), not a lookup target.
 REFERENCE_CUE = r"\s*(?:이나|나|랑|이랑|과|와)?\s*(?:같은|같이|처럼|비슷|대신|말고|보다|급의?|정도의?)"
+# A yardstick the user wants replaced, not matched: "X 대신", "X 말고". "X보다 작은" keeps X's family (whisper-tiny is
+# an answer to "Whisper보다 작은"), so only these cues drop X from the results.
+REPLACE_CUE = r"\s*(?:은|는|이|가|을|를|은요|는요)?\s*(?:대신|말고|빼고|제외)"
+
+
+def replaced_names(plan: dict, request: str) -> list[str]:
+    """The yardsticks the user asked to replace, so their own models are left out of the search results."""
+    return [n for n in plan.get("reference_names") or [] if re.search(re.escape(n) + REPLACE_CUE, request, re.I)]
+
+
+def _separated(text: str) -> str:
+    """09 _name_key: casefolded, any run of space, hyphen, underscore or dot one "-" ("bge m3" = "bge-m3")."""
+    return re.sub(r"[-_.\s]+", "-", text.strip().casefold()).strip("-")
+
+
+def is_named_model(model_id: str, names: list[str]) -> bool:
+    """A model whose repository name carries one of the names as a whole part (09 resolve's rule)."""
+    repo = _separated(model_id.split("/", 1)[-1])
+    return any(re.search(r"(^|-)" + re.escape(_separated(n)) + r"($|-)", repo) for n in names if _separated(n))
 _PARTICLES = re.compile(r"(?:이랑|랑|이나|과|와|의|을|를|은|는|이|가|도|로|으로|에서|에)$")
 _WORD = re.compile(r"[^\s,.!?()\"'“”‘’]+")
 # Only unmistakable, Korean-only category/service descriptions. Do not filter dataset titles, Korean brand names
@@ -793,7 +823,18 @@ def _settle_mentions(plan, user, said, prior_plan, earlier, shown=()):
     cue = "\n".join([user, said])
     plan["reference_names"] = [n for n in mentioned if _fold(n) in marked
                                or re.search(re.escape(n) + REFERENCE_CUE, cue, re.I)]
+    for entry in [*(plan.get("needs") or []), *_fine_tuning(plan)]:
+        if entry.get("model_query"):
+            entry["model_query"] = without_yardsticks(entry["model_query"], plan["reference_names"])
     plan["recommend"] = plan.get("recommend") is not False
+
+
+def without_yardsticks(query: str, names: list[str]) -> str:
+    """A search query without the words that carry a yardstick's name: "smaller than BGE-M3" in the query ranks BGE-M3
+    and its copies first, the opposite of what the user asked for. The whole query stays when nothing else is left."""
+    folded = [_fold(n) for n in names if _fold(n)]
+    kept = [word for word in query.split() if not any(n in _fold(word) for n in folded)]
+    return " ".join(kept) if kept else query
 
 
 # Words of building something. Their absence, with a message that asks for a kind of model or data, makes it a direct
@@ -1148,7 +1189,9 @@ def classify_model_query(state: State) -> State:
             return {"model_query_type": None, "model_route": {"path": "lookup", "names": names,
                                                               "error": type(exc).__name__}}
         model_route["resolved"] = resolved
-        if any(entry["status"] == "found" for entry in resolved.values()):
+        # A name several models share is read too when they are one family (09 _families): its members are told
+        # apart in the answer, none picked. A name spanning unrelated models keeps the unnamed search.
+        if any(entry["status"] == "found" or _family_of(entry) for entry in resolved.values()):
             logging.info("model route=lookup names=%d", len(names))
             return {"model_query_type": None, "model_route": {**model_route, "path": "lookup"}}
         model_route["path"] = "fallback"  # no name matched: the unnamed search, the names stay for the answer
@@ -1334,32 +1377,60 @@ def _recorded(key):
     return wrap
 
 
+def _family_of(entry: dict) -> dict | None:
+    """The one family an ambiguous name's matches belong to (09 _families), else None."""
+    return entry.get("family") if entry.get("status") == "ambiguous" else None
+
+
+def _lookup_ids(resolved: dict) -> dict[str, list[str]]:
+    """Which ids to read for each name, within MAX_LOOKUP_MODELS: every exactly found model first, then the free slots
+    shared out among the one-family names, each taking its most downloaded members."""
+    found = {name: [e["model_id"]] for name, e in resolved.items() if e["status"] == "found"}
+    taken = list(dict.fromkeys(i for ids in found.values() for i in ids))[:MAX_LOOKUP_MODELS]
+    found = {name: [i for i in ids if i in taken] for name, ids in found.items()}
+    families = {name: _family_of(e)["members"] for name, e in resolved.items() if _family_of(e)}
+    free = MAX_LOOKUP_MODELS - len(taken)
+    out = dict(found)
+    for index, (name, members) in enumerate(families.items()):
+        share = free // len(families) + (1 if index < free % len(families) else 0)
+        picked = [m for m in members if m not in taken][:share]
+        taken += picked
+        out[name] = picked
+    return {name: out[name] for name in resolved if out.get(name)}  # the order the user named them
+
+
 def lookup_models(state: State) -> State:
     """The models the user named, read by id from the catalog: get_model for one, compare_models for several. No
-    embedding search, type or rerank. One group per name, never ranked against each other; a name that matched
-    nothing, or several models, stays in model_route for the answer."""
+    embedding search, type or rerank. One group per model, never ranked against each other. A name several models
+    share brings its most downloaded members when they are one family (lookup_family on each group); a name that
+    matched nothing, or unrelated models, stays in model_route for the answer."""
     model_route = state["model_route"]
     if model_route.get("error"):
         raise RuntimeError(f"model name lookup failed ({model_route['error']})")
     resolved = model_route.get("resolved") or {}
-    ids = list(dict.fromkeys(e["model_id"] for e in resolved.values() if e["status"] == "found"))[:MAX_LOOKUP_MODELS]
+    wanted = _lookup_ids(resolved)
+    ids = list(dict.fromkeys(i for group in wanted.values() for i in group))
     module_09 = _load_09()
     if len(ids) == 1:
         row = module_09.get_model(ids[0])
         rows = [row] if row.get("found") else []
     else:
-        rows = module_09.compare_models(ids)["models"]
+        rows = module_09.compare_models(ids)["models"] if ids else []
     by_id = {row["model_id"]: row for row in rows}
     gpu = constraints_of(state.get("plan") or {}).get("gpu_memory_gb")
     groups = []
-    for name, entry in resolved.items():
-        if entry["status"] != "found" or entry["model_id"] not in by_id:
-            continue
-        model = _compact_model(by_id[entry["model_id"]])
-        model["gpu_fit"] = project_checks.gpu_fit(model["parameters_b"], gpu, model.pop("hardware", None),
-                                                  model["quant_bits"])
-        groups.append({"need": {"task": model["task"] or "", "purpose_ko": f"조회한 모델: {name}", "model_query": name},
-                       "models": [model], "kind": "lookup", "mention": name})
+    for name, group_ids in wanted.items():
+        family = _family_of(resolved[name])
+        for model_id in group_ids:
+            if model_id not in by_id:
+                continue
+            model = _compact_model(by_id[model_id])
+            model["gpu_fit"] = project_checks.gpu_fit(model["parameters_b"], gpu, model.pop("hardware", None),
+                                                      model["quant_bits"])
+            groups.append({"need": {"task": model["task"] or "", "purpose_ko": f"조회한 모델: {name}",
+                                    "model_query": name},
+                           "models": [model], "kind": "lookup", "mention": name,
+                           **({"lookup_family": family["root"]} if family else {})})
     return {"models": groups}
 
 
@@ -1397,6 +1468,8 @@ def search_models(state: State) -> State:
         dense_weight, reranking = PROJECT_MODEL_SEARCH["dense_weight"], PROJECT_MODEL_SEARCH["rerank"]
         free_of_task_filter, match_count = False, PROJECT_MODEL_SEARCH["match_count"]
 
+    replaced = replaced_names(state["plan"], state.get("request") or "")
+
     def one(need, sft=False):
         # The SFT search keeps its task filter: a benchmark name says nothing about what to fine-tune.
         free = free_of_task_filter and not sft
@@ -1429,6 +1502,7 @@ def search_models(state: State) -> State:
                 row["parameters_b"], gpu, row.pop("hardware", None), row["quant_bits"]
             )
         rows = [r for r in rows if not r["gpu_fit"] or r["gpu_fit"]["verdict"] != "too_large"]
+        rows = [r for r in rows if not is_named_model(r["model_id"], replaced)]
         if sft:  # no LLM rerank here: the SFT group must not add a model call to the turn
             # shortcut: a model that fits only at 4-bit leaves no room for LoRA training; no real training estimate.
             rows = [r for r in rows if not r["gpu_fit"] or r["gpu_fit"]["precision"] != "int4"]
@@ -1796,6 +1870,13 @@ def unsearched_headings(target, kind):
     return drop
 
 
+def without_tables(lines):
+    """The answer without markdown table rows (lines starting with "|")."""
+    for line in lines:
+        if not line.lstrip().startswith("|"):
+            yield line
+
+
 def without_sections(lines, drop):
     """Skip each section whose heading is in drop, up to the next ### heading or the [[조합]] marker."""
     skipping = False
@@ -1897,6 +1978,13 @@ def explain(state: State) -> State:
         "datasets": state["datasets"],
     }
     drop = unsearched_headings(search_target(state), _data_kind(state))
+    # A one-family answer is said in sentences: FACT_PROMPT asks, and the writer still adds a table now and then.
+    sentences_only = direct and any(g.get("lookup_family") for g in state.get("models") or [])
+
+    def shown(lines):
+        lines = without_sections(lines, drop)
+        return without_tables(lines) if sentences_only else lines
+
     found = evidence["models"] or any(
         rows for rows in [state["datasets"]["project_training"], state["datasets"]["service_data"]]
     )
@@ -1904,13 +1992,14 @@ def explain(state: State) -> State:
         if failed and not found:  # nothing to describe: no writer call, no cost
             raise _NothingToExplain
         if direct and not found:  # a direct question with nothing found: said plainly, no writer call
-            emit(NOTHING_FOUND_NOTE)
+            if not asked_for_a_model_name(payload["lookup"]):
+                emit(NOTHING_FOUND_NOTE)
             raise _NothingToExplain
         # Replay only inside a conversation (API, CLI): direct calls (scripts, tests) always ask the writer.
         key = _answer_key(payload, prompt, writer_model) if configurable.get("thread_id") else None
         cached = _cached_answer(key) if key else None
         if cached is not None:  # same input within the hour: replay it, no writer call
-            for line in without_sections(cached, drop):
+            for line in shown(cached):
                 take(line)
             record["writer"] = "cache"
             raise _NothingToExplain
@@ -1929,7 +2018,7 @@ def explain(state: State) -> State:
         )
         # Validate complete lines before publishing them: post-generation cleanup would be too late
         # for SSE clients, and dates may be split across token chunks.
-        for line in without_sections(safe_lines(grounded_lines(deltas(stream), evidence), evidence, record), drop):
+        for line in shown(safe_lines(grounded_lines(deltas(stream), evidence), evidence, record)):
             take(line)
         if key and finish.get("finish_reason") == "stop":  # only a whole answer is worth replaying
             _remember_answer(key, wrote)
@@ -2199,6 +2288,22 @@ NOTHING_FOUND_NOTE = "현재 Model Scout 카탈로그에서 질문에 맞는 항
 SIDE_KO = {"model": "모델", "dataset": "데이터셋"}
 
 
+def family_note(name: str, family: dict) -> str:
+    """What the app says before a one-family answer: which family the name was read as and how much of it is shown."""
+    root, read, count = family["root"], family["read"], family.get("count")
+    of = f"{count}개 중 " if count and count > len(read) else ""
+    absent = f" 원본 {root}은(는) 카탈로그에 없어요." if family.get("root_in_catalog") is False else ""
+    return (f"'{name}'은(는) 한 모델로 정해지지 않아, 같은 계열(원본 {root})의 카탈로그 모델 {of}다운로드가 많은 "
+            f"{len(read)}개를 정리했어요.{absent}")
+
+
+def asked_for_a_model_name(lookup: dict) -> bool:
+    """The note already asked for an exact model name (a name spanning unrelated models), so "nothing found" after it
+    would contradict it."""
+    names = (lookup.get("model") or {}).get("names") or {}
+    return any(e.get("status") == "ambiguous" and e.get("roots") and not e.get("family") for e in names.values())
+
+
 def lookup_summary(state: State) -> dict:
     """For a direct answer: each side's route and what each name the user wrote resolved to."""
     out = {}
@@ -2208,6 +2313,17 @@ def lookup_summary(state: State) -> dict:
             out[side] = {"path": route_info.get("path"), "fallback": route_info.get("path") == "fallback",
                          "names": {name: {k: entry.get(k) for k in ("status", "match", "candidates")}
                                    for name, entry in (route_info.get("resolved") or {}).items()}}
+    for name, entry in ((state.get("model_route") or {}).get("resolved") or {}).items():
+        if entry.get("status") != "ambiguous" or "model" not in out:
+            continue
+        family = _family_of(entry)
+        if family:  # read: which members the answer has, of how many, and whether the original itself is one
+            read = [m["model_id"] for g in state.get("models") or [] if g.get("mention") == name for m in g["models"]]
+            out["model"]["names"][name]["family"] = {
+                "root": family["root"], "read": read, "count": family["count"] if family.get("complete") else None,
+                "root_in_catalog": family["root_read"] or (None if not family.get("complete") else False)}
+        elif entry.get("roots"):
+            out["model"]["names"][name]["roots"] = entry["roots"]
     return out
 
 
@@ -2225,9 +2341,20 @@ def lookup_note(lookup: dict, found_sides: set[str] = frozenset()) -> str:
             side_lines.append(f"정확히 일치하는 {SIDE_KO[side]} 이름을 확인하지 못했어요: "
                          + ", ".join(f"'{n}'" for n in missing) + ".")
         for name, entry in names.items():
-            if entry["status"] == "ambiguous":
+            if entry["status"] != "ambiguous":
+                continue
+            family, roots = entry.get("family"), entry.get("roots")
+            if family and family.get("read"):
+                side_lines.append(family_note(name, family))
+            elif family:  # one family, but none of its members could be read: say so, never list raw ids
+                side_lines.append(f"'{name}'은(는) {family['root']} 계열의 여러 모델에 해당하지만, 해당 모델 정보를 "
+                                  "읽지 못했어요.")
+            elif roots:
+                side_lines.append(f"'{name}'이(가) 들어간 모델은 카탈로그에 원본이 서로 다른 여러 모델(예: {', '.join(roots)})"
+                                  "로 있어 하나로 정하지 않았어요. 정확한 모델 이름을 알려주시면 그 모델로 답할게요.")
+            else:  # datasets, and checkpoints from before the family check
                 side_lines.append(f"'{name}'은(는) 카탈로그의 여러 {SIDE_KO[side]}에 해당해 하나로 정하지 않았어요: "
-                             + ", ".join(entry["candidates"]) + ".")
+                                  + ", ".join(entry["candidates"]) + ".")
         if info.get("fallback") and side_lines and side in found_sides:
             side_lines.append(f"아래 {SIDE_KO[side]}은(는) 이름 없이 찾은 관련 후보이고, 말씀하신 항목 자체가 아니에요.")
         lines.extend(side_lines)
