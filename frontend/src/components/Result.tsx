@@ -37,7 +37,6 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
   const [selectedId, setSelectedId] = useState(candidates[0]?.id);
   const [readme, setReadme] = useState<ReadmeTarget | null>(null);
   const [mode, setMode] = useState<SendOptions["mode"]>("question");
-  const [askSelected, setAskSelected] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [history, setHistory] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
@@ -65,14 +64,16 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
   const send = (q: string) =>
     onSend(q, {
       mode: effectiveMode,
-      target: effectiveMode === "question" && askSelected && selected ? { id: selected.id, name: selected.name } : undefined,
+      target: effectiveMode === "question" && selected ? { id: selected.id, name: selected.name } : undefined,
     });
 
   return (
     <div className="flex min-h-dvh bg-page">
       <nav aria-label="메뉴" className="sticky top-0 hidden h-dvh w-[72px] shrink-0 flex-col items-center gap-3 border-r border-line bg-white py-6 sm:flex">
-        <Logo size={32} />
-        <button aria-label="홈으로" title="홈으로" className="mt-3 grid size-11 place-items-center rounded-xl text-brand hover:bg-brand-soft" onClick={onHome}>
+        <button aria-label="홈으로" title="홈으로" className="mb-3 rounded-xl" onClick={onHome}>
+          <Logo size={32} />
+        </button>
+        <button aria-label="홈으로" title="홈으로" className="grid size-11 place-items-center rounded-xl text-brand hover:bg-brand-soft" onClick={onHome}>
           <HomeIcon />
         </button>
         <button aria-label="대화 기록" title="대화 기록" className="grid size-11 place-items-center rounded-xl text-muted hover:bg-brand-soft" onClick={() => setHistory(true)}>
@@ -87,16 +88,8 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
           </button>
           <p className="min-w-0 flex-1 truncate text-sm text-muted">
             <span className="font-semibold text-brand">추천 결과</span>
-            {request && <span> / “{request}”</span>}
+            {request && <span> / “{request.replace(/\n조건: [^\n]*\.$/, "")}”</span>}
           </p>
-          <button
-            aria-expanded={chatOpen}
-            className="flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white"
-            onClick={() => setChatOpen(true)}
-          >
-            <Logo size={18} /> 대화 이어하기
-            {running && <span className="size-2 animate-pulse rounded-full bg-white" aria-label="답변 중" />}
-          </button>
         </header>
 
         <h1 className="border-b border-line pb-6 text-3xl font-bold tracking-tight lg:text-4xl">{result.title || title}</h1>
@@ -125,6 +118,17 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
         </div>
       </div>
 
+      {!chatOpen && (
+        <button
+          aria-label="대화 이어하기"
+          className="fixed bottom-6 right-6 z-20 rounded-2xl rounded-br-sm bg-brand px-4 py-3 text-sm font-semibold text-white opacity-60 shadow-lg transition hover:-translate-y-0.5 hover:opacity-100 hover:shadow-xl focus-visible:opacity-100"
+          onClick={() => setChatOpen(true)}
+        >
+          대화를 이어가 보세요!
+          {running && <span className="absolute -right-1 -top-1 size-3 animate-pulse rounded-full bg-white ring-2 ring-brand" aria-label="답변 중" />}
+        </button>
+      )}
+      {chatOpen && <div aria-hidden className="fixed inset-0 z-30" onClick={() => setChatOpen(false)} />}
       {chatOpen && (
         <aside
           aria-label="추천에 대해 묻기"
@@ -136,15 +140,6 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
               <Logo size={22} /> 추천에 대해 묻기
             </h2>
             <div className="flex min-w-0 items-center gap-2">
-              {owner && effectiveMode === "question" && selected && (
-                <button
-                  className={`truncate rounded-full px-2.5 py-0.5 text-xs ${askSelected ? "bg-brand-soft text-brand" : "bg-soft text-muted"}`}
-                  onClick={() => setAskSelected((v) => !v)}
-                  title="질문 대상을 바꾸려면 누르세요"
-                >
-                  질문 대상 · {askSelected ? selected.name : "추천 전체"}
-                </button>
-              )}
               <button aria-label="대화 닫기" className="rounded-lg px-2 py-1 text-lg text-muted hover:bg-soft" onClick={() => setChatOpen(false)}>
                 ×
               </button>
