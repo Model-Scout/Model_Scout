@@ -8,7 +8,7 @@ import { Readme, type ReadmeTarget } from "@/components/Readme";
 import { Composer, ReadOnlyNotice, TurnView } from "@/components/Thread";
 import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
 import { looseMentions } from "@/lib/looseNames";
-import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
+import type { Candidate, ChatResult, Check, ImplementationGuide, Source } from "@/lib/api";
 import { combinations, fallbackPipeline } from "@/lib/flow";
 import { buildPrompt, buildSpec } from "@/lib/spec";
 
@@ -104,6 +104,7 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
                 all={candidates}
                 implementationGuide={result.assessment?.implementation_guide}
                 sources={sources.filter((s) => s.source_id === selected.source_id && s.kind === selected.type)}
+                conditions={result.summary.find((line) => line.startsWith("데이터 조건:"))?.replace("데이터 조건:", "").trim()}
                 onSelect={setSelectedId}
                 onReadme={openSource}
               />
@@ -601,6 +602,7 @@ function Detail({
   all,
   implementationGuide,
   sources,
+  conditions,
   onSelect,
   onReadme,
 }: {
@@ -608,6 +610,7 @@ function Detail({
   all: Candidate[];
   implementationGuide?: ImplementationGuide;
   sources: Source[];
+  conditions?: string;
   onSelect: (id: string) => void;
   onReadme: ReadmeOpen;
 }) {
@@ -615,6 +618,7 @@ function Detail({
   const sft = all.filter((x) => x.type === "model" && (x.group === "sft" || x.group === "both"));
   const readme = (quote?: string | null) => onReadme({ source_id: c.source_id, kind: c.type, title: c.name, url: c.url, quote });
   const isData = c.type === "dataset";
+  const alternative = c.checks.find((k) => k.key === "alternative");
   const accent = isData ? "text-ok" : "text-brand";
   const guide: [ReactNode, ReactNode][] = [];
   if (implementationGuide?.structured_output) guide.push(["구조화 출력", implementationGuide.structured_output]);
@@ -644,8 +648,13 @@ function Detail({
     <article className="space-y-8">
       <header className="space-y-3">
         <p className={`text-sm font-semibold ${accent}`}>{isData ? "데이터" : c.group === "sft" ? "파인튜닝 모델" : "모델"}</p>
-        <h2 className="[overflow-wrap:anywhere] text-2xl font-bold leading-snug">{c.name}</h2>
-        <p className="text-sm text-muted">{[c.source, ...c.tags].filter(Boolean).join(" · ")}</p>
+        <h2 className="[overflow-wrap:anywhere] text-2xl font-bold leading-snug">
+          {c.name}
+          {isData && alternative && (
+            <span className="ml-2 inline-block rounded-md border border-brand px-2 py-0.5 align-middle text-xs font-semibold text-brand">부분 대안</span>
+          )}
+        </h2>
+        <p className="text-sm text-muted">{isData ? c.source : [c.source, ...c.tags].filter(Boolean).join(" · ")}</p>
         <div className="flex flex-wrap gap-2 pt-1">
           <button className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white" onClick={() => readme()}>
             README 보기
@@ -663,6 +672,8 @@ function Detail({
         <p>{c.role}</p>
       </div>
 
+      {isData && <DataLicense c={c} />}
+
       {isData && c.evidence.length > 0 && (
         <DetailSection title="추천 근거">
           <Rows
@@ -677,6 +688,9 @@ function Detail({
         </DetailSection>
       )}
 
+      {isData ? (
+        <DataConditions checks={c.checks.filter((k) => k.key !== "alternative")} conditions={conditions} />
+      ) : (
       <DetailSection title="조건 확인" hint="출처를 누르면 README의 해당 문장으로 이동해요">
         {c.checks.length === 0 ? (
           <p className="py-3 text-sm text-muted">판정할 조건이 없어요.</p>
@@ -704,6 +718,14 @@ function Detail({
           </ul>
         )}
       </DetailSection>
+      )}
+
+      {isData && alternative && (
+        <div className="rounded-xl bg-brand-soft px-5 py-4 text-sm leading-relaxed">
+          <p className="mb-1 font-semibold text-brand">부분 대안으로 제안한 이유</p>
+          <p>{alternative.reason.replace(/^부분 대안 — /, "")}</p>
+        </div>
+      )}
 
       {c.type === "model" && <Metrics c={c} />}
 
@@ -750,5 +772,62 @@ function Detail({
         )}
       </DetailSection>
     </article>
+  );
+}
+
+
+const PORTALS = new Set(["data_go_kr", "seoul_open_data"]);
+
+/** A dataset's license as a fact with where it was read; no verdict here (a commercial request is a condition below). */
+function DataLicense({ c }: { c: Candidate }) {
+  return (
+    <div className="rounded-xl bg-soft px-5 py-4 text-sm leading-relaxed">
+      <div className="mb-1 flex items-center justify-between gap-2">
+        <p className="font-semibold">이용허락</p>
+        <span className="rounded-md bg-white px-2 py-0.5 text-xs text-muted">{PORTALS.has(c.source) ? "포털 표기" : "카드 표기"}</span>
+      </div>
+      <p className="[overflow-wrap:anywhere]">{c.tags.length > 0 ? c.tags.join(", ") : <span className="text-faint">라이선스 표기 없음 · 원본 페이지에서 확인해 주세요</span>}</p>
+    </div>
+  );
+}
+
+// verdict first (dataset cards); older saved results only have status.
+const VERDICT: Record<string, [string, string]> = {
+  met: ["충족", "bg-ok-soft text-ok"],
+  unmet: ["불충족", "bg-danger-soft text-danger"],
+  partial: ["조건부", "bg-warn-soft text-warn"],
+  unknown: ["미확인", "bg-soft text-muted"],
+};
+// Saved before verdict existed: keep a stated 불충족, and show an undistinguished "check" as it was then.
+const LEGACY_CHECK: [string, string] = ["확인 필요", "bg-warn-soft text-warn"];
+function verdictBadge(k: Check): [string, string] {
+  if (k.verdict) return VERDICT[k.verdict] ?? VERDICT.unknown;
+  if (k.status === "ok") return VERDICT.met;
+  if (k.status === "check") return k.reason.startsWith("불충족 — ") ? VERDICT.unmet : LEGACY_CHECK;
+  return VERDICT.unknown;
+}
+
+/** The user's conditions against this dataset, one row each: condition, verdict, why. */
+function DataConditions({ checks, conditions }: { checks: Check[]; conditions?: string }) {
+  return (
+    <DetailSection title="요청 조건 확인">
+      {conditions && <p className="mb-1 text-xs text-faint">요청: {conditions}</p>}
+      {checks.length === 0 ? (
+        <p className="py-3 text-sm text-muted">요청한 조건이 없어 확인할 항목이 없어요.</p>
+      ) : (
+        <ul className="divide-y divide-line border-y border-line text-sm">
+          {checks.map((k) => {
+            const [label, cls] = verdictBadge(k);
+            return (
+              <li key={k.key} className="grid grid-cols-[minmax(0,7rem)_auto_minmax(0,1fr)] items-start gap-3 py-3">
+                <span className="font-semibold [overflow-wrap:anywhere]">{k.label}</span>
+                <span className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold ${cls}`}>{label}</span>
+                <span className="text-muted [overflow-wrap:anywhere]">{label === "불충족" ? k.reason.replace(/^불충족 — /, "") : k.reason}</span>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </DetailSection>
   );
 }
