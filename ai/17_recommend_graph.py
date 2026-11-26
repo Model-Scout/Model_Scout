@@ -1550,8 +1550,11 @@ def search_models(state: State) -> State:
 
 
 def _compact_dataset(row):
+    # commercial / conditional / non_commercial / unknown from the license strings, so the card can judge a
+    # commercial request without classifying the raw strings again.
     return {
-        k: row[k]
+        "commercial_use": project_checks.license_class(row.get("licenses") or []),
+        **{k: row[k]
         for k in (
             "dataset",
             "title",
@@ -1563,7 +1566,7 @@ def _compact_dataset(row):
             "summary_ko",
             "licenses",
             "evidence",
-        )
+        )},
     }
 
 
@@ -1596,6 +1599,7 @@ def lookup_datasets(names: list[str]) -> tuple[dict, dict]:
             row = {"dataset": entity["name"], "title": entity.get("title"), "source": entity.get("source"), "score": None,
                    "reasons": [f"'{name}' 이름으로 조회"], "downloads": entity.get("downloads"), "url": entity.get("url"),
                    "summary_ko": entity.get("summary_ko"), "licenses": entity.get("licenses") or [], "evidence": [],
+                   "commercial_use": project_checks.license_class(entity.get("licenses") or []),
                    "lookup": name, **({"lookup_ambiguous": True} if len(ids) > 1 else {})}
             service = "dataset_role/service" in by_entity[entity_id]
             lists["service_data" if service else "project_training"].append(row)

@@ -67,6 +67,8 @@ export type Check = {
   source_id: string | null;
   quote: string | null;
   origin: Origin;
+  /** Dataset cards: met / unmet / partial / unknown, which status alone cannot tell apart. */
+  verdict?: "met" | "unmet" | "partial" | "unknown" | null;
 };
 
 export type Evidence = { label: string; text: string | null; origin: "readme" | "metadata" };

@@ -139,7 +139,7 @@ def test_result_links_dedup_and_unknowns():
     assert done.sources[0].quote == "original quote"
     assert done.sources[1].quote == "dataset quote"
     assert model.checks[0].quote is None  # Metadata is not fabricated as a README quote.
-    assert [c.key for c in dataset.checks] == ["license"] and dataset.checks[0].status == "check"
+    assert dataset.checks == []  # no commercial request: the license is a fact on the card, not a verdict
     assert dataset.evidence[0].label == "검색" and dataset.evidence[0].origin == "readme"
     assert ChatDone.model_validate_json(done.model_dump_json()) == done
 
@@ -879,3 +879,37 @@ def test_the_card_judges_the_language_the_user_chose():
     assert lang([]) == [("영어 지원", "unknown")]
     assert excluded_models({"language": "en"}) == ["영어가 지원 언어에 없는 모델"]
     assert excluded_models({"language": "ko"}) == []
+
+
+def test_a_dataset_license_is_a_fact_unless_commercial_use_was_asked():
+    """데이터 카드의 라이선스가 상업 가능이어도 '확인 필요'로 떠서 문제처럼 보였다."""
+    from backend.app.result import build_result, license_text
+
+    assert license_text("공공누리 제4유형") == "공공누리 제4유형 (출처표시, 상업적 이용 금지, 변경 금지)"
+    assert license_text("공공누리 제1유형(제3자 권리 포함)") == "공공누리 제1유형(제3자 권리 포함) (출처표시, 제3자 권리 포함)"
+    assert license_text("이용허락범위 제한 없음") == "이용허락범위 제한 없음"
+    assert license_text("apache-2.0") == "apache-2.0"
+
+    rows = [{"dataset": "a/ok", "licenses": ["CC0: Public Domain"], "commercial_use": "commercial"},
+            {"dataset": "a/nc", "licenses": ["공공누리 제4유형"], "commercial_use": "non_commercial"},
+            {"dataset": "a/cond", "licenses": ["other"], "commercial_use": "conditional"},
+            {"dataset": "a/none", "licenses": [], "commercial_use": "unknown"}]
+
+    def checks(commercial):
+        events = {"plan": {"constraints": {"commercial_only": commercial}},
+                  "datasets": {"project_training": rows, "service_data": []}}
+        return {c.source_id: [(k.label, k.status) for k in c.checks] for c in build_result(events).candidates}
+
+    assert checks(False) == {"a/ok": [], "a/nc": [], "a/cond": [], "a/none": []}
+    assert checks(True) == {"a/ok": [("상업 이용", "ok")], "a/nc": [("상업 이용", "check")],
+                            "a/cond": [("상업 이용", "check")], "a/none": [("상업 이용", "unknown")]}
+
+
+def test_a_commercial_condition_verdict_is_not_judged_twice():
+    from backend.app.result import build_result
+
+    row = {"dataset": "seoul/x", "licenses": ["공공누리 제1유형"], "commercial_use": "commercial",
+           "condition_checks": [{"key": "commercial", "label": "상업 이용", "status": "충족", "basis": "b", "scope": "s"}]}
+    events = {"plan": {"constraints": {"commercial_only": True}}, "datasets": {"service_data": [row]}}
+    (card,) = build_result(events).candidates
+    assert [k.key for k in card.checks] == ["commercial"]
