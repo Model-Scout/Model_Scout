@@ -216,6 +216,26 @@ def test_http_recommend_question_and_restore(client):
         upstream.assert_not_called()
 
 
+def test_recommendation_requirements_survive_stream_and_restore():
+    request = "문서 검색\n조건: 언어 한국어, 실행 환경 CPU만."
+    requirements = [request, "데이터는 공개 자료만 사용해 줘"]
+    events = {**recommendation_events(), "requirements": requirements}
+    store = Store()
+    try:
+        gid = api._open_group(store, None, uuid4(), request)
+        with patch.object(api.httpx, "stream", return_value=Upstream(ai_events(events))):
+            stream = "".join(api.stream_chat(store, gid, request, "127.0.0.1"))
+        event, done = list(api.parse_sse(stream.splitlines()))[-1]
+        assert event == "done" and done["history_saved"]
+        assert done["result"]["requirements"] == requirements
+        with patch.object(api, "_pool", return_value=store):
+            restored = api.get_group(gid)
+        assert restored.result.requirements == requirements
+        assert restored.messages[-1].result.requirements == requirements
+    finally:
+        store.db.close()
+
+
 def test_failures_do_not_pretend_success(client):
     client, store = client
     headers = {"X-Session-Id": str(uuid4())}

@@ -110,6 +110,7 @@ def _read_pipeline(value: Any, candidates: dict[str, Candidate]) -> Pipeline | N
 class ChatResult(BaseModel):
     title: str
     summary: list[str]
+    requirements: list[str] = Field(default_factory=list)
     needs_check: list[str] = Field(default_factory=list)
     candidates: list[Candidate]
     assessment: dict[str, Any] | None = None
@@ -432,6 +433,7 @@ def build_result(events: dict[str, Any]) -> ChatResult:
     return ChatResult(title=summary[0][:80], summary=summary, needs_check=needs,
                       candidates=list(candidates.values()), assessment=events.get("assessment"),
                       combination=[] if display == "chat" else [str(x) for x in events.get("combination") or []],
+                      requirements=[] if display == "chat" else events.get("requirements") or [],
                       pipeline=_read_pipeline(events.get("pipeline"), candidates) if display == "recommendation" else None,
                       display=display)
 

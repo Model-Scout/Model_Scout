@@ -15,6 +15,7 @@ The full answer takes ~10-25 s (two LLM calls and the model search), so each ste
     event: datasets    {per_model, project_training, service_data}   each with licenses + evidence quotes
     event: assessment  {"license": {verdict, label, reason, ...}}    commercial launch verdict
     event: token       {"text": "..."}                               answer, as it is written
+    event: requirements  ["..."]                                     user requests for the current recommendation
     event: done        {"thread_id": "...", "elapsed": 14.1}
     event: error       {"message": "..."}
 
@@ -152,7 +153,7 @@ NODE_EVENTS = {
     "clarify": ("plan", "data_conditions"),  # resuming re-plans here; decompose does not run again
     "search_models": ("models",),
     "assess": ("datasets", "assessment"),  # assess joins both dataset branches, so datasets go out whole
-    "explain": ("combination", "pipeline"),
+    "explain": ("combination", "pipeline", "requirements"),
     "no_ai": ("no_ai",),  # the answer came as tokens with no search: the backend must not read it as a rejection
 }
 

@@ -164,6 +164,13 @@
           "title": "Summary",
           "type": "array"
         },
+        "requirements": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Requirements",
+          "type": "array"
+        },
         "needs_check": {
           "items": {
             "type": "string"

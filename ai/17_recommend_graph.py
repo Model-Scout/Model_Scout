@@ -287,6 +287,7 @@ def _merge_errors(old, new):
 
 class State(TypedDict, total=False):
     request: str
+    original_request: str  # the current user request before clarify appends question/answer text
     # {"target": model|dataset|both|needs_clarification|out_of_scope, "status", "scope", "model", "data",
     #  "data_kind": training|service|both|unknown}
     route: dict
@@ -310,7 +311,8 @@ class State(TypedDict, total=False):
     answer: str
     combination: list  # COMBINATION_MARKER sentences: the app shows them in its summary, not in the answer
     pipeline: dict | None
-    turns: Annotated[list, operator.add]  # [{request, answer}], appended once per turn
+    requirements: list[str]  # user inputs for the current recommendation export
+    turns: Annotated[list, operator.add]  # completed turns; recommendation turns also carry their original inputs
     project_turn_start: int  # index of this project's first turn in turns; older checkpoints start at zero
     search_errors: Annotated[dict, _merge_errors]  # see the fan-in contract above search_failures
 
@@ -638,7 +640,7 @@ or output step, with a short Korean label. An edge label describes the data pass
 Keep 2 to 9 nodes (up to 11 with the SFT branch), short labels and no cycles.
 Each node may have a "note": a few Korean words on what it does there (e.g. "장소 후보 순서 정리").
 When a models group has "kind": "sft", add one optional fine-tuning branch: project training data (if any) ->
-a null step whose label contains "SFT" or "파인튜닝" (e.g. "LoRA SFT", note e.g. "QLoRA · 8GB GPU") -> the group's
+a null step whose label contains "SFT" or "파인튜닝" (e.g. "LoRA SFT", note e.g. "QLoRA") -> the group's
 top model -> the stage it would serve, with an edge label saying what it provides there. Base the branch on the
 group's need.purpose_ko. Use public data as a service input only if its stated role fits. Keep training/evaluation
 data on a separate branch to the training/evaluation step; don't show it as a runtime input. Don't present
@@ -1161,8 +1163,8 @@ def _follow_up_route(state: State, old: dict) -> tuple[dict, bool]:
 
 def route(state: State) -> State:
     """Set the search scope before planning; a refusal leaves the previous project's state available."""
-    fresh: State = {"asking": {"asked": [], "planned": False, "done": False}, "search_errors": None,
-                    "clarification_history": []}
+    fresh: State = {"original_request": state["request"], "asking": {"asked": [], "planned": False, "done": False},
+                    "search_errors": None, "clarification_history": []}
     if state.get("oos"):
         fresh["oos"] = None
     old = state.get("route")
@@ -2139,8 +2141,18 @@ def explain(state: State) -> State:
     emit("\n\n주의: " + EXPLANATION_CAVEAT)
     answer = "".join(parts)
     run_log.log_event("explain", **record, elapsed_s=round(time.time() - started, 2), answer_chars=len(answer))
+    user_inputs = []
+    requirements = []
+    if not direct:
+        user_inputs = [state.get("original_request") or state["request"]]
+        user_inputs.extend(f"(질문) {entry['question']}\n(답변) {entry['answer']}"
+                           for entry in state.get("clarification_history") or [])
+        earlier = (state.get("turns") or [])[state.get("project_turn_start", 0):]
+        requirements = [text for turn in earlier for text in turn.get("user_inputs", [turn["request"]])]
+        requirements.extend(user_inputs)
     return {"answer": answer, "combination": [] if direct else (combination or [])[:4], "pipeline": pipeline,
-            "turns": [{"request": state["request"], "answer": answer}]}
+            "requirements": requirements,
+            "turns": [{"request": state["request"], "answer": answer, "user_inputs": user_inputs}]}
 
 
 class _NothingToExplain(Exception):
@@ -2514,7 +2526,8 @@ def no_ai(state: State) -> State:
     answer += "\n\n" + NO_AI_OUTRO
     get_stream_writer()({"token": answer})
     run_log.log_event("no_ai", ideas=len(ideas))
-    return {"answer": answer, "no_ai": True, "turns": [{"request": state["request"], "answer": answer}]}
+    return {"answer": answer, "no_ai": True,
+            "turns": [{"request": state["request"], "answer": answer, "user_inputs": []}]}
 
 
 def build_graph(nodes=None, checkpointer=None):

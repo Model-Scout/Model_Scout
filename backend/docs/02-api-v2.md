@@ -117,6 +117,8 @@ data: {"text":"추천 결과를 설명할게요."}
 ### 후보·근거 타입
 
 `ChatResult`: title:string, summary:string[], needs_check:string[], candidates:Candidate[], assessment:object|null, combination:string[], display:recommendation|chat.
+
+`requirements`에는 현재 프로젝트의 사용자 요청과 되묻기 답변이 입력 순서대로 들어간다. 이전 저장 결과에서는 빈 배열이거나 필드가 없을 수 있다.
 display는 AI plan 이벤트의 recommend(마지막 plan 기준)로 정한다. recommend가 false면 chat, 그 밖(필드 없음 포함)은 recommendation. 예전 결과는 필드가 없어 recommendation으로 읽는다.
 GET /api/groups/{id}의 result와 mode=question의 문맥은 가장 최근 recommendation 결과다. chat 결과는 해당 메시지의 result로만 남는다.
 combination은 답변을 쓰는 LLM 호출이 함께 쓴 "이렇게 조합해 보세요" 문장이다(추가 호출 없음). 예전 결과, 질문 답변, display chat 결과에서는 빈 배열이다.

@@ -10,6 +10,7 @@ import { Logo, ORIGIN, StatusBadge } from "@/components/ui";
 import { looseMentions } from "@/lib/looseNames";
 import type { Candidate, ChatResult, ImplementationGuide, Source } from "@/lib/api";
 import { combinations, fallbackPipeline } from "@/lib/flow";
+import { buildPrompt, buildSpec } from "@/lib/spec";
 
 type Props = {
   groupId: string;
@@ -95,7 +96,7 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
         <h1 className="border-b border-line pb-6 text-3xl font-bold tracking-tight lg:text-4xl">{result.title || title}</h1>
 
         <div className="grid flex-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-          <ScoutSummary result={result} models={models} datasets={datasets} selectedId={selected?.id} onSelect={setSelectedId} />
+          <ScoutSummary result={result} turns={turns} models={models} datasets={datasets} selectedId={selected?.id} onSelect={setSelectedId} />
           <section ref={panel} aria-label="선택한 후보 상세" className="@container min-w-0 rounded-2xl bg-white p-5 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:overflow-y-auto lg:p-6">
             {selected ? (
               <Detail
@@ -343,8 +344,8 @@ function DataList({
 }
 
 /** Left column: the service flow, why it is combined that way, then every other candidate. Built from the result, no extra LLM call. */
-function ScoutSummary({ result, models, datasets, selectedId, onSelect }:
-  { result: ChatResult; models: Candidate[]; datasets: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
+function ScoutSummary({ result, turns, models, datasets, selectedId, onSelect }:
+  { result: ChatResult; turns: Turn[]; models: Candidate[]; datasets: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
   const sentences = result.combination ?? [];
   // Older results have no LLM sentences: fall back to the line-per-need template.
   const { lines, training, service } = combinations(result.candidates);
@@ -403,6 +404,8 @@ function ScoutSummary({ result, models, datasets, selectedId, onSelect }:
       )}
 
       {pipeline && others}
+
+      <BuildKit spec={buildSpec(result, turns, pipeline)} />
     </div>
   );
 }
@@ -425,6 +428,48 @@ function OtherCandidates({ models, datasets, all, selectedId, onSelect }:
         <ModelList models={models} selectedId={selectedId} onSelect={onSelect} />
         <DataList datasets={datasets} all={all} selectedId={selectedId} onSelect={onSelect} />
       </div>
+    </section>
+  );
+}
+
+/** Closed by default: a SPEC.md and a prompt to paste into a coding agent, rebuilt whenever the result changes. */
+function BuildKit({ spec }: { spec: string }) {
+  return (
+    <details className="group rounded-2xl border border-line bg-white">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-6">
+        <span>
+          <span className="block text-xl font-bold">지금 구현을 시작해 보세요!</span>
+          <span className="mt-1 block text-sm text-muted">명세서와 코딩 에이전트에 붙여 넣을 프롬프트예요. 조건을 바꿔 다시 추천받으면 함께 바뀌어요.</span>
+        </span>
+        <span className="text-muted transition group-open:rotate-180" aria-hidden>▾</span>
+      </summary>
+      <div className="space-y-6 border-t border-line p-6">
+        <CopyBlock title="구현 프롬프트" hint="명세서가 들어 있어요. Claude Code 같은 코딩 에이전트에 그대로 붙여 넣으세요." text={buildPrompt(spec)} />
+        <CopyBlock title="명세서만 보기" hint="문서로 따로 보관하고 싶을 때 복사하세요." text={spec} />
+      </div>
+    </details>
+  );
+}
+
+function CopyBlock({ title, hint, text }: { title: string; hint: string; text: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () =>
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  return (
+    <section className="space-y-2">
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <h3 className="font-bold">{title}</h3>
+          <p className="text-xs text-faint">{hint}</p>
+        </div>
+        <button className="shrink-0 rounded-lg border border-line px-3 py-1.5 text-xs font-semibold hover:border-ink/40" onClick={copy}>
+          {copied ? "복사됨" : "복사"}
+        </button>
+      </div>
+      <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-soft p-4 text-xs leading-relaxed [overflow-wrap:anywhere]">{text}</pre>
     </section>
   );
 }

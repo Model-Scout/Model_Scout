@@ -81,6 +81,29 @@ def test_user_history_and_plan_cannot_supply_evidence_dates(monkeypatch):
     assert EXPLANATION_CAVEAT in answer
 
 
+def test_export_uses_the_active_projects_requests_and_clarifications(monkeypatch):
+    source = state()
+    source.update(
+        request="서울로 바꿔 줘\n(질문) 진료과를 제한할까요?\n(답변) 전체요",
+        original_request="서울로 바꿔 줘",
+        clarification_history=[{"question": "진료과를 제한할까요?", "answer": "전체요"}],
+        project_turn_start=1,
+        turns=[
+            {"request": "이전 프로젝트", "answer": "", "user_inputs": ["이전 프로젝트"]},
+            {"request": "병원 검색", "answer": "", "user_inputs": ["병원 검색\n조건: 한국어."]},
+            {"request": "이 후보는 왜 추천했어?", "answer": "", "user_inputs": []},
+        ],
+    )
+    monkeypatch.setattr("langgraph.config.get_stream_writer", lambda: lambda _: None)
+    monkeypatch.setattr(rg, "_openai", lambda: SimpleNamespace(chat=SimpleNamespace(
+        completions=SimpleNamespace(create=lambda **_: iter(())))))
+    result = rg.explain(source)
+    assert result["requirements"] == [
+        "병원 검색\n조건: 한국어.", "서울로 바꿔 줘", "(질문) 진료과를 제한할까요?\n(답변) 전체요",
+    ]
+    assert result["turns"][0]["user_inputs"] == result["requirements"][1:]
+
+
 def test_source_year_does_not_support_invented_month(caplog):
     source = {"evidence": "수집 연도: 2023년"}
     chunks = ["수집 연도는 2023년입니다.\n", "갱신일은 2023년 10월입니다."]
