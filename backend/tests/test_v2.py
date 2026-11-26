@@ -135,7 +135,7 @@ def test_result_links_dedup_and_unknowns():
     model, dataset = done.result.candidates
     assert model.related == [dataset.id] and dataset.related == [model.id]
     statuses = {c.key: c.status for c in model.checks}
-    assert statuses == {"license": "ok", "gpu": "check", "context": "check", "language": "unknown", "execution": "unknown"}
+    assert statuses == {"license": "ok", "gpu": "check", "context": "check"}
     assert done.sources[0].quote == "original quote"
     assert done.sources[1].quote == "dataset quote"
     assert model.checks[0].quote is None  # Metadata is not fabricated as a README quote.
@@ -306,7 +306,7 @@ def test_screen_text_shows_only_real_conditions():
     events = recommendation_events()
     events["plan"]["constraints"] = {"commercial_only": False, "gpu_memory_gb": 8, "min_context_length": None}
     result = build_done(events, uuid4(), "답", 1).result
-    assert result.summary == ["문서 검색 서비스", "GPU 메모리(GB): 8"]
+    assert result.summary == ["문서 검색 서비스", "후보에서 뺀 모델: 4bit로도 GPU 8GB에 안 들어가는 모델", "GPU 메모리(GB): 8"]
     assert result.needs_check == ["model: GPU 메모리"]
     events["plan"]["constraints"]["commercial_only"] = True
     assert "상업 이용 가능한 모델만" in build_done(events, uuid4(), "답", 1).result.summary
@@ -470,7 +470,7 @@ def test_license_check_falls_back_to_commercial_use_then_unknown():
 
 def test_contract_checks_appear_only_when_asked_and_unknown_is_not_ok():
     plain = checks_by_key(contract_model(gated=None, artifact_formats=None))
-    assert set(plain) == {"license", "language", "execution"}, "요청하지 않은 조건을 붙이지 않는다"
+    assert set(plain) == {"license"}, "요청하지 않은 조건을 붙이지 않는다"
     asked = {"required_artifacts": ["gguf"], "max_artifact_gib": 8, "exclude_gated": True}
     unknown = checks_by_key(contract_model(), asked)
     assert {unknown[k].status for k in ("artifact", "artifact_size", "gated")} == {"unknown"}
@@ -821,3 +821,41 @@ def test_recommendation_then_chat_then_recommendation_keeps_the_screen_and_quest
     again, _ = send(recommendation_events(), "다시 추천", group_id=gid)
     assert again["display"] == "recommendation"
     assert client.get(f"/api/groups/{gid}").json()["result"]["display"] == "recommendation"
+
+
+def test_model_cards_list_only_the_conditions_the_user_set():
+    """QA: 모든 카드에 '한국어 지원 미확인·로컬 실행 미확인'이 고정으로 붙어 실패처럼 보였다."""
+    from backend.app import result as result_module
+
+    model = {"model_id": "org/m", "license": "mit", "commercial_status": "permitted", "parameters_b": 0.4}
+    keys = [c.key for c in result_module._checks(model, {})]
+    assert "language" not in keys and "execution" not in keys
+    cpu = [c for c in result_module._checks(model, {"cpu_only": True}) if c.key == "cpu"]
+    assert [c.status for c in cpu] == ["ok"]
+    big = {**model, "parameters_b": 3.1}
+    assert [c.status for c in result_module._checks(big, {"cpu_only": True}) if c.key == "cpu"] == ["check"]
+    unknown = {**model, "parameters_b": None}
+    assert [c.status for c in result_module._checks(unknown, {"cpu_only": True}) if c.key == "cpu"] == ["unknown"]
+
+
+def test_the_summary_names_what_the_hard_filters_removed():
+    """QA: 조건이 후보를 걸렀다는 사실과 이유가 화면 어디에도 없었다."""
+    from backend.app.result import excluded_models
+
+    assert excluded_models({}) == []
+    assert excluded_models({"cpu_only": True, "commercial_only": True, "required_artifacts": ["gguf"]}) == [
+        "1B 넘는 모델 (CPU만)", "상업 이용이 허용되지 않은 모델", "GGUF 파일이 없는 모델"]
+
+
+def test_the_card_judges_the_language_the_user_chose():
+    from backend.app.result import _checks, excluded_models
+
+    def lang(languages):
+        model = {"model_id": "org/m", "license": "mit", "commercial_status": "permitted", "languages": languages}
+        return [(c.label, c.status) for c in _checks(model, {"language": "en"}) if c.key == "language"]
+
+    assert lang(["en", "ko"]) == [("영어 지원", "ok")]
+    assert lang(["ko"]) == [("영어 지원", "check")]
+    assert lang([]) == [("영어 지원", "unknown")]
+    assert excluded_models({"language": "en"}) == ["영어가 지원 언어에 없는 모델"]
+    assert excluded_models({"language": "ko"}) == []

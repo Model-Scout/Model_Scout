@@ -72,12 +72,20 @@ def fine_tuning_declined(said: list[str]) -> bool:
     return False
 
 
+# Checkpoints made for another job than a starting point: an ELECTRA generator, sparse or dense retrieval encoders,
+# rerankers. The SFT search for a label task looks under feature-extraction, where these sit beside plain encoders.
+# ponytail: name patterns only; an architecture field from the cards would catch the unnamed ones.
+NOT_A_BASE = re.compile(r"generator|sparse|splade|colbert|embed|retriev|rerank|sbert|simcse|sentence-?transformer"
+                        r"|(?<![a-z0-9])(?:e5|bge|gte)(?![a-z0-9])", re.IGNORECASE)
+
+
 def sft_candidates(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Models to fine-tune from: full-precision weights, base checkpoints first, search order otherwise.
     Rows loaded before the contract reingest have no artifact_formats; unknown is kept, not rejected."""
     ready = [
         r for r in rows
         if not r.get("quant_bits") and (r.get("artifact_formats") is None or "safetensors" in r["artifact_formats"])
+        and not NOT_A_BASE.search(r["model_id"])
     ]
     return sorted(ready, key=lambda r: not BASE_CHECKPOINT.search(r["model_id"]))
 
@@ -380,6 +388,11 @@ if __name__ == "__main__":
         {"model_id": "a/LFM-Base", "quant_bits": None, "artifact_formats": None},
         {"model_id": "a/database-bert", "quant_bits": None, "artifact_formats": ["safetensors"]},
         {"model_id": "a/bert-base-nsmc", "quant_bits": None, "artifact_formats": ["safetensors"]},
+        {"model_id": "kiwi-farm/kiwi-coco-lm-base-generator", "quant_bits": None, "artifact_formats": None},
+        {"model_id": "nlpai-lab/KURE-Sparse-base", "quant_bits": None, "artifact_formats": None},
+        {"model_id": "a/ko-sbert-base", "quant_bits": None, "artifact_formats": None},
+        {"model_id": "a/multilingual-e5-small-distill-base-0.1", "quant_bits": None, "artifact_formats": None},
+        {"model_id": "BAAI/bge-m3", "quant_bits": None, "artifact_formats": None},
     ])
     assert [p["model_id"] for p in picks] == ["a/LFM-Base", "a/LFM-Instruct", "a/database-bert", "a/bert-base-nsmc"]
     print("project_checks ok")

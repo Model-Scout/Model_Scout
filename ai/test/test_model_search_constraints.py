@@ -135,6 +135,15 @@ def test_the_guard_only_removes_never_invents():
     assert out["max_parameter_count_billion"] is None
 
 
+def test_cpu_only_is_kept_only_when_the_user_says_it():
+    graph = _graph()
+    on = {**graph.constraint_defaults(), "cpu_only": True}
+    assert graph.explicit_constraints(on, "영어 뉴스 요약 서비스, 조건: 실행 환경 CPU만.")["cpu_only"] is True
+    assert graph.explicit_constraints(on, "GPU 없이 돌리고 싶어")["cpu_only"] is True
+    assert graph.explicit_constraints(on, "영어 뉴스 요약 서비스")["cpu_only"] is False  # never invented
+    assert graph.explicit_constraints(graph.constraint_defaults(), "상업용만", previous=on)["cpu_only"] is True
+
+
 if __name__ == "__main__":
     for name, func in sorted(globals().items()):
         if name.startswith("test_"):

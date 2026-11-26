@@ -732,3 +732,10 @@ def test_an_empty_planner_sentence_falls_back_to_the_request(sentence, embedded,
     plan = {"constraints": {}, "needs": [], "dataset_terms": ["주차장"], "dataset_query": sentence}
     out = graph17.search_project_datasets({"request": "주차장 데이터", "plan": plan, "route": {"target": "dataset"}})
     assert seen == [embedded] and "search_errors" not in out
+
+
+def test_an_unsearched_side_is_named_not_left_as_zero_results():
+    """QA: 데이터 0개가 '검색했는데 없음'처럼 보였다. 라우터가 모델만 찾은 턴이었다."""
+    assert "모델만 찾았어요" in graph17.unsearched_note("model")
+    assert "데이터만 찾았어요" in graph17.unsearched_note("dataset")
+    assert graph17.unsearched_note("both") == ""
