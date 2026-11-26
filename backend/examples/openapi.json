@@ -583,6 +583,23 @@
             ],
             "title": "Origin",
             "default": "unknown"
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "met",
+                  "unmet",
+                  "partial",
+                  "unknown"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verdict"
           }
         },
         "type": "object",

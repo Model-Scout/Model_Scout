@@ -5,7 +5,24 @@
 	}
 }
 
+# Access log in the caddy_data volume, so it survives container recreation on deploy.
+# Authorization and Cookie are redacted by Caddy; X-Session-Id is dropped because it opens that visitor's history.
+#   docker exec model-scout-caddy-1 tail /data/access.log
+(access_log) {
+	log {
+		output file /data/access.log {
+			roll_size 10MiB
+			roll_keep 10
+			roll_keep_for 720h
+		}
+		format filter {
+			request>headers>X-Session-Id delete
+		}
+	}
+}
+
 {$API_DOMAIN} {
+	import access_log
 	@docs path /docs /docs/* /redoc /openapi.json
 	handle @docs {
 		import team_only
@@ -19,6 +36,7 @@
 
 # The internal AI API, for the team only: Swagger at /docs, every route behind the login.
 {$AI_DOMAIN} {
+	import access_log
 	import team_only
 	reverse_proxy ai:8000 {
 		flush_interval -1

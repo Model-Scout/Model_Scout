@@ -291,6 +291,24 @@
           ],
           "title": "Origin",
           "type": "string"
+        },
+        "verdict": {
+          "anyOf": [
+            {
+              "enum": [
+                "met",
+                "unmet",
+                "partial",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verdict"
         }
       },
       "required": [

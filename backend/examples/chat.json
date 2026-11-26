@@ -29,6 +29,7 @@
     "summary": [
       "두 모델 입력 길이 비교 (Mock)"
     ],
+    "requirements": [],
     "needs_check": [],
     "candidates": [
       {
@@ -50,25 +51,8 @@
             "reason": "라이선스 apache-2.0 · 상업 이용 허용 계열",
             "source_id": "example/model-a",
             "quote": null,
-            "origin": "metadata"
-          },
-          {
-            "key": "language",
-            "label": "한국어 지원",
-            "status": "unknown",
-            "reason": "구조화된 언어 지원 근거가 제공되지 않았어요.",
-            "source_id": null,
-            "quote": null,
-            "origin": "unknown"
-          },
-          {
-            "key": "execution",
-            "label": "로컬 실행",
-            "status": "unknown",
-            "reason": "실행 환경에 대한 검증이 필요해요.",
-            "source_id": null,
-            "quote": null,
-            "origin": "unknown"
+            "origin": "metadata",
+            "verdict": null
           }
         ],
         "evidence": [],
@@ -99,25 +83,8 @@
             "reason": "라이선스 apache-2.0 · 상업 이용 허용 계열",
             "source_id": "example/model-b",
             "quote": null,
-            "origin": "metadata"
-          },
-          {
-            "key": "language",
-            "label": "한국어 지원",
-            "status": "unknown",
-            "reason": "구조화된 언어 지원 근거가 제공되지 않았어요.",
-            "source_id": null,
-            "quote": null,
-            "origin": "unknown"
-          },
-          {
-            "key": "execution",
-            "label": "로컬 실행",
-            "status": "unknown",
-            "reason": "실행 환경에 대한 검증이 필요해요.",
-            "source_id": null,
-            "quote": null,
-            "origin": "unknown"
+            "origin": "metadata",
+            "verdict": null
           }
         ],
         "evidence": [],
