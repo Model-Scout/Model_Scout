@@ -1,6 +1,7 @@
 """V2 public response contract and adapter for internal AI events."""
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from typing import Any, Literal
 from uuid import UUID
@@ -26,6 +27,9 @@ class Check(BaseModel):
     source_id: str | None = None
     quote: str | None = None
     origin: Literal["readme", "metadata", "estimate", "unknown"] = "unknown"
+    # What status cannot say: "check" covers both an unmet condition and a conditional one. Set on dataset cards;
+    # None elsewhere, where status alone is read.
+    verdict: Literal["met", "unmet", "partial", "unknown"] | None = None
 
 
 class Evidence(BaseModel):
@@ -197,6 +201,39 @@ REJECT_MESSAGE = "모델과 데이터를 추천할 수 있는 프로젝트 아�
 LANGUAGE_NAMES = {"ko": "한국어", "en": "영어", "ja": "일본어", "zh": "중국어"}
 # The AI's CPU-only search ceiling (ai/17_recommend_graph.py CPU_MAX_PARAMS_B); the card names it.
 CPU_MAX_PARAMS_B = 1.0
+# What a 공공누리 (KOGL) type allows, as the portals state it; shown beside the license on a dataset card.
+KOGL_TERMS = {"1": "출처표시", "2": "출처표시, 상업적 이용 금지", "3": "출처표시, 변경 금지",
+              "4": "출처표시, 상업적 이용 금지, 변경 금지"}
+DATASET_COMMERCIAL = {  # ai project_checks.license_class -> (status, verdict, reason prefix)
+    "commercial": ("ok", "met", "상업 이용 가능"),
+    "non_commercial": ("check", "unmet", "상업 이용 불가"),
+    "conditional": ("check", "partial", "조건부 — 원문 확인 필요"),
+}
+
+
+def license_text(value: str) -> str:
+    """A dataset license as the card shows it: the collected text, and for 공공누리 what the type allows."""
+    found = re.search(r"제\s*([1-4])\s*유형", value)
+    if not found:
+        return value
+    extra = ", 제3자 권리 포함" if "제3자" in value else ""
+    return f"{value} ({KOGL_TERMS[found[1]]}{extra})"
+
+
+def _dataset_license_checks(row: dict[str, Any], conditions: list[Check], commercial_only: bool) -> list[Check]:
+    """No verdict unless the user asked for commercial use: a license name is a fact (shown under the title), and
+    a "확인 필요" beside a license that allows commercial use read as a problem. Asked, the license decides it,
+    unless the data-condition check already judged commercial use from the card."""
+    if not commercial_only or any(c.key == "commercial" for c in conditions):
+        return []
+    licenses = row.get("licenses") or []
+    status, verdict, prefix = DATASET_COMMERCIAL.get(row.get("commercial_use") or "",
+                                                     ("unknown", "unknown", "판단할 라이선스 정보 없음"))
+    return [Check(key="license", label="상업 이용", status=status, verdict=verdict,
+                  reason=f"{prefix} — {', '.join(licenses)}" if licenses else prefix,
+                  source_id=row["dataset"], origin="metadata" if licenses else "unknown")]
+
+
 COMMERCIAL_STATUS_CHECK = {"permitted": "ok", "prohibited": "check", "review_required": "check", "unknown": "unknown"}
 COMMERCIAL_STATUS_REASON = {"permitted": "상업 이용 허용 계열", "prohibited": "비상업 전용 — 상업 이용 불가",
                             "review_required": "조건부 — 라이선스 원문 확인 필요", "unknown": "상업 이용 여부 미확인"}
@@ -318,6 +355,7 @@ def _checks(model: dict[str, Any], constraints: dict[str, Any]) -> list[Check]:
 # AI condition verdicts (ai/condition_checks.py) in this contract's statuses: unmet is "check" (as a prohibited
 # model license), unconfirmed is "unknown", never "ok".
 CONDITION_STATUS = {"충족": "ok", "불충족": "check", "미확인": "unknown"}
+CONDITION_VERDICT = {"충족": "met", "불충족": "unmet", "미확인": "unknown"}
 
 
 def _condition_checks(row: dict[str, Any]) -> list[Check]:
@@ -325,11 +363,12 @@ def _condition_checks(row: dict[str, Any]) -> list[Check]:
     # The badge shows "확인 필요" for check, so an unmet condition says so in its reason: the screen tells
     # 불충족 apart from a partial alternative, which has the same badge.
     checks = [Check(key=c["key"], label=c["label"], status=CONDITION_STATUS.get(c["status"], "unknown"),
+                    verdict=CONDITION_VERDICT.get(c["status"], "unknown"),
                     reason=("불충족 — " if c["status"] == "불충족" else "") + f"{c['basis']} · {c['scope']}", source_id=sid,
                     origin="unknown" if c["status"] == "미확인" else "metadata")
               for c in row.get("condition_checks") or []]
     if row.get("partial_alternative"):
-        checks.append(Check(key="alternative", label="부분 대안", status="check",
+        checks.append(Check(key="alternative", label="부분 대안", status="check", verdict="partial",
                             reason=f"부분 대안 — {row['partial_alternative']}", source_id=sid, origin="metadata"))
     return checks
 
@@ -387,16 +426,14 @@ def build_result(events: dict[str, Any]) -> ChatResult:
         cid = f"dataset:{sid}"
         if cid not in candidates:
             licenses = row.get("licenses") or []
-            # A license name alone does not settle commercial use, so it is never "ok".
-            checks = [Check(key="license", label="라이선스", status="check" if licenses else "unknown",
-                            reason=f"라이선스 {', '.join(licenses)}" if licenses else "라이선스 정보를 찾지 못했어요.",
-                            source_id=sid, origin="metadata" if licenses else "unknown")]
-            checks += _condition_checks(row)
+            conditions = _condition_checks(row)
+            checks = _dataset_license_checks(row, conditions, bool(constraints.get("commercial_only"))) + conditions
             evidence =[Evidence(label=e.get("concept") or "추천 근거", text=e.get("text"),
                                  origin="readme" if e.get("text") and e.get("source") == "README 인용" else "metadata")
                         for e in row.get("evidence") or []]
             candidates[cid] = Candidate(id=cid, type="dataset", source_id=sid,
-                name=row.get("title") or sid, role=role, tags=licenses, source=row.get("source") or "unknown",
+                name=row.get("title") or sid, role=role, tags=[license_text(v) for v in licenses],
+                source=row.get("source") or "unknown",
                 url=row.get("url"), checks=checks, evidence=evidence, rank_score=row.get("score"))
         elif role not in candidates[cid].role:
             candidates[cid].role += f" / {role}"
