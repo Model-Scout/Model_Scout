@@ -16,7 +16,11 @@ assert.ok(s.includes("조건: 언어 한국어, 실행 환경 CPU만, 상업적 
 // No flow: still lists the top model.
 assert.ok(buildSpec(result, [], null).includes("### stt (모델)"));
 // The prompt carries the spec itself: no SPEC.md needed beforehand.
-assert.ok(buildPrompt(s).endsWith(s));
+const prompt = buildPrompt(s, result);
+assert.ok(prompt.endsWith(s));
+assert.match(prompt, /로컬 CPU 실행, 오프라인 실행 또는 외부 전송 금지가 명시되면 외부 추론 API로 대체하지 마/);
+assert.match(prompt, /실행에 실패했거나 검증하지 못한 단계는 원인과 함께 README에 적어/);
+assert.doesNotMatch(prompt, /Hugging Face Inference API/);
 
 const pharmacy = {
   id: "dataset:example/pharmacy", source_id: "example/pharmacy", name: "심야약국 정보", type: "dataset",
@@ -55,6 +59,16 @@ const [used, additional] = fresh.split("## 추가 데이터 후보");
 assert.ok(used.includes("### 심야약국 정보 (데이터)"));
 assert.ok(additional.includes("### 병의원 진료시간 (데이터)"));
 assert.ok(!additional.includes("심야약국 정보"));
-assert.ok(buildPrompt(fresh).includes("새 프로젝트 요구사항"));
+assert.ok(buildPrompt(fresh, medical).includes("새 프로젝트 요구사항"));
+// Rules follow the result: model-only result gets no data/guide rules, needs_check is named.
+assert.doesNotMatch(prompt, /작은 샘플로 먼저|추가 학습은|구조화 출력은/);
+assert.match(prompt, /'직접 확인할 것' 항목/);
+assert.match(prompt, /- \[ \] 실행 명령 하나가/);
+assert.match(buildPrompt(fresh, medical), /작은 샘플로 먼저/);
+const guided = { ...result, needs_check: [], assessment: { implementation_guide: { structured_output: "JSON", fine_tuning: "LoRA" } } };
+const gp = buildPrompt(s, guided);
+assert.match(gp, /구조화 출력은/);
+assert.match(gp, /추가 학습은 첫 버전에 넣지 마/);
+assert.doesNotMatch(gp, /'직접 확인할 것' 항목/);
 assert.ok(!fresh.includes("앞으로는 제주만 검색해 줘"));
 console.log("ok");
