@@ -6,7 +6,7 @@
 
 <p align="center">
   아이디어를 말하면 필요한 모델과 데이터를 한 번에 골라 주는 AI 프로젝트 도우미<br/>
-  <b>DONBURI</b> · 이예주 · 장정훈 · 장희원
+  <b>DONBURI</b> 김동규 · 이예주 · 장정훈 · 장희원
 </p>
 
 <p align="center">
