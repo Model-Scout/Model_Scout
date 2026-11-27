@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 654" width="1220" height="654" role="img" aria-labelledby="title desc">
+<title id="title">Model Scout 시스템 아키텍처</title>
+<desc id="desc">웹에서 Caddy와 FastAPI를 거쳐 LangGraph에 추천을 요청합니다. AI 서버는 Supabase, 배포 데이터와 OpenAI를 사용합니다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#425970"/></marker></defs>
+<g font-family="'Malgun Gothic','Apple SD Gothic Neo','Noto Sans CJK KR',sans-serif">
+<rect x="1" y="1" width="1218" height="652" rx="16" fill="#f8fafc" stroke="#d4dce7"/>
+<text x="28" y="47" font-size="32" font-weight="700" fill="#23344a">Model Scout</text>
+<text x="237" y="46" font-size="24" font-weight="600" fill="#23344a">시스템 아키텍처</text>
+<text x="29" y="81" font-size="17" font-weight="400" fill="#23344a">추천 요청이 들어오면 공개 API가 대화를 관리하고, 내부 AI 서버가 모델과 데이터를 찾아 근거를 돌려줍니다.</text>
+<rect x="24" y="108" width="235" height="387" rx="12" fill="#edf7f3" stroke="#afcfc3"/>
+<text x="42" y="142" font-size="19" font-weight="700" fill="#216448">웹 클라이언트</text>
+<rect x="38" y="184" width="207" height="184" rx="12" fill="#ffffff" stroke="#d4dce7"/>
+<text x="53" y="217" font-size="21" font-weight="700" fill="#23344a">Next.js · React</text>
+<text x="53" y="253" font-size="17" font-weight="400" fill="#23344a">아이디어와 조건 입력</text>
+<text x="53" y="287" font-size="17" font-weight="400" fill="#23344a">진행 상황과 추천 결과</text>
+<text x="53" y="316" font-size="17" font-weight="400" fill="#23344a">모델 카드 근거 확인</text>
+<rect x="326" y="108" width="512" height="387" rx="12" fill="#eef4fe" stroke="#aac3ea"/>
+<text x="345" y="142" font-size="20" font-weight="700" fill="#25558a">VPS  /  Docker Compose</text>
+<rect x="344" y="180" width="113" height="68" rx="12" fill="#ffffff" stroke="#d4dce7"/>
+<text x="357" y="209" font-size="19" font-weight="700" fill="#23344a">Caddy</text>
+<text x="357" y="232" font-size="15" font-weight="400" fill="#23344a">프록시</text>
+<rect x="504" y="180" width="313" height="68" rx="12" fill="#ffffff" stroke="#d4dce7"/>
+<text x="520" y="208" font-size="20" font-weight="700" fill="#23344a">FastAPI  /  공개 API</text>
+<text x="520" y="232" font-size="16" font-weight="400" fill="#23344a">세션 · 대화 이력 · 응답 스트리밍</text>
+<path d="M245 215 H341" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="261" y="200" font-size="14" font-weight="700" fill="#23344a">HTTPS</text>
+<path d="M457 215 H501" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M660 248 V302" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="672" y="283" font-size="14" font-weight="600" fill="#23344a">POST /ai/recommend</text>
+<rect x="344" y="306" width="473" height="170" rx="12" fill="#ffffff" stroke="#d4dce7"/>
+<text x="360" y="336" font-size="20" font-weight="700" fill="#23344a">내부 AI 서버  /  LangGraph</text>
+<text x="360" y="366" font-size="17" font-weight="400" fill="#23344a">의도 분석 → 되묻기 또는 검색 계획 수립</text>
+<text x="360" y="398" font-size="17" font-weight="700" fill="#25558a">모델 검색</text>
+<text x="464" y="398" font-size="16" font-weight="400" fill="#23344a">의미·키워드 하이브리드 검색</text>
+<text x="360" y="424" font-size="17" font-weight="700" fill="#25558a">데이터 검색</text>
+<text x="464" y="424" font-size="16" font-weight="400" fill="#23344a">하이퍼그래프 · 공공데이터 재정렬</text>
+<text x="360" y="455" font-size="17" font-weight="400" fill="#23344a">조건 판정 → 근거 설명 → SSE 응답</text>
+<rect x="927" y="108" width="268" height="387" rx="12" fill="#fbf5e9" stroke="#dac6a0"/>
+<text x="944" y="142" font-size="19" font-weight="700" fill="#805514">외부 서비스</text>
+<rect x="941" y="166" width="241" height="121" rx="12" fill="#fff" stroke="#d4dce7"/>
+<text x="955" y="197" font-size="21" font-weight="700" fill="#23344a">Supabase</text>
+<text x="955" y="227" font-size="17" font-weight="400" fill="#23344a">Postgres + pgvector</text>
+<text x="955" y="251" font-size="17" font-weight="400" fill="#23344a">대화 · 체크포인트</text>
+<text x="955" y="273" font-size="17" font-weight="400" fill="#23344a">검색 벡터</text>
+<rect x="941" y="352" width="241" height="103" rx="12" fill="#fff" stroke="#d4dce7"/>
+<text x="955" y="386" font-size="21" font-weight="700" fill="#23344a">OpenAI API</text>
+<text x="955" y="418" font-size="17" font-weight="400" fill="#23344a">LLM · 질의 임베딩</text>
+<path d="M817 210 H938" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M817 360 H874 V260 H938" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M817 403 H938" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="24" y="526" width="1171" height="105" rx="12" fill="#f1eff9" stroke="#c7c0dc"/>
+<text x="43" y="558" font-size="20" font-weight="700" fill="#534179">오프라인 수집과 배포 데이터</text>
+<text x="43" y="590" font-size="17" font-weight="400" fill="#23344a">Hugging Face · Kaggle · 공공데이터포털 · 서울 열린데이터광장</text>
+<text x="43" y="614" font-size="17" font-weight="400" fill="#23344a">수집·가공한 검색 벡터는 Supabase에 저장하고, 하이퍼그래프와 카드 원문은 VPS에 읽기 전용으로 마운트합니다.</text>
+<path d="M579 526 V479" fill="none" stroke="#425970" stroke-width="2" marker-end="url(#arrow)"/>
+</g></svg>
