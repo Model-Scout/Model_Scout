@@ -1,109 +1,84 @@
-# 검색 평가와 골든셋
+# 검색 실험 지도
 
-`test/`는 Stage 1~4 산출물의 회귀 검증, dense·sparse·hybrid 검색 비교, Stage 3 evidence 연결 검증을 보관합니다.
+Model Scout 의 검색 성능을 어떻게 재고 어떻게 고쳤는지 한곳에서 찾아가는 안내다. 실험 파일은 각자 폴더에 그대로 두고, 이 문서가 목차 역할을 한다. 운영 스크립트(`05_validate_retrieval.py` 등)와 실험 도구가 경로로 서로 묶여 있어서, 파일 위치는 바꾸지 않았다.
 
-## 골든셋
+## 1. 최종 성능 (2026-11-27)
 
-[`retrieval_queries.jsonl`](retrieval_queries.jsonl)은 총 48개 질의를 담습니다.
+서비스 설정 그대로 골든셋으로 잰 값이다. 자세한 지표·원인 분석·재실행은 [`final_search_eval/`](final_search_eval/README.md)에 있다.
 
-- standard 33개
-- adversarial 15개
-- 9개 수집 task, Core/Low Popularity, parameter/context, runtime, benchmark, 빈 결과 조건을 포함
-- 각 질의에는 `query_type`, `query_signals`, `routing_hint`, `relevant_model_ids`가 기록됩니다.
+| | 모델 검색 | 공공데이터 검색 |
+|---|---:|---:|
+| 상위 3개 안에 정답 (Hit@3) | **90.6%** (쓸 만한 모델 기준) | **97.7%** (딱 맞는 데이터 기준) |
+| 상위 5개 안에 딱 맞는 정답 (Hit@5) | 75.0% | **100%** |
+| 첫 정답 순위 (MRR@10, 쓸 만한 결과 기준) | 0.841 | 0.956 |
 
-질의 유형은 planner의 초기 라우팅 가설을 표현합니다. 유형은 6개이고 질의 내용으로 판정합니다. 한 질의에 여러 유형이 해당하면 **번호가 작은 유형**을 붙입니다.
+- 모델 수치는 planner 가 검색까지 보낸 역할 32개 기준이다. 만들지 않은 역할까지 0점으로 넣으면 Hit@3 는 73.9%다.
+- 모델은 프로젝트형 30문항, 공공데이터는 골든셋 v2 의 추천 질문 53개로 쟀다.
 
-| 번호 | 유형 | 의미 | 초기 라우팅 방향 |
-|---:|---|---|---|
-| 1 | `model_comparison` | 이름이 주어진 둘 이상의 모델을 같은 기준으로 비교 ("A랑 B 비교해줘") | 각 모델 직접 조회 → 메타데이터·근거 비교 |
-| 2 | `reference_anchored` | 특정 모델을 기준점으로 대안·상대 조건·실행 가능 여부를 물음 ("X보다 작은", "X를 24GB에서 돌릴 수 있어?") | 기준 모델 조회 → 상대 조건을 수치로 변환 → hybrid |
-| 3 | `identifier_match` | 모델 계열·베이스 모델·포맷·양자화·번역 방향 같은 식별자가 일치해야 정답 (KoBART, GGUF, AWQ, ko→zh) | Sparse 우선 |
-| 4 | `benchmark_lookup` | benchmark·dataset·metric·README 평가 근거가 있어야 정답 | Sparse + benchmark boost |
-| 5 | `constrained_search` | 파라미터·컨텍스트·VRAM·상업 라이선스·인기도·메타데이터 확인 같은 hard 조건이 하나 이상 있음 | metadata hard filter + hybrid |
-| 6 | `semantic_capability` | 용도·능력을 자연어로 설명하고 위 hard 조건이 없음 | Dense 우선 |
+## 2. 폴더 안내
 
-판정 기준:
+| 폴더·파일 | 무엇 | 골든셋 |
+|---|---|---|
+| [`final_search_eval/`](final_search_eval/README.md) | **최종 성능 측정.** 운영 라우터·planner·검색을 그대로 돌려 잰다 | 모델 프로젝트형 30문항, 공공데이터 v2 53문항 |
+| [`model_retrieval/`](model_retrieval/README.md) | **모델 검색 튜닝.** sparse 진단, IDF sparse, 유형별 가중치, LLM 리랭커, pre-retrieval 실험 | 모델 240문항(6유형 × 40) |
+| [`public_data/`](public_data/README.md) | **공공데이터 검색.** 골든셋 구축, 코퍼스 v2 비교, 검색 경로·결합·분해 실험([`retrieval/`](public_data/retrieval/README.md)), 별도 질문 검증([`holdout/`](public_data/holdout/README.md)) | 58문항(라벨 v9) + holdout 32문항 |
+| [`golden/`](golden/README.md) | 실제 프로젝트 사례로 만든 초기 모델 골든셋 | 사례 기반 28개 + 사람 판정 150개 |
+| 최상위 `stage*`·`dense_sparse_*`·`retrieval_*` | 초기 Stage 4 검증 기록([4절](#4-초기-검증-stage-4)). `05_validate_retrieval.py` 가 직접 읽고 쓰므로 옮기지 않는다 | 48문항 |
+| `test_*.py`, `conftest.py` | 단위 테스트. `pytest` 로 돌린다 | — |
 
-- `constrained_search`와 `semantic_capability`는 문장 표현이 아니라 **파싱된 조건**으로 나눕니다. 수치 조건(파라미터·컨텍스트·VRAM), 상업 라이선스, 인기도, 메타데이터 확인 조건이 있으면 `constrained_search`입니다. CPU·로컬 같은 runtime 조건만 있으면 `runtime_constraint` 신호로만 기록합니다.
-- 상업 라이선스를 hard 조건으로 둘지는 아직 정하지 않았습니다. 현재 검색은 라이선스로 거르지 않으며, 정책이 정해지면 이 기준도 함께 바꿉니다.
-- `constrained_search` 안에서 용도 설명이 거의 없는 조건 나열형 질의는 `routing_hint`의 dense 비중을 낮춥니다. 이전의 `structured_constraint`와 `semantic_constraint` 구분을 유형이 아니라 가중치로 옮긴 것입니다.
-- `identifier_match`는 이전 `lexical_exact`를 대체합니다. 식별자 없이 크기 조건만 있는 번역 질의는 `constrained_search`입니다.
-- `reference_anchored`와 `model_comparison`은 질의에 나온 모델명을 DB의 모델로 연결하는 단계가 필요합니다. "7.8B보다 작은"처럼 숫자만 있으면 기준 모델 조회가 필요 없으므로 `constrained_search`입니다.
-- **한 질의에는 한 유형의 신호만 넣습니다.** 예를 들어 식별자 질의에 VRAM·라이선스 조건을 붙이거나, 벤치마크 질의에 크기 조건을 붙이지 않습니다. 언어(한국어), task, 실행 환경(CPU·로컬)은 어느 유형에나 들어갈 수 있는 공통 신호라서 섞여도 됩니다.
-- Ollama·vLLM·llama.cpp·sentence-transformers 같은 실행 라이브러리 언급은 실행 환경 신호입니다. 정답이 그 포맷과 일치해야 할 때(GGUF, AWQ, ONNX 등)만 `identifier_match`입니다.
-- 예외: 골든셋의 실제 사례 질의 g002·g003·g005는 번역 방향과 VRAM·라이선스 조건이 함께 있습니다. 원문 조건을 지키려고 그대로 두고, 번호 규칙에 따라 `identifier_match`로 둡니다.
-- 빈 결과(abstention)는 질의 유형이 아닙니다. 미지원 task이거나 hard 조건을 만족하는 후보가 없을 때 검색을 멈추는 **종료 조건**으로 따로 다룹니다. 빈 결과가 기대되는 질의도 내용에 따라 1~6번 유형을 붙이고(예: q34·q48은 `constrained_search`), 기대 결과는 `relevance_status`에 남깁니다.
-- 실행 가능 여부를 묻고 경고를 기대하는 질의(`warn_on_oversize`)는 `reference_anchored`로 분류하고, 기대 동작은 `labels.expected_behavior`에 남깁니다.
+## 3. 실험 기록
 
-`routing_hint`는 정답 가중치가 아닙니다. 실제 운영 planner는 질의 분류, hard filter, 결과 품질과 사용자 feedback을 함께 사용해 가중치를 조정해야 합니다.
+### 모델 검색
 
-## 공식 평가 지표
+지표는 240문항 골든셋의 recall@5(2점 정답 기준)이고, 운영이 need 마다 상위 5개를 돌려주는 것과 같은 깊이다. 모든 측정은 앞 단계를 반영한 상태에서 다음 단계를 쌓았다.
 
-`relevant_model_ids`가 있는 질의에는 다음 지표를 계산합니다.
+| 순서 | 바꾼 것 | 결과 | 결정 | 근거 |
+|---:|---|---|---|---|
+| 1 | **진단:** 운영 하이브리드 검색의 sparse 점수가 항상 0 | `plainto_tsquery` 가 모든 단어를 AND 로 묶고, 검색 컬럼이 영어 메타데이터뿐이라 한국어가 섞인 질의는 매칭 0행. 즉 검색이 사실상 100% dense 였다 | 아래 3에서 수정 | [`model_retrieval/README.md`](model_retrieval/README.md) §2, `tools/diagnose_sparse.py` |
+| 2 | 분해가 내는 task 키(`language_modeling`, `vision`)를 HF 태그로 잇기 (`MODEL_TASK_FALLBACK`) | 결과 0건 질의 53 → 3개, recall@5 0.265 → 0.331 | 채택 | `tools/final_compare.py` ② |
+| 3 | sparse 를 IDF 가중 매칭 비율로 교체 | 0.331 → 0.350 | 채택 (`MODEL_SPARSE_IDF_ENABLED=1`, `supabase_migration_sparse_idf.sql`) | `tools/sparse_idf.py`, `final_compare.py` ③ |
+| 4 | 질문 유형 6개별 dense:sparse 비중 (`MODEL_DENSE_WEIGHTS`) | 0.350 → 0.390. 1~4 합계는 운영 대비 **+0.125 [+0.085, +0.166]**, 상대 +47% | 채택 | `tools/tune.py`, `final_compare.py` ④ |
+| 5 | 벤치마크 질문은 task 필터 해제 (`TASK_FILTER_FREE_TYPES`) | benchmark_lookup 0.305 → 0.524 | 채택 | `17_recommend_graph.search_models` 주석 |
+| 6 | LLM 리랭커(gpt-4.1-mini, 상위 20개)를 효과가 증명된 4유형에만 | 0.444 → **0.521 [+0.040, +0.115]**. 조건 나열형 2유형은 리랭크하면 나빠져서 제외 | 채택 | [`model_rerank.py`](../model_rerank.py) 머리말, `tools/rerank_llm.py` |
+| 7 | pre-retrieval 4종: 질의 재작성, multi-query, multi-query + 원문, HyDE | 재작성 −0.013, multi-query −0.007, multi-query + 원문 −0.025, **HyDE +0.025 [+0.003, +0.048]** | 보류. HyDE 는 리랭커와 함께 다시 재야 한다 | `tools/preretrieval.py`, `runs/scores_idf_dectf_sg_nt_{rw,mq,mqb,hy}.json` |
+| 8 | 프로젝트 질문 경로에 모델 리랭커 켜기 | Recall@5(1점 이상) +6.6%p [+0.8, +12.8], 그 밖의 지표는 미확정 | 보류 (project 경로는 리랭크 꺼짐 유지) | [`final_search_eval/`](final_search_eval/README.md) |
 
-- **Recall@5**: 관련 모델 중 상위 5개에 포함된 비율
-- **MRR**: 첫 관련 모델의 순위 역수
-- **nDCG@5**: 관련도와 순위를 함께 반영한 지표
-- **Hit@5**: 상위 5개에 관련 모델이 하나라도 포함되는지
+- 4번까지의 값(0.390)은 운영과 같은 방법으로 **예측한** 질문 유형으로 쟀다. 정답 유형을 넣으면 0.405 가 상한이다.
+- 7번은 벤치마크 질문을 뺀 recall@5 이고, 리랭크 없이 쟀다. 벤치마크 질문은 dense 상위 300개만 다시 채점하는 측정 방식 때문에 값이 왜곡돼서 뺐다.
 
-보조 지표로 `keyword_hit@5`, `hard_constraint_precision@5`, evidence completeness, invalid evidence ref, uncited claim, missing quote를 기록합니다. `keyword_hit`는 공식 relevance를 대신하지 않습니다.
+### 공공데이터 검색
 
-## 검색 모드 비교
+| 바꾼 것 | 결과 | 결정 | 근거 |
+|---|---|---|---|
+| 코퍼스 v2 고정본(`aa1a71d35a121150`)으로 교체 | v1 과 같은 질문으로 비교 | 채택 (서버는 v2 로 운영) | [`public_data/corpus_v2/`](public_data/corpus_v2/README.md) |
+| 검색 경로·dense:BM25 가중치·채널 결합·질의 분해 비교 | 파일럿과 별도 질문 검증 | 실험 결과별로 정리 | [`public_data/retrieval/README.md`](public_data/retrieval/README.md), [`public_data/holdout/README.md`](public_data/holdout/README.md) |
+| LLM 재정렬(gpt-4.1-mini, 상위 20개) | nDCG@5 0.625 → 0.750 (개발셋), 0.525 → 0.670 (별도 질문) | 채택 (`dataset_rerank.py`) | [`dataset_rerank.py`](../dataset_rerank.py) 머리말 |
+| 최종 측정에서 재정렬 효과 다시 확인 | Hit@3 79.1% → 97.7%, MRR@10 0.644 → 0.944 | — | [`final_search_eval/`](final_search_eval/README.md) |
+
+### 다음에 할 것
+
+[최종 측정](final_search_eval/README.md#모델-recall-이-공공데이터보다-낮은-이유)에서 모델 검색 성능을 가장 많이 깎은 원인은 검색이 아니라 planner 였다. 우선순위 순서대로 적는다.
+
+1. planner 역할 분해 보강: QA 챗봇의 임베딩·LLM, 리랭커, 음성인식 역할이 빠지지 않게
+2. 같은 모델의 양자화 재포장본을 한 카드로 묶기
+3. HyDE 를 리랭커와 함께 다시 재기
+
+## 4. 초기 검증 (Stage 4)
+
+프로젝트 초기에 Stage 1~4 산출물을 검증하던 기록이다. 지금 운영 검색(Supabase RPC + IDF sparse + 유형별 가중치)과는 검색 방식이 달라서, 성능 수치는 위 3절을 본다.
+
+- **골든셋:** [`retrieval_queries.jsonl`](retrieval_queries.jsonl) 48문항(standard 33, adversarial 15)이다. 질문마다 `query_type`, `routing_hint`, `relevant_model_ids` 가 붙어 있다.
+- **검색 모드 비교:** `evaluate_retrieval_modes.py` 로 dense·sparse·hybrid 를 비교한다. 결과는 [`retrieval_accuracy_by_type.md`](retrieval_accuracy_by_type.md), [`dense_sparse_comparison_all48.md`](dense_sparse_comparison_all48.md), [`dense_sparse_comparison.md`](dense_sparse_comparison.md)에 있다.
+- **검색·근거 검증:** `05_validate_retrieval.py` 가 task·한국어·크기·중복·빈 결과 조건과 근거 인용(README 구절, 인용 누락)을 검사한다. 결과는 [`stage4_retrieval_validation.md`](stage4_retrieval_validation.md), [`stage4_golden_set_evaluation.md`](stage4_golden_set_evaluation.md)에 있다.
+- **청킹 비교:** [`stage3_chunking_comparison.md`](stage3_chunking_comparison.md). 최종 Stage 3 는 atomic evidence 와 Parent–Child 관계를 쓴다.
 
 ```bash
-source ~/main/bin/activate
+# ai/ 에서
 python test/evaluate_retrieval_modes.py
-```
-
-결과 파일:
-
-- [`retrieval_accuracy_by_type.md`](retrieval_accuracy_by_type.md)
-- [`retrieval_accuracy_by_type.json`](retrieval_accuracy_by_type.json)
-- [`dense_sparse_comparison_all48.md`](dense_sparse_comparison_all48.md)
-- [`dense_sparse_comparison_all48.json`](dense_sparse_comparison_all48.json)
-- [`dense_sparse_comparison.md`](dense_sparse_comparison.md)
-- [`dense_sparse_comparison.json`](dense_sparse_comparison.json)
-
-세 모드는 같은 Core + Low Popularity 후보와 같은 hard filter를 사용합니다.
-
-- Dense: Stage 4 cosine similarity
-- Sparse: model ID, translation pair, task, language, benchmark, 기술 metadata를 분리한 fielded lexical/BM25 score
-- Hybrid: 질의 유형의 `routing_hint`를 초기 가중치로 사용한 결합 점수
-
-모든 모드에 task conflict penalty, benchmark boost, canonical/author diversification과 evidence 표시를 공통 적용해야 공정한 비교가 됩니다. local latency는 로컬 구현의 비교값이며 Supabase와 OpenSearch의 운영 네트워크 latency를 직접 의미하지 않습니다.
-
-`compare_dense_sparse.py`는 기존 dense snapshot과 local BM25 proxy를 재현하는 보조 도구입니다. 공식 유형별 지표와 최신 골든셋 평가는 `evaluate_retrieval_modes.py`를 사용합니다.
-
-## 검색·근거 검증
-
-```bash
 python 05_validate_retrieval.py --execute
 python test/evaluate_retrieval_golden.py \
   --validation test/stage4_retrieval_validation.json \
   --report test/stage4_golden_set_evaluation.md
 ```
 
-`05_validate_retrieval.py`는 task, 한국어 조건, parameter/context, popularity, task conflict, canonical 중복, 빈 결과를 확인합니다. Stage 2·3 상세 row를 hydrate해 README section, supporting quote, evidence level을 결과에 붙이고, invalid reference·uncited claim·missing quote를 검사합니다.
-
-## Stage 3 청킹 평가
-
-`stage3_chunking_comparison.md`와 JSON은 section-aware, fixed-window, packed, hierarchical, atomic-evidence 계열을 10~20개 표본으로 비교한 기록입니다. 최종 Stage 3는 atomic evidence와 Parent–Child 관계를 사용하며, claim이 원문 quote를 가리키도록 합니다.
-
-## 해석상 주의
-
-- 골든셋의 `relevant_model_ids`와 relevance label은 사람이 만든 provisional label입니다. 운영 전 유형별 상위 결과를 추가 검토해야 합니다.
-- 질의 유형별 표본 수가 작으면 Recall·MRR·nDCG의 분산이 큽니다.
-- benchmark self-reported 수치와 `keyword_hit`는 근거의 존재를 보조할 뿐 모델 품질을 보증하지 않습니다.
-- 임베딩 API를 새로 호출하는 평가는 `--execute`일 때 비용이 발생할 수 있습니다.
-
-## 실제 사례 기반 semantic 골든셋
-
-[`golden/`](golden/README.md)은 실제 한국어 프로젝트의 모델 선정 사례 57건에서 만든 별도 골든셋입니다. 위 48개 질의와 달리 정답을 사례 원문에서 가져왔고, 원문 URL·인용·신뢰도 등급(A/B/C)을 함께 기록합니다.
-
-- 골든셋 28개: 현재 DB(Core·Low Popularity)에 정답 모델이 있는 질의입니다. 근거 사례의 원문을 직접 열어 확인했습니다.
-- 사람 판정 150개: 질의를 직접 쓰고 DB 후보를 0/1/2점으로 판정해 정답을 만들었습니다(`labels/judged_queries.jsonl`, 144개 채점 가능).
-- Stage 1 수집 점검용 12개: 정답 모델이 DB에 없어 골든셋에서 빼고, 수집 규칙을 바꿀 때 recall 확인에만 씁니다.
-
-채점은 [`evaluate_semantic_golden.py`](evaluate_semantic_golden.py)로 합니다. API 키 없이 돌리는 BM25 기준선(`golden/run_bm25_golden.py`)과 라벨 점검(`golden/audit_golden.py`)도 함께 있습니다.
-
-Retrieval 고도화 실험(쿼리 유형별 Pre-Retrieval·Dense/Sparse 조합)은 계획서의 7개 유형(`plan_query_type`)으로 나눠 [`retrieval_lab/`](../retrieval_lab/README.md)에서 돌립니다.
+48문항의 정답은 사람이 만든 잠정 라벨이고 유형별 표본이 작다. 임베딩을 새로 호출하는 평가(`--execute`)는 비용이 든다.
