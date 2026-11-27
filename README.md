@@ -78,6 +78,13 @@ Model Scout는 **조건에 맞는 후보와 그 근거를 한곳에서, 같은 �
 - 공공데이터는 LLM 재정렬을 켜고 끈 같은 후보로 비교했을 때, 재정렬이 Hit@3를 79.1% → 97.7%로 올렸습니다.
 - **모델 수치의 기준**: planner가 아예 만들지 않은 역할 11개까지 0점으로 넣으면 Hit@3는 73.9%로 내려갑니다. 원인 분석과 전체 지표·재실행 방법은 [`ai/test/final_search_eval/`](ai/test/final_search_eval/README.md)에 있습니다.
 
+**검색을 어떻게 개선했나.** 모델 골든셋 240문항으로 측정하면서 고쳤습니다(recall@5).
+- 운영 검색의 키워드(sparse) 점수가 한국어가 섞인 질의에서 늘 0점이던 문제를 찾아 IDF 가중 매칭으로 바꿨습니다.
+- 검색이 아예 안 되던 task 키를 HF 태그로 이었고, 질문 유형 6개마다 의미·키워드 비중을 따로 맞췄습니다. 여기까지 0.265 → 0.390(+47%)입니다.
+- LLM 재정렬은 효과가 확인된 4개 유형에만 적용했습니다(0.444 → 0.521).
+
+질의 재작성·multi-query·HyDE도 측정했지만, 확실한 개선이 없어 보류했습니다. 실험마다의 결과와 채택 여부는 [검색 실험 지도](ai/test/README.md)에 있습니다.
+
 ## 시스템 아키텍처
 
 [![Model Scout 시스템 아키텍처. 브라우저의 추천 요청은 Caddy와 FastAPI를 거쳐 LangGraph로 전달됩니다. AI 서버는 Supabase와 배포된 검색 데이터, OpenAI API를 사용합니다.](docs/images/system-architecture.svg)](docs/images/system-architecture.svg)
@@ -153,7 +160,7 @@ flowchart LR
 | [`backend/`](backend/) | 공개 API V2: 세션, 대화 이력, 설명 질문, 취소 처리 ([README](backend/README.md), [API 명세](backend/docs/02-api-v2.md)) | FastAPI (SSE) |
 | [`ai/`](ai/) | 내부 추천 API, 수집·임베딩·검색 파이프라인, 추천 그래프, 평가 ([README](ai/README.md)) | Python 3.11, LangGraph |
 | [`ai/contract/`](ai/contract/) | 모델 데이터 계약: 모델 한 건이 가져야 할 사실과 모를 때의 처리 ([README](ai/contract/README.md)) | JSON Schema |
-| [`ai/test/`](ai/test/) | 모델·공공데이터 골든셋과 평가기 ([README](ai/test/README.md)) | pytest |
+| [`ai/test/`](ai/test/) | 검색 실험 지도: 최종 성능, 골든셋, 튜닝 실험 기록 ([README](ai/test/README.md)) | pytest |
 | [`deploy/`](deploy/) | VPS 배포 (Docker Compose: ai, backend, Caddy) | Docker |
 | [`docs/`](docs/) | 기획 문서 ([`index.html`](docs/index.html)) | |
 
@@ -192,8 +199,11 @@ cd backend && uvicorn app.main:app --reload --reload-dir app
 **3. AI 내부 서버** (`http://localhost:8001`, 별도 터미널)
 
 ```bash
+export MODEL_SCOUT_CORPUS=v2 MODEL_SCOUT_DATA_VERSION=aa1a71d35a121150   # 서버와 같은 데이터셋 코퍼스. 없으면 옛 v1을 씁니다
 python ai/api.py
 ```
+
+`ai/.env.example`의 LLM 기본값은 로컬 ollama입니다. 서버와 같게 돌리려면 `RECOMMEND_LLM_PROVIDER=openai`로 두고 `OPENAI_API_KEY`를 넣습니다.
 
 **4. 프론트엔드** (`http://localhost:3000`)
 
@@ -209,7 +219,13 @@ cd frontend && pnpm install && pnpm dev
 - **데이터 계약**: 모델 한 건이 가져야 할 사실(파라미터 수·라이선스·GGUF 정보 등)과 현재 충족률은 [`ai/contract/baseline.md`](ai/contract/baseline.md).
 - **공공데이터 코퍼스**: 서비스는 고정본 v2를 씁니다. 버전은 [`data_version.json`](ai/test/public_data/corpus_v2/data_version.json)에 있습니다.
 - **최종 검색 성능**: [`ai/test/final_search_eval/`](ai/test/final_search_eval/README.md) (위 [평가](#평가) 수치의 출처).
-- **골든셋**: 모델 [`ai/test/golden/`](ai/test/golden/), 공공데이터 [`ai/test/public_data/`](ai/test/public_data/).
+- **골든셋**
+  - 모델 튜닝용 240문항: [`ai/test/model_retrieval/`](ai/test/model_retrieval/)
+  - 최종 측정용 프로젝트형 30문항: [`ai/test/final_search_eval/`](ai/test/final_search_eval/)
+  - 초기 사례 기반 골든셋: [`ai/test/golden/`](ai/test/golden/)
+  - 공공데이터: [`ai/test/public_data/`](ai/test/public_data/)
+- **실험 기록**: 무엇을 바꿨고 결과가 어땠는지는 [검색 실험 지도](ai/test/README.md)에 있습니다.
+- **데이터 규모**: 모델 4,017개, 공공데이터 15,152개(공공데이터포털·서울 열린데이터광장), HF·Kaggle 데이터셋 3,978개.
 
 ## 추후 확장 방향
 
