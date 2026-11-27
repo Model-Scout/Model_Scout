@@ -1,0 +1,8 @@
+{
+ "labels": "test/public_data/corpus_v2/golden_prep/batch8/labels_llm_v9.jsonl",
+ "corpus": "aa1a71d35a121150",
+ "rerank_model": "gpt-4.1-mini",
+ "depth": 20,
+ "shown": 6,
+ "runs": 2
+}

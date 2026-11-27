@@ -1,0 +1,13 @@
+{
+ "rerank_model": "gpt-4.1-mini",
+ "planner_model": "gpt-4.1-mini",
+ "runs": 2,
+ "project_search": {
+  "name": "project_v1",
+  "dense_weight": 0.9,
+  "rerank": true,
+  "match_count": 20
+ },
+ "models_shown": 3,
+ "sparse_idf": true
+}
