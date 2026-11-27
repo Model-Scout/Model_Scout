@@ -43,6 +43,7 @@ export function Home({ onSend, onOpenGroup }: { onSend: (query: string) => void;
       <div aria-hidden className="pointer-events-none absolute -right-40 -top-64 size-[720px] rounded-full bg-brand-soft blur-3xl" />
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-72 size-[640px] rounded-full bg-brand-soft/70 blur-3xl" />
 
+      {drawer && <div aria-hidden className="fixed inset-0 z-20 bg-ink/20 sm:hidden" onClick={() => setDrawer(false)} />}
       {drawer ? (
         <HistoryDrawer onClose={() => setDrawer(false)} onOpen={onOpenGroup} />
       ) : (
@@ -176,7 +177,8 @@ export function HistoryDrawer({ onClose, onOpen, onNew }: { onClose: () => void;
   }
 
   return (
-    <aside className="relative z-10 flex h-dvh w-[300px] shrink-0 flex-col border-r border-line bg-white/95 p-4">
+    // Phones: an overlay over the page instead of a column that squeezes it.
+    <aside className="fixed inset-y-0 left-0 z-30 flex h-dvh w-[min(300px,85vw)] shrink-0 flex-col border-r border-line bg-white/95 p-4 shadow-xl sm:relative sm:z-10 sm:w-[300px] sm:shadow-none">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 font-bold">
           <Logo size={26} /> Model Scout

@@ -110,7 +110,7 @@ export const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function 
         rows={1}
         maxLength={2000}
         aria-label={placeholder}
-        className="max-h-40 flex-1 resize-none py-2 text-sm outline-none [field-sizing:content] placeholder:text-faint"
+        className="max-h-40 flex-1 resize-none py-2 text-base outline-none sm:text-sm [field-sizing:content] placeholder:text-faint"
         placeholder={placeholder}
         value={text}
         onChange={(e) => setText(e.target.value)}
