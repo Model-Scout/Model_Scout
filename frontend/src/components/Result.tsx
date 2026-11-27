@@ -776,17 +776,21 @@ function Detail({
 }
 
 
-const PORTALS = new Set(["data_go_kr", "seoul_open_data"]);
+// Where the license text was read, by source.
+const LICENSE_FROM: Record<string, string> = {
+  data_go_kr: "공공데이터포털 표기",
+  seoul_open_data: "서울 열린데이터광장 표기",
+  huggingface: "Hugging Face 데이터 카드",
+  kaggle: "Kaggle 데이터셋 페이지",
+};
 
 /** A dataset's license as a fact with where it was read; no verdict here (a commercial request is a condition below). */
 function DataLicense({ c }: { c: Candidate }) {
   return (
-    <div className="rounded-xl bg-soft px-5 py-4 text-sm leading-relaxed">
-      <div className="mb-1 flex items-center justify-between gap-2">
-        <p className="font-semibold">이용허락</p>
-        <span className="rounded-md bg-white px-2 py-0.5 text-xs text-muted">{PORTALS.has(c.source) ? "포털 표기" : "카드 표기"}</span>
-      </div>
-      <p className="[overflow-wrap:anywhere]">{c.tags.length > 0 ? c.tags.join(", ") : <span className="text-faint">라이선스 표기 없음 · 원본 페이지에서 확인해 주세요</span>}</p>
+    <div className="rounded-xl border-l-4 border-brand/40 bg-brand-soft px-5 py-4 text-sm leading-relaxed">
+      <p className="mb-1 text-xs font-semibold text-brand">이용허락</p>
+      <p className="font-semibold [overflow-wrap:anywhere]">{c.tags.length > 0 ? c.tags.join(", ") : <span className="font-normal text-muted">라이선스 표기 없음 · 원본 페이지에서 확인해 주세요</span>}</p>
+      <p className="mt-1 text-xs text-muted">출처: {LICENSE_FROM[c.source] ?? c.source}</p>
     </div>
   );
 }
