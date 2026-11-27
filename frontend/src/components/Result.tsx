@@ -62,6 +62,12 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
   const openSource: ReadmeOpen = (s) =>
     setReadme({ sourceId: s.source_id, kind: s.kind, title: s.title ?? s.source_id, url: s.url ?? null, quote: s.quote });
 
+  // Below lg the detail sits under the long summary: bring it into view or a tap seems to do nothing.
+  const pick = (id: string) => {
+    setSelectedId(id);
+    if (!matchMedia("(min-width: 1024px)").matches) requestAnimationFrame(() => panel.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+
   const send = (q: string) =>
     onSend(q, {
       mode: effectiveMode,
@@ -82,7 +88,7 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
         </button>
       </nav>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-6 p-4 lg:p-8">
+      <div className="flex min-w-0 flex-1 flex-col gap-6 p-4 pb-24 lg:p-8 lg:pb-24">
         <header className="flex items-center gap-3">
           <button aria-label="홈으로" className="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-white hover:border-brand/50" onClick={onHome}>
             ←
@@ -91,12 +97,16 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
             <span className="font-semibold text-brand">추천 결과</span>
             {request && <span> / “{request.replace(/\n조건: [^\n]*\.$/, "")}”</span>}
           </p>
+          {/* The side nav with this button is hidden on phones. */}
+          <button aria-label="대화 기록" className="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-white text-muted sm:hidden" onClick={() => setHistory(true)}>
+            <ClockIcon />
+          </button>
         </header>
 
-        <h1 className="border-b border-line pb-6 text-3xl font-bold tracking-tight lg:text-4xl">{result.title || title}</h1>
+        <h1 className="border-b border-line pb-6 text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">{result.title || title}</h1>
 
         <div className="grid flex-1 items-start gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-          <ScoutSummary result={result} turns={turns} models={models} datasets={datasets} selectedId={selected?.id} onSelect={setSelectedId} />
+          <ScoutSummary result={result} turns={turns} models={models} datasets={datasets} selectedId={selected?.id} onSelect={pick} />
           <section ref={panel} aria-label="선택한 후보 상세" className="@container min-w-0 rounded-2xl bg-white p-5 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:overflow-y-auto lg:p-6">
             {selected ? (
               <Detail
@@ -105,7 +115,7 @@ export function Result({ title, request, result, sources, turns, owner, onSend, 
                 implementationGuide={result.assessment?.implementation_guide}
                 sources={sources.filter((s) => s.source_id === selected.source_id && s.kind === selected.type)}
                 conditions={result.summary.find((line) => line.startsWith("데이터 조건:"))?.replace("데이터 조건:", "").trim()}
-                onSelect={setSelectedId}
+                onSelect={pick}
                 onReadme={openSource}
               />
             ) : (
@@ -332,8 +342,8 @@ function DataList({
                   <span className="text-xs text-muted">{d.source}</span>
                 )}
               </div>
-              <div className="shrink-0 space-y-1 text-right text-xs text-muted">
-                {model ? <div>→ {model.name}</div> : <div className="text-faint">{d.role}</div>}
+              <div className="max-w-[45%] shrink-0 space-y-1 text-right text-xs text-muted">
+                {model ? <div className="truncate">→ {model.name}</div> : <div className="text-faint">{d.role}</div>}
                 {d.checks.some((k) => k.status === "unknown") && <StatusBadge status="unknown" />}
               </div>
             </li>
@@ -382,7 +392,7 @@ function ScoutSummary({ result, turns, models, datasets, selectedId, onSelect }:
       {pipeline ? (
         <section className="space-y-4">
           <Heading title="서비스 구현 흐름"
-            sub={result.pipeline ? "카드를 누르면 오른쪽에서 자세히 볼 수 있어요." : "추천 후보로 구성한 기본 흐름이에요. 카드를 누르면 오른쪽에서 자세히 볼 수 있어요."} />
+            sub={result.pipeline ? "카드를 누르면 자세히 볼 수 있어요." : "추천 후보로 구성한 기본 흐름이에요. 카드를 누르면 자세히 볼 수 있어요."} />
           <PipelineDiagram pipeline={pipeline} candidates={result.candidates} selectedId={selectedId} onSelect={onSelect} />
           {tip}
         </section>
@@ -424,7 +434,7 @@ function OtherCandidates({ models, datasets, all, selectedId, onSelect }:
   { models: Candidate[]; datasets: Candidate[]; all: Candidate[]; selectedId?: string; onSelect: (id: string) => void }) {
   return (
     <section className="space-y-4">
-      <Heading title="다른 후보 살펴보기" sub="추천 순서대로 모았어요. 누르면 오른쪽에서 자세히 볼 수 있어요." />
+      <Heading title="다른 후보 살펴보기" sub="추천 순서대로 모았어요. 누르면 자세히 볼 수 있어요." />
       <div className="grid divide-y divide-line rounded-2xl border border-line bg-white md:grid-cols-2 md:divide-x md:divide-y-0">
         <ModelList models={models} selectedId={selectedId} onSelect={onSelect} />
         <DataList datasets={datasets} all={all} selectedId={selectedId} onSelect={onSelect} />
@@ -823,10 +833,11 @@ function DataConditions({ checks, conditions }: { checks: Check[]; conditions?: 
           {checks.map((k) => {
             const [label, cls] = verdictBadge(k);
             return (
-              <li key={k.key} className="grid grid-cols-[minmax(0,7rem)_auto_minmax(0,1fr)] items-start gap-3 py-3">
+              // Narrow panel: the reason wraps under the label and badge instead of a sliver column.
+              <li key={k.key} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1 py-3 @md:grid-cols-[minmax(0,7rem)_auto_minmax(0,1fr)]">
                 <span className="font-semibold [overflow-wrap:anywhere]">{k.label}</span>
                 <span className={`whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold ${cls}`}>{label}</span>
-                <span className="text-muted [overflow-wrap:anywhere]">{label === "불충족" ? k.reason.replace(/^불충족 — /, "") : k.reason}</span>
+                <span className="col-span-2 text-muted [overflow-wrap:anywhere] @md:col-span-1">{label === "불충족" ? k.reason.replace(/^불충족 — /, "") : k.reason}</span>
               </li>
             );
           })}
